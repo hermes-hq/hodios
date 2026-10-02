@@ -5,7 +5,7 @@ kind: prompt
 title: Build a webhook handler
 description: Implements a webhook receiver with signature checks, replay protection, idempotent processing, fast acknowledgement, async work, retries and tests. Use when integrating Stripe, GitHub or similar.
 category: implementation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [backend-engineer, fullstack-engineer, software-engineer]
@@ -46,6 +46,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Covers the gap between storing an event and enqueueing its job."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -81,7 +82,7 @@ Signature scheme from the provider's docs:
    - Exempt the route from CSRF protection and session auth, and from any middleware that consumes the body.
 4. Make processing idempotent and fast:
    - Record the event id in a table with a unique constraint; if it already exists, acknowledge with 2xx and do nothing.
-   - Persist the event and enqueue the work, then return 2xx quickly (well within the provider's timeout); do the real work in a background job.
+   - Persist the event and enqueue the work, then return 2xx quickly (well within the provider's timeout); do the real work in a background job. Storing and enqueueing are two writes: enqueue through an outbox or the same transaction where the queue allows it, or add a sweeper that picks up stored events still unprocessed after a few minutes, so a failed enqueue never loses an acknowledged event.
    - In the job, handle each listed event type in its own function; ignore and log unknown types with 2xx so new provider events do not cause retries.
    - Guard against out-of-order delivery: compare the event's created time or object version with what is stored, or fetch the current object from the provider's API before acting when order matters.
    - Make the side effects themselves idempotent (upserts, state checks, idempotency keys on outbound calls).

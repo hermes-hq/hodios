@@ -5,7 +5,7 @@ kind: prompt
 title: Audit a mobile screen for accessibility
 description: Audits an iOS, Android, React Native or Flutter screen for labels, traits, focus order, text scaling, touch targets, contrast and gestures, with platform fixes and a VoiceOver or TalkBack test script.
 category: accessibility
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [review, verify]
 role: [mobile-engineer, qa-engineer, designer]
@@ -44,6 +44,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Live regions before one-off announcements, matching Android's deprecation of announcement events."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -71,12 +72,12 @@ Audit this {{platform}} screen for accessibility.
    - **Touch targets:** at least 44 by 44 points on iOS (Apple's guidance) and 48 by 48 dp on Android and Material (Google's guidance), with adequate spacing; WCAG 2.2 sets 24 by 24 CSS pixels as the minimum.
    - **Contrast and colour:** text contrast at least 4.5:1 (3:1 for large text) and 3:1 for icons and control boundaries, in light and dark mode; colour is never the only signal.
    - **Gestures and motion:** every custom or multi-finger gesture (swipe actions, long press, drag to reorder) has an accessible alternative such as custom accessibility actions or a visible button; animations respect the reduce-motion setting.
-   - **Announcements:** errors, loading results and toasts are announced to screen readers (live regions or announcements) without stealing focus unnecessarily.
+   - **Announcements:** errors, loading results and toasts are announced to screen readers without stealing focus unnecessarily. Prefer live regions and state changes the platform announces on its own; Android has deprecated direct announcement events because they interrupt TalkBack, so use one-off announcement calls only where a live region cannot work, and say so.
 2. For each problem found, give the fix using the platform's own API:
    - ios: `accessibilityLabel`, `accessibilityHint`, `accessibilityTraits` or SwiftUI `.accessibilityAddTraits`, `accessibilityElement(children: .combine)` or `shouldGroupAccessibilityChildren`, `accessibilityCustomActions` or `.accessibilityAction`, `UIFont.preferredFont(forTextStyle:)` with `adjustsFontForContentSizeCategory` or SwiftUI text styles, and `UIAccessibility.post(notification:argument:)`.
-   - android: `contentDescription`, Compose `Modifier.semantics { }` with `contentDescription`, `role`, `stateDescription` and `heading()`, `mergeDescendants`, `importantForAccessibility`, `accessibilityHeading`, `accessibilityLiveRegion`, custom accessibility actions, `minimumInteractiveComponentSize`, and sp text sizes.
-   - react-native: `accessible`, `accessibilityLabel`, `accessibilityHint`, `accessibilityRole` or `role`, `accessibilityState`, `accessibilityActions` with `onAccessibilityAction`, `importantForAccessibility`, `accessibilityElementsHidden`, `hitSlop`, `allowFontScaling`, and `AccessibilityInfo.announceForAccessibility`.
-   - flutter: `Semantics` (label, button, header, value), `MergeSemantics`, `ExcludeSemantics`, `Semantics` custom actions, `SemanticsService.announce`, text that respects `MediaQuery` text scaling, and `kMinInteractiveDimension`.
+   - android: `contentDescription`, Compose `Modifier.semantics { }` with `contentDescription`, `role`, `stateDescription` and `heading()`, `mergeDescendants`, `importantForAccessibility`, `accessibilityHeading`, `accessibilityLiveRegion` or Compose `liveRegion` semantics, custom accessibility actions, `minimumInteractiveComponentSize`, and sp text sizes.
+   - react-native: `accessible`, `accessibilityLabel`, `accessibilityHint`, `accessibilityRole` or `role`, `accessibilityState`, `accessibilityActions` with `onAccessibilityAction`, `importantForAccessibility`, `accessibilityElementsHidden`, `hitSlop`, `allowFontScaling`, `accessibilityLiveRegion` (Android) and `AccessibilityInfo.announceForAccessibility` where a live region does not fit.
+   - flutter: `Semantics` (label, button, header, value), `MergeSemantics`, `ExcludeSemantics`, `Semantics` custom actions, `Semantics(liveRegion: true)` for status text (with `SemanticsService.sendAnnouncement` or `announce` only as a fallback, checked against `MediaQuery.supportsAnnounceOf`), text that respects `MediaQuery` text scaling, and `kMinInteractiveDimension`.
    Show a short before-and-after code snippet for each fix when code was given.
 3. Map each finding to its WCAG 2.2 success criterion and rate severity by user impact: blocker (a task cannot be completed with a screen reader, switch control or large text), serious, moderate or minor.
 4. Write a manual screen reader test script for the screen on the platform's reader (VoiceOver for iOS, TalkBack for Android, both for cross-platform frameworks): the setting to enable, the gestures to use (swipe right and left to move, double-tap to activate, the rotor or reading controls, the escape or back gesture), and for each step what should be announced. Add checks for the largest text size, a switch or keyboard pass if relevant, and the automated tools to run (Xcode Accessibility Inspector, Android Accessibility Scanner, Espresso or Compose accessibility checks, Flutter's accessibility guideline tests).

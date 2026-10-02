@@ -5,7 +5,7 @@ kind: prompt
 title: Add rate limiting to an API
 description: Adds rate limiting to API endpoints with a fitting algorithm, keys, per-tier limits, standard headers, 429 responses and tests. Use when protecting endpoints from abuse or overload.
 category: implementation
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [backend-engineer, software-engineer, sre]
@@ -36,9 +36,10 @@ args:
     description: Language, framework and deployment (number of instances). Leave empty to detect it from the repo.
     type: string
   - name: storage
-    description: Where counters live. In-memory only works for a single instance; use a shared store such as Redis when there are several.
-    type: string
-    default: in-memory or redis
+    description: Where counters live. auto picks in-memory for a single instance and the shared store the app already has (usually Redis) when there are several; in-memory with several instances is only allowed as an explicit per-instance limit.
+    type: enum
+    enum: [auto, in-memory, redis, memcached, database]
+    default: auto
 output_contract:
   format: markdown
   sections: [Policy, Design, Changes, Tests, Rollout]
@@ -46,10 +47,11 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Separate per-account and per-IP limits for login endpoints instead of a combined key, no hard lockouts, per-instance fallback instead of failing closed, typed storage argument."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Rate limiting goes wrong in a few repeatable ways: limits keyed by client IP when every request arrives from the load balancer's address, or keyed by a spoofable X-Forwarded-For; in-memory counters on six instances that quietly allow six times the limit; a read-then-write counter in Redis that races under load; fixed windows that allow double the limit at the window boundary; 429 responses with no hint of when to retry, so clients hammer harder; and limits switched on in production without anyone knowing which customers they would block. Good rate limiting picks the key and algorithm per purpose, is atomic, tells clients what is happening and is rolled out in observe-only mode first.
+Rate limiting goes wrong in a few repeatable ways: limits keyed by client IP when every request arrives from the load balancer's address, or keyed by a spoofable X-Forwarded-For; login limits keyed by account and IP together, which a botnet rotating IPs walks straight past, or a hard per-account lockout that lets anyone lock a victim out; a limiter that blocks every login when its store goes down; in-memory counters on six instances that quietly allow six times the limit; a read-then-write counter in Redis that races under load; fixed windows that allow double the limit at the window boundary; 429 responses with no hint of when to retry, so clients hammer harder; and limits switched on in production without anyone knowing which customers they would block. Good rate limiting picks the key and algorithm per purpose, is atomic, tells clients what is happening and is rolled out in observe-only mode first.
 </context>
 
 <task>
@@ -65,15 +67,15 @@ Traffic profile: {{traffic_profile}}
 {{#stack}}
 Stack: {{stack}}
 {{/stack}}
-Counter storage: {{storage}}
+Counter storage: {{storage}} (auto: in-memory only for a single instance, otherwise the shared store the app already runs; ask before adding a new one)
 
 1. Read the app's middleware chain, auth, proxy configuration, existing rate limiting (including at a gateway, CDN or WAF) and how many instances run. Do not add a second limiter on top of an existing one without saying why.
 2. Define the policy per endpoint group, in a table:
    - **Purpose:** abuse prevention (login, sign-up, password reset, OTP), fair use per customer, or overload protection.
-   - **Key:** authenticated user or API key for fair use; account identifier plus IP for login-style endpoints; client IP only when there is no identity, derived from the trusted proxy hop only (configure the framework's trusted-proxy setting rather than reading the header blindly).
+   - **Key:** authenticated user or API key for fair use. For login, password reset and OTP endpoints, two independent limits: one per target account identifier across all IPs (stops guessing one account from many IPs; slow it with growing delays or a challenge rather than a hard lockout an attacker can trigger on purpose) and one per client IP across all accounts (stops one source spraying many accounts). Client IP only when there is no identity, always derived from the trusted proxy hop (configure the framework's trusted-proxy setting rather than reading the header blindly). Say plainly that per-IP limits do not stop distributed credential stuffing, and name what complements them (breached-password checks, bot management at the CDN, MFA).
    - **Algorithm:** token bucket or GCRA when bursts are acceptable, sliding window (log or counter) when the limit must be smooth; avoid plain fixed windows unless the boundary burst is acceptable, and say so.
    - **Limits:** per tier or plan, with burst size. Propose numbers from the traffic profile with the reasoning, marked as proposed if no profile was given.
-3. Implement it with the framework's middleware or a well-maintained library already in use or common for the stack. With a shared store, make the check-and-increment atomic (a single atomic command or a server-side script), set expiry on every key, and decide fail-open or fail-closed when the store is unavailable (usually fail-open for fair use, fail-closed for login abuse), with a log and a metric either way.
+3. Implement it with the framework's middleware or a well-maintained library already in use or common for the stack. With a shared store, make the check-and-increment atomic (a single atomic command or a server-side script), set expiry on every key, and decide what happens when the store is unavailable: fail open for fair-use limits; for login-style endpoints fall back to a stricter per-instance in-memory limit rather than rejecting every login, which would turn a cache outage into an auth outage. Log and emit a metric either way.
 4. Respond correctly: HTTP 429 with a `Retry-After` header, a consistent error body in the API's existing error format, and rate-limit headers on responses. Use the `RateLimit-Policy` and `RateLimit` header fields from the IETF HTTPAPI draft if the API has no existing convention, or the widely used `X-RateLimit-Limit`, `X-RateLimit-Remaining` and `X-RateLimit-Reset` if clients already expect those; say which and why.
 5. Add allowlisting for health checks and internal callers where needed, and make limits configurable without a deploy.
 6. Add observability: a metric of allowed and limited requests by endpoint group and tier, and a log line for limited requests with the key hashed or truncated.
@@ -92,7 +94,7 @@ Counter storage: {{storage}}
 
 <output_format>
 ## Policy
-Table: endpoint group, purpose, key, algorithm, limit and burst per tier, store-down behaviour.
+Table: endpoint group, purpose, key or keys, algorithm, limit and burst per tier, store-down behaviour. Proposed numbers are marked proposed.
 ## Design
 Where the limiter sits in the request path, the storage and atomicity approach, and the headers, in a few bullets.
 ## Changes

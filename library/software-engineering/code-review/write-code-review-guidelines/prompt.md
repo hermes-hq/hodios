@@ -5,7 +5,7 @@ kind: prompt
 title: Write code review guidelines
 description: Writes a team's code review guidelines covering what blocks a merge, comment labels, size limits, response times, author and reviewer duties and how to disagree. Use when setting review norms.
 category: code-review
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, review]
 role: [engineering-manager, tech-lead, maintainer]
@@ -41,6 +41,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Says where the pain-point table goes."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -95,5 +96,5 @@ Markdown ready to paste into the repo or wiki, using the sections in this order:
 ## Disagreements
 ## Automation
 ## Adoption notes
-Last section: which pain point each guideline addresses, as a short table, and the review date.
+Adoption notes contains the rollout steps, a table mapping each pain point given to the guideline that addresses it (omit the table if none were given), and the date to revisit the guidelines.
 </output_format>

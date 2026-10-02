@@ -5,7 +5,7 @@ kind: prompt
 title: Purge a file from git history
 description: Removes a large file or committed secret from all git history with git filter-repo, with a backup first, exact commands, force-push coordination and what every collaborator must do.
 category: git
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [maintain]
 role: [maintainer, tech-lead, devops-engineer, software-engineer]
@@ -43,6 +43,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Treats described credentials and personal data as secrets even when the flag is left false."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -58,6 +59,7 @@ Write a step-by-step plan to remove this from the repository's entire history:
 
 Hosting: {{hosting}}
 Is a secret or sensitive data: {{is_secret}}
+Treat it as a secret even if this says false when the description shows a credential, token, key, private certificate or personal data, and say that you did.
 
 1. **Before you start.** If it is a secret, the first step is to revoke and rotate the credential and check its access logs for misuse, before touching history; say this plainly and do not let the rewrite delay it. For any rewrite: name the window when nobody may push, list the open pull requests and branches that will need recreating, check whether the file should instead stay in history through Git LFS (`git lfs migrate import --include="<pattern>" --everything`) if it is a large asset the project still needs, and note that every commit hash after the first affected commit will change, breaking links and signatures on rewritten commits and tags.
 2. **Back up.** A mirror clone (`git clone --mirror <url> backup.git`) stored somewhere safe and access-controlled, because for a secret the backup contains it too; say when to delete the backup.
@@ -76,7 +78,7 @@ Is a secret or sensitive data: {{is_secret}}
 <constraints>
 - Do not run any command yourself. Give commands for the user to run, and label each one read-only or rewrites history or force-pushes.
 - Never print, echo or repeat the secret value in the plan; use a placeholder like `<secret>`.
-- If {{is_secret}} is true, rotation comes before every other step, and say that a history rewrite alone does not make the secret safe.
+- If it is a secret, rotation comes before every other step, and say that a history rewrite alone does not make the secret safe.
 - Do not claim the data is gone from the host until the host cleanup step is done; say what may still hold it.
 - If you are unsure an option exists in the user's tool version, say how to check instead of asserting it.
 </constraints>

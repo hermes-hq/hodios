@@ -13,13 +13,14 @@ cases:
       storage: "redis"
     assert:
       - {type: contains, value: "## Policy"}
-      - {type: llm-rubric, value: "Uses Redis with an atomic operation (for example a Lua script or a library that does this) because there are 6 instances, keys the API limits by API key with separate free and pro limits, and keys login limits by account plus client IP derived via Express trust proxy settings rather than a raw X-Forwarded-For."}
+      - {type: llm-rubric, value: "Uses Redis with an atomic operation (for example a Lua script or a library that does this) because there are 6 instances, keys the API limits by API key with separate free and pro limits, and puts two separate limits on login and password reset, one per target account across IPs and one per client IP across accounts, with the IP derived via Express trust proxy settings rather than a raw X-Forwarded-For."}
+      - {type: llm-rubric, value: "Does not use a hard account lockout or reject all logins when Redis is unavailable; uses delays or a challenge for the per-account limit and a per-instance fallback when the store is down."}
       - {type: llm-rubric, value: "Returns 429 with Retry-After, includes tests using a controllable clock, and recommends a shadow or log-only rollout before enforcing."}
   - name: edge-single-instance-in-memory
     vars:
       endpoints: "POST /contact (spam on the contact form)"
       stack: "Single Flask instance on a VPS"
-      storage: "in-memory or redis"
+      storage: auto
     assert:
       - {type: llm-rubric, value: "Accepts in-memory storage for a single instance while noting it resets on restart and breaks if more instances are added, and keys by client IP with correct proxy handling for the VPS setup."}
   - name: negative-existing-gateway-limit
