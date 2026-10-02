@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Write contract tests between this consumer and provider: {{consumer}} {{provider_api}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pact-orders
+    vars:
+      tool: pact
+      consumer: |
+        // checkout-web/src/ordersClient.ts
+        export async function getOrder(id: string) {
+          const res = await fetch(`${BASE}/orders/${id}`);
+          if (res.status === 404) return null;
+          const body = await res.json();
+          return { id: body.id, total: body.totalCents / 100, status: body.status };
+        }
+      provider_api: |
+        GET /orders/{id} -> 200 {id, customerId, totalCents, currency, status: "pending"|"paid"|"shipped", items[], createdAt}
+        404 when not found
+    assert:
+      - {type: contains, value: "## Interactions"}
+      - {type: icontains, value: "can-i-deploy"}
+      - {type: llm-rubric, value: "The contract includes only id, totalCents and status in the 200 response (not customerId, items or createdAt), uses type or regex matchers rather than literal values for id and totalCents, covers the 404 interaction, and defines provider states such as an order existing and not existing."}
+  - name: edge-mismatch
+    vars:
+      tool: openapi-schema
+      consumer: "Billing service calls POST /invoices with {customer_id, amount} and reads response.invoice_number."
+      provider_api: |
+        openapi: 3.0.3
+        paths:
+          /invoices:
+            post:
+              requestBody: {content: {application/json: {schema: {required: [customerId, amountCents], properties: {customerId: {type: string}, amountCents: {type: integer}}}}}}
+              responses: {"201": {content: {application/json: {schema: {properties: {id: {type: string}, number: {type: string}}}}}}}
+    assert:
+      - {type: llm-rubric, value: "Reports the mismatches between consumer and provider (customer_id vs customerId, amount vs amountCents, invoice_number vs number) as findings rather than silently picking one side."}
+  - name: negative-no-full-response-snapshot
+    vars:
+      tool: custom
+      consumer: "Mobile app reads user.displayName and user.avatarUrl from GET /me."
+      provider_api: "GET /me returns {id, email, displayName, avatarUrl, roles[], settings{...}, lastLoginAt}"
+    assert:
+      - {type: llm-rubric, value: "Does not assert on email, roles, settings or lastLoginAt; the shared fixture covers only displayName and avatarUrl and explains that the provider may change other fields freely."}

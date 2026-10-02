@@ -1,0 +1,43 @@
+schema: 1
+baseline: "This code has an intermittent bug: {{symptoms}}. Find and fix it: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-double-charge
+    vars:
+      runtime: "Python, Django, 4 gunicorn workers, Postgres at READ COMMITTED"
+      code: |
+        def pay(order_id):
+            order = Order.objects.get(id=order_id)
+            if order.status == "pending":
+                charge_card(order.customer, order.total)
+                order.status = "paid"
+                order.save()
+      symptoms: "About 1 in 2,000 orders is charged twice, mostly when users double-click Pay on slow connections."
+    assert:
+      - {type: contains, value: "## Candidate interleavings"}
+      - {type: llm-rubric, value: "Identifies the check-then-act race between two requests reading status pending before either saves, explains why READ COMMITTED does not prevent it, and proposes an atomic fix such as a conditional UPDATE ... WHERE status='pending', select_for_update, or an idempotency key on the charge, not a sleep or a client-side debounce alone."}
+  - name: edge-missing-runtime
+    vars:
+      code: |
+        let cache = null;
+        async function getConfig() {
+          if (!cache) { cache = await loadFromRemote(); }
+          return cache;
+        }
+      symptoms: "On startup we sometimes see loadFromRemote called 5-10 times and rate-limited."
+    assert:
+      - {type: llm-rubric, value: "Explains that in a single-threaded event loop the await splits the check and the assignment so concurrent callers all see cache null, and proposes caching the promise rather than the value; it either infers the Node runtime from the code and says so or asks to confirm it."}
+  - name: negative-no-sleep-fix
+    vars:
+      runtime: "Go 1.22"
+      code: |
+        var hits = map[string]int{}
+        func record(path string) { hits[path]++ }
+        // called from many goroutines in the HTTP handler
+      symptoms: "Process occasionally crashes with 'fatal error: concurrent map writes'."
+    assert:
+      - {type: not-icontains, value: "time.Sleep"}
+      - {type: llm-rubric, value: "Recommends confirming with go test -race or the race detector and fixes with a mutex, sync.Map or per-goroutine aggregation, without sleeps or retries."}

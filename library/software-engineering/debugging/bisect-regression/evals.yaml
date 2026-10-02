@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me find which commit broke this: {{regression}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-known-endpoints
+    vars:
+      regression: "`npm run export -- --format csv` now writes dates as 2026-10-02T00:00:00.000Z instead of 2026-10-02. Worked in v3.4.0."
+      good_ref: v3.4.0
+      bad_ref: main
+    assert:
+      - {type: contains, value: "git bisect run"}
+      - {type: contains, value: "125"}
+      - {type: llm-rubric, value: "Writes a check script that runs the export and tests specifically for the date format (exit 0 for 2026-10-02 style, 1 for the ISO timestamp style, 125 when the build fails), and verifies it on both v3.4.0 and main before bisecting."}
+  - name: edge-no-good-ref-flaky
+    vars:
+      regression: "The integration test test_sync_large_account fails about 1 in 5 runs; it never failed last quarter. Nobody knows when it started."
+    assert:
+      - {type: llm-rubric, value: "Handles the unknown good ref by testing older tags or stepping back exponentially, and handles the intermittent failure by running the check several times per commit with a stated number of runs, rather than a single run per commit."}
+  - name: negative-data-not-code
+    vars:
+      regression: "The nightly import job crashes on today's 40,000-row customer file. The same code imported yesterday's file fine and nothing was deployed in between."
+    assert:
+      - {type: llm-rubric, value: "Recognises that no code changed and proposes halving the input file to find the minimal failing rows instead of running git bisect on commits."}

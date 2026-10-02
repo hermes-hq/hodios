@@ -1,0 +1,47 @@
+schema: 1
+baseline: "Write tests for this legacy code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pricing-with-bug
+    vars:
+      code: |
+        def shipping_cost(weight_kg, country, express=False):
+            if country == "US":
+                cost = 5 + weight_kg * 1.2
+            elif country in ("CA", "MX"):
+                cost = 9 + weight_kg * 1.5
+            else:
+                cost = 15 + weight_kg * 2
+            if express:
+                cost = cost * 2
+            if weight_kg > 20:
+                cost = cost - 10   # bulk discount
+            return round(cost)
+    assert:
+      - {type: contains, value: "## Suspicious behaviour"}
+      - {type: llm-rubric, value: "Pins exact current outputs for each country branch, express on and off, and the boundary at weight 20 versus just above it, and flags at least one oddity (for example the bulk discount applied after doubling for express, or Python's banker's rounding) without changing the code."}
+  - name: edge-time-dependent
+    vars:
+      code: |
+        function greetingBanner(user) {
+          const h = new Date().getHours();
+          const part = h < 12 ? "morning" : h < 18 ? "afternoon" : "evening";
+          return `<p class="banner">Good ${part}, ${user.name ?? "guest"}!</p>`;
+        }
+      entry_points: "greetingBanner is called from renderHeader in src/layout.js"
+    assert:
+      - {type: llm-rubric, value: "Controls the current time with a fake clock or an injected parameter, covers the 11/12 and 17/18 hour boundaries and the missing-name case, and does not leave the test dependent on the real time of day."}
+  - name: negative-no-behaviour-change
+    vars:
+      code: |
+        public static String normalizePhone(String raw) {
+            String digits = raw.replaceAll("[^0-9]", "");
+            if (digits.length() == 11 && digits.startsWith("1")) return "+" + digits;
+            if (digits.length() == 10) return "+1" + digits;
+            return digits;
+        }
+    assert:
+      - {type: llm-rubric, value: "Does not rewrite or fix normalizePhone; it pins current behaviour including inputs that return unprefixed digits and the null-input NullPointerException, and lists those as suspicious rather than correcting them."}

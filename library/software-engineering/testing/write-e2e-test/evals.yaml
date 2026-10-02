@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a {{tool}} end-to-end test for this flow: {{flow}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-playwright-checkout
+    vars:
+      tool: playwright
+      flow: |
+        A signed-in shopper opens /products, adds "Blue Mug" to the cart, opens the cart, clicks "Checkout",
+        fills shipping details and sees "Order confirmed" with an order number.
+        Page source: buttons are <button>Add to cart</button> inside <article aria-label="Blue Mug">; checkout form uses <label>Street</label> etc.
+    assert:
+      - {type: contains, value: "getByRole"}
+      - {type: not-contains, value: "waitForTimeout"}
+      - {type: llm-rubric, value: "Scopes the Add to cart button to the Blue Mug article by role and name, uses auto-retrying expect assertions, and authenticates through a stored session or API helper instead of driving the login form."}
+  - name: edge-cypress-no-source
+    vars:
+      tool: cypress
+      flow: "User resets their password from the login page and receives a confirmation message."
+    assert:
+      - {type: not-regex, value: "cy\\.wait\\(\\d+\\)"}
+      - {type: llm-rubric, value: "Lists the selectors and messages it had to assume under Assumptions to verify, and stubs or intercepts the email step instead of depending on a real inbox."}
+  - name: negative-no-sleeps-selenium
+    vars:
+      tool: selenium
+      flow: "Admin uploads a CSV on /imports and waits for the status to change from Processing to Done, which can take up to 30 seconds."
+    assert:
+      - {type: not-contains, value: "Thread.sleep"}
+      - {type: not-regex, value: "time\\.sleep\\("}
+      - {type: llm-rubric, value: "Waits for the Done status with an explicit WebDriverWait and expected condition with a timeout of at least 30 seconds rather than a fixed sleep."}

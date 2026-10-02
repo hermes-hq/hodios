@@ -1,0 +1,46 @@
+schema: 1
+baseline: "Write property-based tests for this code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-round-trip-codec
+    vars:
+      framework: Hypothesis
+      code: |
+        def encode_rle(s: str) -> list[tuple[str, int]]:
+            out = []
+            for ch in s:
+                if out and out[-1][0] == ch:
+                    out[-1] = (ch, out[-1][1] + 1)
+                else:
+                    out.append((ch, 1))
+            return out
+
+        def decode_rle(pairs: list[tuple[str, int]]) -> str:
+            return "".join(ch * n for ch, n in pairs)
+    assert:
+      - {type: contains, value: "## Properties"}
+      - {type: icontains, value: "@given"}
+      - {type: llm-rubric, value: "Includes a round-trip property decode_rle(encode_rle(s)) == s and at least one invariant on the encoded form, such as no two adjacent pairs sharing a character or all counts being positive."}
+      - {type: llm-rubric, value: "Uses a text strategy that covers the empty string and non-ASCII characters, and does not compute expected values by calling the functions under test."}
+  - name: edge-detect-framework
+    vars:
+      code: |
+        // src/money.ts
+        export function splitEvenly(totalCents: number, parts: number): number[] {
+          const base = Math.floor(totalCents / parts);
+          const rest = totalCents - base * parts;
+          return Array.from({ length: parts }, (_, i) => base + (i < rest ? 1 : 0));
+        }
+    assert:
+      - {type: icontains, value: "fast-check"}
+      - {type: llm-rubric, value: "States properties such as the parts summing to totalCents, the result length equalling parts, and any two parts differing by at most one, and asks about or states an assumption for parts <= 0 or negative totals."}
+  - name: negative-mirrors-implementation
+    vars:
+      framework: proptest
+      code: |
+        pub fn clamp(x: i64, lo: i64, hi: i64) -> i64 { if x < lo { lo } else if x > hi { hi } else { x } }
+    assert:
+      - {type: llm-rubric, value: "Properties are stated independently of the implementation (for example lo <= result <= hi when lo <= hi, result == x when x is in range, idempotence) rather than re-implementing clamp inside the test, and the precondition lo <= hi is handled by construction in the generator rather than by heavy filtering."}
