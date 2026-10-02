@@ -5,7 +5,7 @@ kind: prompt
 title: Calculate product margin and break-even
 description: Calculates a product's full unit cost, margin and markup including fees, returns and overhead, the price needed for a target margin, and the break-even volume.
 category: accounting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [founder]
@@ -39,11 +39,12 @@ args:
     default: "50%"
 output_contract:
   format: markdown
-  sections: [Unit cost, Margin at your price, Price for your target margin, Break-even, Sensitivity, Spreadsheet formulas, Assumptions and questions]
+  sections: [Unit cost, Margin at your price, Price for your target margin, Break-even, Sensitivity, Your time, Spreadsheet formulas, Assumptions and questions]
 authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Markup now uses total unit cost, the returns allowance is defined, the target-price formula is clear about fixed costs, and results always show what the owner's time earns."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -60,13 +61,14 @@ Costs:
 {{costs}}
 </costs>
 
-1. Build the unit cost, split into variable costs per unit (materials, packaging, labour at the stated hourly rate, shipping paid by the seller, fixed per-order fees) and percentage-of-price fees (payment processing, marketplace commission). Add a returns or damage allowance: unit cost x return rate, or as stated. Strip VAT or sales tax out of prices if they were given gross, and say so.
-2. If a price is given, calculate: fees at that price, total cost per unit, contribution per unit (price minus all variable costs and fees), margin % (contribution / price) and markup % (contribution / variable cost before fees). Show each formula once.
-3. Calculate the price needed for the target margin, accounting for percentage fees: price = fixed-amount costs per unit / (1 - target margin - percentage fees). Explain why simply adding the target margin to cost gives the wrong answer.
+1. Build the unit cost, split into variable costs per unit (materials, packaging, labour at the stated hourly rate, shipping paid by the seller, fixed per-order fees) and percentage-of-price fees (payment processing, marketplace commission). Add a returns or damage allowance as a per-unit cost: the cost lost on each failed sale (usually the product, packaging and outbound shipping, plus any replacement shipping) x the return or damage rate, unless the seller states how they handle it. Say which costs you included. Strip VAT or sales tax out of prices if they were given gross, and say so.
+2. If a price is given, calculate: fees at that price, total cost per unit, contribution per unit (price minus all variable costs and fees), margin % (contribution / price) and markup % (contribution / total cost per unit). Show each formula once.
+3. Calculate the price needed for the target margin, accounting for percentage fees: price = fixed-amount costs per unit / (1 - target margin - percentage fees), where fixed-amount costs are every per-unit cost that does not scale with price (including the returns allowance) and percentage fees are a decimal. This is a contribution margin before monthly fixed costs; say so. Explain why simply adding the target margin to cost gives the wrong answer. If target margin plus percentage fees reach 100%, say no price can achieve it.
 4. Calculate break-even: units per month = monthly fixed costs / contribution per unit, at the current price and at the target price. Also show the monthly revenue at break-even.
 5. Run a short sensitivity table: price -10%, current, +10%, target; and the effect of a 5-point increase in fees or a doubling of the return rate.
 6. Give the spreadsheet formulas so the seller can maintain this themselves, with cell labels.
-7. List assumptions and any missing numbers, especially if no labour value was given (show the result both with and without the owner's time).
+7. Show what the owner's time actually earns: if labour was included, give contribution per unit plus the labour cost as "what you earn per hour at this price"; if no labour value was given, show the result without it, flag that the price pays nothing for their time, and ask for an hourly figure.
+8. List assumptions and any missing numbers.
 </task>
 
 <constraints>
@@ -92,7 +94,10 @@ The formula with the numbers substituted, and the result.
 Table: price | contribution per unit | break-even units per month | revenue at break-even.
 
 ## Sensitivity
-Table.
+Table: scenario | price | contribution per unit | margin % | break-even units.
+
+## Your time
+One or two lines: effective hourly earnings at the current and target price, or the note that no time was costed.
 
 ## Spreadsheet formulas
 A short list of labelled formulas.

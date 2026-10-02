@@ -5,7 +5,7 @@ kind: prompt
 title: Negotiate with a creditor
 description: Prepares a negotiation with a creditor for a hardship plan, reduced payments or a settlement - budget summary, the ask, a call script and a letter - plus free debt-advice options.
 category: financial-planning
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [individual]
@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [hardship-plan, debt-settlement, arrears, payment-arrangement]
 pairs_with:
-  prompts: [build-tight-budget, plan-debt-payoff]
+  prompts: [respond-to-debt-collector, build-tight-budget, plan-debt-payoff]
   personas: [personal-finance-coach]
 args:
   - name: debt_details
@@ -42,6 +42,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Settlement offers now show the lump sum as a share of the balance with room to negotiate, unrecognised or disputed debts pause the offer until proof arrives, and distress signals use the shared crisis-safety guardrail."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -67,7 +68,7 @@ Budget:
 
 1. Start with free help: explain that free, non-profit debt advice services can review the situation and negotiate for them, and how to find one in their country. If any debt involves eviction, repossession, utility disconnection, enforcement agents, court papers or tax authorities, say it needs priority attention and advice now.
 2. Build the affordable offer: income minus essential costs gives the amount available for debts. If there are several creditors, split that amount fairly in proportion to the balances (pro rata), showing the arithmetic, after priority debts are covered. If no budget was given, ask for it and show the method.
-3. Decide what to ask for, per creditor, and explain each option: a reduced monthly payment for a set period with a review date; freezing interest and charges; a short payment break; a longer-term arrangement; or a full-and-final settlement for a lump sum (only if the person has the lump sum), with the typical catch for each (credit record impact, interest resuming, tax on forgiven debt in some countries, the arrangement lapsing if a payment is missed).
+3. Decide what to ask for, per creditor, and explain each option, choosing the one that fits their budget and whether they hold a lump sum: a reduced monthly payment for a set period with a review date; freezing interest and charges; a short payment break; a longer-term arrangement; or a full-and-final settlement for a lump sum (only if the person has the lump sum; show the lump sum as a percentage of the balance, and suggest opening below the most they can pay so there is room to move up), with the typical catch for each (credit record impact, interest resuming, tax on forgiven debt in some countries, the arrangement lapsing if a payment is missed).
 4. Write a call script: identify yourself and the account, explain the change in circumstances briefly, make the specific offer, refer to the budget, handle common pushback ("we need at least X", "can you borrow from family?", "pay by card now"), and close by asking for written confirmation and a reference number.
 5. Write a letter or email they can send instead of, or after, the call: the situation, the offer, the request to freeze interest and charges and hold collection activity while it is considered, and a request for written confirmation. Use placeholders for names and references.
 6. Explain how to protect themselves: keep notes of every call, never agree to pay more than the budget allows, never pay a settlement until its terms are confirmed in writing as full and final, check that a collector is legitimate and that they own or manage the debt, be wary of debt-settlement firms charging upfront fees, and check before acknowledging or paying very old debts, because in some countries this can restart the time limit for collecting them.
@@ -79,7 +80,9 @@ Budget:
 - Never suggest lying about income, inventing a hardship, hiding assets or ignoring court papers.
 - Do not invent legal protections, time limits or collection rules. Mention specific rights or bodies (for example the FDCPA in the United States or the Financial Conduct Authority's rules in the United Kingdom) only if you are confident, and say to confirm current details.
 - Do not recommend specific paid debt-management, settlement or consolidation companies or lenders. Name well-known national non-profit advice services only if you are confident they exist.
-- Keep the tone calm, practical and free of shame. If the person mentions feeling hopeless or unsafe, respond with care first and point them to emergency services or a crisis line before anything else.
+- Keep the tone calm, practical and free of shame.
+{{> guardrails/crisis-safety}}
+- If the person does not recognise the debt, disputes the amount, or is contacted by a collector they have never dealt with, do not build an offer for that debt yet: say to ask in writing for proof of the debt and of the collector's right to collect it, and to pay nothing until it arrives.
 - Round to whole currency units and check that pro rata offers add up to the amount available.
 </constraints>
 

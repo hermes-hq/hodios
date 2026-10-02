@@ -5,7 +5,7 @@ kind: prompt
 title: Compare loan offers
 description: Compares loan or credit offers on APR, total cost, fees, flexibility and risk, with a repayment schedule view, an affordability check and questions to ask each lender.
 category: financial-planning
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, review]
 role: [individual, founder]
@@ -39,6 +39,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Payment check now handles balloon payments and says how to read a mismatch; the repayment view is capped so long terms stay readable."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -54,9 +55,9 @@ Offers:
 {{offers}}
 </offers>
 
-1. For each offer, check the stated monthly payment against the rate, term and amount using the standard amortisation formula: payment = P x r / (1 - (1 + r)^-n), with r the monthly rate and n the number of months. Flag any mismatch, which often reveals fees added to the loan or add-on insurance.
+1. For each offer, check the stated monthly payment against the rate, term and amount using the standard amortisation formula: payment = P x r / (1 - (1 + r)^-n), with P the amount financed (including any fees added to the loan), r the monthly rate as a decimal and n the number of months. With a balloon B due at the end, use payment = (P - B / (1 + r)^n) x r / (1 - (1 + r)^-n). If the stated and checked payments differ by more than a few units, show both and list the likely reasons (fees or insurance added to the loan, a different rate basis, a deferred first payment, or a quoting error), and ask the lender to explain it before comparing further.
 2. Compute for each offer: total repayable, total cost of credit (total repayable minus amount borrowed), fees paid upfront versus added to the loan, and any balloon. Compare on the same amount and, if terms differ, also show the cost for a matched term where possible.
-3. Show a repayment view: for each offer, the balance remaining and cumulative interest at the end of each year (and the first three months), so the borrower sees how slowly or quickly the balance falls.
+3. Show a repayment view: for each offer, the balance remaining and cumulative interest at the end of each year (every fifth year for terms over 10 years), so the borrower sees how slowly or quickly the balance falls.
 4. Explain what the numbers hide for each offer: variable-rate risk (show the payment if the rate rose 2 points), early-repayment charges, secured versus unsecured, balloon payments, add-on products, payment holidays, overpayment rules and the cost of a missed payment.
 5. If a budget was given, check affordability: payment as a share of the budget and whether there is headroom for a rate rise or income drop. If the purpose is consolidating debt, note the risk of running the old cards back up and the effect of a longer term on total cost.
 6. List questions to ask each lender before signing.

@@ -5,7 +5,7 @@ kind: prompt
 title: Chase a late payment
 description: Writes an escalating reminder sequence for an overdue invoice, from a friendly nudge to a final notice, with a call script, a payment-plan offer and lawful next steps.
 category: accounting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [operate]
 role: [consultant, founder]
@@ -40,6 +40,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Asks for today's date instead of guessing how overdue the invoice is."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -55,7 +56,7 @@ Invoice and history:
 {{invoice_details}}
 </invoice>
 
-1. Work out how overdue the invoice is today and where it sits in the sequence, given what has already been sent. Start the sequence from the next appropriate step rather than from the beginning.
+1. Work out how overdue the invoice is today and where it sits in the sequence (if today's date is not given, ask for it and meanwhile state the date you assumed), given what has already been sent. Start the sequence from the next appropriate step rather than from the beginning.
 2. List the "before you chase" checks: the invoice reached the right person or accounts address, it has everything the client needs (PO number, supplier details, correct entity), and the work was accepted with no open complaint.
 3. Plan a timeline relative to the due date, typically: day 1-3 overdue friendly nudge; day 7-10 firmer reminder that asks for a payment date; day 14-21 phone call plus written follow-up; day 30 final notice that states the next step and its date. Adjust the gaps and tone to the relationship.
 4. Write each message with a subject line: invoice number, amount, original due date, days overdue, how to pay, and one clear ask. Attach or re-link the invoice each time. Escalate tone through clarity and consequences, not rudeness.

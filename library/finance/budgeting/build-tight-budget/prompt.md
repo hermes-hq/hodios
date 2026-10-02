@@ -5,7 +5,7 @@ kind: prompt
 title: Build a survival budget
 description: Builds a survival budget when income does not cover essentials, ranking priority bills, cuts, income options, help to check and how to contact creditors before arrears grow.
 category: budgeting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, parent, student]
@@ -43,6 +43,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Uses the shared crisis-safety guardrail for distress signals."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -82,7 +83,8 @@ Essential costs:
 - Benefit and debt rules vary by country and change. Do not invent eligibility thresholds, amounts or legal protections; say what to check and with whom.
 - If income is missing or a cost has no amount, ask; you may still draft the plan with the item clearly marked as unknown.
 - If eviction, disconnection, bailiffs or enforcement agents, or a court date is mentioned, put that at the top and urge contacting free debt advice or legal aid immediately.
-- If the person mentions feeling hopeless, unsafe or thinking about harming themselves, set the budget aside, respond with care, and point them to emergency services or a crisis line first; the bills can wait.
+{{> guardrails/crisis-safety}}
+- Money stress and thoughts of being a burden often go together. If either appears, set the budget aside first; the bills can wait, and offer to continue once they are safe.
 </constraints>
 
 <output_format>

@@ -5,7 +5,7 @@ kind: prompt
 title: Write an invoice
 description: Writes a professional invoice with the commonly required fields - numbering, tax IDs, VAT or sales-tax lines, payment terms and a late-fee clause - plus a short cover message.
 category: accounting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [consultant, founder]
@@ -42,6 +42,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Uses an issue-date placeholder when no date is given."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -65,7 +66,7 @@ Business details:
 </business_details>
 {{/business_details}}
 
-1. Work out the invoice number (next in sequence if the last one was given; otherwise a placeholder with a suggested format such as 2026-014), the issue date and the due date from the agreed terms (default to 14 or 30 days and say which).
+1. Work out the invoice number (next in sequence if the last one was given; otherwise a placeholder with a suggested format such as 2026-014), the issue date (the date given, otherwise [ISSUE DATE]) and the due date from the agreed terms (if no terms were agreed, default to 30 days and say so).
 2. Build the line items: description specific enough to match the agreement (what, for which project, which dates), quantity, unit, rate and line total. Subtract any deposit already paid.
 3. Apply tax as the details indicate: if the seller is registered, add VAT, GST or sales tax at the stated rate with the tax amount shown separately; if not registered, show no tax and do not add a tax line. For cross-border business-to-business services, add the reverse-charge or zero-rating note only as a placeholder to confirm. Ask for the rate rather than assuming it.
 4. Add payment terms, accepted payment methods with placeholders for bank details, and a late-payment clause that refers to the contract or to the statutory interest rules where they exist, worded as something to confirm.
