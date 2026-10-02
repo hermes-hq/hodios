@@ -73,6 +73,7 @@ export function runBuild(args: string[], io: Io): number {
   prepareOut(out);
   const files = new Map<string, string>();
   const warnings: string[] = [];
+  const notes = new Set<string>(); // expected, not a problem: printed once on stdout
   const groups = new Map<string, string>(); // path -> summary group
   const add = (group: string, path: string, content: string) => {
     files.set(path, content);
@@ -114,7 +115,8 @@ export function runBuild(args: string[], io: Io): number {
     for (const group of groups) {
       const plugin = claudePluginFiles(group, ctx);
       for (const [path, content] of plugin.files) add('plugins', path, content);
-      warnings.push(...plugin.warnings);
+      // Plugins cannot carry CLAUDE.md rules by design; that is a note, not a warning.
+      for (const w of plugin.warnings) notes.add(w.split(':')[0] as string);
     }
     add('plugins', '.claude-plugin/marketplace.json', claudeMarketplace(groups));
   }
@@ -179,5 +181,7 @@ export function runBuild(args: string[], io: Io): number {
     .map(([k, n]) => `${n} ${k}`)
     .join(', ');
   io.out(`Built ${lib.entries.length} entries (catalog ${catalog}) into ${shown}: ${summary}.`);
+  if (notes.size > 0)
+    io.out(`${notes.size} rules are not in Claude Code plugins (plugins cannot carry rules); use hodios install <id>.`);
   return pasteErrors > 0 ? 1 : 0;
 }

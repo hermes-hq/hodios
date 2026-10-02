@@ -237,7 +237,10 @@ export function installPath(target: Target, file: OutputFile, scope: Scope): str
 /** Picks the adapter for an entry on a target: `format` if given and valid, else the target's default. */
 export function pickAdapter(target: Target, kind: Kind, format?: string): Adapter {
   const id = format ?? target.defaults[kind];
-  if (!id) throw new Error(`${target.label} has no format for a ${kind}; try --target agents-md or paste`);
+  if (!id) {
+    const others = ['agents-md', 'paste'].filter((t) => t !== target.id).join(' or ');
+    throw new Error(`${target.label} has no format for a ${kind}; try --target ${others}`);
+  }
   const allowed = new Set([...Object.values(target.defaults), ...target.alternatives]);
   if (!allowed.has(id)) {
     throw new Error(
