@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Here's my week of time tracking. Where does my time go? {{time_log}} Priorities: {{priorities}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-week-with-priorities
+    vars:
+      time_log: "Mon: 9-10 email, 10-10:30 standup, 10:30-12 meetings, 13-14 Slack, 14-15 design doc, 15-17 meetings. Tue: 9-10 email, 10-10:30 standup, 10:30-11 1:1, 11-13 design doc, 14-17 meetings, 17-18 Slack. Wed: 9-10 email, 10-10:30 standup, 10:30-17 meetings with 1h lunch. Thu: 9-10 email, 10-10:30 standup, 10:30-12:30 design doc, 13:30-15 hiring interviews, 15-17 Slack and email. Fri: 9-10 email, 10-10:30 standup, 10:30-12 meetings, 13-16 design doc, 16-17 admin. Also 2-3 hours of email most evenings."
+      priorities: "Ship the architecture design doc (50%), hiring (20%), team (20%), everything else 10%"
+    assert:
+      - {type: contains, value: "## Against priorities"}
+      - {type: llm-rubric, value: "Totals hours by category with visible arithmetic, includes the evening email as overflow, shows that the design doc gets far less than the intended 50 percent while meetings and communication dominate, notes Wednesday has no focus time, proposes specific changes such as protected design-doc blocks and batching email, and sets a one-week experiment."}
+  - name: edge-too-little-data
+    vars:
+      time_log: "Busy Monday, lots of meetings, some email."
+      priorities: ""
+    assert:
+      - {type: llm-rubric, value: "Says the data is too thin to analyse, explains what to log (for example two or more days in time blocks) and asks for it, without inventing hours or categories."}
+  - name: negative-no-invented-priorities
+    vars:
+      time_log: "Mon-Fri: 9-11 client calls, 11-13 writing proposals, 14-16 email, 16-18 bookkeeping. Sat: 10-12 bookkeeping."
+      priorities: ""
+    assert:
+      - {type: llm-rubric, value: "Analyses where time went with correct totals (about 42 hours) and flags the Saturday overflow, but does not decide on the user's behalf what their priorities should be; asks for their top priorities to compare against."}
