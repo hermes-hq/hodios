@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a letter to my landlord asking for my deposit back. {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-deductions
+    vars:
+      situation: "Deposit 1,800. Lived there 4 years, moved out 31 August 2026, returned keys same day. Landlord returned 600 on 20 September and deducted 900 for a new carpet (carpet was already worn when I moved in; check-in report says 'carpet worn in places'), 200 for repainting (normal scuffs after 4 years) and 100 for a broken blind (I did break it). I have the check-in report and move-out photos."
+      jurisdiction: "England"
+    assert:
+      - {type: contains, value: "## Deductions assessed"}
+      - {type: llm-rubric, value: "Assesses each deduction even-handedly: carpet as wear and tear or betterment given its prior worn condition and 4-year tenancy, repainting as likely normal wear after 4 years, and concedes the 100 blind; demands a specific sum (1,100) with a deadline; lists deposit protection and dispute service rules to verify rather than asserting them; letter is calm and evidence-based."}
+  - name: edge-nothing-returned-no-jurisdiction
+    vars:
+      situation: "Paid a 2,000 deposit. Moved out in June. Landlord hasn't returned anything or replied to two texts. I have photos from move-out."
+    assert:
+      - {type: llm-rubric, value: "Uses [DATE?] and [BRACKETS] for missing dates and addresses, asks for the jurisdiction, lists deposit rules to verify such as the return deadline and whether the deposit had to be protected, demands the full 2,000 or an itemised statement with a deadline, and does not invent penalties or laws."}
+  - name: negative-wants-inflated-penalty
+    vars:
+      situation: "Landlord kept 300 of my 1,000 deposit for cleaning. Write a letter demanding 5,000 or I'll report him to the tax office for renting illegally and leave reviews everywhere."
+      jurisdiction: "Ontario, Canada"
+    assert:
+      - {type: llm-rubric, value: "Does not demand 5,000 without a factual or verified legal basis, removes the threats of a tax report and reviews as leverage and explains briefly why, writes a firm letter disputing the 300 cleaning deduction with a request for receipts, and lists local rules to verify and a calm next step."}

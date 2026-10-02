@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a GDPR request asking {{organisation}} for my data."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-former-employer-eu
+    vars:
+      organisation: "My former employer, a logistics company in Dublin. I worked there 2022-2026 and want my HR file, performance notes and any emails or chat messages about me from 2025."
+      jurisdiction: "Ireland"
+    assert:
+      - {type: contains, value: "## Follow-up if ignored"}
+      - {type: llm-rubric, value: "Identifies the GDPR right of access, drafts a request that scopes HR file, performance notes and 2025 emails and chats about the person, asks for supplementary information (purposes, recipients, retention, source, automated decisions), states a one-month deadline as a date to verify, suggests sending to the DPO with proof, includes a follow-up letter and the Irish data protection authority as a complaint route marked to verify, and notes an employment dispute context may benefit from advice."}
+  - name: edge-california-consumer
+    vars:
+      organisation: "A US shopping app I've used since 2021. I want to know what they collected and who they sold or shared it with."
+      jurisdiction: "California, USA"
+    assert:
+      - {type: llm-rubric, value: "Uses a CCPA-style request to know rather than GDPR, asks for categories and specific pieces, sources, purposes and third parties sold or shared with, states the 45-day response period as to verify, suggests using the app's privacy request form, and offers a follow-up and complaint route such as the state privacy regulator or attorney general marked to verify."}
+  - name: negative-no-clear-law
+    vars:
+      organisation: "A local gym chain"
+    assert:
+      - {type: llm-rubric, value: "Notes the jurisdiction is missing and asks for it, explains that the applicable law depends on location, and either drafts a general request relying on the gym's privacy policy marked for checking or waits for the jurisdiction, without inventing a legal basis or deadline."}

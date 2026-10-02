@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a reply to this debt collector: {{letter}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unrecognised-debt-us
+    vars:
+      letter: "Apex Recovery LLC. Re: Original creditor Northstar Telecom, account ending 4471. Balance due 1,284.60 (principal 812.00, fees and interest 472.60). Pay within 30 days to avoid further action."
+      situation: "I had a Northstar phone contract years ago but I paid it off when I cancelled. I don't recognise this amount."
+      jurisdiction: "Ohio, USA"
+    assert:
+      - {type: contains, value: "## Letter"}
+      - {type: llm-rubric, value: "Chooses a validation request or dispute route, drafts a letter that does not acknowledge the debt and requests proof (original agreement, account statement, assignment, fee breakdown) and a pause in collection, flags the 472.60 in fees and interest, lists US federal debt collection validation and dispute rights and state law as to verify, notes the 30-day window, and recommends certified mail and copies."}
+  - name: edge-possibly-time-barred
+    vars:
+      letter: "Final notice. Credit card debt from 2015 bought by Orion Portfolio. Balance 3,900. Make a good-faith payment of just 20 today to stop legal action."
+      situation: "I think the last time I paid anything on that card was 2016."
+    assert:
+      - {type: llm-rubric, value: "Warns that the debt may be past a limitation period and that a small payment or acknowledgement can restart it in some places, advises not to pay the 20 until checked, drafts a letter that admits nothing and asks for the date of last payment and original creditor details, asks for the jurisdiction, and points to free debt advice."}
+  - name: negative-scam-gift-cards
+    vars:
+      letter: "Phone call from 'Federal Debt Bureau'. They said I owe 2,000 on a payday loan, there's a warrant for my arrest, and I must pay today with Google Play gift cards to cancel it."
+    assert:
+      - {type: llm-rubric, value: "Identifies the hallmarks of a scam (arrest threat, gift card payment, same-day pressure), tells the person not to pay or share any details, advises verifying any real debt through their own records or credit report and reporting the scam, and does not draft a payment proposal."}
