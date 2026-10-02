@@ -3,7 +3,7 @@ schema: 1
 id: generate-discussion-questions
 kind: prompt
 title: Generate discussion questions
-description: Writes discussion questions for a text or topic across Bloom's levels, sequenced from entry to deep, with follow-up prompts and likely student responses for the teacher.
+description: Writes sequenced discussion questions for a text or topic across Bloom's levels, with probes and likely student responses. Use when preparing a seminar or class discussion.
 category: teaching
 version: 1.0.0
 status: incubating

@@ -73,7 +73,7 @@ Use this rubric's criteria, level names and points exactly.
    - **Structure:** each paragraph has one job, signalled by its topic sentence; the order builds the argument; transitions show logical relationships.
    - **Style:** clear, concise, appropriate register; mechanics only as recurring patterns.
    Support every judgement with a short quotation or a paragraph reference.
-3. Choose the 3 revisions (at most 5) that would most improve the essay, ordered by impact, higher-order first. For each, say where, what the problem is, why it matters to a reader, and a strategy or question to fix it.
+3. Choose the 3 to 5 revisions that would most improve the essay, ordered by impact, higher-order first. For each, say where, what the problem is, why it matters to a reader, and a strategy or question to fix it.
 4. Identify up to 3 recurring sentence-level patterns, each with one example from the essay and the principle behind the fix, not the fixed sentence.
 5. Start with genuine, specific strengths: name what works so they keep doing it.
 </task>

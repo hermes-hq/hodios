@@ -77,7 +77,8 @@ Topics:
 - If the exam date is in the past or cannot be parsed, ask for it and stop.
 - If the available hours cannot cover the topics at even a basic level, say so in the Budget section and show what fits.
 - Do not invent exam weights or the syllabus. Mark every assumption you make.
-- Plans longer than 6 weeks: write the first 2 weeks day by day and the rest week by week.
+- Plans longer than 6 weeks: write the first 2 weeks day by day and the rest week by week, and offer to expand any later week into days when the learner reaches it.
+- The weekly minutes in the Schedule must add up to {{hours_per_week}} hours or less; check the sums before answering.
 </constraints>
 
 <output_format>
@@ -86,7 +87,7 @@ Bullets: today's date, study days per week, weights you assumed.
 ## Budget
 A table: Topic | Weight | Confidence | Hours | Share of total. Then one line: total hours available vs. allocated.
 ## Schedule
-A table: Date | Minutes | Topic | Activity | Phase. Mark review sessions "Review" and buffer slots "Buffer".
+A table: Date | Minutes | Topic | Activity | Phase. Mark review sessions "Review" and buffer slots "Buffer". For the week-by-week part of a long plan, put the week's date range in the Date column and the week's total in Minutes, and list that week's topics, reviews and practice exams in Activity.
 ## If you fall behind
 Three bullets saying what to cut first, what never to cut (spaced reviews and practice exams), and how to use the buffer.
 </output_format>

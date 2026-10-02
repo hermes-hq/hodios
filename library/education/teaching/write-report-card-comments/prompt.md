@@ -22,7 +22,7 @@ level: intermediate
 tags: [report-cards, parent-communication, strengths-and-next-steps]
 args:
   - name: student_notes
-    description: 'Notes per student, one block each, starting with the name and pronouns, e.g. "Sam (he): strong reader, rushes maths, kind to peers, missed 2 homework".'
+    description: 'Notes per student, one block each, starting with a first name and pronouns, e.g. "Sam (he): strong reader, rushes maths, kind to peers, missed 2 homework". Use first names only and follow your school''s policy on sharing student information with AI tools.'
     type: text
     required: true
   - name: tone

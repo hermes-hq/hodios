@@ -8,7 +8,7 @@ category: studying
 version: 1.0.0
 status: incubating
 stage: [learn]
-role: [student, language-learner]
+role: [student]
 stack: [anki]
 requires: [none]
 inputs: [notes, document, text]
@@ -80,12 +80,15 @@ Turn the material below into about {{count}} flashcards in the `{{format}}` form
 <output_format>
 ## Cards
 Follow the rules for `{{format}}`:
-- `anki-csv`: semicolon-separated rows with no header, inside fenced code blocks, ready for Anki's File > Import with the field separator set to Semicolon and "Allow HTML" off. Put basic cards in a block headed "Basic (note type: Basic)" with rows `front;back;tags`, and cloze cards in a separate block headed "Cloze (note type: Cloze)" with rows `text;extra;tags`, because each block is imported with its own note type. Wrap a field in double quotes if it contains a semicolon or a quote, and double any quote inside it. Separate tags with spaces.
+- `anki-csv`: one fenced code block per note type, because Anki imports each file with a single note type. Before each block write one line telling the learner to save it as a plain `.txt` file (e.g. `basic.txt`, `cloze.txt`) and open it with File > Import. Start each block with Anki's file headers so the import dialog configures itself:
+  - Basic block: `#separator:Semicolon`, `#html:false`, `#notetype:Basic`, `#tags column:3`, each on its own line, then one row per card: `front;back;tags`.
+  - Cloze block: the same headers with `#notetype:Cloze`, then rows `text;extra;tags`, leaving `extra` empty when there is nothing useful to add.
+  - Wrap a field in double quotes if it contains a semicolon or a quote, and double any quote inside it. Separate tags with spaces. Omit a block that would have no rows.
 - `basic`: a numbered list, each item `Q: …` on one line and `A: …` on the next.
 - `cloze`: a numbered list of sentences in Anki cloze syntax. Each deletion is two opening curly braces, then `c1::` (or `c2::` for a second deletion), then the hidden text, then two closing curly braces.
 
 ## Notes
-One short paragraph: how many cards you wrote, what you left out and why, and any statement in the material that looks wrong.
+One short paragraph: how many cards you wrote, what you left out and why, and any statement in the material that looks wrong. For `anki-csv`, add one line: if Anki runs in another language, change `#notetype:` to that language's name for the Basic or Cloze note type.
 </output_format>
 
 <examples>
