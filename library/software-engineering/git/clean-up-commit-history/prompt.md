@@ -52,7 +52,8 @@ Plan the clean-up of this branch:
 3. Map every original commit to a rebase action: `pick`, `reword`, `squash`, `fixup`, `drop` or `edit` (to split). Reorder lines as needed. Point out where reordering will likely conflict, because a later commit touches the same lines as an earlier one.
 4. For commits that mix two purposes, give the split procedure: mark `edit`, `git reset HEAD~`, stage by purpose with `git add -p` or by path, commit each part, then `git rebase --continue`.
 5. Mention the fixup alternative for future work: `git commit --fixup=<sha>` plus `git rebase -i --autosquash`.
-6. Give the verification: the final tree must equal the backup's tree, and each commit should build and test.
+6. Keep the reshape and any update to a newer base apart. Rebase onto the branch's current merge base (`git rebase -i --keep-base <base>`, Git 2.24 or newer, or `git rebase -i $(git merge-base <base> HEAD)`), so the final tree can be compared with the backup. Moving onto the latest base is a separate, later step.
+7. Give the verification: the final tree must equal the backup's tree, `git range-diff` shows each old commit's fate, and each commit should build and test.
 </task>
 
 <constraints>
@@ -68,11 +69,11 @@ Numbered final commits: subject, then the original commits it absorbs.
 ## Before you start
 The backup command (`git branch backup/<branch>-<date>`) and a check that the working tree is clean.
 ## Rebase todo
-The `git rebase -i <base>` command and the full todo list exactly as it should be edited, oldest first.
+The `git rebase -i --keep-base <base>` command and the full todo list exactly as it should be edited, oldest first.
 ## Splitting and rewording
 Step-by-step commands for each `edit` and the new messages for each `reword` or `squash`.
 ## Verify
-`git diff backup/<branch>-<date> HEAD` must be empty, plus `git rebase -x "<test command>" <base>` to build and test each commit.
+`git diff backup/<branch>-<date> HEAD` must be empty (any difference is lost or extra work), `git range-diff <base> backup/<branch>-<date> HEAD` to review the mapping, and `git rebase -x "<test command>" --keep-base <base>` to build and test each commit.
 ## Publish
 `git push --force-with-lease` and when it is safe.
 ## Undo

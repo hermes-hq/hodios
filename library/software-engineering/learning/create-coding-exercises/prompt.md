@@ -64,7 +64,7 @@ Create {{count}} exercises on {{concept}} in {{language}} for {{level}} learners
    - three staged hints: hint 1 points to the relevant idea, hint 2 outlines the approach, hint 3 gives the key line or structure without the full solution;
    - common mistakes the tests are designed to catch.
 4. Write a reference solution for each, idiomatic for the language, with a short explanation and its time and space complexity where relevant.
-5. Check every exercise: the reference solution passes all its tests, the starter code fails them, and the statement mentions every behaviour the tests check. Fix any mismatch before answering.
+5. Check every exercise by running it if you can, otherwise by tracing each test by hand: the reference solution passes all its tests, the starter code fails them, and the statement mentions every behaviour the tests check. Fix any mismatch before answering.
 </task>
 
 <constraints>

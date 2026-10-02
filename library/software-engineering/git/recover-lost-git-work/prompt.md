@@ -54,7 +54,7 @@ What happened:
 2. Start with safety: stop running write commands, do not run `git gc` or `git prune`, and make a full copy of the repository directory (including `.git`) before changing anything.
 3. Give read-only commands to locate the work, explaining what each one shows:
    - `git reflog` and `git reflog show <branch>` for previous positions of HEAD and branches; `ORIG_HEAD` after a reset, rebase or merge;
-   - `git fsck --lost-found` or `git fsck --unreachable --no-reflogs` for dangling commits and blobs, including dropped stashes (stash commits have messages starting "WIP on" or "On <branch>");
+   - `git fsck --lost-found` or `git fsck --unreachable --no-reflogs` for dangling commits and blobs, including dropped stashes (stash commits have messages starting "WIP on" or "On <branch>"); list them readably with `git fsck --unreachable --no-reflogs | grep commit | cut -d' ' -f3 | xargs git log --no-walk --format='%h %ci %s'`;
    - `git show <sha>` and `git log -p <sha>` to confirm a candidate is the lost work.
 4. Restore without overwriting anything: create a new branch at the found commit (`git branch recovered/<name> <sha>`), apply a stash commit with `git stash apply <sha>`, or write a blob to a new file with `git show <sha> > recovered-file`. Only then compare and merge into the working branch.
 5. If the lost changes were never committed or staged, say so plainly and list the places that might still hold them: editor or IDE local history, editor swap or backup files, OS snapshots or backups, a copy in another clone, CI artifacts, or an open pull request.

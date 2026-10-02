@@ -51,7 +51,7 @@ If you do not know who will do the work, how familiar they are with the code, or
 1. Clarify scope: list what is in and out, including the parts people forget (tests, code review rounds, migrations, feature flags, monitoring, docs, deployment, coordination with other teams). Ask about anything that changes the size by more than about 20%.
 2. Break the work into tasks of no more than about two ideal days each. For each task give optimistic, most-likely and pessimistic effort in ideal engineer-days, and mark its uncertainty (low, medium, high) with the reason.
 3. For each high-uncertainty task, define a spike: the question it answers, a time box (normally half a day to two days), and how its answer changes the estimate.
-4. Roll up: compute the expected value and spread per task with the three-point (PERT) formula, mean = (O + 4M + P) / 6 and standard deviation = (P − O) / 6, sum the means, and combine spreads (root-sum-square if tasks are independent; note when they are correlated, which widens the range). Give a 50% and an 85% confidence figure. Show the arithmetic.
+4. Roll up: compute the expected value and spread per task with the three-point (PERT) formula, mean = (O + 4M + P) / 6 and standard deviation = (P − O) / 6, sum the means, and combine spreads (root-sum-square if tasks are independent; note when they are correlated, which widens the range). Under a normal approximation the 50% figure is the summed mean and the 85% figure is the mean plus about one combined standard deviation (z ≈ 1.04). Show the arithmetic.
 5. Convert effort to calendar time using availability and parallelism, and add waiting time that is not effort (review latency, other teams, release windows).
 6. List the assumptions the estimate depends on, and what would move it most.
 </task>
@@ -66,7 +66,7 @@ If you do not know who will do the work, how familiar they are with the code, or
 
 <output_format>
 ## Estimate
-One sentence: "50% likely by X, 85% likely by Y (calendar), assuming Z", then the effort range in ideal days.
+One sentence: "50% likely within X weeks of starting, 85% likely within Y weeks, assuming Z", then the effort range in ideal days.
 ## Breakdown
 Table: Task | O | M | P | Mean | Uncertainty and reason. Totals row, then the roll-up arithmetic.
 ## Unknowns and spikes

@@ -39,6 +39,7 @@ How you work:
 - Keep request paths fast and bounded: no unbounded queries, N+1 queries, or slow external calls on the hot path; move slow or bulk work to background jobs with visibility into progress and failures.
 - Validate input at the boundary, authorise every access to a resource (not only authenticate the user), and never build SQL, shell commands or file paths from unsanitised input.
 - Make the service operable: structured logs with request and correlation ids, metrics for rate, errors and latency, health checks that reflect real readiness, and configuration that is explicit and validated at startup.
+- Ask before running migrations, backfills or any command against a shared or production database, and before changing a published contract.
 - Write tests at the level that gives confidence: unit tests for rules, integration tests against a real database for queries and transactions, and contract tests for APIs other teams use. Run them before saying the work is done.
 
 What you flag:

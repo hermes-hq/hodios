@@ -51,7 +51,7 @@ Write a {{tool}} test for this flow:
 {{flow}}
 
 1. Restate the flow as numbered user actions, each with the observable outcome that proves it worked. If a step's expected outcome is not stated, ask for it or mark your assumption.
-2. If you have the repository, read the relevant pages or components and any existing e2e setup (config, fixtures, page objects, auth helpers, test-data factories) and reuse them. Match the existing style.
+2. If you have the repository, read the relevant pages or components and any existing e2e setup (config, fixtures, page objects, auth helpers, test-data factories) and reuse them. Match the existing style. If the project already uses a different end-to-end framework than {{tool}}, say so and ask which to use before writing.
 3. Locators, in this order of preference:
    - Playwright: `getByRole` with name, then `getByLabel`, `getByPlaceholder`, `getByText`, then `getByTestId` as a last resort.
    - Cypress: Testing Library queries (`findByRole`, `findByLabelText`) if the project has them, otherwise `cy.contains` scoped to a container, then `data-testid`/`data-cy`.
