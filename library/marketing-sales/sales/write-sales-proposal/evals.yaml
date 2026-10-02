@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a sales proposal. Notes: {{discovery_notes}}. Offer: {{offer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-inputs
+    vars:
+      discovery_notes: "Kestrel Foods, Priya (Head of Ops) and Tom (CFO). Pain: 3 AP clerks spend a week every month matching supplier invoices to POs by hand; late-payment fees about 4,000 EUR per month. Goal: close AP in 3 days and stop late fees before Q2. Decision: Tom signs, needs SAP integration and 5 entities. Considering doing nothing or hiring a 4th clerk."
+      offer: "Invoice-matching automation with SAP connector, setup in 6 weeks, training, standard support. Proof: Halden Dairy cut AP time 70% in 3 months."
+      pricing: "Essential (1 entity) 900 EUR/month; Professional (up to 5 entities, SAP connector) 2,100 EUR/month; Enterprise (unlimited, premium support) 3,400 EUR/month. Setup fee 5,000 EUR, can waive 50% with annual prepay. Valid 30 days."
+    assert:
+      - {type: contains, value: "## Proposal"}
+      - {type: llm-rubric, value: "Opens with an executive summary in Kestrel's terms, quantifies the status quo only from given figures (for example 4,000 EUR per month in late fees, about 48,000 per year), maps each pain to the solution, recommends Professional because they need 5 entities and SAP, presents the given prices accurately, uses Halden Dairy proof, compares against hiring a fourth clerk, and ends with dated next steps and the 30-day validity."}
+  - name: edge-no-pricing
+    vars:
+      discovery_notes: "Regional law firm, 40 lawyers. Managing partner says they lose about 6 billable hours per lawyer per month to manual time entry. Wants better capture before the new fiscal year in April."
+      offer: "Automatic time-capture tool with practice management integration."
+    assert:
+      - {type: llm-rubric, value: "Uses [price] placeholders and an option structure instead of inventing prices, shows the cost of the status quo from the 6 hours per lawyer figure only with a stated assumption for the billing rate or as a figure to confirm, and lists the gaps to fill."}
+  - name: negative-no-discovery
+    vars:
+      discovery_notes: "Prospect wants a proposal."
+      offer: "Our consulting services."
+    assert:
+      - {type: llm-rubric, value: "Asks for the buyer's problem, goals and context before writing, rather than producing a generic proposal with invented pains and numbers."}

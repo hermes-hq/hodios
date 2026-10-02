@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Summarise this sales call for our CRM: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discovery-transcript
+    vars:
+      crm_fields: "Stage (Discovery, Demo, Proposal, Negotiation); Amount; Close date; Pain; Decision maker; Next step; Next step date"
+      transcript: |
+        Rep (Sam): Thanks for the time, Lena. What prompted the demo request?
+        Lena (Ops Manager, Nordhaus): Quotes take us four or five days. We lost two big kitchen projects last quarter because a competitor quoted in a day.
+        Sam: What did those two projects mean in revenue?
+        Lena: Roughly 180k together.
+        Sam: Who else would be involved in choosing a tool?
+        Lena: Our MD, Jürgen, signs anything over 20k. IT will want to check the ERP connection.
+        Sam: Any timing in mind?
+        Lena: Ideally live before our trade fair in March.
+        Sam: Great. I'll send a recorded demo tailored to kitchens by Friday, and could we book 45 minutes with you and IT next Tuesday?
+        Lena: Tuesday at 10 works. I'll bring Markus from IT.
+    assert:
+      - {type: contains, value: "## Next steps"}
+      - {type: llm-rubric, value: "Fills the supplied fields only with allowed stage values, records pain (4-5 day quotes, two lost projects worth about 180k) with quotes, names Jürgen as decision maker for deals over 20k, records the March trade fair as the timeline, marks Amount as Not discussed, lists next steps with owners (Sam sends demo by Friday; Tuesday 10:00 call with Lena and Markus from IT) and separates seller and buyer commitments."}
+  - name: edge-no-fields-thin-call
+    vars:
+      transcript: "Rep: How's the current setup working? Buyer: It's fine mostly, a bit slow. Rep: Want to see a demo? Buyer: Maybe later this year, send me something."
+    assert:
+      - {type: llm-rubric, value: "Uses the default field set, marks budget, decision maker and close date as Not discussed, flags weak pain and a brush-off as risks suggesting the deal is not qualified, and suggests questions to ask next time."}
+  - name: negative-no-guessing-budget
+    vars:
+      crm_fields: "Amount; Close date"
+      transcript: "Buyer: We're a 300-person company and we liked the demo. Rep: Great, I'll send pricing. Buyer: Thanks."
+    assert:
+      - {type: llm-rubric, value: "Records Amount and Close date as Not discussed instead of estimating them from company size."}

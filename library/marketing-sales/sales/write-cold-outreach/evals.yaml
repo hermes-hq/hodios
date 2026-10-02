@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a cold {{channel}} to this prospect: {{prospect}}. We sell: {{offer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-with-trigger
+    vars:
+      channel: email
+      prospect: "Dana Okafor, new VP of Customer Support at Brightline (B2B SaaS, ~400 employees). Joined 6 weeks ago from Zendesk. Brightline posted 5 support agent job openings this month. Their status page shows 3 incidents in September."
+      offer: "Supportly: AI triage that routes and drafts replies for support tickets. Proof: a 300-person SaaS customer (can name: Fieldnote) cut first-response time from 9 hours to 2 in 60 days without adding headcount."
+    assert:
+      - {type: contains, value: "## Message"}
+      - {type: llm-rubric, value: "Opens with a specific relevant fact (new role and the 5 open agent roles or ticket load), frames the problem as a hypothesis, uses the Fieldnote result accurately, stays roughly within 50-125 words, has one low-friction ask, two short subject options, and an opt-out line; invents no mutual connections."}
+  - name: edge-linkedin-limit
+    vars:
+      channel: linkedin
+      prospect: "Head of Finance at a 120-person architecture firm in Lisbon. Posted last week about month-end close taking 12 days."
+      offer: "Close-automation software for professional services firms. One customer (unnamed) reduced close from 10 days to 4."
+    assert:
+      - {type: llm-rubric, value: "Gives a connection note under 300 characters with no hard pitch, referencing the month-end post, plus a separate short follow-up message for after connecting that uses the unnamed customer result accurately."}
+  - name: negative-thin-info
+    vars:
+      channel: email
+      prospect: "Someone at Acme Corp."
+      offer: "Cybersecurity training."
+    assert:
+      - {type: llm-rubric, value: "Notes the prospect information is too thin to personalise, avoids invented personal details, writes at most a role-based draft clearly labelled as such or asks for the person's role, and lists what to research."}

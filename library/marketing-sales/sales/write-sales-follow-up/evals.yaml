@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a follow-up email. Context: {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-post-meeting-recap
+    vars:
+      days_since: 1
+      next_step: Technical call with their IT lead next week.
+      context: "Demo yesterday with Priya (Head of Ops) and Tom (finance) at Kestrel Foods. Priya: 'Our biggest pain is reconciling supplier invoices by hand, it takes 3 people a week every month.' Tom asked about SAP integration and pricing for 5 entities. I promised to send the SAP integration guide and a pricing outline. They want to decide before Q1 budget lock on 15 Dec."
+    assert:
+      - {type: contains, value: "## Message"}
+      - {type: llm-rubric, value: "Writes a recap that uses Priya's pain in her words, includes the promised SAP guide and pricing outline (or says they are attached or coming), lists agreed actions with owners and dates including the 15 Dec budget lock, and asks for one thing (scheduling the technical call with their IT lead)."}
+  - name: edge-long-silence
+    vars:
+      days_since: 35
+      context: "Sent a proposal to Marco (COO, logistics firm) after two good calls. Three follow-ups since, no reply. He had said peak season starts in November and they wanted something live before then."
+    assert:
+      - {type: llm-rubric, value: "Recognises several unanswered messages and a long gap, writes a respectful close-the-loop message that references the November peak season goal and makes it easy to say not now, without guilt or 'just checking in'."}
+  - name: negative-no-details
+    vars:
+      context: "Had a call last week. No reply since."
+    assert:
+      - {type: llm-rubric, value: "Asks what was discussed, promised or agreed (or who the buyer is) instead of writing a generic 'just checking in' email with invented details."}
