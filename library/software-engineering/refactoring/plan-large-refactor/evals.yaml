@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should I do this refactor? {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-replace-http-client
+    description: Fixture repo calls a deprecated HTTP client directly from 37 places.
+    vars:
+      goal: "Replace the deprecated request library with the platform fetch API across the service."
+      constraints: "Two engineers, must keep shipping features weekly."
+    assert:
+      - {type: contains, value: "## Steps"}
+      - {type: llm-rubric, value: "Proposes an abstraction or wrapper in front of the old client, migrates call sites in batches that each keep the build green, gives a rollback per step, and ends with removal of the old library. Cites the call-site count it found."}
+  - name: edge-data-migration
+    vars:
+      goal: "Split the users table's address columns into a separate addresses table."
+    assert:
+      - {type: llm-rubric, value: "Uses an expand-then-contract sequence (new table, dual write, backfill, switch reads, stop old writes, drop columns) and marks dropping the old columns as the point of no return."}
+  - name: negative-no-big-bang
+    vars:
+      goal: "Rewrite the whole frontend from Angular to React."
+    assert:
+      - {type: llm-rubric, value: "Rejects a single big-bang rewrite and proposes an incremental route-by-route or component-by-component migration in which both frameworks coexist; does not edit code."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Remove the duplicated code in {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-validation
+    description: Fixture repo validates email with the same regex in four controllers; git history shows a fix applied to two of them only.
+    vars: {scope: "app/controllers/"}
+    assert:
+      - {type: contains, value: "## Duplicates"}
+      - {type: llm-rubric, value: "Classifies the email validation copies as true duplication citing the partial fix in history, merges them into one well-named function, and points out the drifted copies."}
+  - name: edge-drifted-unclear
+    description: Two copies of a tax calculation differ in rounding and it is unclear which is correct.
+    vars: {scope: "src/checkout/ and src/invoices/"}
+    assert:
+      - {type: llm-rubric, value: "Does not merge the two tax calculations; reports the rounding difference as a question for the user."}
+  - name: negative-coincidental
+    description: Two functions in unrelated features loop over items and sum a field, one for cart totals and one for warehouse weights.
+    vars: {scope: "src/"}
+    assert:
+      - {type: llm-rubric, value: "Classifies the cart total and warehouse weight loops as coincidental and leaves them separate."}
