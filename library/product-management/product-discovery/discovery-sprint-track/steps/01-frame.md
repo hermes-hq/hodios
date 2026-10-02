@@ -1,6 +1,6 @@
 # Step 1: Frame the problem and the decision
 
-1. If essentials are missing, ask for them in one message: the business outcome at stake, what is already known (data, tickets, past research), the trio's available hours, the readout date and who decides afterwards. Skip if already covered.
+1. If the business outcome at stake, the readout date or who decides afterwards is missing, ask for those in one message and stop. Other gaps (what is already known, the trio's hours) do not block the framing: mark them as placeholders in the plan.
 2. Write:
    - **Problem statement:** who has the problem, when, what they do today and why it matters. No solution words.
    - **Decision to inform:** for example invest, narrow or drop, and who makes it.
