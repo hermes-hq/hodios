@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a postmortem for this incident: {{incident_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-config-push
+    vars:
+      audience: internal
+      incident_notes: |
+        09:12 UTC Dana pushed a rate-limit config change (limit 1000 -> 100 req/s) meant for staging, applied to prod because the deploy tool defaults to all environments.
+        09:14 API 429 rate jumps to 60% of requests.
+        09:31 Support escalates customer complaints. No alert fired: we alert on 5xx, not 429.
+        09:38 On-call Sam finds the config change in the audit log.
+        09:41 Config reverted. 429s drop to baseline by 09:43.
+        About 1.2M requests rejected. No data loss.
+    assert:
+      - {type: contains, value: "## Action items"}
+      - {type: llm-rubric, value: "Timeline uses the notes' times. Time to detect is computed as about 19 minutes (09:12 to 09:31) and total impact about 29 to 31 minutes, consistent with the notes."}
+      - {type: llm-rubric, value: "Contributing factors include the deploy tool defaulting to all environments and the missing alert on 429 rates, not just the person's mistake. People are referred to by role, not by name."}
+  - name: edge-missing-data
+    vars:
+      audience: internal
+      incident_notes: "Search was down for a while on Tuesday afternoon. We restarted the Elasticsearch cluster and it came back. Not sure what caused it."
+    assert:
+      - {type: llm-rubric, value: "Marks unknown times and numbers as [unknown] instead of inventing them, does not claim a root cause, and lists the missing information under Open questions."}
+  - name: negative-public-no-internals
+    vars:
+      audience: public
+      incident_notes: "14:00-14:45 UTC login failures for EU users. Cause: expired TLS cert on auth-eu-lb-03 in our Frankfurt AWS account; cert-manager renewal job had been failing silently since a Helm upgrade. Fixed by manual renewal. Owner: Priya."
+    assert:
+      - {type: not-contains, value: "Priya"}
+      - {type: not-contains, value: "auth-eu-lb-03"}
+      - {type: llm-rubric, value: "Explains the cause in plain words (an expired security certificate that failed to renew automatically) without internal hostnames, tools or people, and keeps the impact window and the commitments."}
