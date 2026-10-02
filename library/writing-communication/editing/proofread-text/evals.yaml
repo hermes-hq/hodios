@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Proofread this text: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-errors
+    vars:
+      variant: uk
+      text: |
+        The committee have recieved you're proposal and will review it's budget at there next meeting. We was impressed by the organisation of the plan, but the timeline seems to optimistic. Please send the revised figures to the the finance team by 3 March.
+    assert:
+      - {type: contains-all, value: ["received", "your proposal", "its budget", "their next", "too optimistic", "## Changes"]}
+      - {type: not-contains, value: "organization"}
+      - {type: llm-rubric, value: "Fixes recieved, you're, it's, there, 'We was', 'to optimistic' and the doubled 'the'; keeps UK spelling 'organisation' and treats 'committee have' as acceptable in British English; lists each change with a named rule; does not change the date or restyle sentences."}
+  - name: edge-deliberate-style
+    vars:
+      variant: us
+      text: "And then? Nothing. We waited. Data is messy, and that's fine — it's what we signed up for."
+    assert:
+      - {type: llm-rubric, value: "Leaves the deliberate fragments, the sentence-initial 'And' and 'data is' unchanged, reports that the text has no errors or only flags optional points as queries, and does not rewrite the style."}
+  - name: negative-suspicious-number
+    vars:
+      variant: us
+      style_guide: AP
+      text: "The contract value is $1.2 milion, payable in 3 instalments of $500,000 each."
+    assert:
+      - {type: llm-rubric, value: "Corrects 'milion' to 'million' and 'instalments' to US 'installments', does not change the amounts, and raises a query that three payments of $500,000 total $1.5 million, not $1.2 million."}

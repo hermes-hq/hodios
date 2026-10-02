@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make this text about {{target_reduction}} shorter: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wordy-memo
+    vars:
+      target_reduction: 30%
+      text: |
+        I just wanted to reach out and let you all know that, in light of the fact that we have been seeing a really significant increase in the number of customer complaints over the course of the past few weeks, we have made the decision to put a temporary pause on the rollout of the new checkout flow. It is worth noting that the vast majority of complaints, roughly 70%, come from mobile users on older Android devices. We will be conducting a thorough and comprehensive investigation into the root cause and will circle back with an update by Friday.
+    assert:
+      - {type: contains-all, value: ["## Word count", "## What was cut", "70%", "Friday"]}
+      - {type: llm-rubric, value: "Cuts roughly 30% of words, keeps the facts (complaints up, rollout paused temporarily, about 70% from older Android mobile users, update by Friday) and the qualifier 'roughly' or equivalent, keeps the first-person voice, and reports before and after word counts that are plausible."}
+  - name: edge-voicey-personal-essay
+    vars:
+      target_reduction: 15%
+      text: |
+        My grandmother never measured anything. Not flour, not sugar, not the long, long hours she spent at that stove. She'd say "until it looks right," and it always, always looked right. I have her recipe cards now. They are mostly blank.
+    assert:
+      - {type: llm-rubric, value: "Preserves the author's voice and the deliberate repetition ('long, long', 'always, always') or explicitly explains in Kept on purpose why it was kept; does not flatten the rhythm; any cuts are light, and if the target cannot be met without losing voice it says so."}
+  - name: negative-already-tight
+    vars:
+      target_reduction: 40%
+      text: "Turn off the main valve before you remove the filter. Water under pressure can injure you."
+    assert:
+      - {type: llm-rubric, value: "Recognises the text is already tight and that a 40% cut would remove the safety warning or meaning; keeps both the instruction and the warning and explains why the target was not met."}

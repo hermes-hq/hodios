@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Rewrite this in plain language at a {{reading_level}} level: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tenancy-notice
+    vars:
+      reading_level: grade 6
+      text: |
+        Pursuant to clause 14.2 of the tenancy agreement, the lessee shall be obligated to provide written notification of intention to vacate the premises no fewer than 30 days prior to the termination date. Failure to comply with the aforementioned requirement may result in the forfeiture of the security deposit, save where the lessor has consented in writing to a shorter notice period.
+    assert:
+      - {type: contains-all, value: ["30 days", "## Meaning check"]}
+      - {type: icontains, value: "must"}
+      - {type: llm-rubric, value: "Plain version tells the tenant they must give written notice at least 30 days before leaving, that they may lose the deposit if they do not, and keeps the exception that the landlord can agree in writing to a shorter period; 'may result' stays a possibility, not a certainty; includes a note that the original wording applies."}
+  - name: edge-ambiguous-original
+    vars:
+      reading_level: grade 8
+      text: "Employees and contractors working more than 20 hours who have completed probation are eligible for the wellness allowance."
+    assert:
+      - {type: llm-rubric, value: "Notices the ambiguity of whether 'more than 20 hours' and 'completed probation' apply to contractors as well as employees, keeps or flags it in Notes rather than silently choosing one reading, and does not add details such as the allowance amount."}
+  - name: negative-already-plain
+    vars:
+      text: "Take one tablet twice a day with food. Do not drive if you feel dizzy."
+    assert:
+      - {type: llm-rubric, value: "Recognises the text is already plain, keeps both instructions with the same strength (the 'do not drive' stays a prohibition), and does not add medical advice."}

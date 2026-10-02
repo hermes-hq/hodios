@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Rewrite this text to sound {{target_tone}}: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-warmer-feedback
+    vars:
+      target_tone: warmer and more encouraging, still clear
+      text: "Your draft is not ready. Section 2 has no data, the conclusion contradicts the intro, and it's 4 pages over the limit. Fix these and resend by Thursday 5pm."
+    assert:
+      - {type: contains-all, value: ["Thursday", "5", "## Content check"]}
+      - {type: llm-rubric, value: "Rewrite is noticeably warmer and encouraging but still states that the draft is not ready, keeps all three problems (no data in section 2, contradictory conclusion, 4 pages over) and the Thursday 5pm deadline, and adds no new promises or praise that misrepresents the assessment."}
+  - name: edge-tone-conflicts-with-content
+    vars:
+      target_tone: make it sound like we're happy to help
+      text: "We can't extend your contract beyond 30 June. The role is being closed. Your final pay will include accrued leave."
+    assert:
+      - {type: llm-rubric, value: "Keeps the refusal unambiguous (no extension beyond 30 June, role closing, final pay includes accrued leave), adopts a kind and supportive tone without implying the decision could change, and explains in Notes the tension between 'happy to help' and the bad news."}
+  - name: negative-firmer-without-threats
+    vars:
+      target_tone: firmer
+      text: "Hi! Sorry to bother you again, I was just wondering if maybe you might have had a chance to look at invoice 2231? It was due on the 1st. No worries if not!"
+    assert:
+      - {type: contains, value: "2231"}
+      - {type: llm-rubric, value: "Removes the apologising and hedging and asks clearly for payment of invoice 2231 that was due on the 1st, but does not invent late fees, legal action or a new deadline that was not in the original."}
