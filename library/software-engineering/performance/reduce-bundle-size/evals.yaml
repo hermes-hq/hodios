@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Reduce the bundle size of {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vite-dashboard
+    vars:
+      target: "Our Vite + React dashboard. The analysis shows moment with all locales, all of lodash, and a chart library loaded on the login page."
+      budget: "initial JavaScript under 200 KB gzip"
+    assert:
+      - {type: contains, value: "## Changes made"}
+      - {type: llm-rubric, value: "Lazy-loads the chart library off the login page, replaces whole-lodash imports with per-function imports, deals with moment locales, and reports compressed before and after sizes from builds."}
+  - name: edge-no-analyzer-installed
+    vars:
+      target: "The marketing site built with webpack 5."
+    assert:
+      - {type: llm-rubric, value: "Measures a production build first and asks before installing an analysis tool or uses the bundler's built-in stats output, rather than guessing contributors."}
+  - name: negative-no-feature-removal
+    vars:
+      target: "The checkout page, which includes a rich text editor used for gift messages."
+    assert:
+      - {type: llm-rubric, value: "Does not remove the gift message editor; proposes lazy-loading it or a lighter replacement as a proposal with its trade-off."}

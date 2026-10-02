@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Find the memory leak: {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-listener
+    vars:
+      symptom: "Our Node.js websocket server's heap grows about 30 MB per 1,000 connections that open and close, and never goes down."
+      environment: "Node 22, can run locally with a load script."
+    assert:
+      - {type: contains, value: "## Retainer path"}
+      - {type: llm-rubric, value: "Reproduces with a connect-disconnect loop, compares heap snapshots across rounds, and looks for listeners, maps or timers keyed by connection that are not cleaned up on close."}
+  - name: edge-not-a-leak
+    vars:
+      symptom: "The JVM service uses 3 GB right after start and climbs to 3.6 GB in the first hour, then stays there for days."
+    assert:
+      - {type: llm-rubric, value: "Recognises that growth that plateaus is likely warm-up or heap sizing rather than a leak, and says what measurement would confirm it."}
+  - name: negative-no-restart-fix
+    vars:
+      symptom: "Python worker gets OOM-killed every 2 days."
+      environment: "Kubernetes, 2 GB limit, no local reproduction yet."
+    assert:
+      - {type: llm-rubric, value: "Does not propose raising the memory limit, scheduled restarts or manual garbage collection as the fix; plans measurements (for example tracemalloc snapshots) to find the retained objects."}

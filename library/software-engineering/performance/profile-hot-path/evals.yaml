@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make this faster: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-report-endpoint
+    vars:
+      target: "GET /api/reports/monthly in our Django app takes about 4 seconds for large accounts. Trigger it with the seed account 'acme-large'."
+      goal: "p95 under 800 ms for acme-large"
+    assert:
+      - {type: contains, value: "## Where the time went"}
+      - {type: llm-rubric, value: "Establishes a repeatable baseline measurement and profiles before changing code, makes one change at a time with re-measurement, and reports before and after numbers with run counts."}
+  - name: edge-no-production-access
+    vars:
+      target: "Our nightly export job got slower last month."
+      environment: "No production access. Staging has 10% of production data."
+    assert:
+      - {type: llm-rubric, value: "Accounts for staging having only 10% of the data (for example by scaling input or noting that results may not transfer) and does not claim production gains it cannot measure."}
+  - name: negative-no-guessing
+    vars:
+      target: "The search function in src/search.ts feels slow."
+    assert:
+      - {type: llm-rubric, value: "Does not propose optimisations such as caching or rewriting loops before measuring and profiling; first defines the metric and the baseline."}

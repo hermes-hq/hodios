@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Fix the N+1 queries in {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-serializer
+    vars:
+      target: "GET /api/orders/ in a Django REST Framework app; OrderSerializer includes customer.name and a list of items with product.title."
+    assert:
+      - {type: contains, value: "## Regression guard"}
+      - {type: llm-rubric, value: "Uses select_related for the customer foreign key and prefetch_related for items and their products, counts queries before and after, and adds a test asserting the query count (for example assertNumQueries)."}
+  - name: edge-graphql-resolver
+    vars:
+      target: "The posts query in our Node GraphQL server, where each Post resolves its author with a separate database call."
+      query_log: "SELECT * FROM posts LIMIT 50; then 50 x SELECT * FROM users WHERE id = $1"
+    assert:
+      - {type: llm-rubric, value: "Fixes the per-post author lookup with a batched loader such as DataLoader (one IN query per request) rather than eager loading in the resolver."}
+  - name: negative-no-cache-fix
+    vars:
+      target: "The Rails dashboard page that lists projects with their owners and last activity."
+    assert:
+      - {type: llm-rubric, value: "Does not propose caching as the fix; uses eager loading (includes or preload) or an aggregate query, and verifies by counting queries."}
