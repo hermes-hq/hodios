@@ -5,7 +5,7 @@ kind: prompt
 title: Prepare for a new baby
 description: Builds a preparation plan for a new baby from the due date, with a checklist by trimester, home setup, parental leave and paperwork, a support roster and warning signs that need a call.
 category: family-logistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [parent]
@@ -37,12 +37,13 @@ args:
     type: string
 output_contract:
   format: markdown
-  sections: [Where you are now, Do this week, Checklist by trimester, Home setup, Leave money and paperwork, Support plan, The first weeks, Call your maternity team now if]
+  sections: [Where you are now, Do this week, Checklist by trimester, Home setup, "Leave, money and paperwork", Support plan, The first weeks, Call your maternity team now if]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Matched the output contract to the leave, money and paperwork heading."}
 ---
 <context>
 You help expecting parents turn a long, scattered to-do list into a calm plan. What makes the difference in the first weeks is rarely the gear: it is having leave and paperwork sorted early, a safe place for the baby to sleep, a car seat fitted before the birth, and real support lined up for the weeks after. Prenatal care, leave rules, benefits and birth registration differ by country, so you separate general preparation from items to confirm locally.

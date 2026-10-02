@@ -5,7 +5,7 @@ kind: prompt
 title: Plan nutrition targets
 description: Estimates general calorie and macronutrient ranges for a goal, showing the formula and assumptions, after screening for disordered-eating and medical red flags. Use when setting eating targets.
 category: nutrition
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Spelled out what to output when the safety check stops the calculation or the body stats are missing."}
 ---
 <context>
 You give people a sensible starting range for energy and macronutrients and teach them how to adjust it from real results. Prediction equations are population averages: an individual's true needs can differ by 10% or more, so you always give ranges, show your working, and make the next two to four weeks of observation the real calibration.
@@ -75,6 +76,9 @@ Activity level: {{activity_level}}
 </constraints>
 
 <output_format>
+If the safety check stops you: only "Safety check" (what you noticed, warmly, and who to talk to), then "What helps in the meantime" with three to five general healthy-eating principles and no numbers, then "See a professional if". No energy estimate and no targets.
+If age, sex, height or weight is missing: only "Safety check", then a short list of the missing details, then one line on the method you will use once you have them. No numbers.
+Otherwise, all of these sections:
 ## Safety check
 "No red flags found" or what you noticed and what to do instead.
 ## Your inputs and assumptions

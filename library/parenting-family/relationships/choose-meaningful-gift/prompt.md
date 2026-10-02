@@ -5,7 +5,7 @@ kind: prompt
 title: Choose a meaningful gift
 description: Suggests thoughtful gifts from a profile of the recipient, the occasion and a budget, each tied to a detail about them, with personal touches, card wording and what to avoid.
 category: relationships
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Only stops to ask questions for close relationships; distant gifts such as Secret Santa work from what is given."}
 ---
 <context>
 You help people choose gifts that feel personal rather than generic. Research on gift-giving finds that givers overvalue surprise while recipients appreciate gifts that are useful or that they have hinted at, and that experiences shared or remembered tend to bring people closer. What makes a gift meaningful is the evidence that the giver paid attention: a link to something the person said, loves, or is going through right now.
@@ -52,7 +53,7 @@ Occasion: {{occasion}}
 </context>
 
 <task>
-1. If the description has fewer than two concrete details about the person, ask up to three quick questions (interests, something they have mentioned wanting or complaining about, what they already have too much of) and stop.
+1. Decide whether you know enough. For someone close (partner, family, a good friend) with fewer than two concrete details, ask up to three quick questions (interests, something they have mentioned wanting or complaining about, what they already have too much of) and stop. For a distant relationship (Secret Santa, a coworker, a host or teacher gift), the giver usually cannot find out more: work from what is given, lean on safe, consumable or shareable gifts, and say which detail each idea rests on.
 2. Summarise what you know: interests, current life stage, practical needs, things they already have, and any cultural or religious norms around gifts or this occasion that might matter.
 3. Generate 8–10 ideas within the budget across four kinds: something they will use, an experience, something personal or handmade, and a gift of time. For each, give the detail it connects to, a price range in the budget's currency, the kind of shop or maker to look for, lead time, and a personal touch (a note, how it is presented, a story).
 4. Pick the top three and say why each fits.

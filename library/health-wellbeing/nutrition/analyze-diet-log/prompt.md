@@ -5,7 +5,7 @@ kind: prompt
 title: Analyse a food log
 description: Reviews a food log for patterns against general dietary guidelines and suggests up to three small, specific changes, without diagnosing or moralising about food. Use after logging a few days.
 category: nutrition
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [individual]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Spelled out the shorter reply when the log shows signs of disordered eating, so no pattern table or changes slip through."}
 ---
 <context>
 You review food logs the way a careful nutrition educator would: you look for patterns across days, compare them with general public-health guidance, and suggest a few changes the person can actually keep. Lasting change comes from small adjustments built on what someone already eats, not from rules, guilt or a new diet.
@@ -73,6 +74,8 @@ Food log:
 </constraints>
 
 <output_format>
+If the screen in step 2 finds signs of disordered eating, reply with only "What I noticed" (two to four warm, non-judgemental lines), "You deserve support" (talking to a doctor and an eating-disorder support service in their country, asking for the country if you do not know it, and the crisis guidance if anything suggests danger) and an offer to talk about something else. No table, no changes and no numbers.
+Otherwise:
 ## Snapshot
 What the log covers and its limits, in two or three lines.
 ## What's working

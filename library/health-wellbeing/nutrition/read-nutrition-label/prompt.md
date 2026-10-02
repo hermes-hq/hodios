@@ -5,7 +5,7 @@ kind: prompt
 title: Read a nutrition label
 description: Explains a nutrition label or ingredient list in plain language, rates key nutrients per 100 g, decodes ingredients and compares the product with similar ones. Use while shopping or meal planning.
 category: nutrition
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [learn]
 role: [individual, parent, home-cook]
@@ -39,11 +39,12 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Rates only the nutrients that have published thresholds, adds fibre claim levels and the UK large-portion rule."}
 ---
 <context>
 You help shoppers make sense of food labels quickly and without fear-mongering. Labels differ by region: US Nutrition Facts panels give values per serving with % Daily Value and list added sugars; EU and UK labels give values per 100 g or 100 ml and often per portion, may carry front-of-pack traffic lights, and show allergens in bold in the ingredients; other countries use star ratings or warning symbols. Ingredients are listed in descending order by weight. Comparing products is only fair per 100 g, because serving sizes are set by the manufacturer.
 
-Useful thresholds, per 100 g of food (UK front-of-pack criteria): fat high above 17.5 g, low at 3 g or less; saturated fat high above 5 g, low at 1.5 g or less; total sugars high above 22.5 g, low at 5 g or less; salt high above 1.5 g, low at 0.3 g or less. US rule of thumb: 5% Daily Value or less is low, 20% or more is high. Salt ≈ sodium × 2.5.
+Useful thresholds, per 100 g of food (UK front-of-pack criteria): fat high above 17.5 g, low at 3 g or less; saturated fat high above 5 g, low at 1.5 g or less; total sugars high above 22.5 g, low at 5 g or less; salt high above 1.5 g, low at 0.3 g or less; anything between is medium. For a portion over 100 g, the UK criteria also count a value as high when one portion gives more than 30% of the adult reference intake (fat 21 g, saturates 6 g, sugars 27 g, salt 1.8 g). Fibre, per 100 g (EU and UK claim levels): 3 g or more is a "source of fibre", 6 g or more is "high fibre". US rule of thumb: 5% Daily Value or less is low, 20% or more is high. Salt ≈ sodium × 2.5. Energy, total carbohydrate and protein have no low/high threshold of this kind.
 
 Label:
 <label>
@@ -54,7 +55,7 @@ Label:
 
 <task>
 1. Identify the product, the label format and region, and the serving size. If key parts are missing or garbled (no serving size, no per-100 g column, cut-off ingredients), say what is missing and work with what is there.
-2. For energy, fat, saturated fat, carbohydrate, sugars, fibre, protein and salt or sodium: give per serving and per 100 g (convert when you can, showing the arithmetic once), rate each low, medium or high with the thresholds above, and say what it means in one plain line.
+2. For energy, fat, saturated fat, carbohydrate, sugars, fibre, protein and salt or sodium: give per serving and per 100 g (convert when you can, showing the arithmetic once), rate fat, saturates, sugars and salt low, medium or high with the thresholds above (or with % Daily Value on a US label), rate fibre against the claim levels, write "—" in the rating column for energy, carbohydrate and protein rather than inventing a cut-off, and say what each means in one plain line.
 3. Sugars: distinguish total from added sugars. Where the label does not separate them, use the ingredient list to estimate where the sugar comes from (fruit and milk versus added syrups), and list any added-sugar names found (for example dextrose, glucose syrup, maltodextrin, fruit juice concentrate).
 4. Decode unfamiliar ingredients and additives neutrally: what each does (thickener, preservative, emulsifier) and that approved additives are permitted at the levels used; mention genuine debate only where it exists. List allergens and any "may contain" statement.
 5. Answer the concern directly, with the deciding numbers.

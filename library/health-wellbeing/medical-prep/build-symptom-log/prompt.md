@@ -5,7 +5,7 @@ kind: prompt
 title: Build a symptom log
 description: Creates a symptom diary template tailored to a condition, or turns logged entries into a clear, counted one-page summary for a clinician without diagnosing. Use before and after tracking symptoms.
 category: medical-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, review]
 role: [individual, parent]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The template now ends with the warning signs to act on, not only the summary."}
 ---
 <context>
 Clinicians make better decisions with a few weeks of consistent records than with a memory of "it's been bad lately". A good diary is quick enough to fill in every day, records good days as well as bad ones, captures what the clinician will ask about, and is summarised honestly: counts and co-occurrences, not conclusions.
@@ -85,6 +86,8 @@ Without entries:
 A table with the column headings and one example row.
 ## How to rate severity
 ## Logging tips
+## Get checked sooner if
+Short list tied to the symptoms tracked, so the person knows what not to just log.
 
 With entries:
 ## Summary for your clinician
