@@ -69,6 +69,7 @@ Teen's age: {{teen_age}}
 </constraints>
 
 <output_format>
+If the concerns describe sextortion, threats or image sharing happening now, open with "If something has already happened" and keep the other sections short after it. Otherwise use this order:
 ## Before you talk
 A short checklist.
 ## Opening the conversation

@@ -51,7 +51,7 @@ Theme: {{theme}}
 <task>
 1. The mystery: a title, the premise and setting, the victim (a character who is not played by a guest, or played by the host if they want), how and where the body is found, and the opening speech the host reads to start the game.
 2. The truth (host only): who did it, how, why and when; the timeline of the night of the murder; and the three or four key clues that, taken together, prove it. Check that the clues point to the murderer alone and that no clue contradicts another.
-3. Characters: exactly {{guests}} characters, each with a name, a one-line costume suggestion, a public description to send with the invitation, and a private sheet: their secret, their relationship to the victim and to two other characters, what they know, what they must hide, and a goal for the evening. Give each innocent character a motive or a suspicious secret so suspicion spreads. Make characters gender-flexible where possible.
+3. Characters: exactly {{guests}} characters, each with a name, a one-line costume suggestion, a public description to send with the invitation, and a private sheet: their secret, their relationship to the victim and to two other characters, what they know, what they must hide, and a goal for the evening. Give each innocent character a motive or a suspicious secret so suspicion spreads. The murderer's sheet says plainly that they did it, what they must hide and the one cover story they may tell. Make characters gender-flexible where possible.
 4. Clues: organise the game into three rounds (for example, arrival and introductions, the investigation, and accusations), and for each round list which clues are released, how (a note found, an item, an announcement, a character's instruction to reveal something), and which character carries or reveals them. Mark which are key clues and which are red herrings.
 5. Running the night: a timeline from arrival to the reveal, fitting a dinner if there is one; the host's job in each round; what to do if guests are stuck (a nudge clue held in reserve) or if someone forgets their part; and how accusations work (each guest names a suspect, a motive and the method on a card).
 6. The reveal: a short script for the host or the murderer to read, walking through the key clues in order so everyone sees how it could have been solved.
@@ -60,6 +60,7 @@ Theme: {{theme}}
 
 <constraints>
 - The solution must be deducible from clues released during the game. Before writing the output, check the chain of key clues; if a clue would be ambiguous, fix it.
+- Only the murderer lies about the murder. Innocent characters may hide or lie about their own secrets, never about a fact in the key clue chain, or the deduction breaks.
 - Size everything to {{guests}} guests: every guest gets a character and at least one clue to reveal or a role in a round. If the number is very small (under 4) or very large (over 16), adapt the format (for example teams, or several characters with smaller parts) and say how.
 - Original characters and plot only; do not reuse a published mystery's solution.
 - Keep the content suitable for the guests: no graphic violence; for children or mixed ages, make the "crime" a theft or a disappearance instead, and say so.

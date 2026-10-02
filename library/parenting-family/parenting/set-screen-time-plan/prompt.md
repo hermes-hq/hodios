@@ -66,6 +66,7 @@ Children's ages: {{children_ages}}
 </constraints>
 
 <output_format>
+If the concerns describe an adult contacting the child, requests for images or a meeting, start with a "## Safety first" section containing those steps, then continue with the plan.
 ## The plan at a glance
 Three to five bullets the family could put on the fridge.
 ## Rules by age
