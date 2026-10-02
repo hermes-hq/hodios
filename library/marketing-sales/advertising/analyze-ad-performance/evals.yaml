@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Analyse these ad results and tell me what to do. Goal: {{goal}}. Data: {{metrics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meta-ad-sets
+    vars:
+      goal: CPA under 40 USD
+      budget: 6,000 USD per month, can grow 30% if CPA holds.
+      metrics: "Meta, last 14 days, 7-day click attribution.\nad set,spend,impressions,clicks,conversions,frequency\nLookalike 1%,2100,140000,2240,70,1.8\nInterest - fitness,1500,160000,960,18,3.9\nRetargeting 30d,600,30000,690,30,6.2\nBroad,800,90000,1080,12,1.4"
+    assert:
+      - {type: contains, value: "## Actions"}
+      - {type: llm-rubric, value: "Recomputes CTR, CPC, CVR and CPA correctly (Lookalike CPA 30, Interest about 83, Retargeting 20, Broad about 67); recommends scaling Lookalike gradually, pausing or fixing Interest with a fatigue or creative diagnosis given high frequency and low CTR, notes Retargeting's high frequency, and labels Broad as too early or low confidence given 12 conversions."}
+  - name: edge-tracking-break
+    vars:
+      goal: ROAS above 3
+      metrics: "Google Ads, by week. Week 1: spend 5000, clicks 4100, conversions 120, revenue 18000. Week 2: spend 5100, clicks 4200, conversions 118, revenue 17500. Week 3: spend 5000, clicks 4150, conversions 0, revenue 0."
+    assert:
+      - {type: llm-rubric, value: "Identifies week 3's zero conversions with steady clicks as a likely tracking break rather than a performance collapse, and recommends checking the conversion tag before pausing or cutting budget."}
+  - name: negative-too-little-data
+    vars:
+      goal: Find the winning ad.
+      metrics: "Ad A: spend 60, clicks 40, conversions 2. Ad B: spend 55, clicks 38, conversions 3."
+    assert:
+      - {type: llm-rubric, value: "Says the data is far too small to pick a winner, does not declare Ad B the winner, and says roughly what spend or conversions would be needed before deciding."}
