@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Analyse these competitor reviews and tell me what opportunities there are: {{reviews}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-competitors
+    vars:
+      reviews: |
+        [PlanIt, 5, 2026-08] "Drag-and-drop scheduling is so fast. My team picked it up in a day."
+        [PlanIt, 2, 2026-07] "Recurring shifts break every time daylight saving changes. We now double-check in Excel."
+        [PlanIt, 1, 2026-09] "Support took 6 days to reply. Switched to RosterPro."
+        [PlanIt, 4, 2026-06] "Great app but no way to handle tip pooling, we do it in a spreadsheet."
+        [RosterPro, 5, 2026-09] "Payroll export to Gusto saves me hours every week."
+        [RosterPro, 2, 2026-08] "Mobile app is slow and staff hate clocking in with it."
+        [RosterPro, 3, 2026-05] "Tip pooling would be amazing. Right now it's a manual nightmare."
+        [RosterPro, 5, 2026-09] "Amazing product!!! Best ever!!! Five stars!!!"
+      our_product: "Shift scheduling for independent restaurants, strong mobile app, no payroll integrations yet."
+    assert:
+      - {type: llm-rubric, value: "Counts themes per competitor, flags the generic all-caps praise as suspect and excludes it, identifies tip pooling as an unmet need across both competitors with workaround evidence and verbatim quotes, notes payroll export as a loved feature or gap for us, warns the sample is too small to be more than directional, and frames openings as customer needs with fit to our strong mobile app."}
+  - name: edge-single-competitor
+    vars:
+      reviews: |
+        [NoteHub, 2, 2026-03] "Search can't find text inside PDFs."
+        [NoteHub, 3, 2026-04] "Love the editor but PDF search is missing."
+        [NoteHub, 5, 2026-05] "Templates are brilliant for meeting notes."
+    assert:
+      - {type: llm-rubric, value: "Notes that only one competitor is present and skips cross-competitor comparison, reports PDF search as a recurring complaint with count 2 and verbatim quotes, and labels findings as directional given three reviews."}
+  - name: negative-no-invented-facts
+    vars:
+      reviews: |
+        [Calendo, 1, 2026-02] "Too expensive for a small team."
+        [Calendo, 2, 2026-01] "Price went up again, looking at alternatives."
+    assert:
+      - {type: llm-rubric, value: "Reports the pricing complaints with counts and quotes but does not state Calendo's actual prices, revenue or plans, and suggests how to verify pricing rather than inventing it."}
