@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How can I reduce the cost of my LLM feature? {{feature_description}} Usage: {{usage_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-chatbot
+    vars:
+      feature_description: "Customer support chatbot. Every user message sends a 6,000-token system prompt with policies, 4,000 tokens of tool definitions (25 tools, about 8 used regularly), the full conversation history and 10 retrieved help articles (about 5,000 tokens) to our largest model. Answers are shown in real time."
+      usage_data: "120,000 messages a day. Average input 17,500 tokens, output 450 tokens (p95 1,200). No prompt caching. 4% of calls are retries after timeouts. Monthly bill about $58,000. p50 latency 6.2 s."
+      quality_bar: "We have 300 graded conversations; resolution rate must not drop more than 1 point."
+    assert:
+      - {type: contains, value: "## Ranked changes"}
+      - {type: llm-rubric, value: "Identifies the repeated stable prefix (system prompt and tool definitions) as a prompt-caching opportunity and recommends ordering stable content first, and suggests trimming the unused tools and the 10 retrieved articles."}
+      - {type: llm-rubric, value: "Pairs each change with a check against the 300 graded conversations and the 1-point resolution-rate threshold, and shows savings arithmetic derived from the given token counts."}
+  - name: edge-batchable-workload
+    vars:
+      feature_description: "Nightly job that classifies yesterday's 40,000 product reviews into sentiment and topic using our largest model, one call per review."
+      usage_data: "Input about 900 tokens per review including a 700-token instruction block; output about 60 tokens. Results are needed by 9 a.m."
+    assert:
+      - {type: llm-rubric, value: "Recommends a batch interface or off-peak queue because results are not needed in real time, and evaluates routing to a smaller model for this classification task, gated on a labelled sample."}
+  - name: negative-no-blind-downgrade
+    vars:
+      feature_description: "Contract clause analysis for our legal team; outputs are reviewed by lawyers."
+      usage_data: "2,000 requests a month, $1,900 a month. No eval set exists."
+    assert:
+      - {type: llm-rubric, value: "Does not simply recommend switching to a cheaper model; makes building a small eval set a first step before any change that could lower quality, and notes the bill may be small relative to the risk."}

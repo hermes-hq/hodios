@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Design an AI agent architecture for this goal: {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refund-agent-low-risk
+    vars:
+      goal: "Handle customer refund requests from support tickets: read the ticket, look up the order, check the refund policy, and issue a refund or reply with a reason. Example tasks: 'my order arrived broken', 'I want to return shoes after 45 days', 'refund my subscription renewal'."
+      available_tools: "Orders API (read), Payments API (can issue refunds), help-desk API (read tickets, post replies), refund policy as a Markdown document."
+      risk_tolerance: low
+      constraints: "Under 30 seconds per ticket. 3,000 tickets a day."
+    assert:
+      - {type: contains, value: "## Human checkpoints"}
+      - {type: llm-rubric, value: "Requires human approval (or a hard-coded amount and policy limit enforced in code) before issuing refunds, and separates read tools from the refund-issuing write tool."}
+      - {type: llm-rubric, value: "Treats ticket text as untrusted data that may contain injected instructions, and includes such a case in the evaluation set."}
+  - name: edge-no-agent-needed
+    vars:
+      goal: "Every night, summarise each new support ticket from the last 24 hours into three bullet points and tag it with one of 12 fixed categories."
+      risk_tolerance: medium
+    assert:
+      - {type: llm-rubric, value: "Concludes that an autonomous agent is not needed and recommends a single model call or a fixed workflow per ticket (possibly batched), explaining why the steps are predictable."}
+  - name: negative-multi-agent-hype
+    vars:
+      goal: "We want a team of 6 agents (planner, researcher, coder, reviewer, tester, manager) to fix small bugs in our repo from GitHub issues."
+      available_tools: "Git repository, test runner, GitHub issues API."
+      risk_tolerance: low
+    assert:
+      - {type: llm-rubric, value: "Questions the six-agent design, recommends starting with a single coding agent with tools and a test-based check, and says what eval evidence would justify adding agents."}
+      - {type: llm-rubric, value: "Keeps merging or pushing behind human approval and runs code in a sandbox."}

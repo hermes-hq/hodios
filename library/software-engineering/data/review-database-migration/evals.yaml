@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Review this {{database}} migration: {{migration}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-fk-and-index
+    vars:
+      database: "PostgreSQL 15"
+      table_sizes: "orders: 180 million rows, 1,500 writes per second. customers: 4 million rows. Migrations run before the new code is deployed with a rolling deploy."
+      migration: |
+        ALTER TABLE orders ADD COLUMN customer_ref bigint;
+        ALTER TABLE orders ADD CONSTRAINT orders_customer_fk FOREIGN KEY (customer_ref) REFERENCES customers(id);
+        UPDATE orders SET customer_ref = customer_id;
+        ALTER TABLE orders ALTER COLUMN customer_ref SET NOT NULL;
+        CREATE INDEX orders_customer_ref_idx ON orders(customer_ref);
+    assert:
+      - {type: contains, value: "## Safer migration"}
+      - {type: llm-rubric, value: "Flags the single unbatched UPDATE of 180 million rows, the foreign key validated under lock (recommending NOT VALID then VALIDATE CONSTRAINT), and the non-concurrent CREATE INDEX (recommending CREATE INDEX CONCURRENTLY outside a transaction)."}
+      - {type: llm-rubric, value: "Recommends a safe path for SET NOT NULL on a large table (such as a NOT VALID check constraint validated first) and setting lock_timeout, and splits the work into separate steps with a batched backfill."}
+  - name: edge-rails-rename-column
+    vars:
+      database: "MySQL 8.0"
+      migration: |
+        class RenameUserNameToFullName < ActiveRecord::Migration[7.1]
+          def change
+            rename_column :users, :name, :full_name
+          end
+        end
+    assert:
+      - {type: llm-rubric, value: "Identifies that renaming a column breaks old application code still running during the deploy, and proposes an expand and contract sequence (add the new column, write to both, backfill, switch reads, then drop the old column later), noting ignored_columns or equivalent."}
+  - name: negative-safe-small-change
+    vars:
+      database: "PostgreSQL 16"
+      table_sizes: "feature_flags table: 40 rows."
+      migration: "ALTER TABLE feature_flags ADD COLUMN description text;"
+    assert:
+      - {type: llm-rubric, value: "Judges the migration safe to merge (a nullable column without a default on a tiny table), possibly with a minor note such as lock_timeout, and does not invent serious findings."}

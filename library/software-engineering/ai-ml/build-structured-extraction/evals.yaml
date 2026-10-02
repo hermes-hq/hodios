@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write code that uses an LLM to extract these fields: {{fields}} from these documents: {{documents}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplier-invoices
+    vars:
+      documents: "Supplier invoices as PDFs, mostly digital, about 10% scanned. English and German. Sample: 'Rechnung Nr. 2026-0412, Datum 03.09.2026, Lieferant Muster GmbH, USt-IdNr DE123456789, Positionen: 3x Kabel 12,50 EUR, Netto 37,50, MwSt 19% 7,13, Brutto 44,63 EUR'."
+      fields: "invoice_number, invoice_date, supplier_name, supplier_vat_id, currency, net_total, tax_total, gross_total, line_items (description, quantity, unit_price). PO number is optional and often missing."
+      stack: "Python 3.12, pydantic"
+      volume: "8,000 invoices a month, batch overnight is fine"
+    assert:
+      - {type: contains, value: "## Schema"}
+      - {type: llm-rubric, value: "Represents amounts as decimal strings or integer minor units rather than floats, normalises the German date 03.09.2026 to 2026-09-03 in ISO format, and makes the PO number required-but-nullable rather than inferred."}
+      - {type: llm-rubric, value: "Validates in code that net plus tax equals gross and that line items sum to the net total, retries once with the validation errors, then routes failures to human review."}
+  - name: edge-missing-samples
+    vars:
+      documents: "Various documents."
+      fields: "The important information."
+    assert:
+      - {type: llm-rubric, value: "Asks for sample documents and concrete field definitions before writing a schema, rather than inventing fields."}
+  - name: negative-absent-fields-guessing
+    vars:
+      documents: "Inbound customer emails requesting quotes. Free text, English. Sample: 'Hi, we need about 200 branded mugs for an event next month, can you send a price? - Dana, Acme Events'"
+      fields: "company_name, contact_name, contact_phone, product, quantity, deadline_date"
+      stack: "TypeScript, zod"
+    assert:
+      - {type: llm-rubric, value: "Instructs and enforces that contact_phone is null for the sample since no phone appears, and treats 'next month' as not a specific date (null or a separately flagged raw text field) rather than computing a guessed date."}
+      - {type: llm-rubric, value: "Includes absent-field cases in the eval set and measures the rate of invented values."}

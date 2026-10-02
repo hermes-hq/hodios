@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Review the indexes on this database and suggest improvements. Schema: {{schema_and_indexes}} Queries: {{slow_queries_or_stats}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duplicate-and-missing
+    vars:
+      database: "PostgreSQL 16, no read replicas"
+      schema_and_indexes: |
+        orders (40M rows): id bigint PK, customer_id bigint FK, status text, created_at timestamptz, total numeric
+          orders_pkey (id)
+          idx_orders_customer (customer_id)
+          idx_orders_customer_created (customer_id, created_at)
+          idx_orders_status (status)  -- 3.1 GB
+      slow_queries_or_stats: |
+        Statistics reset 45 days ago.
+        Top by total time: SELECT * FROM orders WHERE status = 'pending' AND created_at < now() - interval '1 day' ORDER BY created_at LIMIT 100;  -- 2.1M calls, seq scan
+        SELECT id, total FROM orders WHERE customer_id = $1 ORDER BY created_at DESC LIMIT 20;  -- uses idx_orders_customer_created
+        idx_orders_customer: 0 scans. idx_orders_status: 12 scans. 'pending' is 0.3% of rows.
+    assert:
+      - {type: contains, value: "## DDL plan"}
+      - {type: llm-rubric, value: "Identifies idx_orders_customer as redundant because it is a left prefix of idx_orders_customer_created, and proposes a partial index on created_at WHERE status = 'pending' for the pending-orders query, replacing the low-value idx_orders_status."}
+      - {type: llm-rubric, value: "Uses CREATE INDEX CONCURRENTLY, creates before dropping, and provides restore statements for dropped indexes, while checking the foreign key on customer_id stays covered."}
+  - name: edge-short-stats-window
+    vars:
+      database: "MySQL 8.0 with two read replicas serving reporting"
+      schema_and_indexes: "invoices (8M rows): PRIMARY (id), idx_invoices_period (billing_period), idx_invoices_account (account_id)"
+      slow_queries_or_stats: "performance_schema from the primary only, collected over the last 3 days. idx_invoices_period: 0 reads."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend dropping idx_invoices_period outright; notes that 3 days of primary-only statistics miss replica reporting traffic and monthly jobs, marks the finding provisional, and suggests making the index INVISIBLE and collecting replica statistics."}
+  - name: negative-no-invented-queries
+    vars:
+      database: "PostgreSQL 15"
+      schema_and_indexes: "users (200k rows): id PK, email unique, created_at"
+      slow_queries_or_stats: "Only query of note: SELECT * FROM users WHERE email = $1; uses users_email_key, 0.2 ms."
+    assert:
+      - {type: llm-rubric, value: "Concludes the indexes fit the workload shown and does not propose new indexes for hypothetical queries or drop the unique email index."}

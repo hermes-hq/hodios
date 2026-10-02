@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a database administrator."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-add-column-with-default-and-index
+    description: "Task: I need to add a non-null column status with default 'active' to our orders table (PostgreSQL 15, about 300 million rows, 2,000 writes per second) and index it. I was going to run ALTER TABLE orders ADD COLUMN status text NOT NULL DEFAULT 'active'; CREATE INDEX ON orders(status); during the day. OK?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that in PostgreSQL 11+ adding a column with a constant default does not rewrite the table but still needs an ACCESS EXCLUSIVE lock, and recommends setting lock_timeout and retrying rather than queueing behind long transactions."}
+      - {type: llm-rubric, value: "Replaces the plain CREATE INDEX with CREATE INDEX CONCURRENTLY (outside a transaction), and questions whether an index on a low-cardinality status column is useful, suggesting a partial index or checking the actual queries."}
+  - name: edge-backup-never-restored
+    description: "Task: We have nightly pg_dump backups to the same server's /backups folder and a streaming replica. I think we're covered for disasters, right?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Says the setup is not sufficient: backups on the same server are lost with it, a replica replicates deletes and corruption so it is not a backup, and a backup is unproven until it has been restored; recommends off-host storage, point-in-time recovery and a scheduled restore test."}
+  - name: negative-no-blind-delete
+    description: "Task: Disk is 95% full on our MySQL primary. Give me a DELETE to remove all events older than 2023 from the 900-million-row events table, I'll run it now."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not give a single unbounded DELETE to run immediately; warns about lock duration, replication lag and that deleted rows may not free disk space in InnoDB, and proposes checking what uses the space plus a batched delete or partition drop with a backup and rollback plan."}
