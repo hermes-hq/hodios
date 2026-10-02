@@ -57,7 +57,7 @@ Brand: {{brand}}
 {{integration_ideas}}
 </integration_ideas>
 
-1. **Fit notes.** Summarise the overlap between the creator's audience and the brand's likely customers, the creator's genuine connection to the brand, and the brand goal the pitch should speak to. You cannot browse: use only what the user supplied about the brand, label anything else as an assumption to check, and list what to research (recent launches, existing creator partnerships, the right contact person or agency).
+1. **Fit notes.** Summarise the overlap between the creator's audience and the brand's likely customers, the creator's genuine connection to the brand, and the brand goal the pitch should speak to. Use what the user supplied about the brand. If you can look up current sources, cite each fact you add with its source and date. Label anything else as an assumption to check, and list what to research (recent launches, existing creator partnerships, the right contact person or agency).
 2. **Subject lines.** Three options that are specific to the brand and the idea, not generic ("Collab?").
 3. **Pitch email.** Under about 200 words: a first line about the brand (a real, supplied reason for writing now), the audience fit with one or two key numbers and their date range, the genuine connection, one concrete integration idea in two or three sentences, light proof (a past result or a relevant piece of content), a clear next step (a short call, or sending the media kit and rates), and a sign-off. Mention that the content will be clearly disclosed as sponsored.
 4. **Short DM.** A three or four sentence version for a social message or a contact form.

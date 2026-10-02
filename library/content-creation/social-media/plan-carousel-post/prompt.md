@@ -65,7 +65,7 @@ Platform: {{platform}}. Slides: {{slides}}.
 
 <constraints>
 - Keep each slide to about 25 words or fewer, the cover to about 10.
-- Use exactly {{slides}} slides. If the topic needs more, split it into a series and say so; if it needs fewer, say which slides to drop.
+- Use exactly {{slides}} slides. If the topic needs more, split it into a series and say so; if it needs fewer, say which slides to drop. If {{slides}} is above what the platform accepts (Instagram has allowed up to 20 images per carousel; check the current limit) or beyond what readers will swipe through (usually more than about 12), say so and propose a shorter version.
 - Do not invent statistics, research, quotes or results. Where one would help, add `[STAT: …]` or `[EXAMPLE: …]` and list it under Fill before posting.
 - No engagement bait ("comment YES if…") and no cover promise the slides do not deliver.
 - Write in plain language suited to the platform: more professional and specific on LinkedIn, more visual and conversational on Instagram.

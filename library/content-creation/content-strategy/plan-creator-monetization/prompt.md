@@ -3,7 +3,7 @@ schema: 1
 id: plan-creator-monetization
 kind: prompt
 title: Plan creator monetization
-description: Compares monetisation options for a creator's audience size and niche, from sponsorships and affiliates to products, memberships and services, with rough maths and a staged plan.
+description: Compares monetisation options for a creator's audience and niche, from sponsorships to products, memberships and services, with rough maths and a staged plan. Use before choosing how to earn.
 category: content-strategy
 version: 1.0.0
 status: incubating

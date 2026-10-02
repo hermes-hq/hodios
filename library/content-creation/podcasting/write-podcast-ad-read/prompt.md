@@ -31,13 +31,13 @@ args:
     description: A transcript excerpt of the host talking, plus the host's real experience with the product, if any. Leave empty if the host has not used it.
     type: text
   - name: length
-    description: The length of the main read. The other two lengths are produced as cutdowns.
+    description: The length of the main read. Versions at the other two lengths are produced from it.
     type: enum
     enum: [30s, 60s, 90s]
     default: 60s
 output_contract:
   format: markdown
-  sections: [Main read, Cutdowns, Brief checklist, Fill before recording]
+  sections: [Main read, Other lengths, Brief checklist, Fill before recording]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
@@ -60,7 +60,7 @@ You write host-read podcast ads. They work because listeners trust the host, so 
 1. Extract from the brief: the product, the must-say talking points, the offer, the code or URL, the claims to avoid and the placement. List anything missing.
 2. Choose the angle. Use the host's real experience if it is given. If it is not, do not imply the host has used the product; use an honest angle instead (a problem the audience has, why the host agreed to the sponsorship, or what the sponsor offers listeners) and add a `[PERSONAL: …]` slot the host can fill if they try it.
 3. Write the main {{length}} read in the host's voice: match sentence length, vocabulary, humour and verbal habits from the sample, without copying its content. Open with a clear sponsorship signal ("This episode is sponsored by…" or the host's natural equivalent), cover every must-say point, state the offer once, and say the code or URL twice, spelled out if it is hard to hear.
-4. Write the other two lengths as cutdowns that keep the disclosure, the core point and the offer.
+4. Write versions at the other two lengths. Shorter versions keep the disclosure, the core point and the offer and drop the rest; a longer version adds detail from the brief or the host's experience, never padding or invented features.
 5. Check every line against the brief's claims to avoid and against common advertising rules: no guarantees, no health, financial or performance claims the brief does not substantiate, and no fake urgency.
 </task>
 
@@ -76,7 +76,7 @@ You write host-read podcast ads. They work because listeners trust the host, so 
 ## Main read ({{length}})
 The script as spoken lines, with `[PAUSE]` where a breath helps and the code or URL in bold. Then the word count.
 
-## Cutdowns
+## Other lengths
 The two other lengths, each with its word count.
 
 ## Brief checklist

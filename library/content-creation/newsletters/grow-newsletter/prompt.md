@@ -74,6 +74,7 @@ Current subscribers: {{current_subscribers}}
 - Do not invent benchmarks or promise growth numbers. If you mention a typical range, say it is a rough, commonly reported figure and that their own baseline matters more.
 - Name platform features only in general terms unless the user named the platform.
 - Keep the plan within the effort a solo writer can sustain unless a team is mentioned.
+- If the current subscriber count is missing, ask for it or state the stage you assumed, since the levers depend on it.
 </constraints>
 
 <output_format>

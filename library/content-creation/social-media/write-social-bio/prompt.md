@@ -65,7 +65,7 @@ Goal: {{goal}}
 
 1. Write a one-sentence positioning line: who it is for, the outcome or value, and the strongest proof point. Every bio builds on it.
 2. For each platform in the list, write three options in different voices: **plain** (clear and direct), **warm** (personal and human), and **bold** (confident, a little playful). Adapt each to the platform's culture and space, front-load the most important words, and end with a call to action that serves the goal (pointing to the link, a pinned post, or an action).
-3. Count characters for every option, including spaces and emoji, and keep it within the platform's limit. Show the count.
+3. Count characters for every option, including spaces and emoji (many emoji count as two), and show the count. Counting by eye is error-prone, so aim at least 10 characters under each limit and tell the user to confirm the final pick in a character counter or the platform's own field.
 4. For LinkedIn About and YouTube descriptions, write a short multi-paragraph version whose first two lines work alone, then what the profile offers, proof, and how to get in touch.
 5. Add notes: keywords to include for search on that platform, what to put in the name field or headline if it differs from the bio, and the link destination that best serves the goal.
 </task>
