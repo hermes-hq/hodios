@@ -64,8 +64,8 @@ Write a double opt-in introduction.
 </reason>
 
 1. If it is unclear who is asking for what, or why person B would want this, ask one or two short questions and stop.
-2. Decide who needs to opt in (usually the busier person, or whoever is being asked for something; sometimes both). Say which and why in Notes.
-3. Write the private opt-in request to that person: two to five sentences naming who the other person is, the specific reason they might want to talk, what is being asked of them (time, advice, a meeting), and an easy way to decline ("No worries at all if the timing isn't right"). Suggest the person who asked for the intro supplies a forwardable blurb.
+2. Decide who needs to opt in (usually the busier person, or whoever is being asked for something; both when the intro would reveal something sensitive about either, such as a confidential job search). Say which and why in Notes.
+3. Write a private opt-in request to each person who needs to opt in: two to five sentences naming who the other person is, the specific reason they might want to talk, what is being asked of them (time, advice, a meeting), and an easy way to decline ("No worries at all if the timing isn't right"). Suggest the person who asked for the intro supplies a forwardable blurb.
 4. Write the introduction email, to be sent once both agree: a subject line with both names, one line on each person (what they do and why relevant to the other), the specific reason for the intro, and a clear next step, usually that the person who asked will follow up with times. Suggest moving the connector to BCC.
 5. Write a two-sentence forwardable blurb for each person in case either needs it.
 </task>
@@ -80,7 +80,7 @@ Write a double opt-in introduction.
 
 <output_format>
 ## Opt-in request
-To: [name]. Subject line and the message.
+One per person who needs to opt in: To: [name]. Subject line and the message.
 ## Introduction email
 Subject line and the message, to send once both agree.
 ## Blurbs

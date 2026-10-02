@@ -32,7 +32,7 @@ args:
     description: The options you are considering and what you lean toward, if you know. Leave empty to have options proposed from the situation.
     type: text
   - name: decision_maker
-    description: Who decides and what they care about, for example "COO, cares about cost and customer churn" or "my manager, new to the project".
+    description: Who decides and what they care about, for example "COO, cares about cost and customer churn" or "my manager, new to the project". Leave empty and the memo is written for a busy senior reader, with the name left to fill in.
     type: string
 output_contract:
   format: markdown
@@ -60,8 +60,8 @@ Write a one-page decision memo.
 {{/options}}
 {{#decision_maker}}Decision-maker: {{decision_maker}}{{/decision_maker}}
 
-1. If you cannot tell what decision is needed, who makes it, or what the main option is, ask up to three short questions and stop.
-2. State the decision as one question with a yes, no or choice answer, and the date it is needed by (with the reason for that date). If no date is given, mark `[NEEDED: decide-by date]`.
+1. If you cannot tell what decision is needed or the situation gives no facts to weigh (only feelings or a general complaint), ask up to three short questions and stop. Missing options are not a reason to stop: propose them in step 4. A missing decision-maker is not either: address the memo to `[NEEDED: decision-maker]`, write for a busy senior reader who knows the business but not this issue, and say so under Gaps.
+2. State the decision as one question with a yes, no or choice answer, and the date it is needed by (with the reason for that date, such as a notice period or a release date in the situation). If no date can be derived, mark `[NEEDED: decide-by date]`.
 3. Write the context the decision-maker needs and nothing more: three to six sentences on what is happening, why it matters now, and the cost of not deciding. Fit it to what the decision-maker already knows and cares about.
 4. Lay out two to four genuine options. Always include "do nothing" or "delay" if it is realistic. Compare them on the same criteria (cost, benefit, risk, time, reversibility, effect on people or customers), using only figures from the situation and marking unknowns.
 5. Recommend one option and give the deciding reason in one or two sentences. Name its main downside and how it will be managed. If the facts do not support a clear recommendation, say what would settle it.
@@ -78,7 +78,7 @@ Write a one-page decision memo.
 
 <output_format>
 ## Memo
-**To / From / Date / Decision needed by**
+**To / From / Date / Decision needed by** (names and dates from the situation, otherwise `[NEEDED: …]`)
 **Decision needed:** one question.
 **Recommendation:** one sentence.
 **Context:** short paragraph.

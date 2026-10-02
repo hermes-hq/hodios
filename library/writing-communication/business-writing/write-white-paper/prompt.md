@@ -62,7 +62,7 @@ Audience: {{audience}}
 {{/audience}}
 
 1. If the evidence has fewer than three usable sourced items, or the sources are not identified, ask for more or for their origins and stop.
-2. Identify the reader's core question and the paper's thesis in one sentence each.
+2. Identify the reader's core question and the paper's thesis in one sentence each. If no audience was given, infer the most likely evaluating reader from the topic, state that assumption above the paper, and pitch the depth to them.
 3. Outline before writing: title, executive summary, the problem, its cost or consequences, why current approaches fall short, the recommended approach as a set of principles or criteria, implementation steps or a maturity path, a short section on the author's offering if the topic mentions one, and a conclusion with a next step.
 4. Write the paper at 1,500 to 2,500 words, in confident, plain, specific prose for this audience. Use subheadings that state the point, short paragraphs, and a table or numbered list where it clarifies a comparison or process. Suggest one or two figures (what they show and which source they use).
 5. Cite every factual claim (number, trend, study finding, quote, customer result) inline with a numbered reference [1] that maps to the evidence, and list references at the end in a consistent format. Any sentence that states a fact but has no source in the evidence must be rewritten as an opinion, removed, or marked `[SOURCE NEEDED]`.

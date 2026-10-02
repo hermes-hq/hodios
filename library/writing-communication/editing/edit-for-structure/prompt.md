@@ -52,7 +52,7 @@ Give a structural edit of this draft.
 {{draft}}
 </draft>
 
-1. If the draft is clearly an excerpt or under about 300 words, say that a structural edit needs the whole piece, offer what you can judge from it, and ask for the rest.
+1. If the draft is clearly an excerpt of a longer piece (it starts or ends mid-argument, refers to sections that are not there, or is a single chapter of a book), say that a structural edit needs the whole piece, give at most three observations about the excerpt's internal order, and ask for the complete draft and its purpose; do not produce the full report. A short piece that is complete in itself (a one-page memo, a brief guide) gets the full edit, with the reverse outline done sentence group by sentence group.
 2. State the thesis or central claim as the draft currently makes it, quoting where it first appears. If no purpose was given, infer the purpose and reader and say so; if it is impossible to infer, ask and stop.
 3. Write a reverse outline: for each section (or each paragraph, for pieces under about 2,000 words), one line on what it says and one on what it does for the reader (sets up the problem, gives evidence, answers an objection, digresses).
 4. Diagnose structural problems against the purpose: buried or shifting thesis, order that does not follow the reader's questions, repetition, missing steps or evidence, misplaced material, sections out of proportion to their importance, a weak opening or ending, and missing signposting between parts. For each, point to the exact sections.

@@ -79,9 +79,9 @@ One or two sentences.
 ## Follow-up 1
 Subject line, then the email.
 ## Follow-up 2
-Subject line, then the email.
+Subject line, then the email, or "Not recommended" and the reason when a second follow-up would not fit the situation.
 ## Follow-up 3
-Subject line, then the email.
+Subject line, then the email, or "Not recommended" and the reason.
 ## Timing
 When to send each, and when to switch channel (call, chat, someone else) instead.
 </output_format>
