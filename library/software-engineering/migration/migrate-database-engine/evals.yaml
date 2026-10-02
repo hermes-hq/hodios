@@ -1,0 +1,31 @@
+schema: 1
+baseline: "How do I migrate from {{source}} to {{target}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mysql-to-postgres
+    vars:
+      source: "MySQL 5.7 on RDS, utf8mb4_general_ci collation"
+      target: "PostgreSQL 16 on RDS"
+      data_size: "1.2 TB, largest table events at 700 GB, about 1,500 writes per second at peak"
+      downtime_budget: "10 minutes of write downtime"
+    assert:
+      - {type: contains-all, value: ["## Incompatibilities", "## Cutover runbook", "## Rollback"]}
+      - {type: llm-rubric, value: "Covers case-insensitive collation differences, tinyint(1) booleans, unsigned integers, zero dates, AUTO_INCREMENT to identity with sequence reset, ON DUPLICATE KEY versus ON CONFLICT; chooses bulk load plus change data capture given 1.2 TB and a 10-minute budget; includes chunked checksums and a reverse-replication rollback with a deadline."}
+  - name: edge-missing-size-and-budget
+    vars:
+      source: "SQL Server 2019"
+      target: "PostgreSQL 16"
+    assert:
+      - {type: contains, value: "## Inputs needed"}
+      - {type: llm-rubric, value: "Asks for data size, write rate, downtime budget and schema features, and labels the copy-approach choice as an assumption until they are known."}
+  - name: negative-pair-specific
+    vars:
+      source: "PostgreSQL 12"
+      target: "PostgreSQL 16"
+      data_size: "50 GB"
+      downtime_budget: "30 minutes"
+    assert:
+      - {type: llm-rubric, value: "Recognises this is a same-engine version upgrade, does not list cross-engine incompatibilities such as MySQL collations, and focuses on version-specific changes, an upgrade or logical replication path and rollback."}

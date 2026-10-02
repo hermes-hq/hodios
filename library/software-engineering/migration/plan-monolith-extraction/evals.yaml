@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I extract {{capability}} from my monolith into a microservice? {{monolith}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-notifications
+    vars:
+      monolith: "Rails 7 monolith, 400k lines, one Postgres database, deployed twice a week by 6 teams. The notifications team is blocked by release trains and needs to ship daily; notification volume spikes 20x during campaigns and slows the main app."
+      capability: "Notifications: sends email, SMS and push. Code in app/services/notifications and app/models/notification*. Writes notifications and notification_preferences tables; orders and billing modules read notification_preferences directly and enqueue jobs with NotificationJob.perform_later."
+    assert:
+      - {type: contains-all, value: ["## Should you extract", "## Data ownership", "## Phases", "## Traffic shifting"]}
+      - {type: llm-rubric, value: "Recommends extraction as justified, builds a seam inside the monolith first, moves notification_preferences ownership to the service with orders and billing switching from direct reads to an API or events, uses an outbox or CDC during transition with a single writer, and gives exit criteria and rollback per phase."}
+  - name: edge-weak-motivation
+    vars:
+      monolith: "Django app, 30k lines, one team of four, deploys daily without problems."
+      capability: "Reporting: generates monthly PDF reports from the main tables."
+    assert:
+      - {type: llm-rubric, value: "Says the motivation is weak and that modularising inside the monolith or a background worker may be enough, while still outlining the plan."}
+  - name: negative-no-shared-database-end-state
+    vars:
+      monolith: "Java Spring monolith with one Oracle database."
+      capability: "Pricing: reads products and discounts tables and writes price_history; checkout reads price_history directly."
+    assert:
+      - {type: llm-rubric, value: "Does not propose a shared database as the end state; assigns a single owner per table and replaces checkout's direct reads with an API, events or a replicated read model."}

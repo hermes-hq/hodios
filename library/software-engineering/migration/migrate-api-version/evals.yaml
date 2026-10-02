@@ -1,0 +1,28 @@
+schema: 1
+baseline: "We need to make these breaking API changes: {{changes}}. How should we roll them out?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-public-rest-api
+    vars:
+      current_api: "Public REST API at /v1, versioned by URL path. GET /v1/orders returns {id, amount (float dollars), status, customer_name}. Offset pagination with ?page=N."
+      changes: "Represent amount as integer minor units with a currency field; replace customer_name with a nested customer object; switch to cursor pagination."
+      clients: "Our iOS and Android apps (some users never update), about 40 partner integrations, two internal services."
+    assert:
+      - {type: contains-all, value: ["## Change classification", "## Timeline", "## Telemetry", "## Client migration guide"]}
+      - {type: icontains, value: "Sunset"}
+      - {type: llm-rubric, value: "Proposes additive alternatives (for example adding amount_minor and currency, adding customer beside customer_name), bundles remaining breaks into /v2 with a translation layer, sizes the window for old mobile app versions and partners, includes brownouts and per-client telemetry on old fields, and gives before and after examples in the guide."}
+  - name: edge-unknown-clients
+    vars:
+      current_api: "Internal GraphQL API."
+      changes: "Remove the deprecated User.legacyId field."
+    assert:
+      - {type: llm-rubric, value: "Makes measuring field usage the first milestone and does not commit to a removal date until usage data exists."}
+  - name: negative-non-breaking-change
+    vars:
+      current_api: "REST API, /v2, JSON responses."
+      changes: "Add an optional field 'tags' to the product response."
+    assert:
+      - {type: llm-rubric, value: "Classifies the change as non-breaking and says no new version or deprecation timeline is needed."}
