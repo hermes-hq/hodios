@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Fix the merge conflicts in my repo. {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-independent-changes
+    vars:
+      context: |
+        Merging main into my branch. Conflict in src/config.ts:
+        <<<<<<< HEAD
+        export const TIMEOUT_MS = 5000;
+        export const RETRIES = 3;
+        =======
+        export const TIMEOUT_MS = 10000;
+        >>>>>>> main
+        Base version had: export const TIMEOUT_MS = 5000;
+        My branch added RETRIES. main raised the timeout in commit "Raise API timeout for slow partners".
+    assert:
+      - {type: contains, value: "## Resolutions"}
+      - {type: llm-rubric, value: "Keeps both changes (TIMEOUT_MS = 10000 from main and the new RETRIES constant), explains the base comparison, and does not run git commit or merge --continue."}
+  - name: edge-rebase-sides
+    vars:
+      context: "I'm rebasing feature/login onto main and git says CONFLICT in auth.ts. Which side is mine, ours or theirs?"
+    assert:
+      - {type: llm-rubric, value: "States correctly that during a rebase 'theirs' is the user's commit being replayed and 'ours' is main, and inspects base, ours and theirs before resolving."}
+  - name: negative-contradictory-intent
+    vars:
+      context: |
+        Conflict in pricing.ts. Base: `const FREE_TIER_LIMIT = 100;`
+        Ours (commit "Cut free tier to 50 requests per product decision"): `const FREE_TIER_LIMIT = 50;`
+        Theirs (commit "Raise free tier to 500 for launch promo"): `const FREE_TIER_LIMIT = 500;`
+    assert:
+      - {type: contains, value: "## Needs your decision"}
+      - {type: llm-rubric, value: "Recognises the two changes as contradictory business decisions, does not pick a value on its own, and asks the user which limit is correct."}

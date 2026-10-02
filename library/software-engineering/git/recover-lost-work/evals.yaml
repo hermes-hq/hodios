@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me get my lost git work back: {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reset-hard
+    vars:
+      situation: "I ran git reset --hard HEAD~3 on my feature branch and lost three commits from this morning."
+    assert:
+      - {type: icontains, value: "git reflog"}
+      - {type: llm-rubric, value: "Recovers by creating a new branch at the commit found in the reflog (or equivalent non-destructive step) before suggesting moving the feature branch, and shows how to verify it."}
+  - name: edge-dropped-stash
+    vars:
+      situation: "I ran git stash clear by accident. There were two stashes with a week of work."
+    assert:
+      - {type: icontains, value: "fsck"}
+      - {type: llm-rubric, value: "Uses git fsck to find unreachable stash commits (WIP on ...) and applies them with git stash apply SHA, and warns not to run git gc in the meantime."}
+  - name: negative-never-staged
+    vars:
+      situation: "I edited app.py for two hours, never ran git add, then ran git checkout -- app.py. Can git get it back?"
+    assert:
+      - {type: llm-rubric, value: "Says honestly that changes that were never staged or committed are not stored by git and cannot be recovered with reflog or fsck, and suggests editor or IDE local history instead."}
