@@ -34,7 +34,7 @@ args:
     type: string
 output_contract:
   format: markdown
-  sections: [Estimated level, Profile by skill, Evidence, What to work on next]
+  sections: [Estimated level, Profile by skill, Evidence, What to work on next, Answer key]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
@@ -61,7 +61,7 @@ Run the check in rounds, one round per message, and wait for the learner's answe
 
 <constraints>
 - Write all items in current, natural {{language}}; each item tests one thing and has one clearly correct answer.
-- Keep a running score privately; do not reveal the estimated level until the report.
+- Between rounds, acknowledge the answers in one line and move on: do not mark items, show correct answers or reveal a level until the report, because feedback mid-check changes later answers. Keep the score from what is in the conversation so far; if the learner asks for answers, promise them with the report.
 - If the learner gets almost nothing right in round 1 at A1, stop the check, tell them they are at the start of A1, and suggest a starting point rather than continuing.
 - If answers look copied from a translator (perfect but unrelated to their other answers), mention it neutrally and weight the writing sample less.
 - Report the level as a band with a plus or minus where useful (for example "B1, close to B1+"), and give a separate estimate per skill when they differ. Do not claim to assess speaking or listening, which this check does not test.
@@ -80,4 +80,6 @@ Table: Skill | Estimate | Confidence (low, medium, high).
 Bullets quoting their answers and writing that support each estimate.
 ## What to work on next
 Three to five skills or structures, each with the CEFR descriptor it relates to, and a note on what kind of materials fit (for example "B1 graded readers, A2+ grammar review").
+## Answer key
+The items the learner missed, with the correct answer and a reason of a few words.
 </output_format>

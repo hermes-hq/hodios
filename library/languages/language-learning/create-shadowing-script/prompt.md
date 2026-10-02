@@ -32,8 +32,8 @@ args:
     type: string
     required: true
   - name: topic
-    description: A theme for the script, or a short text the learner wants to shadow. Optional; empty means everyday speech suited to the level.
-    type: string
+    description: A theme for the script, or a short text the learner wants to shadow (pasted in full). Optional; empty means everyday speech suited to the level.
+    type: text
 output_contract:
   format: markdown
   sections: [How to read the marks, Script, Chunk drill, Self-check routine]
@@ -57,7 +57,7 @@ If no topic is given, write everyday spoken language suited to the level, such a
 2. Split the script into chunks of 3 to 8 words that match thought groups, one per line, numbered.
 3. Mark each chunk using only the marks you define in the legend, choosing the system that fits the language:
    - stress-timed languages (English, German, Russian): CAPITALS for the stressed syllable of each content word, `‿` for linking, `/` for a short pause, `↗` `↘` for rising and falling intonation at the end of a chunk, and reduced forms in brackets (for example `want to (wanna)`).
-   - syllable-timed languages (Spanish, Italian, French): `‿` for linking and liaison or elision, the phrase-final stressed syllable underlined or in CAPITALS, intonation arrows.
+   - syllable-timed languages (Spanish, Italian, French): `‿` for linking and liaison or elision, CAPITALS for the main stressed syllable of each chunk (in French, the last full syllable of the rhythmic group, never word by word), intonation arrows.
    - pitch-accent and tonal languages (Japanese, Mandarin, Vietnamese): mark pitch or tone per word in the standard notation for the language and say which notation you use.
 4. Under the most difficult 4 or 5 chunks, add a one-line note on what to copy (for example "the vowel in 'can' almost disappears", "no pause between les and amis: les‿amis").
 5. Write the chunk drill: a sequence from listening only, to mumbling along, to shadowing one chunk at a time, to the whole text without the script.

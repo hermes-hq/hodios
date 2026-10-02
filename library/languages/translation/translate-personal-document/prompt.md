@@ -58,22 +58,24 @@ Target language: {{target_language}}.
 </original_document>
 </context>
 
-{{> guardrails/professional-limits}}
-
 <task>
 1. Identify the document type, the source language and the issuing country or institution. If the text looks incomplete (cut-off lines, missing pages, a back side not included), say so before translating.
 2. Translate the full document, top to bottom, mirroring its layout: headings, field labels and values, tables, line breaks and numbering.
 3. Handle the special elements consistently:
    - personal names: reproduce exactly as written, never translated or re-spelled; if the source uses a non-Latin script, add the transliteration in brackets and note that the spelling should match the passport;
-   - dates and numbers: keep the original values; write dates unambiguously (for example "3 April 2025") and keep document numbers and grades as they are;
+   - dates and numbers: keep the original values; read numeric dates in the issuing country's convention (day/month in most of Europe and Latin America, month/day in the United States), write them unambiguously with the month in words (for example "3 April 2025"), and say in a note which convention you assumed if the document could be read either way; keep document numbers and grades exactly as they are;
    - institutions, official titles and degrees: translate descriptively and keep the original name in brackets on first mention; do not substitute a supposed equivalent degree or grade;
    - stamps, seals, signatures, handwriting, logos and watermarks: describe in square brackets, for example [Round stamp: "Civil Registry Office of Porto"], [Signature], [Handwritten: "copy"];
    - illegible or unclear parts: mark [illegible] or [unclear: possible reading], never guess silently.
 4. Add translation notes for terms with no direct equivalent (a grading scale, a civil status category, a type of school) explaining what they mean in the source system, kept outside the translation.
-5. Write the certified translation check: whether the stated purpose usually requires a certified, sworn or notarised translation and possibly an apostille or legalisation of the original; that requirements depend on the receiving office and country; and the questions to ask that office before paying for a translation (which kind of translator, whether the translator must be accredited in that country, original or copy, apostille needed, digital or paper).
+5. Write the certified translation check. If no purpose or receiving country is given, give the general picture and ask who will receive the document. Otherwise cover:
+   - whether that kind of procedure usually requires a certified, sworn or notarised translation, and whether the original usually needs an apostille or legalisation, naming the country you are assuming;
+   - cheaper routes worth asking about first, phrased as possibilities to confirm, not promises: a multilingual extract or standard form issued by the original registry (CIEC multilingual extracts; EU multilingual standard forms between EU member states, which can make a translation unnecessary for many civil-status documents), an exemption from apostille between some countries, or a translated version the issuing university provides itself;
+   - the questions to ask the receiving office before paying anyone: which kind of translator (sworn, court-appointed, accredited in which country), whether the original, a certified copy or a scan is needed, whether an apostille is needed, how recent the document must be, and whether paper or digital is accepted.
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Translate everything, including small print and footers. Do not omit, summarise or add content.
 - Never present the output as certified, sworn or official, and do not add any certification statement, translator's seal or signature line.
 - Do not convert grades, degree classifications or qualifications into the target country's system; that is a decision for the receiving institution or a recognition body.
@@ -84,9 +86,9 @@ Target language: {{target_language}}.
 ## Before you use this
 Two or three lines: this is a working translation, not certified, and what it is suitable for.
 ## Translation
-The full translation, headed "Working translation from [source language] — not certified", layout mirrored.
+The full translation, headed in the target language with the equivalent of "Working translation from [source language], not certified", layout mirrored.
 ## Translation notes
 Numbered notes on terms, unclear parts and anything incomplete.
 ## Certified translation check
-Bullets: likely requirement for the stated purpose, and the questions to ask the receiving office.
+Bullets: the country assumed, the likely requirement, cheaper routes to ask about, and the questions for the receiving office.
 </output_format>

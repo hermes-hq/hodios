@@ -3,7 +3,7 @@ schema: 1
 id: build-translation-glossary
 kind: prompt
 title: Build a translation glossary
-description: Builds a bilingual glossary for a document or project with key terms, approved translations, do-not-translate terms, definitions and usage notes. Keeps long or multi-person translations consistent.
+description: Builds a bilingual glossary from a document such as a contract, manual or book chapter, with approved terms, definitions, do-not-translate items and client queries, so long jobs stay consistent.
 category: translation
 version: 1.0.0
 status: incubating
@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [termbase, terminology, do-not-translate, consistency, tbx]
 pairs_with:
-  prompts: [post-edit-machine-translation, review-translation, translate-subtitles]
+  prompts: [post-edit-machine-translation, review-translation, translate-subtitles, build-localization-glossary]
   personas: [translator]
 args:
   - name: source_text
