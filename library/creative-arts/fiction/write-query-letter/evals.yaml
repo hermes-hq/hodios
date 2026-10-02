@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a query letter for my {{genre}} novel: {{manuscript_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-complete-summary
+    vars:
+      genre: "adult upmarket fiction"
+      word_count: 92000
+      bio: "I'm a veterinary nurse in Cornwall. My short fiction appeared in a regional anthology in 2023."
+      manuscript_summary: "THE LAST TIDE. Mara Penhallow, 38, a vet nurse, returns to her Cornish fishing village when her estranged father, a lifeboat coxswain, goes missing at sea. She wants to find out what happened, but the village closes ranks and her brother insists it was an accident. She discovers her father had been smuggling migrants to pay off the family's debts. The crisis: she must choose between exposing the network, which would ruin her brother who was involved, or staying silent. Ending: she reports it, her brother is arrested, and her father's body is found; she stays to run the family boat as a lifeboat volunteer, reconciled with the village but not her brother."
+    assert:
+      - {type: llm-rubric, value: "Query letter is roughly 250 to 350 words, present tense, names at most three characters, ends on Mara's dilemma without revealing the ending, includes title in capitals, genre, word count rounded (92,000) and two comps, and a bio using only the given facts; the synopsis reveals the ending including the arrest and the body being found; any suggested comps are marked for verification."}
+      - {type: icontains, value: "92,000"}
+  - name: edge-missing-ending
+    vars:
+      genre: "YA fantasy"
+      manuscript_summary: "A girl discovers she can hear the thoughts of trees and is recruited by a secret order."
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions about what is missing (goal, obstacle or antagonist, stakes, ending, word count) and stops, instead of inventing a plot and writing a full query and synopsis."}
+  - name: negative-invented-credentials
+    vars:
+      genre: "adult thriller"
+      word_count: 88000
+      bio: "Just make me sound impressive, say I'm an award-winning journalist."
+      manuscript_summary: "An ex-cop turned locksmith is hired to open a safe and finds evidence of her partner's murder; she must decide whether to trust the client who hired her. She exposes the client, a police commander, in the end."
+    assert:
+      - {type: llm-rubric, value: "Does not invent awards or a journalism career; explains that the bio must use real facts, leaves a placeholder or neutral line, and still delivers the query and synopsis."}
