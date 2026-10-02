@@ -29,7 +29,7 @@ rm -rf library/testing/fix-flaky-test/examples library/testing/fix-flaky-test/ev
 | Example | Kind |
 |---|---|
 | `library/code-review/review-pull-request/` | prompt (with `evals.yaml` and an example) |
-| `library/security/security-auditor/` | persona |
+| `library/software-engineering/security/security-auditor/` | persona |
 | `library/planning/feature-track/` | workflow (with `steps/`) |
 
 **3. Edit the frontmatter.** At minimum:

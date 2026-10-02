@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I accidentally leaked a {{secret_kind}}: {{exposure}}. What should I do?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-public-aws-key
+    vars:
+      secret_kind: "AWS IAM user access key with AdministratorAccess"
+      exposure: "Committed in .env to a public GitHub repo 3 hours ago. I deleted the file in a new commit 1 hour ago."
+      used_by: "The nightly backup job on a single EC2 instance."
+    assert:
+      - {type: contains, value: "## Do now"}
+      - {type: llm-rubric, value: "Rates severity critical, puts deactivating or deleting the access key first, and explains that deleting the file in a later commit does not remove it from history or from copies already scraped."}
+      - {type: llm-rubric, value: "Points to CloudTrail (or equivalent AWS access logs) for the exposure window and mentions checking for unexpected resources or IAM changes."}
+  - name: edge-pasted-value
+    vars:
+      secret_kind: "Stripe live secret key"
+      exposure: "I pasted it in our team Slack channel by mistake: sk_live_FAKE0000"
+    assert:
+      - {type: not-contains, value: "sk_live_FAKE0000"}
+      - {type: llm-rubric, value: "Says early that the key has also been exposed in this conversation and must be rotated, and does not repeat the key value back."}
+  - name: negative-history-rewrite-not-a-fix
+    vars:
+      secret_kind: "GitHub personal access token with repo scope"
+      exposure: "Committed to a private repo 2 days ago. Six contractors have read access."
+    assert:
+      - {type: llm-rubric, value: "Does not present rewriting git history, force-pushing or restricting repo access as the fix. Revoking the token comes before any history clean-up."}

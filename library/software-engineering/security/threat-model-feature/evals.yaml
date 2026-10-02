@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Do a threat model for this feature: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-file-upload
+    vars:
+      depth: standard
+      feature: |
+        Users can upload a profile picture. The browser sends a multipart POST to /api/avatar.
+        The API stores the file in a public S3 bucket under avatars/<user_id>/<original_filename>
+        and saves the URL on the user row. An image-resizing worker reads new objects from S3
+        and writes thumbnails back to the same bucket.
+    assert:
+      - {type: contains, value: "## Threats"}
+      - {type: contains, value: "TB-"}
+      - {type: llm-rubric, value: "Names threats specific to this design, including the user-controlled original filename in the object key (path or key manipulation, overwriting another user's object) and malicious files reaching the resizing worker. Each threat has an attacker, entry point and gain."}
+      - {type: llm-rubric, value: "Marks controls as assumed or missing rather than claiming they exist, since no code was provided."}
+  - name: edge-vague-feature
+    vars:
+      depth: quick
+      feature: "We are adding SSO."
+    assert:
+      - {type: llm-rubric, value: "States its assumptions about the SSO design explicitly, keeps to at most 5 threats, and lists open questions (protocol, account linking, just-in-time provisioning) that would change the ratings instead of inventing details."}
+  - name: negative-generic-checklist
+    vars:
+      depth: standard
+      system_context: "Internal admin tool behind the company VPN and Google Workspace SSO. Only 12 staff use it."
+      feature: "An admin page that lets support staff refund an order by order ID, up to 500 EUR, logged to the audit table."
+    assert:
+      - {type: llm-rubric, value: "Does not pad the model with generic web threats unrelated to the refund flow (for example a generic list of OWASP Top 10 items). Focuses on insider abuse, refund limit bypass, missing authorization per order and audit log tampering or repudiation."}

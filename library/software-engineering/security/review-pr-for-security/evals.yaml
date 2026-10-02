@@ -1,0 +1,52 @@
+schema: 1
+baseline: "Review this pull request for security issues: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-idor
+    vars:
+      min_severity: low
+      context: "Multi-tenant invoicing API. req.user is set by auth middleware on every /api route."
+      diff: |
+        --- a/src/routes/invoices.ts
+        +++ b/src/routes/invoices.ts
+        @@ -10,6 +10,14 @@ router.get('/api/invoices', async (req, res) => {
+           res.json(await db.invoice.findMany({ where: { orgId: req.user.orgId } }));
+         });
+        +
+        +router.get('/api/invoices/:id/pdf', async (req, res) => {
+        +  const invoice = await db.invoice.findUnique({ where: { id: req.params.id } });
+        +  if (!invoice) return res.status(404).end();
+        +  res.type('pdf').send(await renderPdf(invoice));
+        +});
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: regex, value: "src/routes/invoices\\.ts:\\d+"}
+      - {type: llm-rubric, value: "Reports that the new PDF route does not check invoice.orgId against req.user.orgId, so any authenticated user can read another tenant's invoice by ID (IDOR / broken object-level authorization), rated high, with a fix that scopes the query by orgId."}
+  - name: edge-safe-change
+    vars:
+      min_severity: low
+      diff: |
+        --- a/src/db/users.py
+        +++ b/src/db/users.py
+        @@ -3,5 +3,5 @@ def find_user(conn, email):
+        -    cur = conn.execute("SELECT * FROM users WHERE email = '%s'" % email)
+        +    cur = conn.execute("SELECT * FROM users WHERE email = ?", (email,))
+             return cur.fetchone()
+    assert:
+      - {type: regex, value: "(?i)verdict[\\s\\S]{0,40}\\bok\\b"}
+      - {type: llm-rubric, value: "Recognises the change removes a SQL injection by switching to a parameterised query, reports no new findings, and lists the query under Checked."}
+  - name: negative-no-speculation
+    vars:
+      min_severity: medium
+      diff: |
+        --- a/README.md
+        +++ b/README.md
+        @@ -1,3 +1,3 @@
+        -# Acme API
+        +# Acme API (v2)
+    assert:
+      - {type: not-regex, value: "(?i)\\bblock\\b"}
+      - {type: llm-rubric, value: "Does not invent vulnerabilities or generic hardening advice for a documentation-only change."}
