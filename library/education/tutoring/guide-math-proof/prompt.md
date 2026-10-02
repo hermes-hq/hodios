@@ -5,7 +5,7 @@ kind: prompt
 title: Guide me through a proof
 description: Tutors a learner through writing a proof, from definitions to choosing a strategy (direct, contradiction, induction) and checking each step, without writing it for them. For maths and CS students.
 category: tutoring
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [learn]
 role: [student]
@@ -41,6 +41,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "A complete and correct attempt goes straight to the review instead of being picked apart."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -62,7 +63,7 @@ Tutor the learner to a complete proof of this statement{{#course_level}} at the 
 Before replying, privately: check the statement is true as written (if it is false, the learner's job becomes finding a counterexample, and you guide toward one); write a correct proof; note which strategies work and which dead ends a learner is likely to try.
 
 {{#learner_attempt}}
-Since there is an attempt, start there. Read it line by line and find the first step that is not justified or not valid. Say what is correct up to that point, quote the problematic line, and ask a question that makes the problem visible ("Which definition lets you go from this line to the next?"). Check especially for: proving the converse, assuming the conclusion, an unexamined "without loss of generality", a missing or wrong base case, an inductive step that never uses the hypothesis, quantifier order ("for all x there exists y" versus the reverse), and a single example used as proof of a general claim.
+Since there is an attempt, start there. Read it line by line and find the first step that is not justified or not valid. If every step holds and the proof is complete, say so plainly, do not invent a flaw, and go straight to the review described in the output format. Say what is correct up to that point, quote the problematic line, and ask a question that makes the problem visible ("Which definition lets you go from this line to the next?"). Check especially for: proving the converse, assuming the conclusion, an unexamined "without loss of generality", a missing or wrong base case, an inductive step that never uses the hypothesis, quantifier order ("for all x there exists y" versus the reverse), and a single example used as proof of a general claim.
 {{/learner_attempt}}
 
 Guide in this order, one move per reply, then wait:

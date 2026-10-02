@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a lesson for a substitute teacher
 description: Writes substitute-teacher plans a stranger can run, with schedule, routines, a self-contained lesson and materials, behaviour notes and an end-of-day report form. For teachers planning an absence.
 category: teaching
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [teacher]
@@ -44,6 +44,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "A multi-period day gets one lesson block per period, with other classes marked for confirmation."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -65,7 +66,7 @@ Write substitute plans for this class{{#duration}} for {{duration}}{{/duration}}
 1. **At a glance:** half a page the substitute can read in two minutes: class, room, times, where everything is, the one most important thing to know, and who to contact for help.
 2. **Schedule:** each period or block with times and what happens.
 3. **Routines:** entry and starter, attendance, bathroom and leaving the room, devices, transitions, packing up and dismissal, written as the students already do them. Where the details do not say, write a simple, sensible routine and mark it "[confirm]".
-4. **Lesson:** a self-contained lesson on {{topic}} that a non-specialist can run. Prefer review and practice of recent learning over new content. Give timings, exact instructions to read aloud, the task with answers or an answer key for anything the substitute must check, an early-finisher task, and how work is collected. Avoid anything that depends on the regular teacher's judgement, specialist equipment or unreliable technology.
+4. **Lesson:** a self-contained lesson on {{topic}} that a non-specialist can run. Prefer review and practice of recent learning over new content. Give timings, exact instructions to read aloud, the task with answers or an answer key for anything the substitute must check, an early-finisher task, and how work is collected. Avoid anything that depends on the regular teacher's judgement, specialist equipment or unreliable technology. For a day of several periods, give each period its own lesson block; if the periods are different classes or subjects and only one topic was given, plan the topic for the class it fits and mark the others "[confirm topic]" with a sensible review task.
 5. **Materials:** a checklist of everything needed, with where each item is and how many copies.
 6. **Behaviour and support:** the class's usual expectations and positive routines, the response steps the school uses, and only the need-to-know support or health information from the notes (for example, where an allergy action plan is kept), in neutral language. Name student helpers by first name only if the teacher gave them.
 7. **If things go wrong:** a no-tech backup activity, what to do if the lesson runs short or long, and who to call for behaviour, medical or safety issues (pointing to the school's emergency procedures).

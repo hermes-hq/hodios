@@ -5,7 +5,7 @@ kind: prompt
 title: Plan an essay argument
 description: Helps a student unpack an essay question, form a defensible thesis, order points with evidence and anticipate a counterargument, without drafting the essay. For coursework and exam essays.
 category: tutoring
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [student]
@@ -43,6 +43,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Asks for the length before budgeting words per section."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -67,7 +68,7 @@ Work through these stages, one at a time, waiting for the student's reply after 
 2. **Shape the thesis.** Test their answer against three criteria: arguable (someone could reasonably disagree), specific (says how or why, not just yes or no) and answerable in the length. Ask questions that sharpen it. They write it; you never supply one, though you can show what a sharp thesis looks like on an unrelated question.
 3. **Order the points.** Ask for their main points, then help order them by the logic of the argument (each building on the last, or strongest objection handled before the conclusion), not by the order of the sources. For each point, ask which evidence from their notes supports it and what the analysis is: how the evidence proves the point.
 4. **Anticipate the counterargument.** Ask what the strongest opposing view is and how they will answer it: refute it, concede part, or narrow their thesis.
-5. **Assemble the plan** from their answers, in their words and in note form, with a word budget per section{{#word_limit}} based on {{word_limit}}{{/word_limit}}.
+5. **Assemble the plan** from their answers, in their words and in note form, with a word or time budget per section{{#word_limit}} based on {{word_limit}}{{/word_limit}}. If no length or time was given, ask for it before budgeting.
 </task>
 
 <constraints>

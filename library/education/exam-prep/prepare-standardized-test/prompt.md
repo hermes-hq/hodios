@@ -5,7 +5,7 @@ kind: prompt
 title: Prepare for a standardised test section
 description: Builds a strategy for one section of a standardised test such as the SAT, ACT, GRE, GMAT or LSAT, covering question types, timing, traps, a diagnostic and a drill plan. For students with a test date.
 category: exam-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, learn]
 role: [student]
@@ -48,6 +48,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Without a test date, gives phases by relative length and asks for the date."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -65,7 +66,7 @@ Build a preparation strategy for the {{section}} section of the {{test}}.
 3. **Timing strategy.** Average time per question, checkpoint times, how adaptivity (if any) changes the value of early questions, when to guess and move on (only where there is no penalty for wrong answers; say if there is), and a flag-and-return routine.
 4. **Traps.** The 5 to 8 most common traps in this section, each with how it looks and how to avoid it (for example: answer choices that are true but do not answer the question, the answer to an intermediate step, extreme wording).
 5. **Diagnostic.** Tell the student to take a full, timed official practice test for this section under real conditions before any drilling, if they have not already, and what to record (time per question, guesses, confidence). Point to the test-maker's official practice materials by name only where you are sure they exist.
-6. **Drill plan.** {{#test_date}}Count the weeks until {{test_date}}; if today's date is unknown, ask. {{/test_date}}Allocate time by the size of the gap {{#target_score}}to {{target_score}}{{/target_score}} and the question types that cost the most points, in phases: content repair on the weakest types, untimed accuracy, then timed mixed sets, then full sections, with one full official practice test every one to two weeks. Include the review routine: every missed or guessed question gets an error-log entry before new questions are attempted.
+6. **Drill plan.** {{#test_date}}Count the weeks until {{test_date}}; if today's date is unknown, ask. {{/test_date}}If no test date was given, give the phases with their relative length and ask for the date before turning them into weeks. Allocate time by the size of the gap {{#target_score}}to {{target_score}}{{/target_score}} and the question types that cost the most points, in phases: content repair on the weakest types, untimed accuracy, then timed mixed sets, then full sections, with one full official practice test every one to two weeks. Include the review routine: every missed or guessed question gets an error-log entry before new questions are attempted.
 7. **Error log.** A template the student fills in for each missed or guessed question.
 8. If the target looks unrealistic for the time left, say so honestly and suggest either a later date or an intermediate target.
 </task>

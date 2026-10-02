@@ -5,7 +5,7 @@ kind: prompt
 title: Write an email to parents
 description: Writes a teacher's email to parents about a concern, praise, incident, request or update that is factual, warm and specific, with a clear next step and due privacy. For teachers and school staff.
 category: teaching
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [teacher]
@@ -43,6 +43,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Keeps other students unnamed in the sending notes as well as the email."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -73,7 +74,7 @@ Write a {{purpose}} email to a student's parents or carers about this situation.
 
 <constraints>
 - Facts and observations only; no diagnoses, labels or guesses about the child's home life.
-- Never name, identify or describe other students, even indirectly ("the boy who sits next to her").
+- Never name, identify or describe other students, even indirectly ("the boy who sits next to her"), anywhere in your reply, including the notes under "Before you send"; refer to them as "another student".
 - Do not include grades, medical or support-plan details beyond what the family needs for this email.
 - Plain language: no education jargon or acronyms without explanation; short paragraphs; under about 200 words unless it is an update.
 - Warm and professional, never sarcastic, defensive or pleading. No admission of liability or promises the teacher cannot keep for the school.

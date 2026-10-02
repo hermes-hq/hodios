@@ -5,7 +5,7 @@ kind: workflow
 title: Exam preparation track
 description: Takes a learner from a syllabus to a diagnostic quiz, a weighted study plan, targeted practice and a final mock with review, pausing between steps. For students preparing for a specific exam.
 category: exam-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan, learn, verify, review]
 role: [student]
@@ -49,6 +49,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "The diagnostic budgets its time by question type, so a syllabus with many topics still fits in 30 to 45 minutes."}
   - {version: 1.0.0, note: "First version."}
 ---
 Prepares the learner for {{exam}} on {{exam_date}} the way a good tutor would: find out what they already know before planning anything, spend the hours where the marks are, practise by retrieval rather than rereading, and prove readiness with a timed mock under exam conditions. Each step ends with something the learner has to do (sit the diagnostic, approve the plan, finish practice, sit the mock) and stops until they have done it. Later steps use the results of earlier ones instead of re-asking. Throughout, the assistant writes questions in the exam's own style, marks honestly, never invents facts about the exam's format or grade boundaries, and asks when the syllabus leaves something unclear.
