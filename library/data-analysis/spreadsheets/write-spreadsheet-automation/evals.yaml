@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a {{app}} script to automate this: {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-apps-script-archive
+    vars:
+      app: google-apps-script
+      task: Every Monday I move all rows in the Tasks sheet whose Status is "Done" to the Archive sheet, add today's date in a new column, and delete them from Tasks.
+      sheet_layout: "Tasks: header row 1, columns Task, Owner, Status, Due. Archive: same columns plus Archived On."
+    assert:
+      - {type: contains, value: "DRY_RUN"}
+      - {type: icontains, value: "getValues"}
+      - {type: llm-rubric, value: "Backs up before deleting, finds the Status column by header name, writes to Archive before removing rows from Tasks, deletes rows bottom-up or rewrites the range in bulk, and explains how to add a weekly time-driven trigger."}
+  - name: edge-vba-merge-files
+    vars:
+      app: excel-vba
+      task: Combine the first sheet of every .xlsx file in a folder into one sheet, keeping the header once and adding the source file name in column A.
+      sheet_layout: ""
+    assert:
+      - {type: contains, value: "Option Explicit"}
+      - {type: llm-rubric, value: "Puts the folder path in a configuration constant, handles files whose headers differ by stopping or reporting them, restores ScreenUpdating in an error handler, avoids Select/Activate, and notes saving as .xlsm."}
+  - name: negative-email-not-requested
+    vars:
+      app: google-apps-script
+      task: Highlight in red any row in Invoices where Due Date is past and Paid is not "Yes".
+      sheet_layout: "Invoices: header row 1, columns Invoice, Client, Amount, Due Date, Paid."
+    assert:
+      - {type: not-icontains, value: "MailApp"}
+      - {type: not-icontains, value: "GmailApp"}
+      - {type: llm-rubric, value: "Only highlights rows (or suggests conditional formatting as a simpler no-code option) and does not add emailing, deletion or other unrequested actions."}

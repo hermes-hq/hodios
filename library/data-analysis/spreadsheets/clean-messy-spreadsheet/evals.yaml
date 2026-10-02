@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Clean up this data: {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-export-with-totals
+    vars:
+      target_use: Pivot table of revenue by region
+      data: |
+        Sales report - exported 2026-09-30
+        Region,Rep ,Date,Revenue
+        North,Ana,2026-09-01,"$1,200.00"
+        north ,Ana,2026-09-02,950
+        N. America,Ben,2026-09-02,N/A
+        North,Ana,2026-09-01,"$1,200.00"
+        South,Caro,15/09/2026,(300)
+        ,,,
+        Total,,,"$3,050.00"
+    assert:
+      - {type: contains, value: "## Change log"}
+      - {type: llm-rubric, value: "Removes the title, blank and Total rows with logged reasons; trims and normalises 'north ' to North; converts currency text to numbers and (300) to -300; converts 15/09/2026 to 2026-09-15; leaves N/A revenue blank rather than 0; removes the exact duplicate row and logs it; flags 'N. America' as a decision rather than merging it with North."}
+  - name: edge-ambiguous-dates
+    vars:
+      target_use: ""
+      data: |
+        id,signup,plan
+        1,03/04/2026,Pro
+        2,05/06/2026,pro
+        3,07/08/2026,Basic
+    assert:
+      - {type: llm-rubric, value: "Notes that all dates are ambiguous between day-first and month-first with no unambiguous row to decide, does not silently convert them, and lists them under Needs your decision; normalises plan casing."}
+  - name: negative-not-tabular
+    vars:
+      target_use: database import
+      data: "Hi team, the numbers were roughly 40 for Monday and maybe 55 Tuesday, Wednesday I don't have yet."
+    assert:
+      - {type: llm-rubric, value: "Says the input is not a table that can be cleaned and asks for an export; does not fabricate a table with invented values for Wednesday."}

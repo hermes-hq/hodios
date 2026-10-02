@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a {{app}} formula to do this: {{goal}}. My sheet: {{sheet_layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lookup-with-missing
+    vars:
+      app: excel
+      goal: In the Orders sheet, pull each customer's segment from the Customers sheet. If the customer is not found, show "Unknown".
+      sheet_layout: |
+        Orders: A = Order ID, B = Customer ID, C = Amount, headers in row 1, about 4,000 rows, growing. Formula goes in D2 and is filled down.
+        Customers: A = Customer ID, B = Name, C = Segment, headers in row 1.
+    assert:
+      - {type: contains, value: "## Formula"}
+      - {type: icontains, value: "XLOOKUP"}
+      - {type: contains, value: "Unknown"}
+      - {type: llm-rubric, value: "Gives a lookup from Customers column A returning column C with 'Unknown' as the not-found result, locks the lookup ranges correctly for fill-down, and offers an INDEX/MATCH or VLOOKUP fallback for older Excel."}
+  - name: edge-sheets-distinct-count
+    vars:
+      app: google-sheets
+      goal: Count how many distinct customers bought in March 2026.
+      sheet_layout: "Sheet1: A = Order date (real dates), B = Customer email, C = Amount. Header row 1. Answer in F1."
+    assert:
+      - {type: llm-rubric, value: "Uses Google Sheets functions (for example COUNTUNIQUE with FILTER, or COUNTA of UNIQUE of FILTER), filters on dates from 1 March to 31 March 2026 inclusive using date functions rather than text, and notes what happens when no rows match."}
+  - name: negative-missing-layout
+    vars:
+      app: excel
+      goal: Work out each rep's commission, 5% up to target and 8% above it.
+      sheet_layout: "It's the sales sheet."
+    assert:
+      - {type: llm-rubric, value: "Does not invent column letters; asks which columns hold rep, sales and target and where the formula goes, before or instead of giving a final formula."}

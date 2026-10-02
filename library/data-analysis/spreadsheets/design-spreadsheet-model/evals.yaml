@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me build a spreadsheet model in {{app}} for: {{purpose}}. What I know: {{inputs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-unit-economics
+    vars:
+      app: excel
+      purpose: Decide whether we can afford to double paid marketing next year. Monthly unit economics for our subscription app over 24 months.
+      inputs: "ARPU 12 per month, monthly churn 4%, CAC 85 per paid customer, gross margin 78%, 1,200 active customers today, marketing budget 40,000 per month."
+    assert:
+      - {type: contains, value: "## Checks"}
+      - {type: llm-rubric, value: "Separates inputs, calculations and outputs; models active customers as opening + new − churned on a monthly timeline; derives new customers from budget / CAC; uses named ranges for every given input; includes LTV/CAC or payback as the decision output with a sensitivity on churn and CAC; and includes at least one reconciliation check."}
+  - name: edge-missing-inputs
+    vars:
+      app: google-sheets
+      purpose: Staffing model for a support team, to decide how many agents to hire for next quarter.
+      inputs: ""
+    assert:
+      - {type: llm-rubric, value: "Builds the driver logic (ticket volume, handle time, occupancy, shrinkage, service level) and marks the input values as needed rather than inventing them, or labels any illustrative numbers clearly as placeholders."}
+  - name: negative-vague-purpose
+    vars:
+      app: excel
+      purpose: A model for my business.
+      inputs: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what decision the model should support (and possibly the business type and horizon) instead of designing a generic model."}

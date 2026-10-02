@@ -1,0 +1,34 @@
+schema: 1
+baseline: "My {{app}} formula {{formula}} is not working. I expected: {{expected}}. Fix it."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-text-number-na
+    vars:
+      app: excel
+      formula: "=VLOOKUP(A2,Products!$A$2:$C$500,3,FALSE) in D2, filled down"
+      expected: "Should return the product price. Returns #N/A for every row, although I can see the IDs exist in Products."
+      sample_data: |
+        Orders: A2 = 10045 (left-aligned, imported from CSV), B2 = 3
+        Products: A2 = 10045 (right-aligned), B2 = Widget, C2 = 4.50
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Identifies that the IDs in Orders are stored as text (left-aligned, CSV import) while Products IDs are numbers, proposes converting the data or coercing the lookup value, and gives an ISNUMBER or ISTEXT check to confirm. Does not use IFERROR as the fix."}
+  - name: edge-drifting-reference
+    vars:
+      app: google-sheets
+      formula: "=B2/SUM(B2:B13) in C2, copied down to C13"
+      expected: "Each month's share of the year should add to 100%. C2 is right, the rest get bigger and C13 is 100%."
+      sample_data: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the SUM range is relative and shrinks as it is copied down, and fixes it by anchoring the range rows (for example B$2:B$13 or $B$2:$B$13) while keeping B2 relative."}
+  - name: negative-formula-is-fine
+    vars:
+      app: excel
+      formula: "=AVERAGE(C2:C20)"
+      expected: "I expected 50, I get 47.4. Some cells in C are empty because those people did not answer."
+      sample_data: "C2:C20 holds scores 0-100; 4 cells are blank; one cell holds 0."
+    assert:
+      - {type: llm-rubric, value: "Recognises the formula is likely working as designed (AVERAGE ignores blanks but counts the 0) and asks or explains what the 50 was based on, instead of inventing a broken formula to fix."}

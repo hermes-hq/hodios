@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I make a pivot table in {{app}} to answer: {{question}}? Columns: {{columns}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-margin-by-quarter
+    vars:
+      app: excel
+      question: Which product categories had a lower gross margin percentage in Q2 2026 than in Q1 2026?
+      columns: "Order Date (date), Order ID (text), Category (text), Product (text), Revenue (number), Cost (number). About 25,000 rows."
+    assert:
+      - {type: contains, value: "## Pivot design"}
+      - {type: llm-rubric, value: "Computes margin percentage as a ratio of sums (calculated field or helper columns, not an average of row percentages), groups Order Date by quarters, puts Category on rows, and gives Excel-specific steps including converting to a Table."}
+  - name: edge-distinct-customers-sheets
+    vars:
+      app: google-sheets
+      question: How many different customers bought in each region per month?
+      columns: "Date, Customer Email, Region, Amount. 8,000 rows."
+    assert:
+      - {type: llm-rubric, value: "Uses COUNTUNIQUE (Summarize by) on Customer Email rather than COUNTA, groups dates by year-month with the pivot date group feature, and uses Google Sheets menu names."}
+  - name: negative-missing-field
+    vars:
+      app: excel
+      question: Which sales reps have the best win rate on deals?
+      columns: "Deal ID, Rep, Close Date, Amount. Only closed-won deals are in this export."
+    assert:
+      - {type: llm-rubric, value: "Points out that win rate cannot be computed because lost deals are not in the data, and asks for them or proposes what can be answered instead; does not present a pivot as if it gave win rate."}
