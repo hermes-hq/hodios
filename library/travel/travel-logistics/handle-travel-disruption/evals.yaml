@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My trip got disrupted, what do I do? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eu-cancellation
+    vars:
+      situation: "My flight from Madrid to Berlin with an EU airline was cancelled 2 hours before departure. Staff said 'crew shortage' and offered a voucher or a flight tomorrow evening. I'm still at the airport."
+    assert:
+      - {type: contains, value: "## Right now"}
+      - {type: llm-rubric, value: "Starts with immediate steps (do not accept the voucher without reading it, get the reason in writing, keep receipts), explains EU261 care, rerouting or refund and compensation by distance as items to verify, notes crew shortage is usually not extraordinary circumstances without promising payment, and drafts a claim letter with placeholders."}
+  - name: edge-us-domestic-delay
+    vars:
+      situation: "Delta flight Atlanta to Denver delayed 5 hours for weather. I missed a hotel night I'd prepaid."
+      region: US domestic
+    assert:
+      - {type: llm-rubric, value: "Explains that US law does not require delay compensation and weather is outside the airline's control, and points to travel insurance or credit-card trip-delay cover and the hotel's own policy, without promising compensation from the airline."}
+  - name: negative-missing-facts
+    vars:
+      situation: "My train was late and I missed my connection."
+    assert:
+      - {type: llm-rubric, value: "Gives general immediate steps, then asks for the missing facts (country, operator, tickets on one booking or separate, length of delay) instead of inventing them or naming a specific compensation amount."}

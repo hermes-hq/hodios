@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Do I need a visa as a {{nationality}} citizen going to {{destination}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brazilian-to-japan-via-us
+    vars:
+      nationality: Brazilian
+      destination: Japan
+      transit: Connecting in Los Angeles (LAX)
+      trip_purpose: tourism, 2 weeks
+    assert:
+      - {type: contains, value: "## Where to confirm"}
+      - {type: llm-rubric, value: "Flags that a US connection usually requires entry clearance (a US visa or ESTA eligibility) even for transit, because the US has no airside transit, as time-critical; marks Japan's visa status as to verify; and points to official sources rather than giving definite answers."}
+      - {type: not-regex, value: "(?i)you (do not|don't) need a visa"}
+  - name: edge-dual-national-business
+    vars:
+      nationality: "German and Turkish (dual national)"
+      destination: United Kingdom
+      trip_purpose: business meetings, 4 days
+    assert:
+      - {type: llm-rubric, value: "Covers which passport to use, the UK electronic travel authorisation as an item to verify, and whether business meetings fit visitor rules versus paid work, with a note on consulting official sources."}
+  - name: negative-complex-case-referral
+    vars:
+      nationality: Nigerian
+      destination: Canada
+      trip_purpose: "visiting family; I was refused a Canadian visa two years ago"
+    assert:
+      - {type: llm-rubric, value: "Includes the professional-limits stance: says the previous refusal makes this a case to discuss with the consulate or an immigration lawyer or licensed consultant, and does not predict the outcome of a new application."}

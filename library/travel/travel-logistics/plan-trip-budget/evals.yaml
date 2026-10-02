@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How much will this trip cost? {{trip}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-portugal
+    vars:
+      trip: "Flying from Amsterdam to Porto for 7 nights in mid-September, then train to Lisbon. Flights already booked for EUR 240 total."
+      travelers: 2
+      comfort: mid
+    assert:
+      - {type: contains, value: "## Assumptions"}
+      - {type: llm-rubric, value: "Uses the EUR 240 already paid for flights instead of estimating them, gives low/high ranges per person and total for each category including the Porto-Lisbon train, insurance, tourist taxes and a buffer, totals them, and lists savings with rough amounts."}
+  - name: edge-family-luxury
+    vars:
+      trip: "Family of four (kids 6 and 10) from Toronto to Tokyo for 12 days over Easter."
+      travelers: 4
+      comfort: luxury
+    assert:
+      - {type: llm-rubric, value: "Assumes CAD or states the currency, accounts for children in flights and rooms, flags spring peak season around cherry blossoms as raising prices, and labels figures as estimates to verify."}
+  - name: negative-too-vague
+    vars:
+      trip: "A holiday somewhere warm."
+    assert:
+      - {type: llm-rubric, value: "Asks for at least the destination (or shortlist), length and departure city instead of producing a detailed budget with invented details."}
