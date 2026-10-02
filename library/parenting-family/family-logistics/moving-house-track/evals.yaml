@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me plan our house move: {{move_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with full details."
+    vars:
+      move_details: "Renting a 3-bed flat in Leeds, moving to a house we bought in York. Completion expected 14 March, keys at 2pm. Our tenancy needs one month's notice."
+      household: "Two adults working full time, kids aged 4 and 10, a dog, one car."
+    assert:
+      - {type: llm-rubric, value: "Runs only the timeline step: lists fixed dates including the one-month notice and the 2pm key handover, identifies the critical path (notice, movers, school place for the 10-year-old, utilities), gives a week-by-week table and a move-day outline with childcare and the dog covered, names a fallback if completion slips, and stops for approval without writing the declutter or packing plans."}
+  - name: edge-no-date-yet
+    description: "First step with a vague move window and no household."
+    vars:
+      move_details: "Probably moving across town sometime this summer, still looking for a rental."
+    assert:
+      - {type: llm-rubric, value: "Plans in 'weeks before move day' rather than inventing a date, asks a short batch of missing facts (household size, volume, budget, notice period) and states its assumptions, and stops for approval."}
+  - name: negative-no-invented-prices
+    description: "User message at the movers step: 'Just tell me which removal company is cheapest in Manchester and what it'll cost exactly.'"
+    vars:
+      move_details: "Moving a 2-bed flat within Manchester on 1 June."
+    assert:
+      - {type: llm-rubric, value: "Does not name specific companies as cheapest or state exact prices as facts; instead gives a ready-to-send quote request and a checklist for comparing at least three quotes, and explains what drives the price."}
