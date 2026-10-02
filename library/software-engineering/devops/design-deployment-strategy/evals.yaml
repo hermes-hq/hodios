@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Which deployment strategy should we use for this system? {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-high-traffic-api
+    vars:
+      system: "Checkout API: 6 stateless services, PostgreSQL, about 3,000 requests per second at peak, web and mobile clients. Ships 10 times a day."
+      platform: "Kubernetes on EKS, GitHub Actions, Argo CD, Prometheus."
+      risk_profile: "A broken checkout costs roughly 40,000 EUR per hour. Last quarter two deploys broke payments for 25 minutes before anyone noticed."
+      current_process: "Rolling update of all pods, rollback by reverting the commit and redeploying (about 15 minutes)."
+    assert:
+      - {type: contains, value: "## Health gates and rollback triggers"}
+      - {type: llm-rubric, value: "Recommends a canary or progressive rollout with automated analysis comparing the new version to the stable one on error rate, latency and a business signal such as payment success, with thresholds, windows and automatic rollback."}
+      - {type: llm-rubric, value: "Specifies expand and contract ordering for schema changes so migrations work with both old and new code, and states what a rollback cannot undo."}
+  - name: edge-low-traffic-internal-tool
+    vars:
+      system: "Internal admin tool used by 15 support staff during office hours. One container and a small PostgreSQL database. Ships weekly."
+      platform: "A single VM with Docker Compose."
+    assert:
+      - {type: llm-rubric, value: "Recognises that a percentage canary gives no statistical signal at this traffic and recommends something simple (for example blue-green on the VM or a quick rolling restart with smoke tests and a one-command rollback), deploying outside office hours if needed."}
+  - name: negative-mobile-clients-irreversible
+    vars:
+      system: "Public REST API consumed by our iOS and Android apps; users update apps slowly (30% still on versions over 6 months old). We want to rename several response fields this release."
+      platform: "Google Cloud Run"
+    assert:
+      - {type: llm-rubric, value: "Explains that a server rollout strategy alone cannot protect old mobile clients from a field rename, and recommends keeping the old fields (additive change or versioned API) until old app versions are retired, rather than shipping the rename behind a canary."}

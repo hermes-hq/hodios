@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Review this {{cloud}} IAM policy for security issues: {{policies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-ci-passrole
+    vars:
+      cloud: aws
+      intended_use: "GitHub Actions deploys one Lambda function (orders-api) and uploads artifacts to the bucket acme-artifacts."
+      policies: |
+        Trust policy:
+        {"Effect":"Allow","Principal":{"Federated":"arn:aws:iam::111122223333:oidc-provider/token.actions.githubusercontent.com"},"Action":"sts:AssumeRoleWithWebIdentity","Condition":{"StringEquals":{"token.actions.githubusercontent.com:aud":"sts.amazonaws.com"}}}
+        Permissions:
+        {"Effect":"Allow","Action":["lambda:*","s3:*"],"Resource":"*"}
+        {"Effect":"Allow","Action":"iam:PassRole","Resource":"*"}
+    assert:
+      - {type: contains, value: "## Escalation paths"}
+      - {type: llm-rubric, value: "Flags that the trust policy has no sub condition, so any GitHub repository's workflow can assume the role, and adds a condition pinning the repository and branch or environment."}
+      - {type: llm-rubric, value: "Identifies iam:PassRole on * combined with lambda:* as a privilege-escalation path (create a function with a more privileged role), and rewrites the policy to the specific Lambda function, specific bucket and a single passable execution role."}
+  - name: edge-gcp-service-account-user
+    vars:
+      cloud: gcp
+      intended_use: "A data analyst who runs BigQuery queries in project analytics-prod."
+      policies: |
+        bindings on project analytics-prod:
+        - role: roles/bigquery.user, member: user:analyst@example.com
+        - role: roles/iam.serviceAccountUser, member: user:analyst@example.com
+        - role: roles/editor, member: serviceAccount:etl@analytics-prod.iam.gserviceaccount.com
+    assert:
+      - {type: llm-rubric, value: "Identifies that project-level Service Account User lets the analyst act as the ETL service account, which holds Editor, giving an escalation path to project-wide write access, and recommends removing it or scoping it to a specific low-privilege service account."}
+  - name: negative-already-scoped
+    vars:
+      cloud: aws
+      intended_use: "A service reads objects under one prefix of one bucket."
+      policies: |
+        {"Effect":"Allow","Action":"s3:GetObject","Resource":"arn:aws:s3:::acme-reports/exports/*"}
+    assert:
+      - {type: llm-rubric, value: "Judges the policy appropriately scoped for the stated use and does not invent critical findings; at most suggests optional hardening such as conditions, labelled as optional."}

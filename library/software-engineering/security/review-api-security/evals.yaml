@@ -1,0 +1,56 @@
+schema: 1
+baseline: "Review this API for security issues: {{api_spec_or_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-mass-assignment-and-bola
+    vars:
+      exposure: public
+      auth_model: "JWT bearer tokens. Users belong to one organisation. Roles: member, admin. Members may only see and edit projects in their organisation."
+      api_spec_or_code: |
+        router.get('/api/projects/:id', auth, async (req, res) => {
+          const project = await Project.findById(req.params.id);
+          res.json(project);
+        });
+        router.patch('/api/users/me', auth, async (req, res) => {
+          const user = await User.findByIdAndUpdate(req.user.id, req.body, { new: true });
+          res.json(user);
+        });
+        router.post('/api/import', auth, async (req, res) => {
+          const data = await fetch(req.body.url).then(r => r.text());
+          res.json(await importCsv(req.user.orgId, data));
+        });
+        router.get('/api/projects', auth, async (req, res) => {
+          res.json(await Project.find({ orgId: req.user.orgId }).limit(Number(req.query.limit)));
+        });
+    assert:
+      - {type: contains, value: "## Coverage"}
+      - {type: llm-rubric, value: "Finds broken object level authorization on GET /api/projects/:id (no organisation check), mass assignment on PATCH /api/users/me (req.body passed directly, allowing role or orgId changes), and SSRF on POST /api/import."}
+      - {type: llm-rubric, value: "Flags the caller-controlled limit on GET /api/projects as unrestricted resource consumption and gives fixes in Express style, including a field allowlist and a regression test."}
+  - name: edge-spec-only
+    vars:
+      exposure: partner
+      api_spec_or_code: |
+        openapi: 3.0.3
+        paths:
+          /v1/accounts/{accountId}/statements:
+            get:
+              security: [{apiKey: []}]
+              parameters: [{name: accountId, in: path, required: true, schema: {type: string}}]
+    assert:
+      - {type: llm-rubric, value: "Notes that with only a spec, object-level authorization on accountId cannot be verified, lists it as something to confirm in the implementation (API keys mapped to the partner's accounts), and asks for the authorization model or handler code instead of asserting a confirmed vulnerability."}
+  - name: negative-well-protected-endpoint
+    vars:
+      exposure: internal
+      auth_model: "Session cookie; users only see their own notes."
+      api_spec_or_code: |
+        @app.get("/notes/{note_id}")
+        def get_note(note_id: int, user=Depends(current_user)):
+            note = db.query(Note).filter(Note.id == note_id, Note.owner_id == user.id).first()
+            if note is None:
+                raise HTTPException(404)
+            return NoteOut.model_validate(note)
+    assert:
+      - {type: llm-rubric, value: "Recognises that the endpoint checks ownership in the query and returns a response model, does not report a BOLA finding, and keeps any remaining notes minor or marked not verifiable."}

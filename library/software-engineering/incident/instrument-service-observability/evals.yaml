@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add logging, metrics and tracing to this service: {{service}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fastapi-with-queue
+    vars:
+      service: "Order service: REST endpoints POST /orders and GET /orders/{id}, calls a payments service over HTTP, writes to PostgreSQL, and publishes order events to RabbitMQ consumed by a fulfilment worker. When orders are slow, nobody can tell whether it is payments, the database or the queue."
+      stack: "Python 3.12, FastAPI, SQLAlchemy, aio-pika"
+      existing_tooling: "Plain-text logs shipped to Loki, Prometheus, no tracing."
+    assert:
+      - {type: contains, value: "## Metrics"}
+      - {type: llm-rubric, value: "Uses OpenTelemetry auto-instrumentation for FastAPI, the HTTP client and SQLAlchemy, and explicitly propagates trace context through RabbitMQ message headers to the fulfilment worker."}
+      - {type: llm-rubric, value: "Uses route templates like /orders/{id} as metric labels rather than raw paths or order ids, uses histograms for latency, and adds trace_id to structured JSON logs."}
+  - name: edge-cardinality-trap
+    vars:
+      service: "Multi-tenant API with 50,000 customers. The team wants a request latency metric labelled by customer_id, user_email and full URL so they can filter dashboards per customer."
+      stack: "Go 1.23, net/http"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on customer_id, user_email and full URL as metric labels because of unbounded cardinality and personal data, and proposes putting them on spans or logs (with email redacted or hashed), optionally keeping a bounded label such as plan tier."}
+  - name: negative-no-stack-given
+    vars:
+      service: "Our backend is slow sometimes and we want observability."
+    assert:
+      - {type: llm-rubric, value: "Asks for the stack, the service's endpoints and dependencies and existing tooling before writing instrumentation code, and does not invent a framework."}

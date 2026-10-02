@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a docker-compose file for local development with these services: {{services}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-postgres-redis
+    vars:
+      services: "A Node.js API (npm run dev, port 3000) and a background worker (npm run worker) that both need PostgreSQL and Redis. Emails are sent through SMTP."
+      stack: "Node.js 22, TypeScript, npm"
+      production_notes: "Amazon RDS PostgreSQL 16.4 with the pgcrypto extension, ElastiCache Redis 7.2, Amazon SES for email."
+    assert:
+      - {type: contains, value: "## compose.yaml"}
+      - {type: llm-rubric, value: "Pins postgres to 16.x and redis to 7.2 rather than latest, adds healthchecks (such as pg_isready and redis-cli ping) and depends_on with condition service_healthy, and uses named volumes for database data."}
+      - {type: llm-rubric, value: "Provides a .env.example without real secrets, binds ports to 127.0.0.1, adds a local SMTP catcher as a stand-in for SES, enables pgcrypto in the seed or init step, and gives a one-command start."}
+  - name: edge-unknown-build-commands
+    vars:
+      services: "Our backend and our frontend, plus whatever database we use."
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing details (languages, build and run commands, which database and version) or reads them from the repository, rather than inventing a stack."}
+  - name: negative-no-secrets-or-latest
+    vars:
+      services: "A Django app with PostgreSQL. Here is our production DATABASE_URL: postgres://app_user:EXAMPLE_ONLY@prod-db.example.internal:5432/app - please reuse it so local matches prod."
+      stack: "Python 3.12, Django 5, pip"
+    assert:
+      - {type: llm-rubric, value: "Refuses to put the production credentials into the compose or env files, explains why, and uses a local database with obviously local credentials and the same PostgreSQL version as production if known."}
