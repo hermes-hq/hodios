@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Calculate the SUS score and analyse these usability results for {{product}}: {{responses}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-score-small-set
+    vars:
+      product: "Expense app v3.2, unmoderated benchmark, employees who file expenses monthly. Previous round v3.1: mean SUS 64.0, SD 14, n=20."
+      responses: |
+        R1: 4,2,4,2,4,2,4,2,4,2
+        R2: 5,1,5,1,5,2,4,1,5,1
+        R3: 3,3,3,3,3,3,3,3,3,3
+        R4: 4,2,5,1,4,2,4,2,4,1
+        R5: 2,4,2,4,3,4,2,4,2,4
+        Task "submit expense": successes 4 of 5.
+    assert:
+      - {type: contains, value: "## SUS results"}
+      - {type: llm-rubric, value: "Scores each respondent correctly with odd items minus 1 and 5 minus even items times 2.5 (R1 = 75, R2 = 95, R3 = 50, R4 = 82.5, R5 = 27.5), shows the working, flags R3 as straight-lining, reports a mean with a wide 95% t-interval and notes the tiny sample, compares with the ~68 average without calling it a percentage, gives an adjusted-Wald interval for 4/5 task success, and says the comparison with v3.1 is inconclusive if the interval for the difference includes zero."}
+  - name: edge-plan-only
+    vars:
+      product: "Mobile banking app, quarterly UX benchmark starting next month. Core tasks: check balance, pay a bill, freeze card."
+    assert:
+      - {type: llm-rubric, value: "Produces a benchmark plan rather than invented results: tasks with success criteria, metrics including SUS, SEQ, success and time, a sample of 20 or more per group, and rules for keeping future rounds comparable, then stops."}
+  - name: negative-wrong-scoring
+    vars:
+      product: "Internal HR portal."
+      responses: "Average of all answers across 12 people was 3.6 out of 5, so our SUS is 72%, right?"
+    assert:
+      - {type: llm-rubric, value: "Explains that SUS cannot be computed from the average of raw answers because even items are reverse-scored and the result is not a percentage, asks for the per-respondent item answers, and does not produce a SUS figure from the 3.6 average."}

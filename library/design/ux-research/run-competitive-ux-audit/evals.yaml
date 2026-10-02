@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Do a competitive UX audit of {{competitors}} for the task: {{task}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-walkthroughs
+    vars:
+      task: "New customer books a first appointment at a hair salon on mobile, starting from the salon's booking page, logged out."
+      competitors: |
+        App A: 1) pick service from list with prices 2) pick stylist or 'any' 3) calendar with available slots 4) enter name, phone, email 5) confirm. Card required at step 4 for a no-show fee, shown only on step 4. Confirmation SMS.
+        App B: 1) forced account creation (email, password) 2) verify email 3) pick service (no prices shown) 4) pick time 5) confirm. Price only on confirm screen.
+        App C: 1) pick service and see duration and price 2) slots shown immediately for next 3 days 3) phone number with one-time code 4) confirm. Option to add to calendar.
+    assert:
+      - {type: contains, value: "## Recommendations"}
+      - {type: llm-rubric, value: "Compares the three flows using only the supplied steps with a consistent step-counting rule, flags forced account creation and late price disclosure (App B) and the late no-show card requirement (App A) as friction, notes delighters such as prices and durations up front and add-to-calendar (App C), and gives adopt, avoid and differentiate recommendations with evidence, noting that they should be validated with users."}
+  - name: negative-names-only
+    vars:
+      task: "Cancel a streaming subscription on the web."
+      competitors: "Netflix, Disney+, Spotify"
+    assert:
+      - {type: llm-rubric, value: "Does not describe the competitors' cancellation flows from memory as fact; instead provides a walkthrough protocol and a blank comparison table and asks the user to collect the walkthroughs (or clearly states that any recollection would be unverified)."}

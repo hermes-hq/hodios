@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Plan a card sort for this content: {{content_inventory}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-open-sort-intranet
+    vars:
+      content_inventory: |
+        Company intranet for a 900-person hospital trust. Current menu: About us, Departments, HR Zone, IT Zone, Resources, News. Staff say they can't find anything.
+        Pages include: annual leave request, payslips, pension info, shift swap form, IT password reset, report a broken PC, new starter checklist, policies A-Z, clinical guidelines, staff car parking, canteen menu, wellbeing support, training booking, mandatory training records, expenses claim, org chart, CEO blog, ward contact list, room booking, uniform ordering.
+      goal: "Design a new top-level navigation from scratch."
+    assert:
+      - {type: contains, value: "## Cards"}
+      - {type: llm-rubric, value: "Recommends an open sort for this goal, builds a card table using the listed pages with plain labels (renaming any that share words like 'Zone' or repeated terms), suggests behaviour-based segments such as clinical versus non-clinical staff with roughly 15-20 per segment, describes similarity matrix analysis, and ends with a tree test before building."}
+  - name: edge-closed-sort-check
+    vars:
+      content_inventory: "Online hardware store, 40 product types listed (drills, sanders, paint, brushes, screws, hinges, garden hoses, lawnmowers, LED bulbs, extension cords and more). Proposed categories: Tools, Decorating, Fixings, Garden, Electrical."
+      goal: "Check whether customers put products where we think in the proposed five categories."
+    assert:
+      - {type: llm-rubric, value: "Recommends a closed sort (or hybrid) using the five proposed categories, plans for a larger sample (around 30+ per segment) because percentages will be reported, describes placement percentages and agreement per category, and flags ambiguous products likely to split (e.g. extension cords, LED bulbs) as candidates for cross-listing."}
+  - name: negative-no-content
+    vars:
+      content_inventory: "Our app."
+      goal: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent a card set; asks a few specific questions about the content, the users and the decision the sort should inform."}
