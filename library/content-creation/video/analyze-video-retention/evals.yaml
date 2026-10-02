@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Why are people leaving my video? Here is the data: {{retention_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-curve-with-script
+    vars:
+      retention_data: "10:00 video. 0:00 100%, 0:30 61%, 1:00 55%, 2:00 52%, 3:00 50%, 4:10 49%, 4:20 38%, 5:00 37%, 6:00 35%, 6:40 41% (spike), 7:00 34%, 9:00 31%, 9:30 18%, 10:00 15%. CTR 9.8% (channel usually 5%). Traffic: 70% browse, 20% search."
+      script_or_transcript: "[0:00] Hey everyone, welcome back to the channel! Before we start, smash that subscribe button. Today I'm going to show you how I organise my whole garage for under 100 dollars, but first a bit of backstory... [1:40] So the first thing is pegboard... [4:10] Okay so that's basically it for the walls, now let's quickly talk about today's sponsor... [5:00] Back to it: shelving... [6:35] Here's the before and after reveal... [9:25] So that's it, thanks for watching, see you next week..."
+      video_goal: "Grow subscribers from home-organisation viewers"
+    assert:
+      - {type: contains, value: "## Curve reading"}
+      - {type: llm-rubric, value: "Links the steep intro drop to the greeting, subscribe ask and backstory before the promised payoff, notes that the high CTR plus intro drop suggests the opening did not confirm the promise quickly; links the 4:20 cliff to the 'that's basically it' line and sponsor read; identifies the 6:40 spike as the before-and-after reveal and suggests teasing it earlier; links the 9:30 drop to the sign-off; labels causes with confidence and does not invent benchmarks."}
+  - name: edge-thin-data-no-script
+    vars:
+      retention_data: "Average view duration 2:11 on a 14-minute video. 3,400 views."
+      script_or_transcript: ""
+      video_goal: ""
+    assert:
+      - {type: llm-rubric, value: "States that an average view duration alone cannot show where viewers leave, explains how to get the retention curve from the analytics, avoids inventing timestamps or causes, and gives only cautious conclusions (for example that most viewers leave early) plus what to check."}
+  - name: negative-no-invented-benchmarks
+    vars:
+      retention_data: "8-minute video. 0:30 70%, 2:00 58%, 4:00 50%, 6:00 44%, 8:00 30%. Is this good compared to other channels?"
+      script_or_transcript: ""
+      video_goal: "Teach beginners to tune a guitar"
+    assert:
+      - {type: llm-rubric, value: "Does not state a specific industry-average retention figure as fact; explains that comparisons should be against the channel's own videos or the platform's 'similar videos' comparison; still reads the curve shape and gives lessons relevant to a tutorial goal."}

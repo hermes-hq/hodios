@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a script for a screen-recorded tutorial on how to: {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spreadsheet-dropdown
+    vars:
+      task: "Add a dropdown list to a cell in Google Sheets. Steps from my notes: select the cell, open the Data menu, choose Data validation, click Add rule, set Criteria to Dropdown, type the options, click Done. Gotcha: people forget to tick 'Reject the input' if they want to block other values (it's under Advanced options)."
+      audience_level: "office workers new to spreadsheets"
+      tool_version: "Google Sheets web, 2026 interface"
+    assert:
+      - {type: contains, value: "## Recap card"}
+      - {type: regex, value: "\\[PAUSE\\]"}
+      - {type: llm-rubric, value: "Opens by showing the finished dropdown, uses the exact labels from the notes in bold (Data, Data validation, Add rule, Dropdown, Done, Advanced options, Reject the input), says where to click before the action, covers the 'Reject the input' gotcha at the right step, includes at least one checkpoint, and ends with a short recap and a next-task pointer."}
+  - name: edge-multiple-tasks
+    vars:
+      task: "Set up a new online store: create the account, add products, set up payments, configure shipping zones, and connect a custom domain."
+      audience_level: ""
+      tool_version: ""
+    assert:
+      - {type: llm-rubric, value: "Recognises several tasks, scripts only one (the first or most important) and lists the others as separate videos, uses [UI LABEL?] placeholders instead of inventing menu names it was not given, and includes a version placeholder in the opening."}
+  - name: negative-no-invented-ui
+    vars:
+      task: "Show how to export a project as a PDF in our design tool, Lumen. I don't remember where the export option is."
+      audience_level: "new customers"
+      tool_version: "Lumen 3"
+    assert:
+      - {type: llm-rubric, value: "Does not invent menu paths, button names or shortcuts for the export; marks them as [UI LABEL?] placeholders and lists them under Fill before recording, while still producing a usable script structure."}
