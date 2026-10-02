@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Move the hard-coded strings in these files into translation files: {{files}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-component
+    vars:
+      i18n_library: "react-intl (FormatJS)"
+      key_style: dotted
+      files: |
+        src/cart/CartSummary.tsx:
+        export function CartSummary({ count, total }: Props) {
+          console.log("rendering cart", count);
+          track("cart_viewed");
+          return (
+            <section aria-label="Cart summary">
+              <h2>Your cart</h2>
+              <p>{"You have " + count + (count === 1 ? " item" : " items") + " in your cart"}</p>
+              <p>Total: ${total.toFixed(2)}</p>
+              <button>Checkout</button>
+            </section>
+          );
+        }
+    assert:
+      - {type: contains, value: "## Skipped"}
+      - {type: llm-rubric, value: "Turns the concatenated count sentence into one ICU plural message, formats the total with a locale-aware currency formatter, extracts the aria-label, heading and button text with feature-based keys, and skips the console.log message and the analytics event name."}
+  - name: edge-same-word-two-contexts
+    vars:
+      i18n_library: "vue-i18n"
+      key_style: flat
+      files: |
+        TicketRow.vue: <span class="status">Open</span> ... <button @click="view">Open</button>
+    assert:
+      - {type: llm-rubric, value: "Creates two separate keys for the status 'Open' and the action 'Open', with translator comments that explain the difference."}
+  - name: negative-no-library
+    vars:
+      i18n_library: ""
+      key_style: dotted
+      files: "src/ (a small Svelte app with no i18n dependency and no locale files)"
+    assert:
+      - {type: llm-rubric, value: "Reports that no i18n library is present and recommends one suited to Svelte before extracting, rather than inventing a home-made lookup system."}

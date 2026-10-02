@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Make a translation glossary for {{locales}} from these strings: {{source_strings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-project-tool
+    vars:
+      locales: "de-DE, fr-FR"
+      product_context: "Taskly, a project management web app for small teams. Plans: Free, Taskly Pro."
+      source_strings: |
+        "Create a new Board in this Workspace"
+        "Archive board" / "Delete board permanently"
+        "Invite members to your workspace"
+        "Upgrade to Taskly Pro"
+        "Log in" / "Sign in with Google"
+        "Move card to another list"
+    assert:
+      - {type: contains, value: "## Source inconsistencies"}
+      - {type: llm-rubric, value: "Flags 'Log in' versus 'Sign in' as a source inconsistency, marks Taskly and Taskly Pro as do-not-translate, keeps Archive and Delete as distinct translations, gives German noun genders, and marks translations as proposed."}
+      - {type: icontains, value: "term,pos,definition"}
+  - name: edge-no-context
+    vars:
+      locales: "ja-JP"
+      product_context: ""
+      source_strings: |
+        "Pin to sidebar"
+        "Unpin"
+        "Snapshot saved"
+        "Restore snapshot"
+    assert:
+      - {type: llm-rubric, value: "Asks what a Snapshot is in this product (or states a clearly marked assumption) before settling its translation, and still builds entries for the clear terms."}
+  - name: negative-overtagging-dnt
+    vars:
+      locales: "es-ES"
+      product_context: "A notes app called Noteworthy."
+      source_strings: |
+        "New Note"
+        "Share Note"
+        "Noteworthy Settings"
+    assert:
+      - {type: llm-rubric, value: "Marks only Noteworthy as do-not-translate and does not treat capitalised ordinary words like Note or Settings as do-not-translate."}

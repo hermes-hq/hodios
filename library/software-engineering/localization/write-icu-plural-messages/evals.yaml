@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Convert these messages to ICU format for {{locales}}: {{messages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-count-ternary
+    vars:
+      locales: "en, pl, ar"
+      messages: |
+        files.selected: `${n} file${n === 1 ? "" : "s"} selected`  (n = number of selected files)
+    assert:
+      - {type: contains, value: "## Test values"}
+      - {type: icontains, value: "other {"}
+      - {type: llm-rubric, value: "Polish uses one, few, many and other; Arabic uses zero, one, two, few, many and other; each message uses # for the count, and test values include cases such as 2, 5, 22 and 11 that land in different categories."}
+  - name: edge-gender-and-count
+    vars:
+      locales: "en, fr"
+      messages: |
+        share.notice: "{name} shared {count} photos with you" where the sharer's gender is female, male or unknown.
+    assert:
+      - {type: llm-rubric, value: "Nests plural inside select on gender with an other branch, writes full sentences in every branch, and notes that French treats 0 and 1.5 as 'one'."}
+  - name: negative-fragment-assembly
+    vars:
+      locales: "en, de"
+      messages: |
+        prefix: "You have"
+        suffix.one: "item in your cart"
+        suffix.other: "items in your cart"
+        Code joins them as prefix + " " + count + " " + suffix.
+    assert:
+      - {type: llm-rubric, value: "Says the fragments must be merged into a single message and proposes one ICU plural message instead of converting each fragment separately."}

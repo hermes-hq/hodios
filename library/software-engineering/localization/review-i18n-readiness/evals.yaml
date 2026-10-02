@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Is this code ready for internationalization? {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-bugs
+    vars:
+      target_locales: "de, pl, ja, tr"
+      code: |
+        // src/orders.ts
+        export function summary(order) {
+          const label = order.items.length + " item" + (order.items.length === 1 ? "" : "s");
+          const price = "$" + order.total.toFixed(2);
+          const date = `${order.date.getMonth() + 1}/${order.date.getDate()}/${order.date.getFullYear()}`;
+          return `Order of ${label} for ${price} placed on ${date}`;
+        }
+        export const normalizeEmail = (e) => e.trim().toLowerCase();
+        export const sortNames = (names) => names.sort();
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the concatenated plural with a Polish example, the hard-coded dollar sign and toFixed (with JPY as a counterexample), the month/day/year date, and the sort without a collator, each with a locale-aware fix such as Intl.PluralRules, Intl.NumberFormat, Intl.DateTimeFormat or Intl.Collator."}
+  - name: edge-rtl-css
+    vars:
+      target_locales: "ar, he"
+      code: |
+        .card { margin-left: 16px; text-align: left; }
+        .card .chevron { background: url(arrow-right.svg); position: absolute; right: 8px; }
+        <p className="comment">{comment.text}</p>
+    assert:
+      - {type: llm-rubric, value: "Flags the physical CSS properties with logical replacements (margin-inline-start, text-align: start, inset-inline-end), the directional chevron icon that needs mirroring, and user-generated comment text that needs dir=auto or bidi isolation."}
+  - name: negative-clean-code
+    vars:
+      target_locales: "fr, de"
+      code: |
+        const fmt = new Intl.NumberFormat(locale, { style: "currency", currency: order.currency });
+        const msg = intl.formatMessage({ id: "cart.count" }, { count: items.length });
+        return `${msg} · ${fmt.format(order.total)}`;
+    assert:
+      - {type: llm-rubric, value: "Reports few or no defects; does not invent problems for the locale-aware formatting. At most it notes that joining two messages with a separator in code could be one message."}

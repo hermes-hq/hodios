@@ -1,0 +1,51 @@
+schema: 1
+baseline: "Translate this file into {{target_locale}}: {{catalog}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-json-icu-polish
+    vars:
+      target_locale: pl-PL
+      formality: informal
+      glossary: "Workspace -> Przestrzeń robocza; Acme Cloud: do not translate"
+      catalog: |
+        {
+          "workspace.invite.title": "Invite people to your Workspace",
+          "workspace.members.count": "{count, plural, one {# member} other {# members}}",
+          "workspace.cta.upgrade": "Upgrade to Acme Cloud Pro",
+          "_comment_upgrade": "Button, max 20 characters"
+        }
+    assert:
+      - {type: contains, value: "{count, plural,"}
+      - {type: contains, value: "Acme Cloud"}
+      - {type: llm-rubric, value: "The plural message has one, few, many and other branches as Polish requires, keys are unchanged, the glossary term is used, and the upgrade button length limit is respected or flagged."}
+  - name: edge-po-plural-header
+    vars:
+      target_locale: ja
+      formality: formal
+      glossary: ""
+      catalog: |
+        msgid ""
+        msgstr ""
+        "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+        #, c-format
+        msgid "%d file deleted"
+        msgid_plural "%d files deleted"
+        msgstr[0] ""
+        msgstr[1] ""
+    assert:
+      - {type: icontains, value: "nplurals=1"}
+      - {type: llm-rubric, value: "Updates the Plural-Forms header for Japanese to a single form, fills only msgstr[0], keeps %d and the c-format flag, and uses polite (desu/masu) style."}
+  - name: negative-ambiguous-strings
+    vars:
+      target_locale: de-DE
+      formality: formal
+      glossary: ""
+      catalog: |
+        {"status.open": "Open", "toolbar.post": "Post", "toolbar.open": "Open"}
+    assert:
+      - {type: contains, value: "## Review notes"}
+      - {type: llm-rubric, value: "Translates status.open as a state (for example 'Offen') and toolbar.open as an action (for example 'Öffnen'), and flags 'Post' as ambiguous between noun and verb."}

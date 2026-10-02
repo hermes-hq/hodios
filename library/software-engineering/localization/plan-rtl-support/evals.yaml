@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Add right-to-left support for Arabic to this {{platform}} code: {{code_area}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-card
+    vars:
+      platform: web
+      rtl_locales: "ar, he"
+      code_area: |
+        components/ProductCard.css:
+        .card { padding-left: 24px; text-align: left; border-left: 4px solid var(--accent); }
+        .card .price { float: right; letter-spacing: 0.05em; }
+        .card .next { background-image: url(chevron-right.svg); right: 12px; position: absolute; }
+        .card .play { background-image: url(play.svg); }
+        components/ProductCard.tsx: renders {product.name} (may be English) and {seller.phone}
+    assert:
+      - {type: contains, value: "## Mirroring decisions"}
+      - {type: llm-rubric, value: "Replaces physical properties with logical ones (padding-inline-start, text-align: start, border-inline-start, inset-inline-end), mirrors the chevron but not the play icon, removes letter-spacing for Arabic, isolates the product name with dir=auto or bdi, and keeps the phone number left-to-right."}
+  - name: edge-android
+    vars:
+      platform: android
+      rtl_locales: "ar, fa"
+      code_area: "res/layout/activity_profile.xml uses android:layout_marginLeft, android:gravity=\"left\" and an ic_arrow_back vector drawable; AndroidManifest.xml has no supportsRtl attribute."
+    assert:
+      - {type: llm-rubric, value: "Adds android:supportsRtl=\"true\", converts marginLeft and gravity left to start, sets autoMirrored on the back arrow drawable, and suggests the Force RTL developer option for testing."}
+  - name: negative-global-flip
+    vars:
+      platform: web
+      rtl_locales: "ar"
+      code_area: "Our plan is to add `html[lang=ar] body { transform: scaleX(-1) }` to flip everything. Please implement it for the whole app."
+    assert:
+      - {type: llm-rubric, value: "Explains why a global mirror transform is wrong (it mirrors text, numbers, logos and media controls) and proposes setting dir=rtl with logical properties instead."}

@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Check this translation for mistakes. Source: {{source_catalog}} Translation: {{translated_catalog}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-placeholder-and-glossary
+    vars:
+      glossary: "Board -> Tableau; Acme: do not translate"
+      source_catalog: |
+        {
+          "board.share": "Share {boardName} with {count, plural, one {# person} other {# people}}",
+          "board.delete.confirm": "Delete this Board? This cannot be undone.",
+          "nav.settings": "Settings",
+          "billing.seats": "%d seats used",
+          "about.title": "About Acme"
+        }
+      translated_catalog: |
+        {
+          "board.share": "Partager {nomTableau} avec {count, plural, one {# personne} other {# personnes}}",
+          "board.delete.confirm": "Supprimer ce panneau ? Cette action est irréversible.",
+          "nav.settings": "Settings",
+          "billing.seats": "%s places utilisées",
+          "about.title": "À propos d'Acmé"
+        }
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Marks the renamed ICU argument boardName as a blocker, flags %d changed to %s, flags 'panneau' as a glossary violation (should be Tableau), flags nav.settings as untranslated, and flags the altered brand name Acme."}
+  - name: edge-plural-categories
+    vars:
+      glossary: ""
+      source_catalog: "msg.files = {n, plural, one {# file} other {# files}}"
+      translated_catalog: "msg.files = {n, plural, one {# plik} other {# plików}}"
+    assert:
+      - {type: llm-rubric, value: "Flags that the Polish translation lacks the few and many categories required by Polish plural rules, so values like 2 would read wrongly, and suggests the corrected message."}
+  - name: negative-clean-translation
+    vars:
+      glossary: ""
+      source_catalog: |
+        {"cta.save": "Save", "cta.cancel": "Cancel", "greeting": "Hello, {name}!"}
+      translated_catalog: |
+        {"cta.save": "Speichern", "cta.cancel": "Abbrechen", "greeting": "Hallo, {name}!"}
+    assert:
+      - {type: llm-rubric, value: "Verdict is ship with no blocker or major findings, and it does not invent problems."}
