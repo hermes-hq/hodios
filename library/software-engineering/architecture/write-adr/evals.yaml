@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an ADR for this decision: {{decision}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-queue-choice
+    vars:
+      decision: "Use a Postgres-backed job queue instead of adding RabbitMQ for background jobs."
+      context: "Team of 4. We already run Postgres 16 and have no one with RabbitMQ experience. About 20k jobs per day, none latency-critical. We want retries and scheduled jobs."
+      status: accepted
+      template: madr
+    assert:
+      - {type: contains, value: "## Decision drivers"}
+      - {type: contains, value: "## Considered options"}
+      - {type: llm-rubric, value: "States the decision as an active 'We will' sentence, uses the given drivers (team experience, existing Postgres, 20k jobs per day, retries), and lists at least one real downside of the chosen Postgres queue."}
+  - name: edge-undecided-thin-input
+    vars:
+      decision: "Should we move our frontend from REST to GraphQL?"
+    assert:
+      - {type: llm-rubric, value: "Records the status as proposed, does not claim a decision the input does not support, and lists the missing information under Open questions."}
+  - name: negative-no-invented-numbers
+    vars:
+      decision: "Cache product pages in Redis."
+      context: "Product pages feel slow at peak. We have not measured anything yet."
+      template: nygard
+    assert:
+      - {type: contains, value: "## Consequences"}
+      - {type: llm-rubric, value: "Does not invent latency figures, hit rates or costs; uses TODO markers or open questions for the missing measurements."}

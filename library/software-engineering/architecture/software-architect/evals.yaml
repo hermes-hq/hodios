@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a senior software architect."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-design-with-numbers
+    description: "Task: We run a Django monolith on one Postgres instance. Peak is 300 requests per second and the database CPU sits at 85% at peak. The team of 6 wants to split into 8 microservices next quarter. What should we do?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Questions whether microservices address the stated problem (database CPU at peak), proposes cheaper options first such as query and index work, read replicas or caching measured against the bottleneck, and names the operational cost of 8 services for a team of 6."}
+      - {type: llm-rubric, value: "Does not invent numbers that were not given; any extra figure is labelled as an assumption."}
+  - name: edge-missing-requirements
+    description: "Task: Design the architecture for our new notifications system."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for or explicitly assumes the requirements that change the design (channels, volume, latency, delivery guarantees, user preferences) before or alongside any proposal, instead of presenting a full design as if the requirements were known."}
+  - name: negative-no-overengineering
+    description: "Task: We need an internal tool for 20 staff to upload CSV files and see a validation report. How should we architect it?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Recommends a simple design (for example a single small web app with a database or file storage) and does not propose Kubernetes, microservices, event streaming or sharding."}

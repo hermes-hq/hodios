@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Design an API for this: {{capability}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-rest
+    vars:
+      capability: "Customers place orders for items in their cart, see their past orders, and cancel an order before it ships."
+      consumers: "Our iOS and Android apps, on flaky mobile networks."
+      style: rest
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: icontains, value: "openapi"}
+      - {type: llm-rubric, value: "Order creation uses an idempotency key (or equivalent) because mobile clients retry, the order list is paginated, and cancelling a shipped order has a defined error."}
+  - name: edge-graphql-with-conventions
+    vars:
+      capability: "Let the dashboard show a team's projects with their latest build status."
+      style: graphql
+      conventions: "Errors go in the standard GraphQL errors array with an extensions.code string. Ids are global ids. Lists use Relay-style connections."
+    assert:
+      - {type: regex, value: "type \\w+"}
+      - {type: llm-rubric, value: "Uses Relay-style connections and extensions.code errors as the given conventions require, rather than its own defaults."}
+  - name: negative-no-invented-rules
+    vars:
+      capability: "An API for user accounts."
+    assert:
+      - {type: contains, value: "## Assumptions and open questions"}
+      - {type: llm-rubric, value: "Business rules that were not given (password policy, roles, limits, deletion rules) are marked as assumptions or questions rather than stated as facts."}
