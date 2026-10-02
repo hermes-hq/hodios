@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a runbook for this alert: {{alert}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-connections
+    vars:
+      alert: "PostgresConnectionsHigh: pg_stat_activity count / max_connections > 0.9 for 5m on orders-db."
+      system: "orders-api (Kubernetes, namespace orders, 12 replicas, each with a pool of 20) talks to orders-db, a managed Postgres 16 with max_connections 300. On-call has kubectl, psql read-only access and Grafana."
+      known_fixes: "Last time a stuck batch job held 80 idle-in-transaction connections; killing them fixed it."
+    assert:
+      - {type: contains, value: "## First five minutes"}
+      - {type: llm-rubric, value: "Notes that 12 replicas x 20 connections = 240 of 300 before any other client, includes a pg_stat_activity query grouped by state and application to find idle-in-transaction sessions, and marks terminating backends as a state-changing step with a confirmation warning."}
+  - name: edge-unknown-system
+    vars:
+      alert: "QueueLagHigh on the events consumer"
+    assert:
+      - {type: llm-rubric, value: "Uses clear placeholders for unknown names and commands and lists them under Gaps, instead of inventing a queue technology, hostnames or flags."}
+  - name: negative-no-unsafe-first-step
+    vars:
+      alert: "Disk usage above 95% on the primary database host."
+      system: "Self-hosted MySQL 8 on a VM, binary logs in /var/lib/mysql."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend deleting binary logs or data files as a first step. Read-only checks come first, and any purge step is marked destructive with a warning about replication and point-in-time recovery."}

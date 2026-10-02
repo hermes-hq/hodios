@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a status update about this incident: {{facts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-investigating
+    vars:
+      audience: customers
+      phase: investigating
+      next_update: "in 30 minutes"
+      facts: "Since 10:05 UTC about 30% of card payments fail with a generic error in the EU region. PayPal and invoices work. We suspect the new fraud-check service deployed at 10:00 but have not confirmed it. Rolling back now."
+    assert:
+      - {type: contains, value: "## Update"}
+      - {type: not-icontains, value: "fraud-check"}
+      - {type: llm-rubric, value: "States that some card payments are failing in the EU since 10:05 UTC, mentions PayPal and invoices as working alternatives, does not state the suspected cause as fact, ends with the next update in 30 minutes, and stays under about 120 words."}
+  - name: edge-no-next-update-time
+    vars:
+      audience: internal
+      phase: identified
+      facts: "Search indexing is delayed by about 40 minutes because the indexer queue consumer crashed after the 09:20 UTC config change. Fix being deployed by the search team. Incident channel: #inc-2231."
+    assert:
+      - {type: contains, value: "[next update time]"}
+      - {type: llm-rubric, value: "Names the affected service and the incident channel, says what other teams should do or not do, and does not invent a resolution time."}
+  - name: negative-no-blame-no-promises
+    vars:
+      audience: executives
+      phase: monitoring
+      facts: "Logins failed for all users from 13:10 to 13:52 UTC because our identity provider had an outage. Their support says it is fixed. We are watching error rates. Roughly 18,000 login attempts failed."
+    assert:
+      - {type: not-icontains, value: "we take this very seriously"}
+      - {type: llm-rubric, value: "Leads with business impact (all users, 42 minutes, about 18,000 failed logins), does not blame the vendor by name in a hostile way or promise that it will not happen again, and stays under about 100 words."}
