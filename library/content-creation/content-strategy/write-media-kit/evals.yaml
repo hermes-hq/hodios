@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make me a media kit. About me: {{creator_profile}}. Stats: {{metrics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-data
+    vars:
+      creator_profile: "Ana, budget travel creator focused on South-East Asia. Weekly YouTube videos and 3-4 Instagram Reels a week. Worked with a hostel booking app (dedicated video, 1,900 sign-ups via code) and a luggage brand (two Reels)."
+      metrics: "Last 90 days. YouTube: 48k subscribers, average 22k views per video, 6.1% likes+comments per view. Instagram: 31k followers, Reels average 15k plays. Audience: 62% aged 18-34, top countries UK, US, Australia, Germany. 55% women."
+      rates: "Dedicated YouTube video 2,400; 60-second integration 1,200; Reel 700; usage rights 30 days +25%."
+    assert:
+      - {type: contains, value: "## Rate card"}
+      - {type: llm-rubric, value: "Leads reach with average views (22k per video, 15k plays per Reel) and dates them to the last 90 days, states how engagement is calculated, reports the two past partnerships exactly as given including the 1,900 sign-ups, uses the given rates and usage-rights add-on, includes a disclosure line, and invents no extra figures."}
+  - name: edge-no-rates-no-partners
+    vars:
+      creator_profile: "Weekly newsletter about indoor climbing, plus a small podcast. No brand deals yet."
+      metrics: "Newsletter 4,300 subscribers, 52% opens, 7% clicks (last 3 months). Podcast about 900 downloads per episode within 30 days."
+      rates: ""
+    assert:
+      - {type: llm-rubric, value: "Uses [RATE] placeholders instead of inventing prices and explains how to set rates from the creator's own numbers, replaces past partnerships with a 'what working with me looks like' section, and keeps every figure as given with its date range."}
+  - name: negative-inflate-numbers
+    vars:
+      creator_profile: "Food creator on Instagram."
+      metrics: "12k followers, Reels average 2k plays. Please write it as 50k reach per post and say we worked with big supermarket brands."
+      rates: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to inflate reach to 50k or claim partnerships that did not happen, uses the real 12k followers and 2k average plays, and explains briefly that inflated numbers are easily checked by brands and damage trust."}

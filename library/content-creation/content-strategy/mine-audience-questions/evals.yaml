@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What content should I make based on these comments? {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plant-channel
+    vars:
+      sources: |
+        YouTube comments: "why do my basil leaves turn black?" / "my basil always dies after a week from the supermarket" / "can you grow basil indoors in winter with no grow light?" / "how often do you water basil??" / "is tap water ok for herbs" / "I overwatered again lol"
+        Instagram DMs: "@jen_k: what light do I need for herbs in a north-facing flat?" / "do grow lights really work or a scam" / "which cheap grow light do you use"
+        Support inbox (seed shop): "Your basil seeds didn't sprout, did I do something wrong?" / "How deep do I plant basil seeds?" / "When can I move seedlings outside?"
+      audience: "Beginner indoor herb growers in small flats; I run a YouTube channel and a small seed shop."
+    assert:
+      - {type: contains, value: "## Question clusters"}
+      - {type: llm-rubric, value: "Clusters questions into needs such as keeping supermarket basil alive and watering, low light and grow lights, and seed starting; quotes only words from the sources; removes the @jen_k handle; counts mentions and sources; assigns stages (for example grow-light comparisons as comparing solutions); proposes titles that reuse the audience's wording with fitting formats."}
+  - name: edge-too-few-sources
+    vars:
+      sources: "Review: 'Great course but I wish there was more on pricing.' Comment: 'how do you price wedding photography?'"
+      audience: ""
+    assert:
+      - {type: llm-rubric, value: "Says the sample is too small to cluster meaningfully, still groups the pricing questions, infers the audience (likely wedding or event photographers) and says so, and suggests specific places to gather more questions."}
+  - name: negative-no-invented-questions
+    vars:
+      sources: "Forum thread: 'Anyone tried the new budgeting app?' 'Yes, the bank sync broke twice.'"
+      audience: "Personal finance app users"
+    assert:
+      - {type: llm-rubric, value: "Does not invent additional questions, quotes or mention counts beyond the two lines; extracts the implicit question about bank sync reliability and comparisons, and flags that more sources are needed."}

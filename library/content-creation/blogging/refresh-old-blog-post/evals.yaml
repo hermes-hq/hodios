@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Update this old blog post: {{post}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dated-guide-with-data
+    vars:
+      post: "Title: The Best Time to Post on Instagram in 2022. URL: /best-time-instagram. Published March 2022. Intro: 'In 2022, the algorithm favours Reels...' Sections: Why timing matters; Best times by day (a table citing 'a 2021 study'); Tips. Links to /instagram-hashtags and an external study link."
+      performance_data: "Clicks down 70% year over year, impressions down 40%. Average position moved from 3 to 11. Top queries: 'best time to post on instagram' (pos 11), 'best time to post on instagram for engagement' (pos 14), 'how to find your best time to post instagram insights' (pos 9, 2,000 impressions, 12 clicks)."
+      target_keyword: best time to post on instagram
+    assert:
+      - {type: contains, value: "## Change log"}
+      - {type: llm-rubric, value: "Diagnoses outdated content and shifted intent (people want to find their own best time from their analytics), marks the 2022 year, the 2021 study and the time table as [VERIFY] without inventing new figures, adds a section on using the platform's own insights, keeps the URL, logs every change with a reason, suggests internal links, and only updates the date because changes are substantial."}
+  - name: edge-no-performance-data
+    vars:
+      post: "Title: How to Clean a Cast Iron Pan. Published 2019. Steps: rinse with hot water, scrub with salt, dry on the stove, oil lightly. No headings, one long paragraph."
+      performance_data: ""
+      target_keyword: ""
+    assert:
+      - {type: llm-rubric, value: "States that no data was supplied and diagnoses from the text, restructures with headings and an early direct answer, adds plausible missing sub-questions (such as rust or using soap) with placeholders where facts are needed, and logs the changes."}
+  - name: negative-beyond-refresh
+    vars:
+      post: "Title: Getting Started with Google+ for Business. Published 2016. How to set up a Google+ page, grow circles and post updates."
+      performance_data: "Almost no traffic for three years."
+      target_keyword: "google+ for business"
+    assert:
+      - {type: llm-rubric, value: "Recognises the post is about a discontinued product and is beyond refreshing, recommends retiring it, redirecting it or writing a new post on a current topic, rather than patching it, and does not invent current details about the product."}

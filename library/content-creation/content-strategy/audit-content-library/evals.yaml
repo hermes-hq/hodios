@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Audit this content and tell me what to keep or delete: {{content_inventory}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overlapping-posts
+    vars:
+      content_inventory: |
+        title | url | published | sessions_12m | conversions_12m | backlinks
+        How to choose a CRM | /choose-crm | 2021-04 | 14,200 | 61 | 22
+        CRM buying guide | /crm-buying-guide | 2022-09 | 2,100 | 4 | 3
+        10 questions before buying a CRM | /crm-questions | 2023-02 | 900 | 9 | 0
+        Our 2019 company party | /party-2019 | 2019-12 | 40 | 0 | 0
+        CRM pricing explained | /crm-pricing | 2020-06 | 6,800 | 30 | 5
+        What is a sales pipeline | /sales-pipeline | 2025-08 | 300 | 2 | 1
+      goals: "Leads for our CRM for small agencies. Pillars: choosing a CRM, sales process, agency operations."
+      metrics: ""
+    assert:
+      - {type: contains, value: "## Merge groups"}
+      - {type: llm-rubric, value: "States relative criteria first; merges the CRM buying guide and the questions post into /choose-crm with redirects; marks the 2019 party post for removal; marks CRM pricing for update (likely outdated pricing, strong traffic and conversions); excludes the 2025 sales-pipeline post from removal as too recent; identifies gaps such as agency operations content; uses only the given numbers."}
+  - name: edge-no-metrics
+    vars:
+      content_inventory: "1. Beginner's guide to sourdough (2018). 2. Sourdough for beginners: step by step (2021). 3. My trip to San Francisco bakeries (2019). 4. Rye starter recipe (2022). 5. Best flour for sourdough (2020)."
+      goals: ""
+      metrics: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that no metrics or goals were given, infers or asks for goals, still gives every piece a decision (using 'needs data' where it truly depends on numbers), flags the two beginner guides as a likely merge group, and lists which numbers would settle the open decisions."}
+  - name: negative-no-invented-traffic
+    vars:
+      content_inventory: "Twelve blog posts about home espresso (titles only), no data."
+      goals: "Affiliate revenue from espresso gear."
+      metrics: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent traffic, ranking or conversion figures for the posts; explains which data to export and how it would change the decisions, and works only with what it can judge from titles and goals."}
