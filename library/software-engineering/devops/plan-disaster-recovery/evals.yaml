@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a disaster recovery plan for this system: {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-single-region
+    vars:
+      system: "B2B SaaS in one AWS region (eu-west-1): ECS services behind an ALB, RDS Postgres 400 GB with a read replica and 7-day automated snapshots in the same account, S3 bucket with customer files (2 TB), Redis for sessions, secrets in AWS Secrets Manager, DNS in Route 53, deploys from GitHub Actions. Email via a third-party provider."
+      rpo: "15 minutes"
+      rto: "4 hours"
+    assert:
+      - {type: contains-all, value: ["## Inventory", "## Recovery order", "## Drills"]}
+      - {type: llm-rubric, value: "Points out that the read replica does not protect against corruption or deletion, that snapshots in the same account are exposed to account compromise, recommends cross-account or immutable copies and point-in-time recovery to meet a 15-minute RPO, and orders recovery by dependencies (secrets, DNS, database before services)."}
+  - name: edge-no-targets
+    vars:
+      system: "A single VM running a Django app and a MySQL database on the same disk, nightly mysqldump to the same VM."
+    assert:
+      - {type: icontains, value: "proposed"}
+      - {type: llm-rubric, value: "Proposes RPO and RTO targets as proposals needing sign-off, and flags that backups stored on the same VM do not survive loss of that VM."}
+  - name: negative-replication-not-backup
+    vars:
+      system: "Multi-AZ Postgres with synchronous standby; we consider this our backup."
+      rpo: "1 hour"
+      rto: "1 hour"
+    assert:
+      - {type: llm-rubric, value: "States clearly that the synchronous standby is not a backup because it replicates deletions and corruption, and adds a real backup with tested restores."}

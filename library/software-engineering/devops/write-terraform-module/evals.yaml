@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a Terraform module on {{cloud}} for: {{resource_goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-private-bucket
+    vars:
+      cloud: aws
+      resource_goal: "Private S3 bucket for user uploads, versioned, objects moved to infrequent access after 30 days, readable by one IAM role passed in by the caller."
+      constraints: "All resources must carry the tags team and cost_center."
+    assert:
+      - {type: contains-all, value: ["## Assumptions", "## Files", "## Verify"]}
+      - {type: contains, value: "validation"}
+      - {type: not-contains, value: "provider \"aws\" {"}
+      - {type: llm-rubric, value: "Blocks public access, enables encryption, scopes the IAM policy to the bucket ARN and the caller's role (no wildcard action on wildcard resource), and merges tags from a variable."}
+  - name: edge-ambiguous-database
+    vars:
+      cloud: gcp
+      resource_goal: "A database for our app."
+    assert:
+      - {type: llm-rubric, value: "Asks a small number of design-changing questions (engine, availability or region, data retention on destroy) and stops instead of writing a full module on guesses."}
+  - name: negative-no-hardcoded-ids
+    vars:
+      cloud: azure
+      resource_goal: "A storage account with a private endpoint into an existing subnet."
+    assert:
+      - {type: not-regex, value: "subscriptions/[0-9a-f]{8}-[0-9a-f]{4}"}
+      - {type: llm-rubric, value: "Takes the subnet ID as an input variable rather than creating a network or hard-coding IDs, and disables public network access by default."}

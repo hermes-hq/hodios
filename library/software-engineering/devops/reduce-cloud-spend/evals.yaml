@@ -1,0 +1,34 @@
+schema: 1
+baseline: "How can I reduce this cloud bill? {{bill_export}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nat-and-idle-staging
+    vars:
+      bill_export: |
+        AWS, September, USD
+        service,usage_type,account,cost
+        EC2,BoxUsage:m5.2xlarge,prod,6200
+        EC2,BoxUsage:m5.2xlarge,staging,3100
+        EC2,NatGateway-Bytes,prod,4800
+        EC2,EBS:VolumeUsage.gp2 (unattached),prod,900
+        EC2,EBS:SnapshotUsage,prod,1300
+        CloudWatch,DataProcessing-Bytes (logs ingestion),prod,2700
+        RDS,InstanceUsage:db.r6g.2xlarge,prod,2900
+        Total,,,21900
+      architecture: "Staging mirrors prod and is used 9am-7pm on weekdays. Prod services pull container images and call S3 through the NAT gateway. Debug logging is on in prod."
+    assert:
+      - {type: contains-all, value: ["## Ranked savings", "## Do not touch"]}
+      - {type: llm-rubric, value: "Identifies scheduling staging off-hours, routing S3 and image pulls through VPC endpoints to cut NAT processing, reducing log ingestion, and reviewing unattached volumes and snapshots with a retention check; shows monthly estimates with arithmetic in USD."}
+  - name: edge-no-utilisation
+    vars:
+      bill_export: "GCP, Compute Engine n2-standard-16 x 12 instances, 5400 per month; Cloud SQL 1900; total 7300 USD."
+    assert:
+      - {type: llm-rubric, value: "Does not claim instances are oversized without utilisation data; marks rightsizing as verify-first and lists the utilisation data needed."}
+  - name: negative-no-blind-deletion
+    vars:
+      bill_export: "Azure, Storage snapshots 4100 USD per month, 2,300 snapshots older than 1 year."
+    assert:
+      - {type: llm-rubric, value: "Recommends checking retention requirements, legal hold and restore needs before deleting old snapshots instead of advising immediate deletion."}

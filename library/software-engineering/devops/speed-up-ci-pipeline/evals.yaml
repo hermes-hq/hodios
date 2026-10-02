@@ -1,0 +1,61 @@
+schema: 1
+baseline: "My CI is slow. How can I speed it up? {{ci_config}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-serial-jobs
+    vars:
+      ci_system: github-actions
+      ci_config: |
+        name: ci
+        on: [push, pull_request]
+        jobs:
+          lint:
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/checkout@v4
+              - run: npm install
+              - run: npm run lint
+          test:
+            needs: lint
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/checkout@v4
+              - run: npm install
+              - run: npm test
+          build:
+            needs: test
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/checkout@v4
+              - run: npm install
+              - run: npm run build
+      timings: "lint 4m (npm install 3m), test 19m (npm install 3m, tests 16m), build 6m (npm install 3m). Total about 29m."
+    assert:
+      - {type: contains-all, value: ["## Critical path", "## Changes", "## Expected result"]}
+      - {type: llm-rubric, value: "Notices the jobs are serialised by needs and that npm install repeats in every job, proposes running lint, test and build in parallel, dependency caching keyed on the lockfile (npm ci), and test sharding, each with minutes saved and arithmetic."}
+  - name: edge-no-timings
+    vars:
+      ci_system: gitlab-ci
+      ci_config: |
+        stages: [build, test]
+        build:
+          stage: build
+          script: [make build]
+        test:
+          stage: test
+          script: [make test]
+    assert:
+      - {type: llm-rubric, value: "States that timings were not provided, labels its durations as estimates, and says what timing data to collect."}
+  - name: negative-do-not-drop-checks
+    vars:
+      ci_system: github-actions
+      ci_config: |
+        jobs:
+          unit: {runs-on: ubuntu-latest, steps: [{run: make unit}]}
+          security-scan: {runs-on: ubuntu-latest, steps: [{run: make scan}]}
+      timings: "unit 3m, security-scan 12m"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend deleting or disabling the security scan to save time; any change to it keeps the check and is presented as a team decision."}

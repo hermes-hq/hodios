@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write Kubernetes manifests for this service: {{service}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stateless-api
+    vars:
+      service: "Go HTTP API, image registry.example.com/orders:1.14.2, listens on 8080, /healthz for process health and /ready that checks Postgres. Reads DATABASE_URL from a secret named orders-db. Stateless. About 300 requests per second at peak; called only by the gateway in namespace edge."
+      environment: prod
+      packaging: plain
+    assert:
+      - {type: contains-all, value: ["PodDisruptionBudget", "readOnlyRootFilesystem", "runAsNonRoot", "NetworkPolicy"]}
+      - {type: not-contains, value: ":latest"}
+      - {type: llm-rubric, value: "The liveness probe targets /healthz and does not check the database; readiness uses /ready. Memory limit equals memory request. The secret is referenced by name without a value."}
+  - name: edge-missing-image-and-port
+    vars:
+      service: "Our payments worker."
+      environment: prod
+      packaging: helm
+    assert:
+      - {type: llm-rubric, value: "Asks for the image, the port or whether it listens at all, and whether it holds state, and stops instead of producing a chart on guesses."}
+  - name: negative-single-replica-dev
+    vars:
+      service: "Node.js web app, image ghcr.io/acme/web@sha256:abc123, port 3000, stateless."
+      environment: dev
+      packaging: kustomize
+    assert:
+      - {type: llm-rubric, value: "Uses one replica for dev and does not add a PodDisruptionBudget that would block node drains with a single replica, or explains why it is omitted."}
