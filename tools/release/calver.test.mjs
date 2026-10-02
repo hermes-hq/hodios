@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { nextCalver } from './calver.mjs';
+import { nextCalver, nextSeq } from './calver.mjs';
 
 describe('nextCalver', () => {
   const oct2 = new Date('2026-10-02T06:00:00Z');
@@ -21,5 +21,13 @@ describe('nextCalver', () => {
       return x[0] - y[0] || x[1] - y[1] || x[2] - y[2];
     });
     expect(sorted).toEqual(['2026.105.0', '2026.930.0', '2026.1002.0', '2026.1002.1']);
+  });
+});
+
+describe('nextSeq', () => {
+  it('goes up by one with each catalog release', () => {
+    expect(nextSeq([])).toBe(0);
+    expect(nextSeq(['v2026.1002.0'])).toBe(1);
+    expect(nextSeq(['v2026.1002.0', 'v2026.1002.1', 'not-a-release'])).toBe(2);
   });
 });

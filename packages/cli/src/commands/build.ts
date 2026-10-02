@@ -45,6 +45,7 @@ export function runBuild(args: string[], io: Io): number {
       out: { type: 'string' },
       target: { type: 'string', multiple: true },
       catalog: { type: 'string' },
+      seq: { type: 'string' },
     },
     allowPositionals: false,
   });
@@ -58,6 +59,12 @@ export function runBuild(args: string[], io: Io): number {
     io.err(`hodios build: --catalog must be YYYY.MDD.PATCH, got "${catalog}"`);
     return 2;
   }
+  // Manifest seq: one step per catalog release, so clients can tell a newer manifest and fetch deltas (design §7).
+  if (values.seq !== undefined && !/^(0|[1-9]\d*)$/.test(values.seq)) {
+    io.err(`hodios build: --seq must be a non-negative integer, got "${values.seq}"`);
+    return 2;
+  }
+  const seq = values.seq === undefined ? 0 : Number(values.seq);
   const targets = (values.target ?? []).map((t) => {
     const target = targetById(t);
     if (!target) throw new Error(`unknown target "${t}"`);
@@ -184,7 +191,7 @@ export function runBuild(args: string[], io: Io): number {
     writeFileSync(full, content);
   }
   if (all) {
-    const cat = writeCatalog(lib, join(out, 'catalog', 'v1'), catalog);
+    const cat = writeCatalog(lib, join(out, 'catalog', 'v1'), catalog, seq);
     for (const ref of cat.objects.keys()) groups.set(ref, 'catalog');
     groups.set('catalog/v1/manifest.json', 'catalog');
   }

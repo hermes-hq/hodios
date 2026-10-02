@@ -2,7 +2,9 @@
 // Catalog CalVer: YYYY.MDD.PATCH (MDD = month * 100 + day; PATCH counts same-day releases).
 // Valid semver, monotonic, and a same-day hotfix (2026.1002.1) sorts above the day's first release.
 //
-// Usage (CI): node tools/release/calver.mjs [existing tags...]  -> prints the next version
+// Usage (CI): node tools/release/calver.mjs [existing tags...]        -> prints the next version
+//             node tools/release/calver.mjs --seq [existing tags...]  -> prints the next manifest seq
+//             (pass it to `hodios build --seq`)
 import { pathToFileURL } from 'node:url';
 
 /** @param {Date} date */
@@ -28,6 +30,17 @@ export function nextCalver(date, existingTags) {
   return `${prefix}.${patch}`;
 }
 
+/**
+ * The manifest `seq` for the next release: one step per catalog release, so it only goes up.
+ * @param {string[]} existingTags tags such as v2026.1002.0
+ * @returns {number}
+ */
+export function nextSeq(existingTags) {
+  return existingTags.filter((t) => /^v?20\d{2}\.\d+\.\d+$/.test(t)).length;
+}
+
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
-  console.log(nextCalver(new Date(), process.argv.slice(2)));
+  const args = process.argv.slice(2);
+  if (args[0] === '--seq') console.log(nextSeq(args.slice(1)));
+  else console.log(nextCalver(new Date(), args));
 }

@@ -67,8 +67,8 @@ export function todayCalver(now = new Date()): string {
 }
 
 /** Writes the v1 catalog (manifest + content-addressed objects) into `dir`. */
-export function writeCatalog(lib: Library, dir: string, catalog: string): CatalogOutput {
-  const out = buildCatalog({ entries: lib.entries, vocab: lib.vocab, catalog, sha256, packs: lib.packs });
+export function writeCatalog(lib: Library, dir: string, catalog: string, seq = 0): CatalogOutput {
+  const out = buildCatalog({ entries: lib.entries, vocab: lib.vocab, catalog, sha256, packs: lib.packs, seq });
   for (const [ref, text] of out.objects) {
     const path = join(dir, objectPath(ref));
     mkdirSync(dirname(path), { recursive: true });

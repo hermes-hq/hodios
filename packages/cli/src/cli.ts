@@ -35,7 +35,7 @@ Install into your tools:
 
 Build and check (inside a Hodios checkout):
   validate [--root <dir>] [--json] [--verbose]
-  build [--out dist] [--target t]... [--catalog YYYY.MDD.N]
+  build [--out dist] [--target t]... [--catalog YYYY.MDD.N] [--seq n]
   rules
       List lint rule ids.
 

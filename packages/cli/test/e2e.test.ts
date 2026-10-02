@@ -61,7 +61,7 @@ function project(name: string): string {
 }
 
 beforeAll(async () => {
-  const result = await cli(['build', '--out', out, '--catalog', '2026.1002.0']);
+  const result = await cli(['build', '--out', out, '--catalog', '2026.1002.0', '--seq', '2']);
   expect(result.err).toBe('');
   expect(result.code).toBe(0);
 });
@@ -122,6 +122,7 @@ describe('hodios build', () => {
   it('writes a v1 catalog whose objects verify', () => {
     const manifest = JSON.parse(readFileSync(join(catalogDir, 'manifest.json'), 'utf8')) as Manifest;
     expect(manifest.catalog).toBe('2026.1002.0');
+    expect(manifest.seq).toBe(2);
     expect(manifest.tiers.curated?.rows).toBeGreaterThanOrEqual(EXAMPLES.length);
     for (const file of walk(join(catalogDir, 'o'))) {
       const hex = file.split('/').pop() as string;
@@ -143,6 +144,12 @@ describe('hodios build', () => {
       ),
     ) as ShardList;
     expect(list.prefixLen).toBe(0);
+  });
+
+  it('rejects a --seq that is not a non-negative integer', async () => {
+    const result = await cli(['build', '--out', project('bad-seq'), '--seq', '-1']);
+    expect(result.code).toBe(2);
+    expect(result.err).toContain('--seq');
   });
 
   it('refuses to clear a folder it did not write', async () => {
