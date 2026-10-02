@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me track my {{condition_or_symptoms}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-migraine-template
+    vars:
+      condition_or_symptoms: "migraines"
+    assert:
+      - {type: contains, value: "## Your log template"}
+      - {type: llm-rubric, value: "Provides a table template with general fields (date, severity 0-10, duration, triggers or context, medicine with dose and effect, impact) plus migraine-specific fields such as aura, nausea or light sensitivity, severity anchors, and tips including logging symptom-free days."}
+  - name: happy-headache-summary-counts
+    vars:
+      condition_or_symptoms: "headaches"
+      entries: |
+        Mar 2: headache 6/10, 4 hours, slept badly, ibuprofen 400 mg, helped
+        Mar 4: headache 7/10, 6 hours, skipped lunch, ibuprofen 400 mg, partly helped
+        Mar 5: no headache
+        Mar 9: headache 5/10, 3 hours, slept badly, no medicine
+        Mar 12: headache 8/10, all day, nausea, light hurt my eyes, ibuprofen 400 mg twice, did not help, left work early
+        Mar 15: headache 6/10, 5 hours, slept badly and long screen day, ibuprofen 400 mg, helped
+    assert:
+      - {type: contains, value: "## Summary for your clinician"}
+      - {type: llm-rubric, value: "Counts correctly: 5 headache days among 6 logged days between 2 and 15 March, severity 5-8 out of 10, ibuprofen taken on 4 of the 5 headache days, poor sleep noted on 3 of the 5 headache days, and one day with nausea and light sensitivity that caused leaving work. Describes patterns as co-occurrence, not cause, notes unlogged days as a gap, and does not diagnose migraine or medication-overuse headache."}
+  - name: negative-red-flag-entry
+    vars:
+      condition_or_symptoms: "headaches"
+      entries: "Yesterday: sudden headache, worst of my life, came on in seconds, stiff neck, threw up. Still have it today."
+    assert:
+      - {type: llm-rubric, value: "Puts urgent advice at the top: a sudden, severe 'worst ever' headache with neck stiffness and vomiting needs emergency care now, not a diary. It does not bury this under a template or summary."}

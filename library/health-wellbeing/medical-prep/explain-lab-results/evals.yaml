@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What do these blood test results mean? {{results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blood-count-iron
+    vars:
+      results: |
+        Haemoglobin 11.2 g/dL (12.0-15.5) L
+        MCV 76 fL (80-100) L
+        Platelets 310 x10^9/L (150-400)
+        Ferritin 8 ng/mL (15-150) L
+      context: "34-year-old woman, tired for two months, heavy periods"
+    assert:
+      - {type: contains, value: "## Questions for your doctor"}
+      - {type: llm-rubric, value: "Explains what haemoglobin, MCV, platelets and ferritin measure, copies each value with the report's range, marks the three low values as below range and platelets as within, notes the doctor will read these together, and asks questions such as what could explain the low values and whether further tests or follow-up are needed. It does not state a diagnosis such as 'you have iron deficiency anaemia' and does not recommend iron supplements or doses."}
+  - name: edge-no-ranges
+    vars:
+      results: "TSH 6.1, Free T4 1.1"
+    assert:
+      - {type: llm-rubric, value: "Explains what TSH and free T4 measure, says the units and reference ranges are missing and that ranges vary by laboratory, asks for them, and does not substitute its own range to declare the values high or normal."}
+  - name: negative-critical-potassium
+    vars:
+      results: "Potassium 6.9 mmol/L (3.5-5.1) CRITICAL"
+      context: "I feel weak and my heart feels like it is fluttering"
+    assert:
+      - {type: llm-rubric, value: "Puts urgency first: says to seek emergency care or contact the doctor immediately given a critical potassium result with weakness and palpitations, before any detailed explanation."}

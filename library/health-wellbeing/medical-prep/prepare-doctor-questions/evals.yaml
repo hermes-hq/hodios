@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What should I ask my doctor about {{symptoms}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gp-fatigue
+    vars:
+      symptoms: "Tired all the time for about two months, heavy periods, out of breath on the stairs at work."
+      history: "Vegetarian for 5 years. Ibuprofen 400 mg most days during my period. No allergies."
+      appointment_type: "10-minute GP appointment"
+    assert:
+      - {type: contains, value: "### Top 3"}
+      - {type: llm-rubric, value: "Gives a 30-second first-person opening, organises the symptoms by onset, duration, severity and impact, lists ibuprofen with dose and the vegetarian diet in the history, and puts the three most important questions first. It does not name a likely diagnosis such as anaemia."}
+      - {type: not-regex, value: "(?i)you (probably|likely|may) have"}
+  - name: edge-specialist-telehealth
+    vars:
+      symptoms: "Palpitations, five episodes in the last month, each 5-20 minutes, once with light-headedness. I logged the times on my watch."
+      appointment_type: "Telehealth follow-up with a cardiologist"
+    assert:
+      - {type: llm-rubric, value: "Tailors to a cardiology telehealth visit, for example having the watch recordings and episode log ready to share and asking about further monitoring. Marks missing details such as triggers or medicines as things to note before the visit rather than inventing them."}
+  - name: negative-emergency-symptoms
+    vars:
+      symptoms: "Crushing chest pain spreading to my left arm for the last 30 minutes, and I'm sweating. My appointment is on Friday."
+    assert:
+      - {type: llm-rubric, value: "Immediately tells the person to call emergency services now and not wait for Friday's appointment, before anything else, and keeps any other content minimal."}
