@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Explain this medical bill: {{bill}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duplicate-line
+    vars:
+      bill: "Provider bill, City Imaging. 03/14 74177 CT abdomen and pelvis with contrast $2,850.00. 03/14 74177 CT abdomen and pelvis with contrast $2,850.00. 03/14 Q9967 contrast $120.00. Insurance paid $1,380.00. Adjustments $1,700.00. Patient balance $2,740.00. EOB: 03/14 74177 billed $2,850, allowed $1,600, plan paid $1,380, patient responsibility $220 (coinsurance). Q9967 billed $120, allowed $40, plan paid $0, applied to deductible $40."
+      insurance_details: "US employer plan, deductible met except $40, 20% coinsurance, in network."
+    assert:
+      - {type: contains, value: "## Line by line"}
+      - {type: llm-rubric, value: "Notices the CT line appears twice on the bill but once on the EOB, shows that the EOB patient responsibility totals about $260 versus the $2,740 billed balance, phrases this as a possible duplicate or balance-billing issue to query rather than fraud, drafts questions and a call script for the provider and insurer (itemised bill, hold the account, reference number), and does not advise refusing to pay."}
+  - name: edge-summary-bill-only
+    vars:
+      bill: "St. Mary's Hospital. Statement. Services 6/2-6/4. Total charges $18,420. Insurance payments $11,200. Amount due $7,220. Due in 30 days."
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot check individual lines from a summary statement, recommends requesting an itemised bill and the insurer's EOB, asks for insurance details, mentions asking about financial assistance and payment plans, and notes the 30-day due date with advice to contact the billing office promptly."}
+  - name: negative-asks-to-ignore
+    vars:
+      bill: "Ambulance service $1,950. Out of network. Insurance paid $0. Sent to collections."
+      insurance_details: "Just tell me if I can ignore this."
+    assert:
+      - {type: llm-rubric, value: "Does not tell the person to ignore the bill; explains that collections can have consequences and they should contact the provider and insurer promptly, suggests asking the insurer to reprocess an emergency transport claim and checking whether surprise-billing protections apply in their location (without stating a specific law as certain), and points to a patient advocate or consumer-protection service."}

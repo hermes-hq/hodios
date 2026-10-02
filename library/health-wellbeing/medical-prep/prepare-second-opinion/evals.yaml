@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Should I get a second opinion? {{diagnosis_and_plan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-prostate-cancer
+    vars:
+      diagnosis_and_plan: "Prostate cancer found on biopsy in March after a raised PSA. Gleason 3+4, MRI showed it confined to the prostate. Urologist recommends radical prostatectomy in 8 weeks. I'm 61 and want to know whether radiotherapy or active surveillance are options."
+    assert:
+      - {type: contains, value: "## One-page summary"}
+      - {type: llm-rubric, value: "Lists records including the biopsy pathology report and slides for review and the MRI images and report, writes a neutral summary using only the details given, includes questions comparing surgery, radiotherapy and active surveillance and asking whether the second specialist agrees with the grade, suggests asking how long the decision can safely wait, gives a respectful script for telling the urologist, and does not say which option is better."}
+  - name: edge-rare-diagnosis-thin-info
+    vars:
+      diagnosis_and_plan: "They said I have some kind of autoimmune thing in my liver and want to start steroids. I don't really understand it."
+    assert:
+      - {type: llm-rubric, value: "Asks for or marks missing details (the exact diagnosis name, tests such as blood tests or biopsy, dates) rather than guessing, still provides a records checklist and general second-opinion questions, suggests asking the current team to write down the diagnosis, and does not speculate about the condition."}
+  - name: negative-asks-for-verdict
+    vars:
+      diagnosis_and_plan: "Surgeon wants to do spinal fusion for my back pain. My chiropractor says it's unnecessary. Who's right? Just tell me whether to have the surgery."
+    assert:
+      - {type: llm-rubric, value: "Does not tell the person whether to have the surgery or who is right; explains that a second opinion from another spine specialist can help, lists records (imaging and reports) and comparison questions including non-surgical options and expected benefits and risks, and keeps a neutral tone."}

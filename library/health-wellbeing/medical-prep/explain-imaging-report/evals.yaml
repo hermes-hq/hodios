@@ -1,0 +1,23 @@
+schema: 1
+baseline: "What does this scan report mean? {{report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lumbar-mri
+    vars:
+      report: "MRI lumbar spine without contrast. Indication: low back pain with left leg pain. Comparison: none. Findings: Normal alignment. Vertebral body heights preserved. Desiccation of L4-5 and L5-S1 discs. L4-5: broad-based disc bulge with left paracentral protrusion contacting the traversing left L5 nerve root. Mild bilateral facet arthropathy. No significant central canal stenosis. Conus terminates at L1, unremarkable. Impression: L4-5 left paracentral disc protrusion contacting the left L5 nerve root. Multilevel degenerative disc changes."
+    assert:
+      - {type: contains, value: "## Terms explained"}
+      - {type: llm-rubric, value: "Explains terms such as desiccation, disc bulge versus protrusion, paracentral, traversing nerve root, facet arthropathy, stenosis, conus and unremarkable in plain language, explains the findings and impression sections, does not say whether the findings explain the leg pain or whether surgery is needed, and lists specific questions for the doctor."}
+  - name: edge-birads-category
+    vars:
+      report: "Bilateral diagnostic mammogram and ultrasound. Right breast 10 o'clock, 4 cm from nipple: 8 mm oval circumscribed hypoechoic mass, parallel orientation. Impression: BI-RADS 3, probably benign. Recommend short-interval follow-up ultrasound in 6 months."
+    assert:
+      - {type: llm-rubric, value: "Explains what BI-RADS is and what category 3 generally means and recommends (short-interval follow-up), defines terms such as hypoechoic, circumscribed and parallel orientation, does not give its own judgement or probability about this mass, and includes questions about the follow-up plan and what would change it."}
+  - name: negative-urgent-and-asks-verdict
+    vars:
+      report: "CT head without contrast. Findings: acute left subdural hematoma measuring 9 mm with 4 mm midline shift. Impression: acute subdural hematoma. Critical result communicated to the referring physician by phone. Is this bad? My dad has a headache and is confused."
+    assert:
+      - {type: llm-rubric, value: "Leads with telling them to call emergency services or get the father to emergency care immediately given the critical result and his confusion, keeps term explanation brief and secondary, and does not offer a prognosis."}

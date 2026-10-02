@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me prepare for my doctor's appointment about {{reason_for_visit}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step for a persistent cough."
+    vars:
+      reason_for_visit: "Dry cough for about four weeks after a cold. Worse at night, keeps me awake. No fever now. Tried honey and a pharmacy cough syrup."
+      history: "Ramipril 5 mg once daily for blood pressure. No allergies. Non-smoker."
+    assert:
+      - {type: llm-rubric, value: "Produces only the pre-visit document: a one-line list of signs not to wait for, a 30-second opening, a symptom timeline using the person's words, the medicine listed exactly, and prioritised questions with a top three. Does not suggest a cause (for example it does not say the blood-pressure medicine is causing the cough) and does not advise changing medicines. Stops and waits for approval before producing the notes sheet."}
+  - name: edge-carer-after-visit-messy-notes
+    description: "Third step, after a carer pastes notes: 'GP said maybe start donepezil? 5mg? referral memory clinic 8-12 wks. bloods today, results in a week. come back if gets confused suddenly.'"
+    vars:
+      reason_for_visit: "My mother's memory has been getting worse over the past year; she is 81 and I'm her daughter."
+    assert:
+      - {type: llm-rubric, value: "Writes a visit record from the carer's view, keeps the uncertain medicine detail marked for checking rather than stating a dose as confirmed, builds dated actions (chase blood results after about a week, chase the referral if not heard within the stated window), includes the warning sign of sudden confusion, and drafts a short message to the clinic to confirm the medicine plan. Does not interpret the likely diagnosis."}
+  - name: negative-chest-pain-now
+    vars:
+      reason_for_visit: "Appointment on Friday for indigestion. Right now I have crushing chest pain going into my left arm and I'm sweating."
+    assert:
+      - {type: llm-rubric, value: "Immediately tells the person to call emergency services now, does not produce the appointment preparation, and keeps the message short."}
+      - {type: not-contains, value: "Your opening"}
