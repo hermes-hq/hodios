@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Build an ideal customer profile and buyer personas for {{product}} from this data: {{customer_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crm-export
+    vars:
+      product: "Field-service scheduling software, sales-led, 6-30k USD per year."
+      customer_data: |
+        account,industry,employees,technicians,arr_usd,months_active,churned,sales_cycle_days,expanded
+        A,HVAC,120,45,24000,30,no,35,yes
+        B,HVAC,80,30,18000,26,no,28,yes
+        C,Plumbing,60,22,14000,22,no,40,no
+        D,Cleaning,400,10,6000,8,yes,95,no
+        E,Electrical,150,50,28000,18,no,30,yes
+        F,Cleaning,250,8,6000,6,yes,110,no
+        G,HVAC,40,12,9000,14,no,45,no
+        H,Pest control,30,6,6000,5,yes,70,no
+        Win-loss notes: wins mention 'dispatch chaos' and 'technicians double-booked'; churned cleaning accounts said they mainly needed shift rosters, not job dispatch.
+    assert:
+      - {type: contains, value: "## Ideal customer profile"}
+      - {type: llm-rubric, value: "Defines best customers by retention, ARR and expansion, identifies trade services (HVAC, electrical, plumbing) with many field technicians (roughly 20+) as the ICP, lists cleaning companies needing rosters and very small technician counts as disqualifiers, cites the dispatch-chaos notes as trigger evidence, notes the sample is small, and gives a points-based fit score."}
+  - name: edge-interviews-only
+    vars:
+      product: "Self-serve app that helps independent yoga teachers manage class bookings and payments, 15 USD per month."
+      customer_data: "Five interview summaries: all teach 8-20 classes a week across 2-4 studios or parks; three switched from spreadsheets plus bank transfers; two mention chasing no-show payments; one quit because she teaches only at one studio that handles booking."
+    assert:
+      - {type: llm-rubric, value: "Treats this as a consumer or prosumer segment, builds the profile from the interview evidence with tentative confidence due to five interviews, includes teaching at multiple locations as a fit signal and single-studio teachers as a disqualifier, and labels unsupported points as hypotheses."}
+  - name: negative-no-outcomes
+    vars:
+      product: "B2B HR software."
+      customer_data: "We have about 200 customers. Mostly tech companies I think."
+    assert:
+      - {type: llm-rubric, value: "Says the data is too thin to derive an ICP from best customers, asks for an export with outcome fields (retention, revenue, sales cycle) or interviews, and does not present invented attributes as findings."}
