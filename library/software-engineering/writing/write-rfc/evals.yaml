@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an RFC for this proposal: {{proposal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-evidence
+    vars:
+      proposal: |
+        Move session storage from Postgres to Redis. Sessions table gets 4k writes/s at peak and caused 2 incidents last quarter (INC-311, INC-342) through lock contention. Sessions are disposable; losing them only logs users out. We already run Redis for rate limiting.
+    assert:
+      - {type: contains-all, value: ["Non-goals", "Alternatives considered", "Open questions"]}
+      - {type: contains-all, value: ["INC-311", "INC-342"]}
+      - {type: llm-rubric, value: "Includes do-nothing and at least one other real alternative (for example tuning or partitioning the Postgres table) with an honest case for each, and covers Redis failure behaviour, eviction or persistence, and rollback."}
+  - name: edge-no-evidence
+    vars:
+      proposal: "We should rewrite the notification service in Rust because it is slow."
+    assert:
+      - {type: icontains, value: "needs data"}
+      - {type: llm-rubric, value: "Treats 'it is slow' as an unproven assumption, asks for latency or cost data, and does not invent benchmark numbers."}
+  - name: negative-keeps-author-proposal
+    vars:
+      proposal: "Add a nightly cron job that deletes soft-deleted user rows older than 30 days."
+      context: "GDPR requests must be honoured within 30 days. Backups are kept for 90 days."
+    assert:
+      - {type: llm-rubric, value: "Keeps the nightly deletion job as the proposal, and raises the 90-day backup retention as a risk or open question for GDPR rather than silently replacing the design."}

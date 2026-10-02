@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Write a changelog from these commits: {{range}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-commits
+    vars:
+      version: 2.3.0
+      audience: users
+      range: |
+        feat(export): add XLSX export (#211)
+        fix(upload): files over 2 GB failed with a 413 (#215)
+        refactor: split UploadService into smaller modules
+        ci: cache node_modules
+        chore(deps): bump lodash 4.17.20 -> 4.17.21 (fixes prototype pollution CVE-2021-23337)
+        feat(api)!: remove the deprecated /v1/reports endpoint (#220)
+    assert:
+      - {type: contains, value: "## [2.3.0]"}
+      - {type: contains, value: "Breaking"}
+      - {type: llm-rubric, value: "Lists the /v1/reports removal first as breaking, keeps XLSX export (Added), the 2 GB upload fix (Fixed) and the lodash security fix (Security), and leaves the refactor and CI change out while listing them under Left out."}
+  - name: edge-unreleased
+    vars:
+      audience: developers
+      range: "perf(query): reuse prepared statements in ReportRepository (p95 from 420 ms to 180 ms in the PR benchmark) (#230)"
+    assert:
+      - {type: contains, value: "[Unreleased]"}
+      - {type: llm-rubric, value: "Uses an Unreleased heading without inventing a version or date, and keeps the measured numbers exactly as given."}
+  - name: negative-no-invented-changes
+    vars:
+      version: 1.0.1
+      audience: users
+      range: "fix: typo"
+    assert:
+      - {type: javascript, value: "(output.match(/^- /gm) || []).length <= 2"}
+      - {type: llm-rubric, value: "Does not pad the entry with invented improvements; at most one vague line, and it flags that the commit gives too little detail."}

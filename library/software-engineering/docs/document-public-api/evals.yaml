@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Add documentation to the public API of {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typescript-function
+    vars:
+      format: inline
+      target: |
+        src/slug.ts:
+        export function slugify(input: string, maxLength = 64): string {
+          if (maxLength < 1) throw new RangeError('maxLength must be at least 1');
+          const s = input.normalize('NFKD').replace(/[̀-ͯ]/g, '')
+            .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          return s.slice(0, maxLength).replace(/-$/, '');
+        }
+    assert:
+      - {type: icontains, value: "@throws"}
+      - {type: llm-rubric, value: "TSDoc comment documents that accents are stripped, non-alphanumerics become hyphens, the result is truncated to maxLength (default 64) without a trailing hyphen, may be an empty string, and RangeError when maxLength is below 1."}
+  - name: edge-name-behaviour-mismatch
+    vars:
+      format: inline
+      target: |
+        users.py:
+        def get_active_users(db):
+            """Return the active users."""
+            return db.query(User).all()
+    assert:
+      - {type: contains, value: "## Behaviour worth reviewing"}
+      - {type: llm-rubric, value: "Documents that the function returns all users, not only active ones, and flags the mismatch with its name instead of documenting it as filtering active users."}
+  - name: negative-unknown-behaviour
+    vars:
+      format: reference
+      target: "The PaymentsClient.charge(amount, currency, idempotencyKey) method. Only the signature is available; the implementation calls an internal service I cannot share."
+    assert:
+      - {type: llm-rubric, value: "Does not invent error codes, retry behaviour or limits for charge; lists them as questions for the author."}

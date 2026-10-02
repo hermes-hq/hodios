@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Rewrite this to be clearer: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buried-decision
+    vars:
+      length: shorter
+      text: |
+        Following a number of discussions that took place over the course of the last sprint between members of the platform team and the payments team, and after an investigation of the various options was performed, including the possibility of increasing the connection pool size (which was ruled out because of the memory limits on the current nodes, 512 MB), it has been decided that the payments service will be migrated to the new message queue in Q3, with the expectation being that this should result in a reduction of p99 latency, which is currently 2.4 s.
+    assert:
+      - {type: contains-all, value: ["512 MB", "2.4 s", "Q3"]}
+      - {type: llm-rubric, value: "The rewrite opens with the decision to move the payments service to the new message queue in Q3, keeps the reason the pool-size option was rejected, and does not invent a target latency."}
+  - name: edge-ambiguous-pronoun
+    vars:
+      length: same
+      text: "When the worker calls the scheduler after it restarts, it loses the lock."
+    assert:
+      - {type: contains, value: "## Check"}
+      - {type: llm-rubric, value: "Flags that it is unclear whether the worker or the scheduler restarts and which one loses the lock, instead of silently choosing a reading without mentioning it."}
+  - name: negative-already-clear
+    vars:
+      length: shorter
+      text: "Deploys are frozen from 20 December to 3 January. Hotfixes need approval from the on-call lead."
+    assert:
+      - {type: contains-all, value: ["20 December", "3 January", "on-call lead"]}
+      - {type: llm-rubric, value: "Recognises the text is already clear and returns it unchanged or nearly unchanged, without adding new rules or padding."}

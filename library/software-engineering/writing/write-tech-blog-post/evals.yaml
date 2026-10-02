@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a blog post about {{topic}} using these notes: {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-perf-story
+    vars:
+      topic: How we cut CI time from 41 to 12 minutes
+      words: 900
+      notes: |
+        - CI took 41 min median (GitHub Actions, 30-day median before the change).
+        - Tried bigger runners first: 41 -> 35 min, cost doubled, dropped it.
+        - Real cause: integration tests ran serially against one Postgres container.
+        - Fix: shard tests 6 ways by historical duration, one Postgres per shard via service containers; cache the dependency install keyed on the lockfile hash.
+        - Result: 12 min median over the next 30 days. Flaky rate unchanged (about 2%).
+    assert:
+      - {type: contains-all, value: ["## Titles", "## Post", "## Facts to verify"]}
+      - {type: contains-all, value: ["41", "12", "35"]}
+      - {type: llm-rubric, value: "Includes the failed bigger-runner attempt and why it was dropped, explains sharding by historical duration, and does not add numbers that are not in the notes."}
+  - name: edge-missing-numbers
+    vars:
+      topic: Moving our search from Elasticsearch to Postgres full-text search
+      notes: "We moved because running Elasticsearch was a lot of ops work. Search is good enough now. Queries use tsvector with a GIN index."
+    assert:
+      - {type: icontains, value: "needs number"}
+      - {type: llm-rubric, value: "Does not invent latency, cost or relevance figures; marks where numbers are needed instead."}
+  - name: negative-no-hype
+    vars:
+      topic: Our new internal feature-flag service
+      notes: "Built a feature-flag service in Go backed by Postgres with an in-memory cache refreshed every 10 s. Replaced a config file deploy. Flags now change without a deploy."
+    assert:
+      - {type: not-regex, value: "(?i)fast-paced|game[- ]changer|seamless|unlock|delve"}
+      - {type: llm-rubric, value: "Opens with the concrete problem (flag changes required a deploy) and mentions the 10 s cache staleness as a trade-off."}
