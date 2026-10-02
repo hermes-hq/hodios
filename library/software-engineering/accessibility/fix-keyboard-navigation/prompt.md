@@ -3,7 +3,7 @@ schema: 1
 id: fix-keyboard-navigation
 kind: prompt
 title: Fix keyboard navigation in a component
-description: Finds and fixes keyboard barriers in a UI component, such as broken focus order, traps, invisible focus and mouse-only controls, and adds a keyboard test checklist.
+description: Finds and fixes keyboard barriers in a UI component (focus order, traps, invisible focus, mouse-only controls) and adds a keyboard test checklist. Use when a widget fails without a mouse.
 category: accessibility
 version: 1.0.0
 status: incubating

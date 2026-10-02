@@ -3,7 +3,7 @@ schema: 1
 id: write-screen-reader-test-plan
 kind: prompt
 title: Write a screen-reader test plan
-description: Produces a manual screen-reader test script for a user flow on NVDA, JAWS, VoiceOver or TalkBack, with the keystrokes or gestures and expected announcements for each step.
+description: Writes a manual screen-reader test script for a user flow on NVDA, JAWS, VoiceOver or TalkBack, with keystrokes and expected announcements per step. Use before releasing a key flow.
 category: accessibility
 version: 1.0.0
 status: incubating

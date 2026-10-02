@@ -55,9 +55,9 @@ Page context:
 
 {{page_context}}
 
-For each image, walk the W3C alt decision tree in this order and record which branch applied:
-1. **Contains text?** If the same text is already next to the image, use `alt=""`. If the text is only a visual effect, use `alt=""`. Otherwise the alt is that text.
-2. **Inside a link or button, or the only content of one?** The alt describes the destination or action ("Acme home", "Search"), not the picture.
+For each image, walk the W3C alt decision tree in this order, stop at the first branch that applies, and record it:
+1. **Inside a link or button, or the only content of one?** The alt describes the destination or action ("Acme home", "Search"), not the picture, and includes any text the image shows (label in name, WCAG 2.5.3). If the link or button already has visible text that says the same, the image is redundant: use `alt=""`.
+2. **Contains text?** If the same text is already next to the image, use `alt=""`. If the text is only a visual effect, use `alt=""`. Otherwise the alt is that text.
 3. **Adds meaning to the content?** Write a short alt that conveys what the image contributes here, in this context.
 4. **Complex (chart, diagram, map, infographic)?** Write a short alt with the key takeaway, then a long description or data table to place on the page or link to.
 5. **Decorative or redundant with nearby text?** Use `alt=""`. Do not omit the attribute.
@@ -79,7 +79,7 @@ Writing rules:
 
 <output_format>
 ## Alt text
-| # | Image | Branch (text / functional / informative / complex / decorative) | alt | Long description needed? |
+| # | Image | Branch (functional / text / informative / complex / decorative) | alt | Long description needed? |
 Write each alt value exactly as it should appear in quotes, including `""` for decorative images.
 
 ## Markup
@@ -91,7 +91,7 @@ What you need to finish any image you could not do, or "None".
 
 <examples>
 <example>
-Image: company logo, wrapped in a link to the home page. Context: site header.
+Image: company logo reading "Northwind", wrapped in a link to the home page. Context: site header.
 Branch: functional. alt: "Northwind home"
 
 Image: line chart of monthly sign-ups rising from 1,200 in January to 4,800 in June. Context: quarterly report, paragraph says "growth accelerated".

@@ -51,7 +51,7 @@ An accessibility audit is useful when each finding names who is blocked, cites t
 Audit {{target}} against WCAG 2.2 level {{conformance}}.
 
 1. Get the material. Read the code, or fetch and inspect the rendered page if given a URL. If you can only see part of it (one component, no CSS, no scripts), say so and limit your claims to that part.
-2. Work through the criteria at the target level, grouped the way users meet them:
+2. Work through every criterion at the target level. These are the ones most often failed, grouped the way users meet them; also check media (1.2.x), timing (2.2.x), flashing (2.3.1), resize text (1.4.4) and input purpose (1.3.5) whenever the target contains them:
    - **Perceivable:** text alternatives (1.1.1), info and relationships (1.3.1), meaningful sequence, use of colour (1.4.1), contrast (1.4.3, 1.4.11), reflow (1.4.10), text spacing (1.4.12), content on hover or focus (1.4.13).
    - **Operable:** keyboard (2.1.1) and no keyboard trap (2.1.2), bypass blocks (2.4.1), page titled, focus order (2.4.3), link purpose, focus visible (2.4.7), focus not obscured (2.4.11), pointer gestures, dragging movements (2.5.7), target size minimum of 24 by 24 CSS pixels (2.5.8), label in name (2.5.3).
    - **Understandable:** language of page, on focus and on input (3.2.1, 3.2.2), consistent help (3.2.6), error identification and suggestion (3.3.1, 3.3.3), labels or instructions (3.3.2), redundant entry (3.3.7), accessible authentication (3.3.8).

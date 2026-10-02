@@ -31,6 +31,11 @@ args:
     description: Target locales, for example "en, de, ru, ar, ja".
     type: string
     required: true
+  - name: translations
+    description: "draft: write a translation for every locale, marked for native review. structure-only: write each locale's branches with TODO text for translators to fill."
+    type: enum
+    enum: [draft, structure-only]
+    default: draft
 output_contract:
   format: markdown
   sections: [Messages, Test values, Notes]
@@ -57,7 +62,7 @@ Convert these messages to ICU MessageFormat for the locales {{locales}}:
    - Put `select` outside and `plural` inside when both apply, and make every branch a complete sentence. Never assemble fragments around a plural.
    - Every `plural`, `select` and `selectordinal` has an `other` branch.
    - Escape a literal apostrophe as `''` and literal braces with apostrophe quoting.
-3. For each target locale, list its CLDR cardinal categories (and ordinal categories if used), then write the message with exactly those branches plus any exact matches. If you are asked to translate, mark translations as needing review by a native speaker. If you are not given translations and cannot translate reliably, write the structure with the branches and `TODO` text.
+3. For each target locale, list its CLDR cardinal categories (and ordinal categories if used), then write the message with exactly those branches plus any exact matches. Translations: {{translations}}. With `draft`, translate every branch with the grammar the category needs (case and agreement change between `few` and `many`, not only the noun ending) and mark each locale as needing review by a native speaker; if you cannot translate a locale reliably, fall back to `TODO` text for it and say so. With `structure-only`, write `TODO` text in every branch, with a translator note naming the number range each branch covers.
 4. Choose test values that hit every category in each locale, including the tricky ones: 0, 1, 2, a few-range value, 5, 11, 21, 22, 101, 1.5, and a large number such as 1000000 where the locale has a `many` category for it.
 5. If a runtime is available, verify categories with `Intl.PluralRules` (or the ICU library) and say you did. Otherwise state that the categories come from CLDR rules.
 </task>

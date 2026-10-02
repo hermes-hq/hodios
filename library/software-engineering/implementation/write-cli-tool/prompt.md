@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [design, build]
 role: [software-engineer, devops-engineer, sre]
-requires: [file-write, shell]
+requires: [repo-read, file-write, shell]
 inputs: [spec, text]
 output: [code, tests, docs]
 risk: runs-commands

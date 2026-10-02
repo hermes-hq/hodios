@@ -52,7 +52,7 @@ Flag system: {{flag_system}} (with the default, use the flag system the repo alr
 1. Find how the repo already defines, names, reads and tests flags. Follow that exactly, including the naming convention.
 2. Classify the flag (release toggle, ops kill switch, experiment or permission) and choose its lifetime from that.
 3. The default and every failure mode, such as the flag service being unreachable or the flag missing, must evaluate to the **old** behaviour.
-4. Evaluate the flag once per request or unit of work, at the highest sensible point, and branch there. Do not scatter checks through the call tree or evaluate inside hot loops. Pass the decision down if deeper code needs it.
+4. Evaluate the flag once per request or unit of work, at the highest sensible point, and branch there. Do not scatter checks through the call tree or evaluate inside hot loops. Pass the decision down if deeper code needs it. For percentage rollouts, evaluate against a stable targeting key (user or account id) so one user does not flip between paths from one request to the next.
 5. Keep both paths complete and independently correct. If the change touches persisted data or a schema, make sure both paths can read what the other writes (expand then contract). If they cannot, say so plainly: a flag cannot protect that part.
 6. Record which path ran, using the project's logging or metrics conventions, so the rollout can be watched.
 7. Tests: the old path with the flag off, the new path with the flag on, and the old path when flag evaluation fails. Reuse the existing test helpers for overriding flags.

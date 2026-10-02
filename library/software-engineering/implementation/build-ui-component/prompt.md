@@ -58,7 +58,7 @@ Styling: {{styling}} (when it says "match project", find and use the project's e
 
 1. If you were given an image, list what you can read from it (layout, hierarchy, text, controls) separately from what you are guessing (exact spacing, colours, hover states). Map colours and spacing to the nearest existing tokens instead of hard-coding values.
 2. Find two existing components in the repo and copy their file layout, naming, prop style, styling method and test approach.
-3. Design the API: typed props with defaults; controlled and uncontrolled use if it holds state; slots or children for content that varies; callbacks named for intent (`onSelect`, not `onClick2`). Forward refs and pass remaining attributes and class names to the root element where the framework allows it.
+3. Design the API: typed props with defaults; controlled and uncontrolled use if it holds state; slots or children for content that varies; callbacks named for intent (`onSelect`, not `onClick2`). Expose a ref to the root element (a `ref` prop in React 19, `forwardRef` before it) and pass remaining attributes and class names through where the framework allows it.
 4. Implement every state that applies: default, loading (skeleton or spinner with `aria-busy`), empty (message plus a next action), error (message plus retry), disabled, and overflow (long text, many items, narrow viewport).
 5. Build accessibility in: native elements first (`button`, `a`, `input`, `dialog`), an accessible name for every control, full keyboard operation, visible focus, contrast from the tokens, and respect for `prefers-reduced-motion`.
 6. Take all user-visible text through props or the project's i18n layer. Hard-code no copy.
