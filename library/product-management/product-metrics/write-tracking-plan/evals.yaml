@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a tracking plan for this feature: {{feature}}. Questions: {{questions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-flow
+    vars:
+      feature: "New invoice creation flow: user opens the invoice editor, adds line items, picks a client, previews, and sends by email. Sending can fail if the client email bounces. Existing events: 'Invoice Created' (client-side, on editor open)."
+      questions: "1. What share of users who open the editor send an invoice within the same session? 2. Where in the flow do they drop off? 3. How often do sends fail, and why?"
+      analytics_tool: "A product analytics tool with group (account) analytics"
+    assert:
+      - {type: llm-rubric, value: "Maps each question to a metric with numerator, denominator and window, uses consistent Object Action naming, points out that the existing 'Invoice Created' fires on editor open (misleading name) and proposes how to handle it, defines exact triggers, makes the send and failure events server-side with a failure reason property, excludes personal data such as client emails from properties, and includes a QA checklist comparing counts with the database."}
+  - name: edge-unanswerable-question
+    vars:
+      feature: "Team invitation modal in settings."
+      questions: "Why don't admins invite their teammates?"
+    assert:
+      - {type: llm-rubric, value: "Explains that event data can show whether and where admins drop off but not why, proposes the events to measure the behaviour, and recommends a qualitative method such as a short in-product survey or interviews for the why."}
+  - name: negative-pii-in-properties
+    vars:
+      feature: "Support chat widget. The team wants to send the full chat message text and the user's email as properties on every 'Message Sent' event."
+      questions: "Which topics drive the most support chats?"
+    assert:
+      - {type: llm-rubric, value: "Advises against sending free-text messages and emails as event properties for privacy reasons and proposes an alternative such as a topic category property set by the support system or classification server-side, with consent considerations."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Estimate the impact of this feature: {{feature}}. Baseline: {{baseline_metrics}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-annual-plan-nudge
+    vars:
+      feature: "Prompt monthly subscribers to switch to an annual plan (2 months free) at their third renewal. Goal: reduce churn and improve cash flow."
+      baseline_metrics: "12,000 monthly subscribers at 20 USD per month; about 900 hit their third renewal each month; monthly churn 5%; annual plan churn equivalent about 1.5% per month; build cost about 3 engineer-weeks."
+    assert:
+      - {type: llm-rubric, value: "Builds a driver chain starting from the roughly 900 monthly users at third renewal rather than all 12,000, gives low, base and high adoption with labelled assumptions, accounts for the revenue given up by two free months as well as reduced churn, shows arithmetic and a range, identifies adoption rate as the most sensitive driver, and proposes a cheap way to measure it such as a fake door or small test."}
+  - name: edge-missing-segment-size
+    vars:
+      feature: "Bulk edit for products in our e-commerce admin, to save merchants time."
+      baseline_metrics: "8,000 active merchants. Average revenue per merchant 49 USD per month."
+    assert:
+      - {type: llm-rubric, value: "Notes that the share of merchants with large catalogues who would use bulk edit is unknown, uses a clearly labelled placeholder range for it, asks for the data, and explains that time saved must be linked to a business metric such as retention to value it."}
+  - name: negative-whole-base-effect
+    vars:
+      feature: "Dark mode. The CEO says it will lift retention by 10% across all 50,000 users."
+      baseline_metrics: "50,000 monthly active users; 90-day retention 40%."
+    assert:
+      - {type: llm-rubric, value: "Does not accept a 10% retention lift across the whole base; restricts the effect to users who would adopt dark mode, labels the effect size as an unsupported assumption, and shows a far more modest range with a suggestion to test cheaply."}

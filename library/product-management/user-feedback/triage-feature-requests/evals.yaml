@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Triage these feature requests: {{requests}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dedupe-by-job
+    vars:
+      requests: |
+        1. [Acme Ltd, Business, 18k ARR, support] "Please add QuickBooks sync."
+        2. [Acme Ltd, Business, 18k ARR, sales] "Acme again asking for QuickBooks integration."
+        3. [Bloom Studio, Starter, 1.2k ARR, in-app] "Export invoices to CSV so my accountant can import them."
+        4. [Kite Agency, Business, 9k ARR, interview] "We retype every invoice into Xero."
+        5. [Nova Co, Starter, 1k ARR, in-app] "Dark mode please!"
+        6. [Prospect: BigCorp, open deal 120k, sales] "Need SAML SSO and audit logs to sign."
+        7. [Lumen, Starter, 1k ARR, support] "Can I export to CSV?"
+      strategy: "Focus this year: agencies with 10-50 staff on the Business plan; outcome: reduce churn caused by manual admin. Not targeting enterprise until next year."
+    assert:
+      - {type: llm-rubric, value: "Merges requests 1 and 2 as one account, groups QuickBooks sync, CSV export and Xero retyping under one job of getting invoice data into accounting without retyping with unique account counts, separates open-deal revenue from current ARR, marks the accounting job as act or explore given the agency strategy, parks or explores SSO with a revisit trigger tied to the enterprise timing, and gives reply guidance per status."}
+  - name: edge-no-strategy
+    vars:
+      requests: |
+        - "Add a calendar view" (3 users)
+        - "Let me assign tasks to multiple people" (5 users)
+        - "Recurring tasks" (8 users)
+    assert:
+      - {type: llm-rubric, value: "States the assumed triage criteria explicitly because no strategy was given, notes that revenue and account data are missing, and still assigns statuses with reasons."}
+  - name: negative-loud-single-account
+    vars:
+      requests: "47 tickets from the same customer, Zeta Corp (2k ARR), asking for a custom PDF layout with their branding. No other customer has asked."
+      strategy: "Self-serve SMB product; no custom work."
+    assert:
+      - {type: llm-rubric, value: "Counts this as one account rather than 47 requests, does not mark it as act, parks or declines it with an honest reason tied to the self-serve strategy, and suggests a respectful reply."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me communicate this price change to customers: {{change}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-segmented-increase
+    vars:
+      change: "Pro plan goes from 29 to 39 USD per month (34% increase), annual from 290 to 390 USD. Starter stays at 12 USD. Effective for renewals after 1 March."
+      customer_segments: "Pro monthly: 2,100 customers. Pro annual: 650 customers, 40 of them on contracts with 60-day price-change notice. 300 Pro customers have been with us for 4+ years. Starter: 5,000 customers (unchanged)."
+      rationale: "We added AI summaries, unlimited storage and priority support to Pro this year; our infrastructure costs rose 40%."
+    assert:
+      - {type: llm-rubric, value: "Computes the impact per Pro segment, treats the 40 contract customers with at least the 60-day notice and recommends legal review, considers grandfathering for the 4+ year customers with a reasoned recommendation, builds a timeline relative to the effective date, drafts an email that says it is an increase in the first sentences with merge fields and options including downgrade to Starter, provides support macros and a churn monitoring table with thresholds."}
+  - name: edge-missing-segments
+    vars:
+      change: "Moving from flat 99 USD per month to 10 USD per active user per month."
+    assert:
+      - {type: llm-rubric, value: "Notes that the change could raise or lower prices depending on team size, asks for or lists the segment data needed (distribution of active users per account) to identify who pays more, and continues with the plan structure using placeholders instead of invented numbers."}
+  - name: negative-spin-request
+    vars:
+      change: "Business plan from 79 to 99 USD. Leadership wants the email titled 'Exciting news about your plan' and to not mention the price until the last paragraph."
+      rationale: "Mainly to improve margins."
+    assert:
+      - {type: llm-rubric, value: "Recommends against the misleading framing, writes a subject line and opening that state the price increase clearly, and presents the rationale honestly without inventing value claims that the input does not support."}

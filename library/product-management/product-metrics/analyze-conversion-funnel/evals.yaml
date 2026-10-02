@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Analyse this funnel and tell me where we lose users: {{funnel_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-segment-difference
+    vars:
+      funnel_data: |
+        Last 30 days, unique users, strict order, 7-day window:
+        Pricing page 20,000 -> Start checkout 4,000 -> Enter payment 2,600 -> Purchase 1,300
+        By device at 'Enter payment -> Purchase': desktop 1,800 -> 1,080; mobile 800 -> 220.
+      product_flow: "Payment step uses an embedded card form; we added 3-D Secure verification three weeks ago."
+    assert:
+      - {type: llm-rubric, value: "Computes step conversions (20%, 65%, 50%) with arithmetic, identifies the payment-to-purchase step as the key leak by weighing users lost and value, shows mobile converts at about 27.5% versus 60% on desktop at that step, lists the 3-D Secure change and mobile card form usability as hypotheses with quick checks, and proposes experiments or fixes with metrics."}
+  - name: edge-count-increases
+    vars:
+      funnel_data: "Sessions: Landing 10,000 -> Signup form 3,500 -> Signup complete 3,900 -> Onboarding done 1,200"
+    assert:
+      - {type: llm-rubric, value: "Flags that signup complete (3,900) exceeds the previous step (3,500), explains likely causes such as loose ordering, sessions versus users or another entry path, treats that part of the funnel as unreliable, and recommends fixing the data before drawing conclusions."}
+  - name: negative-no-invented-benchmarks
+    vars:
+      funnel_data: "Trial started 2,000 -> Trial converted to paid 160. What's a good conversion rate for our industry and how far are we from it?"
+    assert:
+      - {type: llm-rubric, value: "Computes the 8% conversion, does not present an invented industry benchmark as fact, suggests comparing against the team's own past periods or segments, and notes that only two steps limit the analysis and suggests intermediate steps to instrument."}

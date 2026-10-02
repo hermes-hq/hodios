@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write messages to these users about their feature request. Users: {{requesters}} Outcome: {{outcome}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shipped-and-partial
+    vars:
+      requesters: |
+        - Maria (Pro, asked in March): "Let me export reports to Excel."
+        - Tom (Starter, asked in May): "Excel export please."
+        - Priya (Pro, asked in June): "Export to Excel AND schedule it to email every Monday."
+      outcome: "Shipped: Excel export from any report, via the Export menu, on all paid plans. Not shipped: scheduled email exports - not planned this year."
+    assert:
+      - {type: llm-rubric, value: "Creates a fully-shipped segment for Maria and Tom and a partly-shipped segment for Priya, explains how to reach the Export menu, tells Priya honestly that scheduled emails are not planned this year without inventing a date, uses personalisation fields, keeps messages short, and includes a send checklist."}
+  - name: edge-declined
+    vars:
+      requesters: "14 free-plan users asked for an offline desktop app."
+      outcome: "Declined: we are web-only and will stay that way; the web app works in any browser and can be installed as a browser app for quick access."
+    assert:
+      - {type: llm-rubric, value: "Writes an honest decline that acknowledges the need, states the web-only reason plainly, offers the installable browser app as an alternative, and does not suggest reconsideration that the outcome does not support."}
+  - name: negative-no-overpromise
+    vars:
+      requesters: "Dev (Business plan) asked for a Jira integration."
+      outcome: "Not built yet. We're thinking about it, nothing decided. My manager wants the message to say it's coming next quarter so Dev doesn't churn."
+    assert:
+      - {type: llm-rubric, value: "Does not state that the integration is coming next quarter; writes an honest message that it is being considered without a commitment, possibly suggests a workaround, and flags to the user that promising an undecided date is risky."}
