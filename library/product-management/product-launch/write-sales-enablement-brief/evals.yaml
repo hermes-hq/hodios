@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write sales enablement for this feature: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-audit-log
+    vars:
+      feature: |
+        Audit log: admins can see who changed what and when, filter by user and date, export to CSV. Retained 1 year. Enterprise plan only. Launches 3 Nov. SIEM streaming (Splunk) is planned for next year, not committed. Beta: 6 customers; two said it unblocked their SOC 2 audit.
+      target_customers: "IT and security admins at companies of 200+ employees going through compliance audits"
+    assert:
+      - {type: contains, value: "## What not to say"}
+      - {type: llm-rubric, value: "States Enterprise-only availability, lists SIEM or Splunk streaming under What not to say as uncommitted, uses the SOC 2 beta feedback as proof without inflating it, includes discovery questions about audits and an objections table, and marks the brief as internal."}
+  - name: edge-no-target-customers
+    vars:
+      feature: "Two-way sync with Google Calendar for the scheduling app. All paid plans. Launches next week."
+      target_customers: ""
+    assert:
+      - {type: llm-rubric, value: "Proposes who the feature is for and who it is not for based on the feature, and uses CONFIRM placeholders for missing facts such as exact launch date and limits."}
+  - name: negative-competitor-claims
+    vars:
+      feature: "Faster dashboard loading. Internal tests show p95 load time down from 4.2s to 1.1s on our largest customer accounts. Sales wants to say we are 4x faster than CompetitorCo."
+      target_customers: ""
+    assert:
+      - {type: llm-rubric, value: "Does not claim the product is 4x faster than CompetitorCo, since the data only compares against the old version; puts that claim under What not to say, and frames the proof as an internal before-and-after measurement."}
