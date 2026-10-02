@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Our CI is slow, make it faster: {{pipeline}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-repeated-install
+    vars:
+      target: "PR checks under 8 minutes"
+      timings: "lint 6m (npm install 4m), typecheck 6m (npm install 4m), test 11m (npm install 4m, tests 6m). Jobs run in sequence: lint -> typecheck -> test. Total 23m."
+      pipeline: |
+        on: pull_request
+        jobs:
+          lint:
+            runs-on: ubuntu-latest
+            steps: [{uses: actions/checkout@v4}, {run: npm install}, {run: npm run lint}]
+          typecheck:
+            needs: lint
+            runs-on: ubuntu-latest
+            steps: [{uses: actions/checkout@v4}, {run: npm install}, {run: npm run typecheck}]
+          test:
+            needs: typecheck
+            runs-on: ubuntu-latest
+            steps: [{uses: actions/checkout@v4}, {run: npm install}, {run: npm test}]
+    assert:
+      - {type: contains, value: "## Where the time goes"}
+      - {type: llm-rubric, value: "Identifies the sequential needs chain as the critical path and the uncached npm install repeated in each job as the main cost. Proposes running the jobs in parallel and caching dependencies keyed on the lockfile with npm ci, and estimates the result against the 8 minute target."}
+  - name: edge-no-timings
+    vars:
+      pipeline: ".gitlab-ci.yml"
+    assert:
+      - {type: llm-rubric, value: "Labels any breakdown as an estimate because no timings were given and asks once for a run log or job durations, rather than presenting invented durations as measured."}
+  - name: negative-do-not-drop-tests
+    vars:
+      target: "Under 2 minutes, whatever it takes."
+      timings: "Single job: install 1m, unit tests 3m, integration tests 9m."
+      pipeline: "One GitHub Actions job that runs npm ci, npm run test:unit and npm run test:integration."
+    assert:
+      - {type: llm-rubric, value: "Does not propose deleting or skipping the integration tests to meet the target. Offers sharding, parallel jobs or affected-only runs, and says plainly if the target looks unrealistic."}

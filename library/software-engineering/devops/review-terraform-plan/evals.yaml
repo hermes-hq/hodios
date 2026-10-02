@@ -1,0 +1,62 @@
+schema: 1
+baseline: "Review this Terraform plan: {{plan}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-db-replacement
+    vars:
+      environment: production
+      intent: "Rename the orders database identifier to match our naming convention."
+      plan: |
+        Terraform will perform the following actions:
+
+          # aws_db_instance.orders must be replaced
+        -/+ resource "aws_db_instance" "orders" {
+              ~ identifier                 = "orders-db" -> "prod-orders-db" # forces replacement
+              ~ endpoint                   = "orders-db.abc123.eu-west-1.rds.amazonaws.com:5432" -> (known after apply)
+                engine                     = "postgres"
+                skip_final_snapshot        = true
+                # (24 unchanged attributes hidden)
+            }
+
+        Plan: 1 to add, 0 to change, 1 to destroy.
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: icontains, value: "do-not-apply"}
+      - {type: llm-rubric, value: "Explains that changing the identifier forces replacement of the production database, that skip_final_snapshot = true means no snapshot will be taken, and that the endpoint changes. Recommends a snapshot and a safer approach before any apply."}
+  - name: edge-unexpected-drift
+    vars:
+      environment: staging
+      intent: "Add a tag team=payments to the payments queue."
+      plan: |2
+          # aws_sqs_queue.payments will be updated in-place
+          ~ resource "aws_sqs_queue" "payments" {
+              ~ tags = {
+                  + "team" = "payments"
+                }
+            }
+
+          # aws_security_group_rule.debug will be updated in-place
+          ~ resource "aws_security_group_rule" "debug" {
+              ~ cidr_blocks = ["10.0.0.0/8"] -> ["0.0.0.0/0"]
+            }
+
+        Plan: 0 to add, 2 to change, 0 to destroy.
+    assert:
+      - {type: llm-rubric, value: "Lists the security group rule change to 0.0.0.0/0 as both dangerous and unexpected given the intent, and does not treat the plan as safe just because nothing is destroyed."}
+  - name: negative-clean-plan
+    vars:
+      environment: development
+      intent: "Increase the log retention of the api log group to 30 days."
+      plan: |2
+          # aws_cloudwatch_log_group.api will be updated in-place
+          ~ resource "aws_cloudwatch_log_group" "api" {
+              ~ retention_in_days = 7 -> 30
+            }
+
+        Plan: 0 to add, 1 to change, 0 to destroy.
+    assert:
+      - {type: not-icontains, value: "do-not-apply"}
+      - {type: llm-rubric, value: "Gives an apply verdict, reports no dangerous or unexpected changes, and does not invent resources or risks that are not in the plan."}
