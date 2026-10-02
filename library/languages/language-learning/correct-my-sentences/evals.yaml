@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Correct my {{target_language}}: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-transfer-errors
+    vars:
+      target_language: German
+      level: A2
+      native_language: Portuguese
+      text: "Gestern ich habe ein Buch gekauft. Ich bin 25 Jahre. Das Buch ist sehr interessant für mich."
+    assert:
+      - {type: contains, value: "## Corrections"}
+      - {type: contains, value: "## Patterns to practise"}
+      - {type: llm-rubric, value: "Fixes the verb-second word order (Gestern habe ich) and 'Ich bin 25 Jahre alt'. Explanations are simple and suited to A2, and at least one error is identified as transfer from Portuguese."}
+      - {type: llm-rubric, value: "Does not mark 'Das Buch ist sehr interessant für mich' as an error; at most offers a more natural alternative in the natural version."}
+  - name: edge-already-correct
+    vars:
+      target_language: French
+      level: C1
+      text: "Bien que la réunion ait été reportée, nous avons pu avancer sur le dossier."
+    assert:
+      - {type: llm-rubric, value: "States that the sentence has no errors (the subjunctive after 'bien que' is correct) and does not invent corrections. Any comment is in French because the level is C1."}
+  - name: negative-wrong-language
+    vars:
+      target_language: Italian
+      level: B1
+      text: "I went to the market yesterday and bought some apples."
+    assert:
+      - {type: llm-rubric, value: "Points out that the text is in English rather than Italian and asks for the Italian text instead of correcting or translating the English."}

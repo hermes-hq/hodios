@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What does '{{phrase}}' mean?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-idiom-in-context
+    vars:
+      phrase: Das ist nicht mein Bier
+      context: "Colleague in a chat: 'Ob der Kunde zufrieden ist? Das ist nicht mein Bier, frag den Vertrieb.'"
+      target_language: German
+    assert:
+      - {type: contains, value: "## Natural alternatives"}
+      - {type: llm-rubric, value: "Explains it means 'not my business / not my problem', notes it is informal and slightly dismissive in this workplace context, gives the literal sense, and offers alternatives such as 'Dafür bin ich nicht zuständig' with how they differ."}
+  - name: edge-no-context-ambiguous
+    vars:
+      phrase: "¡Qué padre!"
+    assert:
+      - {type: llm-rubric, value: "Detects Spanish and identifies it as Mexican (and some Central American) slang meaning 'how cool', notes it is not used that way in Spain, and states that it detected the language because none was given."}
+  - name: negative-unknown-origin
+    vars:
+      phrase: OK
+      target_language: English
+    assert:
+      - {type: llm-rubric, value: "Does not present a folk etymology as fact; if it gives an origin it uses the documented 'oll korrect' account or marks other origins as uncertain."}
