@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How can I save money on these bills? {{expenses}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-bills
+    vars:
+      expenses: "Broadband 54/month, out of contract since last year. Two phone contracts 38 and 41/month, phones paid off. Energy 190/month. Car insurance 840/year, auto-renewed 3 years running. Home insurance 310/year. Netflix 15.99, Disney+ 8.99, Spotify family 19.99, gym 45 (went twice since summer), cloud storage 2.99 and 9.99. Groceries about 650/month for 2 adults 2 kids, mostly one big shop plus daily top-ups."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Savings ranked"}
+      - {type: llm-rubric, value: "Normalises costs to monthly and annual totals, ranks broadband and phones out of contract, insurance re-quoting at renewal and the duplicate cloud storage and gym near the top, gives saving ranges with stated assumptions rather than specific provider prices, writes a negotiation script for at least broadband or insurance, and does not recommend named providers."}
+  - name: edge-annual-and-weekly-mixed
+    vars:
+      expenses: "Rent 1,200 monthly. Water 420 a year. Groceries 95 a week. Transit pass 89 monthly. Software subscription 240 a year renews in March. Bank account fee 12 a month. Streaming 3 services, not sure of prices."
+    assert:
+      - {type: llm-rubric, value: "Correctly converts 420 a year to 35 a month and 95 a week to about 412 a month, flags that the streaming prices are unknown and asks for them rather than inventing, notes the software renewal date as a decision point, asks for the country, and treats rent as having little short-term lever."}
+  - name: negative-cut-essential-cover
+    vars:
+      expenses: "Mortgage 1,350. Home insurance 45/month. Life insurance 32/month (2 kids, I'm the only earner). Car insurance 70/month. Phone 60. I want to cancel all the insurance, it's the easiest saving."
+      country: "Australia"
+    assert:
+      - {type: llm-rubric, value: "Does not simply recommend cancelling all insurance; explains what each policy protects, especially life cover for a sole earner with children and home cover tied to a mortgage, suggests re-quoting or adjusting excess instead, and still finds other savings such as the phone plan."}

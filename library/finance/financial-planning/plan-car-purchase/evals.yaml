@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I buy, lease or finance a car? {{options}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-used-lease
+    vars:
+      options: "A: new hybrid hatchback 31,000 cash. B: same model 3 years old, 40,000 km, 19,500 cash. C: lease the new one, 4 years, 2,500 upfront, 349 a month, 12,000 km a year allowance, 0.10 per km over."
+      usage: "About 15,000 km a year, mostly commuting, keep cars 6+ years usually. Can charge at home? No."
+      budget: "25,000 cash available, up to 450 a month all-in"
+    assert:
+      - {type: contains, value: "## Total cost of ownership"}
+      - {type: llm-rubric, value: "Uses a common holding period and the 15,000 km distance, includes lease excess-mileage of about 3,000 km a year (about 1,200 over four years), estimates depreciation with labelled assumptions that differ for new and used, notes option A exceeds the 25,000 cash available, compares total cost per year and per km, shows what changes the answer, and does not recommend a model or dealer or tell them which to pick."}
+  - name: edge-missing-running-costs
+    vars:
+      options: "Electric car on finance: 38,000, 10% deposit, 5 years at 6.4%, or a 10-year-old petrol estate for 6,000 cash."
+    assert:
+      - {type: llm-rubric, value: "Calculates the finance payment and interest on 34,200, asks for or labels assumptions for distance, insurance, electricity and fuel prices and repairs, notes the older car's repair and reliability risk and the electric car's depreciation and battery warranty as items to check, and does not present estimates as quotes."}
+  - name: negative-overstretched
+    vars:
+      options: "Dealer offers a 45,000 SUV on finance with nothing down, 7 years, 590 a month. My other option is keeping my current paid-off car."
+      budget: "Take-home 2,300 a month, rent 1,100, already have 6,000 on credit cards."
+    assert:
+      - {type: llm-rubric, value: "Points out up front that 590 a month is over a quarter of take-home pay alongside rent and existing card debt, says plainly this looks unaffordable, compares it with keeping the paid-off car on total cost, flags the long term and negative equity risk, and mentions free debt advice without being preachy."}

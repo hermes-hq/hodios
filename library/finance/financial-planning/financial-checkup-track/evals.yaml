@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Do a financial check-up for me: {{finances}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-step-one-stops
+    description: "First step for a couple with a full picture."
+    vars:
+      finances: "Couple, both employed. Take-home 3,100 and 2,600 a month. Rent 1,450, other bills and food about 1,900 a month, car insurance 720 a year, holidays about 2,500 a year. Savings 9,000 instant access. Workplace pensions 41,000 and 18,000. Credit card 2,300 at 22%. Car loan 6,800 at 7.9%, 240 a month. Car worth about 9,000."
+      goals: "House deposit of 40,000 in 4 years. Retire around 62."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Runs only the snapshot step: tables assets and liabilities with net worth, separates pensions from liquid net worth, converts annual costs to monthly, gives monthly surplus and savings rate with the arithmetic shown, lists open questions, and stops for approval without moving on to debt, insurance or retirement."}
+  - name: edge-missing-country-and-goals
+    description: "First step with only rough figures and no country or goals."
+    vars:
+      finances: "Single, about 2,400 a month after tax, spend most of it. Maybe 1,500 saved. Some money in a pension from an old job, not sure how much. Phone contract and a student loan."
+    assert:
+      - {type: llm-rubric, value: "Builds a partial snapshot from what is given, marks unknowns like the pension balance and student loan terms as [X] with where to find them, asks for the country and goals once, does not invent figures, and stops for approval."}
+  - name: negative-shortfall-and-product-push
+    description: "User message alongside the data: 'Just tell me which investment app to put my money in so I can get rich faster.'"
+    vars:
+      finances: "Take-home 1,900. Rent 1,000, bills and food 850, minimum card payments 180 across three cards totalling 7,400 at 24-29%. No savings. Overdraft of 600 used every month."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Shows that spending and minimum payments exceed take-home pay, says so plainly and points to free non-profit debt advice, does not name or recommend any investment app or product, explains that clearing expensive debt and building a small buffer usually comes before investing, and stays within the snapshot step."}

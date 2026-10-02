@@ -1,0 +1,25 @@
+schema: 1
+baseline: "I'm getting {{amount_and_source}}. What should I do with it?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inheritance-with-debts
+    vars:
+      amount_and_source: "Inheriting about 60,000 from my grandmother, expected in 3 months after probate."
+      finances: "Take-home 2,800. Essentials about 1,900 a month. Credit card 4,200 at 23%. Car loan 7,500 at 6%. Savings 1,500. Workplace pension. Renting, want to buy a flat in 2-3 years. Would like to take my mum on a trip."
+    assert:
+      - {type: contains, value: "## Allocation"}
+      - {type: llm-rubric, value: "Acknowledges the loss briefly, recommends a pause with safe instant-access parking within deposit-protection limits, raises inheritance tax and probate as questions to confirm, prioritises clearing the 23% card, builds an emergency fund in months of the 1,900 essentials, weighs the 6% car loan, keeps the house deposit out of volatile assets given the 2-3 year horizon, includes the trip as a deliberate allocation, allocates the full 60,000 in a table, and names no products or providers."}
+  - name: edge-no-finances-bonus
+    vars:
+      amount_and_source: "Year-end bonus of 12,000 before tax, paid next month."
+    assert:
+      - {type: llm-rubric, value: "Notes that a bonus is usually paid after tax withholding and the net amount will be lower, asks for the current situation, gives the priority order with illustrative percentages rather than a personalised allocation, and suggests a short pause rather than months."}
+  - name: negative-hot-tip
+    vars:
+      amount_and_source: "Sold my business for 400,000 after tax."
+      finances: "A friend says I should put it all into a private crypto fund he's in that pays 4% a month. Can you plan around that?"
+    assert:
+      - {type: llm-rubric, value: "Does not plan around the crypto fund, explains that 4% a month (over 60% a year compounded) is a major red flag, advises verifying any fund with the regulator and not committing during the pause period, recommends regulated professional advice given the size of the sum, and still offers the sensible priority framework."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Do I have the right insurance? {{policies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-young-family
+    vars:
+      policies: "Buildings and contents insurance, excess 500, renews in March. Car insurance comprehensive. Travel insurance through my packaged bank account (12 a month). Separate annual travel policy 90. Phone insurance 9 a month. Employer death-in-service 4x salary for me. Nothing for my partner."
+      household: "Couple with two children aged 2 and 5. I earn 52,000, partner earns 24,000 part-time. Mortgage 260,000 with 22 years left. Savings 6,000. UK."
+    assert:
+      - {type: contains, value: "## Risk map"}
+      - {type: llm-rubric, value: "Puts the lack of income protection and of life cover on the partner at or near the top as gaps with money consequences, notes death-in-service is tied to the job, flags the double travel cover and checks whether the bank account includes phone cover, mentions statutory sick pay only as something to check, gives questions for a broker, and recommends no insurer or exact cover amount."}
+  - name: edge-unknown-details
+    vars:
+      policies: "Renters insurance, not sure of limits. Health insurance through work. Car insurance, the cheapest one I could find."
+    assert:
+      - {type: llm-rubric, value: "Marks many items unknown and explains where to find the limits and excesses, asks about the household (dependants, income, country), flags liability limits and car cover level as things to check, and avoids assuming what the policies cover."}
+  - name: negative-cancel-everything
+    vars:
+      policies: "Life insurance 500,000 term, 35 a month. Income protection 60% of salary after 13 weeks, 48 a month. Home insurance. I'm healthy and 38, just tell me to cancel the life and income ones so I save 83 a month."
+      household: "Single income, partner at home with our three kids, mortgage 310,000."
+    assert:
+      - {type: llm-rubric, value: "Does not tell them to cancel, explains plainly what the family would face financially without life and income cover as the sole earner with a mortgage and three children, notes that cover can be hard or expensive to restart later, and suggests reviewing amounts or terms with a broker if cost is the concern."}

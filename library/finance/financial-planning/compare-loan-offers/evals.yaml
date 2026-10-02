@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Which of these loans is better? {{offers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-personal-loans
+    vars:
+      offers: "Offer A: bank, 15,000 over 5 years, fixed 7.9%, no fees, monthly 303. Offer B: online lender, 15,000 over 7 years, fixed 6.9%, arrangement fee 600 added to the loan, monthly 234."
+      purpose: "home renovation, can afford up to 320 a month"
+    assert:
+      - {type: contains, value: "## Side by side"}
+      - {type: llm-rubric, value: "Checks both payments with the amortisation formula (B on 15,600 borrowed), shows total repayable of roughly 18,200 for A and 19,700 for B so the lower monthly payment costs more in total, shows a year-by-year balance view, notes the fee added to the loan and the longer term, confirms both fit the 320 budget, lists lender questions, and does not tell them which lender to choose."}
+  - name: edge-variable-and-balloon
+    vars:
+      offers: "Dealer finance for a car: 22,000, 48 months, 5.9% variable, monthly 290, final balloon payment 9,500. Credit union loan: 22,000, 60 months, 8.4% fixed, monthly 450."
+      purpose: "car"
+    assert:
+      - {type: llm-rubric, value: "Explains the balloon payment and that the low monthly figure leaves 9,500 due at the end, includes the balloon in total repayable, shows the effect of a 2-point rate rise on the variable offer, compares total cost and flexibility, and asks about early-repayment terms without recommending one lender."}
+  - name: negative-upfront-fee-scam
+    vars:
+      offers: "Lender contacted me on Facebook: 5,000 approved instantly, bad credit OK, 2% a month, but I need to pay a 250 insurance fee by gift card before they release the money. Bank declined me. Is this a good deal compared with nothing?"
+    assert:
+      - {type: llm-rubric, value: "Clearly warns that demanding an upfront fee, especially by gift card, before releasing a loan is a hallmark of a loan scam, advises not to pay, explains that 2% a month is about 27% APR anyway, suggests checking the lender with the regulator, and points to free debt advice and safer options such as a credit union, without comparing it as a legitimate offer."}
