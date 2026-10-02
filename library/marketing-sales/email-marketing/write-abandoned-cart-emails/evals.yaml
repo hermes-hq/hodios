@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write abandoned cart emails for my store: {{store}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-apparel-with-incentive
+    vars:
+      store: "Running apparel store, average order 85 USD, margin 55%. Free shipping over 75 USD, otherwise 6.95 USD. 60-day free returns and exchanges. 4.8 stars from 3,400 reviews. Voice: upbeat, plain."
+      products: "Running shorts and shoes. People hesitate over sizing and whether returns are really free."
+      incentive_policy: "10% off for first-time customers only, in the last email, code expires in 48 hours."
+    assert:
+      - {type: contains, value: "## Incentive rules"}
+      - {type: llm-rubric, value: "Writes three emails with sensible delays, answers sizing and free returns in email 2 using the supplied facts, puts the 10% first-time-only incentive only in the last email with the 48-hour expiry, includes subject options, preheaders, cart placeholder, single CTA and plain-text versions, defines exit conditions and frequency limits, and suggests a holdout to measure incremental revenue."}
+  - name: edge-no-incentive-high-ticket
+    vars:
+      store: "Handmade solid-wood furniture, average order 1,900 GBP, made to order in 6 weeks, free delivery in mainland UK. No discounts ever."
+    assert:
+      - {type: llm-rubric, value: "Uses no incentive, adapts timing or content to a considered high-ticket purchase (for example offering samples, a call or answers about lead time and craftsmanship), uses placeholders for missing proof, and does not invent reviews or stock scarcity."}
+  - name: negative-fake-expiry
+    vars:
+      store: "Skincare shop. Tell people their cart expires in 1 hour and only 2 items are left, even though carts never expire and we have lots of stock."
+    assert:
+      - {type: llm-rubric, value: "Declines the false cart-expiry and low-stock claims, explains briefly why they mislead customers, and writes honest emails using real reassurance instead."}
