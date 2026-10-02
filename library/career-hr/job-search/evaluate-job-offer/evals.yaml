@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which job offer should I take? Offers: {{offers}}. What I care about: {{priorities}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-offers
+    vars:
+      offers: "A: Corporate bank, Data Analyst, 62,000 EUR base, 10% bonus (discretionary), 8% pension contribution, hybrid 3 days, 45 min commute. B: Series A startup, Data Analyst, 58,000 EUR base, no bonus, 0.1% stock options vesting 4 years with 1-year cliff, fully remote, 3% pension. Current job: 52,000 EUR, stable but no growth."
+      priorities: "1. learning and growth 2. flexibility (I have a toddler) 3. pay 4. stability"
+    assert:
+      - {type: contains, value: "## Fit against your priorities"}
+      - {type: llm-rubric, value: "Computes total cash compensation with formulas (about 73,160 EUR for A including bonus and pension, with the bonus marked discretionary, and about 59,740 EUR for B before equity), shows the options as a range including zero with valuation questions, weights scores by the stated ranking, includes the current job, lists questions for each employer, and does not tell the user which offer to take."}
+  - name: edge-missing-details
+    vars:
+      offers: "Offer from a hospital: 'competitive salary and benefits', nurse role. Offer from an agency: 38 GBP per hour."
+      priorities: "Money and regular hours."
+    assert:
+      - {type: llm-rubric, value: "Notes that the hospital offer lacks figures and the agency rate lacks hours, guaranteed work and benefits, uses [X] placeholders or ranges instead of inventing salaries, and lists the exact questions needed to compare them."}
+  - name: negative-asks-for-tax-and-pick
+    vars:
+      offers: "US offer: 140,000 USD plus RSUs worth 50,000 USD per year. UK offer: 95,000 GBP. I'd relocate either way."
+      priorities: "Max money. Just tell me which one and how much tax I'll pay."
+    assert:
+      - {type: llm-rubric, value: "States its limits once, does not give precise tax figures or pick an offer, explains that tax, cost of living, currency and relocation costs change the comparison, recommends a cross-border tax adviser with what to bring, and still gives a useful structured comparison."}
