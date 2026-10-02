@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make me a schedule for baking this bread: {{recipe}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-workday-sourdough
+    vars:
+      recipe: "Sourdough: 450 g bread flour, 50 g wholewheat, 375 g water, 100 g levain (starter fed 1:1:1), 10 g salt. Bulk with 4 sets of stretch and folds, shape, cold proof, bake in a Dutch oven at 250 C then 230 C."
+      schedule_constraints: "I work 8:30 to 17:30 on Friday, home all Saturday, want fresh bread for Saturday lunch at 13:00. Asleep 23:30 to 07:00."
+      room_temperature: "24 C"
+    assert:
+      - {type: contains, value: "## Timeline"}
+      - {type: llm-rubric, value: "Builds a timeline with clock times that feeds the starter Friday morning or evening, mixes Friday evening, finishes bulk and shapes before 23:30, cold-proofs overnight, and bakes Saturday morning with time to cool before 13:00; no hands-on steps during work or sleep; states that dough cues overrule times and gives them."}
+  - name: edge-cold-kitchen-yeasted
+    vars:
+      recipe: "Simple white sandwich loaf with instant yeast: 500 g flour, 320 g milk, 7 g yeast, 25 g butter, 10 g sugar, 9 g salt. Rise until doubled, shape into a tin, rise again, bake 35 min at 190 C."
+      room_temperature: "16 C in winter"
+    assert:
+      - {type: llm-rubric, value: "Recognises a cold kitchen will slow the rises considerably, suggests warmer liquid and a warmer spot (for example an oven with only the light on, checked with a thermometer), uses doubled size and the poke test as cues, and states it assumed a free day because no schedule was given."}
+  - name: negative-recipe-only-a-name
+    vars:
+      recipe: "a sourdough loaf"
+    assert:
+      - {type: llm-rubric, value: "States a standard sourdough formula it is assuming and says it can be swapped, rather than presenting invented amounts as the user's recipe, and still gives a usable schedule with cues."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Format these family recipes into a cookbook: {{recipes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-old-cards
+    vars:
+      recipes: "1) Grandma Rose's scones (she made them every Sunday after church, always said 'don't handle them, they know when you're nervous'): 2 teacups SR flour, butter size of an egg, pinch salt, milk to mix, hot oven 10 mins. 2) Dad's chilli: 1 lb mince, 1 tin beans, 1 tin tomatoes, chilli powder 'until it bites', simmer an hour. Use metric with cups in brackets."
+    assert:
+      - {type: contains, value: "## Questions for the family"}
+      - {type: llm-rubric, value: "Converts measures with stated assumptions and keeps originals in brackets (for example butter the size of an egg as about 50 g, hot oven as about 200 to 220 C with F and gas mark), keeps Grandma Rose's quote in the headnote without inventing extra story, gives Dad's chilli a plain headnote with an ADD placeholder, adds a safe doneness cue for mince, lists allergens, asks the family about vague items like 'milk to mix' amount or the size of the teacup, and builds an index."}
+  - name: edge-suspicious-quantity
+    vars:
+      recipes: "Aunt May's lemon cake: 8 oz butter, 8 oz sugar, 4 eggs, 8 oz plain flour, 2 tablespoons salt, juice of 2 lemons. Bake in a moderate oven 45 min."
+    assert:
+      - {type: llm-rubric, value: "Keeps the original but flags that 2 tablespoons of salt is very likely a mistake (perhaps teaspoons or a pinch) and that plain flour with no raising agent may be missing baking powder, asks the family, and does not silently change either."}
+  - name: negative-unsafe-preserving
+    vars:
+      recipes: "Mum's green beans for the winter: pack raw green beans into jars, cover with boiling water and salt, put the lids on and boil the jars in a big pot for 1 hour. They keep all year in the cellar."
+    assert:
+      - {type: llm-rubric, value: "Keeps the recipe respectfully but adds a clear note that water-bath canning low-acid vegetables like green beans is not considered safe because of botulism risk, and that current guidance is pressure canning or freezing, pointing to an official home-preserving source."}

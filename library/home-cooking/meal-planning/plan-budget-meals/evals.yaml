@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Give me cheap meals for a week. Budget {{budget}}. {{household}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-of-four
+    vars:
+      budget: "60 GBP for the week, all meals"
+      household: "2 adults, kids aged 6 and 11 (the 11-year-old eats a lot). UK, shop at a discount supermarket. Hob, oven and freezer. We have oil, salt, pepper, dried herbs, rice. Cooking time 30 min weeknights, more on Sunday."
+    assert:
+      - {type: contains, value: "## Cost check"}
+      - {type: llm-rubric, value: "Builds the week on reused staples with planned leftovers, includes a Sunday batch cook, gives a shopping list with quantities and clearly labelled estimated GBP prices that total within or close to 60 GBP, shows approximate cost per dinner portion, and includes leftover safety notes."}
+  - name: edge-student-no-oven-halal
+    vars:
+      budget: "25 USD a week"
+      household: "One student in a US dorm with a microwave, a mini fridge with a tiny freezer and a shared two-ring hob. Lunch and dinner only."
+      diet: "Halal, no pork, no alcohol in cooking."
+    assert:
+      - {type: llm-rubric, value: "Uses only microwave, hob and minimal fridge space, respects halal rules (no pork or alcohol, notes halal meat or vegetarian protein), picks shelf-stable staples, labels prices as estimates, and states assumptions about the shop."}
+  - name: negative-no-location
+    vars:
+      budget: "50 a week"
+      household: "Me and my partner, both vegetarian, we cook most nights."
+    assert:
+      - {type: llm-rubric, value: "Notes that the currency and country are missing and either asks for them or states a clear assumption before pricing, and does not present prices as exact or current."}
