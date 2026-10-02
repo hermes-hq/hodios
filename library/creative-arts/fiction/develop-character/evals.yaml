@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Create a character for my story: {{role_in_story}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-antagonist-with-context
+    vars:
+      role_in_story: "The antagonist: the protagonist's older sister, who runs the family vineyard and wants to sell it to a developer."
+      genre: literary family drama
+      story_context: "A younger sister returns to rural Portugal after their father's death to stop the sale. Theme: what we owe the people who stayed."
+    assert:
+      - {type: contains, value: "## Want and need"}
+      - {type: contains, value: "## Arc"}
+      - {type: llm-rubric, value: "Gives the older sister a sympathetic, concrete want and an internal need that conflict, ties backstory events to present behaviour, provides three sample lines with distinct voice, uses names that fit rural Portugal, and lists pressure points tied to the younger sister and the vineyard."}
+  - name: edge-too-thin
+    vars:
+      role_in_story: "a villain"
+    assert:
+      - {type: llm-rubric, value: "Asks at most three targeted questions (for example about premise, genre or the protagonist) and stops, or clearly states its assumptions before building; does not silently invent an entire story world."}
+  - name: negative-no-stock-traits
+    vars:
+      role_in_story: "Protagonist: a young farm girl who discovers she has magic."
+      genre: epic fantasy
+    assert:
+      - {type: not-icontains, value: "Elara"}
+      - {type: llm-rubric, value: "Avoids the chosen-one cliché as the whole character: gives a specific flaw and false belief, at least one surprising contradiction, and an arc whose final choice is about her need rather than only mastering her power."}

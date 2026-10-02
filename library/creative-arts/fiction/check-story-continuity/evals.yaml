@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Check these chapters for continuity errors: {{chapters}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-planted-errors
+    vars:
+      chapters: |
+        Chapter 1
+        On Monday morning Inspector Hal Brennan, grey-eyed and limping from the old knee injury, found the brass key under the mat and slipped it into his coat pocket. "The train to Carlow takes two hours," the clerk told him.
+        Chapter 2
+        Three days later, on Friday, Brennan stepped off the train at Carlow after the forty-minute ride. He took the brass key from his desk drawer. Detective Sergeant Ann Molloy looked into his blue eyes and said, "You know the widow lied about the will." He had never been told about the will.
+    assert:
+      - {type: contains, value: "## Errors"}
+      - {type: llm-rubric, value: "Finds and quotes: Monday plus three days is Thursday not Friday (with the arithmetic), two hours versus forty minutes for the train, the key in the coat pocket versus the desk drawer, and grey versus blue eyes; treats the will (Molloy says 'you know' about something he was never told) as a knowledge error or an author ruling; gives a location and smallest fix for each."}
+  - name: edge-unreliable-narrator
+    vars:
+      chapters: |
+        Chapter 1
+        I was home all night, I told the police, and that was true.
+        Chapter 4
+        I remember the cold of the river path that night, and the lights of the bridge.
+      story_bible: "The narrator is unreliable and conceals that she went out on the night of the murder."
+    assert:
+      - {type: llm-rubric, value: "Puts the home-all-night versus river-path contradiction under 'Needs an author ruling' as likely intentional per the story bible, rather than as a plain error."}
+  - name: negative-no-style-notes
+    vars:
+      chapters: |
+        Chapter 1
+        The rain fell. Mara, who was twelve, walked to school. It was very very rainy and very wet.
+        Chapter 2
+        Mara, twelve, ate lunch alone. The rain had stopped.
+    assert:
+      - {type: llm-rubric, value: "Reports no continuity errors (or only clearly justified ones) and does not comment on the repetitive prose style or pacing."}

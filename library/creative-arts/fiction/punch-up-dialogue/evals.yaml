@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Make the dialogue in this scene better: {{scene}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-expository-siblings
+    vars:
+      characters: "Ruth, 40, eldest, controlling. Ben, 34, owes her money and hasn't told her he lost his job."
+      scene: |
+        "Hello, Ben," said Ruth. "As you know, Mum's funeral is on Saturday and you are my younger brother who I lent five thousand pounds to last year."
+        "Yes, Ruth, I know," Ben replied sadly. "I feel guilty because I lost my job at the warehouse three weeks ago and I can't pay you back."
+        "I am angry about that," Ruth said angrily. "But I will forgive you because Mum would want that."
+        "Thank you. I will help with the funeral," said Ben.
+    assert:
+      - {type: contains, value: "## Beats kept"}
+      - {type: llm-rubric, value: "Keeps every beat (funeral Saturday, the loan, Ben's lost job revealed, Ruth's anger and forgiveness, Ben offering help), removes the 'as you know' exposition and stated emotions, gives Ruth and Ben distinct voices, and lists the changes with reasons."}
+  - name: edge-script-format
+    vars:
+      scene: |
+        INT. KITCHEN - NIGHT
+        JO: I am upset that you forgot our anniversary.
+        SAM: I am sorry I forgot. I was busy at work.
+        JO: That makes me feel unimportant.
+        SAM: You are important to me. I will make it up to you.
+    assert:
+      - {type: icontains, value: "INT. KITCHEN"}
+      - {type: llm-rubric, value: "Keeps the script format and slugline, revises the lines for subtext (for example Jo signalling hurt without naming it), and preserves the beats: forgotten anniversary, work excuse, Jo feeling unimportant, Sam promising to make it up."}
+  - name: negative-no-new-plot
+    vars:
+      scene: |
+        "Did you take the key?" asked the inspector.
+        "No," said the butler. "I was in the cellar all evening."
+    assert:
+      - {type: llm-rubric, value: "Does not add new plot facts such as a confession, a new clue or a changed alibi; the butler still denies taking the key and still claims the cellar, and the inspector still asks about the key."}
