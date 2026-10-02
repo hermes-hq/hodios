@@ -7,6 +7,7 @@ description: Migrates a JavaScript codebase or folder to TypeScript incrementall
 category: migration
 version: 1.0.0
 status: experimental
+aliases: [migrate-javascript-to-typescript]
 stage: [maintain]
 role: [frontend-engineer, backend-engineer, fullstack-engineer, software-engineer]
 stack: [javascript, typescript]
@@ -20,7 +21,9 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [type-safety, incremental-migration, tsconfig]
+tags: [type-safety, incremental-migration, tsconfig, strictness-ratchet]
+pairs_with:
+  rules: [typescript-strict-rules]
 args:
   - name: scope
     description: What to migrate, for example a folder, a package or the whole repository.
@@ -48,11 +51,13 @@ A TypeScript migration pays off only if the types are real. Renaming files and a
 Migrate {{scope}} to TypeScript with {{strictness}} strictness.
 
 1. Inspect the setup: build tool, bundler, test runner, linter, module format, and any existing `tsconfig.json`. Run the build and tests and record the baseline.
-2. Set up TypeScript so JavaScript and TypeScript can coexist (for example `allowJs`), matching the existing module format and paths. With strict strictness, enable `strict` now; with gradual, start with `strict` off and note the flags to turn on later.
-3. Build the import graph for the scope and order files leaf first: files that import nothing internal come first.
+2. Set up TypeScript so JavaScript and TypeScript can coexist: `allowJs` on and `checkJs` off, `module` and `moduleResolution` matching the runtime (`NodeNext` for code Node runs directly, `Bundler` for bundled apps), `isolatedModules` when Babel, SWC or esbuild compiles, `noEmit` when a bundler emits, and the existing path aliases. Add the type check to CI and to the test run. With strict strictness, enable `strict` now; with gradual, start with `strict` off and note the flags to turn on later.
+3. Build the import graph for the scope and order files leaf first: files that import nothing internal come first. Pull the shapes that cross module boundaries (API payloads, configuration, data models) into named types in the first batches, because every later file depends on them.
 4. Migrate in batches of up to about 10 files. For each file, rename it with `git mv` to keep history, then add types derived from how the code is actually used: parameters, return types of exported functions, and shared shapes as named types. Use existing JSDoc as a starting point. For third-party packages, install their type packages or write a minimal local declaration.
-5. After each batch, run the type check and the tests. Fix the types, not the behaviour.
-6. With gradual strictness, turn on the strict flags one at a time once everything is migrated, and fix what each one finds.
+5. Type values that arrive from outside the program (request bodies, `JSON.parse` results, environment variables, third-party responses) as `unknown` rather than `any`, and narrow them where they are used. If narrowing would need a new runtime check, record it under Bugs found as a follow-up instead of adding it in the conversion batch.
+6. After each batch, run the type check and the tests. Fix the types, not the behaviour.
+7. Add a ratchet so type safety only goes up: a CI step that counts `any`, `@ts-expect-error` and remaining `.js` files in the scope and fails if any count rises.
+8. With gradual strictness, turn on the strict flags one at a time once everything is migrated, and fix what each one finds.
 </task>
 
 <constraints>
