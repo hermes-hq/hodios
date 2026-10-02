@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What's my margin? Costs: {{costs}}. Price: {{price}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candle-maker
+    vars:
+      costs: "Wax and fragrance 3.20 per candle, jar 1.80, label and box 0.70. 15 minutes of my time per candle at 20/hour. Shipping I pay 4.50 per order, usually 1 candle per order. Marketplace takes 6.5% of the sale price plus 0.20 per listing. Payment processing 3% + 0.25. About 2% of candles break in transit. Monthly fixed costs: 120 software and ads, 60 workshop share."
+      price: "24.00, not VAT registered"
+      target_margin: "40%"
+    assert:
+      - {type: contains, value: "## Price for your target margin"}
+      - {type: llm-rubric, value: "Builds a unit cost of about 15.65 to 15.80 in fixed-amount costs including 5.00 of labour, 0.45 of per-listing and per-transaction fees and a small breakage allowance, applies 9.5% of percentage fees at 24.00 (about 2.28), gives contribution and margin at 24.00 of roughly 24-26%, uses price = fixed-amount costs / (1 - 0.40 - 0.095) for a target price around 31, computes break-even on 180 monthly fixed costs, distinguishes margin from markup, and shows results with and without owner labour."}
+  - name: edge-no-price-markup-confusion
+    vars:
+      costs: "Buy t-shirts at 8.00 each, print 3.50, bag 0.30. Shopify payments 2.9% + 0.30. Fixed costs 300 a month. I always add 50% to cost, that's a 50% margin right?"
+      target_margin: "50%"
+    assert:
+      - {type: llm-rubric, value: "Explains that adding 50% to cost is a 50% markup and only about a 33% margin before fees, calculates the price needed for a true 50% margin including percentage fees (about 25.7), computes break-even units, and flags missing items such as shipping and returns as questions."}
+  - name: negative-missing-fees
+    vars:
+      costs: "Materials 12. Sell on a marketplace, not sure what they charge."
+      price: "30"
+    assert:
+      - {type: llm-rubric, value: "Does not invent the marketplace's fee, asks for it or uses a clearly labelled placeholder and shows how the margin changes across a range of fee levels, asks about labour, shipping and fixed costs, and still shows the basic margin calculation."}
