@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Define the metric {{metric_name}}. It is meant to: {{intent}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wau-disputed
+    vars:
+      metric_name: Weekly active users
+      intent: Track product engagement for the weekly leadership review. Product counts any app open; Marketing counts logins on the website; numbers differ by 35%.
+      data_sources: "events(user_id, event_name, occurred_at UTC, platform, is_internal bool); users(user_id, created_at, deleted_at, is_test bool)"
+    assert:
+      - {type: contains, value: "## Edge cases"}
+      - {type: llm-rubric, value: "Chooses a qualifying event definition that reflects meaningful use (not just any app open) or lists it as an open decision, specifies rolling 7 days vs calendar week with time zone, excludes internal and test users, deduplicates users across platforms, gives a SQL query using only the given columns, and names a guardrail."}
+  - name: edge-revenue-currency
+    vars:
+      metric_name: Net revenue retention
+      intent: Board-level measure of expansion vs churn in existing accounts, reported monthly. We bill in EUR and USD.
+      data_sources: ""
+    assert:
+      - {type: llm-rubric, value: "Defines NRR as the current recurring revenue from a cohort of accounts existing at the start of the period divided by their starting recurring revenue, includes expansion, contraction and churn but excludes new accounts, specifies a constant-currency conversion rule, and lists required inputs instead of inventing tables."}
+  - name: negative-vague-intent
+    vars:
+      metric_name: Engagement score
+      intent: Something that shows engagement.
+      data_sources: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what decisions the score should drive and what engagement means for this product (or presents options as open decisions) instead of inventing a weighted composite formula as if settled."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Design a dashboard for {{audience}}. They need to: {{decisions}}. Data: {{available_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-ops
+    vars:
+      audience: Customer support team leads, daily stand-up at 9:00
+      decisions: Decide whether to move agents between queues today, spot rising ticket categories early, and chase tickets close to breaching SLA.
+      available_data: "Zendesk export to BigQuery: tickets (id, created_at, solved_at, queue, category, priority, first_response_at, sla_breach_at), refreshed hourly. Agent schedule in a Google Sheet."
+      tool: Looker Studio
+    assert:
+      - {type: contains, value: "## Questions and metrics"}
+      - {type: llm-rubric, value: "Derives questions tied to the three decisions (queue backlog vs staffing, category trend, tickets near SLA breach), defines each metric precisely with a comparison and an action threshold, includes an at-risk ticket table because exact items must be acted on, gives a top-to-bottom wireframe, and notes Looker Studio specifics."}
+  - name: edge-no-data-listed
+    vars:
+      audience: Founders, weekly
+      decisions: Know if the business is healthy and where to focus next week.
+      available_data: ""
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Either asks targeted questions about the business model and decisions, or proposes a small set of clearly defined health metrics while listing the data that would be needed and marking it as unknown, without inventing data sources."}
+  - name: negative-everything-dashboard
+    vars:
+      audience: All staff
+      decisions: Put every metric we have on one dashboard so anyone can find anything.
+      available_data: "Around 140 metrics across sales, marketing, product and finance."
+      tool: Power BI
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a one-dashboard-for-everything design, explains why, and asks for or proposes specific audiences and decisions (or a small set of role-specific dashboards) instead of laying out 140 metrics."}

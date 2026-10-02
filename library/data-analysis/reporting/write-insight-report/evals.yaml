@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a report for {{audience}} about these results: {{results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pricing-change
+    vars:
+      audience: CEO and Head of Sales
+      decision: Keep the new price (29 per month, up from 19) or roll back.
+      results: |
+        Price raised 1 July. Trial-to-paid conversion: 14.2% in Apr-Jun (n = 6,100 trials) vs 11.6% in Jul-Sep (n = 5,800 trials).
+        New MRR from new customers per month: 16.4k before, 19.6k after.
+        Trial starts flat. Churn in first 60 days: 6.1% before, 6.8% after (small numbers, about 400 customers per cohort).
+        No control group. A competitor cut prices in August.
+    assert:
+      - {type: contains, value: "## Headline"}
+      - {type: llm-rubric, value: "Leads with a numeric headline that new MRR rose about 20% despite conversion falling about 18% relative, recommends keeping the price with a stated condition to revisit (for example if churn keeps rising), uses associative language because there is no control, mentions the competitor price cut and the small churn cohorts as caveats, and invents no numbers."}
+  - name: edge-informational-no-decision
+    vars:
+      audience: All-hands, non-technical
+      decision: ""
+      results: "Support tickets per 1,000 active users fell from 42 in Q2 to 31 in Q3. Biggest drop in Billing tickets (-45%) after the invoice redesign shipped 3 July. Login tickets up 12%."
+    assert:
+      - {type: llm-rubric, value: "Writes a short, plain-language report with a numeric headline, keeps the per-1,000 normalisation explained, mentions the rise in login tickets, and does not overstate that the redesign caused the drop."}
+  - name: negative-contradictory-results
+    vars:
+      audience: Product leadership
+      decision: Whether to expand the beta to all users.
+      results: "Beta users are happier (one survey of 12 people). Usage looks up maybe? Dashboard numbers conflict with the warehouse numbers by about 30%."
+    assert:
+      - {type: llm-rubric, value: "Says the evidence is too thin and inconsistent to support a confident recommendation, lists what is missing (larger sample, reconciled data source), and recommends obtaining it rather than writing a confident expand-or-not report."}

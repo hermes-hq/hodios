@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What do you think of this chart? {{chart}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-truncated-bars
+    vars:
+      intended_message: Our NPS is far ahead of competitors.
+      chart: "Vertical bar chart. Y axis runs from 40 to 50. Bars: Us 48, Competitor A 45, Competitor B 44, Competitor C 43. Bars coloured red, green, orange and yellow. Legend at the bottom. Title: 'NPS 2026'. No source or sample sizes."
+    assert:
+      - {type: contains, value: "## Redesign"}
+      - {type: llm-rubric, value: "Flags the truncated y-axis on a bar chart as exaggerating a 3-5 point gap, the missing sample sizes or uncertainty for NPS, and the red-green colouring with a legend; proposes a zero-based or dot-plot redesign with a single highlight colour, direct labels and an honest action title."}
+  - name: edge-dual-axis-spec
+    vars:
+      intended_message: ""
+      chart: |
+        matplotlib: ax.plot(months, ad_spend, color='blue'); ax2 = ax.twinx(); ax2.plot(months, signups, color='orange')
+        Left axis 0-50k (spend), right axis 900-1,300 (signups). Title 'Spend vs signups'. 12 months.
+    assert:
+      - {type: llm-rubric, value: "Infers the implied message (spend drives signups), explains that dual axes with arbitrary scales can manufacture visual correlation, and proposes an alternative such as two aligned panels, indexed lines, or a scatter of spend against signups."}
+  - name: negative-nothing-to-see
+    vars:
+      intended_message: Sales grew in Q3.
+      chart: "A chart."
+    assert:
+      - {type: llm-rubric, value: "Asks for the image or a description of axes, marks, scales and data; does not invent issues for a chart it cannot see."}

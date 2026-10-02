@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What chart should I use to show this? {{message}} Data: {{data_shape}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-before-after-ranking
+    vars:
+      message: Every region improved on-time delivery after the new routing system, but the West improved the most.
+      data_shape: "8 regions; on-time delivery % for Q1 (before) and Q3 (after)."
+      audience: Operations leadership slide
+    assert:
+      - {type: contains, value: "## Encodings"}
+      - {type: llm-rubric, value: "Recommends a slope chart or dumbbell chart (or a sorted paired bar), highlights West with a single accent colour and greys the rest, gives an action title stating the message, and warns against a clustered rainbow bar or pie."}
+  - name: edge-description-not-message
+    vars:
+      message: Show our revenue by product.
+      data_shape: "12 products, monthly revenue for 24 months."
+      audience: ""
+    assert:
+      - {type: llm-rubric, value: "Points out the request describes data rather than a message, proposes likely messages (for example which products grew, or concentration of revenue), picks one and recommends a chart that fits it, such as small multiples or a highlighted line chart instead of 12 overlapping lines."}
+  - name: negative-two-points-trend
+    vars:
+      message: Churn is rising steadily.
+      data_shape: "Churn rate for August (3.1%) and September (3.4%)."
+      audience: Board deck
+    assert:
+      - {type: llm-rubric, value: "Notes that two data points cannot show a steady trend and suggests adding more history or rewording the message, rather than simply recommending a line chart for the claim."}

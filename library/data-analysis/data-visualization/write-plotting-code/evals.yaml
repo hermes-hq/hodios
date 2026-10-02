@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Write {{library}} code to plot this: {{intent}}. Data: {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-matplotlib-line-highlight
+    vars:
+      library: matplotlib
+      intent: Show monthly active users for web, iOS and Android in 2026 and highlight that Android overtook iOS in May. For a slide.
+      data: |
+        month,web,ios,android
+        2026-01,120,80,62
+        2026-02,118,82,70
+        2026-03,121,83,77
+        2026-04,119,84,83
+        2026-05,122,85,90
+        2026-06,124,85,96
+    assert:
+      - {type: icontains, value: "import matplotlib"}
+      - {type: icontains, value: "annotate"}
+      - {type: llm-rubric, value: "Produces runnable matplotlib code with inline data, an action title about Android overtaking iOS, Android in a strong colour with others in grey, direct line-end labels instead of a legend, an annotation located from the data at the crossover, removed top and right spines, and savefig to PNG or SVG."}
+  - name: edge-ggplot-described-data
+    vars:
+      library: ggplot2
+      intent: Distribution of delivery times by warehouse, to show that warehouse C has a long tail. For an internal report.
+      data: "deliveries.csv with columns warehouse (A-E), delivery_hours (numeric), about 40,000 rows."
+    assert:
+      - {type: icontains, value: "ggplot("}
+      - {type: llm-rubric, value: "Reads deliveries.csv rather than inventing values, uses a distribution chart (box, violin, histogram facets or ridgeline) suited to 40,000 rows, highlights warehouse C, labels axes with units, and saves with ggsave."}
+  - name: negative-misleading-request
+    vars:
+      library: plotly
+      intent: A 3D pie chart of market share for 11 competitors, with our slice exploded.
+      data: "competitor, share_pct — 11 rows summing to 100."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why a 3D pie with 11 slices misleads and uses a better chart (for example a sorted horizontal bar with our company highlighted), while still meeting the goal of emphasising our share."}
