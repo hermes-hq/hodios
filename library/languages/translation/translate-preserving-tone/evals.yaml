@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Translate into {{target_language}}: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-informal-email-to-german
+    vars:
+      text: "Hey team! Huge thanks for pulling out all the stops last week. We nailed the launch, so drinks are on me Friday. Don't be a stranger!"
+      target_language: German
+      register: keep
+      audience: colleagues in a Berlin startup
+    assert:
+      - {type: contains, value: "## Translator's notes"}
+      - {type: llm-rubric, value: "Uses informal du/ihr address consistently, renders 'pulling out all the stops', 'nailed' and 'don't be a stranger' with natural German equivalents rather than literal ones, keeps the upbeat tone, and explains at least one idiom choice in the notes."}
+  - name: edge-register-switch
+    vars:
+      text: "Hi, can you send me the invoice again? Thanks!"
+      target_language: French
+      register: formal
+    assert:
+      - {type: llm-rubric, value: "Produces a formal French message using vous and a polite formula, without adding new content such as an apology or a deadline, and notes the register change."}
+  - name: negative-already-target-language
+    vars:
+      text: "Muchas gracias por tu ayuda con la mudanza."
+      target_language: Spanish
+    assert:
+      - {type: llm-rubric, value: "Notes that the text is already in Spanish and asks what is needed instead of rewriting it."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Check this translation. Source: {{source}} Translation: {{translation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dosage-omission
+    vars:
+      source: "Take one tablet twice a day with food. Do not exceed four tablets in 24 hours. Keep out of reach of children."
+      translation: "Tome un comprimido dos veces al día. No supere cuatro comprimidos en 24 horas. Mantener fuera del alcance de los niños."
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Flags the omission of 'with food' (con comida / con alimentos) as a critical or major accuracy issue with quoted evidence, and does not report the correct sentences as errors."}
+  - name: edge-glossary-inconsistency
+    vars:
+      source: "Open the Dashboard. On the Dashboard, select Reports."
+      translation: "Öffnen Sie das Dashboard. Wählen Sie auf der Übersicht die Option Berichte."
+      glossary: "Dashboard = Dashboard\nReports = Berichte"
+    assert:
+      - {type: llm-rubric, value: "Reports that 'Dashboard' was translated inconsistently as 'Übersicht' in the second sentence, against the glossary, as a terminology issue."}
+  - name: negative-no-real-errors
+    vars:
+      source: "Thank you for your order. It will ship within two business days."
+      translation: "Merci pour votre commande. Elle sera expédiée sous deux jours ouvrés."
+    assert:
+      - {type: llm-rubric, value: "Gives the verdict 'publish as is' with zero critical and major issues; any stylistic suggestion is marked as a preference, not an error."}
