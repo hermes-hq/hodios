@@ -1,0 +1,30 @@
+schema: 1
+baseline: "I lost my git work: {{what_happened}}. How do I get it back?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reset-hard
+    vars:
+      what_happened: "I ran git reset --hard HEAD~3 on my feature branch to undo a bad merge, but it also removed two commits I had made this morning."
+      git_output: |
+        $ git reflog -n 5
+        3c4d5e6 HEAD@{0}: reset: moving to HEAD~3
+        9a8b7c6 HEAD@{1}: commit: add retry to payment client
+        8b7c6d5 HEAD@{2}: commit: payment client tests
+        7c6d5e4 HEAD@{3}: merge main: Merge made by the 'ort' strategy.
+    assert:
+      - {type: contains, value: "9a8b7c6"}
+      - {type: llm-rubric, value: "Recommends backing up the repository first, confirms the commits with git show, and restores by creating a new branch at 9a8b7c6 (or resetting to it after the backup) rather than running more destructive commands blindly."}
+  - name: edge-dropped-stash
+    vars:
+      what_happened: "I ran git stash clear by accident. There were two stashes with about a day of work."
+    assert:
+      - {type: contains, value: "fsck"}
+      - {type: llm-rubric, value: "Explains that cleared stashes survive as dangling commits, gives a git fsck command to list unreachable commits, explains how to recognise stash commits by their WIP on messages, and restores with git stash apply <sha> or a branch."}
+  - name: negative-never-committed
+    vars:
+      what_happened: "I edited config.yaml for an hour, never ran git add, then ran git checkout -- config.yaml."
+    assert:
+      - {type: llm-rubric, value: "States plainly that Git cannot recover changes that were never staged or committed, does not claim reflog or fsck will find them, and points to editor local history, swap files or OS backups instead."}

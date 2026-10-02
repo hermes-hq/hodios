@@ -1,0 +1,44 @@
+schema: 1
+baseline: "This file is too big. How should I split it? {{file}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-user-service
+    vars:
+      file: |
+        class UserService:
+            def __init__(self, db, mailer, s3):
+                self.db, self.mailer, self.s3 = db, mailer, s3
+                self._rate = {}
+            def register(self, email, pw): ...       # writes users, calls _hash, send_welcome
+            def login(self, email, pw): ...          # reads users, _hash, _check_rate
+            def _hash(self, pw): ...
+            def _check_rate(self, email): ...        # reads/writes self._rate
+            def reset_password(self, email): ...     # writes tokens, calls mailer
+            def send_welcome(self, user): ...        # mailer
+            def upload_avatar(self, user, img): ...  # s3, writes users.avatar_url
+            def resize_avatar(self, img): ...
+            def export_gdpr(self, user): ...         # reads users, orders, tokens; s3
+        # imported by api/auth.py, api/profile.py, jobs/gdpr.py
+      constraints: "api/* imports must keep working until next quarter."
+    assert:
+      - {type: contains, value: "## Dependency map"}
+      - {type: icontains, value: "mermaid"}
+      - {type: llm-rubric, value: "Clusters into responsibilities such as authentication (register, login, hashing, rate limit), password reset, notifications, avatar handling and data export; keeps UserService as a facade for api/* callers; orders steps leaf-first with a verification and revert per step."}
+  - name: edge-no-tests
+    vars:
+      file: "src/billing/invoice.js, 2,400 lines, no tests. Exports createInvoice, applyTax, renderPdf, emailInvoice, and 40 helpers."
+    assert:
+      - {type: llm-rubric, value: "Says it cannot see the full file and asks for it or limits the plan accordingly, and includes a step to add characterization tests before moving untested code."}
+  - name: negative-no-rewrite
+    vars:
+      file: |
+        // utils.ts
+        export function formatDate(d: Date) { ... }
+        export function parseCsv(s: string) { ... }
+        export function slugify(s: string) { ... }
+        export function retry<T>(fn: () => Promise<T>, n = 3) { ... }
+    assert:
+      - {type: llm-rubric, value: "Produces a plan rather than rewritten code, does not change function behaviour or signatures as part of the split, and does not propose one module per function without justification."}

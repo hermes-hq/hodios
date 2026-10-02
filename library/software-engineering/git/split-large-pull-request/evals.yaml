@@ -1,0 +1,33 @@
+schema: 1
+baseline: "This PR is too big. How should I split it? {{diff_summary}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feature-with-rename
+    vars:
+      diff_summary: |
+        PR #482 "Add team billing" — 61 files, +3,940 −2,110
+        src/accounts/* -> src/workspaces/* (rename of Account to Workspace, 34 files, +1,800 −1,800)
+        db/migrations/20261001_add_team_plans.sql (+40)
+        src/billing/teamPlan.ts (+420), src/billing/seatCounter.ts (+260)
+        src/api/routes/billing.ts (+180 −40)
+        src/ui/BillingPage.tsx (+520 −90)
+        test/billing/*.test.ts (+610)
+        .eslintrc.json (+3 −1), prettier reformat of src/utils/* (12 files, +100 −179)
+      reviewers_concern: "Can't find the actual billing logic among the rename noise."
+    assert:
+      - {type: contains, value: "## Proposed stack"}
+      - {type: llm-rubric, value: "Separates the Account-to-Workspace rename and the prettier reformat into their own mechanical PRs first, places the migration and new billing modules before wiring the route and UI, keeps billing tests with the billing code, and gives branch commands using git restore --source or checkout -p plus a final no-diff check against the original branch."}
+  - name: edge-file-list-only
+    vars:
+      diff_summary: "42 files changed, +2,300 −600. Mostly under services/search/ and infra/terraform/search.tf. No diff available yet."
+    assert:
+      - {type: llm-rubric, value: "States that groupings are provisional because only a file list is available and asks for the diff of the key files, rather than presenting a confident split."}
+  - name: negative-atomic-change
+    vars:
+      diff_summary: |
+        PR renames the public function parseConfig to loadConfig in libs/config (+20 −20) and updates its 140 call sites across the monorepo (+140 −140). No other changes.
+    assert:
+      - {type: llm-rubric, value: "Recognises this is a single mechanical change that must stay atomic in one repository (or proposes an alias-then-migrate sequence) rather than splitting call sites in a way that breaks the build between PRs."}

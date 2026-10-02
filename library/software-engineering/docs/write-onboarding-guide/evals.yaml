@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write an onboarding guide for new developers on {{repo}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-readme-ci-drift
+    vars:
+      audience: new-hire
+      repo: |
+        (Repository excerpt, commands not runnable here.)
+        README: "npm install && npm start". Node 16.
+        .nvmrc: 20.11.0
+        .github/workflows/ci.yml: uses pnpm 9, runs `pnpm install --frozen-lockfile`, `pnpm db:migrate`, `pnpm test`, needs services postgres:16 and redis:7, env DATABASE_URL and REDIS_URL.
+        .env.example: DATABASE_URL=, REDIS_URL=, STRIPE_KEY=
+        src/: api/ (Express routes), jobs/ (BullMQ workers), db/ (Prisma schema)
+    assert:
+      - {type: contains, value: "## Verification log"}
+      - {type: llm-rubric, value: "Uses pnpm and Node 20 from CI and .nvmrc rather than the README's npm and Node 16, notes the discrepancy, includes Postgres and Redis as prerequisites, and marks commands as not run."}
+      - {type: llm-rubric, value: "Does not invent Slack channels, people or URLs; uses TODO placeholders or Open questions for access and contacts."}
+  - name: edge-contributor
+    vars:
+      audience: contributor
+      repo: "An open-source Rust CLI. CONTRIBUTING.md requires DCO sign-off; CI runs cargo fmt --check, cargo clippy -- -D warnings, cargo test. Issues labelled good-first-issue exist."
+    assert:
+      - {type: llm-rubric, value: "Covers forking, DCO sign-off and running the same fmt, clippy and test commands locally, and does not include internal-only steps such as requesting VPN or SSO access."}
+  - name: negative-no-repo
+    vars:
+      audience: new-hire
+      repo: "our backend"
+    assert:
+      - {type: llm-rubric, value: "Asks for access to the repository or its key files instead of producing a generic guide with invented commands."}

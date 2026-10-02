@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Help me clean up the commits on this branch: {{log}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wip-branch
+    vars:
+      target_shape: "Refactor first, then the feature, then docs. Conventional Commits."
+      log: |
+        base: main
+        a1f3c2e wip
+         src/cart.ts | 40 +++--, src/pricing.ts | 12 +-
+        b72d9e1 extract pricing helpers
+         src/pricing.ts | 80 ++++, src/cart.ts | 60 ---
+        c09a4b3 fix typo
+         src/pricing.ts | 2 +-
+        d4e5f60 add coupon support + tests
+         src/coupon.ts | 90 ++++, test/coupon.test.ts | 70 ++++, src/cart.ts | 15 ++
+        e8b1a77 address review
+         src/coupon.ts | 6 +-, README.md | 10 +
+        f2c3d4e update readme for coupons
+         README.md | 8 +
+    assert:
+      - {type: contains, value: "git branch backup/"}
+      - {type: contains, value: "--force-with-lease"}
+      - {type: llm-rubric, value: "Proposes about three final commits (a refactor commit for pricing extraction, a feat commit for coupons with tests, a docs commit for README), gives a full todo list using fixup or squash for wip, typo and review commits, warns that moving the wip commit may conflict, and verifies with an empty git diff against the backup."}
+  - name: edge-mixed-commit
+    vars:
+      log: |
+        base: develop
+        1a2b3c4 add rate limiter and bump eslint config
+         src/limiter.go | 120 +++, .eslintrc.json | 4 +-, go.mod | 2 +
+    assert:
+      - {type: llm-rubric, value: "Uses an edit action and gives the git reset HEAD~ plus selective staging procedure to split the limiter change from the eslint config change."}
+  - name: negative-shared-branch
+    vars:
+      log: |
+        base: main. Branch release/2.3 is shared by four developers and already pushed.
+        9f8e7d6 merge main into release/2.3
+        8e7d6c5 hotfix login
+        7d6c5b4 wip
+    assert:
+      - {type: llm-rubric, value: "Warns that rewriting a shared, pushed branch will disrupt the other developers and recommends coordinating first or not rewriting it, and never suggests a plain force push."}

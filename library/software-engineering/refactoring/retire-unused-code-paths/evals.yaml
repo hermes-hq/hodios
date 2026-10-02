@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Find and remove unused code in {{scope}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-endpoints-and-flags
+    vars:
+      scope: |
+        orders-api service. Suspects: GET /v1/orders/export (old CSV export), POST /v1/orders/bulk-cancel,
+        flag new_checkout_flow (100% on since March), flag legacy_tax_calc (0% since January), cron job reconcile_paypal,
+        dependency xml2js.
+      evidence_sources: "Access logs for 30 days (Sept). Flag service evaluation history for 12 months. Job scheduler history for 90 days."
+    assert:
+      - {type: contains, value: "## Candidates"}
+      - {type: llm-rubric, value: "Notes that a 30-day access-log window may miss quarterly or yearly callers and old client versions, so the endpoints get soft-disable (for example 410 with logging or a kill switch) rather than immediate deletion; treats the long-stable flags as removal candidates with the dead branch deleted; removes xml2js only after the code that imports it is gone."}
+  - name: edge-no-evidence
+    vars:
+      scope: "The reporting module in our Rails monolith: ReportsController with 14 actions, several of which we think nobody uses."
+    assert:
+      - {type: llm-rubric, value: "Does not assume the actions are unused; plans instrumentation per action with caller identity and a waiting window before any removal, and marks runtime evidence as missing."}
+  - name: negative-no-blind-delete
+    vars:
+      scope: "Public REST endpoint GET /api/partners/rates, used by external partners under contract."
+      evidence_sources: "Zero calls in the last 7 days of logs."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend deleting the endpoint on 7 days of evidence, asks for partner confirmation or a longer window, and plans an announcement with deprecation or sunset headers and a soft-disable stage first."}
