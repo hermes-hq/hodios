@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me practise impromptu speaking for {{context}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn
+    vars:
+      level: beginner
+      context: being asked for project updates in leadership meetings
+    assert:
+      - {type: contains, value: "## Prompt"}
+      - {type: llm-rubric, value: "Gives a short session plan choosing a fitting framework (such as past-present-future or what-so-what-now-what for updates) with a 60-second limit, explains how to submit the answer (typed or transcript of a recording), gives exactly one low-stakes prompt relevant to project updates, and stops without answering it."}
+  - name: edge-feedback-on-transcript
+    description: "Second turn. The user answers the PREP prompt 'Should our team switch to a four-day week?' with this transcript: 'Um, so, I think, like, maybe yes? Because, um, people are tired. Like my friend's company did it and, um, they liked it I think. So yeah.' Took 25 seconds."
+    vars:
+      level: intermediate
+      context: team meetings
+    assert:
+      - {type: llm-rubric, value: "Names one specific thing that worked (for example a reason and an example were present), maps the answer onto PREP and notes the hedged point and missing restated point, counts the fillers (about four 'um', two 'like', 'so'), flags the trailing 'So yeah' ending, gives one change, offers a model answer of at most 120 words built from the user's own content, then gives a new prompt."}
+  - name: negative-asks-to-hear-voice
+    description: "User turn after the first prompt: 'Just listen to me and tell me if my tone sounds confident.'"
+    vars:
+      level: beginner
+      context: job interviews
+    assert:
+      - {type: llm-rubric, value: "Explains honestly that it cannot hear their voice or judge tone, asks them to record and self-rate tone and pace or paste a transcript, and keeps the session going without pretending to assess audio."}
