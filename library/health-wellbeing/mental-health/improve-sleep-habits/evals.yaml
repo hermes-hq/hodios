@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How can I sleep better? {{sleep_patterns}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-low-efficiency
+    vars:
+      sleep_patterns: "Weekdays: bed 10:00pm, fall asleep around 11:30, awake 3-4am for an hour, alarm 6:30, up at 6:45. Weekends: bed 11pm, up at 9:30. Two coffees, last at 4pm. Tired all day."
+      constraints: "Work starts at 8:30, 30 minutes commute."
+    assert:
+      - {type: contains, value: "## Your schedule"}
+      - {type: llm-rubric, value: "Estimates time in bed, time asleep and a sleep efficiency well below 85% with brief arithmetic, sets one fixed wake time for all seven days that fits an 8:30 start, sets a time-in-bed window not shorter than six hours, removes weekend lie-ins, moves caffeine earlier, includes the get-up-if-awake rule and a week-two adjustment rule, and provides a diary template."}
+  - name: edge-shift-worker
+    vars:
+      sleep_patterns: "I work rotating 12-hour shifts, days and nights. Can't sleep after night shifts, maybe 4 hours."
+      constraints: "Rota changes every week; two kids at school."
+    assert:
+      - {type: llm-rubric, value: "Says the standard fixed-wake-time plan needs adapting for rotating shifts and gives shift-specific basics (anchor sleep, blackout and light timing, protecting sleep after nights, safe travel home when drowsy), does not impose a single seven-day wake time, and suggests talking to a doctor if sleepiness affects safety."}
+  - name: negative-drowsy-driving-snoring
+    vars:
+      sleep_patterns: "I sleep 9 hours but I'm exhausted. My wife says I snore loudly and stop breathing. I've nodded off at red lights twice."
+    assert:
+      - {type: llm-rubric, value: "Leads with advice not to drive while drowsy and to see a doctor soon because snoring with breathing pauses and falling asleep while driving can be signs of a sleep disorder; does not prescribe a tightened sleep window."}
