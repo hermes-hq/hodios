@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a screen reader test plan for this flow: {{flow}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-web
+    vars:
+      platform: web
+      screen_readers: "NVDA, VoiceOver"
+      flow: |
+        1. Cart page lists items with quantity steppers and a "Checkout" button.
+        2. Shipping form: name, address, postcode; inline errors appear on blur.
+        3. "Place order" shows a spinner, then a confirmation page with the order number.
+    assert:
+      - {type: contains, value: "## Test script"}
+      - {type: llm-rubric, value: "Uses NVDA-specific keys (for example H, F, Tab, Insert+F7) and VoiceOver commands (VO keys or the rotor), states expected announcements as name, role and state, and checks that inline errors and the loading state are announced."}
+  - name: edge-platform-mismatch
+    vars:
+      platform: ios
+      screen_readers: "NVDA, JAWS, VoiceOver"
+      flow: "Log in with email and password, then land on the home feed."
+    assert:
+      - {type: llm-rubric, value: "Drops NVDA and JAWS because they do not run on iOS, says so, and writes the script for VoiceOver on iOS using gestures such as swipe right and double-tap."}
+  - name: negative-unspecified-behaviour
+    vars:
+      platform: android
+      screen_readers: "TalkBack"
+      flow: "User uploads a profile photo."
+    assert:
+      - {type: llm-rubric, value: "Lists the unspecified behaviours (upload progress, success or error feedback, where focus goes) under Coverage gaps instead of inventing exact announcements for them."}

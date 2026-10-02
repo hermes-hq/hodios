@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Check the contrast of these colours: {{palette}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brand-palette
+    vars:
+      standard: wcag2-aa
+      palette: |
+        brand-500: #3B82F6
+        text-muted: #9CA3AF
+        surface: #FFFFFF
+        surface-dark: #111827
+      usage: |
+        text-muted on surface: 14px regular helper text
+        white (#FFFFFF) on brand-500: 16px button label
+        brand-500 on surface-dark: 2px focus ring
+    assert:
+      - {type: contains, value: "## Fixes"}
+      - {type: llm-rubric, value: "Computes numeric ratios: text-muted on white fails (about 2.5:1), white on brand-500 fails 4.5:1 (about 3.7:1), and the focus ring is judged against the 3:1 non-text threshold. Proposed fixes keep the blue hue rather than switching to grey."}
+  - name: edge-translucent-overlay
+    vars:
+      standard: wcag2-aa
+      palette: "text: rgba(0, 0, 0, 0.5); background: #F5F5F5"
+      usage: "text on background, 16px regular"
+    assert:
+      - {type: llm-rubric, value: "Composites the 50% black over #F5F5F5 before computing the ratio, and states that it did so."}
+  - name: negative-apca-claimed-as-compliance
+    vars:
+      standard: apca
+      palette: "fg #6B7280 on bg #FFFFFF"
+      usage: "16px body text"
+    assert:
+      - {type: llm-rubric, value: "Reports an APCA Lc value and clearly states that APCA results do not establish WCAG 2 conformance."}

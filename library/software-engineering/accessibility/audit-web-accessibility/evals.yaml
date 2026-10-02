@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Check this for accessibility problems: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-login-markup
+    vars:
+      conformance: AA
+      target: |
+        <div class="login">
+          <img src="logo.png">
+          <input type="text" placeholder="Email">
+          <input type="password" placeholder="Password" onpaste="return false">
+          <div class="btn" onclick="submit()">Log in</div>
+          <span style="color:#aaa">Forgot password?</span>
+        </div>
+    assert:
+      - {type: contains, value: "## Issues"}
+      - {type: regex, value: "1\\.1\\.1|4\\.1\\.2|2\\.1\\.1"}
+      - {type: llm-rubric, value: "Flags the missing alt text, placeholder-only labels, the div used as a button (keyboard and role), and blocked paste in the password field under 3.3.8, each with a code fix using native elements."}
+  - name: edge-partial-visibility
+    vars:
+      conformance: AA
+      target: "<Modal isOpen={open} onClose={close}><h2>Delete project?</h2><Button onClick={confirm}>Delete</Button></Modal>"
+    assert:
+      - {type: llm-rubric, value: "States that the Modal implementation is not visible, so focus management, focus trapping and Escape handling cannot be verified, and lists them under Needs manual testing or Not covered instead of asserting them as failures."}
+  - name: negative-accessible-markup
+    vars:
+      conformance: A
+      target: |
+        <nav aria-label="Main"><ul><li><a href="/">Home</a></li><li><a href="/docs" aria-current="page">Docs</a></li></ul></nav>
+    assert:
+      - {type: llm-rubric, value: "Reports no blocker or serious issues and does not invent problems, such as demanding redundant ARIA on native links."}
+      - {type: not-icontains, value: "is compliant"}

@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Make this form accessible: {{form}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-signup-repair
+    vars:
+      framework: ""
+      form: |
+        <form id="signup">
+          <input id="email" placeholder="Email">
+          <input id="pw" type="password" placeholder="Password (8+ chars)" onpaste="return false">
+          <div>Plan:</div>
+          <input type="radio" name="plan" value="free"> Free
+          <input type="radio" name="plan" value="pro"> Pro
+          <span class="error" style="color:red;display:none">Invalid</span>
+          <button disabled id="go">Sign up</button>
+        </form>
+    assert:
+      - {type: contains, value: "## Validation behaviour"}
+      - {type: icontains, value: "autocomplete"}
+      - {type: llm-rubric, value: "Adds visible labels, a fieldset and legend for the plan radios, autocomplete email and new-password, removes the paste block, stops disabling the submit button, and ties specific error messages to fields with aria-describedby and aria-invalid."}
+  - name: edge-spec-with-library
+    vars:
+      framework: "React with react-hook-form"
+      form: "Delivery address form: full name, street, city, postcode (UK format), phone (optional). Show errors after submit."
+    assert:
+      - {type: llm-rubric, value: "Uses react-hook-form's own registration and error APIs, sets address autocomplete tokens, gives postcode an example format in a hint tied with aria-describedby, and moves focus to an error summary or the first invalid field on failed submit."}
+  - name: negative-invent-rules
+    vars:
+      framework: ""
+      form: "<label for=n>Name</label><input id=n name=name required>"
+    assert:
+      - {type: llm-rubric, value: "Keeps the form minimal and does not add new validation rules such as length or character limits; may suggest them in one line."}

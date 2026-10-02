@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Make this component keyboard accessible: {{component_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hover-dropdown
+    vars:
+      widget_type: "account menu"
+      component_code: |
+        export function AccountMenu({ items }) {
+          const [open, setOpen] = useState(false);
+          return (
+            <div className="menu" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+              <div className="avatar" onClick={() => setOpen(!open)}><img src="/me.png" /></div>
+              {open && <ul>{items.map(i => <li key={i.href} onClick={() => location.assign(i.href)}>{i.label}</li>)}</ul>}
+            </div>
+          );
+        }
+        /* .menu *:focus { outline: none } */
+    assert:
+      - {type: contains, value: "## Keyboard test checklist"}
+      - {type: llm-rubric, value: "Replaces the clickable div with a button that has an accessible name and aria-expanded, makes items real links, adds Escape to close and return focus to the button, opens without hover, and restores a visible focus style."}
+  - name: edge-modal-focus
+    vars:
+      widget_type: ""
+      component_code: |
+        function ConfirmDialog({ open, onClose, onConfirm }) {
+          if (!open) return null;
+          return <div className="overlay"><div className="dialog"><p>Discard changes?</p>
+            <button onClick={onConfirm}>Discard</button><button onClick={onClose}>Cancel</button></div></div>;
+        }
+    assert:
+      - {type: llm-rubric, value: "Infers that it is a modal dialog and fixes focus management: moves focus into it on open, keeps focus inside (native dialog with showModal or inert background), closes on Escape, and returns focus to the trigger on close."}
+  - name: negative-already-fine
+    vars:
+      widget_type: "link list"
+      component_code: |
+        <ul class="links"><li><a href="/a">Alpha</a></li><li><a href="/b">Beta</a></li></ul>
+        <style>.links a:focus-visible { outline: 3px solid #1a5fb4; outline-offset: 2px; }</style>
+    assert:
+      - {type: llm-rubric, value: "Reports no keyboard barriers and does not add unnecessary tabindex, roles or key handlers."}
