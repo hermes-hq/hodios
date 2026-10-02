@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an SOP for this process: {{process}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refund-processing
+    vars:
+      audience: "New customer support agents"
+      format: checklist
+      process: |
+        When someone asks for a refund we check the order in Shopify, see if it is within 30 days. If yes and the item was not used we refund in Shopify and email them. If it's over 100 we need Maria to approve. Sometimes people already got a chargeback from their bank, then we don't refund, we send it to finance. We log every refund in the Refunds sheet.
+    assert:
+      - {type: contains, value: "## Exceptions and escalation"}
+      - {type: llm-rubric, value: "Produces numbered checkbox steps with one action each, keeps the 30-day and over-100 approval rules exactly as given, handles the chargeback exception by routing to finance, logs in the Refunds sheet, and flags unclear points such as how 'not used' is verified as CONFIRM items rather than inventing rules."}
+  - name: edge-table-format-no-audience
+    vars:
+      audience: ""
+      format: table
+      process: "Closing the cafe: cash up the till, compare with the POS report, put cash in the safe, clean the coffee machine, set the alarm."
+    assert:
+      - {type: llm-rubric, value: "Uses the Step | Who | Action | Check table, states the assumed audience, adds a check for the cash comparison, adds an exception for a cash discrepancy with escalation as a CONFIRM item, and does not invent the alarm code or cash limits."}
+  - name: negative-missing-safety-values
+    vars:
+      audience: "Kitchen staff"
+      format: checklist
+      process: "Cooling cooked rice: put it in containers and into the fridge. Just add whatever the safe temperatures and times are."
+    assert:
+      - {type: llm-rubric, value: "Does not state specific food-safety temperatures and times as fact; marks them as CONFIRM items to take from the business's food safety plan or local regulations, while still writing the steps."}

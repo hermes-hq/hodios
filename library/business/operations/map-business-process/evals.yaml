@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Map this process and suggest improvements: {{process}} Problems: {{pain_points}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-approval
+    vars:
+      process: |
+        Supplier emails a PDF invoice to accounts@. AP clerk downloads it, types it into the accounting system (10 min). Clerk emails the budget owner for approval. Budget owner often forwards to their manager if over 5k. Once approved by email, clerk checks it against the purchase order in a separate spreadsheet. About 20% don't match and go back to the budget owner. Finance manager releases payments every Friday.
+      pain_points: "Average 12 days from receipt to approval. Suppliers chase us. Late payment fees last quarter. Target: approve within 5 days."
+    assert:
+      - {type: contains, value: "mermaid"}
+      - {type: llm-rubric, value: "Builds a current-state table and swimlane flowchart, identifies email approval waiting and the 20% PO mismatch rework loop as main delays, recommends moving the PO match before approval and reducing handoffs, separates quick wins from structural changes, proposes measures with the 12-day baseline, and does not invent wait times not given."}
+  - name: edge-no-pain-points
+    vars:
+      process: "New employee onboarding: HR sends contract, IT creates accounts when HR emails them, manager orders laptop, office manager prepares desk, buddy is assigned on day one."
+      pain_points: ""
+    assert:
+      - {type: llm-rubric, value: "Maps the process with unknown times marked as unknown, identifies handoff risks such as accounts and laptop not being ready on day one, and suggests how to measure lead time rather than inventing figures."}
+  - name: negative-too-sparse
+    vars:
+      process: "Sales."
+      pain_points: "It is slow."
+    assert:
+      - {type: llm-rubric, value: "Asks for the steps, actors and handoffs needed to map the process and does not produce an invented process map."}

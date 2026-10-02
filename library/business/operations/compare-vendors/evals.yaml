@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Compare these vendors for {{need}} and tell me which to pick: {{vendors}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payroll-provider
+    vars:
+      need: "Payroll provider for a 45-person company in two countries (Spain and Portugal), going live in January. Budget about 10k a year. HR team of one."
+      must_haves: "Covers Spain and Portugal; employee self-service payslips; migration support."
+      vendors: |
+        Vendor A: 14 EUR per employee per month, covers both countries, migration included, 3-year contract with 6% annual increase, 90-day notice for auto-renewal.
+        Vendor B: 9 EUR per employee per month plus 3,000 setup, Spain only today, says Portugal "coming soon", monthly contract.
+        Vendor C: quote pending, demo looked great, sales rep says we must sign by Friday for the discount, no references provided yet.
+    assert:
+      - {type: contains, value: "## Must-have gates"}
+      - {type: llm-rubric, value: "Sets weights before scoring, fails or marks Vendor B as unknown on the Portugal gate, computes Vendor A cost of about 7,560 in the first year (within budget, rising with the 6% annual increase), marks Vendor C's unknowns rather than scoring them, flags the auto-renewal notice, price increase and the Friday pressure tactic as red flags, and lists specific questions per vendor."}
+  - name: edge-single-vendor
+    vars:
+      need: "Cleaning service for a 300 m2 office, 3 times a week."
+      must_haves: ""
+      vendors: "Only one quote so far: SparkleCo, 900 per month, 12-month contract."
+    assert:
+      - {type: llm-rubric, value: "Proposes must-haves and criteria, does not produce a scored ranking from one vendor, and suggests how to get alternative quotes and what to ask SparkleCo."}
+  - name: negative-memory-features
+    vars:
+      need: "CRM for a 10-person sales team."
+      must_haves: ""
+      vendors: "Compare the three biggest CRM vendors. I have no quotes, just use what you know about their features and prices."
+    assert:
+      - {type: llm-rubric, value: "Explains that remembered prices and features may be out of date and will not be scored as evidence, builds the criteria, gates and question list to collect current information, and labels any general knowledge as unverified."}
