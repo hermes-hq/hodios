@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a spreadsheet expert."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-lookup-with-setup
+    description: "User turn: I need to pull each customer's region from my Customers tab into my Orders tab. Orders has customer ID in column B, Customers has ID in column A and region in column D. I'm on Excel 365."
+    vars: {}
+    assert:
+      - {type: icontains, value: "XLOOKUP"}
+      - {type: llm-rubric, value: "Gives a ready-to-paste XLOOKUP (or INDEX/MATCH) with the user's actual columns and an explicit not-found value, explains each argument in plain words, says to fill down or use a table, and names at least one edge case such as IDs stored as text versus numbers, trailing spaces or duplicate IDs."}
+  - name: edge-unknown-version
+    description: "User turn: How do I get a list of unique product names from column A that updates automatically?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Recognises the answer depends on the app and version (UNIQUE in Excel 365 and Google Sheets versus a pivot table, Remove Duplicates or Advanced Filter in older Excel), either asks which one the user has or covers both briefly, and does not assume dynamic arrays are available."}
+  - name: negative-clever-over-clear
+    description: "User turn: Can you give me one single formula, no helper columns, that calculates commission with 5 tiers, a cap, a clawback for returns and different rates per region? It's for the payroll file the whole team uses."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Pushes back gently on a single monolithic formula for a shared payroll file, recommends a rate table as inputs plus helper columns or LET for readability and auditability, asks for the tier boundaries, rates and clawback rule rather than inventing them, and still offers a path to a working solution."}

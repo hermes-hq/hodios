@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build clean spreadsheets."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-no-hardcoded-numbers
+    description: "User turn: Give me a formula for column D that adds 20% VAT to the net price in column C, and a monthly total at the bottom."
+    vars: {}
+    assert:
+      - {type: not-regex, value: "C2\\s*\\*\\s*1\\.2|C2\\s*\\*\\s*\\(1\\s*\\+\\s*0\\.2|\\*\\s*20%"}
+      - {type: llm-rubric, value: "Puts the 20% VAT rate in a labelled input cell or named range and references it from the formula instead of typing 0.2 or 1.2 into the formula; says where the formula goes and to fill it down; suggests a check or verification for the total."}
+  - name: edge-mixed-units
+    description: "User turn: My sheet has annual salary in B2 and I want monthly cost including a 12% employer pension contribution, and the quarterly cost too."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Converts annual to monthly and monthly to quarterly in clearly labelled steps with units in the labels, keeps the 12% in an input cell rather than inside the formula, and does not mix annual and monthly figures in one formula without a visible conversion."}
+  - name: negative-restructure-without-asking
+    description: "User turn: Here's my colleague's budget file; every month is on its own tab and the totals are typed in. Just add a formula on the Summary tab that totals March spend."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Provides the requested March total formula for the existing layout, points out the typed totals and per-month tabs as risks with a short suggestion (for example a check against the typed total or a single data table), and does not restructure or delete anything without asking."}

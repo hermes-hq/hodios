@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Power Query M code. Source: {{source_description}}. Output: {{desired_output}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-folder-of-monthly-files
+    vars:
+      source_description: "A SharePoint folder gets one Excel file per month (Sales_2026-01.xlsx, Sales_2026-02.xlsx…). Each has a sheet 'Export' with two title rows, then headers: Region, Rep, Product, Jan-Units, Jan-Revenue (the month varies by file). A Total row at the bottom. Dates are UK format."
+      desired_output: "One table: Month (date), Region, Rep, Product, Units, Revenue, loaded to the Excel data model, refreshed monthly."
+    assert:
+      - {type: contains, value: "let"}
+      - {type: llm-rubric, value: "Uses a folder source with a filter excluding temporary ~$ files and a per-file function; skips the title rows and promotes headers; removes the Total row with a rule on a column rather than a fixed position; derives Month from the file name or column header rather than hard-coding; handles the varying month-prefixed column names (for example by renaming or unpivoting) so new months work; sets types with a UK locale; uses a parameter for the folder path; and explains each step."}
+  - name: edge-merge-may-duplicate
+    vars:
+      source_description: "Two CSVs: orders.csv (OrderID, CustomerCode, Amount) and customers.csv (CustomerCode, Segment). CustomerCode sometimes has trailing spaces and mixed case in orders. Customers file may contain duplicate codes."
+      desired_output: "Orders with Segment added, same row count as orders.csv."
+    assert:
+      - {type: llm-rubric, value: "Trims and normalises case on the key in both tables before merging, deduplicates or warns that duplicate customer codes would multiply order rows, uses a left outer join, and includes a row-count check against orders.csv."}
+  - name: negative-unclear-layout
+    vars:
+      source_description: "Some Excel reports from finance."
+      desired_output: "A clean table."
+    assert:
+      - {type: llm-rubric, value: "Does not write a generic query; asks a few specific questions about the file layout (headers, sheets, sample rows), how files arrive and what one output row represents, and stops."}

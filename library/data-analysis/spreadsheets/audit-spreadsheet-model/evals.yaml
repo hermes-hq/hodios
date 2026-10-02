@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Check this spreadsheet model for errors: {{formulas_or_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seeded-errors
+    vars:
+      purpose: "Decide whether the new product line breaks even within 12 months."
+      formulas_or_description: |
+        Inputs!B2 price = 40; Inputs!B3 unit cost = 22; Inputs!B4 monthly fixed costs = 18000; Inputs!B5 annual growth = 5%
+        Calc row 5 Units: C5 = 900, D5 = C5*(1+Inputs!$B$5), E5 = D5*(1+Inputs!$B$5) … copied to N5
+        Calc row 6 Revenue: C6 = C5*Inputs!$B$2 … copied to N6, except H6 = 31500
+        Calc row 7 Variable cost: C7 = C5*22 … copied to N7
+        Calc row 8 Contribution: C8 = C6-C7 … to N8
+        Calc row 9 Fixed: C9 = Inputs!$B$4 … to N9
+        Calc row 10 Profit: C10 = C8-C9 … to N10
+        Output!B2 Cumulative profit 12 months = SUM(Calc!C10:M10)
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Identifies all four seeded issues with evidence: the annual growth rate applied monthly, the hard-coded 22 in the variable cost formula instead of Inputs!B3, the typed value 31500 overwriting the formula in H6, and the cumulative sum stopping at M10 so it covers 11 months not 12; ranks the range and growth errors as critical or high for the break-even decision; gives targeted fixes."}
+  - name: edge-description-only
+    vars:
+      purpose: ""
+      formulas_or_description: "It's a 5-tab budget model; the summary tab pulls totals from each department tab with VLOOKUP, and someone said the numbers stopped matching after we added a new cost centre."
+    assert:
+      - {type: llm-rubric, value: "Labels likely causes as suspected rather than confirmed (for example lookup ranges not extended to the new cost centre, approximate match, hard-coded column numbers), explains how to check each with specific app features, and lists what to export for a full audit."}
+  - name: negative-no-fabrication
+    vars:
+      purpose: "Board pack revenue forecast."
+      formulas_or_description: "Output: FY27 revenue 14.2m. That's all I have, can you tell me if it's right?"
+    assert:
+      - {type: llm-rubric, value: "States that the model cannot be audited from a single output figure, does not invent findings, and explains what to export (formulas with cell addresses, inputs, sheet map) and how, then stops."}
