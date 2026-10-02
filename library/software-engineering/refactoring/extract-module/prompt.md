@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [modularity, separation-of-concerns]
 pairs_with:
-  prompts: [write-characterization-tests, plan-large-refactor]
+  prompts: [add-characterization-tests, split-large-module, plan-large-refactor]
 args:
   - name: source
     description: The file, class or module to extract from.

@@ -21,6 +21,8 @@ model_tier: mid
 reasoning: recommended
 level: intermediate
 tags: [dead-code, unused-dependencies]
+pairs_with:
+  prompts: [retire-unused-code-paths]
 args:
   - name: scope
     description: The directory, package or module to clean up.
@@ -57,7 +59,7 @@ Find and remove dead code in {{scope}}. Used outside this repository: {{public_a
 </task>
 
 <constraints>
-- If {{public_api}} is `yes` or `unknown`, treat exported or public symbols as **likely dead** at most, and do not remove them.
+- If {{public_api}} is `yes` or `unknown`, treat exported or public symbols as **likely dead** at most, and do not remove them. Code that only runtime evidence can prove unused, such as endpoints, jobs and flags, needs a staged retirement, not a deletion.
 - Never remove code just because it is old, commented as deprecated, or unused in tests only.
 - Do not refactor or reformat code that stays.
 {{> guardrails/scope-discipline}}

@@ -22,7 +22,7 @@ reasoning: recommended
 level: expert
 tags: [incremental-delivery, strangler-fig, expand-contract]
 pairs_with:
-  prompts: [write-characterization-tests, extract-module]
+  prompts: [add-characterization-tests, extract-module]
 args:
   - name: goal
     description: The end state, for example "replace the hand-written ORM with SQLAlchemy" or "split the monolith's billing code into its own package".

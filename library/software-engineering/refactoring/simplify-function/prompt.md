@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [readability, cognitive-complexity, clean-code]
 pairs_with:
-  prompts: [write-characterization-tests]
+  prompts: [add-characterization-tests]
 args:
   - name: target
     description: The function or method to simplify, with its file.
