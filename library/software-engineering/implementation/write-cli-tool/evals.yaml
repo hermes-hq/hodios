@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a {{language}} CLI tool for this: {{purpose}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-env-file-manager
+    vars:
+      language: python
+      commands: ""
+      purpose: "Manage .env files across our services: list the keys missing compared with .env.example, and copy a key's value from one service to another."
+    assert:
+      - {type: contains, value: "## Command surface"}
+      - {type: llm-rubric, value: "Designs separate subcommands, defines exit codes including 2 for usage errors, adds a JSON output option for the listing command, and never prints secret values by default."}
+  - name: edge-destructive-command
+    vars:
+      language: go
+      commands: "prune: delete Docker images older than N days that are not used by any container"
+      purpose: "Free disk space on CI runners."
+    assert:
+      - {type: llm-rubric, value: "The prune command has a dry-run flag and requires confirmation or --yes before deleting, and behaves non-interactively when stdin is not a terminal."}
+  - name: negative-vague-purpose
+    vars:
+      language: python
+      commands: ""
+      purpose: "A tool for the team."
+    assert:
+      - {type: llm-rubric, value: "Asks what workflow the tool should automate and who runs it instead of inventing commands and code."}

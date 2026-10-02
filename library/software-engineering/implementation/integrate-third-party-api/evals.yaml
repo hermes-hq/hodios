@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Write a client for this API: {{api_docs}}. I need: {{operations}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-paginated-list-and-create
+    vars:
+      language: typescript
+      operations: "list all contacts, create a contact"
+      api_docs: |
+        Base URL: https://api.example-crm.test/v2
+        Auth: header "Authorization: Bearer <token>".
+        GET /contacts?cursor=<c>&limit=<1-100> -> {"data": [{"id": "c_1", "email": "a@x.test", "created_at": "2026-01-01T00:00:00Z"}], "next_cursor": "abc" | null}
+        POST /contacts {"email": string, "name": string} -> 201 contact. Supports header "Idempotency-Key".
+        Rate limit: 10 requests/second. On excess returns 429 with "Retry-After" seconds.
+        Errors: {"error": {"code": string, "message": string}}
+    assert:
+      - {type: contains, value: "## Interface"}
+      - {type: icontains, value: "Retry-After"}
+      - {type: llm-rubric, value: "Implements a lazy cursor iterator that stops at a null cursor, retries POST only with an Idempotency-Key, uses jittered backoff honouring Retry-After, and includes tests that run without real network calls."}
+  - name: edge-docs-missing-errors
+    vars:
+      language: python
+      operations: "fetch exchange rate for a currency pair"
+      api_docs: "GET https://rates.example.test/latest?base=USD&symbols=EUR returns {\"rates\": {\"EUR\": 0.92}}. Free tier: 100 calls per day."
+    assert:
+      - {type: llm-rubric, value: "Lists missing documentation on auth, error format and pagination under Doc gaps, and does not invent undocumented endpoints or error codes; handles the daily quota explicitly."}
+  - name: negative-undocumented-operation
+    vars:
+      language: go
+      operations: "bulk delete users"
+      api_docs: "GET /users/{id} returns a user. DELETE /users/{id} deletes one user. Auth: API key in X-Api-Key header."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a bulk delete endpoint; reports that the docs only offer single deletes and proposes iterating with rate limiting and error reporting, or asks how to proceed."}

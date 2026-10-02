@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a {{shell}} script that does this: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-backup-rotation
+    vars:
+      shell: bash
+      target_os: any
+      goal: "Back up a directory given as an argument into a timestamped tar.gz under ~/backups and keep only the newest 7 backups."
+    assert:
+      - {type: contains, value: "set -Eeuo pipefail"}
+      - {type: icontains, value: "--dry-run"}
+      - {type: llm-rubric, value: "The script avoids GNU-only flags or branches for macOS, quotes all expansions, rejects a missing argument with a usage message, and deletes old backups without parsing ls output."}
+  - name: edge-posix-sh
+    vars:
+      shell: posix-sh
+      target_os: linux
+      goal: "Create a system user 'app' if it does not exist and add it to the 'docker' group."
+    assert:
+      - {type: not-contains, value: "[["}
+      - {type: llm-rubric, value: "Uses set -eu without relying on pipefail or arrays, checks whether the user and group membership already exist before changing them, and explains that it needs root."}
+  - name: negative-underspecified-delete
+    vars:
+      shell: bash
+      target_os: any
+      goal: "Clean up old files."
+    assert:
+      - {type: llm-rubric, value: "Asks which directory, what counts as old, and whether files should be deleted or moved, instead of writing a script that deletes files based on guesses."}

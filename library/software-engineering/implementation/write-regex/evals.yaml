@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Write a regex for {{intent}}. It should match: {{should_match}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-semver
+    vars:
+      flavor: javascript
+      intent: "Validate a full semantic version string such as release tags, without a leading v."
+      should_match: |
+        1.0.0
+        10.20.30
+        1.0.0-alpha.1
+        2.1.3+build.5
+      should_not_match: |
+        01.0.0
+        1.0
+        v1.0.0
+        1.0.0-
+    assert:
+      - {type: contains, value: "## Test results"}
+      - {type: regex, value: "\\^"}
+      - {type: llm-rubric, value: "The pattern is anchored, rejects leading zeros in the numeric parts, and the test table covers every given example with correct results."}
+  - name: edge-go-no-lookaround
+    vars:
+      flavor: go
+      intent: "Find words that are not followed by a colon in a log line."
+      should_match: "ERROR in module"
+      should_not_match: "level: info"
+    assert:
+      - {type: llm-rubric, value: "States that Go's RE2 engine has no lookahead and gives a pattern without lookaround plus a note on what code must handle, rather than a pattern using (?!...)."}
+  - name: negative-email-rfc
+    vars:
+      flavor: python
+      intent: "Validate any email address exactly as RFC 5322 allows."
+      should_match: "a@b.co"
+      should_not_match: "not-an-email"
+    assert:
+      - {type: llm-rubric, value: "Says a regex cannot practically validate full RFC 5322, offers a pragmatic pattern, and recommends sending a confirmation email or using a parser for real validation."}

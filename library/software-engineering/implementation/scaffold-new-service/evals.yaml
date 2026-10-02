@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Create a new {{language_or_framework}} project for: {{description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-go-http-service
+    vars:
+      language_or_framework: Go
+      deploy_target: "container on Kubernetes"
+      description: "An internal HTTP service that receives webhooks from our payment provider and forwards them to a queue later. For now it only needs to accept and log them."
+    assert:
+      - {type: contains, value: "## Left out on purpose"}
+      - {type: llm-rubric, value: "Includes health and readiness endpoints, graceful shutdown on SIGTERM, env-based config validated at start-up, a multi-stage non-root Dockerfile and a CI stub, and does not add a queue client or database layer yet."}
+  - name: edge-library-no-deploy
+    vars:
+      language_or_framework: "TypeScript library"
+      deploy_target: ""
+      description: "A small library that formats durations like '2h 5m' for our frontend apps, published to our internal npm registry."
+    assert:
+      - {type: llm-rubric, value: "Treats it as a library: no health endpoints, Dockerfile or server code; sets up build output, type declarations, lint, tests and a CI stub."}
+  - name: negative-unclear-shape
+    vars:
+      language_or_framework: Python
+      deploy_target: ""
+      description: "Something to sync customer data from our CRM to the warehouse."
+    assert:
+      - {type: llm-rubric, value: "Asks whether this is a long-running service, a scheduled job or a library before scaffolding, rather than generating a full project on a guess."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Add this endpoint to my API: {{endpoint_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-update-resource
+    vars:
+      framework: FastAPI
+      auth: "Logged-in user; only the project owner may rename a project."
+      endpoint_spec: "PATCH /projects/{project_id} with body {name: string 1-80 chars}. Returns the updated project."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Loads the project and checks that the caller owns it before updating, validates name length 1-80, and lists tests for 401, non-owner, not found and invalid name."}
+  - name: edge-collection-endpoint
+    vars:
+      framework: ""
+      auth: ""
+      endpoint_spec: "GET /invoices returns the caller's invoices, newest first, filterable by status."
+    assert:
+      - {type: llm-rubric, value: "Says it will detect the framework from the repo, scopes results to the caller, adds a capped page size or pagination, and validates the status filter against allowed values."}
+  - name: negative-leaky-errors
+    vars:
+      framework: Express
+      auth: "Admin only."
+      endpoint_spec: "DELETE /users/:id. On any database error, return the error message to the client so admins can debug."
+    assert:
+      - {type: llm-rubric, value: "Does not return raw database error messages to the client; logs them server-side and records the deviation from the spec under Decisions."}

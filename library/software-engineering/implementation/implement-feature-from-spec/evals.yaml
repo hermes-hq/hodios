@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Implement this ticket in my codebase: {{spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clear-ticket
+    vars:
+      test_policy: add-tests
+      scope_paths: "src/orders/"
+      spec: |
+        As a customer I can cancel an order while it is still "pending".
+        Acceptance criteria:
+        - POST /orders/:id/cancel sets status to "cancelled" and returns the updated order.
+        - Cancelling an order that is "shipped" returns 409 with error code ORDER_NOT_CANCELLABLE.
+        - Only the order's owner can cancel it.
+    assert:
+      - {type: contains, value: "## Acceptance criteria"}
+      - {type: contains, value: "## Decisions"}
+      - {type: llm-rubric, value: "Lists the three acceptance criteria with a status and a test for each, and names or plans tests for the 409 and ownership cases rather than only the happy path."}
+  - name: edge-ambiguous-data-model
+    vars:
+      test_policy: add-tests
+      scope_paths: ""
+      spec: "Users should be able to have multiple email addresses."
+    assert:
+      - {type: llm-rubric, value: "Recognises that this changes the data model and the meaning of existing email fields, and asks numbered clarifying questions with proposed defaults before writing any code."}
+      - {type: not-contains, value: "## Verification"}
+  - name: negative-no-tests-policy
+    vars:
+      test_policy: none
+      scope_paths: "src/utils/format.ts"
+      spec: "formatPrice(cents) should render negative amounts as -$1.50 instead of $-1.50."
+    assert:
+      - {type: llm-rubric, value: "Does not add or modify test files, and lists the tests it would have written under Follow-ups."}

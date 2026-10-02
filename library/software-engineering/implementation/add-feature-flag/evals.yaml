@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add a feature flag for this change: {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-pricing-algorithm
+    vars:
+      flag_system: "existing system or env var"
+      change: "Replace calculateShipping() with a new zone-based algorithm in src/shipping/calc.ts. Callers: checkout and order preview."
+    assert:
+      - {type: contains, value: "## Cleanup ticket"}
+      - {type: llm-rubric, value: "Defaults to the old algorithm, falls back to the old path when flag evaluation fails, evaluates the flag once rather than in each caller separately, and tests flag on, flag off and evaluation failure."}
+  - name: edge-schema-change
+    vars:
+      flag_system: Unleash
+      change: "Store user addresses in a new addresses table instead of columns on users, and read from the new table."
+    assert:
+      - {type: llm-rubric, value: "Warns that a flag alone cannot protect the data migration and proposes an expand-then-contract approach so both paths can read the data."}
+  - name: negative-security-fix
+    vars:
+      flag_system: LaunchDarkly
+      change: "Fix an IDOR: GET /documents/:id must check the caller owns the document."
+    assert:
+      - {type: llm-rubric, value: "Points out that a security fix should not be gated behind a flag that can be turned off, and recommends shipping it unconditionally."}

@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Write a parser for files like this: {{sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-csv-with-bad-rows
+    vars:
+      language: python
+      format_notes: "Exported from our billing system. amount is in EUR with a dot decimal."
+      sample: |
+        id,customer,amount,date
+        1,"Acme, Inc.",120.50,2026-03-01
+        2,Globex,abc,2026-03-02
+        3,"Initech
+        Ltd",99.00,2026-03-03
+        4,Umbrella,10.00
+    assert:
+      - {type: contains, value: "## Format spec"}
+      - {type: llm-rubric, value: "Uses a real CSV reader rather than splitting on commas, treats the quoted multi-line field as one record, reports the bad amount and the missing column with line numbers, and keeps parsing after errors."}
+      - {type: llm-rubric, value: "Parses amount as a decimal type rather than a float."}
+  - name: edge-multiline-logs
+    vars:
+      language: go
+      format_notes: ""
+      sample: |
+        2026-05-01T10:00:00Z INFO  server started port=8080
+        2026-05-01T10:00:05Z ERROR request failed id=42
+        java.lang.NullPointerException
+            at com.example.Handler.run(Handler.java:17)
+        2026-05-01T10:00:06Z WARN  slow request id=43 ms=950
+    assert:
+      - {type: llm-rubric, value: "Attaches the exception and stack-trace lines to the preceding ERROR record instead of reporting them as malformed lines, and marks the inferred format items as observed or assumed."}
+  - name: negative-ambiguous-fixed-width
+    vars:
+      language: java
+      format_notes: "Fixed-width mainframe export."
+      sample: |
+        0001JOSÉ      0001500
+        0002MARIA     0002000
+    assert:
+      - {type: llm-rubric, value: "Flags that it is unclear whether column widths are in bytes or characters given the accented character, states an assumption, and does not present the column layout as certain."}
