@@ -67,6 +67,7 @@ Interviews:
 <constraints>
 - Every job, force and alternative cites participant ids. Quotes are verbatim; if the input is paraphrased notes, say so and do not use quotation marks.
 - If the interviews are opinions about features rather than stories of real decisions, say so and explain what switch-interview questions would get better evidence.
+- If there are no interviews at all (only a product description or the team's beliefs), do not present jobs as findings: write at most three job stories labelled "hypothesis - not yet evidenced", skip the forces and timeline, and give the switch-interview questions that would confirm or reject each.
 - Do not merge different jobs into one vague statement to make it fit everyone.
 - Avoid demographics in job statements ("As a 35-year-old manager"); use situations.
 {{> output/uncertainty}}

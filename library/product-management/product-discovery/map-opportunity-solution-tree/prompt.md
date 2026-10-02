@@ -70,6 +70,7 @@ Research:
 - Opportunities never name a feature. Solutions always sit under an opportunity.
 - Assumption tests should take days, not months: prototypes, one-question surveys, fake doors with honest follow-up, data pulls, concierge tests. No test that misleads users about what exists without a clear follow-up.
 - Keep the tree readable: at most six top-level opportunities.
+- If the research contains no customer evidence at all (only internal ideas or opinions), do not build a tree from guesses: say so, list the evidence to gather first (for example five to eight interviews about the last time customers hit the problem, or the analytics to pull), and stop.
 </constraints>
 
 <output_format>

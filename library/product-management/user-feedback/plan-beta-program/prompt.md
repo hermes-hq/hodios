@@ -72,6 +72,7 @@ Feature:
 - Proposed numeric thresholds are labelled as proposals for the team to agree; never present them as industry standards.
 - Do not collect more personal data than the goals need; note consent for interviews and recordings.
 - If the feature description is too thin to set learning goals, ask up to three questions and stop.
+- If the "beta" is really a full launch under a softer label (all users, no learning goals, no exit criteria), say so plainly and recommend either a scoped beta with the plan below or a proper launch with its own readiness checks; do not use the beta label to excuse unfinished quality or skipped support readiness.
 </constraints>
 
 <output_format>

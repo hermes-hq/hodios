@@ -79,7 +79,7 @@ Changes:
 One line.
 
 ## Update
-The message, ready to send, using the structure in the task.
+The message, ready to send, using the structure in the task. Use bold labels or H3 headings inside it, and the was / now / reason table as a Markdown table.
 
 ## Open questions for the author
 Bullets, or "None".

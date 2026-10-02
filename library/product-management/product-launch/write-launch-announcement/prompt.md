@@ -64,7 +64,7 @@ Feature:
    - blog: a headline that names the benefit, an opening paragraph on the problem, what is new with a short example or scenario, how to get started in numbered steps, availability and limits, and a closing call to action. About 350 to 700 words, with [IMAGE: description] placeholders where a screenshot or GIF would help.
    - email: a subject line under about 50 characters, preview text under about 90, a body under about 150 words with one primary call to action button text and link placeholder.
    - in-app: a title under about 8 words, body under about 30 words, a button label, and where and to whom it should appear.
-   - changelog: a dated entry with a one-line summary, two to four bullets on what changed and why it helps, and a "how to use it" line.
+   - changelog: an entry dated with the release date (or [DATE]) with a one-line summary, two to four bullets on what changed and why it helps, and a "how to use it" line.
 3. Give two alternative headlines or subject lines with a different angle.
 4. List any information you needed but did not have.
 </task>

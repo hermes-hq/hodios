@@ -79,6 +79,7 @@ Candidate initiatives:
 - Keep "now" realistic: if capacity is given, do not exceed it; if not, keep now to the items one team could reasonably run at once and say that capacity was not given.
 - Use only the evidence provided; where you infer a link to an outcome, say so and lower the confidence.
 - At most about 12 items across the roadmap; group small items.
+- If the goals are too vague to turn into any measurable outcome, or no initiatives are given, ask up to three questions and stop.
 </constraints>
 
 <output_format>

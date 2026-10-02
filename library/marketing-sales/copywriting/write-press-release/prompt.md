@@ -69,7 +69,7 @@ Announcement:
    - FOR IMMEDIATE RELEASE, or EMBARGOED UNTIL [date, time, time zone] if the announcement gives a future date.
    - Headline: one line, active voice, present tense, ideally under 12 words, with the company name and the news.
    - Subhead: one sentence that adds the most important supporting fact.
-   - Dateline: CITY, Region or Country, Month Day, Year, followed by a dash.
+   - Dateline: the city in capitals, then the state, region or country in AP style, then the date (for example "LISBON, Portugal, Oct. 14, 2026 -"). Use [CITY] or [DATE] if not given.
    - Lead paragraph: who, what, when, where and why in 35 words or fewer.
    - Two to four body paragraphs in inverted-pyramid order: details, context or a supporting fact, availability and pricing.
    - Quotes: one from a company spokesperson and, if supplied, one from a customer, partner or investor. Quotes give perspective or meaning, not a restatement of the facts.

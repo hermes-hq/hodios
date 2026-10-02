@@ -73,7 +73,7 @@ Features under consideration:
 
 <constraints>
 - Every "in" feature traces to a hypothesis or to the core flow; if it does not, it is deferred.
-- Never cut what protects users, even in a test: security of personal data, safe payment handling, legal requirements and accessibility basics stay in, even if minimal.
+- Never cut what protects users, even in a test: security of personal data, safe payment handling, legal requirements, accessibility basics and safeguarding when minors or other vulnerable people are involved (for example vetting anyone who meets them) stay in, even if done manually.
 - Thresholds are set now, not after the results. Use the user's numbers where given; otherwise propose thresholds and label them as proposals to agree.
 - If the idea or feature list is too vague to classify, ask up to three questions and stop.
 </constraints>
