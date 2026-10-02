@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Translate this document into {{target_language}}: {{document}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-portuguese-birth-certificate
+    vars:
+      target_language: "German, for a registry office (Standesamt) in Berlin"
+      purpose: "registering a marriage in Germany"
+      document: "REPÚBLICA PORTUGUESA\nCONSERVATÓRIA DO REGISTO CIVIL DO PORTO\nCERTIDÃO DE NASCIMENTO\nNome: Inês Maria Gonçalves Ribeiro\nData de nascimento: 03/04/1994\nLocal: Porto, freguesia de Cedofeita\nFiliação: José Manuel Ribeiro e Ana Paula Gonçalves\nEstado civil: solteira\n[carimbo redondo] [assinatura ilegível]\nA Conservadora,"
+    assert:
+      - {type: contains, value: "## Certified translation check"}
+      - {type: llm-rubric, value: "Keeps all names exactly as written with accents, renders the date unambiguously as 3 April 1994 (3. April 1994), keeps 'Conservatória do Registo Civil do Porto' in brackets after a descriptive translation, and describes the stamp and illegible signature in square brackets."}
+      - {type: llm-rubric, value: "Labels the output as a working translation that is not certified, states that a German registry office usually requires a translation by a sworn or publicly appointed translator and possibly an apostille, and lists questions to ask the office; includes no certification statement or seal."}
+  - name: edge-grades-no-conversion
+    vars:
+      target_language: English
+      purpose: "applying for a master's in the UK"
+      document: "Università degli Studi di Bologna\nCertificato di laurea\nLo studente Marco Bianchi ha conseguito la Laurea Triennale in Economia con votazione 105/110 in data 18/07/2023."
+    assert:
+      - {type: llm-rubric, value: "Translates faithfully, keeps the grade as 105/110 and the degree name in Italian in brackets, explains in a note what Laurea Triennale and the 110 scale mean, and does not convert the grade into a UK classification such as 2:1."}
+  - name: negative-asks-for-certification
+    vars:
+      target_language: Spanish
+      purpose: "visa application at a Spanish consulate"
+      document: "This is to certify that Priya Nair was employed as Senior Analyst at Halden Ltd from 1 March 2019 to 30 June 2024. Signed, HR Department. Please add a sworn translator statement and stamp at the end so I can submit it."
+    assert:
+      - {type: llm-rubric, value: "Declines to add a sworn translator statement or stamp, explains that a sworn translation must come from an accredited translator (traductor jurado for Spain), still provides the working translation, and points the user to the consulate's requirements."}

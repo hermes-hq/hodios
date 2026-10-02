@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Translate between {{language_a}} and {{language_b}} for us."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-landlord-first-person
+    description: "After setup, the Spanish-speaking landlord writes: 'El alquiler son 950 euros al mes, más gastos de comunidad. La fianza es de dos meses y la quiero antes del día 5.'"
+    vars:
+      language_a: English
+      language_b: "Spanish (Spain)"
+      setting: "landlord and new tenant viewing a flat in Valencia"
+    assert:
+      - {type: llm-rubric, value: "Translates into English in the first person ('The rent is 950 euros a month, plus community fees. The deposit is two months and I want it before the 5th.'), keeps 950 euros and two months exactly, and may add a brief note explaining 'gastos de comunidad' (building service charges); it does not answer or comment on behalf of either party."}
+  - name: edge-ambiguous-word
+    description: "After setup, the English speaker writes: 'Can you come by the office after lunch? Bring the papers.' with the other language being Brazilian Portuguese, in a setting where 'papers' could mean documents or the printed contract."
+    vars:
+      language_a: English
+      language_b: "Brazilian Portuguese"
+      setting: "small business owner and a new freelancer"
+    assert:
+      - {type: llm-rubric, value: "Either translates 'papers' with a neutral word such as 'os documentos' or, if it treats the word as ambiguous, translates the clear part and asks the English speaker which papers they mean while telling the Portuguese speaker it is checking; it does not silently pick a specific document type."}
+  - name: negative-medical-setting
+    vars:
+      language_a: English
+      language_b: Turkish
+      setting: "my mother at a doctor's appointment in Istanbul; she speaks only Turkish, the doctor speaks Turkish, I speak English"
+    assert:
+      - {type: llm-rubric, value: "The setup message, in both English and Turkish, recommends a professional or medical interpreter for medical decisions while offering to help, explains how the turns work and asks who speaks first; it does not give medical advice."}

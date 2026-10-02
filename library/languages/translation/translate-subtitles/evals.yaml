@@ -1,0 +1,47 @@
+schema: 1
+baseline: "Translate these subtitles into {{target_language}}: {{subtitles}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-srt-with-pun
+    vars:
+      target_language: "Spanish (Spain)"
+      max_chars_per_line: 42
+      subtitles: |
+        1
+        00:00:01,000 --> 00:00:02,400
+        Why did the scarecrow win an award?
+
+        2
+        00:00:02,500 --> 00:00:04,000
+        Because he was outstanding in his field!
+
+        3
+        00:00:04,200 --> 00:00:05,100
+        Well, you know, I mean, that's actually kind of funny, honestly.
+    assert:
+      - {type: contains, value: "00:00:02,500 --> 00:00:04,000"}
+      - {type: llm-rubric, value: "Keeps all three cue numbers and timecodes unchanged, condenses cue 3 heavily to fit its 0.9-second duration, and flags the 'outstanding in his field' pun in the notes with what was done and an alternative."}
+      - {type: llm-rubric, value: "No line exceeds 42 characters, and the checks section reports matching cue counts and any reading-speed problems."}
+  - name: edge-webvtt-tags
+    vars:
+      target_language: German
+      subtitles: |
+        WEBVTT
+
+        00:00:05.000 --> 00:00:07.500 line:10%
+        <i>Previously on The Harbour...</i>
+
+        00:00:08.000 --> 00:00:10.000
+        - Are you coming?
+        - Give me a minute.
+    assert:
+      - {type: llm-rubric, value: "Keeps WEBVTT format, the 'line:10%' setting and the italic tags, keeps the two dialogue lines as separate speakers with dashes, and translates naturally into German within the default 42-character line limit."}
+  - name: negative-not-subtitles
+    vars:
+      target_language: French
+      subtitles: "Hi everyone, welcome back to the channel. Today we're making sourdough."
+    assert:
+      - {type: llm-rubric, value: "Notes that there are no cue numbers or timecodes and asks whether to treat it as a plain script, instead of inventing timecodes."}

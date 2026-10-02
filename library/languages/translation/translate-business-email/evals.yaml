@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Translate this email into {{target_language}}: {{email}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-to-japanese-client
+    vars:
+      target_language: Japanese
+      recipient_culture: "Large Japanese manufacturing company"
+      relationship: "first contact, potential client, recipient is Mr Tanaka, procurement manager"
+      email: "Subject: Quick question\n\nHi Kenji,\n\nHope you're well! We need your answer on the pilot proposal by Friday 10/3, otherwise we can't hold the price of $48,000. Let me know.\n\nCheers,\nMike"
+    assert:
+      - {type: contains, value: "## Adjustments"}
+      - {type: llm-rubric, value: "Uses a formal Japanese business greeting and addresses the recipient as 田中様 (Tanaka-sama) rather than by first name, adds a conventional courtesy opening and closing, and softens the ultimatum while keeping the deadline and the $48,000 price intact."}
+      - {type: llm-rubric, value: "Flags the ambiguous date '10/3' (October 3 vs 10 March) in the checks and lists each cultural adjustment with a literal alternative."}
+  - name: edge-german-directness
+    vars:
+      target_language: German
+      email: "Hello Anna, I was wondering if maybe, when you have a moment, you might possibly be able to take a look at the invoice we sent last month? No worries if not! Best, Leo"
+    assert:
+      - {type: llm-rubric, value: "Assumes a polite professional relationship and says so, makes the request clearer and more direct in German (the invoice from last month needs attention) while staying courteous, and explains in the adjustments that heavy hedging can obscure the request; it does not add a payment deadline the sender never wrote."}
+  - name: negative-adds-content
+    vars:
+      target_language: "Spanish (Mexico)"
+      relationship: "long-time supplier"
+      email: "Hi Carlos, the shipment arrived damaged. Please send replacements. Thanks, Priya"
+    assert:
+      - {type: llm-rubric, value: "Adds warmer courtesy appropriate to a long-time Mexican supplier but does not invent new facts, demands, compensation requests or deadlines beyond replacing the damaged shipment, and lists the courtesy additions in the adjustments."}

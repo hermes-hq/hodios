@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Fix this machine translation. Source: {{source}} MT: {{machine_translation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-with-glossary
+    vars:
+      level: full
+      glossary: "dashboard = Dashboard\nworkspace = Arbeitsbereich"
+      source: "1. Open your workspace and go to the dashboard.\n2. You cannot delete a workspace that still has active members.\n3. Click {save_button} to keep your changes."
+      machine_translation: "1. Öffnen Sie Ihren Arbeitsplatz und gehen Sie zum Armaturenbrett.\n2. Sie können einen Arbeitsbereich löschen, der noch aktive Mitglieder hat.\n3. Klicken Sie auf {Speichern_Taste}, um Ihre Änderungen zu behalten."
+    assert:
+      - {type: contains, value: "## Error log"}
+      - {type: llm-rubric, value: "Fixes the dropped negation in segment 2 as a critical accuracy error, applies the glossary terms Arbeitsbereich and Dashboard, and restores the placeholder exactly as {save_button}."}
+      - {type: llm-rubric, value: "Logs each change with a category and severity and gives a summary with counts and an effort estimate."}
+  - name: edge-light-leaves-style
+    vars:
+      level: light
+      source: "We are pleased to inform you that your application has been approved."
+      machine_translation: "Nous sommes heureux de vous informer que votre demande a été approuvée."
+    assert:
+      - {type: llm-rubric, value: "Leaves the sentence unchanged or nearly so because it is accurate and understandable, does not make stylistic preference edits at the light level, and reports zero or minimal errors."}
+  - name: negative-mismatched-texts
+    vars:
+      level: full
+      source: "Your order has shipped and will arrive in 3 to 5 business days."
+      machine_translation: "Ihr Passwort wurde erfolgreich zurückgesetzt."
+    assert:
+      - {type: llm-rubric, value: "Points out that the machine translation does not correspond to the source (it is about a password reset) instead of silently post-editing it into an unrelated text."}

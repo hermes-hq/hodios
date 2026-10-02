@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a glossary for translating this into {{target_language}}: {{source_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-help-centre
+    vars:
+      target_language: "French (France)"
+      domain: "B2B SaaS help centre for finance teams"
+      source_text: "To connect Ledgerly to your bank, open Settings > Integrations and select Bank Feeds. Once connected, transactions sync every hour. Unmatched transactions appear in the Reconciliation Queue, where you can match them to invoices or create a new Expense Claim. Admins can set Approval Rules so that any Expense Claim above a threshold needs a second approver. Note: Bank Feeds are read-only; Ledgerly never initiates payments. If a sync fails, the Feed Status badge turns red and the Workspace Owner receives an email. Reconciliation must be completed before the period can be locked in Period Close."
+    assert:
+      - {type: contains, value: "## Do not translate"}
+      - {type: llm-rubric, value: "Lists Ledgerly as do-not-translate, extracts recurring feature terms (Bank Feeds, Reconciliation Queue, Expense Claim, Approval Rules, Period Close, Workspace Owner) with one approved French term each and a context sentence, and uses the established accounting term 'rapprochement (bancaire)' for reconciliation."}
+      - {type: llm-rubric, value: "Raises an open question about whether UI labels such as feature names should stay in English or be localised to match the product's French interface, and ends with a tab-separated import block with the specified header."}
+  - name: edge-fantasy-invented-terms
+    vars:
+      target_language: German
+      source_text: "The Wardens of the Hollow Crown guarded the Saltmarch for nine hundred years. Every Warden carried a bloodstone, and every bloodstone remembered its bearer. When the Tidebreakers came over the Saltmarch at the Long Ebb, the Wardens swore the Ashen Oath and burned the Greywater bridges behind them. Only Maera Thorn, last of the Hollow Crown, kept her bloodstone after the Oath."
+    assert:
+      - {type: llm-rubric, value: "Infers the domain as fantasy fiction, proposes German renderings for invented terms (Warden, Hollow Crown, Saltmarch, bloodstone, Tidebreakers, Ashen Oath, Long Ebb) marked as proposed with alternatives, keeps the personal name Maera Thorn untranslated, and raises open questions about the client's preference for translating versus keeping invented names."}
+  - name: negative-too-short
+    vars:
+      target_language: Spanish
+      source_text: "Click Save."
+    assert:
+      - {type: llm-rubric, value: "Says the text is too short to build a meaningful glossary and asks for a longer sample, rather than producing a padded glossary."}

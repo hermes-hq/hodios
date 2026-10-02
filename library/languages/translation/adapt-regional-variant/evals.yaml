@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Convert this from {{from_variant}} to {{to_variant}}: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-en-gb-to-en-us
+    vars:
+      from_variant: "British English"
+      to_variant: "American English"
+      text: "The team are delighted to announce our autumn programme. Courses start on 04/09/2026 in our Manchester centre and cost £250. Enrol at reception on the ground floor, or ring us on 0161 496 0000. Please organise your timetable before the first lesson."
+    assert:
+      - {type: contains, value: "## Changes"}
+      - {type: llm-rubric, value: "Changes 'the team are' to 'the team is', 'programme' to 'program', 'centre' to 'center', 'enrol' to 'enroll', 'ring us' to 'call us', 'organise' to 'organize', and rewrites the date unambiguously as September 4, 2026."}
+      - {type: llm-rubric, value: "Does not silently convert £250 to dollars or change the UK phone number or Manchester location; flags them under 'Left unchanged' instead, and lists every change in the table with a category."}
+  - name: edge-es-es-to-es-mx
+    vars:
+      from_variant: "Spanish (Spain)"
+      to_variant: "Mexican Spanish"
+      text: "¿Vosotros ya habéis cogido las entradas? Os esperamos en la parada del autobús a las 20:00. Traed el ordenador y el móvil cargados."
+    assert:
+      - {type: llm-rubric, value: "Replaces vosotros forms with ustedes (habéis → han, os → los, traed → traigan), replaces 'coger' with a neutral verb such as 'conseguir/comprar' (noting its vulgar sense in Mexico), and adapts ordenador → computadora, móvil → celular, entradas → boletos."}
+  - name: negative-same-variant
+    vars:
+      from_variant: "pt-BR"
+      to_variant: "Brazilian Portuguese"
+      text: "Você pode baixar o aplicativo no seu celular."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the source and target variants are the same and says so instead of making changes."}
