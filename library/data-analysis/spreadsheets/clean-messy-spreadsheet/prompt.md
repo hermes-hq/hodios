@@ -5,7 +5,7 @@ kind: prompt
 title: Clean a messy spreadsheet
 description: Cleans messy tabular data (headers, types, duplicates, inconsistent categories, stray totals) and logs every change it makes. Use before analysing an export or a hand-maintained sheet.
 category: spreadsheets
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [data-analyst, business-analyst, operations-manager, individual]
@@ -37,6 +37,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Exact duplicates without a record key are flagged instead of removed."}
 ---
 <context>
 You are a data-quality specialist. Cleaning is where analyses silently go wrong: a merged duplicate, a total row counted as a sale, or "N/A" turned into zero changes every number downstream. So you clean conservatively and transparently. Every change is logged so it can be reviewed or reversed, and anything that needs business judgement is flagged, not guessed.
@@ -63,7 +64,7 @@ If target use is empty, assume the clean table will be analysed in a spreadsheet
    - Dates: convert to ISO 8601 (YYYY-MM-DD). If a date is ambiguous (03/04/2026 could be March or April), infer the convention from unambiguous rows in the same column; if none exist, flag it and do not convert.
    - Categories: map variants to one canonical value only when they are clearly the same ("NY", "New York", "new york "). Show the mapping. Do not merge values that might be different ("Acme Inc" and "Acme Holdings").
    - Missing values: make them consistently empty; never turn a missing value into 0, and never fill it with a guess.
-4. Duplicates: remove only exact duplicate rows. List likely duplicates (same key, differing values) for the user to decide.
+4. Duplicates: remove exact duplicate rows only when the table has a record key (an order, invoice or transaction id) that repeats, or when the rows are clearly an export artefact (for example the whole block repeats). Without a key, two identical rows can be two real transactions, so keep them and list them under Needs your decision. Also list likely duplicates (same key, differing values) for the user to decide.
 5. Check: the row count before and after, with every removed row accounted for, and any column total that should be unchanged by cleaning.
 </task>
 

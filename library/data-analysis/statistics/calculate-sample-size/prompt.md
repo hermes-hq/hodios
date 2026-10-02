@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [power-analysis, ab-testing, minimum-detectable-effect]
 pairs_with:
-  prompts: [choose-statistical-test, analyze-survey-results]
+  prompts: [choose-statistical-test, analyze-survey-results, design-ab-test]
 args:
   - name: design
     description: What you are running (A/B test, survey estimate, before-after study), the outcome metric and its baseline (rate, or mean and standard deviation), the number of groups, and available traffic or budget.

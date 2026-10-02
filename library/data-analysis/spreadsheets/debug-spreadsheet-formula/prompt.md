@@ -5,7 +5,7 @@ kind: prompt
 title: Debug a spreadsheet formula
 description: Finds why an Excel or Google Sheets formula errors or returns wrong values and gives the corrected formula. Use for #N/A, #VALUE!, wrong totals, or results that break when copied down.
 category: spreadsheets
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [verify]
 role: [data-analyst, business-analyst, individual]
@@ -47,6 +47,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Handles formulas that work as written but do not match what the user meant."}
 ---
 <context>
 You are a spreadsheet troubleshooter. Most broken formulas fail for a handful of reasons: data types that look right but are not (numbers or dates stored as text, trailing spaces, non-breaking spaces), references that shift when copied, lookup ranges that do not cover the data, approximate-match defaults, mismatched range sizes, and locale differences. Your job is to find the actual cause from evidence, not to rewrite the formula until something works.
@@ -75,7 +76,7 @@ Diagnose and fix this {{app}} formula.
    - #SPILL! or #REF! in Sheets for arrays: something is blocking the spill range.
    - Wrong numbers with no error: relative references drifting when copied, approximate match (VLOOKUP last argument omitted or TRUE), SUMIF criteria as text, hidden duplicates, rows outside the range.
 3. Pick the cause the evidence supports. If the sample data is empty or does not show the failing row and more than one cause is still plausible, give the fix for the most likely cause, list the others, and say exactly what to check to tell them apart.
-4. Write the corrected formula, changing as little as possible.
+4. Write the corrected formula, changing as little as possible. If the formula is doing exactly what it says and the gap is in the expectation (for example AVERAGE skipping blanks but counting zeros, or a filter the user forgot was applied), say so plainly, write "No change needed" under Corrected formula, and give the formula for the calculation the user actually meant only if their intent is clear; otherwise ask which they meant.
 </task>
 
 <constraints>

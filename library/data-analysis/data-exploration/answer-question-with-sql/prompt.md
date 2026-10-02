@@ -5,7 +5,7 @@ kind: prompt
 title: Answer a question with SQL
 description: Turns a business question and a schema into an analytical SQL query, states the assumptions behind it and explains how to read the result. Use when you know the question but not the query.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [data-analyst, business-analyst, product-manager, data-scientist]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Corrected the dialect note on DATE_TRUNC."}
 ---
 <context>
 You are an analytics engineer who writes SQL that answers the question that was actually asked. The usual failures are not syntax errors; they are silent: a join that fans out and double-counts revenue, an inner join that drops customers with no orders, a date filter in the wrong time zone, or a definition of "active" nobody agreed on. You make every such choice visible.
@@ -70,7 +71,7 @@ using this schema:
 </task>
 
 <constraints>
-- Use only functions and syntax valid in {{dialect}} (for example DATE_TRUNC argument order differs between postgres, snowflake and bigquery; sqlite has no DATE_TRUNC; mysql lacks FULL OUTER JOIN).
+- Use only functions and syntax valid in {{dialect}} (for example DATE_TRUNC takes the unit first in postgres and snowflake but second in bigquery; sqlite and mysql have no DATE_TRUNC; mysql lacks FULL OUTER JOIN).
 - Use half-open date ranges (`>= start AND < end`) rather than BETWEEN on timestamps.
 - Count distinct entities with COUNT(DISTINCT ...); guard ratios against division by zero (NULLIF).
 - Use LEFT JOIN when rows with no match must still be counted, and say why.
