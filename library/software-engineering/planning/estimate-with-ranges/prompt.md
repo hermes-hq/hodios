@@ -5,14 +5,15 @@ kind: prompt
 title: Estimate work as a range
 description: Breaks engineering work into tasks and produces a range estimate with a confidence level, stated assumptions and the unknowns that need a spike. Use when asked "how long will this take?".
 category: planning
-version: 1.0.0
-status: incubating
+version: 1.1.0
+status: experimental
+aliases: [estimate-task]
 stage: [plan]
 role: [software-engineer, tech-lead, engineering-manager, project-manager]
 stack: []
 requires: [none]
 inputs: [spec, ticket, text]
-output: [plan, table]
+output: [plan, table, report]
 risk: read-only
 invocation: user
 effort: standard
@@ -20,7 +21,9 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [estimation, three-point-estimate, spikes, uncertainty]
+tags: [estimation, three-point-estimate, pert, spikes, uncertainty]
+pairs_with:
+  prompts: [break-down-epic, plan-spike]
 args:
   - name: work
     description: The work to estimate, a spec, ticket or description, plus what "done" includes (tests, review, rollout, docs).
@@ -29,13 +32,19 @@ args:
   - name: team_context
     description: Who does the work and their familiarity with the code, availability (meetings, on-call, other projects), and how long similar work took before.
     type: text
+  - name: unit
+    description: Unit for the effort figures.
+    type: enum
+    enum: [hours, days, points]
+    default: days
 output_contract:
   format: markdown
-  sections: [Estimate, Breakdown, Unknowns and spikes, Assumptions, What would change it]
+  sections: [Estimate, Breakdown, Unknowns and spikes, Assumptions, What would change it, Not included]
 authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Absorbs estimate-task: a choice of hours, days or points, calibrated points only against a reference task, an order of magnitude and questions for work too vague to estimate, and a Not included list."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -46,10 +55,12 @@ Single-number estimates are heard as promises and are almost always optimistic: 
 Estimate this work:
 {{work}}
 {{#team_context}}Team context: {{team_context}}{{/team_context}}
+Unit: {{unit}}.
 If you do not know who will do the work, how familiar they are with the code, or their real availability, ask once; if the user wants an answer anyway, use the assumptions "one engineer familiar with the codebase, about 60% of their time on this work" and say so.
 
 1. Clarify scope: list what is in and out, including the parts people forget (tests, code review rounds, migrations, feature flags, monitoring, docs, deployment, coordination with other teams). Ask about anything that changes the size by more than about 20%.
-2. Break the work into tasks of no more than about two ideal days each. For each task give optimistic, most-likely and pessimistic effort in ideal engineer-days, and mark its uncertainty (low, medium, high) with the reason.
+   If the work is too vague for a meaningful range, say so, give the questions that would make it estimable, and give a rough order of magnitude only.
+2. Break the work into tasks of no more than about two ideal days each. For each task give optimistic, most-likely and pessimistic effort in {{unit}} (ideal engineer-days when the unit is days), and mark its uncertainty (low, medium, high) with the reason. For points, estimate relative to a reference task from the context; if there is none, say that points cannot be calibrated and give days as well.
 3. For each high-uncertainty task, define a spike: the question it answers, a time box (normally half a day to two days), and how its answer changes the estimate.
 4. Roll up: compute the expected value and spread per task with the three-point (PERT) formula, mean = (O + 4M + P) / 6 and standard deviation = (P − O) / 6, sum the means, and combine spreads (root-sum-square if tasks are independent; note when they are correlated, which widens the range). Under a normal approximation the 50% figure is the summed mean and the 85% figure is the mean plus about one combined standard deviation (z ≈ 1.04). Show the arithmetic.
 5. Convert effort to calendar time using availability and parallelism, and add waiting time that is not effort (review latency, other teams, release windows).
@@ -61,6 +72,7 @@ If you do not know who will do the work, how familiar they are with the code, or
 - Do not pad silently. Every buffer appears as a named line with its reason.
 - Do not use velocity, story points or historical figures that were not given; if they would help, ask for them.
 - Label every assumption as such.
+- An estimate is not a commitment; do not phrase it as one.
 {{> output/uncertainty}}
 </constraints>
 
@@ -75,4 +87,6 @@ Table: Unknown | Spike question | Time box | Effect on the estimate.
 Bullets.
 ## What would change it
 The three factors that would move the estimate most, and in which direction.
+## Not included
+Bullets: work outside this estimate.
 </output_format>

@@ -21,3 +21,12 @@ cases:
     vars: {scope: "packages/sdk/src/", public_api: "yes"}
     assert:
       - {type: llm-rubric, value: "Does not remove exported public functions of the published package; lists them as likely dead at most."}
+  - name: edge-runtime-only-endpoints
+    description: A service with suspect endpoints and flags but only 30 days of access logs.
+    vars:
+      scope: "orders-api: GET /v1/orders/export, cron job reconcile_paypal, flag legacy_tax_calc (0% since January), dependency xml2js"
+      public_api: "unknown"
+      evidence_sources: "Access logs for 30 days. Flag evaluation history for 12 months. Job scheduler history for 90 days."
+    assert:
+      - {type: contains, value: "## Staged retirement"}
+      - {type: llm-rubric, value: "Notes that a 30-day log window may miss quarterly or yearly callers, so the endpoint gets a soft-disable stage (for example 410 with logging or a kill switch) rather than immediate deletion, and removes xml2js only after the code that imports it is gone."}

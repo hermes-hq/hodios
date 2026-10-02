@@ -22,7 +22,7 @@ reasoning: optional
 level: intermediate
 tags: [spike, timebox, prototype, risk-reduction]
 pairs_with:
-  prompts: [estimate-task, compare-design-options]
+  prompts: [estimate-with-ranges, compare-design-options]
 args:
   - name: question
     description: The unknown that blocks progress, in your own words.

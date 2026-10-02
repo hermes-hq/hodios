@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [git-filter-repo, history-rewrite, force-push, committed-secret, large-files]
 pairs_with:
-  prompts: [respond-to-leaked-secret, handle-leaked-secret, recover-lost-git-work, clean-up-commit-history]
+  prompts: [respond-to-leaked-secret, recover-lost-git-work, clean-up-commit-history]
 args:
   - name: what_to_remove
     description: The file paths, file patterns, size threshold or secret strings to remove, and roughly when they were committed and on which branches.

@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [vertical-slicing, backlog, invest, walking-skeleton]
 pairs_with:
-  prompts: [write-user-stories, estimate-task, write-implementation-plan]
+  prompts: [write-user-stories, estimate-with-ranges, write-implementation-plan]
 args:
   - name: epic
     description: The epic, feature request or goal to break down, with any notes or links.

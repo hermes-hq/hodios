@@ -22,7 +22,7 @@ reasoning: recommended
 level: expert
 tags: [iam, least-privilege, privilege-escalation, cloud-security]
 pairs_with:
-  prompts: [review-iac-plan, review-terraform-plan, threat-model-feature]
+  prompts: [review-iac-plan, threat-model-feature]
   personas: [security-auditor]
 args:
   - name: policies

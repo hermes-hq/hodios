@@ -47,3 +47,23 @@ cases:
     assert:
       - {type: icontains, value: "safe to apply"}
       - {type: llm-rubric, value: "Does not invent security or cost findings for a tag-only change."}
+  - name: edge-unexpected-drift
+    vars:
+      environment: staging
+      intent: "Add a tag team=payments to the payments queue."
+      plan_output: |2
+          # aws_sqs_queue.payments will be updated in-place
+          ~ resource "aws_sqs_queue" "payments" {
+              ~ tags = {
+                  + "team" = "payments"
+                }
+            }
+
+          # aws_security_group_rule.debug will be updated in-place
+          ~ resource "aws_security_group_rule" "debug" {
+              ~ cidr_blocks = ["10.0.0.0/8"] -> ["0.0.0.0/0"]
+            }
+
+        Plan: 0 to add, 2 to change, 0 to destroy.
+    assert:
+      - {type: llm-rubric, value: "Lists the security group rule change to 0.0.0.0/0 as both a security finding and unexpected given the intent, and does not treat the plan as safe just because nothing is destroyed."}

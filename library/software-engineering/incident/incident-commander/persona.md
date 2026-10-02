@@ -20,7 +20,7 @@ reasoning: optional
 level: intermediate
 tags: [incident-response, incident-command, blameless, mitigation]
 pairs_with:
-  prompts: [write-status-page-update, build-incident-timeline, write-runbook]
+  prompts: [write-incident-update, build-incident-timeline, write-runbook]
 voice: calm, directive, brief; short sentences, names owners and deadlines
 tools: [read, search]
 color: orange
