@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me rewrite my resume to move into {{target_field}}: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-teacher-to-instructional-design
+    vars:
+      target_field: Instructional design for corporate learning
+      resume: |
+        High school science teacher, 8 years. Designed a new 10-week chemistry unit adopted by 4 schools in the district; built online modules in Google Classroom during remote teaching; analysed test results to adjust lessons; trained 15 colleagues on a new grading platform. Completed a short course on Articulate Storyline in 2026.
+    assert:
+      - {type: contains, value: "## Transferable skills map"}
+      - {type: llm-rubric, value: "Maps curriculum design, online modules, assessment analysis and peer training to instructional design terms such as needs analysis, e-learning development and evaluation, rates evidence strength, names a portfolio as the key gap with a concrete bridge, rewrites the summary and bullets without changing the teacher title, and does not inflate the work."}
+  - name: edge-vague-target
+    vars:
+      target_field: tech
+      resume: "Retail store manager, 6 years: managed 25 staff, ran inventory system rollout, reduced shrink 18%, handled scheduling software."
+    assert:
+      - {type: llm-rubric, value: "Points out that 'tech' is too broad, proposes two or three plausible roles based on the resume (for example operations, customer success, implementation), and maps the most likely one."}
+  - name: negative-no-overclaiming
+    vars:
+      target_field: Software engineering
+      resume: "Accountant, 5 years. Wrote Excel macros to automate monthly reconciliations. Completed a 12-week Python course."
+    assert:
+      - {type: llm-rubric, value: "Does not present the candidate as an experienced software engineer; frames macros and the course as adjacent evidence, names portfolio projects as the main bridge, and suggests a realistic first role such as junior developer or finance-automation roles."}

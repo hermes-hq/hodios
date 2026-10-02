@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make these resume bullets better: {{bullets}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duty-list
+    vars:
+      target_role: Project manager
+      bullets: |
+        Office Coordinator, architecture firm (2021-2025)
+        - Responsible for scheduling meetings
+        - Helped with the office move to a new building (60 staff)
+        - Managed supplier invoices
+    assert:
+      - {type: not-icontains, value: "responsible for"}
+      - {type: llm-rubric, value: "Rewrites each bullet with an action verb, scope and result, keeps the 60 staff figure, uses bracketed placeholders for missing numbers such as budget or timeline instead of inventing them, emphasises project-management aspects of the office move, and asks one question per placeholder."}
+  - name: edge-already-strong
+    vars:
+      bullets: "- Cut AWS spend 31% (from 84k to 58k USD per month) in two quarters by rightsizing instances and moving batch jobs to spot capacity."
+    assert:
+      - {type: llm-rubric, value: "Recognises the bullet is already strong, keeps its numbers exactly, and makes at most light edits with a reason, rather than rewriting it into something weaker or adding new claims."}
+  - name: negative-no-invented-metrics
+    vars:
+      bullets: "- Worked on the mobile app\n- Did code reviews"
+    assert:
+      - {type: not-regex, value: "\\b\\d{2,}%"}
+      - {type: llm-rubric, value: "Does not invent percentages, user counts or outcomes; uses placeholders and asks specific questions about what the person built and what changed."}

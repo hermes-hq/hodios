@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review my resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duty-heavy-resume
+    vars:
+      target_role: Marketing coordinator
+      resume: |
+        JORDAN LEE | Date of birth: 04/03/1999 | Single
+        Objective: Seeking a challenging position in a dynamic company where I can grow.
+        Experience
+        Sales Assistant, City Books (2021-2024): responsible for customer service, stocking shelves, running the shop's Instagram account.
+        Intern, local radio (Summer 2020): various tasks.
+        Education: BA Communications, 2021
+        Skills: hard-working, team player, Canva, Instagram
+    assert:
+      - {type: contains, value: "## Scores"}
+      - {type: llm-rubric, value: "Gives a skim-based first impression and a screening call, scores all four dimensions with reasons, ranks fixes with the Instagram work promoted and quantified via placeholders and the generic objective replaced, flags date of birth and marital status as details to consider removing with a note that norms vary, and provides line edits without inventing numbers."}
+  - name: edge-no-target-role
+    vars:
+      resume: "Senior Software Engineer, Fintech A (2019-now): led migration of payments ledger to event sourcing, reducing reconciliation errors 40%. Software Engineer, Startup B (2016-2019). Skills: Go, Kafka, PostgreSQL."
+    assert:
+      - {type: llm-rubric, value: "Infers the implied target role (senior backend or payments engineer), says so, judges relevance against it, and recognises existing strengths such as the quantified ledger migration in What works."}
+  - name: negative-no-assumed-achievements
+    vars:
+      target_role: Data analyst
+      resume: "Waiter, 2 years. Barista, 1 year. Completed an online data analytics course with a capstone project on bike-share data."
+    assert:
+      - {type: llm-rubric, value: "Does not invent analysis results or skills; suggests promoting the capstone project with placeholders and questions, and suggests transferable skills honestly without claiming the candidate has analyst experience."}

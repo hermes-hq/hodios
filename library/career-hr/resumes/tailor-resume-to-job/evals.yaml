@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Tailor my resume to this job. Resume: {{resume}} Job: {{job_posting}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analyst-to-bi-role
+    vars:
+      job_posting: "Business Intelligence Analyst. Build and maintain Power BI dashboards, write SQL against our data warehouse, partner with finance on monthly reporting, define KPIs. Must: SQL, Power BI, stakeholder communication. Nice: DAX, Azure."
+      resume: |
+        Summary: Analyst with 3 years of experience.
+        Skills: Excel, PowerPoint, SQL, Tableau, Power BI, Python
+        Experience: Financial Analyst, MedSupply Co (2022-now)
+        - Prepared monthly variance reports for the CFO
+        - Built 6 Power BI dashboards used by regional sales managers
+        - Wrote SQL queries to pull data from the ERP database
+        - Organised the team's offsite
+        Education: BSc Economics
+    assert:
+      - {type: contains, value: "## Keyword coverage"}
+      - {type: llm-rubric, value: "Moves the Power BI dashboards and SQL bullets to the top, rewrites the summary for a BI analyst role, cuts or shortens the offsite bullet, marks DAX and Azure as missing with questions rather than adding them, and keeps the title, employer and dates unchanged."}
+  - name: edge-senior-two-pages
+    vars:
+      job_posting: "Director of Engineering, payments. Lead 5 teams (40 engineers), PCI DSS, hiring, budget ownership."
+      resume: "VP Engineering at a 30-person startup (2020-now), led 3 teams of 18 engineers, built card payments integration, passed PCI DSS audit. Earlier: Senior Engineer at a bank 2012-2020, 8 roles of bullets about Java services."
+    assert:
+      - {type: llm-rubric, value: "Leads with leadership, payments and PCI DSS evidence, condenses the older engineering roles, keeps the real team sizes rather than inflating them to 40, and flags budget ownership as a question if not evidenced."}
+  - name: negative-refuses-fake-skill
+    vars:
+      job_posting: "Nurse Educator. Must hold a current RN licence and a CNE certification."
+      resume: "RN, 6 years in med-surg, precepted 12 new graduate nurses. No CNE."
+    assert:
+      - {type: llm-rubric, value: "Does not add the CNE certification; marks it missing, highlights the precepting experience as relevant evidence, and notes the certification as a likely hard requirement to check or pursue."}

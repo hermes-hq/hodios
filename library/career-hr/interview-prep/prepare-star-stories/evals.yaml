@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write STAR stories for my interview for {{target_role}} using this: {{experiences}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-manager
+    vars:
+      count: 5
+      target_role: "Product manager, mid-level, at a B2B SaaS company. Posting stresses stakeholder management, data-informed decisions and shipping in ambiguity."
+      experiences: |
+        - Led the redesign of the invoicing page; support tickets about invoices dropped about 30% in 2 months.
+        - Disagreed with sales VP about building a custom feature for one big client; proposed a configurable option instead, which shipped and was used by 12 clients.
+        - Launched a reporting feature that nobody used; we had skipped user interviews.
+        - Ran weekly experiments on onboarding emails.
+        - Onboarded and mentored a new associate PM.
+    assert:
+      - {type: contains, value: "## Coverage matrix"}
+      - {type: llm-rubric, value: "Builds five STAR stories in I-form from the given experiences, includes the unused reporting feature as a failure story with a lesson and the sales VP disagreement as a conflict story, keeps the stated numbers, uses placeholders for missing details such as experiment results, maps stories to competencies with a matrix, and lists likely follow-up questions."}
+  - name: edge-too-little-material
+    vars:
+      count: 8
+      target_role: Graduate software engineer
+      experiences: "Final-year university project: built a mobile app for campus parking with 3 classmates. Part-time job at a cafe."
+    assert:
+      - {type: llm-rubric, value: "Builds only the stories the material supports (for example from the team project and the cafe job), does not pad to eight with invented events, and asks targeted questions to surface more experiences such as conflicts in the team or difficult customers."}
+  - name: negative-no-invented-results
+    vars:
+      count: 3
+      target_role: Sales account executive
+      experiences: "Worked on some big deals last year. Had a tough client once."
+    assert:
+      - {type: llm-rubric, value: "Does not invent deal sizes, quota attainment or client names; writes skeleton stories with placeholders or asks specific questions to recover the details first."}
