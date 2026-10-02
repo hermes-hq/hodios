@@ -1,0 +1,40 @@
+schema: 1
+baseline: "What does this error mean? {{trace}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-java-caused-by-chain
+    vars:
+      trace: |
+        org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException: could not execute statement
+        	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+        	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+        Caused by: org.springframework.dao.DataIntegrityViolationException: could not execute statement
+        	at com.acme.orders.OrderService.place(OrderService.java:88)
+        	at com.acme.orders.OrderController.create(OrderController.java:41)
+        Caused by: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "orders_idempotency_key_key"
+        	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2713)
+    assert:
+      - {type: contains, value: "## Where"}
+      - {type: contains, value: "OrderService.java:88"}
+      - {type: llm-rubric, value: "Identifies the innermost cause, a duplicate idempotency key violating a unique constraint, explains it plainly, and points at OrderService.place as the project frame. Suggests checking for repeated requests or retries with the same key."}
+  - name: edge-python-bottom-up
+    vars:
+      trace: |
+        Traceback (most recent call last):
+          File "app/main.py", line 12, in <module>
+            report = build_report(load("data.csv"))
+          File "app/report.py", line 30, in build_report
+            avg = total / len(rows)
+        ZeroDivisionError: division by zero
+      context: "Only happens on the first day of the month."
+    assert:
+      - {type: contains, value: "app/report.py"}
+      - {type: llm-rubric, value: "Explains that rows is empty, connects that to the first-day-of-month context (no data yet for the period), and suggests checking what load returns on that day."}
+  - name: negative-no-invented-frames
+    vars:
+      trace: "Segmentation fault (core dumped)"
+    assert:
+      - {type: llm-rubric, value: "Says the output contains no stack trace, does not invent frames, file names or line numbers, and explains how to get a backtrace (for example a debugger or core dump)."}
