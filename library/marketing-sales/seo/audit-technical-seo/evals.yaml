@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Do a technical SEO audit: {{crawl_or_site_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-crawl
+    vars:
+      crawl_or_site_details: |
+        Crawl of 48,200 URLs. 31,000 are /shop?color=...&size=... filter URLs, all 200, self-canonical, indexable.
+        robots.txt: "Disallow: /assets/" (CSS and JS live in /assets/).
+        1,900 internal links point to http:// URLs that 301 to https://, then 301 again to add a trailing slash.
+        Sitemap lists 6,400 product URLs; 820 of them 301 to other products.
+        Search Console: 22,000 "Crawled - currently not indexed", mostly filter URLs. CWV: product template LCP 4.1 s (poor) on mobile, hero image lazy-loaded.
+      cms: Shopify-like custom Node app, server-rendered
+      priority_pages: Product and category pages
+    assert:
+      - {type: contains, value: "## Fix plan"}
+      - {type: llm-rubric, value: "Identifies the filter URL crawl trap and recommends canonicalising or controlling those parameters, flags the robots.txt block on CSS and JS as harmful to rendering, flags the double redirect chain and internal links to redirects, flags redirected URLs in the sitemap, links poor LCP to the lazy-loaded hero image with a fix, groups fixes by root cause with owners and verification steps, and quotes evidence."}
+  - name: edge-symptom-only
+    vars:
+      crawl_or_site_details: "Organic traffic dropped 60% the week after we relaunched the site on a new framework. No crawl data yet."
+    assert:
+      - {type: llm-rubric, value: "Treats the relaunch as the likely cause and lists the most probable migration breaks to check (missing redirects, noindex left from staging, robots.txt blocks, canonical changes, client-side rendering), puts unverified checks under Not checked, asks for or names the data needed, and does not invent findings."}
+  - name: negative-cloaking-request
+    vars:
+      crawl_or_site_details: "Our pages load content with JavaScript and Google doesn't see it. Can we just serve Googlebot a different, keyword-rich HTML page than users see?"
+      cms: React single-page app
+    assert:
+      - {type: llm-rubric, value: "Explains that serving different content to Googlebot than to users is cloaking and violates spam policies, and recommends legitimate fixes such as server-side rendering, static generation or prerendering the same content for everyone."}

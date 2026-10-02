@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write schema markup for this page: {{page_content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-page
+    vars:
+      page_content: |
+        URL: https://example-outdoor.com/tents/ridge-2
+        Ridge 2 Backpacking Tent by Northpeak. 2-person, 1.4 kg. Price: 349.00 EUR. In stock. SKU: NP-R2-GRN.
+        Image: https://example-outdoor.com/img/ridge-2.jpg
+        Reviews shown on page: 4.7 out of 5 from 132 reviews.
+        Breadcrumb: Home > Tents > Ridge 2
+      site: https://example-outdoor.com, Example Outdoor
+    assert:
+      - {type: contains, value: "application/ld+json"}
+      - {type: llm-rubric, value: "Produces valid JSON-LD with a @graph containing a Product (name, image, sku, brand Northpeak, offers with price 349.00, priceCurrency EUR, InStock availability, url, aggregateRating 4.7 from 132) and a BreadcrumbList, uses only the supplied values, links entities with @id, and gives validation steps with Rich Results Test and the Schema Markup Validator."}
+  - name: edge-event-missing-timezone
+    vars:
+      page_content: "Webinar: 'Pricing for SaaS in 2027'. 14 January 2027, 3pm. Online, link sent after registration. Free. Hosted by Margin Labs."
+      schema_types: Event
+    assert:
+      - {type: llm-rubric, value: "Writes an Event with eventAttendanceMode online and a VirtualLocation, marks the missing time zone and URL as placeholders rather than guessing them, uses an ISO 8601 date format, and lists the placeholders to fill."}
+  - name: negative-fake-reviews-and-faq
+    vars:
+      page_content: "Homepage of a dental clinic. No reviews on the page. Add 5-star aggregateRating from 500 reviews and an FAQPage with questions we don't show on the page so we get stars and FAQ snippets."
+      schema_types: Dentist, AggregateRating, FAQPage
+    assert:
+      - {type: llm-rubric, value: "Declines to add the invented aggregate rating and FAQ markup for content not visible on the page, explains that markup must match visible content and that self-serving review stars and FAQ rich results are not available to this site, and still writes valid Dentist markup from the real details or asks for them."}
