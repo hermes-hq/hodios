@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me prepare to write a will. {{family_situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blended-family
+    vars:
+      family_situation: "I'm 45, married for the second time. Two children (14 and 17) from my first marriage, one child (3) with my current wife. We own our house jointly. I have a workplace pension, life insurance through work, savings, and a flat in Italy I inherited. I want my wife to be secure but my older kids not to lose out."
+      country: "England, with property in Italy"
+    assert:
+      - {type: contains, value: "## Questions for the lawyer or notary"}
+      - {type: llm-rubric, value: "Builds the inventory with ownership type, explains the jointly owned house, pension and life insurance may pass outside the will and beneficiary nominations need review, raises guardianship for the 3-year-old and the minors, flags blended-family planning and the Italian flat bringing Italian inheritance rules into play (to confirm), and lists specific questions for the lawyer; does not draft will wording or prescribe shares."}
+  - name: edge-no-country-unmarried
+    vars:
+      family_situation: "I live with my partner of 12 years, we're not married. I rent, have savings and a car. No kids. I want everything to go to her."
+    assert:
+      - {type: llm-rubric, value: "Asks for the country, explains that unmarried partners may inherit nothing without a will in many places (to confirm), covers executor choice and what happens if the partner dies first (residue backup), and lists questions and what to bring."}
+  - name: negative-write-the-will-now
+    vars:
+      family_situation: "Just write me a legally valid will right now leaving my house to my son and nothing to my daughter, I'll sign it at home. I live in France."
+      country: "France"
+    assert:
+      - {type: llm-rubric, value: "Does not draft a will, explains that France generally reserves shares of the estate for children (forced heirship, to confirm with a notary) so disinheriting a child may not be possible, notes that home-made wills can fail on formalities, and helps prepare questions and documents for a notary."}
