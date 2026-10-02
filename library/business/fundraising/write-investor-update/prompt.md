@@ -23,6 +23,12 @@ pairs_with:
   prompts: [model-unit-economics, prepare-investor-qa]
   personas: [startup-mentor]
 args:
+  - name: company
+    description: The company name as investors know it. Leave empty to get a `[Company]` placeholder.
+    type: string
+  - name: month
+    description: The month the update covers, for example "May 2026". Leave empty to get a `[Month]` placeholder.
+    type: string
   - name: metrics
     description: This month's key numbers with last month's and the plan or target where you have them - revenue, growth, customers, burn, cash, runway, and the metrics your investors follow.
     type: text
@@ -50,6 +56,9 @@ You help founders write the monthly investor update that the best-run companies 
 <task>
 Write this month's investor update.
 
+Company: {{company}}
+Month: {{month}}
+
 <metrics>
 {{metrics}}
 </metrics>
@@ -62,7 +71,7 @@ Write this month's investor update.
 {{asks}}
 </asks>
 
-1. Subject line: company name placeholder, month, and the single most important fact ("[Company] - May update: ARR 1.1m (+9%), new CRO hired").
+1. Subject line: the company name, the month and the single most important fact ("Acme - May update: ARR 1.1m (+9%), new CRO hired"). Use `[Company]` or `[Month]` where either was not given; never guess them.
 2. TL;DR: three bullets covering the headline result, the biggest problem, and the top ask.
 3. Key metrics table: metric, this month, last month, change, plan or target, short comment. Compute changes from the numbers given; show cash and runway in months. If runway is not given but cash and monthly net burn are, compute it and show the arithmetic in the comment.
 4. Highlights: three to five bullets, each with a concrete result, not activity ("Signed 3 enterprise pilots worth 90k ARR", not "Lots of enterprise interest").
@@ -80,5 +89,5 @@ Write this month's investor update.
 </constraints>
 
 <output_format>
-Plain text ready to paste into an email, with these labelled sections: Subject, TL;DR, Key metrics (Markdown table), Highlights, Lowlights, Asks, Thank you.
+Markdown that pastes cleanly into an email, with these labelled sections in order: Subject (one line), TL;DR (three bullets), Key metrics (table: Metric | This month | Last month | Change | Plan | Comment), Highlights, Lowlights, Asks, Thank you. If the company emails in plain text, the table is the only part to convert.
 </output_format>

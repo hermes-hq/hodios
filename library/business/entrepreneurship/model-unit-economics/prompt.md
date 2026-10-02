@@ -59,6 +59,7 @@ Business type: {{business_type}}
    - customer lifetime = 1 ÷ churn rate for subscriptions, or expected number of orders for repeat purchase businesses; cap it at 5 years (60 months) and say when the cap applies;
    - LTV = contribution margin per period × lifetime (margin-based, not revenue-based);
    - LTV:CAC ratio and CAC payback in months = CAC ÷ monthly contribution margin.
+   For a repeat-purchase business, also give first-order contribution minus CAC (is the first order profitable?) and payback in orders = CAC ÷ contribution per order; convert it to months only if purchase frequency is given.
    For a marketplace, use take-rate revenue, not gross merchandise value.
 3. Sanity-check the results: impossible values, inconsistent periods, too-small samples, cohorts too young to show churn, missing cost lines. Compare with common rules of thumb (LTV:CAC around 3 or more, payback under about 12 months for SMB subscriptions, longer is common for enterprise) and label them as rules of thumb, not targets.
 4. Sensitivity: change each main lever (price, variable cost, churn or repeat rate, CAC) by 10% in the favourable direction, one at a time, and show the new LTV:CAC and payback.

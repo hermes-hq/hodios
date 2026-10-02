@@ -50,7 +50,7 @@ Analyse these tickets for the period: {{period}}.
 </tickets>
 
 1. Data notes: state how many tickets you analysed, which fields are present, whether this looks like a full export or a sample, and any quality issues (missing fields, duplicate tickets, unreliable tags). If the period is empty, say what the data suggests or that it is unknown.
-2. Build a contact-driver taxonomy from the content, not just the tags: 6 to 12 drivers, each a specific customer need ("Can't find invoice download", not "Billing"). Assign each ticket to one primary driver; mark unclear ones as "Unclassified".
+2. Build a contact-driver taxonomy from the content, not just the tags: 6 to 12 drivers for a full export, fewer for a small sample (never close to one driver per ticket), each a specific customer need ("Can't find invoice download", not "Billing"). Assign each ticket to one primary driver; mark unclear ones as "Unclassified".
 3. For each driver, compute: count and share of tickets, and effort where the data allows (average handle time, replies per ticket, reopen rate, satisfaction). Show counts, not just percentages.
 4. Find the root cause category for each driver: product defect, product usability, missing or unclear help content, policy, communication gap (for example no shipping notification), or account and billing operations. Quote one or two short, anonymised ticket snippets as evidence.
 5. Identify deflection or elimination opportunities for each major driver: fix the product, change the policy, send proactive communication, improve or add help content, add in-product guidance, or automate the answer. Name the likely owner team.

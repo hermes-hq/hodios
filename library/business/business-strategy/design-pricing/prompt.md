@@ -67,7 +67,7 @@ Design pricing and packaging for:
 3. Packaging. Design two to four tiers. For each: target segment, the job it covers, what is included, and the fences that stop high-value customers from buying down (limits, features, support level, security or admin needs). Keep the entry tier useful but clearly limited.
 4. Price points. Reason from the economic value to the customer (time or money saved, revenue gained) and the next-best alternative, then check that cost to serve leaves a healthy margin. Give a starting price and a test range for each tier.
 5. Anchoring and presentation: the tier to highlight, an anchor tier or annual option, and what to show or hide on the pricing page or quote.
-6. Willingness-to-pay plan: pick the methods that fit the stage and volume, for example Van Westendorp questions in 10 to 20 customer interviews, Gabor-Granger price ladders, a price A/B or sequential test on new visitors, or quoting different prices in sales calls. For each: what to ask or change, sample size, the metric and the decision rule.
+6. Willingness-to-pay plan: pick the methods that fit the stage and volume, for example Van Westendorp questions asked in 10 to 20 customer interviews (a qualitative signal; reading the price curves needs a survey of a few hundred qualified respondents), Gabor-Granger price ladders, a price A/B or sequential test on new visitors where traffic allows, or quoting different prices in sales calls. For each: what to ask or change, sample size, the metric and the decision rule.
 7. Risks: existing customers (grandfathering, migration), discounting discipline, competitor reaction, and what to monitor after launch.
 </task>
 

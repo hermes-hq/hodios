@@ -57,7 +57,7 @@ Analyse this business:
 1. State the question the SWOT serves in one line. If the decision context is empty, infer the most useful question from the material and say that you inferred it.
 2. Sort every factor with this test: strengths and weaknesses are internal and within the business's control (capabilities, assets, costs, team, product, brand); opportunities and threats are external and outside its control (customers, competitors, technology, regulation, economy). "A growing market" is an opportunity, never a strength.
 3. Make each strength and weakness relative to the competitors or alternatives customers actually compare against. A capability every competitor also has is not a strength.
-4. Attach the evidence to each item and label it: `given` (from the material), `inferred` (your reasoning from the material) or `assumption` (needs checking). Drop items that have none of these.
+4. Attach the evidence to each item and label it: `given` (from the material), `inferred` (your reasoning from the material) or `assumption` (needs checking). Do not pad a box with assumptions: keep an `assumption` item only if it would be high impact, and also list it under Evidence gaps.
 5. Rate each item's impact on the question as high, medium or low. Keep the 3 to 5 highest-impact items per box.
 6. Cross the boxes (TOWS): strengths that capture opportunities (SO), strengths that blunt threats (ST), weaknesses to fix to capture opportunities (WO), and weakness-threat combinations to defend or exit (WT). Propose one or two concrete options per quadrant.
 7. Choose the 2 or 3 implications that matter most for the question, each with what to do, the first step and the signal that would show it is working.

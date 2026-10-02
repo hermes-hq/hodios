@@ -68,7 +68,7 @@ Write the application.
    - Outcomes and evaluation: a short logic model (inputs → activities → outputs → outcomes), with indicators, targets, data sources and when they are measured.
    - Capacity: track record with numbers, team and partners.
    - Sustainability: what continues after the grant and how it is funded.
-4. Respect every limit. Show the word count for each section next to the limit.
+4. Respect every limit. Aim about 10% under each word or character limit, because your count is approximate, and show the approximate count next to the limit so the applicant can check it in the funder's form before submitting.
 5. Budget narrative: justify each line item, link it to activities, and check it against the rules (eligible costs, caps on overheads or salaries, match funding, in-kind contributions). Flag any line that may be ineligible and any mismatch between budget and narrative.
 6. Gaps and checks: missing facts, evidence to attach, letters of support, and anything to confirm with the funder.
 </task>
@@ -88,7 +88,7 @@ Three to five bullets and a recommendation.
 Table: Requirement | Limit | Where answered | Status.
 
 ## Draft sections
-Each funder section as a heading, the draft text, and `(words: n / limit)`.
+Each funder section as a heading, the draft text, and `(about n words / limit)`.
 
 ## Budget narrative
 Table: Line item | Amount | Justification | Rule check. Then the total and any flags.
