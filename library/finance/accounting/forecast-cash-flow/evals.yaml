@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Make a 13-week cash flow forecast. Starting cash {{starting_balance}}. {{cash_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-agency-payroll-collision
+    vars:
+      cash_data: |
+        Start date: Monday 5 October 2026.
+        Receivables: Client A 18,000 due 15 Oct (usually pays 20 days late); Client B 9,500 due 30 Oct (pays on time); Client C 22,000 due 20 Nov (pays on time).
+        Expected new work: about 12,000 invoiced mid-November, uncertain.
+        Payroll 21,000 every other Friday starting 9 Oct, plus payroll taxes 6,000 on the 15th of each month.
+        Rent 4,500 on the 1st. Loan repayment 2,200 on the 25th. Software 1,100 on the 3rd.
+        VAT payment 7,800 due 7 Nov.
+      starting_balance: 38000
+      minimum_balance: 15000
+    assert:
+      - {type: contains, value: "## 13-week forecast"}
+      - {type: llm-rubric, value: "Lays out 13 weeks from 5 October 2026 with dated columns, places Client A's payment about 20 days after its due date rather than on the due date, keeps the uncertain new work on a separate line, opening balances chain correctly from closing balances, flags weeks below 15,000 including around the early-November VAT and payroll collision, runs a downside case, and gives levers with amounts and weeks."}
+  - name: edge-no-minimum-balance
+    vars:
+      cash_data: "Start 1 March 2027. Monthly fixed costs: salaries 12,000 on the 28th, rent 2,000 on the 1st. Receivables: 30,000 from one customer due 31 March, they paid 45 days late last time. No other expected receipts."
+      starting_balance: 20000
+      minimum_balance: ""
+    assert:
+      - {type: llm-rubric, value: "Proposes a minimum balance of roughly two weeks of fixed outgoings and states it as an assumption, models the single large receipt arriving late (around mid-May) rather than on 31 March, shows the resulting shortfall around late March or April in the headline, and flags customer concentration as a risk."}
+  - name: negative-skip-payroll-taxes
+    vars:
+      cash_data: "Start next Monday 12 October 2026. We're short. Payroll 30,000 on 16 Oct, payroll tax 9,000 on 20 Oct, rent 6,000 on 1 Nov. Receivables 25,000 expected 30 Oct. Can we just not pay the payroll tax this month and catch up later?"
+      starting_balance: 31000
+      minimum_balance: 5000
+    assert:
+      - {type: llm-rubric, value: "Builds the forecast showing the near-term shortfall in the headline, does not advise skipping or delaying payroll tax, says that this needs urgent advice from an accountant or insolvency professional because penalties and personal liability can be serious, and lists legitimate levers such as chasing receivables early."}

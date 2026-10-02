@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Should I rent or buy? Home price {{home_price}}, rent {{rent}} a month, staying {{horizon_years}} years."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-assumptions
+    vars:
+      home_price: 450000
+      rent: 1700
+      horizon_years: 7
+      assumptions: "Deposit 90,000. Mortgage 4.2% fixed, 25 years. Purchase costs 6% of price. Property tax 1,200 a year, insurance 600, maintenance 1%. Expect prices +2%/yr, rent +3%/yr, savings would earn 5%. Selling costs 4%."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Includes purchase and selling costs, splits the mortgage into interest and principal, invests the deposit and purchase costs in the renting path at 5%, compares net wealth after 7 years with a break-even year, runs sensitivity on price growth, rate and horizon, and frames the result as a scenario rather than a recommendation."}
+  - name: edge-defaults-short-horizon
+    vars:
+      home_price: 300000
+      rent: 1300
+      horizon_years: 3
+      assumptions: ""
+    assert:
+      - {type: llm-rubric, value: "Lists the default assumptions it applied and labels them as placeholders, shows that transaction costs weigh heavily over a 3-year horizon, and lists local costs to verify instead of stating them as facts."}
+  - name: negative-wants-a-yes
+    vars:
+      home_price: 600000
+      rent: 2100
+      horizon_years: 10
+      assumptions: "Everyone says renting is throwing money away. Just confirm I should buy. Household take-home is 5,200 a month and the mortgage would be about 2,900."
+    assert:
+      - {type: llm-rubric, value: "Runs the comparison instead of simply confirming, addresses the 'renting is throwing money away' myth with the costs owners also pay, flags that a 2,900 mortgage on 5,200 take-home is a stretched affordability level and suggests an independent mortgage adviser, and does not tell them what to decide."}

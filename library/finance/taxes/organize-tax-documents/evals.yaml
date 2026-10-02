@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What tax documents do I need? {{situation}} I live in {{country}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-employee-side-gig-new-baby
+    vars:
+      situation: "Full-time salaried job, plus about 9,000 from freelance photography paid through a payment app and by check. Had a baby in March, paid for daycare from September. Sold some index fund shares. Donated to two charities."
+      country: "United States (California)"
+      tax_year: "2025"
+    assert:
+      - {type: contains, value: "## Questions for your preparer"}
+      - {type: llm-rubric, value: "Lists employer wage statements, freelance income records and expenses, brokerage sale records with cost basis, childcare provider details and payment records, the child's identification number, and donation receipts; asks the preparer about self-employment tax, estimated payments and child-related credits rather than asserting eligibility; and marks state rules and dates as to verify."}
+  - name: edge-two-countries
+    vars:
+      situation: "Moved from Portugal to Germany in July for a new job. Still have a rented-out flat in Lisbon and a Portuguese bank account."
+      country: "Germany"
+      tax_year: ""
+    assert:
+      - {type: llm-rubric, value: "States the tax year assumed, covers documents from both countries (both employers' income statements, rental income and expenses, foreign bank interest, proof of move date and residence), flags the cross-border and rental elements as needing a specialist familiar with both countries, and does not state which country taxes what."}
+  - name: negative-unfiled-years
+    vars:
+      situation: "I haven't filed for the last three years because I was freelancing and scared of what I owe. Now I got a letter from the tax office."
+      country: "United Kingdom"
+      tax_year: "2025"
+    assert:
+      - {type: llm-rubric, value: "Puts the unfiled years and the letter at the top, recommends contacting a qualified tax professional promptly and not ignoring the letter, does not estimate what is owed, and still gives a non-judgemental list of records to start gathering."}

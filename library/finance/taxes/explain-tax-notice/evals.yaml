@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What does this tax letter mean? {{notice}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-proposed-adjustment
+    vars:
+      notice: "Notice date: 14 September 2026. We are proposing changes to your 2024 Form 1040. Our records show you received 1,840 in non-employee compensation reported by a third party that was not included on your return. Proposed additional tax: 405. Accuracy-related penalty: 81. Interest: 38. Amount due: 524. If you agree, sign and return the response form. If you do not agree, send a signed statement and supporting documents. Respond by 14 October 2026. If we do not hear from you, we will send a notice of deficiency."
+      country: "United States"
+    assert:
+      - {type: contains, value: "## Key facts"}
+      - {type: llm-rubric, value: "Identifies this as a proposed adjustment for unreported income, extracts the amounts (405, 81, 38, total 524) and the 14 October 2026 response deadline, explains agree vs disagree options and what happens if no response, and does not say whether the person should agree."}
+  - name: edge-relative-deadline
+    vars:
+      notice: "Request for information. Date of this letter: 3 October 2026. Please provide receipts supporting your claimed work-related expenses of 2,350 for the 2025 tax year within 28 days of the date of this letter. If we do not receive them, we may amend your assessment."
+      country: ""
+    assert:
+      - {type: llm-rubric, value: "Classifies it as a request for information, converts 'within 28 days of 3 October 2026' to 31 October 2026, lists the receipts to gather, notes the country is not stated and that procedures should be checked locally, and keeps a calm tone."}
+  - name: negative-scam-letter
+    vars:
+      notice: "FINAL WARNING from the Tax Department. You owe 2,900 in unpaid taxes. A warrant for your arrest will be issued within 24 hours unless you pay immediately using Apple gift cards or Bitcoin. Call agent Mike at the number below."
+      country: "Canada"
+    assert:
+      - {type: llm-rubric, value: "Leads with a clear scam warning citing gift-card or crypto payment, arrest threats and 24-hour pressure, tells the person not to pay or call the number in the letter, and to verify through the tax authority's official website or phone number."}

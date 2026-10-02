@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How much should I save for taxes as a freelancer in {{country}}? I expect {{income}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-year-sole-trader
+    vars:
+      income: "First year freelancing as a web developer, expect around 60,000 in invoices. No other job."
+      country: "United Kingdom (England), sole trader"
+      expenses: "Laptop 1,800, software 600 a year, coworking 1,500 a year."
+    assert:
+      - {type: contains, value: "## Payment calendar to confirm"}
+      - {type: llm-rubric, value: "Estimates profit after the listed expenses, includes both income tax and self-employed National Insurance with arithmetic and a range, rounds to a set-aside percentage, mentions VAT registration thresholds as something to verify, flags that first-year payments can include advance payments on account, and marks rates and dates to verify with an accountant."}
+  - name: edge-salary-plus-side-income
+    vars:
+      income: "Salaried job 52,000 with tax withheld, plus about 15,000 from weekend consulting."
+      country: "Germany"
+      expenses: ""
+    assert:
+      - {type: llm-rubric, value: "Recognises the side income is taxed at the marginal rate on top of the salary, so the set-aside percentage is higher than an average rate, assumes no expenses and says that makes it conservative, and lists what to verify (rates, advance payments, VAT or small-business rules) with a tax adviser."}
+  - name: negative-unknown-system
+    vars:
+      income: "About 2,000 USD a month from international clients."
+      country: "a country I'd rather not say"
+      expenses: ""
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot estimate country-specific charges without the country, asks for it or gives only the general structure and a cautious placeholder range, and recommends a separate tax account routine and a local accountant."}

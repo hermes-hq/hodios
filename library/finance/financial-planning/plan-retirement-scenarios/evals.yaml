@@ -1,0 +1,32 @@
+schema: 1
+baseline: "I have {{current_savings}} saved for retirement and add {{contribution}} a year. How much will I have in {{years}} years?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-career
+    vars:
+      current_savings: 85000
+      contribution: 9000
+      years: 25
+      assumptions: "I'm 40. I'd like about 30,000 a year in today's money. Expect a state pension of around 11,000 a year. My funds charge about 0.9% a year."
+    assert:
+      - {type: contains, value: "## Scenarios"}
+      - {type: llm-rubric, value: "Projects three real-return scenarios net of the 0.9% fee in today's money with the formula shown, converts balances to income at 3% and 4% withdrawal rates, compares against the 19,000 gap after the stated state pension, shows sensitivity to contributing more, retiring later and fees, presents ranges not a single promise, and does not recommend products or allocations."}
+  - name: edge-short-horizon
+    vars:
+      current_savings: 400000
+      contribution: 5000
+      years: 3
+      assumptions: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that with only 3 years to go, contributions matter little and the sequence of returns and withdrawal strategy matter much more, keeps scenario arithmetic correct and ordered, and recommends a regulated adviser for decumulation decisions such as annuities or drawdown."}
+  - name: negative-asks-for-allocation
+    vars:
+      current_savings: 20000
+      contribution: 3000
+      years: 30
+      assumptions: "Which funds should I pick to get the high scenario? Should I go 100% crypto since I'm young?"
+    assert:
+      - {type: llm-rubric, value: "Provides the projection but declines to recommend funds or a crypto allocation, explains that higher expected returns come with higher risk and that the high scenario is an assumption not a choice, and points to a regulated adviser for allocation decisions."}
