@@ -1,0 +1,33 @@
+schema: 1
+baseline: "This prompt gives bad answers. Fix it. Prompt: {{prompt}} Bad outputs: {{bad_outputs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-summary-length-and-preamble
+    vars:
+      prompt: |
+        Summarize the following meeting notes. Be concise. Here is an example:
+        Notes: Team discussed Q2 hiring. Agreed to open two roles. Sam will draft the job posts by Friday. Budget approved pending finance review. Next sync on Monday.
+        Summary: Sure! Here's a summary of the meeting. The team talked about hiring for Q2 and decided to open two new roles, with Sam responsible for drafting the job posts by Friday. The budget was approved, though it is still pending a review by finance, and the next sync will happen on Monday.
+        [NOTES]
+      bad_outputs: |
+        Output 1: "Sure! Here's a summary of the meeting. The team discussed..." (140 words for 90 words of notes)
+        Output 2: "Sure! Here's a summary..." followed by a full paragraph restating every line.
+      expected: "Three bullets maximum, no preamble, decisions and owners first."
+    assert:
+      - {type: contains, value: "## Test set"}
+      - {type: llm-rubric, value: "Identifies that the example teaches the preamble and long paragraph form (example copying) and that 'be concise' is vague with no format, proposes targeted fixes (rewrite the example as three bullets without preamble, explicit format and length, delimit the notes), shows before and after, gives a revised prompt and a test set with pass conditions including regression cases."}
+  - name: edge-hallucinated-facts
+    vars:
+      prompt: "Answer the customer's question about our return policy. Policy: [POLICY_TEXT]. Question: [QUESTION]"
+      bad_outputs: "Question: Can I return a gift without a receipt? Output: Yes, gifts can be returned without a receipt within 60 days for store credit. (The policy text says nothing about gifts or receipts.)"
+    assert:
+      - {type: llm-rubric, value: "Diagnoses gap-filling because the prompt never says what to do when the policy does not cover the question, proposes delimiting the policy and instructing the model to answer only from it and say when it is not covered (optionally quoting the relevant line), and includes uncovered questions in the test set."}
+  - name: negative-capability-limit
+    vars:
+      prompt: "Count the exact number of words in the following 3,000-word document and reply with the number only."
+      bad_outputs: "Returned 2,847, 3,112 and 2,960 on three runs; the true count is 3,004."
+    assert:
+      - {type: llm-rubric, value: "Says this is a model capability limit rather than a prompt wording problem and recommends counting with code or a tool instead of more instructions."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this prompt shorter: {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-verbose-support-prompt
+    vars:
+      prompt: |
+        You are a very helpful, friendly and professional customer support assistant for GreenLeaf, an online plant shop. It is extremely important that you are always polite. Please always be polite and kind to customers at all times. When a customer asks about an order, you should always ask them for their order number, because you need the order number to look up the order. If they don't give the order number, you must ask for it. Never make up order information. It is very important that you never invent order details, shipping dates or tracking numbers. If a customer is angry, please be extra kind and patient and apologise for the trouble. Always reply in the same language the customer writes in. Please keep your answers short, ideally under 80 words, because customers are reading on their phones. Do not use long answers. If the customer asks about plant care, you can give general care tips, but if the plant looks sick, suggest they send a photo to care@[SHOP_DOMAIN]. At the end of every message, please sign off with "Happy growing! - GreenLeaf Support".
+      target_reduction: "40%"
+    assert:
+      - {type: contains, value: "## Behaviour inventory"}
+      - {type: llm-rubric, value: "Lists the distinct behaviours (politeness, ask for order number, never invent order details, extra care with angry customers, reply in customer's language, under 80 words, plant-care tips with photo referral, exact sign-off), produces a compressed prompt that keeps all of them and the [SHOP_DOMAIN] placeholder and exact sign-off, maps each behaviour to its new location, reports before and after size with a percentage, and gives test inputs such as a missing order number, a non-English message and an angry customer."}
+  - name: edge-target-too-aggressive
+    vars:
+      prompt: "Classify the review in <review> tags as positive, negative or mixed. Mixed means it contains both clear praise and clear complaints. If the review is not about a product, answer not_a_review. Reply with the label only.\n<review>[REVIEW]</review>"
+      target_reduction: "70%"
+    assert:
+      - {type: llm-rubric, value: "Recognises the prompt is already tight, stops at a safe size well short of 70 percent, says which behaviours would be lost to go further (for example the mixed definition or the not_a_review rule), and keeps the [REVIEW] placeholder and tag."}
+  - name: negative-safety-instruction
+    vars:
+      prompt: "You are a homework helper for children aged 8 to 12. Explain things simply with everyday examples. Never ask for or store the child's full name, address, school or photos; if they share them, remind them kindly not to share personal details online. Encourage them to try first before giving the answer. Keep replies under 120 words. Use a cheerful tone. Use a cheerful, upbeat tone in every reply."
+      target_reduction: "50%"
+    assert:
+      - {type: llm-rubric, value: "Keeps the personal-data protection instruction intact while removing the duplicated tone sentence and other filler, and does not drop any safety or privacy rule to reach the target."}

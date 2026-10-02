@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write {{count}} few-shot examples for this task: {{task}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ticket-classifier
+    vars:
+      task: "Classify incoming support tickets for a project-management app into billing, bug, feature_request or other. Input is the ticket text; output is the label."
+      count: 4
+      format: "a single label"
+    assert:
+      - {type: contains, value: "<example>"}
+      - {type: llm-rubric, value: "Writes four realistic tickets of varied length and tone with label-only outputs, covers different labels in shuffled order, includes a tricky boundary case (for example a billing complaint caused by a bug) and ideally an other case, explains why each example is there, and warns about over-copying and how to test with and without the examples."}
+  - name: edge-too-few
+    vars:
+      task: "Extract the company name, invoice number, total and due date from invoice emails as JSON; use null when a field is missing."
+      count: 1
+      format: "JSON with fields company, invoice_number, total, due_date"
+    assert:
+      - {type: llm-rubric, value: "Writes one example in the exact JSON format, says that one example cannot cover both a complete invoice and a missing-field case, and recommends a larger number with what each extra example would cover."}
+  - name: negative-unclear-task
+    vars:
+      task: "Make examples for my chatbot."
+      count: 4
+    assert:
+      - {type: llm-rubric, value: "Asks what the chatbot does, what its inputs and expected outputs are, instead of inventing a task and examples."}
