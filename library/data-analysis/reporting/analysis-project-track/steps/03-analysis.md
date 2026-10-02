@@ -1,6 +1,6 @@
 # Step 3: Run the analysis
 
-Read `analyses/{{slug}}/01-plan.md` and `analyses/{{slug}}/02-data-checks.md`. Run the approved method on the cleaned data.
+Work from the approved plan and data checks from steps 1 and 2 (saved as `analyses/{{slug}}/01-plan.md` and `02-data-checks.md` when you can write files). Run the approved method on the data as cleaned in step 2.
 
 1. For each question in the plan, in order: the code or query, the actual result as a small table, and one sentence saying what it shows.
 2. Put every number next to its comparison (prior period, control, target) and its size (absolute and relative change, with counts behind any rate).

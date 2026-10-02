@@ -1,6 +1,6 @@
 # Step 4: Write the decision-ready report
 
-Read the three approved artifacts in `analyses/{{slug}}/`. Write the report for {{audience}}.
+Work from the three approved artifacts (the plan, the data checks and the analysis, saved in `analyses/{{slug}}/` when you can write files). Write the report for {{audience}}.
 
 1. Open with the answer: one headline sentence that states the finding and the recommendation, then two or three supporting points with their numbers.
 2. Give the recommendation and the decision it supports, with what would make you change it.

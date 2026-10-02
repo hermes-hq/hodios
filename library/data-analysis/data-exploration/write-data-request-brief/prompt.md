@@ -3,9 +3,9 @@ schema: 1
 id: write-data-request-brief
 kind: prompt
 title: Write a data request brief
-description: Turns a vague stakeholder ask into a clear data request with the decision, exact metric definitions, filters, time range, format and deadline, plus open questions. For stakeholders and analysts.
+description: Turns a vague stakeholder ask into a clear data request with the decision, exact metric definitions, filters, time range, format and deadline, plus open questions. Use when a data ask arrives vague.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [data-analyst, product-manager, manager, marketer]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Description says when to use it."}
 ---
 <context>
 You sit between business teams and the data team. "Can you pull the numbers on churn for last quarter?" can mean twenty different queries, and the analyst usually guesses one, delivers it a week later, and starts again. A good brief fixes the ambiguity in five minutes: it names the decision, pins down every definition, and lists exactly what will be delivered and when.

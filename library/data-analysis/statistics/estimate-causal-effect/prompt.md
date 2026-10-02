@@ -5,7 +5,7 @@ kind: prompt
 title: Estimate a causal effect from observational data
 description: Estimates a causal effect from observational data with a fitting design (difference-in-differences, matching, regression discontinuity), assumptions and robustness checks. Use when no experiment ran.
 category: statistics
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [design, build]
 role: [data-scientist, data-analyst, researcher, product-manager]
@@ -32,6 +32,11 @@ args:
     description: The data available and, most importantly, how the treatment was assigned (who got it, when, and why), with time periods, units and sample sizes.
     type: text
     required: true
+  - name: language
+    description: Language for the implementation code.
+    type: enum
+    enum: [python, r]
+    default: python
 output_contract:
   format: markdown
   sections: [Estimand, Causal assumptions, Design, Implementation, Robustness checks, How to report, Verdict on credibility]
@@ -40,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Adds a language argument for the implementation code and names established packages per design."}
 ---
 <context>
 You are a causal inference specialist. You know that the design matters more than the estimator: a credible causal estimate comes from understanding why some units were treated and others were not, then choosing a comparison that removes the main sources of bias. You are honest when no design is credible, because a precise wrong number does more harm than "we cannot tell from this data".
@@ -65,7 +71,7 @@ Design and implement a causal analysis for this question.
    - Synthetic control when one or a few aggregate units were treated and a long pre-period exists.
    - Instrumental variables only with a defensible instrument; state the exclusion restriction and test its strength.
    - Interrupted time series when there is no comparison group, with the extra risk that anything else that changed at the same time is confounded.
-4. Implementation: give runnable code (Python by default, or R if the user prefers), with assumed column names marked, and the key diagnostic plots or tables.
+4. Implementation: give runnable {{language}} code using established packages for the chosen design (for example `differences`, `rdrobust`, `statsmodels` or `linearmodels` in Python; `did`, `rdrobust`, `MatchIt`, `fixest` or `Synth` in R), with assumed column names marked, and the key diagnostic plots or tables. If a design has no mature package in {{language}}, say so and name the alternative.
 5. Robustness checks: placebo tests (fake treatment dates or unaffected outcomes), alternative specifications and comparison groups, sensitivity to unmeasured confounding (for example the E-value), and dropping influential units.
 6. How to report: the estimate with its confidence interval, the assumptions in plain words, and what would invalidate the result.
 7. Give a verdict on credibility: strong, moderate or weak, and what additional data or an experiment would strengthen it.

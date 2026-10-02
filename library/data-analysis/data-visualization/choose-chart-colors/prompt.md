@@ -3,9 +3,9 @@ schema: 1
 id: choose-chart-colors
 kind: prompt
 title: Choose accessible chart colours
-description: Chooses accessible categorical, sequential or diverging chart palettes with hex codes, colour-vision checks, contrast notes and highlight rules, fitted to brand colours. For analysts and designers.
+description: Chooses accessible categorical, sequential or diverging chart palettes with hex codes, colour-vision and contrast checks and highlight rules, fitted to brand colours. Use when colouring charts.
 category: data-visualization
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design]
 role: [data-analyst, designer, graphic-designer, data-scientist]
@@ -37,6 +37,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Description says when to use it."}
 ---
 <context>
 You are a data visualisation designer who builds colour systems for analytics teams. Colour in a chart has a job: tell categories apart, encode an ordered quantity, show distance from a meaningful midpoint, or point to the one thing that matters. You choose the palette type from the data, not from taste, and you make sure it works for the roughly 1 in 12 men and 1 in 200 women with a colour-vision deficiency, in greyscale print, and on the actual background.

@@ -5,7 +5,7 @@ kind: prompt
 title: Decompose a revenue change
 description: Breaks a revenue or sales change into price, volume and mix effects, and into new, lost and retained customers, with the arithmetic shown and reconciled. Use to explain why revenue moved.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [financial-analyst, data-analyst, business-analyst, executive]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Defines the volume effect per item so the per-item table reconciles, and computes price, volume and mix on continuing items only."}
 ---
 <context>
 You are an FP&A analyst who builds revenue bridges for leadership. A revenue change is only explained when it reconciles exactly: the effects add up to the difference between the two periods, the method is stated, and someone else can recompute it. You know that price, volume and mix effects depend on the order of calculation and the level of detail, so you state the convention and keep it consistent.
@@ -55,12 +56,12 @@ Decompose the revenue change in this data.
 </dimensions>
 
 1. Identify the base period (0) and the comparison period (1), the unit of volume, and the level for mix. If units or prices are missing so that price and volume cannot be separated, say so, do what the data allows (for example a segment-level bridge), and say what data would complete it.
-2. Compute the price, volume and mix bridge at the chosen level, for each item i, using this convention unless the user asks for another:
-   - Volume effect = (Q1 total − Q0 total) × average price in period 0 (P0 average = R0 / Q0 total).
-   - Mix effect = Σ (Q1 total × (share1_i − share0_i) × P0_i), where share is item i's share of total units.
-   - Price effect = Σ Q1_i × (P1_i − P0_i).
-   - Check: volume + mix + price = R1 − R0. Show the check.
-   Treat items sold in only one period separately as "new items" and "discontinued items" rather than forcing them through price and mix. If several currencies are involved, separate a currency effect by restating period 1 at period 0 rates, if rates are given.
+2. Separate items sold in only one period first: period-1 revenue of new items and period-0 revenue of discontinued items are their own bridge bars. Compute price, volume and mix on the continuing items only (R0, R1, Q0 total and Q1 total below refer to those items), at the chosen level, for each item i, using this convention unless the user asks for another:
+   - Volume effect_i = (Q1 total − Q0 total) × share0_i × P0_i. Summed over items this equals (Q1 total − Q0 total) × average period-0 price (R0 / Q0 total).
+   - Mix effect_i = Q1 total × (share1_i − share0_i) × P0_i, where share is item i's share of total units.
+   - Price effect_i = Q1_i × (P1_i − P0_i).
+   - Check: volume + mix + price + new items − discontinued items = total R1 − total R0. Show the check.
+   If several currencies are involved, separate a currency effect by restating period 1 at period 0 rates, if rates are given.
 3. If customer IDs are available, build a customer bridge: revenue from retained customers in both periods (split into expansion and contraction), new customers, and lost customers, reconciling to the same total change.
 4. Show the arithmetic in a table, row by row, so the user can recompute it. Round only in the final presentation, and make the totals reconcile after rounding.
 5. Interpret the result: which effect drives the change, which items contribute most to each effect, and whether the change looks structural (mix shift, price increase) or temporary (one-off volume).

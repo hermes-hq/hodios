@@ -3,15 +3,16 @@ schema: 1
 id: spreadsheet-modeling-rules
 kind: rule
 title: Spreadsheet modelling rules
-description: Standing rules for spreadsheets the assistant builds, covering separate inputs, calculations and outputs, no hard-coded numbers in formulas, consistent units, balancing checks and a notes tab.
+description: Rules for building or editing spreadsheets, covering separate inputs, calculations and outputs, no hard-coded numbers, consistent units, checks and a notes tab. Load for spreadsheet work.
 category: spreadsheets
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, review]
 role: [data-analyst, business-analyst, financial-analyst, operations-manager]
 stack: [excel, google-sheets]
 requires: [none]
 risk: read-only
+invocation: model
 level: intermediate
 tags: [financial-modelling, model-checks, auditability, named-ranges]
 pairs_with:
@@ -22,6 +23,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Loads only when spreadsheet work is in progress, and the description says when it applies."}
 ---
 When you build, extend or edit a spreadsheet, workbook or spreadsheet formula:
 

@@ -1,6 +1,6 @@
 # Step 2: Check the data before trusting it
 
-Read `analyses/{{slug}}/01-plan.md`. Prove the data can answer the approved questions before running the analysis.
+Work from the approved plan from step 1 (saved as `analyses/{{slug}}/01-plan.md` when you can write files). Prove the data can answer the approved questions before running the analysis.
 
 1. Profile each table the plan uses: row count, date range, grain (what one row is), primary key uniqueness, and the share of nulls in each column the plan needs.
 2. Run these checks, as code or queries you execute, or that you give to the user to run if you cannot:

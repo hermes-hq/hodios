@@ -3,9 +3,9 @@ schema: 1
 id: analysis-project-track
 kind: workflow
 title: Analysis project track
-description: Takes a stakeholder request from business question to analysis plan, data checks, the analysis and a decision-ready report, pausing for review between steps. For analysts handling a request.
+description: Takes a stakeholder request from question to analysis plan, data checks, analysis and a decision-ready report, pausing for review between steps. Use when an analyst takes on a request.
 category: reporting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, verify, build]
 role: [data-analyst, business-analyst, data-scientist, product-manager]
@@ -50,7 +50,8 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Steps work from the approved artifacts whether or not files can be written, and the track says how to handle a request to skip the plan or the approvals."}
 ---
 Runs the analysis behind "{{question}}" the way a senior analyst would: agree what decision the work serves and how it will be answered before touching data, prove the data can be trusted, run the analysis that the plan calls for, and write a report {{audience}} can act on. Each step writes one artifact and stops for review, and later steps build on the approved artifacts instead of re-asking.
 
-Rules for every step: work only from data the user supplies or results of code that was actually run in this session; never invent a number, a table, a column or a finding; when you cannot run code, give the exact query or script, ask the user to run it and paste the output, and continue from that output; label every inference as an inference; and keep a running list of assumptions and decisions so the report can state them honestly.
+Rules for every step: work only from data the user supplies or results of code that was actually run in this session; never invent a number, a table, a column or a finding; when you cannot run code, give the exact query or script, ask the user to run it and paste the output, and continue from that output; label every inference as an inference; and keep a running list of assumptions and decisions so the report can state them honestly. If the user asks to skip the plan or the approvals, keep a compressed plan anyway (the decision, the metric definition and the comparison, in a few lines), because it decides what the answer means; confirm once that later steps will build on unreviewed choices, then continue without stopping and state the choice made at each skipped gate.
