@@ -1,0 +1,20 @@
+schema: 1
+baseline: "Improve the UX of this form. Purpose: {{form_purpose}} Fields: {{fields}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout
+    vars:
+      form_purpose: "Guest checkout for an online plant shop, mostly on mobile. 62% of people who start checkout don't finish."
+      fields: "Title (required), First name, Middle name, Last name, Email, Confirm email, Phone (required), Date of birth (required, marketing wants it), Address line 1, Address line 2, City, County, Postcode, Country, Card type (dropdown), Card number, Expiry, CVC, How did you hear about us (required), Subscribe to newsletter (pre-ticked)"
+    assert:
+      - {type: contains, value: "## Validation and errors"}
+      - {type: llm-rubric, value: "Recommends removing or making optional title, middle name, confirm email, date of birth and 'how did you hear about us', inferring card type, postcode lookup, making the newsletter opt-in unticked, specifies input types and autocomplete for mobile, writes specific error messages per field with validation on blur, a submit button naming the amount, and metrics such as drop-off per step."}
+  - name: edge-unknown-business-reason
+    vars:
+      form_purpose: "Tenant application form for a letting agency, completed on desktop and mobile."
+      fields: "Full name, email, phone, current address, employer, annual income, national insurance number, number of pets, reason for moving, emergency contact."
+    assert:
+      - {type: llm-rubric, value: "Marks fields whose purpose or legal need is unclear (e.g. national insurance number, reason for moving) as needing confirmation rather than inventing requirements, flags sensitive personal data for a data-minimisation review, groups the form into logical steps with a review step, and writes clear error messages."}

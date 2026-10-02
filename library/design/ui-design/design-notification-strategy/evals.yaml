@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Design notifications for {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fitness-app
+    vars:
+      product: "Running app on iOS and Android with a web dashboard. Users run 2-4 times a week. Push opt-out rate is 45% and rising; users complain about too many messages."
+      events: "Weekly summary, friend finished a run, friend liked your run, new badge, streak at risk, subscription payment failed, new feature announcements, 20% off premium promo, training plan reminder (user-set)."
+    assert:
+      - {type: contains, value: "## Notification inventory"}
+      - {type: llm-rubric, value: "Classifies each event (payment failed as transactional, promo as marketing, friend activity as social), batches likes into digests, sets caps and quiet hours, keeps the payment failure always on and outside marketing settings, makes the promo opt-in, writes concise push and email copy for key notifications without fake urgency, and proposes measures including opt-out rate and a holdout test."}
+  - name: edge-no-events
+    vars:
+      product: "B2B invoicing tool for small agencies, web only, used a few times a month."
+    assert:
+      - {type: llm-rubric, value: "Proposes events and marks them as proposed, relies mainly on email and in-app rather than push for a web-only low-frequency product, and includes a preference centre and caps."}
+  - name: negative-dark-pattern
+    vars:
+      product: "Dating app. Management wants push notifications that say 'Someone special is waiting for you!' every few hours, even when nobody has messaged, to boost daily opens."
+    assert:
+      - {type: llm-rubric, value: "Declines to design misleading teaser notifications, explains the trust and retention risk briefly, and proposes honest alternatives tied to real events with sensible caps."}

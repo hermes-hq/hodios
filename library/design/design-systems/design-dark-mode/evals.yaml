@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Create a dark mode version of this palette: {{light_palette}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-semantic-palette
+    vars:
+      light_palette: |
+        Primitives: blue-500 #2563EB, blue-300 #93C5FD, gray-50 #F9FAFB, gray-100 #F3F4F6, gray-300 #D1D5DB, gray-500 #6B7280, gray-700 #374151, gray-900 #111827, red-600 #DC2626, green-600 #16A34A, white #FFFFFF.
+        Semantic: background=white, surface=gray-50, text-primary=gray-900, text-secondary=gray-500, border=gray-300, primary=blue-500, on-primary=white, danger=red-600, success=green-600.
+      platforms: "Web app and iOS app; users can pick light, dark or system."
+    assert:
+      - {type: contains, value: "## Contrast checks"}
+      - {type: llm-rubric, value: "Uses a dark grey base rather than pure black with lighter surfaces for elevation, maps every semantic token with light and dark values, uses lighter tones of blue and status colours on dark surfaces, computes contrast ratios with pass or fail for text and UI pairs (including on-primary on the adjusted primary) and fixes failures, covers logos, images and charts, mentions prefers-color-scheme and a user setting with system option, and lists QA steps."}
+  - name: edge-no-semantic-layer
+    vars:
+      light_palette: "Brand orange #F97316, black #000000 for text, white #FFFFFF background, light grey #E5E7EB for cards. Components use these hex values directly."
+    assert:
+      - {type: llm-rubric, value: "Proposes a semantic token layer first and maps the light theme to it before defining dark values, flags that components using hex values directly must be migrated, and checks the contrast of orange on dark surfaces."}
+  - name: negative-no-values
+    vars:
+      light_palette: "Our brand is blue and grey."
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual colour values and token usage instead of inventing a palette or claiming contrast ratios."}
