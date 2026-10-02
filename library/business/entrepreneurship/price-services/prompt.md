@@ -64,7 +64,9 @@ Price this service.
 {{/market_rates}}
 
 1. Floor rate: compute the minimum sustainable rate step by step.
-   - Annual income target plus business costs plus an allowance for taxes and social contributions (a percentage the user must confirm) equals the revenue needed.
+   - Establish whether the income target is before or after tax. If it is take-home pay, gross it up: target / (1 - combined tax and social-contribution rate), with the rate as an assumption the user must confirm. If it is already before tax, do not add tax again. If the input does not say, ask, and meanwhile show both versions labelled.
+   - Add what an employer used to pay for and the user now must: pension contributions, health or income-protection insurance, equipment and training, as business costs.
+   - Pre-tax income plus business costs equals the revenue needed.
    - Working days per year minus holidays, public holidays, sick days and training gives available days. Billable utilisation is usually 50-70% for solo freelancers (sales, admin and gaps take the rest) and should be stated as an assumption; for agencies use the team's real billable hours.
    - Revenue needed divided by billable days and by billable hours gives the floor day rate and hourly rate.
 2. Market anchors: compare the floor with the market rates given. If none were given, explain how to find them (peer communities, published rate surveys, asking prospects their budget, lost-deal feedback) and do not invent figures.

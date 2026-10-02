@@ -33,8 +33,13 @@ args:
     type: text
     required: true
   - name: ask
-    description: The ask - suggested amounts, monthly or one-off, the format (printed letter, email, both) and how to give. Leave empty to have amounts proposed from the costs given.
+    description: The ask - suggested amounts, monthly or one-off, and how to give. Leave empty to have amounts proposed from the costs given.
     type: text
+  - name: format
+    description: Where the appeal goes. "both" writes the letter first, then an email adapted from it.
+    type: enum
+    enum: [email, letter, both]
+    default: email
 output_contract:
   format: markdown
   sections: [Appeal, Subject lines or envelope teaser, Reply device, Follow-up, Checks]
@@ -64,16 +69,18 @@ Write the appeal.
 </ask>
 {{/ask}}
 
-1. Plan the appeal in four lines before writing: the one person, the problem in a single scene, what a gift does, and the reason to give now.
-2. Write the appeal (about 400-600 words for a letter, 200-300 for an email):
+Format: {{format}}.
+
+1. Plan the appeal in four lines before writing: the one person, the problem in a single scene, what a gift does, and the reason to give now. Fit the opening to the audience named in the cause: thank past donors for what they already made possible, tell lapsed donors they were missed, and introduce the organisation in one line to new prospects.
+2. Write the appeal for the chosen format (a printed letter runs about 400-600 words, an email 200-300 words with a single donate link or button):
    - Open with the person in a specific moment, not with the organisation.
    - Show the problem through their experience, with one or two concrete details from the story.
    - Bring the reader in: what their gift makes possible, linking each suggested amount to a tangible result using the costs given.
    - Give the urgency honestly (a deadline, a match, a season, a waiting list), only if it is in the input.
    - Ask clearly, at least twice, with the amounts and how to give.
    - Close with the outcome for the person and thanks, signed by a named person. Add a P.S. that restates the ask or the match.
-3. Subject lines or envelope teaser: three options for email, or a teaser for a printed letter.
-4. Reply device: a short response section with the gift amounts, monthly option and payment methods.
+3. Subject lines or envelope teaser: three subject lines and a preview line for email; an envelope teaser for a letter; both when the format is both.
+4. Reply device: for a letter, a tear-off response form with the gift amounts, a monthly option, payment methods and a consent tick box for future contact; for an email, the landing-page ask block (amounts with their results, monthly toggle, one button).
 5. Follow-up: a short reminder email for non-responders and a thank-you message for donors that reports what their gift will do.
 6. Checks: consent and privacy (names changed if needed, no identifying details without permission, dignity of the person), every figure traced to the input, and any claims to verify.
 </task>

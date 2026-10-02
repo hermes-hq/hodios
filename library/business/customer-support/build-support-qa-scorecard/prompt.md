@@ -55,7 +55,7 @@ Build the QA scorecard.
 </values>
 {{/values}}
 
-1. Scorecard: 5-8 criteria grouped into resolution (correct and complete answer, first-contact resolution where possible, correct next steps), process (policy and procedure, verification, tagging and notes), and communication (clarity, tone matching the customer's state, ownership, customer effort). Weight them so resolution counts most, totalling 100. Adapt the criteria to the channels and ticket types given.
+1. Scorecard: 5-8 criteria grouped into resolution (correct and complete answer, first-contact resolution where possible, correct next steps), process (policy and procedure, verification, tagging and notes), and communication (clarity, tone matching the customer's state, ownership, customer effort). Weight them so resolution counts most, totalling 100. Adapt the criteria to the channels and ticket types given. State the scoring formula (for example score = sum of weight x level / maximum level, rounded; any auto-fail sets the score to 0), how "not applicable" criteria are handled (removed and the remaining weights rescaled to 100), and the pass mark, so every reviewer gets the same number from the same levels.
 2. Scoring guide: for each criterion, a 0-2 or 0-3 scale (keep scales short for consistency) with a definition of each level written as observable behaviour, and a short example of each level drawn from or modelled on the ticket types described.
 3. Auto-fail rules: the few critical errors that zero a review regardless of other scores (for example a data protection breach, giving wrong information that causes financial loss, a promise against policy, rudeness). Keep the list short.
 4. Sampling: how many interactions to review per agent per week or month, how to select them (random plus targeted, such as low satisfaction, long handle times, escalations), and how to cover every channel.
@@ -73,7 +73,7 @@ Build the QA scorecard.
 
 <output_format>
 ## Scorecard
-Table: Group | Criterion | Weight | Scale.
+Table: Group | Criterion | Weight | Scale. Then the scoring formula, the not-applicable rule and the pass mark.
 ## Scoring guide
 For each criterion: a table Level | Definition | Example.
 ## Auto-fail rules
