@@ -5,7 +5,7 @@ kind: prompt
 title: Respond to peer reviewers
 description: Drafts a point-by-point response to peer-review comments, giving the change made or a polite, evidenced rebuttal for each, never claiming unmade changes. Use for revise-and-resubmit.
 category: scientific-writing
-version: 1.0.0
+version: 1.0.1
 status: experimental
 stage: [review]
 role: [researcher, student]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Puts each quoted reviewer comment on its own block-quote line so it renders as a quote."}
 ---
 <context>
 Editors read the response letter to decide whether the authors took the reviews seriously, and reviewers check that every point was answered and that each answer matches the revised manuscript. Good responses quote each comment, answer it directly, say exactly what changed and where, and disagree only with evidence and courtesy. Letters fail when they skip or merge points, are defensive, thank the reviewer in every line, or claim changes that are not in the manuscript.
@@ -75,7 +76,9 @@ Changes made or planned, and the authors' positions:
 A table: ID | summary of the comment (under 12 words) | type | action | effort.
 ## Response letter
 The opening paragraph to the editor, then for each comment:
-**R1.1** > the reviewer's comment, quoted
+**R1.1**
+> The reviewer's comment, quoted verbatim.
+
 **Response:** the answer.
 **Change:** what changed and where, or "No change" with the reason.
 ## Open items

@@ -6,6 +6,6 @@ Write the review's synthesis from the approved matrix and appraisal, answering "
 2. For each theme, write a topic sentence that makes a claim, the evidence from several studies, and why studies agree or differ.
 3. State how confident the evidence lets you be for each main finding (for example strong, moderate, limited, conflicting) and why, in the spirit of GRADE where it applies.
 4. Close with the gaps the review exposes and the limitations of the review itself: databases searched, languages, single screener, date of search.
-5. Cite only included studies, in the citation style the user asked for (APA if none), and add the reference list.
+5. Cite only included studies, in the citation style set in the protocol (APA if none was given), and add the reference list.
 
-Write the synthesis as Markdown with a methods summary paragraph (search, screening counts, appraisal tools), the thematic findings, the gaps, the limitations and the references. Finish with a list of anything the user must check before submitting: missing citation details, claims resting on one study, and counts that need confirming.
+Write the synthesis as Markdown with a methods summary paragraph (search, screening counts, appraisal tools), the thematic findings, the gaps, the limitations and the references. Finish with what the user must check before submitting: missing citation details, claims resting on one study, counts to confirm.

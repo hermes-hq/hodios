@@ -5,7 +5,7 @@ kind: workflow
 title: Literature review track
 description: Takes a literature review from research question and search strategy through screening, an extraction matrix and a written synthesis, with approval between steps. For students and researchers.
 category: literature-review
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, discover, build]
 role: [researcher, student]
@@ -44,7 +44,8 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Asks for the citation style up front and scales screening and appraisal to the review type, so a narrative review is not forced through systematic-review machinery."}
 ---
-Runs a literature review on "{{research_question}}" the way a supervisor would expect it to be done: a protocol first, a reproducible search, transparent screening, a faithful extraction matrix, then a thematic synthesis. Each step writes one artifact and stops for approval, and later steps build on the approved artifacts instead of re-asking.
+Runs a literature review on "{{research_question}}" the way a supervisor would expect: a protocol first, a reproducible search, transparent screening, a faithful extraction matrix, then a thematic synthesis. Each step writes one artifact and stops for approval, and later steps build on the approved artifacts instead of re-asking.
 
 Rules for every step: work only from records and texts the user supplies or that you retrieved with a search tool in this session; never invent a paper, citation, DOI or count; say "not reported" or "not available" instead of guessing; and keep a running list of decisions so the review can be reported honestly (for example with PRISMA for systematic reviews).

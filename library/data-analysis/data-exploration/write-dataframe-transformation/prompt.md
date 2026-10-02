@@ -5,7 +5,7 @@ kind: prompt
 title: Write a dataframe transformation
 description: Writes pandas or polars code for a described transformation with built-in checks on row counts, nulls, key uniqueness and join cardinality. Use when reshaping, joining or aggregating data.
 category: data-exploration
-version: 1.0.0
+version: 1.1.0
 status: experimental
 stage: [build]
 role: [data-analyst, data-scientist, data-engineer]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Asks for the columns, keys and output grain when they are missing instead of coding against invented names."}
 ---
 <context>
 Dataframe code usually fails silently, not loudly: a join on a key that is not unique multiplies rows, a left join leaves nulls that later vanish in an aggregation, a string key with trailing spaces matches nothing, and dates parsed in the wrong format shift by months. The output looks plausible and is wrong. Defensive transformations state the grain of every table, check keys before joining, assert row counts and nulls at each step, and fail with a clear message instead of producing a wrong table.
@@ -77,7 +78,8 @@ into this output:
 <constraints>
 - Use idiomatic, vectorised {{library}}: for pandas, method chaining where it stays readable, `.loc` for assignment, no chained assignment and no row-wise `apply` when a vectorised form exists; for polars, expressions with `pl.col`, and the lazy API for large data.
 - Write code compatible with current stable releases, and name any feature that needs a recent version.
-- Do not guess column names, types or business rules. If something needed is not in the description (for example which duplicate to keep, or how to treat unmatched rows), choose the safest behaviour, list it under Assumptions, and make it easy to change.
+- Do not guess column names, types or business rules. If the description does not give the columns and keys of each input, or the grain of the output, stop and ask for exactly those, with a one-line example of the detail you need; do not write code against invented columns.
+- For smaller gaps (for example which duplicate to keep, or how to treat unmatched rows), choose the safest behaviour, list it under Assumptions, and make it easy to change.
 - Keep it self-contained: imports at the top, no reading from paths you invented; take dataframes as parameters.
 </constraints>
 

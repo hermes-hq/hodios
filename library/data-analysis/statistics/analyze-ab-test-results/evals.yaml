@@ -8,15 +8,15 @@ cases:
   - name: happy-clear-win
     vars:
       primary_metric: checkout conversion rate
-      guardrails: "refund rate, no worse than +0.2 percentage points"
+      guardrails: "users with a refund (as a share of assigned users), no worse than +0.1 percentage points"
       results: |
-        Intended split 50/50, 21 days.
-        A (control): 50,000 users, 2,000 checkouts, 500 refunds.
-        B (one-page checkout): 50,100 users, 2,250 checkouts, 510 refunds.
+        Randomised by user. Intended split 50/50, 21 days.
+        A (control): 50,000 users, 2,000 users checked out, 100 users requested a refund.
+        B (one-page checkout): 50,100 users, 2,250 users checked out, 105 users requested a refund.
         Pre-registered minimum detectable effect: +0.3 percentage points.
     assert:
       - {type: contains-all, value: ["## Decision", "## Data quality", "## Calculations", "Ship"]}
-      - {type: llm-rubric, value: "SRM check passes (chi-square about 0.1); conversion 4.00% vs about 4.49%, difference about +0.49 percentage points with a 95% CI of roughly +0.24 to +0.74 points and p around 0.0001; refund-rate difference about +0.02 points with an interval below the +0.2 point threshold, so the guardrail passes; decision is Ship."}
+      - {type: llm-rubric, value: "SRM check passes (chi-square about 0.1); conversion 4.00% vs about 4.49%, difference about +0.49 percentage points with a 95% CI of roughly +0.24 to +0.74 points and p around 0.0001; refund share 0.200% vs about 0.210%, a difference of about +0.01 points with a 95% CI of roughly -0.05 to +0.07 points, whose upper bound is below the +0.1 point threshold, so the guardrail passes; decision is Ship."}
   - name: edge-sample-ratio-mismatch
     vars:
       primary_metric: sign-up rate
@@ -34,4 +34,5 @@ cases:
         A: 12,000 orders, mean order value 54.20 EUR.
         B: 12,050 orders, mean order value 55.10 EUR.
     assert:
+      - {type: contains, value: "Cannot decide yet"}
       - {type: llm-rubric, value: "Asks for standard deviations (or per-order data) to compute a confidence interval for the difference in means, does not invent a variance or declare significance, and notes order value is usually skewed so outliers matter."}
