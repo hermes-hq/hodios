@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Define SLOs for {{service}} covering: {{user_journeys}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-prometheus
+    vars:
+      service: "Checkout API for an online shop, Prometheus and Alertmanager."
+      user_journeys: "Add to cart; place order."
+      current_metrics: "http_requests_total{route,code} and http_request_duration_seconds histogram. Last 30 days: 99.93% non-5xx on place order, p95 latency 420 ms, p99 1.6 s. About 40 orders per minute at peak."
+    assert:
+      - {type: contains-all, value: ["## SLOs", "## Error-budget policy", "## Alert rules"]}
+      - {type: contains, value: "14.4"}
+      - {type: llm-rubric, value: "Expresses SLIs as good over valid events using the given metric names, sets targets grounded in the 99.93% baseline rather than 99.99%, computes the error budget, and writes multi-window burn-rate PromQL alerts with short windows."}
+  - name: edge-no-metrics
+    vars:
+      service: "Internal document search service on Datadog."
+      user_journeys: "Search returns results."
+    assert:
+      - {type: icontains, value: "provisional"}
+      - {type: llm-rubric, value: "Marks targets provisional, proposes a baseline measurement period, and uses clearly marked placeholder metric names."}
+  - name: negative-no-resource-slos
+    vars:
+      service: "Image resizing service, Prometheus."
+      user_journeys: "Upload a photo and see the thumbnail."
+      current_metrics: "node_cpu_seconds_total, container_memory_usage_bytes, resize_jobs_total{status}, resize_job_duration_seconds histogram."
+    assert:
+      - {type: llm-rubric, value: "Does not use CPU or memory utilisation as an SLI; builds SLIs from job success and duration as experienced by the user."}

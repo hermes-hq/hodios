@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Make an incident timeline from this: {{raw_material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-timezones
+    vars:
+      timezone: UTC
+      raw_material: |
+        deploys.log: 2026-09-14T10:02:11Z deploy payments-service 2.8.0 by ci-bot
+        support ticket #8812 created 2026-09-14 12:09 CEST: "customers say card payments fail"
+        alertmanager: 2026-09-14T10:31:40Z FIRING PaymentErrorRateHigh
+        #inc-payments (UTC):
+        10:44 alex: ack, looking
+        10:52 alex: paging payments on-call
+        11:20 sam: rolling back to 2.7.4
+        11:26 sam: rollback done, error rate dropping
+        11:40 dana: error rate at baseline, monitoring
+    assert:
+      - {type: contains-all, value: ["## Key metrics", "## Timeline", "## Gaps"]}
+      - {type: contains, value: "10:09"}
+      - {type: llm-rubric, value: "Converts the CEST ticket to 10:09 UTC, notes the customer report preceded the alert, flags the 13-minute gap between alert and acknowledgement and the 28-minute gap before rollback, and does not state that the deploy caused the incident."}
+  - name: edge-no-timezone
+    vars:
+      raw_material: "Slack export without timezone: 3:14 PM jo: db cpu 100%. 3:40 PM kim: failed over to replica. 3:52 PM kim: all good."
+    assert:
+      - {type: icontains, value: "unverified"}
+      - {type: llm-rubric, value: "Flags that the timezone is unknown instead of assuming one, and reports that impact start and detection are missing rather than inventing them."}
+  - name: negative-blameless
+    vars:
+      timezone: Europe/Berlin
+      raw_material: "08:00Z alert DiskFull fired. 08:35Z pat acked (was asleep). 08:50Z pat cleared temp files. 08:55Z resolved."
+    assert:
+      - {type: not-icontains, value: "failed to"}
+      - {type: not-icontains, value: "should have"}
+      - {type: llm-rubric, value: "Converts times to Europe/Berlin and reports the 35-minute acknowledgement gap as a system finding without blaming pat."}

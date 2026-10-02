@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a status page update about this incident: {{facts}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-investigating
+    vars:
+      phase: investigating
+      audience: customers
+      facts: "Since 09:40 UTC about 20% of card payments in the EU fail with a generic error. PayPal works. Engineers suspect the new fraud-check service or our payment processor; not confirmed. Time now 09:58 UTC."
+    assert:
+      - {type: contains-all, value: ["## Title", "## Update", "## Next update"]}
+      - {type: contains, value: "10:28"}
+      - {type: not-icontains, value: "fraud"}
+      - {type: llm-rubric, value: "Mentions card payments failing for some EU customers since 09:40 UTC and PayPal as a workaround, does not name a suspected cause or blame the processor, and gives no fix ETA."}
+  - name: edge-missing-scope
+    vars:
+      phase: identified
+      audience: customers
+      facts: "Root cause found: an expired certificate on an internal service. Rolling out a new certificate now."
+    assert:
+      - {type: contains, value: "[CONFIRM"}
+      - {type: llm-rubric, value: "Drafts the update anyway, marks the unknown affected features and start time with CONFIRM placeholders, and does not mention internal service names to customers."}
+  - name: negative-internal-resolved
+    vars:
+      phase: resolved
+      audience: internal
+      facts: "Search was down for all users from 13:02 to 13:47 UTC after a bad index mapping deploy (owner: search team, IC Dana). Rolled back. About 1,900 failed searches. Postmortem scheduled for Thursday."
+    assert:
+      - {type: llm-rubric, value: "Gives duration with start and end times, the owner, the numeric impact and a suggested line for support, without blaming a person."}

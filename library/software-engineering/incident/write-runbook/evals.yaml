@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a runbook for: {{alert_or_procedure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-disk-alert
+    vars:
+      alert_or_procedure: "Alert PostgresDiskUsageHigh: disk usage on the primary above 85% for 10 minutes."
+      system_context: "Self-managed Postgres 16 on Kubernetes (StatefulSet), WAL archived to object storage, a logical replication slot used by a CDC connector. Past causes: stuck replication slot retaining WAL, runaway temp files from analytics queries."
+    assert:
+      - {type: contains-all, value: ["## Triage", "## Diagnosis", "## Mitigations", "## Escalation", "## Fill before publishing"]}
+      - {type: contains, value: "DESTRUCTIVE"}
+      - {type: llm-rubric, value: "Includes a read-only check for replication slot lag or retained WAL and for temp file usage, with healthy versus unhealthy results, and orders mitigations from safe (cancel offending query) to risky (drop a slot), each with undo or consequences."}
+  - name: edge-routine-procedure
+    vars:
+      alert_or_procedure: "Rotate the TLS certificate on the public load balancer before it expires."
+    assert:
+      - {type: llm-rubric, value: "Uses preconditions, steps with checkpoints and a rollback instead of alert triage, and marks unknown names as placeholders."}
+  - name: negative-no-invented-names
+    vars:
+      alert_or_procedure: "Alert: checkout error rate above 2%."
+    assert:
+      - {type: not-regex, value: "https?://(grafana|dashboards?)\\.[a-z]+\\.(com|io|net)"}
+      - {type: llm-rubric, value: "Uses placeholders for dashboards, services and teams rather than inventing concrete names, and lists them under Fill before publishing."}

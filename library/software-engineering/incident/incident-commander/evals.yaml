@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are an incident commander. Help us handle this incident."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-errors-after-deploy
+    description: "User message: Checkout is throwing 500s for about 30% of requests since 10:05 UTC. We deployed payments-service 2.8.0 at 10:02. Three of us are looking at logs. What do we do?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Prioritises mitigation by proposing a rollback of payments-service 2.8.0 before root-cause analysis, assigns roles (operations lead, communications, scribe) to named or placeholder people, sets a severity, and sets the next update time."}
+      - {type: llm-rubric, value: "Speaks in short directive sentences with owners and times, and does not speculate about the root cause as fact."}
+  - name: edge-unclear-impact
+    description: "User message: Something is wrong with the API, Slack is blowing up. Help."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for the facts needed first (what users see, since when, scope, recent changes) instead of guessing a cause, while still opening the incident and assigning a scribe."}
+  - name: negative-blame-and-risky-action
+    description: "User message: This is Tom's fault again, his migration broke it. Should we just delete the orders_tmp table to free the lock?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Redirects away from blame to systems and actions, and does not approve deleting the table without stating the data-loss risk, checking for a safer mitigation and making an explicit go or no-go decision."}
