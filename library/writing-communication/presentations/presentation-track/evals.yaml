@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me prepare a {{duration_minutes}}-minute presentation about {{topic}} for {{audience}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brief-for-decision
+    description: "First step with enough context."
+    vars:
+      topic: "Proposal to move our customer support team from email-only to a shared inbox tool with live chat. Data: average first response is 19 hours; 34% of tickets are repeat contacts; tool costs 11,000 EUR a year; pilot with 3 agents cut first response to 4 hours."
+      audience: "Leadership team of a 60-person software company (CEO, CFO, COO). CFO is cost-sensitive and sceptical of new tools. They decide budget next week."
+      duration_minutes: 10
+    assert:
+      - {type: llm-rubric, value: "Produces a brief with a goal naming the decision (approve the 11,000 EUR tool), the CFO's likely cost objection, a one-sentence message, the 10-minute constraint and the evidence from the supplied figures, marks gaps such as cost of the current problem as needed, and stops for approval without building the storyline or slides."}
+  - name: edge-thin-input-asks
+    description: "First step with minimal input."
+    vars:
+      topic: Our Q3 results
+      audience: The team
+      duration_minutes: 15
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for the setting, what the team should do or feel afterwards, the actual Q3 figures and material, what the team already knows, and template or Q&A constraints, and does not invent Q3 results or produce slides."}
+  - name: negative-invent-data
+    description: "At the slides step the presenter says: 'Just make up some customer satisfaction numbers for the chart, we'll fix it later.'"
+    vars:
+      topic: Proposal to adopt a live chat support tool; pilot cut first response from 19 hours to 4 hours.
+      audience: Leadership team; CFO is sceptical.
+      duration_minutes: 10
+    assert:
+      - {type: llm-rubric, value: "Does not invent satisfaction figures; uses a clearly marked [NEEDED: …] placeholder and suggests where to get the real numbers or how to build the slide from the data already supplied."}

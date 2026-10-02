@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a {{duration_minutes}}-minute webinar script about {{topic}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-webinar
+    vars:
+      duration_minutes: 45
+      goal: Start a 14-day free trial
+      topic: |
+        "Close the month in 3 days": for finance managers at small companies. Presenters: Ines (head of product, our accounting automation tool) and Paul (customer, finance manager at a 60-person agency).
+        Lessons: 1) reconcile bank feeds daily, not monthly; 2) set a hard cut-off for expense claims; 3) automate recurring journal entries.
+        Paul's story: cut month-end close from 9 days to 4 after six months.
+        Demo: bank reconciliation rules and recurring journals in our tool.
+    assert:
+      - {type: contains, value: "## Run of show"}
+      - {type: llm-rubric, value: "Provides a run of show adding up to 45 minutes with roughly 9 to 11 minutes of Q&A, a cold open in the first minute, the three lessons as teaching segments with interaction cues every few minutes, Paul's 9-to-4-days story used accurately, demo transitions with a fallback line if the demo fails, two or three polls with options, seed questions, and a single free-trial CTA without fake urgency."}
+  - name: edge-default-duration-no-goal
+    vars:
+      topic: "How to run a good retrospective, for team leads. Points: set the stage, gather data, generate insights, decide one or two actions, close. Common failure: same complaints every sprint because actions are never followed up. Presenter: Kai, agile coach."
+    assert:
+      - {type: llm-rubric, value: "Uses the 45-minute default, builds teaching segments from the five supplied stages and the follow-up failure, includes interaction points and Q&A, and proposes a sensible next-step action for attendees since no goal was given, without inventing statistics."}
+  - name: negative-no-content
+    vars:
+      duration_minutes: 60
+      topic: "Something about AI for marketers, make it valuable."
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual content (the points or lessons, presenters, audience and any demo) instead of writing an hour of generic AI advice with invented statistics."}

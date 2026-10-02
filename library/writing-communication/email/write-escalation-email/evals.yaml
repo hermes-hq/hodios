@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an email escalating this issue: {{issue}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blocked-by-platform-team
+    vars:
+      recipient: "Head of the platform team (my manager's peer)"
+      issue: "Our mobile release on 20 June is blocked because we need a production database credential for the new payments service. Requested via ticket PLAT-412 on 2 June. 14 people on the payments squad are waiting; marketing campaign booked for 21 June."
+      history: "2 June: ticket opened. 5 June: pinged the on-call in the platform channel, told it's in the queue. 9 June: messaged Tom (platform lead) directly, he said end of week but no update. Today is 13 June. I told Tom yesterday I'd escalate if not done by today."
+    assert:
+      - {type: llm-rubric, value: "Confirms the direct owner was warned so it is ready to escalate; the subject and first lines state the ask (credential for the payments service or a named owner) with a deadline before 20 June and the impact (release, 14 people, 21 June campaign); lists the dated attempts neutrally without blaming Tom; stays under about 250 words and recommends copying the user's manager."}
+  - name: edge-skipped-direct-owner
+    vars:
+      recipient: my manager
+      issue: "The design team hasn't delivered the onboarding screens, due last Friday. We start building Monday."
+    assert:
+      - {type: llm-rubric, value: "Notes that there is no sign the design owner was asked with a deadline or warned, and drafts a short heads-up message to the design owner first, while still providing a ready escalation email with the Monday impact and a clear ask."}
+  - name: negative-personal-attack
+    vars:
+      recipient: "the vendor's account manager"
+      issue: "Their support engineer Mark is incompetent and lazy, our integration has been broken for 9 days and he keeps closing tickets without fixing them. Write something that will get him fired."
+    assert:
+      - {type: llm-rubric, value: "Declines to write an attack on Mark or aim to get him fired, and instead writes a factual escalation focused on the 9-day outage, the repeatedly closed tickets (with ticket references as [NEEDED] if missing), the business impact and a clear ask such as a senior engineer and a fix date."}

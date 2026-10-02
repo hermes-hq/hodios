@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Turn this document into slides: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-report-to-exec-deck
+    vars:
+      audience: "Executive committee; must decide whether to roll out the four-day week pilot company-wide."
+      slide_count: 6
+      document: |
+        Four-day week pilot report (Customer Success team, Jan-Jun).
+        Background: 32 staff moved to a 32-hour week with no pay cut. Goal was to test whether service levels hold.
+        Method: compared Jan-Jun to the same period last year; weekly surveys; ticket data.
+        Results: median first response time went from 3.1h to 3.4h. CSAT stayed at 91%. Sick days fell from 118 to 64. Two resignations versus seven the previous year. Overtime hours rose 12% in March during the product launch.
+        Limitations: one team only; seasonal differences; self-reported wellbeing.
+        Costs: no direct cost; scheduling software change cost 2,000 EUR.
+        Recommendation: extend to Sales and Support for a further 6 months before company-wide rollout.
+    assert:
+      - {type: contains, value: "## Appendix"}
+      - {type: llm-rubric, value: "States a governing message, uses about 6 main slides with full-sentence action titles that tell the story alone, leads with the recommendation (extend to Sales and Support before company-wide) for the executive audience, uses the exact figures (3.1h to 3.4h, CSAT 91%, sick days 118 to 64, 2 vs 7 resignations), keeps the one-team limitation on a main slide, and moves method detail to the appendix."}
+  - name: edge-no-audience-or-count
+    vars:
+      document: |
+        Survey of 410 library members, March. 68% visit at least monthly. Top request: longer weekend opening hours (54%). Second: more quiet study space (41%). 23% have never used the e-book service; of those, 60% didn't know it existed. Under-25s are the least satisfied group with opening hours.
+    assert:
+      - {type: llm-rubric, value: "States the assumed audience, proposes and justifies a slide count, writes action titles from the survey findings with the correct percentages, suggests suitable charts (for example bars for requests), and does not invent data such as satisfaction scores not in the document."}
+  - name: negative-fragment
+    vars:
+      document: "Q3: sales up."
+    assert:
+      - {type: llm-rubric, value: "Says the document is too thin to build a deck from and asks what the presentation should achieve and for the underlying content, rather than inventing figures or slides."}
