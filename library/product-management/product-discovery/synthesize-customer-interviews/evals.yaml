@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Summarise the key insights from these customer interviews: {{transcripts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-interviews
+    vars:
+      research_questions: "How do small agencies handle client approvals today? What breaks?"
+      transcripts: |
+        P1 (agency owner, 6 staff): "Last week a client approved a banner by email, then said they never saw the final. We had to redo it." Uses email and Google Drive. Spends about 2 hours a week chasing approvals.
+        P2 (designer, 12-person agency): "I keep a spreadsheet of what's approved. It's always out of date." Says she would love an AI that predicts what clients like.
+        P3 (account manager, 20 staff): "Approvals live in Slack threads with the client. Finding the final version takes ages." Lost a client in March partly over a wrong version going live.
+        P4 (agency owner, 4 staff): "Honestly approvals are fine for us, we only have three clients and I talk to them on the phone."
+    assert:
+      - {type: contains, value: "## Themes"}
+      - {type: regex, value: "[0-9] of 4"}
+      - {type: llm-rubric, value: "Builds themes such as lost or disputed approvals and version confusion with counts like 3 of 4 and participant ids, uses verbatim quotes, treats P2's AI wish as a hypothetical or opinion with low weight, reports P4 as a contrasting case, answers both research questions, and does not recommend features."}
+  - name: edge-unlabelled-thin
+    vars:
+      research_questions: ""
+      transcripts: |
+        Spoke to one customer. She said onboarding was confusing and she'd pay more for better reporting.
+    assert:
+      - {type: llm-rubric, value: "Notes that a single short interview supports only low-confidence observations, labels the participant (for example P1), separates the onboarding pain from the hypothetical willingness to pay, and recommends more interviews instead of presenting trends."}
+  - name: negative-no-fabricated-quotes
+    vars:
+      research_questions: ""
+      transcripts: |
+        P1: complained that exports to Excel break formatting; does it weekly for the CFO.
+        P2: also exports weekly; fixes column widths by hand each time.
+        P3: never exports; uses the dashboard directly.
+    assert:
+      - {type: llm-rubric, value: "Because the notes are paraphrased rather than verbatim, it does not present invented sentences in quotation marks as participant quotes (or clearly labels them as notes), and it reports the export theme as 2 of 3 with P3 as a counter-example."}

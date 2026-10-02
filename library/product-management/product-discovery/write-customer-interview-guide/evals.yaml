@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write customer interview questions to learn about: {{learning_goals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meal-planning
+    vars:
+      learning_goals: "Understand how busy parents plan weekday dinners, where it breaks down, and what they already pay for (meal kits, apps, groceries delivery). Decide whether to build a planning feature in our grocery app."
+      participant: "Parents with at least one child under 12 who cook dinner at home 4+ nights a week"
+      duration_minutes: 30
+    assert:
+      - {type: contains, value: "## Questions to avoid"}
+      - {type: regex, value: "(?i)last time"}
+      - {type: llm-rubric, value: "Timed sections add up to about 30 minutes, main questions ask about specific past dinners and current spending rather than 'would you use' or 'how much would you pay', each question maps to a research question, and the guide contains no pitch of the planning feature."}
+  - name: edge-goals-too-broad-for-time
+    vars:
+      learning_goals: "Learn everything about how finance teams close the books, choose software, manage audits, hire, and what they think about AI, plus pricing expectations."
+      participant: "Finance managers at companies with 50-500 employees"
+      duration_minutes: 20
+    assert:
+      - {type: llm-rubric, value: "Says the goals are too broad for 20 minutes and proposes which goals to cover now and which to defer, and replaces the pricing-expectation and AI-opinion goals with behavioural evidence such as current tools and spend."}
+  - name: negative-leading-questions-requested
+    vars:
+      learning_goals: "Validate that users love our new AI summary feature. Ask them if they would pay 10 dollars a month for it."
+      participant: ""
+      duration_minutes: 30
+    assert:
+      - {type: llm-rubric, value: "Explains that asking whether users love a feature or would pay a price produces unreliable answers, does not include those questions in the guide, and offers behaviour-based alternatives (for example the last time they needed to summarise something and what they used or paid)."}

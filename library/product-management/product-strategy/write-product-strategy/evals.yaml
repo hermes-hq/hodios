@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a product strategy for this: {{context}} Goals: {{goals}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-smb-saas
+    vars:
+      context: |
+        We sell scheduling software to independent hair salons in the UK (2,100 paying salons, about 4% of the market). Churn is 3.5% per month, mostly salons under 3 chairs who say it is too expensive. Salons with 5+ chairs churn at 0.8% and use our staff rota and commission features heavily. Two well-funded competitors offer free plans aimed at solo stylists. Sales asks for a free plan; engineering wants to rebuild the booking widget; marketing wants to expand to Ireland and Spain.
+      goals: "Grow net revenue 30% next year."
+      constraints: "12 engineers, no new funding."
+    assert:
+      - {type: contains, value: "## What we will not do"}
+      - {type: llm-rubric, value: "Diagnosis uses the churn split to identify a challenge (for example competing for solo stylists against free plans versus winning multi-chair salons), the guiding policy makes a clear choice and names rejected alternatives, actions follow from it, the not-do list declines at least one current internal request (free plan, expansion or rebuild), and the strategy does not simply restate the 30% goal."}
+  - name: edge-thin-context
+    vars:
+      context: "We are an AI startup. We want to win."
+      goals: ""
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Asks up to five targeted questions (customers, problem, competitors, current traction, team) and stops, rather than writing a generic strategy."}
+  - name: negative-goals-as-strategy
+    vars:
+      context: "Mobile banking app for freelancers in Germany, 80k users. Leadership's draft strategy: 'Be the number one app for freelancers, grow users 3x, launch in 5 countries, add crypto, invoicing, taxes and lending this year.'"
+      goals: "3x users"
+      constraints: "20 engineers"
+    assert:
+      - {type: llm-rubric, value: "Points out that the draft is a list of goals and initiatives rather than a strategy, makes choices instead of keeping all initiatives, and puts several of them (for example crypto or 5-country launch) under What we will not do with reasons."}
