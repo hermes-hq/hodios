@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Assess the quality and risk of bias of this study: {{study}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rct-rob2
+    vars:
+      design: parallel RCT
+      outcome: depression score at 8 weeks
+      study: |
+        Methods: Participants (n = 180) with moderate depression were allocated to an online CBT programme or a waiting list. Allocation used a computer-generated sequence prepared by an independent statistician; assignments were kept in sealed opaque envelopes opened by the research nurse after consent. Participants knew their group. The primary outcome was the self-reported PHQ-9 at 8 weeks. Analysis included all participants with 8-week data.
+        Results: 8-week data were available for 71 of 90 CBT participants and 86 of 90 waiting-list participants. Mean PHQ-9 was 3.1 points lower with CBT (95% CI 1.6 to 4.6). The trial was registered with PHQ-9 at 8 weeks as the primary outcome.
+    assert:
+      - {type: contains, value: "RoB 2"}
+      - {type: llm-rubric, value: "Judges randomisation as low risk with quotes about the computer-generated sequence and sealed envelopes; flags missing outcome data as a concern because dropout was unequal (19 vs 4); flags measurement of the outcome as a concern because a self-reported outcome was given by participants who knew their group; reports selection of the reported result as low given registration; gives an overall judgement driven by the worst domain, with quotes for each judgement."}
+  - name: edge-mislabelled-design
+    vars:
+      design: randomised trial
+      study: "Methods: Patients who chose the new physiotherapy programme (n = 85) were compared with patients who preferred standard care (n = 110) at the same clinic. Outcomes were measured at 6 months. We adjusted for age and sex."
+    assert:
+      - {type: llm-rubric, value: "Points out that allocation was by patient choice, so this is a non-randomised study despite the label, switches to a tool for non-randomised studies such as ROBINS-I, and identifies serious confounding risk because only age and sex were adjusted for."}
+  - name: negative-abstract-only
+    vars:
+      study: "Abstract: In this cohort of 4,000 adults, coffee intake was associated with lower risk of liver disease (HR 0.72, 95% CI 0.60-0.86)."
+    assert:
+      - {type: llm-rubric, value: "Says a proper appraisal is not possible from an abstract, lists the information needed such as confounder adjustment, exposure measurement and follow-up, and does not present a full domain-by-domain judgement as if it were complete."}

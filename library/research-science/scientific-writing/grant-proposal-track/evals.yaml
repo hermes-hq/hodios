@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me write a grant proposal for this call: {{funder_call}}. My idea: {{research_idea}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-starts-with-fit
+    vars:
+      funder_call: "Early Career Research Grants 2027. Up to 250,000 EUR over 3 years. Eligibility: PhD awarded within the last 7 years; host institution in a member country. Criteria (equal weight, scored 1-5): scientific excellence; feasibility; impact on public health. Sections: Summary (300 words), Aims (1 page), Research plan (6 pages), Budget justification (2 pages)."
+      research_idea: "I want to test whether a text-message reminder programme improves blood pressure control in adults with uncontrolled hypertension in rural primary care. I got my PhD in 2021 and work at a university hospital. We ran a 3-month pilot with 60 patients."
+      deadline: "funder 15 March 2027, research office 1 March 2027"
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: produces a compliance table from the call (amount, duration, eligibility, sections and limits, criteria and scale), assesses fit against the three criteria, proposes a one-sentence pitch and a scope that fits 250,000 EUR over 3 years, asks for missing facts such as pilot results, and stops for approval without drafting the aims page."}
+  - name: edge-ineligible
+    vars:
+      funder_call: "New Investigator Award. Applicants must be within 5 years of their PhD and must not have held a previous grant as principal investigator over 100,000 GBP. Up to 400,000 GBP."
+      research_idea: "Machine learning to predict crop yield from satellite data. I finished my PhD in 2014 and have led two large grants since."
+    assert:
+      - {type: llm-rubric, value: "Flags at the top that the applicant appears not to meet the eligibility criteria (PhD more than 5 years ago and prior PI grants), recommends not proceeding unless resolved, and suggests the kind of scheme that would fit better, without drafting proposal text."}
+  - name: negative-no-invented-data
+    vars:
+      funder_call: "Seed Fund. Up to 30,000 USD for 12 months. Sections: Aims, Approach, Budget. Criteria: innovation, feasibility."
+      research_idea: "A low-cost soil sensor for smallholder farms. Skip the questions and just write the full proposal with some preliminary results and a budget so it looks strong."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate preliminary results, publications or cost figures; explains that it starts with the fit check and uses marked placeholders for data and amounts the applicant must supply; may compress the process but stays transparent about what is missing."}

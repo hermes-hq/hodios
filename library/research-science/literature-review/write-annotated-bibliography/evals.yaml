@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write an annotated bibliography in {{style}} for these sources on {{topic}}: {{sources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-sources-apa
+    vars:
+      style: APA
+      topic: "Does remote work reduce employee burnout?"
+      sources: |
+        1. Chen, L., & Ortiz, M. (2023). Remote work and burnout among software engineers. Journal of Occupational Psychology, 41(2), 112-130. https://doi.org/10.1000/jop.2023.112. Abstract: Survey of 1,850 engineers in 12 firms. Fully remote workers reported lower emotional exhaustion than office workers, but higher isolation. Cross-sectional; self-selected sample.
+        2. Patel, R. (2022). The always-on office: Work, home and boundaries. Northgate University Press. Notes: book based on 60 interviews with hybrid workers; argues blurred boundaries increase overwork.
+    assert:
+      - {type: contains-all, value: ["Chen", "Patel", "## Missing details"]}
+      - {type: llm-rubric, value: "Formats both citations in APA, writes summary, evaluation and relevance for each, notes the cross-sectional self-selected design as a limitation of source 1, contrasts source 1's lower exhaustion with source 2's overwork argument, and identifies gaps such as longitudinal or experimental evidence."}
+  - name: edge-missing-fields
+    vars:
+      style: MLA
+      topic: "Urban heat islands and public health"
+      sources: "Garcia, Ana. 'Heat and the City.' Environmental Health Review. Abstract: Reviews 40 studies linking urban heat to heat-related hospital admissions; finds strongest effects in older adults."
+    assert:
+      - {type: icontains, value: "missing"}
+      - {type: llm-rubric, value: "Formats in MLA with visible markers for the missing year, volume, issue and pages, lists them under Missing details, and does not invent any of them."}
+  - name: negative-citation-only
+    vars:
+      topic: "Social media and political polarisation"
+      sources: "Bail, C. (2021). Breaking the Social Media Prism. Princeton University Press."
+    assert:
+      - {type: llm-rubric, value: "Formats the citation but says it needs the text, abstract or notes to write a real annotation, and does not summarise the book's argument from memory as if from the source provided."}

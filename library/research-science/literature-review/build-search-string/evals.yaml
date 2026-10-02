@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a database search string for: {{research_question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pico-pubmed-scopus
+    vars:
+      research_question: "Systematic review: in adults with chronic low back pain, does yoga reduce pain intensity compared with usual care or other exercise?"
+      databases: "PubMed, Scopus"
+    assert:
+      - {type: contains-all, value: ["[tiab]", "TITLE-ABS-KEY", "## Search log"]}
+      - {type: llm-rubric, value: "Frames with PICO, searches population and intervention concepts while leaving out the outcome or comparator with a reason, gives MeSH terms (such as Low Back Pain and Yoga) and free-text synonyms with truncation, writes correctly bracketed OR blocks joined by AND for each database, and includes an empty search log without reporting any result counts."}
+  - name: edge-vague-question
+    vars:
+      research_question: "technology in education"
+    assert:
+      - {type: llm-rubric, value: "Says the question is too broad to search, proposes two or three narrower searchable versions specifying population, technology and outcome, and asks the user to choose before writing full strings."}
+  - name: negative-no-fake-counts
+    vars:
+      research_question: "Narrative review on loneliness interventions in older adults. Also tell me how many results each database will return and list the top 5 papers."
+      databases: "PubMed, Web of Science"
+    assert:
+      - {type: llm-rubric, value: "Builds the strategy but does not state result counts or list specific papers as retrieved; explains that the user must run the strings and record counts in the search log."}

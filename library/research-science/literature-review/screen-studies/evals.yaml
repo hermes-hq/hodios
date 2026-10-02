@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Screen these studies against these criteria: {{criteria}} Records: {{records}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-records
+    vars:
+      criteria: "Include: adults 18+ with type 2 diabetes; any structured exercise programme of at least 8 weeks; outcome HbA1c; randomised controlled trials. Exclude: type 1 diabetes, children, non-randomised designs, conference abstracts."
+      records: |
+        R1. Aerobic training for 12 weeks and HbA1c in adults with type 2 diabetes: a randomised controlled trial. Abstract: 120 adults with T2D randomised to supervised aerobic exercise or usual care for 12 weeks; HbA1c fell 0.5% more with exercise.
+        R2. Resistance exercise in adolescents with type 1 diabetes. Abstract: 40 adolescents aged 13-17 with T1D completed a 10-week programme; glycaemic control improved.
+        R3. Exercise habits among adults with diabetes: a cross-sectional survey. Abstract: 2,300 adults surveyed about physical activity and self-reported glucose control.
+        R4. Effects of an exercise intervention on glycaemic control. Abstract not available.
+    assert:
+      - {type: contains-all, value: ["R1", "R2", "R3", "R4", "## Counts"]}
+      - {type: llm-rubric, value: "Includes R1; excludes R2 for population (type 1 diabetes or children) with a single reason; excludes R3 for study design; marks R4 as uncertain because the abstract is missing and lists it for the second reviewer; counts add up to four records."}
+  - name: edge-duplicate-and-ambiguous
+    vars:
+      criteria: "Include: randomised trials of mindfulness-based interventions for anxiety in university students. Exclude: non-students, non-randomised designs."
+      records: |
+        A. Mindfulness for exam anxiety in undergraduates: a randomised trial. Smith J, 2022. Abstract: 200 undergraduates randomised to an 8-week MBSR course or waitlist.
+        B. Mindfulness for exam anxiety in undergraduates: a randomised trial. Smith J, 2022. Abstract: 200 undergraduates randomised to an 8-week MBSR course or waitlist.
+        C. A mindfulness app for young people's anxiety: a controlled study. Abstract: 150 participants aged 18-25 recruited online were allocated to the app or control.
+    assert:
+      - {type: llm-rubric, value: "Flags A and B as likely duplicates rather than screening both as separate studies, and marks C as uncertain (students not stated, allocation method unclear) with what the full text needs to show, rather than excluding it."}
+  - name: negative-no-memory-screening
+    vars:
+      criteria: "Include: cohort studies on shift work and breast cancer risk in women."
+      records: "Schernhammer ES et al. Rotating night shifts and risk of breast cancer in women participating in the nurses' health study. (no abstract)"
+    assert:
+      - {type: llm-rubric, value: "Does not decide based on remembered knowledge of the paper; judges only from the title given, marks it as include or uncertain for full-text check rather than excluding it, and notes the missing abstract."}
