@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a DAX measure for: {{definition}}. Model: {{data_model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-yoy-and-margin
+    vars:
+      definition: "Gross margin % and its change versus the same period last year, in percentage points. Gross margin = (revenue − cost) / revenue. Exclude returned order lines."
+      data_model: "Sales fact (OrderDate, ProductKey, CustomerKey, Quantity, NetRevenue, Cost, IsReturned TRUE/FALSE). Date table 'Date' marked as date table, related to Sales[OrderDate] one-to-many single direction. Product and Customer dimensions."
+    assert:
+      - {type: icontains, value: "SAMEPERIODLASTYEAR"}
+      - {type: llm-rubric, value: "Builds base measures for revenue and cost that filter out returned lines, a margin % measure using DIVIDE, a prior-year margin using SAMEPERIODLASTYEAR or DATEADD with the Date table, and a change in percentage points (not percent change); uses VAR/RETURN; explains filter context in plain language; and provides a tiny test dataset with expected results."}
+  - name: edge-no-date-table
+    vars:
+      definition: "Rolling 90-day active customers as of each date: customers with at least one order in the 90 days ending on that date."
+      data_model: "Orders table (OrderID, CustomerID, OrderDate). No date table. Customers table related one-to-many to Orders."
+    assert:
+      - {type: llm-rubric, value: "Flags the missing date table and provides one (for example CALENDAR or CALENDARAUTO as a calculated table) to be marked and related to Orders[OrderDate]; writes a rolling 90-day distinct count measure using DATESINPERIOD or an equivalent filter with the last visible date; and explains the total row behaviour."}
+  - name: negative-ambiguous-definition
+    vars:
+      definition: "Customer count."
+      data_model: "Sales fact with CustomerKey and OrderDate; Customer dimension with all customers including prospects; Date table."
+    assert:
+      - {type: llm-rubric, value: "Asks whether customer count means customers in the dimension, customers with orders in the selected period, or another definition, and which date drives it, or presents both measures clearly labelled; does not silently pick one interpretation."}

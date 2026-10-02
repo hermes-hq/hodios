@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a monthly business review from these numbers: {{metrics}}. Plan: {{plan_targets}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-month
+    vars:
+      metrics: |
+        September 2026 (Aug 2026 / Sep 2025):
+        New MRR 84k (91k / 70k); Churned MRR 31k (22k / 25k); Net new MRR 53k (69k / 45k)
+        Ending MRR 2.41m (2.357m / 1.90m)
+        Gross margin 78% (79% / 76%)
+        Support CSAT 4.3 (4.5 / 4.4)
+        Headcount 212 (205 / 160)
+      plan_targets: "Sep plan: New MRR 90k, Churned MRR 24k, Ending MRR 2.43m, Gross margin 78%. FY (Dec) plan ending MRR 2.62m."
+      context: "One enterprise customer (11k MRR) churned after an acquisition. Support backlog grew after a release on Sep 9. Two senior AEs started in September."
+    assert:
+      - {type: contains, value: "## Decisions needed"}
+      - {type: llm-rubric, value: "Shows a scorecard with correct variances (New MRR −6k or −6.7% vs plan; Churned MRR 7k over plan; Ending MRR 20k or about 0.8% below plan; gross margin on plan); states the status rule and inverts it for churn; separates the 11k acquisition churn as a one-off (churn excluding it is 20k, below plan); links the CSAT drop to the release backlog as reported context; gives a year-end outlook against 2.62m with a stated method; and lists decisions with owners."}
+  - name: edge-no-plan
+    vars:
+      metrics: "Orders 12,400 (Aug 13,100; Sep last year 10,900). Average order value 48.20 (47.90; 45.10). Returns rate 6.1% (5.2%; 5.0%)."
+      plan_targets: ""
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "States that plan comparison is not possible and compares against the previous month and last year instead; computes changes correctly (orders −5.3% month on month, +13.8% year on year; returns up 0.9 pp month on month); flags the returns increase as the main concern with cause not confirmed; and does not invent targets or causes."}
+  - name: negative-single-number
+    vars:
+      metrics: "Revenue was 1.2m."
+      plan_targets: ""
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that a review needs comparisons (plan, previous month, last year) and metrics by area, lists what to provide, and does not fabricate a full review."}

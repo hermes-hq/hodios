@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write budget variance commentary for: {{budget_vs_actual}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-month-end
+    vars:
+      budget_vs_actual: |
+        September 2026, in thousands (budget / actual):
+        Revenue 1,200 / 1,120
+        Salaries 520 / 488
+        Marketing 150 / 192
+        Software 60 / 61
+        Travel 25 / 9
+        Notes: Marketing — the October trade show deposit (40k) was paid in September. Salaries — two engineering roles budgeted from July are still vacant; hiring expected in December. Revenue — no note.
+      materiality_threshold: "5% and 10k"
+    assert:
+      - {type: contains, value: "Driver to confirm"}
+      - {type: llm-rubric, value: "Computes variances with correct favourable/unfavourable labels (revenue −80k or −6.7% U, salaries −32k F, marketing +42k U, travel −16k F, software immaterial); classifies the marketing variance as timing that reverses in October; classifies the salary saving as permanent until December with a forecast impact of roughly the monthly saving times the remaining vacant months; writes 'Driver to confirm' for revenue with a specific question; and does not invent a revenue driver."}
+  - name: edge-ytd-trend
+    vars:
+      budget_vs_actual: "Office costs: Sep budget 20.0k, actual 21.5k. YTD (Jan-Sep) budget 180k, actual 196k."
+      materiality_threshold: "5% and 10k"
+    assert:
+      - {type: llm-rubric, value: "Notes that September's +1.5k (7.5%) is below the 10k absolute threshold so immaterial for the month, but year to date +16k (8.9%) is material, flags it for commentary with driver to confirm, and estimates the full-year impact with a stated assumption."}
+  - name: negative-missing-budget
+    vars:
+      budget_vs_actual: "Actuals for September: Revenue 900k, Costs 650k. We don't have the budget file handy."
+      materiality_threshold: "5% and 10k"
+    assert:
+      - {type: llm-rubric, value: "Explains that variances cannot be computed without budget figures, asks for the budget by line, and does not invent budget numbers or commentary."}

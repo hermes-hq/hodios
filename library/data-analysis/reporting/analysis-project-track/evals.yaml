@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me analyse this: {{question}}. Data: {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-starts-with-plan
+    vars:
+      question: "Our Head of Sales asked whether the free-trial extension from 14 to 21 days we piloted in Germany since July should roll out to all markets."
+      data_description: "Snowflake tables: trials (trial_id, account_id, country, start_date, trial_length_days), subscriptions (account_id, plan, start_date, mrr), events (account_id, event_name, ts). Data from Jan 2025."
+      audience: "Head of Sales, wants a go or no-go"
+    assert:
+      - {type: contains, value: "Decision rule"}
+      - {type: llm-rubric, value: "Runs only step 1: names the roll-out decision, defines trial-to-paid conversion precisely (including how to treat the 7 extra days so conversion windows are comparable), proposes a comparison that controls for seasonality (for example Germany versus other markets before and after July), states a decision rule in advance, flags that the pilot was not randomised, asks a few stakeholder questions, and stops for approval without producing results."}
+  - name: edge-vague-request
+    vars:
+      question: "Can you look into why revenue is weird lately?"
+      data_description: "Access to the orders table and the finance dashboard."
+    assert:
+      - {type: llm-rubric, value: "Proposes the most likely decision and concrete questions as assumptions to confirm (which revenue, which period, weird compared with what), asks the stakeholder a short prioritised set of questions, and does not jump to analysis."}
+  - name: negative-no-invented-results
+    vars:
+      question: "Skip the planning, just tell me if our new onboarding flow improved 30-day retention."
+      data_description: "I can describe the tables but I can't share the data."
+    assert:
+      - {type: llm-rubric, value: "Does not state any retention numbers or conclusions; explains briefly that it will work from query results the user runs, offers a compressed plan and the exact queries to run, and keeps the decision and metric definition explicit."}
