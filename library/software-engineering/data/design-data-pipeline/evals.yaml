@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design a data pipeline for: {{requirements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-to-warehouse
+    vars:
+      requirements: "Load invoices and payments from a billing provider's REST API into our warehouse for finance dashboards refreshed each morning. Records can be updated for up to 30 days after creation. The API returns 100 records per page and allows 25 requests per second."
+      volume: "About 40,000 new or updated records a day"
+      stack: "Airflow, Snowflake"
+    assert:
+      - {type: contains, value: "## Failure modes"}
+      - {type: llm-rubric, value: "Chooses daily or more frequent batch (not streaming), extracts incrementally by an updated timestamp with an overlap or lookback that covers the 30-day update window, and merges on the record id so reruns do not duplicate rows."}
+      - {type: llm-rubric, value: "Includes a parameterised backfill procedure and monitoring for freshness and volume with thresholds."}
+  - name: edge-true-streaming
+    vars:
+      requirements: "Detect card-testing fraud by flagging any card with more than 5 declined authorisations in 60 seconds, and alert the risk service within 5 seconds."
+      volume: "Peak 30,000 authorisation events per second"
+    assert:
+      - {type: llm-rubric, value: "Chooses streaming with event-time windows, addresses out-of-order events with a watermark or allowed lateness, and partitions or keys the stream by card for the windowed count."}
+      - {type: llm-rubric, value: "Shows sizing arithmetic for 30,000 events per second and labels assumed numbers such as event size."}
+  - name: negative-real-time-not-needed
+    vars:
+      requirements: "We want a real-time pipeline from our Postgres orders table so the sales team can see yesterday's totals in their Monday and Thursday meetings."
+      volume: "5,000 orders a day"
+    assert:
+      - {type: llm-rubric, value: "Points out that the stated consumer only needs daily freshness and recommends a simple scheduled batch load instead of streaming or change data capture."}

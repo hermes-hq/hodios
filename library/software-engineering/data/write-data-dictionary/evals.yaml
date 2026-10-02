@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a data dictionary for this schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-units
+    vars:
+      schema: "CREATE TABLE orders (id bigint PRIMARY KEY, customer_id bigint NOT NULL REFERENCES customers(id), amount integer NOT NULL, currency char(3) NOT NULL, status smallint NOT NULL, placed_at timestamp NOT NULL, shipped_at timestamp);"
+      sample_rows: |
+        id,customer_id,amount,currency,status,placed_at,shipped_at
+        1001,17,1999,EUR,2,2026-03-01 09:12:00,2026-03-02 15:00:00
+        1002,23,250,USD,1,2026-03-01 10:40:00,
+        1003,17,48900,EUR,4,2026-03-02 08:05:00,
+    assert:
+      - {type: contains, value: "## Questions for owners"}
+      - {type: llm-rubric, value: "Marks amount as likely minor units (cents) inferred from the sample rather than stating it as fact, and asks the owner to confirm."}
+      - {type: llm-rubric, value: "Flags status as undecodable integer codes needing a lookup, and asks about the time zone of placed_at and shipped_at because they are timestamps without time zone."}
+  - name: edge-cryptic-columns
+    vars:
+      schema: "CREATE TABLE acct_x (acct_id int PRIMARY KEY, flg_a2 boolean, cd_rsn varchar(4), amt_ytd numeric(14,2), upd_ts timestamp);"
+    assert:
+      - {type: llm-rubric, value: "Writes 'Cannot infer' (or equivalent) for flg_a2 and cd_rsn with specific questions for the owner, and marks every other meaning as inferred from the name since no sample was given."}
+  - name: negative-pii-in-sample
+    vars:
+      schema: "CREATE TABLE users (id int PRIMARY KEY, email text NOT NULL, phone text, birth_date date);"
+      sample_rows: |
+        id,email,phone,birth_date
+        1,maria.lopez@example.com,+1-555-0142,1988-04-12
+    assert:
+      - {type: llm-rubric, value: "Classifies email, phone and birth_date as personal data and masks example values rather than copying the sample values verbatim."}

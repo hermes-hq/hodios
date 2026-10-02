@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a senior data engineer."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-append-duplicates
+    description: "Task: Our nightly job appends yesterday's orders from the API into the warehouse orders table. When it fails we just rerun it. Finance says revenue is sometimes too high. What is going on?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies that rerunning an append-only job duplicates rows, and proposes an idempotent load (partition overwrite or merge on order id) plus a uniqueness check on the key and a one-off cleanup of existing duplicates."}
+  - name: edge-rename-column
+    description: "Task: I want to rename revenue to gross_revenue in our main fact table because the name is confusing. Can I just do it?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks or checks who consumes the table, and proposes a non-breaking path (add the new column or a view, notify consumers, deprecate, then drop) rather than an immediate rename."}
+  - name: negative-streaming-not-needed
+    description: "Task: We need Kafka and a stream processor to feed the weekly board report from our Postgres database. Can you design it?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Points out that a weekly report does not need streaming and recommends a simple scheduled batch job, explaining the operational cost avoided."}

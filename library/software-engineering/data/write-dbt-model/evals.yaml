@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a dbt model for: {{business_logic}}. Sources: {{source_tables}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-daily-customer-revenue
+    vars:
+      business_logic: "Daily revenue per customer: sum of captured payment amounts for orders that are not cancelled, by payment capture date in UTC."
+      source_tables: "Snowflake. shop.orders(id, customer_id, status, created_at), shop.payments(id, order_id, amount_cents, status, captured_at). Loaded by Fivetran with _fivetran_synced."
+      materialization: table
+    assert:
+      - {type: contains, value: "## Files"}
+      - {type: llm-rubric, value: "States the grain as one row per customer per day and tests it with a uniqueness test on the combination of customer and date (naming any package needed) plus not_null tests."}
+      - {type: llm-rubric, value: "Uses source() for the raw tables, filters to captured payments and non-cancelled orders, and declares source freshness using _fivetran_synced."}
+  - name: edge-incremental-late-events
+    vars:
+      business_logic: "One row per app event, enriched with the user's current plan. Events can arrive up to 3 days late."
+      source_tables: "BigQuery. raw.events(event_id, user_id, event_name, event_ts, received_at), raw.users(user_id, plan, updated_at)."
+      materialization: incremental
+    assert:
+      - {type: llm-rubric, value: "Sets unique_key to event_id, filters inside is_incremental() with a lookback of at least 3 days on received_at or event_ts, and chooses an incremental strategy valid on BigQuery (merge or insert_overwrite)."}
+  - name: negative-missing-column
+    vars:
+      business_logic: "Net revenue per order: gross amount minus refunds and discounts."
+      source_tables: "orders(id, customer_id, gross_amount, created_at)"
+      materialization: table
+    assert:
+      - {type: llm-rubric, value: "Notes that refunds and discounts are not in the listed sources and asks where they come from, instead of inventing refund or discount columns."}

@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Design a star schema for these questions: {{business_questions}}. Source tables: {{source_tables}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-region-history
+    vars:
+      business_questions: |
+        - Revenue by product category by month.
+        - Revenue by customer region at the time of the order.
+        - Average order value by acquisition channel.
+      source_tables: "orders(id, customer_id, created_at, status, channel), order_items(order_id, product_id, quantity, unit_price_cents, discount_cents), products(id, name, category, updated_at), customers(id, email, region, updated_at) with customer_history(customer_id, region, changed_at)."
+    assert:
+      - {type: contains, value: "## Bus matrix"}
+      - {type: llm-rubric, value: "Declares the sales fact grain as one row per order line and treats order id as a degenerate dimension."}
+      - {type: llm-rubric, value: "Makes customer region a type 2 attribute (using customer_history) so revenue is attributed to the region at order time, and does not store average order value as a summable measure."}
+  - name: edge-balances-snapshot
+    vars:
+      business_questions: |
+        - Average end-of-day account balance by month and product.
+        - Number of accounts with a negative balance each day.
+      source_tables: "accounts(id, product, opened_at), transactions(id, account_id, amount_cents, posted_at)."
+    assert:
+      - {type: llm-rubric, value: "Proposes a periodic snapshot fact at one row per account per day, derived from transactions, and explains that the balance is semi-additive (not summed across days)."}
+  - name: negative-unanswerable-question
+    vars:
+      business_questions: |
+        - Revenue by month.
+        - Return on ad spend by campaign.
+      source_tables: "orders(id, customer_id, total_cents, created_at)."
+    assert:
+      - {type: llm-rubric, value: "Flags that ad spend and campaign attribution are not in the sources, lists it under source gaps, and does not invent campaign or spend columns."}

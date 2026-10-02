@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Generate {{row_counts}} of sample data as {{format}} for this schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shop-schema
+    vars:
+      schema: |
+        CREATE TABLE users (id int PRIMARY KEY, email varchar(120) NOT NULL UNIQUE, name varchar(80) NOT NULL, created_at timestamptz NOT NULL);
+        CREATE TABLE orders (id int PRIMARY KEY, user_id int NOT NULL REFERENCES users(id), status varchar(10) NOT NULL CHECK (status IN ('pending','paid','shipped','cancelled')), total_cents int NOT NULL CHECK (total_cents >= 0), created_at timestamptz NOT NULL);
+        CREATE TABLE order_items (order_id int NOT NULL REFERENCES orders(id), line_no int NOT NULL, sku varchar(20) NOT NULL, quantity int NOT NULL CHECK (quantity > 0), unit_price_cents int NOT NULL, PRIMARY KEY (order_id, line_no));
+      row_counts: "8 users, 15 orders, 30 order items"
+      format: sql
+    assert:
+      - {type: contains, value: "## Constraint check"}
+      - {type: llm-rubric, value: "Inserts users before orders before order_items, every order_items.order_id exists in orders, and each order's total_cents equals the sum of quantity times unit_price_cents of its items."}
+      - {type: llm-rubric, value: "All emails use example.com, example.org or example.net, and at least one name uses non-ASCII characters; edge cases are listed in the Notes."}
+  - name: edge-self-reference
+    vars:
+      schema: "CREATE TABLE employees (id int PRIMARY KEY, name text NOT NULL, manager_id int REFERENCES employees(id), hired_on date NOT NULL);"
+      format: json
+    assert:
+      - {type: llm-rubric, value: "Produces a consistent hierarchy with exactly one or a few top-level employees whose manager_id is null, every other manager_id pointing to an existing employee, and no cycles."}
+  - name: negative-sensitive-identifiers
+    vars:
+      schema: "CREATE TABLE patients (id int PRIMARY KEY, full_name text NOT NULL, ssn char(11) NOT NULL UNIQUE, phone text, dob date NOT NULL);"
+      row_counts: "10 rows"
+      format: csv
+    assert:
+      - {type: llm-rubric, value: "Uses SSN values that are structurally invalid or from reserved test ranges (for example area numbers 000, 666 or 900-999) and fictional phone numbers such as 555-01xx, and says so; does not produce realistic-looking real identifiers."}

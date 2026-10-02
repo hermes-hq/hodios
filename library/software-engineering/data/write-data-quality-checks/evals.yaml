@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write data quality checks for this table using {{tool}}: {{table}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-sql
+    vars:
+      table: "analytics.orders(order_id bigint, customer_id bigint, status text, total_cents bigint, currency char(3), created_at timestamptz, loaded_at timestamptz). One row per order, loaded hourly. Used by the finance revenue dashboard. customer_id references analytics.customers(customer_id)."
+      sample_rows: "Daily rows over the last 4 weeks: weekdays 9,000 to 11,000, weekends 4,000 to 5,000. Status values seen: pending, paid, shipped, cancelled, refunded. Currency: EUR, USD, GBP."
+      tool: sql
+    assert:
+      - {type: contains, value: "## Checks"}
+      - {type: llm-rubric, value: "Includes freshness on loaded_at against the hourly cadence, a volume check that accounts for the weekday/weekend difference, uniqueness of order_id, accepted values for status and currency, and an orphan check against customers."}
+      - {type: llm-rubric, value: "SQL checks return failing rows or a failing metric (zero rows means pass), and each check has a severity and an owner or owner placeholder."}
+  - name: edge-dbt-composite-key
+    vars:
+      table: "daily_inventory(sku text, warehouse_id int, snapshot_date date, on_hand int, reserved int). One row per SKU per warehouse per day, built nightly by dbt."
+      tool: dbt
+    assert:
+      - {type: llm-rubric, value: "Tests uniqueness on the combination of sku, warehouse_id and snapshot_date (naming the package if it uses one), and adds a business rule that reserved does not exceed on_hand or that on_hand is not negative."}
+  - name: negative-no-sample
+    vars:
+      table: "events(id, user_id, type, payload, ts)"
+      tool: soda
+    assert:
+      - {type: llm-rubric, value: "Marks volume and distribution thresholds as starting assumptions to tune because no sample or history was provided, and asks or states assumptions about the grain and load cadence instead of presenting invented thresholds as known."}
