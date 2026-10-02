@@ -1,0 +1,40 @@
+schema: 1
+baseline: "What are the risks of shipping this change? {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-not-null-column
+    vars:
+      deployment: "Rolling deploy to 20 instances; migrations run before the new code starts."
+      diff: |
+        --- /dev/null
+        +++ b/db/migrations/0042_add_region.sql
+        @@ -0,0 +1 @@
+        +ALTER TABLE orders ADD COLUMN region TEXT NOT NULL;
+        --- a/src/orders/repo.ts
+        +++ b/src/orders/repo.ts
+        @@ -10,7 +10,7 @@ export async function createOrder(o: NewOrder) {
+        -  await db.query('INSERT INTO orders (id, total) VALUES ($1, $2)', [o.id, o.total]);
+        +  await db.query('INSERT INTO orders (id, total, region) VALUES ($1, $2, $3)', [o.id, o.total, o.region]);
+         }
+    assert:
+      - {type: contains, value: "## Risk level"}
+      - {type: regex, value: "0042_add_region\\.sql"}
+      - {type: llm-rubric, value: "Explains that adding a NOT NULL column without a default fails on existing rows or breaks inserts from instances still running the old code during the rolling deploy, and proposes an expand-then-contract migration (nullable or default first, backfill, then constraint)."}
+  - name: edge-empty-diff
+    vars: {diff: ""}
+    assert:
+      - {type: llm-rubric, value: "Says there is no diff to assess and asks for it, without inventing risks."}
+  - name: negative-docs-only
+    vars:
+      diff: |
+        --- a/README.md
+        +++ b/README.md
+        @@ -3,3 +3,3 @@
+        -Run `npm start` to launch the server.
+        +Run `npm run dev` to launch the server in watch mode.
+    assert:
+      - {type: regex, value: "## Risk level\\s*\\n+\\s*`?low"}
+      - {type: llm-rubric, value: "Rates the risk as low and does not invent production risks for a documentation-only change."}
