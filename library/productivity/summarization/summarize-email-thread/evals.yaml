@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Summarise this email thread: {{thread}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplier-thread
+    vars:
+      thread: "Mon 3 Mar, Lena (client): We need 500 units by 28 March. Can you confirm the price of EUR 12 per unit?\nTue 4 Mar, Omar (supplier): Confirmed EUR 12 for 500 units. Delivery 28 March is tight; I'll confirm with the factory by Friday.\nTue 4 Mar, Lena: Thanks. Also need the safety certificate before we can sign.\nMon 10 Mar, Lena: Omar, any update on the factory?\nTue 11 Mar, Omar: Factory can do 2 April, not 28 March. Price goes to EUR 12.50 if you want express to keep 28 March.\nTue 11 Mar, Jon (client finance): Looping in. We can't go above EUR 12."
+      my_role: "I'm Lena's manager, just added; I need to decide what to do."
+    assert:
+      - {type: contains, value: "## Who owes what"}
+      - {type: llm-rubric, value: "States the current position (28 March only at EUR 12.50, otherwise 2 April at EUR 12; finance caps price at EUR 12), marks the original 28 March at EUR 12 as no longer on offer, lists the safety certificate as still owed by Omar with no date given, notes Omar's factory confirmation came later than the Friday he promised, and tells the manager the decision they face."}
+  - name: edge-partial-agreement
+    vars:
+      thread: "Ana: Proposal: we move the team offsite to 14 June. Please reply if that works. Ben: Works for me! Carla: (no reply) Dev: I'm on holiday 10-16 June."
+    assert:
+      - {type: llm-rubric, value: "Does not report 14 June as agreed: only Ben agreed, Carla has not replied, and Dev is unavailable; lists this as an open question."}
+  - name: negative-not-a-thread
+    vars:
+      thread: "Write me a polite follow-up email to a client."
+    assert:
+      - {type: llm-rubric, value: "Says the input is not an email thread and asks for the thread, rather than inventing one."}

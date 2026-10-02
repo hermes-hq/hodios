@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Summarise this meeting: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-sync
+    vars:
+      transcript: "[00:01] Ana: Let's go. First, the launch date. Engineering says we can do the 14th.\n[00:02] Raj: The 14th works if QA gets the build by the 7th. I'll make sure they have it by the 7th.\n[00:03] Ana: OK, so we're agreed on the 14th. Next, pricing. Should we do a discount for early users?\n[00:04] Mei: I think 20 percent for three months.\n[00:05] Ana: Let's not decide today, I want to see the numbers. Mei, can you model it?\n[00:05] Mei: Sure, by Friday.\n[00:06] Raj: One worry, the payments provider migration might slip.\n[00:07] Ana: Someone should check with the payments team.\n[00:08] Ana: OK, that's it."
+    assert:
+      - {type: contains, value: "## Action items"}
+      - {type: llm-rubric, value: "Records the 14th launch as a decision (conditional on QA getting the build by the 7th), Raj delivering the build to QA by the 7th and Mei modelling the discount by Friday as actions with owners, the discount as an open question not a decision, and the payments check as unassigned, with the migration slip as a risk."}
+  - name: edge-reversal-and-garbled
+    vars:
+      transcript: "Tom: We'll go with vendor A. Sara: Wait, vendor A's contract has the 3-year lock-in. Tom: Right, then let's hold and compare with vendor B. Sara: I'll get vendor B's quote, um, by the fifteenth or the fiftieth, whatever. Tom: Budget is one point two million, max."
+      audience: executives who missed it
+    assert:
+      - {type: llm-rubric, value: "Does not report vendor A as decided because the decision was reversed to hold and compare, records Sara getting vendor B's quote with the date marked unclear (likely the 15th), keeps the 1.2 million budget cap, and leads with what matters to executives."}
+  - name: negative-not-a-transcript
+    vars:
+      transcript: "Can you write me a meeting summary template?"
+    assert:
+      - {type: llm-rubric, value: "Says the input is not a meeting transcript and asks for one (or offers the template separately), rather than inventing meeting content."}

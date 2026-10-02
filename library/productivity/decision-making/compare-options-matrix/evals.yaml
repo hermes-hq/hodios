@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me choose between these options: {{options}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-job-offers
+    vars:
+      options: "Offer A: EUR 78k, fully remote, senior engineer at a 40-person startup, 6 months runway left. Offer B: EUR 70k, hybrid 2 days in office (35 min commute), staff engineer at a stable mid-size company, strong mentoring. Offer C: EUR 85k, 5 days in office (1h10 commute), senior engineer at a bank, slow-moving team."
+      criteria: "Salary matters a lot, growth matters a lot, must not be 5 days in office, stability somewhat, commute less."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Sets aside Offer C under the must-have before scoring, gives weights summing to 100 that reflect the stated priorities, anchors scores with a guide, flags the startup's 6-month runway under stability, shows correct weighted totals, finds how much a weight would need to change to flip A versus B, and gives a recommendation with a gut check."}
+  - name: edge-no-criteria
+    vars:
+      options: "Rent a 2-bed flat in the city centre for EUR 1,600/month, or a 3-bed house 25 km out for EUR 1,250/month plus a second car."
+    assert:
+      - {type: llm-rubric, value: "Proposes distinct criteria and starting weights labelled as proposals for the user to adjust, accounts for the second car's cost, marks uncertain scores, and still completes the matrix with sensitivity analysis."}
+  - name: negative-single-option
+    vars:
+      options: "Should I take the job at Acme?"
+    assert:
+      - {type: llm-rubric, value: "Asks for the alternatives (including staying put or doing nothing) and what matters before building a matrix, rather than scoring a single option."}

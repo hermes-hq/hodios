@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Summarise this document: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-policy-with-purpose
+    vars:
+      document: "Remote Work Policy v3. 1. Scope: applies to all permanent staff after probation (6 months). 2. Eligibility: roles marked hybrid-eligible may work remotely up to 3 days per week; managers may approve exceptions for up to 8 weeks per year. 3. Equipment: the company provides a laptop and a one-off home office allowance of EUR 400; internet costs are not reimbursed. 4. Security: work must not be done on public Wi-Fi without the company VPN. 5. Review: the policy may be revised after the pilot in two regions concludes in Q2; early pilot data suggests productivity was unchanged in those regions."
+      purpose: "Decide whether I can work from Portugal for two months next summer"
+      length: standard
+    assert:
+      - {type: contains, value: "## Numbers that matter"}
+      - {type: llm-rubric, value: "Keeps the figures exact (6 months probation, 3 days per week, 8 weeks exceptions, EUR 400), relates the purpose to the 8-week manager-approved exception while noting the policy does not address working from another country, keeps 'may be revised' and 'suggests' hedged, and points to section numbers."}
+  - name: edge-short-length
+    vars:
+      document: "Annual report summary: revenue grew 12% to USD 48.2 million; operating margin fell from 14% to 9% due to one-off restructuring costs of USD 3.1 million; the board proposes a dividend of USD 0.40 per share, subject to shareholder approval in May."
+      length: short
+    assert:
+      - {type: llm-rubric, value: "Outputs only the one line and key points, keeps figures exact, attributes the margin fall to the one-off restructuring as the document says, and treats the dividend as proposed and subject to approval, not decided."}
+  - name: negative-no-overclaiming
+    vars:
+      document: "Our pilot of a four-day week in 3 teams (n=41) found self-reported wellbeing scores rose 18%. Output metrics were not measured consistently across teams. We believe this may indicate the approach could work company-wide, but further study is needed."
+      length: standard
+    assert:
+      - {type: llm-rubric, value: "Does not claim the four-day week improves productivity or works company-wide; keeps the small sample, self-reported measure, inconsistent output metrics and 'may'/'could' hedges, and flags the evidence gap."}
