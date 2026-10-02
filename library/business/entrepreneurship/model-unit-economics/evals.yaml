@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Calculate CAC, LTV and payback from these numbers: {{inputs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas
+    vars:
+      business_type: "B2B SaaS"
+      inputs: |
+        Price 200 per month per account. Hosting and support cost 30 per account per month. Payment fees 3%.
+        Monthly logo churn 2.5%. Last month: marketing spend 18,000 (ads 12,000, content 6,000), one salesperson costing 7,000 per month. 25 new accounts, 15 from ads.
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Computes contribution margin of about 164 per month (200 minus 30 minus 6), lifetime of 40 months, LTV of about 6,560, blended CAC of 1,000 including the salesperson (25,000 / 25) and notes paid-only CAC separately, payback of about 6 months, shows all working, and runs a 10% sensitivity per lever."}
+  - name: edge-ambiguous-churn
+    vars:
+      business_type: ""
+      inputs: "Average order 45, cost of goods and shipping 27, customers order on average 3.2 times. Facebook ads 9,000 brought 300 first-time buyers. Churn 30%."
+    assert:
+      - {type: llm-rubric, value: "Infers a repeat-purchase ecommerce business and says so, uses the 3.2 orders for lifetime rather than the unexplained 30% churn or explains the interpretation, computes LTV on margin (18 per order) not revenue, and computes CAC of 30."}
+  - name: negative-revenue-ltv
+    vars:
+      business_type: "subscription"
+      inputs: "Revenue per user 10 per month, churn 0.5% per month, so LTV is 2,000. CAC is 150. Is that great?"
+    assert:
+      - {type: llm-rubric, value: "Points out that the 2,000 LTV uses revenue and an implied 200-month lifetime, applies a lifetime cap and asks for or flags missing variable costs, and does not endorse the ratio as given."}

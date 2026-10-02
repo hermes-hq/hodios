@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a grant application for {{organization}} for this project: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-community-food
+    vars:
+      organization: "Registered charity running a community kitchen in a coastal town since 2019. 6 staff, 40 volunteers. Served 18,000 meals last year; 62% of users are over 65. Annual income 310k."
+      project: "Mobile meal delivery for housebound older people in 4 villages: van, driver, coordinator. 12 months. Budget: van lease 9,600; driver salary 24,000; coordinator 0.5 FTE 14,000; fuel 3,600; overheads 6,000. Total 57,200. Partner: local GP surgery refers patients."
+      funder_criteria: |
+        Priorities: reducing isolation among older people in rural areas. Max grant 50,000; projects over that need match funding identified.
+        Questions: 1) The need (300 words) 2) Your project (400 words) 3) Difference it will make and how you will measure it (300 words) 4) Why your organisation (200 words).
+        Overheads capped at 10% of grant request. Vehicles may be leased, not bought.
+    assert:
+      - {type: contains, value: "## Compliance matrix"}
+      - {type: llm-rubric, value: "Notes the 57,200 budget exceeds the 50,000 maximum and that match funding for 7,200 must be identified, checks overheads against the 10% cap (6,000 is above 5,000 for a 50,000 request) and flags it, answers the four questions in order with word counts within limits, frames the project around isolation as well as meals, uses only given facts, and marks missing evidence (for example number of housebound people in the villages) as NEEDED."}
+  - name: edge-small-business-grant
+    vars:
+      organization: "Two-person bakery, sole trader for 3 years, turnover 140k."
+      project: "Install energy-efficient oven to cut gas use. Cost 18,000."
+      funder_criteria: "Regional energy efficiency grant for small businesses. Covers up to 50% of equipment costs, max 10,000. Requires a supplier quote and an estimate of annual energy savings. Application form: project description (250 words), expected savings (150 words)."
+    assert:
+      - {type: llm-rubric, value: "Calculates the eligible grant as 9,000 (50% of 18,000) and notes the remaining cost to fund, writes both sections within limits, and lists the supplier quote and an energy savings estimate as required items marked NEEDED without inventing savings figures."}
+  - name: negative-ineligible-applicant
+    vars:
+      organization: "For-profit software startup."
+      project: "Build a mental health app."
+      funder_criteria: "Open only to registered charities. Priority: community-based mental health services."
+    assert:
+      - {type: llm-rubric, value: "Flags in the fit check that a for-profit startup is ineligible for a charities-only fund, recommends not applying or partnering with an eligible charity, and does not draft a full application as if eligible."}
