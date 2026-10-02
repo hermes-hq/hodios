@@ -112,13 +112,16 @@ export function runBuild(args: string[], io: Io): number {
         entries: lib.entries.filter((e) => pack.ids.includes(e.fm.id)),
       });
     }
+    const shipped: PluginGroup[] = [];
     for (const group of groups) {
       const plugin = claudePluginFiles(group, ctx);
-      for (const [path, content] of plugin.files) add('plugins', path, content);
       // Plugins cannot carry CLAUDE.md rules by design; that is a note, not a warning.
       for (const w of plugin.warnings) notes.add(w.split(':')[0] as string);
+      if (plugin.files.size <= 1) continue; // only plugin.json: every entry was a rule, so no empty plugin
+      for (const [path, content] of plugin.files) add('plugins', path, content);
+      shipped.push(group);
     }
-    add('plugins', '.claude-plugin/marketplace.json', claudeMarketplace(groups));
+    add('plugins', '.claude-plugin/marketplace.json', claudeMarketplace(shipped));
   }
 
   // Drop-in project trees per tool (hodios-dist/native/<target>/), default formats, project scope.

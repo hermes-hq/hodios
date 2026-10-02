@@ -86,6 +86,17 @@ describe('hodios build', () => {
     expect(bundle.items.map((i) => i.id)).toEqual(expect.arrayContaining(EXAMPLES));
   });
 
+  it('lists only plugins that ship something besides plugin.json', () => {
+    const market = JSON.parse(readFileSync(join(out, '.claude-plugin/marketplace.json'), 'utf8')) as {
+      plugins: { name: string; source: string }[];
+    };
+    expect(market.plugins.length).toBeGreaterThan(0);
+    for (const plugin of market.plugins) {
+      const files = walk(join(out, plugin.source));
+      expect(files.filter((f) => !f.endsWith('plugin.json')).length, plugin.name).toBeGreaterThan(0);
+    }
+  });
+
   it('builds every example into every tool that supports its kind', () => {
     for (const target of INSTALL_TARGETS) {
       const files = walk(join(out, 'native', target.id)).join('\n');
