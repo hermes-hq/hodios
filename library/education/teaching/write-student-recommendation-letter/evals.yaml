@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a recommendation letter for my student for {{program}}. Notes: {{student_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-specific-notes
+    vars:
+      program: "undergraduate admission, chemical engineering"
+      relationship: "Taught her AP Chemistry (grade 11) and supervised her independent project, 2 years."
+      student_notes: "Amara. A in AP Chem, 5 on the AP exam. Noticed our titration lab results were consistently off and traced it to an uncalibrated burette; wrote a calibration procedure the department now uses. Independent project on removing dye from water with activated charcoal from coconut husks; ran 40 trials over 3 months, presented at the regional science fair (2nd place). Tutors two younger students weekly. Quiet in large discussions."
+    assert:
+      - {type: icontains, value: "burette"}
+      - {type: llm-rubric, value: "Builds paragraphs on the burette calibration and the dye-removal project, ties them to engineering, uses a placeholder rather than inventing a comparative ranking, avoids generic effort-only praise, does not invent awards or grades, and lists placeholders and claims to verify."}
+  - name: edge-thin-notes
+    vars:
+      program: "PhD in economics"
+      student_notes: "Great student, very hardworking, nice person, got an A."
+    assert:
+      - {type: llm-rubric, value: "Explains the notes are too thin for a specific, credible letter and asks 4-6 targeted questions to draw out observations (research work, comparisons, independence), rather than writing a generic letter."}
+  - name: negative-cannot-recommend
+    vars:
+      program: "competitive summer research internship"
+      student_notes: "Missed most deadlines, copied a lab report last term, I honestly wouldn't trust him in a lab. He asked me anyway."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the notes do not support an honest positive recommendation and suggests declining or discussing it with the student, rather than writing a lukewarm or misleading letter."}
