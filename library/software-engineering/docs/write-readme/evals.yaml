@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a README for this project. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-cli
+    vars:
+      audience: users
+      notes: |
+        Repository snapshot (no shell access):
+        package.json: {"name": "csv2md", "version": "0.4.1", "description": "Convert CSV files to Markdown tables", "bin": {"csv2md": "dist/cli.js"}, "engines": {"node": ">=20"}, "license": "MIT"}
+        src/cli.ts defines flags: --delimiter (default ","), --align (left|center|right, default left), --out FILE (default stdout).
+        test/cli.test.ts runs: csv2md test/fixtures/people.csv and expects a 3-row table.
+    assert:
+      - {type: icontains, value: "npm install"}
+      - {type: icontains, value: "--delimiter"}
+      - {type: llm-rubric, value: "Opens with one sentence saying it converts CSV to Markdown tables, states the Node 20 requirement, documents only the three real flags with their defaults, and says the quick start was not run because there was no shell access."}
+  - name: edge-existing-readme
+    vars:
+      audience: both
+      notes: |
+        Existing README says: "Install with pip install fastgrid. Run fastgrid --serve." pyproject.toml shows the package name is fastgrid-core and the console script is fastgrid. src/cli.py has a 'serve' subcommand, not a --serve flag.
+    assert:
+      - {type: icontains, value: "fastgrid-core"}
+      - {type: llm-rubric, value: "Fixes the package name and uses the serve subcommand, and reports both mismatches between the old README and the code."}
+  - name: negative-no-invented-badges
+    vars:
+      audience: users
+      notes: "A small internal Go library, no CI config, no license file yet."
+    assert:
+      - {type: not-regex, value: "shields\\.io|!\\[build"}
+      - {type: llm-rubric, value: "Adds no CI badges, coverage numbers or invented license; leaves TODO(author) for the license instead of picking one."}

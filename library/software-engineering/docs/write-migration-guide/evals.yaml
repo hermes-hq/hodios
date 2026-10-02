@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a migration guide from {{from_version}} to {{to_version}}. {{changes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-renamed-options
+    vars:
+      from_version: "3.x"
+      to_version: "4.0"
+      changes: |
+        - createClient({ url, timeout }) became createClient({ baseUrl, timeoutMs }). timeout was in seconds, timeoutMs is in milliseconds.
+        - Node 18 support dropped; minimum is Node 20.
+        - client.get() now throws HttpError on non-2xx instead of resolving with { ok: false }.
+    assert:
+      - {type: contains-all, value: ["## Breaking changes", "## Verify the upgrade"]}
+      - {type: llm-rubric, value: "Warns that timeout seconds must be multiplied by 1000 for timeoutMs, gives before and after code for createClient and for error handling around client.get, and lists Node 20 under Before you start."}
+  - name: edge-non-breaking-in-notes
+    vars:
+      from_version: "1.8"
+      to_version: "2.0"
+      changes: |
+        - Added a new optional `retries` option (default 0, same behaviour as before).
+        - Removed the `legacyMode` flag.
+    assert:
+      - {type: llm-rubric, value: "Treats only the legacyMode removal as breaking and does not present the new optional retries option as a breaking change."}
+  - name: negative-no-invented-apis
+    vars:
+      from_version: "5.2"
+      to_version: "6.0"
+      changes: "The release notes only say: 'Rewrote the plugin system.'"
+    assert:
+      - {type: llm-rubric, value: "Does not invent new plugin API names or before/after code; says it must inspect the code or diff and marks unknowns with TODO(maintainer)."}
