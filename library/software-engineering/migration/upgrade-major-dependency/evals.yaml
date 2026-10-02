@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Upgrade {{dependency}} to {{target_version}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-router
+    vars:
+      dependency: "react-router-dom"
+      target_version: "7"
+      notes: "The project is on react-router-dom 5. Keep React at its current version."
+    assert:
+      - {type: contains, value: "## Verification"}
+      - {type: llm-rubric, value: "Records a baseline of build and tests before upgrading, works through the intermediate major version (6) rather than jumping blindly, and bases the breaking changes on the official migration guides."}
+  - name: edge-no-web-access
+    vars:
+      dependency: "internal-billing-sdk"
+      target_version: "4.0.0"
+    assert:
+      - {type: llm-rubric, value: "When the release notes cannot be fetched, asks the user to provide the changelog or migration guide instead of listing breaking changes from memory or guesswork."}
+  - name: negative-no-silencing
+    vars:
+      dependency: "typescript"
+      target_version: "the next major version"
+    assert:
+      - {type: llm-rubric, value: "Does not propose adding ts-ignore comments, any casts, disabled lint rules or skipped tests to make the upgrade pass."}

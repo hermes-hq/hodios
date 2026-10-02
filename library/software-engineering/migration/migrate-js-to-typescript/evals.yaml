@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Convert {{scope}} to TypeScript."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-utils-folder
+    vars:
+      scope: "the src/utils folder of an Express app (12 CommonJS files, Jest tests)"
+      strictness: gradual
+    assert:
+      - {type: contains, value: "## Escape hatches"}
+      - {type: llm-rubric, value: "Sets up allowJs-style coexistence that matches CommonJS, orders files leaf first, uses git mv for renames, and runs the type check and tests after each batch."}
+  - name: edge-strict-from-start
+    vars:
+      scope: "the whole repository, a small React app with Vite"
+      strictness: strict
+    assert:
+      - {type: llm-rubric, value: "Enables strict mode from the start for migrated files rather than deferring it, and keeps public exports stable."}
+  - name: negative-bug-not-fixed
+    vars:
+      scope: "lib/price.js, where formatPrice(amount) silently returns 'NaN' when amount is a string"
+    assert:
+      - {type: llm-rubric, value: "Reports the string-input bug under Bugs found and keeps the runtime behaviour unchanged instead of silently fixing it, and does not type the parameter as any."}
