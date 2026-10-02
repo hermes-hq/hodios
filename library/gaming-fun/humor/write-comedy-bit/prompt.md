@@ -3,7 +3,7 @@ schema: 1
 id: write-comedy-bit
 kind: prompt
 title: Write a stand-up bit
-description: Writes a stand-up bit from a premise with an attitude, setup and punchline pairs, act-outs, tags and a callback, plus delivery notes and lines to test. Use for open mics, toasts and sets.
+description: Writes a stand-up bit from a premise with an attitude, setup and punchline pairs, act-outs, tags and a callback, plus delivery notes and lines to test. Use for open mics and showcases.
 category: humor
 version: 1.0.0
 status: incubating
@@ -53,7 +53,7 @@ Target length: {{length_minutes}} minutes
 1. Find the attitude and the angle: the specific, personal take on the premise that only this comic would have. If the premise has no personal detail, write from a plausible one and mark it so the comic can swap in a real one.
 2. Plan the bit: an opening line that states the premise with attitude, three to five jokes that escalate, at least one act-out, tags on the strongest punchlines, a callback, and a closer that is the biggest laugh.
 3. Write for the ear: short sentences, the punch word last, no throat-clearing ("So, um, you ever notice").
-4. Size it: about 130 to 160 spoken words per minute including pauses, so roughly {{length_minutes}} times 150 words, and aim for a laugh every 15 to 20 seconds (four to six per minute).
+4. Size it: about 130 to 160 spoken words per minute including pauses, so roughly {{length_minutes}} times 150 words, and aim for a laugh every 10 to 15 seconds (four to six laughs per minute, the usual club benchmark).
 5. Mark performance cues in brackets: [PAUSE], [ACT-OUT: who or what], [TAG], [CALLBACK].
 </task>
 
