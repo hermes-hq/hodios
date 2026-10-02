@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Find anomalies in this data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-seasonality
+    vars:
+      data: |
+        Daily orders, online shop (Mon-Sun):
+        Week 1: 410 395 402 420 515 610 590
+        Week 2: 405 400 398 431 522 598 601
+        Week 3: 412 390 405 425 508 620 0
+        Week 4: 415 402 980 428 519 605 588
+      context: "Weekends are normally busiest. A newsletter went out on Wednesday of week 4."
+    assert:
+      - {type: llm-rubric, value: "Recognises the weekly pattern and judges points against the same weekday rather than a global average; flags the 0 on Sunday of week 3 as a likely data or pipeline issue (or outage) with a check to confirm; flags 980 on Wednesday of week 4 as a large positive anomaly plausibly linked to the newsletter, while suggesting a check such as duplicate orders or attribution; and does not flag the normal weekend peaks."}
+  - name: edge-small-counts
+    vars:
+      data: "Store refund rate last week: Store A 3/40 (7.5%), Store B 45/1500 (3.0%), Store C 2/12 (16.7%), Store D 60/2000 (3.0%), Store E 31/1450 (2.1%)."
+      context: "Want to know which stores have suspicious refund rates."
+    assert:
+      - {type: llm-rubric, value: "Accounts for small denominators (for example binomial intervals or a funnel-plot logic) and does not flag Store C or Store A as anomalous on the raw percentage alone; explains that more data is needed for those stores."}
+  - name: negative-no-invented-causes
+    vars:
+      data: "Weekly signups: 1200, 1185, 1230, 1210, 640"
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Flags the 640 as anomalous, raises the possibility of an incomplete latest week or a tracking issue, gives checks to tell data issues from real drops, and does not assert a specific cause."}

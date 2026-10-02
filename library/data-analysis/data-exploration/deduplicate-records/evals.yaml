@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me remove duplicates from these records using {{tool}}: {{records_sample}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-company-crm
+    vars:
+      tool: "Python"
+      records_sample: |
+        CRM accounts export, 18,000 rows. Columns: id, name, website, phone, city, country, owner, updated_at
+        101, Acme Corp., acme.com, +1 415 555 0101, San Francisco, US, Ana, 2026-03-01
+        102, ACME Corporation, www.acme.com, (415) 555-0101, SF, US, Ben, 2025-11-20
+        103, Acme Corp - London, acme.com, +44 20 7946 0000, London, GB, Ana, 2026-01-15
+        104, Northwind GmbH, northwind.de, , Berlin, DE, Cara, 2026-02-02
+        105, Northwind, northwind.de, +49 30 1234567, Berlin, DE, Ben, 2024-08-30
+    assert:
+      - {type: icontains, value: "crosswalk"}
+      - {type: llm-rubric, value: "Normalises website to a bare domain, strips legal suffixes, normalises phones to E.164 and maps SF to San Francisco; blocks on domain; flags Acme London (103) as a likely separate location or subsidiary that should go to review rather than auto-merge; defines auto-merge, review and non-match bands; gives survivorship rules (for example most recent updated_at); keeps a crosswalk and never deletes source rows; provides working Python using rapidfuzz or similar."}
+  - name: edge-spreadsheet-tool
+    vars:
+      tool: "Google Sheets"
+      records_sample: "Newsletter sign-ups, 3,000 rows: name, email, signup_date. Examples: 'jane doe, Jane.Doe@Gmail.com', 'Jane Doe, janedoe@gmail.com', 'J. Doe, jane.doe@gmail.com '."
+    assert:
+      - {type: llm-rubric, value: "Uses helper columns to normalise email (trim, lowercase) and flag duplicates with COUNTIF or similar; treats Gmail dot-removal as an optional rule to confirm rather than applying it silently; does not try to do full fuzzy matching by formula; and keeps the original rows intact."}
+  - name: negative-unclear-entity
+    vars:
+      tool: "SQL (Postgres)"
+      records_sample: "A table with columns a, b, c, d and 2 million rows. Some are duplicates."
+    assert:
+      - {type: llm-rubric, value: "Asks what a record represents and what the columns contain (or for a sample of rows) before designing match rules, and stops rather than writing generic deduplication SQL."}

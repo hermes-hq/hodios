@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Explain why revenue changed between these periods: {{period_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-products
+    vars:
+      period_data: |
+        Q1: Basic 1,000 units at 10.00 = 10,000; Pro 500 units at 30.00 = 15,000. Total 25,000.
+        Q2: Basic 900 units at 10.00 = 9,000; Pro 700 units at 32.00 = 22,400. Total 31,400.
+      dimensions: "product"
+    assert:
+      - {type: contains, value: "6,400"}
+      - {type: llm-rubric, value: "Shows a bridge from 25,000 to 31,400 that reconciles exactly to +6,400; computes the price effect as 700 × 2 = 1,400; volume effect as (1,600 − 1,500) × 16.67 ≈ 1,667; mix effect ≈ 3,333 (shift toward Pro); states the convention; identifies mix toward Pro as the largest driver."}
+  - name: edge-no-units
+    vars:
+      period_data: "Revenue by region: North 120k to 135k, South 80k to 70k, West 50k to 65k. No unit data."
+      dimensions: "region"
+    assert:
+      - {type: llm-rubric, value: "Explains that price and volume cannot be separated without units or prices, still provides a reconciled regional contribution bridge (+15k, −10k, +15k = +20k), and states what data would allow a full price-volume-mix analysis."}
+  - name: negative-no-invented-causes
+    vars:
+      period_data: "Revenue January 400k, February 360k."
+      dimensions: ""
+    assert:
+      - {type: llm-rubric, value: "States that a single total per period cannot be decomposed, notes February has fewer days as one thing to check, does not invent drivers, and lists the breakdown data needed."}

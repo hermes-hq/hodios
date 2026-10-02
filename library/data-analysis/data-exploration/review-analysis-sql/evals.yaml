@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Review this SQL query: {{query}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fan-out-and-left-join
+    vars:
+      query: |
+        -- Postgres
+        SELECT c.region, SUM(o.amount) AS revenue, COUNT(DISTINCT c.id) AS customers
+        FROM customers c
+        LEFT JOIN orders o ON o.customer_id = c.id
+        LEFT JOIN support_tickets t ON t.customer_id = c.id
+        WHERE o.created_at BETWEEN '2026-09-01' AND '2026-09-30'
+          AND t.priority <> 'low'
+        GROUP BY c.region;
+      schema: "customers(id, region) one row per customer; orders(id, customer_id, amount, created_at timestamptz); support_tickets(id, customer_id, priority)"
+      intended_question: "September 2026 revenue and number of customers per region (business uses Europe/Berlin time)."
+    assert:
+      - {type: contains, value: "## Corrected query"}
+      - {type: llm-rubric, value: "Identifies the fan-out from joining both orders and tickets (revenue multiplied by ticket count); that WHERE filters on o and t turn the LEFT JOINs into inner joins and drop customers without tickets or orders; that the tickets join is irrelevant to the question; that BETWEEN with timestamptz drops September 30 after midnight and ignores the Berlin time zone; and gives a corrected query that aggregates orders separately with a half-open date range converted to Europe/Berlin."}
+  - name: edge-not-in-null
+    vars:
+      query: "SELECT COUNT(*) FROM users WHERE id NOT IN (SELECT referred_user_id FROM referrals);"
+      schema: "referrals.referred_user_id is nullable."
+      intended_question: "Users who were not referred."
+    assert:
+      - {type: llm-rubric, value: "Explains that NOT IN returns no rows when the subquery contains a NULL, so the count may be zero, and rewrites it with NOT EXISTS or a NULL filter; gives a check query counting NULL referred_user_id."}
+  - name: negative-no-data-claims
+    vars:
+      query: "SELECT product_id, AVG(rating) FROM reviews GROUP BY product_id;"
+      schema: ""
+      intended_question: ""
+    assert:
+      - {type: llm-rubric, value: "Infers the likely question and states it as an assumption; notes risks only as conditional (for example duplicate reviews, NULL ratings skipped, products with very few reviews) with check queries, and does not claim the data contains such problems."}

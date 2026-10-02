@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Do a market basket analysis on: {{transactions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-exact
+    vars:
+      tool: "Python"
+      transactions: |
+        10 orders (order: items):
+        1: coffee, filter papers, milk
+        2: coffee, filter papers
+        3: tea, honey
+        4: coffee, milk
+        5: tea, honey, lemon
+        6: coffee, filter papers, shipping
+        7: milk
+        8: coffee, filter papers, milk
+        9: tea, lemon
+        10: coffee, milk
+    assert:
+      - {type: llm-rubric, value: "Excludes shipping as a non-product line; computes exactly from 10 baskets, for example coffee→filter papers support 0.4 (4 baskets), confidence 4/6 ≈ 0.67, lift ≈ 1.67, and tea→honey support 0.2, confidence 2/3, lift ≈ 3.33; shows basket counts; warns that 10 orders is far too small to act on and that thresholds would be count-based on real data; and includes code."}
+  - name: edge-promotion-confound
+    vars:
+      tool: "SQL (BigQuery)"
+      transactions: "orders table (order_id, sku, category, qty, price, promo_id), 2.4M orders over 6 months, 8,000 SKUs. In March we ran a 'buy pasta, get sauce half price' promotion."
+    assert:
+      - {type: llm-rubric, value: "Writes BigQuery SQL for pair co-occurrence with support, confidence and lift; recommends a product level (for example category or subcategory) given 8,000 SKUs; flags that the pasta-sauce promotion inflates that pair in March and suggests excluding the promo period or promo orders; and presents no invented result values."}
+  - name: negative-no-data
+    vars:
+      tool: "Excel"
+      transactions: "We're a bakery. Which products go together?"
+    assert:
+      - {type: llm-rubric, value: "Does not invent product pairs or metrics; explains what transaction data is needed (order ID and item per row) and how to export it, and describes how the analysis would work in Excel or a better tool."}

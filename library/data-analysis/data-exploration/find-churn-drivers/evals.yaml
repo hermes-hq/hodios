@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Find churn drivers. Data: {{customer_data}}. Churn means: {{churn_definition}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-summary-table
+    vars:
+      customer_data: |
+        12-month cohort of 4,000 new monthly subscribers (B2B SaaS). Churned within 6 months:
+        Connected an integration in first 14 days: yes 1,200 customers, 96 churned; no 2,800, 700 churned.
+        Invited a teammate in first 14 days: yes 1,600, 160 churned; no 2,400, 636 churned.
+        Plan: Starter 2,500, 650 churned; Team 1,500, 146 churned.
+        Opened 3+ support tickets in month 1: yes 300, 90 churned; no 3,700, 706 churned.
+        Visited cancellation page: yes 900, 760 churned.
+      churn_definition: "Cancelled or did not renew within 6 months of signup, excluding failed payments."
+    assert:
+      - {type: llm-rubric, value: "Computes churn rates correctly (integration 8% vs 25%; invite 10% vs 26.5%; Starter 26% vs Team 9.7%; tickets 30% vs 19.1%); excludes the cancellation-page visit as leakage; notes plan confounds the behavioural drivers and suggests comparing within plan; uses associational language; and proposes an action plus a test (for example an experiment nudging integrations) for each driver."}
+  - name: edge-ambiguous-definition
+    vars:
+      customer_data: "Mobile fitness app, 50k users, event logs and subscription table, some annual some monthly."
+      churn_definition: "people who leave"
+    assert:
+      - {type: llm-rubric, value: "Proposes a precise churn definition that distinguishes annual from monthly plans, cancellation from inactivity and voluntary from involuntary churn, states it as an assumption, and provides a plan and code rather than invented results."}
+  - name: negative-schema-only
+    vars:
+      customer_data: "Tables: accounts(id, plan, created_at), events(account_id, name, ts), subscriptions(account_id, status, cancelled_at). No data shared."
+      churn_definition: "status = cancelled within 90 days of created_at"
+    assert:
+      - {type: llm-rubric, value: "Delivers a feature plan with a snapshot date to avoid leakage and the SQL or Python to compute churn by driver, and does not present any churn rates or driver results as if computed."}

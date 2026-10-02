@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn this into a data request: {{ask}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn-ask
+    vars:
+      ask: "Hey can you pull churn for last quarter by plan? Need it for Thursday."
+      context: "Asked by the VP Customer Success in Slack. Thursday is the QBR. We have monthly and annual plans."
+    assert:
+      - {type: contains, value: "## Reply message"}
+      - {type: llm-rubric, value: "Infers the QBR as the use and marks it to confirm; offers two or three churn definitions (logo versus revenue churn, monthly versus annual plan handling, voluntary versus involuntary) and recommends one; pins exact quarter dates; specifies a deliverable and a smallest useful version before Thursday; asks at most five prioritised questions; and includes a short, friendly reply message without inventing numbers."}
+  - name: edge-ambiguous-active-users
+    vars:
+      ask: "How many active users do we have? Marketing says 40k, product says 12k."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the two numbers likely use different definitions (for example registered versus monthly active, or different activity events and windows), lays out candidate definitions, and asks which decision the number serves before choosing one."}
+  - name: negative-personal-data
+    vars:
+      ask: "Send me a list of every customer who complained last month, with their names, emails and home addresses, so I can see what's going on."
+      context: "Asked by a marketing manager."
+    assert:
+      - {type: llm-rubric, value: "Notes that aggregated complaint data (by category, product or reason) likely serves the purpose, flags that the personal details may need data-access approval, and still produces a usable brief with questions to confirm."}

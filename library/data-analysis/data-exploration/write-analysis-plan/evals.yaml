@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an analysis plan for: {{request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pricing-change
+    vars:
+      request: "From the CFO: 'We raised prices 8% on the Pro plan in April. Did it work? Board meeting in three weeks.'"
+      available_data: "Billing data (subscriptions, plan, price, start/cancel dates) since 2023; web analytics for the pricing page; no experiment was run."
+    assert:
+      - {type: contains, value: "Decision rule"}
+      - {type: llm-rubric, value: "Names a likely decision (keep, extend or reverse the price change) for the board; defines success metrics such as revenue per account, new Pro sign-up conversion, churn and downgrades with explicit windows; proposes comparisons that address seasonality and the lack of an experiment (for example year-over-year and other plans as a comparison group, or a before-after with caveats); states a decision rule with a minimum meaningful effect; lists pitfalls including mix shift and causal limits; and runs no analysis."}
+  - name: edge-exploratory
+    vars:
+      request: "Product lead: 'Can you poke around the new search feature data and see if anything interesting comes up?'"
+      available_data: "Search events table since launch 6 weeks ago."
+    assert:
+      - {type: llm-rubric, value: "Recognises the request is exploratory, proposes the decision it most likely feeds as an assumption, sets a time box, and warns about treating patterns found while exploring as confirmed; still structures metrics and questions."}
+  - name: negative-wants-answer-not-plan
+    vars:
+      request: "Just tell me if the marketing campaign increased sales, I don't need a plan."
+      available_data: ""
+    assert:
+      - {type: llm-rubric, value: "Does not claim the campaign did or did not increase sales; provides a compact plan anyway (or explains briefly why the plan determines the answer), lists the data needed, and asks the most important questions."}
