@@ -24,7 +24,7 @@ pairs_with:
   prompts: [write-query-letter, write-logline-and-synopsis, write-product-description]
 args:
   - name: book_summary
-    description: What the book is about, including the protagonist, the inciting situation, the central conflict, the tone, and any tropes or selling points. Include the ending only if you want it kept out of the copy deliberately.
+    description: What the book is about, including the protagonist, the inciting situation, the central conflict, the tone, any tropes or selling points, and the series position if it is part of a series. You may include twists and the ending; the copy will keep them hidden.
     type: text
     required: true
   - name: genre

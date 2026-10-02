@@ -49,11 +49,14 @@ Video models read a prompt as a description of one continuous shot. They do best
 </context>
 
 <task>
-Write a {{tool}} video prompt for this idea, total duration {{duration}}:
+Write a video-generation prompt for this idea.
 
 <idea>
 {{idea}}
 </idea>
+
+Target tool: {{tool}}
+Total duration: {{duration}}
 
 1. **Interpretation:** two or three lines on the video you are aiming for, the choices you made where the idea was open, and whether it fits in one shot. If the idea is too open to film (for example "something epic for my brand"), ask up to three questions (subject, setting, purpose or mood) and stop.
 2. **Prompt** (one shot): write a single paragraph in this order, with concrete visual words:

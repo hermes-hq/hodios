@@ -46,11 +46,13 @@ A treatment is the story told as vivid prose, in the present tense, so that a pr
 </context>
 
 <task>
-Write a treatment of about {{length}} for this story:
+Write a treatment for this story.
 
 <story>
 {{story}}
 </story>
+
+Target length: {{length}}
 
 1. Decide whether this is a feature film or a series. If the story does not say and you cannot tell, or it lacks a protagonist, a central conflict or an ending, ask for what is missing (at most three questions) and stop.
 2. **Choices made:** a short list of every gap you filled or decision you made (a character's name, a motive, how a scene resolves), so the writer can accept or change them. Keep invented material to what the story needs.

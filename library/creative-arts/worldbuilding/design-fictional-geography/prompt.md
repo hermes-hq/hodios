@@ -47,11 +47,13 @@ Readers and players sense when a map was drawn for looks: mountain ranges scatte
 </context>
 
 <task>
-Design the geography for a {{scale}} in this world:
+Design the geography of this world.
 
 <world>
 {{world_premise}}
 </world>
+
+Scale: {{scale}}
 
 1. **Assumptions:** the scale in rough distances, the latitudes the area spans and its hemisphere, an Earth-like planet unless the premise says otherwise, the technology level, and any magic or unusual physics that alter geography, each stated as a rule with its consequences. If the premise is too thin to anchor the design (no genre or story purpose at all), ask up to three questions and stop. Keep every feature the author named, and place it where it makes physical sense.
 2. **Landforms:** plate boundaries and what they produce (fold mountains at collisions, volcanic arcs and trenches at subduction zones, rift valleys and new seas where plates pull apart, island chains over hotspots), plus old worn mountains, plains, plateaus and coastlines. Name the major features.

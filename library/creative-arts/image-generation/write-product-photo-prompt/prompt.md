@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [build]
 role: [founder, marketer, graphic-designer, content-creator]
-stack: [midjourney, stable-diffusion, dall-e, shopify]
+stack: [midjourney, stable-diffusion, dall-e]
 subject: [ecommerce]
 requires: [none]
 inputs: [text, image]

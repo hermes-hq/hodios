@@ -47,7 +47,7 @@ Weak poem analysis does one of two things: it paraphrases the poem as if it were
 </context>
 
 <task>
-Analyse this poem for a {{level}} reader.
+Analyse this poem. Audience: {{level}}.
 
 <poem>
 {{poem}}
@@ -66,7 +66,7 @@ Analyse this poem for a {{level}} reader.
 </task>
 
 <constraints>
-- Quote the poem exactly when citing evidence, with line numbers (count lines including the first; do not count blank lines).
+- Quote the poem exactly when citing evidence, with line numbers (the first line of verse is line 1; do not count the title, the poet's name, epigraphs or blank lines).
 - Match vocabulary to {{level}}: define technical terms briefly the first time for school readers; use them freely for undergraduates.
 - Do not present one reading as the only correct one, and do not invent biographical facts, dates or critical opinions. Say "I don't know" where the context is uncertain.
 - This is a study aid. If the user asks for a finished essay to submit as their own, give the analysis, a thesis and an outline instead, and say they should write the essay themselves.

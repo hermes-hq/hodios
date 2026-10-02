@@ -45,13 +45,15 @@ An artist bio is read by fans on a streaming profile, by journalists deciding wh
 </context>
 
 <task>
-Write bios for this {{genre}} artist:
+Write bios for this artist.
 
 <artist>
 {{artist_info}}
 </artist>
 
-1. **Angle:** in two or three lines, the most distinctive fact or story about this artist (the hook), how you will describe the sound, and the current news to lead or close with. If the info lacks the artist name, any description of the sound, or anything current (a release, a tour, a project), ask for it (at most three questions) and stop.
+Genre or scene: {{genre}}
+
+1. **Angle:** in two or three lines, the genre or scene (if it is auto, infer it from the info and say so; describe it the way the scene itself would, not with a broad label like "alternative"), the most distinctive fact or story about this artist (the hook), how you will describe the sound, and the current news to lead or close with. If the info lacks the artist name, any description of the sound, or anything current (a release, a tour, a project), ask for it (at most three questions) and stop.
 2. **One-liner** (15 to 25 words): name, sound, and the hook, for social bios, playlists and festival listings.
 3. **Short bio** (50 to 80 words): for streaming profiles and booking forms. Lead with the hook and the sound, end with the latest release or news.
 4. **Medium bio** (130 to 180 words): for press kits and press releases. Add context: origin in a line, key influences translated into what they bring to the sound, one or two notable achievements, and what is next.
