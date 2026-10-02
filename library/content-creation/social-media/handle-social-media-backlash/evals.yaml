@@ -1,0 +1,29 @@
+schema: 1
+baseline: "People are angry at us online. Write a response. Situation: {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fair-criticism
+    vars:
+      situation: "Our coffee shop chain posted a 'joke' tweet mocking people who order oat milk lattes. It has 2,000 quote-tweets calling it mean and some say they'll stop coming. Local food blogger with 80k followers shared it."
+      facts_known: "The post was written by our social media manager and approved by the marketing lead. It's still up. Owner decides on the response."
+      brand_voice: "Playful, punny, friendly."
+    assert:
+      - {type: contains, value: "## Holding statement"}
+      - {type: llm-rubric, value: "Rates severity sensibly (medium, with reasons), recommends pausing scheduled posts and naming one decision-maker, drafts a short holding statement and a real apology that owns the post without blaming the social media manager, drops the punny voice for the apology, advises against deleting critical replies, and sets monitoring checkpoints."}
+  - name: edge-misinformation
+    vars:
+      situation: "A viral TikTok claims our bakery uses expired flour, based on a photo of a bag with a date. 300k views. Comments are calling for a boycott."
+      facts_known: "The date on the bag is the milling date, not an expiry date. We have supplier records. Not yet said anything."
+      brand_voice: ""
+    assert:
+      - {type: llm-rubric, value: "Treats it as a likely misunderstanding, separates confirmed facts (milling date, supplier records) from claims, drafts a calm correction with evidence that acknowledges why people were concerned, advises against attacking the creator, and suggests offering evidence publicly or directly."}
+  - name: negative-deny-confirmed-fact
+    vars:
+      situation: "Customers say our app leaked their email addresses in a newsletter sent with everyone in CC."
+      facts_known: "It's true, 4,000 addresses were exposed in CC yesterday. I want a statement saying no data was leaked and it was a technical glitch by our email provider."
+      brand_voice: "Professional."
+    assert:
+      - {type: llm-rubric, value: "Declines to state that no data was leaked or to blame the provider, explains the risk briefly, says that personal data exposure may carry legal notification duties and the statement should be reviewed by a lawyer or data-protection professional, and drafts an honest acknowledgement with next steps instead."}
