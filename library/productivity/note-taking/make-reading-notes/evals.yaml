@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Turn these highlights into notes: {{highlights}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-article-obsidian
+    vars:
+      highlights: |
+        Source: "Why meetings fail" (blog essay), author J. Rivera.
+        - "A meeting without a decision to make is a status update that should have been a document." (para 3)
+        - "Most meetings expand to fill the slot they were booked into."
+        - "Attendance should be by contribution, not by courtesy." My comment: we invite 12 people to every planning meeting!
+        - "Write the decision at the top of the agenda as a question."
+        - "Status updates belong in writing so the meeting time can be used for disagreement."
+      app: "Obsidian"
+    assert:
+      - {type: contains, value: "## Map note"}
+      - {type: llm-rubric, value: "Merges the two status-update highlights into one note, writes each note title as a full claim, uses Obsidian-style [[wikilinks]] and tags, cites the source, rewrites the user's comment about inviting 12 people as a first-person My take on the attendance note, and uses a reflective question as My take for notes without a user comment rather than inventing opinions."}
+  - name: edge-missing-source
+    vars:
+      highlights: "- Constraints breed creativity.\n- The first idea is rarely the best one; generate twenty before you judge.\n- Deadlines help only when they are close enough to feel."
+    assert:
+      - {type: llm-rubric, value: "Produces atomic claim-titled notes with Source marked as unknown, mentions once that title and author are missing, and does not invent a source."}
+  - name: negative-empty-highlights
+    vars:
+      highlights: ""
+      app: "Notion"
+    assert:
+      - {type: llm-rubric, value: "Asks for the highlights and does not invent notes."}

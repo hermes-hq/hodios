@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me do my weekly review. Open loops: {{open_loops}} Calendar: {{calendar}} Goals: {{goals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-material
+    vars:
+      open_loops: "reply to landlord about the leak; finish Q3 slides for Thursday; book dentist; Priya said she'd send the vendor quotes last Monday, nothing yet; idea: start a team newsletter; renew passport (expires in 4 months); fix the onboarding doc; call mum"
+      calendar: "Last week: vendor call (promised to send our requirements), 1:1 with Priya. Next week: Mon-Wed 4 hours of meetings a day, Thu 10:00 Q3 review presentation, Fri off."
+      goals: "Ship the Q3 review well; hire a second designer this quarter."
+    assert:
+      - {type: contains, value: "## Capacity check"}
+      - {type: llm-rubric, value: "Gives every open loop a decision, turns multi-step items into projects with verb-first next actions, pulls the follow-up of sending requirements to the vendor from last week, lists the vendor quotes from Priya under waiting for, picks three priorities with the Thursday presentation first, notices Friday is off and Mon-Wed are meeting-heavy, and does a capacity check; does not invent tasks or people."}
+  - name: edge-no-material
+    vars:
+      open_loops: ""
+      calendar: ""
+      goals: ""
+    assert:
+      - {type: llm-rubric, value: "Starts the interactive review: briefly explains the stages, gives a mind-sweep trigger list and asks the user to dump everything, without inventing tasks or running all stages at once."}
+  - name: negative-overcommitted
+    vars:
+      open_loops: "write grant application (about 12 hours); redo website (about 15 hours); prepare board pack (about 8 hours); quarterly taxes (about 3 hours)"
+      calendar: "Next week: 30 hours of fixed meetings and teaching. I work 45 hours."
+      goals: "Get the grant in by next Friday."
+    assert:
+      - {type: llm-rubric, value: "Calculates that about 38 hours of work does not fit in about 15 free hours, says so plainly, keeps the grant as the top priority, and proposes specific items to defer or drop rather than scheduling everything."}
