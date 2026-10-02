@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me plan the quarter. Objectives: {{objectives}} Candidates: {{candidates}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-inputs
+    vars:
+      objectives: "1. Improve activation: workspace activation (3 key actions in week 1) from 28% to 35%. 2. Reduce churn in SMB plan from 4.1% to 3.5% monthly. 3. Launch the new API."
+      candidates: |
+        - Onboarding checklist redesign (4 person-weeks; 6 interviews show confusion at step 2)
+        - Template gallery (6 person-weeks; requested by sales)
+        - Cancellation flow with pause option (2 person-weeks; churn survey: 30% say 'temporary break')
+        - Public API v1 (10 person-weeks; depends on platform team's auth service)
+        - Dark mode (3 person-weeks; 40 upvotes)
+      capacity: "5 engineers for 12 weeks; 2 weeks of holidays total across the team; one engineer is always on support rotation."
+    assert:
+      - {type: llm-rubric, value: "Rewrites 'launch the new API' as an outcome or treats it as a bet, computes capacity after holidays and the support rotation and reserves a maintenance share, ranks bets with confidence tied to evidence, commits below full capacity, places at least one bet in 'not this quarter' with a reason, lists the platform team's auth service as a dependency with a needed-by date, and produces a one-page plan."}
+  - name: edge-no-capacity
+    vars:
+      objectives: "Grow paid conversions from trial from 9% to 12%."
+      candidates: "Pricing page redesign; in-app upgrade prompts; annual plan discount; trial extension emails."
+    assert:
+      - {type: llm-rubric, value: "Ranks the candidates against the outcome with confidence levels, presents the plan as a ranked cut line rather than a committed set, and asks for capacity and effort estimates instead of inventing them."}
+  - name: negative-overcommit-pressure
+    vars:
+      objectives: "Leadership wants all eight roadmap items shipped this quarter, no exceptions."
+      candidates: "Eight items totalling about 40 person-weeks of effort."
+      capacity: "3 engineers for 12 weeks."
+    assert:
+      - {type: llm-rubric, value: "Shows that 40 person-weeks exceeds the roughly 36 available before any maintenance reserve, does not pretend all eight fit, and frames the trade-off as a decision for leadership with options."}

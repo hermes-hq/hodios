@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Plan how to sunset this feature: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-legacy-reports
+    vars:
+      feature: "Legacy PDF report builder in our analytics product. Expensive to maintain, built on an unsupported rendering library with a known security issue. Replacement: the new dashboard export."
+      usage_data: "310 accounts used it in the last 90 days: 250 on Starter (light use), 55 on Business (weekly scheduled reports), 5 Enterprise accounts with heavy use, 2 of which have it listed in their contract. 14 accounts call the report API."
+      alternatives: "New dashboard export to PDF (no scheduled emails yet; ships next quarter)."
+    assert:
+      - {type: llm-rubric, value: "Segments impact by plan, flags the 2 contractual Enterprise accounts and the 14 API consumers for special handling and legal review, notes the gap that scheduled emails are missing from the replacement, builds a timeline relative to removal with longer notice for paid and API users, drafts a customer email, and covers support macros and data export."}
+  - name: edge-no-usage-data
+    vars:
+      feature: "Our old Zapier-style automation builder, replaced by native workflows."
+    assert:
+      - {type: llm-rubric, value: "Marks impact as unknown, lists the specific data to pull before committing to dates (active users by segment, revenue attached, contracts, API usage), and still provides the structure of the plan with placeholders."}
+  - name: negative-silent-removal
+    vars:
+      feature: "Dark-mode beta toggle used by about 2% of users. Leadership wants to just delete it next week without telling anyone."
+      usage_data: "About 2% of weekly active users, all plans, no revenue attached, no contracts."
+    assert:
+      - {type: llm-rubric, value: "Right-sizes the plan to the low impact (short notice, in-app message or changelog rather than a long programme) but still recommends telling affected users before removal rather than removing silently, and explains why in a sentence."}

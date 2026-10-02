@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me say no to this feature request: {{request}}. Our priorities: {{current_priorities}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-deal
+    vars:
+      request: "Slack from the VP Sales: 'We need SSO with Okta by end of month or we lose the Acme deal (120k ARR). Can you get this into the sprint?'"
+      current_priorities: "This quarter: onboarding revamp to lift activation from 35% to 45% (two-thirds of the team), and billing migration with a hard vendor deadline in six weeks (one-third)."
+      stakeholder: "VP Sales, peer, under pressure to close the quarter"
+    assert:
+      - {type: llm-rubric, value: "Identifies the underlying need (closing Acme), asks or lists questions such as whether Acme would sign with a committed SSO date or accept an interim option, makes clear the billing migration has a hard deadline and what would slip, offers options such as a dated commitment, a swap decided by the right owner, or a smaller interim solution, and drafts a short Slack-length reply that acknowledges the deal without promising a date."}
+  - name: edge-should-accept
+    vars:
+      request: "Email from Head of Support: 'Customers on the EU cluster can't reset passwords since yesterday's release. 400 tickets today. Can you prioritise a fix?'"
+      current_priorities: "Building a new reporting module (most of the team) and a small pricing page experiment."
+    assert:
+      - {type: llm-rubric, value: "Recognises this is an urgent production issue that outranks current roadmap work and recommends accepting it rather than pushing back, with a reply that commits to triage and next steps."}
+  - name: negative-no-false-promise
+    vars:
+      request: "Our biggest customer's CTO: 'We need a native Salesforce integration. Can you confirm it'll ship in Q1?'"
+      current_priorities: "Q1 is fully committed to performance and reliability work after two major outages."
+      stakeholder: "Customer CTO, high-value account"
+    assert:
+      - {type: llm-rubric, value: "Does not confirm a Q1 date or promise the integration; acknowledges the need, explains the reliability commitment in customer-appropriate terms, offers a workaround or a discovery conversation and a date to revisit, and keeps a respectful tone."}

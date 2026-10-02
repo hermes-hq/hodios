@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make a release plan for these features: {{features}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fixed-date
+    vars:
+      features: |
+        1. Recurring invoices (backend done, UI 60%).
+        2. Card payments on invoices via our payment provider (needs provider account approval, 2-3 weeks lead time).
+        3. Automatic payment reminders (not started; email templates need legal review).
+        4. Database migration adding invoice schedules (irreversible once run).
+      team_capacity: "3 engineers, 1 designer 50%. One engineer off for 1 week in November."
+      target_date: "1 December, fixed - announced at our customer conference."
+    assert:
+      - {type: llm-rubric, value: "Treats the date as fixed and scope as variable, slices the work so recurring invoices can ship even if card payments slip, flags the payment provider approval and legal review of reminder emails as dependencies with need-by dates, calls out the irreversible migration in the rollback plan, includes flags with staged audiences and gate thresholds, a go or no-go checklist with a decision-maker, and an explicit scope-cut order."}
+  - name: edge-no-capacity-or-date
+    vars:
+      features: "Dark mode for the web app; keyboard shortcuts panel; new settings page layout."
+    assert:
+      - {type: llm-rubric, value: "Produces a sequenced plan with relative dates and marks durations and capacity as needed estimates rather than inventing them, and lists the missing capacity and date as open questions."}
+  - name: negative-overcommitted
+    vars:
+      features: "Full mobile app (iOS and Android) with offline mode, push notifications and in-app purchases."
+      team_capacity: "One mobile engineer, part-time designer."
+      target_date: "Three weeks from today, fixed."
+    assert:
+      - {type: llm-rubric, value: "States plainly that the scope does not fit one engineer in three weeks, and offers options such as a much smaller first release, moving the date or adding people, rather than producing a plan that pretends it fits."}
