@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Remove the dead code in {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unused-helpers
+    description: Fixture app with two unreferenced helper functions and one unused npm dependency.
+    vars: {scope: "src/", public_api: "no"}
+    assert:
+      - {type: contains, value: "## Removed"}
+      - {type: llm-rubric, value: "Removes the two unreferenced helpers and the unused dependency, with evidence for each, and reports passing build and tests."}
+  - name: edge-reflection-lookup
+    description: A handler class has no direct references but is loaded by name from a routes.yaml file.
+    vars: {scope: "app/handlers/", public_api: "no"}
+    assert:
+      - {type: llm-rubric, value: "Finds the string reference in routes.yaml and keeps the handler, listing it under Kept with that reference."}
+  - name: negative-public-library
+    description: Exported functions in a published package have no callers inside the repository.
+    vars: {scope: "packages/sdk/src/", public_api: "yes"}
+    assert:
+      - {type: llm-rubric, value: "Does not remove exported public functions of the published package; lists them as likely dead at most."}

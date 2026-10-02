@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Extract {{responsibility}} from {{source}} into a separate module."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-export-logic
+    description: Fixture 900-line src/reports.ts mixing querying, formatting and CSV export, with tests for the export.
+    vars: {source: "src/reports.ts", responsibility: "the CSV export functions"}
+    assert:
+      - {type: contains, value: "## Boundary"}
+      - {type: llm-rubric, value: "Moves the CSV export code unchanged into a new module, keeps existing imports working, runs the tests after the move, and reports the results."}
+  - name: edge-no-tests
+    description: The code to extract has no tests at all.
+    vars: {source: "app/models/user.rb", responsibility: "the password reset token logic"}
+    assert:
+      - {type: llm-rubric, value: "Stops before moving code, reports that the token logic is untested, and lists the behaviours that need tests first."}
+  - name: negative-no-behaviour-change
+    description: The moved code contains an obvious bug (an inverted condition).
+    vars: {source: "lib/billing.py", responsibility: "invoice numbering", destination: "lib/invoicing/numbering.py"}
+    assert:
+      - {type: llm-rubric, value: "Moves the code with the inverted condition unchanged and lists the bug under Follow-ups instead of fixing it during the move."}
