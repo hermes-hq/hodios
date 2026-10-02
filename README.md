@@ -1,17 +1,22 @@
 <div align="center">
 
-# Hodios
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/banner-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/brand/banner-light.png">
+  <img alt="Hodios: open prompts for every AI tool" src="assets/brand/banner-dark.png" width="100%">
+</picture>
 
 **Hodios — prompts by Hermes IDE**
 
-Open, tested prompts, personas and workflows for every AI coding tool.<br>
-Install one in a single line. Use it anywhere. Free forever.
+Expert prompts, personas and workflows for work, learning, creativity and everyday life — one line to use in any AI tool.<br>
+Open, tested and free forever.
 
 [![check](https://github.com/hermes-hq/hodios/actions/workflows/check.yml/badge.svg)](https://github.com/hermes-hq/hodios/actions/workflows/check.yml)
 [![catalog](https://img.shields.io/github/v/release/hermes-hq/hodios?label=catalog&color=7c3aed)](https://github.com/hermes-hq/hodios/releases)
 [![content: CC0-1.0](https://img.shields.io/badge/content-CC0--1.0-green)](LICENSES/CC0-1.0.txt)
 [![code: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue)](LICENSE)
 [![DCO](https://img.shields.io/badge/contributions-DCO-informational)](CONTRIBUTING.md#sign-off)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-support-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/anhaia)
 
 [Browse the library](https://hermes-ide.com/prompts) · [Install](#install) · [What's inside](#whats-inside) · [Contribute in 5 minutes](CONTRIBUTING.md)
 
@@ -94,6 +99,10 @@ ids.lock                             every released id, append-only
 ```
 
 The compiled install tree lives in [hermes-hq/hodios-dist](https://github.com/hermes-hq/hodios-dist), built by the release bot.
+
+## Support
+
+Hodios is free and always will be. If it saves you time and you'd like to say thanks, you can [buy the maintainer a coffee](https://buymeacoffee.com/anhaia). Stars, good entries and honest bug reports help just as much.
 
 ## License
 
