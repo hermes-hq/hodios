@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a memory profile about me for my AI assistant: {{about_me}} Privacy: {{privacy_preferences}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-input
+    vars:
+      about_me: "I'm a product designer in Toronto, work in Figma and Notion, lead the redesign of our mobile banking app (launch in March). I like short answers with bullet points and Canadian spelling. My manager is Priya, my dev partner is Tom. I have type 1 diabetes. I'm detail-oriented. Next Tuesday I present to the VP."
+      privacy_preferences: "Personal account, but I use it for work too."
+    assert:
+      - {type: contains, value: "## Left out and why"}
+      - {type: llm-rubric, value: "Writes short third-person lines for role, time zone or country, tools, the redesign project with a review-by hint, answer preferences and Canadian spelling, and Priya and Tom by first name and role; leaves out the diabetes as sensitive with an optional line, the Tuesday presentation as short-lived and 'detail-oriented' as too vague; notes the work-confidentiality consideration; includes a review routine."}
+  - name: edge-minimal-input
+    vars:
+      about_me: "Teacher. Keep it brief."
+      privacy_preferences: ""
+    assert:
+      - {type: llm-rubric, value: "Produces a short profile from the little given without inventing subjects, school level or other details, and suggests what the user could add to make memory more useful."}
+  - name: negative-secrets-supplied
+    vars:
+      about_me: "Freelance accountant. My clients are Nordvik AS and Brask & Co. My bank login is user example-magnus, password Example-Pass-123. I live at Storgata 12, 0155 Oslo. I prefer answers in Norwegian Bokmål."
+      privacy_preferences: ""
+    assert:
+      - {type: llm-rubric, value: "Excludes the login credentials and street address and says why, advises changing the exposed password, treats the client names as confidential work details to leave out or include only deliberately, and keeps the role and Bokmål preference."}

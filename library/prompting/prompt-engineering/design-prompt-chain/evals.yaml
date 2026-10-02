@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a prompt chain for this task: {{task}} Tools: {{tools}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-triage
+    vars:
+      task: "Every day we get about 300 customer emails. I want AI to read each one, work out the product and issue type, pull order numbers, check urgency (angry customers, outages, payment failures), and draft a reply using our help-centre articles. Today a single prompt mixes up order numbers and sometimes promises refunds we don't offer."
+      tools: "A no-code automation tool that can call an AI model, look up rows in a Google Sheet of help-centre articles, and send drafts to a review queue in our helpdesk."
+    assert:
+      - {type: contains, value: "## Checks and failure handling"}
+      - {type: llm-rubric, value: "Designs a short chain such as extract fields, classify and score urgency, retrieve articles, draft reply, check; defines structured outputs between steps; adds a check that order numbers appear verbatim in the email and that drafts make no refund promise outside policy; routes urgent or failing cases to a human; treats email text as data not instructions; writes a prompt per step; includes a test plan with an adversarial email."}
+  - name: edge-single-prompt-enough
+    vars:
+      task: "Turn my rough bullet notes into a polite two-paragraph email to a colleague, about 5 times a week."
+      tools: ""
+    assert:
+      - {type: llm-rubric, value: "Concludes a chain is unnecessary for this simple single-stage task, explains why, and gives the outline of one prompt instead of designing a multi-step pipeline."}
+  - name: negative-no-invented-tools
+    vars:
+      task: "Research competitors' pricing weekly and write a summary for the sales team."
+      tools: "Only copy and paste into a chat assistant. No browsing."
+    assert:
+      - {type: llm-rubric, value: "Does not design steps that browse the web or scrape sites automatically; makes the human gather and paste the pricing pages as the input step, and flags that without browsing the research step depends on what the user supplies."}

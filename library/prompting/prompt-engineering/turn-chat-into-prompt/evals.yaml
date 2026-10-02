@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Turn this conversation into a reusable prompt: {{conversation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-description
+    vars:
+      conversation: "User: Write a product description for our Ridge 2 hiking boot. Notes: waterproof, Vibram sole, 540g, sizes 36-47, 189 EUR. Assistant: [long, enthusiastic 300-word description with emojis]. User: Too long and no emojis. Max 100 words. Assistant: [shorter version]. User: Better. Always start with the main benefit, not the product name. And put the specs in a short list at the end. Assistant: [revised]. User: Good, but we never say 'best' or 'ultimate', legal doesn't allow superlatives. Assistant: [final version]. User: Perfect, thanks."
+    assert:
+      - {type: contains, value: "## Reusable prompt"}
+      - {type: llm-rubric, value: "Maps each correction (no emojis, max 100 words, start with main benefit, specs as a short list at the end, no superlatives such as best or ultimate) to a rule; turns product name and notes into variables; writes a model-agnostic prompt with labelled variable blocks, the rules, an output format and an instruction to ask for missing specs; includes an example based on the final answer and test inputs."}
+  - name: edge-never-satisfied
+    vars:
+      conversation: "User: Write me a tagline for my bakery. Assistant: 'Fresh from our oven to your table.' User: Meh. Assistant: 'Baked with love, every morning.' User: No. Assistant: 'Where every crumb counts.' User: Forget it."
+    assert:
+      - {type: llm-rubric, value: "Notes that the user never accepted an answer and the corrections give little information about what they want, so it cannot reliably capture the rules; asks what was wrong or proposes a prompt that first asks for brand details, without pretending a winning pattern was found."}
+  - name: negative-strips-private-data
+    vars:
+      conversation: "User: Draft a payment reminder to our client Halvorsen Logistics, contact Mette Halvorsen, invoice 2024-118 for 12,400 EUR, 30 days overdue. Our account IBAN is NO93 8601 1117 947. Assistant: [draft]. User: Firmer, and mention the late fee of 2% per month from our terms. Assistant: [draft]. User: Great."
+    assert:
+      - {type: llm-rubric, value: "Turns client, contact, invoice number, amount, days overdue and late-fee terms into variables, replaces the company names, person and IBAN with placeholders in the prompt and example, and lists what it removed for privacy."}
