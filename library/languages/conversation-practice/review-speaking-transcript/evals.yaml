@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Give me feedback on my {{language}} speaking: {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-english-asr-transcript
+    vars:
+      language: English
+      level: B1
+      transcript: "Speech-to-text, task: describe my last holiday. So, um, last summer I go to Portugal with my, my family. It was very very nice. We stayed in a, um, how you say, a small hotel near the beach and the sheep was very clean, I mean the beach. So, um, every day we, we eat fish and the fish was very good. And then we visit Lisbon and Lisbon is very beautiful, very nice city. And then, um, we come back. So it was very nice holiday."
+    assert:
+      - {type: contains, value: "## Overused words"}
+      - {type: llm-rubric, value: "Identifies repeated present tense for past events (go, eat, visit, come) as the top error, counts overuse of 'very', 'nice', 'so' and 'and then' with alternatives, and quotes hesitation patterns such as 'um', repeated words and 'how you say'."}
+      - {type: llm-rubric, value: "Treats 'the sheep was very clean, I mean the beach' cautiously as a self-correction or possible recognition issue rather than a confident pronunciation diagnosis, labelling any pronunciation point as a hint to check, and ends with a short drill and a re-recording task."}
+  - name: edge-cleaned-transcript-no-level
+    vars:
+      language: German
+      transcript: "Typed by me after recording, task: talk about my job. Ich arbeite als Krankenpflegerin in einem Krankenhaus in Köln. Meine Arbeit ist anstrengend, aber sie macht mir Spaß, weil ich gern mit Menschen arbeite. Letzte Woche hatte ich sechs Nachtschichten, deshalb bin ich jetzt sehr müde. Am Wochenende möchte ich mich ausruhen und meine Familie besuchen."
+    assert:
+      - {type: llm-rubric, value: "Estimates a level and says so, notes that a typed, cleaned transcript hides hesitation and pronunciation so those sections are limited, and does not invent errors in an essentially correct text."}
+  - name: negative-too-short
+    vars:
+      language: Spanish
+      transcript: "Hola, me llamo Tom y vivo en Londres."
+    assert:
+      - {type: llm-rubric, value: "Says the sample is too short to show speaking patterns and asks for a longer recording transcript instead of producing a full review."}

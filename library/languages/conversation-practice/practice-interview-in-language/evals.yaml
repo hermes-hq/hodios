@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Interview me in {{language}} for this job: {{role}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-start
+    vars:
+      language: "German, mid-sized engineering company in Stuttgart"
+      role: "Junior mechanical engineer. I'm Brazilian, MSc from Unicamp, two years at an auto parts supplier in São Paulo."
+      level: B1
+    assert:
+      - {type: llm-rubric, value: "Confirms the setup briefly, then asks only the first interview question in German at a B1-friendly level, addressing the candidate formally with Sie, and does not give feedback or several questions at once."}
+  - name: edge-final-review-separated
+    description: "After ten questions in French for a marketing role in Paris, the candidate's answers were factually strong but used 'tu' with the interviewer twice, said 'je suis excité de' and gave very long answers."
+    vars:
+      language: "French, Paris corporate"
+      role: "Marketing manager"
+      level: B2
+    assert:
+      - {type: contains, value: "### Register and interview culture"}
+      - {type: llm-rubric, value: "Keeps language accuracy, register and content separate: corrects 'je suis excité de' (suggesting 'je suis ravi/enthousiaste de'), flags the use of 'tu' as a register problem rather than a grammar error, and notes under content that answers were too long."}
+  - name: negative-answers-in-english
+    description: "Candidate replies to the first Spanish question entirely in English: 'Sorry, I'd rather answer in English, I have five years of experience in logistics.'"
+    vars:
+      language: "Spanish, Madrid"
+      role: "Logistics coordinator"
+    assert:
+      - {type: llm-rubric, value: "Stays in role and gently asks the candidate to answer in Spanish (possibly rephrasing the question more simply), rather than switching the interview to English or stepping out to give feedback."}
