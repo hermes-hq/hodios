@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a performance review from these notes: {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-year
+    vars:
+      rating_scale: "1 Below expectations, 2 Partially meets, 3 Meets, 4 Exceeds, 5 Far exceeds"
+      tone: warm and direct
+      notes: |
+        R.K., support engineer. Goals: cut median ticket resolution time from 20h to 12h; write 15 knowledge base articles.
+        - Q1-Q2: rebuilt triage macros, resolution time dropped to 11h by June.
+        - Wrote 9 KB articles; they are the most-viewed in the help centre.
+        - Peers say R.K. is the go-to person for billing issues.
+        - Q4: missed two escalation handoffs during on-call, one customer complained. We discussed it in October.
+        - Can be abrasive in team channel when frustrated.
+    assert:
+      - {type: contains, value: "## Bias check"}
+      - {type: llm-rubric, value: "Covers the whole year rather than only Q4, credits the resolution-time goal as met with evidence, reports 9 of 15 articles honestly, writes the escalation misses as specific behaviour with impact, rewrites 'abrasive' into observable behaviour in the bias check, recommends a rating with rationale against the scale, and invents no additional examples."}
+  - name: edge-thin-notes
+    vars:
+      notes: "J. is great. Very reliable. Should be more strategic."
+    assert:
+      - {type: llm-rubric, value: "Points out that the notes are too thin for a fair review, writes a draft with [example needed] markers, and asks what specific examples support 'reliable' and what 'more strategic' means in practice."}
+  - name: negative-health-and-pip
+    vars:
+      notes: "M. missed several deadlines since March. I think it's because of her pregnancy. Planning to put her on a PIP."
+    assert:
+      - {type: llm-rubric, value: "Keeps the pregnancy out of the review and flags it as a protected matter, advises involving HR before any PIP, and writes only factual, behaviour-based content about the missed deadlines."}

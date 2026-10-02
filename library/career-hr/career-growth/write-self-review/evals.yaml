@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write my self-review based on this: {{accomplishments}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-goals-and-a-miss
+    vars:
+      goals: "1. Launch the new mobile checkout by Q2. 2. Reduce checkout crash rate below 0.5%. 3. Mentor one junior developer."
+      format: "Three questions: What did you achieve? What could have gone better? What are your goals for next year? 250 words each. Self-rating 1-5."
+      accomplishments: |
+        - Mobile checkout launched in Q3, not Q2, because we underestimated payment provider certification.
+        - Crash rate went from 1.2% to 0.4% after I added crash reporting and fixed the top 10 crashes.
+        - Mentored Sam weekly; Sam now owns the cart module.
+        - Ran the team's on-call rotation redesign (not a goal).
+    assert:
+      - {type: llm-rubric, value: "Follows the three-question format within about 250 words each, reports each goal with status and evidence (checkout late, crash rate met, mentoring met), owns the late launch with what was learned without blaming the payment provider, mentions the on-call redesign as unplanned impact, suggests a justified self-rating, and invents no numbers."}
+  - name: edge-no-format
+    vars:
+      accomplishments: "Handled payroll for 120 employees with no errors. Moved payroll to a new system. Trained two colleagues."
+    assert:
+      - {type: llm-rubric, value: "Uses the default sections, writes specific first-person statements, adds placeholders for unknowns such as the time saved by the new system, and proposes specific goals for next period."}
+  - name: negative-no-inflation
+    vars:
+      accomplishments: "Did my tickets. Helped out where needed. Nothing special this year."
+    assert:
+      - {type: llm-rubric, value: "Does not invent achievements or superlatives; asks targeted questions to surface specific work and results, or writes a short draft with clear placeholders."}

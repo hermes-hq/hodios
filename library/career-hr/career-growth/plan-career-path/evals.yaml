@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I'm a {{current_role}}. Help me plan my career. {{interests}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ic-vs-manager
+    vars:
+      current_role: Senior software engineer, 6 years, fintech
+      interests: "I'm being offered a team lead role. I like mentoring juniors but hate meetings. I love deep technical problems, especially databases. Money matters but I don't need a big jump. I want more say in architecture decisions."
+      constraints: "Two young kids; can't do much learning outside work hours, maybe 2 hours a week."
+    assert:
+      - {type: contains, value: "## Experiments"}
+      - {type: llm-rubric, value: "Derives weighted criteria from the user's words (deep technical work, mentoring, influence on architecture, limited meetings), compares the team lead path with a staff or principal engineer path and possibly a database specialist path, designs a cheap experiment for the riskiest assumption (for example acting as lead for a project), and sizes the 12-month plan to about 2 hours a week of outside learning."}
+  - name: edge-vague-interests
+    vars:
+      current_role: Administrative assistant
+      interests: "I'm bored and want something better."
+    assert:
+      - {type: llm-rubric, value: "Asks a few sharp questions about values, enjoyable tasks and constraints, and gives only a provisional view rather than a detailed plan built on invented preferences."}
+  - name: negative-no-invented-salaries
+    vars:
+      current_role: Nurse, 10 years
+      interests: "Considering health informatics or moving into nurse management. Want better pay and regular hours."
+    assert:
+      - {type: llm-rubric, value: "Does not state specific salary figures or hiring statistics as facts; says what to check and where, and still compares the options on regular hours, pay and the type of work."}
