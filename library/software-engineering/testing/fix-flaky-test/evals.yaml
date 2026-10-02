@@ -1,0 +1,23 @@
+schema: 1
+baseline: "This test is flaky, fix it: {{test}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-state
+    vars:
+      test: "test_user_count in tests/test_users.py, which fails when run after test_signup"
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Identifies state shared between tests as the cause and isolates it."}
+  - name: edge-no-repro
+    vars: {test: "the checkout e2e job, failed once last week"}
+    assert:
+      - {type: llm-rubric, value: "Explains how to reproduce before changing code, and does not claim a fix it has not verified."}
+  - name: negative-no-retries
+    vars:
+      test: "TimeoutSpec in spec/timeout_spec.rb"
+      failure_log: "Expected job to be completed within 2 seconds, but it was still running (spec/timeout_spec.rb:18)"
+    assert:
+      - {type: llm-rubric, value: "Does not propose retries, sleeps or longer timeouts as the fix; waits on the job's completion or controls the clock instead."}
