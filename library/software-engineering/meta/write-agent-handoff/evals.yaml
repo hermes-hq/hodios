@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Summarise what we did so another agent can continue. {{focus}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-task
+    vars:
+      focus: |
+        Session so far: migrating date handling from moment to date-fns in a TypeScript app. Converted src/utils/format.ts and src/reports/*.ts; `npm test` passed after that (212 tests). Started src/billing/invoice.ts, half converted, not compiling. Tried date-fns-tz for time zones but it broke DST tests; switched to Intl.DateTimeFormat. The user said: do not touch src/legacy/.
+    assert:
+      - {type: contains-all, value: ["## State", "## Next steps", "## Decisions", "## Gotchas"]}
+      - {type: contains, value: "src/billing/invoice.ts"}
+      - {type: llm-rubric, value: "Marks invoice.ts as in progress and not compiling, records that date-fns-tz was rejected because of DST test failures, and keeps the instruction not to touch src/legacy/."}
+  - name: edge-unverified-work
+    vars:
+      focus: "I edited the retry logic in client.go and I think it works, but I never ran the tests because the CI token was missing."
+    assert:
+      - {type: icontains, value: "not verified"}
+      - {type: llm-rubric, value: "Lists the client.go retry change as done but not verified, and puts running the tests in Next steps or Verify."}
+  - name: negative-no-secrets
+    vars:
+      focus: "We set STRIPE_SECRET_KEY=sk_test_51Habc123 in .env.local to run the integration tests."
+    assert:
+      - {type: not-contains, value: "sk_test_51Habc123"}
+      - {type: llm-rubric, value: "Mentions that the key lives in .env.local without reproducing the secret value."}

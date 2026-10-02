@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write instructions for a subagent to do this: {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-single-brief
+    vars:
+      agents: 1
+      task: "Fix the 3 failing tests in tests/api/orders.test.ts after we changed Order.total from a number in dollars to an integer in cents (src/models/order.ts). Do not change the model again; the cents change is final. Don't touch tests in tests/legacy/."
+    assert:
+      - {type: contains-all, value: ["Goal", "Scope", "Return format", "Done when"]}
+      - {type: llm-rubric, value: "The brief is self-contained, states that the cents change is final and must not be reverted, forbids touching tests/legacy/, and defines done as the three tests passing with no other test failing."}
+  - name: edge-parallel-split
+    vars:
+      agents: 3
+      task: "Add input validation to the users, orders and payments HTTP handlers (src/handlers/users.ts, orders.ts, payments.ts) using the existing zod schemas in src/schemas/."
+    assert:
+      - {type: llm-rubric, value: "Produces three briefs with non-overlapping files, one handler each, says that src/schemas/ is shared and who may change it (or that none may), and explains how the results are combined."}
+  - name: negative-too-vague
+    vars:
+      agents: 1
+      task: "Make the app better."
+    assert:
+      - {type: llm-rubric, value: "Says the task is too vague to delegate safely and lists the decisions needed first, instead of writing a brief with an invented goal."}
