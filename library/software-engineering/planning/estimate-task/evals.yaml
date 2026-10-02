@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How long will this take? {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-csv-export
+    vars:
+      task: "Add a CSV export button to the invoices table. Exports respect current filters. Up to 50k rows."
+      context: "One mid-level engineer who knows the codebase. A similar PDF export took 3 days last quarter."
+      unit: days
+    assert:
+      - {type: contains, value: "## Breakdown"}
+      - {type: llm-rubric, value: "Gives a likely value with a range, shows three-point values per part with the arithmetic, uses the 3-day PDF export as a reference, and includes review, testing and deployment work."}
+  - name: edge-points-no-reference
+    vars:
+      task: "Migrate the notifications service to the new message broker."
+      unit: points
+    assert:
+      - {type: llm-rubric, value: "States that points cannot be calibrated without a reference task and also gives an estimate in days, with a wide range and low confidence."}
+  - name: negative-too-vague
+    vars:
+      task: "Improve the app."
+    assert:
+      - {type: llm-rubric, value: "Says the task is too vague for a meaningful estimate and lists the questions that would make it estimable, instead of presenting a precise number."}
