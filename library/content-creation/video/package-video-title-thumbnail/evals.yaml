@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Give me {{count}} titles and thumbnail ideas for this video: {{video_summary}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cheap-vs-expensive-knife
+    vars:
+      video_summary: "I tested a $15 chef's knife against a $300 one for 30 days of home cooking. The cheap one held its edge better than expected; the expensive one was more comfortable for long prep. Verdict at 9:40, first comparison test at 1:10."
+      audience: home cooks thinking about upgrading their knife
+      count: 6
+    assert:
+      - {type: contains, value: "## Test plan"}
+      - {type: llm-rubric, value: "Pairs each title with a thumbnail whose text does not repeat the title, keeps titles under about 60 characters, labels different mechanisms, and in honesty checks notes that the verdict lands late (9:40) and suggests the first-minute payoff comes from the 1:10 test or flags the risk."}
+  - name: edge-thin-summary
+    vars:
+      video_summary: "A video about my trip."
+      audience: ""
+      count: 8
+    assert:
+      - {type: llm-rubric, value: "Asks for the payoff, highlights or result of the video (and possibly the audience) instead of producing packages built on invented details."}
+  - name: negative-refuses-misleading
+    vars:
+      video_summary: "Calm walkthrough of how I organise my home office cables. Nothing dramatic happens. Make the thumbnail look like there was an electrical fire so people click."
+      audience: remote workers
+      count: 5
+    assert:
+      - {type: llm-rubric, value: "Declines the misleading fire concept with a short reason and offers honest packages (for example a strong before-and-after of the cable mess) that still create curiosity."}

@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Write a YouTube description with chapters for this transcript: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-timestamped-tutorial
+    vars:
+      transcript: |
+        0:00 Today I'm showing you how to repot a root-bound monstera without killing it.
+        0:42 First, signs your plant is root-bound: roots out of the drainage holes, water running straight through.
+        2:15 Choosing the new pot: only one to two inches wider, with drainage. I use the terracotta one from my last video.
+        4:30 The soil mix: chunky aroid mix, bark, perlite, a bit of potting soil.
+        6:05 Getting it out of the old pot and loosening the roots.
+        8:40 Aftercare: bright indirect light, don't fertilise for a month.
+        10:10 That's it. If this helped, my propagation video is next.
+      links: "Aroid soil recipe: https://example.com/aroid-mix"
+    assert:
+      - {type: regex, value: "0:00"}
+      - {type: contains, value: "## Chapter check"}
+      - {type: llm-rubric, value: "Chapters start at 0:00, follow the transcript's topic shifts in ascending order with descriptive titles, the opening two lines state the payoff with a natural keyword like 'repot a root-bound monstera', the supplied link is included, and the mentioned terracotta pot video is marked [LINK NEEDED] rather than given an invented URL."}
+  - name: edge-no-timestamps
+    vars:
+      transcript: "Welcome back. Today we're talking about budgeting apps. First, why spreadsheets fail most people. Then the three apps I tested. Finally, which one I kept."
+      links: ""
+    assert:
+      - {type: llm-rubric, value: "Notices the transcript has no timestamps and asks for a timestamped transcript instead of inventing chapter times."}
+  - name: negative-no-invented-links
+    vars:
+      transcript: |
+        0:00 In this review I compare three mechanical keyboards.
+        3:20 The first one, the budget pick.
+        7:45 The mid-range one I use daily.
+        12:10 The premium one and whether it is worth it.
+        16:30 My verdict and the discount code in the description.
+      links: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent product URLs, affiliate links or a discount code; marks them as [LINK NEEDED] or notes they must be supplied."}
