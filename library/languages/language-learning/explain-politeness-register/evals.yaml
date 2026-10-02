@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Explain formal and informal speech in {{language}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-mixed-register
+    vars:
+      language: German
+      context: "First email to my new team lead in Munich; I haven't met her yet."
+      sample_text: "Hallo Frau Becker, ich freue mich sehr, dich nächste Woche kennenzulernen. Können Sie mir sagen, wann ich ins Büro kommen soll? Liebe Grüße, Ana"
+    assert:
+      - {type: contains, value: "## Your message at each register"}
+      - {type: llm-rubric, value: "Flags the mix of 'dich' and 'Sie' as the main mismatch, recommends Sie for a first email to a manager she has not met, and notes that 'Liebe Grüße' is warmer than a typical first formal email (suggesting 'Viele Grüße' or 'Beste Grüße')."}
+      - {type: llm-rubric, value: "Rewrites the message at formal and informal levels keeping the content the same, and mentions that many German companies (especially startups) use du, so she can switch if her team lead offers."}
+  - name: edge-japanese-no-message
+    vars:
+      language: Japanese
+      context: "Emailing a professor at a Japanese university to ask about a research position."
+    assert:
+      - {type: llm-rubric, value: "Explains teineigo, sonkeigo and kenjougo, recommends respectful and humble forms for the professor, and writes its own short example message shown at each level because no message was given."}
+  - name: negative-no-country
+    vars:
+      language: Portuguese
+      sample_text: "Oi, você pode me mandar o relatório amanhã?"
+    assert:
+      - {type: llm-rubric, value: "States which country's norms it describes (the message looks Brazilian) and notes briefly how address differs in Portugal (for example 'você' can feel distant or awkward there, with 'o senhor/a senhora' or the third person used instead), rather than presenting one rule for all Portuguese."}

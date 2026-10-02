@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Grade this {{exam}} writing. Task: {{task}} Answer: {{response}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ielts-task2
+    vars:
+      exam: "IELTS Academic Writing Task 2"
+      task: "Some people think that university education should be free for everyone. To what extent do you agree or disagree? Write at least 250 words."
+      response: "Nowadays, many people discuss about if university should be free. In my opinion I am agree that it should be free for everyone because education is a right. Firstly, if university is free, more poor students can study and this is good for the society. For example in my country Brazil the public universities are free and many students from poor families became doctors. Secondly, the goverment can pay with taxes. However some people say it is too expensive. But I think it is a investment for the future. In conclusion, I am agree that university must be free for all people because it help the society and economy."
+    assert:
+      - {type: contains, value: "## Criteria"}
+      - {type: llm-rubric, value: "Notes the response is well under 250 words and applies the under-length penalty to Task Response; scores all four IELTS criteria with quoted evidence and gives the overall estimate as a range rather than a single number, plausibly around band 5."}
+      - {type: llm-rubric, value: "Corrects 'discuss about', 'I am agree', 'a investment', 'goverment' and 'it help', and the model paragraph keeps the candidate's own ideas (free tuition, Brazil example) at a realistically higher band."}
+  - name: edge-delf-unfamiliar-variant
+    vars:
+      exam: "DELF B1 production écrite"
+      task: "Vous avez participé à un échange linguistique. Vous écrivez un article pour le journal de votre école pour raconter votre expérience et donner votre opinion (160 mots minimum)."
+      response: "L'année dernière, je suis allé à Lyon pour un échange de trois semaines. J'ai habité chez une famille très sympa. Au début c'était difficile parce que les gens parlent très vite, mais après une semaine j'ai commencé à comprendre mieux. Je pense que les échanges sont très utiles pour apprendre une langue, mais aussi pour découvrir une autre culture."
+    assert:
+      - {type: llm-rubric, value: "Scores out of 25 using DELF-style criteria, flags that the text is well under 160 words and lacks the article format (title, addressing readers), and keeps quotes and corrections in French."}
+  - name: negative-wrong-language
+    vars:
+      exam: "Goethe-Zertifikat B1 Schreiben Teil 2"
+      task: "Sie haben im Radio eine Diskussion über Haustiere in der Stadt gehört. Schreiben Sie Ihre Meinung (ca. 80 Wörter)."
+      response: "I think pets in the city are fine if owners take care of them and clean up after them."
+    assert:
+      - {type: llm-rubric, value: "States that the response is in English rather than German and stops or asks for a German response, instead of grading or translating it."}

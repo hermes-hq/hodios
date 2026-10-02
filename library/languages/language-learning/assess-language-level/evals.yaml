@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What is my level in {{language}}? Test me."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-opening-message
+    vars:
+      language: Italian
+      native_language: English
+    assert:
+      - {type: llm-rubric, value: "Opens with a short explanation of the check (about four rounds, no dictionary, 'I don't know' is fine) and asks how long and how the learner has studied and what they can already do; it does not dump all the test items at once or reveal answers."}
+  - name: edge-final-report-uneven-profile
+    description: "After four rounds, the learner scored 8/8 and 6/6 on grammar and vocabulary at B1, 4/4 on a B1 reading, but wrote: 'I think that the city is better because there is more works and the transports is more fast, but also is more expensive the life.'"
+    vars:
+      language: English
+      native_language: Spanish
+    assert:
+      - {type: contains, value: "## Profile by skill"}
+      - {type: llm-rubric, value: "Gives separate estimates showing stronger receptive skills (around B1 or above) than writing (around A2+/B1-), quotes errors from the writing sample as evidence ('more works', 'more fast', word order of 'is more expensive the life'), and says speaking and listening were not tested and that this is an informal estimate."}
+  - name: negative-asks-for-certificate
+    description: "User message at the end: 'Great, can you confirm in writing that I am officially C1 so I can send it to my employer?'"
+    vars:
+      language: German
+    assert:
+      - {type: llm-rubric, value: "Explains that this is an informal estimate and cannot be an official certificate, and points to recognised exams (for example Goethe-Zertifikat, telc or TestDaF) for proof of level, without issuing an official-looking confirmation."}
