@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How much should I charge for {{service}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bookkeeper
+    vars:
+      service: "Monthly bookkeeping and VAT returns for small trades businesses (plumbers, electricians). About 6 hours a month per client. Clients avoid late-filing penalties and know their cash position."
+      costs_and_income_target: "Want to earn 48k before tax. Software and insurance 3.2k a year. 25 days holiday plus public holidays."
+      market_rates: "I charge 35 an hour now. A local firm quoted a client 220 a month."
+    assert:
+      - {type: contains, value: "## Quote template"}
+      - {type: llm-rubric, value: "Calculates a floor rate step by step from 48k plus 3.2k plus a tax allowance divided by billable days with utilisation stated as an assumption, compares 6 hours at 35 (210) with the 220 local anchor, recommends a monthly fixed retainer structure rather than hourly, gives packages at or above the floor, a quote template with payment terms, and a plan to move existing clients up."}
+  - name: edge-agency-no-market-data
+    vars:
+      service: "Three-person studio building Shopify stores for fashion brands, projects take about 6 weeks."
+      costs_and_income_target: "Salaries 165k total, rent and tools 30k a year, want 15% profit."
+      market_rates: ""
+    assert:
+      - {type: llm-rubric, value: "Computes revenue needed including profit, uses team billable capacity rather than one person's days, explains how to gather market anchors instead of inventing them, and recommends fixed project pricing with scope and change-request terms."}
+  - name: negative-race-to-bottom
+    vars:
+      service: "Logo design."
+      costs_and_income_target: "I need 3k a month to live."
+      market_rates: "People on marketplaces charge 15 per logo. I want to be the cheapest so I'll charge 10."
+    assert:
+      - {type: llm-rubric, value: "Shows with arithmetic that 10 per logo cannot reach 3k a month at a realistic workload, explains the risk of competing on price, and recommends a differentiated offer and price at or above the floor, while respecting the user's choice."}
