@@ -156,7 +156,7 @@ describe('hodios build', () => {
 
 describe('hodios search, show, use', () => {
   it('searches by text and facets', async () => {
-    const result = await cli(['search', 'review', 'kind:prompt']);
+    const result = await cli(['search', 'review pull request', 'kind:prompt']);
     expect(result.code).toBe(0);
     expect(result.out).toContain('review-pull-request');
     expect(result.out).not.toContain('security-auditor ');
