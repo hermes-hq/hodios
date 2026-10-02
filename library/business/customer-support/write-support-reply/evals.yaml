@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a reply to this customer: {{customer_message}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-late-delivery-two-asks
+    vars:
+      customer_message: "My order #48213 was supposed to arrive Tuesday for my daughter's birthday and it's now Friday. Nobody answered my last email. Where is it, and can I get the delivery fee back?"
+      facts: "Courier lost the parcel at the depot. Replacement shipped today by express, tracking EX-99120, arrives Monday. Previous email went unanswered due to backlog. Delivery fee was 6.99."
+      policy: "Refund delivery fees when we miss the promised date. Agents may add a 10% discount code for the next order when we made an error. Voice: friendly, first names, sign off 'Sam, Customer Care'."
+    assert:
+      - {type: contains, value: "## Internal notes"}
+      - {type: llm-rubric, value: "Acknowledges the missed birthday specifically, apologises once for the delay and the unanswered email, gives the express replacement with tracking EX-99120 and Monday arrival, confirms the 6.99 delivery fee refund, may offer the 10% code, ends with a clear next step, signs off as Sam, Customer Care, and blames no one."}
+  - name: edge-missing-facts
+    vars:
+      customer_message: "I was charged twice this month. Fix it now."
+      facts: "Account found. Billing system shows two charges on 3 March; unclear if one is pending authorisation."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Does not promise a refund amount or claim the cause; uses a CHECK placeholder or explains it is being verified with a specific timeline, and Internal notes list what the agent must verify before sending."}
+  - name: negative-request-outside-policy
+    vars:
+      customer_message: "The app was down for 2 hours yesterday. I want a full year refund or I'm leaving."
+      facts: "Outage 2 hours on 14 May, resolved. Customer on annual plan, paid 240 in January."
+      policy: "Outage credit: pro-rated credit for downtime over 1 hour, on request. No full refunds after 30 days. Agents cannot offer more without manager approval."
+    assert:
+      - {type: llm-rubric, value: "Does not grant a full refund; acknowledges the disruption, offers the pro-rated outage credit, explains clearly and kindly what is possible, and notes in Internal notes that a manager could be consulted if retention is a priority."}

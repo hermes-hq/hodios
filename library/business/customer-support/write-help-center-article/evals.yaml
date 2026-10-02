@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a help center article about this: {{feature_or_ticket}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-from-ticket
+    vars:
+      audience: "Small online shop owners, non-technical"
+      feature_or_ticket: |
+        Ticket from Laura Pérez (laura@example.com), store #5521: "I want customers to pick up orders at my shop instead of shipping, but I can't find where to turn it on."
+        Agent reply: Go to Settings > Shipping > Local pickup, switch on "Offer local pickup", add your shop address and pickup instructions, click Save. It only shows at checkout if the customer's address is within the radius you set (default 20 km). Available on Basic plan and above.
+    assert:
+      - {type: not-contains, value: "laura@example.com"}
+      - {type: llm-rubric, value: "Uses a verb-first task title in customer words, removes the customer's name, email and store number, lists the Basic plan requirement under Before you start, gives numbered steps with bold labels matching the ticket exactly, adds screenshot placeholders, and includes troubleshooting for pickup not showing at checkout due to the radius."}
+  - name: edge-missing-labels
+    vars:
+      audience: ""
+      feature_or_ticket: "New feature: users can now export their invoices as CSV from the billing area."
+    assert:
+      - {type: llm-rubric, value: "Writes the article but marks unknown menu labels with CONFIRM placeholders instead of inventing exact paths, lists them in Notes for the editor, and assumes a non-technical audience."}
+  - name: negative-multiple-tasks
+    vars:
+      audience: "Team admins"
+      feature_or_ticket: "Admins can invite users, remove users, change roles, set up SSO, and configure audit log exports, all from the Admin page."
+    assert:
+      - {type: llm-rubric, value: "Picks one task for the article (likely inviting users) rather than cramming all five, and lists the others as separate article ideas in Notes for the editor."}

@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write support macros for these tickets: {{ticket_samples}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-themes
+    vars:
+      tone: "Casual and friendly, first names, no exclamation marks, sign off 'The Fernhill team'."
+      ticket_samples: |
+        1. "Where's my order? Ordered 5 days ago." Reply: shared tracking link, standard delivery is 3-7 working days.
+        2. "Tracking hasn't updated in 4 days." Reply: opened courier investigation, will update within 2 working days.
+        3. "Can I change my delivery address?" Reply: possible only before dispatch; changed it.
+        4. "Order shows delivered but I didn't get it." Reply: asked to check neighbours and safe place, opened claim after 48h.
+        5. "Want to return a jumper, too small." Reply: 30-day returns, free label sent.
+        6. "Return - item damaged." Reply: apologised, sent replacement, no need to return.
+        7. "Where's my order??" Reply: shared tracking.
+        8. "Can I return after 6 weeks?" Agent A said no; Agent B accepted it as goodwill.
+    assert:
+      - {type: contains, value: "## Gaps"}
+      - {type: llm-rubric, value: "Groups tickets by need (order status, delivery problems, address change, returns), writes macros with square-bracket slots including one that forces personalisation, includes when-not-to-use guidance (for example tracking stalled vs simply in transit), follows the casual tone and sign-off, and flags the inconsistent late-return answers under Gaps rather than choosing silently."}
+  - name: edge-too-few-tickets
+    vars:
+      tone: ""
+      ticket_samples: "1. 'How do I reset my password?' Reply: use Forgot password on login page. 2. 'App crashes on Android 14.' Reply: escalated to engineering."
+    assert:
+      - {type: llm-rubric, value: "Notes there are too few tickets for reliable patterns, produces at most two macros (likely password reset), and does not create a macro that promises a fix for the crash."}
+  - name: negative-personal-data
+    vars:
+      tone: "Formal"
+      ticket_samples: "Ticket from John Smith, john.smith@example.org, order 77812: refund for cancelled subscription, processed in 5 days. Ticket from Mary Jones, order 77901: same. Ticket from Ali Khan: same."
+    assert:
+      - {type: not-contains, value: "john.smith@example.org"}
+      - {type: llm-rubric, value: "Writes a refund-for-cancellation macro using placeholders instead of any names or order numbers from the samples."}

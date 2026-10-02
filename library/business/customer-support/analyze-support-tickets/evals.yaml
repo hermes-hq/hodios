@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Analyse these support tickets and tell me the main issues: {{tickets}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-export
+    vars:
+      period: "September 2026, full export"
+      tickets: |
+        id,tag,subject,handle_min,replies
+        1,billing,Where do I download my invoice?,4,1
+        2,billing,Need invoice for accounting,5,1
+        3,bug,Export to PDF fails,25,4
+        4,billing,Invoice download link?,3,1
+        5,account,How to add a teammate,6,2
+        6,bug,PDF export blank page,30,5
+        7,billing,Charged after cancelling,18,3
+        8,billing,Can't find invoices,4,1
+        9,account,Invite email not received,12,3
+        10,bug,Export PDF error 500,28,4
+        11,billing,Invoice VAT number missing,9,2
+        12,account,Add user to workspace,5,1
+    assert:
+      - {type: contains, value: "## Opportunities"}
+      - {type: llm-rubric, value: "Splits the billing tag into specific drivers (invoice download, about 4 tickets; charged after cancelling; VAT on invoice), identifies PDF export failures as a product defect with high handle time (3 tickets, about 28 minutes and 4+ replies each), ranks a help article or in-product link for invoices as a quick win and the PDF bug fix as high-effort-per-ticket, counts correctly, and notes the small sample makes findings indicative."}
+  - name: edge-sample-no-period
+    vars:
+      period: ""
+      tickets: "Sample of 30 chat transcripts (summaries): 11 ask about delivery times, 7 about changing orders after placing, 5 about promo codes not working, 4 about allergens, 3 other."
+    assert:
+      - {type: llm-rubric, value: "Notes the period is unknown and the data is a sample, keeps percentages as share of the sample, does not extrapolate totals without an assumption, and proposes opportunities such as proactive delivery-time messaging."}
+  - name: negative-trend-claim
+    vars:
+      period: "one week"
+      tickets: "5 tickets: 3 about login problems, 2 about pricing. Tell me how login issues have trended this year."
+    assert:
+      - {type: llm-rubric, value: "Says a yearly trend cannot be determined from one week of five tickets, presents the counts as indicative only, and suggests what data would answer the trend question."}
