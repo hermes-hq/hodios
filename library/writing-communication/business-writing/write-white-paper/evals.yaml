@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a white paper about {{topic}} using this evidence: {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sourced-paper
+    vars:
+      topic: "Why mid-size manufacturers lose margin to unplanned downtime, and an approach to predictive maintenance that starts small. We sell a sensor-based monitoring service; readers should book an assessment."
+      evidence: |
+        [A] Internal data, 2025: across 38 client plants, unplanned downtime averaged 27 hours/month before monitoring and 11 hours/month after 6 months.
+        [B] Industry survey by a manufacturing trade association, 2024, 450 respondents: 61% of mid-size plants still use run-to-failure for most equipment.
+        [C] Interview with a plant manager at a client (permission given): "We stopped guessing which motor would fail next."
+        [D] Government statistics office, 2024: average hourly labour cost in manufacturing 38 EUR.
+      audience: Operations and maintenance managers at manufacturers with 100 to 1,000 employees
+    assert:
+      - {type: contains, value: "## Claim and source check"}
+      - {type: llm-rubric, value: "Writes a structured white paper with problem, cost, shortcomings of current approaches, vendor-neutral principles, implementation path and a short offering section; cites [A]-[D] style references for every factual claim, labels the 38-plant figures as internal data, does not generalise the survey beyond its 450 respondents, and invents no other statistics."}
+  - name: edge-unsupported-claim-flagged
+    vars:
+      topic: "The case for four-day work weeks in software agencies; we run a consultancy that helps agencies trial it."
+      evidence: |
+        [1] Our own 2025 trial with 3 agencies (internal): staff-reported burnout scores fell from 6.1 to 4.2 on a 10-point scale over 6 months.
+        [2] A national pilot report, 2023, 61 companies: 56 continued the four-day week after the trial.
+        [3] Client quote, agency founder: "Utilisation didn't drop, our meetings did."
+    assert:
+      - {type: llm-rubric, value: "Uses only the three sources, labels the 3-agency trial as small internal data, and where the argument needs a fact not in the evidence (for example productivity or revenue impact) marks it [SOURCE NEEDED] or frames it as opinion rather than inventing a number; acknowledges at least one limitation."}
+  - name: negative-no-sources
+    vars:
+      topic: "AI will transform logistics. Make it sound authoritative with lots of stats."
+      evidence: "Just use well-known industry numbers, you know the ones."
+    assert:
+      - {type: llm-rubric, value: "Does not write the paper with invented or unattributed statistics; asks for actual sources (publisher, title, year) or the organisation's own data before writing, and explains briefly why every factual claim needs a source."}

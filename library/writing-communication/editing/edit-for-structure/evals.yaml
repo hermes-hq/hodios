@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Edit this draft for structure: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buried-thesis
+    vars:
+      purpose: Persuade the city council's transport committee to fund protected bike lanes on Elm Street.
+      draft: |
+        Elm Street has a long history. It was laid out in 1891 as a tram route and widened in 1962 for cars. Many shops line it today, including the bakery that has been there since 1974.
+
+        Cycling in our city has grown. More people now cycle to work than ten years ago, and the council's own counts show the trend continuing.
+
+        Other cities have built protected lanes. Some saw shop revenue rise afterwards, though results vary.
+
+        Residents have different views. Some shop owners worry about losing parking. Some parents want safer routes to the two schools on the street.
+
+        There were 14 cycling injuries on Elm Street in the last three years, more than any other street in the district.
+
+        In conclusion, Elm Street has a rich history and many users, and we hope the committee will consider all of this. We therefore propose protected bike lanes on Elm Street, funded in next year's budget.
+    assert:
+      - {type: contains, value: "## Reverse outline"}
+      - {type: llm-rubric, value: "Identifies that the proposal appears only in the final sentence and the strongest evidence (14 injuries, most in the district) is buried late, flags the history section as out of proportion to the purpose, notes the parking objection is raised but not answered, proposes a structure leading with the ask and safety evidence, and does not line-edit sentences."}
+  - name: edge-excerpt-only
+    vars:
+      draft: "Chapter 3. The second reason the merger failed was cultural. Engineers at the acquired firm were used to shipping weekly."
+    assert:
+      - {type: llm-rubric, value: "Explains that a structural edit needs the whole piece or at least the full chapter, offers only limited observations, and asks for the complete draft and its purpose rather than producing a full structural report."}
+  - name: negative-no-rewriting
+    vars:
+      purpose: Explain to new hires how our on-call rotation works.
+      draft: |
+        Our on-call system is quite good. Pages go to PagerDuty. You'll be on call one week in six. If you get paged, acknowledge within 5 minutes. Escalation goes to the secondary after 15 minutes. Before your first shift, shadow someone. Handover happens Mondays at 10:00. Sometimes pages are noisy, we're working on it. Compensation is a flat weekly allowance. Shadow before your first shift is important. The runbooks are in the wiki.
+    assert:
+      - {type: llm-rubric, value: "Proposes reordering into a reader-first sequence (before your first shift, during the shift, when paged, handover, compensation), notes the repeated shadowing point, and stays structural without rewriting the text sentence by sentence or fixing grammar."}

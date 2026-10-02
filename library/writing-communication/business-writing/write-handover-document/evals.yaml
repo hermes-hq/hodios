@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a handover document from these notes: {{role_and_work}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parental-leave
+    vars:
+      handover_date: "from 14 April, back 1 September"
+      role_and_work: |
+        I'm the payroll and benefits lead at a 220-person company. Monthly payroll runs on the 25th, inputs close on the 18th. Pension provider upload every month after payroll, portal login via IT. Q2 benefits renewal with the insurer: quotes due 30 April, I've got two quotes, waiting on a third. Priya in finance signs off payroll totals. The night-shift allowance calc in the payroll system is wrong for people who switch shifts mid-month, I fix it manually. Ahmed (works council) prefers a call before anything goes in writing. Jonas will cover payroll; not sure who takes the insurer renewal.
+    assert:
+      - {type: contains, value: "## Questions before you go"}
+      - {type: llm-rubric, value: "Produces tables for open work and recurring tasks (payroll on the 25th with inputs closing on the 18th, monthly pension upload), records the insurer renewal with its 30 April deadline and an [ASK] for the missing owner, writes the night-shift allowance workaround as an if-this-then-that instruction, notes Ahmed's preference for a call, and lists first-week priorities without inventing names or dates."}
+  - name: edge-secret-in-notes
+    vars:
+      role_and_work: "I manage our social media. Instagram login is marketing@example.com / Summer2026!. Posting 3x a week, content calendar in the shared drive. Campaign with a skincare influencer launches 2 May, contract signed, brief not sent yet."
+    assert:
+      - {type: not-contains, value: "Summer2026"}
+      - {type: llm-rubric, value: "Leaves the password out of the handover, warns the leaver that a credential appeared in the notes and should be stored in a password manager or reset, and records the influencer campaign with the unsent brief as the next action."}
+  - name: negative-empty-notes
+    vars:
+      role_and_work: "I'm going on leave next month, please write my handover."
+    assert:
+      - {type: llm-rubric, value: "Asks for the role, current work, recurring tasks and contacts instead of producing a handover filled with invented projects and names."}

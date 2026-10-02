@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a decision memo about this: {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vendor-switch
+    vars:
+      situation: "Our warehouse management software contract renews on 30 June for 84,000 EUR/year (up from 62,000). The vendor's outages caused 3 missed shipping days last quarter. Alternative vendor quoted 70,000 EUR/year plus 25,000 EUR one-off migration; migration takes about 10 weeks. Notice to cancel must be given by 31 March."
+      options: "Renew; switch to the alternative; renegotiate with current vendor using the quote as leverage. I lean toward renegotiating first."
+      decision_maker: "COO, cares about shipping reliability and cost"
+    assert:
+      - {type: contains, value: "## Gaps to fill"}
+      - {type: llm-rubric, value: "Leads with the decision and the 31 March notice deadline, compares renew, switch and renegotiate on the same criteria using only the supplied figures (84,000 vs 70,000 plus 25,000, 10-week migration, 3 missed days), gives a recommendation with its downside and a fallback if renegotiation fails, and lists next steps with owners and dates or placeholders."}
+  - name: edge-no-options-given
+    vars:
+      situation: "Two senior engineers have resigned this month; the mobile app release planned for 15 May now looks at risk. Hiring takes about 3 months. We have budget for contractors at roughly 900 EUR/day."
+    assert:
+      - {type: llm-rubric, value: "Proposes realistic options including delay and contractors, compares them fairly, marks unknowns such as how many contractor days are needed as [NEEDED], and does not invent figures beyond those given."}
+  - name: negative-unclear-ask
+    vars:
+      situation: "Things are messy with the marketing team and I want my boss to do something."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the decision, the decision-maker's options and the facts are unclear and asks up to three short, specific questions instead of drafting a memo full of invented details."}

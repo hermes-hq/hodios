@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make a style sheet for this manuscript: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inconsistencies-found
+    vars:
+      house_style: Chicago 17th, Merriam-Webster
+      manuscript: |
+        In 2019 Dr. Ana Kovač joined the North Sea Research Institute as head of marine robotics. Her team built twelve autonomous gliders, each costing about $40,000. By 2021 the gliders had logged 3,200 hours.
+
+        Kovac later wrote that "e-mail was our lifeline" during the long field seasons. The Institute's director, Peter Lund, called the program "a long-term bet." The team used underwater drones, sonar arrays, and satellite links; email updates went out weekly.
+
+        In Chapter 4 we return to the gliders. Over 15 percent of missions ended early. The north sea winters were brutal, and by chapter 6 the funding had dried up. The 2 gliders that survived are now in a museum in Bergen.
+    assert:
+      - {type: contains, value: "## Inconsistencies"}
+      - {type: llm-rubric, value: "Flags the name variants Kovač and Kovac, e-mail vs email (while leaving the quoted 'e-mail' as the author's or quote's form or raising it as a query), North Sea vs north sea, Chapter 4 vs chapter 6, twelve vs 2 for numbers, and Institute capitalisation; records decisions such as serial comma and percent style in the style sheet; and does not rewrite the manuscript."}
+  - name: edge-no-house-style
+    vars:
+      manuscript: |
+        Our organisation's realise-and-prioritise programme started in March. Staff organized workshops, and the co-ordinators met fortnightly. The programme's aims were to realise savings of 10% and to prioritize well-being. Coordinators reported to the Board; the board met quarterly.
+    assert:
+      - {type: llm-rubric, value: "Notes that no house style was given and infers UK spelling with the dominant -ise form, flags organized and prioritize as departures, co-ordinators vs Coordinators, and Board vs board capitalisation, and explains which form was chosen and why."}
+  - name: negative-too-short
+    vars:
+      manuscript: "The colour of the sky changed."
+    assert:
+      - {type: llm-rubric, value: "Says the text is too short to establish a style sheet, records only what can be inferred (for example UK spelling of colour), and asks for more of the manuscript rather than inventing decisions the text does not show."}

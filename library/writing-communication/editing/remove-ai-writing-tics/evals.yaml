@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make this sound less like AI wrote it: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-linkedin-post
+    vars:
+      text: |
+        In today's fast-paced world, leadership is more important than ever. 🚀 Last month, our team embarked on a journey to overhaul our onboarding process — and the results were truly game-changing.
+
+        It's not just about paperwork, it's about people. By leveraging feedback from 42 new hires, we cut time-to-first-commit from 9 days to 3.
+
+        Whether you're a startup or an enterprise, the lesson is clear: invest in onboarding. What do you think? Let's dive into the conversation below! 👇
+    assert:
+      - {type: contains, value: "42"}
+      - {type: not-icontains, value: "fast-paced world"}
+      - {type: not-icontains, value: "game-changing"}
+      - {type: llm-rubric, value: "Removes the stock opener, 'embarked on a journey', 'truly game-changing', the 'not just X, it's Y' construction, 'whether you're' framing and 'let's dive in', keeps every fact (42 new hires, 9 days to 3), stays roughly the same length or shorter, and lists the main changes in a before/after table."}
+  - name: edge-voice-sample
+    vars:
+      voice_sample: "Quick one. The build broke again on Friday, my fault, I merged without waiting for CI. Fixed now. Lesson: wait for green. Sorry for the noise."
+      text: "I wanted to take a moment to provide a comprehensive update regarding the recent build failure. It's important to note that the issue arose due to a merge that was performed prior to the completion of the continuous integration checks. Rest assured, the issue has been seamlessly resolved. Moving forward, it is crucial that we foster a culture of patience with our CI pipeline."
+    assert:
+      - {type: llm-rubric, value: "Rewrites in the sample's short, blunt, first-person style with brief sentences, keeps the facts (build failure caused by merging before CI finished, now fixed, lesson to wait for CI), and removes 'comprehensive update', 'it's important to note', 'seamlessly' and 'foster a culture'."}
+  - name: negative-no-invented-detail
+    vars:
+      text: "Our product truly revolutionizes the way teams collaborate, unlocking unprecedented productivity and elevating every workflow to new heights."
+    assert:
+      - {type: llm-rubric, value: "Strips the hype vocabulary but does not invent specific features, metrics or customer results; uses a placeholder such as [specific example: …] for what the product concretely does and flags it in Check these."}
