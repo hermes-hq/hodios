@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a flight search strategy
 description: Plans how to search for a flight using flexible dates, nearby airports, open-jaw routes, true cost with baggage, fare alerts and booking timing, without inventing prices. Use before booking flights.
 category: travel-logistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [traveler]
@@ -41,6 +41,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "The search plan no longer asks the model to name carriers it cannot verify."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -52,7 +53,7 @@ Route: {{route}}
 </context>
 
 <task>
-1. Write a search plan: the order to search in (a metasearch engine with a flexible-date or calendar view first, then the airlines' own sites for the best options, then any carrier that metasearch tools often miss on this route), and what to record for each option.
+1. Write a search plan: the order to search in (a metasearch engine with a flexible-date or calendar view first, then the airlines' own sites for the best options, then a check of whether any low-cost or regional carrier that serves these airports sells only on its own site, which the traveller can see on the airports' destination pages), and what to record for each option.
 2. Dates: which days of the week and times of day are often cheaper on routes like this, how to use a flexible calendar view, and whether shifting by a day or two or avoiding local holidays and school holidays is likely to help. Mark these as patterns, not guarantees.
 3. Airports and routings: nearby alternative airports at each end (with the ground transfer time and cost to factor in), one-stop versus direct, open-jaw (into one city, out of another) where it fits, and separate tickets with a positioning flight where it might save money, with the risks.
 4. True cost: a comparison table the traveller fills in for each option, covering base fare, checked and cabin bags, seat selection, transfers to and from the airport, the value of the time lost, and change or cancellation terms.
