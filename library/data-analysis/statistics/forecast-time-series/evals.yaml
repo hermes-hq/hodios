@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Forecast this time series {{horizon}} ahead: {{series}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-demand
+    vars:
+      tool: python
+      horizon: 13 weeks
+      series: "Weekly units sold, column week_start (Monday) and units, from 2023-01-02 to 2026-09-28 (195 weeks) in weekly_units.csv. Strong peak in late November to December. A two-week stock-out in March 2025 cut sales to near zero."
+    assert:
+      - {type: contains, value: "## When not to trust it"}
+      - {type: llm-rubric, value: "Benchmarks against seasonal naive with period 52, fits ETS and/or ARIMA, uses rolling-origin backtesting with MASE and interval coverage, handles the March 2025 stock-out explicitly rather than deleting it silently, gives 80% and 95% intervals, warns that the horizon spans the holiday peak, and does not invent forecast numbers it could not compute."}
+  - name: edge-short-history-spreadsheet
+    vars:
+      tool: spreadsheet
+      horizon: 6 months
+      series: "Monthly revenue for 14 months: 41, 43, 40, 47, 52, 49, 55, 58, 54, 60, 63, 61, 66, 70 (thousands)."
+    assert:
+      - {type: llm-rubric, value: "Notes that 14 months is less than two full yearly cycles so seasonality cannot be reliably estimated, prefers a trend or drift method or non-seasonal ETS, gives Excel FORECAST.ETS and FORECAST.ETS.CONFINT usage with seasonality turned off or explained, and labels any hand-computed numbers as approximate."}
+  - name: negative-no-data
+    vars:
+      tool: r
+      horizon: 12 months
+      series: "Our website traffic."
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual series (values, frequency, history length, known events) and does not produce forecast numbers; may outline the method and code to run once data is available."}

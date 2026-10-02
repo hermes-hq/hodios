@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Check this analysis for problems: {{analysis}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feature-causes-retention
+    vars:
+      data_description: "Product analytics, all users who signed up Jan-Jun 2026. Users who were still active after 90 days were included in the feature-usage analysis."
+      analysis: |
+        Users who used the Dashboards feature have 2.3x higher 90-day retention (81% vs 35%).
+        Dashboards drives retention, so we should push every new user into Dashboards during onboarding.
+        We looked at 14 features; Dashboards had the strongest effect (p = 0.03).
+    assert:
+      - {type: contains, value: "## Claims to reword"}
+      - {type: llm-rubric, value: "Flags the causal claim from observational data, the selection/survivorship issue (only users active at 90 days analysed, and engaged users self-select into Dashboards), and the multiple-comparisons problem across 14 features; proposes a randomised onboarding test or matched comparison; rewrites 'drives' as an association."}
+  - name: edge-simpsons-paradox
+    vars:
+      data_description: ""
+      analysis: |
+        Support team B resolves fewer tickets on first contact than team A overall (61% vs 72%), so team B needs retraining.
+        Team A: 900 tickets, 80% password resets. Team B: 850 tickets, 70% integration issues.
+    assert:
+      - {type: llm-rubric, value: "Identifies that ticket mix differs sharply between teams and that the comparison should be made within ticket type, since the aggregate could reverse (Simpson's paradox); recommends a stratified comparison before concluding about retraining."}
+  - name: negative-sound-analysis
+    vars:
+      data_description: "Randomised A/B test, 50/50 split, pre-registered primary metric, fixed duration of 3 full weeks."
+      analysis: "Variant B increased checkout conversion from 3.20% to 3.41% (difference +0.21 pp, 95% CI +0.05 to +0.37, n = 96,000 per arm). Secondary metrics were not significantly different. We recommend shipping B."
+    assert:
+      - {type: llm-rubric, value: "Recognises the analysis is sound, gives a share as is or minor-edit verdict, and does not invent serious problems; may note small caveats such as novelty effects."}

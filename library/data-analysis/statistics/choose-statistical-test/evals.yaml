@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Which statistical test should I use? Question: {{question}}. Data: {{data_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-paired-before-after
+    vars:
+      tool: python
+      question: Did the new onboarding reduce time-to-first-task for the same set of trial teams?
+      data_description: "24 teams measured once before and once after the change. Time in hours, right-skewed, a couple of teams over 100 hours."
+    assert:
+      - {type: contains, value: "## Recommended test"}
+      - {type: icontains, value: "Wilcoxon"}
+      - {type: llm-rubric, value: "Recognises the paired design, recommends the Wilcoxon signed-rank test (or a paired t-test on log times) with reasoning about skew and n = 24, includes an effect size with a confidence interval, and gives scipy code."}
+  - name: edge-conversion-two-variants
+    vars:
+      tool: r
+      question: Does checkout variant B convert better than A?
+      data_description: "Randomised. A: 10,412 visitors, 498 purchases. B: 10,388 visitors, 561 purchases."
+    assert:
+      - {type: llm-rubric, value: "Recommends a two-proportion test (prop.test or a chi-square test) with the difference in proportions and its confidence interval, notes randomisation supports a causal reading, and gives working R code using the counts."}
+  - name: negative-ambiguous-design
+    vars:
+      tool: python
+      question: Is satisfaction different between the old and new app?
+      data_description: "Satisfaction 1-5 ratings, about 300 ratings for old and 280 for new."
+    assert:
+      - {type: llm-rubric, value: "Asks or explicitly addresses whether the same users rated both versions (paired vs independent), since that changes the test; does not silently assume one."}

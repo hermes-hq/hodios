@@ -1,0 +1,33 @@
+schema: 1
+baseline: "How many users do I need for this test? {{design}} Effect: {{effect_size}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conversion-ab
+    vars:
+      design: "A/B test on the pricing page, two arms 50/50. Baseline conversion 4.0%. About 6,000 visitors per day reach the page."
+      effect_size: "+0.5 percentage points (4.0% to 4.5%)"
+      alpha: 0.05
+      power: 0.8
+    assert:
+      - {type: contains, value: "## Sensitivity table"}
+      - {type: regex, value: "2[45],?\\d{3}"}
+      - {type: llm-rubric, value: "Computes roughly 25,000 visitors per arm (about 50,000 total), converts that to about 8-9 days and recommends running whole weeks, shows the two-proportion formula with 1.96 and 0.84, and includes statsmodels code."}
+  - name: edge-no-effect-given
+    vars:
+      design: "Survey of our 2,400 customers to estimate the share who would use a new feature. We expect about 40% of invitees to respond."
+      effect_size: ""
+      alpha: 0.05
+      power: 0.8
+    assert:
+      - {type: llm-rubric, value: "Treats it as estimating a proportion, asks for or proposes a target margin of error (for example plus or minus 5 points), applies a finite-population correction for 2,400, adjusts invitations for the 40% response rate, and notes non-response bias as a separate risk."}
+  - name: negative-missing-variance
+    vars:
+      design: "Test whether a new onboarding flow increases average revenue per user in the first 30 days. 2 arms."
+      effect_size: "an increase of 2 per user"
+      alpha: 0.05
+      power: 0.8
+    assert:
+      - {type: llm-rubric, value: "Asks for the baseline mean and standard deviation of 30-day revenue per user (or historical data to estimate it) instead of assuming a standard deviation, and may show the formula awaiting that input."}
