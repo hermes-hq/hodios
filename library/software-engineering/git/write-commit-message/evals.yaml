@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Write a commit message for this change: {{changes}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conventional-fix
+    vars:
+      convention: conventional
+      changes: |
+        diff --git a/src/cart/total.ts b/src/cart/total.ts
+        @@ -10,7 +10,7 @@ export function cartTotal(items: Item[], coupon?: Coupon): number {
+           const subtotal = items.reduce((sum, i) => sum + i.price * i.qty, 0);
+        -  const discount = coupon ? subtotal * coupon.percent : 0;
+        +  const discount = coupon ? subtotal * (coupon.percent / 100) : 0;
+           return Math.max(0, subtotal - discount);
+        diff --git a/src/cart/total.test.ts b/src/cart/total.test.ts
+        @@ -20,0 +21,4 @@
+        +test('a 10 percent coupon takes 10 percent off', () => {
+        +  expect(cartTotal([{ price: 50, qty: 2 }], { percent: 10 })).toBe(90);
+        +});
+    assert:
+      - {type: regex, value: "(?m)^fix(\\([a-z-]+\\))?: "}
+      - {type: not-icontains, value: "Co-authored-by"}
+      - {type: llm-rubric, value: "The subject is imperative and under 72 characters, and the body explains that coupon.percent is a whole-number percentage that was applied as a fraction, without inventing a ticket number."}
+  - name: edge-mixed-changes
+    vars:
+      convention: plain
+      changes: |
+        1. Renamed getUsr to getUser across 14 files (no behaviour change).
+        2. Fixed the password reset email being sent twice when the user double-clicks the button (added a 30 second idempotency key in reset.ts).
+    assert:
+      - {type: llm-rubric, value: "Proposes splitting into two commits (one rename, one fix) with a separate subject for each, instead of a single message joining both with 'and'."}
+  - name: negative-no-invented-reason
+    vars:
+      convention: plain
+      changes: |
+        diff --git a/config/limits.yml b/config/limits.yml
+        -max_upload_mb: 25
+        +max_upload_mb: 10
+    assert:
+      - {type: not-regex, value: "#\\d+|[A-Z]{2,}-\\d+"}
+      - {type: llm-rubric, value: "Does not invent a motivation, incident or ticket for lowering the limit; either states only the change or notes that the reason is missing and asks for it."}

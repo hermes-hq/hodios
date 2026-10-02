@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Find which commit broke this: {{symptom}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-known-range
+    vars:
+      symptom: "`npm test -- dates.test.ts` fails with 'expected 2026-03-29 to equal 2026-03-30' (DST handling)"
+      good_ref: v2.3.0
+      bad_ref: HEAD
+    assert:
+      - {type: icontains, value: "git bisect run"}
+      - {type: icontains, value: "git bisect reset"}
+      - {type: llm-rubric, value: "Validates the check on both v2.3.0 and HEAD before bisecting, and uses exit code 125 for commits that cannot be tested."}
+  - name: edge-flaky-symptom
+    vars:
+      symptom: "The upload e2e test fails about one run in five since sometime last month"
+    assert:
+      - {type: llm-rubric, value: "Recognises that an intermittent failure makes a single-run check unreliable and repeats the check enough times per commit, and finds a good ref because none was given."}
+  - name: negative-dirty-tree
+    vars:
+      symptom: "CLI prints the version twice. My working tree has uncommitted edits in src/cli.ts that I have not committed yet."
+      bad_ref: HEAD
+    assert:
+      - {type: not-icontains, value: "git stash drop"}
+      - {type: not-icontains, value: "reset --hard"}
+      - {type: llm-rubric, value: "Stops and asks the user to commit or stash the uncommitted edits before bisecting, instead of stashing or discarding them itself."}

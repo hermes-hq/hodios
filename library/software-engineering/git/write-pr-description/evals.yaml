@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Write a pull request description for these changes: {{changes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-migration
+    vars:
+      why: "PAY-412: invoices must store currency per line, not per invoice"
+      changes: |
+        commits:
+          a1b2c3d Add currency column to invoice_lines
+          d4e5f6a Backfill invoice_lines.currency from invoices.currency
+          0a9b8c7 Read line currency in InvoiceRenderer
+        files:
+          db/migrations/20261001_add_line_currency.sql  (+ALTER TABLE invoice_lines ADD COLUMN currency char(3); backfill UPDATE; NOT NULL after backfill)
+          src/invoices/renderer.ts  (uses line.currency instead of invoice.currency)
+          src/invoices/renderer.test.ts  (+2 tests for mixed-currency invoices)
+    assert:
+      - {type: contains-all, value: ["## Summary", "## How to test", "## Risks"]}
+      - {type: icontains, value: "PAY-412"}
+      - {type: llm-rubric, value: "Risks names the database migration and backfill (locking or duration on a large table, ordering of deploy versus migration) and a rollback path, and points the reviewer to the migration file first."}
+  - name: edge-tiny-change
+    vars:
+      changes: "diff --git a/README.md b/README.md\n-Run `npm start` to strat the server.\n+Run `npm start` to start the server."
+    assert:
+      - {type: javascript, value: "output.split(/\\s+/).length < 80"}
+      - {type: llm-rubric, value: "Keeps the description proportional to a one-word typo fix: a title and one or two lines, without empty test plans or risk sections padded with boilerplate."}
+  - name: negative-no-claimed-testing
+    vars:
+      changes: |
+        src/search/index.ts: replace linear scan in findByPrefix with a sorted array and binary search.
+        No test files changed.
+    assert:
+      - {type: not-regex, value: "(?i)(all tests pass|tested (it )?(locally|manually)|\\d+% faster)"}
+      - {type: llm-rubric, value: "Does not claim tests were run or that performance improved by a specific amount; asks the author to confirm or add tests, for example with a TODO."}
