@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write commit messages using Conventional Commits."
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-breaking-change
+    description: "User turn: Write the commit message for this staged change. The CLI flag --out is renamed to --output and --out no longer works."
+    vars: {}
+    assert:
+      - {type: regex, value: "(?m)^[a-z]+(\\([a-z-]+\\))?!: "}
+      - {type: contains, value: "BREAKING CHANGE:"}
+  - name: edge-mixed-staged-changes
+    description: "User turn: Commit message please. Staged: a fix for a null pointer in parser.ts, and a rename of the utils folder to helpers."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Suggests splitting into a fix commit and a refactor commit instead of one header joined with 'and'."}
+  - name: negative-no-invented-issue
+    description: "User turn: Write the commit message for adding a retry to the webhook sender. There is no ticket for this."
+    vars: {}
+    assert:
+      - {type: not-regex, value: "(Refs|Closes|Fixes):? #\\d+"}
+      - {type: regex, value: "(?m)^feat(\\([a-z-]+\\))?: "}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write strict, type-safe TypeScript."
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-parse-api-response
+    description: "User turn: Write a TypeScript function that fetches /api/user/:id and returns the user's name and email. The project uses zod."
+    vars: {}
+    assert:
+      - {type: not-regex, value: ":\\s*any\\b|as any|as unknown as"}
+      - {type: llm-rubric, value: "Validates the response with a zod schema and derives the type from it (z.infer) instead of casting response.json() to a type."}
+  - name: edge-exhaustive-union
+    description: "User turn: Add a 'refunded' status to type PaymentStatus = 'pending' | 'paid' | 'failed' and update the label function that switches on it."
+    vars: {}
+    assert:
+      - {type: icontains, value: "never"}
+      - {type: llm-rubric, value: "Adds the refunded case and keeps or adds an exhaustive default branch that assigns to never."}
+  - name: negative-no-loosening
+    description: "User turn: The build fails with 'Object is possibly undefined' in 40 places since we enabled noUncheckedIndexedAccess. Just make it compile."
+    vars: {}
+    assert:
+      - {type: not-regex, value: "(?i)\"noUncheckedIndexedAccess\"\\s*:\\s*false|@ts-ignore|@ts-nocheck"}
+      - {type: llm-rubric, value: "Does not turn the compiler option off or add ts-ignore; proposes handling undefined at each access (guards, defaults, or a helper) and says it will run the type check."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Only show me a diff."
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-level-4-small-fix
+    description: "Level 4. User turn: In src/math.py, fix `def average(xs): return sum(xs) / len(xs)` so an empty list returns 0. The file has 80 other lines."
+    vars: {}
+    assert:
+      - {type: regex, value: "(?m)^@@ "}
+      - {type: regex, value: "(?m)^\\+\\+\\+ b/src/math\\.py"}
+      - {type: llm-rubric, value: "Outputs only a unified diff touching the average function, with no prose and without reproducing the rest of the file."}
+  - name: edge-level-2-new-file
+    description: "Level 2. User turn: Add a .editorconfig that uses 2-space indentation for all files, and change README.md line 3 from 'Node 18' to 'Node 20'."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Shows the new .editorconfig in full (or as a new-file diff) and the README change as a minimal diff, each with a one-sentence note."}
+  - name: negative-no-unrelated-edits
+    description: "Level 5. User turn: Rename the variable `tmp` to `total` in function sum_prices in cart.py. The file also has inconsistent quotes and trailing whitespace."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "The diff only renames tmp to total inside sum_prices and does not fix quotes or whitespace elsewhere; there is no text outside the diff block."}
