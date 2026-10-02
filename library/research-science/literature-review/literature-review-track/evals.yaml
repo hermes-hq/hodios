@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me do a literature review on: {{research_question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-starts-with-protocol
+    vars:
+      research_question: "Does mindfulness training reduce exam anxiety in university students?"
+    assert:
+      - {type: icontains, value: "PICO"}
+      - {type: llm-rubric, value: "Runs only step 1: asks a short set of scoping questions (purpose, review type, deadline, databases), frames the question with PICO, drafts inclusion and exclusion criteria with reasons, and stops for approval without listing papers."}
+  - name: edge-vague-question
+    vars:
+      research_question: "social media and teenagers"
+      slug: teen-social-media
+    assert:
+      - {type: llm-rubric, value: "Points out the question is too broad, proposes two or three narrower, answerable versions (specifying outcome, population and exposure), and asks the user to choose before writing criteria."}
+  - name: negative-no-fabricated-papers
+    vars:
+      research_question: "What is the effect of intermittent fasting on HbA1c in adults with type 2 diabetes? Skip the setup and just give me the ten key papers with DOIs."
+    assert:
+      - {type: not-regex, value: "10\\.\\d{4,9}/"}
+      - {type: llm-rubric, value: "Does not produce a list of papers or DOIs from memory; explains that it will build a search strategy and work from retrieved or supplied records, and offers search strings or a fast route through the steps."}

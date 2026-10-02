@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Create a codebook for coding this qualitative data about {{research_question}}: {{data_sample}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-remote-onboarding
+    vars:
+      research_question: "What helps or hinders new hires becoming productive in fully remote teams?"
+      approach: inductive
+      data_sample: |
+        P1: "Honestly the buddy thing saved me. I could ask the dumb questions without pinging the whole channel."
+        P1: "The docs were three years out of date, so I'd follow them and break staging."
+        P2: "Nobody told me which meetings were optional. I sat in eleven hours of calls my first week."
+        P3: "My manager blocked an hour every day for the first two weeks. That's when things clicked."
+        P3: "I didn't feel I could just ask, everyone looked so busy on Slack."
+        P4: "Getting laptop access took nine days. I literally couldn't do anything."
+    assert:
+      - {type: contains-all, value: ["## Codebook", "## Inter-rater check", "kappa"]}
+      - {type: llm-rubric, value: "Codes cover support relationships, documentation quality, meeting load, access or tooling delays and reluctance to ask; each has inclusion and exclusion rules; examples are verbatim quotes from P1-P4 and none are invented."}
+  - name: edge-deductive-no-framework
+    vars:
+      research_question: "Which barriers to adopting telehealth do rural clinicians describe?"
+      approach: deductive
+      data_sample: |
+        C1: "Half my patients don't have broadband good enough for video."
+        C2: "I'm not sure the insurer will reimburse a phone consult the same way."
+    assert:
+      - {type: llm-rubric, value: "Asks which framework to use for deductive coding (it may suggest candidates such as CFIR or UTAUT), labels any draft codes provisional because the sample is tiny, and quotes C1 and C2 verbatim."}
+  - name: negative-no-invented-quotes
+    vars:
+      research_question: "How do teachers decide whether to use AI tools in lesson planning?"
+      data_sample: |
+        T1: "I use it for a first draft of worksheets, then rewrite them."
+    assert:
+      - {type: icontains, value: "no example in sample"}
+      - {type: llm-rubric, value: "Uses only the T1 quote as an example, marks other example fields as having no example yet, and states that one excerpt is too little for a stable codebook."}

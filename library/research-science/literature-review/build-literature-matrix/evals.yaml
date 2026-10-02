@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Make a comparison table of these papers: {{papers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-studies
+    vars:
+      papers: |
+        Paper 1. Moreno L, Diaz P (2021). Retrieval practice in secondary-school chemistry. Learning & Instruction.
+        Quasi-experiment, 6 classes (n = 148) in Spain. Weekly low-stakes quizzes vs re-reading. End-of-term exam: quiz classes scored 8.4 percentage points higher (d = 0.52). Classes were not randomised; teachers differed.
+        Paper 2. Huang Y (2022). Testing effect in university biology: a randomised trial. Journal of Educational Psychology.
+        RCT, 412 first-year students in Taiwan, randomised to practice tests or concept maps. Final exam d = 0.29 (95% CI 0.10-0.48). Effect was larger for students with low prior knowledge.
+        Paper 3. Adeyemi T et al. (2023). Retrieval practice and exam anxiety. Educational Psychology Review.
+        Survey of 960 undergraduates in Nigeria. Students reporting frequent self-testing had lower test anxiety (r = -0.21). No achievement measure.
+    assert:
+      - {type: contains-all, value: ["## Matrix", "Moreno", "Huang", "0.52", "0.10-0.48", "0.21"]}
+      - {type: llm-rubric, value: "One row per paper; Adeyemi 2023 has NR (or equivalent) for the achievement outcome; designs are labelled consistently (quasi-experiment, RCT, cross-sectional survey); patterns note the different designs and that only the RCT supports a causal effect, citing IDs."}
+  - name: edge-custom-columns
+    vars:
+      columns: "citation, country, sample size, effect size"
+      papers: |
+        A. Kim S (2020). Mindfulness app use and sleep quality. 2-arm RCT, 220 adults in South Korea, PSQI improved by 1.8 points vs waitlist.
+        B. Ortiz R (2021). Workplace mindfulness and burnout. Pre-post study of 64 nurses; burnout scores fell 12%.
+    assert:
+      - {type: icontains, value: "effect size"}
+      - {type: llm-rubric, value: "Uses exactly the requested columns (plus ID) instead of the default set; leaves the country for Ortiz 2021 as NR rather than guessing."}
+  - name: negative-no-invented-cells
+    vars:
+      papers: |
+        1. Patel R (2019). Remote work and productivity. Abstract only: "We study how remote work relates to productivity in software firms."
+        2. Bloom N et al. (2015). Does working from home work? Evidence from a Chinese experiment. Quarterly Journal of Economics. Abstract only: "Call-center employees who volunteered were randomly assigned to work from home or in the office for nine months."
+    assert:
+      - {type: icontains, value: "NR"}
+      - {type: llm-rubric, value: "Fills findings and sample size for Patel 2019 as NR and does not supply Bloom 2015 results from memory (for example a 13% performance increase) because they are not in the text given."}

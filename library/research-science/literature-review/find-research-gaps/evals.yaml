@@ -1,0 +1,35 @@
+schema: 1
+baseline: "What are the research gaps in these sources? {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contradiction-and-population
+    vars:
+      field: "education technology, homework apps"
+      sources: |
+        Lee 2019: RCT, 640 US middle-schoolers, adaptive maths homework app vs paper homework, +0.18 SD on state test after one year.
+        Fischer 2020: quasi-experiment, 22 German secondary schools, same app, no difference in grades (d = 0.02); usage averaged 9 minutes per week.
+        Rao 2021: survey of 1,100 US high-school students; app users reported more homework completion; no achievement measure.
+        Lee 2022: follow-up of the 2019 RCT; effect faded to +0.04 SD two years later.
+        Grant 2023: interviews with 30 US teachers on adoption barriers; cited lack of device access at home.
+    assert:
+      - {type: contains-all, value: ["## Gaps", "## Contradictions", "Fischer 2020", "Lee 2019"]}
+      - {type: llm-rubric, value: "Identifies the Lee 2019 vs Fischer 2020 contradiction and offers usage/dose and context as explanations; notes that all achievement evidence is from the US and Germany and that low-income or device-limited students are untested; flags fade-out and lack of long-term evidence; never says 'no study has' about the wider literature."}
+  - name: edge-too-few-sources
+    vars:
+      sources: |
+        Ahmed 2021: cross-sectional survey of 300 nurses in Egypt; night-shift frequency correlated with burnout (r = 0.34).
+    assert:
+      - {type: llm-rubric, value: "Says one source is too few to identify gaps reliably, marks any gaps as preliminary or low confidence, and suggests searches to run rather than inventing other studies."}
+  - name: negative-no-invented-literature
+    vars:
+      field: "ecology, urban pollinators"
+      sources: |
+        Novak 2018: bee counts in 40 Prague gardens; native plantings had 2.1x more bee visits.
+        Silva 2020: 12 green roofs in Lisbon; wild bee richness rose with roof age.
+        Okoye 2022: 25 community gardens in Lagos; pesticide use linked to lower butterfly abundance.
+    assert:
+      - {type: contains-all, value: ["## Gaps", "## Before you claim a gap"]}
+      - {type: llm-rubric, value: "Cites only Novak 2018, Silva 2020 and Okoye 2022 as evidence, does not name other papers as if they were part of the evidence, and frames gaps as 'none of these sources' with searches to confirm."}

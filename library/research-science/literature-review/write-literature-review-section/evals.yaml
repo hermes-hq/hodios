@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Write a literature review about {{research_question}} using these sources: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-thematic-apa
+    vars:
+      citation_style: apa
+      word_limit: 500
+      research_question: "Does a four-day working week reduce burnout without lowering output in small professional-services firms?"
+      sources: |
+        Schor, J. B., Fan, W., & Kelly, O. (2022). The four day week: Assessing global trials. Report, Boston College. 61 companies in the UK pilot; 71% of employees reported less burnout; company revenue stable over six months; self-selected firms.
+        Haraldsson, G. D., & Kellam, J. (2021). Going public: Iceland's journey to a shorter working week. Autonomy. Public-sector trials with 2,500 workers; wellbeing improved; productivity maintained in most workplaces; few private firms.
+        Delaney, H., & Casey, C. (2022). The promise of a four-day week? A critical appraisal of a management-led initiative. Employee Relations, 44(1), 176-190. Case study of one New Zealand firm; work intensified for some staff.
+        Kim, S., Park, Y., & Lee, J. (2019). Reduced working hours and job satisfaction in Korea. Journal of Labor Research, 40(3), 315-334. National panel data; reduced statutory hours raised satisfaction; no effect on firm productivity measured.
+    assert:
+      - {type: contains-all, value: ["## Synthesis map", "## References", "Delaney"]}
+      - {type: not-regex, value: "(?m)^(Schor|Haraldsson|Delaney|Kim) (et al\\.|and|&)"}
+      - {type: llm-rubric, value: "Paragraphs are organised by theme rather than by paper, at least one paragraph combines two or more sources, the work-intensification finding is used as a counterpoint, it notes that trial firms self-selected, ends with the gap about small professional-services firms, uses APA author-date citations, and stays near 500 words."}
+  - name: edge-missing-metadata-ieee
+    vars:
+      citation_style: ieee
+      word_limit: 300
+      research_question: "Can low-cost air sensors replace reference monitors for neighbourhood PM2.5 mapping?"
+      sources: |
+        Zhang et al. Low-cost PM2.5 sensors in Beijing. Atmospheric Environment. Sensors correlated with reference monitors (R2 = 0.79) but over-read at high humidity.
+        Mbeki, T. (2021). Community air monitoring in Johannesburg. Correction models reduced bias by 60%.
+        Ortiz, A. (2020). Sensor drift over 12 months. Environmental Science & Technology, 54(8), 4590-4598. Drift of up to 20% per year without recalibration.
+    assert:
+      - {type: contains, value: "[missing:"}
+      - {type: regex, value: "\\[1\\]"}
+      - {type: llm-rubric, value: "Uses IEEE numbered citations, marks the missing year for Zhang and missing venue for Mbeki instead of inventing them, and flags that fewer than four sources makes this a draft."}
+  - name: negative-off-topic-sources
+    vars:
+      research_question: "How does remote work affect junior software engineers' learning?"
+      sources: |
+        Taylor, R. (2018). Coral bleaching in the Great Barrier Reef. Marine Biology, 165, 12.
+        Nguyen, P. (2020). Soil microbiomes and wheat yield. Plant and Soil, 450, 101-115.
+    assert:
+      - {type: llm-rubric, value: "States up front that the sources do not address the research question and does not fabricate a review about remote work or cite other studies from memory."}
