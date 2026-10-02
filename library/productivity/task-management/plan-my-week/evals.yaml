@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Plan my week. Tasks: {{tasks}}. Commitments: {{commitments}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-engineer-week
+    vars:
+      tasks: "Write design doc for search feature (about 6 h, due Thursday EOD); code review backlog (3 h); prepare conference talk slides (8 h, talk is in 3 weeks); expense reports (30 min); onboard new teammate (2 h spread out)"
+      commitments: "Daily standup 9:30-9:45; Tuesday 14:00-16:00 planning; Wednesday 11:00-12:00 1:1; Thursday 16:00-17:00 demo; school pickup 16:30 Mon and Fri"
+      work_hours: "9:00-17:30, sharpest 9:45-12:30, low energy 13:30-15:00"
+    assert:
+      - {type: contains, value: "## Capacity check"}
+      - {type: llm-rubric, value: "Shows the capacity arithmetic and plans around 70 percent, places design doc deep-work blocks in morning peak windows and finishes it before Thursday, batches code review and expenses into low-energy slots, keeps all fixed commitments and pickups exactly, includes daily buffers, and moves part of the talk prep to later weeks in Does not fit."}
+  - name: edge-overcommitted
+    vars:
+      tasks: "Finish 40-page report (20 h, due Wednesday); prepare board deck (10 h, due Friday); hire for two roles (interviews 6 h)"
+      commitments: "Meetings take 25 hours this week, spread across all days"
+      work_hours: "9-18, no evenings"
+    assert:
+      - {type: llm-rubric, value: "Shows the week does not fit (about 45 working hours minus 25 hours of meetings leaves far less than 36 hours of work), says so plainly up front, and proposes what to renegotiate, shrink or delegate rather than overbooking."}
+  - name: negative-no-overbooking
+    vars:
+      tasks: "Study for exam (as much as possible)"
+      commitments: "Lectures Mon-Thu 9-12"
+    assert:
+      - {type: llm-rubric, value: "Does not fill every free hour with study; plans focused study blocks with breaks and buffer, states assumptions about hours and energy, and may ask about exam date and subjects."}

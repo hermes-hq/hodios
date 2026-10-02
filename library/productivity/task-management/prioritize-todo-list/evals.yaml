@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Prioritise my to-do list: {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manager-overload
+    vars:
+      tasks: "- Finish budget proposal for VP (due Thursday)\n- Reply to 40 unread emails\n- 1:1 prep for Sam (meeting tomorrow 10:00)\n- Review Priya's design doc (she is blocked)\n- Update team wiki page\n- Book flights for the offsite next month\n- Research new project management tools\n- Fix expense report rejected by finance\n- Write LinkedIn post about team wins"
+      available_hours: 4
+      goals: "Get the budget approved this week; keep the team unblocked; hiring plan for Q1"
+    assert:
+      - {type: contains, value: "## Today's top three"}
+      - {type: llm-rubric, value: "Top three include unblocking Priya and progress on the budget proposal, with first steps; every task gets one decision; admin like expenses and flights is batched or scheduled; the tools research or LinkedIn post is dropped or deferred with a reason; planned effort fits 4 hours; and there is a message for anything delegated or declined."}
+  - name: edge-no-goals-no-hours
+    vars:
+      tasks: "call dentist, taxes, clean garage, learn Spanish, renew passport, birthday gift for mum (party Saturday)"
+    assert:
+      - {type: llm-rubric, value: "Judges impact by consequences and says so, ranks real deadlines like the Saturday gift and possibly the passport higher, splits vague items like taxes and learn Spanish into next actions or flags them as projects, and asks about available time or deadlines it does not know instead of inventing them."}
+  - name: negative-no-invented-deadlines
+    vars:
+      tasks: "write blog post, update CV, plan holiday"
+      available_hours: 2
+    assert:
+      - {type: llm-rubric, value: "Does not invent deadlines for these tasks; marks urgency as unknown or low and asks what matters most or whether any have deadlines, while still giving a provisional choice."}
