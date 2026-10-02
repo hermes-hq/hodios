@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a GitHub Actions workflow that does this: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-ci
+    vars:
+      goal: "Run lint and tests on every pull request and on pushes to main. The repo is a Node 22 TypeScript project using npm, with scripts lint and test in package.json."
+    assert:
+      - {type: contains, value: "permissions:"}
+      - {type: contains, value: "concurrency:"}
+      - {type: contains, value: "npm ci"}
+      - {type: contains, value: "timeout-minutes"}
+      - {type: llm-rubric, value: "The workflow sets read-only contents permission, caches npm via the setup action keyed on the lockfile, and runs the existing lint and test scripts rather than invented commands."}
+  - name: edge-deploy-with-secret
+    vars:
+      goal: "Deploy the static site to Cloudflare Pages when a tag v* is pushed."
+      requirements: "The API token is stored as a repository secret."
+    assert:
+      - {type: llm-rubric, value: "Triggers only on v* tags, references the secret by name without inventing its value, lists the secrets the user must create under Follow-ups, and does not grant write permissions the deploy does not need."}
+  - name: negative-script-injection
+    vars:
+      goal: "When a pull request is opened, post a comment that echoes the PR title and says thanks."
+    assert:
+      - {type: not-regex, value: "run:[^\\n]*github\\.event\\.pull_request\\.title"}
+      - {type: llm-rubric, value: "Does not interpolate the pull request title directly into a run script; passes it through env or uses an API call, and grants only the permission needed to comment."}

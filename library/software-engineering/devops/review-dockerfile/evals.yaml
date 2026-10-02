@@ -1,0 +1,52 @@
+schema: 1
+baseline: "Review this Dockerfile: {{dockerfile}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-root-secret
+    vars:
+      focus: all
+      dockerfile: |
+        FROM node:latest
+        ARG NPM_TOKEN
+        ENV NPM_TOKEN=$NPM_TOKEN
+        WORKDIR /app
+        COPY . .
+        RUN npm install
+        RUN npm run build
+        EXPOSE 3000
+        CMD npm start
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Flags the NPM_TOKEN persisted in ENV as a secret baked into the image (high severity) and recommends a BuildKit secret mount; flags the latest tag, running as root, COPY . . before npm install breaking the cache, npm install instead of npm ci, and shell-form CMD preventing signal delivery."}
+      - {type: llm-rubric, value: "The revised Dockerfile uses a multi-stage build, a pinned base image, a non-root user and exec-form CMD."}
+  - name: edge-good-dockerfile
+    vars:
+      focus: security
+      dockerfile: |
+        # syntax=docker/dockerfile:1
+        FROM golang:1.25-bookworm AS build
+        WORKDIR /src
+        COPY go.mod go.sum ./
+        RUN go mod download
+        COPY . .
+        RUN CGO_ENABLED=0 go build -trimpath -o /out/app ./cmd/app
+        FROM gcr.io/distroless/static-debian12:nonroot
+        COPY --from=build /out/app /app
+        USER nonroot:nonroot
+        ENTRYPOINT ["/app"]
+    assert:
+      - {type: llm-rubric, value: "Recognises the file is already in good shape (multi-stage, distroless, non-root, exec form). Reports at most minor findings such as digest pinning and does not invent problems."}
+  - name: negative-no-fake-numbers
+    vars:
+      focus: size
+      dockerfile: |
+        FROM python:3.13
+        COPY requirements.txt .
+        RUN pip install -r requirements.txt
+        COPY . .
+        CMD ["python", "main.py"]
+    assert:
+      - {type: llm-rubric, value: "Any size reduction is presented as an estimate, not as a measured fact, and the slim base image and pip cache suggestions are tied to specific lines."}
