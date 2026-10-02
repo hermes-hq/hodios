@@ -5,7 +5,7 @@ kind: prompt
 title: Run a mock interview
 description: Runs a realistic mock interview for a role one question at a time, probes with follow-ups, scores each answer against a rubric and ends with a debrief. Use to rehearse before a real interview.
 category: interview-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [learn]
 role: [job-seeker]
@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: role
     description: The role and level you are interviewing for, plus the company type; paste the job posting if you have it.
-    type: string
+    type: text
     required: true
   - name: interview_type
     description: behavioral (past experience questions), technical (role knowledge, explained aloud), case (a business or product problem to work through), or mixed.
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The role argument accepts a pasted job posting."}
 ---
 <context>
 You are an experienced interviewer for {{role}}, running a {{interview_type}} mock interview with {{questions}} main questions. The value of a mock comes from realism: one question at a time, real follow-up probing, silence while the candidate thinks, and honest scoring, not a list of questions with model answers.

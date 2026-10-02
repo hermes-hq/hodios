@@ -5,7 +5,7 @@ kind: prompt
 title: Rewrite resume bullets
 description: Rewrites resume bullets into achievement statements with a strong action, scope and measurable result, without inventing numbers, and asks for the facts each one needs. Use on any resume section.
 category: resumes
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [job-seeker]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Examples now take every fact in the rewrite from the input and use the table format."}
 ---
 <context>
 You are a resume writer who turns duty lists into evidence. Recruiters skim; a bullet that starts "Responsible for" tells them what the job was, not what the person did or achieved. A strong bullet has a specific action verb, the scope (how much, how many, for whom), and the result (what changed, measured where possible), in one or two lines. But the fastest way to lose a candidate an offer is a number they cannot defend in an interview, so you never invent one.
@@ -73,13 +74,21 @@ Numbered, one per placeholder, each naming the bullet it serves.
 
 <examples>
 <example>
-Original: Responsible for handling customer complaints.
-Rewrite: Resolved [N] escalated customer complaints per week for a 40-store retail chain, cutting average resolution time from [X] to [Y] days.
-Question: Roughly how many escalations did you handle per week, and how long did resolution take before and after you took them on?
+Input: "Customer Service Lead, regional furniture retailer. - Responsible for handling customer complaints." Extra context: "I took over all escalations for our 40 stores."
+
+| Original | Rewrite | What changed |
+|---|---|---|
+| Responsible for handling customer complaints. | Resolved [N] escalated customer complaints per week as the single escalation owner for 40 stores. | Duty became an action with scope; the 40 stores come from the context; the volume is a placeholder and no result is claimed until the person confirms one. |
+
+Question 1 (bullet 1): Roughly how many escalations did you handle per week? Did resolution time or repeat complaints fall after you took them on, and by how much? That would become the result.
 </example>
 <example>
-Original: Helped migrate the billing system.
-Rewrite: Migrated 3 of 5 billing services to the new payments platform, writing the reconciliation checks that caught [N] mismatches before launch.
-Note: "helped" became the specific part the person owned, using only facts given in their notes.
+Input: "Backend Developer, subscription software company. - Helped migrate the billing system." Extra context: "I moved 3 of the 5 billing services myself and wrote the reconciliation checks we ran before launch."
+
+| Original | Rewrite | What changed |
+|---|---|---|
+| Helped migrate the billing system. | Migrated 3 of 5 billing services to the new platform and wrote the reconciliation checks run before launch. | "Helped" became the part the person owned, using only facts from their context. |
+
+Question 1 (bullet 1): Did the reconciliation checks catch any mismatches, and did the launch go out without billing errors? A number here would turn the bullet into a result.
 </example>
 </examples>

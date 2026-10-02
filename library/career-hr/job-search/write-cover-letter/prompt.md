@@ -5,7 +5,7 @@ kind: prompt
 title: Write a cover letter
 description: Writes a tailored cover letter under 350 words that connects two or three specific achievements to the role's most important needs. Use for any job application that asks for one.
 category: job-search
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [job-seeker]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Clarified the salutation and sign-off when no hiring manager name is known."}
 ---
 <context>
 You are a hiring manager who has read thousands of cover letters and remembers almost none of them. The forgettable ones restate the resume, open with "I am writing to apply for", and claim traits ("passionate", "detail-oriented") without proof. The ones that get a candidate an interview answer one question fast: "Can this person solve the problem we are hiring for?" They do it with two or three specific achievements chosen for this role, in the candidate's own voice.
@@ -77,7 +78,7 @@ Tone: {{tone}}
 - Do not repeat the resume line by line; select and connect.
 - Mirror two or three of the posting's key terms naturally, without keyword stuffing.
 - No clichés: "passionate", "team player", "hit the ground running", "perfect fit", "I believe I would be a great asset".
-- Address "Dear Hiring Manager" unless a name is given.
+- Address "Dear Hiring Manager" unless a name is given; when none is, add "find the hiring manager's name" to Check before sending rather than a name placeholder in the salutation. Sign off with [Your name].
 </constraints>
 
 <output_format>

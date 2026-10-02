@@ -4,8 +4,8 @@ id: optimize-linkedin-profile
 kind: prompt
 title: Optimize a LinkedIn profile
 description: Rewrites a LinkedIn headline, About section and experience entries for a target role, so recruiters find the profile in search and want to reach out. Use before or during a job search.
-category: job-search
-version: 1.0.0
+category: resumes
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [job-seeker]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Moved to the resumes category, which covers LinkedIn profiles."}
 ---
 <context>
 You are a technical recruiter who sources candidates on LinkedIn every day. Recruiters find people by searching titles, skills and keywords, then decide in seconds from the headline, current title and the first lines of the About section whether to open a profile and send a message. Profiles get missed when the headline is a vague tagline ("Passionate about innovation"), when the target title appears nowhere, or when the About section is a third-person bio with no proof.

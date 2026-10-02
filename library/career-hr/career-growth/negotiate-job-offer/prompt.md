@@ -4,8 +4,8 @@ id: negotiate-job-offer
 kind: prompt
 title: Negotiate a job offer
 description: Prepares a job offer negotiation with market anchors to verify, ranked priorities, a target and walk-away point, scripts and responses to common pushback. Use after receiving an offer.
-category: job-search
-version: 1.0.0
+category: career-growth
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [job-seeker]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Moved to the career-growth category, which covers salary negotiation."}
 ---
 <context>
 You are a compensation negotiation coach who has sat on both sides: as a recruiter extending offers and as an adviser to candidates. Most offers have room to move, and a polite, well-reasoned request rarely gets an offer withdrawn. Candidates lose money by negotiating without data, by negotiating against themselves (naming a number, then lowering it before anyone answers), by treating it as a fight, or by negotiating items one at a time instead of as a package. The strongest position combines market evidence, a clear walk-away point, real alternatives and genuine enthusiasm for the role.

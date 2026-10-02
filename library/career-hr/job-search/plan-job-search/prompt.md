@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a job search
 description: Builds a weekly job-search plan with target companies, channel mix, a pipeline tracker and weekly targets sized to the hours available. Use at the start of a search or when one has stalled.
 category: job-search
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [job-seeker]
@@ -38,12 +38,13 @@ args:
     default: 10
 output_contract:
   format: markdown
-  sections: [Diagnosis, Target list, Channel mix, Weekly rhythm, Pipeline tracker, Weekly targets, Adjust after four weeks]
+  sections: [Diagnosis, Target list, Channel mix, Weekly rhythm, Pipeline tracker, Weekly targets, Adjust after four weeks, Open questions]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Output contract lists the Open questions section the format already asks for."}
 ---
 <context>
 You are a career strategist who treats a job search like a sales pipeline. Most stalled searches have one of three problems: too few of the right conversations at the top (mass applying to postings with no referrals or outreach), poor conversion at one stage (applications with no replies point to targeting or the resume; interviews with no offers point to interview skills), or no system, so effort goes to whatever feels productive. Referrals and direct outreach usually convert far better than cold applications, so a good plan spends real time on them.
@@ -89,4 +90,5 @@ Bullets with numbers, plus the conversion assumptions.
 ## Adjust after four weeks
 Table: If this stage converts badly | Likely cause | Change.
 ## Open questions
+Missing facts that would change the plan, each with the assumption used, or "None".
 </output_format>

@@ -5,7 +5,7 @@ kind: prompt
 title: Write a networking message
 description: Writes a short outreach message asking for an informational interview, a referral or advice that is specific, low-effort to accept and easy to decline. Use for LinkedIn or email outreach.
 category: job-search
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [job-seeker]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Connection note fits the 200-character free-account limit and shows its count."}
 ---
 <context>
 You write outreach that busy professionals actually answer. Most networking messages fail because they are about the sender, ask for something vague ("pick your brain", "any opportunities?"), or ask too much too soon (a referral from a stranger with no context). A message gets a yes when the reader can see in ten seconds why you chose them, exactly what you want, how little it costs them, and that saying no is fine.
@@ -69,7 +70,7 @@ Ask: {{ask}}
      - referral: name the role (title, and a job ID or link if given), say why you fit in one line, offer to send a short blurb they can forward, and attach or link the resume. If the user has no prior relationship with the contact, recommend a short informational chat first and write the message as a bridge to that instead, explaining why in Notes.
      - advice: one specific question they can answer in a few lines, in writing.
    - Line 4: an easy out ("If now isn't a good time, no worries at all") and thanks.
-3. Write a short version for a connection request (aim for about 300 characters, the limit platforms such as LinkedIn commonly apply to invitation notes; check the current limit).
+3. Write a short version for a connection request under 200 characters, the limit LinkedIn applies to invitation notes on free accounts (Premium allows 300); limits change, so tell the user to check. Give its character count.
 4. Write one follow-up to send after 5-7 working days with no reply, adding something useful or new rather than a guilt-trip.
 </task>
 
@@ -84,7 +85,7 @@ Ask: {{ask}}
 ## Message
 Subject line (for email) and body.
 ## Short version
-The connection-request note.
+The connection-request note and its character count.
 ## Follow-up
 ## Notes
 One to three bullets: anything assumed, what to personalise, and timing advice.

@@ -5,7 +5,7 @@ kind: prompt
 title: Write a self-review
 description: Writes a self-assessment for a performance review cycle that is specific, honest about misses, tied to the goals set and sized to the company's format. Use when the self-review form opens.
 category: career-growth
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [individual, software-engineer, manager]
@@ -33,7 +33,7 @@ args:
     type: text
   - name: format
     description: The review form's questions, sections, rating scale or word limits (for example "3 questions, 300 words each, plus a self-rating on a 1-5 scale"). Optional; a standard format is used without it.
-    type: string
+    type: text
 output_contract:
   format: markdown
   sections: [Self-review, Self-rating, Before you submit]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The format argument accepts a pasted review form."}
 ---
 <context>
 You help people write self-reviews that managers and calibration committees can use. Managers have to defend ratings with evidence; a self-review that gives them specific, verifiable impact tied to the agreed goals makes that easy. Self-reviews go wrong in two directions: modest lists of tasks that undersell real impact, and polished claims that hide misses the manager already knows about, which costs credibility. Owning a miss with what was learned and changed reads as maturity.
