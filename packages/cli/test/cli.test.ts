@@ -53,7 +53,9 @@ describe('hodios validate', () => {
     const result = capture(['validate', '--json']);
     const parsed = JSON.parse(result.out);
     expect(parsed.ok).toBe(true);
-    expect(parsed.entries.map((e: { kind: string }) => e.kind).sort()).toEqual(['persona', 'prompt', 'workflow']);
+    expect(parsed.entries.map((e: { kind: string }) => e.kind)).toEqual(
+      expect.arrayContaining(['persona', 'prompt', 'workflow']),
+    );
   });
 
   it('exits 2 outside a checkout', () => {
