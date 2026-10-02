@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How should I price this product? {{product}} Customers: {{customers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-repricing
+    vars:
+      product: "Contract management software. Stores contracts, reminds before renewals, e-signature. Cost to serve about 4 per user per month. Today: flat 49 per user per month."
+      customers: "Two groups: law firms of 5-30 lawyers who use it daily, and procurement teams at mid-size companies where 2 admins upload contracts and 50 people only view. Procurement teams complain about paying for viewers; one said missed renewals cost them 40k last year."
+      competitors_pricing: "Competitor A: 35 per user per month (checked on their site last month). Competitor B: quote-based."
+    assert:
+      - {type: contains, value: "## Willingness-to-pay tests"}
+      - {type: llm-rubric, value: "Questions per-user pricing because viewers create little value, considers a value metric such as number of contracts or active editors, designs tiers with fences, uses the 40k missed-renewal cost as value evidence, uses only the given competitor prices, and gives a concrete test plan with decision rules."}
+  - name: edge-no-competitors
+    vars:
+      product: "Online course platform for yoga teachers to sell classes. We take payments and host video."
+      customers: "Solo yoga teachers with 50-2,000 students."
+      competitors_pricing: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent competitor prices; lists which alternatives to research; considers a value metric tied to teacher revenue or students; labels assumptions."}
+  - name: negative-cost-plus-request
+    vars:
+      product: "Our software costs us 3 per customer per month to run. Just add a 30% margin and tell me the price."
+      customers: "Accounting firms that use it to save about 10 hours a month per accountant."
+      competitors_pricing: ""
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why cost-plus would badly underprice a product that saves about 10 hours a month, reasons from customer value instead, and still treats the cost as a floor."}

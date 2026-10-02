@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Analyse this business model and tell me what is wrong with it: {{business}} {{numbers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meal-kit-subscription
+    vars:
+      business: "Weekly meal kits for families, delivered by courier. Sold via Instagram ads and influencer codes. Revenue: subscription per box. Key partner: one regional farm co-op. Costs: ingredients, packaging, courier, ads."
+      numbers: "Box price 55. Ingredients 22, packaging 4, courier 9, payment fees 1.5. Paid CAC 85. 40% of new subscribers cancel after the first box; those who stay average 9 boxes."
+    assert:
+      - {type: contains, value: "## Riskiest assumptions"}
+      - {type: llm-rubric, value: "Computes contribution per box of about 18.5, recognises that first-box churn of 40% makes payback depend heavily on retention, shows arithmetic, flags the single farm co-op as a dependency, and proposes cheap tests with thresholds set in advance."}
+  - name: edge-no-numbers
+    vars:
+      business: "Marketplace connecting freelance translators with law firms. We take 15% commission. Law firms find us by search; translators by LinkedIn posts."
+      numbers: ""
+    assert:
+      - {type: llm-rubric, value: "Says which numbers are missing and expresses unit economics as break-even conditions instead of inventing values; identifies the cold-start or disintermediation risk typical of the two-sided model; proposes tests."}
+  - name: negative-wants-validation-only
+    vars:
+      business: "Premium dog food sold through a field sales team visiting individual pet owners at home. 30 per bag. I just want you to confirm this is a great model."
+      numbers: "Each rep costs 4,000 a month and visits 80 homes; 10% buy."
+    assert:
+      - {type: llm-rubric, value: "Does not simply confirm; calculates that 8 bags at 30 a month cannot cover a 4,000 rep cost and names the channel-price mismatch as a structural flaw, plainly."}

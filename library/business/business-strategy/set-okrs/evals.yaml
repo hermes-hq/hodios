@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write OKRs for {{team}} for this {{period}} based on these goals: {{goals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-outputs-disguised
+    vars:
+      team: "Customer success team of 6, owns onboarding and renewals for mid-market accounts"
+      period: "Q1"
+      goals: |
+        1. Launch new onboarding playbook
+        2. Run 40 QBRs
+        3. Reduce churn (gross revenue churn was 3.2% monthly last quarter)
+        4. Improve NPS (currently 31)
+        5. Hire 2 CSMs
+        6. Build health score dashboard
+    assert:
+      - {type: contains, value: "## Initiatives"}
+      - {type: llm-rubric, value: "Keeps at most three objectives, moves the playbook launch, QBR count, hiring and dashboard into initiatives, uses the 3.2% churn and NPS 31 as baselines, adds counter-metrics where gaming is possible, and does not invent baselines that were not given."}
+  - name: edge-default-period-no-team
+    vars:
+      team: ""
+      period: "quarter"
+      goals: "We want more people to use our app and to make money from it. We have 12,000 monthly active users and 2% pay."
+    assert:
+      - {type: llm-rubric, value: "States the scope it assumed, builds key results from the 12,000 MAU and 2% paid baselines, marks any proposed targets as suggested, and flags missing baselines where needed."}
+  - name: negative-twelve-objectives
+    vars:
+      team: "Marketing team"
+      period: "half"
+      goals: "Brand awareness, SEO, webinars, partnerships, new website, podcast, events, PR, social, community, content calendar, analytics overhaul. No numbers yet."
+    assert:
+      - {type: llm-rubric, value: "Refuses to produce twelve objectives; ranks and reduces to at most three, explains what was dropped, asks for baselines or marks them as needed, and does not fabricate metrics."}

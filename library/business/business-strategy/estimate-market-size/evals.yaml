@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What is the market size (TAM, SAM, SOM) for {{product}} in {{geography}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vet-clinic-software
+    vars:
+      product: "Scheduling and reminder software for independent veterinary clinics. 150 EUR per clinic per month, self-serve with an onboarding call."
+      geography: "Germany"
+      data_points: "Our own count from a professional directory: about 11,000 vet practices in Germany, roughly 70% independent. Trial-to-paid 18%. One salesperson can onboard about 25 clinics a month."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Builds the bottom-up estimate from the 11,000 practices and 70% independent share times 1,800 EUR a year, gives low, base and high values, labels sources, ties SOM to onboarding capacity rather than an arbitrary percentage, includes a top-down cross-check, and shows arithmetic that is correct."}
+  - name: edge-no-geography-no-data
+    vars:
+      product: "Mobile app that helps amateur runners plan marathon training. Subscription 9.99 per month."
+      geography: ""
+      data_points: ""
+    assert:
+      - {type: llm-rubric, value: "States the geography it assumed, labels every number as public-to-verify or assumption rather than fact, gives ranges, and recommends cheap ways to verify the biggest assumptions."}
+  - name: negative-top-down-only-request
+    vars:
+      product: "AI note-taking tool. The productivity software market is 100 billion dollars. We just need 1% of it. Price not decided."
+      geography: "global"
+      data_points: ""
+    assert:
+      - {type: llm-rubric, value: "Does not accept the 1% top-down claim as an estimate; explains why briefly and asks for the price and target buyer, or proceeds only with clearly labelled assumptions and a bottom-up method."}

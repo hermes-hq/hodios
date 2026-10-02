@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Do a SWOT analysis of this business: {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bakery-expansion
+    vars:
+      business: |
+        Independent bakery chain, 3 shops in Leeds, 22 staff. Revenue 1.4m last year, up 18%. Sourdough and pastries; wholesale to 12 cafes is 25% of revenue.
+        Google rating 4.8 across 1,900 reviews. Head baker (co-owner) is the only person who can run the sourdough process. Rent at shop 2 rises 30% next spring.
+        A national chain opened 400m from shop 1 in March; shop 1 footfall down 9% since. Two cafes have asked for daily deliveries we cannot do with one van.
+      context: "Whether to open a fourth shop or grow wholesale over the next 18 months."
+    assert:
+      - {type: contains, value: "## Implications"}
+      - {type: llm-rubric, value: "Places the national chain and the cafe delivery requests as external factors (threat and opportunity), the dependence on the head baker as a weakness, labels evidence, produces TOWS options, and ends with at most three implications that answer the fourth-shop versus wholesale question with a first step each. Does not invent new numbers."}
+  - name: edge-no-decision-context
+    vars:
+      business: "B2B SaaS for dental clinics: appointment reminders. 340 clinics, 2.1% monthly logo churn, NPS 52. Two engineers. Competitor bundles reminders free in practice-management software."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "States that it inferred the strategic question, treats the free bundled competitor as a threat and the small engineering team as a weakness, and still ends with concrete implications."}
+  - name: negative-too-thin
+    vars:
+      business: "My company, Northwind. Please do a SWOT."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the key facts it needs (what the business sells, to whom, results, competitors, the decision) and does not produce a generic SWOT with invented content."}
