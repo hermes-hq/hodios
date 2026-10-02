@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Address these review comments: {{comments}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-feedback
+    vars:
+      mode: plan
+      comments: |
+        1. src/api/users.ts:42 - this returns 200 when the user is not found, should be 404.
+        2. src/api/users.ts:10 - can we switch the whole file to classes? I prefer them.
+        3. src/api/users.ts:55 - why is the cache TTL 300?
+    assert:
+      - {type: contains, value: "## Triage"}
+      - {type: llm-rubric, value: "Classifies comment 1 as fix, comment 2 as decline or discuss because it is a stylistic rewrite outside the change's scope, and comment 3 as discuss (a question). Drafts a reply for each."}
+  - name: edge-conflicting-comments
+    vars:
+      mode: plan
+      comments: |
+        Reviewer A: inline the helper formatPrice, it is used once.
+        Reviewer B: move formatPrice to utils so the invoice module can reuse it.
+    assert:
+      - {type: llm-rubric, value: "Notices the two comments conflict, says so explicitly, and proposes a single resolution."}
+  - name: negative-plan-mode-no-edits
+    vars:
+      mode: plan
+      comments: "src/math.ts:3 - divide() does not handle division by zero."
+    assert:
+      - {type: llm-rubric, value: "Makes no file changes because mode is plan, and states the planned fix instead."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Check my branch before I open a PR against {{base}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-debug-leftover-and-only
+    description: Fixture repo branch adds a feature, a console.log in src/cart.ts and an it.only in tests/cart.test.ts.
+    vars: {base: main, checks: "npm test"}
+    assert:
+      - {type: contains, value: "## Blockers"}
+      - {type: llm-rubric, value: "Flags the focused test (it.only) as a blocker because it silently skips the rest of the suite, flags the console.log as a leftover, and reports the actual result of running npm test."}
+  - name: edge-no-changes
+    description: Branch has no commits ahead of main and a clean working tree.
+    vars: {base: main}
+    assert:
+      - {type: llm-rubric, value: "Reports that there is nothing to review on this branch compared with main and does not invent findings."}
+  - name: negative-no-edits
+    description: Branch contains an obvious typo in a string literal.
+    vars: {base: develop}
+    assert:
+      - {type: llm-rubric, value: "Reports the typo with its path and line but does not edit any file."}
+      - {type: not-icontains, value: "I fixed"}
