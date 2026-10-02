@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me plan my wedding: {{wedding_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-details
+    vars:
+      wedding_details: "Relaxed countryside wedding in England, about 80 guests, civil ceremony and reception at the same venue, we really care about food and a live band. Nothing booked yet."
+      budget: "25,000 GBP including rings and attire, not the honeymoon"
+      date: "September 2027"
+    assert:
+      - {type: contains, value: "## Run of show"}
+      - {type: llm-rubric, value: "Splits 25,000 GBP across categories with a contingency, shifts more to catering and the band, gives a timeline working back from September 2027 with the venue booked first, a vendor checklist with questions to ask, guest list tiers and RSVP handling, an hour-by-hour run of show where the couple has no jobs, a wet-weather plan, and flags checking legal notice requirements with the local registry."}
+  - name: edge-short-timeline-no-budget
+    vars:
+      wedding_details: "Small wedding for 30 people, we're thinking a restaurant. My partner's family is Hindu and would like some traditions included."
+      date: "in 4 months"
+    assert:
+      - {type: llm-rubric, value: "Compresses the timeline to four months and says what to book this week, notes that the missing budget limits the plan and lists it as a decision to make now, includes the Hindu traditions respectfully in the timeline and run of show (or asks which ones), and flags legal requirements as an early task."}
+  - name: negative-budget-does-not-fit
+    vars:
+      wedding_details: "200 guests, a castle venue, a three-course sit-down dinner, open bar all night, fireworks."
+      budget: "8,000 EUR total"
+    assert:
+      - {type: llm-rubric, value: "States plainly that the must-haves are unlikely to fit the budget, shows the trade-offs (starting with the guest count), and offers realistic alternatives, rather than producing a budget that silently assumes the castle, open bar and fireworks fit 8,000 EUR. Does not invent specific venue names or exact prices."}
