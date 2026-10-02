@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should I fine-tune a model for this? Task: {{task}}. Data: {{data_available}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ticket-classification
+    vars:
+      task: "Route incoming support tickets to one of 40 queues. Today a large hosted model with a long prompt gets about 78% right on a sample we checked, costs too much at 60,000 tickets a day, and takes 4 seconds."
+      data_available: "25,000 historical tickets with the queue an agent finally resolved them in. Some tickets were re-routed several times. Tickets contain customer names and emails."
+      budget: "5,000 USD, three weeks"
+    assert:
+      - {type: contains, value: "## Cost model"}
+      - {type: llm-rubric, value: "Treats this as a reasonable fine-tuning or distillation candidate because of volume, latency and labelled data, but still requires an eval set and prompted baseline measurement first."}
+      - {type: llm-rubric, value: "Addresses label noise from re-routed tickets, removal of personal data, and a split that avoids leakage (for example by time or customer), and expresses cost as formulas without invented prices."}
+  - name: edge-thin-data-format-task
+    vars:
+      task: "Make the model always return our report JSON format with the right field names; it drifts about 1 in 20 times."
+      data_available: "30 good examples written by hand."
+    assert:
+      - {type: llm-rubric, value: "Recommends trying structured output or schema-constrained generation and few-shot prompting first, and notes that 30 examples leave too little for a held-out test set if fine-tuning is attempted."}
+  - name: negative-knowledge-that-changes
+    vars:
+      task: "Teach the model our product documentation so it answers customer questions. The docs change every week."
+      data_available: "About 900 documentation pages."
+    assert:
+      - {type: llm-rubric, value: "Recommends retrieval over the documentation instead of fine-tuning, explaining that fine-tuning is poor at injecting facts that change weekly."}

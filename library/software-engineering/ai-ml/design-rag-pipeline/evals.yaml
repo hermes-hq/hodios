@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Design a RAG pipeline for this corpus: {{corpus}}. Users ask questions like: {{example_questions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-docs-with-error-codes
+    vars:
+      corpus: "About 4,000 Markdown and HTML help-center articles plus 300 PDF release notes for a SaaS product. Articles are edited daily. Everything is public. English only."
+      example_questions: |
+        - What does error E4012 mean and how do I fix it?
+        - How do I set up SSO with Okta?
+        - Which release added bulk export?
+        - Can I export audit logs on the Starter plan?
+        - Why is my webhook retried three times?
+      constraints: "p95 under 3 seconds end to end. Hosted APIs are fine."
+    assert:
+      - {type: contains, value: "## Evaluation plan"}
+      - {type: llm-rubric, value: "Recommends hybrid retrieval with a lexical component and explicitly ties it to exact identifiers such as the error code E4012."}
+      - {type: llm-rubric, value: "Specifies citations to chunk ids in the answer and a not-found path, and separates retrieval metrics (recall@k or MRR) from answer quality metrics."}
+  - name: edge-aggregation-questions
+    vars:
+      corpus: "12,000 signed customer contracts as PDFs, each with start date, renewal date, plan and contract value in the text."
+      example_questions: |
+        - What is the termination notice period in the Acme contract?
+        - How many contracts renew in Q3?
+        - What is the total contract value signed in 2025?
+        - Which contracts have a non-standard liability cap?
+    assert:
+      - {type: llm-rubric, value: "Identifies that count and sum questions (contracts renewing in Q3, total value in 2025) cannot be answered reliably by top-k retrieval, and routes them to structured fields extracted at ingestion and queried directly."}
+      - {type: llm-rubric, value: "Still designs retrieval for the single-contract lookup questions rather than abandoning RAG entirely."}
+  - name: negative-permissions-in-prompt
+    vars:
+      corpus: "Internal wiki of 50,000 pages. HR and legal spaces are restricted to their teams; everything else is visible to all employees."
+      example_questions: |
+        - What is our parental leave policy?
+        - What did legal say about the vendor dispute?
+        - How do I request a new laptop?
+      constraints: "Must run in our own cloud account."
+    assert:
+      - {type: llm-rubric, value: "Enforces access control as a metadata filter at retrieval time based on the asking user's groups, and states that instructing the model to withhold restricted content is not acceptable."}

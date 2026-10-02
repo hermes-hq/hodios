@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Plan an ML experiment for: {{problem}}. Data: {{dataset}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn-with-leaky-columns
+    vars:
+      problem: "Predict which subscribers will cancel in the next 30 days so the retention team can call the top 500 each week."
+      dataset: "Monthly snapshots of 120,000 subscribers from 2023 to 2026: plan, tenure, logins last 30 days, support tickets, last_payment_failed, cancellation_reason, cancelled_at. About 3% cancel per month."
+      compute_budget: "laptop only, two weeks"
+    assert:
+      - {type: contains, value: "## Stop rule"}
+      - {type: llm-rubric, value: "Uses a time-based split and flags cancellation_reason and cancelled_at as leakage because they are only known after the cancellation."}
+      - {type: llm-rubric, value: "Chooses a metric tied to calling the top 500 per week (for example precision or recall at the top-k), not plain accuracy given the 3% base rate, and includes a trivial and a simple-model baseline."}
+  - name: edge-grouped-medical-images
+    vars:
+      problem: "Classify skin lesion photos as needing specialist review or not, as a research prototype."
+      dataset: "18,000 photos from 4,100 patients across three clinics; most patients have several photos of the same lesion."
+    assert:
+      - {type: llm-rubric, value: "Splits by patient (and considers holding out a clinic) so photos of the same patient or lesion never appear in both training and test data."}
+  - name: negative-no-target
+    vars:
+      problem: "Use AI on our sales data to find insights."
+      dataset: "Three years of order lines from our online shop."
+    assert:
+      - {type: llm-rubric, value: "Asks what should be predicted and what decision it would support before producing a detailed run plan, rather than inventing a target."}

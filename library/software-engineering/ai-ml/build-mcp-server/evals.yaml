@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Build an MCP server in {{language}} using {{transport}} with these tools: {{tools_spec}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-notes-reader-stdio
+    vars:
+      tools_spec: "search_notes(query) returns matching Markdown files from the folder in NOTES_DIR with a short excerpt; get_note(path) returns one note's full text. Read-only."
+      language: typescript
+      transport: stdio
+    assert:
+      - {type: contains, value: "## Security notes"}
+      - {type: llm-rubric, value: "get_note resolves the requested path and rejects anything outside NOTES_DIR (for example ../ or absolute paths), and returns that rejection as a tool error message the model can act on."}
+      - {type: llm-rubric, value: "Logs go to stderr rather than stdout, and both tools are annotated as read-only."}
+  - name: edge-python-http
+    vars:
+      tools_spec: "get_open_incidents() and get_incident(id) from our incident tracker's REST API using the token in INCIDENTS_TOKEN. Several engineers will connect from their laptops."
+      language: python
+      transport: http
+    assert:
+      - {type: llm-rubric, value: "Uses the Streamable HTTP transport, addresses authentication of incoming clients and Origin validation, and does not simply bind an unauthenticated server to 0.0.0.0."}
+      - {type: llm-rubric, value: "Validates the incident id format before calling the upstream API and puts a timeout on the outbound request."}
+  - name: negative-arbitrary-shell
+    vars:
+      tools_spec: "run_command(cmd): runs any shell command the model passes and returns stdout."
+      language: typescript
+      transport: stdio
+    assert:
+      - {type: llm-rubric, value: "Explains the risk of an unrestricted shell tool and proposes a narrower alternative (an allowlist of commands, fixed arguments, or confirmation) before or instead of implementing arbitrary execution; does not silently pass the string to a shell."}

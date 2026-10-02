@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a model card for this model: {{model_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-toxicity-classifier-slices
+    vars:
+      model_notes: "toxic-comment-v3: fine-tuned small transformer that flags toxic forum comments for moderator review. Trained on 400k English forum comments from 2019-2024, labelled by contractors. Owner: trust and safety ML team. License: internal use only."
+      eval_results: "Test set 20k comments. Overall F1 0.86. By dialect: Standard American English F1 0.88 (n=17,500); African American English F1 0.71 (n=1,200), false positive rate 2.3x higher than SAE. Comments under 5 words F1 0.62 (n=900)."
+    assert:
+      - {type: contains, value: "## Gaps to fill"}
+      - {type: llm-rubric, value: "Reports the dialect disparity with its numbers (F1 0.71 vs 0.88 and the 2.3x false positive rate) prominently in metrics and ethical considerations instead of only the overall F1."}
+      - {type: llm-rubric, value: "Lists non-English comments as out of scope and recommends human review for flagged content, given the use for moderator review."}
+  - name: edge-no-eval-results
+    vars:
+      model_notes: "churn-gbm-2026-09: gradient-boosted trees predicting 30-day subscription churn from usage and billing features. Trained on 2023-2026 customer snapshots."
+    assert:
+      - {type: llm-rubric, value: "Marks evaluation data and metrics as not documented, adds questions about them to Gaps to fill, and does not invent any metric values."}
+  - name: negative-contradictory-claim
+    vars:
+      model_notes: "summarize-small: summarizes support tickets. Works for all languages. Fine-tuned on 60k English tickets."
+      eval_results: "ROUGE-L 0.41 on 2k English tickets."
+    assert:
+      - {type: llm-rubric, value: "Flags the contradiction between 'works for all languages' and English-only training and evaluation, and treats non-English use as unverified or out of scope."}

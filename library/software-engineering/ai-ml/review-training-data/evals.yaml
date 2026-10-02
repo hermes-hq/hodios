@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Check this training data for problems. Task: {{task}}. Data: {{dataset_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sentiment-sample
+    vars:
+      task: "Classify product reviews as positive, negative or mixed. Mixed means the review contains both clear praise and clear complaint."
+      dataset_sample: |
+        id,text,label
+        1,"Battery lasts two days, love it",positive
+        2,"Broke after a week. Refund please.",negative
+        3,"Great screen but the speaker is awful",positive
+        4,"Battery lasts two days, love it!",positive
+        5,"Arrived late, works fine",mixed
+        6,"Terrible. Never again.",positive
+        7,"Does what it says",positive
+        8,"Great screen, awful speaker",mixed
+    assert:
+      - {type: contains, value: "## Suspected mislabels"}
+      - {type: llm-rubric, value: "Flags row 6 as a likely mislabel (negative text labelled positive) and rows 3 and 8 as an inconsistency (near-identical content labelled positive and mixed)."}
+      - {type: llm-rubric, value: "Flags rows 1 and 4 as near-duplicates, and proposes a guideline clarification for neutral or mild reviews such as rows 5 and 7."}
+  - name: edge-leaking-tag
+    vars:
+      task: "Predict whether a support ticket will be escalated to engineering."
+      dataset_sample: |
+        id,subject,body,escalated
+        101,"Login fails","[ESCALATED] Customer cannot log in since update",1
+        102,"Invoice copy","Please resend my March invoice",0
+        103,"API 500s","[ESCALATED] Our integration gets 500 errors",1
+        104,"Password reset","Reset link expired",0
+        105,"Export broken","CSV export is empty since Tuesday",0
+    assert:
+      - {type: llm-rubric, value: "Identifies the [ESCALATED] marker in the body as label leakage and recommends removing it from the text before training."}
+  - name: negative-tiny-sample
+    vars:
+      task: "Classify emails as spam or not spam."
+      dataset_sample: |
+        id,text,label
+        1,"Win a free cruise now",spam
+        2,"Meeting moved to 3pm",ham
+    assert:
+      - {type: llm-rubric, value: "States that two rows cannot support conclusions about noise rates, balance or coverage, avoids extrapolating prevalence, and recommends a larger random sample."}

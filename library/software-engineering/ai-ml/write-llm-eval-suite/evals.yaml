@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write evals for this LLM feature: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ticket-summarizer
+    vars:
+      feature: "Summarizes a customer support ticket thread into JSON with fields summary (max 60 words), customer_sentiment (positive, neutral, negative) and next_action. Used by agents taking over a ticket. It must never invent order numbers or promise refunds."
+      grader: mixed
+    assert:
+      - {type: contains, value: "## Thresholds and gating"}
+      - {type: llm-rubric, value: "Uses deterministic checks (JSON schema validation, word count, enum values) for the structural criteria and a rubric or model judge for summary faithfulness."}
+      - {type: llm-rubric, value: "Includes adversarial cases such as a ticket containing an instruction to the model and a customer demanding a refund, and treats 'never invent order numbers' and 'never promise refunds' as hard requirements at 100%."}
+  - name: edge-exact-grader-for-open-text
+    vars:
+      feature: "Writes a friendly two-paragraph welcome email for new users from their signup answers."
+      grader: exact
+    assert:
+      - {type: llm-rubric, value: "Explains that exact-match grading cannot judge free-text qualities such as tone or relevance, limits exact or regex checks to properties like length, required links or absence of placeholders, and proposes a rubric or judge for the rest."}
+  - name: negative-vague-feature
+    vars:
+      feature: "Our chatbot."
+      grader: mixed
+    assert:
+      - {type: llm-rubric, value: "Asks what the chatbot does, who uses it and what a good or unacceptable answer looks like before writing a full case set, instead of inventing a detailed feature."}

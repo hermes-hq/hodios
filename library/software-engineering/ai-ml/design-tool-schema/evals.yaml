@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write function-calling tool definitions for an agent that can: {{capabilities}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-calendar-assistant
+    vars:
+      capabilities: "Find free time across a few colleagues, create a meeting, move a meeting, and cancel a meeting I organised."
+    assert:
+      - {type: contains, value: "## Selection tests"}
+      - {type: icontains, value: "additionalProperties"}
+      - {type: llm-rubric, value: "Each tool description states when to use it and when not to, timestamps are specified as ISO 8601 with a time zone, and cancelling a meeting is marked destructive with a confirmation or dry-run parameter."}
+  - name: edge-wide-rest-api
+    vars:
+      capabilities: "Let support agents look up a customer and their recent orders, and issue a refund for an order."
+      existing_api: "GET /customers?email=, GET /customers/{id}, GET /customers/{id}/addresses, GET /orders?customer_id=, GET /orders/{id}, GET /orders/{id}/items, GET /orders/{id}/payments, POST /refunds {payment_id, amount_cents, reason}, GET /refunds/{id}"
+    assert:
+      - {type: llm-rubric, value: "Consolidates the read endpoints into a small number of tools (for example one customer lookup that returns recent orders) instead of one tool per endpoint, and says which endpoints each tool wraps."}
+      - {type: llm-rubric, value: "The refund tool uses amounts in minor units, requires explicit confirmation or a dry run, and its errors tell the model how to recover (for example an amount above the paid total)."}
+  - name: negative-credentials-as-params
+    vars:
+      capabilities: "Query our analytics database for the signed-in user's own team metrics. The agent serves many tenants."
+    assert:
+      - {type: llm-rubric, value: "Does not expose tenant id, user id, API keys or raw SQL as model-controlled parameters; states that identity and tenant scoping come from the host application."}

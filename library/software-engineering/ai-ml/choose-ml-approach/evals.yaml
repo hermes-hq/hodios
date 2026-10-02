@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Should I use rules, machine learning or an LLM for this? {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fixed-template-invoices
+    vars:
+      problem: "Extract invoice number, date and total from PDF invoices. They come from three suppliers, each always using the same layout."
+      data_available: "About 2,000 past invoices, with the values already keyed in our ERP."
+      constraints: "5,000 invoices a month; must run on our own servers."
+    assert:
+      - {type: contains, value: "## Comparison"}
+      - {type: llm-rubric, value: "Recommends a rules or template-based extraction (per supplier layout), possibly with a model fallback, rather than a hosted LLM or a custom-trained model, because the layouts are fixed and few."}
+      - {type: llm-rubric, value: "Uses the 2,000 ERP-keyed invoices as a test set to validate the extraction."}
+  - name: edge-high-volume-low-latency
+    vars:
+      problem: "Tag each incoming product review as positive, negative or neutral for a live dashboard."
+      data_available: "No labels yet."
+      constraints: "2 million reviews a day, 50 ms budget per review, tight cost ceiling."
+    assert:
+      - {type: llm-rubric, value: "Considers the volume and 50 ms latency budget, and recommends a small classical or compact model, possibly trained on labels produced by an LLM or by people, instead of calling a large LLM per review."}
+      - {type: llm-rubric, value: "Shows cost reasoning as a formula or order of magnitude with stated assumptions instead of quoting precise prices."}
+  - name: negative-low-volume-varied-text
+    vars:
+      problem: "Pull the counterparty, requested change and deadline out of free-form emails our legal team receives."
+      data_available: "None labelled."
+      constraints: "About 150 emails a day; a person reviews every result."
+    assert:
+      - {type: llm-rubric, value: "Recommends a hosted LLM with prompting and structured output given the low volume, varied input and human review, and does not recommend training or fine-tuning a model as the first step."}
