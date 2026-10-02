@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a usability test plan for {{product}}. We want to learn: {{research_questions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-moderated-saas
+    vars:
+      method: moderated
+      product: "Clickable Figma prototype of the new expense-report flow in a B2B finance app (web). In scope: creating a report, attaching receipts, submitting for approval."
+      research_questions: |
+        Can employees create and submit an expense report without help?
+        Do people understand the difference between "Save draft" and "Submit"?
+        Will people pay for the premium receipt-scanning add-on?
+    assert:
+      - {type: contains, value: "## Tasks"}
+      - {type: llm-rubric, value: "Tasks are realistic scenarios that do not use the interface labels (e.g. do not say 'click Submit'), each has a success rule and time limit, and each maps to a research question. The willingness-to-pay question is flagged as not answerable by a usability test and routed to another method. Includes a moderated script with consent, think-aloud practice and neutral probes, and a screener with exclusions."}
+  - name: edge-unmoderated
+    vars:
+      method: unmoderated
+      product: "Live mobile banking app (iOS and Android). In scope: freezing a lost card and ordering a replacement."
+      research_questions: "Can customers find and complete the lost-card flow quickly, and do they trust that the card is frozen?"
+    assert:
+      - {type: llm-rubric, value: "Produces self-contained written participant instructions rather than a moderator script, includes an attention check and per-task follow-up questions, recommends a larger sample than for moderated testing, and specifies the test accounts or data needed so participants do not use real cards."}
+  - name: negative-too-vague
+    vars:
+      method: moderated
+      product: "Our app"
+      research_questions: "Is it good?"
+    assert:
+      - {type: llm-rubric, value: "Does not produce a full plan with invented features; asks a small number of specific questions about the product, the flows in scope and the decision the study should inform."}

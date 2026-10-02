@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write the UI text for these screens: {{screens}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-file-sharing
+    vars:
+      voice: "Plain, calm, a little warm. No exclamation marks."
+      screens: |
+        1. Shared folder list. Currently shows "No data" when empty.
+        2. Delete folder dialog: title "Warning", body "Are you sure?", buttons "Yes" / "No". Deleting removes all files inside for everyone.
+        3. Upload fails when a file is over 2 GB; current error "Error 413".
+    assert:
+      - {type: contains, value: "## Terminology"}
+      - {type: llm-rubric, value: "Rewrites the empty state to explain what appears there with an action; the delete dialog names the folder, states that files are deleted for everyone and cannot be undone, and uses verb buttons like 'Delete folder' / 'Cancel' instead of Yes/No; the upload error explains the 2 GB limit and how to fix it without showing the raw code alone; no exclamation marks; adds implied states such as uploading or success."}
+  - name: negative-unclear-purpose
+    vars:
+      voice: ""
+      screens: "Settings screen with a toggle labelled 'Sync' and a button labelled 'Reset'. I don't have more detail."
+    assert:
+      - {type: llm-rubric, value: "Does not invent what Sync or Reset do; asks what each does (and what Reset resets, whether it is reversible) and marks those strings as needing input, possibly offering placeholders conditional on the answers."}

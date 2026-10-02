@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Do a heuristic evaluation of this flow: {{flow}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout
+    vars:
+      platform: "mobile web, consumer e-commerce"
+      flow: |
+        Step 1 Cart: items listed, "Proceed" button at the bottom. No total shown until the next step.
+        Step 2 Details: one long form, 14 fields including "Fax". Errors appear only after tapping "Continue", as a red banner at the top saying "Form invalid".
+        Step 3 Payment: card form. Tapping the browser back button empties the whole form and the cart.
+        Step 4 Confirmation: page says "Done." with no order number or email confirmation mentioned.
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Each finding names a step and element, cites heuristic numbers or names, and gives a fix. The back button emptying the cart is rated major or catastrophic (H3 user control). The vague 'Form invalid' banner is mapped to H9 and/or H5 with inline-error fixes. Missing total in the cart and missing order number are mapped to visibility of status. Severity uses the 0-4 scale. Includes a limitation note about a single evaluator."}
+  - name: edge-no-forced-findings
+    vars:
+      platform: "iOS"
+      flow: "Single settings screen with a native toggle list: Notifications, Dark mode, Face ID. Toggling changes the setting immediately with standard iOS switch animation. Back button top-left returns to Profile."
+    assert:
+      - {type: llm-rubric, value: "Reports few or no problems rather than inventing one per heuristic, notes states not shown (e.g. what happens if Face ID is unavailable) as gaps to check, and references iOS conventions."}
+  - name: negative-too-sparse
+    vars:
+      platform: ""
+      flow: "Our signup page."
+    assert:
+      - {type: llm-rubric, value: "Asks for screenshots or a step-by-step description instead of producing generic findings."}

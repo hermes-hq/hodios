@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Create a customer journey map for {{persona_or_segment}} based on this research: {{research}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-interviews
+    vars:
+      persona_or_segment: "Freelancers filing their first quarterly tax estimate"
+      research: |
+        I1: "I only found out I had to pay quarterly when my accountant friend mentioned it at a barbecue." Googled for two evenings, found conflicting answers.
+        I2: Used the tax agency calculator, "no idea what to put for expected income, I just guessed." Felt anxious for weeks.
+        I3: Set a calendar reminder after missing the first deadline and paying a penalty. "I felt stupid."
+        Ticket 2231: "Your app says I owe 1,200 but the agency site says 900, which one is right?"
+        I4: Once the payment went through, "huge relief, but I still don't know if I did it right."
+    assert:
+      - {type: contains, value: "## Journey map"}
+      - {type: llm-rubric, value: "Stages are named from the freelancer's perspective (e.g. discovering the obligation, estimating income, paying), cells carry source tags like I1 or Ticket 2231, quotes are verbatim, emotion scores cite evidence (anxiety at estimating, relief mixed with uncertainty after paying), unsupported cells say 'assumption' or 'no data', and opportunities are phrased as How might we statements linked to evidence."}
+  - name: negative-thin-research
+    vars:
+      persona_or_segment: "Gen Z shoppers"
+      research: "Our team thinks young people hate long checkouts."
+    assert:
+      - {type: llm-rubric, value: "States that the input is an internal opinion, not research, and either asks for real research or produces a map explicitly labelled as a hypothesis with every cell marked as an assumption plus a plan for the research needed."}

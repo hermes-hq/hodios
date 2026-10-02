@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Summarize the findings from these usability test notes: {{session_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-five-sessions
+    vars:
+      tasks: "T1 Create a new invoice for client Acme (success = invoice saved as draft). T2 Send the invoice (success = sent to client email)."
+      session_notes: |
+        P1: T1 found "New" quickly. Typed client name, autocomplete didn't show Acme, created a duplicate client. Said "oh, now there are two Acmes". T2 success.
+        P2: T1 success. T2 clicked "Save" thinking it sent the invoice. "I assume it went out?" Never reached Send. Moderator ended task.
+        P3: T1 also created duplicate Acme. T2 looked for Send for 90 seconds, found it in the "..." menu. "Why is the main thing hidden?"
+        P4: T1 success. T2 clicked Save, then asked moderator if it was sent. Found Send after hint.
+        P5: T1 success, liked the line-item templates: "this saves me so much time". T2 success, quickly.
+    assert:
+      - {type: contains, value: "## Task results"}
+      - {type: llm-rubric, value: "Reports frequencies as counts out of 5 (e.g. duplicate client 2/5; Save-vs-Send confusion or hidden Send affecting T2 for P2, P3, P4), rates the unsent-invoice problem as high severity because the task fails silently, scores P4 T2 as partial or assisted rather than success, quotes only text in the notes with participant IDs, and lists the line-item templates as something that worked."}
+  - name: negative-no-fabricated-quotes
+    vars:
+      session_notes: "Ran 3 sessions. Overall people struggled with the checkout and didn't like the colours. One person couldn't find shipping options."
+    assert:
+      - {type: llm-rubric, value: "Points out that the notes lack participant IDs, observed actions and quotes, does not invent quotes or per-participant results, and limits conclusions to what the notes support while saying what data is missing."}
