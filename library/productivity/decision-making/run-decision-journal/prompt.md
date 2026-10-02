@@ -30,7 +30,7 @@ args:
     required: true
 output_contract:
   format: markdown
-  sections: [Entry or review]
+  sections: [Journal entry, To confirm, Entry by entry, Calibration, Patterns, Adjustments]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
@@ -46,11 +46,11 @@ Outcomes are a noisy teacher: good decisions sometimes turn out badly and bad on
 </context>
 
 <task>
-First decide which mode applies and say so in one line.
+First decide which mode applies: a new entry (Mode A) or a review of past entries with outcomes (Mode B). If the input mixes both, review the past entries and offer to write the new entry next.
 
 Mode A, new entry (a decision not yet made or just made):
-1. If key facts are missing (the options being considered, the deadline, what is at stake), ask up to four short questions and stop.
-2. Otherwise draft the entry from what the user wrote, asking them to fill the fields only they can answer:
+A1. If key facts are missing (the options being considered, the deadline, what is at stake), ask up to four short questions and stop.
+A2. Otherwise draft the entry from what the user wrote, asking them to fill the fields only they can answer:
    - Decision and date; the situation in two or three sentences.
    - Options considered, including doing nothing; the option chosen or leaning towards.
    - Key assumptions the choice rests on.
@@ -59,13 +59,13 @@ Mode A, new entry (a decision not yet made or just made):
    - What would change your mind, and the early signals to watch.
    - Physical and emotional state while deciding (tired, rushed, excited, under pressure), one line.
    - Review date: when the outcome will be knowable.
-3. Ask them to confirm or correct the confidence and the expected outcome; these must be theirs, not yours.
+A3. Ask them to confirm or correct the confidence and the expected outcome; these must be theirs, not yours.
 
 Mode B, review (past entries with outcomes):
-1. For each entry, compare expected and actual outcome, and classify it: good decision and good outcome, good decision and bad luck, bad decision and good luck, or bad decision and bad outcome. Judge the decision by the information available at the time, and say what in the entry supports the judgement.
-2. Across entries, check calibration: of decisions marked around 70 to 80 percent confident, how many came true? With fewer than about ten entries, say the sample is too small to conclude and treat it as a hint only.
-3. Find patterns: kinds of decision, states (rushed, tired), or assumptions that repeatedly went wrong or right.
-4. Propose two or three adjustments to how they decide, each tied to evidence.
+B1. For each entry, compare expected and actual outcome, and classify it: good decision and good outcome, good decision and bad luck, bad decision and good luck, or bad decision and bad outcome. Judge the decision by the information available at the time, and say what in the entry supports the judgement.
+B2. Across entries, check calibration: of decisions marked around 70 to 80 percent confident, how many came true? With fewer than about ten entries, say the sample is too small to conclude and treat it as a hint only.
+B3. Find patterns: kinds of decision, states (rushed, tired), or assumptions that repeatedly went wrong or right.
+B4. Propose two or three adjustments to how they decide, each tied to evidence.
 </task>
 
 <constraints>
@@ -76,6 +76,21 @@ Mode B, review (past entries with outcomes):
 </constraints>
 
 <output_format>
-Mode A: the entry as a fill-in template with the drafted fields completed and placeholders for the rest, then one or two confirmation questions.
-Mode B: a table with Decision | Expected | Actual | Confidence | Verdict | Why; then Calibration (two or three sentences), Patterns (bullets with evidence), and Adjustments (numbered).
+Start with one line: `**Mode:** new entry` or `**Mode:** review`.
+
+Mode A (or the clarifying questions only, numbered, if step A1 applies):
+## Journal entry
+A fenced block the user can paste into their journal, one labelled line per field in the order of step A2, drafted fields filled in and the rest as placeholders such as [your confidence %].
+## To confirm
+One or two questions, always including the expected outcome and the confidence.
+
+Mode B:
+## Entry by entry
+A table: Decision | Expected | Actual | Confidence | Verdict | Why (citing the entry).
+## Calibration
+Two or three sentences, including the sample-size caveat when there are fewer than about ten entries.
+## Patterns
+Bullets, each with the entries that show it.
+## Adjustments
+Numbered, two or three, each tied to a pattern.
 </output_format>

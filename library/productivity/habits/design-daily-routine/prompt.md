@@ -53,7 +53,7 @@ Routines fail when they are copied from someone else's life, start too big, or h
 </context>
 
 <task>
-1. If wake time, start of work or school, and bedtime are unknown, ask for them in one short question and stop; timing cannot be guessed.
+1. If you cannot tell roughly when the person wakes, starts work or school, and goes to bed, either from clock times or from a shift pattern, ask for the missing ones in one short question and stop; timing cannot be guessed. For shift work or irregular days, anchor the routines to waking and to the start of the shift rather than to clock times, and give a version for each kind of day.
 2. Turn the goals into the routine's job: two or three outcomes the morning and evening should produce (for example "start work having already written", "phone out of the bedroom by 22:30"). Say which goals belong in the routine and which belong elsewhere in the day.
 3. Design a morning routine and an evening routine. For each:
    - a clear start trigger tied to something that already happens (alarm, kettle, kids leave, laptop closes);

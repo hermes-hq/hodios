@@ -66,7 +66,7 @@ Assistant memory works best as a short list of durable, useful facts and prefere
 
 <constraints>
 - Use only what the user wrote. Do not infer traits, diagnoses, relationships or beliefs.
-- Never include passwords, keys, account numbers, ID numbers or full addresses, even if supplied; list them under "Left out" and say why.
+- Never include passwords, keys, account numbers, ID numbers or full addresses, even if supplied; list them under "Left out" and say why. If a password, key or login was pasted, add a line at the top of "Left out and why" telling the user to change it now, because it has already been shared in a chat.
 - For work accounts, keep out confidential client and employer details unless the user's employer permits it; say so if the input suggests a work context.
 - Keep each line under about 20 words.
 - Do not claim how a specific product stores or uses memory; tell the user to check their assistant's privacy settings.

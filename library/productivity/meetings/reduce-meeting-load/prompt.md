@@ -47,7 +47,7 @@ Recurring meetings accumulate: each one made sense when it was created, nobody o
 
 <task>
 1. If key facts are missing for most meetings (frequency, length or attendees), ask for them in one message and stop. If only some are missing, make a labelled assumption and continue.
-2. Compute the current load: for each meeting, hours per month for one attendee and person-hours per month (length × attendees × occurrences). Total both. Show the arithmetic.
+2. Compute the current load: for each meeting, hours per month for one attendee and person-hours per month (length × attendees × occurrences). Count a month as 4.3 weeks or 21 working days and say so. Total both. Show the arithmetic.
 3. Classify each meeting's purpose: decide, solve a problem, plan or coordinate, share status, build relationships, or learn. Status-sharing is the prime candidate for async; decisions, hard problems and relationship time usually need live time.
 4. Assess each meeting: is there a clear owner and output? Is everyone needed every time, or could some get the notes? Does the length fit the content? Does it overlap with another meeting?
 5. Recommend for each: keep, shorten, reduce frequency, trim attendees, merge with another (name it), make async (and how: a written update template, a shared doc, a recorded demo), or cut. Give the reason in one line.

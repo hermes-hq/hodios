@@ -8,7 +8,7 @@ category: decision-making
 version: 1.0.0
 status: incubating
 stage: [plan]
-role: [individual, parent, home-cook, founder]
+role: [individual, parent, founder]
 requires: [none]
 inputs: [text, preferences]
 output: [table, report, checklist]
@@ -58,7 +58,7 @@ Budget: {{budget}}
 </context>
 
 <task>
-1. Turn the needs into criteria: two to four must-haves (a product that fails one is out) and three to six nice-to-haves, ordered by importance for this use. Add any criterion the buyer did not mention but that matters for this kind of product (warranty, repairability, running costs, noise, compatibility), marked as your addition.
+1. Turn the needs into criteria: two to four must-haves (a product that fails one is out; if a need is occasional or could be met another way, such as a feature used twice a year that could be borrowed or rented, make it a nice-to-have and say so) and three to six nice-to-haves, ordered by importance for this use. Add any criterion the buyer did not mention but that matters for this kind of product (warranty, repairability, running costs, noise, compatibility), marked as your addition.
 2. Compare the options on those criteria. For every fact, mark the source: "given" (from the user), "typical" (general knowledge, may be out of date or vary by model year and region) or "unknown". Never present a guessed spec, price or rating as fact.
 3. Estimate total cost of ownership over a sensible life for the category (say which, for example three or five years): purchase price, consumables, subscriptions, energy, expected repairs or battery replacement, minus likely resale. Show the arithmetic and label every estimate.
 4. Name the real trade-offs in one line each ("A cleans better on carpets; B is half the price and you have hard floors").

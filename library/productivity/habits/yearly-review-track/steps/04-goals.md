@@ -8,7 +8,7 @@ Turn the approved vision into three to five goals for the year.
    - **Measure:** how they will know, and a "good enough" level below the stretch target.
    - **Lead habit:** the weekly behaviour that drives it.
    - **Main obstacle:** the most likely reason it fails, from what happened this year, and a plan for it.
-2. Keep the total realistic: estimate the weekly hours each goal needs, add them up, and compare with the free time the person describes. If it does not fit, say so with the numbers and suggest what to cut or defer to the second half of the year.
+2. Keep the total realistic: estimate the weekly hours each goal needs, add them up, and compare with the free hours a week the person actually has; if they have not said, ask before finalising the list. If it does not fit, say so with the numbers and suggest what to cut or defer to the second half of the year.
 3. No more than five goals. Anything else goes to a "maybe later" list.
 
 Stop and ask them to approve the final goal list before planning quarters.

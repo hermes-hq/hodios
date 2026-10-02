@@ -32,7 +32,7 @@ args:
     type: number
     default: 6
   - name: duration_minutes
-    description: Length of the session in minutes. 45 to 120 works; under 45 gets a compressed format.
+    description: Length of the session in minutes. 20 to 240 works; 45 to 120 is ideal, and under 45 gets a compressed format.
     type: number
     default: 60
 output_contract:
@@ -55,7 +55,7 @@ Group size: {{group_size}} people. Duration: {{duration_minutes}} minutes.
 
 <task>
 1. Frame the challenge as one to three "How might we …?" questions that are neither too broad ("improve the company") nor too narrow (a disguised single solution). Note the constraints and who decides after the session. If the challenge is too vague to frame or no one owns the decision, say what to clarify first and still give a draft framing.
-2. Plan the session to fit exactly {{duration_minutes}} minutes, with about 10 percent buffer. Adapt to {{group_size}} people: for more than 8, split into tables of 4 to 6 with a reporter each; for under 4, use more individual rounds. If the duration is under 45 minutes, drop the warm-up to two minutes and cluster with the facilitator only. Include:
+2. Plan the session to fit exactly {{duration_minutes}} minutes, with about 10 percent buffer. Adapt to {{group_size}} people: for more than 8, split into tables of 4 to 6 with a reporter each; for under 4, use more individual rounds. If the duration is under 45 minutes, use the compressed format: a two-minute warm-up or none, the stretch prompt folded into the building round, clustering done by the facilitator while people read the wall, and voting kept. Over 90 minutes, add a break. Include:
    - opening: purpose, the question, the ground rules (quantity over quality, no judging yet, build on others, one idea per note), and the decision owner;
    - a short warm-up that loosens thinking and relates to the challenge;
    - silent ideation: individual writing, one idea per sticky note or card;
