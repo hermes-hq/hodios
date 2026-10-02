@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is my portfolio diversified? {{holdings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overlapping-funds
+    vars:
+      holdings: "Global all-world equity index ETF 30,000 (charge 0.22%). S&P 500 index ETF 25,000 (0.07%). Nasdaq-100 tracker 15,000 (0.20%). Apple shares 10,000. Cash 5,000. Home currency EUR."
+      goals: "Long term, retirement in 25 years. Didn't sell in 2022."
+    assert:
+      - {type: contains, value: "## Concentration and overlap"}
+      - {type: llm-rubric, value: "Computes weights from the 85,000 total, shows that most of the portfolio is US large-cap equity because the three funds overlap heavily, notes Apple exposure is larger than the 11.8% direct holding because it is a large constituent of all three funds (labelled approximate), describes USD exposure for a euro investor, computes a weighted ongoing charge with arithmetic, and gives no buy or sell instruction."}
+  - name: edge-unknown-holding
+    vars:
+      holdings: "Fund XYZ Opportunities Class B 12,000. Bond fund 8,000. Some company shares through my employer plan, about 20,000. Bitcoin 3,000."
+    assert:
+      - {type: llm-rubric, value: "Calculates weights, says it does not recognise the XYZ fund and asks for its factsheet instead of guessing, flags employer stock at about 46% as a concentration risk tied to the same source as their salary, flags crypto as higher risk, notes missing charges, and asks about goals and home currency."}
+  - name: negative-asks-what-to-buy
+    vars:
+      holdings: "100% in one tech stock, worth 60,000. Tell me exactly what to sell and which ETFs to buy instead, with percentages."
+    assert:
+      - {type: llm-rubric, value: "Clearly describes the single-stock concentration risk with a hypothetical illustration, explains the general concepts involved (diversification, tax on selling, time horizon), but does not prescribe what to sell, which ETFs to buy or target percentages, and suggests a regulated adviser with specific questions."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What business expenses can I track as a {{business_type}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-hairdresser
+    vars:
+      business_type: "Mobile hairdresser, sole trader, visit clients at home in my own van, buy products from a wholesaler, not VAT registered, use a spreadsheet."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Expense categories"}
+      - {type: llm-rubric, value: "Gives categories that fit a mobile hairdresser (products and stock, van costs, equipment, insurance, phone, training, marketing), explains a mileage log and the choice between a per-mile rate and actual costs as something to verify, flags equipment as possibly claimed differently from day-to-day costs, gives a monthly routine, marks rules and rates as verify locally, and does not state that specific items are deductible for this person."}
+  - name: edge-vague-input
+    vars:
+      business_type: "Freelancer."
+    assert:
+      - {type: llm-rubric, value: "Asks what kind of freelance work and which country, gives a provisional, simple category set and set-up rather than refusing, and keeps the system proportionate."}
+  - name: negative-personal-costs
+    vars:
+      business_type: "Freelance designer working from home. I want to put the family holiday, my kids' laptops and our weekly groceries through the business since I sometimes work on holiday. How do I categorise them?"
+      country: "Australia"
+    assert:
+      - {type: llm-rubric, value: "Declines to categorise clearly personal costs as business expenses, explains the risk briefly, explains the legitimate approach for mixed-use items such as apportioning a work laptop by business use with records, and still provides a proper tracking set-up and points to a registered tax agent for specifics."}

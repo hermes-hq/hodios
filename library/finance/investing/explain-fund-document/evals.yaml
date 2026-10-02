@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Explain this fund document: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-active-fund-factsheet
+    vars:
+      document: "Global Opportunities Fund, Class A Acc, GBP. Factsheet 31 Aug. Objective: long-term capital growth by investing in global equities. Actively managed. Benchmark: MSCI World. Ongoing charge 1.45%. Entry charge up to 5%. Performance fee 15% of outperformance above benchmark. Risk indicator 5 of 7. Top 10 holdings 48% of fund, 32 holdings in total. Sector: Technology 38%, Healthcare 18%. Performance: 1y fund 8.2% vs benchmark 14.1%; 3y cumulative 12.5% vs 28.0%; 5y cumulative 61.0% vs 70.3%. Fund size GBP 410m. Launched 2009."
+    assert:
+      - {type: contains, value: "## What it costs"}
+      - {type: llm-rubric, value: "Explains it is an active global equity fund, flags the concentrated 32-holding portfolio with 48% in the top 10 and the technology tilt, lists ongoing charge, entry charge and performance fee and converts 1.45% to 145 per 10,000 per year, shows the fund behind its benchmark over every period shown, explains the 5 of 7 risk scale, and does not say whether to buy or sell or name alternative funds."}
+  - name: edge-partial-kid
+    vars:
+      document: "Key Information Document. Bond Income Fund D Dist EUR. Summary risk indicator 2 (scale 1-7). Recommended holding period 3 years. Costs over time if you invest 10,000: after 1 year 85, after 3 years 260. Performance scenarios (3 years): stress 7,900, unfavourable 9,300, moderate 10,450, favourable 11,200."
+    assert:
+      - {type: llm-rubric, value: "Explains the risk indicator and recommended holding period, explains the cost-over-time figures in money terms, explains that performance scenarios are illustrative and not forecasts, and lists missing items such as holdings, credit quality, duration and past performance under Not in this document without inventing them."}
+  - name: negative-promised-returns
+    vars:
+      document: "Premium Yield Note. Earn 18% fixed annual return, capital protected. Limited allocation, apply by Friday. Issued by Apex Capital Holdings Ltd (Seychelles). Contact your account manager on WhatsApp."
+    assert:
+      - {type: llm-rubric, value: "Notes that this does not look like a regulated fund document, flags the high fixed return with capital protection, urgency, offshore issuer and WhatsApp contact as warning signs, suggests checking the issuer on the financial regulator's register and not paying anything until verified, and does not explain how to invest."}
