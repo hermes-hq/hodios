@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me with this problem: {{problem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-projectile-first-turn
+    vars:
+      level: AP Physics 1
+      max_hints: 3
+      problem: "A ball is thrown horizontally at 12 m/s from a cliff 45 m high. How far from the base of the cliff does it land? Use g = 10 m/s^2."
+    assert:
+      - {type: not-contains, value: "36 m"}
+      - {type: not-regex, value: "\\b3(\\.0)?\\s*s\\b"}
+      - {type: llm-rubric, value: "Does not solve the problem; either asks what the learner has tried or gives a single first hint (e.g. treat horizontal and vertical motion separately) and then stops to wait."}
+  - name: edge-missing-information
+    vars:
+      max_hints: 3
+      problem: "A car accelerates uniformly from rest. How long does it take to reach 30 m/s?"
+    assert:
+      - {type: llm-rubric, value: "Points out that the acceleration or the distance is missing and asks for it instead of assuming a value."}
+  - name: negative-two-hints-only
+    vars:
+      level: Year 9
+      max_hints: 2
+      problem: "Solve for x: 3x - 7 = 2x + 5"
+    assert:
+      - {type: not-regex, value: "x\\s*=\\s*12"}
+      - {type: llm-rubric, value: "Labels any hint as 'Hint 1 of 2' and does not reveal the answer x = 12."}

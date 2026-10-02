@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Make {{count}} flashcards from these notes in {{format}} format: {{material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-biology-notes-csv
+    vars:
+      count: 8
+      format: anki-csv
+      material: |
+        Cellular respiration
+        Glycolysis happens in the cytoplasm and splits one glucose into two pyruvate, with a net gain of 2 ATP.
+        Pyruvate enters the mitochondrion and is converted to acetyl-CoA. Acetyl-CoA combines with oxaloacetate
+        to form citrate, starting the citric acid (Krebs) cycle in the mitochondrial matrix.
+        The electron transport chain sits on the inner mitochondrial membrane; oxygen is the final electron acceptor
+        and forms water. Most ATP (about 26-28 per glucose) comes from oxidative phosphorylation via ATP synthase.
+    assert:
+      - {type: contains, value: "```"}
+      - {type: regex, value: "(?m)^[^;\\n]+;[^;\\n]+;[a-z0-9 -]+$"}
+      - {type: llm-rubric, value: "Each card tests exactly one fact from the notes, with enough context to be answered without the source; no card asks to list several items; no facts are added that are not in the notes."}
+  - name: edge-topic-only
+    vars:
+      count: 30
+      format: basic
+      material: "The French Revolution"
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual notes or chapter text instead of generating cards from general knowledge, and does not produce a list of cards."}
+  - name: negative-list-splitting-and-error
+    vars:
+      count: 10
+      format: cloze
+      material: |
+        The four fundamental forces are gravity, electromagnetism, the strong nuclear force and the weak nuclear force.
+        The strong force is the weakest of the four.
+    assert:
+      - {type: not-icontains, value: "list all"}
+      - {type: llm-rubric, value: "Splits the four forces across separate cloze notes rather than one card hiding the whole list, and flags in the notes that 'the strong force is the weakest' is wrong instead of carding it."}

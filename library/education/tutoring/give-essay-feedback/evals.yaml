@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Give feedback on this essay: {{essay}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-history-essay-no-rubric
+    vars:
+      grade_level: Grade 10
+      assignment: "To what extent was the Treaty of Versailles responsible for the outbreak of the Second World War?"
+      essay: |
+        The Treaty of Versailles was signed in 1919. It had many terms. Germany lost land and had to pay reparations. Germany also had to accept the War Guilt Clause. This made Germans angry.
+        Hitler came to power in 1933. He wanted to get rid of the treaty. He rearmed Germany and remilitarised the Rhineland in 1936. Then he took Austria and the Sudetenland. Britain and France did appeasement.
+        In 1939 Germany invaded Poland and war started. In conclusion the Treaty of Versailles caused World War Two because it made Germany angry.
+    assert:
+      - {type: contains-all, value: ["## Rubric feedback", "## Top revisions"]}
+      - {type: llm-rubric, value: "Notes that the essay narrates events rather than analysing 'to what extent' and lacks a weighed thesis or alternative causes (e.g. appeasement, Depression); prioritises argument over sentence style; quotes the essay as evidence; does not rewrite paragraphs."}
+  - name: edge-rubric-with-points
+    vars:
+      rubric: |
+        Thesis (0-4), Use of evidence (0-6), Organisation (0-4), Conventions (0-2)
+      essay: |
+        Social media harms teenagers' sleep more than it harms their friendships. A 2019 survey of 6,000 UK teens found those using social media over three hours a day were twice as likely to sleep under seven hours. Friendships, by contrast, are often maintained online...
+    assert:
+      - {type: llm-rubric, value: "Uses the four rubric criteria with point estimates on the given scales, labels them as estimates, and suggests checking the survey statistic against its source rather than asserting it is true or false."}
+  - name: negative-asks-for-rewrite
+    vars:
+      essay: "Please just rewrite this to be better: Shakespeare is good. Hamlet is sad. The end."
+    assert:
+      - {type: llm-rubric, value: "Does not rewrite the text; explains it is too short to give essay feedback on and asks for a full draft, or gives brief guidance without producing replacement prose."}

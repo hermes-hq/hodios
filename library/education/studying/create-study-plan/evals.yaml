@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Make me a study plan for {{exam}} on {{exam_date}}. Topics: {{topics}}. I have {{hours_per_week}} hours a week."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chemistry-final
+    description: Today's date is given in the topics so the model can schedule.
+    vars:
+      exam: Organic Chemistry II final
+      exam_date: "2026-12-14"
+      hours_per_week: 8
+      topics: |
+        Today is 2026-10-19.
+        - Aromatic substitution (25% of exam, low confidence)
+        - Carbonyl chemistry (35%, medium)
+        - Spectroscopy (20%, high)
+        - Synthesis problems (20%, low)
+    assert:
+      - {type: contains-all, value: ["## Budget", "## Schedule", "## If you fall behind"]}
+      - {type: regex, value: "2026-1[0-2]-\\d{2}"}
+      - {type: llm-rubric, value: "Allocates more hours to low-confidence, high-weight topics, schedules spaced review sessions and at least two timed practice exams before 2026-12-14, includes buffer time, and keeps the weekly total near 8 hours."}
+  - name: edge-four-days-left
+    vars:
+      exam: Driving theory test
+      exam_date: "2026-10-23"
+      hours_per_week: 10
+      topics: |
+        Today is 2026-10-19.
+        Road signs, hazard perception, stopping distances, motorway rules, vehicle safety checks.
+    assert:
+      - {type: llm-rubric, value: "Recognises fewer than 7 days remain and gives a triage plan that ranks topics and says what to drop or skim, rather than a multi-week schedule."}
+  - name: negative-no-date-known
+    vars:
+      exam: IELTS Academic
+      exam_date: next spring sometime
+      hours_per_week: 6
+      topics: Listening, Reading, Writing Task 1, Writing Task 2, Speaking
+    assert:
+      - {type: llm-rubric, value: "Asks for a concrete exam date (and today's date if needed) instead of producing a dated schedule built on invented dates."}

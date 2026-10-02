@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Here is a problem and my work. Is it right? Problem: {{problem}} My work: {{my_work}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-derivative-chain-rule
+    vars:
+      subject: calculus
+      problem: "Differentiate f(x) = (3x^2 + 1)^4."
+      my_work: |
+        Step 1: Use the power rule: bring the 4 down and reduce the power by one.
+        Step 2: f'(x) = 4(3x^2 + 1)^3.
+    assert:
+      - {type: regex, value: "(?i)step (1|2)"}
+      - {type: not-icontains, value: "24x"}
+      - {type: llm-rubric, value: "Identifies the missing inner derivative (a chain rule omission) as the error in the learner's steps, does not give the corrected derivative, and asks a guiding question about the inside function."}
+  - name: edge-right-answer-wrong-reasoning
+    vars:
+      problem: "Simplify 16/64."
+      my_work: "Cancel the 6s: 16/64 = 1/4."
+    assert:
+      - {type: llm-rubric, value: "Points out that the answer 1/4 is correct but the reasoning (cancelling digits) is invalid, and asks a guiding question rather than lecturing."}
+  - name: negative-fully-correct
+    vars:
+      subject: probability
+      problem: "A fair die is rolled twice. What is the probability that the sum is 7?"
+      my_work: "There are 36 equally likely outcomes. Sum 7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) = 6 outcomes. P = 6/36 = 1/6."
+    assert:
+      - {type: icontains, value: "correct"}
+      - {type: not-icontains, value: "first error"}
