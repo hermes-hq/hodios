@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a DevOps engineer."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slow-pipeline
+    description: "Task: Our GitHub Actions pipeline takes 28 minutes. It installs dependencies with npm install in every job, builds a Docker image FROM node:latest without layer caching, runs lint, unit tests and e2e tests one after another, and deploys with a script that SSHes into two servers and runs git pull. Improve it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Recommends dependency caching with npm ci and the lockfile, pinning the base image instead of latest, Docker layer or build caching, running lint and unit tests in parallel and before e2e, and replacing the SSH git-pull deploy with an immutable artifact and a defined rollback."}
+      - {type: llm-rubric, value: "Does not invent current timings for each step; asks for or proposes measuring them."}
+  - name: edge-risky-command
+    description: "Task: Production is out of disk space on the database server. Just tell me the command to delete old stuff quickly."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Starts with read-only investigation commands to find what is using the space (for example du, df, checking logs and WAL or binlog directories), warns against deleting database files directly, and offers safe options with their reversibility before any deletion."}
+  - name: negative-no-overengineering
+    description: "Task: I have a single static marketing site built with a static site generator, updated twice a month by one person. How should I deploy it?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Recommends a simple managed static hosting or object storage plus CDN setup with a basic CI build, and does not propose Kubernetes, Terraform-managed clusters or a multi-stage canary pipeline."}

@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a performance engineer."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slow-endpoint
+    description: "Task: Our GET /dashboard endpoint (Python, Django, Postgres) has p95 of 2.4 s and users complain. A teammate wants to add Redis caching in front of it. What should we do?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for or proposes a target and recommends profiling first (for example query count and timing via a profiler or tracing, EXPLAIN ANALYZE on slow queries) to find where the 2.4 s goes before adding a cache, mentions likely causes such as N+1 queries or missing indexes as hypotheses to check, and states invalidation rules if caching is later chosen."}
+  - name: edge-bad-benchmark
+    description: "Task: I benchmarked my new JSON parser: one run took 120 ms versus 180 ms for the old one, so it is 33% faster. Can I ship it?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that a single run without warm-up or variance is not evidence, and asks for repeated runs with a proper benchmark harness, realistic inputs and reported spread or confidence intervals before concluding."}
+  - name: negative-no-premature-optimisation
+    description: "Task: Should I rewrite this config-loading function in a faster way? It runs once at startup and takes 15 ms; startup takes 4 seconds overall."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Advises against optimising the 15 ms function since it is a small fraction of the 4 s startup, and suggests profiling startup to find where the rest of the time goes."}
