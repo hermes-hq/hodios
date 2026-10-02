@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Segment my customers using {{method}}. Goal: {{goal}}. Data: {{customer_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rfm-winback
+    vars:
+      method: auto
+      goal: Choose which lapsed customers get a win-back discount next month.
+      customer_data: "orders.csv: order_id, customer_id, order_date, net_amount, refunded (bool). 48,000 customers, Jan 2024 to Sep 2026."
+    assert:
+      - {type: contains, value: "## Segment profiles"}
+      - {type: llm-rubric, value: "Chooses RFM for a win-back goal, defines recency, frequency and monetary with an as-of date, excludes or handles refunded orders explicitly, writes pandas code with quintile scoring, and maps an At-risk or similar segment to the win-back action with a measurable success metric such as a holdout comparison."}
+  - name: edge-clustering-requested-on-thin-data
+    vars:
+      method: clustering
+      goal: Find customer types for our account managers.
+      customer_data: "accounts table: account_id, plan (3 values), seats, mrr. 900 accounts."
+    assert:
+      - {type: llm-rubric, value: "Notes that with only plan, seats and MRR, simple rules or tiers are likely clearer than clustering, explains why, and either uses rules or runs clustering with scaled, log-transformed features while warning about interpretability."}
+  - name: negative-no-transactions
+    vars:
+      method: rfm
+      goal: Prioritise customers for upsell.
+      customer_data: "customers: customer_id, country, signup_date, industry. No order data."
+    assert:
+      - {type: llm-rubric, value: "Explains that RFM needs purchase dates and amounts which are missing, and asks for transaction data or proposes what can be done with the attributes given; does not fabricate RFM scores."}

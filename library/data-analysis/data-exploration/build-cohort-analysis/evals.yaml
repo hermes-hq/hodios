@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Build a cohort retention analysis by {{cohort_by}} from this data: {{event_data}}. Retained means: {{activity_definition}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-snowflake-orders
+    vars:
+      cohort_by: first order month
+      activity_definition: Placed at least one non-refunded order in the month.
+      event_data: "Snowflake table ANALYTICS.ORDERS(order_id, customer_id, ordered_at TIMESTAMP_NTZ, status VARCHAR -- 'completed' or 'refunded', amount NUMBER)"
+    assert:
+      - {type: contains, value: "## Retention triangle"}
+      - {type: llm-rubric, value: "Writes Snowflake SQL with CTEs that derive each customer's first-order month, computes months since cohort with DATEDIFF on truncated months, excludes refunded orders from activity, divides by cohort size, and marks or excludes incomplete recent periods."}
+  - name: edge-weekly-app-csv
+    vars:
+      cohort_by: signup week
+      activity_definition: Opened the app on at least 3 distinct days in the week.
+      event_data: "CSV app_opens.csv: user_id, opened_at (UTC ISO timestamp), signup_at (UTC ISO timestamp). About 2 million rows."
+    assert:
+      - {type: icontains, value: "pandas"}
+      - {type: llm-rubric, value: "Uses weekly periods since signup, counts distinct active days per user-week and applies the 3-day threshold, and avoids filling unobserved future weeks with zeros."}
+  - name: negative-no-user-id
+    vars:
+      cohort_by: signup month
+      activity_definition: Logged in during the month.
+      event_data: "Daily aggregate table: date, total_logins, new_signups."
+    assert:
+      - {type: llm-rubric, value: "Explains that cohort retention needs user-level data (a user id with timestamps) and that daily aggregates cannot support it; asks for user-level events rather than fabricating a triangle."}

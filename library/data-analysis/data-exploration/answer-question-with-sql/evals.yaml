@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a {{dialect}} SQL query to answer: {{question}}. Schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fanout-trap
+    vars:
+      dialect: postgres
+      question: What was total revenue per marketing channel in August 2026, and how many orders?
+      schema: |
+        orders(order_id pk, customer_id, created_at timestamptz, total_amount numeric)
+        order_items(order_item_id pk, order_id fk, sku, qty, price)
+        customers(customer_id pk, acquisition_channel text, created_at)
+    assert:
+      - {type: contains, value: "## Assumptions"}
+      - {type: regex, value: "(?i)>=\\s*'?2026-08-01"}
+      - {type: llm-rubric, value: "Uses orders.total_amount at order grain (does not join order_items and sum total_amount, which would fan out), joins customers for channel, uses a half-open August date range, states the time-zone assumption, and counts distinct orders."}
+  - name: edge-bigquery-retention
+    vars:
+      dialect: bigquery
+      question: Of users who signed up in Q2 2026, what share made a purchase within 30 days of signup?
+      schema: |
+        users(user_id, signup_ts TIMESTAMP)
+        purchases(purchase_id, user_id, purchased_ts TIMESTAMP, amount NUMERIC)
+    assert:
+      - {type: llm-rubric, value: "Uses a LEFT JOIN or EXISTS so non-purchasers stay in the denominator, uses BigQuery functions such as TIMESTAMP_DIFF or TIMESTAMP_ADD correctly, defines the 30-day window from each user's signup, and divides with SAFE_DIVIDE or NULLIF."}
+  - name: negative-missing-table
+    vars:
+      dialect: snowflake
+      question: Which support agents have the highest customer satisfaction score?
+      schema: "tickets(ticket_id, agent_id, opened_at, closed_at, priority)"
+    assert:
+      - {type: llm-rubric, value: "Says the schema has no satisfaction score column or survey table and asks where CSAT is stored; does not invent a csat column in the query."}

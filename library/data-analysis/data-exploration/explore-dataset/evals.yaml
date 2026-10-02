@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Do an exploratory analysis of this data: {{dataset_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-sample
+    vars:
+      tool: pandas
+      goal: Understand what drives repeat purchases.
+      dataset_sample: |
+        order_id,customer_id,order_date,amount,country,channel,age
+        1001,C17,2026-01-03,54.20,DE,web,34
+        1002,C04,2026-01-03,0.00,DE,app,999
+        1003,C17,2026-01-09,23.10,de,web,34
+        1004,C22,2026-01-11,-15.00,FR,web,
+        1004,C22,2026-01-11,-15.00,FR,web,
+        1005,C09,2026-02-30,310.00,FR,partner,51
+    assert:
+      - {type: contains, value: "## Column profile"}
+      - {type: icontains, value: "import pandas"}
+      - {type: llm-rubric, value: "Flags the duplicate order 1004, the impossible date 2026-02-30, age 999 as a likely sentinel, inconsistent country case, and the zero and negative amounts as possible refunds or test orders; labels statistics as from the sample; and relates the findings to the repeat-purchase goal (customer_id repeats)."}
+  - name: edge-sql-no-goal
+    vars:
+      tool: sql
+      goal: ""
+      dataset_sample: |
+        table events(user_id, event_name, ts, props_json), 3 sample rows:
+        u1, page_view, 2026-05-01 10:00:00, {"path": "/home"}
+        u1, signup, 2026-05-01 10:02:11, {}
+        u2, page_view, 2026-05-01 10:05:40, {"path": "/pricing"}
+    assert:
+      - {type: llm-rubric, value: "Identifies the grain as one event per row, gives SQL that profiles event counts, users, time range and null shares on the full table, and does not extrapolate from three rows."}
+  - name: negative-too-little
+    vars:
+      tool: pandas
+      goal: ""
+      dataset_sample: "5, 7, 12"
+    assert:
+      - {type: llm-rubric, value: "Says the sample is too small and lacks headers to profile, and asks for a header and more rows; does not produce a fabricated column profile."}

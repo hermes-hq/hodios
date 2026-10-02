@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Analyse these survey results. Questions: {{questions}}. Responses: {{responses}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-survey
+    vars:
+      key_question: Would customers pay for a premium tier?
+      questions: |
+        Q1 Plan (Free / Pro / Team) - single choice
+        Q2 How likely are you to pay 10/month for Premium? (1-5 scale)
+        Q3 Which features would you use? (multiple choice: Reports, API, SSO, Priority support)
+      responses: "Emailed to 12,000 active users, 1,140 responses (some partial). Respondents are 58% Pro, 30% Free, 12% Team; the active user base is 15% Pro, 80% Free, 5% Team. CSV columns: id, started_at, finished_at, q1, q2, q3 (semicolon-separated)."
+    assert:
+      - {type: contains, value: "## Weighting"}
+      - {type: llm-rubric, value: "Computes a response rate of about 9.5%, notes that Pro users are heavily over-represented, proposes weighting by plan with weighted and unweighted Q2 results and an effective sample size, treats Q3 as multi-response with respondents as base, and phrases conclusions as what respondents said."}
+  - name: edge-small-subgroups
+    vars:
+      key_question: ""
+      questions: "Q1 Department (6 options); Q2 Satisfied with tooling? (Yes/No)"
+      responses: "Internal survey, 85 responses from 400 staff. Department counts: Eng 40, Sales 18, Ops 12, HR 6, Finance 5, Legal 4."
+    assert:
+      - {type: llm-rubric, value: "Flags the departments under 30 respondents as too small for reliable percentages, gives margins of error, and avoids claiming departmental differences without a test."}
+  - name: negative-no-questionnaire
+    vars:
+      key_question: ""
+      questions: ""
+      responses: "id,a,b,c\n1,3,2,1\n2,5,1,1"
+    assert:
+      - {type: llm-rubric, value: "Asks for the questionnaire (what columns a, b and c mean and their answer options) before analysing, instead of guessing what the codes mean."}
