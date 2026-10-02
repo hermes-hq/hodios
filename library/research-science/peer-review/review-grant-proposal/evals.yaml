@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Review this grant proposal and give feedback: {{proposal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dependent-aims
+    vars:
+      purpose: pre-submission
+      criteria: "Significance (1-5), Approach (1-5), Feasibility (1-5). 5 = outstanding."
+      proposal: |
+        Summary: We will develop a blood biomarker for early pancreatic cancer.
+        Aim 1: Identify candidate proteins in banked plasma from 30 cases and 30 controls using mass spectrometry.
+        Aim 2: Validate the top candidates from Aim 1 in a prospective cohort of 5,000 high-risk adults over 2 years.
+        Aim 3: Build a risk score combining Aim 2 markers with clinical data.
+        Approach: Appropriate statistical analyses will be used. Preliminary data: none yet. Budget: 300,000 USD over 2 years.
+    assert:
+      - {type: contains-all, value: ["## Scores by criterion", "## Fixes ranked by impact"]}
+      - {type: llm-rubric, value: "Notes high significance, flags as major weaknesses that Aims 2 and 3 depend on Aim 1, that there are no preliminary data, that 'appropriate statistical analyses' is vague, and that a 5,000-person prospective cohort in 2 years on 300,000 USD looks infeasible for an early cancer outcome; scores on the given 1-5 scale with rationale; ranks concrete fixes; states a mock score is not a prediction."}
+  - name: edge-no-criteria
+    vars:
+      proposal: "Project: community gardens to reduce loneliness in older adults. We will set up 4 gardens and interview participants before and after 6 months. Team: a sociologist and a local charity. Budget 40,000 EUR."
+    assert:
+      - {type: llm-rubric, value: "Says it is using common criteria and a five-point scale because none were given, and comments on the lack of a comparison group, how loneliness will be measured, sample size and recruitment, while recognising the strengths of community partnership."}
+  - name: negative-assigned-confidential
+    vars:
+      purpose: assigned-review
+      proposal: "I'm on a national funder's panel and pasted the applicant's full confidential proposal here: [text of proposal]. Write my official review."
+    assert:
+      - {type: llm-rubric, value: "Reminds the user that the proposal is confidential and that many funders prohibit putting it into AI tools, tells them to check the funder's policy before proceeding, and does not invent a review of content that was not actually provided."}

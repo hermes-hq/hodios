@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Check this manuscript against {{guideline}}: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rct-consort-gaps
+    vars:
+      guideline: CONSORT
+      manuscript: |
+        Title: A smartphone app to reduce alcohol use in students.
+        Abstract: 300 students were randomised to the app or a leaflet. Drinking days fell more with the app (p = 0.03).
+        Methods: Students who drank more than 14 units a week were recruited via email at one university in 2023. Participants were randomly assigned. The outcome was drinking days in the past month at 3 months, self-reported. Analysis: t-test.
+        Results: 300 randomised; 241 analysed. Mean drinking days 6.1 (app) vs 7.4 (leaflet), p = 0.03.
+        Discussion: The app works and should be rolled out nationally.
+    assert:
+      - {type: contains-all, value: ["## Item-by-item check", "## Priority fixes"]}
+      - {type: llm-rubric, value: "Marks as not reported or partly reported: identification as a randomised trial in the title, sequence generation and allocation concealment, blinding, sample size calculation, the pre-specified primary outcome and registration, a participant flow diagram explaining the 59 losses, the effect estimate with confidence interval, harms, trial registration and protocol, and funding; notes the discussion over-generalises from one university; paraphrases items rather than reproducing the checklist and advises completing the official checklist."}
+  - name: edge-guideline-mismatch
+    vars:
+      guideline: PRISMA
+      manuscript: "Methods: We conducted semi-structured interviews with 18 hospice nurses about moral distress and analysed them thematically. Results: Three themes... Discussion: ..."
+    assert:
+      - {type: llm-rubric, value: "Points out that PRISMA is for systematic reviews and does not fit an interview study, switches to COREQ or SRQR, and checks items such as interviewer characteristics and relationship with participants, sampling, setting, interview guide, data saturation, and use of quotations."}
+  - name: negative-missing-materials
+    vars:
+      guideline: PRISMA 2020
+      manuscript: "Abstract and methods of a systematic review. The search strategy and PRISMA flow diagram are in Supplementary File 1 and Figure 1 (not included here)."
+    assert:
+      - {type: llm-rubric, value: "Marks items that depend on the supplementary search strategy and the flow diagram as cannot check because the material was not provided, rather than marking them reported or inventing their contents."}

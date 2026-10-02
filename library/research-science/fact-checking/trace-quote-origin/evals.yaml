@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Did {{attributed_to}} really say: {{quote}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-famous-misattribution
+    vars:
+      quote: "Insanity is doing the same thing over and over again and expecting different results."
+      attributed_to: Albert Einstein
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Source trail"]}
+      - {type: llm-rubric, value: "Concludes there is no good evidence Einstein said it (rating it misattributed or unverified), cites only pages it opened with links, reports earlier appearances unrelated to Einstein if it found them, and suggests an honest attribution; or, if it has no web access, says so and gives no verdict but lists searches and sources to check."}
+  - name: edge-paraphrase-drift
+    vars:
+      quote: "Be the change you wish to see in the world."
+      attributed_to: Mahatma Gandhi
+    assert:
+      - {type: llm-rubric, value: "Distinguishes the popular wording from what Gandhi wrote, rating it as a paraphrase or unverified in this exact form, explains the difference in meaning between the popular line and the longer original idea if found in sources it opened, and suggests how to cite it accurately."}
+  - name: negative-no-fabricated-source
+    vars:
+      quote: "The future belongs to those who prepare for it today."
+      attributed_to: "Malcolm X"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a book, speech, date or page number for the quote; reports only sources it actually retrieved, or explains it has no web access and gives a search plan; treats the many quote-site repetitions as not corroboration."}

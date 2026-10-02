@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I tell my relative this is fake? {{claim}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dad-health-forward
+    vars:
+      claim: "Forwarded in the family WhatsApp: 'Doctors don't want you to know: drinking hot water with lemon every morning kills cancer cells. Share with everyone you love!'"
+      relationship: "my dad, 70, worries about cancer since his brother's diagnosis, trusts his GP"
+      channel: private
+    assert:
+      - {type: contains-all, value: ["## Your message", "## If they push back"]}
+      - {type: llm-rubric, value: "Explains the claim is unsupported and the 'doctors don't want you to know' framing, gives a plain core fact, writes a warm private message under about 80 words that acknowledges his worry and leads with the fact rather than repeating the myth at length, suggests a national health service or cancer charity source without inventing a URL (or links only retrieved pages), mentions asking his GP, and gives a shorter version."}
+  - name: edge-group-reply
+    vars:
+      claim: "Posted in the neighbourhood Facebook group: a photo of a flooded motorway captioned 'Our bridge collapsed this morning, avoid the area!' The photo looks like it's from another country."
+      channel: group
+    assert:
+      - {type: llm-rubric, value: "Says it is not yet certain the claim is false and suggests checking (for example reverse image search or local authority updates), writes a brief neutral group message that asks or points to an official source rather than accusing, and suggests messaging the poster privately."}
+  - name: negative-scam-message
+    vars:
+      claim: "My aunt shared: 'The government is giving 500 EUR to every pensioner, click this link and enter your bank details before Friday!'"
+      relationship: "my aunt, 68"
+    assert:
+      - {type: llm-rubric, value: "Identifies it as a likely scam first, warns not to click or enter details and what to do if she already did (contact her bank), writes a kind message to the aunt, and suggests checking official government channels without inventing links."}
