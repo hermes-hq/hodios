@@ -22,15 +22,15 @@ Only need one category? `git clone --filter=blob:none --sparse <url>` then `git 
 **2. Copy the closest example** and rename the folder to your id:
 
 ```sh
-cp -r library/code-review/review-pull-request library/testing/fix-flaky-test
-rm -rf library/testing/fix-flaky-test/examples library/testing/fix-flaky-test/evals.yaml
+cp -r library/software-engineering/code-review/review-pull-request library/software-engineering/testing/fix-flaky-test
+rm -rf library/software-engineering/testing/fix-flaky-test/examples library/software-engineering/testing/fix-flaky-test/evals.yaml
 ```
 
 | Example | Kind |
 |---|---|
-| `library/code-review/review-pull-request/` | prompt (with `evals.yaml` and an example) |
+| `library/software-engineering/code-review/review-pull-request/` | prompt (with `evals.yaml` and an example) |
 | `library/software-engineering/security/security-auditor/` | persona |
-| `library/planning/feature-track/` | workflow (with `steps/`) |
+| `library/software-engineering/planning/feature-track/` | workflow (with `steps/`) |
 
 **3. Edit the frontmatter.** At minimum:
 
@@ -54,7 +54,7 @@ Then add the facets that apply (`stage`, `role`, `stack`, `subject`, `requires`,
 ```sh
 npm run build && npm run validate
 git checkout -b add-fix-flaky-test
-git add library/testing/fix-flaky-test
+git add library/software-engineering/testing/fix-flaky-test
 git commit -s -m "Add fix-flaky-test prompt"
 git push -u origin add-fix-flaky-test
 ```

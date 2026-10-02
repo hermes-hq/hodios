@@ -42,11 +42,11 @@ describe('hodios validate', () => {
 
   it('fails with rule ids on a broken entry', async () => {
     const root = fixtureCopy();
-    const file = join(root, 'library/code-review/review-pull-request/prompt.md');
+    const file = join(root, 'library/software-engineering/code-review/review-pull-request/prompt.md');
     writeFileSync(file, readFileSync(file, 'utf8').replace('category: code-review', 'category: security'));
     const result = await capture(['validate', '--root', root]);
     expect(result.code).toBe(1);
-    expect(result.err).toContain('PS002 library/code-review/review-pull-request/prompt.md');
+    expect(result.err).toContain('PS002 library/software-engineering/code-review/review-pull-request/prompt.md');
   });
 
   it('prints JSON', async () => {

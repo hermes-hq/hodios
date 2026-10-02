@@ -18,7 +18,7 @@ import { checkVocabSet, impliedBy, liveValues, lookup, type Vocab } from './voca
 
 /** One entry folder, as read by the caller (the core has no file system access). */
 export interface EntrySource {
-  /** Repo-relative POSIX path of the folder, e.g. `library/code-review/review-pull-request`. */
+  /** Repo-relative POSIX path of the folder, e.g. `library/software-engineering/code-review/review-pull-request`. */
   dir: string;
   /** Every file in the folder: relative POSIX path -> UTF-8 text. */
   files: Map<string, string>;

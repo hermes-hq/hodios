@@ -102,10 +102,10 @@ In a project folder, `npx hodios search` with no query does this on your machine
 | Migration | 4 | [`migrate-api-version`](library/software-engineering/migration/migrate-api-version/) · [`migrate-database-engine`](library/software-engineering/migration/migrate-database-engine/) · [`migrate-javascript-to-typescript`](library/software-engineering/migration/migrate-javascript-to-typescript/) |
 | Documentation | 3 | [`write-code-tutorial`](library/software-engineering/docs/write-code-tutorial/) · [`write-onboarding-guide`](library/software-engineering/docs/write-onboarding-guide/) · [`write-release-notes`](library/software-engineering/docs/write-release-notes/) |
 | Git and version control | 3 | [`clean-up-commit-history`](library/software-engineering/git/clean-up-commit-history/) · [`recover-lost-git-work`](library/software-engineering/git/recover-lost-git-work/) · [`split-large-pull-request`](library/software-engineering/git/split-large-pull-request/) |
-| Code review | 2 | [`review-error-handling`](library/software-engineering/code-review/review-error-handling/) · [`review-pull-request`](library/code-review/review-pull-request/) |
+| Code review | 2 | [`review-error-handling`](library/software-engineering/code-review/review-error-handling/) · [`review-pull-request`](library/software-engineering/code-review/review-pull-request/) |
 | Debugging | 2 | [`bisect-regression`](library/software-engineering/debugging/bisect-regression/) · [`debug-race-condition`](library/software-engineering/debugging/debug-race-condition/) |
 | Learning to code | 2 | [`create-coding-exercises`](library/software-engineering/learning/create-coding-exercises/) · [`learn-new-programming-language`](library/software-engineering/learning/learn-new-programming-language/) |
-| Planning | 2 | [`estimate-with-ranges`](library/software-engineering/planning/estimate-with-ranges/) · [`feature-track`](library/planning/feature-track/) |
+| Planning | 2 | [`estimate-with-ranges`](library/software-engineering/planning/estimate-with-ranges/) · [`feature-track`](library/software-engineering/planning/feature-track/) |
 | Refactoring | 2 | [`retire-unused-code-paths`](library/software-engineering/refactoring/retire-unused-code-paths/) · [`split-large-module`](library/software-engineering/refactoring/split-large-module/) |
 | Architecture | 1 | [`write-design-doc`](library/software-engineering/architecture/write-design-doc/) |
 | Developer writing | 1 | [`explain-tech-to-executives`](library/software-engineering/writing/explain-tech-to-executives/) |
