@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write an implementation plan for: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-soft-delete
+    vars:
+      goal: "Add soft delete to projects: deleting a project hides it for 30 days and an admin can restore it. After 30 days it is purged."
+      constraints: "The public REST API must stay backward compatible."
+    assert:
+      - {type: contains, value: "## Steps"}
+      - {type: llm-rubric, value: "Steps are small and ordered, each names its verification, and the rollout covers the schema change in a backward-compatible way (for example a nullable deleted_at column added before code depends on it)."}
+  - name: edge-ambiguous-goal
+    vars:
+      goal: "Make the reports faster."
+    assert:
+      - {type: llm-rubric, value: "Asks the questions that would change the plan (which reports, how slow now, what target) before or instead of producing a detailed plan."}
+  - name: negative-no-invented-paths
+    vars:
+      goal: "Add rate limiting to the login endpoint."
+    assert:
+      - {type: llm-rubric, value: "Does not present guessed file paths or test commands as existing ones; either cites what it read or marks paths as new or to be confirmed."}
