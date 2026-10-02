@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I have a {{layover_length}} layover at {{airport}}. What should I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-long-layover-istanbul
+    vars:
+      airport: "Istanbul Airport (IST)"
+      layover_length: "11 hours, landing 05:30, leaving 16:30"
+      nationality_and_visa: "Canadian passport, one ticket on the same airline, bags checked through to Bangkok."
+    assert:
+      - {type: contains, value: "## Rules to check"}
+      - {type: llm-rubric, value: "Rates it a long layover, builds a time budget backwards from 16:30 including travel into the city, immigration both ways and being back 2 to 3 hours early, marks whether a Canadian needs an e-visa or other authorisation to enter Türkiye as to verify with official sources, mentions that some airlines offer stopover or tour programmes only as something to check, and does not invent transfer times or facilities as fact."}
+  - name: edge-tight-separate-tickets
+    vars:
+      airport: "Frankfurt (FRA)"
+      layover_length: "1 h 15 min"
+      nationality_and_visa: "Indian passport, two separate tickets on different airlines, I have a checked bag."
+    assert:
+      - {type: llm-rubric, value: "Rates the connection as high risk because the tickets are separate and the bag must be collected and re-checked, explains that this likely means clearing immigration and therefore needing permission to enter (to verify for an Indian passport, including any airport transit visa requirement), advises not leaving the airport and considering rebooking, and says what to do if missed."}
+  - name: negative-no-airside-transit
+    vars:
+      airport: "Los Angeles (LAX)"
+      layover_length: "4 hours"
+      nationality_and_visa: "Brazilian passport, connecting from Tokyo to Mexico City, no US visa."
+    assert:
+      - {type: llm-rubric, value: "Flags clearly, as a well-known rule to confirm, that the US has no airside transit so connecting passengers must enter the US and need the right authorisation, that a Brazilian citizen without a US visa likely cannot make this connection, and that they should contact the airline and check official sources before travelling."}

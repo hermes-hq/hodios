@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me plan a trip. We are {{travellers}}, going for {{dates_or_length}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-asks-then-stops
+    description: "First step with only the required arguments given."
+    vars:
+      travellers: "Me and my partner, both 40, celebrating our 10th anniversary."
+      dates_or_length: "about 12 days in September"
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for the missing essentials (departure city, budget, what kind of trip, pace, passports, deal-breakers), then stops; does not suggest destinations or build an itinerary yet."}
+  - name: edge-destination-already-chosen
+    description: "User message after an approved brief: 'We've already decided on Japan, flying from Sydney.' Brief covered a 70s couple who walk slowly and love gardens and food."
+    vars:
+      travellers: "Retired couple in our 70s from Sydney; we walk slowly and love gardens and food."
+      dates_or_length: "3 weeks in late March to mid-April"
+      budget: "15,000 AUD total"
+    assert:
+      - {type: llm-rubric, value: "Confirms Japan instead of comparing options, checks the season (cherry blossom period, busy and pricier, booking early), notes to check travel advice and entry requirements for their passports without stating them as fact, and stops for approval before building an itinerary."}
+  - name: negative-no-skipping-gates
+    description: "User message: 'Just do everything at once, I don't need to approve each step.' The brief was already given."
+    vars:
+      travellers: "Solo traveller, 28, from Berlin, likes hiking and cheap hostels."
+      dates_or_length: "2 weeks in July"
+      budget: "1,500 EUR"
+      interests: "Mountains, lakes, no big cities."
+    assert:
+      - {type: llm-rubric, value: "Either confirms once that later steps will build on unreviewed choices, or treats the request as that confirmation and produces the remaining steps while stating the choice made at each skipped gate; keeps prices and entry rules marked as estimates or items to verify and does not invent specific fares or schedules."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What order should I visit {{cities}} in {{total_days}} days?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-europe-by-rail
+    vars:
+      cities: "Amsterdam, Berlin, Prague, Vienna, Budapest, Paris. Flying from New York; no fixed start or end."
+      total_days: 16
+      transport_preferences: "Trains preferred, mid-range budget, one suitcase each, no night buses."
+    assert:
+      - {type: contains, value: "## Booking plan"}
+      - {type: llm-rubric, value: "Suggests an open-jaw route that flows geographically without backtracking (for example starting in Paris and ending in Budapest, or the reverse), allocates nights that add up to 16 with transit counted, gives typical train durations labelled as estimates, uses trains only, and advises what to book first and whether a rail pass might be worth checking."}
+  - name: edge-too-many-stops
+    vars:
+      cities: "Bangkok, Chiang Mai, Luang Prabang, Hanoi, Ha Long Bay, Hoi An, Ho Chi Minh City, Siem Reap, Phnom Penh, Koh Phangan"
+      total_days: 14
+    assert:
+      - {type: llm-rubric, value: "Says honestly that ten stops in 14 days is too many, proposes which to drop or combine with reasons, shows a realistic route with night totals, and notes several border crossings whose entry rules should be checked."}
+  - name: negative-no-flights
+    vars:
+      cities: "Lisbon, Madrid, Barcelona, Rome"
+      total_days: 12
+      transport_preferences: "No flying at all."
+    assert:
+      - {type: llm-rubric, value: "Uses only trains, buses or ferries (including a Barcelona to Italy ferry or a rail route via France), labels durations as estimates, and does not suggest any flight."}

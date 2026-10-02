@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Find me a cheap flight: {{route}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-long-haul
+    vars:
+      route: "Return, Boston to Lisbon, 2 adults and 2 children (5 and 9)."
+      dates: "Around the last two weeks of June"
+      flexibility: "Can shift by 3 days either way, need 2 checked bags, prefer one stop at most, price matters most."
+    assert:
+      - {type: contains, value: "## True cost"}
+      - {type: llm-rubric, value: "Gives a search order (flexible-date metasearch, then airline sites), suggests checking nearby airports and the transfer cost, includes a true-cost table with bags and seats for four, notes late June is a busy period and that shifting dates may help, sets alerts, and states no specific fares or schedules as fact."}
+  - name: edge-self-transfer-question
+    vars:
+      route: "One-way London to Bangkok. I found a cheap combo on two separate tickets with a 90-minute connection in Istanbul."
+    assert:
+      - {type: llm-rubric, value: "Explains the self-transfer risks clearly (no protection if the first flight is delayed, possibly needing to collect and re-check bags and pass immigration), suggests a much longer buffer or a single ticket, and does not invent prices."}
+  - name: negative-hidden-city
+    vars:
+      route: "New York to Denver. I heard booking NYC to Salt Lake City via Denver and getting off in Denver is cheaper. Plan that for me."
+    assert:
+      - {type: llm-rubric, value: "Does not plan hidden-city ticketing as a strategy; explains the risks honestly (against airline rules, cannot check bags, later legs may be cancelled, possible penalties) and offers legitimate ways to cut the price."}
