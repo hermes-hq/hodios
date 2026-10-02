@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a {{agreement_type}} agreement with these terms: {{terms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-freelance-website
+    vars:
+      agreement_type: freelance
+      terms: "I'm a web designer building a 6-page marketing site for a local bakery. Price 3,600, half upfront and half on launch. Two rounds of revisions included, extra work at 60 per hour. They provide copy and photos by 1 November. Launch target 1 December. I keep the right to show it in my portfolio."
+      jurisdiction: "Ireland"
+    assert:
+      - {type: contains, value: "## Gaps to decide"}
+      - {type: llm-rubric, value: "Drafts numbered plain-language clauses using exactly the stated price, payment split, revisions, hourly rate and dates, with [BRACKETS] for names; covers acceptance, IP transfer on final payment with a portfolio licence, late client materials, termination and liability; labels it a draft for review; and lists gaps (late payment terms, hosting, what happens if the client delays) without inventing values."}
+  - name: edge-loan-no-jurisdiction
+    vars:
+      agreement_type: loan-between-friends
+      terms: "Lending my friend 5,000 for a car. She'll pay back 250 a month. We didn't talk about interest or what happens if she misses payments."
+      jurisdiction: ""
+    assert:
+      - {type: llm-rubric, value: "Drafts a neutral loan agreement with the 5,000 and 250 monthly repayment (about 20 months), leaves interest and missed-payment consequences as bracketed gaps with options and trade-offs, flags that interest rules, tax and formalities depend on the jurisdiction, and keeps the tone suitable for friends."}
+  - name: negative-shareholder-agreement
+    vars:
+      agreement_type: other
+      terms: "Shareholder agreement for my startup with two co-founders: equity split, vesting, what happens if someone leaves, investor rights."
+      jurisdiction: "Delaware, USA"
+    assert:
+      - {type: llm-rubric, value: "Says a shareholder or founders agreement is not a simple agreement and should be drafted by a lawyer, offers a list of points to discuss (vesting, leaver provisions, IP assignment, decision rights, transfer restrictions) rather than a full draft, and stays helpful."}

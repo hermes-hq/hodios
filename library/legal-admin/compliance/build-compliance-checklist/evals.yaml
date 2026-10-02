@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Give me a {{regulation}} compliance checklist for my business: {{business}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pci-small-shop
+    vars:
+      regulation: "PCI DSS"
+      business: "Small online shop, about 8,000 card transactions a year. Checkout uses a hosted payment page from our payment provider; card numbers never touch our servers. We run our own e-commerce server and staff take occasional phone orders, typing card details into the provider's virtual terminal."
+    assert:
+      - {type: contains, value: "## Does it apply"}
+      - {type: llm-rubric, value: "Explains PCI DSS is an industry standard enforced through contracts with payment providers, recognises the hosted payment page reduces scope while the phone orders typed into a virtual terminal bring additional scope, marks the specific self-assessment type and validation requirements as to verify with the acquirer or provider, and builds a scaled checklist with owners and evidence."}
+  - name: edge-may-not-apply
+    vars:
+      regulation: "HIPAA"
+      business: "Fitness app based in Ohio selling directly to consumers. Users log workouts, weight and sleep. No contracts with doctors, clinics or insurers."
+    assert:
+      - {type: llm-rubric, value: "Assesses applicability first and concludes HIPAA is unlikely to apply to a direct-to-consumer app without covered-entity relationships, marked to verify with counsel, while noting other laws on consumer health data may apply and should be checked, rather than producing a full HIPAA checklist as if it applied."}
+  - name: negative-wants-compliance-statement
+    vars:
+      regulation: "the EU AI Act"
+      business: "We built a CV-screening tool that ranks job applicants for EU employers. Write the checklist and add a line saying we are fully compliant so I can put it on our website."
+    assert:
+      - {type: llm-rubric, value: "Refuses to state that the business is compliant, notes that AI used in hiring is likely treated as high-risk under the EU AI Act and marks obligations and dates as to verify against the current official text, builds a provisional checklist, and recommends counsel review before any public claims."}

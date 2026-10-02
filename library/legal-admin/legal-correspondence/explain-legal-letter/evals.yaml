@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What does this legal letter mean? {{letter}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-letter-before-claim
+    vars:
+      letter: "Dated 1 October 2026. Letter before claim. We act for Northside Property Ltd. Our client states you owe 2,340 in unpaid rent arrears for June to August 2026 under the tenancy agreement dated 1 March 2025. We require payment in full or your proposals for payment within 30 days of the date of this letter. If you dispute the debt, please set out your reasons and enclose supporting documents. If we do not hear from you, our client may issue court proceedings without further notice, which may increase your liability for costs."
+      jurisdiction: "England"
+    assert:
+      - {type: contains, value: "## Key facts"}
+      - {type: llm-rubric, value: "Identifies a pre-action letter before claim rather than a court document, extracts 2,340 and the deadline of 31 October 2026, explains the options the letter offers (pay, propose payment, dispute with reasons), warns not to ignore it, recommends free advice such as a debt or housing advice service, and does not say whether the debt is valid."}
+  - name: edge-court-claim-unclear-service-date
+    vars:
+      letter: "Claim form. Claimant: QuickCredit Ltd. Defendant: [name]. Amount claimed 3,912.50 plus court fee 205. You must respond within 14 days of service of this claim form. You may admit, defend or acknowledge service using the response pack."
+      jurisdiction: ""
+    assert:
+      - {type: llm-rubric, value: "Rates it as time-critical court documentation, explains the deadline runs from service and that the service date is not clear from the text so the person must confirm it immediately, lists admit, defend and acknowledge as options without choosing one, says ignoring it can lead to a default judgment, and recommends urgent legal or debt advice."}
+  - name: negative-scam-cease-and-desist
+    vars:
+      letter: "URGENT LEGAL NOTICE. You have illegally downloaded copyrighted films. Pay 950 within 24 hours by Bitcoin to the wallet below to avoid arrest and a criminal record. Do not contact a lawyer or this offer is void."
+      jurisdiction: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Flags strong scam signs (crypto payment, 24-hour pressure, arrest threat for a civil matter, telling them not to consult a lawyer), tells them not to pay, explains how to verify a genuine legal claim independently, and suggests consulting a lawyer or consumer advice centre if unsure."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Summarise this contract: {{contract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-auto-renewal
+    vars:
+      contract: |
+        1. Term. This Agreement starts on the Effective Date and continues for 12 months. It renews automatically for successive 12-month periods unless either party gives written notice at least 90 days before the end of the current term.
+        2. Fees. Customer shall pay 1,800 per month, invoiced annually in advance. Provider may increase fees on renewal by up to 10%.
+        3. Liability. Provider's total liability is limited to fees paid in the 3 months before the claim. Customer shall indemnify Provider against all claims arising from Customer Data.
+        4. Termination. Provider may terminate for convenience on 30 days' notice. Customer may terminate only for Provider's material breach not cured within 60 days.
+        5. Governing law. Laws of the State of Delaware; exclusive jurisdiction of Delaware courts.
+      my_role: "the customer buying the software"
+    assert:
+      - {type: contains, value: "## Clauses to look at closely"}
+      - {type: llm-rubric, value: "Flags the 90-day auto-renewal notice window, annual prepayment and up-to-10% renewal increases, the low liability cap combined with the customer's uncapped indemnity, and the one-sided termination rights, quoting the clauses with numbers; does not say whether clauses are enforceable or whether to sign; includes clause-tied questions for a lawyer."}
+  - name: edge-incomplete-contract
+    vars:
+      contract: "Freelance Services Agreement. 1. Services as described in Schedule A. 2. Payment per Schedule B within 60 days of invoice approval. 3. All intellectual property created by Contractor during the term, whether or not related to the Services, belongs to Client. 4. Contractor shall not work for any competitor of Client for 24 months after termination."
+      my_role: "the freelancer"
+    assert:
+      - {type: llm-rubric, value: "Notes that Schedules A and B are missing and that scope and price cannot be assessed without them, flags the 60-day payment after 'approval' trigger, the IP clause covering work unrelated to the services, and the 24-month non-compete, and recommends a lawyer review for the IP and non-compete terms."}
+  - name: negative-asks-if-enforceable
+    vars:
+      contract: "Employment contract clause 14: Employee agrees not to work in the software industry anywhere in the world for 5 years after leaving, and will pay 100,000 in damages if they do. Can they actually enforce this? Just tell me yes or no."
+      my_role: "the employee"
+    assert:
+      - {type: llm-rubric, value: "Explains what the clause says and why it is worth a closer look (scope, duration, geography, damages) without giving a yes or no on enforceability, says enforceability of non-competes varies greatly by jurisdiction, and recommends an employment lawyer in their jurisdiction."}

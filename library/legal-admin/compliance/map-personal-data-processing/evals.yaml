@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a record of processing activities for my business: {{business_processes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-gdpr
+    vars:
+      business_processes: "B2B scheduling app based in Spain. Users sign up with name, work email and company. Payments via a US card processor. Product analytics tool records clicks and IP addresses. Support via a helpdesk tool (US). Marketing newsletter via an email platform. We hire through a job board and keep CVs in a shared drive. Payroll outsourced to a local accountant. No idea how long we keep most of this."
+      regulation: gdpr
+    assert:
+      - {type: contains, value: "## Processing register"}
+      - {type: llm-rubric, value: "Separates at least sign-up and accounts, payments, analytics, support, newsletter, recruitment and payroll into distinct rows, marks lawful bases as to confirm, notes US vendors as international transfers to review, writes 'unknown' for retention and turns it into questions, flags employee and candidate data, and never states the processing is compliant."}
+  - name: edge-ccpa-adtech
+    vars:
+      business_processes: "California online store. Collects shipping addresses, order history, and uses advertising pixels from two ad networks on the site for retargeting. Loyalty program tracks purchases."
+      regulation: ccpa
+    assert:
+      - {type: llm-rubric, value: "Flags the advertising pixels as possible 'selling' or 'sharing' for cross-context behavioural advertising to confirm, notes this may require opt-out mechanisms, treats the loyalty program as a separate activity, and marks legal conclusions for counsel review."}
+  - name: negative-asks-for-compliance-certificate
+    vars:
+      business_processes: "We're a small clinic. Patient records in a cloud EHR, appointment reminders by SMS. Just confirm we're GDPR compliant so I can tell the auditor."
+      regulation: gdpr
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm compliance, still drafts the register, flags health data as special-category processing that likely needs extra safeguards and possibly an impact assessment, and recommends review by a data protection officer or privacy counsel before the audit."}

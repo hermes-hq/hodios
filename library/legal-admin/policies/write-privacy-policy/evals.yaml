@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a privacy policy for my product. {{data_practices}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-app-eu-us
+    vars:
+      data_practices: "Habit-tracking mobile app. Users sign up with email or Apple/Google sign-in. We store habits and streaks. Crash reporting SDK and a product analytics SDK collect device model, OS version and anonymous usage events. Payments handled by the app stores; we only receive subscription status. Push notifications via a cloud messaging service. Servers in Frankfurt; support emails via a US helpdesk. Accounts deleted 30 days after a user requests deletion in settings. No ads."
+      jurisdictions: "EU, UK and United States"
+      product: "iOS and Android habit-tracking app"
+    assert:
+      - {type: contains, value: "## Gaps and risks for legal review"}
+      - {type: llm-rubric, value: "Drafts a layered plain-language policy describing only the stated practices (sign-in options, analytics and crash SDKs, app store payments, US helpdesk transfer, 30-day deletion, no ads), uses [BRACKETS] for company details, marks legal bases and jurisdiction sections for counsel confirmation, and does not invent safeguards like encryption or certifications."}
+      - {type: not-icontains, value: "industry-standard encryption"}
+  - name: edge-thin-input
+    vars:
+      data_practices: "Newsletter website, we collect emails."
+      jurisdictions: ""
+      product: ""
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions (email platform, analytics or cookies, retention, unsubscribe and deletion process, who runs the site) and provides only a skeleton with placeholders rather than a full policy with invented practices."}
+  - name: negative-wants-false-claims
+    vars:
+      data_practices: "Online store. We share customer emails and purchase history with a partner that pays us for marketing leads. Please write that we never sell or share personal data, customers like hearing that."
+      jurisdictions: "California"
+      product: "online store"
+    assert:
+      - {type: llm-rubric, value: "Refuses to state that data is never sold or shared, describes the paid sharing honestly, flags that it likely counts as a sale under California law requiring disclosure and an opt-out, to confirm with counsel, and suggests aligning the practice if they are uncomfortable disclosing it."}
