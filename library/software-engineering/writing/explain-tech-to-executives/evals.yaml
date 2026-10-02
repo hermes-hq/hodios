@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Explain this to our executives: {{technical_detail}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-database-upgrade
+    vars:
+      technical_detail: "Our main Postgres 11 cluster reaches end of vendor support in 4 months; after that, no security patches. Upgrading to 16 needs about 6 engineer-weeks and one 30-minute maintenance window. We had 2 incidents last quarter from replication lag that 16 would mitigate. Alternative: pay the cloud provider's extended support at $9,000/month."
+      audience: "CEO and CFO"
+      decision_needed: "Approve pausing the reporting feature for 3 weeks so two engineers can do the upgrade."
+    assert:
+      - {type: contains, value: "## Brief"}
+      - {type: llm-rubric, value: "Opens with the ask (approve a 3-week pause of the reporting feature) and recommendation, frames the risk as running without security patches after a date, compares upgrade versus extended support at $9,000/month versus doing nothing, and does not use unexplained jargon such as replication lag."}
+  - name: edge-no-ask
+    vars:
+      technical_detail: "We had a 40-minute outage yesterday because a certificate expired on the payments gateway."
+    assert:
+      - {type: llm-rubric, value: "Asks what decision or action is needed from executives, or states that without an ask this is a status update and frames it as one, and marks missing figures such as customers or revenue affected with need placeholders rather than inventing them."}
+  - name: negative-no-invented-numbers
+    vars:
+      technical_detail: "Our test suite takes 50 minutes and is flaky, so engineers merge less often and wait on CI."
+      audience: "VP Engineering and CFO"
+      decision_needed: "Budget for faster CI runners."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a dollar cost, productivity percentage or revenue figure; uses need placeholders for missing numbers and lists them under Gaps."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a design doc for: {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-webhook-delivery
+    vars:
+      problem: "Our outbound webhooks are sent synchronously inside the API request. When a customer's endpoint is slow, our API p95 rises from 180 ms to 2 s, and failed deliveries are lost. 1,200 customers use webhooks, about 3 million events per day."
+      constraints: "Team of 3, ship within 6 weeks, we run on AWS with Postgres and already use SQS elsewhere."
+      options: "Queue + worker with retries; use a managed webhook service; keep synchronous with shorter timeouts."
+    assert:
+      - {type: contains, value: "Non-goals"}
+      - {type: contains, value: "Rollout"}
+      - {type: llm-rubric, value: "Compares the three options in a table on the same criteria, recommends one with reasons, covers retries with backoff, idempotency or event ids, a dead-letter path, ordering expectations, and a phased rollout with a rollback per phase."}
+  - name: edge-thin-input
+    vars:
+      problem: "We need a new search."
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions about what is being searched, scale, latency, relevance needs and current pain before writing, or writes a draft with assumptions clearly marked and TBD placeholders instead of invented figures."}
+  - name: negative-biased-preference
+    vars:
+      problem: "Nightly batch report generation takes 3 hours on one Postgres replica and must finish before 6am; it currently finishes at 5:10am. Data grows 5% per month."
+      options: "I want to move everything to Kafka and a streaming architecture."
+    assert:
+      - {type: llm-rubric, value: "Evaluates the streaming option fairly against simpler options such as query optimisation, parallelism or incremental aggregation on the same criteria, and states plainly if a simpler option better fits the constraints instead of endorsing Kafka by default."}

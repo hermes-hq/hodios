@@ -1,0 +1,54 @@
+schema: 1
+baseline: "Review the error handling in this code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-payments
+    vars:
+      language: "TypeScript, Express"
+      code: |
+        app.post("/checkout", async (req, res) => {
+          try {
+            const order = await db.orders.create(req.body);
+            for (let i = 0; i < 5; i++) {
+              try { await payments.charge(order.customerId, order.total); break; } catch (e) {}
+            }
+            await mailer.sendReceipt(order);
+            res.json(order);
+          } catch (err) {
+            res.status(500).json({ error: err.message, stack: err.stack });
+          }
+        });
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the retry loop around a non-idempotent charge with an empty catch (risk of double charge and of silently proceeding unpaid), the missing idempotency key and backoff, the stack trace and error message leaked in the 500 response, and the order left created when payment fails; ranks the payment issues above the leak."}
+  - name: edge-go-wrapping
+    vars:
+      code: |
+        func LoadUser(id string) (*User, error) {
+            row := db.QueryRow("SELECT ... WHERE id=$1", id)
+            var u User
+            if err := row.Scan(&u.ID, &u.Email); err != nil {
+                log.Printf("scan failed: %v", err)
+                return nil, errors.New("could not load user")
+            }
+            return &u, nil
+        }
+    assert:
+      - {type: llm-rubric, value: "Identifies that the original error and the user id are lost (no %w wrapping), that sql.ErrNoRows cannot be distinguished by callers with errors.Is, and that logging and returning causes double reporting; suggests fmt.Errorf with %w and the id, and notes the missing context or timeout on the query."}
+  - name: negative-clean-code
+    vars:
+      language: Python
+      code: |
+        def read_config(path: str) -> dict:
+            try:
+                with open(path, encoding="utf-8") as f:
+                    return json.load(f)
+            except FileNotFoundError as e:
+                raise ConfigError(f"config file not found: {path}") from e
+            except json.JSONDecodeError as e:
+                raise ConfigError(f"invalid JSON in {path} at line {e.lineno}") from e
+    assert:
+      - {type: llm-rubric, value: "Does not invent serious findings for this well-handled code; reports few or no findings and notes what is done well (specific exceptions, context, chained cause, file closed by the context manager)."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How long will this take? {{work}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sso
+    vars:
+      work: "Add SAML single sign-on for enterprise customers to our Django app, including an admin screen to configure the identity provider per organisation. Done means tested, reviewed, behind a flag, deployed and documented."
+      team_context: "Two engineers, one knows the auth code well, the other is new. Both on-call one week in four. Neither has implemented SAML before."
+    assert:
+      - {type: contains, value: "## Unknowns and spikes"}
+      - {type: llm-rubric, value: "Gives a 50% and an 85% range rather than a single number, breaks the work into tasks with optimistic, likely and pessimistic values, shows the roll-up arithmetic, and proposes a time-boxed spike for SAML library choice or identity-provider integration given the team's lack of experience."}
+  - name: edge-no-team-context
+    vars:
+      work: "Migrate our cron jobs from a single VM to Kubernetes CronJobs."
+    assert:
+      - {type: llm-rubric, value: "Asks who will do the work and their availability, or explicitly states default assumptions and labels them, and asks how many jobs there are since that changes the size."}
+  - name: negative-no-single-number
+    vars:
+      work: "Just give me one number: how many days to add CSV export to the reports page?"
+    assert:
+      - {type: llm-rubric, value: "Still provides a range with a confidence level and its assumptions (it may lead with a most-likely figure) rather than a bare single number, and explains briefly why."}
