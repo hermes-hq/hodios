@@ -291,11 +291,11 @@ describe('remote catalog over HTTP', () => {
   afterAll(() => server.close());
 
   it('searches, then works offline from the cache', async () => {
-    const online = await cli(['search', 'review'], { env: { HODIOS_CATALOG: url } });
+    const online = await cli(['search', 'review pull request'], { env: { HODIOS_CATALOG: url } });
     expect(online.code).toBe(0);
     expect(online.out).toContain('review-pull-request');
     server.close();
-    const offline = await cli(['search', 'review'], { env: { HODIOS_CATALOG: url } });
+    const offline = await cli(['search', 'review pull request'], { env: { HODIOS_CATALOG: url } });
     expect(offline.out).toContain('review-pull-request');
   });
 });
