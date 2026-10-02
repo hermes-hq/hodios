@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Write a case study from these interview notes: {{interview_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-metrics-present
+    vars:
+      customer: "Northwind Freight, Dana Ruiz, Head of Operations"
+      format: one-page
+      interview_notes: |
+        Northwind Freight, 220 employees, logistics, US Midwest.
+        Before: dispatchers built routes in spreadsheets, took about 3 hours every morning. Late deliveries were 11% of loads in Q1.
+        Tried a competitor in 2023, dropped it because drivers would not use the mobile app.
+        Rolled out our routing tool in 6 weeks with two dispatchers and one IT person.
+        After two quarters: route planning takes 25 minutes, late deliveries 4% in Q3.
+        Dana: "Our dispatchers stopped dreading Monday mornings. We got three hours of our day back."
+        Dana also mentioned they cut fuel costs but did not have numbers yet.
+    assert:
+      - {type: contains, value: "## Approval checklist"}
+      - {type: llm-rubric, value: "Leads with a supported result (route planning from about 3 hours to 25 minutes, or late deliveries from 11% to 4%), uses Dana's quote verbatim, does not invent a fuel-savings figure but lists it as a gap or NEEDS DATA, and stays roughly within a one-page length."}
+  - name: edge-slide-format
+    vars:
+      customer: ""
+      format: slide
+      interview_notes: |
+        Mid-size dental group, 14 clinics. Used paper intake forms. Patients now fill forms on their phone before arrival.
+        Front desk says check-in is "way faster". No-show rate went from 9% to 6% over 4 months after adding SMS reminders in the same rollout.
+        Quote from practice manager Lee Park: "Patients notice it the moment they walk in."
+    assert:
+      - {type: llm-rubric, value: "Produces a single-slide layout with three columns and speaker notes, uses [Customer] or a placeholder for the unnamed company, keeps 'way faster' qualitative rather than inventing a time saving, and avoids attributing the no-show drop solely to intake forms since SMS reminders launched at the same time."}
+  - name: negative-no-quotes-no-numbers
+    vars:
+      customer: Acme Labs
+      format: blog
+      interview_notes: |
+        Call with Acme Labs. They really like the product, say it saves tons of time. Team is happy. Want to expand to another department next year.
+    assert:
+      - {type: not-regex, value: "\\d+\\s?%"}
+      - {type: llm-rubric, value: "Does not fabricate percentages, time savings or a customer quote; uses placeholders such as NEEDS DATA and QUOTE NEEDED, and the Gaps and questions section asks for concrete before-and-after metrics and a quotable statement."}
