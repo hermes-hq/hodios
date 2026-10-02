@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Give me {{count}} blog post ideas for {{audience}}. My expertise: {{expertise}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-accountant
+    vars:
+      audience: freelance designers and developers doing their own taxes for the first time
+      expertise: "I'm an accountant who works only with freelancers. Most common questions: what can I deduct for a home office, should I set up a company, how much to set aside each month. Most common mistake I see: mixing personal and business accounts. I ran a survey of 200 clients on how they track expenses."
+      count: 12
+    assert:
+      - {type: contains, value: "## Start here"}
+      - {type: llm-rubric, value: "Lists reader questions marked given or hypothesis; ideas are anchored in the accountant's specifics (the common questions, the mixed-accounts mistake, the 200-client survey) across varied types; each has an angle, reader question, intent, format and effort; no claimed search volumes; five starting picks."}
+  - name: edge-thin-expertise
+    vars:
+      audience: people interested in productivity
+      expertise: "I like productivity."
+      count: 20
+    assert:
+      - {type: llm-rubric, value: "Writes fewer ideas than 20 or flags clearly that the expertise is too thin to anchor distinct ideas, and asks for specific experience, results or opinions that would unlock better ideas."}
+  - name: negative-no-generic-ideas
+    vars:
+      audience: home cooks who want to waste less food
+      expertise: "I ran a zero-waste restaurant kitchen for 6 years. We tracked every gram of waste. Biggest wins: stock from scraps, menu built around whole-animal and whole-vegetable use, and a 'use first' shelf."
+      count: 10
+    assert:
+      - {type: llm-rubric, value: "Avoids generic ideas like '10 tips to reduce food waste' unless tied to the chef's specific practices; every idea references the restaurant experience, tracking data, stock, whole-ingredient menus or the use-first shelf."}

@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Write a {{length_words}} word blog post for {{audience}} from these notes: {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manager-post
+    vars:
+      audience: first-time managers in tech
+      length_words: 900
+      voice_sample: "I was a terrible first-time manager. Not evil. Just useless in a very busy way."
+      notes: |
+        Main point: your first 1:1s should be about the report, not status updates.
+        - I spent my first 3 months using 1:1s as standups. Lost a good engineer, she said in the exit interview she never felt heard.
+        - Fix: move status to async; 1:1 agenda belongs to the report.
+        - Three questions I now ask: what's on your mind, what's getting in your way, what do you want to be doing in a year.
+        - Keep a shared doc of notes, review it quarterly.
+    assert:
+      - {type: contains, value: "## Gaps to fill"}
+      - {type: llm-rubric, value: "Opens with the specific story (1:1s as standups, losing an engineer) rather than a definition; subheadings state points; uses the three questions and the shared-doc practice; matches the self-deprecating voice; ends with a concrete next step and no 'In conclusion'; roughly 810-990 words; invents no extra data."}
+  - name: edge-sparse-notes
+    vars:
+      audience: small bakery owners
+      length_words: 1200
+      voice_sample: ""
+      notes: "Post about why bakeries should raise prices. Costs went up."
+    assert:
+      - {type: llm-rubric, value: "Uses [EXAMPLE] or [SOURCE] placeholders instead of inventing cost statistics or anecdotes, lists them under Gaps to fill, and may write shorter than the target rather than pad."}
+  - name: negative-keeps-hedges
+    vars:
+      audience: parents of toddlers
+      length_words: 800
+      voice_sample: ""
+      notes: "Main point: in our family, cutting screen time before bed seemed to help our toddler sleep. Not a doctor, just our experience. Some research suggests a link, but I haven't read it closely."
+    assert:
+      - {type: llm-rubric, value: "Keeps the post framed as personal experience with the author's hedges, does not present medical claims or research findings as established fact, and marks any research reference as [SOURCE] to verify."}

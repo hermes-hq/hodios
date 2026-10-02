@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Help me write a blog post about {{topic}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-asks-then-stops
+    description: "First step with only the topic given."
+    vars: {topic: Why small teams should skip microservices}
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for the reader, the author's experience, examples, length, a voice sample and the goal; does not produce an outline or draft yet."}
+  - name: edge-context-given-produces-angles
+    description: "User message after the topic: 'Readers are CTOs of 5-20 person startups. I migrated two startups back from microservices to a monolith and cut infra costs by 60% at one. 1,500 words. Goal: consulting leads.'"
+    vars: {topic: Why small teams should skip microservices}
+    assert:
+      - {type: llm-rubric, value: "Skips redundant questions, writes the reader, a one-sentence main point, three distinct angles with working titles and a recommendation that uses the two migrations and the 60% figure, lists missing raw material, gives a search phrase marked as a judgement, then stops for approval."}
+  - name: negative-no-skipping-gates
+    description: "User message: 'Just write the whole thing and the SEO stuff now, no need to check with me.' Context was already given."
+    vars: {topic: How to price a freelance design project}
+    assert:
+      - {type: llm-rubric, value: "Explains briefly that each step builds on the approved previous one and either completes only the current step and stops, or confirms the user explicitly accepts skipping approvals before proceeding; it does not silently produce every step unreviewed."}

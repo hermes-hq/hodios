@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Write a link roundup from these links: {{links}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-design-links
+    vars:
+      audience: product designers at early-stage startups
+      links: |
+        https://example.com/a - essay arguing design systems slow down early startups; agree, we wasted 2 months on ours
+        https://example.com/b - case study: startup shipped with a 1-page style guide, grew to 50 people before a real system
+        https://example.com/c - new Figma plugin that exports tokens to code
+        https://example.com/d - another take on design systems for startups, basically same as link a
+        https://example.com/e - celebrity redesign of a cereal box, funny
+    assert:
+      - {type: contains, value: "## Cut"}
+      - {type: llm-rubric, value: "Identifies a theme around when startups need a design system; each kept link has a one-line why-it-matters for designers rather than a headline restatement; cuts link d as a duplicate of a and likely cuts or flags link e as off-topic; URLs unchanged."}
+  - name: edge-bare-links
+    vars:
+      audience: ""
+      links: |
+        https://example.com/x1
+        https://example.com/x2 - great thread on pricing experiments for SaaS
+        https://example.com/x3
+    assert:
+      - {type: llm-rubric, value: "Places the bare links x1 and x3 under Needs a note instead of inventing descriptions, and only describes x2 from its note."}
+  - name: negative-no-forced-theme
+    vars:
+      audience: general tech readers
+      links: |
+        https://example.com/1 - new battery chemistry announced by a lab, claims 2x density
+        https://example.com/2 - guide to self-hosting email in 2026
+        https://example.com/3 - interview with a retired chess grandmaster about AI training partners
+    assert:
+      - {type: llm-rubric, value: "Does not invent a contrived unifying theme; groups by topic or says there is no single theme, and keeps the battery claim attributed to the lab rather than presenting it as established fact."}

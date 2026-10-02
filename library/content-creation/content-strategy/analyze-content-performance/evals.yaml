@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Analyse my content performance and tell me what to do next: {{metrics}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-linkedin-export
+    vars:
+      goal: newsletter sign-ups
+      metrics: |
+        date,platform,format,pillar,impressions,likes,comments,link_clicks,signups
+        2026-08-04,linkedin,text,hiring,12000,240,31,40,6
+        2026-08-07,linkedin,carousel,hiring,8000,150,12,85,19
+        2026-08-12,linkedin,text,culture,45000,1200,140,30,2
+        2026-08-15,linkedin,carousel,remote-work,9500,160,20,95,22
+        2026-08-19,linkedin,text,remote-work,11000,210,25,35,5
+        2026-08-22,linkedin,carousel,hiring,7000,120,9,70,15
+        2026-08-26,linkedin,text,culture,10000,180,15,20,1
+        2026-08-29,linkedin,carousel,remote-work,8800,140,14,90,20
+    assert:
+      - {type: contains, value: "## Next three experiments"}
+      - {type: llm-rubric, value: "Uses sign-ups (or sign-ups per impression/click) as the main metric; notes that carousels produce far more sign-ups than text posts despite fewer impressions; flags the 45k-impression culture post as a high-vanity, low-goal outlier; labels confidence as tentative given 8 posts; proposes three single-change experiments with metrics, durations and success thresholds; shows arithmetic."}
+  - name: edge-no-goal-metric
+    vars:
+      goal: qualified sales leads
+      metrics: |
+        date,platform,views,likes
+        2026-09-01,tiktok,52000,3100
+        2026-09-03,tiktok,8000,400
+        2026-09-06,tiktok,15000,900
+    assert:
+      - {type: llm-rubric, value: "Says the data has no metric related to leads and only three posts, explains what tracking is needed (for example link clicks, form fills, UTM-tagged sign-ups), and does not draw confident conclusions about lead generation."}
+  - name: negative-no-invented-benchmarks
+    vars:
+      goal: ""
+      metrics: |
+        date,platform,format,views,avg_view_duration_sec,video_length_sec,subs_gained
+        2026-07-02,youtube,long,8200,190,600,40
+        2026-07-16,youtube,long,5100,260,540,35
+        2026-07-30,youtube,short,30000,22,35,12
+    assert:
+      - {type: llm-rubric, value: "Proposes a goal as an assumption, computes rates from the given data (for example retention as share of video length, subs per 1,000 views), does not cite industry averages or benchmarks, and does not claim causation."}

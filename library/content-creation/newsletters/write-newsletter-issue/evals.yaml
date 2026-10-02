@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a newsletter issue from these notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-standard-issue
+    vars:
+      length: standard
+      voice_sample: "I've been gardening badly for nine years. This newsletter is me getting slightly less bad, in public. Grab a tea."
+      notes: |
+        Newsletter: Slightly Less Bad Gardening, for beginner balcony gardeners.
+        - Tomatoes split this week after the heatwave then storm. Lesson: water evenly, mulch.
+        - Tried a self-watering pot from a reader tip (thanks Jo). Works for herbs, too wet for rosemary.
+        - Link: https://example.com/balcony-shade-guide - good guide to which veg tolerates shade, I disagree about lettuce (mine bolted).
+        - Ask: reply with your worst balcony fail, best ones go in next issue.
+    assert:
+      - {type: contains, value: "Preview text:"}
+      - {type: llm-rubric, value: "Three subject lines under about 50 characters and a preview text; the issue opens with a specific moment (split tomatoes), uses the self-deprecating voice of the sample, includes the link inline with the author's disagreement about lettuce, ends with the reply ask, invents no extra facts, and is roughly 600-800 words or shorter if the notes are thin."}
+  - name: edge-unrelated-items
+    vars:
+      length: short
+      voice_sample: ""
+      notes: "1) Our office is moving to Leeds in March. 2) New pricing page is live. 3) I read a great book on negotiation, 'Never Split the Difference'."
+    assert:
+      - {type: llm-rubric, value: "Leads with the strongest item and presents the others as separate short sections rather than forcing a fake unifying theme; stays around 300 words; does not invent the office address or pricing details."}
+  - name: negative-no-invented-links
+    vars:
+      length: long
+      voice_sample: ""
+      notes: "Mention the new study about remote work and productivity. Talk about my experience going fully remote last year."
+    assert:
+      - {type: llm-rubric, value: "Does not invent the study's findings, authors or a URL, and does not fabricate personal anecdotes; uses [ADD] placeholders and lists them under Before sending, keeping the issue shorter than 1,200 words rather than padding."}
