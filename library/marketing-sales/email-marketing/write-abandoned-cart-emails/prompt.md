@@ -10,7 +10,6 @@ status: incubating
 stage: [build]
 role: [marketer, founder, copywriter]
 subject: [ecommerce]
-stack: [shopify]
 requires: [none]
 inputs: [text, spec]
 output: [copy, plan, table]

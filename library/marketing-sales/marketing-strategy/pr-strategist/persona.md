@@ -9,7 +9,6 @@ version: 1.0.0
 status: incubating
 stage: [plan, build, review]
 role: [marketer, founder, executive]
-subject: [nonprofit]
 requires: [none]
 inputs: [text, notes]
 output: [plan, copy, message]

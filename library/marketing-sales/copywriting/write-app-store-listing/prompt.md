@@ -84,7 +84,7 @@ Write the {{store}} listing for this app. ("ios" means the App Store, "android" 
    - Full description that uses the target terms naturally a few times across scannable sections, without lists of keywords.
    - Release notes.
 4. Screenshot captions: five to eight captions in story order (the first two carry the main benefit), each under about 40 characters, with a note on what each screenshot should show.
-5. Show a character count next to every limited field and stay within the limits above.
+5. Show a character count next to every limited field, counting spaces and punctuation, and stay within the limits above. Count each field letter by letter before you write the number; if a field runs over, shorten it rather than reporting it as over.
 </task>
 
 <constraints>

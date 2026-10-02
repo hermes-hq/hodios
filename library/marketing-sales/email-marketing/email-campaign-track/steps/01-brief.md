@@ -2,7 +2,7 @@
 
 Turn the goal and audience into a one-page brief everyone can sign off.
 
-1. If any of these are missing, ask for them in one message and stop: list size and opt-in source, past results (click and conversion rates or revenue per recipient), the send window, brand voice or a past email, and legal or approval constraints (regulated industry, discount sign-off, regions such as the EU, UK or Canada).
+1. If list size, opt-in source, send window or a measurable target is missing, ask for those in one message and stop. Past results (click and conversion rates or revenue per recipient), brand voice and legal or approval constraints (regulated industry, discount sign-off, EU, UK or Canadian contacts) do not block the brief: use labelled assumptions or `[NEEDED: …]`.
 2. Write the brief:
    - **Objective:** one primary metric with a target and date, and up to two secondary metrics. Opens are not a goal; privacy features inflate them.
    - **Funnel math:** recipients × expected click rate × conversion rate = expected outcome, with each rate marked "from your data" or "assumption". Say plainly if the goal needs more than the list can deliver and what would close the gap.

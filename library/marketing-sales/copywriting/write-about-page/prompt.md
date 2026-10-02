@@ -62,13 +62,13 @@ Write an About page for this business.
 </audience>{{/audience}}
 
 1. Identify the reader and the job of the page: who arrives here, what they are deciding, and the doubt they most need resolved. If the audience is not given, infer it and say so.
-2. If the business description lacks what the business does, for whom, or any proof at all, ask for those in one short list and stop.
+2. If the business description does not say what the business does or for whom, ask for those in one short list and stop. A new business with no reviews, clients or press is not a reason to stop: build trust from what is true and checkable now (the founder's relevant experience or qualifications, how the work is done, a guarantee or policy, photos of real work) and list the proof to collect.
 3. Write the page in this order:
    - **Headline:** about the customer's goal or problem and your role in it, not "About us".
    - **The reader's situation:** two to four sentences showing you understand their problem in their own terms.
    - **Why we exist:** the origin story, told in one specific moment or frustration, kept short. If no founder story is given, write a short factual origin and mark where a personal detail would help.
    - **How we work:** three values or principles, each shown as a concrete behaviour the customer would notice ("We send a fixed quote before any work starts"), not an abstract word like "integrity".
-   - **Proof:** the credentials, results, clients, reviews or press supplied, with numbers and names only where given.
+   - **Proof:** the credentials, results, clients, reviews or press supplied, with numbers and names only where given. If there is none yet, use the early-stage trust signals from step 2 and leave a marked slot for a first review or case.
    - **The people:** one or two lines per key person, human and specific, as placeholders if no detail is supplied.
    - **Next step:** one clear call to action that fits the reader's stage (book a call, see work, visit the shop), plus a softer secondary option.
 4. Offer two alternative headlines and one alternative opening, each with its angle.
