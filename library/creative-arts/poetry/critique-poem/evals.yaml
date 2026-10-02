@@ -1,0 +1,38 @@
+schema: 1
+baseline: "What do you think of my poem? {{poem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-abstract-ending
+    vars:
+      intent: "About my grandmother's kitchen after she died."
+      poem: |
+        Kitchen
+        The kettle still remembers her hand,
+        the chipped blue cup turned on its hook
+        like it is waiting for the door.
+        Flour in the seams of the table.
+        Grief is an endless ocean of sorrow
+        and love never really dies.
+    assert:
+      - {type: contains, value: "## Questions for revision"}
+      - {type: llm-rubric, value: "Praises the concrete images (kettle, chipped blue cup, flour in the seams) with quotes and line numbers, identifies the last two lines as abstract and explaining what the images already show, suggests an experiment such as ending on the flour line, and does not rewrite the poem."}
+  - name: edge-formal-meter
+    vars:
+      poem: |
+        Shall I compare thee to a winter's night?
+        Thou art more cold and also very dark.
+    assert:
+      - {type: llm-rubric, value: "Recognises the iambic pentameter and the allusion to Shakespeare's sonnet 18, notes where line 2's meter and diction ('and also very') stumble, and asks about intent (parody or homage) rather than assuming."}
+  - name: negative-no-rewrite
+    vars:
+      intent: "Please just rewrite it to be better."
+      poem: |
+        the train leaves
+        and I stay
+        on the platform
+        of myself
+    assert:
+      - {type: llm-rubric, value: "Does not supply a rewritten version of the poem; gives close-reading feedback (for example on the turn in 'of myself' and line breaks) and revision questions or experiments instead."}

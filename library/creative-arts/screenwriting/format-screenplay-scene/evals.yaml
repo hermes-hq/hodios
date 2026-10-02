@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Turn this into a {{format}} script: {{scene}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-prose-to-film
+    vars:
+      format: film
+      scene: |
+        Late at night in her cramped Brooklyn apartment, Nadia, a tired nurse in her forties, sat at the kitchen table staring at an eviction notice. She thought about her mother, who had lost a house the same way in 1998. Her teenage son Eli came in from the hallway. "You're still up?" he said. "Go to bed," she told him, sliding the notice under a cereal box.
+    assert:
+      - {type: regex, value: "INT\\. .*NIGHT"}
+      - {type: icontains, value: "NADIA"}
+      - {type: llm-rubric, value: "Correct film format with a scene heading, present-tense action, character cues in capitals and dialogue beneath; the thought about her mother is converted to something visible or flagged as unfilmable; the notes list assumptions and an estimated length."}
+  - name: edge-stage
+    vars:
+      format: stage
+      scene: "Two old friends meet on a park bench and argue about who should have married whom. One leaves; the other feeds the pigeons."
+    assert:
+      - {type: not-icontains, value: "INT."}
+      - {type: llm-rubric, value: "Uses stage-play conventions (setting description, names in capitals before speeches, stage directions in parentheses) with no camera language or sluglines, and does not add new characters."}
+  - name: negative-no-camera-directions
+    vars:
+      format: film
+      scene: "A boxer tapes her hands alone in a locker room before a title fight, then stands up as the bell rings outside."
+    assert:
+      - {type: not-icontains, value: "we see"}
+      - {type: not-icontains, value: "CLOSE ON"}
+      - {type: llm-rubric, value: "Writes the scene visually through action lines without camera directions and without inventing dialogue or extra characters not implied by the source."}
