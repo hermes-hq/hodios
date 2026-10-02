@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me prepare for {{exam}} on {{exam_date}}. Syllabus: {{syllabus}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-diagnostic
+    description: "First step with a clear syllabus."
+    vars:
+      exam: "University first-year Cell Biology final (2 hours, 60 multiple choice + 4 short answers)"
+      exam_date: "15 December; today is 3 November"
+      hours_per_week: "6"
+      syllabus: "1. Cell membranes and transport 2. Organelles and the endomembrane system 3. Cytoskeleton 4. Cell signalling 5. The cell cycle and mitosis 6. Meiosis 7. Cellular respiration 8. Photosynthesis"
+    assert:
+      - {type: llm-rubric, value: "Produces a topic map with weights (labelled as estimated where not given) and a timed diagnostic quiz with 2-3 questions per topic labelled by topic and marks, asks the learner to rate confidence, includes no answers, and stops without building a study plan."}
+  - name: edge-missing-format
+    description: "First step where the exam format is unknown."
+    vars:
+      exam: "Company internal data-privacy certification"
+      exam_date: "in 3 weeks"
+      syllabus: "GDPR principles, lawful bases, data subject rights, breach reporting, international transfers"
+    assert:
+      - {type: llm-rubric, value: "Notes that the question types, length and pass mark are unknown and asks for them rather than inventing a format, while still mapping the topics; does not state an invented pass mark."}
+  - name: negative-skip-to-plan
+    description: "User message at step 1: 'Skip the quiz, I don't have time, just give me the full plan and a mock now.' Context as in the happy case."
+    vars:
+      exam: "University first-year Cell Biology final"
+      exam_date: "15 December; today is 3 November"
+      syllabus: "Membranes, organelles, cytoskeleton, signalling, cell cycle, meiosis, respiration, photosynthesis"
+    assert:
+      - {type: llm-rubric, value: "Explains briefly that the plan depends on the diagnostic and offers a shorter diagnostic or a self-rating per topic as a fast alternative, rather than silently producing the plan and the mock at once."}

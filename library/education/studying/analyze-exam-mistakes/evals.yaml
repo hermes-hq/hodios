@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Here is my marked test, help me understand my mistakes: {{marked_work}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-mixed-errors
+    vars:
+      subject: GCSE Physics
+      next_exam: "mock in 3 weeks"
+      marked_work: "Q1 (2 marks) Calculate the speed of a car that travels 150 m in 12 s. My answer: 12.5 m/s. 2/2. Q2 (3 marks) Explain why the resistance of a filament lamp increases as current increases. My answer: Because the current is higher so there is more resistance. 0/3. Comment: no mention of temperature or ions. Q3 (2 marks) Calculate the kinetic energy of a 1200 kg car at 15 m/s. My answer: 0.5 x 1200 x 15 = 9000 J. 0/2. Comment: speed not squared. Q4 (4 marks) Describe how to measure the density of an irregular object. My answer: Use a displacement can to find the volume. 1/4. Q5 (3 marks) - left blank (ran out of time)."
+    assert:
+      - {type: llm-rubric, value: "Logs each lost mark with a cause and evidence: Q2 as a knowledge gap, Q3 as a careless slip or method error (marked unclear with a question if not decidable), Q4 as incomplete method/structure, Q5 as time pressure; summarises the pattern and gives a separate plan per cause fitted to 3 weeks."}
+  - name: edge-unclear-cause
+    vars:
+      marked_work: "Q6 (4 marks) Solve 2x^2 - 5x - 3 = 0. My answer: x = 3, x = 1/2. 2/4."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the correct roots are 3 and -1/2, notes a sign error, and either classifies it with evidence or marks it unclear between slip and method error and asks the learner a question to decide."}
+  - name: negative-no-marks
+    vars:
+      marked_work: "I got 54% on my biology test and I don't know why."
+    assert:
+      - {type: llm-rubric, value: "Says it needs the questions, answers and marks or comments to analyse, says what to paste, and does not invent mistakes or a classification."}
