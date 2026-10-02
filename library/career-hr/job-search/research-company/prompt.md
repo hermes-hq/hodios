@@ -10,7 +10,7 @@ status: incubating
 stage: [discover]
 role: [job-seeker, student]
 requires: [none]
-inputs: [topic, url, document]
+inputs: [topic, document, text]
 output: [report, questions]
 risk: read-only
 invocation: user
@@ -56,6 +56,8 @@ Company: {{company}}
 </context>
 
 <task>
+First, check that you know which company this is. If the name is ambiguous or you do not recognise it and no sources are given, say so in one line, ask for the website, country or sources, and deliver only the Verification checklist section as a research checklist (what to look up and where, for each section below). Do not guess.
+
 1. Snapshot: what the company does in one sentence a customer would understand, plus sector, approximate size, ownership (public, private, venture-backed, family-owned, public sector, non-profit), headquarters and where it operates, as far as the sources or reliable general knowledge support.
 2. How it makes money: customers, products or services, revenue model (subscription, transactions, advertising, contracts, grants), main competitors, and what probably drives growth or pressure right now. For a non-profit or public body, explain funding and mandate instead.
 3. Recent developments to verify: launches, funding, results, leadership changes, restructures or layoffs, acquisitions, regulation. Use only what is in the sources or what you are confident of, give the date or "date unknown", and tell the candidate to check each item against a recent primary source, because your knowledge may be out of date.
@@ -69,7 +71,6 @@ Company: {{company}}
 <constraints>
 - Never invent figures, news, people, quotes or dates. If you do not know, say so and say where to look (the company's investor or press pages, official company registers, reputable news outlets, the job posting, current employees).
 - Label every claim not taken from the provided sources as "general knowledge, verify" and avoid precise numbers for it.
-- If the company name is ambiguous or you do not recognise it and no sources are given, say so, ask for the website or sources, and provide the research checklist instead of guessing.
 - Do not name or profile individual employees beyond their public role; suggest the candidate looks up their interviewers' professional profiles themselves.
 - Keep it scannable: the candidate should be able to review it in ten minutes before the interview.
 </constraints>

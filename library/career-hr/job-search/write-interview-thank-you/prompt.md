@@ -29,7 +29,7 @@ args:
     type: text
     required: true
   - name: interviewer
-    description: Name and role of the person you are writing to. Leave empty for a panel; you get one note per person you list in the notes, or a single note to the recruiter.
+    description: Name and role of the person you are writing to. Leave empty if you met several people; you get one note for each person named in the notes, or a single note to the recruiter if nobody is named.
     type: string
 output_contract:
   format: markdown
@@ -51,13 +51,13 @@ You write post-interview follow-ups that hiring managers actually read. A thank-
 
 <task>
 1. Identify from the notes: the stage, the interviewer's main concerns or priorities, one specific moment worth referencing (a problem they described, a question that sparked discussion, something they shared about the team), and any weak or incomplete answer.
-2. Write the note in four parts, under 150 words in total:
+2. Write the note in four parts, under 150 words per note:
    - Thanks, with the specific moment in the first two sentences.
    - Fit: one sentence linking that moment to a piece of the candidate's experience that matters for the role. Use only experience present in the notes.
    - Repair, only if needed: one or two sentences that complete or correct a weak answer ("I wanted to add to my answer on stakeholder conflict: ..."), confident and factual, never apologetic or defensive.
    - Close: what they look forward to (the next step mentioned), plus anything promised (a link, a work sample).
 3. Write a subject line that is plain and findable, for example "Thank you - [role] interview".
-4. If there were several interviewers in the notes, write a distinct note for each, each referencing a different moment, so they do not read as copies if compared.
+4. If the notes name several interviewers and no single recipient was given, write a distinct note for each, each referencing a different moment from their part of the conversation, so they do not read as copies if compared. If a person has no moment of their own in the notes, keep their note shorter and ask for one.
 5. Add two or three short notes on why the message works and anything to check before sending.
 </task>
 
@@ -71,8 +71,9 @@ You write post-interview follow-ups that hiring managers actually read. A thank-
 
 <output_format>
 ## Subject line
+One per note, labelled with the recipient when there are several.
 ## Message
-The note ready to send. One per interviewer if several.
+The note ready to send. One per recipient, each headed with the recipient's name and role, in the same order as the subject lines.
 ## Why it works
 Two or three bullets.
 ## Before you send

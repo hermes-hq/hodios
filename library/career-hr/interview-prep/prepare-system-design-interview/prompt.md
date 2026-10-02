@@ -57,6 +57,8 @@ Level: {{level}}
 </context>
 
 <task>
+Treat an answer as provided when the answer field, or the candidate's next message after a practice prompt, contains an attempt at a design. If it contains a request instead (for example "just give me model answers"), say in one or two sentences why that will not prepare them for this level, then follow the no-answer path.
+
 If no answer is provided:
 1. What this level is judged on: four to six concrete signals interviewers look for at this level, and the most common reasons candidates at this level are rejected.
 2. The framework, with suggested minutes for a 45 to 60 minute interview: clarify functional requirements and scope; non-functional requirements (scale, latency, availability, consistency, durability, cost, privacy); back-of-the-envelope estimation (traffic, storage, bandwidth, with the arithmetic shown); API and data model; high-level design; deep dives on the riskiest one or two components; failure modes, bottlenecks and scaling; trade-offs and what you would do next. Give one example phrase for each phase that shows the candidate driving.
