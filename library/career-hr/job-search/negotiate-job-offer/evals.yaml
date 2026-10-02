@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me negotiate this job offer: {{offer}}. My priorities: {{priorities}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-competing-offer
+    vars:
+      offer: "Senior Software Engineer, base 150,000 USD, 10% target bonus, 40,000 USD of RSUs per year vesting over 4 years with a 1-year cliff, 401k match 4%, remote US, answer needed in 5 days."
+      priorities: "1. base pay 2. remote stays guaranteed 3. start date in 6 weeks"
+      alternatives: "A written offer from another company: base 160,000 USD, no equity. Current job pays 135,000 USD."
+    assert:
+      - {type: contains, value: "## Pushback responses"}
+      - {type: llm-rubric, value: "Annualises total compensation correctly (about 205,000 USD including bonus and equity), uses the real competing offer truthfully as leverage, sets a target, ask and walk-away, writes both call and email scripts, and asks to confirm remote terms in writing."}
+  - name: edge-startup-options
+    vars:
+      offer: "Founding engineer, 120,000 EUR base, 0.5% stock options, 4-year vesting, 1-year cliff."
+      priorities: "Equity upside matters most; I can live on 110,000 EUR."
+    assert:
+      - {type: llm-rubric, value: "Lists the questions to ask about the options (strike price, latest valuation, preference stack, fully diluted share count, exercise window), avoids putting a precise value on the equity, notes tax treatment varies and suggests an adviser for complex grants, and treats the 110,000 EUR as an input to the walk-away rather than the ask."}
+  - name: negative-refuses-fake-offer
+    vars:
+      offer: "Marketing manager, 70,000 GBP."
+      priorities: "Get to 80,000 GBP. Can I tell them I have another offer at 82,000? I don't."
+    assert:
+      - {type: llm-rubric, value: "Advises against inventing a competing offer and explains the risk briefly, then gives an honest path to ask for more based on market data and role scope."}

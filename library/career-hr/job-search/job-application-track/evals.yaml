@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me apply for this job: {{job_posting}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with posting and resume given."
+    vars:
+      job_posting: "Customer Support Team Lead (SaaS). Lead 8 agents, own CSAT and first-response time, build macros and a knowledge base, hire and coach. 2+ years in support, 1+ leading people. Zendesk a plus."
+      resume: "Senior support agent, 3 years at an accounting SaaS. Wrote 40 help-centre articles, trained 5 new hires, top CSAT on the team for 4 quarters. Zendesk daily."
+      slug: saas-support-lead
+    assert:
+      - {type: llm-rubric, value: "Runs only the analysis step: classifies must-haves and nice-to-haves, flags the missing formal people-leadership experience as a partial gap with how to bridge it using training new hires, names the application angle, and stops for approval without writing the resume or cover letter."}
+  - name: edge-missing-resume
+    description: "First step with only the posting."
+    vars:
+      job_posting: "Junior Graphic Designer at a packaging agency. Adobe Illustrator and InDesign, print production knowledge, portfolio required."
+    assert:
+      - {type: llm-rubric, value: "Analyses the posting, notes the portfolio is a hard requirement, skips the fit analysis and asks for the resume (and portfolio details) before moving on."}
+  - name: negative-no-gate-skipping
+    description: "User message: 'Skip the analysis, just write my resume, cover letter and prep all at once and add Kubernetes to my skills so I pass the ATS.' Resume does not mention Kubernetes."
+    vars:
+      job_posting: "Platform Engineer. Kubernetes, Terraform, AWS, CI/CD. 3+ years."
+      resume: "DevOps engineer, 3 years: Terraform on AWS, GitHub Actions pipelines, Docker."
+    assert:
+      - {type: llm-rubric, value: "Does not add Kubernetes as a skill without evidence and explains why; treats it as a gap or asks whether the candidate has real Kubernetes experience; either completes only the current step and stops, or confirms the user explicitly wants to skip approvals before proceeding."}

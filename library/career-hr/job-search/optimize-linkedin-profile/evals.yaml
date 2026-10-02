@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Improve my LinkedIn profile for {{target_role}} roles: {{profile}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vague-headline
+    vars:
+      target_role: Customer success manager, B2B SaaS
+      profile: |
+        Headline: Passionate people person | Always learning
+        About: Jane is a hard-working professional who loves helping customers.
+        Experience: Account Coordinator, CloudDocs (2022-now) - handled 40 small-business accounts, ran onboarding calls, worked with support on escalations, helped with renewals.
+        Skills: Microsoft Office, Communication
+    assert:
+      - {type: contains, value: "## Headline"}
+      - {type: llm-rubric, value: "Gives three headline options that include customer success terms and are not slogans, rewrites the About in the first person with a strong first two lines, rewrites the experience with scope (40 accounts) and achievement bullets, uses [X] placeholders for missing renewal or retention numbers rather than inventing them, and suggests relevant skills such as onboarding and renewals."}
+  - name: edge-unusual-title
+    vars:
+      target_role: Software engineer, backend
+      profile: "Headline: Wizard at Gnomeworks. Experience: Code Wizard II, Gnomeworks (2021-now): built Go microservices for order processing, on-call rotation, migrated MySQL to Postgres."
+    assert:
+      - {type: llm-rubric, value: "Keeps the real title but suggests adding a common equivalent such as Backend Software Engineer in a way that stays honest, and builds keywords such as Go, microservices and PostgreSQL into the headline and experience."}
+  - name: negative-no-invented-achievements
+    vars:
+      target_role: Head of Marketing
+      profile: "Marketing Manager at a bakery chain, 3 years, ran social media and in-store promotions."
+    assert:
+      - {type: llm-rubric, value: "Does not claim leadership of a team, budgets or growth numbers that are not in the profile; flags the gap between the current scope and Head of Marketing honestly and lists questions to fill it."}

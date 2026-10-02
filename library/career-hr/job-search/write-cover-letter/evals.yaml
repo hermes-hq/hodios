@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a cover letter for this job: {{job_posting}} Here is my resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-direct-ops-role
+    vars:
+      tone: direct
+      job_posting: |
+        Operations Manager, Last-Mile Delivery. You'll run daily operations for 3 urban hubs (120 couriers), reduce late deliveries and cost per drop, and roll out new route-planning software. 3+ years leading frontline teams; data-driven; experience with change management.
+      resume: |
+        Shift Supervisor, regional grocery warehouse (2020-present): lead 35 pickers across two shifts; cut mis-picks 22% by redesigning slotting; led rollout of handheld scanners to 80 staff, trained 6 super-users. Before: retail assistant manager, 2 years.
+    assert:
+      - {type: not-icontains, value: "I am writing to apply"}
+      - {type: llm-rubric, value: "Letter is under about 350 words, leads with a relevant achievement, uses the 22% mis-pick reduction and the scanner rollout as evidence for cost/quality and change management, addresses the step from 35 people to a larger team confidently without apologising, and invents no new numbers."}
+  - name: edge-career-changer-formal
+    vars:
+      tone: formal
+      job_posting: "Junior Compliance Analyst at a retail bank. Review transactions for AML risk, document findings clearly, work to strict deadlines. Degree or equivalent experience."
+      resume: "Secondary school history teacher, 7 years. Wrote assessment reports for 150 students per term; exam board moderator; led safeguarding documentation for my year group. Completed an online AML fundamentals certificate in 2026."
+    assert:
+      - {type: llm-rubric, value: "Uses a formal register without contractions, addresses the career change in one confident sentence, connects documentation, deadlines and safeguarding rigor to compliance work, mentions the AML certificate, and does not claim banking experience the candidate lacks."}
+  - name: negative-missing-facts-become-placeholders
+    vars:
+      tone: warm
+      job_posting: "Community Manager at an early-stage climate nonprofit. Grow our volunteer community."
+      resume: "Ran a local running club's social accounts."
+    assert:
+      - {type: llm-rubric, value: "Writes a short, honest letter from the thin evidence, uses [placeholders] for unknown specifics such as follower or member numbers and the reason for this organisation, lists them under Check before sending, and does not invent metrics."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Analyze this job posting for me: {{job_posting}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-posting-with-resume
+    vars:
+      job_posting: |
+        Senior Data Analyst, Growth (Remote, EU time zones)
+        We're a 60-person subscription meal-kit company. You'll own analytics for our growth team and build our experimentation practice from scratch.
+        Requirements: 5+ years in analytics; expert SQL; experience designing and analysing A/B tests; Python or R; dbt a plus; stakeholder management across marketing and product; fast-paced, wear many hats.
+        Nice to have: Looker, experience in subscription businesses.
+        Salary: competitive.
+      resume: |
+        Data Analyst, 4 years at an online furniture retailer. Daily SQL, built weekly marketing dashboards in Looker, ran analysis for 12 email A/B tests designed by the CRM team, Python (pandas) for ad-hoc analysis. Before that 1 year as a junior BI analyst.
+    assert:
+      - {type: contains, value: "## Fit gaps"}
+      - {type: llm-rubric, value: "Separates must-haves (SQL, A/B testing, years of experience) from nice-to-haves (dbt, Looker, subscription), infers that building experimentation from scratch means working without existing process, flags 'competitive' salary as an open question with a question to ask, notes the candidate analysed but did not design tests and has 4 rather than 5 years, and recommends applying with a tailored angle rather than skipping."}
+  - name: edge-no-resume
+    vars:
+      job_posting: |
+        Registered Nurse, Night Shift ICU. Active state RN licence required. BLS and ACLS required. 2+ years acute care experience preferred. Sign-on bonus. 3x12-hour shifts.
+    assert:
+      - {type: icontains, value: "licence"}
+      - {type: llm-rubric, value: "Treats the RN licence, BLS and ACLS as hard deal-breakers and the 2 years as preferred, explains the schedule implications, skips the fit analysis because no resume was given, and says what to send for one."}
+  - name: negative-no-invented-company-facts
+    vars:
+      job_posting: "Product Designer at Nimbly. Help us design the future of work. Figma, user research, 3+ years. Hybrid, Lisbon."
+    assert:
+      - {type: llm-rubric, value: "Notes how thin the posting is and lists questions to ask; does not state facts about the company Nimbly (size, funding, reputation) that are not in the posting, and suggests what to research instead."}
