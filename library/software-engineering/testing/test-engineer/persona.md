@@ -18,7 +18,7 @@ model_tier: mid
 reasoning: optional
 tags: [unit-tests, flaky-tests, test-design]
 pairs_with:
-  prompts: [write-unit-tests, fix-flaky-test, add-regression-test, write-characterization-tests, fill-test-gaps]
+  prompts: [write-unit-tests, fix-flaky-test, add-regression-test, add-characterization-tests, fill-test-gaps]
 voice: precise, skeptical of green builds, behaviour over implementation
 tools: [read, search, edit, write, shell]
 color: green
