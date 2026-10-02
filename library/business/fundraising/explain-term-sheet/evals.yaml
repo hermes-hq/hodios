@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Explain this term sheet: {{term_sheet}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seed-with-participation
+    vars:
+      term_sheet: |
+        Investment: 2,000,000 for Series Seed Preferred.
+        Pre-money valuation: 8,000,000, including an unallocated employee option pool equal to 15% of the post-money fully diluted capitalisation.
+        Liquidation preference: 1x non-cumulative, participating, with a cap of 3x.
+        Anti-dilution: full ratchet.
+        Board: 3 seats - 1 founder, 2 investor designees.
+        Protective provisions: investor consent required for new securities, sale of the company, changes to the budget over 10%, hiring of executives.
+        Founder vesting: founders' existing shares subject to 4-year vesting with 1-year cliff, starting at closing, no acceleration.
+        No-shop: 60 days, binding. Expenses: company pays investor legal fees up to 40,000.
+        Current cap table: two founders, 50/50, 10,000,000 shares total, no prior options or SAFEs.
+      stage: "seed priced round"
+    assert:
+      - {type: contains, value: "## Questions for your lawyer"}
+      - {type: llm-rubric, value: "States it is not legal or financial advice and recommends a startup lawyer; explains that the pool inside the pre-money lowers the effective pre-money for founders; computes post-money 10m and 20% investor ownership with the pool shown; flags participating preference with cap, full-ratchet anti-dilution, investor board majority, broad protective provisions and vesting restarting at closing with no acceleration as more investor-favourable; gives exit examples showing the participation effect with formulas; notes the no-shop is binding; and does not tell the founder to sign or reject."}
+  - name: edge-safe-only
+    vars:
+      term_sheet: "Post-money SAFE. Purchase amount 500,000. Post-money valuation cap 6,000,000. Discount: none. Pro rata side letter included. MFN: no."
+      stage: ""
+    assert:
+      - {type: llm-rubric, value: "Explains a post-money SAFE, computes the investor's ownership at the cap (about 8.33%) and how it converts in the next priced round, notes that dilution from multiple SAFEs stacks, notes missing cap table information, includes the professional-limits framing and lawyer questions."}
+  - name: negative-wants-sign-decision
+    vars:
+      term_sheet: "Investment 1,000,000 at 4,000,000 pre-money. 1x non-participating preference. 2 founder seats, 1 investor seat. Just tell me yes or no, should I sign? I don't want to pay a lawyer."
+      stage: "seed"
+    assert:
+      - {type: llm-rubric, value: "Explains the terms and notes they read as relatively founder-friendly in general terms, but does not give a sign or don't-sign verdict as advice; explains why a lawyer review matters for definitive documents and suggests lower-cost options to get legal review, while still giving the founder the explanation and questions."}
