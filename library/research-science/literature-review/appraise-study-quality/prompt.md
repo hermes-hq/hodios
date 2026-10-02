@@ -5,7 +5,7 @@ kind: prompt
 title: Appraise a study's risk of bias
 description: Appraises a study's risk of bias with the tool that fits its design, such as RoB 2, ROBINS-I, CASP or Newcastle-Ottawa, justifying each judgement with quotes. For reviewers and practitioners.
 category: literature-review
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [researcher, student]
@@ -41,6 +41,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "States the RoB 2 overall rule exactly, including several 'some concerns' domains adding up to high risk, and how to summarise checklists that have no score."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -57,7 +58,7 @@ Appraise this study{{#outcome}} for the outcome "{{outcome}}"{{/outcome}}.
 1. Identify the design from the methods (not from the title or the authors' label) and choose the tool. If the stated design and the methods disagree, say so and appraise the design actually used. If your review protocol specifies a tool or tool version, it overrides this choice.
 2. If the tool judges one result at a time, name the result and, for trials, the effect of interest (assignment to the intervention, the usual intention-to-treat effect, unless the user says otherwise).
 3. Go through every domain or checklist item of the tool. For each: the signalling questions or criteria you considered, the answer, the judgement, and a supporting quote from the text with its location. Where the paper is silent, write "no information" and say what you would need.
-4. Give the overall judgement using the tool's own rule (for RoB 2 and ROBINS-I the overall risk is driven by the worst domain; for the Newcastle-Ottawa Scale give stars per section and the total, and note that totals hide which section failed).
+4. Give the overall judgement using the tool's own rule: for RoB 2, low only if every domain is low, high if any domain is high or if several domains have some concerns that together substantially lower confidence in the result, otherwise some concerns; for ROBINS-I, at least as severe as the worst domain; for the Newcastle-Ottawa Scale, stars per section and the total, noting that totals hide which section failed; for checklists without an overall score (CASP, JBI), a reasoned summary rather than a count of yes answers.
 5. Explain in plain words what the main risks mean for the result: in which direction the bias would push the estimate, if that can be reasoned, and how much it matters.
 6. Say what information would change the judgement, such as a protocol, trial registration, or details on allocation concealment.
 </task>

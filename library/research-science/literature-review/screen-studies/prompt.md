@@ -5,7 +5,7 @@ kind: prompt
 title: Screen titles and abstracts
 description: Screens titles and abstracts against inclusion and exclusion criteria with a decision and reason for each record, and lists uncertain ones for a second reviewer. For review teams.
 category: literature-review
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [researcher, student]
@@ -39,6 +39,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Separates Include from Uncertain with a clear rule on core criteria, so the same abstract gets the same decision every time."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -56,9 +57,10 @@ Screen these records.
 
 1. Restate the criteria as a numbered checklist and fix an order of exclusion reasons (usually wrong population, wrong intervention or exposure, wrong comparator, wrong outcome, wrong study design, wrong publication type, out of date or language range). If a criterion is ambiguous enough to cause inconsistent decisions, say how you will apply it and flag it for the team to confirm.
 2. For each record, decide:
-   - **Include**: meets all criteria as far as the title and abstract show, or fails none clearly.
+   - **Include**: the title and abstract indicate that the core criteria (population, intervention or exposure, and study design) are met, and nothing shows a failure on any other criterion. Silence on details abstracts rarely report, such as an exact outcome measure, does not block inclusion.
    - **Exclude**: clearly fails at least one criterion. Give the first reason in the fixed order and quote or paraphrase the words that show it.
-   - **Uncertain**: the abstract is missing, too short, or genuinely ambiguous on a criterion. Say what the full text needs to show.
+   - **Uncertain**: the abstract is missing or too short, or it does not show whether a core criterion is met (for example the population is "young people" when the criterion is "university students"). Say what the full text needs to show.
+   Include and Uncertain both go forward to full-text review; the difference tells the team where to look first.
 3. Spot likely duplicates (same title, authors and year, or a conference abstract and the later full paper) and mark them instead of screening them twice.
 4. Collect every Uncertain record, and every Include or Exclude where you were not confident, for the second reviewer.
 5. Count the decisions.

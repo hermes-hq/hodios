@@ -5,7 +5,7 @@ kind: prompt
 title: Review a grant proposal as a panel member
 description: Reviews a grant proposal against the funder's criteria as a panel reviewer would, with strengths, weaknesses, a score rationale and ranked fixes. For applicants before submission and for reviewers.
 category: peer-review
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [researcher]
@@ -44,6 +44,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Keeps the direction of the funder's scale, since on some scales a lower score is better, and names it above the scores table."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -62,7 +63,7 @@ Review this proposal ({{purpose}}).
 {{/criteria}}
 
 1. Summarise the proposal in three or four sentences: question, aims, approach, and the claimed contribution, so the applicant can see whether a reviewer understood it as intended.
-2. For each criterion, list strengths and weaknesses, label each weakness as major (would likely lower the score substantially) or minor, and give a score on the funder's scale with a one-line rationale that follows from those points. If no criteria were given, use the common ones and a five-point scale and say so.
+2. For each criterion, list strengths and weaknesses, label each weakness as major (would likely lower the score substantially) or minor, and give a score on the funder's scale with a one-line rationale that follows from those points. Keep the scale's direction: on some scales a lower number is better (for example 1 = exceptional, 9 = poor), so state which end is best in the scores table. If no criteria were given, use the common ones and a five-point scale where 5 is best, and say so.
 3. Check the things panels check: is the question clear and important; do the aims follow from it and stand independently; do preliminary data support feasibility; are design, sample size, analysis and rigour (controls, blinding, randomisation, reproducibility, or for qualitative work sampling and credibility) adequate; is the timeline realistic; are risks named with alternatives; does the team have the expertise; is the budget aligned with the work; are ethics, data management and impact addressed where required.
 4. Give an overall impression: where the proposal would likely land (competitive, borderline, unlikely to be funded in its current form) and the single biggest reason.
 5. For pre-submission feedback, rank the fixes by how much they would improve the score per hour of work, with concrete wording or structural suggestions. For an assigned review, phrase the output as a professional review the applicant would receive.
@@ -81,7 +82,7 @@ Review this proposal ({{purpose}}).
 ## Overall impression
 Two to four sentences with the likely standing and main reason.
 ## Scores by criterion
-Table: criterion | score | rationale.
+One line naming the scale and which end is best, then a table: criterion | score | rationale.
 ## Strengths
 Bullets by criterion.
 ## Weaknesses

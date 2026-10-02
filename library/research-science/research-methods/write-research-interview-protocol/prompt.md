@@ -5,7 +5,7 @@ kind: prompt
 title: Write a research interview protocol
 description: Writes a semi-structured research interview protocol with a consent script, question themes, probes, timing and reflexivity notes, tied to the research question. For qualitative researchers.
 category: research-methods
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [design]
 role: [researcher, student, ux-researcher]
@@ -42,11 +42,12 @@ args:
     default: video
 output_contract:
   format: markdown
-  sections: [Protocol overview, Before the interview, Opening and consent, Interview guide, Closing, After the interview, Reflexivity notes, Pilot checklist]
+  sections: [Protocol overview, Before the interview, Opening and consent, Interview guide, Distress and disclosure procedure, Closing, After the interview, Reflexivity notes, Pilot checklist]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Gives the distress and disclosure procedure its own section before the closing, with wording for pausing or stopping and the limits of confidentiality, so it is ready during the interview rather than filed after it."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -70,7 +71,7 @@ Write an interview protocol for a {{duration_minutes}}-minute {{mode}} interview
 4. Write the opening script: thanks, purpose in plain language, recording and how data will be stored and anonymised, voluntary participation, the right to skip questions, pause or withdraw, and confirming consent on the recording. Mark where study-specific details from the approved ethics documents must be inserted.
 5. Write the closing: an open "anything we have not covered?" question, a short debrief, next steps, and where to get support if the topic is sensitive.
 6. Add practical notes for {{mode}} interviews (connection or recording checks, privacy of the participant's location, a backup plan).
-7. Write a distress and disclosure procedure: signs to watch for, how to pause or stop, and to follow the study's approved safeguarding and referral procedures, with placeholders for local support contacts.
+7. Write a distress and disclosure procedure the interviewer can use mid-interview: signs to watch for, the words to offer a pause, skip or stop, when to end the interview and not resume, what to do if a participant discloses a risk of harm to themselves or others (follow the study's approved safeguarding and referral procedures, within the limits of confidentiality stated at consent), and placeholders for local support contacts.
 8. Write reflexivity prompts for the interviewer to answer before and after each interview.
 9. List what to check in a pilot interview.
 </task>
@@ -92,10 +93,12 @@ Checklist.
 Script, with placeholders in square brackets.
 ## Interview guide
 For each theme: a heading with minutes, main question(s) in bold, probes as bullets.
+## Distress and disclosure procedure
+Numbered steps the interviewer can follow during the interview, with example wording and placeholders for contacts.
 ## Closing
 Script.
 ## After the interview
-Field notes template and data-handling steps, with the distress and disclosure procedure.
+Field notes template and data-handling steps.
 ## Reflexivity notes
 Prompts before and after.
 ## Pilot checklist
