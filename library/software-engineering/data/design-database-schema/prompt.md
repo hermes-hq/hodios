@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [data-modeling, ddl, normalization]
 pairs_with:
-  prompts: [plan-schema-migration, optimize-sql-query]
+  prompts: [plan-zero-downtime-schema-change, optimize-sql-query]
 args:
   - name: requirements
     description: What the system must store and do. Entities, rules, volumes, retention and any multi-tenancy.

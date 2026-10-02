@@ -13,7 +13,7 @@ stack: [sql]
 requires: [none]
 risk: read-only
 tags: [migrations, sql-injection, null-handling]
-applies_to: ["**/*.sql"]
+applies_to: ["**/*.sql", "**/migrations/**", "**/migrate/**"]
 authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02

@@ -14,13 +14,13 @@ cases:
           email text NOT NULL UNIQUE,
           created_at timestamptz NOT NULL DEFAULT now()
         );
-        -- about 40 million rows, 300 writes per second at peak
-      desired_change: "Rename fullname to display_name. Postgres 16."
+      desired_change: "Rename fullname to display_name."
       engine: postgres
+      context: "Postgres 16, about 40 million rows, 300 writes per second at peak. Rails app with rolling deploys. No downtime allowed."
     assert:
       - {type: contains, value: "## Compatibility matrix"}
       - {type: llm-rubric, value: "Does not use a single RENAME COLUMN while old code still reads fullname; instead adds display_name, dual-writes, backfills in batches, switches reads, then drops fullname in a later deploy."}
-      - {type: llm-rubric, value: "Enforces NOT NULL on display_name with a CHECK constraint added NOT VALID and validated before SET NOT NULL, and sets lock_timeout on DDL."}
+      - {type: llm-rubric, value: "Enforces NOT NULL on display_name with a CHECK constraint added NOT VALID and validated before SET NOT NULL, sets lock_timeout on DDL, and drops NOT NULL on fullname before the app stops writing it."}
   - name: edge-mysql-not-null-fk
     vars:
       current_schema: |

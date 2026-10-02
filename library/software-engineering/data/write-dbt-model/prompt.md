@@ -63,7 +63,7 @@ Sources and upstream models:
 3. Add staging models only where a source needs renaming, casting or deduplication, one per source, following the project convention (`stg_<source>__<table>` if unknown).
 4. Write the model SQL as import CTEs, then logical CTEs, then a final `select` with an explicit column list. Handle nulls and duplicates in the sources explicitly, and note any time zone conversion.
 5. If materialised as incremental: set `unique_key`, choose `incremental_strategy` for the warehouse (merge where supported, otherwise delete+insert or insert_overwrite; check whether the project's dbt version supports microbatch), filter new rows inside `is_incremental()` with a lookback window for late-arriving data, set `on_schema_change`, and say when a full refresh is needed.
-6. Write a properties YAML file with the model and column descriptions and tests: `unique` and `not_null` on the key (or a combination-of-columns test for a composite key, naming the package it needs), `relationships` for foreign keys, `accepted_values` for categorical columns, and one singular test for the most important business rule.
+6. Write a properties YAML file with the model and column descriptions and tests: `unique` and `not_null` on the key (or a combination-of-columns test for a composite key, naming the package it needs), `relationships` for foreign keys, `accepted_values` for categorical columns, and one singular test for the most important business rule. Use the `data_tests:` key on dbt 1.8 or later and `tests:` before that; if the project is on 1.8 or later and the rule is easier to show with fixed input rows, write a dbt unit test instead.
 7. Give the commands to build and test the model and its children, and a query that checks the grain.
 </task>
 

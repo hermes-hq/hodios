@@ -3,7 +3,7 @@ schema: 1
 id: api-design-rules
 kind: rule
 title: HTTP API design rules
-description: Standing rules for HTTP APIs an assistant designs or changes, covering resource naming, status codes, problem+json errors, cursor pagination, idempotency keys and versioning.
+description: Rules for HTTP APIs covering resource naming, status codes, problem+json errors, cursor pagination, idempotency keys and versioning. Load when designing or changing HTTP endpoints.
 category: conventions
 version: 1.0.0
 status: experimental
@@ -11,6 +11,7 @@ stage: [design, build]
 role: [backend-engineer, fullstack-engineer, architect, software-engineer]
 requires: [none]
 risk: read-only
+invocation: model
 tags: [rest, problem-details, pagination, idempotency]
 pairs_with:
   rules: [sql-style-rules]

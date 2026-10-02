@@ -59,5 +59,5 @@ When you write or change React components in this project:
 - Add ARIA attributes only when no native element provides the semantics.
 
 **Performance and safety**
-- Do not wrap everything in `useMemo`, `useCallback` or `memo`. Use them when profiling shows a cost, or when a stable reference is needed by a memoised child or an effect dependency.
+- Do not wrap everything in `useMemo`, `useCallback` or `memo`. Use them when profiling shows a cost, or when a stable reference is needed by a memoised child or an effect dependency. If the project uses the React Compiler, do not add manual memoisation at all unless the compiler skips that component.
 - Never pass untrusted content to `dangerouslySetInnerHTML`. Sanitise it, or render it as text.

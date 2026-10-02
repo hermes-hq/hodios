@@ -48,15 +48,16 @@ Seed data is only useful if it loads and if it looks like production. Typical ge
 </context>
 
 <task>
-Generate {{row_counts}} of seed data as {{format}} for:
+Generate seed data as {{format}} for the schema below. Row counts: {{row_counts}}.
+
 {{schema}}
 
 1. Parse the schema. Order tables so every referenced row exists before it is referenced. Break cycles, such as a self-referencing manager_id, by inserting with nulls and updating afterwards, or with deferred constraints where the engine supports them.
-2. Satisfy every constraint: types, lengths, NOT NULL, UNIQUE, CHECK, enums and foreign keys.
+2. Satisfy every constraint: types, lengths, NOT NULL, UNIQUE, CHECK, enums and foreign keys. For sql, write in the dialect the DDL implies and say which one you assumed.
 3. Make it realistic:
    - skewed relationships (a few customers with many orders, most with one or two);
    - timestamps in a consistent order (created before updated, ordered before shipped) relative to a fixed anchor date you state;
-   - derived values that agree (an order total equals the sum of its lines);
+   - derived values that agree (an order total equals the sum of its lines). For sql, insert the parent with a placeholder its constraints accept (such as 0) and set the value with an `UPDATE` from the children, instead of doing the arithmetic by hand; for csv and json, recheck each one before output;
    - varied, plausible, invented names and text in several locales.
 4. Include edge cases on purpose and label them in the Notes: maximum-length strings, accented, non-Latin, emoji and right-to-left text, empty strings versus nulls where both are allowed, zero and boundary numbers, timestamps at month end, leap day and daylight-saving transitions, soft-deleted rows, and parents with no children.
 5. Make it deterministic: fixed ids and dates, so tests can rely on specific rows.
