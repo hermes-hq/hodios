@@ -5,7 +5,7 @@ kind: prompt
 title: Forecast 13-week cash flow
 description: Builds a 13-week direct cash flow forecast from receivables, payables and recurring costs, flags the weeks where cash runs short, and lists the levers to close each gap early.
 category: accounting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, operate]
 role: [founder, operations-manager, financial-analyst, executive]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Defined the downside case by the largest single receipt, added an arithmetic check and a weekend-date rule."}
 ---
 <context>
 You build a 13-week cash flow forecast the way a turnaround or treasury professional does: direct method (actual receipts and payments by week, not profit), conservative on timing of cash in, realistic on cash out, and updated weekly. Thirteen weeks is a quarter: long enough to see payroll, rent, tax and loan cycles collide, short enough to forecast from known invoices and bills. The point is to spot a shortfall six or eight weeks out, while there is still time to chase customers, move a payment or arrange financing, rather than discovering it the week payroll bounces.
@@ -63,14 +64,15 @@ Data:
 3. Payments: payroll and payroll taxes on their actual dates, rent, loan repayments, supplier payments on their terms, recurring software and utilities, sales tax or VAT and income tax payments, and any known one-offs.
 4. Compute net cash flow and closing balance each week. Opening balance of week 1 = starting cash.
 5. Mark every week where the closing balance falls below the minimum balance (or zero), and the lowest point in the 13 weeks.
-6. Run a downside case: the largest customer pays 30 days late and uncertain sales do not arrive. Report the lowest balance in that case.
+6. Run a downside case: the largest single expected receipt arrives 30 days later than in the base case and uncertain sales do not arrive. Name the receipt you moved and report the lowest balance in that case.
 7. List levers to close each gap, with the amount and the week it would help: collect specific overdue invoices, invoice earlier or ask for deposits, negotiate supplier timing, defer discretionary spend, and financing options in general terms.
 </task>
 
 <constraints>
 {{> guardrails/professional-limits}}
 - Use only the data given; any amount you had to estimate is labelled "est." and listed in the assumptions. Never invent customers, bills or dates.
-- Arithmetic must be exact: each week's opening balance equals the previous week's closing balance.
+- Arithmetic must be exact: each week's opening balance equals the previous week's closing balance. If you can run code or a spreadsheet, build the weekly table there and paste the result; otherwise list each week's items before totalling, then re-add the closing-balance row once before answering.
+- A date that falls on a weekend stays in the week that contains it; say so once in the assumptions rather than moving payments silently.
 - Do not recommend specific lenders or financing products, and do not advise on whether to delay tax or payroll payments; if those look necessary, say this needs urgent advice from an accountant or insolvency professional, since rules and penalties are serious.
 - If a shortfall is within the next four weeks, put it in the headline and say so plainly.
 - If the start date or a key element (payroll, receivables) is missing, ask for it before building the forecast.

@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a debt payoff
 description: Compares avalanche and snowball payoff orders month by month for a set of debts and one monthly payment, showing payoff dates, total interest and the trade-off between them.
 category: financial-planning
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, parent]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Added a simulation check and stated the fixed-minimums assumption."}
 ---
 <context>
 You compare the two standard debt payoff orders. In both, every debt gets its minimum payment each month and all money left over goes to one target debt; when a debt is paid off, its whole payment rolls onto the next target.
@@ -69,7 +70,8 @@ Debts:
 
 <constraints>
 {{> guardrails/professional-limits}}
-- Do the arithmetic carefully and round to the nearest whole unit. Say the results are estimates: real lenders compound daily, charge fees and recalculate minimums.
+- Do the arithmetic carefully and round to the nearest whole unit. If you can run code, simulate both strategies in code and report its results; otherwise track each debt's balance month by month until it is cleared, and, when no promotional rates are involved, check that avalanche's total interest is not higher than snowball's (if it is, recheck the simulation before answering). Say the results are estimates: real lenders compound daily, charge fees and recalculate minimums.
+- Keep minimum payments fixed at the stated amounts for the whole simulation, and say so, because many real minimums fall as the balance falls.
 - Never assume a missing rate or minimum; ask for it. If only a rate is missing for one debt, you may run the plan with a clearly labelled placeholder and say how the result could change.
 - Do not recommend specific consolidation loans, balance-transfer cards or lenders. You may explain in general terms what consolidation and balance transfers are, with their usual catches (transfer fees, promotional periods ending, new spending on cleared cards).
 - Mention briefly that a small emergency buffer helps avoid new borrowing during the plan.

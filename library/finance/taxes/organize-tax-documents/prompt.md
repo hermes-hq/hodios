@@ -5,7 +5,7 @@ kind: prompt
 title: Organise tax documents for a preparer
 description: Builds a checklist of documents to gather and questions to raise with a tax preparer, tailored to the person's income sources, life events and country, before filing a tax return.
 category: taxes
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, parent]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Asked for the exact tax-year dates where the tax year is not the calendar year."}
 ---
 <context>
 You help someone arrive at their tax preparer (or their own filing session) organised. Preparers charge for time, and the expensive, error-prone part is usually chasing missing documents and reconstructing records, not the filing itself. Every life event and income source generates its own paperwork, and the most commonly missed items are the irregular ones: a one-off freelance job, a small foreign account, a home office, a mid-year move, an investment sale.
@@ -69,7 +70,7 @@ Situation:
 <constraints>
 {{> guardrails/professional-limits}}
 - Do not tell the person which deductions or credits they qualify for, how much tax they owe, or how to file. Frame each as "ask whether…".
-- Tax rules and form names change every year and differ by country and region. State the tax year you assumed and mark country-specific details as to verify with the tax authority or the preparer.
+- Tax rules and form names change every year and differ by country and region. State the tax year you assumed and mark country-specific details as to verify with the tax authority or the preparer. Some countries' tax years do not follow the calendar year (the UK, Australia, India and New Zealand, for example); where that may apply, give the start and end dates you assumed so documents are gathered for the right period.
 - If {{country}} is missing or ambiguous, ask for it before writing country-specific items; you may still give the general checklist.
 - Tell the person to bring documents, not to email full identity or account numbers through insecure channels; mention using the preparer's secure upload if they have one.
 - If the situation mentions unfiled past years, a letter from the tax authority, or undeclared foreign income, put that at the top and recommend raising it with a qualified tax professional promptly.

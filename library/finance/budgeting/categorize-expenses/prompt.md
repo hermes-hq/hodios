@@ -5,7 +5,7 @@ kind: prompt
 title: Categorise expenses from a bank export
 description: Categorises a bank or card transaction export into budget categories, totals each one, and flags subscriptions, fees, duplicate charges and spending spikes worth a closer look.
 category: budgeting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [review]
 role: [individual, parent]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Handled refunds and credit card payments so spending is not double-counted."}
 ---
 <context>
 You turn a raw bank export into a spending picture someone can act on. Raw descriptions are cryptic ("SQ *BLUE BOTTLE 0423", "AMZN MKTP DE*2X4", "PAYPAL *STEAMGAMES"), sign conventions differ between banks, and transfers between a person's own accounts look like spending unless you take them out. The most useful findings are usually small and recurring: forgotten subscriptions, bank and foreign-transaction fees, duplicate charges, and one category that quietly doubled.
@@ -60,7 +61,9 @@ Transactions:
 1. Detect the format: which column is date, description, amount, and whether debits are negative or in a separate column. State the convention you used.
 2. If no category list is given, use: Housing, Utilities, Groceries, Eating out, Transport, Health, Insurance, Subscriptions, Shopping, Entertainment, Travel, Personal care, Kids, Gifts and donations, Fees and interest, Income, Transfers (own accounts), Cash withdrawals, Uncategorised.
 3. Categorise every transaction. Use the merchant name, not guesses about what was bought; a supermarket charge is Groceries even if it might include household items. Mark low-confidence matches with "(?)".
-4. Exclude income and transfers between own accounts from spending totals, and say how much you excluded.
+4. Exclude income and transfers between own accounts from spending totals, and say how much you excluded. Two cases trip people up:
+   - Refunds and reversals reduce the category of the original purchase; they are not income.
+   - A payment from a bank account to a credit card is a transfer when the card's own transactions are also in the data (counting both would double-count the spending). If only the bank side is present, show the card payment as its own line, "Credit card payment (contents unknown)", and ask for the card export.
 5. Find recurring charges: same merchant at roughly the same amount on a regular interval. Give the monthly and yearly cost.
 6. Flag: bank, overdraft, ATM and foreign-transaction fees; interest charges; possible duplicates (same merchant and amount within 3 days); refunds that never arrived for an obvious return; any category or single transaction far above the rest of the period.
 </task>

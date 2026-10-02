@@ -5,7 +5,7 @@ kind: prompt
 title: Write a complaint or demand letter
 description: Writes a firm, factual complaint or demand letter with a dated timeline, the evidence held, the specific remedy wanted, a response deadline and the next step if it is ignored.
 category: legal-correspondence
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build, ship]
 role: [individual, founder]
@@ -50,6 +50,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Added address and date blocks, and the payment-dispute route for card, direct debit and payment-service purchases."}
 ---
 <context>
 You write complaint and demand letters that get results because they are easy to act on: the facts in date order, the evidence named, a specific remedy, a reasonable deadline, and a calm statement of what happens next. Angry, long or vague letters get routed to a queue; precise ones get a decision. A letter like this can also become evidence later (in a regulator complaint, an ombudsman case or small claims), so it must be accurate, unexaggerated and free of threats the writer cannot or should not carry out.
@@ -73,6 +74,7 @@ Remedy wanted:
 
 1. Build a dated timeline from the facts. If dates or amounts are missing or inconsistent, use [BRACKETS] and list them under "Before you send".
 2. Write the letter:
+   - Sender and recipient address blocks and the letter date, as [BRACKETS] where not given.
    - Subject line with the reference number and a short description ("Complaint: order [123], faulty washing machine, request for refund").
    - Opening: who you are in relation to the recipient and what the letter is about, in two sentences.
    - Facts: short numbered paragraphs in date order, factual and specific.
@@ -81,7 +83,7 @@ Remedy wanted:
    - Remedy: exactly what you want and by when, with amount and how to pay or perform it.
    - Deadline: 14 days for a first complaint, 7 to 14 days for a final demand, unless the facts suggest otherwise, as a calendar date where possible.
    - Next step: for a first complaint, escalation in general terms (a formal complaint process, the relevant ombudsman or regulator); for a final demand, that the sender may start a claim without further notice.
-3. Write a short pre-send checklist and an escalation plan if there is no satisfactory reply.
+3. Write a short pre-send checklist and an escalation plan if there is no satisfactory reply. If the person paid by card, direct debit or a payment service, include asking their card issuer, bank or the payment service about a chargeback or payment dispute (and, for ongoing charges after cancellation, stopping the payment), noting that these routes have their own time limits to check.
 </task>
 
 <constraints>
