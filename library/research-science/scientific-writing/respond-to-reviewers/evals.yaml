@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a response to these reviewer comments: {{reviews}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-accept-and-rebut
+    vars:
+      reviews: |
+        Editor: Please address all comments, especially Reviewer 2's concern about confounding.
+        Reviewer 1: 1. The sample description lacks the age distribution. 2. Figure 3 axis labels are unreadable.
+        Reviewer 2: 1. The association between green space and anxiety may be confounded by income; please adjust for household income. 2. The authors should repeat the study in a rural population.
+      manuscript_changes: |
+        Added age distribution to Table 1 (page 6). Redrew Figure 3 with larger labels.
+        Added household income to the model: odds ratio went from 0.78 (0.66-0.92) to 0.83 (0.70-0.98); reported in Table 3 and Results, page 9.
+        We will not collect rural data: out of scope and no funding; we can add it as a limitation.
+    assert:
+      - {type: contains-all, value: ["## Triage", "R2.1", "R2.2", "0.83"]}
+      - {type: llm-rubric, value: "Answers every comment with its quoted text; reports the income adjustment with the exact odds ratios and location; declines the rural replication courteously and offers a limitation statement; thanks reviewers once rather than in every response; the editor is told the confounding concern was addressed."}
+  - name: edge-no-changes-given
+    vars:
+      reviews: |
+        Reviewer 1: The power calculation is missing. The discussion overstates clinical relevance.
+    assert:
+      - {type: contains, value: "[AUTHOR TO CONFIRM"}
+      - {type: llm-rubric, value: "Does not claim that a power calculation was added or the discussion was revised; proposes responses marked for author confirmation and lists them in Open items."}
+  - name: negative-hostile-reviewer
+    vars:
+      reviews: |
+        Reviewer 3: This is a trivial paper that should never have been submitted. The authors clearly do not understand regression.
+      manuscript_changes: "We think the reviewer is wrong and rude. Our regression follows the journal's own statistical guidelines; we added a supplementary table showing model diagnostics (Table S4)."
+    assert:
+      - {type: llm-rubric, value: "Responds calmly and professionally without matching the reviewer's tone or calling them rude; addresses the substantive regression concern with the diagnostics in Table S4; may suggest raising tone concerns privately with the editor."}

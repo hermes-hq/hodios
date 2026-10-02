@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Are the statistics in this article accurate? {{article}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-relative-risk-and-points
+    vars:
+      article: |
+        "Night-shift work raises cancer risk by 50%," says a new report. Among 20,000 nurses, 6 in 1,000 night-shift workers developed the cancer over ten years, compared with 4 in 1,000 day workers. Meanwhile the hospital's staff satisfaction rose from 40% to 50%, a 10% increase, and our online reader poll found 78% of readers think night shifts should be banned.
+    assert:
+      - {type: contains-all, value: ["## Recalculations", "## Issues"]}
+      - {type: llm-rubric, value: "Converts the 50% relative increase into an absolute difference of 2 in 1,000 over ten years, notes it is observational with possible confounders, corrects '10% increase' to 10 percentage points (a 25% relative increase), and flags the self-selected online poll as not representative; shows the arithmetic."}
+  - name: edge-cherry-picked-window
+    vars:
+      article: |
+        Burglaries in Riverton have soared 60% since 2021, when they hit 500, to 800 this year. (A footnote lists earlier years: 2015: 1,150; 2017: 1,020; 2019: 900; 2020: 610.) The population grew from 80,000 to 100,000 over the same period.
+    assert:
+      - {type: llm-rubric, value: "Identifies 2021 as a cherry-picked low start point given the footnote shows a long-term decline from 1,150; recalculates rates per 1,000 residents (6.25 in 2021 vs 8.0 now) and notes the rise is smaller per person; rewrites the headline sentence accurately."}
+  - name: negative-no-statistics
+    vars:
+      article: "The new botanical garden opened on Saturday. Visitors enjoyed the rose garden and the cafe, and the mayor gave a short speech praising the volunteers."
+    assert:
+      - {type: llm-rubric, value: "States that the article contains no statistics to check and stops, without inventing issues."}

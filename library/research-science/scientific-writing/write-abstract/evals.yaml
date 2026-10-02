@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write an abstract for this paper: {{manuscript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-structured-trial
+    vars:
+      word_limit: 200
+      structure: structured
+      manuscript: |
+        Introduction: Post-operative delirium affects up to a third of older surgical patients.
+        Methods: Single-centre randomised controlled trial in Oslo, 2021-2023. Patients aged 70+ undergoing elective hip replacement were randomised 1:1 to a nurse-led multicomponent prevention programme (orientation, sleep hygiene, early mobilisation) or usual care. Primary outcome: delirium within 5 days (CAM). Secondary: length of stay.
+        Results: 312 patients were randomised and 298 analysed. Delirium occurred in 14 of 150 (9.3%) intervention patients and 29 of 148 (19.6%) controls (risk ratio 0.48, 95% CI 0.26 to 0.86, p = 0.012). Median length of stay was 4 days in both groups.
+        Discussion: The programme halved delirium. Results may not generalise to emergency surgery.
+    assert:
+      - {type: contains-all, value: ["## Number check", "0.48", "0.26 to 0.86", "298", "Word count:"]}
+      - {type: llm-rubric, value: "Structured abstract within 200 words leading Results with the primary outcome and its risk ratio and CI, mentions no difference in length of stay, and notes the elective-surgery limitation; every number in the Number check table matches the manuscript."}
+  - name: edge-conflicting-numbers
+    vars:
+      structure: unstructured
+      word_limit: 150
+      manuscript: |
+        Methods: Cross-sectional survey of 1,020 adults in Chile on sugary-drink consumption and BMI.
+        Results: Daily sugary-drink consumers had higher BMI (mean difference 1.4 kg/m2, 95% CI 0.9-1.9). Table 2: mean difference 1.6 kg/m2 (95% CI 0.9-1.9). 984 participants had complete data.
+    assert:
+      - {type: contains, value: "[CHECK"}
+      - {type: llm-rubric, value: "Notices the 1.4 vs 1.6 conflict between the text and Table 2, uses a placeholder instead of picking one, flags it in Notes, and describes the finding as an association."}
+  - name: negative-no-results
+    vars:
+      manuscript: "Introduction: Urban heat islands raise night-time temperatures. We aim to measure the cooling effect of street trees in Madrid using a network of 60 sensors."
+    assert:
+      - {type: llm-rubric, value: "Says the manuscript has no results and asks for them; does not invent a cooling effect or any numbers."}

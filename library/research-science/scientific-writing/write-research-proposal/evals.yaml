@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a grant proposal for this project: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aims-page
+    vars:
+      section: aims
+      project: |
+        Problem: heat-related hospital admissions among older adults in mid-sized European cities are rising; most heat-health warnings reach people by TV or web, which isolated older adults often miss.
+        Idea: test whether automated phone calls plus a neighbour check-in reduce heat-related admissions during heatwaves.
+        Pilot: 2023 pilot in one city with 180 adults over 75; 94% answered at least one call; [no admissions data yet].
+        Team: geriatrician, public-health epidemiologist, city emergency planning office. Three years, one city plus two comparison cities.
+      funder_criteria: "Criteria: Excellence (clarity of objectives, soundness of methodology), Impact (pathways to policy uptake), Implementation (feasibility, risks). Aims page: max 1 page."
+    assert:
+      - {type: contains-all, value: ["## Criteria coverage", "## Placeholders to fill", "[PRELIMINARY DATA"]}
+      - {type: llm-rubric, value: "Writes a one-page aims section with a central hypothesis and two to four specific, independent aims with expected outcomes; uses the funder's terms Excellence, Impact and Implementation in the coverage table; does not invent admissions figures or citations."}
+  - name: edge-no-funder-criteria
+    vars:
+      section: significance
+      project: "Developing a low-cost soil moisture sensor network for smallholder farms in Kenya to time irrigation. Prototype tested on 5 farms for one season, water use fell [unknown amount]."
+    assert:
+      - {type: llm-rubric, value: "States that no funder criteria were given and uses common criteria; writes a significance section with placeholders for the water-saving figure and for prevalence or yield statistics rather than inventing numbers."}
+  - name: negative-too-thin
+    vars:
+      project: "I want to do something with AI in healthcare."
+    assert:
+      - {type: llm-rubric, value: "Does not write a full proposal from this; explains that the notes lack a problem, question and method and asks for specific missing information (or offers to help shape the idea first)."}

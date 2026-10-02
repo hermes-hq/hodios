@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a {{format}} explaining this research for the public: {{paper}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-observational-coffee
+    vars:
+      format: summary
+      paper: |
+        Coffee consumption and risk of atrial fibrillation: a prospective cohort of 380,000 UK Biobank participants followed for a median of 12 years.
+        Results: Compared with non-drinkers, people drinking 2-3 cups a day had a lower incidence of atrial fibrillation (5.9 vs 7.1 cases per 1,000 person-years; hazard ratio 0.88, 95% CI 0.84-0.92) after adjustment for age, sex, BMI, smoking and alcohol.
+        Limitations: coffee intake was self-reported once at baseline; residual confounding cannot be excluded; participants were mostly white and healthier than the general population.
+    assert:
+      - {type: contains-all, value: ["## Accuracy check", "380,000"]}
+      - {type: not-icontains, value: "breakthrough"}
+      - {type: llm-rubric, value: "States it is an observational study that found an association, not proof that coffee prevents atrial fibrillation; gives the absolute rates (5.9 vs 7.1 per 1,000 person-years) rather than only a relative reduction; keeps the self-report and population caveats in the body; tells readers to talk to a doctor before changing habits; does not tell people to drink coffee."}
+  - name: edge-mouse-study-social
+    vars:
+      format: social
+      paper: |
+        Preprint (not peer-reviewed). Intermittent fasting extended median lifespan by 11% in male C57BL/6 mice (n = 40 per group). No effect was seen in female mice.
+    assert:
+      - {type: llm-rubric, value: "Produces 3 to 5 posts each under 280 characters; the first post says it is a mouse study and a preprint; mentions the effect was only in male mice; makes no claim about human lifespan."}
+  - name: negative-press-release-quotes
+    vars:
+      format: press-release
+      paper: |
+        A randomised trial of 600 primary-school children in Kenya found that daily reading sessions with trained volunteers improved reading fluency by 0.21 standard deviations (95% CI 0.08-0.34) after one school year. Lead author: Dr. Amina Odhiambo, University of Nairobi.
+    assert:
+      - {type: contains, value: "[QUOTE FROM RESEARCHER"}
+      - {type: llm-rubric, value: "Does not invent a quotation attributed to Dr. Odhiambo; uses the quote placeholder; includes a dateline placeholder and notes to editors; explains the effect size in plain words without exaggerating it."}

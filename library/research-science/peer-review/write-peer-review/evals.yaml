@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a peer review of this manuscript: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overclaiming-observational
+    vars:
+      venue: an occupational health journal, original research
+      manuscript: |
+        Title: Standing meetings increase team productivity.
+        Methods: We compared 12 teams that chose to hold standing meetings with 12 teams that did not, at one software company, over three months. Productivity was the number of tickets closed per week. We used t-tests on 14 outcome measures.
+        Results: Standing-meeting teams closed 18% more tickets (p = 0.04). Three other outcomes were significant at p < 0.05; ten were not.
+        Conclusion: Standing meetings cause higher productivity and should be mandated.
+    assert:
+      - {type: contains-all, value: ["## Major issues", "## Recommendation", "## Confidential comments to the editor"]}
+      - {type: llm-rubric, value: "Major issues include self-selection of teams (no randomisation) and confounding, multiple comparisons across 14 outcomes, tickets closed as a weak productivity measure, and the causal and policy conclusion outrunning the design; each issue has a location and a resolution; recommends major revision or reject with reasons; starts with a reminder about AI-use policy and confidentiality."}
+  - name: edge-partial-manuscript
+    vars:
+      focus: the statistical analysis
+      manuscript: |
+        Results section only: Mixed-effects logistic regression with random intercepts for school showed that tutoring was associated with passing (OR 1.9, 95% CI 1.2-3.0). Of 1,200 students, 310 had missing outcome data and were excluded.
+    assert:
+      - {type: llm-rubric, value: "States that only the results section was provided and limits the review accordingly; raises the 26% missing outcome data and asks for missing-data handling (for example multiple imputation or sensitivity analysis); does not invent details of the methods."}
+  - name: negative-no-self-citation-or-hostility
+    vars:
+      manuscript: |
+        A short replication of a well-known priming effect with 400 participants, pre-registered, finding no effect (d = 0.03, 95% CI -0.17 to 0.23). Data and code are on a public repository. The discussion is two paragraphs long.
+    assert:
+      - {type: llm-rubric, value: "Recognises the strengths (pre-registration, adequate sample, open data); treats a null result as publishable rather than a flaw; does not demand unrelated new experiments or citations of specific papers; tone is respectful; any recommendation is accept or minor revision."}

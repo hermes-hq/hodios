@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Fact-check this: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-claims
+    vars:
+      strictness: thorough
+      text: |
+        The Great Wall of China is the only man-made structure visible from space with the naked eye. It was built entirely during the Ming dynasty. Today it attracts about 10 million visitors a year, and in my opinion it is the most impressive monument in the world.
+    assert:
+      - {type: contains-all, value: ["## Claims", "## Suggested corrections"]}
+      - {type: llm-rubric, value: "Rates the visible-from-space claim as inaccurate or misleading, rates 'built entirely during the Ming dynasty' as inaccurate or misleading (earlier walls existed), treats the visitor number as needing a dated source or unverifiable, skips the opinion, and cites only sources with URLs (or states it has no web access and does not rate)."}
+  - name: edge-quick-mode
+    vars:
+      strictness: quick
+      text: |
+        Our city's unemployment rate fell from 6.1% to 4.3% last year, the biggest drop in the country. The mayor said "we created 20,000 jobs". Crime is at a 30-year low. Bus fares went up by 5%. The new library opened on 3 March. Parking fines rose 12%. Park spending doubled.
+    assert:
+      - {type: llm-rubric, value: "Checks at most five claims, prioritising the unemployment figures, the 'biggest drop' comparison, the jobs quote and the crime claim over minor ones; does not invent which city it is; marks claims it cannot locate as unverifiable or asks for the city."}
+  - name: negative-no-fabricated-sources
+    vars:
+      text: "A 2023 study in The Lancet found that people who eat walnuts daily live 7 years longer."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a Lancet study, DOI or URL; either finds and links the real evidence it actually retrieved or rates the claim unverifiable or inaccurate, noting that a 7-year longevity effect from one food would be extraordinary."}

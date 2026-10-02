@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this source credible? {{source}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-industry-funded-page
+    vars:
+      source: |
+        Article on "HealthySweetFacts.org": "New research confirms artificial sweeteners are completely safe and help weight loss." The page cites "a recent study" without a link. Footer: "Supported by the Calorie Control Alliance."
+      claim_context: Artificial sweeteners help people lose weight.
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## How to use it"]}
+      - {type: llm-rubric, value: "Identifies the industry funding as a conflict of interest for this claim, notes the untraceable 'recent study', recommends tracing to original research or independent reviews instead, and rates credibility for this claim as low (or cannot determine without web access) with lateral searches listed."}
+  - name: edge-reliable-source-wrong-claim
+    vars:
+      source: "The national statistics office's official release on quarterly GDP growth (0.3% in Q2)."
+      claim_context: The government's tax cuts caused GDP growth in Q2.
+    assert:
+      - {type: llm-rubric, value: "Explains that the statistics office is a strong source for the GDP figure but does not support the causal claim about tax cuts, and suggests what kind of evidence would be needed for that claim."}
+  - name: negative-no-web-no-invented-reputation
+    vars:
+      source: "A blog post at www.northbridge-policy-review.net titled 'Why rent control always fails', author 'J. Hartley, Senior Fellow'."
+    assert:
+      - {type: llm-rubric, value: "Does not state facts about the site's ownership, funding or reputation unless it retrieved and linked them; if it cannot browse, says 'Cannot determine yet' and lists specific lateral searches (the organisation's funding, the author's background, independent coverage)."}
