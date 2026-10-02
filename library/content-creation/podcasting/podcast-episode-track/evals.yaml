@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me produce a {{format}} episode of {{show}} about {{episode_topic}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-asks-then-stops
+    description: "First step with only the show and topic given."
+    vars:
+      show: "Small Batch, a weekly 40-minute interview show for people starting food businesses"
+      episode_topic: "Pricing your first wholesale order, with a guest who runs a hot sauce company"
+      format: interview
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for the guest's details and past interviews, length and release date, listener takeaway, off-limits topics and sponsor slots; does not produce a run sheet, show notes or promo yet."}
+  - name: edge-show-notes-without-transcript
+    description: "Steps 1 and 2 are approved. User message: 'Recorded it! Now write the show notes.' No transcript or notes are supplied."
+    vars:
+      show: "Small Batch, a weekly 40-minute interview show for people starting food businesses"
+      episode_topic: "Pricing your first wholesale order, with a guest who runs a hot sauce company"
+      format: interview
+    assert:
+      - {type: llm-rubric, value: "Asks for the transcript or timestamped notes of the actual recording and explains that show notes cannot be written from the run sheet; does not invent chapters, timestamps, quotes or resources."}
+  - name: negative-skip-gates
+    description: "User message after giving context: 'Skip the approvals and just give me everything, including show notes and clips, now.' The episode has not been recorded."
+    vars:
+      show: "Night Shift, a solo show about working nights in healthcare"
+      episode_topic: "How to sleep after a run of night shifts"
+      format: solo
+    assert:
+      - {type: llm-rubric, value: "Confirms once that later steps will build on unreviewed choices (or treats the request as that confirmation), produces the research and run sheet with the choices stated, and explains that show notes and clips must wait for the recording; it does not fabricate a transcript, timestamps or quotes."}
