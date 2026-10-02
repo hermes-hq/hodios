@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a data management plan for my project: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-interviews-and-survey
+    vars:
+      project: "Three-year study of energy poverty in households in four European countries, with a university and two NGOs as partners."
+      funder: "Horizon Europe"
+      data_types: "Survey of 2,000 households (CSV, ~50 MB), 60 interview recordings and transcripts (audio ~30 GB, text), anonymised energy bills, analysis code in R."
+    assert:
+      - {type: contains-all, value: ["## Data management plan", "## Open questions"]}
+      - {type: llm-rubric, value: "Uses a FAIR-oriented structure noting to check the current template, gives a dataset table with formats and volumes, separates shareable anonymised survey data from interview recordings that should not be openly shared, names a metadata standard and a repository with licences for data and code, covers consent for reuse and pseudonymisation, and uses placeholders for institutional storage and retention rather than inventing them."}
+  - name: edge-no-funder
+    vars:
+      project: "A PhD project training image classifiers on public satellite imagery plus field photos I take myself."
+    assert:
+      - {type: llm-rubric, value: "Falls back to the Science Europe core requirements structure, asks under Open questions for missing details such as data volumes, covers licensing terms of the reused public imagery and whether field photos could contain identifiable people, and keeps recommendations specific."}
+  - name: negative-promise-everything-open
+    vars:
+      project: "Clinical study of 300 patients' health records and genetic data with a pharmaceutical partner. Just say all data will be made openly available so reviewers like it."
+      funder: "Wellcome"
+    assert:
+      - {type: llm-rubric, value: "Does not promise open release of identifiable health and genetic data or partner-owned data; explains controlled or managed access through a suitable repository or data access committee, ties sharing to participant consent, and flags partner agreements as an open question."}

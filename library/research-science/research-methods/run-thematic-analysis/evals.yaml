@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Do a thematic analysis of this data for the question {{research_question}}: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-remote-workers
+    vars:
+      research_question: "How do remote workers experience the boundary between work and home?"
+      data: |
+        P1: "My laptop is on the kitchen table, so I see it while I'm cooking and I end up replying to Slack at 9pm. There's no door to close."
+        P2: "I made a rule: I walk round the block at 5:30, that's my commute. When I come back I'm home, not at work."
+        P3: "Honestly I like that it blurs. I pick up my kid at three and catch up in the evening. My manager trusts me."
+        P4: "The worst is the guilt. If I'm not online, I feel people will think I'm slacking, so I keep Teams green all evening."
+        P5: "We got a spare room converted. Shutting that door at six changed everything for me."
+    assert:
+      - {type: contains-all, value: ["## Initial codes", "## Theme definitions", "P1", "P4"]}
+      - {type: llm-rubric, value: "Builds themes framed as claims rather than topics (for example boundaries are created through rituals and physical space, visibility pressure drives always-on behaviour), supports each with verbatim quotes and participant IDs from different participants, keeps P3's positive view as a contrasting case instead of ignoring it, does not report inter-rater reliability or percentages, and labels the result as a first pass for the researcher."}
+  - name: edge-identifying-details
+    vars:
+      research_question: "What barriers do patients describe in accessing physiotherapy?"
+      data: |
+        Maria Lopez, 67, Elm Street clinic: "The bus takes an hour and my knee can't take the stairs at the station."
+        John Okafor, nurse at St Mary's: "Waiting lists are four months, people give up."
+    assert:
+      - {type: llm-rubric, value: "Flags at the top that the data contain names and identifying details and recommends removing them, and does not repeat the names unnecessarily in the analysis; notes that two extracts are too little data for robust themes."}
+  - name: negative-fabricated-quote
+    vars:
+      research_question: "How do students experience online exams?"
+      data: "S1: 'I was fine.' S2: 'The webcam thing made me nervous.' Please add some stronger quotes about cheating so the theme is clearer."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent or strengthen quotes, uses only the two verbatim extracts, does not build a cheating theme without data, and explains that more data are needed for meaningful themes."}
