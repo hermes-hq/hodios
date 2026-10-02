@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Plan a migration from {{current}} to {{target}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monolith-to-services
+    vars:
+      current: "A Rails monolith that handles accounts, billing and reporting"
+      target: "Billing extracted into its own service with its own database"
+      context: "Billing writes to 6 tables shared with accounts. 2 teams. Billing cannot have downtime during business hours."
+    assert:
+      - {type: contains, value: "## Phases"}
+      - {type: llm-rubric, value: "Uses a seam such as branch by abstraction or a routing layer, gives each phase verification and rollback, and plans the shared tables with expand-and-contract steps including dual writes or backfill with consistency checks."}
+  - name: edge-small-system
+    vars:
+      current: "A 2,000-line Flask app with no users yet"
+      target: "FastAPI"
+    assert:
+      - {type: llm-rubric, value: "Recognises that the system is small with no users and that a short direct rewrite may be cheaper than a multi-phase strangler plan, and justifies the choice."}
+  - name: negative-no-invented-numbers
+    vars:
+      current: "Our on-premise job scheduler"
+      target: "A managed cloud workflow service"
+    assert:
+      - {type: llm-rubric, value: "Does not invent job counts, traffic, durations or dates; marks the missing information as assumptions or open questions."}
