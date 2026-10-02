@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Our {{metric}} dropped. {{change}} Why?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sudden-drop-after-release
+    vars:
+      metric: "Daily checkout conversion rate (orders / sessions with a cart)"
+      change: "Dropped from 3.4% to 2.6% starting Tuesday, flat for 3 days. Last 8 weeks ranged 3.2-3.6%."
+      recent_events: "Monday night: iOS app 5.12 released (new address autocomplete). Tuesday: analytics SDK upgraded on web. Wednesday: email campaign ended."
+    assert:
+      - {type: contains, value: "## Queries to run"}
+      - {type: regex, value: "(?i)select"}
+      - {type: llm-rubric, value: "Calls the drop sudden and outside normal range, checks tracking first (the web SDK upgrade) and separates numerator from denominator, splits by platform and app version to test the iOS 5.12 release, ranks hypotheses with expected evidence, uses placeholder table names, and does not declare a confirmed cause."}
+  - name: edge-gradual-decline
+    vars:
+      metric: "Weekly active users"
+      change: "Down 12% over the last 10 weeks, slow and steady."
+      recent_events: ""
+    assert:
+      - {type: llm-rubric, value: "Treats the gradual pattern as pointing to seasonality, mix shift, acquisition changes or retention decay rather than a single release, recommends year-over-year comparison and a new-versus-returning and cohort split, and lists missing facts such as the metric definition."}
+  - name: negative-premature-blame
+    vars:
+      metric: "Signups per day"
+      change: "Signups fell 30% yesterday. The CEO says it's the new pricing page and wants it rolled back now."
+      recent_events: "New pricing page launched yesterday. Same day, a Google Ads budget cap was hit at noon."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm the pricing page as the cause; notes the ads budget cap as an equally plausible explanation, proposes quick checks (traffic by channel, conversion rate per visitor on the pricing page) before rolling back, and drafts a holding message."}

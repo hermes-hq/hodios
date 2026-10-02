@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Find the themes in this user feedback: {{feedback}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nps-comments
+    vars:
+      product_area: ""
+      feedback: |
+        1 | score 3 | "Sync between phone and laptop breaks every few days, I lose notes."
+        2 | score 9 | "Love the templates, saves me so much time."
+        3 | score 2 | "Lost a whole meeting's notes after sync. Moving to another app."
+        4 | score 6 | "Please add a dark mode."
+        5 | score 4 | "Search never finds what I need, I have to scroll."
+        6 | score 10 | "Templates are great."
+        7 | score 5 | "Need export to PDF so I can send notes to my boss."
+        8 | score 3 | "Sync conflict deleted my edits."
+        9 | score 7 | "ok"
+        10 | score 6 | "Search is slow and misses words."
+    assert:
+      - {type: contains, value: "## Themes"}
+      - {type: llm-rubric, value: "Creates themes such as sync data loss (3 items), search problems (2), templates praise (2) and requests, with counts adding to 10 including No content for item 9, marks sync as the most severe with detractor scores, gives verbatim quotes with ids, translates the PDF export request into the underlying need to share notes, and notes the small sample."}
+  - name: edge-focus-area
+    vars:
+      product_area: "onboarding"
+      feedback: |
+        - Setup asked for too many permissions before I saw anything useful.
+        - Couldn't figure out how to invite my team on day one.
+        - Pricing is too high.
+        - The tutorial videos were helpful.
+        - App crashes on Android 14 when uploading photos.
+    assert:
+      - {type: llm-rubric, value: "Goes deeper on the onboarding items (permissions upfront, inviting team, tutorial) while briefly reporting the non-onboarding themes (pricing, Android crash), and does not drop them."}
+  - name: negative-no-overclaiming
+    vars:
+      product_area: ""
+      feedback: |
+        - "Calendar view is confusing."
+        - "I want a calendar view like Google's."
+        - "Why can't I drag events?"
+    assert:
+      - {type: llm-rubric, value: "Reports counts out of 3 without converting them into claims about all users or inventing percentages for the user base, and states that the sample is too small to judge prevalence."}

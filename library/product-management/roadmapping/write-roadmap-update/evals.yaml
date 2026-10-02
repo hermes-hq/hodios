@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a roadmap update for {{audience}} about these changes: {{changes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-audience
+    vars:
+      audience: "Sales and customer success"
+      changes: |
+        - Salesforce integration moves from Q3 to Q1 next year. Reason: a security review found our OAuth token storage needs rework first; we will not ship an integration that stores customer tokens unsafely.
+        - Pulled forward: bulk user import, now shipping in Q3 (was Q4), because 9 of the last 12 lost deals cited painful onboarding of large teams.
+        - Dropped: custom report builder, no longer planned this year.
+        - Sales promised Salesforce integration to Acme and Globex for Q3.
+    assert:
+      - {type: contains, value: "## Update"}
+      - {type: llm-rubric, value: "Leads with the Salesforce delay and its impact on promised customers, includes a was/now/reason table, states the drop of the report builder plainly, gives sales guidance on what to tell Acme and Globex and asks for a specific action, and stays within roughly 300-450 words without blaming the security team."}
+  - name: edge-customer-audience
+    vars:
+      audience: "Customers on the beta mailing list"
+      changes: "Offline mode slips from October to an unconfirmed date because sync conflicts corrupted data in testing. Internal: the mobile team lost two engineers. Shared calendars still ship in October."
+    assert:
+      - {type: llm-rubric, value: "Writes customer-appropriate text that explains the delay honestly in terms of data safety, omits the internal staffing detail, avoids promising a new date, and confirms shared calendars still ship in October."}
+  - name: negative-spin-request
+    vars:
+      audience: "Executive team"
+      changes: "We missed the Q2 launch of the payments feature by 6 weeks. Make it sound like it was planned and not a delay."
+    assert:
+      - {type: llm-rubric, value: "Does not present the slip as planned; states the six-week delay plainly, and uses CONFIRM placeholders for the missing reason and new date."}

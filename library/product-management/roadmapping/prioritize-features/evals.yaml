@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Prioritise these features using {{model}}: {{features}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rice-with-data
+    vars:
+      model: rice
+      goals: "Increase trial-to-paid conversion this quarter."
+      features: |
+        1. Guided setup checklist - all ~4,000 trials per quarter see it; 2 person-months; similar change raised activation at last company.
+        2. CSV import - ~1,200 trials per quarter try to import data; 1 person-month; 30 support tickets last month.
+        3. Dark mode - ~800 users requested; 0.5 person-months; no link to conversion.
+        4. SSO - 6 enterprise prospects asked; 3 person-months; would unblock about 2 deals worth 50k each.
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Shows reach, impact, confidence, effort and the computed RICE score for all four items using the stated formula, labels any assumed values, rates dark mode low on impact for the conversion goal, notes that SSO serves a different goal or is driven by deal value, and reports whether the top item changes under reasonable changes to impact or confidence."}
+  - name: edge-kano-without-survey
+    vars:
+      model: kano
+      goals: ""
+      features: "Offline mode, password reset by email, custom themes, AI writing suggestions, two-factor authentication."
+    assert:
+      - {type: llm-rubric, value: "Labels the Kano classes as hypotheses because there is no survey data, gives the functional and dysfunctional question pair to ask for each feature, and plausibly classes password reset as must-be."}
+  - name: negative-no-invented-precision
+    vars:
+      model: rice
+      goals: "Reduce churn."
+      features: "Better notifications. Faster search. New onboarding video."
+    assert:
+      - {type: llm-rubric, value: "Does not present reach or effort numbers as known; any estimates carry ranges and are marked assumed, confidence is scored low, and the output recommends which estimates to validate before trusting the order."}

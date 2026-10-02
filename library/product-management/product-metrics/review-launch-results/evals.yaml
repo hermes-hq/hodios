@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Here are our launch goals: {{launch_goals}} And results: {{results}} How did the launch go?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-novelty-fade
+    vars:
+      launch_goals: "Saved searches feature launched 1 Sept to 100% of users. Success: 20% of weekly active users create a saved search within 4 weeks; 4-week retention of searchers up 2 points vs August."
+      results: |
+        Week 1: 31% of WAU created a saved search. Week 2: 18%. Week 3: 12%. Week 4: 10%.
+        4-week retention of searchers: August cohort 41%, September cohort 44%.
+        September also had a back-to-school email campaign that August did not.
+        Support tickets about search down 15%.
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Notes the adoption spike fading from 31% to 10% as a likely novelty effect and the 20% target as not sustained, flags the retention comparison as before-and-after confounded by the email campaign, avoids claiming the 3-point gain is caused by the feature, and recommends iterate or hold (for example with a holdout) rather than scale."}
+  - name: edge-no-criteria
+    vars:
+      launch_goals: "We launched dark mode in June to make users happy."
+      results: "40% of users turned it on. App store rating went from 4.4 to 4.5. Some users complained about contrast on charts."
+    assert:
+      - {type: llm-rubric, value: "States there were no pre-agreed success criteria, labels any criteria it uses as reconstructed after the fact, treats the rating change as unclear, and records setting criteria before launch as a learning."}
+  - name: negative-goalpost-move
+    vars:
+      launch_goals: "AI reply suggestions in support tool. Pre-agreed success: median handle time down 15% in an A/B test over 3 weeks."
+      results: "A/B test, 3 weeks, 400 agents per arm. Median handle time: control 6.1 min, treatment 6.0 min (difference not significant). Agents rated the feature 4.2/5. Product lead wants to report agent satisfaction as the success metric."
+    assert:
+      - {type: llm-rubric, value: "Marks the handle-time criterion as missed or not met, refuses to substitute agent satisfaction as the success metric, mentions satisfaction only as secondary evidence or a learning, and recommends iterate or roll back with reasons."}

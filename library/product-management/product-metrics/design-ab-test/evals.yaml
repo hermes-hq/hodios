@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Design an A/B test for this change: {{change}} Metric: {{primary_metric}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-test
+    vars:
+      change: "Replace the 3-step checkout with a single-page checkout on web. Session recordings show people abandon at the shipping step."
+      primary_metric: "Checkout completion per visitor who starts checkout"
+      baseline_rate: "5.0%"
+      traffic_per_day: 10000
+    assert:
+      - {type: contains, value: "## Stop rules"}
+      - {type: llm-rubric, value: "Writes a hypothesis in the template, picks the user as randomisation unit, sets an explicit MDE (for example a 10% relative lift to 5.5%), shows the two-proportion formula with 1.96 and 0.84 and a sample size of roughly 30,000 per arm for that MDE, converts it to days and rounds up to at least one full week, includes guardrails such as revenue per visitor or refunds, and forbids stopping early on a good day."}
+  - name: edge-missing-baseline
+    vars:
+      change: "New onboarding email sequence for trial users."
+      primary_metric: "Trial-to-paid conversion within 30 days"
+      baseline_rate: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the baseline trial-to-paid rate and the daily trial volume (and says where to find them) instead of assuming one, gives the formula ready to fill in, and notes the 30-day measurement window affects total test duration."}
+  - name: negative-wrong-unit
+    vars:
+      change: "Show a shared team activity feed in our collaboration app to half of users."
+      primary_metric: "Messages sent per user per week"
+      baseline_rate: "Mean 24 messages, standard deviation 30"
+      traffic_per_day: 3000
+    assert:
+      - {type: llm-rubric, value: "Flags that randomising individual users in a shared team feature causes interference between arms and recommends randomising by team or workspace (cluster), noting the effect on sample size."}
