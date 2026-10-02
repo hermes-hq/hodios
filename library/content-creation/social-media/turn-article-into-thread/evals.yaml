@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Turn this article into a {{platform}} thread: {{article}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-x-thread
+    vars:
+      platform: x-twitter
+      max_posts: 7
+      article: |
+        https://example.com/onboarding-lessons
+        We rebuilt our onboarding three times in a year. Version one was a 9-step product tour; 22% of new users finished it. Version two was a checklist; completion rose to 41%, but activation (sending a first invoice) did not move. Version three dropped the tour entirely and opened new users straight into a pre-filled sample invoice they could edit and send to themselves. Activation went from 18% to 33% in six weeks.
+        Lessons: completion of onboarding is a vanity metric; measure the first valuable action. Pre-filled examples beat empty states. Every step you remove matters more than every tooltip you add. And talk to users who dropped off: ours told us the tour felt like homework.
+    assert:
+      - {type: regex, value: "\\[\\d+/280\\]"}
+      - {type: llm-rubric, value: "Hook post stands alone with a specific claim or result and no link; each later post carries one idea using the article's real numbers (22%, 41%, 18% to 33%); no invented statistics; the article link appears only in the final post; every post is within 280 characters; at most 7 posts."}
+  - name: edge-thin-article
+    vars:
+      platform: threads
+      max_posts: 10
+      article: "Quick note: we're closed on Monday for the bank holiday. Orders placed over the weekend ship Tuesday."
+    assert:
+      - {type: llm-rubric, value: "Recognises the text is too thin for a thread and writes a single post (or says so) rather than padding to many posts."}
+  - name: negative-no-overclaiming
+    vars:
+      platform: bluesky
+      max_posts: 6
+      article: "Our small pilot (12 teachers, one term) suggests that weekly low-stakes quizzes may improve retention, though results were mixed and we need a larger study before recommending it."
+    assert:
+      - {type: llm-rubric, value: "Preserves the article's tentative stance (small pilot, mixed results, needs a larger study) and does not turn it into a definitive claim; posts fit within 300 characters."}

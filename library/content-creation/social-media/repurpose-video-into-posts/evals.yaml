@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Turn this transcript into social posts for {{platforms}}: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-podcast-transcript
+    vars:
+      platforms: linkedin, x-twitter
+      transcript: |
+        [00:00] HOST: Welcome back. Today I'm with Dana, who runs operations at a 40-person logistics startup.
+        [02:10] DANA: The best decision we made was banning meetings on Wednesdays. Not because meetings are bad, but because nobody could finish anything.
+        [02:45] DANA: Within two months, our on-time delivery of internal projects went from about half to most of them.
+        [05:30] HOST: So, yeah, as I was saying earlier about the hiring thing...
+        [09:15] DANA: Here's the mistake I see everywhere: people hire a head of ops to fix chaos. Ops can't fix chaos that leadership creates. You have to decide what matters first.
+        [10:40] DANA: My test is simple. If two teams think a different thing is the priority, that's a leadership problem, not an ops problem.
+        [15:00] HOST: Thanks for coming on.
+    assert:
+      - {type: contains, value: "## Clip picks"}
+      - {type: llm-rubric, value: "Picks clips such as the no-meeting Wednesday story (02:10) and the 'ops can't fix chaos leadership creates' take (09:15) with timestamps and verbatim opening/closing lines; avoids starting a clip at 05:30 'as I was saying'; writes a LinkedIn text post and an X post under 280 characters per clip only; does not invent precise percentages beyond 'about half to most'."}
+  - name: edge-no-timestamps
+    vars:
+      platforms: instagram
+      transcript: "Okay so the thing about sourdough is your starter is a pet. Feed it on a schedule. The biggest mistake is using it before it doubles. I learned that after twelve flat loaves. Now I mark the jar with a rubber band and wait until it doubles. That's it, that's the whole secret."
+    assert:
+      - {type: llm-rubric, value: "Notes that there are no timestamps and uses verbatim first and last words as clip anchors; writes Instagram captions only, with 3-5 specific hashtags."}
+  - name: negative-only-requested-platforms
+    vars:
+      platforms: tiktok
+      transcript: "[00:00] I paid off 30k of debt in two years. [00:20] The method that worked was the snowball, smallest balance first, because the wins kept me going. [01:05] The one thing I'd change: I'd have built a small emergency fund first, because one car repair put me back three months."
+    assert:
+      - {type: llm-rubric, value: "Writes posts for TikTok only (no LinkedIn or X), keeps the speaker's words verbatim in quotes, and does not add new financial claims or numbers."}
