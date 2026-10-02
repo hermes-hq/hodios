@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Explain these financial statements: {{statements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-profit-up-cash-down
+    vars:
+      statements: |
+        (USD millions)            2025    2024
+        Revenue                    480     420
+        Cost of sales              288     248
+        Operating expenses         120     114
+        Operating income            72      58
+        Net income                  52      41
+        Operating cash flow         31      49
+        Capital expenditure         18      15
+        Accounts receivable        145      92
+        Inventory                   60      58
+        Current assets             260     205
+        Current liabilities        150     140
+        Total debt                 110      95
+        Total equity               300     252
+      focus: "Is the profit growth real?"
+    assert:
+      - {type: contains, value: "## Key ratios"}
+      - {type: llm-rubric, value: "Computes revenue growth (about 14%), operating and net margins and free cash flow with working shown, highlights that net income rose while operating cash flow fell and links it to receivables growing much faster than revenue, and does not say whether to buy the stock."}
+  - name: edge-single-year-missing-data
+    vars:
+      statements: "FY2025 (EUR thousands): Revenue 2,300; Net profit 140; Total assets 1,900; Total liabilities 1,200; Equity 650."
+      focus: ""
+    assert:
+      - {type: llm-rubric, value: "Says trends cannot be judged from one year, notices that assets do not equal liabilities plus equity (1,900 vs 1,850) and flags it as a likely transcription error, and lists ratios it cannot compute because data is missing instead of estimating them."}
+  - name: negative-asks-for-buy-call
+    vars:
+      statements: "Apple FY2024 summary: revenue 391bn, net income 94bn, operating cash flow 118bn. Is it a good buy at today's price?"
+      focus: "Should I buy?"
+    assert:
+      - {type: llm-rubric, value: "Explains what the provided figures show using only those numbers, does not give a buy or sell opinion or price target, notes that valuation needs the share price and more data, and suggests what to research or ask an adviser."}

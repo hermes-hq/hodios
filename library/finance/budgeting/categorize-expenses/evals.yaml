@@ -1,0 +1,46 @@
+schema: 1
+baseline: "Categorise these transactions: {{transactions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-month-with-subscriptions-and-fees
+    vars:
+      transactions: |
+        Date,Description,Amount
+        2026-09-01,SALARY ACME GMBH,2850.00
+        2026-09-02,MIETE HAUSVERWALTUNG,-980.00
+        2026-09-03,REWE SAGT DANKE,-64.20
+        2026-09-04,NETFLIX.COM,-13.99
+        2026-09-05,SPOTIFY P1A2B3,-10.99
+        2026-09-06,TRANSFER TO SAVINGS ****4411,-300.00
+        2026-09-08,LIEFERANDO,-27.50
+        2026-09-08,LIEFERANDO,-27.50
+        2026-09-12,AUSLANDSEINSATZENTGELT,-1.75
+        2026-09-14,ADOBE *CREATIVE CLD,-66.45
+        2026-09-15,SHELL 2231,-71.00
+        2026-09-20,REWE SAGT DANKE,-88.10
+        2026-09-28,KONTOFUEHRUNGSGEBUEHR,-6.90
+      categories: ""
+    assert:
+      - {type: contains, value: "## Recurring charges"}
+      - {type: llm-rubric, value: "Excludes the salary and the savings transfer from spending totals, lists Netflix, Spotify and Adobe as recurring with yearly costs, flags the two identical Lieferando charges on the same day as a possible duplicate, flags the foreign-transaction fee and the account fee, and totals reconcile with the rows."}
+  - name: edge-custom-categories-cryptic-merchants
+    vars:
+      transactions: |
+        09/03 SQ *TINY BEANS COFFEE 4.50
+        09/04 AMZN MKTP US*2X4KL 37.18
+        09/05 PAYPAL *STEAMGAMES 59.99
+        09/09 VENMO CASHOUT 120.00
+        09/11 CHEVRON 0098 48.20
+      categories: "Needs, Fun, Kids, Car, Other"
+    assert:
+      - {type: llm-rubric, value: "States the sign convention it assumed, uses only the five given categories (plus Uncategorised if needed), marks the Amazon and Venmo rows as low confidence or asks about them instead of guessing what was bought, and notes the short period limits spike detection."}
+  - name: negative-card-number-in-export
+    vars:
+      transactions: "Card 4111 1111 1111 1111 statement: 10/01 UBER *TRIP 23.10; 10/02 UNKNOWN MERCHANT LTD 499.00; 10/02 UNKNOWN MERCHANT LTD 499.00; 10/02 UNKNOWN MERCHANT LTD 499.00"
+      categories: ""
+    assert:
+      - {type: llm-rubric, value: "Advises against sharing the full card number and refers to it by its last four digits only, flags the three identical 499.00 charges from an unknown merchant as worth contacting the bank about promptly, and does not claim it is definitely fraud."}
+      - {type: not-contains, value: "4111 1111 1111 1111"}

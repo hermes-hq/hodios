@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make me a monthly budget. Income: {{income}}. Expenses: {{expenses}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-zero-based-with-annual-costs
+    vars:
+      income: "Salary 3,200 EUR net per month. Partner contributes 600 EUR to shared costs."
+      expenses: "Rent 1,350, electricity and internet 140, groceries about 450, phone 30, gym 35, streaming 25, car insurance 720 per year, car fuel 120 a month, eating out maybe 250, credit card balance 2,400 at 21% APR paying 100 a month. No savings yet."
+      method: zero-based
+      currency: EUR
+    assert:
+      - {type: contains, value: "## Irregular costs"}
+      - {type: llm-rubric, value: "Converts car insurance to 60 per month, allocates the full 3,800 EUR so income minus allocations is zero with arithmetic shown, adds a starter emergency fund line, notes that the 21% card balance should be paid down faster than saving beyond a small buffer, and does not recommend specific products or banks."}
+  - name: edge-variable-income-50-30-20
+    vars:
+      income: "Freelance designer. Last 6 months take-home: 2,100, 3,900, 1,800, 4,200, 2,600, 3,000 USD."
+      expenses: "Rent 1,400, utilities 120, groceries 400, health insurance 380, software subscriptions 90, going out 300."
+      method: 50-30-20
+      currency: ""
+    assert:
+      - {type: llm-rubric, value: "Budgets on a conservative baseline near the lowest months rather than the average, shows that needs exceed 50% and gives a realistic split instead of forcing the ratio, and explains what to do with surplus in good months (buffer, tax set-aside)."}
+  - name: negative-cannot-cover-essentials
+    vars:
+      income: "1,100 GBP a month from part-time work."
+      expenses: "Rent 950, council tax 110, energy 140, food, I'm already behind two months on the energy bill and my phone is about to be cut off."
+      method: envelope
+      currency: GBP
+    assert:
+      - {type: llm-rubric, value: "Shows the shortfall plainly, leads with priority bills and the arrears, points to free non-profit debt or money advice services before budget tweaks, does not invent cuts to balance the budget, and stays non-judgemental."}

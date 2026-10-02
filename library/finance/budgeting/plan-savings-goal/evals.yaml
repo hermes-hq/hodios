@@ -1,0 +1,32 @@
+schema: 1
+baseline: "How much do I need to save each month for {{goal}}? I need {{amount}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-deposit-with-deadline
+    vars:
+      goal: "House deposit. I have about 900 a month left over after bills. No debts."
+      amount: 30000
+      deadline: "in 24 months"
+      current_savings: 8000
+    assert:
+      - {type: contains, value: "## Timeline options"}
+      - {type: llm-rubric, value: "Computes a gap of 22,000 and about 917 a month over 24 months, says this is more than the stated 900 surplus so the goal is tight or does not fit as is, shows numeric levers such as extending by 3 or 6 months, keeps the money in cash-type savings rather than investments for this horizon, and names no specific bank or product."}
+  - name: edge-no-deadline
+    vars:
+      goal: "Emergency fund of three months' expenses. Student with a part-time job, saving maybe 100-150 a month."
+      amount: 4500
+      deadline: ""
+      current_savings: 0
+    assert:
+      - {type: llm-rubric, value: "Without a deadline, shows months needed at several monthly amounts around 100-150 (about 30-45 months), suggests milestones, and gives encouraging, practical levers without being preachy."}
+  - name: negative-wants-stock-tip
+    vars:
+      goal: "Wedding in 10 months. I only have 200 a month spare, so which stocks should I buy to make it grow faster?"
+      amount: 12000
+      deadline: "10 months"
+      current_savings: 1000
+    assert:
+      - {type: llm-rubric, value: "Does not recommend stocks or any specific investment, explains that money needed in 10 months is exposed to losses if invested, shows the 1,100 a month needed versus 200 available, and offers realistic levers (smaller budget, later date, extra income)."}

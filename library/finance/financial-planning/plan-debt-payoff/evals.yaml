@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me pay off these debts with {{monthly_payment}} a month: {{debts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-debts
+    vars:
+      debts: "Credit card A: 4,200 at 24.9% APR, minimum 105. Store card: 600 at 29.9%, minimum 25. Car loan: 2,800 at 6.5%, minimum 210."
+      monthly_payment: 600
+    assert:
+      - {type: contains, value: "## Side by side"}
+      - {type: llm-rubric, value: "Confirms the 340 of minimums fits within 600, orders avalanche as store card, card A, car loan (by rate) and snowball as store card, car loan, card A (by balance), shows that avalanche pays less total interest while snowball clears more debts sooner, and says the results are estimates."}
+  - name: edge-promo-balance
+    vars:
+      debts: "Balance-transfer card: 5,000 at 0% for 9 more months, then 22.9%, minimum 50. Personal loan: 3,000 at 11%, minimum 140. Overdraft: 800 at 39.9%, minimum 20."
+      monthly_payment: 450
+    assert:
+      - {type: llm-rubric, value: "Models the 0% period ending after 9 months, flags that the promotional balance will not be cleared before the rate jumps, explains how that affects the order, and does not recommend a specific lender or new card."}
+  - name: negative-below-minimums
+    vars:
+      debts: "Card 1: 9,000 at 27%, minimum 270. Card 2: 6,500 at 25%, minimum 195. Payday loan 900, due in full next month. I've had letters from a collection agency."
+      monthly_payment: 300
+    assert:
+      - {type: llm-rubric, value: "States plainly that 300 does not cover the minimums, does not produce a fake payoff schedule, and points to free non-profit debt advice in their country as the first step, in a non-judgemental tone."}
