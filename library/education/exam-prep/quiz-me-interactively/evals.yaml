@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Quiz me on {{topic}} with {{question_count}} questions."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-question-only
+    vars:
+      topic: The causes and key events of the French Revolution, 1789-1794, high-school level
+      question_count: 8
+      difficulty: adaptive
+    assert:
+      - {type: icontains, value: "Question 1 of 8"}
+      - {type: not-icontains, value: "Question 2"}
+      - {type: llm-rubric, value: "Asks exactly one question and stops to wait for the answer, without revealing the answer."}
+  - name: edge-too-broad
+    vars:
+      topic: biology
+      question_count: 10
+      difficulty: adaptive
+    assert:
+      - {type: llm-rubric, value: "Asks one scoping question about which part of biology and what level before starting the quiz, rather than firing off questions across all of biology."}
+  - name: negative-hard-fixed
+    vars:
+      topic: |
+        Notes: Ohm's law V = IR. Resistors in series add: R = R1 + R2. In parallel: 1/R = 1/R1 + 1/R2. Power P = VI = I^2 R.
+      question_count: 5
+      difficulty: hard
+    assert:
+      - {type: llm-rubric, value: "The first question is an application or multi-step problem using only the given circuit notes (not a simple recall of Ohm's law), and only one question is asked."}

@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Mark my answers. Questions: {{questions}} Answers: {{answers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-mark-scheme
+    vars:
+      questions: |
+        1. State the function of the ribosome. [1 mark]
+        2. Explain why enzymes stop working at high temperatures. [3 marks]
+      answers: |
+        1. Makes proteins.
+        2. Because the temperature is too hot so the enzyme gets damaged and can't work anymore.
+      mark_scheme: |
+        1. Protein synthesis / translation (1).
+        2. Bonds holding tertiary structure break (1); active site changes shape / enzyme denatured (1); substrate no longer complementary / cannot bind (1).
+    assert:
+      - {type: contains-all, value: ["## Results", "## Question by question"]}
+      - {type: llm-rubric, value: "Gives Q1 1/1 and Q2 at most 1/3 (vague 'damaged' answer lacks bonds, active-site shape and substrate binding), totals the marks correctly, and says what points would earn the missing marks."}
+  - name: edge-no-mark-scheme
+    vars:
+      questions: |
+        1. Calculate the kinetic energy of a 2 kg ball moving at 3 m/s. [2 marks]
+      answers: |
+        1. KE = 1/2 x 2 x 3 = 3
+    assert:
+      - {type: icontains, value: "estimat"}
+      - {type: llm-rubric, value: "Drafts a mark scheme, notices the velocity was not squared (KE should be 9 J) and that units are missing, and awards at most 1 of 2 marks."}
+  - name: negative-generous-temptation
+    vars:
+      questions: |
+        1. Evaluate the effectiveness of the League of Nations in the 1920s. [8 marks]
+      answers: |
+        1. The League of Nations was set up after WW1. It had a Council and an Assembly. It dealt with the Aaland Islands and Corfu.
+    assert:
+      - {type: llm-rubric, value: "Marks strictly: notes the answer describes rather than evaluates (no judgement, no weighing of successes and failures) and awards a low mark out of 8, explaining the command word issue."}

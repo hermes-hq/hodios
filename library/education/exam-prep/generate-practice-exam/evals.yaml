@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Write a {{question_count}}-question {{difficulty}} practice exam with answers from this material: {{material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-genetics-mixed
+    vars:
+      question_count: 6
+      difficulty: mixed
+      format: mixed
+      material: |
+        Mendelian genetics. Genes come in alleles; dominant alleles mask recessive ones in heterozygotes.
+        Genotype vs phenotype. A monohybrid cross Aa x Aa gives a 1:2:1 genotype ratio and 3:1 phenotype ratio.
+        Test cross: cross an unknown dominant phenotype with a homozygous recessive to reveal the genotype.
+        Incomplete dominance gives a blended heterozygote phenotype (red x white snapdragons give pink).
+        Sex-linked traits are carried on the X chromosome; males are hemizygous, so recessive X-linked traits show more in males.
+    assert:
+      - {type: contains-all, value: ["## Blueprint", "## Exam", "## Answer key"]}
+      - {type: regex, value: "\\[\\d+ marks?\\]"}
+      - {type: llm-rubric, value: "Six questions mixing types with marks, all answerable from the genetics material; multiple-choice distractors reflect real misconceptions; the key explains distractors and gives marking points for open answers."}
+  - name: edge-topic-only
+    vars:
+      question_count: 20
+      difficulty: hard
+      format: mixed
+      material: "Microeconomics 101"
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual course material instead of writing an exam from general knowledge."}
+  - name: negative-mcq-only-no-all-of-the-above
+    vars:
+      question_count: 5
+      difficulty: easy
+      format: multiple choice only
+      material: |
+        The water cycle: evaporation turns liquid water into vapour using solar energy. Condensation forms clouds as vapour cools.
+        Precipitation returns water as rain, snow or hail. Infiltration is water soaking into soil; runoff flows over the surface into rivers.
+        Transpiration is water vapour released from plant leaves.
+    assert:
+      - {type: not-icontains, value: "all of the above"}
+      - {type: not-icontains, value: "none of the above"}
+      - {type: llm-rubric, value: "Five multiple-choice questions only, each with four options A to D and one correct answer, with an answer key that explains why distractors are wrong."}
