@@ -1,0 +1,81 @@
+---
+schema: 1
+id: define-design-tokens
+kind: prompt
+title: Define a design token architecture
+description: Designs a three-tier design token architecture (primitive, semantic, component) with naming conventions, theming rules and a sample token file. Use when starting or restructuring a design system.
+category: design-systems
+version: 1.0.0
+status: incubating
+stage: [design, plan]
+role: [designer, frontend-engineer]
+requires: [none]
+inputs: [text, config]
+output: [docs, config, table]
+risk: read-only
+invocation: user
+effort: deep
+interaction: one-shot
+model_tier: frontier
+reasoning: recommended
+level: expert
+tags: [design-tokens, theming, dark-mode, token-naming]
+pairs_with:
+  prompts: [write-component-spec, create-color-palette, audit-design-consistency]
+  personas: [product-designer]
+args:
+  - name: brand_inputs
+    description: Brand colours, typefaces, spacing or radius preferences, existing styles or tokens, and the products the system serves.
+    type: text
+    required: true
+  - name: platforms
+    description: Where the tokens ship, e.g. "web (CSS variables), iOS, Android, Figma". Optional.
+    type: string
+  - name: themes
+    description: Themes or modes to support, comma-separated.
+    type: string
+    default: light, dark
+output_contract:
+  format: markdown
+  sections: [Principles, Naming, Primitive tokens, Semantic tokens, Component tokens, Token file sample, Theming rules, Platform delivery, Governance, Open questions]
+authorship: ai-assisted
+authors: [gabrielanhaia]
+last_reviewed: 2026-10-02
+changelog:
+  - {version: 1.0.0, note: "First version."}
+---
+<context>
+Token systems break in familiar ways: components reference raw values like `blue-500` directly, so a dark theme means editing every component; names describe the value (`color-light-grey`) instead of the role, so they lie the moment the value changes; and hundreds of one-off component tokens appear that nobody can maintain. A sound architecture separates what a value is (primitive) from what it is for (semantic), adds component tokens only where a component genuinely needs its own knob, and makes theming a matter of remapping the semantic layer.
+</context>
+
+<task>
+Design the token architecture.
+
+<brand_inputs>
+{{brand_inputs}}
+</brand_inputs>
+
+Platforms: {{platforms}} (if empty, assume web plus a design tool, and say so). Themes: {{themes}}.
+
+1. **Principles:** 3 to 5 rules for the system, including "components never reference primitives".
+2. **Naming:** define the grammar, for example `{category}.{concept}.{variant}.{state}` for semantic tokens (`color.text.secondary`, `color.bg.danger.hover`) and `{category}.{hue or scale}.{step}` for primitives (`color.blue.600`, `space.4`). Give the allowed words for each segment, the casing, and how the names map to each platform (CSS custom properties, Swift, Kotlin or XML).
+3. **Primitive tokens:** colour ramps derived from the brand inputs (10 to 12 steps per hue, built in a perceptual space such as OKLCH so steps look even), neutrals, spacing scale (a 4 px base is common), radii, border widths, type families, sizes, weights and line heights, shadows or elevation, and motion durations and easings. Give values.
+4. **Semantic tokens:** the role layer, grouped by category: backgrounds and surfaces, text, borders, interactive (default, hover, pressed, focus, disabled), status (success, warning, danger, info), and elevation. Show the value for each theme as a reference to a primitive.
+5. **Component tokens:** only where a component needs to diverge from the semantic layer or be tuned independently (for example `button.primary.bg`), with the rule for when one may be added.
+6. **Token file sample:** a JSON excerpt in the W3C Design Tokens Community Group format (`$value`, `$type`, aliases as `{color.blue.600}`), covering one primitive group, a few semantic tokens with per-theme values, and one component token. Show how themes are expressed (separate files or sets per theme).
+7. **Theming rules:** how each theme in {{themes}} remaps the semantic layer; for dark themes, use lighter surfaces for higher elevation instead of shadows, avoid pure black and pure white body text, and re-check contrast. State that every text-on-background semantic pair must meet 4.5:1 (3:1 for large text and UI) in every theme, and list the pairs to verify.
+8. **Platform delivery:** how the source becomes platform outputs with a token build tool, and which tokens each platform needs.
+9. **Governance:** how tokens are proposed, deprecated (alias to the successor before removal) and versioned.
+10. If brand inputs are too thin to derive colours (no colour at all), ask for them, or propose placeholder hues clearly marked "placeholder".
+</task>
+
+<constraints>
+- Do not claim contrast ratios you have not computed. Mark pairs "to verify" unless you show the calculation.
+- Keep the semantic layer small enough to learn: aim for tens of semantic colour tokens, not hundreds.
+- Names describe purpose, never appearance, at the semantic and component tiers.
+{{> output/uncertainty}}
+</constraints>
+
+<output_format>
+Markdown with the contract's sections in order. Use tables for the primitive, semantic (one column per theme) and component tiers, and a fenced `json` block for the token file sample.
+</output_format>

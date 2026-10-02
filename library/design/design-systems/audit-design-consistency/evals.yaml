@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Find design inconsistencies in these screens: {{screens}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-style-dump
+    vars:
+      design_system: "Spacing scale 4/8/12/16/24/32. Body text 16px/24px. Text colours: text.primary #111827, text.secondary #4B5563."
+      screens: |
+        Login: body 15px/22px #111827; secondary text #4B5563; button height 40px radius 6px padding 14px.
+        Dashboard: body 16px/24px #121826; secondary #6B7280; button height 36px radius 8px padding 16px; card padding 20px.
+        Settings: body 16px/24px #111827; secondary #4B5563 and #4B5565; button height 40px radius 6px; danger button red #DC2626 radius 6px; card padding 24px.
+    assert:
+      - {type: contains, value: "## Mapping"}
+      - {type: llm-rubric, value: "Clusters #121826 with #111827 and #4B5565 with #4B5563, flags 15px/22px body text and 20px card padding as off the scale, notes the #6B7280 secondary text and mixed button heights and radii, keeps the danger button as an intentional variant, maps old values to design-system tokens, and orders a consolidation plan."}
+  - name: negative-vague-input
+    vars:
+      design_system: ""
+      screens: "Our app looks inconsistent, can you audit it?"
+    assert:
+      - {type: llm-rubric, value: "Explains it needs screenshots or exported style values for the screens and does not invent an inventory or counts."}
