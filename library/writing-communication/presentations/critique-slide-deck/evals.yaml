@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Give feedback on this slide deck: {{deck}} {{audience}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-topic-label-deck
+    vars:
+      audience: leadership, presented live, 15 minutes
+      deck: |
+        1. "Q3 Customer Support Review" (title)
+        2. "Background" - 9 bullets about team history, tools, headcount since 2021
+        3. "Metrics" - table with 14 columns of weekly ticket data; caption: "see above"
+        4. "CSAT" - 3D pie chart of satisfaction categories, 7 slices in similar blues
+        5. "Response times" - line chart; first response time rose from 2h to 9h after the August hiring freeze
+        6. "Next steps" - "Discuss"
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Slide-by-slide", "## Top changes"]}
+      - {type: llm-rubric, value: "Identifies that titles are topic labels and the storyline has no clear message or ask; proposes assertion titles grounded in the deck (for example that first response time rose from 2 to 9 hours after the August hiring freeze); flags the dense background and 14-column table and the 3D pie; notes the 'Discuss' slide lacks an ask; ranks issues by severity; invents no data."}
+  - name: edge-preread-mode
+    vars:
+      audience: investors, sent as a pre-read, not presented
+      deck: |
+        1. "We cut onboarding time from 14 days to 3 for mid-size banks"
+        2. "Banks lose $40k per delayed onboarding (source: customer interviews, n=12)" - 3 short bullets
+        3. "Our pilot with 4 banks: 3-day median onboarding" - bar chart, before vs after, our bars highlighted
+        4. "We are raising $3M to reach 40 banks by end of 2027"
+    assert:
+      - {type: llm-rubric, value: "Recognises the deck already uses assertion titles and a clear storyline, judges density against pre-read standards rather than live-talk standards, gives few and specific suggestions (for example noting the small interview sample), and verdict is ready or ready after small fixes; does not pad with generic advice."}
+  - name: negative-topic-only
+    vars:
+      deck: "My sales deck"
+    assert:
+      - {type: llm-rubric, value: "Asks for the slide content rather than giving generic deck advice or inventing slides."}

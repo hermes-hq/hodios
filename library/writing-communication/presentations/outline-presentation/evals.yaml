@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Outline a {{minutes}}-minute presentation for {{audience}} on {{topic}}. Goal: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recommendation-to-execs
+    vars:
+      minutes: 10
+      audience: executive team, time-pressed, care about revenue
+      goal: approve a 3-month pilot of annual billing
+      topic: |
+        Monthly plan churn is 6.1% vs 2.3% on our few legacy annual contracts.
+        Competitors A and B both offer annual billing at ~15% discount.
+        Finance model: if 25% of monthly customers switch to annual at 15% off, net revenue retention improves ~4 points in year one.
+        Risk: upfront cash discount reduces short-term MRR; billing system needs 3 weeks of engineering.
+    assert:
+      - {type: contains-all, value: ["## Big idea", "## Title read-through", "Total:"]}
+      - {type: llm-rubric, value: "Chooses the pyramid (answer first) for executives, slide titles are full-sentence assertions rather than topic labels, around 5 to 8 content slides fitting 10 minutes, uses the given figures without inventing new ones, addresses the MRR and engineering risk, and closes on the approval request for the pilot."}
+  - name: edge-no-goal
+    vars:
+      audience: new hires in their first week, mixed roles
+      minutes: 20
+      topic: "How our incident process works: anyone can declare an incident in #incidents, severity 1-3, an incident commander is assigned, we write blameless postmortems within 5 working days."
+    assert:
+      - {type: llm-rubric, value: "States an inferred goal (for example: new hires know how and when to declare an incident), likely uses SCQA or a narrative suited to people new to the problem, titles are assertions, timing adds up to about 20 minutes, and uses placeholders for examples or data it does not have."}
+  - name: negative-topic-only
+    vars:
+      audience: conference attendees
+      topic: "Kubernetes"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a full talk with made-up findings; asks for the key material, angle or findings needed to build the argument."}

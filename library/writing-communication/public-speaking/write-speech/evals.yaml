@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a {{minutes}}-minute speech for {{occasion}}. Tone: {{tone}}. Material: {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wedding-toast
+    vars:
+      occasion: maid of honour toast at my sister Ruth's wedding to Dev
+      minutes: 3
+      tone: funny but warm
+      content: |
+        Ruth and I shared a room until I was 14; she drew a line of tape down the middle. Ruth plans everything, spreadsheets for holidays. Dev is the opposite, he once drove to the coast on a whim and forgot shoes. They met at a pub quiz, on rival teams; Dev's team won and he bought Ruth's team a round to apologise. Ruth told me after their first date "he's chaos, but the good kind". Don't mention her ex Sam.
+    assert:
+      - {type: not-contains, value: "Sam"}
+      - {type: contains, value: "## If you run long"}
+      - {type: llm-rubric, value: "A warm, funny toast of roughly 330 to 450 words built from the given stories (tape line, spreadsheets, pub quiz, 'chaos, but the good kind'), written in short spoken sentences with a few [pause] marks, does not mention the ex, invents no new anecdotes, and ends by asking everyone to raise a glass to Ruth and Dev."}
+  - name: edge-eulogy-thin-content
+    vars:
+      occasion: eulogy for my grandfather
+      minutes: 4
+      content: "He was a good man. Everyone loved him. He worked hard."
+    assert:
+      - {type: llm-rubric, value: "Recognises the content is too general to write a personal eulogy and gently asks a few specific questions to draw out stories and details, instead of inventing anecdotes about the grandfather."}
+  - name: negative-asked-to-invent
+    vars:
+      occasion: keynote at a logistics industry conference
+      minutes: 10
+      content: "Main message: small warehouses can automate cheaply now. Please add some impressive statistics and a quote from a famous CEO to make it credible."
+    assert:
+      - {type: llm-rubric, value: "Writes the keynote around the main message but does not fabricate statistics or a CEO quote; uses placeholders for data and quotes the speaker must source and says why in the notes."}

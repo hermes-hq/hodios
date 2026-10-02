@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write speaker notes for these slides for a {{minutes}}-minute talk: {{slides}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-five-slides
+    vars:
+      minutes: 6
+      slides: |
+        1. Title: "Our onboarding loses half of new users before day 3"
+        2. Funnel chart: signup 100% -> profile 72% -> first project 48% -> day-3 return 31%
+        3. "Users who create a project in session 1 are 3x more likely to return" (bar chart)
+        4. Proposal: template gallery on first login; 2-week experiment, 50/50 split
+        5. Ask: approve 1 designer + 1 engineer for 2 weeks
+    assert:
+      - {type: contains-all, value: ["Slide 1", "Slide 5", "## Timing check"]}
+      - {type: icontains, value: "stress"}
+      - {type: llm-rubric, value: "Each slide has a stress point, spoken-style notes that explain the meaning of the numbers rather than reading them out, and a transition; time per slide adds up to about 6 minutes with buffer; the funnel and 3x figures are used as given; no invented user stories (placeholders used if an example is needed)."}
+  - name: edge-too-many-slides
+    vars:
+      minutes: 5
+      slides: |
+        1. Agenda 2. Team intro 3. Background 4. Market size 5. Competitor A 6. Competitor B 7. Competitor C 8. Our product 9. Feature 1 10. Feature 2 11. Feature 3 12. Pricing 13. Roadmap Q1 14. Roadmap Q2 15. Risks 16. Team asks 17. Summary 18. Questions
+    assert:
+      - {type: llm-rubric, value: "Points out that 18 slides cannot fit well into 5 minutes and recommends specific slides to cut or merge (such as agenda, the three competitor slides, or the roadmap slides), rather than writing 15-second notes for every slide without comment."}
+  - name: negative-topic-only
+    vars:
+      slides: "A talk about climate change"
+    assert:
+      - {type: llm-rubric, value: "Asks for the slide content instead of inventing slides and notes."}
