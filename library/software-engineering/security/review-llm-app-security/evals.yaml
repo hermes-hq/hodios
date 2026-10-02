@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this LLM app secure? {{architecture}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-agent
+    vars:
+      architecture: "Support assistant that reads a customer's incoming emails, searches our internal knowledge base and the customer's order history, and drafts replies. Replies are rendered as markdown in the agent dashboard. It can also call send_email automatically for low-risk categories."
+      prompts: "System prompt includes the internal refund policy and an API key for the order service so the model can pass it to tools."
+      tools: "search_kb(query); get_orders(customer_email) using a service account that can read all customers; send_email(to, subject, body) with no confirmation."
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Trust boundaries", "## Findings", "## Tests to add"]}
+      - {type: contains-all, value: ["LLM01", "LLM06"]}
+      - {type: llm-rubric, value: "Identifies indirect prompt injection via incoming emails, exfiltration through send_email to arbitrary recipients and markdown image rendering, get_orders taking an attacker-controllable email with an all-customers service account, and the API key in the system prompt (LLM07); fixes are enforced outside the model (per-customer scoping, recipient allowlists or confirmation, no secrets in prompts, image URL restrictions)."}
+  - name: edge-thin-description
+    vars:
+      architecture: "Chatbot on our website powered by an LLM."
+    assert:
+      - {type: llm-rubric, value: "Asks what data, tools and output sinks the chatbot has instead of listing every OWASP risk as a finding."}
+  - name: negative-no-prompt-only-fix
+    vars:
+      architecture: "RAG assistant over public documentation only, no tools, plain-text output, per-IP rate limits, no user data."
+    assert:
+      - {type: llm-rubric, value: "Does not invent high-severity data exfiltration findings for a tool-less public-docs assistant, and does not present prompt instructions as the primary control for any finding."}

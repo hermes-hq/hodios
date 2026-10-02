@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a {{tool}} load test for: {{system}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-peak
+    vars:
+      tool: k6
+      system: "Online shop API ahead of a sale. Question: can we handle 3x last year's peak with p95 under 800 ms on checkout? Flows: browse products, search, add to cart, checkout (calls a payment provider). JWT auth."
+      traffic_profile: "Last year's peak: 450 requests per second. Mix: browse 60%, search 25%, cart 10%, checkout 5%."
+    assert:
+      - {type: contains-all, value: ["## Workload model", "## Scenarios", "## Pass and fail criteria", "## Script"]}
+      - {type: icontains, value: "arrival-rate"}
+      - {type: llm-rubric, value: "Uses an open arrival-rate model at about 1350 requests per second with the given mix, sets p95 and error-rate thresholds in the k6 script, and stubs or sandboxes the payment provider."}
+  - name: edge-no-question
+    vars:
+      tool: locust
+      system: "Our REST API."
+    assert:
+      - {type: llm-rubric, value: "Asks what question the test must answer (and for traffic or endpoints) instead of writing a generic script."}
+  - name: negative-no-average-only
+    vars:
+      tool: gatling
+      system: "Internal reporting API; question: does the new caching layer keep p99 below 2 s at 50 requests per second?"
+    assert:
+      - {type: llm-rubric, value: "Uses percentile thresholds (p99) rather than average latency as the pass criterion and labels its traffic-mix assumptions."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I improve my Core Web Vitals? {{report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lazy-lcp-image
+    vars:
+      framework: "Next.js 15 app router, SSR"
+      report: |
+        PageSpeed Insights, mobile, product page
+        Field (CrUX p75): LCP 4.1 s (poor), INP 140 ms (good), CLS 0.21 (needs improvement)
+        Lab: LCP 5.3 s, TBT 180 ms, CLS 0.19
+        LCP element: img.hero (loading="lazy", 2400x1600 JPEG, 640 KB)
+        LCP breakdown: TTFB 600 ms, load delay 2100 ms, load duration 1300 ms, render delay 300 ms
+        Layout shifts: div.promo-banner inserted above content after hydration (0.17)
+    assert:
+      - {type: contains-all, value: ["## Status", "## Root causes", "## Fixes"]}
+      - {type: llm-rubric, value: "Identifies resource load delay as the largest LCP part caused by lazy-loading the hero image, recommends removing lazy loading and using priority or fetchpriority with the framework image component and smaller modern formats, reserves space for the promo banner to fix CLS, and does not prioritise INP since it passes."}
+  - name: edge-lab-only
+    vars:
+      report: "Lighthouse desktop: Performance 62. LCP 2.1 s, TBT 900 ms, CLS 0.02. Long tasks: main.js 650 ms evaluation, analytics.js 300 ms."
+    assert:
+      - {type: llm-rubric, value: "Notes that the data is lab-only, that INP is not measured and TBT is a proxy, treats INP conclusions as provisional and recommends collecting field data."}
+  - name: negative-all-passing
+    vars:
+      report: "CrUX p75: LCP 1.9 s, INP 120 ms, CLS 0.03. Lighthouse score 78 with 'Reduce unused JavaScript' warning."
+    assert:
+      - {type: llm-rubric, value: "Says all Core Web Vitals pass in the field and does not invent urgent fixes; any suggestions are clearly optional."}

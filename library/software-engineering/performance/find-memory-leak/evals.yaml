@@ -1,0 +1,38 @@
+schema: 1
+baseline: "My app has a memory leak: {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-listener-leak
+    vars:
+      runtime: "node 22"
+      symptoms: |
+        Express service; heap grows about 40 MB per hour under steady traffic and the pod is OOM-killed after about 10 hours.
+        Code in ws.js:
+          const bus = require('./bus'); // a module-level EventEmitter
+          app.get('/stream', (req, res) => {
+            const onMsg = (m) => res.write(JSON.stringify(m));
+            bus.on('message', onMsg);
+          });
+      heap_data: |
+        Snapshot comparison (after GC, 1 hour apart):
+        (closure) +41,200 objects, retained +38 MB
+        ServerResponse +10,300 objects
+        Retainers: EventEmitter._events.message (Array) in bus.js -> (closure onMsg) -> ServerResponse
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Retaining path", "## Fix", "## Regression check"]}
+      - {type: llm-rubric, value: "Identifies the listener added per request and never removed, writes the path from the module-level emitter through the closure to ServerResponse, and fixes it by removing the listener on response close, with a test that asserts listener count stays bounded."}
+  - name: edge-no-heap-data
+    vars:
+      runtime: "jvm 21"
+      symptoms: "Spring Boot service RSS climbs from 1.2 GB to 3 GB over two days, then the container is killed."
+    assert:
+      - {type: llm-rubric, value: "Does not name a definitive cause; distinguishes heap from off-heap growth, gives concrete capture steps for heap dumps and native memory tracking, and ranks hypotheses."}
+  - name: negative-cache-warmup
+    vars:
+      runtime: "go 1.23"
+      symptoms: "After deploy, memory rises from 200 MB to 900 MB over 30 minutes, then stays flat for days. We have an in-memory LRU with 1M entries."
+    assert:
+      - {type: llm-rubric, value: "Concludes this looks like bounded cache warm-up rather than a leak, and does not invent a leak fix."}

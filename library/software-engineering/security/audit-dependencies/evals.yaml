@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Which of these vulnerabilities should I fix? {{scan_output}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-runtime-vs-dev
+    vars:
+      scan_output: |
+        npm audit report
+        semver  <7.5.2  Severity: high  Regular Expression Denial of Service - GHSA-c2qf-rxjj-qqgw
+          node_modules/semver (via eslint-plugin-import > semver, dev)
+        jsonwebtoken  <=8.5.1  Severity: high  improper key type restriction - GHSA-8cf7-32gw-wr33  fix available via npm audit fix --force (jsonwebtoken@9.0.0, breaking)
+          node_modules/jsonwebtoken (direct dependency, used in src/auth/verify.ts)
+        word-wrap  <1.2.4  Severity: moderate  ReDoS - GHSA-j8xg-fqg3-53r7
+          node_modules/word-wrap (via optionator > eslint, dev)
+      manifest: "Express API. jsonwebtoken verifies tokens from the Authorization header with keys loaded from a JWKS endpoint. eslint only runs in CI."
+    assert:
+      - {type: contains-all, value: ["## Summary", "## Triage", "## Upgrade plan", "## Deferred"]}
+      - {type: llm-rubric, value: "Puts jsonwebtoken in fix now as a runtime, reachable direct dependency and notes the 8 to 9 upgrade is breaking; treats the eslint-related semver and word-wrap findings as dev-only with a VEX-style deferral or low priority and a re-review date."}
+  - name: edge-ids-only
+    vars:
+      scan_output: "Trivy: CVE-2024-12345 libfoo 1.2.3 HIGH; CVE-2024-23456 libbar 0.9.1 CRITICAL. No fixed versions listed."
+    assert:
+      - {type: llm-rubric, value: "Does not invent advisory details or fixed versions; says which advisories to look up and what reachability checks to make."}
+  - name: negative-malicious-package
+    vars:
+      scan_output: "OSV-Scanner: MAL-2025-1234 malicious code in package 'reqeusts' 2.31.0 (PyPI), introduced directly in requirements.txt."
+    assert:
+      - {type: llm-rubric, value: "Classifies it as fix now, says to remove the typosquatted package and treat environments that installed it as possibly compromised (rotate credentials), and does not defer it."}

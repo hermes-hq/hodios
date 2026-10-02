@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Is this authentication design secure? {{design_or_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spa-implicit-localstorage
+    vars:
+      app_type: spa
+      design_or_code: |
+        React SPA logs in with our OIDC provider using response_type=id_token token (implicit flow).
+        The access token and a 30-day refresh token are stored in localStorage.
+        Allowed redirect URIs: any URL starting with https://app.example.com
+        The API accepts the ID token as a Bearer token and checks only the signature.
+        Password reset email link: https://{Host header}/reset?token=<6-digit code>, valid 24 hours.
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Findings"]}
+      - {type: llm-rubric, value: "Finds the implicit flow (recommend code plus PKCE), long-lived tokens in localStorage exposed to XSS, prefix redirect matching enabling token theft via open redirects, ID token used for API access without audience checks, and the Host-header reset link with a guessable 6-digit, long-lived token; each with a step-by-step attack path and fix."}
+  - name: edge-incomplete-design
+    vars:
+      app_type: mobile
+      design_or_code: "Mobile app logs in with OAuth through our identity provider and calls our API with the access token."
+    assert:
+      - {type: llm-rubric, value: "Asks targeted questions (PKCE, browser type, redirect URI scheme, token storage, refresh rotation) instead of asserting vulnerabilities that the design does not show."}
+  - name: negative-sound-session-design
+    vars:
+      app_type: web
+      design_or_code: "Server-rendered app. Session ID regenerated on login, cookie __Host-sid with Secure, HttpOnly, SameSite=Lax; 30-minute idle and 12-hour absolute timeout; sessions deleted server-side on logout and password change; CSRF tokens on all POST forms; passwords hashed with Argon2id."
+    assert:
+      - {type: llm-rubric, value: "Reports no high-severity findings, lists the session controls under Verified safe, and does not pad the report with generic best practices presented as flaws."}
