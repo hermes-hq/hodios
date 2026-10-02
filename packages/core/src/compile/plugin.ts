@@ -6,9 +6,9 @@ import type { AdapterContext, ResolvedEntry } from './types.js';
 export const MARKETPLACE_NAME = 'hodios';
 const REPO = 'https://github.com/hermes-hq/hodios';
 
-/** One plugin: a pack or a category (design §6.4: pack = plugin, never one plugin per prompt). */
+/** One plugin: a pack or a domain (design §6.4: pack = plugin, never one plugin per prompt). */
 export interface PluginGroup {
-  /** Plugin name without the prefix, e.g. `code-review` -> `hodios-code-review`. */
+  /** Plugin name without the prefix, e.g. `travel` -> `hodios-travel`. */
   name: string;
   description: string;
   category?: string;
@@ -68,8 +68,7 @@ export function claudeMarketplace(groups: readonly PluginGroup[]): string {
     name: MARKETPLACE_NAME,
     owner: { name: 'Hermes IDE', url: 'https://hermes-ide.com' },
     metadata: {
-      description:
-        'Hodios — prompts by Hermes IDE. Open prompts, personas and workflows, grouped by pack and category.',
+      description: 'Hodios — prompts by Hermes IDE. Open prompts, personas and workflows, grouped by pack and domain.',
     },
     plugins: [...groups]
       .sort((a, b) => a.name.localeCompare(b.name))

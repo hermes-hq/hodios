@@ -22,6 +22,9 @@ import { findRoot } from '../root.js';
 
 /** Marks a folder `hodios build` owns, so a rebuild may clear it. Any other non-empty folder is left alone. */
 const MARKER = '.hodios-build';
+/** hodios-dist scale caps (design §3.3, §6.4): installers clone or tree-list the whole repo. */
+const SKILL_MAX = 2000;
+const PLUGIN_MAX = 100;
 
 function prepareOut(out: string): void {
   if (existsSync(out) && readdirSync(out).length > 0) {
@@ -85,6 +88,10 @@ export function runBuild(args: string[], io: Io): number {
 
   // Agent Skills, flat (hodios-dist/skills/<id>/): spec-clean SKILL.md plus Codex's agents/openai.yaml.
   if (all) {
+    if (lib.entries.length > SKILL_MAX) {
+      io.err(`hodios build: ${lib.entries.length} skills; hodios-dist holds at most ${SKILL_MAX}`);
+      return 1;
+    }
     for (const entry of lib.entries) {
       const id = exportName(entry.fm.id);
       add('skills', `skills/${id}/SKILL.md`, specSkill(entry, ctx));
@@ -92,20 +99,23 @@ export function runBuild(args: string[], io: Io): number {
     }
   }
 
-  // Claude Code plugins (one per category and one per pack) and the marketplace.
+  // Claude Code plugins (one per domain and one per pack) and the marketplace. Domains, not categories:
+  // the marketplace stays under PLUGIN_MAX plugins at any catalog size (design §6.4, §12.4).
   if (all || wants('claude-code')) {
     const groups: PluginGroup[] = [];
-    const categories = [...new Set(lib.entries.map((e) => e.fm.category))].sort();
-    for (const category of categories) {
+    const domainOf = (category: string) => lib.vocab.get('category')?.meta.get(category)?.domain ?? 'other';
+    const domains = [...new Set(lib.entries.map((e) => domainOf(e.fm.category)))].sort();
+    for (const domain of domains) {
+      const label = lib.vocab.get('domain')?.meta.get(domain)?.label ?? domain;
       groups.push({
-        name: category,
-        category,
-        description: `Hodios ${category} entries: prompts, personas and workflows.`,
-        entries: lib.entries.filter((e) => e.fm.category === category),
+        name: domain,
+        category: domain,
+        description: `${label} prompts, personas and workflows from Hodios.`,
+        entries: lib.entries.filter((e) => domainOf(e.fm.category) === domain),
       });
     }
     for (const pack of lib.packs) {
-      if (categories.includes(pack.id)) continue; // a category plugin already has this name
+      if (domains.includes(pack.id)) continue; // a domain plugin already has this name
       groups.push({
         name: pack.id,
         description: pack.description || pack.title,
@@ -120,6 +130,10 @@ export function runBuild(args: string[], io: Io): number {
       if (plugin.files.size <= 1) continue; // only plugin.json: every entry was a rule, so no empty plugin
       for (const [path, content] of plugin.files) add('plugins', path, content);
       shipped.push(group);
+    }
+    if (shipped.length > PLUGIN_MAX) {
+      io.err(`hodios build: ${shipped.length} plugins; the marketplace limit is ${PLUGIN_MAX}`);
+      return 1;
     }
     add('plugins', '.claude-plugin/marketplace.json', claudeMarketplace(shipped));
   }

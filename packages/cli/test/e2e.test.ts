@@ -76,8 +76,8 @@ describe('hodios build', () => {
       expect(files).toContain(`paste/${id}.md`);
     }
     expect(files).toContain('.claude-plugin/marketplace.json');
-    expect(files).toContain('plugins/hodios-security/agents/security-auditor.md');
-    expect(files).toContain('plugins/hodios-code-review/skills/review-pull-request/SKILL.md');
+    expect(files).toContain('plugins/hodios-software-engineering/agents/security-auditor.md');
+    expect(files).toContain('plugins/hodios-software-engineering/skills/review-pull-request/SKILL.md');
     expect(files).toContain('bundles/all.hermes-prompts');
     expect(files).toContain('catalog/v1/manifest.json');
     const bundle = JSON.parse(readFileSync(join(out, 'bundles/all.hermes-prompts'), 'utf8')) as {
