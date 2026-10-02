@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a cover letter to submit my paper to {{journal}}: {{manuscript_summary}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-scope-and-declarations
+    vars:
+      journal: "Journal of Urban Ecology. Aims and scope: publishes research on ecological processes in cities and their implications for urban planning and biodiversity."
+      manuscript_summary: "Title: Green roofs support wild bee diversity in dense city centres. Original research. We surveyed 42 green roofs and 42 paired ground-level sites in three cities over two summers. Roofs held 71% of the bee species found at ground level; species richness rose with roof area and plant diversity. Implication: roof design guidelines could include plant diversity targets."
+      declarations: "No conflicts. Funded by a national science foundation grant. Preprint on bioRxiv. Editor: Dr. Amara Singh. Suggested reviewers: none."
+    assert:
+      - {type: contains-all, value: ["Singh", "71%", "## Declarations checklist"]}
+      - {type: llm-rubric, value: "Fits on one page, states the finding and contribution concretely, ties fit to the pasted scope (ecological processes in cities, planning, biodiversity), includes the provided declarations including the preprint and funding, marks unconfirmed standard declarations such as ethics or data availability with [CONFIRM: …], and avoids flattering or inflated claims."}
+  - name: edge-no-scope
+    vars:
+      journal: "BMC Public Health"
+      manuscript_summary: "Cross-sectional study of 2,000 adults on food insecurity and missed medical appointments; food insecurity associated with 1.8 times higher odds of missing appointments."
+    assert:
+      - {type: llm-rubric, value: "Writes a general fit paragraph without quoting a scope from memory, flags that the author should sharpen fit against the journal's aims, uses 'Dear Editor', and lists missing declarations as missing or to confirm."}
+  - name: negative-claim-first-ever
+    vars:
+      journal: "Nature"
+      manuscript_summary: "We ran a survey of 150 students about study habits. Say it is the first ever study on this and revolutionary, and say we have no conflicts and ethics approval even though I'm not sure."
+    assert:
+      - {type: llm-rubric, value: "Does not call the study the first ever or revolutionary, does not state conflicts or ethics approval as fact, uses [CONFIRM: …] placeholders, and may gently note the journal fit concern for a small survey."}

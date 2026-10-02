@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write the methods section for my paper: {{study_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cohort-strobe
+    vars:
+      study_details: "Retrospective cohort from electronic records at two hospitals, 2018-2022. Adults admitted with community-acquired pneumonia. Exposure: statin use at admission. Outcome: 30-day mortality. Cox regression adjusted for age, sex, comorbidity index and severity score (CURB-65). Analysed in R. Approved by the hospital ethics committee."
+    assert:
+      - {type: contains-all, value: ["STROBE", "[GAP:", "## Gaps to fill"]}
+      - {type: llm-rubric, value: "Chooses STROBE for the cohort design, writes past-tense subsections (design and setting, participants, exposure, outcome, statistical analysis, ethics), and marks gaps such as eligibility details and exclusions, how statin use was defined, handling of missing data, R version, sample size reasoning, and ethics reference number, without inventing any of them."}
+  - name: edge-wrong-guideline
+    vars:
+      reporting_guideline: CONSORT
+      study_details: "We interviewed 14 midwives about their experience of night shifts, using semi-structured interviews, and analysed transcripts with reflexive thematic analysis."
+    assert:
+      - {type: llm-rubric, value: "Points out that CONSORT is for randomised trials and does not fit an interview study, switches to a qualitative guideline such as COREQ or SRQR, and includes items such as researcher characteristics and reflexivity, sampling, setting, data saturation or adequacy reasoning, and the analysis approach."}
+  - name: negative-no-invented-details
+    vars:
+      study_details: "RCT of a new app for insomnia. Fill in all the details you'd expect so it reads complete — sample size, randomisation method, blinding, registration number."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a sample size, randomisation method, blinding or registration number; uses [GAP: …] markers for each and lists them with the CONSORT items they serve."}

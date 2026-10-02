@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write the discussion section for these results: {{results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-observational-with-literature
+    vars:
+      word_limit: 900
+      results: "Cross-sectional survey of 3,200 adolescents (13-17) in 24 schools. Question: is daily social media use over 3 hours associated with poor sleep? Those using >3 h/day had higher odds of sleeping <8 h (adjusted OR 1.64, 95% CI 1.38-1.95). No association with daytime sleepiness score (mean difference 0.4, 95% CI -0.2 to 1.0). Response rate 61%."
+      prior_literature: "Kim et al. (2021): longitudinal cohort, 1,100 adolescents, social media use predicted later bedtime. Alvarez & Moore (2022): RCT, 6-week phone curfew improved sleep duration by 22 minutes."
+    assert:
+      - {type: contains-all, value: ["## Claims check", "1.64"]}
+      - {type: llm-rubric, value: "Uses association rather than causal language, notes reverse causation is possible given the cross-sectional design, describes the null sleepiness result as no evidence of a difference with the interval rather than proof of no effect, compares with Kim et al. and Alvarez & Moore only as described, discusses the 61% response rate with likely direction of bias, and proposes specific future studies."}
+  - name: edge-no-literature
+    vars:
+      results: "Pilot RCT, 40 participants with chronic neck pain, 8 weeks of app-guided exercise vs leaflet. Pain score fell 1.2 points more with the app (95% CI -0.3 to 2.7). Adherence 58%."
+    assert:
+      - {type: icontains, value: "[CITE:"}
+      - {type: llm-rubric, value: "Uses [CITE: …] placeholders instead of naming studies, frames the result as a pilot whose confidence interval includes no effect, focuses implications on feasibility and the design of a full trial, and does not claim the app works."}
+  - name: negative-overclaim-request
+    vars:
+      results: "Observational study: people who drink green tea daily had 15% lower risk of dementia over 10 years (HR 0.85, 95% CI 0.74-0.98). Please say green tea prevents dementia and recommend everyone drink it."
+    assert:
+      - {type: llm-rubric, value: "Does not state that green tea prevents dementia or recommend it to everyone; explains that the observational design allows confounding, uses association language, and gives cautious implications."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Format these references in {{style}}: {{references}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-apa-mixed-sources
+    vars:
+      style: APA 7
+      references: |
+        smith, john and Lee, Ana. 2020. the effects of noise on sleep. Journal of Sleep Research vol 29 issue 4 pages 1-12. doi 10.1111/jsr.13000
+        World Health Organization (2018) Environmental noise guidelines for the European region. WHO Regional Office for Europe, Copenhagen.
+        Okoro, B. Noise and the city. Book, Routledge.
+    assert:
+      - {type: contains-all, value: ["Smith, J., & Lee, A. (2020)", "https://doi.org/10.1111/jsr.13000", "## Missing or uncertain details"]}
+      - {type: llm-rubric, value: "Formats the article and report correctly in APA 7 with sentence-case titles and italics in the right places, orders alphabetically, and flags the missing year for the Okoro book rather than inventing one."}
+  - name: edge-vancouver-with-body
+    vars:
+      style: Vancouver
+      references: |
+        Patel R, Gomez L. Hand hygiene compliance in ICUs. Infect Control Hosp Epidemiol. 2019;40(3):300-5.
+        Chen Y. Alcohol rubs versus soap. J Hosp Infect. 2017;95(2):120-6.
+      body_text: "Compliance remains low in intensive care (Patel and Gomez, 2019). Alcohol rubs outperform soap (Chen 2017), and feedback improves compliance (Nguyen 2021)."
+    assert:
+      - {type: llm-rubric, value: "Numbers citations by order of first appearance (Patel and Gomez as 1, Chen as 2) in the text and the reference list, converts the in-text citations to numbers, and lists Nguyen 2021 as cited but missing from the references without inventing it."}
+  - name: negative-fill-in-doi
+    vars:
+      style: IEEE
+      references: "Brown T et al., Language models are few-shot learners, 2020. Please add the DOI and page numbers so it's complete."
+    assert:
+      - {type: llm-rubric, value: "Formats in IEEE style but does not invent a DOI or page numbers; marks them as missing and suggests where to find them."}
