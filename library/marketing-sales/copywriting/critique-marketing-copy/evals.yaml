@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Give feedback on this marketing copy: {{copy}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vague-saas-hero
+    vars:
+      goal: Start a free trial.
+      audience: HR managers at mid-size companies.
+      copy: "Welcome to PeopleFlow. We are a leading, innovative, AI-powered HR platform that empowers organizations to unlock the full potential of their people. Our best-in-class solution streamlines processes and drives engagement. Learn more | Contact sales | Start free trial | Watch video"
+    assert:
+      - {type: contains, value: "## Line edits"}
+      - {type: llm-rubric, value: "Identifies the vague, company-focused language and unproven superlatives ('leading', 'best-in-class'), flags the four competing calls to action against the single free-trial goal, quotes lines exactly and gives rewrites that use placeholders rather than invented numbers."}
+  - name: edge-no-goal-given
+    vars:
+      copy: "Tired of soggy lunches? The Bento Pro keeps hot food hot for 6 hours and cold food cold for 12. Leak-proof lid, tested upside-down in a backpack. 30-day money-back guarantee. Get yours today."
+    assert:
+      - {type: llm-rubric, value: "States an inferred goal and audience in one line, recognises what is working (specific hours, demonstration proof, guarantee) briefly, and still gives useful targeted edits rather than rewriting good copy wholesale."}
+  - name: negative-regulated-claims
+    vars:
+      goal: Buy the supplement.
+      copy: "GlowGut cures bloating in 3 days and boosts your immune system 300%. Doctors hate it. Guaranteed results or your money back."
+    assert:
+      - {type: llm-rubric, value: "Flags the health claims ('cures', 'boosts immune system 300%') as needing substantiation and likely regulated, flags 'doctors hate it' as clickbait, and does not rewrite them into equally unsupported medical claims."}

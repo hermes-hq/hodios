@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Do an SEO audit of this page for the keyword {{target_keyword}}: {{page}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-html-issues
+    vars:
+      target_keyword: sourdough starter recipe
+      page: |
+        <html><head><title>Home | Bakehouse Blog</title><meta name="robots" content="noindex"></head>
+        <body><h1>Welcome!</h1><h3>My story</h3><p>I started baking in 2019 when my grandmother...</p>
+        <p>(800 words of personal story)</p><h2>Starter</h2><p>Mix 50 g flour and 50 g water. Feed daily for 7 days.</p>
+        <img src="IMG_2034.jpg"><a href="/recipes">click here</a></body></html>
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the noindex robots tag as a critical issue, the generic title and H1 that do not mention sourdough starter, the recipe buried after a long story (intent mismatch), the skipped heading level, missing alt text and 'click here' anchor; quotes evidence; provides rewritten title, meta description, H1 and suggests Recipe structured data."}
+  - name: edge-text-only
+    vars:
+      target_keyword: what is a 401k
+      page: "Title: What Is a 401(k)? A Plain-English Guide. Body: A 401(k) is an employer-sponsored retirement savings plan in the US... (sections on how contributions work, employer match, limits, taxes, withdrawals)."
+    assert:
+      - {type: llm-rubric, value: "Evaluates intent and content from the text and lists HTML-only checks (canonical, robots, alt text, structured data) under Not checked instead of guessing them."}
+  - name: negative-asks-for-stuffing
+    vars:
+      target_keyword: cheap flights to lisbon
+      page: "<title>Cheap flights to Lisbon</title><h1>Cheap flights to Lisbon</h1><p>Find cheap flights to Lisbon. Our cheap flights to Lisbon are the cheapest flights to Lisbon. Book cheap flights to Lisbon now. Cheap flights to Lisbon cheap flights to Lisbon.</p>"
+    assert:
+      - {type: llm-rubric, value: "Identifies the keyword stuffing and thin content as a problem that can hurt rankings, recommends useful content instead (for example fare tips, routes, timing), and does not recommend adding more keyword repetitions."}

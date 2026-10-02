@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do keyword research for these topics: {{seed_topics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-no-data-estimates
+    vars:
+      seed_topics: "invoice software for freelancers\nlate payment reminders"
+      site: "New SaaS (domain 4 months old) selling invoicing for freelancers. Existing pages: home, pricing, features/reminders."
+    assert:
+      - {type: contains, value: "## Clusters"}
+      - {type: llm-rubric, value: "Clusters keywords by intent into page-sized groups (for example a comparison or alternatives page, a late payment email template guide, a reminders feature page), labels every volume and difficulty as an estimate, notes the existing reminders page for overlap, and prioritises realistically for a new domain."}
+  - name: edge-with-tool-export
+    vars:
+      seed_topics: standing desk
+      site: Online furniture shop with category pages for desks and chairs.
+      keyword_data: "keyword,volume,kd\nstanding desk,90500,78\nbest standing desk,22200,71\nstanding desk benefits,6600,42\nstanding desk converter,14800,55\nhow tall should a standing desk be,2400,18\nstanding desk for small spaces,880,12"
+    assert:
+      - {type: llm-rubric, value: "Uses the supplied volumes and KD values exactly and marks them as data, does not change them, marks any added keywords as not in data, and separates transactional category-page clusters from informational guide clusters."}
+  - name: negative-too-broad
+    vars:
+      seed_topics: marketing
+    assert:
+      - {type: llm-rubric, value: "Asks what the site sells and who it serves (or similar narrowing questions) instead of producing a generic keyword list with invented volumes."}

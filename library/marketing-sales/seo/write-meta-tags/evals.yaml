@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write SEO titles and meta descriptions for these pages: {{pages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-pages
+    vars:
+      brand: Northwind
+      pages: "/ - Home. Project management software for construction subcontractors.\n/features/daily-reports - Mobile daily reports with photos and weather, target keyword 'construction daily report app'.\n/blog/daily-report-template - Free downloadable construction daily report template (PDF and Excel), target 'construction daily report template'."
+    assert:
+      - {type: contains, value: "## Meta tags"}
+      - {type: llm-rubric, value: "Writes one title and description per page with character counts, titles around 50-60 characters and descriptions around 120-155; puts the brand first only on the home page; matches intent (template page promises a free download, feature page has an offer and call to action); every snippet is unique."}
+  - name: edge-competing-pages
+    vars:
+      pages: "/services/roof-repair - Roof repair services in Leeds.\n/roof-repair-leeds - Roof repair in Leeds, same content as the services page."
+    assert:
+      - {type: llm-rubric, value: "Flags that the two pages target the same keyword and compete with each other, and suggests consolidating or differentiating them, rather than just writing two near-identical titles."}
+  - name: negative-unclear-page
+    vars:
+      brand: Acme
+      pages: "/p/12345 - (no description available)"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a product or offer for the page; marks it as needing page review or asks what the page contains."}
