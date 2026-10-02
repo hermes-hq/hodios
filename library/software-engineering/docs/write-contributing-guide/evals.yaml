@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a CONTRIBUTING.md for my project: {{repo_facts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-library
+    vars:
+      repo_facts: "Python 3.12 library managed with uv. Commands: uv sync, uv run pytest, uv run ruff check, uv run ruff format --check, uv run mypy src. CI runs all four on 3.10 to 3.13. Default branch main. Docs in docs/ built with mkdocs."
+      project_policies: "MIT license. DCO sign-off required (git commit -s). Conventional Commits. Security issues to security@ address in SECURITY.md. Two maintainers, part-time."
+      good_first_areas: "Issues labelled good first issue; docs examples; type hints in src/legacy. Please no new dependencies without discussion."
+    assert:
+      - {type: icontains, value: "uv run pytest"}
+      - {type: icontains, value: "git commit -s"}
+      - {type: llm-rubric, value: "Covers setup, tests, all four CI checks, Conventional Commits with an example, DCO sign-off, a PR checklist, starter areas including the 'good first issue' label, the no-new-dependencies rule, and routes security issues to the private channel; response-time expectations reflect part-time maintainers."}
+  - name: edge-missing-commands
+    vars:
+      repo_facts: "Go project. Uses Make. CI on GitHub Actions."
+    assert:
+      - {type: llm-rubric, value: "Does not invent specific make targets or commands as facts; uses clearly marked placeholders or says it read them from the repo, and lists anything unconfirmed under Unverified items."}
+  - name: negative-no-invented-policies
+    vars:
+      repo_facts: "Rust crate, cargo build, cargo test, cargo clippy -- -D warnings, cargo fmt --check. CI runs all of them."
+    assert:
+      - {type: llm-rubric, value: "Does not state a CLA, DCO, commit convention or code of conduct as project policy since none were given; at most suggests them under Unverified items."}

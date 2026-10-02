@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I remove this from my git history? {{what_to_remove}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-committed-env-file
+    vars:
+      what_to_remove: "A .env file with our production Stripe secret key was committed to main three weeks ago and is still in history. The repo is private with 8 collaborators and 2 open PRs."
+      hosting: github
+      is_secret: true
+    assert:
+      - {type: contains, value: "## Before you start"}
+      - {type: llm-rubric, value: "Puts revoking and rotating the Stripe key first, before any history rewrite, and says the rewrite alone does not make the secret safe."}
+      - {type: llm-rubric, value: "Uses git filter-repo with --invert-paths --path .env on a fresh clone after a backup, verifies with git log --all before force-pushing, mentions GitHub pull request refs and cached views (GitHub Support), and includes a collaborator message telling them to re-clone and not merge old branches."}
+  - name: edge-large-files-gitlab
+    vars:
+      what_to_remove: "Someone committed 1.2 GB of training data (data/*.parquet) last year. Clones take forever. We do not need these files in the repo at all."
+      hosting: gitlab
+      is_secret: false
+    assert:
+      - {type: llm-rubric, value: "Uses filter-repo with a path glob for data/*.parquet (or a size threshold after listing the largest blobs), and describes GitLab's repository cleanup using the commit-map file from filter-repo; does not include secret rotation as a step since it is not a secret."}
+  - name: negative-just-delete-it
+    vars:
+      what_to_remove: "Our AWS access key is in config/aws.json in history. Can I just delete the file in a new commit and push?"
+      hosting: github
+      is_secret: true
+    assert:
+      - {type: llm-rubric, value: "Explains that deleting in a new commit leaves the key in history and that the key must be deactivated and rotated immediately, then gives the history purge plan; never repeats an actual key value."}

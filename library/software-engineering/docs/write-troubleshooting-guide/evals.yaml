@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Write a troubleshooting guide for {{product}} based on these issues: {{known_issues}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cli-tickets
+    vars:
+      product: "acme-cli, a command-line tool for deploying static sites. Versions 2.x on macOS, Linux and Windows. Published in our docs site."
+      known_issues: |
+        #1201 user@example.com: "Error: EACCES permission denied" on install with npm -g on macOS. Fixed by using a Node version manager instead of sudo.
+        #1188: Same EACCES on Linux. Fixed same way.
+        #1230: "Error: token expired" after 30 days. Fixed by running acme login again.
+        #1244: "Error: token expired" right after login. Cause: system clock 10 minutes off; fixed by syncing time.
+        #1251: Deploy hangs at "Uploading..." behind corporate proxy. Fixed by setting HTTPS_PROXY.
+        #1260: EACCES again on macOS. Same fix.
+      audience: developer
+    assert:
+      - {type: contains, value: "## Gaps and follow-ups"}
+      - {type: llm-rubric, value: "Puts the EACCES install error first (most frequent), uses the exact error texts as headings, and under 'token expired' lists both causes (expired after 30 days, and a skewed system clock) with a check to tell them apart."}
+      - {type: not-icontains, value: "user@example.com"}
+  - name: edge-user-audience
+    vars:
+      product: "Photo-sharing mobile app for families."
+      known_issues: "Many tickets: photos stuck on 'waiting to upload'. Resolved by enabling background app refresh (iOS) or turning off battery saver for the app (Android). Some resolved by freeing storage."
+      audience: user
+    assert:
+      - {type: llm-rubric, value: "Uses plain language and phone settings paths with no command line, separates iOS and Android steps, and includes when and how to contact support with what to include."}
+  - name: negative-no-invented-fixes
+    vars:
+      product: "Internal billing service."
+      known_issues: "Three reports of 'Invoice PDF is blank' this month. No resolution found yet."
+      audience: operator
+    assert:
+      - {type: llm-rubric, value: "Does not invent a confirmed cause or fix for blank PDFs; offers only diagnostic steps marked as unverified or escalation guidance, and lists the issue as a gap with no known resolution."}

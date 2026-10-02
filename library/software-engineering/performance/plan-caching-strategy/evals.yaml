@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How should I add caching to speed this up? {{hot_path}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-page
+    vars:
+      hot_path: "GET /products/:id renders product details, price in the user's currency, stock level and 'recommended for you'. p95 is 900 ms; the product query plus price conversion take 600 ms; Postgres CPU is 70% at peak."
+      data_freshness_needs: "Descriptions and images may be 15 minutes old. Prices must update within 1 minute of a change. Stock may be 30 seconds stale on the page but must be exact at checkout. Recommendations are per user."
+      stack: "Node.js, Postgres, Redis available, Cloudflare in front"
+      traffic: "2,000 rps at peak, 95% reads, 50k products, 80% of views on 2,000 products"
+    assert:
+      - {type: contains, value: "## Keys and TTLs"}
+      - {type: llm-rubric, value: "Uses different TTLs or invalidation per data type matching the freshness needs (descriptions about 15 minutes, prices within 1 minute or invalidated on change, stock about 30 seconds), includes currency in the price key, and keeps per-user recommendations out of the shared CDN cache or keys them by user."}
+      - {type: llm-rubric, value: "Includes stampede protection (request coalescing, locks or stale-while-revalidate) and TTL jitter, estimates the hit rate from the 80% skew with arithmetic, and states the checkout must read exact stock from the source."}
+  - name: edge-missing-index-first
+    vars:
+      hot_path: "GET /orders?customer_id=... takes 4 seconds. EXPLAIN shows a sequential scan on orders (40M rows), filtering by customer_id."
+      data_freshness_needs: "Customers must see a new order immediately after placing it."
+    assert:
+      - {type: llm-rubric, value: "Recommends adding an index on customer_id (fixing the sequential scan) before or instead of caching, and notes that caching conflicts with the need to see new orders immediately unless invalidated on write."}
+  - name: negative-no-shared-cache-for-private-data
+    vars:
+      hot_path: "GET /me/dashboard aggregates the logged-in user's invoices and balances; takes 1.5 s."
+      data_freshness_needs: "Balances can be 2 minutes old."
+      stack: "Rails behind a CDN"
+    assert:
+      - {type: llm-rubric, value: "Does not propose caching the per-user dashboard in the public CDN; keys any shared cache by user or account (or uses private HTTP caching) and explains the data-leak risk."}

@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Check this mobile screen for accessibility issues: {{screen}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-swiftui-list
+    vars:
+      platform: ios
+      screen: "Inbox screen: a list of message rows, each with avatar, sender, subject, time and an unread dot. Swipe left on a row to delete. Top right has a pencil icon button to compose. Font sizes are fixed."
+      code: |
+        List(messages) { m in
+          HStack {
+            Image(m.avatar)
+            VStack(alignment: .leading) {
+              Text(m.sender).font(.system(size: 15, weight: .bold))
+              Text(m.subject).font(.system(size: 13))
+            }
+            Text(m.time).font(.system(size: 11))
+            if m.unread { Circle().fill(.blue).frame(width: 8, height: 8) }
+          }
+          .swipeActions { Button("Delete", role: .destructive) { delete(m) } }
+        }
+        .toolbar { Button { compose() } label: { Image(systemName: "square.and.pencil") } }
+    assert:
+      - {type: contains, value: "## Screen reader test script"}
+      - {type: llm-rubric, value: "Flags the compose icon button needing an accessibility label, fixed .system(size:) fonts that do not scale with Dynamic Type (fix with text styles such as .headline and .subheadline), and the unread state conveyed only by a blue dot (expose it in the label or value)."}
+      - {type: llm-rubric, value: "Suggests combining each row into one accessibility element (for example .accessibilityElement(children: .combine)) and ensures delete is reachable through an accessibility action, and the test script uses VoiceOver gestures with expected announcements."}
+  - name: edge-flutter-description-only
+    vars:
+      platform: flutter
+      screen: "Checkout screen with a custom-drawn quantity stepper (minus and plus icons), a 'Pay' button, and an error message that appears in red text above the button when the card is declined."
+    assert:
+      - {type: llm-rubric, value: "Uses Flutter APIs (Semantics with labels or button flags, SemanticsService.announce or a live region for the error, kMinInteractiveDimension for target size), flags colour-only error signalling, and marks device-only checks as verify on device since no code was given; the test script covers TalkBack and VoiceOver."}
+  - name: negative-no-cross-platform-api-mixup
+    vars:
+      platform: android
+      screen: "Settings screen in Jetpack Compose: rows with a title and a Switch; a custom row with an 'i' info icon that opens a tooltip on long press."
+    assert:
+      - {type: llm-rubric, value: "Gives Android and Compose fixes (for example Modifier.semantics, toggleable or mergeDescendants for switch rows, a labelled info button instead of long-press only) and does not prescribe iOS-only APIs such as accessibilityTraits or Dynamic Type for this Android screen."}

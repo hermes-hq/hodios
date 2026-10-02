@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Plan our migration of these systems to {{target_cloud}}: {{inventory}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-datacenter-exit
+    vars:
+      inventory: |
+        1. Customer web app: Java on 4 VMs, calls the orders DB and the pricing service. Critical.
+        2. Orders DB: Oracle 19c, 3 TB, per-core licence. Critical. Shared by web app and reporting.
+        3. Pricing service: .NET Framework 4.8 on Windows Server 2016. Called on every page view.
+        4. Reporting: SSRS reports reading the orders DB nightly. Owner unclear, 5 users.
+        5. Wiki: old MediaWiki VM. Team wants to move to Confluence Cloud.
+        6. File share: 8 TB of scanned documents, read occasionally.
+      target_cloud: AWS
+      constraints: "Data centre contract ends in 14 months. 1 Gbps internet link. Max 2 hours downtime per weekend window."
+      timeline: "Out of the data centre in 12 months."
+    assert:
+      - {type: contains, value: "## Waves"}
+      - {type: llm-rubric, value: "Assigns sensible Rs (for example repurchase for the wiki, retire-or-confirm for reporting with an unclear owner, rehost or replatform for the web app and pricing service) and flags the Oracle per-core licence for checking."}
+      - {type: llm-rubric, value: "Keeps the web app, orders DB and pricing service as a move-together group or explains the latency risk of splitting them, includes a landing zone wave first, and calculates transfer time for the 3 TB and 8 TB over 1 Gbps (or proposes offline transfer) rather than ignoring it."}
+  - name: edge-thin-inventory
+    vars:
+      inventory: "About 40 VMs running our apps."
+      target_cloud: Azure
+    assert:
+      - {type: llm-rubric, value: "Asks for the minimum inventory fields (owner, dependencies, data size, criticality, OS and licensing) or proposes a discovery step before wave planning, instead of inventing a detailed per-workload plan."}
+  - name: negative-no-blanket-refactor
+    vars:
+      inventory: "1. Internal HR app, PHP on one VM, 20 users, stable. 2. Payroll batch job, cron on same VM."
+      target_cloud: "Google Cloud"
+      timeline: "3 months"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend re-architecting the small stable HR app into microservices or serverless without a stated benefit; prefers rehost or a light replatform given the 3-month timeline, and keeps the cron job with the app or plans its scheduling explicitly."}

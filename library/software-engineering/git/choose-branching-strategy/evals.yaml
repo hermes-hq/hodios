@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Which git branching strategy should we use? Team: {{team}} Releases: {{release_cadence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-saas-gitflow-migration
+    vars:
+      team: "12 engineers in 2 teams, one monorepo for a web SaaS. We use Git Flow today; develop is often broken and releases take a day of merging. CI takes 12 minutes. We have LaunchDarkly but rarely use it."
+      release_cadence: "We want to go from every two weeks to daily deploys."
+      environments: "staging deploys from develop, production from master"
+    assert:
+      - {type: contains, value: "## Migration steps"}
+      - {type: llm-rubric, value: "Recommends trunk-based development or GitHub flow with short-lived branches and feature flags, promotes the same build artifact from staging to production instead of branch-per-environment, and plans how to retire develop and drain existing branches."}
+      - {type: llm-rubric, value: "Lists branch protections (required checks and reviews on main) and states prerequisites such as keeping CI fast and using flags for unfinished work."}
+  - name: edge-mobile-and-supported-versions
+    vars:
+      team: "5 engineers building an iOS and Android app plus an SDK that enterprise customers embed; we support the last three SDK minor versions."
+      release_cadence: "App every two weeks through app store review; SDK monthly with patch releases for supported versions."
+      constraints: "Hotfixes for an SDK version in the field must not include new features."
+    assert:
+      - {type: llm-rubric, value: "Recommends a trunk plus release branches model (or similar) where release branches are cut per app and SDK release, with fixes landing on main first and cherry-picked to supported release branches, and explains why pure continuous trunk deploys do not fit app store and multi-version support."}
+  - name: negative-no-gitflow-for-tiny-team
+    vars:
+      team: "Two developers working on a small internal tool, deploying with a script after merging."
+      release_cadence: "Whenever something is ready, a few times a week."
+    assert:
+      - {type: llm-rubric, value: "Recommends a light approach such as trunk-based or GitHub flow and does not recommend Git Flow with develop, release and hotfix branches for this team."}

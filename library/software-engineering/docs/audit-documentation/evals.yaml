@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Review these docs and tell me what to fix: {{docs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cli-docs-vs-help
+    vars:
+      audience: "developers using our CLI"
+      docs: |
+        # Getting started
+        Install with `npm i -g shipit`. Run `shipit init` then `shipit deploy --env prod`.
+        # Configuration
+        Set `region` in shipit.json. Default region is us-east-1.
+        # Deploying
+        Use `shipit deploy --env production` to deploy.
+        # Config reference
+        `region` (default eu-west-1), `timeout` (seconds, default 30).
+      code_or_changelog: |
+        $ shipit --help
+        Commands: init, deploy, rollback
+        deploy options: --target <name>  (renamed from --env in v3.0)
+        Config keys: region (default eu-west-1), timeout_ms (default 30000)
+    assert:
+      - {type: contains, value: "## Prioritised fix list"}
+      - {type: llm-rubric, value: "Flags that --env was renamed to --target, that the default region conflicts between pages (us-east-1 vs eu-west-1, with eu-west-1 matching the code), and that timeout is now timeout_ms in milliseconds, each citing the page and the code evidence."}
+      - {type: llm-rubric, value: "Notes the missing rollback documentation as a journey gap and the inconsistent prod versus production environment names."}
+  - name: edge-no-source-of-truth
+    vars:
+      docs: "# FAQ\nQ: How do I reset my password? A: Go to Settings > Security.\n# Setup\nDownload the app and sign in."
+    assert:
+      - {type: llm-rubric, value: "States that accuracy could not be verified without a source of truth and lists it under Not checked, while still reporting journey gaps and findability issues."}
+  - name: negative-no-rewrite
+    vars:
+      audience: "end users"
+      docs: "# Exporting\nTo export, click the thing in the corner and pick the format you want, it's pretty easy."
+    assert:
+      - {type: llm-rubric, value: "Reports findings (vague UI reference, unverifiable steps) with short suggested fixes and does not rewrite the whole page as the main output."}

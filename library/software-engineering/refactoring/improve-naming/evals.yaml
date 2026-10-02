@@ -1,0 +1,50 @@
+schema: 1
+baseline: "Improve the variable and function names in this code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-misleading-names
+    vars:
+      code: |
+        def get_user(d, flag):
+            u = db.find_user(d["email"])
+            if not u:
+                u = db.create_user(d["email"], d["name"])
+            if flag:
+                send_welcome(u)
+            return u
+
+        def check(o):
+            errs = []
+            if o.total < 0: errs.append("negative total")
+            if not o.items: errs.append("no items")
+            return errs
+      domain_glossary: "A Member is a registered user. Orders are validated before checkout."
+    assert:
+      - {type: contains, value: "## Rename table"}
+      - {type: llm-rubric, value: "Renames get_user to something revealing the create side effect (for example get_or_create_member), renames the boolean flag to something like send_welcome_email, renames check to something like validate_order or order_errors since it returns a list of errors, and uses the glossary term Member."}
+      - {type: llm-rubric, value: "The rewritten code changes names only; logic, order and formatting are unchanged."}
+  - name: edge-public-api
+    vars:
+      code: |
+        // Exported from our published npm SDK
+        export interface Resp { usr_nm: string; dt: string }
+        export function fetchIt(id: string): Promise<Resp> { return http.get(`/users/${id}`) }
+      conventions: "camelCase for TypeScript identifiers."
+    assert:
+      - {type: llm-rubric, value: "Treats the exported SDK function and interface, and the serialised fields usr_nm and dt, as risky renames listed under Not renamed with the migration needed (for example deprecated aliases or a major version), rather than silently renaming them."}
+  - name: negative-names-already-good
+    vars:
+      code: |
+        func (c *Cart) TotalCents() int64 {
+            var total int64
+            for _, item := range c.Items {
+                total += item.PriceCents * int64(item.Quantity)
+            }
+            return total
+        }
+      conventions: "Effective Go"
+    assert:
+      - {type: llm-rubric, value: "Recognises the names are already clear and idiomatic Go and proposes no or almost no renames, rather than renaming for taste."}
