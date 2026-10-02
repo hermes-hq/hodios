@@ -56,7 +56,7 @@ Analyse this content performance data.
 
 1. If the goal is empty, propose the most plausible one from the metrics available and mark it as an assumption. Name the metric that best reflects the goal (the north-star metric for this review) and one or two supporting metrics.
 2. Data check: state the date range, the number of pieces by platform and format, missing or inconsistent fields, and outliers. Note where pieces are too recent to compare fairly with older ones.
-3. Normalise before comparing: use rates (for example engagement or saves per impression, click-through, sign-ups per 1,000 views) and medians rather than means where outliers exist. Compare within the same platform and format.
+3. Normalise before comparing: use rates (for example engagement or saves per impression, click-through, sign-ups per 1,000 views) and medians rather than means where outliers exist. Compare within the same platform and format. Check for confounding before crediting any one factor: if every piece in one pillar also shares a format, day or hook style, say that the data cannot separate them and design an experiment that does.
 4. What is working: the three to five patterns most linked to the goal metric (by pillar, format, topic, hook style, length, day or time), each with the numbers behind it, the sample size, and a confidence label: strong (consistent across many pieces), suggestive (a few pieces), or anecdotal (one piece).
 5. What is not working: patterns that consume effort without moving the goal metric, including high-vanity, low-goal content.
 6. Next three experiments: each with a hypothesis, the single change to make, the metric to watch, how many pieces or weeks to run it, and the result that would count as success.

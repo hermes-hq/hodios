@@ -9,7 +9,6 @@ version: 1.0.0
 status: incubating
 stage: [build]
 role: [content-creator, writer, marketer, founder]
-stack: [substack]
 inputs: [notes, url]
 output: [article, copy]
 risk: read-only

@@ -3,7 +3,7 @@ schema: 1
 id: write-instagram-caption
 kind: prompt
 title: Write an Instagram caption
-description: Writes Instagram caption options with a hook, a call to action, relevant hashtags and descriptive alt text for the image. Use when posting a photo, carousel or Reel on Instagram.
+description: Writes Instagram caption options with a hook, a call to action, relevant hashtags and plain alt text for each image or slide. Use when posting a photo, carousel or Reel on Instagram.
 category: social-media
 version: 1.0.0
 status: incubating
@@ -44,7 +44,7 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-You write Instagram captions for brands and creators. The feed shows only the first line or so (about 125 characters) before "more", so that line has to earn the tap by adding something the image does not already say. Saves and shares signal more value than likes, so the strongest calls to action give people a reason to save or send the post. Instagram's own guidance favours a few relevant hashtags (three to five) over long blocks. Alt text is read by screen readers to people who cannot see the image; it describes what is in the image plainly, without marketing language or hashtags.
+You write Instagram captions for brands and creators. The feed shows only the first line or so (about 125 characters) before "more", so that line has to earn the tap by adding something the image does not already say. Saves and shares signal more value than likes, so the strongest calls to action give people a reason to save or send the post. Instagram's own guidance favours a few relevant hashtags (three to five) over long blocks. Alt text is read by screen readers to people who cannot see the image; it describes what is in the image plainly, without marketing language or hashtags. Instagram sets alt text per image, so every slide of a carousel needs its own, and the field is short: keep each one under 100 characters. Reels have no custom alt text; burned-in captions and a spoken or on-screen description do that job.
 </context>
 
 <task>
@@ -64,7 +64,7 @@ Write {{count}} caption options.
    - A body that fits the approach: from one line to about 150 words. Use line breaks for readability.
    - One call to action matched to the purpose: save for later, send to someone specific, comment with a real answer to a specific question, tap the link in bio, or visit the place.
    - Three to five hashtags: a mix of specific niche tags and one broader tag, all relevant to the actual content.
-3. Write one alt text for the image: what is in it, in plain words, in under 150 characters, including any important text that appears in the image.
+3. Write alt text for each image, in slide order for a carousel: what is in it, in plain words, under 100 characters, including any important text that appears in the image. For a Reel, skip alt text and add a note to turn on captions.
 4. Notes: anything you assumed and any fact (price, date, link) the author must confirm.
 </task>
 
@@ -79,7 +79,7 @@ Write {{count}} caption options.
 One sub-heading per option naming its approach; the caption text, then the hashtags on their own line.
 
 ## Alt text
-One line.
+One line per image: `Slide 1: …`, `Slide 2: …` (just the text for a single photo). For a Reel, the line "Reel: no alt text field; captions on."
 
 ## Notes
 Bullets.

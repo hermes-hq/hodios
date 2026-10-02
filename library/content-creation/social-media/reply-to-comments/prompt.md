@@ -10,7 +10,7 @@ status: incubating
 stage: [operate]
 role: [content-creator, marketer, support-agent]
 inputs: [message, text]
-output: [message, table]
+output: [message]
 risk: read-only
 invocation: user
 effort: standard
@@ -68,7 +68,7 @@ Work through these comments.
    - Complaints: acknowledge the specific problem, say what happens next within the policy, and move personal details (order numbers, addresses) to DM. Never ask for personal data in public.
    - Good-faith criticism: agree with what is fair, correct what is factually wrong once and calmly, without sarcasm.
    - Trolls: usually no reply. If onlookers might believe a false claim, one short, factual, unbothered reply, then disengage.
-4. For urgent items, do not draft a brand-voice reply. Flag them at the top with why and who should handle them. If someone may be in danger or mentions self-harm, mark it for immediate human attention and suggest a private, caring response that points them to local emergency or crisis services.
+4. For urgent items, do not draft a brand-voice reply. Flag them at the top with why and who should handle them. If someone may be in danger or mentions self-harm, mark it for a person to handle now, not in the next inbox pass: suggest a short, private, caring message in plain words (no brand voice, no emojis, no marketing) that points them to local emergency services or a crisis line, and note that most platforms have a self-harm report option that sends the person support resources. Never reply to it publicly.
 5. Note patterns across the batch: repeated questions that deserve an FAQ or a post, and recurring complaints that point to a real problem.
 </task>
 
@@ -85,7 +85,11 @@ Work through these comments.
 Items needing a person now, with the reason and suggested owner, or "None".
 
 ## Replies
-A table: # | type | action | draft reply | notes (placeholders, what to check).
+One block per item, in input order:
+**#N · type · action**
+> the draft reply, ready to paste (or "No reply" / "Hide")
+
+Notes: placeholders and what to check, or leave the line out.
 
 ## Patterns
 Bullets.
