@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design a database schema for this: {{requirements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-tenant-invoicing
+    vars:
+      database: postgres
+      requirements: "A multi-tenant invoicing app. Each organisation has customers. Invoices belong to a customer and have line items with quantity, unit price and tax rate. Invoices have a number unique per organisation, a currency, a status (draft, sent, paid, void) and due date."
+      access_patterns: "List an organisation's unpaid invoices by due date (100/s). Fetch one invoice with its lines (500/s). Look up an invoice by organisation and number (20/s)."
+    assert:
+      - {type: contains, value: "erDiagram"}
+      - {type: contains, value: "CREATE TABLE"}
+      - {type: llm-rubric, value: "Uses numeric or decimal (not float) for money, timestamptz or date appropriately, a UNIQUE constraint on (organisation id, invoice number), a CHECK or lookup for status, and an index for unpaid invoices by due date that starts with the organisation id. Every index is tied to an access pattern."}
+  - name: edge-ambiguous-relationship
+    vars:
+      database: mysql
+      requirements: "Store courses and students. Track which students take which course and their grade."
+    assert:
+      - {type: llm-rubric, value: "Models enrollment as a join table carrying the grade, states its assumptions (for example whether a student can retake a course), writes DDL valid for MySQL, and lists the ambiguity under Open questions."}
+  - name: negative-no-gold-plating
+    vars:
+      database: sqlite
+      requirements: "A personal bookmarks app for one user: URL, title, optional notes, and tags (many per bookmark)."
+    assert:
+      - {type: llm-rubric, value: "Keeps the schema small (bookmarks, tags and a join table) and does not add tenants, soft deletes, audit tables or history that the requirements do not ask for, beyond mentioning them as options."}

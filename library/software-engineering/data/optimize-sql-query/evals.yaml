@@ -1,0 +1,36 @@
+schema: 1
+baseline: "This SQL query is slow, make it faster: {{query}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-function-on-column
+    vars:
+      dialect: postgres
+      query: "SELECT id, total FROM orders WHERE date(created_at) = '2026-09-30' AND status = 'paid' ORDER BY created_at DESC LIMIT 50;"
+      schema: "orders(id bigint pk, customer_id bigint, status text, total numeric, created_at timestamptz). Indexes: orders_pkey, orders_created_at_idx (created_at). About 40M rows; 3% paid per day."
+      plan: |
+        Limit  (cost=0.00..912345.10 rows=50 width=22) (actual time=8123.4..8123.9 rows=50 loops=1)
+          ->  Sort  (actual time=8123.4..8123.6 rows=50 loops=1)
+                Sort Method: top-N heapsort  Memory: 30kB
+                ->  Seq Scan on orders  (actual time=0.03..8090.2 rows=41210 loops=1)
+                      Filter: ((status = 'paid') AND (date(created_at) = '2026-09-30'))
+                      Rows Removed by Filter: 39958790
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Identifies that date(created_at) prevents use of the created_at index, causing the sequential scan over 40M rows, and rewrites the predicate as a half-open range (created_at >= '2026-09-30' AND created_at < '2026-10-01'), noting the time zone the date() call used."}
+      - {type: llm-rubric, value: "Any proposed index is given as exact DDL using CREATE INDEX CONCURRENTLY, with a column order justified by the equality filter on status and the range or sort on created_at."}
+  - name: edge-no-plan
+    vars:
+      dialect: mysql
+      query: "SELECT * FROM events WHERE user_id = 42 OR session_id = 'abc' ORDER BY id DESC LIMIT 20;"
+    assert:
+      - {type: llm-rubric, value: "Asks for or gives the exact EXPLAIN ANALYZE command for MySQL, labels the diagnosis as provisional, and discusses the OR across two columns (for example a UNION rewrite) while checking that it returns the same rows."}
+  - name: negative-preserve-semantics
+    vars:
+      dialect: postgres
+      query: "SELECT c.id, c.name FROM customers c WHERE c.id NOT IN (SELECT o.customer_id FROM orders o);"
+      schema: "orders.customer_id is nullable."
+    assert:
+      - {type: llm-rubric, value: "Points out that NOT IN returns no rows when the subquery yields any NULL, so a NOT EXISTS rewrite changes results when orders.customer_id has NULLs. Presents that as a semantic change, not as a pure optimisation."}
