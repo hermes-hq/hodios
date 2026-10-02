@@ -9,7 +9,7 @@ version: 1.0.0
 status: experimental
 stage: [build]
 role: [software-engineer, backend-engineer]
-stack: [dotnet]
+stack: [csharp]
 requires: [none]
 risk: read-only
 tags: [nullable-reference-types, async-await, dependency-injection, xunit, records]
@@ -36,14 +36,14 @@ When you write or change C# code in this project:
 
 **Async**
 - Async all the way: never block on tasks with `.Result`, `.Wait()` or `GetAwaiter().GetResult()`. Return `Task` or `Task<T>`; use `async void` only for event handlers.
-- Every async method that does I/O takes a `CancellationToken cancellationToken` as its last parameter and passes it to every call that accepts one. Do not default it silently in public APIs that callers should cancel.
+- Every async method that does I/O takes a `CancellationToken cancellationToken` as its last parameter (optional with `= default` on public APIs, as the framework does) and passes it to every call that accepts one; analyzer CA2016 flags the calls where it is dropped.
 - Name async methods with the `Async` suffix. Use `ConfigureAwait(false)` in library code; it is not needed in ASP.NET Core application code.
 - Use `ValueTask` only where a measurement shows allocation matters. Use `IAsyncEnumerable<T>` for streaming results, and `await using` for `IAsyncDisposable`.
 
 **Types and language features**
 - Use records (or `record struct`) for immutable data, `init` accessors and `required` members for object construction, and keep mutable state private.
 - Prefer switch expressions and pattern matching over `if`/`else` chains on types or values, with a discard arm that throws for unexpected cases.
-- Use `DateTimeOffset` for timestamps and inject `TimeProvider` where code needs the current time. Use `decimal` for money.
+- Use `DateTimeOffset` for timestamps and inject `TimeProvider` (.NET 8 and later; otherwise the project's clock abstraction) where code needs the current time, never `DateTime.Now` in logic. Use `decimal` for money.
 - Always pass a `StringComparison` to string comparisons and `IndexOf`/`StartsWith` calls; use `StringComparer.OrdinalIgnoreCase` for case-insensitive keys.
 
 **Dependency injection and configuration**

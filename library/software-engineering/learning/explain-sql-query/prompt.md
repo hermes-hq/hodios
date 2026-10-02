@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [query-walkthrough, joins, window-functions, null-handling]
 pairs_with:
-  prompts: [optimize-sql-query, explain-concept-with-code, answer-question-with-sql]
+  prompts: [optimize-sql-query, review-analysis-sql, explain-concept-with-code, answer-question-with-sql]
   rules: [sql-style-rules]
 args:
   - name: query
@@ -35,6 +35,11 @@ args:
   - name: dialect
     description: The database dialect (PostgreSQL, MySQL, SQL Server, BigQuery, Snowflake, SQLite). Affects functions, NULL handling and grouping rules.
     type: string
+  - name: audience
+    description: How much SQL the reader knows. Beginner knows basic SELECT, WHERE and JOIN; intermediate is comfortable with grouping and subqueries; expert wants the traps without definitions.
+    type: enum
+    enum: [beginner, intermediate, expert]
+    default: beginner
 output_contract:
   format: markdown
   sections: [In one sentence, Execution order, Worked example, Bugs and traps, Simpler version, Questions]
@@ -69,7 +74,9 @@ Schema:
    Mark which are definite and which depend on data you have not seen.
 5. If the query can be written more clearly with the same result, show the simpler version and confirm it returns the same rows on the example data. Skip this if the query is already clear.
 
-Explain for someone who knows basic `SELECT`, `WHERE` and `JOIN` but not window functions or the evaluation order. Define any other term the first time you use it.
+Pitch it at the {{audience}} level. For beginner, assume only basic `SELECT`, `WHERE` and `JOIN`, and define every other term (evaluation order, fan-out, window function) the first time you use it. For intermediate, define only window functions, recursive CTEs and dialect-specific features. For expert, skip definitions and spend the words on the traps and the evaluation order.
+
+Scale the answer to the query. For a short query with no joins, aggregates, subqueries or window functions, show only the input table and the final result in the worked example and keep every section to a few lines.
 </task>
 
 <constraints>

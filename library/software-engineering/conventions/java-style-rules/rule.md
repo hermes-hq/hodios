@@ -57,7 +57,7 @@ When you write or change Java code in this project:
 
 **Concurrency**
 - Prefer `java.util.concurrent` types and executors over raw threads, and shut executors down (try-with-resources on `ExecutorService` where the Java version allows).
-- Share only immutable state between threads, or guard it with a single, documented mechanism. Use virtual threads only if the project already does and the code does not pin carriers with long `synchronized` blocks around blocking calls.
+- Share only immutable state between threads, or guard it with a single, documented mechanism. Use virtual threads only if the project already does. Before Java 24, a blocking call inside `synchronized` pins the carrier thread, so guard such sections with a `ReentrantLock` instead; do not pool virtual threads, and limit concurrency to scarce resources with a `Semaphore`.
 
 **Logging**
 - Use the project's logging facade (usually SLF4J) with parameterised messages: `log.info("Order {} shipped", orderId)`. Never `System.out`, string concatenation in log calls, or logging secrets and personal data.

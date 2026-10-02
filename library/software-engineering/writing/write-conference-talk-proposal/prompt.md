@@ -30,7 +30,7 @@ args:
     required: true
   - name: conference
     description: The event and track, its audience, and the CFP's fields, word limits and selection criteria if published (paste them).
-    type: string
+    type: text
   - name: format
     description: The session format. Lightning is about 5 to 10 minutes, talk about 25 to 45 minutes, workshop a hands-on session of 1.5 hours or more.
     type: enum
