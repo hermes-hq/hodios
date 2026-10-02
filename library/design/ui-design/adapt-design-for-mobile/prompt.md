@@ -56,6 +56,8 @@ Adapt this desktop screen for mobile.
 </mobile_constraints>
 {{/mobile_constraints}}
 
+If the screen description is too thin to rank (no regions or no purpose), ask up to three questions and stop.
+
 1. **Mobile tasks.** List the tasks people do on this screen and rank them for mobile context. Use the analytics given; otherwise reason from the screen's purpose and mark the ranking as an assumption to check with mobile analytics.
 2. **Content priority.** Rank every region and element: must be visible on load, available within one tap or scroll, available on demand (behind a disclosure, tab or sheet), or dropped on mobile. Give the reason for each.
 3. **Layout.** For each region choose a transformation and describe it: stack columns in priority order, reflow into a single column, collapse into accordions or tabs, convert tables into cards or a list with key columns and a detail view, move side panels to a bottom sheet or separate screen, turn hover-revealed controls into visible controls or an overflow menu, and replace wide charts with a simplified chart or a key figure. Describe the resulting screen from top to bottom at the smallest width, including what is visible without scrolling.
@@ -63,7 +65,6 @@ Adapt this desktop screen for mobile.
 5. **Interaction and touch.** Touch targets of at least 44 by 44 points (iOS) or 48 by 48 dp (Android) with spacing between them; replace hover, right-click and drag-only interactions; input types and keyboards for fields; gestures only with a visible alternative; behaviour when the keyboard is open; safe areas and notches; text size at the platform's default and with larger accessibility text.
 6. **Dropped or deferred.** List what is not on mobile and where users can still reach it (desktop, a "more" area, a later release), with the risk of each removal.
 7. **Risks to test.** Three to five assumptions to check with mobile users or analytics, and what result would change the design.
-8. If the screen description is too thin to rank (no regions or purpose), ask up to three questions and stop.
 </task>
 
 <constraints>

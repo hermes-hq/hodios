@@ -56,6 +56,8 @@ Define the icon system.
 </icon_needs>
 {{/icon_needs}}
 
+If the brand style is too thin to set construction rules (no typeface, radius, line character or existing icons), ask up to three questions and stop.
+
 1. **Principles.** Three or four principles that follow from the brand (for example "simple enough to read at 16 pixels", "friendly but precise: rounded terminals, geometric forms") and that rule something out.
 2. **Grid and keylines.** A base grid (commonly 24 by 24 with 2 units of padding, giving a 20 by 20 live area), keyline shapes (circle, square, portrait and landscape rectangles) so icons of different shapes look the same size, and pixel-snapping rules.
 3. **Construction rules.** Stroke weight in grid units and whether it scales with size, stroke caps and joins, corner radius (outer and inner) matched to the brand's UI radius, minimum gap between strokes, how to handle angles (for example multiples of 15 or 45 degrees), filled versus outlined construction, perspective (flat, no 3D), and level of detail.
@@ -65,7 +67,6 @@ Define the icon system.
 7. **Naming.** Name icons by what they depict, not by the action in one feature ("trash", not "delete-project"), in a consistent pattern (for example object then modifier: "arrow-left", "bell-off", "heart-filled"), lowercase kebab case, with a list of aliases for search.
 8. **Accessibility.** Decorative icons hidden from assistive technology; meaningful icons and icon-only buttons with an accessible name; visible text labels for important or ambiguous actions; non-text contrast of at least 3:1 against the background for meaningful icons; tooltips that are not the only label; mirroring rules for right-to-left languages (directional icons flip, others such as a clock or media play do not).
 9. **Production and contribution.** Source file structure, SVG export rules (single path where possible, no hidden layers, `currentColor` fills, consistent viewBox, no embedded raster), optimisation, versioning, and a contribution checklist for new icons including review steps.
-10. If the brand style is too thin to set construction rules, ask up to three questions and stop.
 </task>
 
 <constraints>

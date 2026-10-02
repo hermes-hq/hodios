@@ -56,13 +56,14 @@ Plan a card sort for this content.
 </goal>
 {{/goal}}
 
+If the inventory is too thin to build a card set (a product name only, no content items), ask up to three questions about the content, the users and the decision, and stop.
+
 1. **Study type.** Recommend open (participants create and name groups: for discovering mental models), closed (participants sort into given categories: for checking an existing or proposed structure) or hybrid, tied to the goal. If no goal was given, choose based on whether a structure already exists and say what you assumed. Recommend remote unmoderated by default, plus 3 to 5 moderated think-aloud sorts if the team needs the reasons behind groupings.
 2. **Cards.** Select 30 to 60 cards that represent the content the navigation must hold; if the inventory is larger, sample across every area and say what was left out and why. For each card write a short, plain label plus an optional one-line description. Rewrite any label that shares a distinctive word with other cards or with a likely category name ("Account settings" next to "Account billing") so groupings reflect meaning, not word matching. Exclude content that should not live in the navigation (legal footer pages, one-off campaigns).
 3. **Participants.** Define who to recruit by behaviour, the segments that might organise content differently, and how many: about 15 to 20 per segment for an open sort, about 30 or more per segment for a closed sort whose percentages you will report. Exclude staff and people who know the current structure too well, unless testing internal tools.
 4. **Setup.** Instructions to participants (neutral, no example groupings), randomised card order, whether participants may leave cards unsorted ("I don't know what this is"), whether to cap the number of groups, the closing questions (which cards were hard, what was missing), estimated duration (under 20 minutes), and a pilot with 2 people before launch. Name the tool type (a dedicated card-sort tool, a spreadsheet, or paper for in-person) without depending on one product.
 5. **Analysis plan.** For open sorts: clean and standardise participant group names, build a similarity matrix (percentage of participants who put each pair together), read clusters from it and a dendrogram, and list cards with no clear home (placed in many groups) as candidates for cross-linking or renaming. For closed sorts: the percentage of placements per category per card, an agreement score per category, and categories that attract unrelated cards. Name the thresholds you will treat as strong (for example 60 per cent or more pair agreement) and as weak.
 6. **From results to navigation.** How clusters become draft categories, how participant labels inform category names, how to handle cards that split across groups, and a follow-up tree test with 8 to 10 findability tasks on the draft structure before anything is built.
-7. If the inventory is too thin to build a card set (a product name only, no content), ask up to three questions and stop.
 </task>
 
 <constraints>

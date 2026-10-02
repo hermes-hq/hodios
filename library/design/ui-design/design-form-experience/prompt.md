@@ -56,6 +56,8 @@ Design the experience for this form.
 {{fields}}
 </fields>
 
+If the purpose or the fields are missing (for example "a signup form" with no field list), ask for them and stop.
+
 1. **Question audit.** For every field ask: who uses this answer, for what, is it needed now or could it be asked later, can it be inferred (postcode lookup, card type from number, country from locale), and is it required or optional? Recommend keep, make optional, defer, infer or remove, with the reason. Flag fields that may be legally required (tax ids, age checks) and fields with personal or sensitive data (date of birth, gender, health) that need a clear purpose and data-minimisation review. When the business reason is not given, mark the field "reason needed" instead of guessing.
 2. **Structure and order.** Order questions as a conversation: easy and familiar first, grouped by topic, sensitive ones later with an explanation of why they are asked. Decide one page or several steps: use steps when the form is long or branches, with one topic per step. Use a single column. Show conditional questions only when they apply.
 3. **Field specification.** For each remaining field: label (visible, above the field, plain words), input type and control (text, email, tel, number only for real numbers, date pattern, radio buttons for up to about 5 options, select or search for long lists, checkbox, toggle only for instant settings), field width matched to the expected answer, autocomplete and keyboard hint for mobile, hint text where people need it (format, why we ask), optional marking ("(optional)" rather than asterisks everywhere), and default values only when safe.

@@ -56,6 +56,8 @@ Plan this rebrand.
 {{reasons}}
 </reasons>
 
+If the current brand or the reasons are too vague to assess, ask up to four questions and stop.
+
 1. **Diagnosis.** Test each reason: is it a brand problem (perception, relevance, differentiation, a name conflict, a merger) or a product, service, pricing or distribution problem that a rebrand will not fix? Use the evidence given and mark gaps. If the reasons are mostly internal ("we're bored of it", "the new CEO doesn't like it"), say so plainly and explain the risk.
 2. **Scope recommendation.** Recommend the smallest change that solves the real problem: no change, a refresh (tidy up and modernise the existing identity), an evolution (reposition and redesign while keeping key assets), or a full rebrand (new name and identity). Give the reasoning and what would change the recommendation.
 3. **Equity audit.** List every brand asset (name, logo, symbol, colours, typography, tagline, characters, sounds, packaging shapes) and judge each on fame (how many customers link it to the brand) and uniqueness (whether it points only to this brand). Recommend keep, evolve or drop for each. Recognition levels without research are marked as estimates.
@@ -65,7 +67,6 @@ Plan this rebrand.
 7. **Communications.** Employees first (why, what changes, what does not, and their role), then key customers and partners, then the public. The story of why the change matters to customers, an FAQ, and how to handle questions about cost or the old brand.
 8. **Success measures.** Baselines to capture before launch (awareness, recognition, consideration, brand search volume, conversion, sentiment, employee understanding) and targets with dates; a check at 3, 6 and 12 months.
 9. **Timeline and budget drivers.** Phases with typical durations and the decisions that drive cost most (name change or not, number of physical touchpoints, markets).
-10. If the current brand or the reasons are too vague to assess, ask up to four questions and stop.
 </task>
 
 <constraints>

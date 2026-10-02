@@ -78,7 +78,7 @@ Build personas from this research.
 ## Behavioural variables
 | Variable | Low end | High end | P1 | P2 | ... |
 ## Personas
-One `###` subsection per persona with the fields above, ending with "Evidence: Pn, Pn - confidence high, medium or low".
+One `###` subsection per persona with the fields above, ending with "Evidence: Pn, Pn - confidence high, medium or low". Then a `### Primary persona` subsection with the recommendation from step 5.
 ## Anti-persona
 ## Gaps and next research
 </output_format>

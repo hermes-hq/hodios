@@ -56,6 +56,8 @@ Design a dark theme for this palette.
 </platforms>
 {{/platforms}}
 
+If the palette has no colour values (hex or equivalent), ask for them and where each is used, and stop; do not guess the colours.
+
 1. **Approach.** If the palette has no semantic tokens, propose the semantic layer first (background, surface levels, text primary, secondary and disabled, border, primary and on-primary, focus, success, warning, danger, info, overlay) and map the light theme onto it, so both themes switch at the semantic level and components never reference primitives directly.
 2. **Surfaces and elevation.** Choose a dark base that is a very dark grey, not pure black, unless the user wants a true-black OLED option (offer it as a variant). Define 3 to 5 surface levels where higher elevation is lighter, because shadows are hard to see on dark backgrounds; add subtle borders where adjacent surfaces need separation. Tint the neutrals slightly with the brand hue only if the light theme does.
 3. **Semantic token mapping.** For every semantic token, give the light value, the dark value (reusing existing primitives where possible, or a new primitive marked "(new)"), and the reason. Text should not be pure white on large areas; use an off-white for primary text and lower-emphasis values for secondary text that still pass contrast.
@@ -65,7 +67,6 @@ Design a dark theme for this palette.
 7. **Data visualisation.** Re-check categorical and sequential chart palettes on the dark surface (distinguishability and 3:1 against the background), gridlines and axes at low emphasis, and that no chart relies on colour alone.
 8. **Platform notes.** For the platforms given: on web, a theme attribute plus the `prefers-color-scheme` media query and the `color-scheme` property, and avoiding a flash of the wrong theme on load; on iOS and Android, mapping to the system's semantic or dynamic colours where the product uses them; email clients that invert colours unpredictably. Offer the choice of light, dark or system in settings.
 9. **Rollout and QA.** Token changes to make, components most likely to break (anything with hard-coded colours, shadows or images), and a test checklist: each component in every state in both themes, dim and bright environments, OLED devices, increased-contrast settings and screenshots in documentation.
-10. If the palette has no hex values, ask for them and stop; do not guess the colours.
 </task>
 
 <constraints>

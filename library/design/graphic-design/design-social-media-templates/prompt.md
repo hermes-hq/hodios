@@ -55,6 +55,8 @@ Design a social media template set.
 </content_types>
 {{/content_types}}
 
+Use only the brand values given; mark missing ones [TBD]. If there is no brand information, ask for it and stop.
+
 1. **System principles.** Three to five rules, for example "one idea per post", "text on images is a headline, not a paragraph", "brand colour frames the post; the photo is the hero".
 2. **Formats.** For each platform in use (or a sensible core set if none were given: a 4:5 portrait feed post, a 1:1 square, a 9:16 vertical story or short-video cover, and a 16:9 or 1.91:1 landscape link image), give the aspect ratio and a common pixel size. Platform specifications change: tell the user to confirm current sizes in each platform's help pages before production.
 3. **Grid and safe zones.** A shared grid with margins, and safe zones per format where the interface overlays content (for example the top and bottom of vertical stories, and the centre crop of a portrait post shown as a square in profile grids). Keep text and logos inside them.
@@ -65,7 +67,6 @@ Design a social media template set.
 8. **Variety rules.** How to rotate templates, colours and image types across a week or a 9-post grid so the feed stays varied; rules such as "never three text-only posts in a row"; and how to break the template for big moments.
 9. **Accessibility.** Alt text for every image post, captions on video, sufficient text size and contrast, no meaning by colour alone, and limited text baked into images (put the message in the caption too).
 10. **Production notes.** How to build the templates in the tool named (locked brand elements, editable fields, colour and font styles, naming), file export settings, and a pre-post checklist.
-11. Use only the brand values given; mark missing ones [TBD]. If there is no brand information, ask for it and stop.
 </task>
 
 <constraints>

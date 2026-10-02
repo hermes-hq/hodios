@@ -54,6 +54,8 @@ Write handoff notes for this design.
 Platform: {{platform}}
 {{/platform}}
 
+Before writing, check the input. If it does not describe at least one screen with its main elements and what the feature is for, ask up to three questions (the screens and their elements, the goal, the components or design system used) and stop. Do not write handoff notes for a design you have not been shown.
+
 1. **Overview.** The feature's purpose and user in 2 to 3 sentences, what is in and out of scope, and the screens included.
 2. **Flows.** Each flow as numbered steps from entry point to completion, including branches and exits (cancel, back, deep link entry, session timeout).
 3. **Screens and states.** For each screen: layout regions in reading order, the components used (by design-system name), and every state: default, loading (skeleton or spinner, and after how long), empty (first use and no results), partial data, error (network, validation, permission, server), success, disabled, and offline if relevant. Mark states the design did not show as "not designed" with a proposed default.

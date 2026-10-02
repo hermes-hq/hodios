@@ -55,6 +55,8 @@ Specify a presentation template.
 </use_cases>
 {{/use_cases}}
 
+Use only the brand values given. If colour values or fonts are missing, mark them [TBD] and continue; if there is no brand information at all, ask for it and stop.
+
 1. **Template principles.** Three to five rules for presenters (for example "one message per slide, stated in the title", "the brand shows through colour and type, not logos on every slide").
 2. **Format and grid.** 16:9 by default (say if a use case needs 4:3 or a portrait format for documents), margins, a column grid, safe areas for projection, and where the title, body, footer, slide number and source line sit.
 3. **Master layouts.** Specify 10 to 14 layouts that cover the use cases, for example: title, agenda, section divider, title and body, two columns, big statement or number, chart with takeaway title, table, image with caption, full-bleed image with text, quote, team or people, comparison, and closing. For each: purpose, placeholders and their positions on the grid, and when to use it. Add document-style layouts if decks are sent rather than presented.
@@ -65,7 +67,6 @@ Specify a presentation template.
 8. **Accessibility.** Contrast of text on every background (4.5:1 for body text), reading order set in each layout, alt text for meaningful images, no meaning by colour alone, slide titles unique so navigation works, and captions or notes for embedded video.
 9. **Do and don't.** Eight pairs, each describing a concrete slide example.
 10. **Build notes.** How to build the template in the tool named: master and layout setup, theme colours and fonts, placeholder types, locked elements, file naming and where the template lives, and a short presenter quick-start of five bullets.
-11. Use only the brand values given. If colour values or fonts are missing, mark them [TBD] and continue; if there is no brand information at all, ask for it and stop.
 </task>
 
 <constraints>
