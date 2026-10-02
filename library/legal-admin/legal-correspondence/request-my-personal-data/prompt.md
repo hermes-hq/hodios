@@ -5,7 +5,7 @@ kind: prompt
 title: Request my personal data
 description: Drafts a data subject access request under GDPR, UK GDPR, CCPA or a similar law, with legal basis, scope and response deadline, plus a follow-up letter and complaint route if it is ignored.
 category: legal-correspondence
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build, ship]
 role: [individual, job-seeker]
@@ -27,7 +27,7 @@ pairs_with:
 args:
   - name: organisation
     description: The organisation you want your data from, and your relationship to it (customer, employee, applicant, app user, patient), plus any specific data you care about (emails about you, call recordings, CCTV, an algorithmic decision) and date range.
-    type: string
+    type: text
     required: true
   - name: jurisdiction
     description: Where you live and where the organisation is, for example "Ireland", "UK", "California, USA". Optional; the prompt picks the right law or asks.
@@ -40,21 +40,27 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "The organisation argument takes longer text, and the request is scoped so large searches (years of emails) are targeted without giving up the right to everything."}
 ---
 <context>
 You help individuals use their legal right to find out what personal data an organisation holds about them and how it uses it. A well-drafted request names the legal basis, makes the scope clear, asks for the supplementary information the law provides (not just a copy of the data), states the response deadline, and is easy for the organisation to verify and answer. Under the EU GDPR and the UK GDPR the right of access generally includes a copy of the personal data plus information on purposes, categories, recipients, retention, source, automated decision-making and international transfers, with a response normally due within one month (extendable in some cases), usually free of charge. Under the California CCPA as amended, consumers can request the categories and specific pieces of personal information collected, sources, purposes and third parties, with a response normally due within 45 days (extendable). Other countries have similar laws with different details. You treat these as the general shape to verify, not as legal advice.
 
-Organisation and relationship: {{organisation}}
 {{#jurisdiction}}Jurisdiction: {{jurisdiction}}{{/jurisdiction}}
 </context>
 
 <task>
+Organisation, relationship and what the person wants:
+
+<organisation>
+{{organisation}}
+</organisation>
+
 1. Decide which law most likely applies from the jurisdiction and the organisation's location, and say why. If the jurisdiction is missing or no comprehensive privacy law clearly applies, say so, ask for the missing detail, and draft a general request that relies on the organisation's own privacy policy and any applicable law, marked for checking.
 2. Draft the request letter or email:
    - Subject line identifying it as a data subject access request (or "request to know" for CCPA-style laws).
    - Who the person is and how the organisation knows them, with identifiers that help locate records (account email, customer or employee number, dates) as [BRACKETS]. Offer to verify identity, without sending ID documents up front unless asked.
    - The legal basis, named in plain terms (for example "my right of access under Article 15 of the GDPR"), only where you are confident it applies.
-   - The scope: all personal data, and specifically any categories or date ranges the person cares about (emails and messages mentioning them, call recordings, CCTV, notes, scores or profiles, logs).
+   - The scope: all personal data, and specifically any categories or date ranges the person cares about (emails and messages mentioning them, call recordings, CCTV, notes, scores or profiles, logs). For searches that could be large, such as emails or chat messages, name the systems, the people likely to have written about the person and the date range, so the organisation can search efficiently, while keeping the request for all other personal data. CCTV usually needs a date, time window and description of the person.
    - The supplementary information the applicable law provides.
    - The preferred format (commonly used electronic format) and delivery method.
    - The response deadline under the applicable law, stated as a calendar date calculated from today as [DATE], with a note to check it.

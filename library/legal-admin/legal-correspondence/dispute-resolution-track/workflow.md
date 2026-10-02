@@ -5,7 +5,7 @@ kind: workflow
 title: Dispute resolution track
 description: Takes a consumer or tenant dispute from facts and evidence to a complaint letter, an ombudsman or regulator escalation and small-claims preparation, pausing for approval between steps.
 category: legal-correspondence
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan, build, ship]
 role: [individual, parent]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Says how to handle a request to skip a step and how to size the remedy."}
 ---
 Takes one consumer or tenant dispute up the escalation ladder that works in most places: facts and evidence, a formal complaint, a free outside body (ombudsman, regulator, deposit scheme, alternative dispute resolution), and only then small claims. Each step writes one artifact and stops for approval, because the person may settle at any rung. Later steps reuse the approved case summary.
 
@@ -67,3 +68,5 @@ Rules for every step:
 - Do not predict whether the person will win.
 - For personal injury, discrimination, employment, eviction, debts already at court or large sums, say early that a lawyer, legal aid or specialist advice service should look at it first.
 - Keep everything the other side or an outside body will read factual and calm: no threats, insults or exaggeration.
+- The remedy is what the facts and evidence support (a refund, repair, replacement, the cost of putting it right, or proven losses), with its calculation. Do not add sums for distress or penalties unless the person can point to a basis, and mark any such item "to verify".
+- If the person asks to skip a step, say in two lines what skipping usually costs (outside bodies and courts commonly expect a formal complaint first, and costs or claims can suffer without one), then run the step they ask for only once they confirm. Skipping a step never removes the rules above.

@@ -5,7 +5,7 @@ kind: prompt
 title: Respond to a debt collector
 description: Drafts a written response to a debt collector that requests validation, disputes errors or proposes payment, after checking the letter for red flags and listing the rights to verify locally.
 category: legal-correspondence
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [individual, parent]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Uses a written dispute rather than a bare information request where a validation window may apply, and has the letter limit contact to writing when the person wants that."}
 ---
 <context>
 You help people respond to debt collectors in writing, calmly and on their own terms. Collection letters are designed to produce a quick payment; the person's interest is to first establish that the debt is real, theirs, correctly calculated, owned or managed by this collector, and still collectable, and then to decide what to do. Many places give debtors rights to request proof of the debt, to dispute it, to limit contact and to be treated fairly, and many have limitation periods after which a debt cannot be enforced through the courts. In some places, a payment or a written acknowledgement can restart that limitation period, so the first letter must not admit the debt by accident. Collection scams are also common.
@@ -75,7 +76,8 @@ Situation:
    - Payment proposal: the debt is valid and the person wants to pay. Offer an affordable amount or a settlement figure, ask for written confirmation of the agreed terms (and, for a settlement, that the balance is treated as settled) before paying.
    - Contact preference: in any route, the person may state how and when the collector may contact them.
    If the facts do not make the route clear, draft a validation request, which is the safest default, and say what would change it.
-4. Draft the letter: the person's details as [BRACKETS], the collector's reference, a clear statement of the request, a list of the documents requested where relevant (signed agreement or original contract, statement of account from the original creditor, proof of assignment or authority to collect, breakdown of fees and interest), and a request to pause collection while it is answered. The letter must not admit the debt unless the person has chosen the payment route.
+   Where a dispute or validation window may apply (for example the US, where a written dispute sent within the window stated in the collector's validation notice generally requires the collector to pause collection until it sends verification), word the letter as a dispute plus a request for verification, not only a request for information, unless the person accepts that the debt is theirs and correct. Tell them to send it inside that window and to confirm the window's end date on the notice.
+4. Draft the letter: the person's details as [BRACKETS], the collector's reference, a clear statement of the request, a list of the documents requested where relevant (signed agreement or original contract, statement of account from the original creditor, proof of assignment or authority to collect, breakdown of fees and interest), and a request to pause collection while it is answered. If the person wants contact limited, add a sentence asking that all further contact be in writing to the stated address. The letter must not admit the debt unless the person has chosen the payment route.
 5. List rights to check locally, as "to verify", naming any law only if you are confident it applies to the stated jurisdiction (for example, in the US, validation and dispute rights under the federal fair debt collection rules and state laws). Include the dispute or validation window if one may apply, and the limitation period.
 6. Give a short do and do-not list and where to get free help.
 </task>

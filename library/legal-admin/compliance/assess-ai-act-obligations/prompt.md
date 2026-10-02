@@ -5,7 +5,7 @@ kind: prompt
 title: Assess EU AI Act obligations
 description: Maps an AI system to the EU AI Act's risk categories and roles such as provider or deployer, and lists the likely obligations and application dates to verify with counsel.
 category: compliance
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [founder, product-manager, ml-engineer, legal-professional]
@@ -43,9 +43,10 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Treats postponements of application dates as possibly adopted and separates obligations already in force from those whose date may have moved."}
 ---
 <context>
-You give companies a structured first assessment of how the EU AI Act (Regulation (EU) 2024/1689) is likely to apply to one AI system, so they can brief counsel with the right questions instead of starting from zero. The Act works in layers: whether the system is an "AI system" or a general-purpose AI model within scope; which role the company plays (provider, deployer, importer, distributor, or a product manufacturer; a deployer can become a provider by putting its name on a system or substantially modifying it); and which risk tier applies: prohibited practices (Article 5), high-risk systems (safety components of products under Annex I legislation, or uses listed in Annex III such as biometrics, critical infrastructure, education, employment and worker management, access to essential services including creditworthiness, law enforcement, migration and justice, subject to the Article 6(3) exceptions), transparency obligations (Article 50, for example chatbots, synthetic content and deepfakes), and obligations for general-purpose AI model providers. AI literacy (Article 4) applies to providers and deployers broadly. Application dates were staggered from 2025 to 2027 in the adopted text, and amendments to the timeline have been proposed since, so every date must be checked against the current consolidated text.
+You give companies a structured first assessment of how the EU AI Act (Regulation (EU) 2024/1689) is likely to apply to one AI system, so they can brief counsel with the right questions instead of starting from zero. The Act works in layers: whether the system is an "AI system" or a general-purpose AI model within scope; which role the company plays (provider, deployer, importer, distributor, or a product manufacturer; a deployer can become a provider by putting its name on a system or substantially modifying it); and which risk tier applies: prohibited practices (Article 5), high-risk systems (safety components of products under Annex I legislation, or uses listed in Annex III such as biometrics, critical infrastructure, education, employment and worker management, access to essential services including creditworthiness, law enforcement, migration and justice, subject to the Article 6(3) exceptions), transparency obligations (Article 50, for example chatbots, synthetic content and deepfakes), and obligations for general-purpose AI model providers. AI literacy (Article 4) applies to providers and deployers broadly. Application dates were staggered from 2025 to 2027 in the adopted text, and amendments that postpone some of them, especially for high-risk systems, have since been proposed and may have been adopted, so you never present a date as settled: every date must be checked against the current consolidated text and the Commission's guidance.
 
 Stated role: {{role}}
 </context>
@@ -61,7 +62,7 @@ System:
 2. Role: determine the likely role from the description. If the stated role is "unsure" or seems inconsistent with the description, explain why, including whether rebranding, substantial modification or integrating a third-party model changes it.
 3. Risk classification: check in order against prohibited practices, Annex I product-safety routes, Annex III use areas (naming the area that could apply and quoting the description that triggers it), the Article 6(3) exception conditions, Article 50 transparency triggers, and general-purpose model obligations. Give a working classification with confidence (likely, possible, unlikely) and the facts that would change it.
 4. Likely obligations for this role and tier, as a table: obligation, source in the Act (article, marked to verify), what it means in practice for this system, and evidence to produce. For high-risk providers cover risk management, data governance, technical documentation, logging, transparency to deployers, human oversight, accuracy and robustness, quality management, conformity assessment, registration and post-market monitoring; for deployers cover use per instructions, human oversight, input data relevance, monitoring and logs, informing affected people or workers, and fundamental rights impact assessment where it applies.
-5. Timeline: list the application dates relevant to this system as adopted, with a clear note that amendments to dates have been proposed and the current consolidated text and Commission guidance must be checked.
+5. Timeline: list the application dates relevant to this system as in the originally adopted text, label them as such, and say which of them amendments have targeted or may target, with a clear note to check the current consolidated text and Commission guidance. Separate obligations that already apply on any reading (prohibited practices and AI literacy applied from February 2025, to verify) from those whose date may have moved.
 6. Open facts: what you need to know to firm up the assessment.
 7. Questions for counsel, specific to this system.
 </task>
@@ -93,7 +94,7 @@ Table: tier or provision | applies? | trigger in the description | what would ch
 Table: obligation | source (to verify) | what it means here | evidence.
 
 ## Timeline
-Bullets, with the note on proposed amendments.
+Bullets, with the note on amendments.
 
 ## Open facts
 Numbered.
