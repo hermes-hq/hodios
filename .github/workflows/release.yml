@@ -1,0 +1,150 @@
+# Catalog release (skeleton). Runs daily and on demand; cuts a release only when library/,
+# partials/, packs/ or vocab/ changed since the last v* tag. Publishing steps are disabled
+# (`if: false`) until the compiler, signing key and tokens exist. See the design, section 7.
+name: release
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Release even if no content changed
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    name: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      changed: ${{ steps.detect.outputs.changed }}
+      version: ${{ steps.detect.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - id: detect
+        name: Detect content changes and compute the CalVer
+        env:
+          FORCE: ${{ inputs.force || false }}
+        run: |
+          last=$(git describe --tags --abbrev=0 --match 'v20*' 2>/dev/null || true)
+          if [ -z "$last" ]; then
+            echo "No previous catalog release."
+            changed=true
+          elif git diff --quiet "$last" HEAD -- library partials packs vocab; then
+            echo "No content change since $last."
+            changed=false
+          else
+            echo "Content changed since $last:"
+            git diff --stat "$last" HEAD -- library partials packs vocab | tail -n 1
+            changed=true
+          fi
+          if [ "$FORCE" = "true" ]; then changed=true; fi
+          version=$(node tools/release/calver.mjs $(git tag --list 'v20*'))
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "### Catalog release plan" >> "$GITHUB_STEP_SUMMARY"
+          echo "changed: $changed, next version: $version" >> "$GITHUB_STEP_SUMMARY"
+
+  release:
+    name: release
+    needs: plan
+    if: needs.plan.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: release
+    permissions:
+      contents: write # tag + GitHub Release
+      id-token: write # npm trusted publishing and provenance
+      attestations: write # build provenance
+    env:
+      VERSION: ${{ needs.plan.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Validate library (Tier 0)
+        run: node packages/cli/dist/bin.js validate
+
+      - name: Dry run
+        run: echo "Would release catalog v$VERSION. Publishing steps below are disabled until their TODOs are done."
+
+      # TODO(release): compile the changed set with the content-addressed cache (tools/release/*).
+      - name: Build catalog
+        if: false
+        run: npm run build:catalog
+
+      # TODO(release): privacy and secret scan of changed files (gitleaks + personal path/email regex).
+      - name: Privacy scan
+        if: false
+        run: node tools/release/privacy-scan.mjs
+
+      # TODO(secret MINISIGN_SECRET_KEY, MINISIGN_PASSWORD): sign manifest.json; public key ships in Hermes, CLI and MCP.
+      - name: Sign manifest
+        if: false
+        env:
+          MINISIGN_SECRET_KEY: ${{ secrets.MINISIGN_SECRET_KEY }}
+          MINISIGN_PASSWORD: ${{ secrets.MINISIGN_PASSWORD }}
+        run: node tools/release/sign.mjs
+
+      # TODO(secrets R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY): upload objects first, manifest last.
+      - name: Upload objects and manifest
+        if: false
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: node tools/release/upload-objects.mjs
+
+      # Needs contents: write only (GITHUB_TOKEN).
+      - name: Tag and create GitHub Release
+        if: false
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "v$VERSION" dist/release/* --title "Catalog v$VERSION" --notes-file dist/release/CHANGELOG.md
+
+      # TODO(secret NPM_TOKEN, or npm trusted publishing over OIDC): publish @hermes-hq/hodios-catalog.
+      - name: Publish catalog to npm
+        if: false
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish ./dist/catalog --provenance --access public
+
+      # TODO(secret DIST_PUSH_TOKEN): fine-grained token with contents: write on hermes-hq/hodios-dist only.
+      - name: Push install tree to hodios-dist
+        if: false
+        env:
+          DIST_PUSH_TOKEN: ${{ secrets.DIST_PUSH_TOKEN }}
+        run: node tools/release/publish-dist.mjs
+
+      # TODO(secret SITE_DEPLOY_HOOK): rebuild hermes-ide.com/prompts when a static page changed.
+      - name: Site deploy hook
+        if: false
+        env:
+          SITE_DEPLOY_HOOK: ${{ secrets.SITE_DEPLOY_HOOK }}
+        run: curl -fsS -X POST "$SITE_DEPLOY_HOOK"

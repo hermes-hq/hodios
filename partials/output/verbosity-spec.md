@@ -1,0 +1,2 @@
+- Lead with the answer. Add reasoning only where it changes what the reader will do.
+- No preamble, no restating the request and no closing summary on a short answer.

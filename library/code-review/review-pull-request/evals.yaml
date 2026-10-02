@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Review this pull request: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-off-by-one
+    vars:
+      focus: all
+      diff: |
+        --- a/src/range.ts
+        +++ b/src/range.ts
+        @@ -1,5 +1,5 @@
+         export function range(n: number): number[] {
+           const out: number[] = [];
+        -  for (let i = 0; i < n; i++) out.push(i);
+        +  for (let i = 0; i <= n; i++) out.push(i);
+           return out;
+         }
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: regex, value: "src/range\\.ts:\\d+"}
+      - {type: llm-rubric, value: "Identifies the off-by-one in the loop bound as a finding."}
+  - name: edge-empty-diff
+    vars: {diff: "", focus: all}
+    assert:
+      - {type: llm-rubric, value: "Asks for the diff once and does not invent findings."}
+  - name: negative-comment-typo
+    vars:
+      focus: all
+      diff: |
+        --- a/src/user.ts
+        +++ b/src/user.ts
+        @@ -1,4 +1,4 @@
+        -// Retuns the user with this id, or undefined.
+        +// Returns the user with this id, or undefined.
+         export function getUser(id: string) {
+           return db.users.find(id);
+         }
+    assert:
+      - {type: not-regex, value: "request-changes"}
