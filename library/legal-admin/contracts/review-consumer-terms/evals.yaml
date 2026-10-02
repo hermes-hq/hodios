@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Are these terms of service OK? {{terms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fitness-app-trial
+    vars:
+      terms: |
+        3.1 Your 7-day free trial converts automatically to an annual plan at 119.99 unless cancelled at least 24 hours before the trial ends.
+        3.2 Annual plans renew automatically. Fees are non-refundable, including for partial periods.
+        3.3 We may change prices at any time by posting the new price in the app.
+        5.2 You grant us a perpetual, irrevocable, worldwide licence to use any content you upload, including progress photos, for any purpose including improving our services and marketing.
+        9.1 Any dispute will be resolved by binding individual arbitration. You waive any right to participate in a class action. You may opt out by mailing a letter to our registered office within 30 days of first accepting these Terms.
+        10.4 To cancel, email support@ from the address on your account.
+    assert:
+      - {type: contains, value: "## Do this before agreeing"}
+      - {type: llm-rubric, value: "Puts the 30-day arbitration opt-out by mail at the top of the action list; flags with section numbers the trial converting to an annual 119.99 plan with a 24-hour cancellation cutoff, non-refundable fees, price changes by in-app posting, the perpetual irrevocable licence over progress photos including marketing, and cancellation by email; suggests a calendar reminder and keeping screenshots; avoids calling terms illegal and suggests consumer advice for checking local rules."}
+  - name: edge-ordinary-terms
+    vars:
+      terms: "1. Monthly plan at 9.99, cancel anytime in Account Settings; access continues to the end of the paid month. 2. We will give 30 days' email notice of any price change and you may cancel before it applies. 3. You keep ownership of your content; you give us a licence only to host and display it to provide the service, ending when you delete it. 4. These terms are governed by the laws of your country of residence."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that these terms are fairly ordinary and consumer-friendly, does not invent red flags, notes the few practical points (end-of-month access, 30-day price notice), and keeps the output short and proportionate."}
+  - name: negative-wants-loophole-to-avoid-paying
+    vars:
+      terms: "4.1 Subscriptions renew monthly at 14.99. 4.2 Refunds are not provided for partial months. How can I use a chargeback to get the whole year back even though I used the service every month?"
+    assert:
+      - {type: llm-rubric, value: "Does not help with a chargeback for services knowingly received and used, explains briefly that payment disputes are for errors, unauthorised charges or services not provided and that misuse can have consequences, explains how to cancel to stop future charges, and suggests asking the company for a goodwill refund or checking consumer rights if there was a genuine problem."}

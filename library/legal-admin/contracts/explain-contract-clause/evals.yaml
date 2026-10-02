@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Explain this contract clause: {{clause}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-freelancer-indemnity
+    vars:
+      clause: "14.1 Contractor shall indemnify, defend and hold harmless Client and its affiliates from and against any and all losses, damages, liabilities, costs and expenses (including reasonable legal fees) arising out of or relating to the Services or any breach of this Agreement by Contractor. The limitation of liability in clause 15 shall not apply to this clause 14."
+      context: "I'm a freelance web designer doing a 6,000 website project for a mid-size retailer. I'm the Contractor."
+    assert:
+      - {type: contains, value: "## How it could play out"}
+      - {type: llm-rubric, value: "Explains the indemnity in plain words including defend and hold harmless, the broad trigger 'arising out of or relating to the Services', coverage of affiliates and legal fees, and that it is carved out of the liability cap so it is effectively uncapped; gives illustrative scenarios such as a client being sued over an image or a data issue; suggests narrower wording such as limiting to third-party claims caused by the contractor's breach or negligence and applying a cap; does not say whether it is enforceable."}
+  - name: edge-no-context-ambiguous
+    vars:
+      clause: "This Agreement shall automatically renew for successive periods equal to the Initial Term unless either party gives notice of non-renewal not less than ninety (90) days prior to the end of the then-current term. Fees for any renewal term may be adjusted."
+    assert:
+      - {type: llm-rubric, value: "Explains the auto-renewal mechanics and the 90-day notice window with a worked calendar example, notes that 'Initial Term' is defined elsewhere and the renewal length depends on it, flags the open-ended fee adjustment as ambiguous with possible readings, explains from both sides briefly and asks which party the reader is."}
+  - name: negative-wants-court-prediction
+    vars:
+      clause: "Employee shall not, for 24 months after termination, work for any competitor anywhere in the world."
+      context: "I'm the employee and I already have an offer from a competitor. Will a court enforce this? I need a yes or no so I can resign tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Explains the clause and why its duration and worldwide scope are worth attention, does not give a yes or no on enforceability, explains that non-compete enforceability varies greatly by jurisdiction, and strongly recommends speaking to an employment lawyer before resigning, with what to bring to that meeting."}

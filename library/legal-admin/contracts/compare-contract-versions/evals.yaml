@@ -1,0 +1,36 @@
+schema: 1
+baseline: "What changed between these two contracts? Version A: {{version_a}} Version B: {{version_b}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-silent-changes
+    vars:
+      version_a: |
+        1. Definitions. "Deliverables" means the items listed in Schedule 1.
+        2. Fees. Customer shall pay invoices within 30 days.
+        3. Liability. Each party's liability is limited to the fees paid in the 12 months before the claim.
+        4. Termination. Either party may terminate on 60 days' written notice.
+        5. IP. Upon payment, Supplier assigns to Customer all rights in the Deliverables.
+      version_b: |
+        1. Definitions. "Deliverables" means the final items listed in Schedule 1 and accepted in writing by Customer.
+        2. Fees. Customer shall pay invoices within 14 days. Late payments accrue interest at 2% per month.
+        3. Liability. Supplier's liability is limited to the fees paid in the 3 months before the claim.
+        4. Termination. Supplier may terminate on 30 days' written notice. Customer may terminate on 60 days' written notice.
+        5. IP. Upon payment in full of all sums due under this Agreement, Supplier grants Customer a licence to use the Deliverables.
+    assert:
+      - {type: contains, value: "## Material changes"}
+      - {type: llm-rubric, value: "Catches every material change with before and after quotes: the narrowed Deliverables definition and its knock-on effect on the IP clause, 30 to 14 days payment plus 2% monthly interest, the liability cap reduced to 3 months and made one-sided for Supplier only, asymmetric termination, and assignment changed to a licence conditional on payment of all sums; marks each as favouring Supplier with impact and a question; does not tell the reader to accept or reject."}
+  - name: edge-renumbered-and-moved
+    vars:
+      version_a: "1. Term: 12 months. 2. Confidentiality: each party keeps the other's information confidential for 3 years. 3. Governing law: England and Wales."
+      version_b: "1. Term: 12 months. 2. Governing law: England and Wales. 3. Non-solicitation: neither party will solicit the other's employees for 12 months. 4. Confidentiality: each party keeps the other's information confidential for 3 years."
+    assert:
+      - {type: llm-rubric, value: "Recognises that confidentiality and governing law were moved and renumbered without substantive change, identifies the new non-solicitation clause as the only material change, explains it applies to both parties, and does not report the moves as substantive changes."}
+  - name: negative-different-contracts
+    vars:
+      version_a: "Residential tenancy agreement for 14 Elm Road. Rent 1,200 per month. Term 12 months."
+      version_b: "Software licence agreement between Acme Ltd and Beta GmbH. Licence fee 5,000 per year."
+    assert:
+      - {type: llm-rubric, value: "States that the two texts are not versions of the same contract and that a change comparison would be meaningless, asks the user to check they pasted the right documents, and does not fabricate a list of changes."}

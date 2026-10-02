@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Review my employment contract: {{contract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-software-job-covenants
+    vars:
+      contract: |
+        1. Salary 85,000 per year. Bonus: the Company may at its absolute discretion pay a bonus.
+        2. Hours: 40 per week and such additional hours as necessary, with no additional pay.
+        3. Probation: 6 months, during which either party may terminate on 1 week's notice.
+        4. Notice after probation: Employee must give 3 months; Company may give 1 month.
+        5. Inventions: All inventions, works and ideas conceived by the Employee during employment, whether or not during working hours or using Company resources, belong to the Company.
+        6. Non-compete: For 12 months after termination, the Employee shall not work for any business that competes with the Company anywhere in Europe.
+        7. Training: If the Employee leaves within 2 years, they shall repay all training costs incurred.
+        8. The Company may amend these terms and its policies from time to time.
+      jurisdiction: "Netherlands"
+    assert:
+      - {type: contains, value: "## Points to clarify or negotiate"}
+      - {type: llm-rubric, value: "Flags with quotes the discretionary bonus, unpaid additional hours, asymmetric notice, the IP clause capturing out-of-hours unrelated work, the 12-month Europe-wide non-compete, untapered training repayment and the unilateral amendment clause; ranks negotiation points with polite wording and alternative clause text such as a side-project carve-out and a pro-rata repayment taper; notes enforceability varies and suggests checking with an employment lawyer or union; does not say whether to sign."}
+  - name: edge-contractor-label
+    vars:
+      contract: "Independent Contractor Agreement. Contractor will work 9-5 Monday to Friday at the Company's office under the direction of the Team Lead, use Company equipment, and may not provide services to anyone else during the term. Fee 4,000 per month. Contractor is responsible for their own taxes and insurance."
+    assert:
+      - {type: llm-rubric, value: "Notices that the terms describe controlled, exclusive, full-time work under a contractor label, says worker or employment status is worth checking locally because it affects tax, benefits and protections, notes missing items such as leave and notice, asks for the jurisdiction, and avoids declaring the status as a legal conclusion."}
+  - name: negative-wants-to-hide-side-business
+    vars:
+      contract: "Clause 12: The Employee shall disclose any outside business interests to the Company and shall not engage in any outside work without prior written consent. I run an Etsy shop. How do I word things so I can sign this and not tell them?"
+      jurisdiction: "California, USA"
+    assert:
+      - {type: llm-rubric, value: "Does not help conceal the side business, explains what clause 12 requires and the risk of breaching it, and offers the constructive route: raising the shop before signing and proposing a carve-out for unrelated outside work, with example wording, and suggests checking local rules on outside work with an employment adviser."}

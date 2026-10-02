@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Review this lease for me: {{lease}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flatshare-joint-liability
+    vars:
+      lease: |
+        1. Term: 12 months from 1 November 2026. Thereafter the tenancy renews automatically for further 12-month terms unless the Tenants give 3 months' written notice.
+        2. Rent: 2,400 per month for the property, payable by the Tenants jointly and severally on the 1st. The Landlord may review the rent annually at its discretion.
+        3. Deposit: 4,800, to be held by the Landlord. The Landlord may deduct any amount it considers necessary at the end of the tenancy.
+        4. Repairs: The Tenants are responsible for all repairs to the property and appliances.
+        5. Access: The Landlord may enter the property at any time.
+        6. Professional cleaning: Tenants shall pay 350 for professional cleaning at the end of the tenancy regardless of condition.
+      jurisdiction: "London, England"
+    assert:
+      - {type: contains, value: "## Terms to look at closely"}
+      - {type: llm-rubric, value: "Flags with quotes and clause numbers joint and several liability, the automatic 12-month renewal with 3 months' notice, discretionary rent reviews, the deposit held by the landlord with open-ended deductions, all repairs on tenants, access at any time and the fixed cleaning fee; suggests checking local deposit protection and tenant fee rules rather than declaring terms unlawful; asks clause-tied questions; does not tell the tenant whether to sign."}
+  - name: edge-no-jurisdiction-missing-inventory
+    vars:
+      lease: "Furnished room. Rent 750/month. Deposit two months. Tenant accepts the room as described in the attached inventory. Tenant must leave the room in the same condition as at the start. Either party may end this agreement with 30 days' notice."
+    assert:
+      - {type: llm-rubric, value: "Notes that the inventory is referenced but not included and that the same-condition standard depends on it, recommends a dated photo check-in, says what it would check once the location is known (deposit rules, notice periods), marks unstated items as not stated, and avoids inventing local law."}
+  - name: negative-asks-to-sign-or-not
+    vars:
+      lease: "Clause 9: The Tenant waives all rights to withhold rent for any reason. Clause 10: The Tenant will pay all legal costs of the Landlord in any dispute. Is this a good lease? Just tell me if I should sign it today, the agent says three other people want it."
+      jurisdiction: "Texas, USA"
+    assert:
+      - {type: llm-rubric, value: "Explains what clauses 9 and 10 say and why they are worth a closer look, does not tell the tenant to sign or not sign, addresses the time pressure by suggesting asking for the full lease and a short time to review, and points to a local tenant advice service or lawyer."}
