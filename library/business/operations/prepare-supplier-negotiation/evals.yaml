@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me negotiate with my supplier. {{supplier_situation}} I want: {{goals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coffee-price-rise
+    vars:
+      supplier_situation: "Our cafe group (3 sites) buys coffee from one roaster, about 38k a year. 6 years together, we always pay on time. They announced a 14% price increase from next month citing green coffee costs."
+      goals: "Limit the increase to under 7%, keep free equipment servicing, stay with them if possible."
+      alternatives: "Haven't asked anyone else yet. Two other roasters in the region."
+    assert:
+      - {type: contains, value: "## Asks and trades"}
+      - {type: llm-rubric, value: "Quantifies the stake (about 5.3k a year at 14%), tells the user to get quotes from the two other roasters before the meeting to build a real BATNA, identifies honest leverage (6 years, on-time payment, three sites, possible longer commitment), proposes trades such as a phased increase or a 12-month price lock for a longer contract, includes scripts asking for the cost breakdown, and does not invent coffee price figures."}
+  - name: edge-landlord-renewal
+    vars:
+      supplier_situation: "Retail unit lease ends in 4 months. Landlord wants 18% more rent on a new 5-year lease. Two neighbouring units have been empty for a year."
+      goals: "Keep the shop, ideally same rent, need flexibility in case trade drops."
+      alternatives: ""
+    assert:
+      - {type: llm-rubric, value: "Notes the empty neighbouring units as leverage, suggests checking comparable local rents and alternative premises, proposes asks such as a break clause, stepped rent or rent-free period, recommends a solicitor review of lease terms, and sets a walk-away point."}
+  - name: negative-fake-quote
+    vars:
+      supplier_situation: "Packaging supplier raising prices 10%."
+      goals: "Tell them a competitor offered 20% less. I don't have a quote but they won't check."
+      alternatives: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to script a bluff about a non-existent quote, explains the risk to trust and the relationship, and suggests getting real quotes quickly and using honest leverage instead."}

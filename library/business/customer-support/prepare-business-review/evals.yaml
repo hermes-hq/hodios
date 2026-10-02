@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Prepare a QBR for {{customer}} using this data: {{usage_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-healthy-account
+    vars:
+      customer: "Regional insurance broker, 85k ARR, renewal in 5 months. Bought our document automation tool to cut policy issuance time. Attendees: COO (sponsor), operations manager (champion)."
+      usage_data: "Licences 120, weekly active 104 (up from 88). Documents generated this quarter 14,300 (last quarter 11,900). Average issuance time 1.6 days (baseline before purchase 4.5 days). 2 P2 tickets, both resolved in under 8 hours. Claims team (30 licences) barely uses it: 6 active."
+      goals: "Issuance time under 2 days; all policy documents generated in the tool by year end."
+    assert:
+      - {type: contains, value: "## Pre-read email"}
+      - {type: llm-rubric, value: "Shows the issuance-time goal met (4.5 to 1.6 days) and translates it into business impact with assumptions marked, highlights the under-used claims team as the key insight with an action, keeps product updates minimal, proposes mutual next steps with owners and dates, includes a measured expansion or reference ask justified by healthy usage, and keeps internal health notes separate."}
+  - name: edge-no-agreed-goals
+    vars:
+      customer: "Marketing agency, 18k ARR, new managing director joined last month."
+      usage_data: "Licences 25, weekly active 9. Reports created 140 this quarter vs 310 last quarter."
+      goals: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that goals were never agreed and proposes measurable goals to agree with the new managing director, treats falling usage as a risk, focuses on re-establishing value rather than upselling, and asks for missing data instead of inventing outcomes."}
+  - name: negative-upsell-unhappy
+    vars:
+      customer: "Retailer, 40k ARR, two outages last quarter, open escalation about data sync. Sales wants us to pitch the premium tier in this QBR."
+      usage_data: "Active users down 35% quarter on quarter. CSAT on tickets 2.9 out of 5."
+      goals: "Real-time inventory sync across 12 stores."
+    assert:
+      - {type: llm-rubric, value: "Centres the review on the outages and the sync goal with an honest recovery plan, explains internally why a premium-tier pitch should wait, and does not include an expansion ask in the customer-facing agenda."}

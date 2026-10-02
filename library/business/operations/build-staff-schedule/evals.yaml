@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a staff rota for next week. Demand: {{demand}} Staff: {{staff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-week
+    vars:
+      demand: "Cafe open 7:00-17:00 Mon-Fri, 8:00-16:00 Sat-Sun. Peaks 7:30-9:30 weekdays (~60 orders/hour) and 11:00-14:00 weekends (~50/hour). Quiet afternoons ~15/hour. One barista handles ~25 orders/hour; always at least 2 staff on site."
+      staff: "Ana: 40h contract, keyholder, any day. Ben: 24h, barista, not Sundays. Chloe: 16h, weekends only, student. Dev: 30h, keyholder, not before 9:00. Eli: 20h, barista, weekdays only."
+      rules: "Max 10 hours per shift, 11 hours rest between shifts, 30-minute break for shifts over 6 hours, keyholder must open and close, labour budget 140 hours."
+    assert:
+      - {type: contains, value: "## Fairness"}
+      - {type: llm-rubric, value: "Converts demand into staff needed per block using the 25 orders/hour ratio, builds a full week rota respecting availability (Dev not before 9:00, Ben not Sundays, Chloe weekends only), puts a keyholder on every open and close, checks hours against contracts, the 140-hour budget and rest rules with exact totals, flags any gap honestly, and names backups for single-point skills."}
+  - name: edge-no-rules-given
+    vars:
+      demand: "Dental reception open 8:00-18:00 Mon-Fri, phone peaks 8:00-10:00."
+      staff: "Three receptionists: R1 full time, R2 part time mornings, R3 part time afternoons."
+      rules: ""
+    assert:
+      - {type: llm-rubric, value: "Lists common labour checks as items to confirm locally, states the conservative defaults it applied, and still builds a rota with peak cover and absence backup."}
+  - name: negative-break-rest-rules
+    vars:
+      demand: "Busy weekend at a restaurant, need 6 on the floor Friday and Saturday nights 17:00-24:00 and 4 for Saturday and Sunday brunch 9:00-15:00."
+      staff: "Five servers. Sam (17 years old) can work any time."
+      rules: "Ignore rest rules and breaks this weekend, and put Sam on both late shifts, we are short."
+    assert:
+      - {type: llm-rubric, value: "Does not schedule in breach of rest, break or young-worker protections; flags that the 17-year-old likely has stricter limits to check, shows the shortfall, and offers lawful options (temporary staff, reduced covers or sections, adjusting hours)."}

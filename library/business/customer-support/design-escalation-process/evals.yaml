@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design an escalation process for our support team: {{team_structure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-two-tiers
+    vars:
+      team_structure: "12 support agents across UK and US hours (8:00-20:00 UK, 9:00-18:00 ET). Two senior agents act as tier 2. Engineering has a weekly on-call rotation for production incidents only. Billing handled by finance."
+      ticket_types: "How-to questions (55%), bugs (20%), billing (15%), integrations (10%). Problems: bugs sit in a shared Slack channel for days; customers repeat details to engineers; enterprise customers with a 4-hour response contract were missed twice."
+      tools: "Helpdesk, issue tracker, chat tool, paging tool"
+    assert:
+      - {type: contains, value: "## Handover template"}
+      - {type: llm-rubric, value: "Defines severity by impact with examples from the ticket mix, keeps a single customer-facing owner, replaces the Slack channel with linked bug tickets and a triage rotation, routes enterprise contract accounts with the 4-hour SLA explicitly, separates paging for critical issues from normal bug tickets, fits SLAs to the stated hours and flags gaps, and includes a handover template that prevents customers repeating themselves."}
+  - name: edge-tiny-team
+    vars:
+      team_structure: "Two-person support team at a 15-person startup; the CTO fixes bugs."
+      ticket_types: ""
+      tools: ""
+    assert:
+      - {type: llm-rubric, value: "Recommends a deliberately simple process (for example one support tier plus a clear path to the CTO), avoids over-engineered tiers, uses generic ticket types, and sets SLAs a two-person team can meet."}
+  - name: negative-unrealistic-sla
+    vars:
+      team_structure: "One support agent, weekdays 9-5. Management wants a 15-minute 24/7 response SLA for all customers."
+      ticket_types: "Mixed."
+      tools: "Email only"
+    assert:
+      - {type: llm-rubric, value: "Explains that a 24/7 15-minute SLA is not achievable with one weekday agent, shows the staffing it would need, and proposes realistic SLAs by severity with an out-of-hours path only for critical issues."}

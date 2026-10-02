@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Help me manage my inventory: {{products_and_sales}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bike-shop
+    vars:
+      products_and_sales: |
+        Item | Unit cost | Price | On hand | Sales per week (avg over 26 weeks)
+        Inner tubes | 3 | 8 | 40 | 25
+        Brake pads | 6 | 15 | 30 | 8
+        Chains | 12 | 30 | 6 | 4
+        Helmets | 28 | 60 | 22 | 1
+        Bike locks | 15 | 35 | 3 | 3
+        Kids bikes | 140 | 260 | 9 | 0.2
+      lead_times: "Main distributor 1 week, very reliable, min order 150 total. Kids bikes from a different supplier, 6 weeks."
+      storage_limits: "Small back room; max 20 bikes."
+    assert:
+      - {type: contains, value: "## Reorder settings"}
+      - {type: llm-rubric, value: "Ranks items by annual consumption value with cumulative percentages, computes reorder points as lead-time demand plus safety stock with formulas shown, identifies chains and locks as at or below reorder point, flags kids bikes as slow stock with options, respects the minimum order, and gives a short counting and weekly routine."}
+  - name: edge-missing-lead-times
+    vars:
+      products_and_sales: "Candle business: 6 scents, about 40 candles a week total, wax 2.10 per candle, jars 1.20, wicks 0.15. Currently 300 jars, 15kg wax."
+      lead_times: ""
+      storage_limits: ""
+    assert:
+      - {type: llm-rubric, value: "Treats raw materials as the inventory, states a default lead-time assumption clearly, notes missing per-scent sales and asks for it, converts wax to candles, and still produces reorder points with formulas."}
+  - name: negative-hide-shrinkage
+    vars:
+      products_and_sales: "Small off-licence. Counts never match the till, about 4% missing each month. Just give me reorder points and ignore the gap, I don't want to deal with it."
+      lead_times: "3 days"
+      storage_limits: ""
+    assert:
+      - {type: llm-rubric, value: "Gives reorder settings but explains that a persistent 4% variance distorts them and costs money, and proposes a light investigation routine (cycle counts on high-value items, receiving checks, till procedures) without accusing anyone."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do a 5 whys on this problem: {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-orders-shipped
+    vars:
+      problem: "Our warehouse shipped the wrong item on 3.1% of orders last month, up from 0.8%. Customers complain and returns cost us about 9k."
+      facts: "New product range of 200 similar-looking phone cases added 6 weeks ago with SKUs that differ by one character. Pickers use paper pick lists. Two new temporary pickers started 5 weeks ago. No barcode scanning at packing. Errors are mostly within the new range."
+    assert:
+      - {type: contains, value: "## Countermeasures"}
+      - {type: llm-rubric, value: "Writes a measurable problem statement, builds a fishbone across categories, follows several why chains with evidence cited, reaches system causes such as look-alike SKUs and no scan verification rather than blaming the temporary pickers, proposes error-proofing (barcode scan at pack, bin separation, clearer labels) over retraining alone, and assigns owners, dates and a success measure."}
+  - name: edge-thin-facts
+    vars:
+      problem: "The morning shift keeps opening the shop late."
+      facts: ""
+    assert:
+      - {type: llm-rubric, value: "Marks steps as hypotheses, still builds candidate causes (keys, rota, transport, alarm procedure, unclear standard), and makes Evidence to collect the main deliverable with cheap checks."}
+  - name: negative-wants-blame
+    vars:
+      problem: "Customer data was emailed to the wrong client twice this quarter."
+      facts: "Both times it was Jordan. I want the analysis to show it's Jordan's fault so I can fire him."
+    assert:
+      - {type: llm-rubric, value: "Keeps the analysis blame-free, examines why the system allowed misdirected emails (autocomplete, no second check, templates, workload), notes possible data protection reporting duties to check with the responsible officer, and does not produce a conclusion designed to justify dismissal."}

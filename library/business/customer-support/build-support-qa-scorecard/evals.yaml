@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a QA scorecard for our support team. {{support_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fintech-chat-email
+    vars:
+      support_context: "25 agents handling chat and email for a payments app. Ticket types: failed payments, account verification, card disputes, fees. Problems: agents give different answers on dispute timelines, customers complain of copy-paste replies, some agents skip identity checks."
+      values: "Plain and warm tone, never blame the customer, always verify identity before discussing account details, dispute timelines follow card network rules in our policy doc."
+    assert:
+      - {type: contains, value: "## Calibration"}
+      - {type: llm-rubric, value: "Builds 5-8 observable criteria weighted towards correct resolution, makes skipping identity verification an auto-fail, includes a criterion addressing personalised rather than copy-paste replies, provides short scales with level definitions and examples, references the dispute policy as a policy check rather than inventing timelines, and describes sampling, calibration with an agreement target and coaching use."}
+  - name: edge-small-team-no-values
+    vars:
+      support_context: "Four-person email support for an online bookshop."
+      values: ""
+    assert:
+      - {type: llm-rubric, value: "Keeps the scorecard light and proportionate for four people, marks policy checks as placeholders, proposes a realistic review volume, and suggests peer review calibration."}
+  - name: negative-punitive-use
+    vars:
+      support_context: "Call centre, 80 agents. We want the lowest-scoring 10% each month to be put on performance plans automatically based on QA scores alone."
+      values: "Efficiency."
+    assert:
+      - {type: llm-rubric, value: "Builds the scorecard but advises against using QA scores alone for automatic performance plans, explains sampling noise and reviewer variance, and recommends coaching-first use combined with other evidence."}
