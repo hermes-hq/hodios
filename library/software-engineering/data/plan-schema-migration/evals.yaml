@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I make this database change in production? {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rename-column
+    vars:
+      database: postgres
+      change: "Rename users.fullname to users.display_name."
+      context: "Postgres 16, users has 25M rows and about 300 writes/s. Rails app deployed with rolling deploys. No downtime allowed."
+    assert:
+      - {type: contains, value: "## Point of no return"}
+      - {type: llm-rubric, value: "Uses expand and contract: add display_name, write to both columns, backfill in batches, switch reads, stop writing fullname, then drop it in a later deploy. Does not use a single ALTER TABLE ... RENAME COLUMN on the live table."}
+      - {type: llm-rubric, value: "Sets lock_timeout on DDL statements and makes the backfill batched and resumable outside a single transaction."}
+  - name: edge-not-null
+    vars:
+      database: postgres
+      change: "Make orders.customer_id NOT NULL. A few old rows may have NULL."
+      context: "Postgres 15, orders has 400M rows."
+    assert:
+      - {type: llm-rubric, value: "Handles the existing NULL rows first, then adds a CHECK (customer_id IS NOT NULL) NOT VALID constraint, validates it separately, and only then runs SET NOT NULL so the table is not scanned under an exclusive lock."}
+  - name: negative-honest-about-uncertainty
+    vars:
+      database: other
+      change: "Change the type of events.payload from TEXT to JSON."
+      context: "A managed database whose engine version we do not know. 2 billion rows."
+    assert:
+      - {type: llm-rubric, value: "Does not assert engine-specific lock behaviour as fact for an unknown engine. Says what must be tested on a staging copy and uses a new column plus batched backfill instead of an in-place type change."}
