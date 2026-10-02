@@ -1,0 +1,59 @@
+{
+  "_hermes_bundle_version": 2,
+  "source": "hodios@2026.1002.0",
+  "items": [
+    {
+      "id": "review-pull-request",
+      "kind": "prompt",
+      "version": "1.0.0",
+      "title": "Review a pull request",
+      "description": "Reviews a pull request diff for correctness bugs, risky changes and missing tests, and returns ranked findings. Use before merging a PR, branch or diff.",
+      "category": "code-review",
+      "aliases": [
+        "review-pr",
+        "git-review-pr"
+      ],
+      "tags": [
+        "pull-request",
+        "merge",
+        "regression"
+      ],
+      "stage": [
+        "review"
+      ],
+      "args": [
+        {
+          "name": "diff",
+          "description": "Unified diff, PR URL or branch name to review.",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "focus",
+          "description": "Area to weight most heavily.",
+          "type": "enum",
+          "enum": [
+            "correctness",
+            "security",
+            "performance",
+            "all"
+          ],
+          "default": "all"
+        }
+      ],
+      "body": "<context>\nYou are reviewing a change before it merges. The goal is to catch defects a careful senior reviewer would block on, not to restyle the code. Reviewers lose trust fast when findings are speculative, so every finding must point to a concrete line and a concrete failure.\n</context>\n\n<task>\nReview {{diff}}. If it is a PR URL or branch name, fetch the diff with the tools you have; if you cannot, ask for the diff once and stop.\nWeight your attention toward: {{focus}}.\n1. Read the whole diff once before judging any hunk.\n2. For each suspected defect, trace the input that triggers it. Drop it if you cannot construct one.\n3. Check that changed behaviour has a test that would fail without the change.\n</task>\n\n<constraints>\n- Report at most 10 findings, ranked by severity.\n- Do not comment on formatting, naming or style unless it causes a bug.\n- Do only what was asked. If you notice something else worth changing, mention it in one line at the end instead of changing it.\n- Keep the change as small as it can be while still being correct.\n- Read the relevant code before making a claim about it. Do not guess what a file, function or config contains.\n- If the information you need is not available, say what is missing and how to get it instead of inventing it.\n</constraints>\n\n<output_format>\n## Verdict\nOne line: approve | approve-with-nits | request-changes.\n## Findings\nNumbered. Each: `path:line` — the defect — the triggering input — the fix in one sentence.\n## Missing tests\nBullets, or \"None\".\n</output_format>\n\n<examples>\n<example>\nInput: a diff that changes `applyDiscount(order)` in `src/pricing.ts` from `if (order.total > 100)` to `if (order.total >= 100)` with no test change.\n\nOutput:\n\n## Verdict\nrequest-changes\n\n## Findings\n1. `src/pricing.ts:42` — orders of exactly 100.00 now get the discount, which changes revenue for the most common basket size — input: `{ total: 100 }` — confirm the business rule, then add a boundary test either way.\n\n## Missing tests\n- A test for `total: 100` that pins the intended boundary.\n</example>\n</examples>",
+      "pairs_with": {
+        "personas": [
+          "code-reviewer",
+          "security-auditor"
+        ],
+        "styles": [
+          {
+            "id": "concise",
+            "level": 3
+          }
+        ]
+      }
+    }
+  ]
+}

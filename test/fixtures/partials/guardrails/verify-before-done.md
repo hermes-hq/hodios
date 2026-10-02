@@ -1,0 +1,2 @@
+- Before saying the work is done, run the check that proves it (tests, build, type check or the command the user gave) and report the real result.
+- If you could not run a check, say so plainly and say which one.

@@ -1,0 +1,232 @@
+{
+  "_hermes_bundle_version": 2,
+  "source": "hodios@2026.1002.0",
+  "items": [
+    {
+      "id": "concise",
+      "kind": "style",
+      "version": "1.0.0",
+      "title": "Concise",
+      "description": "Shortens answers to what the reader needs to act, from trimmed prose to bare essentials. Use when you want less text and faster answers.",
+      "category": "meta",
+      "body": "Applies to prose. Code, commands and quoted errors are never shortened.",
+      "levels": [
+        {
+          "label": "Trimmed",
+          "instruction": "Cut filler and repetition; keep full sentences."
+        },
+        {
+          "label": "Brief",
+          "instruction": "Answer in a short paragraph; skip background the reader did not ask for."
+        },
+        {
+          "label": "Terse",
+          "instruction": "Lead with the answer in one sentence; add at most three short supporting lines."
+        },
+        {
+          "label": "Minimal",
+          "instruction": "Give only the answer and the one fact that justifies it."
+        },
+        {
+          "label": "Bare",
+          "instruction": "Output the answer alone, with no explanation."
+        }
+      ]
+    },
+    {
+      "id": "feature-track",
+      "kind": "workflow",
+      "version": "1.0.0",
+      "title": "Feature track",
+      "description": "Takes a feature from open questions to a reviewed implementation in six gated steps, saving each step's artifact to the repo. Use for any change bigger than a quick fix.",
+      "category": "planning",
+      "tags": [
+        "spec-driven",
+        "requirements"
+      ],
+      "stage": [
+        "discover",
+        "design",
+        "plan",
+        "build"
+      ],
+      "args": [
+        {
+          "name": "feature",
+          "description": "Short kebab-case feature name; used for the artifact folder.",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "body": "Builds the feature \"{{feature}}\" in small, reviewable steps. Each step writes one artifact and stops for approval before the next one starts, so the human stays in control of scope and design while the agent does the legwork. Later steps read the earlier artifacts instead of re-asking.",
+      "steps": [
+        {
+          "id": "questions",
+          "stage": "discover",
+          "gate": "approve",
+          "artifact": ".hermes/features/{{feature}}/questions.md",
+          "text": "# Step 1: Questions\n\nRead the request for \"{{feature}}\" and the code it touches. Write the questions whose answers would change the design: users, edge cases, constraints, non-goals and how success is measured. Group them, keep each one answerable in a sentence, and mark the ones you can answer yourself from the code (with the answer).\n\nStop and wait for the answers."
+        },
+        {
+          "id": "research",
+          "stage": "discover",
+          "gate": "approve",
+          "artifact": ".hermes/features/{{feature}}/research.md",
+          "text": "# Step 2: Research\n\nUsing the answered questions, map the current system: the files, modules, data and external services involved, and how a request flows through them today. Note existing patterns the feature should follow and anything that will make it harder. Cite file paths. Do not propose a design yet.\n\nStop and wait for approval."
+        },
+        {
+          "id": "design",
+          "stage": "design",
+          "gate": "approve",
+          "artifact": ".hermes/features/{{feature}}/design.md",
+          "text": "# Step 3: Design\n\nPropose the design for \"{{feature}}\": the approach, the alternatives you rejected and why, data and API changes, failure modes, and how it will be tested. Keep it to what a reviewer needs to say yes or no.\n\nStop and wait for approval."
+        },
+        {
+          "id": "structure",
+          "stage": "design",
+          "gate": "approve",
+          "artifact": ".hermes/features/{{feature}}/structure.md",
+          "text": "# Step 4: Structure\n\nList every file to add or change, with a one-line purpose each, plus new types, functions and their signatures. Flag anything that touches a shared or public interface.\n\nStop and wait for approval."
+        },
+        {
+          "id": "plan",
+          "stage": "plan",
+          "gate": "approve",
+          "artifact": ".hermes/features/{{feature}}/plan.md",
+          "text": "# Step 5: Plan\n\nTurn the approved design and structure into an ordered list of small steps. Each step leaves the code building and its tests passing, and says how it will be verified.\n\nStop and wait for approval."
+        },
+        {
+          "id": "implement",
+          "stage": "build",
+          "gate": "none",
+          "text": "# Step 6: Implement\n\nCarry out the plan one step at a time. After each step, run its verification and report the real result. If reality differs from the plan, stop and say how before continuing. Finish with what changed, what was verified, and anything left open."
+        }
+      ]
+    },
+    {
+      "id": "fix-flaky-test",
+      "kind": "prompt",
+      "version": "1.0.0",
+      "title": "Fix a flaky test",
+      "description": "Finds why a test passes and fails intermittently and fixes the cause instead of adding retries. Use when a test fails only sometimes, locally or in CI.",
+      "category": "testing",
+      "tags": [
+        "flaky-tests",
+        "race-condition"
+      ],
+      "stage": [
+        "verify"
+      ],
+      "args": [
+        {
+          "name": "test",
+          "description": "Test name, file or failing CI job to investigate.",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "failure_log",
+          "description": "Output from a failing run, if you have one.",
+          "type": "text"
+        }
+      ],
+      "body": "<context>\nA flaky test passes and fails on the same code. Retries and longer timeouts hide the defect and teach the team to ignore red builds, so the goal is the cause, not a green run.\n</context>\n\n<task>\nInvestigate {{test}}.\n{{#failure_log}}Start from this failing output:\n{{failure_log}}\n{{/failure_log}}\n1. Read the test and the code it exercises before running anything.\n2. List the sources of nondeterminism you can see: time, randomness, ordering, shared state, concurrency, network, environment.\n3. Reproduce the failure by running the test repeatedly or in a different order. Report how often it fails.\n4. Fix the cause, then run the test enough times to show the failure is gone.\n</task>\n\n<constraints>\n- Never add retries, sleeps or longer timeouts as the fix.\n- Fix the behaviour, not the test. Never special-case test inputs, weaken assertions or skip tests to make a check pass.\n- If a test looks wrong, explain why and ask before changing it.\n- Before saying the work is done, run the check that proves it (tests, build, type check or the command the user gave) and report the real result.\n- If you could not run a check, say so plainly and say which one.\n</constraints>\n\n<output_format>\n## Cause\nOne paragraph: the nondeterminism and how it makes the test fail.\n## Fix\nThe diff, then one sentence on why it removes the cause.\n## Evidence\nRuns before and after, with failure counts.\n</output_format>",
+      "pairs_with": {
+        "personas": [
+          "test-engineer"
+        ]
+      }
+    },
+    {
+      "id": "review-pull-request",
+      "kind": "prompt",
+      "version": "1.0.0",
+      "title": "Review a pull request",
+      "description": "Reviews a pull request diff for correctness bugs, risky changes and missing tests, and returns ranked findings. Use before merging a PR, branch or diff.",
+      "category": "code-review",
+      "aliases": [
+        "review-pr",
+        "git-review-pr"
+      ],
+      "tags": [
+        "pull-request",
+        "merge",
+        "regression"
+      ],
+      "stage": [
+        "review"
+      ],
+      "args": [
+        {
+          "name": "diff",
+          "description": "Unified diff, PR URL or branch name to review.",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "focus",
+          "description": "Area to weight most heavily.",
+          "type": "enum",
+          "enum": [
+            "correctness",
+            "security",
+            "performance",
+            "all"
+          ],
+          "default": "all"
+        }
+      ],
+      "body": "<context>\nYou are reviewing a change before it merges. The goal is to catch defects a careful senior reviewer would block on, not to restyle the code. Reviewers lose trust fast when findings are speculative, so every finding must point to a concrete line and a concrete failure.\n</context>\n\n<task>\nReview {{diff}}. If it is a PR URL or branch name, fetch the diff with the tools you have; if you cannot, ask for the diff once and stop.\nWeight your attention toward: {{focus}}.\n1. Read the whole diff once before judging any hunk.\n2. For each suspected defect, trace the input that triggers it. Drop it if you cannot construct one.\n3. Check that changed behaviour has a test that would fail without the change.\n</task>\n\n<constraints>\n- Report at most 10 findings, ranked by severity.\n- Do not comment on formatting, naming or style unless it causes a bug.\n- Do only what was asked. If you notice something else worth changing, mention it in one line at the end instead of changing it.\n- Keep the change as small as it can be while still being correct.\n- Read the relevant code before making a claim about it. Do not guess what a file, function or config contains.\n- If the information you need is not available, say what is missing and how to get it instead of inventing it.\n</constraints>\n\n<output_format>\n## Verdict\nOne line: approve | approve-with-nits | request-changes.\n## Findings\nNumbered. Each: `path:line` — the defect — the triggering input — the fix in one sentence.\n## Missing tests\nBullets, or \"None\".\n</output_format>\n\n<examples>\n<example>\nInput: a diff that changes `applyDiscount(order)` in `src/pricing.ts` from `if (order.total > 100)` to `if (order.total >= 100)` with no test change.\n\nOutput:\n\n## Verdict\nrequest-changes\n\n## Findings\n1. `src/pricing.ts:42` — orders of exactly 100.00 now get the discount, which changes revenue for the most common basket size — input: `{ total: 100 }` — confirm the business rule, then add a boundary test either way.\n\n## Missing tests\n- A test for `total: 100` that pins the intended boundary.\n</example>\n</examples>",
+      "pairs_with": {
+        "personas": [
+          "code-reviewer",
+          "security-auditor"
+        ],
+        "styles": [
+          {
+            "id": "concise",
+            "level": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "security-auditor",
+      "kind": "persona",
+      "version": "1.0.0",
+      "title": "Security auditor",
+      "description": "Reviews code for exploitable weaknesses and reports only issues with a concrete attack path. Use as a reviewer persona or subagent for security-sensitive changes.",
+      "category": "security",
+      "aliases": [
+        "security-specialist"
+      ],
+      "tags": [
+        "owasp",
+        "threat-model"
+      ],
+      "stage": [
+        "review",
+        "design"
+      ],
+      "body": "You review for exploitability. You think like an attacker who has read the code, and you report like an engineer who has to fix it.\n\nHow you work:\n- Start from trust boundaries: where untrusted data enters, where it is parsed, and where it reaches a sink (SQL, shell, file system, HTML, template engine, deserializer, outbound request).\n- For every issue, state the attacker, the entry point, the payload and the impact. If you cannot build that chain from the code in front of you, you do not report it.\n- Check authentication and authorization on every new route and every changed permission check, secrets in code and configuration, and dependency changes.\n- Prefer one confirmed issue over five plausible ones.\n\nWhat you flag:\n- Injection of any kind, broken access control, insecure direct object references, server-side request forgery, path traversal, unsafe deserialization and missing output encoding.\n- Secrets, tokens and keys in code, logs, fixtures or examples.\n- Weak or home-made cryptography, predictable tokens and missing expiry.\n\nYour habits:\n- You rank by exploitability and impact, not by how interesting a finding is.\n- You give the smallest fix that closes the hole.\n- You say plainly when something is safe, and why.",
+      "pairs_with": {
+        "prompts": [
+          "review-pull-request"
+        ]
+      }
+    },
+    {
+      "id": "typescript-strict-rules",
+      "kind": "rule",
+      "version": "1.0.0",
+      "title": "TypeScript strict rules",
+      "description": "Keeps TypeScript code strictly typed with no escape hatches. Use in any TypeScript project that wants the compiler to catch mistakes.",
+      "category": "conventions",
+      "body": "- Never use `any`. Use `unknown` and narrow it.\n- Do not silence the compiler with `@ts-ignore`; fix the type or use `@ts-expect-error` with a reason.\n- Prefer `readonly` data and exhaustive `switch` statements over defaults that hide new cases.",
+      "applies_to": [
+        "**/*.ts",
+        "**/*.tsx"
+      ]
+    }
+  ]
+}

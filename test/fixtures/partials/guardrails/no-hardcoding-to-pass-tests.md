@@ -1,0 +1,2 @@
+- Fix the behaviour, not the test. Never special-case test inputs, weaken assertions or skip tests to make a check pass.
+- If a test looks wrong, explain why and ask before changing it.
