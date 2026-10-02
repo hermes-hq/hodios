@@ -43,6 +43,6 @@ npm run gen:schema         # rewrite schema/*.json from packages/schema/src/sche
 - **Fill the facets honestly** (`stack`, `stage`, `requires`, `inputs`, `output`, `tags`). They decide who sees an entry first; a wrong stack hides it from the people it is for.
 - **Ids are forever.** Never rename or delete a released id; add the old id to the successor's `aliases`.
 - **`packages/core` stays isomorphic:** no `node:` imports there; file access belongs in the CLI.
-- **Public repo:** never commit personal data, local paths, emails, tokens or internal URLs.
+- **Public repo:** never commit personal data, local paths, emails, tokens or internal URLs. Set `git config user.email <login>@users.noreply.github.com` in your clone so rebases and amends keep it too. GitHub writes the squash commit itself, so merge with the noreply address as its author once checks are green: `gh pr checks --watch && gh pr merge --squash --delete-branch --author-email <id>+<login>@users.noreply.github.com` (auto-merge rejects a noreply author; the merge fails safely until the account keeps its email private).
 - **Commits and PRs:** work on a branch, open a PR, wait for `check` and `dco` to pass. Squash merge only. Every commit needs a DCO `Signed-off-by` from the accountable human; an agent only adds it when that human has told it to commit under their identity.
 - Keep diffs small and on-task. Do not reformat files you did not change.
