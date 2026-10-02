@@ -1,0 +1,60 @@
+schema: 1
+baseline: "Explain this pull request to me: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refactor-with-hidden-change
+    vars:
+      reviewer_familiarity: some
+      pr_description: "Move discount logic into a DiscountService. No behaviour change."
+      diff: |
+        --- a/src/checkout/cart.ts
+        +++ b/src/checkout/cart.ts
+        @@ -1,14 +1,8 @@
+        -export function total(items: Item[], code?: string): number {
+        -  let sum = items.reduce((s, i) => s + i.price * i.qty, 0);
+        -  if (code === 'SAVE10' && sum >= 50) sum = sum * 0.9;
+        -  return Math.round(sum * 100) / 100;
+        -}
+        +import { applyDiscount } from './discount-service';
+        +export function total(items: Item[], code?: string): number {
+        +  const sum = items.reduce((s, i) => s + i.price * i.qty, 0);
+        +  return Math.round(applyDiscount(sum, code) * 100) / 100;
+        +}
+        --- /dev/null
+        +++ b/src/checkout/discount-service.ts
+        @@ -0,0 +1,6 @@
+        +export function applyDiscount(sum: number, code?: string): number {
+        +  if (code === 'SAVE10' && sum > 50) return sum * 0.9;
+        +  return sum;
+        +}
+        --- a/src/checkout/index.ts
+        +++ b/src/checkout/index.ts
+        @@ -1,2 +1,3 @@
+         export * from './cart';
+        +export * from './discount-service';
+    assert:
+      - {type: contains, value: "## Reading order"}
+      - {type: llm-rubric, value: "Flags the change from sum >= 50 to sum > 50 in discount-service.ts as a behaviour change hidden in a refactor that contradicts the 'no behaviour change' description, citing the file and line, and notes the lack of tests."}
+      - {type: llm-rubric, value: "Does not give an approve or reject verdict; leaves the decision to the reviewer."}
+  - name: edge-new-reviewer-depth
+    vars:
+      reviewer_familiarity: new
+      diff: |
+        --- a/billing/invoice.py
+        +++ b/billing/invoice.py
+        @@ -10,6 +10,9 @@ def finalize(invoice):
+             invoice.lock()
+        +    if invoice.currency != invoice.customer.currency:
+        +        raise CurrencyMismatch(invoice.id)
+             ledger.post(invoice)
+    assert:
+      - {type: llm-rubric, value: "Explains the surrounding concepts a newcomer needs (what finalising an invoice and posting to the ledger likely mean, marked as inference where not visible) before the reading order, and asks the author whether existing invoices with mismatched currencies would now fail to finalise."}
+  - name: negative-empty-input
+    vars:
+      diff: ""
+      reviewer_familiarity: owner
+    assert:
+      - {type: llm-rubric, value: "Asks for the diff once and does not invent a walkthrough."}

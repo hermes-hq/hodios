@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Implement a state machine for this process: {{process}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-flags
+    vars:
+      process: |
+        Our orders table has is_paid, is_shipped, is_cancelled and refunded_at. Code paths:
+        - pay(): sets is_paid = true and sends a receipt email.
+        - ship(): if is_paid, sets is_shipped = true and emails tracking.
+        - cancel(): sets is_cancelled = true; if is_paid, issues a refund and sets refunded_at.
+        Support has seen orders that are both shipped and cancelled.
+      stack: "TypeScript, NestJS"
+      persistence: "Postgres via Prisma"
+    assert:
+      - {type: icontains, value: "stateDiagram"}
+      - {type: llm-rubric, value: "Replaces the four flags with explicit states (for example pending, paid, shipped, cancelled, refunded), makes cancelling a shipped order illegal or an open question with a conservative default, and lists the existing shipped-and-cancelled rows as needing a decision before migration."}
+      - {type: llm-rubric, value: "Uses a conditional update or version check so two concurrent transitions cannot both succeed, sends emails and refunds after commit, and includes a table-driven test over every state and event pair."}
+  - name: edge-timeout-transition
+    vars:
+      process: "Seat bookings: held when selected, confirmed when paid, released automatically if not paid within 10 minutes, cancellable by the customer until 24 hours before the event."
+      stack: "Python Django"
+    assert:
+      - {type: llm-rubric, value: "Models the 10-minute hold expiry as a time-triggered transition with a mechanism to run it (for example a scheduled job or delayed task) and tests it with a controllable clock, and expresses the 24-hour rule as a guard on cancel."}
+  - name: negative-unspecified-rules
+    vars:
+      process: "Expense approvals: submitted, approved or rejected."
+    assert:
+      - {type: llm-rubric, value: "Lists unspecified rules (can a rejected expense be resubmitted, who can approve, can approval be revoked) as open questions with proposed defaults rather than inventing business rules as facts; implements conservative defaults that keep unspecified transitions illegal."}

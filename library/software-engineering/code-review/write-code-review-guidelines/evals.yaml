@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write code review guidelines for our team: {{team_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pain-points-addressed
+    vars:
+      team_context: "9 engineers (3 senior, 4 mid, 2 junior) across Berlin and Toronto. We ship a B2B web app daily from main."
+      pain_points: "PRs wait up to 2 days for a first review. Long threads arguing about naming and formatting. Huge PRs get approved with 'LGTM'. Juniors rarely leave comments."
+      tooling: "GitHub with CODEOWNERS, required checks, Prettier and ESLint in CI."
+    assert:
+      - {type: contains, value: "## What blocks a merge"}
+      - {type: llm-rubric, value: "Sets a first-response expectation that accounts for the Berlin and Toronto time zones, pushes formatting and naming style to Prettier and ESLint, sets a PR size target, and encourages juniors to review (for example with question and praise labels)."}
+      - {type: llm-rubric, value: "Defines comment labels with blocking versus non-blocking clearly marked, and maps each listed pain point to the guideline that addresses it."}
+  - name: edge-open-source-maintainers
+    vars:
+      team_context: "Open-source library with 3 volunteer maintainers and outside contributors, no fixed hours, releases monthly."
+      tooling: "GitHub."
+    assert:
+      - {type: llm-rubric, value: "Adapts response-time expectations to volunteers (for example a best-effort first response window and a way for contributors to ping) rather than imposing corporate same-day SLAs, and includes guidance for reviewing first-time contributors kindly."}
+  - name: negative-no-unsupported-process
+    vars:
+      team_context: "Two-person startup, both senior, pairing most of the day, deploying many times a day."
+      pain_points: "Reviews feel like overhead."
+    assert:
+      - {type: llm-rubric, value: "Keeps the guidelines light for a two-person pairing team (for example allowing pairing to count as review for low-risk changes and keeping blocking reviews for risky ones) rather than prescribing heavy multi-reviewer process."}

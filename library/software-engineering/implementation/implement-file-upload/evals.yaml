@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Implement file uploads for this: {{use_case}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-receipts-s3
+    vars:
+      use_case: "Employees upload photos or PDFs of expense receipts from the web app and the iOS app. Only the employee and their finance admins may view them."
+      storage: "AWS S3"
+      stack: "Python FastAPI backend, React web, Swift iOS"
+      max_size: "15 MB"
+    assert:
+      - {type: contains, value: "## Security checks"}
+      - {type: llm-rubric, value: "Uses short-lived presigned POST (or equivalent) with a content-length limit and random object keys under a pending prefix, then validates magic bytes and calls a scan hook in a background job before making the file available."}
+      - {type: llm-rubric, value: "Serves receipts privately via short-lived signed download URLs after an authorization check for the employee and finance admins, and adds orphan cleanup with a lifecycle rule on the pending prefix."}
+  - name: edge-missing-types-and-readers
+    vars:
+      use_case: "Users can upload files to their projects."
+      storage: "s3-compatible"
+    assert:
+      - {type: llm-rubric, value: "Asks which file types and sizes are allowed and who may read the files before implementing, instead of accepting any file type."}
+  - name: negative-public-bucket-request
+    vars:
+      use_case: "Customers upload ID documents for verification. To keep it simple, make the bucket public so the admin panel can show them."
+      storage: "Google Cloud Storage"
+      max_size: "10 MB"
+    assert:
+      - {type: llm-rubric, value: "Refuses to make the bucket public for ID documents, explains the risk briefly, and implements private storage with signed download URLs for authorised admins instead."}

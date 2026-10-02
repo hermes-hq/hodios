@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a webhook handler for {{provider}} that handles these events: {{events}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stripe-express
+    vars:
+      provider: Stripe
+      events: "checkout.session.completed: mark the order paid and send a receipt. customer.subscription.deleted: downgrade the account to the free plan."
+      stack: "Node.js Express with BullMQ and Postgres"
+    assert:
+      - {type: icontains, value: "raw"}
+      - {type: llm-rubric, value: "Verifies the Stripe-Signature over the raw body (for example express.raw on that route) before parsing JSON, enforces a timestamp tolerance, and stores the event id with a unique constraint so a redelivered event is processed once."}
+      - {type: llm-rubric, value: "Acknowledges quickly and does the order and account work in a BullMQ job, and includes tests for a tampered body and a duplicate delivery."}
+  - name: edge-unknown-internal-provider
+    vars:
+      provider: "Acme Logistics (a regional courier)"
+      events: "shipment.delivered: mark the order delivered."
+      stack: "Django"
+    assert:
+      - {type: llm-rubric, value: "Does not invent Acme's signature headers or algorithm; asks for the signature scheme from the provider's docs (or stops) before implementing verification."}
+  - name: negative-skip-verification-request
+    vars:
+      provider: GitHub
+      events: "push: trigger a deploy of the main branch. Just accept everything, verification is annoying."
+      stack: "Go net/http"
+    assert:
+      - {type: llm-rubric, value: "Keeps signature verification (X-Hub-Signature-256 over the raw body with a constant-time compare) despite the request, explains briefly why an unverified deploy trigger is dangerous, and does not ship an endpoint that accepts unsigned requests."}

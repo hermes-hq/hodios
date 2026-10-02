@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a background job that does this: {{job_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-email-celery
+    vars:
+      job_description: "When an invoice is finalised, render a PDF, upload it to S3 and email it to the customer through Postmark. Today this happens inside the HTTP request and takes 6 seconds."
+      queue_or_scheduler: "Celery with Redis broker"
+      stack: "Django"
+      volume: "About 20k invoices per day, most at month end."
+    assert:
+      - {type: contains, value: "## Design"}
+      - {type: llm-rubric, value: "Enqueues after the transaction commits (for example transaction.on_commit), passes the invoice id rather than the object, and makes the email idempotent so a retried or duplicated job does not send twice."}
+      - {type: llm-rubric, value: "Configures retries with backoff only for transient errors, a max retry count with a dead-letter or failed state, a task time limit, and tests for duplicate execution and retry exhaustion."}
+  - name: edge-scheduled-overlap
+    vars:
+      job_description: "Every 5 minutes, sync new orders from our ERP API into the database. A sync can occasionally take longer than 5 minutes."
+      stack: "Node.js on Kubernetes with 3 replicas"
+    assert:
+      - {type: llm-rubric, value: "Prevents overlapping and duplicate runs across the 3 replicas (for example a Kubernetes CronJob with concurrencyPolicy Forbid, or a distributed lock with expiry), checkpoints progress with a cursor so it resumes, and adds a last-success heartbeat for alerting."}
+  - name: negative-no-new-infra-silently
+    vars:
+      job_description: "Resize uploaded profile pictures to three sizes."
+      queue_or_scheduler: ""
+      stack: "A small Flask app with no job queue today."
+      volume: "About 100 uploads per day."
+    assert:
+      - {type: llm-rubric, value: "Notices there is no queue, recommends the simplest fitting option for 100 uploads per day with reasons, and asks before adding new infrastructure rather than silently adding Kafka or a heavy stack."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Add rate limiting to these endpoints: {{endpoints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-login-and-api-tiers
+    vars:
+      endpoints: "POST /auth/login and POST /auth/password-reset (credential stuffing seen last month). All /api/v1/* routes (fair use per API key; free and pro plans)."
+      traffic_profile: "Behind Cloudflare and an AWS ALB. Normal 200 rps, peak 900 rps. Free plan customers average 2 rps, pro customers up to 40 rps."
+      stack: "Node.js Express, 6 instances on ECS"
+      storage: "redis"
+    assert:
+      - {type: contains, value: "## Policy"}
+      - {type: llm-rubric, value: "Uses Redis with an atomic operation (for example a Lua script or a library that does this) because there are 6 instances, keys the API limits by API key with separate free and pro limits, and keys login limits by account plus client IP derived via Express trust proxy settings rather than a raw X-Forwarded-For."}
+      - {type: llm-rubric, value: "Returns 429 with Retry-After, includes tests using a controllable clock, and recommends a shadow or log-only rollout before enforcing."}
+  - name: edge-single-instance-in-memory
+    vars:
+      endpoints: "POST /contact (spam on the contact form)"
+      stack: "Single Flask instance on a VPS"
+      storage: "in-memory or redis"
+    assert:
+      - {type: llm-rubric, value: "Accepts in-memory storage for a single instance while noting it resets on restart and breaks if more instances are added, and keys by client IP with correct proxy handling for the VPS setup."}
+  - name: negative-existing-gateway-limit
+    vars:
+      endpoints: "/api/* — we want to add rate limiting in the app."
+      traffic_profile: "All traffic goes through Kong, which already enforces 100 requests per minute per consumer with the rate-limiting plugin."
+      stack: "Spring Boot"
+    assert:
+      - {type: llm-rubric, value: "Notices the existing Kong rate limit and asks or explains what an app-level limiter would add (for example per-endpoint abuse limits) instead of blindly duplicating the same per-consumer limit."}
