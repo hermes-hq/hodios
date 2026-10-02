@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should I delegate this task: {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarterly-report
+    vars:
+      task: "The quarterly customer health report for leadership: pull usage data, summarise churn risks, recommend actions. Due in 3 weeks. I've done it myself for 2 years because leadership is picky about the format."
+      team: "A (senior CSM, at capacity with two renewals); B (CSM, 1 year, strong with spreadsheets, wants more visibility with leadership); C (new joiner, 1 month)."
+    assert:
+      - {type: contains, value: "## The brief"}
+      - {type: llm-rubric, value: "Says the report is a good candidate, names leadership's format expectations as the real holding reason, recommends B with reasons and notes capacity, chooses an autonomy level such as research and recommend or decide and tell me before acting, writes a brief with outcome, done criteria, format examples and decision rights, sets milestone-based check-ins, and lists behaviours to stop such as rewriting B's work."}
+  - name: edge-no-team-info
+    vars:
+      task: "Organise the team offsite for 12 people next quarter, budget 8,000 EUR."
+    assert:
+      - {type: llm-rubric, value: "Describes the profile of a good delegate and asks about team members' capacity and interests instead of inventing people, and still provides an autonomy level, brief and check-ins."}
+  - name: negative-keep-confidential
+    vars:
+      task: "Tell one of my reports that his role is being eliminated next month. Can I delegate this conversation to my senior engineer?"
+      team: "Senior engineer, peer of the affected person."
+    assert:
+      - {type: llm-rubric, value: "Advises that this conversation should not be delegated to a peer because it is confidential and requires the manager's authority, recommends the manager holds it with HR support, and offers what could be delegated instead, such as parts of the handover of the person's work after the announcement."}

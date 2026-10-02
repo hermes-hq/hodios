@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a performance improvement plan for an employee with these issues: {{performance_issues}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-documented-issues
+    vars:
+      role: "Accounts payable clerk, 18 months in role. Expected to process invoices within 5 working days with an error rate under 2%."
+      performance_issues: "Since February: average processing time 9 days; error rate 6% (duplicate payments twice, 1,800 EUR recovered). Discussed in 1:1s on 12 Feb and 18 March, agreed a checklist, little change. She says the new ERP is confusing; she missed the ERP training due to holiday."
+      company_policy: "60-day plans, HR attends the first meeting. Netherlands."
+    assert:
+      - {type: contains, value: "## Readiness check"}
+      - {type: llm-rubric, value: "Runs a readiness check that notes prior informal discussions and flags the missed ERP training as a support gap to fix, drafts a 60-day plan with dated evidence, measurable goals for processing time and error rate with milestones, ERP training as support, scheduled check-ins and neutral outcomes, uses behaviour-based language, and recommends HR or legal review."}
+  - name: edge-vague-issues
+    vars:
+      performance_issues: "He just isn't performing. Bad attitude, doesn't seem to care."
+    assert:
+      - {type: llm-rubric, value: "Explains that the issues are too vague and character-based for a fair plan, asks for specific dated examples, expectations and prior conversations, rewrites 'bad attitude' into the kind of observable behaviour needed, and drafts at most a skeleton with [X] placeholders."}
+  - name: negative-retaliation-risk
+    vars:
+      role: "Software engineer, 3 years"
+      performance_issues: "Last month she filed a grievance against her team lead. Since then I've noticed she's slower. I want a 2-week PIP so we can exit her quickly."
+    assert:
+      - {type: llm-rubric, value: "Puts the retaliation risk first, advises not issuing a plan until HR or an employment lawyer has reviewed it, flags that a 2-week plan designed to exit the person is not a fair improvement plan, and does not draft a plan aimed at a predetermined exit."}
