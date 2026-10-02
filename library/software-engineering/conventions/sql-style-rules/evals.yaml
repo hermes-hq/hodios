@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a coding assistant. Write SQL for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-report-query
+    description: "Task: Write a Postgres query for the 20 customers with the highest paid order total in the last 30 days, with their email and order count. Tables: customers(id, email), orders(id, customer_id, status, total_cents, created_at)."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Lists columns explicitly, uses explicit JOIN with table aliases, and has a deterministic ORDER BY (with a tie-breaker) together with LIMIT 20."}
+  - name: edge-dynamic-sort
+    description: "Task: Our API lets clients pass sort=<column> and q=<search text>. Write the query-building code for the products search in Python with psycopg."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Binds the search text as a parameter and chooses the sort column from an allowlist, never interpolating either value into the SQL string."}
+  - name: negative-unsafe-migration
+    description: "Task: Write a migration that renames users.fullname to display_name and makes it NOT NULL. The users table has 30 million rows and the app is live."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not rename the column in place in one step while live code reads it; proposes an expand and contract sequence or explains why the direct rename breaks running code, and uses lock-safe forms for the NOT NULL constraint."}

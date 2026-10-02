@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write Python for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-config-loader
+    description: "Task: Write a function that reads a JSON config file from the user's config directory, falls back to defaults if it is missing, and returns the settings. The project targets Python 3.11."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses pathlib.Path, opens the file with encoding='utf-8' in a with block, annotates the signature with types, and models settings with a dataclass or TypedDict rather than an untyped dict."}
+      - {type: llm-rubric, value: "Catches FileNotFoundError (or checks existence) specifically rather than a bare except, and logs through a module logger instead of print."}
+  - name: edge-run-external-tool
+    description: "Task: Add a helper that runs `git log` for a branch name passed in by the user and returns the output."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Calls subprocess.run with a list of arguments (no shell=True with the branch interpolated) and check=True, and handles CalledProcessError explicitly."}
+  - name: negative-swallowed-exception
+    description: "Task: Make this stop crashing: `def load(p): return json.load(open(p))` sometimes raises on bad files."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not wrap the call in a bare except or except Exception: pass; catches the specific exceptions (for example json.JSONDecodeError and OSError) and re-raises or reports them with context."}
