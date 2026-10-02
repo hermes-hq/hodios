@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a week of meals
 description: Builds a weekly meal plan for a household with planned leftovers, a grocery list grouped by aisle and a short prep schedule, sized to the budget and weeknight cooking time. Use before the weekly shop.
 category: meal-planning
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [home-cook, parent]
@@ -45,6 +45,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Added cooked-rice and reheat-once guidance for leftovers."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -72,7 +73,7 @@ Cooking time: {{cooking_time}}
 <constraints>
 - Respect every allergy and diet in every meal and snack, including hidden sources in stocks, sauces and spice mixes. For a serious allergy, remind them to check labels.
 - If a dietary need is medical (diabetes, kidney disease, a prescribed diet), plan sensibly but say the household's doctor or dietitian sets the targets; do not prescribe calories or nutrient limits.
-- Food safety for leftovers: cooked food is usually best eaten within about 3–4 days refrigerated, and should be frozen if it is planned for later; reheat until piping hot.
+- Food safety for leftovers: cooked food is usually best eaten within about 3–4 days refrigerated, and should be frozen if it is planned for later; reheat until piping hot, and only once. Cooked rice needs fast cooling, and some food agencies advise eating it within 24 hours, so plan rice leftovers for the next day or freeze them. Guidance varies by country.
 - For children, keep at least one familiar element on each plate and note simple ways to serve the same meal less spicy or deconstructed.
 - If the household or meals to cover are too vague to size the shopping list, ask for headcount and which meals to plan.
 - Name dishes, not branded products.

@@ -5,7 +5,7 @@ kind: prompt
 title: Summarise a long document
 description: Produces a layered summary of a long document, from one line to key points to section detail, keeping numbers, hedges and nuance faithful and pointing to where each point comes from.
 category: summarization
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [individual, manager, executive, consultant]
@@ -42,6 +42,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Added a way to point to sources in documents without headings or pages."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -58,7 +59,7 @@ Length: {{length}}
 <task>
 1. Read the whole document first. Identify its type, its main claim or purpose, and its structure.
 2. Write one line that captures what the document says and why it matters, not what it is about.
-3. Write the key points (5–7), most important first. Each point is a finding, conclusion or requirement, with a pointer to where it appears (section heading or number, page if available).
+3. Write the key points (5–7), most important first. Each point is a finding, conclusion or requirement, with a pointer to where it appears (section heading or number, page if available; if the document has no headings or pages, a short quoted phrase that locates it).
 4. If a purpose was given, add what matters most for it: the passages that support or complicate the reader's decision, and anything they must act on.
 5. For standard and detailed lengths, summarise each major section in 1–3 bullets (standard) or a short paragraph (detailed), following the document's own order.
 6. Collect the numbers that matter (amounts, dates, percentages, thresholds, deadlines) exactly as written, with units and where they appear.
@@ -77,7 +78,7 @@ Length: {{length}}
 <output_format>
 ## In one line
 ## Key points
-Numbered, each ending with (§ or page reference).
+Numbered, each ending with (§, page or a short locating quote).
 ## For your purpose
 Only if a purpose was given.
 ## Section by section

@@ -5,7 +5,7 @@ kind: prompt
 title: Run a pre-mortem
 description: Runs a pre-mortem on a plan by imagining it has already failed, lists the most likely specific causes, and turns them into mitigations, warning signs and tripwires. Use before committing to a plan.
 category: decision-making
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, review]
 role: [manager, founder, product-manager, project-manager]
@@ -37,10 +37,11 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Stated the evidence for the technique without overclaiming."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-You are a strategy facilitator who runs pre-mortems, the technique Gary Klein described: assume the plan has already failed and explain why. Imagining a failure that has happened makes people far better at finding concrete reasons than asking "what could go wrong?". You look for causes specific to this plan, its people, its assumptions and its timing, not generic risks that apply to everything.
+You are a strategy facilitator who runs pre-mortems, the technique Gary Klein described: assume the plan has already failed and explain why. Research on this "prospective hindsight" found that imagining a failure that has already happened helps people name more, and more concrete, reasons than asking "what could go wrong?". You look for causes specific to this plan, its people, its assumptions and its timing, not generic risks that apply to everything.
 
 Plan:
 <plan>

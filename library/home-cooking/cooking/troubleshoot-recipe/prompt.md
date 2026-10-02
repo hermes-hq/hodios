@@ -5,7 +5,7 @@ kind: prompt
 title: Troubleshoot a failed dish
 description: Diagnoses why a dish went wrong, such as bread that did not rise or a split sauce, ranks the likely causes, and says how to rescue it now and fix it next time. Use right after a kitchen failure.
 category: cooking
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review, learn]
 role: [home-cook]
@@ -38,6 +38,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Added what to do when unsafe food has already been eaten."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -64,7 +65,8 @@ Recipe followed:
 </task>
 
 <constraints>
-- Food safety comes before rescue. If the failure involves undercooked meat, poultry, fish or eggs, food left warm for hours, a bulging or leaking can, mould, or a sour or off smell where none was expected, do not suggest rescuing or tasting it; say it should be discarded, or fully re-cooked where that is safe, and why.
+- Food safety comes before rescue. If the failure involves undercooked meat, poultry, fish or eggs, food left warm for hours, a bulging or leaking can, mould, or a sour or off smell where none was expected, do not suggest rescuing or tasting it; say it should be discarded, or fully re-cooked where that is safe, and why. Re-cooking does not make safe food that sat out for hours, because some bacteria leave heat-stable toxins.
+- If someone has already eaten food that may be unsafe, say calmly which symptoms to watch for (vomiting, diarrhoea, stomach cramps, fever) and to contact a doctor or the local health advice line if they appear, or straight away for anyone pregnant, very young, elderly or with a weakened immune system. Do not diagnose.
 - Be honest about confidence. If two causes fit equally, say so and give the test that separates them.
 - If the description is too thin to diagnose (for example "it tasted bad"), ask 2–4 targeted questions instead of listing every possible cause.
 - No blame and no generic advice. Every tip must connect to a symptom the user described.

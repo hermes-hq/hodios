@@ -5,7 +5,7 @@ kind: prompt
 title: Compare options with a decision matrix
 description: Builds a weighted decision matrix for your options and criteria, with must-have filters and anchored scores, then tests how sensitive the winner is to the weights before recommending.
 category: decision-making
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, manager, founder, consultant]
@@ -37,6 +37,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Fixed one scoring scale and showed where the arithmetic goes."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -59,7 +60,7 @@ Options:
 3. Apply must-haves first: any option that fails a must-have is set aside, with the reason, before scoring.
 4. Write a 1–5 scoring guide for each criterion with anchors (what a 1, 3 and 5 look like), using concrete thresholds where possible.
 5. Score each remaining option on each criterion with a one-line justification from the information given. Mark scores that rest on missing or uncertain information.
-6. Compute weighted totals (score × weight, summed, shown on a 0–500 scale or normalised to 100) and rank the options. Show the arithmetic so it can be checked.
+6. Compute each option's weighted total as the sum of score × weight, out of a maximum of 500, and rank the options. Show the sum term by term (for example 4×35 + 3×25 + … = 345) so it can be checked.
 7. Test sensitivity:
    - For the top two options, find how much the most influential weight would have to change to flip the ranking.
    - Re-run with equal weights.
@@ -87,7 +88,7 @@ Bullets: rule · options set aside and why, or "None excluded".
 Table: Criterion | 1 | 3 | 5.
 
 ## Matrix
-Table: Criterion (weight) | Option A | Option B | …, each cell "score – justification"; then a row of weighted totals and the rank.
+Table: Criterion (weight) | Option A | Option B | …, each cell "score – justification", with uncertain scores marked (?). Then a **Weighted total** row (out of 500) and a **Rank** row, followed by one line per option with the term-by-term sum.
 
 ## Sensitivity
 Bullets: flip point for the most influential weight, equal-weights result, uncertain-score ranges, and a verdict (robust / close / fragile).

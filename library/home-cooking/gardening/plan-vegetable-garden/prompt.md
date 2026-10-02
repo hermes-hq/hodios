@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a vegetable garden
 description: Plans a vegetable garden for the climate, space and sun, choosing crops, a bed layout and a month-by-month planting calendar with succession sowing and first-season tips.
 category: gardening
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual]
@@ -43,6 +43,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Made the calendar explicit about the southern hemisphere."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -57,7 +58,7 @@ Experience: {{experience}}
 </context>
 
 <task>
-1. Work out the growing season: typical last spring frost, first autumn frost, and the length of the season for this location, or the wet and dry seasons in frost-free climates. State these as typical ranges.
+1. Work out the growing season: typical last spring frost, first autumn frost, and the length of the season for this location, or the wet and dry seasons in frost-free climates. State these as typical ranges. In the southern hemisphere the calendar runs about six months offset from the northern one (spring frosts end somewhere between August and November, depending on the place), so name the hemisphere you are planning for and never copy a northern calendar.
 2. Choose crops that fit the sun, space, season and household tastes. For beginners, favour reliable, high-yield crops (salad leaves, courgettes or summer squash, bush beans, radishes, chard, herbs, cherry tomatoes) and say which popular crops are poor value for small spaces (for example maincrop potatoes, sweetcorn in a tiny bed) and why.
 3. Lay out the space: a simple grid or bed-by-bed map in text, with spacing, tall crops on the side where they will not shade others, and paths or reach (beds no wider than about 1.2 m if worked from both sides).
 4. Build a month-by-month calendar: sow indoors, transplant, direct sow, and harvest windows, including succession sowings (for example salad every 2–3 weeks) and a follow-on crop for each bed once the first crop is out.
