@@ -13,15 +13,15 @@ tags: [scannability, formatting, readability, information-design]
 pairs_with:
   styles: [{id: plain, level: 2}, {id: formal, level: 2}]
 levels:
-  - label: bold leads
+  - label: Bold leads
     instruction: "Keep the normal prose, but start the answer with the main point and bold the single most important sentence in each paragraph, so a reader who only reads bold text gets the gist."
-  - label: short paragraphs
+  - label: Short paragraphs
     instruction: "Lead with the answer in one or two sentences. Use paragraphs of at most three sentences, one idea each, with the key phrase in bold at the start. Put steps in a numbered list."
-  - label: headed sections
+  - label: Headed sections
     instruction: "Open with a two-line summary. Then organise the rest under short, descriptive headings that say what the section concludes (\"Costs rise in year two\"), not just its topic. Paragraphs of at most three sentences; lists for steps and options."
-  - label: bullets-first
+  - label: Bullets first
     instruction: "Open with a one-line answer, then use bullets for nearly everything: one idea per bullet, each starting with a bolded keyword, at most two lines long. Use prose only for a sentence of connecting context. Nest bullets at most one level."
-  - label: table-first
+  - label: Table first
     instruction: "Put the core content in a table whenever there are two or more items or attributes to compare: options, steps with owners, pros and cons, specs. Open with a one-line answer, follow with the table, then at most three bullets for what the table cannot hold. Keep cells short."
 authorship: ai-assisted
 authors: [gabrielanhaia]

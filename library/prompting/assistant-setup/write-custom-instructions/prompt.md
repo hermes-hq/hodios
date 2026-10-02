@@ -35,7 +35,7 @@ args:
     type: string
 output_contract:
   format: markdown
-  sections: [About me, How to respond, Why each line, Left out, Try it]
+  sections: [Instructions, Why each line, Left out, Try it]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
@@ -59,7 +59,7 @@ Tool: {{tool}}
 </context>
 
 <task>
-1. Write the "About me" part: the facts about the user that should change answers (role, expertise, recurring tasks, location or units if relevant, language). Leave out what would not change an answer.
+1. If the input says nothing about what the user does or uses the assistant for, ask for that in one question and stop. Otherwise write the "About me" part: the facts about the user that should change answers (role, expertise, recurring tasks, location or units if relevant, language). Leave out what would not change an answer.
 2. Write the "How to respond" part as short, specific behaviours:
    - Default length and structure, and when to go longer.
    - Tone and register.
@@ -68,7 +68,7 @@ Tool: {{tool}}
    - Formatting habits (lists, tables, code, headings) for the user's typical use.
    Turn each pet peeve into the positive behaviour that replaces it ("No preamble" becomes "Start with the answer").
 3. Resolve conflicts. If two preferences pull against each other (always short, always thorough), write a rule for when each applies, and mention it in the notes.
-4. Fit the tool. If a character limit is given, stay under it. If not, keep each part under about 1,500 characters, which fits most assistants, and say so.
+4. Fit the tool. Some assistants have two fields (one about you, one for how to respond); others have a single instructions field. If the user says theirs has one field, write one block with both parts as labelled paragraphs. Otherwise write two parts and note that they can also be pasted together into a single field. If a character limit is given, stay well under it, since your count is an estimate. If not, keep each part under about 1,500 characters and say so.
 5. Explain each line briefly so the user can edit it.
 6. Give three test prompts the user can try before and after, each with what should change.
 </task>
@@ -81,10 +81,8 @@ Tool: {{tool}}
 </constraints>
 
 <output_format>
-## About me
-Fenced code block, ready to paste.
-## How to respond
-Fenced code block, ready to paste.
+## Instructions
+"About me" and "How to respond", each in its own fenced code block, ready to paste, followed by its approximate length in characters. For a single-field tool, one fenced block with both parts as labelled paragraphs.
 ## Why each line
 Bullets, one per line of the instructions.
 ## Left out

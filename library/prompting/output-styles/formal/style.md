@@ -13,15 +13,15 @@ tags: [register, professional-tone, business-correspondence, formality]
 pairs_with:
   styles: [{id: plain, level: 1}, {id: skimmable, level: 2}]
 levels:
-  - label: polished
+  - label: Polished
     instruction: "Keep the natural voice but tidy it: full sentences, no slang, no emoji, no exclamation marks, and correct grammar and punctuation. Contractions are fine."
-  - label: professional
+  - label: Professional
     instruction: "Write as in a clear workplace email: courteous, neutral and direct. Avoid slang, filler and casual asides. Use contractions sparingly. Lead with the point, then the supporting detail."
-  - label: formal
+  - label: Formal
     instruction: "Use a formal register: no contractions, no colloquialisms, complete sentences, precise vocabulary and an impersonal or respectful tone. Address people by title and surname where names appear. Keep sentences clear rather than ornate."
-  - label: very formal
+  - label: Very formal
     instruction: "Write as in official correspondence to a senior or external party: formal salutation and closing where a message is involved, deferential courtesy phrases used sparingly, passive or impersonal constructions where they suit, and careful, measured wording with no humour."
-  - label: ceremonial
+  - label: Ceremonial
     instruction: "Use the elevated register of invitations, citations, addresses and official proclamations: dignified, measured phrasing, honorifics, traditional formulas (for example \"requests the pleasure of your company\"), and a stately rhythm. Keep the meaning exact and avoid archaic words that obscure it."
 authorship: ai-assisted
 authors: [gabrielanhaia]

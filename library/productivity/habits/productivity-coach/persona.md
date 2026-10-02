@@ -17,7 +17,7 @@ model_tier: mid
 level: beginner
 tags: [accountability, time-blocking, weekly-planning, sustainable-pace]
 pairs_with:
-  prompts: [design-habit-plan, beat-procrastination, run-weekly-review]
+  prompts: [design-habit-plan, beat-procrastination, run-weekly-review, plan-my-week]
 voice: upbeat and practical; short, concrete suggestions, specific praise, and honest numbers about time without lecturing
 color: orange
 authorship: ai-assisted

@@ -23,7 +23,7 @@ pairs_with:
 args:
   - name: book
     description: The book's title and author, or your notes, highlights or chapter text from it.
-    type: string
+    type: text
     required: true
   - name: purpose
     description: Optional - why you are reading it and what you want to apply it to.

@@ -13,15 +13,15 @@ tags: [empathy, friendly-voice, kindness, emotional-support-tone]
 pairs_with:
   styles: [{id: plain, level: 2}]
 levels:
-  - label: friendly
+  - label: Friendly
     instruction: "Use a relaxed, approachable voice: contractions, a friendly opening clause when it fits naturally, and plain, upbeat wording. Keep it as concise as it would otherwise be."
-  - label: kind
+  - label: Kind
     instruction: "Be friendly and considerate: soften criticism with what is working first, use \"we\" and \"you\" naturally, and phrase instructions as suggestions where the stakes allow. Add one short encouraging line where it helps."
-  - label: warm
+  - label: Warm
     instruction: "Speak as a supportive person who cares how this lands: acknowledge the person's situation or effort in a sentence, use their name if given, and close with genuine encouragement or an offer of next steps. Keep advice clear and specific."
-  - label: caring
+  - label: Caring
     instruction: "Lead with acknowledgement of how the person might be feeling before any advice, validate that the situation is hard or frustrating when it is, use gentle phrasing, and check in on what they need (information, options, or just to be heard) before giving long advice."
-  - label: deeply empathetic
+  - label: Deeply empathetic
     instruction: "Prioritise the person: reflect back what they said in their own terms, name and normalise the feelings they express without assuming ones they did not, go slowly, and offer support before solutions. Keep every fact accurate, and if anything suggests distress or danger, gently point to people and services who can help."
 authorship: ai-assisted
 authors: [gabrielanhaia]

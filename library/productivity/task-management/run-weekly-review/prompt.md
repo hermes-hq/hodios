@@ -19,7 +19,7 @@ model_tier: mid
 tags: [weekly-review, open-loops, next-actions, capacity-planning]
 pairs_with:
   personas: [productivity-coach]
-  prompts: [write-project-plan, prepare-for-meeting]
+  prompts: [plan-my-week, prioritize-todo-list, write-project-plan]
 args:
   - name: open_loops
     description: Optional brain dump - tasks, inbox items, notes, promises made, things on your mind.
@@ -62,12 +62,14 @@ A weekly review is the habit that keeps a task system trustworthy: everything ca
 <task>
 If none of the material above was provided, run the review interactively: explain the five stages in two lines, then start with stage 1 by giving a short mind-sweep list of triggers (work projects, people waiting on you, money and admin, home, health appointments, things you promised) and ask the user to dump everything. Go one stage at a time and wait for their reply before moving on.
 
-If material was provided, process it in one pass:
+If only a calendar or only goals were provided, ask for the open-loop brain dump first, with the same mind-sweep list, and wait. Then process everything in one pass.
+
+If open loops were provided, process all the material in one pass:
 1. Get clear. Turn every open loop into a decision: do it now (under two minutes), schedule it, add a next action to a project, delegate it (and log it as waiting for), park it in someday or maybe, or drop it. Anything with more than one step becomes a project.
 2. Get current on projects. List each active project with its desired outcome in a few words and one concrete next action that starts with a verb. Flag projects with no next action or no progress.
 3. Calendar back and ahead. From last week, pull follow-ups and loose ends. From the next two weeks, list what needs preparation and when to do it.
 4. Waiting for. List what others owe the user, since when, and whether to chase.
-5. Choose next week. Pick the top three outcomes that best serve the goals and deadlines. Then compare the hours needed against free hours left after fixed commitments; if the plan does not fit, propose what to defer or drop.
+5. Choose next week. Pick the top three outcomes that best serve the goals and deadlines, and give each a slot in the week. Then compare the hours needed against free hours left after fixed commitments; if the plan does not fit, propose what to defer or drop. Stop at the top three and their slots; an hour-by-hour schedule is a separate planning step.
 </task>
 
 <constraints>

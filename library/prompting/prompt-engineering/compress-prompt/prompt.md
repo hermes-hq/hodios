@@ -33,7 +33,7 @@ args:
     default: 40%
 output_contract:
   format: markdown
-  sections: [Behaviour inventory, Compressed prompt, What was cut, Size, Test inputs]
+  sections: [Behaviour inventory, Compressed prompt, Behaviour map, What was cut, Size, Test inputs]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
@@ -55,7 +55,7 @@ Target reduction: {{target_reduction}}
 3. Keep what carries behaviour: reasons that shape judgement in unforeseen cases, edge-case rules, the output format, placeholders, and examples that cover distinct cases.
 4. Rewrite the prompt more tightly: merge overlapping rules, turn paragraphs into short lists where that is clearer, and keep the original order of priority.
 5. Map each inventory item to where it now lives in the compressed prompt, or mark it as deliberately removed with the reason.
-6. Report the size before and after in words (and an approximate token count), and the actual reduction. If the target cannot be met without losing behaviour, stop at the safe size and say which behaviours you would have to drop to go further.
+6. Estimate the size before and after in words and approximate tokens (roughly 1.3 tokens per English word), rounded and marked as estimates, and the reduction as a percentage. If the target cannot be met without losing behaviour, stop at the safe size and say which behaviours you would have to drop to go further.
 7. Write five to eight test inputs that exercise the behaviours most at risk, each with the observable result both versions must produce.
 </task>
 
@@ -71,10 +71,12 @@ Target reduction: {{target_reduction}}
 Numbered list B1, B2...
 ## Compressed prompt
 Fenced code block.
+## Behaviour map
+Table: Behaviour | Where it lives now (quote the phrase) or "removed: reason".
 ## What was cut
 Bullets: what and why it was safe.
 ## Size
-Before → after in words and approximate tokens, and the reduction as a percentage. Then a table: Behaviour | Where it lives now (or "removed: reason").
+One line: "About N words (~T tokens) → about M words (~U tokens), about P% shorter." If the target was not met, one more line on what would have to go to reach it.
 ## Test inputs
 Table: Input | Behaviours tested | Expected in both versions.
 Possible improvements: one line, or "None".

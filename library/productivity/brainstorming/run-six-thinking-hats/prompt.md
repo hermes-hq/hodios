@@ -63,6 +63,7 @@ The six thinking hats method makes a group (or one person) look at a problem in 
 
 <output_format>
 ## Blue hat - framing
+Three lines: The question, A good outcome, Assumptions.
 ## White hat - facts
 Three short lists: Known, Unknown, Would change the decision.
 ## Red hat - feelings
