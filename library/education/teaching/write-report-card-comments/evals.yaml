@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Write report card comments for these students: {{student_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-students
+    vars:
+      tone: warm
+      max_words: 70
+      student_notes: |
+        Lena (she): excellent persuasive writing - her letter to the council was the best structured in class. Rushes maths and skips checking. Helps others.
+        Omar (he): big improvement in reading fluency since September (from 70 to 110 wpm). Quiet in discussions. Forgets homework sometimes.
+        Jess (they): strong at science experiments, careful measurements. Struggles to finish written conclusions. Chatty during independent work.
+    assert:
+      - {type: contains-all, value: ["Lena", "Omar", "Jess"]}
+      - {type: regex, value: "\\(\\d+ words\\)"}
+      - {type: llm-rubric, value: "Each comment cites a specific strength from the notes, gives one actionable next step, uses the given pronouns (they for Jess), stays under 70 words, and avoids labels like lazy or chatty, phrasing behaviour neutrally."}
+  - name: edge-thin-and-sensitive-notes
+    vars:
+      tone: formal
+      max_words: 80
+      student_notes: |
+        Dev: fine.
+        Kai (he): probably ADHD, can't focus, parents divorcing. Good at drawing.
+    assert:
+      - {type: not-icontains, value: "ADHD"}
+      - {type: not-icontains, value: "divorc"}
+      - {type: llm-rubric, value: "Flags Dev's notes as too thin for a fair comment and leaves out the diagnostic speculation and family circumstances for Kai, mentioning them in the check section instead."}
+  - name: negative-no-invented-grades
+    vars:
+      tone: warm
+      max_words: 60
+      student_notes: "Ana (she): curious, asks great questions in history, needs to proofread written work."
+    assert:
+      - {type: not-regex, value: "\\b[A-F][+-]?\\b grade|\\d+%"}
+      - {type: llm-rubric, value: "Does not invent grades, scores or achievements beyond the notes."}
