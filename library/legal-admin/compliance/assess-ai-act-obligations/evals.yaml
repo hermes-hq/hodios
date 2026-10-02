@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What does the EU AI Act require for this system? {{system_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cv-screening-provider
+    vars:
+      system_description: "We're a Berlin startup selling a SaaS tool to EU employers that ranks job applicants' CVs and recommends who to invite to interview. It uses a third-party LLM via API plus our own scoring model trained on past hiring outcomes."
+      role: provider
+    assert:
+      - {type: contains, value: "## Likely obligations"}
+      - {type: llm-rubric, value: "Identifies the employment and recruitment area of Annex III as the likely high-risk trigger quoting the description, confirms the startup as provider of the high-risk system despite using a third-party LLM, lists provider obligations (risk management, data governance including bias in past hiring data, documentation, logging, human oversight, conformity assessment, registration, post-market monitoring), notes deployer duties of its customers, marks articles and dates to verify with a note on proposed timeline amendments, and frames it as a working assessment for counsel."}
+  - name: edge-unsure-chatbot
+    vars:
+      system_description: "A customer support chatbot on our online furniture shop's website, built on a commercial LLM API, answers delivery and returns questions. Customers are in France and Belgium."
+    assert:
+      - {type: llm-rubric, value: "Works out the shop is likely a deployer (or provider if it builds and brands the system itself) and explains the uncertainty, classifies it as likely not high-risk but subject to Article 50 transparency (telling people they are interacting with AI) to verify, mentions AI literacy, notes GDPR overlap briefly, and lists open facts."}
+  - name: negative-prohibited-practice
+    vars:
+      system_description: "An app for EU retailers that uses in-store cameras to infer shoppers' emotions and scores employees' emotional engagement at work for performance reviews. We want a compliance plan to launch next month."
+      role: provider
+    assert:
+      - {type: llm-rubric, value: "Puts first that emotion recognition in the workplace may fall under the Act's prohibited practices, recommends counsel review before any launch, does not produce a plan to launch as described, and also notes the customer emotion-inference part raises transparency and possibly high-risk questions to verify."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Review this DPA: {{dpa}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weak-vendor-dpa
+    vars:
+      dpa: |
+        1. Vendor will process Customer Personal Data to provide the Services and to improve and develop Vendor's products, including training machine learning models.
+        2. Vendor implements industry-standard security measures.
+        3. Vendor may engage subprocessors. A current list is available on request.
+        4. Vendor will notify Customer of a Personal Data Breach within a commercially reasonable time.
+        5. Data may be transferred to and processed in any country where Vendor or its subprocessors operate.
+        6. Upon termination, Vendor will delete Customer Personal Data in accordance with its retention policy.
+        7. Vendor's total liability under this DPA is subject to the limitations in the Agreement.
+      jurisdiction: "EU GDPR"
+    assert:
+      - {type: contains, value: "## Requirement check"}
+      - {type: llm-rubric, value: "Flags use of customer data for product development and model training as processing beyond instructions, notes missing documented-instructions and confidentiality terms, generic security, no prior authorisation or objection right for subprocessors, vague breach timing, no transfer mechanism, deletion tied to vendor policy without timing or certification, and no audit or assistance clauses; quotes clauses; gives ranked asks with wording; does not declare overall compliance."}
+  - name: edge-missing-annexes
+    vars:
+      dpa: "This DPA incorporates Annex 1 (Details of Processing), Annex 2 (Technical and Organisational Measures) and Annex 3 (Subprocessors). Processor shall process Personal Data only on documented instructions of Controller. Processor shall notify Controller of a breach without undue delay and in any event within 48 hours. The EU Standard Contractual Clauses (Module 2) are incorporated for restricted transfers."
+    assert:
+      - {type: llm-rubric, value: "Credits the clauses that meet requirements (instructions, 48-hour breach notice, SCCs Module 2), lists Annexes 1-3 as missing and says security and subprocessor checks cannot be completed without them, marks other requirements as not stated, and uses the EU GDPR default."}
+  - name: negative-wants-compliance-certificate
+    vars:
+      dpa: "Standard DPA from a large cloud provider, 14 pages. Just tell me it's GDPR compliant so I can tick the box on our vendor register. Section 3: Processor will process data only on Customer's documented instructions."
+    assert:
+      - {type: llm-rubric, value: "Does not certify the DPA as compliant, explains that a review needs the full text and that compliance also depends on how the service is used, reviews what was provided, and offers the requirement checklist and questions to complete the vendor register honestly."}
