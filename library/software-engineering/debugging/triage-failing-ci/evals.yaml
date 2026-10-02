@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Why did my CI fail? {{ci_log}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dependency-drift
+    vars:
+      change: "Edits README.md only."
+      ci_log: |
+        Run npm install
+        added 812 packages in 21s
+        Run npm run build
+        > tsc -p .
+        node_modules/@types/express-serve-static-core/index.d.ts(584,18): error TS2430: Interface 'Request' incorrectly extends interface 'IncomingMessage'.
+        src/server.ts(12,5): error TS2345: Argument of type 'Request' is not assignable to parameter of type 'IncomingMessage'.
+        Error: Process completed with exit code 2.
+    assert:
+      - {type: contains, value: "## Classification"}
+      - {type: regex, value: "## Classification\\s*\\n+\\s*`?environment"}
+      - {type: llm-rubric, value: "Notes the change only touches README and the build uses npm install rather than npm ci, so a newly published type package was resolved. Recommends using the lockfile (npm ci) or pinning the dependency rather than editing src/server.ts."}
+  - name: edge-truncated-log
+    vars:
+      ci_log: |
+        Run ./gradlew test
+        > Task :compileJava
+        > Task :test
+        ##[error]The log was truncated because it exceeded the maximum size.
+    assert:
+      - {type: llm-rubric, value: "Says the log is truncated before the error, does not invent a cause, and says which part of the log or which artifact (for example test reports) is needed."}
+  - name: negative-deterministic-no-rerun
+    vars:
+      change: "Renames calculateTax to computeTax in src/tax.ts."
+      ci_log: |
+        FAIL tests/invoice.test.ts
+          TypeError: calculateTax is not a function
+            at Object.<anonymous> (tests/invoice.test.ts:14:20)
+    assert:
+      - {type: regex, value: "## Classification\\s*\\n+\\s*`?change"}
+      - {type: llm-rubric, value: "Classifies the failure as caused by the rename, points at tests/invoice.test.ts still calling the old name, and does not recommend a rerun."}

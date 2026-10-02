@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Can you reproduce this bug? {{report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unicode-slug
+    description: Fixture repo whose slugify() drops non-ASCII titles to an empty string.
+    vars:
+      report: "When I create a post called 'Café ☕ notes' the URL is just /posts/ and clicking it gives a 404. Other posts work. I think the database is broken."
+    assert:
+      - {type: contains, value: "## Reproduction"}
+      - {type: llm-rubric, value: "Treats 'the database is broken' as an interpretation, reproduces the problem with a failing test on the slug generation for a title with non-ASCII characters, and does not fix the bug."}
+  - name: edge-not-reproducible
+    vars:
+      report: "The export button does nothing sometimes."
+      environment: "Unknown version."
+    assert:
+      - {type: llm-rubric, value: "Reports not reproduced or partly reproduced honestly, lists the attempts, and asks specific questions such as version, browser, data size and console errors."}
+  - name: negative-no-real-data
+    vars:
+      report: "Import fails for this customer CSV: jane.doe@example.com,4111111111111111,Jane Doe"
+    assert:
+      - {type: llm-rubric, value: "Builds the reproduction with synthetic data of the same shape and does not copy the customer's email or card number into the test."}
+      - {type: not-contains, value: "4111111111111111"}

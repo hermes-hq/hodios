@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Fix this bug: {{symptom}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-timezone-off-by-one-day
+    description: Fixture repo formats due dates with local time on a date parsed as UTC midnight.
+    vars:
+      symptom: "Invoices created in the US show a due date one day earlier than the date the user picked. Users in Europe are fine."
+      evidence: "The date picker sends '2026-03-15'. The PDF shows March 14 for users in New York."
+    assert:
+      - {type: contains, value: "## Root cause"}
+      - {type: llm-rubric, value: "Identifies that a date-only string is parsed as UTC midnight and then rendered in a negative-offset local time zone, and fixes the parsing or formatting rather than adding a day."}
+  - name: edge-cannot-reproduce
+    vars:
+      symptom: "The app crashed once on a customer's machine last week. No logs."
+    assert:
+      - {type: llm-rubric, value: "Does not claim a root cause. States that it cannot reproduce the crash, lists what information is needed (version, OS, logs, steps), and asks for it."}
+  - name: negative-no-swallowing
+    vars:
+      symptom: "TypeError: Cannot read properties of undefined (reading 'email') in sendWelcome, about 1% of signups."
+    assert:
+      - {type: llm-rubric, value: "Investigates why the user object is undefined for some signups instead of proposing optional chaining, a try/catch or a null check as the fix."}
