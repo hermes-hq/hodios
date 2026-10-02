@@ -85,9 +85,9 @@ Adding a prompt takes about five minutes: copy an example folder, edit the front
 ## Repository layout
 
 ```
-library/<category>/<id>/<kind>.md   entries (prompt.md, persona.md, workflow.md, rule.md or style.md)
+library/<domain>/<category>/<id>/<kind>.md   entries (prompt.md, persona.md, workflow.md, rule.md or style.md)
 partials/                            shared snippets included with {{> path}}
-vocab/                               controlled vocabularies: categories, stages, stacks...
+vocab/                               controlled vocabularies: domains, categories, roles, stacks... (see TAXONOMY.md)
 schema/                              JSON Schemas for entries, evals and vocab
 packages/schema  core  cli           @hermes-hq/hodios-schema, @hermes-hq/hodios-core, hodios (CLI)
 ids.lock                             every released id, append-only

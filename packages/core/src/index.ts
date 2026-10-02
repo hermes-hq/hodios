@@ -1,10 +1,25 @@
 export { BRAND, entryUrl } from './brand.js';
 export { parseFrontmatter, parseYamlDocument, type ParsedDocument } from './parse.js';
 export { findPositionalPlaceholders, resolveInclude, scanTemplate, type TemplateToken } from './template.js';
-export { buildVocab, checkVocabFile, lookup, type FacetIndex, type Vocab, type VocabLookup } from './vocab.js';
+export {
+  DOMAIN_CATEGORY_LIMITS,
+  buildVocab,
+  checkVocabFile,
+  checkVocabSet,
+  impliedBy,
+  liveValues,
+  lookup,
+  type FacetIndex,
+  type Vocab,
+  type VocabLookup,
+  type VocabProblem,
+} from './vocab.js';
 export { parseIdsLock, type IdsLock, type IdsLockEntry } from './ids-lock.js';
 export { RULES, type Issue, type RuleId, type Severity } from './rules.js';
 export {
+  FOLDER_LIMITS,
+  HOLDING_CATEGORY,
+  HOLDING_LIMITS,
   VOCAB_FACETS,
   checkEntry,
   checkLibrary,

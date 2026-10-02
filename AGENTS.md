@@ -22,11 +22,11 @@ npm run gen:schema         # rewrite schema/*.json from packages/schema/src/sche
 
 | Path | What | License |
 |---|---|---|
-| `library/<category>/<id>/<kind>.md` | One entry per folder. File name = kind, folder = id, parent = category | CC0-1.0 |
+| `library/<domain>/<category>/<id>/<kind>.md` | One entry per folder. File name = kind, folder = id, parent = category, grandparent = the category's domain. See [TAXONOMY.md](TAXONOMY.md) | CC0-1.0 |
 | `library/.../evals.yaml` | Evals; required for `experimental` and `stable` | CC0-1.0 |
 | `library/.../examples/*.md`, `references/*.md`, `variants/*.md`, `steps/NN-*.md` | Optional entry files (`steps/` for workflows only) | CC0-1.0 |
 | `partials/**/*.md` | Shared snippets, included with `{{> guardrails/scope-discipline}}` | CC0-1.0 |
-| `vocab/*.yml` | Controlled vocabularies (category, stage, stack, requires, inputs, output, tags) | CC0-1.0 |
+| `vocab/*.yml` | Controlled vocabularies (domain, category, subcategory, stage, role, stack, subject, requires, inputs, output, advice-risk, tags) plus the facet registry `facets.yml`. Rules in [TAXONOMY.md](TAXONOMY.md) | CC0-1.0 |
 | `schema/*.json` | Generated JSON Schemas. Edit `packages/schema/src/schemas.ts`, then `npm run gen:schema` | Apache-2.0 |
 | `packages/schema` | `@hermes-hq/hodios-schema`: types, schemas, ajv validators | Apache-2.0 |
 | `packages/core` | `@hermes-hq/hodios-core`: isomorphic (no `fs`) parse, lint, and later compile | Apache-2.0 |

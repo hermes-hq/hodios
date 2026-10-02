@@ -8,7 +8,10 @@ import {
   ID_PATTERN,
   INTERACTIONS,
   INVOCATIONS,
+  FACET_LIMITS,
   KINDS,
+  LANG_PATTERN,
+  LAYOUTS,
   LEVELS,
   MODEL_TIERS,
   OUTPUT_FORMATS,
@@ -60,7 +63,18 @@ export const entrySchema = {
     category: {
       type: 'string',
       pattern: SLUG_PATTERN,
-      description: 'Primary category from vocab/category.yml. Equals the parent folder name.',
+      description:
+        'Primary category from vocab/category.yml. Path: library/<domain>/<category>/<id>/; the domain comes from the vocab.',
+    },
+    subcategory: {
+      type: 'string',
+      pattern: SLUG_PATTERN,
+      description: 'Optional value from vocab/subcategory.yml whose parent is the category (TAXONOMY.md §2.4).',
+    },
+    proposed_category: {
+      type: 'string',
+      pattern: SLUG_PATTERN,
+      description: 'Only for category "unsorted": the category this entry should graduate into (TAXONOMY.md §2.5).',
     },
     version: { type: 'string', pattern: SEMVER_PATTERN, description: 'Entry semver.' },
     status: { enum: [...STATUSES] },
@@ -83,6 +97,23 @@ export const entrySchema = {
       description: 'Capabilities from vocab/requires.yml, or mcp:<server>.',
       items: { type: 'string', pattern: '^[a-z0-9]+(-[a-z0-9]+)*(:[a-z0-9][a-z0-9._-]*)?$' },
       uniqueItems: true,
+    },
+    role: {
+      ...slugList('Audience roles from vocab/role.yml. Empty means anyone.'),
+      maxItems: FACET_LIMITS.role,
+    },
+    subject: {
+      ...slugList('Subjects, fields or human languages from vocab/subject.yml. Empty means any.'),
+      maxItems: FACET_LIMITS.subject,
+    },
+    advice_risk: {
+      ...slugList('Professional-advice areas from vocab/advice-risk.yml (TAXONOMY.md §3.9).'),
+      maxItems: FACET_LIMITS.advice_risk,
+    },
+    lang: {
+      type: 'string',
+      pattern: LANG_PATTERN,
+      description: 'BCP 47 language of the entry text. Defaults to en.',
     },
     inputs: slugList('Input types from vocab/inputs.yml.'),
     output: slugList('Output types from vocab/output.yml.'),
@@ -352,7 +383,6 @@ export const vocabSchema = {
     description: { type: 'string' },
     values: {
       type: 'array',
-      minItems: 1,
       items: {
         type: 'object',
         required: ['value', 'label'],
@@ -367,6 +397,45 @@ export const vocabSchema = {
             uniqueItems: true,
           },
           deprecated_by: { type: ['string', 'null'], pattern: SLUG_PATTERN },
+          domain: { type: 'string', pattern: SLUG_PATTERN, description: 'category: the owning domain.' },
+          scope_note: { type: 'string', description: 'category: the boundary with neighbouring values.' },
+          examples: { type: 'array', items: { type: 'string', pattern: SLUG_PATTERN }, uniqueItems: true },
+          advice_risk: {
+            type: 'array',
+            items: { type: 'string', pattern: SLUG_PATTERN },
+            uniqueItems: true,
+            description: 'category: advice-risk values every entry in it must declare.',
+          },
+          layout: { enum: [...LAYOUTS], description: 'category: flat (default) or nested.' },
+          parent: { type: 'string', pattern: SLUG_PATTERN, description: 'subcategory: the parent category.' },
+          implies: {
+            type: 'array',
+            items: { type: 'string', pattern: SLUG_PATTERN },
+            uniqueItems: true,
+            description: 'stack, subject: broader values this one implies.',
+          },
+          type: { type: 'string', pattern: SLUG_PATTERN, description: 'stack, subject: kind of value.' },
+          detect: {
+            type: 'object',
+            additionalProperties: false,
+            description: 'stack: on-device project detection hints for Hermes.',
+            properties: {
+              files: { type: 'array', items: { type: 'string', minLength: 1 }, uniqueItems: true },
+              deps: {
+                type: 'array',
+                items: { type: 'string', pattern: '^[a-z]+:[^\\s]+$' },
+                uniqueItems: true,
+              },
+            },
+          },
+          group: { type: 'string', pattern: SLUG_PATTERN, description: 'role: picker group.' },
+          onet: { type: 'string', pattern: '^\\d{2}-\\d{4}(\\.\\d{2})?$', description: 'role: O*NET-SOC code.' },
+          partials: {
+            type: 'array',
+            items: { type: 'string', pattern: '^[a-z0-9]+(-[a-z0-9]+)*(/[a-z0-9]+(-[a-z0-9]+)*)*$' },
+            uniqueItems: true,
+            description: 'advice-risk: guardrail partials an entry with this value must include.',
+          },
         },
       },
     },

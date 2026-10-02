@@ -5,6 +5,7 @@ import type {
   Interaction,
   Invocation,
   Kind,
+  Layout,
   Level,
   ModelTier,
   OutputFormat,
@@ -70,6 +71,8 @@ export interface EntryFrontmatter {
   title: string;
   description: string;
   category: string;
+  subcategory?: string;
+  proposed_category?: string;
   version: string;
   status: Status;
   aliases?: string[];
@@ -77,6 +80,10 @@ export interface EntryFrontmatter {
   sunset?: string;
   stage?: string[];
   stack?: string[];
+  role?: string[];
+  subject?: string[];
+  advice_risk?: string[];
+  lang?: string;
   requires?: string[];
   inputs?: string[];
   output?: string[];
@@ -144,6 +151,26 @@ export interface VocabValue {
   description?: string;
   synonyms?: string[];
   deprecated_by?: string | null;
+  /** category: owning domain. */
+  domain?: string;
+  scope_note?: string;
+  examples?: string[];
+  /** category: advice-risk values every entry in it must declare. */
+  advice_risk?: string[];
+  /** category: path layout. */
+  layout?: Layout;
+  /** subcategory: parent category. */
+  parent?: string;
+  /** stack, subject: broader values this one implies. */
+  implies?: string[];
+  type?: string;
+  /** stack: on-device detection hints. */
+  detect?: { files?: string[]; deps?: string[] };
+  /** role: picker group. */
+  group?: string;
+  onet?: string;
+  /** advice-risk: guardrail partials an entry with this value must include. */
+  partials?: string[];
 }
 
 /** Contents of a vocab/<facet>.yml file. Mirrors vocab.schema.json. */

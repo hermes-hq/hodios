@@ -11,7 +11,8 @@ export type Status = (typeof STATUSES)[number];
 /** Statuses that require an `evals.yaml` next to the entry. */
 export const STATUSES_REQUIRING_EVALS: readonly Status[] = ['experimental', 'stable'];
 
-export const RISKS = ['read-only', 'edits-files', 'runs-commands', 'network'] as const;
+/** Ordered from least to most dangerous. `external`: effects outside the machine (push, deploy, send, post, spend). */
+export const RISKS = ['read-only', 'edits-files', 'runs-commands', 'network', 'external'] as const;
 export type Risk = (typeof RISKS)[number];
 
 export const INVOCATIONS = ['user', 'model', 'both'] as const;
@@ -59,6 +60,29 @@ export const PERSONA_COLORS = [
   'pink',
 ] as const;
 export type PersonaColor = (typeof PERSONA_COLORS)[number];
+
+/** How a category lays out its entries: `library/<domain>/<category>/[<subcategory>/]<id>/` (TAXONOMY.md §2.4). */
+export const LAYOUTS = ['flat', 'nested'] as const;
+export type Layout = (typeof LAYOUTS)[number];
+
+/**
+ * Recommended maximum values per multi-valued facet (TAXONOMY.md §3). Mirrored in vocab/facets.yml.
+ * New facets enforce these in the schema; older ones get a PS059 warning so existing entries keep passing.
+ */
+export const FACET_LIMITS = {
+  stage: 3,
+  role: 4,
+  stack: 6,
+  subject: 4,
+  requires: 6,
+  inputs: 4,
+  output: 4,
+  advice_risk: 4,
+  tags: 8,
+} as const;
+
+/** BCP 47 language tag of the entry text, e.g. `en`, `pt-BR`, `zh-Hant`. */
+export const LANG_PATTERN = '^[a-z]{2,3}(-[A-Z][a-z]{3})?(-([A-Z]{2}|\\d{3}))?$';
 
 /** Fields computed by the build. Authoring any of them is an error. */
 export const COMPUTED_FIELDS = [

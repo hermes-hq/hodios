@@ -23,6 +23,17 @@ export const RULES = {
   PS040: 'no zero-width, bidirectional or control characters',
   PS043: 'no download-and-execute patterns (curl | sh, iwr | iex)',
   PS045: 'text only: no scripts/ directory, allowed-tools, or shell injection',
+  PS050: 'vocabularies are consistent with each other (domains, parents, advice-risk partials, disjoint ids)',
+  PS051:
+    'entry path is library/<domain>/<category>/[<subcategory>/]<id>/ as the vocab says (legacy 2-level path warns)',
+  PS052: 'an entry in a sensitive category declares the category’s advice_risk values',
+  PS053: 'an entry with advice_risk includes the guardrail partials and is never model-invoked',
+  PS054: 'holding area: unsorted entries name a proposed_category; capped at 50; graduate at 5 per proposal',
+  PS055: 'size limits: at most 1,000 entries per category folder and 40 categories per domain',
+  PS056: 'risk is at least what requires implies (file-write, shell, web)',
+  PS057: 'a tag does not duplicate a category, stack, subject, role or stage value',
+  PS058: 'stack and subject do not list a value together with one it implies',
+  PS059: 'facet cardinality stays within vocab/facets.yml limits',
 } as const;
 
 export type RuleId = keyof typeof RULES;

@@ -9,9 +9,10 @@ import {
   type Issue,
   type LibraryContext,
 } from '@hermes-hq/hodios-core';
-import { validateVocab, type VocabFile } from '@hermes-hq/hodios-schema';
+import { KINDS, validateVocab, type VocabFile } from '@hermes-hq/hodios-schema';
 
 const toPosix = (p: string) => p.split(sep).join('/');
+const ENTRY_FILE = new RegExp(`^(${KINDS.join('|')})\\.md$`);
 
 /** Lists files under `dir`, recursively, as POSIX paths relative to `dir`. */
 function listFiles(dir: string): string[] {
@@ -101,42 +102,43 @@ export function loadRepo(root: string): LoadedRepo {
     issues.push({ rule: 'PS003', severity: 'error', file: 'ids.lock', message: 'ids.lock is missing' });
   }
 
-  // library/<category>/<id>/…
+  // library/<domain>/<category>/[<subcategory>/]<id>/… (legacy: library/<category>/<id>/).
+  // An entry folder is any folder that directly holds a <kind>.md file; the core checks its depth (PS051).
   const sources: EntrySource[] = [];
   const libraryDir = join(root, 'library');
-  if (!existsSync(libraryDir)) {
-    issues.push({ rule: 'PS009', severity: 'error', file: 'library', message: 'library/ is missing' });
-  } else {
-    for (const category of readdirSync(libraryDir).sort()) {
-      const categoryDir = join(libraryDir, category);
-      if (category === '.DS_Store') continue;
-      if (!statSync(categoryDir).isDirectory()) {
+  const isEntryDir = (dir: string) => readdirSync(dir).some((name) => ENTRY_FILE.test(name));
+  const walkLibrary = (dir: string, rel: string, depth: number) => {
+    for (const name of readdirSync(dir).sort()) {
+      if (name === '.DS_Store') continue;
+      const full = join(dir, name);
+      const relPath = `${rel}/${name}`;
+      if (!statSync(full).isDirectory()) {
+        if (name === 'README.md') continue;
         issues.push({
           rule: 'PS009',
           severity: 'error',
-          file: `library/${category}`,
-          message: 'only category folders belong in library/',
+          file: relPath,
+          message: 'files belong inside an entry folder: library/<domain>/<category>/<id>/',
         });
         continue;
       }
-      for (const id of readdirSync(categoryDir).sort()) {
-        const entryDir = join(categoryDir, id);
-        if (id === '.DS_Store') continue;
-        if (!statSync(entryDir).isDirectory()) {
-          issues.push({
-            rule: 'PS009',
-            severity: 'error',
-            file: `library/${category}/${id}`,
-            message: 'only entry folders belong in a category folder',
-          });
-          continue;
-        }
+      if (isEntryDir(full)) {
         const files = new Map<string, string>();
-        for (const rel of listFiles(entryDir)) files.set(rel, readFileSync(join(entryDir, rel), 'utf8'));
-        sources.push({ dir: `library/${category}/${id}`, files });
-      }
+        for (const f of listFiles(full)) files.set(f, readFileSync(join(full, f), 'utf8'));
+        sources.push({ dir: relPath, files });
+      } else if (depth >= 4) {
+        issues.push({
+          rule: 'PS009',
+          severity: 'error',
+          file: relPath,
+          message: 'no entry file found; expected one of prompt.md, persona.md, workflow.md, rule.md, style.md',
+        });
+      } else walkLibrary(full, relPath, depth + 1);
     }
-  }
+  };
+  if (!existsSync(libraryDir)) {
+    issues.push({ rule: 'PS009', severity: 'error', file: 'library', message: 'library/ is missing' });
+  } else walkLibrary(libraryDir, 'library', 1);
 
   return { context: { vocab: buildVocab(vocabFiles), partials, idsLock }, sources, issues };
 }

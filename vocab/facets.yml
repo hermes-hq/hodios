@@ -1,0 +1,74 @@
+# Facet registry: the single machine-readable description of every taxonomy axis.
+# The CLI, site, Hermes and MCP read `key`, `ui` and `relevance` from here. Cardinalities (`max`) mirror the
+# entry schema and the PS059 limits; a unit test keeps this file, the schema enums and FACET_LIMITS in sync.
+# This file has no `facet:` key, so the validator does not treat it as a vocabulary.
+#
+# version: vocab version, semver (TAXONOMY.md §5.3). MAJOR = a facet's meaning or cardinality narrows;
+# MINOR = a facet or value is added, moved, or retired with deprecated_by; PATCH = labels, descriptions, synonyms.
+# Every vocab change bumps it and adds a line to `changelog` below.
+version: 1.0.0
+facets:
+  - {name: kind,        field: kind,        source: schema,        closed: true,  min: 1, max: 1, key: kind,     ui: primary, relevance: false}
+  - {name: domain,      field: null,        source: domain,        closed: true,  min: 1, max: 1, key: domain,   ui: primary, relevance: true, computed: "from category"}
+  - {name: category,    field: category,    source: category,      closed: true,  min: 1, max: 1, key: cat,      ui: primary, relevance: true}
+  - {name: subcategory, field: subcategory, source: subcategory,   closed: true,  min: 0, max: 1, key: sub,      ui: primary, relevance: false}
+  - {name: stage,       field: stage,       source: stage,         closed: true,  min: 0, max: 3, key: stage,    ui: primary, relevance: true}
+  - {name: role,        field: role,        source: role,          closed: true,  min: 0, max: 4, key: role,     ui: primary, relevance: true}
+  - {name: stack,       field: stack,       source: stack,         closed: false, min: 0, max: 6, key: stack,    ui: primary, relevance: true, hierarchical: true}
+  - {name: subject,     field: subject,     source: subject,       closed: false, min: 0, max: 4, key: subject,  ui: more,    relevance: true, hierarchical: true}
+  - {name: works_in,    field: null,        source: targets,       closed: true,  min: 0, max: null, key: works, ui: primary, relevance: true, computed: "from requires + vocab/targets.yml"}
+  - {name: requires,    field: requires,    source: requires,      closed: true,  min: 0, max: 6, key: requires, ui: more,    relevance: false, pattern_values: ["mcp:<server>"]}
+  - {name: inputs,      field: inputs,      source: inputs,        closed: true,  min: 0, max: 4, key: in,       ui: more,    relevance: true}
+  - {name: output,      field: output,      source: output,        closed: true,  min: 0, max: 4, key: out,      ui: more,    relevance: false}
+  - {name: risk,        field: risk,        source: schema,        closed: true,  min: 0, max: 1, key: risk,     ui: more,    relevance: false}
+  - {name: advice_risk, field: advice_risk, source: advice-risk,   closed: true,  min: 0, max: 4, key: advice,   ui: more,    relevance: false}
+  - {name: model_tier,  field: model_tier,  source: schema,        closed: true,  min: 0, max: 1, key: model,    ui: more,    relevance: false}
+  - {name: reasoning,   field: reasoning,   source: schema,        closed: true,  min: 0, max: 1, key: reasoning, ui: more,   relevance: false}
+  - {name: level,       field: level,       source: schema,        closed: true,  min: 0, max: 1, key: level,    ui: more,    relevance: true}
+  - {name: effort,      field: effort,      source: schema,        closed: true,  min: 0, max: 1, key: effort,   ui: more,    relevance: false}
+  - {name: interaction, field: interaction, source: schema,        closed: true,  min: 0, max: 1, key: mode,     ui: more,    relevance: false}
+  - {name: invocation,  field: invocation,  source: schema,        closed: true,  min: 0, max: 1, key: invoke,   ui: hidden,  relevance: false}
+  - {name: lang,        field: lang,        source: bcp47,         closed: false, min: 0, max: 1, key: lang,     ui: more,    relevance: true, default: en}
+  - {name: tags,        field: tags,        source: tags,          closed: false, min: 0, max: 8, key: tag,      ui: more,    relevance: true}
+  - {name: status,      field: status,      source: schema,        closed: true,  min: 1, max: 1, key: status,   ui: hidden,  relevance: false}
+  - {name: tier,        field: null,        source: release,       closed: true,  min: 1, max: 1, key: tier,     ui: more,    relevance: false, computed: "curated | verified | community"}
+# Values of the schema-enum facets, for UIs. A unit test keeps these equal to packages/schema enums.
+enums:
+  risk:
+    - {value: read-only,     label: "Read-only",      description: "Reads and answers; changes nothing."}
+    - {value: edits-files,   label: "Edits files",    description: "Creates or changes files in the workspace."}
+    - {value: runs-commands, label: "Runs commands",  description: "Runs shell commands."}
+    - {value: network,       label: "Uses the network", description: "Fetches from or sends to the network."}
+    - {value: external,      label: "Acts externally", description: "Has effects outside the machine that are hard to undo: pushes, deploys, sends messages, posts, spends money."}
+  model_tier:
+    - {value: small,    label: "Small",    description: "Works on small, fast models."}
+    - {value: mid,      label: "Mid",      description: "Needs a mid-tier model."}
+    - {value: frontier, label: "Frontier", description: "Needs a frontier model."}
+  reasoning:
+    - {value: "off",       label: "Off",         description: "Extended reasoning adds nothing."}
+    - {value: optional,    label: "Optional",    description: "Reasoning helps on hard inputs."}
+    - {value: recommended, label: "Recommended", description: "Turn reasoning on."}
+  level:
+    - {value: beginner,     label: "Beginner",     description: "No prior knowledge assumed; output explains itself."}
+    - {value: intermediate, label: "Intermediate", description: "Assumes working knowledge of the field."}
+    - {value: expert,       label: "Expert",       description: "Assumes the user can judge expert output."}
+  effort:
+    - {value: quick,    label: "Quick",    description: "Seconds to a minute."}
+    - {value: standard, label: "Standard", description: "A few minutes."}
+    - {value: deep,     label: "Deep",     description: "Long-running or multi-pass."}
+  interaction:
+    - {value: one-shot,    label: "One-shot",    description: "One request, one answer."}
+    - {value: interactive, label: "Interactive", description: "Back-and-forth with the user."}
+    - {value: autonomous,  label: "Autonomous",  description: "Works through many steps alone."}
+  invocation:
+    - {value: user,  label: "User",  description: "Run when the user asks for it by name."}
+    - {value: model, label: "Model", description: "The assistant may load it on its own when relevant."}
+    - {value: both,  label: "Both",  description: "Either."}
+changelog:
+  - version: 1.0.0
+    date: 2026-10-02
+    notes:
+      - "Taxonomy v1: domains above categories (23 domains, 128 live categories); library/<domain>/<category>/<id>/ paths."
+      - "New vocabularies: domain, subcategory, role, subject, advice-risk. New fields: role, subject, subcategory, advice_risk, lang, proposed_category."
+      - "New risk value: external. Retired categories: design -> ui-design, business -> business-strategy, legal -> contracts."
+      - "Legacy library/<category>/<id>/ paths stay valid with a PS051 warning during the 1.x migration window."

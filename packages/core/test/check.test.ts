@@ -12,13 +12,21 @@ import {
 } from '../src/index.js';
 
 const vocab = buildVocab([
+  { schema: 1, facet: 'domain', values: [{ value: 'software-engineering', label: 'Software engineering' }] },
   {
     schema: 1,
     facet: 'category',
     values: [
-      { value: 'testing', label: 'Testing' },
-      { value: 'docs', label: 'Docs', synonyms: ['documentation'] },
+      { value: 'testing', label: 'Testing', domain: 'software-engineering' },
+      { value: 'docs', label: 'Docs', synonyms: ['documentation'], domain: 'software-engineering' },
     ],
+  },
+  { schema: 1, facet: 'role', values: [{ value: 'qa-engineer', label: 'QA engineer' }] },
+  { schema: 1, facet: 'subject', values: [{ value: 'mathematics', label: 'Mathematics' }] },
+  {
+    schema: 1,
+    facet: 'advice-risk',
+    values: [{ value: 'medical', label: 'Medical', partials: ['guardrails/scope'] }],
   },
   {
     schema: 1,
@@ -88,7 +96,7 @@ function ctx(overrides: Partial<LibraryContext> = {}): LibraryContext {
 function entry(
   text = PROMPT,
   extra: Record<string, string> = {},
-  dir = 'library/testing/write-unit-tests',
+  dir = 'library/software-engineering/testing/write-unit-tests',
 ): EntrySource {
   return { dir, files: new Map([['prompt.md', text], ...Object.entries(extra)]) };
 }
@@ -145,7 +153,7 @@ describe('checkLibrary', () => {
     expect(rules([entry(PROMPT, { 'notes.txt': 'x' })]).map((i) => i.rule)).toContain('PS009');
     expect(rules([entry(PROMPT, { 'persona.md': PROMPT })]).map((i) => i.rule)).toContain('PS009');
     const asPersona: EntrySource = {
-      dir: 'library/testing/write-unit-tests',
+      dir: 'library/software-engineering/testing/write-unit-tests',
       files: new Map([['persona.md', PROMPT]]),
     };
     expect(rules([asPersona]).map((i) => i.rule)).toContain('PS009');
@@ -178,7 +186,7 @@ steps:
 Ships it.
 `;
     const src = (files: Record<string, string>): EntrySource => ({
-      dir: 'library/testing/ship-track',
+      dir: 'library/software-engineering/testing/ship-track',
       files: new Map([['workflow.md', workflow], ...Object.entries(files)]),
     });
     expect(rules([src({ 'steps/01-plan.md': 'Plan it.' })])).toEqual([]);
@@ -190,7 +198,7 @@ Ships it.
 
   it('rejects duplicate ids and alias collisions across entries', () => {
     const a = entry();
-    const b = entry(PROMPT, {}, 'library/docs/write-unit-tests');
+    const b = entry(PROMPT, {}, 'library/software-engineering/docs/write-unit-tests');
     expect(rules([a, b]).map((i) => i.rule)).toContain('PS001');
     const aliasing = entry(
       edit('id: write-unit-tests', 'id: write-tests').replace(
@@ -198,7 +206,7 @@ Ships it.
         'stage: [verify]\naliases: [write-unit-tests]',
       ),
       {},
-      'library/testing/write-tests',
+      'library/software-engineering/testing/write-tests',
     );
     expect(rules([a, aliasing]).map((i) => i.rule)).toContain('PS008');
   });
@@ -215,7 +223,7 @@ Ships it.
 
   it('reports missing vocab files', () => {
     const issues = rules([], ctx({ vocab: buildVocab([]) }));
-    expect(issues.filter((i) => i.rule === 'PS006')).toHaveLength(7);
+    expect(issues.filter((i) => i.rule === 'PS006')).toHaveLength(11);
   });
 });
 

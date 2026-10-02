@@ -1,7 +1,9 @@
 import {
   COMPUTED_FIELDS,
+  FACET_LIMITS,
   FORBIDDEN_FIELDS,
   KINDS,
+  RISKS,
   STATUSES_REQUIRING_EVALS,
   validateEntry,
   validateEvals,
@@ -12,7 +14,7 @@ import type { IdsLock } from './ids-lock.js';
 import { parseFrontmatter, parseYamlDocument } from './parse.js';
 import type { Issue, RuleId, Severity } from './rules.js';
 import { ARG_NAME, findPositionalPlaceholders, resolveInclude, scanTemplate } from './template.js';
-import { lookup, type Vocab } from './vocab.js';
+import { checkVocabSet, impliedBy, liveValues, lookup, type Vocab } from './vocab.js';
 
 /** One entry folder, as read by the caller (the core has no file system access). */
 export interface EntrySource {
@@ -41,8 +43,37 @@ export interface CheckResult {
   issues: Issue[];
 }
 
-/** Facets checked against vocab/, and the frontmatter field each comes from. */
-export const VOCAB_FACETS = ['category', 'stage', 'stack', 'requires', 'inputs', 'output', 'tags'] as const;
+/** Vocabulary files that must exist in vocab/. `subcategory` is optional until a category is split. */
+export const VOCAB_FACETS = [
+  'domain',
+  'category',
+  'stage',
+  'stack',
+  'role',
+  'subject',
+  'requires',
+  'inputs',
+  'output',
+  'advice-risk',
+  'tags',
+] as const;
+
+/** The holding-area category (TAXONOMY.md §2.5) and its limits. */
+export const HOLDING_CATEGORY = 'unsorted';
+export const HOLDING_LIMITS = { warn: 40, error: 50, graduate: 5 } as const;
+
+/** Entries per category (or subcategory) folder (TAXONOMY.md §2.3). GitHub caps a directory at 3,000. */
+export const FOLDER_LIMITS = { warn: 600, error: 1000 } as const;
+
+/** The lowest `risk` each `requires` value implies (PS056). */
+const RISK_FLOOR: Record<string, (typeof RISKS)[number]> = {
+  'file-write': 'edits-files',
+  shell: 'runs-commands',
+  web: 'network',
+};
+
+/** Facets a tag must not duplicate (PS057). */
+const TAG_SHADOWED_FACETS = ['category', 'stack', 'subject', 'role', 'stage'] as const;
 
 const KIND_FILE = new RegExp(`^(${KINDS.join('|')})\\.md$`);
 const LAYOUT: { pattern: RegExp; kinds?: Kind[] }[] = [
@@ -85,7 +116,9 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
   const checked: CheckedEntry = { dir: src.dir };
   const segments = src.dir.split('/');
   const folderId = segments.at(-1) ?? '';
-  const folderCategory = segments.at(-2) ?? '';
+  // Below library/: [category, id] (legacy), [domain, category, id] or [domain, category, subcategory, id].
+  const pathParts = segments[0] === 'library' ? segments.slice(1) : segments;
+  const folderCategory = pathParts.length <= 3 ? (pathParts.at(-2) ?? '') : (pathParts[1] ?? '');
 
   // Layout (PS009, PS045) and text hygiene on every file (PS040, PS043, PS045).
   const kindFiles: string[] = [];
@@ -173,6 +206,7 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
   if (fm.category !== folderCategory) {
     r.error('PS002', file, `category "${fm.category}" does not match folder "${folderCategory}"`);
   }
+  checkPath(r, file, pathParts, fm, ctx.vocab);
   if (fm.kind !== fileKind) {
     r.error('PS009', file, `kind "${fm.kind}" does not match file name "${kindFile}"`);
   }
@@ -186,13 +220,21 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
   // Vocabulary.
   const facetValues: [string, string[]][] = [
     ['category', [fm.category]],
+    ['subcategory', fm.subcategory ? [fm.subcategory] : []],
     ['stage', [...(fm.stage ?? []), ...(fm.steps ?? []).map((s) => s.stage)]],
     ['stack', fm.stack ?? []],
+    ['role', fm.role ?? []],
+    ['subject', fm.subject ?? []],
     ['requires', (fm.requires ?? []).map((v) => v.split(':')[0] ?? v)],
     ['inputs', fm.inputs ?? []],
     ['output', fm.output ?? []],
+    ['advice-risk', fm.advice_risk ?? []],
   ];
   for (const [facet, values] of facetValues) {
+    if (facet === 'subcategory' && values.length > 0 && !ctx.vocab.has(facet)) {
+      r.error('PS006', file, `subcategory: unknown value "${values[0]}" (vocab/subcategory.yml has none)`);
+      continue;
+    }
     if (!ctx.vocab.has(facet)) continue; // missing vocab file is reported once by checkLibrary
     for (const value of new Set(values)) {
       const hit = lookup(ctx.vocab, facet, value);
@@ -221,6 +263,7 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
       );
   }
   if ((fm.tags?.length ?? 0) > 8) r.error('PS007', file, `${fm.tags?.length} tags; at most 8`);
+  checkTaxonomyFacets(r, file, fm, ctx.vocab);
   if (fm.aliases?.includes(fm.id)) r.error('PS008', file, 'aliases must not contain the entry’s own id');
 
   // Description.
@@ -243,11 +286,13 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
     for (const t of scanTemplate(step.artifact ?? '')) if (t.type === 'var') used.add(t.name);
   }
   const declared = new Set((fm.args ?? []).map((a) => a.name));
+  const includedPartials = new Set<string>();
   for (const [path, text] of templated) {
     const open: string[] = [];
     for (const token of scanTemplate(text)) {
       if (token.type === 'include') {
         const target = resolveInclude(token.path);
+        if (target.scope !== 'entry') includedPartials.add(target.file);
         const exists = target.scope === 'entry' ? src.files.has(target.file) : ctx.partials.has(target.file);
         if (!exists) r.error('PS011', path, `${token.raw} does not resolve`);
         continue;
@@ -270,6 +315,8 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
   for (const name of declared) {
     if (!used.has(name)) r.error('PS010', file, `arg "${name}" is declared but never used`);
   }
+
+  checkAdviceRisk(r, file, fm, ctx.vocab, includedPartials);
 
   // Body structure by kind.
   const body = parsed.body;
@@ -339,6 +386,133 @@ export function checkEntry(src: EntrySource, ctx: LibraryContext): { checked: Ch
   return { checked, issues: r.issues };
 }
 
+/** PS051: the folder path matches the domain, category, subcategory and layout in vocab/. */
+function checkPath(r: Reporter, file: string, parts: string[], fm: EntryFrontmatter, vocab: Vocab): void {
+  const category = vocab.get('category')?.meta.get(fm.category);
+  const domain = category?.domain;
+  const nested = category?.layout === 'nested';
+  if (fm.subcategory) {
+    const parent = vocab.get('subcategory')?.meta.get(fm.subcategory)?.parent;
+    if (parent && parent !== fm.category) {
+      r.error('PS051', file, `subcategory "${fm.subcategory}" belongs to category "${parent}", not "${fm.category}"`);
+    }
+  }
+  if (nested && !fm.subcategory) {
+    r.error('PS051', file, `category "${fm.category}" is split (layout: nested); set a subcategory`);
+  }
+  if (!domain) return; // unknown category: PS006 reports it
+  const expected = ['library', domain, fm.category, ...(nested && fm.subcategory ? [fm.subcategory] : []), fm.id].join(
+    '/',
+  );
+  if (parts.length === 2) {
+    if (nested) r.error('PS051', file, `category "${fm.category}" is split; move the entry to ${expected}/`);
+    else r.add('PS051', 'warning', file, `legacy path; move the entry to ${expected}/ (TAXONOMY.md §11)`);
+    return;
+  }
+  if (parts.length !== 3 && parts.length !== 4) {
+    r.error('PS051', file, 'entry folders live at library/<domain>/<category>/[<subcategory>/]<id>/');
+    return;
+  }
+  if (parts[0] !== domain) {
+    r.error('PS051', file, `category "${fm.category}" belongs to domain "${domain}"; move the entry to ${expected}/`);
+  }
+  if (parts.length === 4 && !nested) {
+    r.error('PS051', file, `category "${fm.category}" is not split (layout: flat); move the entry to ${expected}/`);
+  } else if (parts.length === 4 && parts[2] !== fm.subcategory) {
+    r.error('PS051', file, `subcategory folder "${parts[2]}" does not match subcategory "${fm.subcategory ?? ''}"`);
+  } else if (parts.length === 3 && nested) {
+    r.error('PS051', file, `category "${fm.category}" is split; move the entry to ${expected}/`);
+  }
+}
+
+/** PS052, PS053: sensitive categories declare advice_risk; advice_risk brings its guardrail partials. */
+function checkAdviceRisk(
+  r: Reporter,
+  file: string,
+  fm: EntryFrontmatter,
+  vocab: Vocab,
+  includedPartials: Set<string>,
+): void {
+  const required = vocab.get('category')?.meta.get(fm.category)?.advice_risk ?? [];
+  const declared = new Set(fm.advice_risk ?? []);
+  const missing = required.filter((v) => !declared.has(v));
+  if (missing.length > 0) {
+    r.error('PS052', file, `category "${fm.category}" is sensitive; add advice_risk: [${missing.join(', ')}]`);
+  }
+  if (declared.size === 0) return;
+  const needed = new Set<string>();
+  for (const value of declared) {
+    for (const partial of vocab.get('advice-risk')?.meta.get(value)?.partials ?? []) needed.add(partial);
+  }
+  for (const partial of needed) {
+    if (!includedPartials.has(`${partial}.md`)) {
+      r.error('PS053', file, `advice_risk needs {{> ${partial}}} in the body`);
+    }
+  }
+  if (fm.invocation === 'model' || fm.invocation === 'both') {
+    r.error('PS053', file, 'entries with advice_risk are never model-invoked; use invocation: user');
+  }
+}
+
+/** PS054 (per entry), PS056, PS057, PS058, PS059. */
+function checkTaxonomyFacets(r: Reporter, file: string, fm: EntryFrontmatter, vocab: Vocab): void {
+  if (fm.category === HOLDING_CATEGORY) {
+    if (!fm.proposed_category) {
+      r.error('PS054', file, 'entries in "unsorted" must set proposed_category (TAXONOMY.md §2.5)');
+    } else if (liveValues(vocab, 'category').has(fm.proposed_category)) {
+      r.error('PS054', file, `"${fm.proposed_category}" is a live category; move the entry there`);
+    }
+  } else if (fm.proposed_category) {
+    r.error('PS054', file, 'proposed_category is only for entries in the "unsorted" holding area');
+  }
+
+  for (const req of fm.requires ?? []) {
+    const floor = RISK_FLOOR[req];
+    if (!floor) continue;
+    if (!fm.risk) {
+      if (floor !== 'read-only') r.add('PS056', 'warning', file, `requires "${req}"; declare risk: ${floor} or higher`);
+    } else if (RISKS.indexOf(fm.risk) < RISKS.indexOf(floor)) {
+      r.error('PS056', file, `requires "${req}" implies risk ${floor} or higher, not ${fm.risk}`);
+    }
+  }
+
+  for (const tag of fm.tags ?? []) {
+    for (const facet of TAG_SHADOWED_FACETS) {
+      const hit = lookup(vocab, facet, tag);
+      if (hit.status === 'ok' || hit.status === 'synonym') {
+        const value = hit.status === 'synonym' ? hit.canonical : tag;
+        r.add('PS057', 'warning', file, `tag "${tag}" duplicates ${facet} "${value}"; use the ${facet} facet instead`);
+        break;
+      }
+    }
+  }
+
+  for (const facet of ['stack', 'subject'] as const) {
+    const values = fm[facet] ?? [];
+    for (const value of values) {
+      const implied = impliedBy(vocab, facet, value);
+      for (const other of values) {
+        if (implied.has(other)) {
+          r.add('PS058', 'warning', file, `${facet}: "${value}" already implies "${other}"; drop "${other}"`);
+        }
+      }
+    }
+  }
+
+  const counted: [keyof typeof FACET_LIMITS, number][] = [
+    ['stage', fm.kind === 'workflow' ? 0 : (fm.stage?.length ?? 0)], // workflows span phases
+    ['stack', fm.stack?.length ?? 0],
+    ['requires', fm.requires?.length ?? 0],
+    ['inputs', fm.inputs?.length ?? 0],
+    ['output', fm.output?.length ?? 0],
+  ];
+  for (const [facet, count] of counted) {
+    if (count > FACET_LIMITS[facet]) {
+      r.add('PS059', 'warning', file, `${facet} has ${count} values; keep it to ${FACET_LIMITS[facet]} or fewer`);
+    }
+  }
+}
+
 /** Checks include cycles and hygiene inside partials/. */
 export function checkPartials(partials: Map<string, string>): Issue[] {
   const r = new Reporter();
@@ -394,6 +568,7 @@ export function checkLibrary(sources: EntrySource[], ctx: LibraryContext): Check
     issues.push({ rule: 'PS003', severity: 'error', file: 'ids.lock', message: `line ${p.line}: ${p.message}` });
   }
   issues.push(...checkPartials(ctx.partials));
+  for (const p of checkVocabSet(ctx.vocab, ctx.partials)) issues.push(p);
 
   for (const src of sources) {
     const result = checkEntry(src, ctx);
@@ -438,6 +613,47 @@ export function checkLibrary(sources: EntrySource[], ctx: LibraryContext): Check
       } else aliasOwners.set(alias, e.file);
     }
   }
+  // Holding area (PS054) and folder size (PS055).
+  const holding = entries.filter((e) => e.frontmatter?.category === HOLDING_CATEGORY);
+  if (holding.length > HOLDING_LIMITS.warn) {
+    issues.push({
+      rule: 'PS054',
+      severity: holding.length > HOLDING_LIMITS.error ? 'error' : 'warning',
+      file: 'library/other/unsorted',
+      message: `${holding.length} entries in the holding area (warn above ${HOLDING_LIMITS.warn}, error above ${HOLDING_LIMITS.error}); graduate some`,
+    });
+  }
+  const proposals = new Map<string, number>();
+  for (const e of holding) {
+    const p = e.frontmatter?.proposed_category;
+    if (p) proposals.set(p, (proposals.get(p) ?? 0) + 1);
+  }
+  for (const [proposal, count] of proposals) {
+    if (count >= HOLDING_LIMITS.graduate) {
+      issues.push({
+        rule: 'PS054',
+        severity: 'warning',
+        file: 'library/other/unsorted',
+        message: `${count} entries propose "${proposal}"; open a vocab RFC to add it or re-home them (TAXONOMY.md §2.5)`,
+      });
+    }
+  }
+  const perFolder = new Map<string, number>();
+  for (const e of entries) {
+    const folder = e.dir.split('/').slice(0, -1).join('/');
+    perFolder.set(folder, (perFolder.get(folder) ?? 0) + 1);
+  }
+  for (const [folder, count] of perFolder) {
+    if (count > FOLDER_LIMITS.warn) {
+      issues.push({
+        rule: 'PS055',
+        severity: count > FOLDER_LIMITS.error ? 'error' : 'warning',
+        file: folder,
+        message: `${count} entries in one folder (warn above ${FOLDER_LIMITS.warn}, error above ${FOLDER_LIMITS.error}); split the category (TAXONOMY.md §2.4)`,
+      });
+    }
+  }
+
   for (const locked of ctx.idsLock.entries.values()) {
     if (!owners.has(locked.id) && !aliasOwners.has(locked.id)) {
       issues.push({

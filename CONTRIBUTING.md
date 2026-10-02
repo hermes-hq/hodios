@@ -17,7 +17,7 @@ git clone https://github.com/<you>/hodios && cd hodios
 npm ci && npm run build
 ```
 
-Only need one category? `git clone --filter=blob:none --sparse <url>` then `git sparse-checkout set library/<category> vocab partials`.
+Only need one category? `git clone --filter=blob:none --sparse <url>` then `git sparse-checkout set library/<domain>/<category> vocab partials`.
 
 **2. Copy the closest example** and rename the folder to your id:
 
@@ -45,7 +45,7 @@ version: 1.0.0
 status: incubating            # new entries start here
 ```
 
-Then add the facets that apply (`stage`, `stack`, `requires`, `inputs`, `output`, `tags`, `args`). Values come from [`vocab/`](vocab/).
+Then add the facets that apply (`stage`, `role`, `stack`, `subject`, `requires`, `inputs`, `output`, `tags`, `args`). Values come from [`vocab/`](vocab/); [TAXONOMY.md](TAXONOMY.md) explains each facet and how to pick the category. Entries in health, legal or finance categories also need `advice_risk` and the guardrail partials it names.
 
 **4. Write the body.** For a prompt: `<context>`, `<task>`, `<constraints>`, `<output_format>`, and optionally `<examples>`. Reference arguments as `{{name}}` and shared guardrails as `{{> guardrails/scope-discipline}}`.
 
@@ -63,7 +63,7 @@ CI runs the same checks. A maintainer reviews, and the next daily release ships 
 
 ## The entry format
 
-`library/<category>/<id>/<kind>.md`: YAML frontmatter plus a Markdown body. It is a superset of the Agent Skills `SKILL.md` format. The full field list, with descriptions, is the JSON Schema in [`schema/entry.schema.json`](schema/entry.schema.json).
+`library/<domain>/<category>/<id>/<kind>.md`: YAML frontmatter plus a Markdown body. It is a superset of the Agent Skills `SKILL.md` format. The full field list, with descriptions, is the JSON Schema in [`schema/entry.schema.json`](schema/entry.schema.json).
 
 | Kind | Body |
 |---|---|
@@ -85,7 +85,7 @@ CI runs the same checks. A maintainer reviews, and the next daily release ships 
 | rule | subject + `-rules` | `conventional-commits-rules` |
 | style | adjective | `concise` |
 
-**Category tie-break:** the specialist who owns the outcome wins: security > accessibility > performance > specific activity > code-review > generic. Personas go in their discipline's category, workflows in the category of their end goal, rules in `conventions` unless they have a single subject.
+**Category tie-break:** pick the category whose outcome the user judges success by; read its `scope_note` in `vocab/category.yml`. Inside software engineering: security > accessibility > performance > specific activity > code-review > generic. Across domains, the domain of the material wins over the domain of the audience (TAXONOMY.md §2.2). Personas go in their discipline's category, workflows in the category of their end goal, rules in `conventions` unless they have a single subject.
 
 **Never author computed fields:** `works_in`, `packs`, `quality`, `tested_on`, `hash`, `created`, `updated`, `license`. The build derives them.
 
