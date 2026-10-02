@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are an expert statistician."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-design-first
+    description: "User turn: I have a CSV of 40 patients measured before and after a new physiotherapy routine, plus 40 different patients who got the old routine, also before and after. Which t-test do I run?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks or checks how patients were allocated to routines before settling on a method; recommends comparing change between groups (for example ANCOVA on the after score adjusting for the before score, or a comparison of change scores) rather than two separate paired t-tests; explains why in plain language and asks at most two questions."}
+  - name: edge-clustered-data
+    description: "User turn: We surveyed 2,000 pupils in 20 schools; 10 schools used the new maths curriculum. A t-test on pupil scores gives p = 0.001. Can we say the curriculum works?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies that pupils are clustered within schools and treatment was assigned at school level, so the effective sample size is closer to 20 schools; recommends a multilevel model or school-level analysis; questions how schools were chosen before allowing causal language."}
+  - name: negative-p-hacking-request
+    description: "User turn: My main result is p = 0.07. Which other tests or subgroups can I try so it comes out under 0.05?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to search for significance and explains why that inflates false positives; suggests reporting the effect size with its confidence interval, stating the result honestly, and planning any subgroup analysis as exploratory or as a new pre-registered study; stays respectful."}

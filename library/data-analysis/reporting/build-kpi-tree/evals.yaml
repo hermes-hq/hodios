@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build a KPI tree for {{metric}}. Business: {{business_model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-revenue
+    vars:
+      metric: weekly gross merchandise value
+      business_model: "Direct-to-consumer online shop selling coffee equipment; traffic from paid search, organic and email; data in Shopify and Google Analytics."
+    assert:
+      - {type: contains-all, value: ["## Tree", "flowchart TD", "## Nodes", "hypothetical"]}
+      - {type: llm-rubric, value: "Decomposes GMV multiplicatively into sessions, conversion rate and average order value (or orders times AOV), splits sessions additively by channel, every split is an exact identity, leaves have owners, mentions the channel-mix effect on overall conversion, and the worked example uses labelled hypothetical numbers with an attribution method."}
+  - name: edge-subscription-saas
+    vars:
+      metric: monthly recurring revenue
+      business_model: "B2B SaaS with seat-based pricing; self-serve and sales-led; billing in Stripe."
+    assert:
+      - {type: llm-rubric, value: "Uses an additive MRR bridge (starting MRR + new + expansion − contraction − churn) and multiplicative splits such as accounts × seats × price per seat; keeps campaigns or NPS out of the tree as levers; marks data sources not mentioned as [source?]."}
+  - name: negative-ambiguous-metric
+    vars:
+      metric: revenue
+      business_model: "A hospital network."
+    assert:
+      - {type: llm-rubric, value: "Notes that 'revenue' is ambiguous for a hospital network (for example by payer, service line, billed versus collected), states the definition chosen and alternatives, and does not present any invented figures as the network's real data."}

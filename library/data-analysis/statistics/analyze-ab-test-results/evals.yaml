@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Analyze these A/B test results for {{primary_metric}} and tell me if B won: {{results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clear-win
+    vars:
+      primary_metric: checkout conversion rate
+      guardrails: "refund rate, no worse than +0.2 percentage points"
+      results: |
+        Intended split 50/50, 21 days.
+        A (control): 50,000 users, 2,000 checkouts, 500 refunds.
+        B (one-page checkout): 50,100 users, 2,250 checkouts, 510 refunds.
+        Pre-registered minimum detectable effect: +0.3 percentage points.
+    assert:
+      - {type: contains-all, value: ["## Decision", "## Data quality", "## Calculations", "Ship"]}
+      - {type: llm-rubric, value: "SRM check passes (chi-square about 0.1); conversion 4.00% vs about 4.49%, difference about +0.49 percentage points with a 95% CI of roughly +0.24 to +0.74 points and p around 0.0001; refund-rate difference about +0.02 points with an interval below the +0.2 point threshold, so the guardrail passes; decision is Ship."}
+  - name: edge-sample-ratio-mismatch
+    vars:
+      primary_metric: sign-up rate
+      results: |
+        Intended split 50/50, 14 days.
+        A: 50,000 visitors, 3,100 sign-ups.
+        B: 48,500 visitors, 3,250 sign-ups.
+    assert:
+      - {type: contains, value: "Do not trust"}
+      - {type: llm-rubric, value: "Detects a sample ratio mismatch (chi-square about 22.8, p far below 0.001), stops before declaring a winner, and lists likely causes such as assignment bugs, redirects, bot filtering or logging loss."}
+  - name: negative-missing-variance
+    vars:
+      primary_metric: average order value
+      results: |
+        A: 12,000 orders, mean order value 54.20 EUR.
+        B: 12,050 orders, mean order value 55.10 EUR.
+    assert:
+      - {type: llm-rubric, value: "Asks for standard deviations (or per-order data) to compute a confidence interval for the difference in means, does not invent a variance or declare significance, and notes order value is usually skewed so outliers matter."}

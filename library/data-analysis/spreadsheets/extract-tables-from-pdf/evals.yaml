@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Extract the tables from this PDF text as {{output_format}}: {{source}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-financial-table
+    vars:
+      output_format: csv
+      source: |
+        Table 3. Segment results (in thousands of EUR)            Page 14
+        Segment            2023        2022
+        Retail          12,450      11,980
+        Wholesale        8,310       8,925
+        Online(1)        4,120       3,055
+        Restructuring     (650)          -
+        Total           24,230      23,960
+        (1) Online includes marketplace fees.
+    assert:
+      - {type: contains-all, value: ["## Validation", "-650", "12450"]}
+      - {type: llm-rubric, value: "Produces CSV with units in the column names, converts (650) to -650, leaves the 2022 Restructuring cell empty, moves the footnote marker out of the Online cell, labels the Total row, and validates both totals: 2023 sums to 24,230 (match) and 2022 sums to 23,960 (match)."}
+  - name: edge-ocr-mismatch
+    vars:
+      output_format: json
+      source: |
+        Survey respondents by region
+        Region      Respondents
+        North           1,2O4
+        South             987
+        East              561
+        West              743
+        Total           3,595
+    assert:
+      - {type: llm-rubric, value: "Flags '1,2O4' as a likely OCR error (letter O for zero) and does not silently correct it; recomputes the total assuming 1,204 (which gives 3,495, not 3,595) and reports the 100 mismatch as a likely misread digit to check against the original; outputs JSON with numbers as numbers."}
+  - name: negative-no-table
+    vars:
+      source: "Chairman's letter. Dear shareholders, this year was one of resilience. We thank our employees for their dedication and look forward to the year ahead."
+    assert:
+      - {type: llm-rubric, value: "States that no table was found and does not invent one."}

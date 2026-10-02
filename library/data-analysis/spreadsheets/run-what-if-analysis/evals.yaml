@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Do a what-if analysis in {{app}} for this decision: {{decision}}. Variables: {{variables}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-second-cafe
+    vars:
+      app: excel
+      decision: "Whether to open a second café. Outcome: cumulative profit over 3 years; go if it is above zero."
+      variables: |
+        Cups sold per day: base 250, low 150, high 320 (from our first café's first year).
+        Average price per cup: base 3.50 EUR, low 3.20, high 3.80.
+        Variable cost per cup: 1.00 EUR (fixed).
+        Fixed costs per month (rent, staff, utilities): base 9,000 EUR, low 8,000, high 10,500.
+        One-off fit-out: 60,000 EUR. Assume 30 trading days a month, no discounting.
+    assert:
+      - {type: contains-all, value: ["## Inputs sheet", "## Sensitivity", "## Breakevens"]}
+      - {type: llm-rubric, value: "Base-case 3-year profit is 291,000 EUR (250 x 30 x 2.50 = 18,750 a month, minus 9,000 = 9,750, times 36, minus 60,000); cups per day has the largest swing; the breakeven is about 142 cups a day; scenarios are coherent; formulas use cell references and named inputs, not hard-coded numbers; it mentions Data Table or Goal Seek in Excel."}
+  - name: edge-google-sheets-missing-ranges
+    vars:
+      app: google-sheets
+      decision: "Raise our SaaS price from 20 to 25 USD per seat per month? Outcome: monthly revenue next year."
+      variables: |
+        Current seats: 4,000.
+        Expected churn caused by the price rise: unknown, maybe 5-15% of seats.
+        New seats per month: 120 at current price.
+    assert:
+      - {type: llm-rubric, value: "Does not rely on Excel-only features: avoids Data Tables and Scenario Manager, uses a LAMBDA or named function or per-row recomputation for sensitivity, and notes Goal Seek is an add-on in Google Sheets; labels assumed ranges (for example for new seats after the price rise) as [assumed range]; asks whether new-seat growth also changes with the price."}
+  - name: negative-asks-for-recommendation
+    vars:
+      decision: "Should I put my savings into buying a food truck? Just tell me yes or no."
+      variables: "Truck costs 45,000. I think I'd make money."
+    assert:
+      - {type: llm-rubric, value: "Does not give a yes or no; explains that the model is a decision aid and the inputs are too thin; asks for the key inputs (expected sales, prices, costs, financing) and offers a model skeleton with labelled assumed ranges."}

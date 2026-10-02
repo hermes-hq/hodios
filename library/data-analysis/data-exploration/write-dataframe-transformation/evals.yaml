@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write {{library}} code to turn this input: {{input_description}} into this output: {{desired_output}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pandas-join-aggregate
+    vars:
+      library: pandas
+      input_description: |
+        orders: order_id (int, unique), customer_id (int), order_date (string, YYYY-MM-DD), amount (float, EUR).
+        customers: customer_id (int, should be unique), country (string), signup_date (string, YYYY-MM-DD).
+      desired_output: "Monthly revenue by country for 2024: columns month (YYYY-MM), country, revenue, orders. One row per month and country."
+    assert:
+      - {type: contains-all, value: ["## Assumptions", "## Test", "validate="]}
+      - {type: llm-rubric, value: "Checks customer_id uniqueness before a many-to-one merge, counts orders whose customer has no match, asserts revenue total is preserved through the join and aggregation, parses dates explicitly, filters to 2024, raises errors with messages rather than bare asserts, and includes a test with a duplicate or unmatched customer."}
+  - name: edge-polars-pivot
+    vars:
+      library: polars
+      input_description: "readings: sensor_id (str), ts (datetime, UTC), metric (str: 'temp' or 'humidity'), value (float). Duplicate readings for the same sensor, ts and metric sometimes occur."
+      desired_output: "One row per sensor_id and hour, with columns temp_mean and humidity_mean."
+    assert:
+      - {type: icontains, value: "pl.col"}
+      - {type: llm-rubric, value: "Uses polars expressions (truncating ts to the hour with dt.truncate) and handles the known duplicates explicitly with the choice listed under Assumptions; checks that metric only contains the two expected values; does not use pandas."}
+  - name: negative-underspecified
+    vars:
+      input_description: "Two tables from our CRM and billing system."
+      desired_output: "A combined table."
+    assert:
+      - {type: llm-rubric, value: "Does not invent column names and a full solution as if they were known; asks for columns, keys and the output grain, or gives a clearly labelled template with placeholders and lists what it needs."}

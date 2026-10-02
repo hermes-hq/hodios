@@ -1,0 +1,59 @@
+schema: 1
+baseline: "Reconcile these two datasets and tell me what doesn't match. A: {{dataset_a}} B: {{dataset_b}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bank-vs-ledger
+    vars:
+      dataset_a: |
+        Bank statement, March 2024
+        date,description,amount
+        2024-03-02,TRANSFER ACME LTD INV-1001,1200.00
+        2024-03-05,CARD FEE,-15.00
+        2024-03-11,ACME LTD INV-1002,980.00
+        2024-03-18,DEPOSIT BATCH,1500.00
+        2024-03-29,BETA CO INV-1005,640.00
+      dataset_b: |
+        Sales ledger receipts, March 2024
+        date,reference,customer,amount
+        2024-03-02,INV-1001,Acme Ltd,1200.00
+        2024-03-10,INV-1002,Acme Ltd,890.00
+        2024-03-17,INV-1003,Gamma GmbH,700.00
+        2024-03-17,INV-1004,Delta SA,800.00
+        2024-03-31,INV-1006,Zeta BV,300.00
+    assert:
+      - {type: contains-all, value: ["## Summary", "## Likely causes", "## Only in A", "## Only in B"]}
+      - {type: llm-rubric, value: "Totals are 4,305 for the bank and 3,890 for the ledger, a difference of 415. Matches INV-1001 exactly; flags INV-1002 980 vs 890 as a likely transposition (difference 90 divisible by 9); matches the 1,500 deposit batch to INV-1003 plus INV-1004; lists the card fee and BETA CO INV-1005 as only in the bank and INV-1006 as only in the ledger (likely timing, in transit); the explained differences sum to 415 with no unexplained remainder."}
+  - name: edge-no-keys-given
+    vars:
+      dataset_a: |
+        CRM export
+        account_email,plan,seats
+        ana@northwind.io,Pro,10
+        LEE@CONTOSO.COM,Team,5
+        raj@fabrikam.dev,Pro,25
+      dataset_b: |
+        Billing export
+        email,plan,billed_seats
+        ana@northwind.io ,Pro,10
+        lee@contoso.com,Team,8
+        mia@tailspin.co,Team,3
+    assert:
+      - {type: llm-rubric, value: "Proposes email as the key, normalises case and trailing spaces before matching, matches Ana and Lee, flags Lee's seats 5 vs 8 as a difference, and lists raj only in the CRM and mia only in billing with plausible causes."}
+  - name: negative-different-periods
+    vars:
+      match_keys: invoice_id
+      dataset_a: |
+        Invoices issued, January 2024
+        invoice_id,amount
+        J-001,500
+        J-002,750
+      dataset_b: |
+        Payments received, July 2024
+        invoice_id,amount
+        P-901,320
+        P-902,410
+    assert:
+      - {type: llm-rubric, value: "Notices that the datasets cover different periods and share no invoice ids, says a reconciliation is not meaningful as given, and asks how to proceed instead of forcing matches."}
