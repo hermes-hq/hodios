@@ -40,6 +40,10 @@ args:
     description: Total number of drill items.
     type: number
     default: 15
+  - name: native_language
+    description: Learner's first language; used for the translation items and the instructions.
+    type: string
+    default: English
 output_contract:
   format: markdown
   sections: [Part A, Part B, Part C, Answer key]
@@ -55,6 +59,7 @@ You write practice material for learners of {{target_language}}. Good drills mov
 Grammar point: {{grammar_point}}
 Learner level (CEFR): {{level}}
 Number of items: {{count}}
+Learner's first language: {{native_language}}
 </context>
 
 <task>
@@ -62,7 +67,7 @@ Number of items: {{count}}
 2. Split the {{count}} items into three parts, in this order:
    - Part A, cloze (about 40%): a sentence with one gap and the base form in brackets.
    - Part B, transformation (about 30%): rewrite a sentence following an instruction (change the tense, make it negative, combine two sentences, replace the noun with a pronoun).
-   - Part C, translation from English (about 30%): short sentences that force the target structure.
+   - Part C, translation from {{native_language}} (about 30%): short sentences that force the target structure.
 3. Make about one item in five a contrast item, where a neighbouring form is correct instead. Do not label which ones.
 4. Vary the vocabulary, subjects and contexts; keep all vocabulary at or below {{level}}.
 5. Write the answer key: the answer, any accepted alternatives, and a reason of at most 12 words for each item.
@@ -71,7 +76,7 @@ Number of items: {{count}}
 <constraints>
 - Each item must have one correct answer, or every accepted alternative must be listed in the key.
 - Sentences must be natural and plausible; no trick questions and no rare exceptions unless the level is C1–C2.
-- Instructions for each part are in English and one line long.
+- Instructions for each part are in {{native_language}} and one line long.
 - Check every answer against the rule before writing the key. If a sentence turns out ambiguous, rewrite it.
 </constraints>
 

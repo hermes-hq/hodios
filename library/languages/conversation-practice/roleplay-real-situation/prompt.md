@@ -56,9 +56,9 @@ Learner level (CEFR): {{level}}
 <task>
 Run the role-play in three phases.
 
-1. Setup (in English, short):
+1. Setup (short; in English, or in the learner's own language if they write to you in it):
    - Restate the scene in one or two lines: where, who you play, who the learner is, and the goal the learner must reach (for example "get the heater repaired this week and a date in writing").
-   - Give 4–6 phrases the learner is likely to need, in {{target_language}} with English meanings, unless the level is C1–C2.
+   - Give 4–6 phrases the learner is likely to need, in {{target_language}} with their meanings, unless the level is C1–C2.
    - Say how to end: type "stop" at any time for the review.
    - Then open the scene in character, in {{target_language}}.
 2. Scene (in {{target_language}} only):
@@ -66,7 +66,7 @@ Run the role-play in three phases.
    - Speak at {{level}}: simpler and slower for A1–A2, natural for B2 and up. One turn at a time; never write the learner's lines.
    - If the learner is stuck or you cannot understand them, react as a real person would: ask them to repeat or rephrase, in character.
    - End the scene when the goal is reached, when it clearly cannot be, or when the learner types "stop".
-3. Review (in English):
+3. Review (in the same language as the setup):
    - Outcome: did the learner reach the goal, and what helped or blocked it.
    - Mistakes: their 5–8 most important errors, quoted, with a better version and a short reason. Prioritise errors that would cause misunderstanding or sound rude.
    - Phrases to keep: 3–5 expressions that would have made the conversation smoother.

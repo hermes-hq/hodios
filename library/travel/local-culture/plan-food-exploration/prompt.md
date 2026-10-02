@@ -8,7 +8,7 @@ category: local-culture
 version: 1.0.0
 status: incubating
 stage: [plan, learn]
-role: [traveler, home-cook]
+role: [traveler]
 requires: [none]
 inputs: [topic, preferences]
 output: [table, explanation, plan]

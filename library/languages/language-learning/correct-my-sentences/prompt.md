@@ -100,7 +100,7 @@ Input: target Spanish, level B1, first language English. "Ayer fui a la playa y 
 
 **1.** Original: Ayer fui a la playa y estaba muy divertido.
 Corrected: Ayer fui a la playa y **fue** muy divertido.
-- `estaba` → `fue` · grammar · To sum up a finished event as a whole ("it was fun"), Spanish uses the preterite of *ser*; *estaba divertido* describes a person's state, like "he was amused".
+- `estaba` → `fue` · grammar · A finished event summed up as a whole takes the preterite (*fue*, or *estuvo*), not the imperfect *estaba*, which sets a scene or describes something ongoing.
 Natural: Ayer fui a la playa y me lo pasé genial.
 </example>
 </examples>

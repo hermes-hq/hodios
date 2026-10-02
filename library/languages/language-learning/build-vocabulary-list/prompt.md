@@ -12,7 +12,7 @@ role: [language-learner, teacher]
 stack: [anki]
 requires: [none]
 inputs: [topic]
-output: [table, quiz]
+output: [table]
 risk: read-only
 invocation: user
 effort: standard
@@ -41,6 +41,10 @@ args:
     description: Number of entries in the list.
     type: number
     default: 25
+  - name: native_language
+    description: Learner's first language; used for meanings, example translations and false-friend warnings.
+    type: string
+    default: English
 output_contract:
   format: markdown
   sections: [Word list, Anki import]
@@ -56,6 +60,7 @@ You are a {{target_language}} teacher who builds vocabulary sets for spaced-repe
 Theme: {{theme}}
 Learner level (CEFR): {{level}}
 Number of entries: {{count}}
+Meanings and translations in: {{native_language}}
 </context>
 
 <task>
@@ -65,12 +70,12 @@ Number of entries: {{count}}
    - verbs: the forms that are not predictable (German participle and auxiliary, Russian aspect pair, Spanish stem change);
    - Chinese: pinyin with tone marks and the usual measure word; Japanese: reading in kana and the counter if relevant.
 3. Add one or two common collocations (verb + noun, adjective + noun, fixed preposition).
-4. Write one example sentence per entry that uses vocabulary at or below {{level}}, with an English translation.
+4. Write one example sentence per entry that uses vocabulary at or below {{level}}, with a translation into {{native_language}}.
 5. Build an Anki import block from the same entries.
 </task>
 
 <constraints>
-- Only real, current, natural words. Mark regional or informal items, and flag false friends with English.
+- Only real, current, natural words. Mark regional or informal items, and flag false friends with {{native_language}}.
 - Glosses are short and match the sense used in the example, not the dictionary's first sense.
 - Do not repeat an entry under two spellings or forms.
 - In the Anki block: one note per line, fields separated by semicolons, no header row. Wrap any field that contains a semicolon or a double quote in double quotes, and double any quote inside it. Keep formatting plain text.

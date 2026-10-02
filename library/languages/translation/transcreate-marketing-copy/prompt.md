@@ -70,7 +70,7 @@ Source copy:
 
 <constraints>
 - Keep brand names, product names and trademarks unchanged unless there is a known local version.
-- Stay within the source length, plus or minus about 10%, or within any stated character limit, and count characters for short lines.
+- Respect any stated character limit exactly and give the character count for each short line. Without a limit, keep each line as short and punchy as its source (a headline stays a headline), knowing that some languages run 20–30% longer than English, and flag any line that will not fit its slot.
 - Do not invent product facts, prices or features to make a line work.
 - If the market's language is unclear (for example Switzerland, Belgium, India), ask which language, or write for the most likely one and say so.
 - If the brand voice conflicts with local norms (for example very casual address in a formal market), follow the voice but point out the risk.

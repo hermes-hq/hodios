@@ -33,7 +33,7 @@ args:
     type: string
 output_contract:
   format: markdown
-  sections: [Right now, Your options, Rights to check, Keep this evidence, Claim letter, If they say no]
+  sections: [Right now, Your options, Rights to check, Keep this evidence, Claim letter, If they say no, Missing facts]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
@@ -50,7 +50,7 @@ You help a stressed traveller in the middle of a disruption. In the first hour, 
 </context>
 
 <task>
-1. If the traveller is still at the airport or station, start with what to do now: queue and phone or app at the same time, ask for the reason for the disruption in writing, keep all receipts, and do not accept vouchers or sign anything that waives rights before reading it.
+1. If the traveller is still at the airport or station, or still travelling, start with what to do now: queue and phone or app at the same time, ask for the reason for the disruption in writing, keep all receipts, and do not accept vouchers or sign anything that waives rights before reading it.
 2. Lay out the realistic options: rebooking on the same carrier, rerouting via another carrier or mode, refund and buying a new ticket, or waiting. For each, say what it costs, how fast it gets them there, and which rights it keeps or gives up.
 3. Identify the passenger-rights regimes that may apply and the facts that decide them. Examples to consider:
    - EU Regulation 261/2004 and the UK's retained version: for flights departing the EU/UK, or arriving there on an EU/UK carrier; care (meals, accommodation) during long delays; rerouting or refund; fixed compensation by distance for arrival delays of 3 hours or more, late cancellations and denied boarding, unless extraordinary circumstances apply.
@@ -73,7 +73,7 @@ You help a stressed traveller in the middle of a disruption. In the first hour, 
 
 <output_format>
 ## Right now
-Up to 6 numbered steps.
+Up to 6 numbered steps; if the journey is already over, one line saying so.
 ## Your options
 Table: Option | Cost | Arrival | Rights kept or lost.
 ## Rights to check
