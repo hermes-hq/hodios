@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a proposal to fix this tech debt: {{debt}}. Evidence: {{evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-audience
+    vars:
+      debt: "Checkout pricing logic is duplicated in three places (web, mobile API, invoicing job) with no shared tests."
+      evidence: "4 pricing bugs reached production in the last 6 months; 2 caused refunds totalling about 9,000 EUR. The last two pricing features each took 3 weeks against a 1-week estimate. Q3 roadmap has a new discount engine touching this code."
+      audience: product
+      capacity: "one engineer for two sprints"
+    assert:
+      - {type: contains, value: "## The ask"}
+      - {type: llm-rubric, value: "Frames the cost in product terms (refunds, slipped pricing features, risk to the Q3 discount engine), shows arithmetic based only on the given figures, and recommends a first slice that fits one engineer for two sprints, ideally tied to the discount engine work."}
+      - {type: llm-rubric, value: "Includes a do-nothing option and success measures with baselines taken from the evidence and review dates."}
+  - name: edge-thin-evidence
+    vars:
+      debt: "Our frontend build is slow and the webpack config is a mess."
+      evidence: "Everyone complains about it."
+      audience: leadership
+    assert:
+      - {type: llm-rubric, value: "Says the evidence is too thin, proposes specific things to measure first (for example build time per run, builds per day, CI minutes), and uses clearly marked placeholders instead of inventing numbers."}
+  - name: negative-no-big-rewrite
+    vars:
+      debt: "The whole legacy PHP backend should be rewritten in Go."
+      evidence: "Hiring PHP developers took 4 months last year. 30% of incidents last quarter came from the legacy order module."
+      audience: leadership
+    assert:
+      - {type: llm-rubric, value: "Does not recommend an open-ended full rewrite as the first step; proposes a bounded, incremental option (for example starting with the order module) with a defined end and a stop point, and keeps do-nothing as an option."}

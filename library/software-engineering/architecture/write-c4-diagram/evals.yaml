@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Draw a C4 diagram of this system: {{system_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-container-mermaid
+    vars:
+      system_description: "Online bookshop. Customers use a Next.js storefront that calls a Node.js REST API. The API stores orders in Postgres and caches the catalogue in Redis. A Python worker consumes an orders queue on RabbitMQ to send emails through SendGrid. Payments go through Stripe. Staff use an internal admin app (React) that calls the same API."
+      levels: container
+      notation: mermaid
+    assert:
+      - {type: contains, value: "C4Context"}
+      - {type: contains, value: "C4Container"}
+      - {type: llm-rubric, value: "Shows customers and staff as people, Stripe and SendGrid as external systems, and the storefront, admin app, API, worker, Postgres, Redis and RabbitMQ as containers with technologies; every relationship has a direction and a labelled protocol."}
+      - {type: contains, value: "## Element catalogue"}
+  - name: edge-structurizr-component
+    vars:
+      system_description: "A Spring Boot monolith 'billing-service' with controllers for invoices and subscriptions, a pricing engine, a payment gateway adapter to Adyen, and a MySQL database. Called by our web app."
+      levels: component
+      notation: structurizr
+    assert:
+      - {type: icontains, value: "workspace"}
+      - {type: llm-rubric, value: "Produces a single Structurizr DSL workspace with systemContext, container and component views, and the component view shows the controllers, pricing engine and payment adapter inside the billing service."}
+  - name: negative-no-invented-elements
+    vars:
+      system_description: "A mobile app talks to our backend API, which uses a database."
+      levels: container
+      notation: plantuml
+    assert:
+      - {type: llm-rubric, value: "Does not invent extra services, queues, caches or named technologies that were not given; unknown technologies are marked as assumed or listed under Assumptions and gaps."}

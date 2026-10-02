@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design an API for these consumers: {{consumers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-then-stop
+    vars:
+      consumers: "Accounting partners (Xero-style SaaS tools) need to pull our customers' paid invoices nightly and get notified when an invoice is refunded. About 40 partners, each syncing up to 50,000 invoices per customer. Partners authenticate with OAuth on behalf of our customers."
+      constraints: "Must sit in front of the existing billing service. EU customer data must stay in the EU region."
+      style: rest
+    assert:
+      - {type: llm-rubric, value: "Completes only the consumer needs step: a consumers table, jobs phrased from the partner's side (nightly incremental sync of paid invoices, refund notifications), interaction patterns that include incremental listing and webhooks or events, non-goals and quality needs, then stops for approval without writing a resource model or OpenAPI contract."}
+      - {type: llm-rubric, value: "Carries the EU data residency constraint into the brief and marks unstated quality needs as assumptions."}
+  - name: edge-thin-input
+    vars:
+      consumers: "Partners."
+      style: graphql
+    assert:
+      - {type: llm-rubric, value: "Asks in a single message for the missing essentials (who the partners are, the jobs they need to do, environment, auth, volumes) and does not invent a domain or a schema."}
+  - name: negative-skip-to-code
+    description: "User message at step 1: 'Skip all this, just give me the server implementation in Express.'"
+    vars:
+      consumers: "Our iOS app needs to list and redeem loyalty vouchers."
+      style: rest
+    assert:
+      - {type: llm-rubric, value: "Does not jump to an Express server implementation; explains briefly that the track designs the contract first and offers to move quickly through the steps (or points to a separate implementation prompt), keeping the owner in control of skipping steps."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Improve this ticket: {{ticket}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vague-export-ticket
+    vars:
+      ticket: "Title: Export. Users want to export their data. Should be CSV I think. Comment from sales: big customer asking for this by end of month."
+      product_context: "B2B expense management app. Users are finance admins and employees. Data: expenses, receipts, reports."
+    assert:
+      - {type: contains, value: "## Open questions"}
+      - {type: llm-rubric, value: "Asks which data is exported, who may export it (permissions), size limits and format, each with a proposed default and who decides, instead of inventing these rules."}
+      - {type: llm-rubric, value: "Acceptance criteria are testable and cover permissions, empty data and a large export; the definition-of-ready check marks unresolved items as not met."}
+  - name: edge-bug-ticket
+    vars:
+      ticket: "Login broken on mobile."
+    assert:
+      - {type: llm-rubric, value: "Treats it as a bug and asks for or marks missing steps to reproduce, expected versus actual behaviour, platform and app version, and does not invent a cause."}
+  - name: negative-already-ready
+    vars:
+      ticket: "Title: Show password strength meter on sign-up. Problem: 18% of sign-ups use passwords rejected at submit, causing drop-off. Scope: meter under the password field using our zxcvbn-based rules; colours and copy per Figma link. Out of scope: password rules changes. AC: Given I type a password, when its score changes, then the meter and label update within 100 ms; meter is announced to screen readers; works in all supported browsers. Designs attached. Estimated 3 points."
+      definition_of_ready: "Problem clear, AC testable, designs attached, estimated, fits in a sprint."
+    assert:
+      - {type: llm-rubric, value: "Recognises the ticket is essentially ready, keeps its intent and content, marks the definition-of-ready items as met, and does not pad it with unnecessary scope or a split (Suggested split says not needed)."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write non-functional requirements for this feature: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-with-dependencies
+    vars:
+      feature: "One-click reorder in our grocery delivery app: a customer taps 'reorder' on a past order and it goes straight to payment."
+      users_and_scale: "1.2M monthly active users in the UK and Ireland, peaks on Sunday evenings at about 400 orders per minute."
+      regulatory_context: "PCI DSS applies through our payment provider. Public sector contract requires WCAG 2.2 AA."
+      existing_slos: "Payment provider SLA 99.95% monthly. Our order service SLO 99.9%."
+    assert:
+      - {type: contains, value: "## Requirements"}
+      - {type: llm-rubric, value: "Requirements have ids, measurable targets with percentiles or windows, and a verification method each; vague words like fast or secure are not used as targets."}
+      - {type: llm-rubric, value: "Checks the availability target against the serial dependencies (99.95% and 99.9%) with arithmetic and does not set a target higher than they allow without saying what that would require."}
+  - name: edge-minimal-input
+    vars:
+      feature: "Internal dashboard showing yesterday's sales per store."
+    assert:
+      - {type: llm-rubric, value: "Proposes modest targets appropriate for an internal daily dashboard (for example data freshness by a morning time rather than sub-second latency), marks them as proposed, and lists open questions about users and scale."}
+  - name: negative-no-invented-figures
+    vars:
+      feature: "Video calling between patients and doctors."
+      regulatory_context: "HIPAA."
+    assert:
+      - {type: llm-rubric, value: "Does not present invented current performance figures or user counts as facts, frames HIPAA items as requirements to confirm with the compliance owner rather than legal advice, and marks proposed targets as proposed."}

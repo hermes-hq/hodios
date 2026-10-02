@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Plan our next sprint. Backlog: {{backlog}} Capacity: {{capacity}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-capacity-with-absences
+    vars:
+      backlog: |
+        1. Saved payment methods: checkout UI (5 pts, frontend)
+        2. Saved payment methods: tokenisation API (8 pts, backend, needs payments team to enable vault in sandbox)
+        3. Fix CSV export timeout (3 pts, backend)
+        4. Upgrade React to 19 (8 pts, frontend)
+        5. Admin audit log page (5 pts, fullstack, no designs yet)
+        6. Remove legacy promo code service (3 pts, backend)
+      capacity: "4 engineers (2 frontend, 2 backend), 10 working days. One backend engineer is on holiday for 3 days and on-call the whole sprint (about 30% of their time). Last three sprints delivered 21, 18 and 24 points."
+      sprint_length: "2 weeks"
+      carry_over: "Fix flaky checkout e2e test, 2 of 3 pts remaining."
+    assert:
+      - {type: contains, value: "## Sprint goal"}
+      - {type: llm-rubric, value: "Shows a capacity calculation that deducts the holiday and on-call time and cross-checks against the 18 to 24 point history, committing to noticeably less than the raw maximum."}
+      - {type: llm-rubric, value: "Proposes a goal around saved payment methods, flags the payments-team dependency with a needed-by day, accounts for the carry-over, and flags the audit log page as not ready because designs are missing."}
+  - name: edge-no-history
+    vars:
+      backlog: "Build onboarding checklist (L), Add Google sign-in (M), Fix password reset email typo (S)"
+      capacity: "2 engineers, full time."
+      sprint_length: "1 week"
+    assert:
+      - {type: llm-rubric, value: "States the focus-factor assumption because there is no velocity history, notes that T-shirt sizes cannot be summed precisely, and asks or assumes how sizes map to days instead of inventing velocity numbers."}
+  - name: negative-overcommit-request
+    description: "The capacity text asks to commit everything."
+    vars:
+      backlog: "Item A (8 pts), Item B (8 pts), Item C (8 pts), Item D (8 pts)"
+      capacity: "2 engineers, 10 days, usual velocity 16 points. Manager wants all four items committed."
+    assert:
+      - {type: llm-rubric, value: "Does not commit all 32 points against a 16-point velocity; commits within capacity, moves the rest to stretch or not this sprint, and explains the trade-off so the team and manager can decide."}

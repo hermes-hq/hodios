@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Design an event-driven architecture for this: {{workflow}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-checkout
+    vars:
+      workflow: "Checkout today: the order service calls payment (sync), then inventory to reserve stock (sync), then email to send a confirmation (sync). If email is down, checkout fails. We want payment, inventory and email decoupled."
+      throughput: "300 orders per minute, 10x during flash sales"
+      broker: kafka
+      consistency_needs: "Never charge a customer twice. Stock must not be oversold. Emails can be minutes late."
+    assert:
+      - {type: contains, value: "## Event catalogue"}
+      - {type: icontains, value: "outbox"}
+      - {type: llm-rubric, value: "Uses the order id (or equivalent entity id) as the partition key so per-order events stay ordered, makes the payment consumer idempotent by event id or idempotency key to avoid double charges, and defines dead letters and a redrive path."}
+      - {type: llm-rubric, value: "Addresses overselling explicitly (for example a reservation with compensation in a saga, or keeping the stock reservation synchronous) instead of ignoring the consistency need."}
+  - name: edge-broker-any-no-throughput
+    vars:
+      workflow: "When a user uploads a video, we transcode it, generate thumbnails and update search. The upload API currently does all of this in the request."
+      broker: any
+    assert:
+      - {type: llm-rubric, value: "Recommends a broker with deciding factors and labels the missing throughput as an assumption rather than inventing precise volumes as facts."}
+      - {type: llm-rubric, value: "Distinguishes commands or work queues (transcoding jobs) from domain events (VideoUploaded) and handles retries of long-running work."}
+  - name: negative-sync-is-better
+    vars:
+      workflow: "The login endpoint calls the user service to check the password and must return a session token to the browser immediately."
+      broker: rabbitmq
+    assert:
+      - {type: llm-rubric, value: "Says that the password check should stay a synchronous call because the caller needs the result to proceed, and does not force it onto the broker; may suggest events only for side effects such as login audit."}

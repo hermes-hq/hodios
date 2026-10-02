@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How should we do multi-tenancy for this product? {{product}} Tenants: {{tenant_profile}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bridge-for-mixed-tenants
+    vars:
+      product: "B2B project management SaaS: REST API, background workers, Postgres, Elasticsearch, S3 for attachments."
+      tenant_profile: "3,000 small teams on self-serve plans and 25 enterprise customers, two of which have 200x the data of a typical tenant. Enterprise prospects keep asking for EU data residency and dedicated infrastructure."
+      compliance: "SOC 2 Type II. Some enterprise contracts require EU-only storage."
+      current_architecture: "Single shared Postgres, tenant_id column on most tables, tenant resolved from the subdomain in middleware."
+    assert:
+      - {type: contains, value: "## Model comparison"}
+      - {type: llm-rubric, value: "Recommends a bridge or pooled-by-default model with a dedicated or regional tier for large or EU-resident enterprise tenants, rather than silo for all 3,000 tenants."}
+      - {type: llm-rubric, value: "Covers isolation beyond the primary database (Elasticsearch indexes, S3 prefixes, caches or logs), proposes database-enforced isolation such as row-level security, and gives a phased migration path including moving one tenant to the dedicated tier."}
+  - name: edge-missing-tenant-numbers
+    vars:
+      product: "An HR platform for storing employee records and payroll data."
+      tenant_profile: "Companies."
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions about tenant counts, size distribution and compliance (for example data residency or sensitive payroll data) or clearly labels assumptions, instead of presenting a definitive model as if those were known."}
+  - name: negative-no-silo-for-tiny-tenants
+    vars:
+      product: "A habit-tracking app for individual coaches and their clients. Simple API and one database."
+      tenant_profile: "15,000 coaches, each with 5 to 50 clients and tiny data volumes. No enterprise customers."
+    assert:
+      - {type: llm-rubric, value: "Recommends a pooled model with strong tenant scoping and does not recommend a database or stack per tenant; if silo is mentioned, it explains the operational cost at 15,000 tenants."}
