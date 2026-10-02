@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a SKILL.md skill for my coding agent for this task: {{task}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-release-notes-skill
+    vars:
+      task: "Every release I ask the agent to: list merged PRs since the last git tag, group them into Features, Fixes and Internal by their labels, write user-facing release notes in RELEASE_NOTES.md, bump the version with `npm run bump -- X.Y.Z`, and wait for my review before tagging. It often forgets the labels, includes internal PRs, or tags before I review."
+      tools_available: "Claude Code and Codex, shell, git, gh CLI, Node 22."
+      examples: "'prepare the 2.3.0 release', 'write release notes for this version', 'cut a release'"
+    assert:
+      - {type: contains, value: "## SKILL.md"}
+      - {type: llm-rubric, value: "The SKILL.md frontmatter has a lowercase hyphenated name and a third-person description that includes trigger phrases like preparing a release or writing release notes and says when to use it."}
+      - {type: llm-rubric, value: "The steps use the given commands (gh to list merged PRs since the last tag, npm run bump), exclude internal PRs by label, and include an explicit stop for user review before tagging; deterministic PR listing and grouping is moved into a script."}
+      - {type: llm-rubric, value: "Includes a test plan with requests that should trigger the skill and near-misses that should not."}
+  - name: edge-should-be-instruction-line
+    vars:
+      task: "I always want the agent to use pnpm instead of npm in this repo."
+    assert:
+      - {type: llm-rubric, value: "Concludes this is a one-line convention for the project's instruction file (such as AGENTS.md) rather than a skill, and gives that line instead of writing a full skill."}
+  - name: negative-too-thin
+    vars:
+      task: "Deploy stuff."
+    assert:
+      - {type: llm-rubric, value: "Asks for the concrete deployment steps, commands, environments and definition of done (ideally with a real example) instead of inventing a deployment procedure."}

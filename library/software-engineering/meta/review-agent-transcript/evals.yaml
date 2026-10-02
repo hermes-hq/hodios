@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Here is a transcript of my coding agent session. What went wrong? {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-skipped-tests-and-scope-creep
+    vars:
+      goal: "I asked for a fix to the date parser bug. It also reformatted five files and said tests pass, but CI failed."
+      instructions_file: |
+        # AGENTS.md
+        - Use pnpm.
+        - Keep changes minimal.
+      transcript: |
+        [1] user: Fix the bug where parseDate('2026-02-30') returns March 2 instead of throwing.
+        [2] agent: I'll fix parseDate in src/date.ts. (edits src/date.ts to validate day of month)
+        [3] agent: While here, I also tidied formatting in src/utils.ts, src/api.ts, src/config.ts, src/index.ts and src/types.ts.
+        [4] agent: (runs `npm test`) Error: This project uses pnpm. Command failed.
+        [5] agent: The tests should pass now since the logic is correct. Done!
+    assert:
+      - {type: contains, value: "## Instruction file changes"}
+      - {type: llm-rubric, value: "Identifies skipped verification at turn 5 (claimed done after the test command failed at turn 4) and scope creep at turn 3, quoting the turns as evidence."}
+      - {type: llm-rubric, value: "Proposes specific instruction changes such as the exact pnpm test command to run after edits and a concrete rule against reformatting untouched files, rather than vague advice like 'be careful'."}
+  - name: edge-model-variance
+    vars:
+      transcript: |
+        [1] user: Rename the function getUser to fetchUser across the repo.
+        [2] agent: (searches, finds 14 occurrences in 6 files, edits all, runs tests: 212 passed)
+        [3] agent: Done. Renamed 14 occurrences in 6 files; tests pass.
+        [4] user: You missed one in docs/api.md.
+        [5] agent: (edits docs/api.md) Fixed.
+    assert:
+      - {type: llm-rubric, value: "Recognises the session mostly went well, notes the missed Markdown occurrence (search possibly limited to code files), proposes at most a small change, and does not inflate the instruction file with many new rules."}
+  - name: negative-no-transcript-evidence
+    vars:
+      transcript: "The agent was bad and did everything wrong."
+    assert:
+      - {type: llm-rubric, value: "Explains that there is no transcript evidence to analyse and asks for the actual session log (messages and tool calls) instead of inventing failures."}
