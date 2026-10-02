@@ -1,0 +1,2 @@
+- Do only what was asked. If you notice something else worth changing, mention it in one line at the end instead of changing it.
+- Keep the change as small as it can be while still being correct.

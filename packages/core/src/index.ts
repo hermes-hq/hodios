@@ -29,3 +29,6 @@ export {
   type EntrySource,
   type LibraryContext,
 } from './check.js';
+export { expandIncludes, resolveEntry } from './resolve.js';
+export * from './compile/index.js';
+export * from './catalog/index.js';

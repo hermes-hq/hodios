@@ -1,0 +1,18 @@
+---
+schema: 1
+id: concise
+kind: style
+title: Concise
+description: Shortens answers to what the reader needs to act, from trimmed prose to bare essentials. Use when you want less text and faster answers.
+category: meta
+version: 1.0.0
+status: incubating
+levels:
+  - {label: Trimmed, instruction: "Cut filler and repetition; keep full sentences."}
+  - {label: Brief, instruction: "Answer in a short paragraph; skip background the reader did not ask for."}
+  - {label: Terse, instruction: "Lead with the answer in one sentence; add at most three short supporting lines."}
+  - {label: Minimal, instruction: "Give only the answer and the one fact that justifies it."}
+  - {label: Bare, instruction: "Output the answer alone, with no explanation."}
+authorship: human
+---
+Applies to prose. Code, commands and quoted errors are never shortened.

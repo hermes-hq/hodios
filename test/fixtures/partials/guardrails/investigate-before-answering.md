@@ -1,0 +1,2 @@
+- Read the relevant code before making a claim about it. Do not guess what a file, function or config contains.
+- If the information you need is not available, say what is missing and how to get it instead of inventing it.
