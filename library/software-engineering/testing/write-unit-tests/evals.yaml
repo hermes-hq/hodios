@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write unit tests for {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parse-duration
+    description: Fixture repo has src/duration.ts exporting parseDuration("1h30m") returning seconds, throwing on bad input, with vitest tests elsewhere.
+    vars: {target: "parseDuration in src/duration.ts"}
+    assert:
+      - {type: contains, value: "## Behaviours"}
+      - {type: llm-rubric, value: "Uses vitest like the rest of the project, and covers empty string, zero, a unit on its own, combined units, invalid input that throws, and a large value."}
+  - name: edge-bug-found
+    description: Fixture function returns the wrong result for an empty list.
+    vars: {target: "average in lib/stats.py", framework: pytest}
+    assert:
+      - {type: llm-rubric, value: "Reports the empty-list bug under Not covered with input, expected and actual, and does not modify lib/stats.py."}
+  - name: negative-no-trivial-asserts
+    vars: {target: "formatInvoiceNumber in src/invoice.js"}
+    assert:
+      - {type: not-contains, value: "toBeTruthy()"}
+      - {type: llm-rubric, value: "Every test asserts a specific expected value; none only checks that the function runs without throwing."}

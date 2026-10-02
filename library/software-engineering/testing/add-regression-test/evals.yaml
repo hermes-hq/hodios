@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add a regression test for this bug: {{bug}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fixed-bug
+    description: Fixture repo where commit abc123 fixes a pagination bug that dropped the last item when total is a multiple of page size.
+    vars:
+      bug: "GET /items?page=2&size=10 with exactly 20 items returns 9 items instead of 10."
+      fix: abc123
+    assert:
+      - {type: contains, value: "## Proof"}
+      - {type: llm-rubric, value: "Shows the test failing without the fix (with the assertion message) and passing with it, using exactly 20 items and a page size of 10, and restores the work tree afterwards."}
+  - name: edge-not-fixed-yet
+    vars:
+      bug: "slugify('Ünïcödé') returns an empty string; expected 'unicode'."
+    assert:
+      - {type: llm-rubric, value: "Writes a test that fails now, reports that the bug is not fixed yet, and does not modify slugify."}
+  - name: negative-wrong-reason-failure
+    description: The naive test fails on an import error rather than the bug.
+    vars:
+      bug: "parse_price('1.234,56', locale='de') returns 1.23456 instead of 1234.56"
+    assert:
+      - {type: llm-rubric, value: "Checks that the test fails because of the wrong parsed value, not because of an import, fixture or setup error."}
