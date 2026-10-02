@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Review this system design: {{design}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sync-payment-retry
+    vars:
+      design: |
+        Checkout service design. The web app calls POST /checkout. The checkout service writes the order to Postgres,
+        then synchronously calls the payment provider's charge API (timeout 30s), then calls the email service to send a receipt.
+        If any call fails, the web app retries POST /checkout up to 3 times. Peak: 50 checkouts per second.
+      focus: all
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Identifies that client retries of a non-idempotent checkout can charge the customer twice, and recommends an idempotency key or equivalent."}
+      - {type: llm-rubric, value: "Flags the synchronous 30-second payment call and the email call on the request path as a capacity or availability risk at 50 checkouts per second."}
+  - name: edge-thin-design
+    vars:
+      design: "We will build the new search feature with microservices and Kafka."
+    assert:
+      - {type: llm-rubric, value: "Gives the verdict 'needs another pass' or equivalent, and asks for the missing requirements and components instead of inventing a detailed design to review."}
+  - name: negative-simple-is-fine
+    vars:
+      design: |
+        Internal holiday-request tool for 40 employees. One small web app (server-rendered) with a single Postgres database,
+        deployed to our existing app platform with daily backups. Managers approve requests by email link that requires login.
+      focus: scalability
+    assert:
+      - {type: llm-rubric, value: "Does not recommend adding microservices, queues, caches, sharding or Kubernetes, and states that the simple design fits the scale."}
