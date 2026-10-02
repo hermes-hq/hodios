@@ -5,7 +5,7 @@ kind: prompt
 title: Reply to an email
 description: Drafts a reply that answers every question and request in a received email from your stated position, matches its formality, proposes next steps and flags points you have not decided.
 category: email
-version: 1.0.0
+version: 1.1.0
 status: experimental
 stage: [build]
 role: [individual, manager, support-agent, consultant]
@@ -38,6 +38,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Position points the sender did not raise are held back for the user to decide instead of being volunteered."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -68,6 +69,7 @@ My position:
 - Do not invent facts about earlier conversations, attachments or third parties.
 - Keep it as short as the points allow; no filler openings or closings.
 - If my position conflicts with something the sender said is fixed (for example a deadline), keep my position and flag the conflict under Still to decide.
+- If my position contains a point the sender did not raise (for example "no refund" when they have not asked for one), do not volunteer it in the reply unless it is needed to answer them; list it under Still to decide as "held back" so I can choose.
 </constraints>
 
 <output_format>

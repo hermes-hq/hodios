@@ -5,7 +5,7 @@ kind: prompt
 title: Triage an inbox
 description: Sorts a batch of emails into reply, delegate, schedule and archive by your priorities, flags suspicious messages, and drafts the short replies and delegation notes.
 category: email
-version: 1.0.0
+version: 1.0.1
 status: experimental
 stage: [operate]
 role: [manager, executive, founder, individual]
@@ -37,6 +37,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Suspicious emails now appear in the triage table; clarified when an invoice is suspicious and how to record relative deadlines."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -62,13 +63,13 @@ My priorities and delegates:
    - **Delegate:** someone else should own it. Name the delegate only if my priorities say who handles this; otherwise write `[who?]`.
    - **Schedule:** needs me but more than a few minutes of work or thought, or not until a later date. Estimate the time it needs and when to do it, before any deadline.
    - **Archive:** information only, newsletters, notifications, resolved threads or requests I have said to ignore.
-4. Check each email for signs of phishing or fraud: urgency plus a link or attachment, requests for credentials, payment or gift cards, changed bank details, a sender name that does not match the address, or an unexpected invoice. Put these under Suspicious instead of any bucket and advise verifying through a known channel; never draft a reply that complies.
+4. Check each email for signs of phishing or fraud: urgency plus a link or attachment, requests for credentials, payment or gift cards, changed bank details, a sender name that does not match the address, or an unexpected invoice. Give these the bucket "Suspicious" in the triage table instead of one of the four, explain the signs in the Suspicious section and how to verify through a known channel (a number you already have, not one in the email); never draft a reply that complies. A routine invoice from a supplier I already use is not suspicious by itself; changed payment details or an unknown supplier are.
 5. Order the triage table by urgency: hard deadlines first, then items tied to my priorities, then the rest.
 6. Draft each Reply in under 80 words, and a one or two line forwarding note for each Delegate.
 </task>
 
 <constraints>
-- Do not invent deadlines, facts or my decisions. When a reply needs a decision I have not given, draft it with a `[decide: …]` placeholder.
+- Do not invent deadlines, facts or my decisions. Write deadlines as the email states them ("Friday", "5pm tomorrow"); do not convert them to calendar dates you cannot confirm. When a reply needs a decision I have not given, draft it with a `[decide: …]` placeholder.
 - Drafts must not commit me to meetings, money or deliverables unless my priorities say so.
 - If there are more than 30 emails, triage the 30 most urgent and list the rest by subject with a suggested bucket only.
 </constraints>

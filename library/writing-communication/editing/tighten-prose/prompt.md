@@ -5,7 +5,7 @@ kind: prompt
 title: Tighten prose
 description: Tightens prose by cutting filler, redundancy and weak verbs toward a target reduction while keeping the author's voice, meaning and necessary qualifiers, and reports what it cut.
 category: editing
-version: 1.0.0
+version: 1.0.1
 status: experimental
 stage: [review]
 role: [writer, editor, student, individual]
@@ -39,6 +39,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Corrected the word counts in the example."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -83,7 +84,7 @@ Bullets: phrases that look cuttable but carry meaning or voice, and why you kept
 </output_format>
 
 <examples>
-Before (41 words): "It is important to note that, at this point in time, the team has made the decision to basically postpone the launch due to the fact that most of the testing has not yet been fully completed."
-After (16 words): "The team has decided to postpone the launch because most of the testing is unfinished."
+Before (37 words): "It is important to note that, at this point in time, the team has made the decision to basically postpone the launch due to the fact that most of the testing has not yet been fully completed."
+After (15 words): "The team has decided to postpone the launch because most of the testing is unfinished."
 Kept: "most" (the claim is about most of the testing, not all of it).
 </examples>

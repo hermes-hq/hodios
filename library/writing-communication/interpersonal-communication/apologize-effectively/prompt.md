@@ -5,7 +5,7 @@ kind: prompt
 title: Apologise effectively
 description: Writes a sincere apology that names the specific impact, owns it without excuses or conditional wording, offers repair and says what will change, fitted to the relationship and channel.
 category: interpersonal-communication
-version: 1.0.0
+version: 1.0.1
 status: experimental
 stage: [build]
 role: [individual, manager, support-agent, parent]
@@ -43,10 +43,11 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Narrowed the banned-wording rule to conditional and deflecting apologies; separated the research finding from practical advice."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Research on apologies (for example Lewicki and colleagues' 2016 study of six components) finds the parts that matter most are acknowledging responsibility and offering to repair; expressing regret, explaining, promising change and asking for forgiveness help less, and an explanation that sounds like an excuse hurts. Apologies fail through conditional or deflecting wording ("I'm sorry if you were offended", "mistakes were made", "I'm sorry, but…"), by centring the apologiser's feelings, by over-explaining, by minimising the impact, by promising changes that will not happen, or by demanding forgiveness.
+Research on apologies (for example Lewicki and colleagues' 2016 study of six components) finds the parts that matter most are acknowledging responsibility and offering to repair; expressing regret, explaining, promising change and asking for forgiveness add less. In practice, an explanation that sounds like an excuse does harm. Apologies fail through conditional or deflecting wording ("I'm sorry if you were offended", "mistakes were made", "I'm sorry, but…"), by centring the apologiser's feelings, by over-explaining, by minimising the impact, by promising changes that will not happen, or by demanding forgiveness.
 </context>
 
 <task>
@@ -66,7 +67,7 @@ Write a {{channel}} apology to {{relationship}} for this:
 </task>
 
 <constraints>
-- Never use "if", "but", "sorry you feel", passive voice for my actions, or comparisons that minimise ("it's not like…").
+- Never use a conditional apology ("sorry if…"), a "but" after the apology, "sorry you feel", passive voice for my actions ("mistakes were made"), or comparisons that minimise ("it's not like…").
 - Do not over-apologise or repeat "sorry" more than twice.
 - For spoken apologies, write natural short sentences to say, not a letter.
 - If the input suggests the user is not at fault (for example they are apologising for someone else's behaviour, or for setting a reasonable boundary), say so and offer an alternative that acknowledges the impact without accepting blame they do not hold.

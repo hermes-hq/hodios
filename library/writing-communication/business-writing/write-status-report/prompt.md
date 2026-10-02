@@ -5,7 +5,7 @@ kind: prompt
 title: Write a project status report
 description: Writes a project status report with an evidence-based RAG status, progress, risks, decisions needed and next steps, formatted as an email, a document or a single slide.
 category: business-writing
-version: 1.0.0
+version: 1.1.0
 status: experimental
 stage: [operate]
 role: [project-manager, product-manager, manager, operations-manager]
@@ -43,6 +43,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.1.0, note: "Spelled out the section order for each format and the placeholder for a missing project name or period."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -67,9 +68,10 @@ Write a {{format}} status report for {{audience}} from these updates:
 5. Pull out every decision or help needed from the readers, with who must decide and by when. If none, say "None this period".
 6. List next steps for the coming period with owners.
 7. Render for the format:
-   - email: a subject line in the form "[Project] status: <RAG> – <period>" and a body a reader can absorb in 60 seconds, with decisions needed near the top.
-   - doc: the full sections with short headings, plus a milestones table (Milestone | Planned date | Forecast date | Status).
-   - slide: an assertion-style title that states the status and the reason, then at most six bullets, decisions first.
+   - email: a subject line in the form "[Project] status: <RAG> – <period>", then in this order: one line with the status and the reason; Decisions needed; Progress (three to five bullets); Risks and issues; Next steps. A reader should absorb it in 60 seconds.
+   - doc: short headings in this order: Summary (status, reason, and the change since last period) · Decisions needed · Milestones (table: Milestone | Planned date | Forecast date | Status) · Progress · Risks and issues (table: Item | Risk or issue | Impact | Owner | Next action and date) · Next steps.
+   - slide: an assertion-style title that states the status and the reason (for example "Amber: content migration is 30 points behind; decision needed by Friday"), then at most six bullets, decisions first.
+   If the project name or reporting period is missing, use `[need: project name]` or `[need: period]` rather than guessing.
 </task>
 
 <constraints>

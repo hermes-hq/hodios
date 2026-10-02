@@ -5,7 +5,7 @@ kind: prompt
 title: Decline a request gracefully
 description: Declines a request or invitation clearly and kindly in the first lines, gives an honest brief reason if wanted, offers only real alternatives and preserves the relationship.
 category: email
-version: 1.0.0
+version: 1.0.1
 status: experimental
 stage: [build]
 role: [individual, manager, consultant, writer]
@@ -40,6 +40,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "The example now uses only details present in the request, and says why it works."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -79,6 +80,7 @@ One to three bullets: what to adjust (warmth, reason, door left open) and any ri
 </output_format>
 
 <examples>
-Request: speak at a meetup on 12 March. Reason: none given. Alternative: none.
-"Hi Jordan, thanks for thinking of me for the March meetup, and for the kind words about my last talk. I won't be able to speak this time. I hope the evening goes really well."
+Request: "Hi! Loved your talk last autumn. Would you speak at our 12 March meetup? 20 minutes on anything testing-related. Jordan" Reason: none given. Alternative: none.
+Message: "Hi Jordan, thanks for thinking of me for the March meetup, and for the kind words about my last talk. I won't be able to speak this time. I hope the evening goes really well."
+Why it works: the thanks uses only what Jordan wrote, the no is in the second sentence, and nothing is promised for later.
 </examples>

@@ -5,7 +5,7 @@ kind: rule
 title: Inclusive language rules
 description: Standing rules for inclusive, bias-free language in anything the assistant writes, covering gender, disability, race, age and culture, without lecturing the user or changing quoted material.
 category: editing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, review]
 role: [writer, editor, marketer, manager]
@@ -20,17 +20,18 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
+  - {version: 1.0.1, note: "Clarified the gender-neutral word list and the rule on backhanded praise."}
   - {version: 1.0.0, note: "First version."}
 ---
 When you write or edit text:
 
 - Mention a person's gender, race, ethnicity, religion, disability, age, sexual orientation, nationality or family status only when it is relevant to the point. When it is relevant, be specific and accurate rather than vague.
-- Use gender-neutral language when gender is unknown or irrelevant: singular "they", role nouns such as chair, firefighter, police officer, spokesperson, staffing, humanity. Do not default to "he" for engineers or doctors and "she" for nurses or assistants.
+- Use gender-neutral language when gender is unknown or irrelevant: singular "they"; role nouns such as chair, firefighter, police officer and spokesperson; neutral words such as staffing (not manning) and humanity (not mankind). Do not default to "he" for engineers or doctors and "she" for nurses or assistants.
 - Use the names, pronouns and terms people use for themselves. When a group's preference is mixed (for example person-first "person with a disability" versus identity-first "autistic person" or "Deaf"), follow the preference of the person or community you are writing about if it is known, and otherwise choose one and use it consistently.
 - Describe people as people, not conditions: avoid "suffers from", "confined to a wheelchair", "victim of" unless the person uses those words. Prefer "has", "uses a wheelchair".
 - Avoid idioms that use a disability or identity as a metaphor for something bad ("crazy deadline", "lame excuse", "tone-deaf", "falling on deaf ears"); use the literal meaning instead ("unrealistic deadline", "weak excuse").
 - In technical writing, prefer allowlist/denylist, primary/replica (or leader/follower), and main branch over terms with racial or slavery connotations, unless you are quoting an existing identifier that must match exactly.
-- Do not use descriptors that are praised as exceptions for a group ("articulate", "exotic", "surprisingly good with technology" for older people). Do not use age as shorthand for ability.
+- Do not use praise that implies the person is an exception to their group ("articulate" for a Black colleague, "surprisingly good with technology" for an older person), or descriptors that exoticise ("exotic"). Do not use age as shorthand for ability.
 - Do not assume a reader's family structure, religion, holidays, nationality, first language, income or body. Write "family name" rather than "Christian name", "partner" or "spouse" rather than assuming a gender, and name the actual holiday or use "the end-of-year break".
 - When you need example names, people or scenarios, vary them naturally across genders and cultures, without tokenism or stereotyped roles.
 - Use the capitalisation and terms in current major style guides for racial and ethnic identities (for example capitalise Black and Indigenous), and follow the user's style guide if one is given.
