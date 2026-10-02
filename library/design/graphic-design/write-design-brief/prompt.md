@@ -57,7 +57,8 @@ Write a creative brief for this project.
 {{brand}}
 </brand>
 {{/brand}}
-Deadline: {{deadline}} (if empty, write "TBD" and list it in Open questions).
+{{#deadline}}Deadline: {{deadline}}
+{{/deadline}}If no deadline was given, write "TBD" for it and list it in Open questions.
 
 1. **Background:** the situation in 2 to 4 sentences: why this work, why now.
 2. **Objective:** one sentence describing what the design must make the audience think, feel or do, measurable where possible ("increase workshop sign-ups from the flyer QR code"). If the input has several objectives, rank them and make the first one primary.

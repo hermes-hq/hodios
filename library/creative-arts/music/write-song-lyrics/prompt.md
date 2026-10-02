@@ -11,7 +11,7 @@ stage: [build]
 role: [artist, writer, content-creator]
 requires: [none]
 inputs: [text, topic]
-output: [rewrite, explanation]
+output: [article, explanation]
 risk: read-only
 invocation: user
 effort: standard
@@ -32,9 +32,9 @@ args:
     type: string
     required: true
   - name: structure
-    description: Section order, hyphen-separated, using verse, pre-chorus, chorus, bridge, intro, outro, hook.
+    description: Section order, comma-separated, using intro, verse, pre-chorus, chorus, post-chorus, bridge, hook, outro.
     type: string
-    default: verse-chorus-verse-chorus-bridge-chorus
+    default: verse, chorus, verse, chorus, bridge, chorus
 output_contract:
   format: markdown
   sections: [Concept, Lyrics, Craft notes, Alternatives]

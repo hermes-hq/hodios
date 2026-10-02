@@ -54,7 +54,8 @@ Suggest chord progressions for {{instrument}}.
 <input>
 {{mood_or_melody}}
 </input>
-Key: {{key}} (if empty, choose one that suits the mood and is comfortable on {{instrument}}, or infer it from the melody, and say why).
+{{#key}}Key: {{key}}
+{{/key}}If no key was given, infer it from the melody, or choose one that suits the mood and is comfortable on {{instrument}}, and say why.
 
 1. **Starting point:** say whether the input is a mood or a melody. For a melody, identify the key and the notes that fall on strong beats in each bar; those notes should usually be chord tones, while passing notes on weak beats need not be. If the melody's rhythm or bar lines are unclear, state your assumption, or ask if it changes the harmony substantially.
 2. **Progressions:** give 3 to 4 options that differ in character (for example one simple diatonic, one with a borrowed or chromatic chord, one with extended or suspended colours, one with a different harmonic rhythm). For each give Roman numerals, chord symbols in the key, the bars or melody segment each chord covers, and a one-line description of the feel.

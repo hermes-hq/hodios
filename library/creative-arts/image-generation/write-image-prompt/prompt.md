@@ -29,9 +29,9 @@ args:
     type: text
     required: true
   - name: tool
-    description: "Target syntax. midjourney: parameters such as --ar and --no. stable-diffusion: positive and negative prompt fields with optional weights. dall-e: plain natural language. generic: any tool."
+    description: "Target syntax. midjourney: parameters such as --ar and --no. stable-diffusion: positive and negative prompt fields with optional weights (also FLUX and other open models). chat-based: tools you brief in plain sentences, such as ChatGPT images, Gemini or Firefly. generic: any tool."
     type: enum
-    enum: [midjourney, stable-diffusion, dall-e, generic]
+    enum: [midjourney, stable-diffusion, chat-based, generic]
     default: generic
   - name: aspect_ratio
     description: Width to height, e.g. 1:1, 16:9, 4:5, 9:16.
@@ -69,7 +69,7 @@ Write a {{tool}} prompt at aspect ratio {{aspect_ratio}} for this idea:
 3. Format it for {{tool}}:
    - **midjourney:** one descriptive prompt in natural language, most important elements first, then parameters at the end: `--ar {{aspect_ratio}}`, and where useful `--no` for unwanted elements, `--style raw` for a more literal photographic look, or `--stylize` to tune how much the model's own aesthetic applies. Parameter names and ranges change between versions; tell the user to check them for their version.
    - **stable-diffusion:** a positive prompt and a separate negative prompt. Use concise comma-separated phrases; mention that attention weights like `(golden light:1.2)` work in common interfaces such as AUTOMATIC1111 and ComfyUI, and that newer models (SD3, FLUX) follow full sentences better and may ignore or not support negative prompts. Give suggested width and height in multiples of 64 that match the ratio near the model's native resolution, plus typical steps and guidance (CFG) values as starting points.
-   - **dall-e:** plain, complete sentences, as you would brief an illustrator. No parameter syntax, no weights. State the orientation in words. Phrase exclusions positively ("an empty beach") because there is no negative prompt. Put any text that must appear in the image in quotes.
+   - **chat-based:** plain, complete sentences, as you would brief an illustrator. No parameter syntax, no weights. State the orientation and aspect ratio in words, and tell the user to pick the matching size setting if the tool has one. Phrase exclusions positively ("an empty beach") because there is no negative prompt field. Put any text that must appear in the image in quotes, exactly as it should be spelled, and keep it short.
    - **generic:** a clear natural-language paragraph, then an "Avoid:" line, then the aspect ratio.
 4. Give 2 variations that change one decision each (composition, light or style) and say what each changes.
 5. Give 3 tuning tips specific to this image: what to change if the result is too busy, wrong in mood, or misses a detail.
