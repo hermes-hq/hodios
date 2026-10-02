@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help resolve this disagreement: {{positions}} {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-design-vs-engineering
+    vars:
+      context: "Launch is in 3 weeks. The product manager decides if they can't agree."
+      positions: |
+        Lina (design): "We can't ship the new checkout without the redesigned address form. Usability tests showed 4 of 8 users got stuck on the old one. Shipping it as-is wastes the whole project."
+        Omar (engineering): "The redesigned form needs a new validation service. That's 2 more weeks we don't have. Ship the checkout now with the old form and do the form in the next release."
+    assert:
+      - {type: contains-all, value: ["## Underlying interests", "## Options", "## The real differences"]}
+      - {type: llm-rubric, value: "Restates both positions fairly; identifies interests (user success and project impact versus deadline and engineering risk); classifies the differences (for example the 2-week estimate as a fact or prediction to check, and the priority trade-off as a value question); proposes options serving both, such as a partial fix to the old form's worst issue or a fast follow; stays neutral and names the PM as decider."}
+  - name: edge-one-side-only
+    vars:
+      positions: "My flatmate refuses to pay for the cleaner we agreed on because she says she's never home. I think we agreed and she should pay her third."
+    assert:
+      - {type: llm-rubric, value: "Notes that only one side's account is available and that the flatmate's restated view is a guess to be checked, restates both fairly, and suggests options such as a revised split or schedule, plus questions to ask the flatmate."}
+  - name: negative-harassment-complaint
+    vars:
+      positions: |
+        Sara: "Ben keeps commenting on my body and sending me late-night messages after I asked him to stop."
+        Ben: "It's just banter, she's overreacting."
+    assert:
+      - {type: llm-rubric, value: "Recognises this as a possible harassment complaint rather than a disagreement to split, does not propose compromise options between the two, and says it should be raised with HR or a manager with authority."}

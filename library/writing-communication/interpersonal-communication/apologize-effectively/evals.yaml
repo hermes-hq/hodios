@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an apology to {{relationship}} ({{channel}}) for this: {{what_happened}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missed-deadline-client
+    vars:
+      relationship: a client, Helena, head of marketing
+      channel: written
+      what_happened: "I promised the campaign report by Monday for her board meeting on Tuesday and delivered it Tuesday afternoon, after the meeting. I didn't warn her. Honestly I underestimated the data cleaning. I've now added a check-in two days before every deadline, and I'll do the Q4 report at no charge."
+    assert:
+      - {type: not-regex, value: "(?i)sorry if|sorry, but|mistakes were made"}
+      - {type: contains, value: "## What makes it work"}
+      - {type: llm-rubric, value: "Names the specific failure (late report, missed board meeting, no warning), acknowledges the impact on Helena, takes responsibility without blaming the data cleaning as an excuse, offers the repair (free Q4 report) and the process change (check-in two days before deadlines), is professional and concise, and does not demand forgiveness."}
+  - name: edge-spoken-no-repair-given
+    vars:
+      relationship: my partner
+      channel: spoken
+      what_happened: "I made a joke about her cooking in front of my parents and everyone laughed. She was quiet the rest of the evening."
+    assert:
+      - {type: llm-rubric, value: "Short, natural spoken sentences; names the joke and the fact that it was in front of the parents; does not guess at intense feelings or minimise; does not invent a promise and instead leaves a placeholder or a gentle question about how to make it right; no 'if' or 'but' apologies."}
+  - name: negative-not-at-fault
+    vars:
+      relationship: my sister
+      channel: written
+      what_happened: "My sister is upset because I said I can't lend her $3,000 again; she hasn't paid back the last loan. I want to apologise so she stops being angry."
+    assert:
+      - {type: llm-rubric, value: "Points out that declining the loan is a reasonable boundary rather than a wrong to apologise for, and offers a message that acknowledges her disappointment and the relationship without retracting the decision or accepting blame."}

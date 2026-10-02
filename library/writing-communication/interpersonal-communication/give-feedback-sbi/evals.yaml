@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me give feedback ({{channel}}) to {{recipient}} about this: {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-talking-over
+    vars:
+      recipient: a peer on my team
+      channel: in-person
+      situation: "Jake is so arrogant. In yesterday's sprint planning he cut off Mei twice while she was explaining the API estimate and then said 'let's just go with my number'. Mei went quiet for the rest of the meeting. He clearly doesn't respect juniors."
+    assert:
+      - {type: contains-all, value: ["## SBI breakdown", "## Judgements removed"]}
+      - {type: not-icontains, value: "arrogant."}
+      - {type: llm-rubric, value: "Feedback names the situation (yesterday's sprint planning), the observable behaviour (interrupting Mei twice, 'let's just go with my number'), and the impact (Mei went quiet, her estimate was not heard); removes 'arrogant' and 'doesn't respect juniors' and lists them as judgements removed; includes a specific request and an open question; framed as a peer."}
+  - name: edge-positive-written
+    vars:
+      channel: written
+      recipient: my direct report
+      situation: "Aisha did a great job on the outage last night."
+    assert:
+      - {type: llm-rubric, value: "Either asks for what Aisha specifically did, or drafts a message with placeholders for the specific behaviour and impact, rather than generic praise like 'great job'; explains that specific praise is more useful."}
+  - name: negative-no-instance
+    vars:
+      situation: "My coworker is just always so negative about everything."
+    assert:
+      - {type: llm-rubric, value: "Asks for one or two concrete recent examples with when and where before drafting, and does not write feedback built on the label 'negative'."}
