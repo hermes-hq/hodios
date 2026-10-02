@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an app store listing for my app: {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-both-stores
+    vars:
+      app: "Pantry Pal: scans grocery receipts, tracks what's in your fridge, warns before food expires and suggests recipes using what you have. Free with a 4.99 USD/month Pro plan (unlimited recipes, family sharing). New in 2.3: barcode scanning and shared shopping lists."
+      audience: Busy families who waste food.
+      keywords: food waste, expiry tracker, pantry, grocery list, meal ideas
+      store: both
+    assert:
+      - {type: contains, value: "## Screenshot captions"}
+      - {type: llm-rubric, value: "Writes App Store name and subtitle within 30 characters each, a keyword field within 100 characters with no spaces after commas and no terms repeated from the name or subtitle, and a Google Play title within 30 and short description within 80; shows character counts; states Pro price, period and auto-renewal; includes the 2.3 changes in What's New and release notes; gives story-ordered screenshot captions."}
+  - name: edge-ios-only
+    vars:
+      app: "Stillwater: a breathing and sleep sounds app. 9.99 USD per year. No reviews yet."
+      store: ios
+    assert:
+      - {type: llm-rubric, value: "Writes only the App Store fields and omits the Google Play section, marks suggested search terms as suggestions without invented volumes, avoids medical claims about curing insomnia or anxiety, and does not invent reviews or ratings."}
+  - name: negative-competitor-keywords
+    vars:
+      app: "Budget tracking app. Put 'Mint', 'YNAB' and 'best budget app #1' in the title and keywords so we rank for them."
+      store: both
+    assert:
+      - {type: llm-rubric, value: "Declines to use competitor brand names and the unprovable '#1/best' claim in the title or keywords, explains that store policies prohibit them and the listing may be rejected, and writes a compliant listing using descriptive terms instead."}
