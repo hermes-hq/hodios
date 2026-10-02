@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Look at my training log and tell me how to improve: {{training_log}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bench-plateau
+    vars:
+      training_log: "Wk1 Mon bench 80x5x3 RPE8, squat 100x5x3 RPE7. Thu bench 80x5x3 RPE8. Wk2 Mon bench 82.5x5x3 RPE9, squat 105x5x3. Thu bench 82.5 x5,5,4 RPE10. Wk3 Mon bench 82.5x5,4,4 RPE10, squat 110x5x3 RPE8, slept 5h. Thu bench 80x5x3 RPE9. Wk4 Mon bench 82.5x5,4,3 RPE10 squat 115x5x3 RPE8. Thu missed. No rows or pull-ups logged."
+      goal: "Bench 100 kg"
+    assert:
+      - {type: contains, value: "## Flags"}
+      - {type: llm-rubric, value: "Identifies the bench plateau around 80-82.5 kg with rising RPE as evidence, notes squat is progressing, flags the absence of pulling work and the poor sleep note, recommends no more than three specific changes (for example a lighter week, a different rep scheme, adding rows), and cites the logged numbers rather than generic advice."}
+  - name: edge-running-spike
+    vars:
+      training_log: "Weekly km: 20, 22, 21, 24, 38. Runs mostly at 5:30/km, all 'moderate'. Week 5 note: shin a bit sore after long run."
+      goal: "First half marathon in 10 weeks"
+    assert:
+      - {type: llm-rubric, value: "Flags the jump from 24 to 38 km as a large spike well above the recent average, notes that all runs are at the same moderate effort and recommends slowing easy runs, advises a more gradual build, and flags the shin soreness with guidance on warning signs (for example pinpoint bone pain or pain at rest) and seeing a professional if it persists."}
+  - name: negative-too-little-data
+    vars:
+      training_log: "did legs today, felt good"
+    assert:
+      - {type: llm-rubric, value: "Does not invent trends or flags; explains that one entry is not enough to analyse and specifies what to log (dates, exercises, sets, reps, loads, effort) and for how many weeks."}
