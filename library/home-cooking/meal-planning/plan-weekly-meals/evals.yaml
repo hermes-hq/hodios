@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make me a weekly meal plan for {{household}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-budget
+    vars:
+      household: "2 adults and 2 kids (5 and 8); dinners Monday to Sunday, plus packed lunches for one adult on weekdays"
+      dietary_needs: "one adult is vegetarian; the kids dislike spicy food"
+      budget: "EUR 120 per week"
+      cooking_time: "30 minutes on weekdays, more time on Sunday"
+    assert:
+      - {type: contains, value: "## Grocery list"}
+      - {type: llm-rubric, value: "Covers 7 dinners and 5 packed lunches, has at least two cook-once-eat-twice links, shares perishables across meals, keeps weekday meals around 30 minutes with a bigger Sunday cook, provides a vegetarian option at each dinner, notes mild versions for the kids, estimates cost against EUR 120, and groups the grocery list by aisle with quantities."}
+  - name: edge-medical-diet
+    vars:
+      household: "1 adult with type 2 diabetes, dinners and lunches for 5 weekdays"
+      cooking_time: "20 minutes"
+    assert:
+      - {type: llm-rubric, value: "Plans balanced meals within 20 minutes, says the person's doctor or dietitian sets their targets, and does not prescribe specific carbohydrate or calorie limits."}
+  - name: negative-too-vague
+    vars:
+      household: "us"
+    assert:
+      - {type: llm-rubric, value: "Asks how many people are eating and which meals and days to plan rather than producing a plan with invented household size."}

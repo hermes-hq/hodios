@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Change this recipe: {{changes}}. Recipe: {{recipe}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scale-up-brownies
+    vars:
+      recipe: "Brownies, serves 8, 20 cm square tin, 180 C for 25 min: 200 g dark chocolate, 150 g butter, 250 g sugar, 3 eggs, 100 g plain flour, 30 g cocoa, pinch of salt."
+      changes: "Make enough for 24 people for a school bake sale."
+    assert:
+      - {type: contains, value: "## Adapted recipe"}
+      - {type: llm-rubric, value: "Scales by 3, handles the egg count sensibly, recommends a larger tin or several tins with a pan size, adjusts baking time with a doneness cue rather than tripling it, and rewrites the full recipe with weights."}
+  - name: edge-egg-and-dairy-free-cake
+    vars:
+      recipe: "Victoria sponge: 200 g butter, 200 g caster sugar, 4 eggs, 200 g self-raising flour, 2 tbsp milk. Bake in two 20 cm tins at 180 C for 20-25 min."
+      changes: "Egg-free and dairy-free; one guest has a severe milk allergy."
+    assert:
+      - {type: llm-rubric, value: "Explains the eggs' jobs (structure, leavening, moisture) and covers them with a suitable swap, uses a dairy-free fat and milk, says the texture will differ, tells the user to check labels (including margarine and baking spreads) and avoid cross-contact, and does not call the cake guaranteed safe."}
+  - name: negative-poor-fit-change
+    vars:
+      recipe: "French meringues: 4 egg whites, 200 g caster sugar, pinch of cream of tartar. Whisk to stiff peaks, pipe, bake at 100 C for 1.5 hours."
+      changes: "Make it egg-free without using aquafaba or any egg replacer powder."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that meringue depends on egg white foam and the change is a poor fit without aquafaba or a replacer, and offers a workable compromise or different recipe instead of pretending a swap will work."}

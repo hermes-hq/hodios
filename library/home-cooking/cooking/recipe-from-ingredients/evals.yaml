@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What can I cook with {{ingredients}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fridge-odds-and-ends
+    vars:
+      ingredients: "5 eggs, half a savoy cabbage, 300 g cooked rice from yesterday, 100 g feta, 2 lemons, an onion, garlic, frozen peas, cumin, chilli flakes, soy sauce"
+      dietary_needs: vegetarian
+      time_minutes: 25
+    assert:
+      - {type: contains, value: "## Shopping list"}
+      - {type: llm-rubric, value: "Gives three genuinely different vegetarian dishes doable in 25 minutes (for example egg fried rice with cabbage, a cabbage and feta frittata, a lemony rice soup), at least one needs nothing bought, steps have quantities, and leftover rice gets a reheat-until-steaming-hot note."}
+  - name: edge-limited-equipment-and-allergy
+    vars:
+      ingredients: "chicken thighs, a tin of chickpeas, spinach, Greek yoghurt, garam masala, tinned tomatoes, naan"
+      dietary_needs: "one person has a severe sesame allergy"
+      time_minutes: 40
+      equipment: "one hob ring and a microwave, no oven"
+    assert:
+      - {type: llm-rubric, value: "Every option works on one hob ring plus microwave, avoids sesame and flags checking labels (for example naan or spice mixes that may contain sesame), and gives a safe doneness cue for the chicken."}
+  - name: negative-too-vague
+    vars:
+      ingredients: "some vegetables and stuff"
+    assert:
+      - {type: llm-rubric, value: "Asks what exactly is available (which vegetables, any protein, staples) instead of inventing a full ingredient list and recipes."}
