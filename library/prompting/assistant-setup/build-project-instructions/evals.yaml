@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write instructions for an AI assistant project about: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nonprofit-newsletter
+    vars:
+      project: "Monthly email newsletter and social posts for a community food bank. Audience: donors and volunteers. Warm but not sentimental; we never show recipients' faces or names. We use 'neighbours' rather than 'clients'."
+      recurring_tasks: "1) Draft the monthly newsletter from my bullet notes. 2) Turn the newsletter into three social posts. 3) Write thank-you emails to new donors."
+    assert:
+      - {type: contains, value: "## Knowledge files"}
+      - {type: llm-rubric, value: "Writes paste-ready instructions with purpose, standing rules (the term neighbours, no recipient names or faces, tone) with reasons, a playbook for each of the three tasks naming which file to check, missing-information handling, and a knowledge-file table (for example style guide, past newsletters, programme facts, donor thank-you templates) with owners and update rhythm; uses placeholders instead of invented facts and gives test prompts per task plus one uncovered question."}
+  - name: edge-no-recurring-tasks
+    vars:
+      project: "I'm a freelance UX researcher. I want a project for my interview studies with clients."
+    assert:
+      - {type: llm-rubric, value: "Infers likely recurring tasks (for example discussion guides, synthesising interview notes, client reports) and labels them as inferred, lists assumptions, and suggests anonymising participant data in uploaded files."}
+  - name: negative-vague-project
+    vars:
+      project: "Work stuff."
+    assert:
+      - {type: llm-rubric, value: "Asks up to three questions about the project's purpose, audience and recurring tasks instead of inventing a project."}

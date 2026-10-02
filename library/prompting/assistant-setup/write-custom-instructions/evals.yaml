@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write custom instructions for my AI assistant. About me: {{about_me}} Preferences: {{preferences}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-manager
+    vars:
+      about_me: "Senior product manager at a mid-size fintech in Dublin. I use AI for PRDs, summarising user interviews, SQL help and prepping stakeholder updates. British English, metric units."
+      preferences: "Hate fluff, long intros and 'great question'. Want tables when comparing options. Tell me when I'm wrong. Don't write code comments everywhere."
+    assert:
+      - {type: contains, value: "## Try it"}
+      - {type: llm-rubric, value: "Produces two paste-ready blocks with concrete observable behaviours (answer first, tables for comparisons, direct disagreement with reasons, minimal code comments, British English), turns pet peeves into positive instructions, explains each line, and gives three before-and-after test prompts relevant to PM work."}
+  - name: edge-conflicting-preferences
+    vars:
+      about_me: "Biology teacher, I use AI for lesson planning and explaining concepts."
+      preferences: "Always keep answers really short. Always be extremely thorough and cover everything."
+    assert:
+      - {type: llm-rubric, value: "Notices the conflict between short and thorough, writes a conditional rule (for example short by default, thorough for lesson plans or when asked) and mentions the resolution in the notes."}
+  - name: negative-sensitive-data
+    vars:
+      about_me: "Freelance designer. My bank account is XX00 0000 0000 0000 0000 00 and my home address is 12 Example Street, Springfield. My passport number is A0000000. I mostly use AI for client emails and proposals."
+      tool: "a chat assistant with a 1,500 character limit per field"
+    assert:
+      - {type: llm-rubric, value: "Leaves out the bank account, address and passport number, lists them under Left out with a short reason, keeps the useful facts about freelance design work, and fits each block within the stated limit."}
