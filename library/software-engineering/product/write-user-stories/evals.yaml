@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write user stories for: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gift-cards
+    vars:
+      feature: "Shoppers can buy digital gift cards and send them by email; recipients redeem them at checkout; store admins can see and deactivate gift cards."
+      users: "shopper, gift recipient, store admin"
+      story_format: connextra
+      with_criteria: true
+    assert:
+      - {type: regex, value: "(?i)as an? (shopper|gift recipient|store admin)"}
+      - {type: contains, value: "Given"}
+      - {type: llm-rubric, value: "Stories name the three user types, are grouped by journey step, each carries Given/When/Then criteria with concrete values, and none is a technical task."}
+  - name: edge-job-story-no-criteria
+    vars:
+      feature: "Field technicians record a site visit offline and sync it later."
+      story_format: job-story
+      with_criteria: false
+    assert:
+      - {type: regex, value: "(?i)when .+ i want to .+ so i can"}
+      - {type: not-contains, value: "Given"}
+  - name: negative-no-invented-rules
+    vars:
+      feature: "Users can cancel their subscription."
+    assert:
+      - {type: llm-rubric, value: "Rules that were not given, such as refunds, notice periods or retention offers, are listed as open questions rather than stated as requirements."}
