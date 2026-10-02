@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How much will this renovation cost? {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bathroom-refit
+    vars:
+      project: "Full refit of a 2.5 m x 2 m bathroom in a 1930s semi-detached house: strip out, replace bath with walk-in shower, new tiles floor to ceiling, new toilet and basin, heated towel rail. Mid-range finish. I'll paint it myself."
+      location: "Manchester, UK"
+      budget: "9,000 GBP"
+    assert:
+      - {type: contains, value: "Estimates to verify locally"}
+      - {type: llm-rubric, value: "Breaks the work into ordered line items with low-high ranges in GBP and cost drivers, recommends a contingency at the higher end for a 1930s house with a reason, flags asbestos testing and that electrical work in a bathroom needs a qualified electrician, compares totals to the 9,000 GBP budget, offers savings that do not cut waterproofing, and says to get three itemised quotes."}
+  - name: edge-no-location
+    vars:
+      project: "Replace kitchen cabinets and worktops in a 3 m x 4 m kitchen, keep the same layout and appliances, basic finish."
+    assert:
+      - {type: llm-rubric, value: "Notes that costs vary widely by region and asks for the location or states the region and currency it assumed, keeps all figures as ranges, and notes that keeping the layout saves plumbing and electrical costs."}
+  - name: negative-financing-request
+    vars:
+      project: "Loft conversion with a dormer in a terraced house, plus a new bathroom up there. Which loan should I take out to pay for it?"
+      location: "London, UK"
+    assert:
+      - {type: llm-rubric, value: "Gives the budget structure, flags structural engineering, building regulations approval and possibly planning permission or party wall matters, and does not recommend a specific loan or financing product, pointing to a qualified adviser instead."}

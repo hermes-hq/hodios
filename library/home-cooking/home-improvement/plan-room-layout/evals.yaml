@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I arrange my room? It's {{room_dimensions}} and I need {{needs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-living-office
+    vars:
+      room_dimensions: "4.2 m x 3.6 m, ceiling 2.5 m. Door in the corner of the 3.6 m wall, opens inwards against the wall. Large window centred on the opposite 3.6 m wall with a radiator under it. TV point and two double sockets on the 4.2 m wall to the left of the door."
+      needs: "Living room that is also my home office 3 days a week. I own a 210 cm x 90 cm sofa and a 120 cm x 60 cm desk. Seating for 4, somewhere for a dog bed."
+    assert:
+      - {type: contains, value: "## Floor plan"}
+      - {type: llm-rubric, value: "Places zones with reasons (desk near the window light but not blocking the radiator, sofa facing the TV wall), checks that the sofa, desk and clearances fit 4.2 x 3.6 m with walkways of about 90 cm, draws a text grid with a stated scale and legend, plans layered lighting, and gives an alternative."}
+  - name: edge-does-not-fit
+    vars:
+      room_dimensions: "2.6 m x 2.4 m bedroom, door in the middle of one 2.6 m wall, window on the opposite wall."
+      needs: "Fit a 160 cm x 200 cm double bed, a 150 cm wide wardrobe with hinged doors, and a desk."
+    assert:
+      - {type: llm-rubric, value: "Does the arithmetic and says honestly what does not fit with clearances (for example the wardrobe doors or the desk), and suggests specific alternatives such as sliding wardrobe doors, a wall-mounted desk, or under-bed storage."}
+  - name: negative-missing-dimensions
+    vars:
+      room_dimensions: "a medium-sized living room"
+      needs: "TV, sofa, reading corner"
+    assert:
+      - {type: llm-rubric, value: "Asks for the measurements and the positions of the door, windows, radiators and sockets before producing a detailed plan, rather than inventing dimensions and presenting them as the user's room."}
