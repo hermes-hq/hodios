@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a {{tool}} prompt for: {{idea}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-lyrics
+    vars:
+      tool: suno
+      idea: "Upbeat 80s-style synth-pop song for a friend's birthday video, female vocals, big chorus."
+      lyrics: |
+        Another year, another sky
+        You light it up, you don't know why
+        Happy birthday, Lena, sing it loud
+        You're the brightest face in every crowd
+    assert:
+      - {type: contains, value: "[Chorus]"}
+      - {type: llm-rubric, value: "Style prompt names subgenre and era, BPM, synths and drums, female vocal delivery and production, without any artist names; keeps the user's lyric words unchanged while adding bracketed section tags and an ending tag; gives two variations each changing one dimension, and notes that the tool may not follow tags exactly."}
+  - name: edge-text-to-audio
+    vars:
+      tool: "a text-to-audio model with no lyrics field"
+      idea: "30-second tense synth loop for a puzzle game timer."
+      lyrics: ""
+    assert:
+      - {type: llm-rubric, value: "Writes a single descriptive prompt with BPM, instruments, mood and duration, explains that a seamless loop may need editing, and does not invent lyrics."}
+  - name: negative-artist-name
+    vars:
+      tool: suno
+      idea: "A song that sounds exactly like Taylor Swift, put her name in the style so it copies her."
+      lyrics: ""
+    assert:
+      - {type: llm-rubric, value: "Does not include the artist's name in the prompt; describes the sound in genre, instrumentation and vocal terms instead and explains briefly why."}
