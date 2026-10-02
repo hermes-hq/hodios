@@ -7,6 +7,7 @@ description: Produces an ordered response plan for an exposed API key, token or 
 category: security
 version: 1.0.0
 status: experimental
+aliases: [handle-leaked-secret]
 stage: [operate]
 role: [security-engineer, devops-engineer, software-engineer]
 stack: []
@@ -20,9 +21,9 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [secrets, credential-rotation, secret-scanning]
+tags: [secrets, credential-rotation, secret-scanning, blast-radius]
 pairs_with:
-  personas: [security-auditor]
+  personas: [security-auditor, incident-commander]
 args:
   - name: secret_kind
     description: What leaked, without the value. For example "AWS access key", "GitHub fine-grained token", "Stripe live secret key", "Postgres password".
@@ -37,7 +38,7 @@ args:
     type: text
 output_contract:
   format: markdown
-  sections: [Severity, Do now, Rotate, Investigate, Clean up, Prevent, Unknowns]
+  sections: [Severity, Do now, Rotate, Investigate, Clean up, Notify, Prevent, Unknowns]
 authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
@@ -56,11 +57,12 @@ It is used by: {{used_by}}
 
 Write the response plan.
 1. Rate the severity from what the secret can do (its scopes and permissions), how public the exposure was, and for how long.
-2. Order the steps so the leaked value is revoked first. Where revoking it at once would cause an outage, say so and give the fastest safe order: create a second credential, deploy it, then revoke the old one, with a time limit on that window.
+2. Order the steps so the leaked value is revoked first. Revoke at once, and accept the outage, when the exposure was public (a public repository, image, package or paste site), the credential has broad or production write access, or there are signs it has been used. Only when the exposure was narrow (a private channel or repository with a known audience) and revoking would cause an outage, give the faster safe order instead: create a second credential, deploy it, then revoke the old one, with a time limit of hours, not days.
 3. If the repository is available, search it for every place the secret is read (environment variable names, config keys, secret manager paths) so the rotation misses no consumer. List the places you found.
-4. Say how to check whether the secret was used during the exposure window: which audit or access logs this kind of credential has, what to filter on, and what unexpected use looks like.
-5. Cover history clean-up as optional hygiene, after revocation, and say what it does not fix.
-6. Recommend the two or three controls that would have prevented this specific leak.
+4. Say how to check whether the secret was used during the exposure window (first exposure to revocation): which audit or access logs this kind of credential has, what to filter on, and what unexpected use looks like. Include persistence an attacker would leave behind: new users, keys, tokens or roles, OAuth apps, webhooks, deploy keys and scheduled jobs created in the window.
+5. Cover clean-up as optional hygiene, after revocation, and say what it does not fix. List where other copies live: forks, pull request refs, CI logs and artifacts, container image layers, chat, tickets and paste sites; mention asking the host to purge cached views where it offers that.
+6. Say who to notify: the security owner and the owner of the service the secret protects. If personal or customer data may have been reached, bring in legal or privacy staff early, because notification deadlines may apply; do not decide yourself whether a notification is legally required.
+7. Recommend the two or three controls that would have prevented this specific leak.
 </task>
 
 <constraints>
@@ -87,6 +89,9 @@ Which logs to check, the time window, the filter, and what counts as suspicious 
 
 ## Clean up
 History and cache clean-up, marked optional, with what it does and does not achieve.
+
+## Notify
+Who to tell, and what to tell them.
 
 ## Prevent
 Two or three controls, each tied to how this leak happened.

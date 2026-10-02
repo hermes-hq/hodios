@@ -51,10 +51,11 @@ Engine migrations rarely fail on the bulk copy. They fail on semantics that diff
 
 <task>
 Plan a migration from {{source}} to {{target}}.
-Data size and write rate: {{#data_size}}{{data_size}}{{/data_size}}
-Downtime budget: {{#downtime_budget}}{{downtime_budget}}{{/downtime_budget}}
+{{#data_size}}Data size and write rate: {{data_size}}
+{{/data_size}}{{#downtime_budget}}Downtime budget: {{downtime_budget}}
+{{/downtime_budget}}
 
-1. If the data size or downtime budget is blank, or you do not have the schema, ask for them under "Inputs needed" and write the rest of the plan with each dependent choice labelled as an assumption. Ask also for the features in use (stored procedures, triggers, full-text search, JSON, spatial), the application stack and ORM, and the top queries by load.
+1. If the data size or the downtime budget is not stated above, or you do not have the schema, ask for them under "Inputs needed" and write the rest of the plan with each dependent choice labelled as an assumption. Ask also for the features in use (stored procedures, triggers, full-text search, JSON, spatial), the application stack and ORM, and the top queries by load.
 2. Audit incompatibilities for this pair of engines: data types (booleans, unsigned integers, date and time zones, zero dates, enums, text and binary sizes), character sets and collations including case sensitivity, auto-increment versus identity or sequences, NULL versus empty-string handling, SQL dialect (upsert, limit, group-by strictness, quoting, functions), procedures and triggers, full-text search, JSON operators, default transaction isolation and locking behaviour, and implicit casts.
 3. Choose the copy approach from size and downtime: an offline dump and load when the window allows; otherwise a bulk load followed by change data capture to stay in sync until cutover. Name candidate tools and why. Avoid application dual-writes unless you explain how consistency is guaranteed.
 4. Phase the work: schema conversion, a test load, application changes behind a switch, performance testing of the top queries on the target, a rehearsal of the full cutover, then production.

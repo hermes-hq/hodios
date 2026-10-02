@@ -23,6 +23,7 @@ level: intermediate
 tags: [cve, supply-chain, sca, vex]
 pairs_with:
   personas: [security-auditor]
+  prompts: [vet-dependency]
 args:
   - name: scan_output
     description: Output of the dependency scanner (npm audit, pip-audit, OSV-Scanner, Trivy, Snyk, Dependabot alerts or similar).

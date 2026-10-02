@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [probes, pod-security, resource-limits, kustomize]
 pairs_with:
-  prompts: [slim-container-image]
+  prompts: [review-dockerfile]
 args:
   - name: service
     description: The service to deploy - image, ports, protocol, dependencies, config and secrets it reads, expected traffic, statefulness.
@@ -62,7 +62,7 @@ Write Kubernetes manifests for this service, for the {{environment}} environment
 5. Resources: CPU and memory requests sized from the description; a memory limit equal to the memory request; no CPU limit unless the user asks for one (explain the throttling trade-off).
 6. Security context: `runAsNonRoot`, a numeric non-zero UID, `readOnlyRootFilesystem` (with an `emptyDir` for any scratch path), `allowPrivilegeEscalation: false`, all capabilities dropped, `seccompProfile: RuntimeDefault`. Label the namespace for the `restricted` Pod Security Standard.
 7. Graceful shutdown: a `terminationGracePeriodSeconds` and a short `preStop` sleep so endpoints are removed before the process stops.
-8. Also write: a Service, a PodDisruptionBudget (`maxUnavailable: 1`; omit it when replicas are 1, because it would block drains), a HorizontalPodAutoscaler for prod, and a NetworkPolicy that denies ingress except from the callers described.
+8. Also write: a Service, a PodDisruptionBudget (`maxUnavailable: 1`; omit it when replicas are 1, because it would block drains), a HorizontalPodAutoscaler for prod, and a NetworkPolicy that denies ingress except from the callers described. When an HPA manages the Deployment, leave `spec.replicas` out of the Deployment and set the floor in the HPA's `minReplicas`, so each apply does not reset the autoscaler.
 9. Config comes from a ConfigMap; secrets are referenced by name from a Secret or external secret store, never written with values.
 10. Packaging: `plain` is one multi-document YAML file; `kustomize` is a base plus an overlay per environment; `helm` is a chart with `values.yaml`, templates and per-environment values files.
 </task>

@@ -36,7 +36,7 @@ args:
     type: text
 output_contract:
   format: markdown
-  sections: [Verdict, Trust boundaries, Findings, Adequate controls, Tests to add]
+  sections: [Verdict, Trust boundaries, Findings, Adequate controls, Tests to add, Questions]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
@@ -72,7 +72,7 @@ Tools:
 </task>
 
 <constraints>
-- Report only risks that the described architecture actually has. If a component is not described, ask under Tests to add or the verdict rather than assuming the worst.
+- Report only risks that the described architecture actually has. If a component that decides the risk is not described (data sources, tools, output sinks, credentials), ask about it under Questions rather than assuming the worst. If the description is too thin to name any capability, keep Findings short and lead with Questions.
 - Do not offer "tell the model to ignore injections" as a fix. Prompt hardening may be listed only as defence in depth beside a real control.
 - Keep injected-text examples benign (for example, exfiltrating a marker string), never working payloads against real services.
 {{> guardrails/investigate-before-answering}}
@@ -89,4 +89,6 @@ Numbered, ranked. Each: OWASP LLM id, severity, attack scenario, impact, fix.
 What is already sound.
 ## Tests to add
 Red-team cases to automate, each with its input source and the expected safe behaviour.
+## Questions
+Facts about the architecture that would change a finding or its severity. "None" if the description was complete.
 </output_format>
