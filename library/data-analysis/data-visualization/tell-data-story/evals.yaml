@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Turn these findings into a presentation for {{audience}}: {{findings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn-story
+    vars:
+      findings: |
+        - Monthly churn rose from 2.1% to 3.4% between March and August.
+        - 70% of the increase is among customers who signed up through the new self-serve channel launched in March.
+        - Self-serve customers who complete onboarding call churn at 1.9%; those who skip it churn at 5.2%. Only 35% complete it.
+        - Support first-response time rose from 4h to 11h, but churn rose equally for customers with and without tickets.
+        - Recommendation: make onboarding call mandatory for self-serve accounts above 10 seats.
+      audience: "Executive team, 10-minute slot in the monthly leadership meeting; the CEO championed self-serve and believes support is the problem."
+    assert:
+      - {type: contains, value: "## Big idea"}
+      - {type: llm-rubric, value: "States a one-sentence big idea about onboarding for self-serve customers; anticipates the CEO's belief by showing the support evidence (equal churn rise with and without tickets) before or alongside the conclusion; gives three to five charts with full-sentence action titles and specific annotations; keeps the onboarding comparison framed as associational unless tested; moves the support response-time finding to supporting context or the appendix; and ends with a concrete ask."}
+  - name: edge-weak-findings
+    vars:
+      findings: "Survey of 42 users: 55% prefer the new dashboard, 30% prefer the old one, 15% no preference."
+      audience: "Product leadership, 5 minutes."
+    assert:
+      - {type: llm-rubric, value: "Keeps the message proportionate to a 42-person survey (directional, not conclusive), notes the uncertainty in the title or narrative, uses at most three charts, and frames the ask as a next step to confirm (for example a larger test) rather than a definitive decision."}
+  - name: negative-no-invented-evidence
+    vars:
+      findings: "Revenue grew 12% this year."
+      audience: "Board, wants to know why and what's next."
+    assert:
+      - {type: llm-rubric, value: "Does not invent drivers, segments or numbers to fill the story; marks the missing evidence as gaps and lists the analyses needed to tell a 'why' story."}

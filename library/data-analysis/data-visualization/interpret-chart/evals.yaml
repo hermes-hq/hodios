@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What does this chart mean? {{chart_description_or_image}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-truncated-axis
+    vars:
+      chart_description_or_image: "Bar chart titled 'Crime soars under new mayor'. Two bars: 2024 = 50,200 incidents, 2025 = 51,100 incidents. The y-axis starts at 50,000 and ends at 51,200, so the 2025 bar looks more than five times taller. Source: city police open data."
+      context: "Shared in a local news article."
+    assert:
+      - {type: contains, value: "## Bottom line"}
+      - {type: llm-rubric, value: "Explains the actual change is about +1.8% (900 incidents), that the truncated axis makes the 2025 bar look more than five times taller, that two years cannot establish a trend or attribute it to the mayor, raises questions about population change and reporting changes, rates the chart as misleading, and stays neutral about the mayor."}
+  - name: edge-looks-fair
+    vars:
+      chart_description_or_image: "Line chart of monthly unemployment rate (%) from Jan 2015 to Aug 2026, y-axis 0% to 15%, source national statistics office, shaded band for the 2020 pandemic period."
+      context: "From a government report."
+    assert:
+      - {type: llm-rubric, value: "Explains the chart in plain words, says it looks fair (long window, axis from zero, source given, context shading) rather than inventing problems, and still notes what it does not show, such as differences between groups or causes."}
+  - name: negative-unreadable
+    vars:
+      chart_description_or_image: "A chart with some lines going up."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Says there is not enough information to interpret the chart and asks for the specific missing parts (what is measured, axes and units, time range, source), without inventing values."}

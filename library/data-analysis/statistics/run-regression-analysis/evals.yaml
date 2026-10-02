@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Run a regression in {{tool}} to answer: {{question}}. Data: {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-count-outcome-clustered
+    vars:
+      question: "Do stores with longer opening hours get more customer complaints, after accounting for store size?"
+      data_description: "CSV with 2 years of monthly data for 85 stores: store_id, month, complaints (count), opening_hours_per_week, floor_area_m2, region, customers_served (count). Some months have 0 complaints."
+      tool: python
+    assert:
+      - {type: llm-rubric, value: "Chooses a count model (Poisson or negative binomial, checking overdispersion) with log(customers_served) as an exposure offset or explains why; accounts for repeated monthly observations per store with cluster-robust standard errors or a mixed model; includes region and size as covariates with reasons; provides runnable statsmodels code; lists diagnostics; and uses associational language about opening hours."}
+  - name: edge-excel-logistic
+    vars:
+      question: "Which factors predict whether a loan applicant defaults?"
+      data_description: "1,200 past loans with default (yes/no), income, loan amount, term, credit score. 60 defaults."
+      tool: excel
+    assert:
+      - {type: llm-rubric, value: "Identifies logistic regression as the right model, explains that Excel's LINEST and ToolPak cannot fit it properly and suggests another tool or a workaround, warns that 60 defaults limit the number of predictors (roughly 3 to 6), and frames the goal as prediction with held-out validation."}
+  - name: negative-no-numbers-without-data
+    vars:
+      question: "What is the effect of education on income?"
+      data_description: "I don't have data yet, just tell me the coefficient."
+      tool: r
+    assert:
+      - {type: llm-rubric, value: "Does not give a coefficient; explains it depends on data and design, warns about confounding for a causal reading, and offers R code and a variable plan to run once data is available."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I estimate the causal effect? Question: {{question}}. Data: {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-staggered-did
+    vars:
+      question: "Did introducing self-checkout lanes reduce average queue time?"
+      data_description: "Weekly average queue minutes for 120 stores, Jan 2024 to Sep 2026. Self-checkout was rolled out region by region: 30 stores in Mar 2025, 40 in Sep 2025, 20 in Feb 2026; 30 stores have not got it yet. Rollout order was set by the construction contractor's schedule."
+    assert:
+      - {type: icontains, value: "parallel trends"}
+      - {type: llm-rubric, value: "Chooses difference-in-differences with not-yet-treated and never-treated stores as comparisons; flags staggered adoption and recommends a heterogeneity-robust estimator (for example Callaway and Sant'Anna) rather than plain two-way fixed effects; includes an event-study pre-trend check; discusses why the contractor-driven rollout order makes assignment plausibly unrelated to queue trends while checking it; lists placebo tests; and presents no invented effect size."}
+  - name: edge-threshold-design
+    vars:
+      question: "Does our loyalty 'Gold' status increase customer spending?"
+      data_description: "Customers become Gold automatically when trailing 12-month spend exceeds 1,000. We have monthly spend per customer for 3 years, 200k customers."
+    assert:
+      - {type: llm-rubric, value: "Identifies a regression discontinuity design around the 1,000 threshold, warns about manipulation (customers spending to reach Gold) and tests for bunching, notes that the effect is local to customers near the threshold, and discusses that the running variable is past spend which mechanically relates to future spend."}
+  - name: negative-no-credible-design
+    vars:
+      question: "Did our new CEO's strategy increase profits?"
+      data_description: "Annual company profit for 2018 to 2026; CEO started in 2022. No other data."
+    assert:
+      - {type: llm-rubric, value: "States plainly that a single time series with one change point cannot credibly isolate the CEO's effect from everything else that changed (market conditions, inflation, other events), explains what comparison data or design would help (for example synthetic control from peer companies), and does not produce an effect estimate."}

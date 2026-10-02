@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Analyse this A/B test using Bayesian statistics: {{results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conversion-test
+    vars:
+      results: "Checkout redesign, 50/50 split, 21 days. Control: 24,000 users, 1,200 purchases. Variant: 24,100 users, 1,302 purchases."
+      prior_knowledge: "Checkout conversion has been 4.8% to 5.2% over the last year. We ship if lift is at least 3% relative."
+    assert:
+      - {type: contains, value: "## Prior sensitivity"}
+      - {type: llm-rubric, value: "Passes the sample ratio check; uses a Beta-Binomial model with a stated prior around 5%; reports conversion of about 5.0% versus 5.4% and a relative lift of about 8% with a credible interval; reports P(B > A) of roughly 0.97 to 0.98 (labelled approximate if not computed by running code); computes or explains expected loss; applies the 3% minimum lift in the decision, noting the probability that the lift exceeds 3% is lower than P(B > A); and gives seeded Python code."}
+  - name: edge-srm-failure
+    vars:
+      results: "Planned 50/50. Control: 50,000 users, 2,500 conversions. Variant: 47,000 users, 2,490 conversions."
+      prior_knowledge: ""
+    assert:
+      - {type: llm-rubric, value: "Detects the sample ratio mismatch (97,000 users split 50,000 versus 47,000 is far outside chance, p well below 0.001), says the result cannot be trusted until the cause is found, suggests likely causes such as redirect or logging issues, and does not recommend shipping."}
+  - name: negative-missing-counts
+    vars:
+      results: "Variant B had a 12% conversion rate and A had 10%. Is B better?"
+      prior_knowledge: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that rates without sample sizes cannot support a conclusion, asks for users and conversions per variant (and test duration), and does not give a probability that B is better."}

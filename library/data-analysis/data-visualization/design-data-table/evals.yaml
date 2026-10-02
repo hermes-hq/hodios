@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make this into a nice table: {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-regional-sales
+    vars:
+      data: |
+        region, revenue_2025, revenue_2026, target_2026
+        North, 1234567.891, 1410222.5, 1350000
+        South, 987654.3, 901220.75, 1050000
+        East, 2345678, 2602110.2, 2500000
+        West, 456789.12, 512300, 480000
+      purpose: "One slide in the quarterly review; leadership needs to see which regions missed target."
+    assert:
+      - {type: llm-rubric, value: "Orders regions by a meaningful measure (for example revenue or variance to target) rather than alphabetically; shows revenue scaled with units in the header (for example € or $ thousands or millions) and consistent precision; adds year-over-year change and variance to target columns with correct values (South −8.8% YoY and −148.8k or about −14% versus target); right-aligns numbers; highlights South as the only region below target with something other than colour alone; and includes a total row and footnotes."}
+  - name: edge-rounding-mismatch
+    vars:
+      data: "Market share: Product A 33.33%, Product B 33.33%, Product C 33.33%, Total 100%"
+      purpose: "Appendix table in a written report."
+    assert:
+      - {type: llm-rubric, value: "Keeps the values without altering them to force a sum, notes in a footnote that rounded shares may not add exactly to 100%, and suggests a sensible precision."}
+  - name: negative-chart-better
+    vars:
+      data: "Daily website sessions for the last 365 days (365 rows of date, sessions)."
+      purpose: "Show the trend over the year in a slide."
+    assert:
+      - {type: llm-rubric, value: "Says a line chart would serve a year-long trend better than a 365-row table, and offers a compact summary table (for example monthly totals or averages with change) as the table design."}

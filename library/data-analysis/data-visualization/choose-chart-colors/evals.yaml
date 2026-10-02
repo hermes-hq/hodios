@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Suggest colours for these charts: {{chart_types}}. Brand colours: {{brand_colors}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-charts
+    vars:
+      chart_types: "1) Line chart, 4 product lines over 24 months. 2) Map of US states coloured by year-over-year growth from −15% to +35%. 3) Bar chart of 12 sales reps where we want to highlight the top performer. White background."
+      brand_colors: "Primary #E4002B (red), secondary #00205B (navy). Charts should feel on-brand."
+    assert:
+      - {type: contains, value: "#"}
+      - {type: llm-rubric, value: "Assigns categorical to the line chart, diverging centred on 0% for the growth map (with a neutral midpoint and symmetric perceptual steps despite the asymmetric range), and grey-plus-accent highlight for the rep bar chart; uses the brand navy and red thoughtfully but avoids red-versus-green as the only distinction and avoids using brand red for positive growth if it reads as negative; provides hex codes, usage rules, colour-vision checks, and either computed contrast ratios with workings or ratios marked to verify; and includes CSS and Python code."}
+  - name: edge-too-many-categories
+    vars:
+      chart_types: "Stacked area chart of traffic share for 14 marketing channels over a year. Dark background #121212."
+      brand_colors: ""
+    assert:
+      - {type: llm-rubric, value: "Advises against 14 distinct colours, proposes grouping minor channels into Other, faceting or highlighting a few key channels, provides a palette suited to a dark background, and addresses contrast against #121212."}
+  - name: negative-vague
+    vars:
+      chart_types: "Some charts for a report."
+      brand_colors: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what each chart encodes (categories, ordered values, values around a midpoint) and the background, rather than producing an arbitrary palette, or offers a minimal default while clearly asking for those details."}
