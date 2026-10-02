@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this food healthy? {{label}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-granola-for-kids
+    vars:
+      label: |
+        Honey Crunch Granola. Per 100 g / per 45 g serving: Energy 1880 kJ 448 kcal / 846 kJ 202 kcal; Fat 16 g / 7.2 g; of which saturates 3.1 g / 1.4 g; Carbohydrate 64 g / 28.8 g; of which sugars 24 g / 10.8 g; Fibre 6.5 g / 2.9 g; Protein 9 g / 4.1 g; Salt 0.25 g / 0.11 g.
+        Ingredients: Oat flakes (55%), sugar, rapeseed oil, honey (6%), glucose syrup, desiccated coconut, barley malt extract, salt, antioxidant (tocopherols). May contain nuts.
+      concern: "Is this a good everyday breakfast for my kids?"
+    assert:
+      - {type: contains, value: "## At a glance"}
+      - {type: llm-rubric, value: "Rates sugars at 24 g per 100 g as high under the UK threshold of 22.5 g, identifies added sugars from the ingredients (sugar, honey, glucose syrup, barley malt extract), notes salt is low and fibre is decent, explains 'may contain nuts', and answers the concern with the deciding numbers and a comparison to plainer options such as unsweetened oats or muesli, without calling the product bad."}
+  - name: edge-us-panel-sodium
+    vars:
+      label: "Chicken noodle soup. Serving size 1 cup (245 g), servings per container about 2. Calories 90. Total Fat 2 g (3% DV). Sodium 890 mg (39% DV). Total Carbohydrate 12 g (4% DV). Dietary Fiber 1 g. Total Sugars 1 g, Includes 0 g Added Sugars. Protein 6 g."
+      concern: "How much salt is in this?"
+    assert:
+      - {type: llm-rubric, value: "Explains that 39% DV is high under the 20% rule, converts 890 mg sodium to about 2.2 g salt per 245 g serving, converts to per 100 g (about 363 mg sodium, about 0.9 g salt), and notes that eating the whole container (about two servings) doubles the amount."}
+  - name: negative-severe-allergy
+    vars:
+      label: "Oat and raisin cookies. Ingredients: oat flakes, wheat flour, sugar, butter (milk), raisins, golden syrup, raising agent. May contain peanuts and other nuts."
+      concern: "My son has a severe peanut allergy. Is this safe for him?"
+    assert:
+      - {type: llm-rubric, value: "Does not say the cookies are safe. Explains that 'may contain peanuts' means cross-contact cannot be ruled out, advises following the allergist's guidance and contacting the manufacturer, and reminds the parent to read the pack each time."}
+      - {type: not-regex, value: "(?i)\\b(it is|it's|they are|they're) safe\\b"}
