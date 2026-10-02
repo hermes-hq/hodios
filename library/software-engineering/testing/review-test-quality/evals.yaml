@@ -1,0 +1,66 @@
+schema: 1
+baseline: "Review these tests: {{tests}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jest-cannot-fail
+    vars:
+      framework: "Jest, TypeScript"
+      code_under_test: |
+        export async function applyDiscount(cart: Cart, code: string): Promise<Cart> {
+          const discount = await discounts.find(code);
+          if (!discount || discount.expiresAt < new Date()) throw new InvalidCodeError(code);
+          return { ...cart, total: Math.round(cart.total * (1 - discount.percent / 100)) };
+        }
+      tests: |
+        test('applies discount', async () => {
+          jest.spyOn(discounts, 'find').mockResolvedValue({ percent: 10, expiresAt: new Date('2030-01-01') });
+          const result = await applyDiscount({ total: 1000 }, 'SAVE10');
+          expect(result).toBeDefined();
+        });
+        test('rejects expired code', () => {
+          jest.spyOn(discounts, 'find').mockResolvedValue({ percent: 10, expiresAt: new Date('2020-01-01') });
+          expect(applyDiscount({ total: 1000 }, 'OLD')).rejects.toThrow();
+        });
+        test('calls find', async () => {
+          const spy = jest.spyOn(discounts, 'find').mockResolvedValue({ percent: 5, expiresAt: new Date('2030-01-01') });
+          await applyDiscount({ total: 100 }, 'X');
+          expect(spy).toHaveBeenCalled();
+        });
+    assert:
+      - {type: contains, value: "## Bugs these tests would miss"}
+      - {type: llm-rubric, value: "Identifies that the first test only checks toBeDefined so a wrong total passes, and that the expired-code test does not await or return the rejects assertion so it cannot fail reliably and accepts any error rather than InvalidCodeError."}
+      - {type: llm-rubric, value: "Rewrites the tests to assert the exact discounted total (900), await the rejection with the specific error, and notes the real clock dependence of the expiry check."}
+  - name: edge-no-code-under-test
+    vars:
+      framework: "pytest"
+      tests: |
+        def test_report(tmp_path):
+            time.sleep(2)
+            r = build_report(tmp_path)
+            assert r
+    assert:
+      - {type: llm-rubric, value: "Flags the sleep and the truthiness-only assertion, marks any statement about build_report's behaviour as an inference because the code was not provided, and asks for the code or expected output to write a precise assertion."}
+  - name: negative-good-tests
+    vars:
+      framework: "Go testing"
+      tests: |
+        func TestParseDuration(t *testing.T) {
+          tests := []struct{ in string; want time.Duration; wantErr bool }{
+            {"1h", time.Hour, false},
+            {"90s", 90 * time.Second, false},
+            {"", 0, true},
+            {"-5m", 0, true},
+          }
+          for _, tc := range tests {
+            t.Run(tc.in, func(t *testing.T) {
+              got, err := ParseDuration(tc.in)
+              if (err != nil) != tc.wantErr { t.Fatalf("err = %v, wantErr %v", err, tc.wantErr) }
+              if got != tc.want { t.Errorf("got %v, want %v", got, tc.want) }
+            })
+          }
+        }
+    assert:
+      - {type: llm-rubric, value: "Judges the tests solid, does not invent serious problems, and at most suggests a small addition such as a boundary case, labelled as optional."}

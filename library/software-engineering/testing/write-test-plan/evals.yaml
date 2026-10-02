@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a test plan for this feature: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-proration
+    vars:
+      feature: "Customers can switch between monthly and annual plans mid-cycle. The price difference is prorated by day and charged or credited through Stripe. Existing subscribers will be migrated to the new billing model. Web and iOS app."
+      risks: "Billing bugs last year caused double charges. Time zones caused off-by-one-day errors in invoicing before."
+      release_date: "2026-11-03, code freeze 2026-10-27"
+      automation_coverage: "Unit tests for the price calculator; no end-to-end tests for billing; Stripe calls are mocked in CI."
+    assert:
+      - {type: contains, value: "## Entry and exit criteria"}
+      - {type: llm-rubric, value: "Ranks proration calculation, double charging, time zone and day-boundary cases, and migration of existing subscribers among the top risks, and plans testing against a Stripe test-mode sandbox since CI mocks Stripe."}
+      - {type: llm-rubric, value: "Includes exploratory charters for manual testing, checkable exit criteria, and says what to cut first if time runs short before the code freeze."}
+  - name: edge-thin-description
+    vars:
+      feature: "The new dashboard."
+    assert:
+      - {type: llm-rubric, value: "Asks for the spec, users, data sources or acceptance criteria before writing a full plan, rather than inventing the dashboard's behaviour."}
+  - name: negative-trivial-change
+    vars:
+      feature: "Change the label of the 'Submit' button on the contact form to 'Send message'. No logic changes."
+      automation_coverage: "End-to-end test for the contact form selects the button by role and name 'Submit'."
+    assert:
+      - {type: llm-rubric, value: "Keeps the plan proportionate and short, and points out that the existing end-to-end test selecting the button by the name 'Submit' must be updated, plus checking translations if the app is localised."}

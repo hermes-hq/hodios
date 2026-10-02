@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a conference talk proposal about: {{talk_idea}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-migration-story
+    vars:
+      talk_idea: "We moved a 4 TB PostgreSQL database from self-managed VMs to a managed service with 11 minutes of downtime, using logical replication. Two attempts failed first: sequences were not replicated and a large table with no primary key stalled replication. I want people to know the checklist that would have saved us two weekends."
+      conference: "A European PostgreSQL community conference, operations track, audience mostly DBAs and backend engineers. Abstract limit 150 words. Reviews are anonymous."
+      format: talk
+      speaker_background: "Staff engineer on a payments platform team, 9 years running PostgreSQL in production, one previous meetup talk."
+    assert:
+      - {type: contains, value: "## Notes for reviewers"}
+      - {type: llm-rubric, value: "The abstract stays within 150 words, uses the concrete facts given (4 TB, logical replication, 11 minutes of downtime, sequences not replicated, table without a primary key) and keeps the speaker's name and employer out of it for anonymous review."}
+      - {type: llm-rubric, value: "Provides a timed outline that fits a typical talk slot and three actionable takeaways such as checking for tables without primary keys and syncing sequences before cutover."}
+  - name: edge-workshop-format
+    vars:
+      talk_idea: "Hands-on introduction to writing property-based tests in Python with Hypothesis, using bugs we found in our date-parsing library as exercises."
+      format: workshop
+    assert:
+      - {type: llm-rubric, value: "Includes prerequisites, setup instructions to complete before the session and a sequence of exercises with what each teaches, and asks for or leaves placeholders for the conference details and speaker background rather than inventing them."}
+  - name: negative-no-substance
+    vars:
+      talk_idea: "AI is changing everything about software development. I want to give a keynote about the future."
+      format: talk
+    assert:
+      - {type: llm-rubric, value: "Points out that the idea lacks a specific problem, experience or evidence and asks for concrete material (what the speaker built, measured or learned) before writing, instead of producing a generic hype abstract."}

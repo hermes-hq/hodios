@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My HTTP request is failing with this error, how do I fix it? {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cors-preflight
+    vars:
+      error: "Access to fetch at 'https://api.example.com/v1/orders' from origin 'https://app.example.com' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource."
+      request_details: "POST with Content-Type: application/json and Authorization: Bearer <token>, credentials: 'include'. GET requests to the same API work."
+      client: "browser fetch"
+    assert:
+      - {type: contains, value: "## Next commands"}
+      - {type: llm-rubric, value: "Explains that the JSON content type and Authorization header trigger a preflight OPTIONS request that the server does not answer correctly, and gives a curl command sending OPTIONS with Origin and Access-Control-Request-Method/Headers to check the response."}
+      - {type: llm-rubric, value: "States that the fix is on the server (allowing the specific origin, methods and headers, with Allow-Credentials and no wildcard origin) and not in the client."}
+  - name: edge-tls-in-container
+    vars:
+      error: "requests.exceptions.SSLError: HTTPSConnectionPool(host='internal-api.corp.local', port=443): Max retries exceeded (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate')))"
+      request_details: "Works with curl on my laptop, fails inside our Docker container in CI."
+      client: "Python requests"
+    assert:
+      - {type: llm-rubric, value: "Identifies a missing internal or corporate CA certificate in the container or Python's certifi bundle as the likely cause, gives an openssl s_client command to inspect the chain from inside the container, and recommends adding the CA to the trust store or REQUESTS_CA_BUNDLE rather than verify=False."}
+  - name: negative-disable-verification
+    vars:
+      error: "curl: (60) SSL certificate problem: certificate has expired"
+      request_details: "Calling our production payment webhook endpoint. Can I just use -k or verify=False in the service to make it work?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend disabling certificate verification for production, explains the risk, and directs to renewing the expired certificate (checking expiry with openssl) and verifying the full chain."}

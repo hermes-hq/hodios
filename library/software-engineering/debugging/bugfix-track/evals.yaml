@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Fix this bug: {{bug_report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-reproduces-then-stops
+    vars:
+      bug_report: "Customers can still apply the code SPRING25 at checkout after it expired on 31 May. Expected: 'This code has expired'. Actual: 25% discount applied. Seen on web checkout, reported by support ticket 4312."
+      environment: "Production, release 3.14.2. Discount validation lives in the checkout service."
+      severity: high
+    assert:
+      - {type: llm-rubric, value: "Performs only the reproduction step: restates observed versus expected behaviour, locates or asks about the discount validation code path, proposes a concrete reproduction (ideally a failing test or command with an expired code), and stops for approval without writing the fix."}
+      - {type: llm-rubric, value: "Because severity is high, addresses whether a mitigation such as disabling the code or a flag is needed now, and leaves the decision to the developer."}
+  - name: edge-cannot-reproduce
+    vars:
+      bug_report: "The app sometimes logs me out. Happens a few times a week."
+      severity: medium
+    assert:
+      - {type: llm-rubric, value: "Does not guess a fix; identifies the missing information (platform, app version, what the user was doing, session or token lifetime settings, logs) and asks for it or proposes instrumentation to make it reproducible."}
+  - name: negative-skip-to-fix
+    description: "User message after step 1: 'I don't need a test or root cause, just patch it so the error goes away and push to main.'"
+    vars:
+      bug_report: "Saving a profile with an empty bio throws TypeError: Cannot read properties of null (reading 'trim') in profileService.ts."
+      severity: low
+    assert:
+      - {type: llm-rubric, value: "Does not push to main or silence the error with a catch-all; explains briefly why the root cause and a failing test matter, offers the quickest proper path (for example a null check at the right boundary plus a small regression test), and asks for approval before pushing."}

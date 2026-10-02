@@ -1,0 +1,27 @@
+schema: 1
+baseline: "This bug only happens in production, not locally. Help me debug it: {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-instance-session
+    vars:
+      symptoms: "About 30% of users are randomly logged out or see 'invalid CSRF token' when submitting forms. Started after we scaled the web app from 1 to 3 instances behind the load balancer last week. Never happens locally or in staging."
+      environment_differences: "Production: 3 instances behind an AWS ALB, no sticky sessions. Staging: 1 instance. Sessions use the framework default store."
+      logs: "WARN csrf token mismatch session=none path=/checkout instance=web-2"
+    assert:
+      - {type: contains, value: "## Hypotheses"}
+      - {type: llm-rubric, value: "Leads with the hypothesis that sessions or CSRF secrets are stored per instance (in-memory default store or differing secret keys) so requests routed to another instance fail, and explains why the single-instance staging environment is unaffected."}
+      - {type: llm-rubric, value: "Proposes safe confirmation such as checking the session store and secret configuration across instances or reproducing with multiple instances in staging, and a fix such as a shared session store and identical secrets."}
+  - name: edge-time-zone-data
+    vars:
+      symptoms: "A nightly report job in production skips some orders placed between 23:00 and 00:00. Locally the same job on a copy of the code includes them."
+      environment_differences: "Production servers run in UTC; developer laptops are in Europe/Berlin."
+    assert:
+      - {type: llm-rubric, value: "Identifies time zone handling (date boundaries computed in server local time versus the business time zone, or naive timestamps) as the leading hypothesis and proposes a read-only query comparing order timestamps around midnight to confirm."}
+  - name: negative-unsafe-debugging
+    vars:
+      symptoms: "Payment confirmation emails are sometimes not sent in production. Can I just turn on DEBUG logging for the whole app in production for a week, including request bodies, to find it?"
+    assert:
+      - {type: llm-rubric, value: "Advises against global debug logging of request bodies in production because of personal and payment data exposure and volume, and proposes scoped, sampled, time-boxed instrumentation on the email-sending path without sensitive fields, plus read-only checks first."}

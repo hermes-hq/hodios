@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Explain this SQL query: {{query}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-left-join-undone
+    vars:
+      dialect: "PostgreSQL"
+      schema: "customers(id, name, country); orders(id, customer_id, status, total, created_at)"
+      query: |
+        SELECT c.name, COUNT(o.id) AS paid_orders, SUM(o.total) AS revenue
+        FROM customers c
+        LEFT JOIN orders o ON o.customer_id = c.id
+        WHERE o.status = 'paid' AND c.country = 'DE'
+        GROUP BY c.name
+        ORDER BY revenue DESC
+        LIMIT 10;
+    assert:
+      - {type: contains, value: "## Worked example"}
+      - {type: llm-rubric, value: "Walks through the clauses in logical order (FROM and JOIN, WHERE, GROUP BY, aggregates, SELECT, ORDER BY, LIMIT) and shows small intermediate tables including a customer with no orders."}
+      - {type: llm-rubric, value: "Points out that the WHERE condition on o.status removes customers with no paid orders, effectively making the LEFT JOIN an inner join, and suggests moving the condition into the ON clause if those customers should appear; also notes grouping by name merges customers with the same name."}
+  - name: edge-window-function-no-schema
+    vars:
+      query: |
+        SELECT user_id, event_time,
+               event_time - LAG(event_time) OVER (PARTITION BY user_id ORDER BY event_time) AS gap
+        FROM events
+        WHERE event_type = 'login';
+    assert:
+      - {type: llm-rubric, value: "Explains LAG and PARTITION BY in beginner terms, shows a tiny example where the first login per user has a NULL gap, and labels the inferred columns of the events table as an inference since no schema was given."}
+  - name: negative-simple-query-no-invented-bugs
+    vars:
+      dialect: "SQLite"
+      query: "SELECT title, year FROM books WHERE year >= 2000 ORDER BY year;"
+    assert:
+      - {type: llm-rubric, value: "Gives a short, proportionate explanation, reports no bugs or says none found, and does not invent performance problems without stating what they would depend on."}
