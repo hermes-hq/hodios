@@ -33,9 +33,9 @@ args:
     type: string
     required: true
   - name: goal
-    description: The one action the page should get. signup for a free account or trial, purchase for a direct sale, demo for a booked sales call, waitlist for a pre-launch list.
+    description: The one action the page should get. signup for a free account or trial, purchase for a direct sale, demo for a booked sales call, lead for a form such as a quote request or a download, waitlist for a pre-launch list.
     type: enum
-    enum: [signup, purchase, demo, waitlist]
+    enum: [signup, purchase, demo, lead, waitlist]
     default: signup
   - name: proof
     description: Real evidence you can use, such as customer quotes with names and roles, numbers, logos, ratings, awards or case-study results. Optional; without it the copy marks where proof is needed.
@@ -82,6 +82,7 @@ Conversion goal: {{goal}}
    - signup: low commitment, name what they get ("Start your free trial"), and remove friction ("No credit card needed" only if true).
    - purchase: price and what is included, guarantee or returns terms if supplied, and a reason to buy now only if one is real.
    - demo: what happens on the call, how long it takes, and who it is with.
+   - lead: what they get in return for the form (the quote, the guide, a callback) and how fast; if the brief lists the form fields, say which ones to cut.
    - waitlist: what they get by joining and when, without implying scarcity that does not exist.
 6. Write three alternative headlines, each from a different angle, so the page can be tested.
 </task>

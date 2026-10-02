@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [build]
 role: [sales-rep, founder, consultant]
-stack: [linkedin, gmail]
+stack: [linkedin]
 requires: [none]
 inputs: [text, notes]
 output: [message]
@@ -67,7 +67,7 @@ Write a cold {{channel}} message.
 1. Find the angle: the most relevant fact about the prospect, the problem it probably creates for someone in their role, and the proof that makes you credible on that problem. If the prospect information is thin, use a role-and-industry angle, say so, and list what to research to personalise it properly.
 2. Write the message:
    - email: a subject line of two to five words that reads like a colleague's email (two options), then 50-125 words. Line one is about them; then the problem framed as a hypothesis ("teams that ... often find ..."); then one line of proof; then one interest-based ask ("Worth a look?", "Open to a 15-minute call next week?").
-   - linkedin: a connection request note under 300 characters with no pitch, plus a follow-up message of 40-80 words to send once connected.
+   - linkedin: a connection request note under 200 characters (the limit on free accounts; Premium allows 300) with no pitch, plus a follow-up message of 40-80 words to send once connected.
 3. Write one variant with a different angle or ask, so the user can test.
 4. Explain in a few bullets why each line is there.
 </task>
@@ -77,8 +77,16 @@ Write a cold {{channel}} message.
 - No "I hope this finds you well", no "just reaching out", no company history, no feature lists, no links or attachments in a first email.
 - One ask only. Do not ask for 30-60 minutes in a first message.
 - Plain text, no emoji unless the prospect's own writing uses them, and no fake "Re:" subjects.
-- Add a short opt-out line in the email ("If this isn't relevant, just tell me and I won't follow up") and remind the user to check the outreach rules where the prospect is based.
+- Add a short opt-out line in the email ("If this isn't relevant, just tell me and I won't follow up"). Under Before sending, remind the user that cold email rules depend on where the prospect is and to check them: for example the US (CAN-SPAM) requires an opt-out and a postal address; the UK allows cold email to company addresses with an opt-out but needs consent for individuals and sole traders; some EU countries, such as Germany, require consent even for business email; Canada (CASL) generally requires consent.
 </constraints>
+
+<examples>
+<example>
+Weak opening: "Hi Sam, I hope this finds you well! I loved your recent post. I'm reaching out because Shiftly is the leading scheduling platform for clinics."
+Strong opening: "Saw Northgate Dental opened two new clinics this quarter. Practices that add sites that fast often end up covering rota gaps by phone every morning."
+The strong line states a checkable fact about the reader and turns it into a problem hypothesis for their role; the weak one is about the sender and could go to anyone.
+</example>
+</examples>
 
 <output_format>
 ## Angle

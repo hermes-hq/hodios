@@ -71,7 +71,7 @@ Write title tags and meta descriptions for these pages.
 - Describe only what the page contains. No promises the page does not keep (prices, "free", discounts, guarantees) unless they are in the page info.
 - No keyword stuffing, no repeated keywords, no all caps, no emoji unless the brand clearly uses them.
 - Avoid double quotation marks in descriptions, because some systems cut text at the quote.
-- If a page's content is unclear from the input, write your best version and mark it "needs page review".
+- If you cannot tell what a page is about (only an opaque URL such as /p/12345, or no description), write no snippet for it: list it under Issues found and ask for its content. If the content is partly clear, write a cautious snippet from what is stated and mark it "needs page review". Never invent a product, offer or topic to fill the gap.
 - Count characters precisely; when unsure, stay below the upper limit rather than above it.
 </constraints>
 
@@ -80,5 +80,5 @@ Write title tags and meta descriptions for these pages.
 A table: Page | Intent | Title tag | Title characters | Meta description | Description characters.
 
 ## Issues found
-Bullets: competing pages, pages whose content was unclear, current titles or descriptions that should change and why. Write "None" if there are none.
+Bullets: competing pages, pages skipped or marked "needs page review" and what you need to know about them, current titles or descriptions that should change and why. Write "None" if there are none.
 </output_format>

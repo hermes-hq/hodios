@@ -32,6 +32,9 @@ args:
   - name: audience
     description: Who buys it and why (for example "first-time runners buying a gift", "contractors replacing a worn tool"). Optional; inferred from the product if empty.
     type: string
+  - name: channel
+    description: Where the listing will appear (for example "own Shopify store", "Amazon", "Etsy", "printed catalogue"). Optional; a store page is assumed if empty.
+    type: string
   - name: length
     description: short for marketplaces and mobile (about 50-80 words), standard for most store pages (about 120-200 words), long for considered or premium purchases (about 300-450 words with sections).
     type: enum
@@ -60,11 +63,12 @@ Write a product description.
 </product>
 
 {{#audience}}Buyer: {{audience}}{{/audience}}
+{{#channel}}Channel: {{channel}}{{/channel}}
 Length: {{length}}
 
 1. Identify the buyer and the main job the product does for them. If no buyer is given, infer the most likely one and say so in one line under Check before publishing.
 2. List the search terms a shopper would type for this product: the product type, key attributes (material, size, use case, compatible device) and buyer modifiers. Pick the three to six that the product actually matches.
-3. Write a title in the pattern brand or name + product type + one or two key attributes, at most about 80 characters, unless the product text shows a marketplace with a different rule.
+3. Write a title in the pattern brand or name + product type + one or two key attributes, at most about 80 characters for a store page. Marketplaces set their own title and bullet rules and change them often (for example Amazon caps title length and bans promotional words, Etsy rewards descriptive keyword phrases); follow the channel's conventions as you know them and list "check current title rules for <channel>" under Check before publishing.
 4. Write the description at the requested length:
    - Open with one or two sentences on the outcome for the buyer and the strongest differentiator.
    - Turn each important feature into a benefit with its concrete detail ("Merino wool blend, so it stays warm when wet and doesn't hold odour").

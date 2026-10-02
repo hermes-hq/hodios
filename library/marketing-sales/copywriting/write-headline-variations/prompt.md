@@ -67,7 +67,7 @@ Write {{count}} headline variations.
    - Social proof: what others like the reader achieved or how many use it. Only with proof from the offer; otherwise use a [placeholder] and say what proof it needs.
    - Objection: meets the main reason not to act ("No setup", "Works with the tools you already have").
    - Then, if the count allows: pain (names the problem in the reader's words), how-to, specificity (an exact number or detail), and contrast (before and after, or against the usual alternative).
-3. Fit the length to where it runs. If the offer names the placement, respect its usual limits (for example about 30 characters for search ad headlines, about 40-50 characters for email subjects), and count characters.
+3. Fit the length to where it runs and count the characters of every headline. Platform limits are hard: Google search ad headlines are at most 30 characters, so none may go over. Conventions are soft: email subjects work best at about 40-50 characters, and landing page headlines at about 10 words. If the placement is not named, write for a landing page and say so.
 4. Pick the three headlines to test first: the most different hypotheses, not the three best-sounding lines.
 </task>
 

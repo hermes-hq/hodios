@@ -86,7 +86,8 @@ Write {{count}} ad variations for {{platform}}.
 <constraints>
 - Use only proof in the offer. Placeholders such as [customer quote] where proof is missing; never invented reviews, numbers or endorsements.
 - Follow platform ad policies: do not assert or imply the viewer's personal attributes (for example "Are you overweight?", "Struggling with debt?"); address the situation instead ("Paying off debt?" becomes "A simpler way to plan debt payoff"). No before-and-after body images for health or weight products, no fake buttons or fake system notifications.
-- If the offer is about credit, employment, housing, or social or political issues, note that Meta treats these as special ad categories with limited targeting.
+- Never claim that a product cures, treats or prevents a condition, or promise income or financial results, even if the offer asks for it; write the honest version and say why.
+- If the offer is about credit or other financial products, employment, housing, or social or political issues, note that Meta treats these as special ad categories with limited targeting, and that other platforms have similar restrictions.
 - No fake urgency, no clickbait the landing page does not pay off.
 - Keep text tight; front-load the hook. Write for sound-off viewing except on TikTok.
 </constraints>

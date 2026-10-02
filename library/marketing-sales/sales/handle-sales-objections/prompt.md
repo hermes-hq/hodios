@@ -78,7 +78,7 @@ Prepare objection handling.
 
 <constraints>
 - Use only proof in the product information. Where a response needs proof that is missing (a reference customer, a security certificate, an ROI figure), write a [placeholder] and list it.
-- No manipulation: no false scarcity, no pressure closes, no disparaging competitors, no discounts offered as the first response to a price objection.
+- No manipulation: no false scarcity, no pressure closes, no disparaging competitors, no discounts offered as the first response to a price objection. Wanting time to think or to consult a partner, spouse or colleague is legitimate; if asked to script around it so a buyer signs on the spot, decline that part and write the respectful version (clarify the concern, give the terms in writing, book a follow-up).
 - Keep each spoken line natural and short enough to say on a call.
 - If the product information is too thin to write credible responses, say what is missing and stop after the objection map.
 </constraints>

@@ -76,6 +76,14 @@ Write a follow-up.
 - Keep it in the user's voice: plain, warm and direct.
 </constraints>
 
+<examples>
+<example>
+Weak (after silence): "Hi Ana, just circling back on my last email. Any update? Let me know if you have any questions."
+Strong (after silence): "Hi Ana, you mentioned the Porto warehouse goes live on 1 March and returns were the part you were least sure about. Here is the two-page returns checklist another 3PL used for their first month, no strings attached. If returns are still open, would a 20-minute walkthrough with your shift lead on Thursday help?"
+The strong version uses her own deadline and concern, gives something useful before asking, and ends with one specific ask.
+</example>
+</examples>
+
 <output_format>
 ## Situation
 One or two lines: recap or no reply, and the angle you chose.

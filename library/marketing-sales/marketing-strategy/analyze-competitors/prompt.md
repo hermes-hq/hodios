@@ -57,7 +57,7 @@ Analyse these competitors against our product.
 {{our_product}}
 </our_product>
 
-1. For each competitor, note what source material was supplied and rate your confidence (high when based on supplied pages and reviews, low when based on a name only). If most competitors have no material at all, say what to collect and continue only with clearly labelled general knowledge.
+1. For each competitor, note what source material was supplied and rate your confidence (high when based on supplied pages and reviews, low when based on a name only). A URL you cannot open counts as a name only. If most competitors have no material at all, say what to collect (homepage and pricing page text, recent reviews, win-loss notes) and continue only with clearly labelled general knowledge.
 2. Compare each competitor and us on: target customer, core promise (their headline message), key messages, pricing model and visible price points, main strengths, main weaknesses or complaints, proof they use (logos, numbers, awards), and main channels if visible.
 3. Map the messaging: the claims everyone makes (table stakes, which do not differentiate), claims only one company makes, and needs no one is addressing.
 4. Assess where we win and where we lose against each competitor, and for which kind of customer.

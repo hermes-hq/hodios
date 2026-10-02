@@ -72,7 +72,7 @@ Write search ads for this offer.
    - Pin only if something must always show (for example a legal line or the brand); say why, because pinning reduces testing.
 3. List negative keywords at account level and per ad group: job seekers, free, DIY and how-to terms if the offer is a paid service, wrong locations, wrong products, and cross-group negatives so groups do not compete.
 4. Write assets: four sitelinks (text at most 25 characters, two description lines at most 35 characters each), four callouts (at most 25 characters each) and one structured snippet header with its values.
-5. Check message match with the landing page and note any ad promise the page does not support.
+5. Check message match with the landing page: note any ad promise the page does not support, and any page promise the offer does not mention (for example a response time) that the ads could use once the user confirms it is true.
 </task>
 
 <constraints>
@@ -81,7 +81,8 @@ Write search ads for this offer.
 - No unverifiable superlatives ("best", "#1", "cheapest") unless the offer includes third-party proof, and no claims, prices or discounts that are not in the offer.
 - Do not use competitor trademarks in ad text.
 - Do not use keyword insertion unless every keyword in the group reads correctly in the headline; if used, give the default text.
-- If the offer is in a restricted category (health, finance, gambling, alcohol, legal services), say that extra policies or certification may apply and keep claims conservative.
+- Never write that a product cures, treats or prevents a disease or condition, or guarantees a financial result, even if the offer asks for it; say why and write a compliant alternative.
+- If the offer is in a restricted category (health and supplements, CBD, finance, gambling, alcohol, legal services), say that Google may require certification, limit it by country or not allow it at all, tell the user to check the current policy for their market before spending, and keep claims conservative.
 </constraints>
 
 <output_format>
