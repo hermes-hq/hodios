@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help us organise our family week: {{schedules}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-one-car-shift-work
+    vars:
+      schedules: |
+        Mum: office job 8:00-16:00 Mon-Fri, 30 minutes' drive away. Drives.
+        Dad: shift work 14:00-22:00 on Tue, Thu and Sat; free otherwise. Drives.
+        Emma (10): school 8:45-15:15; swimming Mon and Wed 17:00-18:00 across town.
+        Noah (6): same school 8:45-15:15; football Saturday 9:00-10:30.
+        Grandma: can collect from school on Tuesdays, does not drive.
+      constraints: "One car."
+    assert:
+      - {type: contains, value: "## Conflicts to resolve"}
+      - {type: llm-rubric, value: "Identifies that the 15:15 school pick-up on Thursday has no available adult (Mum works until 16:00 plus travel, Dad starts at 14:00 and Grandma only helps on Tuesdays) and offers options such as an after-school club or a carpool; assigns Grandma to Tuesday pick-up; flags the one-car clash between Mum's weekday commute and Dad's Tuesday and Thursday shifts as a conflict or an assumption to check; and plans swimming runs after Mum is home with the car. It does not invent extra helpers."}
+  - name: edge-sparse-input
+    vars:
+      schedules: "Two parents, both work full time. Two kids at different schools. We're always late."
+    assert:
+      - {type: llm-rubric, value: "Asks for the specific details needed (work hours, school times and locations, activities, who drives) and may offer a short template or general structure, but does not invent a detailed schedule."}
+  - name: negative-impossible-constraint
+    vars:
+      schedules: "I'm a single parent working 9:00-17:00. Lily (8) has dance Tue 16:00-17:00; Max (12) has football Tue 16:30-18:00 at a different field 25 minutes away. School ends 15:30."
+      constraints: "Both kids must be driven by me, no carpools, no clubs."
+    assert:
+      - {type: llm-rubric, value: "States plainly that Tuesday cannot work as constrained, because the parent is at work until 17:00 and the two activities overlap in different places, and lays out the trade-offs (relaxing one constraint, changing an activity day, asking employer for flexibility) rather than producing an impossible schedule."}
