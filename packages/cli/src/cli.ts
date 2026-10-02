@@ -1,101 +1,68 @@
-import { existsSync } from 'node:fs';
-import { resolve } from 'node:path';
-import { parseArgs } from 'node:util';
-import { BRAND, checkLibrary, RULES, type Issue } from '@hermes-hq/hodios-core';
-import { loadRepo } from './load.js';
 import { VERSION } from './version.js';
 
 export interface Io {
   out: (line: string) => void;
   err: (line: string) => void;
   cwd: string;
+  /** Home directory for `--scope user` and caches; tests point it at a temp dir. */
+  home?: string;
+  env?: Record<string, string | undefined>;
+  /** Reads all of stdin (for `--arg name=@-`). */
+  readStdin?: () => Promise<string>;
 }
 
-const USAGE = `${BRAND.tagline}
+const NAME = 'hodios';
 
-Usage: ${BRAND.cli} <command> [options]
+export const USAGE = `Hodios — prompts by Hermes IDE
 
-Commands:
+Usage: ${NAME} <command> [options]
+
+Find and use:
+  search [query] [--here] [--all] [--kind k] [--cat c] [--stack s] [--works t] [--limit n] [--page n] [--json]
+      Search the catalog. Query keys: kind: cat: domain: stage: role: stack: subject: works: tag: risk: …
+      With no query inside a project, shows the entries for this project first (stack and agents found here).
+  show <id> [--target t] [--format f] [--scope project|user] [--json]
+      Print an entry, or its compiled file(s) for a target.
+  use <id> [--arg name=value]... [--copy]
+      Print the paste-ready text with arguments filled (value @file reads a file, @- reads stdin).
+
+Install into your tools:
+  install <id|pack:name>... --target <t> [--scope project|user] [--format f] [--force] [--dry-run]
+  list [--scope project|user] [--json]
+  remove <id>... [--target t] [--scope project|user] [--force]
+  targets
+      List targets and the formats each one accepts.
+
+Build and check (inside a Hodios checkout):
   validate [--root <dir>] [--json] [--verbose]
-      Validate library/ against the entry schema, vocab/, partials/ and ids.lock.
+  build [--out dist] [--target t]... [--catalog YYYY.MDD.N]
   rules
       List lint rule ids.
 
+Targets: claude-code, codex, cursor, copilot, gemini-cli, opencode, agents-md, paste (chatgpt, claude-ai), hermes.
+Catalog: --catalog <dir|url> or HODIOS_CATALOG; default is this checkout's dist/catalog/v1, else library.hermes-ide.com.
+
 Options:
   -h, --help       Show this help
-  -v, --version    Show the CLI version
+  -v, --version    Show the CLI version`;
 
-Coming next: search, show, use, install, list, remove (see ${BRAND.site}).`;
+type Command = (args: string[], io: Io) => Promise<number> | number;
 
-/** Finds the repo root: the nearest ancestor of `start` with library/ and vocab/. */
-function findRoot(start: string): string | undefined {
-  let dir = resolve(start);
-  for (;;) {
-    if (existsSync(resolve(dir, 'library')) && existsSync(resolve(dir, 'vocab'))) return dir;
-    const parent = resolve(dir, '..');
-    if (parent === dir) return undefined;
-    dir = parent;
-  }
-}
+/** Commands load lazily so `search` never pays for the schema validator that `validate` and `build` need. */
+const COMMANDS: Record<string, () => Promise<Command>> = {
+  validate: async () => (await import('./commands/validate.js')).runValidate,
+  rules: async () => (await import('./commands/validate.js')).runRules,
+  build: async () => (await import('./commands/build.js')).runBuild,
+  search: async () => (await import('./commands/search.js')).runSearch,
+  show: async () => (await import('./commands/show.js')).runShow,
+  use: async () => (await import('./commands/show.js')).runUse,
+  install: async () => (await import('./commands/install.js')).runInstall,
+  list: async () => (await import('./commands/install.js')).runList,
+  remove: async () => (await import('./commands/install.js')).runRemove,
+  targets: async () => (await import('./commands/show.js')).runTargets,
+};
 
-function formatIssue(i: Issue): string {
-  return `${i.severity.padEnd(7)} ${i.rule} ${i.file}: ${i.message}`;
-}
-
-function runValidate(args: string[], io: Io): number {
-  const { values } = parseArgs({
-    args,
-    options: {
-      root: { type: 'string' },
-      json: { type: 'boolean', default: false },
-      verbose: { type: 'boolean', default: false },
-    },
-    allowPositionals: false,
-  });
-  const root = values.root ? resolve(io.cwd, values.root) : findRoot(io.cwd);
-  if (!root || !existsSync(resolve(root, 'library'))) {
-    io.err(`${BRAND.cli} validate: no library/ found (run inside a Hodios checkout or pass --root)`);
-    return 2;
-  }
-
-  const repo = loadRepo(root);
-  const result = checkLibrary(repo.sources, repo.context);
-  const issues = [...repo.issues, ...result.issues];
-  const errors = issues.filter((i) => i.severity === 'error');
-  const warnings = issues.filter((i) => i.severity === 'warning');
-
-  if (values.json) {
-    io.out(
-      JSON.stringify(
-        {
-          ok: errors.length === 0,
-          entries: result.entries.map((e) => ({ dir: e.dir, id: e.frontmatter?.id, kind: e.frontmatter?.kind })),
-          issues,
-        },
-        null,
-        2,
-      ),
-    );
-    return errors.length === 0 ? 0 : 1;
-  }
-
-  for (const issue of issues) {
-    if (issue.severity === 'info' && !values.verbose) continue;
-    (issue.severity === 'error' ? io.err : io.out)(formatIssue(issue));
-  }
-  const byKind = new Map<string, number>();
-  for (const e of result.entries) {
-    const kind = e.frontmatter?.kind ?? 'invalid';
-    byKind.set(kind, (byKind.get(kind) ?? 0) + 1);
-  }
-  const breakdown = [...byKind].map(([k, n]) => `${n} ${k}`).join(', ');
-  io.out(
-    `Validated ${result.entries.length} entries${breakdown ? ` (${breakdown})` : ''}, ${repo.context.partials.size} partials, ${repo.context.vocab.size} vocabularies: ${errors.length} errors, ${warnings.length} warnings.`,
-  );
-  return errors.length === 0 ? 0 : 1;
-}
-
-export function run(argv: string[], io: Io): number {
+export async function run(argv: string[], io: Io): Promise<number> {
   const [command, ...rest] = argv;
   try {
     switch (command) {
@@ -109,17 +76,17 @@ export function run(argv: string[], io: Io): number {
       case '--version':
         io.out(VERSION);
         return 0;
-      case 'validate':
-        return runValidate(rest, io);
-      case 'rules':
-        for (const [id, text] of Object.entries(RULES)) io.out(`${id}  ${text}`);
-        return 0;
-      default:
-        io.err(`${BRAND.cli}: unknown command "${command}"\n\n${USAGE}`);
-        return 2;
     }
+    const load = COMMANDS[command];
+    if (!load) {
+      io.err(`${NAME}: unknown command "${command}"\n\n${USAGE}`);
+      return 2;
+    }
+    return await (
+      await load()
+    )(rest, io);
   } catch (err) {
-    io.err(`${BRAND.cli}: ${err instanceof Error ? err.message : String(err)}`);
+    io.err(`${NAME}: ${err instanceof Error ? err.message : String(err)}`);
     return 2;
   }
 }

@@ -16,6 +16,8 @@ npm test                   # vitest
 npm run validate           # node packages/cli/dist/bin.js validate (needs a build)
 npm run hodios -- rules    # list lint rule ids (any CLI command: npm run hodios -- <cmd>)
 npm run gen:schema         # rewrite schema/*.json from packages/schema/src/schemas.ts
+npm run hodios -- build    # write dist/: skills, plugins + marketplace, native/<tool> trees, paste, bundles, catalog/v1
+npx vitest run -u          # refresh test/golden/ after an intended adapter output change; review the diff
 ```
 
 ## Layout
@@ -29,8 +31,9 @@ npm run gen:schema         # rewrite schema/*.json from packages/schema/src/sche
 | `vocab/*.yml` | Controlled vocabularies (domain, category, subcategory, stage, role, stack, subject, requires, inputs, output, advice-risk, tags) plus the facet registry `facets.yml`. Rules in [TAXONOMY.md](TAXONOMY.md) | CC0-1.0 |
 | `schema/*.json` | Generated JSON Schemas. Edit `packages/schema/src/schemas.ts`, then `npm run gen:schema` | Apache-2.0 |
 | `packages/schema` | `@hermes-hq/hodios-schema`: types, schemas, ajv validators | Apache-2.0 |
-| `packages/core` | `@hermes-hq/hodios-core`: isomorphic (no `fs`) parse, lint, and later compile | Apache-2.0 |
+| `packages/core` | `@hermes-hq/hodios-core`: isomorphic (no `fs`) parse, lint, compile to every tool (`/compile`) and the catalog index and search (`/catalog`) | Apache-2.0 |
 | `packages/cli` | `hodios` CLI | Apache-2.0 |
+| `test/fixtures`, `test/golden` | Frozen fixture entries and the compiled-output snapshots per adapter | CC0-1.0 |
 | `tools/` | Repo tooling (DCO check, CalVer, release steps). Not published | Apache-2.0 |
 | `ids.lock` | Released ids. Written by the release workflow only | - |
 

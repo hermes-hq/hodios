@@ -70,6 +70,8 @@ Entries are organised into 24 categories, from **code review**, **debugging** an
 
 Every entry is tagged with what it is for: the **stack** it targets (TypeScript, Django, Terraform…), the **stage** of work (plan, build, review, operate…), what it **needs** (repo access, shell, an MCP server) and which **tools** it works in. Hermes IDE, the site and the CLI use those tags to put the entries that match your project and your interests first, so you see a short, relevant list instead of the whole catalog. Stack-agnostic entries stay visible to everyone.
 
+In a project folder, `npx hodios search` with no query does this on your machine: it reads the project's manifests and agent config folders, ranks what fits first and says why ("your project uses React"). Nothing is sent anywhere, and `--all` turns it off.
+
 <!-- catalog:start -->
 _The catalog table is generated here at each release._
 <!-- catalog:end -->

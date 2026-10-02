@@ -8,10 +8,10 @@ import { VERSION } from '../src/version.js';
 
 const repoRoot = fileURLToPath(new URL('../../../', import.meta.url));
 
-function capture(argv: string[], cwd = repoRoot) {
+async function capture(argv: string[], cwd = repoRoot) {
   const out: string[] = [];
   const err: string[] = [];
-  const code = run(argv, { out: (l) => out.push(l), err: (l) => err.push(l), cwd });
+  const code = await run(argv, { out: (l) => out.push(l), err: (l) => err.push(l), cwd });
   return { code, out: out.join('\n'), err: err.join('\n') };
 }
 
@@ -29,28 +29,28 @@ afterEach(() => {
 });
 
 describe('hodios validate', () => {
-  it('passes on this repository', () => {
-    const result = capture(['validate']);
+  it('passes on this repository', async () => {
+    const result = await capture(['validate']);
     expect(result.err).toBe('');
     expect(result.out).toMatch(/Validated \d+ entries .*: 0 errors/);
     expect(result.code).toBe(0);
   });
 
-  it('finds the repo root from a subdirectory', () => {
-    expect(capture(['validate'], join(repoRoot, 'library', 'code-review')).code).toBe(0);
+  it('finds the repo root from a subdirectory', async () => {
+    expect((await capture(['validate'], join(repoRoot, 'library', 'code-review'))).code).toBe(0);
   });
 
-  it('fails with rule ids on a broken entry', () => {
+  it('fails with rule ids on a broken entry', async () => {
     const root = fixtureCopy();
     const file = join(root, 'library/code-review/review-pull-request/prompt.md');
     writeFileSync(file, readFileSync(file, 'utf8').replace('category: code-review', 'category: security'));
-    const result = capture(['validate', '--root', root]);
+    const result = await capture(['validate', '--root', root]);
     expect(result.code).toBe(1);
     expect(result.err).toContain('PS002 library/code-review/review-pull-request/prompt.md');
   });
 
-  it('prints JSON', () => {
-    const result = capture(['validate', '--json']);
+  it('prints JSON', async () => {
+    const result = await capture(['validate', '--json']);
     const parsed = JSON.parse(result.out);
     expect(parsed.ok).toBe(true);
     expect(parsed.entries.map((e: { kind: string }) => e.kind)).toEqual(
@@ -58,22 +58,22 @@ describe('hodios validate', () => {
     );
   });
 
-  it('exits 2 outside a checkout', () => {
+  it('exits 2 outside a checkout', async () => {
     const empty = mkdtempSync(join(tmpdir(), 'hodios-empty-'));
     temps.push(empty);
-    expect(capture(['validate', '--root', empty]).code).toBe(2);
+    expect((await capture(['validate', '--root', empty])).code).toBe(2);
   });
 });
 
 describe('hodios', () => {
-  it('prints the package version', () => {
+  it('prints the package version', async () => {
     const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
     expect(VERSION).toBe(pkg.version);
-    expect(capture(['--version']).out).toBe(pkg.version);
+    expect((await capture(['--version'])).out).toBe(pkg.version);
   });
 
-  it('rejects unknown commands and lists rules', () => {
-    expect(capture(['frobnicate']).code).toBe(2);
-    expect(capture(['rules']).out).toContain('PS001');
+  it('rejects unknown commands and lists rules', async () => {
+    expect((await capture(['frobnicate'])).code).toBe(2);
+    expect((await capture(['rules'])).out).toContain('PS001');
   });
 });
