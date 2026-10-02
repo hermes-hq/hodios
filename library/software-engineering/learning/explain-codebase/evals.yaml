@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Explain this codebase to me. {{focus}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-focused-flow
+    vars:
+      depth: overview
+      focus: "How an uploaded image becomes a thumbnail. Repo snapshot: api/routes/upload.ts (POST /images saves to S3 and enqueues 'thumb' job), worker/jobs/thumb.ts (consumes 'thumb', resizes with sharp, writes thumbs/ key), shared/queue.ts (BullMQ wrapper), db/schema.prisma (Image model with thumbKey nullable)."
+    assert:
+      - {type: contains-all, value: ["## Map", "## How a request flows", "## Gotchas"]}
+      - {type: regex, value: "(upload|thumb)\\.ts"}
+      - {type: llm-rubric, value: "Traces the flow route -> queue -> worker -> storage with file references, and notes that thumbKey is null until the async job finishes as something a newcomer could trip on."}
+  - name: edge-reader-background
+    vars:
+      depth: deep
+      background: "Experienced with Django and PostgreSQL"
+      focus: "A Django monolith with apps billing/, accounts/ and a Celery tasks.py in each app."
+    assert:
+      - {type: llm-rubric, value: "Does not explain Django basics such as models, views or migrations, and spends the explanation on this project's specifics such as the Celery tasks and app boundaries."}
+  - name: negative-no-unread-claims
+    vars:
+      depth: overview
+      focus: "I can only show you the directory listing: cmd/, internal/auth/, internal/store/, pkg/client/, deploy/helm/."
+    assert:
+      - {type: icontains, value: "inferred"}
+      - {type: llm-rubric, value: "Labels conclusions drawn only from folder names as inferred, does not invent file contents or line numbers, and asks for or lists which files to read next."}

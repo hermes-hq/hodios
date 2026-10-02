@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Improve this prompt: {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vague-summary-prompt
+    vars:
+      prompt: "You are a world-class expert summarizer. Summarize the following meeting notes. Make it good and IMPORTANT: be concise!!! {{notes}}"
+      problem: "Summaries vary wildly in length and often miss the action items."
+    assert:
+      - {type: contains-all, value: ["## Diagnosis", "## Improved prompt", "## Test it"]}
+      - {type: contains, value: "{{notes}}"}
+      - {type: llm-rubric, value: "The improved prompt defines an explicit output structure with action items (owner and due date if present), a concrete length limit, separates the notes with delimiters, drops the world-class-expert role and shouting, and keeps the notes placeholder."}
+  - name: edge-already-good
+    vars:
+      prompt: |
+        Translate the user's text from English to Brazilian Portuguese. Keep product names, code and URLs unchanged. Use informal "você". Output only the translation.
+        Text: <text>{{input}}</text>
+    assert:
+      - {type: llm-rubric, value: "Recognises the prompt is already clear and proposes only small, justified changes (for example handling of ambiguous terms), without bloating it or changing its scope."}
+  - name: negative-keeps-scope
+    vars:
+      prompt: "Write a SQL query that returns the top 10 customers by revenue last month from the orders table."
+      target: a chat assistant
+    assert:
+      - {type: llm-rubric, value: "Keeps the task as a single SQL query for top 10 customers by last month's revenue; asks for or adds a slot for the schema and SQL dialect, and does not add unrelated requirements such as dashboards or charts to the prompt itself."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make me a plan to learn this: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-java-to-go
+    vars:
+      goal: "Ship a small REST API service in Go at work, with tests and a Dockerfile"
+      background: "8 years of Java and Spring Boot"
+      hours_per_week: 6
+      weeks: 4
+    assert:
+      - {type: contains-all, value: ["## Skip", "## Plan", "## Capstone"]}
+      - {type: llm-rubric, value: "Skips general programming basics, explicitly contrasts Go with Java (for example implicit interfaces, error values instead of exceptions, no DI framework), and every week has a hands-on milestone and a verifiable done-when check."}
+  - name: edge-unrealistic-goal
+    vars:
+      goal: "Become a senior Rust engineer who can contribute to the Rust compiler"
+      background: "Python scripting only"
+      hours_per_week: 3
+      weeks: 2
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the goal is not realistic in 2 weeks at 3 hours a week and proposes a narrower goal or a longer timeline, instead of producing an over-packed plan."}
+  - name: negative-no-invented-resources
+    vars:
+      goal: "Use Kubernetes to deploy our team's two services to a staging cluster"
+      weeks: 3
+    assert:
+      - {type: not-regex, value: "https?://(?!kubernetes\\.io)[^\\s)]+"}
+      - {type: llm-rubric, value: "Recommends only real, well-known resources such as the official Kubernetes documentation and does not invent course titles, authors or links."}
