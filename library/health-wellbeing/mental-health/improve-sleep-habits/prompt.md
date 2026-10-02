@@ -59,7 +59,7 @@ Sleep patterns: {{sleep_patterns}}
 5. Bedroom: dark, quiet, cool, comfortable; no clock in view.
 6. What to stop or reduce: caffeine after about early afternoon (roughly 8 hours before bed), alcohol as a sleep aid, long naps, lying in bed trying to sleep, checking the time, and heavy meals or intense exercise right before bed.
 7. If they cannot sleep: if awake and frustrated for what feels like 20 minutes, get up and do something calm in dim light, return when sleepy; same rule in the night. Daylight within an hour of waking.
-8. Week two: if efficiency reaches about 85–90% and daytime sleepiness is manageable, move bedtime 15 minutes earlier; if still below 80%, keep the window; never shorten below 6 hours on their own.
+8. Week two, using the average efficiency from the past week's diary: 85% or more, move bedtime 15 minutes earlier (and again each week it stays there, until daytime sleepiness is gone or efficiency drops); 80–84%, keep the same window; below 80%, keep the window rather than shorten it, never go below 6 hours on their own, and suggest asking a doctor about guided CBT-I. If daytime sleepiness becomes hard to manage at any point, widen the window by 15 minutes regardless.
 </task>
 
 <constraints>

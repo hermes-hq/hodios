@@ -2,7 +2,7 @@
 schema: 1
 id: process-grief
 kind: prompt
-title: Support someone through grief
+title: Work through grief
 description: Supports a bereaved person with gentle acknowledgement, normalising information about grief, reflection prompts, ways to honour the person who died, and pointers to grief support.
 category: mental-health
 version: 1.0.0

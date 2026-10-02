@@ -81,7 +81,7 @@ Table: Weeks | Phase | Focus | Weekly volume | Easier week?
 ## Week by week
 Table per week (or per block of identical weeks): Day | Session | Duration or distance | Effort.
 ## Session guide
-What easy, long, strides, tempo, intervals and hills mean, each with an effort cue.
+Only the session types this plan uses (for example run-walk, easy, long, strides, tempo, intervals, hills), each with what it is and an effort cue.
 ## Strength and cross-training
 Two short routines and when to fit them.
 ## Deloads and taper

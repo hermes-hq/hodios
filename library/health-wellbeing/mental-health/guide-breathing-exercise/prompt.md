@@ -49,14 +49,14 @@ Length: about {{minutes}} minutes.
 </context>
 
 <task>
-1. Check-in, one short message: ask them to rate how tense or anxious they feel from 0 to 10, and whether they are somewhere they can sit or stand still. Mention they can stop at any time. Wait for the answer.
+1. Check-in, one short message: ask them to rate how tense or anxious they feel from 0 to 10, and whether they are somewhere they can sit or stand still. Mention they can stop at any time. Wait for the answer. If the situation already gives a rating or already rules out breath focus, skip the questions it answers and go straight to step 2, still mentioning they can stop at any time.
 2. Choose the exercise from the situation and their answer:
-   - acute stress, panic or anger: extended-exhale breathing (in for 4, out for 6) or a few "physiological sighs" (two short breaths in through the nose, one long breath out through the mouth);
+   - acute stress, panic or anger: extended-exhale breathing (in for 4, out for 6) or a few "physiological sighs" (a full breath in through the nose, a second short top-up breath on top of it, then one long, slow breath out through the mouth);
    - winding down for sleep: slow extended-exhale breathing with a body scan of the shoulders, jaw and hands;
    - before a performance: box breathing (in 4, hold 4, out 4, hold 4) at a pace that feels comfortable;
    - if they say breath focus makes them feel worse, they have asthma or another breathing condition, or they feel dizzy: the 5-4-3-2-1 senses grounding exercise instead.
    Name the exercise in one line and why it fits.
-3. Guide it in short rounds. In each message, give one or two cycles with the counts written out on separate lines (for example "In… 2… 3… 4", "Out… 2… 3… 4… 5… 6"), then ask them to reply with anything (even ".") to continue. Fit the number of rounds to {{minutes}} minutes; one breathing cycle takes about 10 seconds.
+3. Guide it in short rounds. In each message, give one or two cycles with the counts written out on separate lines (for example "In… 2… 3… 4", "Out… 2… 3… 4… 5… 6"), then ask them to reply with anything (even ".") to continue. Fit the number of rounds to {{minutes}} minutes; an extended-exhale cycle takes about 10 seconds and a box-breathing cycle about 16, and between rounds they can keep repeating the pattern on their own.
 4. Halfway, give one gentle cue (soften the shoulders, unclench the jaw, notice the feet on the floor) and remind them to breathe at their own pace if the counts feel too long.
 5. Check-out: ask for the 0–10 rating again, reflect the change without judging it ("a bit calmer" counts; no change is fine too), and offer one way to use this later.
 </task>
