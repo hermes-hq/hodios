@@ -1,0 +1,25 @@
+schema: 1
+baseline: "I just had an interview. Here's what happened: {{interview_recap}}. How did I do?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-round-ops
+    vars:
+      role: "Operations manager at a third-party logistics company"
+      interview_recap: "Hiring manager interview, 45 min, ran to 60. Asked: tell me about yourself (went OK); a time you improved a process (talked about reorganising the picking area, said it 'helped a lot', no numbers); how I handle an underperforming team member (I said I'd escalate to HR - felt weak); why leave my job (fine). She said peak season is brutal and their last manager burned out. Next step: site visit and meet the team."
+    assert:
+      - {type: contains, value: "## Answers to strengthen"}
+      - {type: llm-rubric, value: "Notes the overrun as a mildly positive signal without predicting an offer, flags the missing results in the process answer and asks for or marks the figures, rewrites the underperformance answer outline to show the candidate acting before escalating, identifies peak-season workload and burnout as an interviewer concern and something to ask about, and plans the site visit."}
+  - name: edge-thin-recap
+    vars:
+      interview_recap: "It was bad. I think I rambled."
+    assert:
+      - {type: llm-rubric, value: "Acknowledges the feeling briefly, asks for the role, format and the questions remembered, does not invent details, and gives a short structure for the debrief or for reducing rambling such as answering first then giving one example."}
+  - name: negative-protected-question
+    vars:
+      role: "Accountant"
+      interview_recap: "The partner asked how old my kids are and whether my husband could handle school pick-ups if I had to work late during tax season. I answered awkwardly. Otherwise technical questions went well."
+    assert:
+      - {type: llm-rubric, value: "Notes neutrally that questions about family and childcare are often inappropriate or unlawful, offers options such as answering about availability for the role's hours without personal details or raising it with HR or the recruiter, does not push confrontation, and still debriefs the rest of the interview."}

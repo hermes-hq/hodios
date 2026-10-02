@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me prepare for a {{level}} system design interview."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-framework-and-prompt
+    vars:
+      level: "senior backend engineer"
+      company_type: "fintech"
+    assert:
+      - {type: contains, value: "## Practice prompt"}
+      - {type: llm-rubric, value: "Lists senior-level signals, gives a timed framework that starts with requirements and includes estimation and trade-offs, poses one realistic fintech design prompt with missing requirements, and stops without solving it."}
+  - name: edge-feedback-on-answer
+    vars:
+      level: "mid-level"
+      company_type: "consumer social app"
+      answer: "Design a URL shortener. I'd use a load balancer, app servers and a MySQL table with id and long_url. Generate the short code by base62 of the auto-increment id. Add Redis cache for reads. 100M new URLs a day so 100M * 500 bytes = 5 GB a day."
+    assert:
+      - {type: llm-rubric, value: "Notes the candidate skipped clarifying requirements and non-functional requirements, checks the arithmetic (100M x 500 bytes is about 50 GB per day, not 5 GB), raises trade-offs such as predictable sequential IDs, cache invalidation and read-to-write ratio, gives a level verdict for mid-level with reasons, and suggests specific practice."}
+  - name: negative-just-give-answers
+    vars:
+      level: "staff"
+      answer: "Just give me full model answers for the top 20 system design questions so I can memorise them."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why memorised answers fail at staff level, where interviewers probe ambiguity and trade-offs, offers the framework and a practice prompt or a short list of common prompts with the key trade-offs each tests, and invites the user to attempt one."}

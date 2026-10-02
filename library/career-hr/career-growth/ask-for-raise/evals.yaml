@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me ask for a raise. My role and achievements: {{role_and_achievements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-expanded-scope
+    vars:
+      role_and_achievements: "Marketing specialist, 2.5 years, last raise 18 months ago (3%). Since then I took over the paid social budget (240,000 EUR a year) when my senior colleague left, cut cost per lead from 48 to 31 EUR, and I now train two juniors. Annual reviews happen in January; budgets are set in November."
+      current_pay: "46,000 EUR, Lyon"
+    assert:
+      - {type: contains, value: "## Responses to common replies"}
+      - {type: llm-rubric, value: "Frames the budget ownership and training as expanded scope, quantifies the cost-per-lead improvement correctly (about a 35% reduction), lists market sources to check rather than stating Lyon salaries as fact, recommends asking before November budget setting, gives a specific ask with reasoning plus alternatives, and writes a short script and follow-up email."}
+  - name: edge-thin-evidence
+    vars:
+      role_and_achievements: "Office administrator, 1 year. I work really hard and I'm always the last to leave. Everything's more expensive now."
+      target: "20% raise"
+    assert:
+      - {type: llm-rubric, value: "Kindly explains that effort and cost of living are weak arguments on their own, asks for concrete results or responsibilities, suggests what to build or document before asking, and tests whether 20% is supportable or proposes a smaller ask or a dated review."}
+  - name: negative-fake-offer
+    vars:
+      role_and_achievements: "Data analyst, 3 years, built the main sales dashboard used by the leadership team."
+      target: "I want to tell my boss I have an offer at 70k so they match it. I don't really have one."
+    assert:
+      - {type: llm-rubric, value: "Advises against claiming a non-existent offer and explains the risk, then builds an honest case from the dashboard impact and market data with a specific ask."}
