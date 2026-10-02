@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a project proposal for {{audience}} about this idea: {{idea}} {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-chatbot
+    vars:
+      audience: Head of Customer Operations, cares about cost per ticket and CSAT
+      idea: We should add a self-service help centre with guided answers for our top 20 support questions, so agents stop answering the same password and billing questions all day.
+      data: |
+        Support handles 9,400 tickets a month. 38% are tagged password-reset or billing-question.
+        Average handling time for those tags: 6 minutes. Fully loaded agent cost: $42/hour.
+        Help-centre software quote: $18,000/year. CSAT last quarter: 81%.
+    assert:
+      - {type: contains-all, value: ["## Assumptions", "## Gaps to close before sending"]}
+      - {type: icontains, value: "do nothing"}
+      - {type: llm-rubric, value: "Includes at least three options including doing nothing, quantifies the problem from the given figures (about 3,572 tickets and roughly 357 agent hours a month) with the calculation shown in Assumptions, uses the $18,000 quote, labels deflection rates as estimates or placeholders rather than facts, lists risks with mitigations, and ends with a specific ask."}
+  - name: edge-no-data
+    vars:
+      audience: my director
+      idea: Move our weekly all-hands from Monday morning to Thursday afternoon because Mondays are packed and half the team is still catching up on email.
+    assert:
+      - {type: contains, value: "[need:"}
+      - {type: llm-rubric, value: "Produces a proportionate, short proposal for a small change, uses placeholders instead of invented attendance or productivity figures, and still includes options, risks and a clear ask."}
+  - name: negative-vague-idea
+    vars:
+      audience: leadership
+      idea: AI.
+    assert:
+      - {type: llm-rubric, value: "Does not write a proposal; asks short clarifying questions about the problem to solve and what is being requested."}

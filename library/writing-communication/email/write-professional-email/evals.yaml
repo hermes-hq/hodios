@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a {{tone}} email to {{recipient}}: {{intent}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-budget-approval
+    vars:
+      recipient: my manager, we get on well
+      tone: friendly
+      intent: "I need her to approve the $2,400 conference budget for me and Priya to go to DataConf in Lisbon (4-6 June). Early-bird pricing ends 30 April. Agenda is attached. It ties into our Q2 goal of improving our forecasting models."
+    assert:
+      - {type: regex, value: "(?i)subject:.*(approv|budget|DataConf)"}
+      - {type: contains-all, value: ["$2,400", "30 April"]}
+      - {type: llm-rubric, value: "The approval request and amount appear in the first two sentences, the 30 April early-bird deadline and DataConf dates are included, the agenda attachment is mentioned, the tone is friendly and brief, and no facts beyond the input are invented."}
+  - name: edge-cold-formal
+    vars:
+      recipient: a professor I have never met, Dr. Okafor, who runs a lab I want to join
+      tone: formal
+      intent: "Ask if she's taking a master's student for next autumn; I read her paper on soil microbiomes and want to work on that."
+    assert:
+      - {type: contains, value: "["}
+      - {type: llm-rubric, value: "Formal email with a clear subject; gives a one-line reason for writing and the specific question early; references the soil-microbiome paper without inventing its title, the sender's university, grades or experience (uses placeholders instead); concise."}
+  - name: negative-no-clear-intent
+    vars:
+      recipient: the team
+      intent: "email about the thing"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a topic or draft a full email; asks a short question about what the email is about and what the team should do."}

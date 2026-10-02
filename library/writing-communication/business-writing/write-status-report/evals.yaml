@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a status report for {{audience}} as a {{format}} from these updates: {{updates}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-watermelon-email
+    vars:
+      audience: steering committee
+      format: email
+      updates: |
+        Website relaunch, week of 14 Oct. Things are going pretty well overall!
+        - Design system done (planned 4 Oct, finished 11 Oct)
+        - Content migration 40% done, plan said 70% by now. Two writers out sick.
+        - Launch date still 1 Nov in the plan
+        - Need decision: either cut the blog archive from launch scope or approve 2 contract writers ($9k) by Friday
+        - Legal review of privacy page booked for 22 Oct
+    assert:
+      - {type: regex, value: "(?i)subject:.*(amber|red)"}
+      - {type: contains, value: "## Status rationale"}
+      - {type: llm-rubric, value: "Rates the project amber or red despite the upbeat tone, explains that content migration is 30 points behind plan, puts the decision (cut blog archive or approve $9k for contract writers, by Friday) near the top, and invents no owners or dates."}
+  - name: edge-slide-format
+    vars:
+      format: slide
+      audience: quarterly business review
+      updates: "Payments migration: all 3 milestones hit on time, 2 of 5 markets live, budget 46% spent at 45% of timeline, next: Germany and France go live in November. No blockers."
+    assert:
+      - {type: llm-rubric, value: "Produces a single slide with an assertion title stating it is green and on track, no more than six bullets, decisions listed as none, and no added detail beyond the updates."}
+  - name: negative-no-plan-info
+    vars:
+      updates: "Had some meetings. Talked to the vendor. Busy week."
+    assert:
+      - {type: llm-rubric, value: "Does not invent progress or a RAG status; asks for the milestones, dates or goals needed to assess status."}

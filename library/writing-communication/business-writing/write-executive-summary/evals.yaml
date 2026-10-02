@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write an executive summary of this document for {{audience}}: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vendor-consolidation-report
+    vars:
+      audience: COO deciding whether to approve the consolidation this quarter
+      max_words: 150
+      document: |
+        Background: Since 2019 each regional office has bought cloud storage separately. We now pay four vendors.
+        Analysis: Finance reviewed 24 months of invoices. Total storage spend was $1.84M last year. Consolidating to one vendor at the negotiated enterprise rate would cost $1.21M a year, a saving of $630K. Migration needs two engineers for five months and a one-off $140K in vendor professional services.
+        Risks: The APAC office stores regulated health data; the preferred vendor has no Singapore region until Q3 next year, so APAC would migrate last. Contract exit fees with the current EU vendor are $45K if we leave before March.
+        Recommendation: Approve consolidation now, migrate EMEA and Americas in Q1-Q2, APAC after the Singapore region launches. Decision needed by 15 November to hit the January pricing window.
+    assert:
+      - {type: contains-all, value: ["$630K", "15 November", "## Source check", "Word count:"]}
+      - {type: not-icontains, value: "This report"}
+      - {type: llm-rubric, value: "Opens with the recommendation to approve consolidation and the saving, states the ask and the 15 November deadline, mentions the APAC regulated-data constraint and migration cost, stays within 150 words, and every number matches the document."}
+  - name: edge-no-recommendation
+    vars:
+      audience: leadership team
+      max_words: 200
+      document: |
+        Employee survey 2026, results. Response rate 71% (1,204 of 1,696). Engagement score 64, down from 69 last year. Lowest-scoring item: "I understand how decisions about my team are made" (41% favourable). Highest: "My manager cares about me" (82% favourable). Engineering scores fell the most (-9 points). Free-text comments most often mention the spring reorganisation.
+    assert:
+      - {type: llm-rubric, value: "Leads with the main finding (engagement fell from 69 to 64, decision transparency weakest), does not invent a recommendation or action plan that is not in the document, and states that no action is requested or that the document makes no recommendation."}
+  - name: negative-title-only
+    vars:
+      audience: board
+      document: "Q3 Market Expansion Feasibility Study"
+    assert:
+      - {type: llm-rubric, value: "Recognises that only a title was provided, asks for the full document, and does not write a summary or invent findings."}

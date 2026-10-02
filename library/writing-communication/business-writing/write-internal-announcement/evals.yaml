@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write an internal announcement for {{audience}} about this change: {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-policy-change
+    vars:
+      audience: all employees, about 400 people
+      change: |
+        From 1 January, home-office equipment stipend drops from $1,000/year to $500/year.
+        Reason: we are shifting budget to the new learning allowance ($750/year per person, launching same day).
+        Anything already purchased this year is still reimbursed under the old limit until 31 Dec.
+        Questions to #people-ops or the open Q&A on 12 Dec.
+    assert:
+      - {type: contains-all, value: ["## FAQ", "## Before you send", "1 January", "#people-ops"]}
+      - {type: llm-rubric, value: "States the stipend reduction plainly in the first paragraph rather than burying it under the learning allowance, gives the real reason, says what is not changing (claims under the old limit until 31 Dec), tone is respectful rather than celebratory about the cut, and the FAQ includes an uncomfortable question such as whether this is a cost cut."}
+  - name: edge-reorg-no-reason
+    vars:
+      audience: engineering department
+      tone: sober
+      change: "Platform and Infrastructure teams merge into one team under Dana from 3 March. Two manager roles become one; Lee moves to a staff engineer role."
+    assert:
+      - {type: contains, value: "[need:"}
+      - {type: llm-rubric, value: "Marks the missing reason with a placeholder instead of inventing one, does not speculate about Lee's performance, and the Before you send section says affected people (including Lee and both teams) should hear directly first and HR should review."}
+  - name: negative-no-change-described
+    vars:
+      audience: company
+      change: "Write something about the changes."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a change; asks what is changing and when."}

@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a reply to this email: {{email}} My position: {{my_position}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-client-multi-question
+    vars:
+      email: |
+        Subject: Website project - a few questions
+        Hi Sam,
+        Thanks for the proposal. A few things before we sign:
+        1. Can you start on 3 March instead of 17 March?
+        2. Is hosting included in the monthly fee?
+        3. Could you do 10% off if we pay upfront?
+        Also, our marketing lead Jo will be joining the kickoff, hope that's ok.
+        Best, Maria
+      my_position: "Can't do 3 March, earliest is 10 March. Hosting yes, included. Upfront discount: 5% not 10%. Jo joining is great."
+    assert:
+      - {type: contains-all, value: ["10 March", "5%", "## Points to answer"]}
+      - {type: llm-rubric, value: "Answers all four points (start date, hosting, discount, Jo joining) according to the position, offers 10 March and 5% clearly, does not agree to 3 March or 10%, matches Maria's semi-formal tone and proposes a next step such as confirming to proceed."}
+  - name: edge-uncovered-question
+    vars:
+      email: "Hi, can you confirm you'll present at the offsite on the 14th, and also send me your slides by the 10th? And do you need a projector or will you bring your own laptop adapter?"
+      my_position: "Yes I'll present on the 14th."
+    assert:
+      - {type: contains, value: "[your answer"}
+      - {type: llm-rubric, value: "Confirms presenting on the 14th, uses placeholders for the slides-by-the-10th and projector or adapter questions rather than inventing answers, and lists those under Still to decide."}
+  - name: negative-angry-sender
+    vars:
+      email: "This is the THIRD time the delivery has been late. Frankly this is unacceptable and I want to know what you're going to do about it, or we're taking our business elsewhere."
+      my_position: "Delivery will arrive Thursday. We're switching their account to our priority courier from next month. No refund."
+    assert:
+      - {type: llm-rubric, value: "Acknowledges the frustration once without grovelling or matching the anger, gives the Thursday delivery and the switch to priority courier, does not offer a refund or compensation or admit fault beyond the position, and ends with a concrete next step."}

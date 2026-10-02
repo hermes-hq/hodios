@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me politely decline this: {{request}} {{reason}} {{alternative}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-reason-and-alternative
+    vars:
+      request: "From a colleague in another team: 'Could you review our 40-page data governance policy by Friday? Your input would be really valuable.'"
+      reason: "I'm on the release this week and have no slack."
+      alternative: "I could do a 30-minute call next Wednesday to go over the data retention section only."
+    assert:
+      - {type: contains-all, value: ["## Short version", "Wednesday"]}
+      - {type: llm-rubric, value: "Declines the full Friday review clearly in the first two sentences, gives the release reason in one sentence, offers exactly the 30-minute Wednesday call on the retention section, warm and brief, and does not offer anything else."}
+  - name: edge-no-reason-friend
+    vars:
+      request: "From a friend on WhatsApp: 'Hey!! Want to come to my pottery class launch party Saturday? Would mean a lot!'"
+    assert:
+      - {type: llm-rubric, value: "Informal, warm message that clearly says the user can't make it, does not invent an excuse or a reason, does not promise a future visit or other alternative, and is appropriate for WhatsApp."}
+  - name: negative-wishy-washy-not-allowed
+    vars:
+      request: "From my manager: 'Can you take over organising the team offsite? It's in six weeks.'"
+      reason: "I'm already leading two projects and organising would mean dropping one."
+    assert:
+      - {type: not-icontains, value: "I'll think about it"}
+      - {type: llm-rubric, value: "Declines clearly and respectfully, gives the workload reason, does not hedge into a maybe or invent an alternative, and notes that with a manager the user may want to discuss priorities live."}

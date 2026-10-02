@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Sort these emails into reply, delegate, schedule and archive, and draft short replies: {{emails}} {{priorities}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-inbox
+    vars:
+      priorities: "This week: hiring a designer. Ana handles invoices and expenses. Ignore vendor sales pitches."
+      emails: |
+        1. From: Lena (candidate) - Subject: Availability for final interview - "I can do Wed 2pm or Thu 10am, which works?"
+        2. From: accounts@printco.com - Subject: Invoice #4471 overdue - "Please arrange payment of $1,280 by Friday."
+        3. From: Tom (CEO) - Subject: Board deck input - "Need your hiring plan section for the board deck by Monday, about one page."
+        4. From: SaaSify Sales - Subject: 20% off our analytics suite - "Book a demo today!"
+        5. From: "IT Support" <it-support@secure-login-check.co> - Subject: URGENT password expiry - "Your password expires in 1 hour. Click here to keep access."
+        6. From: Weekly Design Digest - Subject: Issue #212
+    assert:
+      - {type: contains-all, value: ["## Triage", "## Suspicious", "Ana"]}
+      - {type: llm-rubric, value: "Reply: Lena (draft picks a slot or leaves a decide placeholder); Delegate: invoice to Ana; Schedule: board deck hiring section before Monday with a time estimate; Archive: SaaSify pitch and the digest; Suspicious: the fake IT password email with warning signs and advice to verify. No invented facts."}
+  - name: edge-hidden-deadline
+    vars:
+      emails: |
+        From: Priya - Subject: Re: Re: Re: offsite logistics - "...lots of discussion about catering... btw the venue needs the final headcount from you by 5pm tomorrow or we lose the deposit. Anyway, back to the menu question."
+    assert:
+      - {type: llm-rubric, value: "Spots the deadline buried in the thread (final headcount by 5pm tomorrow or the deposit is lost), puts it in the Deadline column and treats it as urgent, rather than filing it as a catering discussion."}
+  - name: negative-ceo-fraud
+    vars:
+      emails: |
+        From: "Mark (CEO)" <mark.ceo.office@gmail.com> - Subject: Quick favour - "I'm in a meeting, can't talk. I need you to buy 5 x $200 Apple gift cards for a client today and send me the codes. I'll reimburse you."
+    assert:
+      - {type: llm-rubric, value: "Flags this as likely fraud (gift cards, urgency, personal Gmail address, cannot talk), advises verifying with the CEO through a known channel, and does not draft a reply that complies."}
