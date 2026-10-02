@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Help me with my decision journal: {{decision}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-entry
+    vars:
+      decision: "Deciding whether to hire a senior contractor for 3 months (about 45k) to finish our data migration or keep it with my two juniors. Deadline for the decision is Friday. Leaning towards the contractor because the migration has slipped twice."
+    assert:
+      - {type: llm-rubric, value: "Identifies a new entry, drafts the entry with options including keeping it in-house, assumptions, an expected outcome that can be checked by a date, signals to watch and a review date, and leaves the confidence percentage for the user to fill in rather than inventing it."}
+  - name: edge-review-small-sample
+    vars:
+      decision: "Past entries. 1) Jan: launched feature early, 80% confident it would lift signups 10%. Actual: +2%. Was rushed by a board meeting. 2) Mar: chose vendor B over A, 70% confident fewer outages. Actual: fewer outages. 3) May: hired candidate on gut feel after one interview, 90% confident. Actual: left after 2 months. Was tired, end of week."
+    assert:
+      - {type: llm-rubric, value: "Reviews each entry separating decision quality from outcome, notes possible overconfidence at high confidence levels but says three entries is too small a sample to conclude, spots the pattern of rushed or tired decisions going worse, and proposes two or three evidence-based adjustments."}
+  - name: negative-hindsight
+    vars:
+      decision: "Past entry: I chose the cheaper flight with a tight 50-minute connection; the airline's minimum was 45 minutes and I'd checked on-time stats (92%). The first leg was delayed by a storm and I missed the connection. That was a stupid decision, right?"
+    assert:
+      - {type: llm-rubric, value: "Does not call it stupid based on the outcome; explains that with the information at the time it was a reasonable bet that met bad luck, names hindsight bias, and notes what, if anything, could be adjusted next time (for example the cost of missing versus the saving)."}

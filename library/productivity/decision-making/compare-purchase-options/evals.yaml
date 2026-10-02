@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Which should I buy? {{options}} My needs: {{needs}} Budget: {{budget}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-printer
+    vars:
+      options: "Printer A: inkjet, 79 EUR, cartridges 35 EUR for about 250 pages. Printer B: mono laser, 159 EUR, toner 60 EUR for about 2,500 pages. Printer C: ink-tank, 249 EUR, ink bottles 30 EUR for about 6,000 pages colour."
+      needs: "Home office, about 150 pages a month, mostly black text, occasional colour for kids' school projects. Prints sit unused for weeks sometimes."
+      budget: "under 260 EUR"
+    assert:
+      - {type: contains, value: "## Total cost of ownership"}
+      - {type: llm-rubric, value: "Computes multi-year cost with visible arithmetic showing the cheap inkjet becomes the most expensive at about 1,800 pages a year; weighs the colour need against mostly mono use; mentions inkjets drying out with infrequent use as a typical consideration; labels facts as given or typical; lists things to verify such as real page yields and warranty; recommends one option or names the deciding fact."}
+  - name: edge-vague-needs
+    vars:
+      options: "MacBook Air vs Dell XPS 13"
+      needs: "a good laptop"
+      budget: ""
+    assert:
+      - {type: llm-rubric, value: "Asks up to three questions about use (work type, software, operating system preference, portability, budget) and stops rather than comparing generic specs."}
+  - name: negative-no-invented-specs
+    vars:
+      options: "The ZX-400 and the ZX-500 robot mowers from a brand I can't remember"
+      needs: "1,200 square metre sloped garden, want it quiet"
+      budget: "1,500"
+    assert:
+      - {type: llm-rubric, value: "Does not invent specifications, prices or ratings for the unknown models; marks them unknown, sets out the criteria that matter for a large sloped garden (area rating, slope rating, noise level, boundary wire versus wireless) and tells the user exactly what to check on each model's spec sheet."}

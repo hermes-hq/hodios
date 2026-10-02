@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise these articles into a news briefing. {{articles}} Focus: {{focus}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conflicting-numbers
+    vars:
+      articles: "Article 1 (City Herald, 3 March, news): The city council voted 7-4 on Tuesday to introduce a congestion charge of 8 EUR per day from January. The mayor said it would cut traffic by 20%. Retailers' association warned of lost trade. Article 2 (Metro Daily, 4 March, news): Council approved a 10 EUR daily congestion charge starting in January, by a vote of 7 to 4. Exemptions for residents and disabled drivers were added at the last minute. A legal challenge by a drivers' group is expected next month. Article 3 (Weekly Review, 5 March, opinion): The congestion charge is a long-overdue step; cities that tried it saw cleaner air within a year."
+      focus: "what it means for people who drive into the city for work"
+    assert:
+      - {type: contains, value: "## Where they differ"}
+      - {type: llm-rubric, value: "Reports the 7-4 vote and January start as agreed with citations; flags the conflicting 8 versus 10 EUR charge without choosing one; notes exemptions and the expected legal challenge come from one source; labels article 3 as opinion rather than fact; puts the commuter impact first; lists the legal challenge as something to watch; adds no outside facts."}
+  - name: edge-single-article
+    vars:
+      articles: "Article 1 (Tech Wire, 12 June, news): Startup Lumio raised 40 million USD in a Series B led by Northgate Capital to expand its battery recycling plants into Europe."
+      focus: ""
+    assert:
+      - {type: llm-rubric, value: "Summarises the single article and says that comparing sources needs at least two articles, without inventing other coverage."}
+  - name: negative-no-outside-facts
+    vars:
+      articles: "Article 1 (Daily Post, no date, news): The central bank held interest rates. Article 2 (Finance Today, no date, analysis): Analysts expect a cut later this year, though inflation remains sticky."
+      focus: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that dates are missing so timeliness is unknown, does not add the actual rate level or other facts from memory, labels article 2 as analysis and the expected cut as an expectation, not a fact."}

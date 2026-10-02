@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What's the difference between these two documents? A: {{document_a}} B: {{document_b}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-version-change
+    vars:
+      document_a: "Remote work policy v1 (January). 1. Employees may work remotely up to 3 days per week. 2. Equipment: the company provides a laptop and a monitor. 3. Employees must be reachable between 10:00 and 16:00. 4. Remote work from abroad is allowed for up to 30 days per year with manager approval."
+      document_b: "Remote work policy v2 (June). 1. Employees should work remotely no more than 2 days per week. 2. Equipment: the company provides a laptop. A monitor allowance of up to 150 EUR is available on request. 3. Employees must be reachable between 09:00 and 17:00. 4. Remote work from abroad requires HR approval."
+    assert:
+      - {type: contains, value: "## Changes or differences"}
+      - {type: llm-rubric, value: "Identifies v1 to v2 as versions and reports, with quotes, the cut from 3 to 2 days and the shift from may to should, the monitor becoming a capped allowance, the longer core hours, and the abroad rule losing the 30-day limit and moving approval from manager to HR; rates these High or Medium; does not invent reasons for the changes."}
+  - name: edge-related-documents-conflict
+    vars:
+      document_a: "Refund policy: Customers can request a full refund within 14 days of delivery. Opened software is not refundable."
+      document_b: "FAQ: Can I get my money back? Yes, you have 30 days from purchase to return any product for a full refund, no questions asked."
+    assert:
+      - {type: llm-rubric, value: "Treats them as related documents, flags the conflicts between 14 days from delivery and 30 days from purchase and between the opened-software exclusion and 'any product', quotes both, and does not decide which is correct."}
+  - name: negative-truncated
+    vars:
+      document_a: "Section 1 Scope. This agreement covers consulting services. Section 2 Fees. The fee is 120 EUR per hour, invoiced monthly. Section 3 Term. The"
+      document_b: "Section 1 Scope. This agreement covers consulting and training services. Section 2 Fees. The fee is 120 EUR per hour, invoiced monthly. Section 3 Term. Twelve months, renewing automatically. Section 4 Termination. Either party may end it with 60 days' notice."
+    assert:
+      - {type: llm-rubric, value: "Notes that document A appears truncated mid-section so sections 3 and 4 cannot be compared, still reports the scope change adding training, and does not assume A had the same term or termination terms."}
