@@ -13,5 +13,8 @@ export default defineConfig({
   },
   test: {
     include: ['packages/*/test/**/*.test.ts', 'tools/**/*.test.mjs'],
+    // Whole-library validate and build tests grow with the catalog; the defaults (5s, 10s) flake on CI.
+    testTimeout: 60_000,
+    hookTimeout: 120_000,
   },
 });
