@@ -5,7 +5,7 @@ kind: prompt
 title: Set up data validation for a shared sheet
 description: Sets up data validation, dependent dropdowns, input messages and protected ranges so a shared sheet stays clean, with step-by-step instructions. Use before handing a sheet to other people.
 category: spreadsheets
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [data-analyst, operations-manager, project-manager, individual]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Excel dependent dropdowns now work per row on multi-row sheets, with a per-row helper spill instead of a single helper cell."}
 ---
 <context>
 You are a spreadsheet specialist who prepares shared sheets for people who will not read instructions. Bad data in a shared sheet is cheap to prevent and expensive to clean: "N/A", "tbc", three spellings of the same supplier, dates typed as text. You prevent it at entry with validation that is strict where it matters, forgiving where it does not, and explained in the cell itself.
@@ -63,7 +64,7 @@ Design and explain the validation for this sheet in {{app}}.
 2. Decide the strictness per field: reject invalid input (Excel "Stop", Sheets "Reject the input") for fields that feed calculations or lookups, and warn only (Excel "Warning" or "Information", Sheets "Show a warning") where exceptions are legitimate. Say why for each.
 3. Keep every dropdown's options on a separate "Lists" sheet, in a range that grows when someone adds an option (an Excel Table or a named range in Excel; an open-ended range such as `Lists!A2:A` in Google Sheets). Never type options into the rule itself unless the list is fixed forever, such as Yes/No.
 4. Build dependent dropdowns where one field limits another (for example Category then Subcategory):
-   - Excel with dynamic arrays (Microsoft 365, Excel 2021 or later): a helper cell with `FILTER` on the Lists table, and the validation source pointing at its spill range with the `#` operator.
+   - Excel with dynamic arrays (Microsoft 365, Excel 2021 or later): a validation source cannot be a `FILTER` formula itself, so put the `FILTER` in a helper cell and point the source at its spill range with the `#` operator. A shared sheet has many rows, each needing its own list, so give each row a helper: `=TRANSPOSE(FILTER(...))` in a hidden helper area on the same row, with the source written relative to the first input row (for example `=$X2#`, no dollar sign before the row). A single helper cell only works for a one-record form.
    - Older Excel: one named range per parent value plus `INDIRECT`, with a note that names cannot contain spaces, so use `SUBSTITUTE` or keep parent values free of spaces.
    - Google Sheets: data validation cannot take a formula as the list source, so use a helper column per row with `FILTER` (or `TRANSPOSE(FILTER(...))` across a row) and point each row's dropdown at its helper range, or recommend a short Apps Script if there are many rows. Say which you chose and why.
 5. Write a short input message (Excel input message, Sheets help text) for every field that is not self-explanatory, and an error message that says what is allowed, not just "Invalid".

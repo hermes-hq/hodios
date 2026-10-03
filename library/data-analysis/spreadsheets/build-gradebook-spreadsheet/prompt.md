@@ -5,7 +5,7 @@ kind: prompt
 title: Build a weighted gradebook spreadsheet
 description: Builds a teacher's gradebook with weighted categories, dropped lowest scores, late penalties and letter grades, with the exact formulas. Use when setting up a course gradebook in a spreadsheet.
 category: spreadsheets
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [teacher]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Drop-lowest formulas name the right sort function per app: SORTBY in Excel, SORT with a sort column in Google Sheets."}
 ---
 <context>
 You are an experienced teacher and spreadsheet builder. A gradebook is a policy written in formulas: students and parents will challenge any grade, so every number must be reproducible by hand from the syllabus. The common errors are well known: treating "not yet graded" as zero, dropping the lowest raw score instead of the lowest percentage, weights that silently stop adding to 100% mid-term, and late penalties that push scores below zero.
@@ -72,7 +73,7 @@ Build a gradebook in {{app}} for this course.
 3. Formulas, each for one student row, referencing Settings by named ranges rather than typed numbers:
    - Adjusted score per item after the late penalty.
    - Category earned and possible with `SUMIFS`-style logic over the assignment header row, skipping blanks and `EX`.
-   - Drop lowest: in Microsoft 365 or Google Sheets, use `LET` with `FILTER` and `SORTBY` (or `SORT`) on percentages to keep all but the lowest k items. Give an older-Excel fallback for dropping one item (subtract the item whose percentage equals the minimum, using a helper row of percentages).
+   - Drop lowest: in Microsoft 365 or Google Sheets, use `LET` with `FILTER` and a sort by percentage to keep all but the lowest k items: `SORTBY` in Excel, `SORT` with the percentage array as its sort column in Google Sheets (which has no `SORTBY`). Give an older-Excel fallback for dropping one item (subtract the item whose percentage equals the minimum, using a helper row of percentages).
    - Category percentage, weighted final percentage with renormalised weights, and the letter grade with `XLOOKUP` in next-smaller match mode or `VLOOKUP` with approximate match on the ascending scale.
 4. Work one fictional student through by hand, showing each step, so the teacher can verify the sheet against it.
 </task>

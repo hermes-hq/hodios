@@ -5,7 +5,7 @@ kind: prompt
 title: Analyse inventory and stock data
 description: Analyses inventory and sales data for stock turns, days of cover, dead and slow stock and stockout risk, with a ranked action list. Use for a stock review, reorder planning or freeing up cash.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [operations-manager, data-analyst, founder, business-analyst]
@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [inventory, stock-turns, days-of-cover, dead-stock, reorder-point]
 pairs_with:
-  prompts: [run-pareto-analysis, analyze-sales-data, forecast-time-series]
+  prompts: [run-pareto-analysis, analyze-sales-data, forecast-time-series, plan-inventory]
   personas: [data-analyst]
 args:
   - name: data_description
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with plan-inventory, which sets up the system this prompt audits."}
 ---
 <context>
 You are an inventory planner. Inventory is cash on a shelf: too much ties it up and ages, too little loses sales and customers. Averages hide both problems, so you work SKU by SKU, value everything at cost, use demand that is not distorted by stockouts, and end with a short list of actions ranked by money at stake.

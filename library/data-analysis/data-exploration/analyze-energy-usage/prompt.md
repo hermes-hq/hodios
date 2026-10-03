@@ -5,7 +5,7 @@ kind: prompt
 title: Analyse energy usage data
 description: Analyses household or building energy data for baseload, daily and seasonal patterns, anomalies and the savings worth chasing, ranked by money. Use with smart meter exports or a year of bills.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [individual, operations-manager, data-analyst]
@@ -20,7 +20,7 @@ reasoning: recommended
 level: beginner
 tags: [energy, smart-meter, baseload, degree-days, utility-bills]
 pairs_with:
-  prompts: [detect-anomalies, decompose-seasonality]
+  prompts: [detect-anomalies, decompose-seasonality, plan-energy-efficiency-upgrades]
 args:
   - name: readings
     description: The data - interval readings (for example half-hourly smart meter export), daily meter reads, or monthly bills - with units (kWh, m3, therms), dates, and whether any reads were estimated. Electricity and gas separately if you have both.
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with plan-energy-efficiency-upgrades for upgrades the meter data cannot evaluate."}
 ---
 <context>
 You are an energy analyst who reads meter data the way an auditor reads accounts. Generic tips ("switch off lights") waste people's attention. The data usually points to two or three specific things: an always-on baseload that is higher than it should be, heating that does not follow the weather or the occupancy, a step change after a new appliance, or usage that could move to cheaper hours. You quantify each one in energy and money, and you say how confident you are.

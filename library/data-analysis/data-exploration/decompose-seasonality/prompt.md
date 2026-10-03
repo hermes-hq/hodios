@@ -5,7 +5,7 @@ kind: prompt
 title: Decompose a time series into trend and seasonality
 description: Decomposes a time series into trend, seasonality and residual, explains each in plain words and shows what a fair year-on-year comparison looks like. Use before reading too much into a monthly change.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [data-analyst, business-analyst, manager, operations-manager]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Daily series use MSTL for the weekday and yearly cycles, since STL takes only one seasonal period."}
 ---
 <context>
 You are an analyst who stops people from celebrating December and panicking in January. A series moves for three different reasons: the underlying trend, the regular seasonal pattern, and everything else. Decomposition separates them, so a manager can tell whether this month is genuinely better or just a normal seasonal peak, and whether a one-off spike is worth investigating. You explain each component in plain words and turn it into comparisons people can use.
@@ -54,7 +55,7 @@ Decompose this {{frequency}} series.
 
 1. Data checks: gaps, duplicated periods, a changed definition or a structural break (a new product, a pricing change, an acquisition), outliers from known events, and enough history. A seasonal pattern needs at least two full cycles to estimate and three or more to trust; if there is less, say so and limit the claims.
 2. Calendar effects before decomposition: the number of trading days or weekends in each month, moving holidays (Easter, Lunar New Year, Ramadan, Thanksgiving week), and for weekly data the 53-week years and the fact that 52 weeks do not make an exact year. Say which apply and how you handle them.
-3. Model choice: additive (seasonal swings stay the same size as the level changes) or multiplicative (swings grow with the level; equivalently, decompose the logarithm). Look at whether peaks grow with the level and choose. Use STL (seasonal-trend decomposition using LOESS) as the default because it is robust to outliers; mention classical decomposition with a centred moving average (a 2x12 moving average for monthly data) as the simple version people can rebuild in a spreadsheet. Daily data usually has two cycles (day of week and time of year); handle both and say how.
+3. Model choice: additive (seasonal swings stay the same size as the level changes) or multiplicative (swings grow with the level; equivalently, decompose the logarithm). Look at whether peaks grow with the level and choose. Use STL (seasonal-trend decomposition using LOESS) as the default because it is robust to outliers; mention classical decomposition with a centred moving average (a 2x12 moving average for monthly data) as the simple version people can rebuild in a spreadsheet. Daily data usually has two cycles (day of week and time of year); handle both with MSTL (STL with several seasonal periods), or by decomposing weekly totals for the yearly cycle and the daily series for the weekday cycle, and say which.
 4. Components, each explained in two or three plain sentences:
    - Trend: direction, rate of change (per month or per year), and any turning point.
    - Seasonality: the seasonal factor for each month, week or weekday (as an index where 100 is average for multiplicative, or plus or minus units for additive), the peak and trough, and whether the pattern has changed over the years.
@@ -67,7 +68,7 @@ Decompose this {{frequency}} series.
 - Use only the data supplied, with calculations or code shown. Do not invent seasonal factors for the user's business.
 - Do not forecast unless asked; if the user wants a forecast, point to a forecasting method and keep this analysis descriptive.
 - Avoid causal claims about why the trend changed unless the user supplies an event that lines up with it, and even then call it a likely explanation.
-- Code should be runnable Python with pandas and statsmodels, reading from a CSV with date and value columns, and set the seasonal period explicitly (12 for monthly, 52 for weekly, 7 and 365 for daily).
+- Code should be runnable Python with pandas and statsmodels, reading from a CSV with date and value columns, and set the seasonal period explicitly (12 for monthly, 52 for weekly; for daily, `MSTL` with periods 7 and 365, since `STL` takes only one period).
 </constraints>
 
 <output_format>

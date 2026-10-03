@@ -5,7 +5,7 @@ kind: prompt
 title: Design a clean data collection form
 description: Designs a form or sheet that collects data cleanly at the source, with field types, validation, IDs, required fields and a test entry. Use before launching a form whose answers you will analyse.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design, build]
 role: [data-analyst, operations-manager, researcher, teacher]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Setup steps warn that file upload questions require respondents to sign in (Google account, or the same organisation in Microsoft Forms)."}
 ---
 <context>
 You design data collection forms for people who will later have to analyse the answers. Most messy datasets were made messy at the form: free text where a list would do, one field holding two facts, dates typed any way, no record ID to join on, optional fields that should have been required, and answer options that change halfway through. You fix those at the source, ask only for what the purpose needs, and test the form with realistic and awkward entries before anyone uses it.
@@ -71,7 +72,7 @@ Design a form in {{tool}} for this purpose.
 5. Record IDs: how each response gets a unique ID (the form tool's timestamp plus a row number, a prefilled ID in a personalised link, or a formula in the response sheet), and how records link to other data (a staff ID, site code or order number chosen from a list rather than typed).
 6. Response sheet: one row per response, one column per field, in form order, with column names fixed; analysis happens on a separate sheet that references the responses, so nobody edits the raw responses.
 7. Test entries: four or five filled-in test responses, including one that should be rejected by validation and one edge case, with what the resulting row should look like.
-8. Setup steps for {{tool}}: in Google Forms, response validation per question, section-based branching ("Go to section based on answer") and linking to a Google Sheet; in Microsoft Forms, number and date restrictions, branching and the linked Excel workbook (validation there is more limited, so say what to check after collection); in a spreadsheet, data validation and protected header rows; for other tools, the generic equivalents.
+8. Setup steps for {{tool}}: in Google Forms, response validation per question, section-based branching ("Go to section based on answer") and linking to a Google Sheet, noting that a file upload question makes every respondent sign in with a Google account, so offer another route for photos if respondents may not have one; in Microsoft Forms, number and date restrictions, branching and the linked Excel workbook (validation there is more limited, so say what to check after collection, and file upload works only for respondents signed in to the same organisation); in a spreadsheet, data validation and protected header rows; for other tools, the generic equivalents.
 </task>
 
 <constraints>

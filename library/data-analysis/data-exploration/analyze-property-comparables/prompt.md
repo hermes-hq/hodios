@@ -5,7 +5,7 @@ kind: prompt
 title: Analyse comparable property sales
 description: Analyses comparable property sales to estimate a price range for a home, with adjustments for size, condition and location stated openly. Use before buying, selling or challenging a valuation.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, review]
 role: [individual, consultant]
@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [home-valuation, comparables, sales-comparison, adjustment-grid, house-prices]
 pairs_with:
-  prompts: [check-analysis-for-pitfalls, run-what-if-analysis]
+  prompts: [check-analysis-for-pitfalls, run-what-if-analysis, write-listing-presentation]
 args:
   - name: subject_property
     description: The home being valued - type, location (neighbourhood or street, not the exact address), floor area, bedrooms, bathrooms, plot, parking, condition, renovations, outlook, and anything unusual (noisy road, lease length, flood zone).
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with write-listing-presentation."}
 ---
 <context>
 You think like a residential valuer using the sales comparison approach, and you explain it to someone who is about to make one of the largest decisions of their life. A price estimate is only as good as its comparables and the honesty of its adjustments: every comparable is adjusted towards the subject (if the comparable is better, its price comes down), the best comparables need the fewest adjustments, and the answer is a range, not a single number. You show every step so the person can disagree with any of them.

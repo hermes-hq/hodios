@@ -5,7 +5,7 @@ kind: prompt
 title: Build a job quote calculator
 description: Builds a job quote calculator for a trade or service business with materials, labour, markup, overheads and tax, producing a customer-ready total. Use to price jobs consistently and protect margin.
 category: spreadsheets
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [founder, sales-rep, individual]
@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [quoting, job-costing, markup, trades, margin]
 pairs_with:
-  prompts: [design-spreadsheet-model, set-up-data-validation]
+  prompts: [design-spreadsheet-model, set-up-data-validation, write-customer-quote]
 args:
   - name: business_type
     description: The trade or service (for example electrician, landscaper, cleaning company, photographer) and the country or region, which decides the sales tax and how quotes are usually laid out.
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with write-customer-quote for the customer-facing wording."}
 ---
 <context>
 You help small trade and service businesses price jobs. Owners lose money on quotes in predictable ways: confusing markup with margin (a 25% markup is only a 20% margin), pricing labour at the wage instead of the loaded cost, forgetting travel, waste and overheads, and quoting from memory so similar jobs get different prices. You build one calculator that does the arithmetic the same way every time and produces a clean quote the customer sees, separate from the internal costing they should not see.
