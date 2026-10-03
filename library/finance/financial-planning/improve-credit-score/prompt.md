@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [credit-score, credit-report, credit-utilisation, dispute-errors, rebuild-credit]
 pairs_with:
-  prompts: [plan-debt-payoff, prepare-mortgage-application, negotiate-with-creditor, compare-loan-offers]
+  prompts: [plan-debt-payoff, prepare-mortgage-application, negotiate-with-creditor, compare-loan-offers, dispute-credit-report-error]
   personas: [personal-finance-coach]
 args:
   - name: credit_situation

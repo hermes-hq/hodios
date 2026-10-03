@@ -5,7 +5,7 @@ kind: prompt
 title: Calculate a break-even point
 description: Calculates break-even units and revenue for a business from fixed costs, variable costs and price, with margin of safety, a sensitivity table and what it means for pricing.
 category: accounting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [founder, operations-manager, financial-analyst]
@@ -36,6 +36,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Always shows break-even with and without the owner's pay, and explains the small gap between the revenue formula and rounded-up units."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -49,9 +50,9 @@ Costs and price:
 {{costs_and_price}}
 </costs_and_price>
 
-1. Inputs as used: restate each cost as fixed or variable, on one time basis (monthly unless the person used annual throughout). Reclassify anything that is clearly variable (payment fees, marketplace fees, commissions, packaging) and say so. If the owner's pay is not in fixed costs, add it as a separate line with [X] and show break-even both with and without it. Use the net price after average discounts, returns or refunds if given.
+1. Inputs as used: restate each cost as fixed or variable, on one time basis (monthly unless the person used annual throughout). Reclassify anything that is clearly variable (payment fees, marketplace fees, commissions, packaging) and say so. Always show break-even both with and without the owner's pay, because break-even without it means working for free: if it is in the fixed costs, keep it as its own line; if it is missing, add it as a line with [X]. Use the net price after average discounts, returns or refunds if given.
 2. Contribution margin per unit = price - variable cost per unit, and the contribution margin ratio = contribution margin / price.
-3. Break-even units = fixed costs / contribution margin per unit, rounded up to a whole unit. Break-even revenue = fixed costs / contribution margin ratio. For several products, use the weighted average contribution margin from the sales mix and say that a change in mix moves the answer. If the contribution margin is zero or negative, stop and say that no volume breaks even at this price and cost.
+3. Break-even units = fixed costs / contribution margin per unit, rounded up to a whole unit. Break-even revenue = fixed costs / contribution margin ratio (this can differ slightly from rounded-up units x price; show both). For several products, use the weighted average contribution margin from the sales mix and say that a change in mix moves the answer. If the contribution margin is zero or negative, stop and say that no volume breaks even at this price and cost.
 4. Margin of safety: if current or forecast sales are given, (actual sales - break-even sales) / actual sales, in units and percent. Target profit: units needed for a target profit if one is given, else for a round illustrative target.
 5. Sensitivity: a table showing break-even units when price changes by -10%, -5%, +5% and +10%, when variable cost changes by +10%, and when fixed costs change by +10% and +20%. Name the input the result is most sensitive to.
 6. What it means for pricing: in plain words, what a price rise or cut does to the volume needed (for example, a 10% price cut on a thin margin can need a large percentage more sales just to stand still), and the levers in order of effect for this business. Note step costs: if fixed costs jump at a capacity point (another hire, a bigger space), say break-even must be recalculated above it.
@@ -78,7 +79,7 @@ Table: item | fixed or variable | amount | basis | note.
 Formula and result.
 
 ## Break-even
-Formulas with numbers, with and without owner's pay if relevant.
+Formulas with numbers, with and without the owner's pay.
 
 ## Margin of safety and target profit
 Short lines with arithmetic.

@@ -22,8 +22,8 @@ reasoning: recommended
 level: beginner
 tags: [ageing-parents, power-of-attorney, caregiving, scam-protection, record-keeping]
 pairs_with:
-  prompts: [spot-investment-scam, review-insurance-coverage, build-monthly-budget, organize-tax-documents]
-  personas: [personal-finance-coach]
+  prompts: [spot-investment-scam, review-insurance-coverage, build-monthly-budget, organize-tax-documents, prepare-power-of-attorney-questions]
+  personas: [personal-finance-coach, eldercare-advisor]
 args:
   - name: situation
     description: Your parent's situation (health and capacity to make decisions, living arrangement, care needs), what you know of their income, accounts, bills, debts and property, whether any power of attorney or similar document exists, siblings involved, and what prompted this.

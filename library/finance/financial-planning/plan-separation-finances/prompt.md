@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [divorce, separation, asset-inventory, two-household-budget, financial-disclosure]
 pairs_with:
-  prompts: [build-monthly-budget, build-tight-budget, review-insurance-coverage, improve-credit-score]
+  prompts: [build-monthly-budget, build-tight-budget, review-insurance-coverage, improve-credit-score, plan-co-parenting]
   personas: [personal-finance-coach]
 args:
   - name: situation
