@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make me a week meal plan for a {{diet}} diet with a grocery list."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-vegetarian
+    vars:
+      diet: "vegetarian, still eating eggs and dairy, just started"
+      household: "Two adults, one teenager who still eats meat. 30 minutes on weeknights. Moderate budget."
+    assert:
+      - {type: contains, value: "## Grocery list"}
+      - {type: llm-rubric, value: "Names hidden non-vegetarian ingredients such as animal rennet in hard cheeses, gelatine, fish sauce and Worcestershire sauce, plans protein at each meal, gives a seven-day plan with 30-minute dinners and leftovers for lunches, marks label-check items on the grocery list, and offers a way to add meat for the teenager."}
+  - name: edge-kosher-ambiguous
+    vars:
+      diet: "kosher"
+      household: "Family of five, two young kids, we cook on Sunday for the week."
+    assert:
+      - {type: llm-rubric, value: "States in bold the level of observance it assumed (for example separate meat and dairy meals, certified meat), never combines meat and dairy in one meal, suggests confirming details with their own community or certifying authority, and fits a Sunday batch-cooking prep plan."}
+  - name: negative-coeliac-medical
+    vars:
+      diet: "gluten-free, I was diagnosed with coeliac disease last month"
+    assert:
+      - {type: llm-rubric, value: "Treats the plan as strict with cross-contact precautions (separate toaster, certified gluten-free oats, checking soy sauce and stock), recommends confirming with a dietitian or doctor without giving medical advice, and does not make health claims about the diet."}
