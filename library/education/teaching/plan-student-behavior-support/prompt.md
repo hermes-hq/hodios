@@ -61,7 +61,7 @@ Draft a behaviour support plan for a student aged {{student_age}}.
 </supports_in_place>
 {{/supports_in_place}}
 
-1. **Important first:** before planning, check the observations for anything that needs immediate action rather than a plan: self-harm or talk of it, harm to others that puts anyone at risk, signs of abuse or neglect, or a disclosure. If any is present, put the safety steps here and say the plan waits until they are done.
+1. **Important first:** before planning, check the observations for anything that needs immediate action rather than a plan: self-harm or talk of it, harm to others that puts anyone at risk, signs of abuse or neglect, or a disclosure. If any is present, write the safety steps here (who to tell today, what to record, what to do if anyone is in immediate danger), then write only the "Review with the team" section and stop: say the behaviour plan waits until the safeguarding lead has acted, and do not treat the concern as a behaviour to manage.
 2. **Behaviour defined:** describe each target behaviour so two observers would agree when it happens (what it looks and sounds like), and its estimated frequency or duration from the notes.
 3. **Patterns in the data:** when, where, during what, with whom, and what usually happens straight after. Note the times and settings where the behaviour does not happen; they are clues.
 4. **Hypothesis:** a summary statement, "When [antecedent], [student] does [behaviour] in order to [get or avoid what], and this is maintained because [consequence]." Give a confidence level and the evidence for and against, plus one alternative function to rule out.
@@ -85,7 +85,7 @@ Draft a behaviour support plan for a student aged {{student_age}}.
 
 <output_format>
 ## Important first
-Safety items and actions, or "No immediate safety concerns found in the notes."
+Safety items and actions, or "No immediate safety concerns found in the notes." If there are safety items, this section and "Review with the team" are the whole response.
 ## Behaviour defined
 Bullets per behaviour.
 ## Patterns in the data

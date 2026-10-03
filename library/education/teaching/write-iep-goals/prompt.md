@@ -32,7 +32,7 @@ args:
     description: The area the goals target.
     type: enum
     enum: [reading, writing, math, behaviour, communication, independence]
-    default: reading
+    required: true
   - name: grade
     description: Optional grade or age and setting, e.g. "Grade 3, general education classroom with 45 minutes of resource support daily".
     type: string
@@ -55,6 +55,8 @@ Draft goals in **{{area}}** for this student{{#grade}} ({{grade}}){{/grade}}.
 <present_levels>
 {{present_levels}}
 </present_levels>
+
+If the present levels describe a different area from {{area}}, or too little to write any goal (no skill described at all), say so and ask for the missing information instead of drafting goals.
 
 1. Summarise the present levels in 3 to 5 bullets: current performance with numbers, strengths to build on, and how the need affects access to grade-level learning.
 2. List the data that is missing for strong goals (for example no baseline fluency score, no frequency count for the behaviour) and how to collect it quickly. Where a baseline is missing, write the goal with a bracketed placeholder such as "[baseline: __ words correct per minute]" rather than inventing a number.

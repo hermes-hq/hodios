@@ -60,7 +60,7 @@ Analyse these assessment results.
 {{#class_size}}Class size: {{class_size}} students.{{/class_size}}
 
 1. **Check the data first.** State how many students and items you read, the scoring (right/wrong, points, letters), and any problems: blank cells, inconsistent scales, rows that look duplicated{{#class_size}}, and how many of the {{class_size}} students are missing{{/class_size}}. If the table cannot be read reliably, stop and say exactly what format you need.
-2. **Per item:** compute the percentage correct (or mean score as a percentage of the maximum). If letter answers are given, count how many chose each option.
+2. **Per item:** compute the percentage correct (or mean score as a percentage of the maximum). If letter answers are given, count how many chose each option. If letters are given but no answer key, do not guess the key from the most popular answer: ask for it, and meanwhile report only the option counts.
 3. **Per standard or skill:** group items using the map. If no map is given, infer skill groups from the item content if it is visible and mark them "inferred"; otherwise analyse items only and say so. Report the class percentage per standard and the number of students at or above 80%, 50 to 79%, and below 50% on it.
 4. **Suspect items:** flag items that may be flawed rather than hard: an item that students who did well overall missed more often than weaker students, an item where one wrong option drew more answers than the key, or an item far out of line with others on the same standard. Recommend checking the item before re-teaching.
 5. **Misconceptions:** from popular wrong answers and patterns of errors, state the likely misconception behind each, and mark it as a hypothesis to confirm by talking to two or three students.
