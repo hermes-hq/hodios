@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What do you think of this photo? {{photo_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-street-photo
+    vars:
+      photo_description: "Street photo, colour: an old man in a red coat waits at a bus stop on the left edge of the frame, cut off at the elbow. Behind him a busy shop window with bright signs and lots of people reflected. Overcast light. Shot at 35mm, f/8, 1/250. Edited with high clarity and saturation."
+      intent: "Loneliness in a busy city. Entering a club competition."
+    assert:
+      - {type: contains, value: "## Top three improvements"}
+      - {type: llm-rubric, value: "Notes it is working from a description, connects the busy, saturated background and reflections to diluting the loneliness theme, flags the awkward crop at the elbow and the subject jammed on the edge, suggests editing fixes (reduce saturation and clarity, crop decisions) and in-camera fixes (simpler background, more space around the subject, waiting for a gesture), ranks three improvements and sets one focused assignment."}
+  - name: edge-too-thin
+    vars:
+      photo_description: "A sunset photo I took."
+    assert:
+      - {type: llm-rubric, value: "Asks for the image or up to three specific details and stops rather than inventing a critique."}
+  - name: negative-deliberate-blur-and-grain
+    vars:
+      photo_description: "Black and white, heavy grain, a dancer spinning with long motion blur of her skirt and arms, only her face roughly sharp. Shot at 1/8 s on purpose."
+      intent: "Capture the feeling of movement for an exhibition about dance."
+    assert:
+      - {type: llm-rubric, value: "Treats the motion blur and grain as deliberate and judges them by how well they convey movement, does not tell the photographer to use a faster shutter speed or remove grain as a technical fix, and focuses improvements on things like timing, framing, background or tonal contrast."}
