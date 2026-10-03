@@ -5,7 +5,7 @@ kind: prompt
 title: Write a briefing note
 description: Writes a public-sector style briefing note for a minister, director or board with purpose, background, considerations, options and a recommendation under the required headings.
 category: business-writing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [manager, consultant, business-analyst, executive]
@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [briefing-note, public-sector, civil-service, ministerial-briefing, board-paper, policy-options]
 pairs_with:
-  prompts: [write-decision-memo, write-executive-summary, write-public-consultation-response]
+  prompts: [write-decision-memo, write-executive-summary, write-public-consultation-response, write-policy-brief]
 args:
   - name: issue
     description: The question or issue the note is about, and whether it is for decision, for information or for a meeting.
@@ -52,6 +52,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Pairs with write-policy-brief, the research-to-policy counterpart."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>

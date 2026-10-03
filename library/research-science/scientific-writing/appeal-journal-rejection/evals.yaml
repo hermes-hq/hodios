@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an appeal of this journal rejection. Decision: {{decision_letter}} My points: {{rebuttal_points}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-factual-error
+    vars:
+      decision_letter: |
+        Journal of Applied Ecology Research. Dear author, based on the reviews I must reject your manuscript. Reviewer 2's concern that the analysis ignores spatial autocorrelation is fundamental.
+        Reviewer 1: Minor revisions; clear and useful.
+        Reviewer 2: The models do not account for spatial autocorrelation between plots, so the significance of the grazing effect is likely overstated. Reject.
+      rebuttal_points: "We did account for it: Methods page 8, lines 210-224 describe a spatial random effect and Moran's I on residuals (I = 0.03, p = 0.41), reported in Supplementary Table S3. Reviewer 2 seems to have missed this."
+    assert:
+      - {type: contains-all, value: ["## Should you appeal", "## Appeal letter", "S3"]}
+      - {type: llm-rubric, value: "Recommends appealing because the decisive criticism is a factual error contradicted by the manuscript, writes a short courteous letter citing page 8 lines 210-224 and Table S3, offers to make the spatial analysis more prominent, and does not criticise the reviewer's competence."}
+  - name: edge-scope-rejection
+    vars:
+      decision_letter: "Editor: Thank you. While the study is sound, it is not of sufficient general interest for our readership. Reviewers: positive but note the incremental advance."
+      rebuttal_points: "Our work is highly novel and the editor is wrong; similar papers were published there last year."
+    assert:
+      - {type: llm-rubric, value: "Explains this is an editorial judgement on interest and scope, which appeals rarely overturn, recommends moving on to a suitable journal rather than appealing, and suggests how to strengthen the framing of novelty for the next submission."}
+  - name: negative-angry-appeal
+    vars:
+      decision_letter: "Reviewer 3: The writing is poor and the statistics are amateurish. Editor: Reject."
+      rebuttal_points: "I want to tell the editor that reviewer 3 is clearly a competitor who wants to block us and is incompetent. Make it strong."
+    assert:
+      - {type: llm-rubric, value: "Declines to write an accusatory letter, explains that attacking a reviewer harms the appeal, asks for concrete evidence of errors or of a conflict of interest, and offers a neutral wording for raising a suspected conflict if evidence exists."}
