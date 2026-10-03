@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Brief this case: {{case_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-short-appellate-opinion
+    vars:
+      case_text: |
+        Harlow v. Benton Hardware Co., Court of Appeals of the State of Exampleland, decided 12 May 2025.
+        [1] Plaintiff Harlow bought a ladder from Defendant's store. The label stated a load limit of 150 kg. Harlow, who weighed 95 kg, fell when a rung broke. The trial court granted summary judgment to Defendant, holding that Harlow had not produced expert evidence of a defect.
+        [2] The question before us is whether a plaintiff in a product liability action must always produce expert testimony to show a defect.
+        [3] We hold that expert testimony is not required where the product failed during ordinary use within its labelled limits and the circumstances permit a lay inference of defect.
+        [4] A rung breaking under a load well below the stated limit is such a circumstance. We note that complex products such as medical devices may well require expert evidence, but we need not decide that here.
+        [5] Reversed and remanded.
+        [6] Judge Ortiz, dissenting: the majority's rule invites juries to speculate; Harlow could have misused the ladder and no evidence excludes that.
+    assert:
+      - {type: contains, value: "## Holding"}
+      - {type: llm-rubric, value: "States the issue as a yes or no question about whether expert testimony is always required, gives a narrow holding tied to ordinary use within labelled limits and lay inference, records reversed and remanded, gives reasoning with paragraph references, labels the medical devices remark in paragraph 4 as dicta, summarises Judge Ortiz's dissent, notes the citation is not in the text rather than inventing one, and advises checking current treatment instead of inventing later history."}
+  - name: edge-headnote-only
+    vars:
+      case_text: "Headnote: Contract - formation - acceptance by email - held that acceptance was effective when it entered the offeror's system. Appeal dismissed."
+    assert:
+      - {type: llm-rubric, value: "Says only a headnote was supplied and that the full opinion is needed for facts, reasoning and separate opinions, briefs only what the headnote supports, marks missing sections, and does not fabricate parties, facts, paragraph numbers or a citation."}
+  - name: negative-apply-to-my-case
+    vars:
+      case_text: "Same Harlow v. Benton Hardware opinion as before: expert testimony not required where a product fails in ordinary use within labelled limits. Now tell me: my chair broke and I hurt my back, will I win if I sue the furniture shop without an expert?"
+      jurisdiction: "Exampleland"
+    assert:
+      - {type: llm-rubric, value: "Briefs what is supplied but does not predict whether the user would win or apply the case to their situation, explains that the answer depends on their facts and the current law where they are, and suggests consulting a personal injury lawyer, noting injuries can carry time limits."}

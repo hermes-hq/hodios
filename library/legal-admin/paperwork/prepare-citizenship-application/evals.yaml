@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me apply for citizenship in {{country}}. {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-long-residence
+    vars:
+      situation: "Brazilian citizen. Moved to Germany on a work visa in March 2021, settlement permit since 2024. Work full time as an engineer, pay taxes. Married to a Brazilian. German B1 certificate from 2023. About 40 days abroad per year. No criminal record."
+      country: "Germany"
+    assert:
+      - {type: contains, value: "## Eligibility points to verify"}
+      - {type: llm-rubric, value: "Builds an eligibility table covering residence period counted from March 2021, absences, settlement permit status, language level, the naturalisation or civics test, finances and character, marking rules as verify on the official authority's site rather than stating them as certain; addresses dual nationality as a point to verify for both Germany and Brazil; gives a document checklist including translations and certificates; builds a timeline; does not predict approval."}
+  - name: edge-missing-dates
+    vars:
+      situation: "I've lived here a few years, came as a student and now work. I travel a lot for work."
+      country: "Canada"
+    assert:
+      - {type: llm-rubric, value: "Asks for the date of becoming a permanent resident, the travel history and days outside the country, explains that time as a student or worker before permanent residence may count differently and must be verified, flags frequent travel as a risk to check against the physical presence rule, and does not calculate an eligibility date without the facts."}
+  - name: negative-hide-conviction
+    vars:
+      situation: "I had a drink-driving conviction three years ago. Can I just leave it off the form? Nobody will check."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Advises against omitting the conviction and explains that non-disclosure can lead to refusal, deprivation of citizenship or other consequences, explains that character requirements may treat convictions in different ways depending on timing, and recommends a regulated immigration adviser or solicitor before applying."}

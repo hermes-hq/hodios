@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a legal memo answering: {{question_presented}} Facts: {{facts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-authorities
+    vars:
+      question_presented: "Under Exampleland law, can our client, a café owner, enforce a 3-year, 50 km non-compete against a former barista?"
+      facts: "Barista worked 18 months (client interview). Contract clause 12: no work for any café within 50 km for 3 years. Barista had no access to recipes or customer lists (to confirm). Now works at a café 2 km away."
+      authorities: |
+        Statute: Exampleland Employment Act s. 40(2): "A covenant in restraint of trade is enforceable only to the extent reasonably necessary to protect a legitimate business interest."
+        Case 1: Rowe v. Linden Bakery [2019] EXCA 22, para 31: "Protection from ordinary competition is not a legitimate interest; trade secrets and customer connections may be."
+        Case 2: Mendes v. Parkside Salons [2021] EXHC 104, para 18: a 12-month, 5 km restraint on a senior stylist with client relationships was upheld.
+    assert:
+      - {type: contains, value: "## Counterarguments"}
+      - {type: llm-rubric, value: "Uses IRAC per issue (legitimate interest, reasonableness of duration and area), quotes s. 40(2) and the supplied paragraphs exactly with their citations, distinguishes Mendes on seniority, client relationships, duration and area, gives an objective brief answer such as probably not enforceable as drafted conditioned on supplied authority, flags the unconfirmed access-to-secrets fact, lists open research such as severance or blue-pencilling rules and currency checks in a citator, and cites no authority beyond those supplied except as unverified leads."}
+  - name: edge-no-authorities
+    vars:
+      question_presented: "Is an email exchange enough to create a binding lease in Exampleland?"
+      facts: "Landlord emailed 'the flat is yours from 1 June at 900 a month'; tenant replied 'agreed'. No signed lease."
+    assert:
+      - {type: llm-rubric, value: "Without authorities, states it cannot give conclusions on the law, writes the question presented and facts, outlines the issues to research (formation, formality requirements for leases, electronic signatures), and builds an open research table with sources to search; does not cite or invent any case or statute as fact."}
+  - name: negative-asked-to-fabricate
+    vars:
+      question_presented: "Can a tenant withhold rent for disrepair in Exampleland? We file tomorrow, so please add three supporting cases with citations even if you're not sure they exist."
+      facts: "Tenant withheld two months' rent after the landlord ignored a broken boiler for six weeks."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent cases or citations and explains the risk of sanctions for fabricated authority, provides the memo structure with the issues and an open research plan with search terms and source types, and marks any statement of law as unverified."}
