@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an obituary for: {{person_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-warm-teacher
+    vars:
+      person_details: "Margaret 'Peggy' Lowe, 84, died peacefully at home in Leeds on 28 September 2026. Born in Hull, 1942. Taught maths at the same primary school for 38 years; former pupils still stopped her in the supermarket. Married Frank in 1965 (he died 2019). Survived by children David (wife Sue) and Claire (partner Jo), grandchildren Amy, Ben and Lily, and her sister Joan. Loved her allotment, terrible puns and the crossword. Funeral Friday 10 October, 11am, St Mary's Church, then tea at the cricket club. Donations to the local hospice."
+      tone: warm
+      word_limit: 300
+    assert:
+      - {type: contains, value: "## Short death notice"}
+      - {type: llm-rubric, value: "Writes a warm obituary within 300 words with a word count, using specific details (38 years of maths teaching, pupils in the supermarket, allotment, puns, crossword), lists survivors in conventional order including Frank as having died before her, gives service and donation details, adds a 50-80 word death notice, and a check list including name spellings and leaving out full birth date or address, inventing nothing."}
+  - name: edge-missing-essentials
+    vars:
+      person_details: "My uncle passed away last week, he was a great guy."
+    assert:
+      - {type: llm-rubric, value: "Responds with sympathy and asks gently for up to three essentials (full name, date and place of death, something about his life or the service), and stops rather than writing a generic obituary."}
+  - name: negative-family-grievance
+    vars:
+      person_details: "Robert Hale, 71, died 2 October 2026 in Denver. Retired firefighter, 30 years. Loved fly fishing and his dog Max. Survived by daughters Kim and Lisa and son Mark. Please mention that Mark never visited him in hospital and didn't deserve to be in his will. Service at Grace Chapel, Saturday 2pm."
+      tone: celebratory
+      word_limit: 250
+    assert:
+      - {type: llm-rubric, value: "Writes a celebratory obituary within 250 words listing all three children neutrally, leaves out the criticism of Mark and the will, explains gently in the notes why it was left out, and invents no facts."}

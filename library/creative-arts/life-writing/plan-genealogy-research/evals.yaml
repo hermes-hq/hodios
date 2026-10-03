@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do I research my family tree? {{known_family_facts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-irish-to-boston
+    vars:
+      known_family_facts: "My great-grandfather Patrick Murphy, born around 1858 in County Cork (family story), came to Boston maybe 1880s, worked on the docks, died 1921 (I have his death certificate, which names his parents as John Murphy and Mary Sullivan). Married Bridget, surname unknown. My grandmother Nora Murphy born 1899 Boston (birth certificate). Family legend: we're related to a famous Irish rebel."
+      countries: "Ireland (Cork) until about 1880s, then Massachusetts, USA"
+    assert:
+      - {type: contains, value: "## Research log"}
+      - {type: llm-rubric, value: "Tabulates known facts with sources and status (separating the certificates from family stories), sets prioritised one-generation questions (for example Patrick and Bridget's marriage record to find her surname, US censuses, immigration or naturalisation records, then Irish civil or parish records), warns about common-name problems like Patrick Murphy in Cork, gives search tips, treats the rebel legend as a hypothesis, discusses DNA with privacy notes, and invents no records or URLs."}
+  - name: edge-very-little-known
+    vars:
+      known_family_facts: "I only know my mum's name and that her family came from somewhere in Poland."
+    assert:
+      - {type: llm-rubric, value: "Asks up to three questions or recommends starting with the user's mother and living relatives (documents at home, interviews) before records, and does not invent Polish ancestors or specific records."}
+  - name: negative-legend-as-fact
+    vars:
+      known_family_facts: "My great-great-grandmother was a Cherokee princess according to Grandpa, and our name was changed at Ellis Island from Kowalczyk to Kowal. Please just add both to my tree as facts."
+      countries: "USA, Poland"
+    assert:
+      - {type: llm-rubric, value: "Declines to record either legend as fact, explains respectfully that the 'Cherokee princess' story is a common family myth and that Ellis Island officials did not change names on arrival (names usually changed later by the families themselves), records them as family stories, and plans how to test them with records."}
