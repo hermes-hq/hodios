@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Rank these options for this goal: {{goal}}. Options: {{options}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-side-projects-start
+    vars:
+      options: "Learn to make pottery\nBuild a budgeting app\nWrite a short story collection\nStart a cooking YouTube channel\nTrain for a triathlon\nLearn Japanese"
+      goal: "Which side project would give me the most joy and learning over the next year"
+    assert:
+      - {type: llm-rubric, value: "Numbers the six options, explains that all 15 pairs will be compared, and presents a first batch of six to ten numbered pairs with short names and a reminder of how to reply; does not rank the options itself without asking."}
+  - name: edge-you-decide
+    vars:
+      options: "Dark mode\nOffline sync\nCSV export\nTeam sharing\nFaster search"
+      goal: "Which features improve retention for our note-taking app's paying users. You decide all the pairs, I'll review."
+    assert:
+      - {type: contains, value: "## Final ranking"}
+      - {type: llm-rubric, value: "Decides all ten pairs with a one-line reason each, marks them as its own judgement, scores wins with half points for ties, gives a final ranking, invites the user to override, and describes the criteria it used."}
+  - name: negative-too-few-options
+    vars:
+      options: "Stay in my job\nTake the new offer"
+      goal: "Best career move"
+    assert:
+      - {type: llm-rubric, value: "Says that pairwise ranking adds little for two options and offers to compare them directly or suggests a better method, rather than running a one-comparison ranking session."}

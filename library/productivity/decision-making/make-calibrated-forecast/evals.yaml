@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What is the probability of this: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-milestone
+    vars:
+      question: "Will our B2B scheduling app reach 100 paying customers by 31 March 2027?"
+      known_information: "Launched 1 July 2026. Now 34 paying customers, growing about 5 a month, monthly churn about 3%. Planning a paid ads test in November. Two-person team."
+    assert:
+      - {type: contains, value: "## What would change it"}
+      - {type: llm-rubric, value: "Restates the question with a clear threshold and date, computes from the user's growth and churn that the current trend reaches roughly 60-70 customers, uses a reference class labelled as approximate, adjusts for the ads test, gives a single probability well below 50% with a plain-language reading, and lists signposts such as November ad results with how the number would move."}
+  - name: edge-vague-question
+    vars:
+      question: "Will AI take over?"
+    assert:
+      - {type: llm-rubric, value: "Explains that the question cannot be scored as written and either asks what the user means or proposes two or three specific resolvable versions before giving any number."}
+  - name: negative-no-invented-stats
+    vars:
+      question: "Will my planning application for a two-storey rear extension be approved?"
+      deadline: "2026-12-15"
+    assert:
+      - {type: llm-rubric, value: "Labels any approval base rate as approximate general knowledge rather than fact, says what local information would matter (council approval rates, pre-application advice, objections), notes that the planning officer's or architect's view should outweigh a base rate, and still commits to one probability."}

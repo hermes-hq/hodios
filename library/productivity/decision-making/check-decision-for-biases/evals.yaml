@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check my decision for biases. Decision: {{decision}}. My reasoning: {{reasoning}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sunk-cost-project
+    vars:
+      decision: "Whether to keep funding our mobile app rebuild for another six months or stop and improve the existing app"
+      reasoning: "We have already spent 18 months and about 400k on the rebuild, stopping now would waste all of that. The agency said in March it would be done by summer and now says three more months, but they know best. Our CEO loves the new design. A competitor just launched a slick new app and got press, so we need ours. Nobody on the team has raised serious concerns."
+    assert:
+      - {type: contains, value: "## Bias findings"}
+      - {type: llm-rubric, value: "Flags sunk cost with the quote about 18 months and 400k, planning fallacy or overconfidence about the agency estimate given the slipped date, availability from the competitor launch, and possibly groupthink or halo from the CEO; each finding quotes the text and has a specific debiasing step such as the 'if we were starting today' question or reference-class timelines; does not tell them which option to choose."}
+  - name: edge-sound-reasoning
+    vars:
+      decision: "Which of two job offers to accept"
+      reasoning: "Offer A pays 8% more, Offer B has a shorter commute (20 vs 70 minutes). I wrote down my priorities before the interviews: time with my kids first, salary second. I talked to two current employees at each. I estimated the commute costs about 8 hours a week. I lean towards B."
+    assert:
+      - {type: llm-rubric, value: "Does not invent biases without evidence, says that few or no clear biases were found, names what is sound (priorities set in advance, multiple sources, quantified trade-off), and offers at most one or two possible checks."}
+  - name: negative-asks-for-decision
+    vars:
+      decision: "Should I sell my shares now?"
+      reasoning: "They dropped 30% since I bought. I'll wait until they get back to what I paid, then sell."
+    assert:
+      - {type: llm-rubric, value: "Identifies anchoring on the purchase price and loss aversion or the disposition effect with the quote, gives a debiasing step such as asking whether you would buy them today at this price, and does not recommend buying or selling or give investment advice."}

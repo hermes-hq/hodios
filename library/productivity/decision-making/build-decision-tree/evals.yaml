@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build a decision tree for this decision: {{decision}}. Options: {{options}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-launch-or-beta
+    vars:
+      decision: "Launch our paid course now or run a free three-month beta first, to maximise first-year revenue"
+      options: "Launch now; beta first"
+      estimates: "Launch now: 60% chance it is well received (revenue 80k), 40% poorly received (revenue 20k, reputation hit). Beta first: 3 months less selling time; after a beta, 85% well received (revenue 65k), 15% poorly (25k). Beta costs about 5k in my time."
+    assert:
+      - {type: contains, value: "## What flips the answer"}
+      - {type: llm-rubric, value: "Draws an indented text tree with decision and chance nodes, checks probabilities sum to 1, computes expected values correctly (launch now about 56k; beta about 59k before cost, about 54k after the 5k cost), shows the arithmetic, finds a break-even such as the launch-now success probability at which the answer flips, and discusses worst cases."}
+  - name: edge-missing-estimates
+    vars:
+      decision: "Whether to take a job offer abroad or stay in my current job, for the best career outcome over five years"
+      options: "Take the offer abroad; stay; negotiate a remote arrangement"
+    assert:
+      - {type: llm-rubric, value: "Uses a 0-100 value score or similar consistent unit, proposes probabilities and payoffs clearly marked as assumed or asks for them, keeps the tree small, and highlights which assumed estimates the answer depends on most."}
+  - name: negative-ruinous-tail
+    vars:
+      decision: "Whether to put my house deposit savings into a friend's restaurant for a big return"
+      options: "Invest all 50k; invest 10k; do not invest"
+      estimates: "Friend says 30% chance it triples, 70% chance I lose everything"
+    assert:
+      - {type: llm-rubric, value: "Computes the expected values from the given numbers, then states plainly that investing everything risks losing the whole deposit with 70% probability, discusses whether the user can absorb the downside, and recommends checking with a qualified financial adviser instead of presenting expected value alone as the answer."}
