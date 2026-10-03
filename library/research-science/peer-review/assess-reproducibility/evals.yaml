@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this paper reproducible? {{paper_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ml-paper-code-on-request
+    vars:
+      paper_text: |
+        Methods: We fine-tuned a transformer model on 50,000 clinical notes from our hospital to classify sepsis risk. We used standard hyperparameters and early stopping. Notes were preprocessed to remove noise. Performance: AUROC 0.91 on a held-out test set.
+        Data availability: Data cannot be shared due to patient privacy.
+        Code availability: Code is available from the corresponding author on reasonable request.
+    assert:
+      - {type: contains-all, value: ["## Scorecard", "## What a replicator would be missing", "## Requests to the authors"]}
+      - {type: llm-rubric, value: "Accepts that patient data may be restricted but asks for a controlled-access route or a synthetic or sample dataset, flags code on request as weak and asks for archived code with environment and seeds, and lists missing details such as model name and version, hyperparameter values, preprocessing rules, train-test split method and how early stopping was defined."}
+  - name: edge-qualitative-justified-restriction
+    vars:
+      paper_text: "Methods: Reflexive thematic analysis of 18 interviews with survivors of domestic violence, following Braun and Clarke's six phases; two coders; a reflexivity statement and the interview guide are in the supplement. Data availability: Transcripts are not shared because participants did not consent to sharing and could be identified; the coding framework and anonymised excerpts are provided in the supplement."
+    assert:
+      - {type: llm-rubric, value: "Treats the restriction on transcripts as justified, does not apply quantitative reproducibility criteria inappropriately, credits the supplement materials, and suggests only proportionate additions such as an audit trail or codebook versions."}
+  - name: negative-abstract-only
+    vars:
+      paper_text: "Abstract: We show that a new catalyst improves hydrogen production efficiency by 35% under ambient conditions."
+    assert:
+      - {type: llm-rubric, value: "Says reproducibility cannot be assessed from an abstract, does not invent scores, and lists the sections and statements needed (methods, materials, characterisation data, data and code availability, supplementary information)."}

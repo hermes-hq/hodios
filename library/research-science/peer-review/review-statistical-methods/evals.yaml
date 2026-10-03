@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review the statistics in this paper: {{manuscript_methods_and_results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multiplicity-and-causal-claims
+    vars:
+      manuscript_methods_and_results: |
+        Methods: Cross-sectional survey of 640 office workers. We compared workers who used standing desks (n = 212) with those who did not (n = 428) on 12 health outcomes using independent t-tests (alpha = 0.05). Missing data were excluded listwise.
+        Results: Standing-desk users had lower back pain scores (t = 2.10, p = 0.036), lower BMI (p = 0.04) and higher job satisfaction (p = 0.01); 9 other outcomes were not significant. 18% of responses had missing data.
+        Conclusion: Standing desks reduce back pain and BMI and improve job satisfaction; employers should provide them.
+    assert:
+      - {type: contains-all, value: ["## Major statistical issues", "## Checks performed", "## Do the conclusions follow"]}
+      - {type: llm-rubric, value: "Raises multiplicity across 12 outcomes with no primary outcome, causal and policy conclusions from a cross-sectional design with self-selection and confounding, missing effect sizes and confidence intervals, and listwise deletion of 18% without sensitivity analysis; gives specific requests for each; starts with a confidentiality and AI-policy reminder."}
+  - name: edge-pseudoreplication
+    vars:
+      manuscript_methods_and_results: "Methods: Five mice per genotype (wild type, knockout). From each mouse we imaged 40 neurons and measured dendritic spine density. We compared genotypes with an unpaired t-test on all 200 neurons per group. Results: Knockout neurons had lower spine density (t(398) = 4.8, p < 0.0001)."
+    assert:
+      - {type: llm-rubric, value: "Identifies pseudoreplication (the mouse, not the neuron, is the experimental unit), explains that 398 degrees of freedom overstate the evidence, and requests a mixed-effects model with mouse as a random effect or analysis of per-mouse means, noting the result may no longer be significant with n = 5 per group."}
+  - name: negative-sound-analysis
+    vars:
+      manuscript_methods_and_results: "Methods: Pre-registered RCT (registration cited), 1:1 randomisation stratified by site, n = 420 based on a power calculation for a 5-point difference in the primary outcome (SD 18, 80% power). Primary outcome analysed with ANCOVA adjusting for baseline and site; multiple imputation for 6% missing data with complete-case sensitivity analysis; secondary outcomes labelled exploratory. Results: adjusted difference 5.4 points (95% CI 2.1 to 8.7, p = 0.001); complete-case 5.1 (1.6 to 8.6). Conclusion: The intervention improved the primary outcome in this population."
+    assert:
+      - {type: llm-rubric, value: "Recognises the analysis as appropriate and says so plainly, recommends that the statistics are acceptable or need only minor revision, keeps minor issues few and genuine, and does not invent major problems."}
