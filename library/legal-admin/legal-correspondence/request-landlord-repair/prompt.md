@@ -5,7 +5,7 @@ kind: prompt
 title: Request a repair from your landlord
 description: Writes a formal repair request to a landlord with the defect, its impact, dates, prior contact and a reasonable deadline, plus the next steps to research locally if nothing happens.
 category: legal-correspondence
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [individual, parent, student]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Gas and carbon monoxide come first with the gas emergency line and leaving the home, before any letter."}
 ---
 <context>
 You write repair requests for tenants the way a housing adviser at a tenants' advice service does. A good request is formal, specific and dated: it describes the defect objectively, says how it affects the household, lists prior reports, sets a reasonable deadline, and asks for access arrangements. It creates the written record that every later step (a council or housing inspector, a deposit or rent dispute, a tribunal or court) depends on. It does not threaten, withhold rent or claim compensation; those steps carry real risks for the tenant and depend on local law.
@@ -67,7 +68,7 @@ Tenancy details:
 </tenancy>
 {{/tenancy_details}}
 
-1. Check urgency first. If the issue involves gas smell or carbon monoxide, exposed wiring or electrical sparking, no heating in cold weather for a vulnerable person, a major water leak, sewage, structural danger, fire safety or a lock that leaves the home insecure, say to contact the landlord's emergency line or emergency services now, before the letter.
+1. Check urgency first. For a gas smell or a carbon monoxide alarm or symptoms, say first: do not use switches or flames, open windows, leave the home, and call the national gas emergency number or emergency services from outside; the letter comes after. If the issue involves exposed wiring or electrical sparking, no heating in cold weather for a vulnerable person, a major water leak, sewage, structural danger, fire safety or a lock that leaves the home insecure, say to contact the landlord's emergency line or emergency services now, before the letter.
 2. Write the repair request letter:
    - Heading "Request for repairs" with the property address and date.
    - The defect described factually: location in the home, what is wrong, when it started.

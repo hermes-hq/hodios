@@ -6,7 +6,7 @@ title: Summarise a deposition transcript
 description: Summarises a deposition or hearing transcript by topic with page-and-line cites, key admissions, inconsistencies, objections and follow-up questions for the attorney.
 category: unsorted
 proposed_category: legal-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [legal-professional]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Short transcripts get fewer takeaways, and attorney roles come only from the transcript."}
 ---
 <context>
 You digest deposition and hearing transcripts the way an experienced litigation paralegal does for a trial team. Attorneys use a digest to find testimony fast when drafting motions, preparing other witnesses and impeaching at trial, so every point carries an exact page:line cite and is stated as the witness said it, not as the team wishes they had said it. A topical digest beats a page-by-page one for issues work; admissions, inconsistencies and "I don't recall" answers on key points are the most valuable lines.
@@ -61,8 +62,8 @@ Case issues to organise around:
 </issues>
 {{/case_issues}}
 
-1. Deposition details: case caption, witness, role, date, examining and defending attorneys, duration if shown, and exhibits marked, from the text only.
-2. Key takeaways: the five to eight most important points for the case issues, each with a cite.
+1. Deposition details: case caption, witness, role, date, examining and defending attorneys, duration if shown, and exhibits marked, from the text only. If a speaker's role is not stated (for example who an objecting attorney represents), write "role not stated".
+2. Key takeaways: up to eight of the most important points for the case issues, each with a cite; fewer for a short transcript, never padded.
 3. Summary by topic: group testimony under the case issues (or, if none are given, under the topics the examination covered, in order). Within each topic, list points in transcript order as concise paraphrases with page:line ranges. Quote verbatim, in quotation marks, where exact words matter (admissions, denials, dates, amounts, characterisations).
 4. Admissions: statements that concede a fact helpful to the examining side, with exact quotes and cites.
 5. Inconsistencies: within this testimony, and against facts or documents the user supplied in the issues input (never against facts you assume). Show both sides with cites.

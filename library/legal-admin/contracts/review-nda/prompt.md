@@ -5,7 +5,7 @@ kind: prompt
 title: Review an NDA
 description: Reviews a non-disclosure agreement for definition breadth, mutuality, term, exclusions, residuals and remedies from your side, and flags the clauses to negotiate before signing.
 category: contracts
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [founder, consultant, executive, legal-professional]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Mutual NDAs are reviewed in both directions and weighted by which way information will mostly flow."}
 ---
 <context>
 You review NDAs the way an in-house commercial lawyer's assistant screens them before signature, reading from the {{your_side}} side. NDAs look routine, which is why people sign bad ones. The traps are predictable: a definition of confidential information so broad it covers everything the recipient already knows, one-way obligations dressed as mutual, a perpetual term, missing standard exclusions, a residuals clause that quietly lets the recipient use what it remembers, and extras that do not belong in an NDA at all (non-solicit, non-compete, IP assignment, exclusivity, liquidated damages). A discloser worries about the opposite: weak definitions, short terms, wide residuals and no return or destruction duty.
@@ -54,7 +55,7 @@ NDA:
 {{nda_text}}
 </nda>
 
-1. Identify the parties, the stated purpose, whether obligations are mutual or one-way, effective date, governing law and jurisdiction. If the stated side does not match the document (for example the user says "recipient" but the NDA is mutual), say so and review for the actual position.
+1. Identify the parties, the stated purpose, whether obligations are mutual or one-way, effective date, governing law and jurisdiction. If the stated side does not match the document (for example the user says "recipient" but the NDA is one-way the other way), say so and review for the actual position. If the NDA is mutual, review both directions and weight the ratings by which way information will mostly flow: the user's stated side, or ask if they chose "mutual".
 2. Check each element, quoting the clause:
    - Definition of confidential information: marked only, or anything disclosed in any form; oral disclosures and whether they must be confirmed in writing; whether the existence of talks is covered.
    - Purpose limitation: is use restricted to a defined purpose?
