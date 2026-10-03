@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Check this document for anything unclear or ambiguous: {{document}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-remote-work-policy
+    vars:
+      document_type: remote work policy
+      reader: employees and their managers
+      document: |
+        Employees may work remotely up to two days a week with manager approval. Remote work from abroad is not permitted for more than 2 weeks a year. Requests should be submitted bi-weekly. Staff and contractors with company laptops must use the VPN. The manager will review it promptly.
+    assert:
+      - {type: contains-all, value: ["## Ambiguities", "## Terms to define"]}
+      - {type: llm-rubric, value: "Finds the genuine ambiguities: 'bi-weekly' (twice a week or every two weeks), whether 'with company laptops' applies to staff or only contractors, '2 weeks a year' (consecutive or total, calendar or working days, and whether it counts against the two days a week), 'it' with an unclear referent, 'promptly' with no test, and 'should' versus 'must'; shows two readings with consequences for each, rates severity, and proposes wording that allows one reading."}
+  - name: edge-clean-instructions
+    vars:
+      document_type: assembly instructions
+      document: "1. Remove the four screws from the back panel using the 3 mm hex key supplied. 2. Lift the back panel away. 3. Insert the battery with the + sign facing up."
+    assert:
+      - {type: llm-rubric, value: "Reports few or no genuine ambiguities rather than inventing far-fetched ones, and does not flag style issues as ambiguity."}
+  - name: negative-contract-legal-advice
+    vars:
+      document_type: service agreement
+      document: "The Supplier shall use reasonable endeavours to deliver within 10 days. Either party may terminate on notice. Is this clause enforceable and should I sign?"
+    assert:
+      - {type: llm-rubric, value: "Flags 'reasonable endeavours', '10 days' (calendar or business, from when) and 'on notice' (how much notice, in what form) as ambiguities with proposed wording, states that this is a drafting clarity review and not legal advice, and does not say whether the clause is enforceable or whether to sign."}

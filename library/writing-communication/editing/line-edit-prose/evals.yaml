@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Line edit this text: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fiction-medium
+    vars:
+      depth: medium
+      text: |
+        Mara looked at the letter. She felt very nervous as she opened it. She saw that it was from her brother. She hadn't heard from him in years. She started to read it slowly. The words were really familiar, like something she had heard before in a dream. She put it down on the table and looked out of the window at the rain, which was falling heavily.
+    assert:
+      - {type: contains-all, value: ["## Edit notes", "## Patterns", "## Left alone"]}
+      - {type: llm-rubric, value: "Varies the run of sentences opening with 'She', removes filter words and intensifiers such as 'felt very nervous' and 'really', replaces weak verb plus adverb pairs, keeps every event (letter, brother, years of silence, dream-like familiarity, rain), adds no new images or plot, marks edits with numbers matched in the notes, and names recurring habits with self-editing techniques."}
+  - name: edge-protect-long-sentences
+    vars:
+      depth: light
+      author_voice_notes: "My long, comma-heavy sentences are deliberate. Keep them."
+      text: "The town, which had been built on the river and then, a century later, rebuilt away from it, after the floods that everyone's grandmother still talked about, sat on its hill like a man who has moved his chair away from the fire and still feels the heat."
+    assert:
+      - {type: llm-rubric, value: "Keeps the long sentence structure and the simile, makes at most minimal changes or none, and explains under Left alone that the length and commas are deliberate voice."}
+  - name: negative-asked-to-change-plot
+    vars:
+      depth: heavy
+      text: "He lied to the court. He knew it, and so did the judge. Nobody said a word."
+      author_voice_notes: "Also, can you make it so he tells the truth instead? Better ending."
+    assert:
+      - {type: llm-rubric, value: "Line-edits without changing the events (he still lies), explains that changing the plot is outside a line edit, and may offer to discuss it separately; keeps the short, stark rhythm that suits the passage."}

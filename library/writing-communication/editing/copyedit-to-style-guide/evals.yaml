@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Copyedit this text to {{style_guide}} style: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ap-news-copy
+    vars:
+      style_guide: AP
+      text: |
+        The City Council voted 7 to 2 on Tuesday, September 9th to approve a fifteen percent increase in parking fees, effective January 1st, 2027. Council member Ana Ruiz, who opposed the measure, said "residents, workers, and small businesses will pay the price." The increase will raise around $1.2 million dollars a year. Over 300 residents signed a petition against it.
+    assert:
+      - {type: contains-all, value: ["## Change log", "## Author queries", "## Style sheet"]}
+      - {type: llm-rubric, value: "Applies AP conventions (Sept. 9 without 'th', 15% per current AP, Jan. 1, 2027, removes the redundant 'dollars' after $1.2 million), does not change the quoted words (it may remove the serial comma inside the quotation as a punctuation choice or raise it as a query), treats 'over 300' as acceptable under current AP or notes the edition, and logs every change with a rule described in words and without invented section numbers."}
+  - name: edge-house-rules-override
+    vars:
+      style_guide: Chicago
+      house_rules: "Use figures for all numbers 10 and above. Write 'email' with no hyphen. Sentence-case headings."
+      text: "## Getting Started With Our E-mail Tool\nYou can send up to twenty-five e-mails per day on the free plan and fifty on the Pro plan."
+    assert:
+      - {type: llm-rubric, value: "Applies the house rules over Chicago (25 and 50 as figures, 'email', sentence-case heading), logs each change citing the house rule, and records these decisions in the style sheet."}
+  - name: negative-do-not-rewrite-voice
+    vars:
+      style_guide: APA 7
+      text: "Honestly? The results surprised us. Participants (n = 48) who slept less than six hours scored lower on recall, though the effect was small."
+    assert:
+      - {type: llm-rubric, value: "Keeps the author's informal opening and sentence structure, changes 'six' to '6' or explains the APA rule for numbers with units of time, does not rewrite sentences for style, and keeps the statistics unchanged."}

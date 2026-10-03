@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Turn these notes into well-written paragraphs for {{purpose_and_reader}}: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-grant-report-background
+    vars:
+      purpose_and_reader: "Progress section of a report to our charity's funder"
+      target_length: about 200 words
+      notes: |
+        - 3 new after-school clubs opened (Jan, Feb, Apr)
+        - attendance avg 22 kids/session, target was 25
+        - hired 2 part-time coordinators
+        - vol numbers dropped from 18 to 11 after summer
+        - parents survey: 87% would recommend
+        - kitchen at Hill St site closed for repairs 6 wks
+    assert:
+      - {type: contains-all, value: ["## Coverage check", "## Gaps and questions"]}
+      - {type: llm-rubric, value: "Includes all six notes with figures unchanged (3 clubs, 22 vs 25, 2 coordinators, 18 to 11 volunteers, 87%, 6 weeks), does not invent causes such as linking the kitchen closure or volunteer drop to the attendance shortfall unless marked [?], asks about causes and the expansion of 'vol' if unclear, and adds no new achievements."}
+  - name: edge-length-too-long-for-notes
+    vars:
+      purpose_and_reader: "Email to my team"
+      target_length: 500 words
+      notes: "- office closed Friday for electrical work - work from home - VPN issues: call IT on ext 400"
+    assert:
+      - {type: llm-rubric, value: "Writes a short message covering the three notes and explicitly says it stopped well short of 500 words rather than padding, without adding invented details such as times or reasons."}
+  - name: negative-no-notes
+    vars:
+      purpose_and_reader: "LinkedIn post"
+      notes: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent content; asks for the notes."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Describe the writing style of these samples so you can write like me: {{writing_samples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-founder-newsletter-and-posts
+    vars:
+      test_topic: announcing a price increase to customers
+      writing_samples: |
+        [Newsletter] Short version: we shipped the thing. Long version below, but if you only read one line, read that one. Three months ago I said we'd fix exports. We didn't. Then we did - properly this time. Here's what changed, what broke on the way, and what I'd do differently. (Spoiler: talk to customers sooner. Always sooner.)
+        [LinkedIn] Hiring is a sales job. Nobody tells you that. You're selling a future that doesn't exist yet to someone who has a perfectly good present. So be honest about the mess. The good ones like the mess.
+        [Email to customer] Hi Dana - you're right, and I'm sorry. The import should have warned you. We've fixed it today, and I've credited your account for March. If anything else looks off, reply here; it comes straight to me. - Tom
+    assert:
+      - {type: contains-all, value: ["## Voice profile", "## Voice instructions", "## Test paragraph", "## Confidence"]}
+      - {type: llm-rubric, value: "Identifies traits with quoted evidence (short punchy sentences and fragments, admitting mistakes plainly, parenthetical asides, answer-first openings, dashes, direct 'you'), marks which are stable versus situational, gives concrete do and don't rules, writes pasteable instructions under about 200 words, produces a test paragraph about a price increase in that voice without copying sample sentences verbatim, and rates confidence as moderate given about 150 words of samples."}
+  - name: edge-thin-samples
+    vars:
+      writing_samples: "Thanks for this! Will review tomorrow and get back to you. Best, K."
+    assert:
+      - {type: llm-rubric, value: "Says the sample is far too short for a reliable profile, asks for more varied samples, and if it gives a provisional profile marks it clearly as low confidence without overclaiming traits."}
+  - name: negative-imitate-celebrity
+    vars:
+      writing_samples: "I don't have samples. Just make my voice exactly like a famous bestselling author, whatever you know about their style."
+    assert:
+      - {type: llm-rubric, value: "Does not build a profile from a public figure's style; explains that the profile is built from the user's own samples and asks for some."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Correct the English in this text: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-portuguese-business-email
+    vars:
+      register: business
+      writer_first_language: Portuguese
+      text: |
+        Dear John, I am writing to inform that we have realized the analysis of the data last week. The results are very interesting and I would like to present them to you in a meeting. Can you send me your availability? We need to decide until Friday if we will continue with the project. I stay waiting for your answer.
+    assert:
+      - {type: contains-all, value: ["## Polished text", "## Your patterns"]}
+      - {type: llm-rubric, value: "Fixes 'inform that' (inform you that), 'realized the analysis' (completed or carried out; false friend), 'until Friday' (by Friday) and 'I stay waiting for your answer' (I look forward to hearing from you or similar), keeps the meaning and simple style, lists 'realizar/realize' and 'até/until' as patterns with rules and optionally notes the Portuguese transfer, and keeps business register without becoming stiff."}
+  - name: edge-academic-mostly-correct
+    vars:
+      register: academic
+      text: "In this study, we investigate how the soil moisture affects to the growth of wheat in semi-arid regions. Results show a significant correlation (r = 0.62, p < 0.01)."
+    assert:
+      - {type: llm-rubric, value: "Makes minimal changes ('affects to' to 'affects', possibly 'the soil moisture' to 'soil moisture'), keeps the statistics exactly, does not rewrite correct sentences, and notes what already works well."}
+  - name: negative-do-not-add-content
+    vars:
+      register: casual
+      text: "hey team, tomorrow i not come to office, i have doctor. i work from home in afternoon"
+    assert:
+      - {type: llm-rubric, value: "Produces a natural casual message such as 'I won't be in the office tomorrow; I have a doctor's appointment. I'll work from home in the afternoon', does not add medical details, apologies or extra content, and explains the tense pattern simply."}

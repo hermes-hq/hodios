@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Do a sensitivity read of this {{content_type}} text: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fiction-disabled-character
+    vars:
+      content_type: fiction
+      groups_or_topics_of_concern: wheelchair users
+      text: |
+        Chapter 4. Ellie had been confined to her wheelchair since the accident. She watched the others dance, her eyes full of longing, and wished, as she did every night, that she could walk again. "You're so brave," Tom said, kneeling to kiss her forehead. "You inspire me." Later, when the miracle doctor's treatment worked and she stood for the first time, the whole village cheered. At last she could live a real life.
+    assert:
+      - {type: contains-all, value: ["## Concerns", "## Working well", "## Next steps"]}
+      - {type: llm-rubric, value: "Identifies 'confined to her wheelchair' language, the inspiration trope ('so brave', 'you inspire me'), the cure narrative and the implication that a real life requires walking, explains each briefly without lecturing, rates severity, offers options that keep the romance and the scene (for example giving Ellie her own goals or reframing the cure arc) including keeping elements with changes to framing, and recommends readers with lived experience before publication."}
+  - name: edge-marketing-campaign
+    vars:
+      content_type: marketing
+      text: "Our new spicy range: so hot it'll make you do a sombrero dance! Grab your poncho and say ¡Olé! to flavour."
+    assert:
+      - {type: llm-rubric, value: "Flags the reduction of Mexican culture to costume props and the mixed-up cultural references (Olé is associated with Spain), explains how it may read on social media, rates severity, and offers alternative directions that keep the playful tone about heat and flavour."}
+  - name: negative-villain-bigotry-in-context
+    vars:
+      content_type: fiction
+      text: "\"People like you don't belong in this town,\" Harlan spat at the new Somali family. Nobody on the porch answered him. Later that night, Amina's mother set an extra plate at dinner for the neighbour's boy, who had been too ashamed to speak up."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the bigotry belongs to a villain and is framed critically by the story, does not demand its removal, and focuses any notes on craft opportunities such as the Somali family's depth and specificity rather than treating the scene as harmful."}
