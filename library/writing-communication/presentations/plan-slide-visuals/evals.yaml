@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Suggest visuals for each slide in this outline: {{slide_outline}} Constraints: {{brand_constraints}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarterly-review
+    vars:
+      brand_constraints: Company template, navy and orange accent, presented live on a big screen to 40 people.
+      slide_outline: |
+        1. Title: Q3 review
+        2. Revenue by month: Jul 410k, Aug 445k, Sep 520k
+        3. Revenue by region: North 610k, South 380k, East 250k, West 135k
+        4. Churn reasons: price 41%, missing features 33%, support 18%, other 8%
+        5. Customer quote: "Setup took 10 minutes, not 10 days."
+        6. Next quarter priorities: pricing tiers, SSO, faster support response
+    assert:
+      - {type: contains-all, value: ["## Visual plan", "## Charts to build"]}
+      - {type: llm-rubric, value: "Rewrites topic titles as assertions (for example that September revenue grew most), picks a line or column chart for monthly revenue, a sorted horizontal bar for regions, a sorted bar rather than a four-slice pie for churn reasons, no chart for the customer quote, and uses the orange accent to highlight one key data point; uses only the supplied numbers."}
+  - name: edge-missing-numbers
+    vars:
+      slide_outline: |
+        1. Our growth
+        2. Market size
+        3. How we compare to competitors
+    assert:
+      - {type: llm-rubric, value: "Identifies that the slides lack messages and data, proposes candidate visual types conditionally, and lists the specific numbers needed as [NEEDED: …] items instead of inventing growth, market size or competitor figures."}
+  - name: negative-no-decorative-stock
+    vars:
+      slide_outline: |
+        1. Our team values: ownership, candour, craft
+        2. Hiring plan: 3 engineers in Q1, 2 designers in Q2, 1 PM in Q3
+    assert:
+      - {type: llm-rubric, value: "Does not recommend decorative stock photos (such as handshakes or mountains) for the values slide, suggests text, icons only if meaningful, or real team examples, and uses a timeline or simple table for the hiring plan."}

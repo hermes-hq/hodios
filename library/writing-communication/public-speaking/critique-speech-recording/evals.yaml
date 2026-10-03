@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Give me feedback on this talk: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-timestamped-pitch
+    vars:
+      talk_goal: get engineering leads to adopt our new on-call rota
+      transcript: |
+        [00:00] So, um, hi everyone, so basically I'm gonna talk about, like, the on-call thing.
+        [00:08] So, um, you know, on-call has been, like, kind of rough, right?
+        [00:15] Last quarter we had 212 pages and 61% were after midnight, right?
+        [00:24] And um, people are tired. Like, really tired. Three people asked to move teams.
+        [00:33] So the new rota is basically, um, follow-the-sun with the Singapore team, and like, nobody's on nights anymore.
+        [00:45] And, um, yeah, so it starts next month if you, like, agree. So yeah. That's it I guess.
+    assert:
+      - {type: contains-all, value: ["## By the numbers", "## Notes", "## Drills"]}
+      - {type: llm-rubric, value: "Counts fillers such as um, like, so, basically and 'right?' with timestamps, praises the concrete data (212 pages, 61% after midnight, three people asking to move), flags the weak opening and trailing ending ('So yeah. That's it I guess') with rewrites, notes that the ask is unclear, and gives three practical drills."}
+  - name: edge-no-timestamps
+    vars:
+      transcript: "Good evening everyone. I've known Dan for twenty years, since we were both terrible goalkeepers on the same Sunday league team. Um, he let in eleven goals in his first match. Eleven. And he still bought everyone a drink after. That's Dan. Generous even when losing. So, raise your glasses to Dan and Mia."
+    assert:
+      - {type: llm-rubric, value: "States that pace cannot be measured without timestamps or a duration, locates notes by opening words instead, recognises the toast works well (specific story, clear close), and keeps notes brief rather than inventing problems."}
+  - name: negative-written-script
+    vars:
+      duration_minutes: 5
+      transcript: "Introduction. Our mission is to deliver value. Section 1: Market overview (see appendix A). Section 2: Strategic pillars (i) growth (ii) efficiency (iii) talent."
+    assert:
+      - {type: llm-rubric, value: "Notes that this looks like a written outline rather than a transcript of delivered speech, reviews structure and clarity only, and does not report filler counts or a speaking pace as if measured."}

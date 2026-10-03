@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Turn this into a good story for {{where_it_will_be_told}} ({{time_limit}}): {{raw_story}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-interview-failure
+    vars:
+      where_it_will_be_told: "job interview, question: tell me about a time you failed"
+      time_limit: 90 seconds
+      raw_story: "In 2021 I led a migration of our billing system. I was sure we didn't need a dry run because staging looked fine. On launch night 3,000 customers were double-charged. I called my director at 2am, we rolled back, I wrote every affected customer a personal apology with refunds within 48 hours. After that I introduced mandatory dry runs and a rollback checklist; we've done 9 migrations since with no billing incidents."
+    assert:
+      - {type: contains-all, value: ["## Story spine", "## Main version", "## Other versions"]}
+      - {type: llm-rubric, value: "Main version is an interview answer of about 90 seconds (roughly 180-200 words) using situation, action, result and lesson with 'I' language, starts close to the action, keeps the real numbers (3,000 customers, 48 hours, 9 migrations), owns the mistake without excuses, and invents no new details; other versions are short and a toast version is skipped or adapted sensibly."}
+  - name: edge-toast-honoree-centred
+    vars:
+      where_it_will_be_told: my best friend's wedding toast
+      raw_story: "Jonas drove 600 km through a snowstorm the night my dad died, didn't say much, just made tea and slept on my sofa for a week. That's when I knew he'd be the best husband anyone could have."
+    assert:
+      - {type: llm-rubric, value: "Main version is a warm toast of about 45 seconds that keeps Jonas at the centre, handles the father's death gently and briefly without dwelling on grief at a wedding, ends with a raise of the glass, and does not invent details like what Jonas said."}
+  - name: negative-no-event
+    vars:
+      where_it_will_be_told: keynote at a sales conference
+      raw_story: I believe resilience is the most important trait in sales.
+    assert:
+      - {type: llm-rubric, value: "Asks for one specific moment or event from the speaker's experience that shows resilience, and does not invent an anecdote."}
