@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help us agree authorship for this project. Team: {{team}}. Project: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-biomed-team
+    vars:
+      team: |
+        Dr A (PI): got the grant, conceived the study, will revise the paper.
+        B (PhD student): designed the protocol with A, collected all data, ran analyses, will write the first draft.
+        Dr C (statistician): advised on the analysis plan and checked the models.
+        D (lab technician): ran the assays as a paid service.
+        Prof E (head of department): no involvement, expects to be on all papers.
+      project: "A cohort study on vitamin D and fracture risk; one main paper planned, possibly a secondary analysis led by C."
+      field: "biomedicine"
+    assert:
+      - {type: contains-all, value: ["## Contribution matrix", "## Agreement text"]}
+      - {type: llm-rubric, value: "Applies ICMJE criteria and CRediT, proposes B first and A last with C as a middle author, places D in acknowledgements unless intellectual contribution is confirmed, identifies E's expectation as guest authorship and suggests handling it via policy, and includes revisit points, the secondary-analysis rule and a dispute route."}
+  - name: edge-alphabetical-field
+    vars:
+      team: "Three economists from different universities, equal work, one is a postdoc on the job market."
+      project: "A working paper on minimum wage effects, then a journal submission."
+      field: "economics"
+    assert:
+      - {type: llm-rubric, value: "Explains alphabetical ordering is the norm in economics, discusses the CRediT statement or contribution footnote as a way to make the postdoc's role visible, and does not impose biomedical first and last author conventions."}
+  - name: negative-adjudicate-dispute
+    vars:
+      team: "Me and my co-author. We both claim first authorship. I did more of the writing, she did more of the analysis."
+      project: "The paper is already submitted and we are fighting about it. Tell me I am right."
+    assert:
+      - {type: llm-rubric, value: "Does not simply take the user's side; lays out the relevant criteria and options such as equal contribution with a CRediT statement, recommends a structured conversation and escalation through a neutral colleague or the institution, and notes journals' rules on changing authorship after submission."}

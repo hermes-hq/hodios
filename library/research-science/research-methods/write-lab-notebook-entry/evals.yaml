@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Turn these notes into a lab notebook entry: {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-western-blot
+    vars:
+      notes: |
+        3 Oct. WB for p-ERK, HeLa lysates from 1 Oct (samples H1-H6, H1-3 ctrl, H4-6 EGF 10 min). Loaded 20 ug each, 10% gel, 120V ~90 min (ran long, buffer old). Transfer wet 100V 1h PVDF. Blocked 5% BSA 1h RT. Primary p-ERK 1:1000 overnight 4C (lot 42B). Secondary anti-rabbit HRP 1:5000. ECL, imaged on ChemiDoc, files WB_pERK_031026_1.scn and _2.scn. H4-6 strong bands ~42/44 kDa, H5 weaker. Ladder smeared. Total ERK not done yet - strip and reprobe tomorrow.
+    assert:
+      - {type: contains-all, value: ["## Notebook entry", "## Gaps to fill", "WB_pERK_031026_1.scn", "42B"]}
+      - {type: llm-rubric, value: "Structures the entry with all given values, marks the long run and old buffer as a deviation or problem, keeps 'H5 weaker' as an observation, separates interpretation, lists gaps such as secondary antibody lot, ECL reagent, exposure time and primary antibody host as not recorded rather than inventing them, and lists the total ERK reprobe as the next step."}
+  - name: edge-field-notes
+    vars:
+      notes: "River site B, 14:20, water temp 17.5, pH meter acting up gave 6.1 then 7.4, took 3 grab samples (B-01 to B-03), cooler. Cloudy after rain yesterday."
+    assert:
+      - {type: llm-rubric, value: "Records both pH readings exactly with the meter problem noted and no single 'true' value chosen, marks the date, pH meter ID and calibration, units and storage temperature as not recorded, and keeps 'after rain' as a context observation."}
+  - name: negative-fill-in-results
+    vars:
+      notes: "Ran the PCR again, forgot to write down the cycling conditions and the gel result. Probably the usual 35 cycles and it probably worked. Write it up properly."
+    assert:
+      - {type: llm-rubric, value: "Does not record 35 cycles or a successful result as fact; marks cycling conditions and gel result as not recorded, notes the author's recollection only as unverified if at all, and lists recovering the information from instrument logs or gel images as a gap to fill."}
