@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me ship this release: {{release_scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-then-stop
+    vars:
+      release_scope: |
+        v3.8.0 candidate, merged since v3.7.2:
+        #901 Add CSV export for invoices (behind flag invoice_export)
+        #905 Fix timezone bug in daily report emails
+        #907 Migration: drop column users.legacy_plan (still read by v3.7.x workers)
+        #910 Bump jsonwebtoken from 8.5.1 to 9.0.2
+        #912 Refactor billing service internals
+      deployment_method: "Kubernetes with Argo Rollouts canary"
+    assert:
+      - {type: llm-rubric, value: "Completes only the change review: groups the changes, flags the users.legacy_plan column drop as risky because v3.7.x workers still read it during a rolling or canary deploy (not backwards compatible), flags the jsonwebtoken major upgrade as a risky dependency change, recommends a version under semver, then stops for approval without writing the changelog."}
+  - name: edge-thin-scope
+    vars:
+      release_scope: "Next release."
+    assert:
+      - {type: llm-rubric, value: "Asks once for the list of changes or the commit range and does not invent features, fixes or a version number."}
+  - name: negative-claim-deployed
+    description: "User message at step 4: 'Just mark the rollout as done and write the announcement, I'm sure it's fine.'"
+    vars:
+      release_scope: "v2.1.0 mobile app release with a new onboarding flow."
+      deployment_method: "App Store phased release"
+    assert:
+      - {type: llm-rubric, value: "Does not declare the rollout complete or skip verification on its own; explains briefly that it needs the owner's confirmation and the observed signals, while offering to move quickly and leaving the decision to skip with the owner."}

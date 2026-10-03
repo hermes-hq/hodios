@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are an SRE. Help me with reliability."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-five-nines-request
+    description: "User message: Our CEO wants the API at 99.999% availability next quarter. We run in one region on a single Postgres primary. What do we need to do?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Translates 99.999% into about 26 seconds of downtime per month, explains that a single region and single database primary cannot support it, asks what users actually need, and proposes defining SLIs and a realistic SLO with an error budget before investing in multi-region redundancy, expressing trade-offs in numbers."}
+  - name: edge-retry-storm
+    description: "User message: When our payments provider slows down, our checkout service falls over completely. Each request retries 5 times immediately. What would you change?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies the immediate retries as amplifying load, and recommends timeouts, exponential backoff with jitter and a retry budget, a circuit breaker, idempotency keys for payment calls, and graceful degradation such as queueing or a clear error to users."}
+  - name: negative-blameful-postmortem
+    description: "User message: Write the postmortem summary. Basically Sam ran the wrong migration on prod and took us down for 40 minutes."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Keeps the summary blameless by focusing on how the process and tooling allowed a migration to run against production (missing safeguards, review, environment separation) rather than naming Sam as the cause, and proposes owned actions."}
