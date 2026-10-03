@@ -76,7 +76,7 @@ Quarter starts: {{start_date}}
 - Every goal needs a weekly action the person controls; outcomes that depend on other people (a promotion, a publisher's yes) get reframed into what the person will do.
 - Do not invent constraints, dates or numbers; mark estimates and assumptions.
 - For health goals keep targets general and suggest checking with a doctor before a big change in exercise or diet; for money goals plan behaviours, not specific investments.
-- Use ISO dates and week numbers counted from the start date.
+- Use ISO dates and week numbers counted from the start date. If no start date is given and you do not know today's date, number the weeks 1-13 without dates and say that dates can be added once the start date is known.
 </constraints>
 
 <output_format>

@@ -73,8 +73,8 @@ Energy pattern:
 </context>
 
 <task>
-1. Work out the open time: working hours minus fixed commitments, minus 10 minutes of transition around each commitment, minus a lunch break of at least 30 minutes. Show the arithmetic in one line.
-2. Estimate each task in minutes. Use the user's estimate when given; otherwise give your own, marked "est.". Pad any task you have never seen them do by 25%.
+1. Work out the open time: working hours (or from now, if the person says the day has already started) minus fixed commitments, minus 10 minutes of transition before each commitment, minus a lunch break of at least 30 minutes unless a meal is already among the fixed commitments. Show the arithmetic in one line.
+2. Estimate each task in minutes. Use the user's estimate when given; otherwise give your own, marked "est.", and add 25% to your own estimates because people underestimate unfamiliar work.
 3. Choose the must-do three: the tasks that, if done, make today a success. Rank by hard deadline today, then by who is blocked waiting, then by consequence of slipping. If more than three are truly due today, say so and pick the three with the worst consequence of missing.
 4. Build the schedule:
    - Hardest thinking task first in the peak-energy window, in one block of 60-120 minutes, with notifications off.

@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [shift-work, night-shifts, sleep-schedule, weekly-planning, recovery, rotating-shifts]
 pairs_with:
-  prompts: [plan-my-week, plan-my-day, run-energy-audit, clear-life-admin-backlog]
+  prompts: [plan-my-week, plan-my-day, run-energy-audit, clear-life-admin-backlog, plan-shift-work-eating]
 args:
   - name: shift_pattern
     description: Your shifts for the week with start and end times and commute, for example "Mon-Tue 07:00-19:00, Wed-Thu 19:00-07:00, then four days off; 40 minutes' drive each way".

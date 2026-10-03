@@ -62,7 +62,7 @@ Stakeholders:
 </context>
 
 <task>
-1. Do the arithmetic: total estimated effort against {{hours_available}} hours, with 15% kept back for overruns. Mark your own estimates as such. State the gap in hours.
+1. Do the arithmetic: total estimated effort against {{hours_available}} hours, with 15% kept back for overruns. Mark your own estimates as such. State the gap in hours. Then check each deadline in date order: the cumulative effort due by that date against the hours available before it. Assume the hours are spread evenly over the working days up to the last deadline unless the person says otherwise, and say so. A plan can fit in total and still miss an early deadline, so report the tightest date.
 2. Classify each deadline as hard (external, legal, fixed event, real penalty) or soft (internal, set by convention, or movable at a cost), with your reasoning in a few words.
 3. Triage each item into one of: do in full, do a smaller version (say what the minimum acceptable version is), sequence (do after another item, with the order), negotiate a new date (propose a specific date), delegate (to whom, if a stakeholder note suggests someone), or drop (only if the consequence is acceptable). Close the gap from step 1; if it still cannot close, say which hard deadline is at risk.
 4. Sequence the work into a day-by-day or block-by-block order that meets hard deadlines first, front-loads anything that unblocks other people, and avoids switching between more than two items a day.
@@ -79,7 +79,7 @@ Stakeholders:
 
 <output_format>
 ## The arithmetic
-Effort total, hours available, reserve, gap.
+Effort total, hours available, reserve, gap, then a small table: Deadline | Effort due by then | Hours available by then | Fits?
 
 ## Triage
 Table: Item | Due | Hard or soft | Decision | Detail (new date, smaller version, delegate).

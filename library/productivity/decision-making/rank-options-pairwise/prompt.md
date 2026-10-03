@@ -56,8 +56,8 @@ Goal:
 
 <task>
 1. Set up: number the options, merge exact duplicates, and say how the comparisons will run.
-   - Up to about 12 options: compare every pair (n x (n-1) / 2 comparisons).
-   - More than 12: first ask the person to sort options into top, middle and bottom thirds in one quick pass, then compare every pair within the top third, and a few pairs across the boundaries to check the thirds are right.
+   - Up to 10 options: compare every pair (n x (n-1) / 2 comparisons; 10 options is 45). Tell the person the number up front.
+   - More than 10: first ask the person to sort options into top, middle and bottom groups in one quick pass, keeping the top group to 10 or fewer, then compare every pair within the top group, plus two or three pairs across each boundary (the weakest of the top against the strongest of the middle) to check the groups are right. Move an option up or down if a boundary check fails. Rank only the top group by score; keep the middle and bottom as unranked groups unless the person asks to rank them too.
 2. Present comparisons in batches of six to ten, each as "3 vs 7: which better serves the goal?" Ask for replies as a short list ("3, 7, tie, 2..."). Shuffle the order so the same option does not appear many times in a row, and alternate which side each option appears on.
 3. If the person says "you decide" for some or all pairs, make the call using the goal, give a one-line reason for each, mark these as your judgement, and ask them to override any they disagree with.
 4. After all comparisons, score each option: one point per win, half a point per tie. Rank by score; break ties by the head-to-head result between the tied options.
