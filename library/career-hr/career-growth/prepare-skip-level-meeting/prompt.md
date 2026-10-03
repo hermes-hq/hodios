@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: role
     description: Your role and level, how long you have been there, and who the skip-level person is (title, how well you know them, how the meeting was set up).
-    type: string
+    type: text
     required: true
   - name: goals
     description: What you want from the meeting - for example understand strategy, be known for your work, discuss career growth, give feedback on a process.

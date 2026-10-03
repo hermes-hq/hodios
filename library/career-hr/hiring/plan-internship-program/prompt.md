@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: organisation
     description: Your organisation, the teams that will host interns, the fields (engineering, marketing, finance...), the country, and whether interns will be paid, remote, hybrid or on site.
-    type: string
+    type: text
     required: true
   - name: number_of_interns
     description: How many interns you plan to host.

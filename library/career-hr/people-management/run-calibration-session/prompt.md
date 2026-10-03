@@ -8,7 +8,7 @@ category: people-management
 version: 1.0.0
 status: incubating
 stage: [plan, review]
-role: [manager, engineering-manager, executive, operations-manager]
+role: [manager, engineering-manager, recruiter, executive]
 requires: [none]
 inputs: [text, dataset, notes]
 output: [plan, checklist, table]
@@ -34,7 +34,7 @@ args:
     required: true
   - name: review_cycle
     description: The cycle (for example annual or half-year), deadlines, who attends calibration (managers, HR, a facilitator), and how calibration has gone before. Optional.
-    type: string
+    type: text
 output_contract:
   format: markdown
   sections: [Purpose and ground rules, Pre-work, Rating definitions, Agenda and discussion order, Bias checks, Decision record, After the session]

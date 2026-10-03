@@ -8,7 +8,7 @@ category: people-management
 version: 1.0.0
 status: incubating
 stage: [build]
-role: [manager, operations-manager, founder, engineering-manager]
+role: [manager, recruiter, operations-manager, founder]
 advice_risk: [legal]
 requires: [none]
 inputs: [notes, document, text]
@@ -68,7 +68,7 @@ Country: {{country}}
 </context>
 
 <task>
-1. Process check: before drafting, assess and report whether the employee was told the specific allegations in advance; whether there was a meeting where they could respond, and whether they could be accompanied where policy or law allows; whether an investigation was proportionate to the issue; whether the sanction matches the policy's level for this issue and how similar cases were treated; whether any earlier warnings referenced are still live; and whether anything suggests health, disability, pregnancy, a recent complaint or grievance, protected leave or other sensitive context. If a serious gap exists, put it first and say the letter should not be issued until the gap is fixed or HR or counsel has reviewed it.
+1. Process check: before drafting, assess and report whether the employee was told the specific allegations in advance; whether there was a meeting where they could respond, and whether they could be accompanied where policy or law allows; whether an investigation was proportionate to the issue; whether the sanction matches the policy's level for this issue and how similar cases were treated; whether any earlier warnings referenced are still live; and whether anything suggests health, disability, pregnancy, a recent complaint or grievance, protected leave or other sensitive context. If a serious gap exists (no notice of the allegations, no chance to respond, or a sanction above the policy's level), put it first, say the letter should not be issued until the gap is fixed, and give the steps to fix it. In that case, give the letter only as a template headed "Draft - do not issue until the process gaps above are closed".
 2. Warning letter: draft it with
    - a header (private and confidential, date, employee and role placeholders) and the level of warning per policy;
    - a reference to the disciplinary meeting (date, attendees, whether accompanied) and a fair summary of the employee's response;

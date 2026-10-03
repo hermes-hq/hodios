@@ -8,7 +8,7 @@ category: people-management
 version: 1.0.0
 status: incubating
 stage: [plan]
-role: [manager, operations-manager, founder, legal-professional]
+role: [recruiter, manager, founder, legal-professional]
 advice_risk: [legal]
 requires: [none]
 inputs: [notes, document, text]

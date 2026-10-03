@@ -8,7 +8,7 @@ category: people-management
 version: 1.0.0
 status: incubating
 stage: [plan, design]
-role: [manager, operations-manager, executive, engineering-manager]
+role: [recruiter, manager, operations-manager, executive]
 requires: [none]
 inputs: [text, notes]
 output: [plan, docs, questions]
@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: organisation
     description: Your organisation - size, locations, remote or on site, and any past mentoring attempts and what happened to them.
-    type: string
+    type: text
     required: true
   - name: audience
     description: Who the programme is for (new joiners, first-time managers, underrepresented groups, high-potential staff, a specific function), roughly how many mentees and potential mentors, and the problem it should solve.

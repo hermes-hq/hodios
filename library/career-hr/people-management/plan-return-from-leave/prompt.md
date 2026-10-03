@@ -34,7 +34,7 @@ args:
     required: true
   - name: role
     description: Their role, what changed in the team or work while they were away, and who covered for them.
-    type: string
+    type: text
     required: true
 output_contract:
   format: markdown

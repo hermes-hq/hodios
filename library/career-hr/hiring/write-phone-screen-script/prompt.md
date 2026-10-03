@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: role
     description: The role, level, location or remote policy, salary range, and the job description if you have one.
-    type: string
+    type: text
     required: true
   - name: must_haves
     description: The non-negotiable requirements to check at this stage (for example a licence, work authorisation, availability, a core skill, years in a specific setting), and anything that is nice to have.

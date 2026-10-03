@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: current_role
     description: Your job, how long you have done it, what you will miss and what you will not, and how much of your identity and social life comes from work.
-    type: string
+    type: text
     required: true
   - name: timeline
     description: When you expect to stop or reduce work (a date, "within two years", "undecided"), and whether you want a clean stop or a gradual step down.
