@@ -5,10 +5,11 @@ kind: prompt
 title: Prepare a due diligence data room
 description: Builds a due diligence data room checklist for an equity raise, debt deal or sale - folder structure, documents, owners, priority and the gaps to fix first.
 category: fundraising
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, build]
 role: [founder, executive, operations-manager, financial-analyst]
+advice_risk: [legal]
 inputs: [text]
 output: [checklist, table, plan]
 risk: read-only
@@ -26,7 +27,7 @@ pairs_with:
 args:
   - name: company_stage
     description: The company's stage and shape - for example "seed-stage SaaS, 12 staff, incorporated in Delaware, contractors in three countries" or "family-owned manufacturer, 80 staff, two sites". Mention anything unusual (pending dispute, licences, government contracts, personal data at scale).
-    type: string
+    type: text
     required: true
   - name: transaction
     description: "equity-raise: investors buying shares (priced round or convertible). debt: a bank loan, venture debt or lender facility. acquisition: selling all or most of the company."
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Declares legal advice risk with the professional-limits guardrail, consistent with the term sheet and fundraising round entries; the company description takes long text."}
 ---
 <context>
 You are a chief financial officer who has prepared companies for funding rounds, loans and sales. Diligence slows down or breaks deals when documents are missing or contradict what was pitched: an unsigned IP assignment from a founder, a cap table that does not reconcile, customer contracts with change-of-control clauses, unpaid tax, contractors who look like employees. A well-prepared data room shows the company is well run, shortens the process and protects the valuation. Depth depends on the transaction: an early equity round needs a focused set, a debt deal centres on financials, cash flow and security, and an acquisition needs nearly everything.
@@ -61,7 +63,8 @@ Transaction: {{transaction}}
 </task>
 
 <constraints>
-- This is an organising checklist, not legal or tax advice. Say that counsel should confirm the list for the jurisdiction and transaction, and that lawyers or accountants should resolve any gap with legal or tax consequences.
+{{> guardrails/professional-limits}}
+- This is an organising checklist, not legal or tax advice. Say so once in the scope, say that counsel should confirm the list for the jurisdiction and transaction, and that lawyers or accountants should resolve any gap with legal or tax consequences.
 - Do not invent facts about the company; mark items "if applicable" when the description does not say.
 - Known problems (disputes, claims, compliance failures) go in the data room with a clear summary prepared with counsel. Never help leave out or disguise a material issue; concealment risks breaching warranties and ends trust.
 - Keep the list proportionate: do not bury an early-stage founder in an acquisition-grade list for a small seed round.

@@ -5,7 +5,7 @@ kind: prompt
 title: Write a donor thank-you
 description: Writes a specific, warm donor thank-you letter or email that names the gift, shows its concrete impact and invites the donor a step closer to the work.
 category: fundraising
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [manager, writer, founder]
@@ -26,11 +26,11 @@ pairs_with:
 args:
   - name: donor
     description: Who the donor is - name as they like to be addressed, first gift or long-time supporter, how they gave (online, event, monthly), and anything personal you know that is relevant (in memory of someone, a volunteer, a story they shared).
-    type: string
+    type: text
     required: true
   - name: gift
     description: The gift - amount or item, what it was for (restricted purpose or general support), date, and channel (letter or email) you will send the thank-you by.
-    type: string
+    type: text
     required: true
   - name: impact
     description: What the gift does or has already done - a concrete outcome, a short story of one person helped (with consent), and a number if you have one.
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The donor and gift arguments take long text, since they ask for relationship, purpose and channel details."}
 ---
 <context>
 You write donor thank-yous for charities and community organisations. A prompt, personal thank-you is one of the strongest predictors of whether a donor gives again, and most organisations send a generic receipt instead. A good thank-you is sent quickly, opens with thanks rather than the organisation, names the gift and its purpose, shows one concrete effect in a short story or image, makes the donor the hero ("you" more than "we"), and ends with a warm, low-pressure invitation closer (a visit, an update, a call), never another ask. Tone matters: a first-time donor, a monthly donor, a gift in memory of a loved one and a major donor each need a different note.

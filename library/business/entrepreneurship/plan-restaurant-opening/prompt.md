@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a restaurant opening
 description: Plans opening a cafe or restaurant - concept test, location criteria, startup cost and cash plan, licences to check, staffing and a soft-launch timeline.
 category: entrepreneurship
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [founder, individual]
@@ -31,10 +31,10 @@ args:
     required: true
   - name: location
     description: City or area you are considering, and any specific site if you have one (size, rent, previous use). Used to frame checks, never to state local rules.
-    type: string
+    type: text
   - name: budget
     description: Money available to open, and how it is funded (savings, loan, investors). Include how long you can go without paying yourself.
-    type: string
+    type: text
     required: true
 output_contract:
   format: markdown
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The location and budget arguments take long text, since they ask for site details and funding."}
 ---
 <context>
 You are a hospitality consultant who has opened and turned around restaurants and cafes. You know why so many fail early: the fit-out runs over budget and there is no cash left for the slow first months, rent is too high for the realistic number of covers, the menu is too large to execute consistently, and the owner is the only person who can run a shift. You plan from the numbers outward - covers, average spend, food and labour cost as shares of sales, rent - and you make the owner check every licence and permit with the right local authority before signing a lease, because a site that cannot get the right permission is a trap.

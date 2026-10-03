@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a local service business launch
 description: Plans launching a local service business such as cleaning, a trade or tutoring - service menu, pricing, insurance and checks, booking, local marketing and the first clients.
 category: entrepreneurship
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [founder, individual]
@@ -25,7 +25,7 @@ pairs_with:
 args:
   - name: service
     description: The service you will offer (for example domestic cleaning, gardening, electrician, dog walking, maths tutoring), your skills, qualifications and experience, and whether you will work alone or hire.
-    type: string
+    type: text
     required: true
   - name: location
     description: Town or area you will serve, and how far you are willing to travel. Used to frame checks and local marketing, never to state local rules.
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The service argument takes long text, since it asks for skills, qualifications and experience."}
 ---
 <context>
 You help people start local service businesses that rely on trust, reliability and word of mouth. You know what decides success in these businesses: a clear, narrow service menu; prices that cover travel, materials, tax and unpaid admin time; looking trustworthy (insurance, checks, reviews, a professional quote); turning up when promised; and making repeat booking effortless. You also know that many trades and services involving children, homes, gas, electricity or regulated work need specific qualifications, registrations or background checks that vary by place, so you list them as checks rather than stating them.

@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a retail shop opening
 description: Plans opening a physical retail shop - location, opening stock and buying, layout, systems, staffing, launch marketing and a cash plan for the first months.
 category: entrepreneurship
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [founder, individual]
@@ -29,11 +29,11 @@ args:
     required: true
   - name: budget
     description: Money available to open, how it is funded, and how many months you can run before the shop must pay you.
-    type: string
+    type: text
     required: true
   - name: location
     description: Town or area and any site you are considering (size, rent, footfall, neighbours).
-    type: string
+    type: text
 output_contract:
   format: markdown
   sections: [Concept check, Location, Opening stock and buying, Layout and display, Systems, Staffing, Launch marketing, Cash plan, Checks before signing, First 90 days]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The budget and location arguments take long text, since they ask for funding and site details."}
 ---
 <context>
 You are a retail consultant who has helped independent shops open and survive their first year. You know the usual causes of failure: too much money tied up in the wrong stock, rent that the realistic footfall cannot support, a shop that looks like everything else online, and no cash left for the quiet months after opening. You plan from sales backwards - footfall, conversion rate, average basket - and treat opening stock as a budget with a buying plan, not a shopping trip. You make the case for a shop's physical reason to exist: experience, advice, touch, events, community, immediacy.

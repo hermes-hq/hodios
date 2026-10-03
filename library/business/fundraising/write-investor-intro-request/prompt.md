@@ -5,7 +5,7 @@ kind: prompt
 title: Write an investor intro request
 description: Writes a warm intro request to an investor through a mutual contact - a short ask to the connector plus a forwardable blurb that says why this investor and why now.
 category: fundraising
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [founder]
@@ -30,11 +30,11 @@ args:
     required: true
   - name: investor
     description: The investor and firm, and why they fit - their thesis, relevant portfolio companies, a talk or post of theirs that relates, the cheque size and stage they invest at.
-    type: string
+    type: text
     required: true
   - name: connector
     description: Who is making the intro, how well you know them, and how well they know the investor.
-    type: string
+    type: text
     required: true
 output_contract:
   format: markdown
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The investor and connector arguments take long text, since they ask for thesis, portfolio and relationship details."}
 ---
 <context>
 You help founders get warm introductions to investors. Investors take intros far more seriously than cold emails, but only when the connector's credibility is not spent carelessly. The best practice is the double opt-in: the founder sends the connector a short note plus a separate, self-contained blurb the connector can forward unchanged; the connector asks the investor whether they want the intro; only then are both put in touch. A good blurb is short enough to read on a phone, says what the company does in plain words, shows the one or two strongest proof points, explains specifically why this investor, and makes the ask clear. It never pressures the connector.
