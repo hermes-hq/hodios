@@ -1,6 +1,7 @@
 # Catalog release (skeleton). Runs daily and on demand; cuts a release only when library/,
-# partials/, packs/ or vocab/ changed since the last v* tag. Publishing steps are disabled
-# (`if: false`) until the compiler, signing key and tokens exist. See the design, section 7.
+# partials/, packs/ or vocab/ changed since the last v* tag. It builds the catalog and signs its
+# manifest (secret HODIOS_MANIFEST_SIGNING_KEY; the release fails without it, never publishes
+# unsigned). Publishing steps are disabled (`if: false`) until their tokens exist. See RELEASING.md.
 name: release
 
 on:
@@ -28,6 +29,7 @@ jobs:
     outputs:
       changed: ${{ steps.detect.outputs.changed }}
       version: ${{ steps.detect.outputs.version }}
+      seq: ${{ steps.detect.outputs.seq }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -53,8 +55,10 @@ jobs:
           fi
           if [ "$FORCE" = "true" ]; then changed=true; fi
           version=$(node tools/release/calver.mjs $(git tag --list 'v20*'))
+          seq=$(node tools/release/calver.mjs --seq $(git tag --list 'v20*'))
           echo "changed=$changed" >> "$GITHUB_OUTPUT"
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "seq=$seq" >> "$GITHUB_OUTPUT"
           echo "### Catalog release plan" >> "$GITHUB_STEP_SUMMARY"
           echo "changed: $changed, next version: $version" >> "$GITHUB_STEP_SUMMARY"
 
@@ -71,6 +75,7 @@ jobs:
       attestations: write # build provenance
     env:
       VERSION: ${{ needs.plan.outputs.version }}
+      SEQ: ${{ needs.plan.outputs.seq }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -92,26 +97,32 @@ jobs:
       - name: Validate library (Tier 0)
         run: node packages/cli/dist/bin.js validate
 
-      - name: Dry run
-        run: echo "Would release catalog v$VERSION. Publishing steps below are disabled until their TODOs are done."
-
-      # TODO(release): compile the changed set with the content-addressed cache (tools/release/*).
+      # TODO(release): compile only the changed set with the content-addressed cache (tools/release/*).
       - name: Build catalog
-        if: false
-        run: npm run build:catalog
+        run: node packages/cli/dist/bin.js build --seq "$SEQ" --catalog "$VERSION"
+
+      # Hermes IDE, and later the CLI and MCP server, refuse a catalog update whose manifest.json.minisig does not
+      # verify with keys/manifest-signing.pub. Without the secret this step fails: nothing is published unsigned.
+      - name: Sign manifest
+        env:
+          HODIOS_MANIFEST_SIGNING_KEY: ${{ secrets.HODIOS_MANIFEST_SIGNING_KEY }}
+        run: |
+          if [ -z "$HODIOS_MANIFEST_SIGNING_KEY" ]; then
+            echo "::error title=Signing key missing::Secret HODIOS_MANIFEST_SIGNING_KEY is not set; refusing to release an unsigned catalog. See RELEASING.md, 'Signing key'."
+            exit 1
+          fi
+          node tools/release/manifest-signing.mjs sign dist/catalog/v1
+
+      - name: Verify the manifest signature
+        run: node tools/release/manifest-signing.mjs verify dist/catalog/v1
+
+      - name: Dry run
+        run: echo "Would release catalog v$VERSION (seq $SEQ), signed. Publishing steps below are disabled until their TODOs are done."
 
       # TODO(release): privacy and secret scan of changed files (gitleaks + personal path/email regex).
       - name: Privacy scan
         if: false
         run: node tools/release/privacy-scan.mjs
-
-      # TODO(secret MINISIGN_SECRET_KEY, MINISIGN_PASSWORD): sign manifest.json; public key ships in Hermes, CLI and MCP.
-      - name: Sign manifest
-        if: false
-        env:
-          MINISIGN_SECRET_KEY: ${{ secrets.MINISIGN_SECRET_KEY }}
-          MINISIGN_PASSWORD: ${{ secrets.MINISIGN_PASSWORD }}
-        run: node tools/release/sign.mjs
 
       # TODO(secrets R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY): upload objects first, manifest last.
       - name: Upload objects and manifest

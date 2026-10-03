@@ -2,11 +2,14 @@
 // Copies a `hodios build` output into a hermes-hq/hodios-dist checkout: every generated tree, including the v1
 // catalog the CLI reads from jsDelivr and raw GitHub, then the README's catalog line. See RELEASING.md.
 // The install tree holds the curated tier only (curated.txt); catalog/v1 holds every entry in every tier.
+// catalog/v1/manifest.json must carry a manifest.json.minisig that verifies with keys/manifest-signing.pub
+// (tools/release/manifest-signing.mjs sign): Hermes IDE refuses runtime updates from an unsigned catalog.
 //
 // Usage: node tools/release/sync-dist.mjs <build-out-dir> <hodios-dist-checkout>
 import { cpSync, existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { SIGNATURE, verifyDir } from './manifest-signing.mjs';
 
 /** Top-level paths `hodios build` owns in hodios-dist. README.md, LICENSE and .git are kept. */
 export const GENERATED = ['.claude-plugin', 'plugins', 'skills', 'native', 'paste', 'bundles', 'catalog'];
@@ -17,15 +20,22 @@ export const TREE_MAX = 60000;
 
 /**
  * @param {{manifest: {catalog?: string, tiers?: Record<string, {rows: number}>} | null, skills: number,
- *   plugins: {name: string, category?: string}[], entries?: number}} tree
- *   `entries`: files and folders the hodios-dist tree will hold after the sync
+ *   plugins: {name: string, category?: string}[], entries?: number,
+ *   signature?: {ok: true, keyId: string} | {ok: false, reason: string}}} tree
+ *   `entries`: files and folders the hodios-dist tree will hold after the sync;
+ *   `signature`: the manifest's signature checked against keys/manifest-signing.pub
  * @returns {string[]} reasons the tree must not be published
  */
-export function checkTree({ manifest, skills, plugins, entries = 0 }) {
+export function checkTree({ manifest, skills, plugins, entries = 0, signature }) {
   const errors = [];
   if (!manifest) errors.push('catalog/v1/manifest.json is missing; the hodios CLI reads the catalog from it');
   else if (!/^20\d{2}\.\d+\.\d+$/.test(manifest.catalog ?? ''))
     errors.push('catalog/v1/manifest.json has no catalog version');
+  if (manifest && !signature?.ok)
+    errors.push(
+      `catalog/v1 is not signed: ${signature && !signature.ok ? signature.reason : 'no signature check'}. ` +
+        'Run tools/release/manifest-signing.mjs sign; Hermes IDE refuses unsigned catalog updates',
+    );
   if (skills > SKILL_MAX) errors.push(`${skills} skills; hodios-dist holds at most ${SKILL_MAX}`);
   if (plugins.length > PLUGIN_MAX) errors.push(`${plugins.length} plugins; the marketplace limit is ${PLUGIN_MAX}`);
   if (entries >= TREE_MAX) errors.push(`${entries} tree entries; hodios-dist must stay under ${TREE_MAX}`);
@@ -76,13 +86,16 @@ function main() {
   const marketplace = join(from, '.claude-plugin', 'marketplace.json');
   const plugins = existsSync(marketplace) ? JSON.parse(readFileSync(marketplace, 'utf8')).plugins : [];
   const entries = projectedEntries(from, to);
-  const errors = checkTree({ manifest, skills, plugins, entries });
+  const signature = manifest ? verifyDir(join(from, 'catalog', 'v1')) : undefined;
+  const errors = checkTree({ manifest, skills, plugins, entries, signature });
   if (errors.length > 0) throw new Error(errors.join('\n'));
 
   for (const path of GENERATED) {
     // Catalog objects are content-addressed: earlier ones stay, so a manifest a CDN still caches can resolve them.
-    if (path === 'catalog') rmSync(join(to, 'catalog', 'v1', 'manifest.json'), { force: true });
-    else rmSync(join(to, path), { recursive: true, force: true });
+    if (path === 'catalog') {
+      rmSync(join(to, 'catalog', 'v1', 'manifest.json'), { force: true });
+      rmSync(join(to, 'catalog', 'v1', SIGNATURE), { force: true });
+    } else rmSync(join(to, path), { recursive: true, force: true });
     if (existsSync(join(from, path))) cpSync(join(from, path), join(to, path), { recursive: true });
   }
   const rows = Object.values(manifest.tiers ?? {}).reduce((n, t) => n + t.rows, 0);
@@ -91,7 +104,7 @@ function main() {
   writeFileSync(readme, updateReadme(readFileSync(readme, 'utf8'), manifest.catalog, curated, rows));
   console.log(
     `hodios-dist: catalog ${manifest.catalog}, ${rows} entries (${curated} curated), ${skills} skills, ` +
-      `${plugins.length} plugins, ${entries} tree entries.`,
+      `${plugins.length} plugins, ${entries} tree entries; manifest signed with key ${signature?.ok ? signature.keyId : '?'}.`,
   );
 }
 
