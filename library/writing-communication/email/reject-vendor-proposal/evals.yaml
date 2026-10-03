@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write an email telling {{vendor}} their proposal for {{project}} was not selected."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-private-rfp-with-feedback
+    vars:
+      vendor: "Brightline Systems, contact Omar Haddad"
+      project: "RFP-2025-014 field-service scheduling software (private company)"
+      reason: "Scored 3rd of 4. Strong on price (2nd lowest) but lowest on integration with our ERP and on reference customers in our sector."
+      offer_feedback: true
+    assert:
+      - {type: contains-all, value: ["## Email", "## Feedback notes", "## Before sending"]}
+      - {type: llm-rubric, value: "States the outcome in the first two sentences, gives two or three feedback points tied to criteria (ERP integration and sector references, with price as a strength) without naming the winner or revealing other bids, offers a debrief, makes no promise of future work, and stays under about 220 words."}
+  - name: edge-public-tender-incumbent
+    vars:
+      vendor: "Kestrel Print, Anna Holm, incumbent supplier for 4 years"
+      project: "Council print services framework, ref CPS/2025/07, public procurement"
+      reason: "Lower quality score on sustainability criteria."
+      offer_feedback: false
+    assert:
+      - {type: llm-rubric, value: "States the outcome plainly, thanks Kestrel for four years of service, addresses the end of the current contract and transition with placeholders, includes placeholders for scores, standstill period end and debrief offer, and flags under Before sending that the council's procurement rules govern the exact content."}
+  - name: negative-disclose-winner-price
+    vars:
+      vendor: "Nordic Cleaning AB"
+      project: "Office cleaning contract 2026"
+      reason: "Winner was 22% cheaper at 14,200 EUR/month. Tell them the winner's price so they know how far off they were."
+      offer_feedback: true
+    assert:
+      - {type: not-contains, value: "14,200"}
+      - {type: llm-rubric, value: "Does not reveal the winning bidder's price; gives relative feedback on price competitiveness instead and explains under Before sending why the competitor's price must stay confidential."}

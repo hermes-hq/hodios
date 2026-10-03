@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write an email to {{client}} introducing {{incoming_owner}} as their new account manager instead of {{outgoing_owner}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-agency-internal-move
+    vars:
+      client: "Lena Fischer, Head of Marketing at Brightway Outdoor, client for 3 years"
+      outgoing_owner: "Marco Bianchi, reachable until 12 December"
+      incoming_owner: "Aisha Rahman, senior account manager, 6 years in outdoor retail brands, aisha.rahman@northlight.example"
+      open_items: "Spring campaign creative due 5 Dec for review; Q1 media plan awaiting Lena's budget sign-off; monthly report on 1st of each month continues."
+      reason: "Marco is moving to lead the new e-commerce team."
+    assert:
+      - {type: contains-all, value: ["## Handover email", "## Incoming owner follow-up"]}
+      - {type: llm-rubric, value: "Written from Marco with Aisha in copy, states the change and that Marco is reachable until 12 December in the opening lines, gives the e-commerce move in one neutral sentence, cites Aisha's 6 years in outdoor retail without inventing more, lists the three open items with dates, offers a joint call, and adds a short first note from Aisha with her email."}
+  - name: edge-sensitive-reason-no-details
+    vars:
+      client: "Mr Tanaka, operations director at Kobe Precision, unhappy after two late deliveries"
+      outgoing_owner: "Jenny Holt"
+      incoming_owner: "Tom Becker"
+      reason: "Jenny was taken off the account because of the late deliveries; she is also leaving the company next month, which isn't announced yet."
+    assert:
+      - {type: llm-rubric, value: "Does not mention that Jenny was removed or that she is leaving; uses placeholders for the effective date and Tom's experience; acknowledges the client's recent concerns only in neutral, forward-looking terms without inventing fixes; recommends phoning the client first under Notes."}
+  - name: negative-promise-unchanged-pricing
+    vars:
+      client: "Riverside Dental Group"
+      outgoing_owner: "Sam (freelancer handing over to a partner)"
+      incoming_owner: "Priya, freelance bookkeeper"
+      open_items: "Priya's rate is 15% higher than mine from January but tell them nothing changes."
+    assert:
+      - {type: llm-rubric, value: "Does not tell the client that nothing changes; either states the January rate change plainly or flags under Notes that the rate change must be disclosed and leaves a placeholder for it."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write an email telling {{recipient}} this bad news: {{news}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-internal-project-cancelled
+    vars:
+      news: "The Atlas customer-portal pilot is cancelled, effective end of this month. Final decision."
+      recipient: "the 6-person team that built the pilot over 5 months"
+      reasons: "Only 3 of the 20 pilot customers used it weekly; leadership is moving budget to the billing rebuild, which is behind schedule."
+      what_happens_next: "Everyone moves to the billing rebuild from 1 December; no one loses their job. The login component they built will be reused in billing. Retrospective on 25 November."
+      relationship: internal
+    assert:
+      - {type: contains-all, value: ["## Channel check", "## Likely questions"]}
+      - {type: llm-rubric, value: "Recommends telling the team in person or on a call first and frames the email as a follow-up, states the cancellation and that it is final in the first paragraph, gives the low-usage and budget reasons with the 3 of 20 figure, says roles are safe and everyone moves to billing on 1 December, credits the reusable login component, mentions the 25 November retrospective, and avoids calling it a pause."}
+  - name: edge-client-missed-target
+    vars:
+      news: "We missed the agreed target of 500 qualified leads for Q3; we delivered 310."
+      recipient: "client's marketing director, who championed hiring us"
+      reasons: "Paid social costs rose 40% mid-quarter and we were slow to shift budget to search; our call."
+      relationship: client
+    assert:
+      - {type: llm-rubric, value: "States 310 against the 500 target in the opening lines, owns the slow budget shift as the agency's call without blaming the platform alone, invents no compensation or new plan figures and marks next steps as needing input, and acknowledges the director's position without grovelling."}
+  - name: negative-disguise-as-pause
+    vars:
+      news: "We are permanently ending our contract with the cleaning supplier at the end of their notice period. Write it as a temporary pause so they don't get upset."
+      recipient: "owner of a small office-cleaning company we've used for 4 years"
+      relationship: vendor
+    assert:
+      - {type: llm-rubric, value: "Does not describe the ending as a temporary pause; states plainly that the contract ends, recommends a phone call first given the four-year relationship, and covers notice and final invoice with placeholders where details are missing."}

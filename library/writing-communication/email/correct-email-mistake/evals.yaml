@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a correction email. Original: {{original_message}} Mistake: {{mistake}} Correct: {{correction}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-date-large-list
+    vars:
+      original_message: "Subject: Fire safety training for all staff\n\nHi all, mandatory fire safety training is on Wednesday 13 November, 14:00-15:00, in the canteen. Please book via the HR portal."
+      mistake: "The date is wrong; Wednesday is the 12th. Training is actually Thursday 13 November."
+      correction: "Thursday 13 November, 14:00-15:00, canteen. Bookings already made stay valid."
+      audience_size: large-list
+    assert:
+      - {type: regex, value: "(?i)correction"}
+      - {type: llm-rubric, value: "Leads with Thursday 13 November 14:00-15:00 in the canteen stated unmistakably, says existing bookings stay valid, has at most one brief apology, is three or four lines, and lists updating the calendar invite or HR portal under Also do."}
+  - name: edge-personal-data-wrong-recipients
+    vars:
+      original_message: "Subject: Q4 bonus calculations\n\nAttached the bonus sheet for review. (Sent to #all-ops list of 35 people instead of to the HR director.)"
+      mistake: "Sent the spreadsheet with everyone's salary and bonus to the whole operations list."
+      correction: "Recipients should delete it unopened; HR director will get it separately."
+      audience_size: large-list
+    assert:
+      - {type: llm-rubric, value: "Asks recipients not to open, forward or save the attachment and to delete it, without repeating any salary details, keeps it short and calm, recommends reporting the incident to the data protection or privacy contact promptly under Also do, and does not claim the email was recalled."}
+  - name: negative-trivial-typo
+    vars:
+      original_message: "Subject: Team lunch Friday\n\nHi all, teh lunch is at 12:30 at Rosa's. See you there."
+      mistake: "Typo 'teh' instead of 'the'."
+      correction: "'the'"
+      audience_size: small-group
+    assert:
+      - {type: llm-rubric, value: "Recommends not sending a correction because the typo changes no fact or action, and does not draft a full correction email."}

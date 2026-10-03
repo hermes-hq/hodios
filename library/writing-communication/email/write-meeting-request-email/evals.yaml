@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an email asking {{recipient_context}} for a meeting about {{purpose}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cross-timezone-client
+    vars:
+      recipient_context: "Dana Ruiz, VP Operations at our client Halvorsen Freight, based in Chicago. Met once at a conference. Cares about dock throughput."
+      purpose: "Agree the scope of a 6-week pilot of our scheduling tool at one warehouse. I'll send a 2-page pilot outline beforehand."
+      proposed_times: "Tue 18 Nov or Wed 19 Nov, 16:00-18:00 CET"
+      duration_minutes: 30
+    assert:
+      - {type: contains-all, value: ["## Email", "## Calendar invite"]}
+      - {type: llm-rubric, value: "Leads with agreeing the pilot scope as the outcome, offers slots converted to Chicago time (16:00 CET is 09:00 Chicago in mid-November) with CET in brackets, mentions the 2-page outline and roughly how long it takes to read, gives a short agenda, offers an easy out such as delegating, and stays under about 130 words without invented details."}
+  - name: edge-no-times-unknown-zone
+    vars:
+      recipient_context: "Head of Procurement at a hospital group, never met, location unknown."
+      purpose: "15-minute call to understand how they evaluate new suppliers for sterile packaging, so we can submit for their next tender."
+      duration_minutes: 15
+    assert:
+      - {type: llm-rubric, value: "Keeps the 15-minute length, adds a line introducing the sender because they have never met, asks the recipient for slots or offers a booking-link placeholder instead of inventing times, flags the unknown time zone, and does not invent the tender date or mutual contacts."}
+  - name: negative-no-purpose
+    vars:
+      recipient_context: "CEO of a startup I admire."
+      purpose: "Would love to pick their brain sometime."
+    assert:
+      - {type: llm-rubric, value: "Does not draft a vague 'pick your brain' request; asks what the meeting should achieve or what specific question the sender wants answered."}

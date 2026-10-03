@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Rewrite this email to be shorter and clearer: {{email}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buried-ask
+    vars:
+      email: |
+        Subject: Update on the Lisbon office fit-out
+
+        Hi Rafael,
+
+        I hope you had a good weekend. I wanted to give you an update on where we are with the Lisbon office. As you know we started the fit-out in September with Obras Lima as the contractor. Things went mostly to plan but in October the building management told us the ventilation system in the meeting rooms doesn't meet the new regulations, which nobody had flagged in the survey. Obras Lima quoted 18,500 EUR to upgrade it, and we got a second quote from another firm for 21,000 EUR. Without the upgrade we can't get the occupancy certificate, which means the team can't move in on 1 February as planned. Obras Lima can start on 24 November if we confirm by this Friday, otherwise their next slot is January, which would push the move to March. The 18,500 isn't in the budget so it would come from contingency, which has 30,000 left. Let me know what you think.
+
+        Thanks,
+        Inês
+      reader: "Rafael, COO, reads on phone"
+    assert:
+      - {type: contains-all, value: ["## Rewrite", "## Fact check"]}
+      - {type: llm-rubric, value: "The first sentence asks Rafael to approve 18,500 EUR from contingency for the ventilation upgrade by Friday; supporting points include the occupancy certificate, the 1 February move at risk of slipping to March, and the second quote of 21,000 EUR; the background keeps the September start, Obras Lima and the 24 November start; the fact check accounts for all figures including the 30,000 contingency; and no facts are invented."}
+  - name: edge-fyi-no-ask
+    vars:
+      email: "Hi all, just a heads up that following a lot of back and forth with the vendor, and after the testing last week which went better than expected overall, it looks like the new payroll system will probably go live on 1 March rather than 1 February, mainly because the tax tables integration needs another round of testing. Nothing needed from you right now. Cheers, Lou"
+    assert:
+      - {type: llm-rubric, value: "Uses an FYI subject and leads with the likely go-live moving from 1 February to 1 March, keeps the word 'probably' or equivalent uncertainty, gives the tax tables testing as the reason, says no action is needed, and does not invent an ask."}
+  - name: negative-conflicting-ask
+    vars:
+      email: "Hi Dana, following our review, we think the extra budget for the agency should be 45,000 to cover the Q1 campaign. Can you approve when you get a chance? Thanks, Joe"
+      ask: "approve 50,000 by Wednesday"
+    assert:
+      - {type: llm-rubric, value: "Notices that the draft says 45,000 while the supplied ask says 50,000, does not silently pick one, marks the amount to confirm in the rewrite and explains the conflict under What changed."}

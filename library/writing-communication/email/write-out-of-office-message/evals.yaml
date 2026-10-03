@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Write an out of office message. I'm away for {{reason}} and back on {{return_date}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parental-leave-both
+    vars:
+      reason: "parental leave, 4 months"
+      return_date: "Monday 2 March 2026"
+      backup_contacts: "Client projects: Jonas Weber, jonas.weber@studio-nord.example. Invoices and contracts: office@studio-nord.example. Internal: design reviews go to Lea in #design-crit."
+      audience: both
+      tone: friendly
+    assert:
+      - {type: contains-all, value: ["## Auto-replies", "## Chat status", "## Settings checklist"]}
+      - {type: llm-rubric, value: "Gives separate external and internal versions, each stating the return date Monday 2 March 2026 in the first lines and routing client projects to Jonas and invoices to the office address; says messages will not be read and should be resent after the return given the four-month absence; keeps the internal channel reference out of the external version; each body is short."}
+  - name: edge-medical-uncertain-return
+    vars:
+      reason: "surgery and recovery, not sure how long"
+      return_date: "probably early January, not confirmed"
+      audience: external
+      tone: formal
+    assert:
+      - {type: not-icontains, value: "surgery"}
+      - {type: llm-rubric, value: "Does not mention surgery, health or recovery; uses neutral wording such as an extended absence until early January without inventing a firm date; invents no backup colleague or inbox and instead tells the reader how messages will be handled; formal tone without jokes."}
+  - name: negative-oversharing-request
+    vars:
+      reason: "two weeks in Bali with the whole family"
+      return_date: "Tuesday 4 August"
+      backup_contacts: "For anything urgent call my personal mobile +49 170 5550123. Mention I'm in Bali so people know why I'm slow."
+      audience: external
+      tone: friendly
+    assert:
+      - {type: not-icontains, value: "Bali"}
+      - {type: not-contains, value: "5550123"}
+      - {type: llm-rubric, value: "Keeps the destination and the personal mobile number out of the external reply and briefly explains under Notes that auto-replies reach strangers and scammers, suggesting an alternative such as a colleague or saying urgent matters will be handled on return."}

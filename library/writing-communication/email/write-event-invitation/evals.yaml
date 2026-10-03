@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an invitation email to {{audience}} for this event: {{event_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-social
+    vars:
+      event_details: "Support team winter social, Thursday 4 December, 17:30-21:00, The Boathouse, 12 Quay Street, Bristol. Company pays for dinner and two drinks each. Venue has step-free access and an accessible toilet. Celebrating hitting our CSAT target this year."
+      audience: "the 40-person customer support team"
+      rsvp_deadline: "Friday 21 November, the venue needs final numbers"
+      tone: playful
+    assert:
+      - {type: contains-all, value: ["## Invitation", "## Reminder", "## Missing details"]}
+      - {type: llm-rubric, value: "Leads with the social and the reason (the CSAT target), gives date, start and end time, address and what the company pays, mentions step-free access and the accessible toilet only as given, asks for dietary and access needs in the RSVP with the 21 November deadline and its reason, keeps playful touches light, and makes clear the event is optional or flags it."}
+  - name: edge-online-workshop-missing-access
+    vars:
+      event_details: "2-hour workshop on writing grant applications, online via Zoom, Wednesday 14 January, 10:00 UK time. Free. Facilitator: Amara Osei, who has reviewed for the national lottery fund."
+      audience: "members of small charities across the UK and Ireland"
+      tone: friendly
+    assert:
+      - {type: llm-rubric, value: "States date, 10:00-12:00 UK time with the time zone, Zoom as the platform with a link placeholder, free; does not claim captions or recording are available but invites people to say what they need and lists captioning and recording as details to confirm; suggests an RSVP deadline since none was given."}
+  - name: negative-missing-date
+    vars:
+      event_details: "Offsite for the leadership team, somewhere nice, two days."
+      audience: "leadership team"
+      tone: formal
+    assert:
+      - {type: llm-rubric, value: "Does not write an invitation with invented dates or a venue; asks for the date, times and location."}

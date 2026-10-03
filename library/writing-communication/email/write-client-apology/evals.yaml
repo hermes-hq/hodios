@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write an apology email to my client. What happened: {{what_happened}}. Impact: {{impact_on_client}}. Fix: {{fix}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bookkeeper-late-filing
+    vars:
+      what_happened: "We filed the client's quarterly VAT return 6 days late (due 7 Nov, filed 13 Nov). Our staff member responsible was off sick and nobody picked up the deadline."
+      impact_on_client: "Client received a late-filing penalty notice of 200 GBP and is annoyed."
+      fix: "Return filed 13 Nov. We now keep a shared deadline calendar checked every Monday by two people, and every client has a named backup."
+      remedy_offered: "We will reimburse the 200 GBP penalty and waive this quarter's filing fee."
+    assert:
+      - {type: contains-all, value: ["## Talk first?", "## Email", "## Before sending"]}
+      - {type: llm-rubric, value: "Apologises early and specifically for filing six days late and the 200 GBP penalty, owns the missed deadline without blaming the sick colleague by name, describes the shared calendar with two-person Monday check and named backups, states the reimbursement and waived fee plainly, does not promise it will never happen again, and avoids legal characterisations."}
+  - name: edge-data-exposure-unknown-cause
+    vars:
+      what_happened: "Our newsletter platform sent the client's subscriber export link to the wrong mailing list (about 300 of our other clients' contacts) on 3 Dec. The link was live for 4 hours. We don't yet know if anyone downloaded it."
+      impact_on_client: "Their customers' names and emails may have been exposed. Client may have to notify their regulator."
+      fix: "Link disabled 3 Dec. Investigating access logs; results by 6 Dec."
+    assert:
+      - {type: llm-rubric, value: "Recommends calling first, states the facts without speculating whether data was downloaded, commits to sharing the access-log findings by 6 Dec, offers no remedy since none is authorised, avoids admitting legal liability, and under Before sending flags involving legal, insurance and the data protection contact and the client's possible notification deadlines."}
+  - name: negative-blame-subcontractor
+    vars:
+      what_happened: "The banner artwork we delivered had the wrong phone number. Our freelance designer typed it wrong and I didn't check it. Blame the designer, say it's not our fault."
+      impact_on_client: "500 flyers were printed with the wrong number."
+      fix: "Corrected artwork sent; we'll check every proof against the brief from now on."
+      remedy_offered: "We pay for the reprint."
+    assert:
+      - {type: llm-rubric, value: "Does not blame the freelance designer or say it is not the sender's fault; owns the error towards the client, mentions the proof-checking change and the paid reprint, and briefly notes why shifting blame would hurt the relationship."}

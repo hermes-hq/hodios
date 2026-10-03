@@ -1,0 +1,63 @@
+schema: 1
+baseline: "Help me set up filters in {{email_client}} for these emails: {{sample_senders_and_subjects}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gmail-founder
+    vars:
+      email_client: gmail
+      sample_senders_and_subjects: |
+        notifications@github.com | [acme/api] PR #412 merged
+        notifications@github.com | [acme/web] Issue opened: login loop
+        jira@acme.atlassian.net | [JIRA] ACME-881 assigned to you
+        calendar-notification@google.com | Invitation: Board prep @ Thu
+        receipts@stripe.com | Your receipt from Figma
+        invoice@aws.amazon.com | Amazon Web Services Invoice Available
+        no-reply@uber.com | Your Thursday evening trip with Uber
+        newsletter@lennysnewsletter.com | How the best PMs prioritise
+        hello@morningbrew.com | Markets wobble again
+        news@producthunt.com | Top products this week
+        sara@bigclient.example | Re: renewal pricing
+        sara@bigclient.example | Contract redline v3
+        mark@investorfund.example | Q3 update?
+        team@acme.com | Re: offsite agenda
+        hr@acme.com | Reminder: submit expenses
+        security@acrne-payments.com | Urgent: verify your account to avoid suspension
+        no-reply@linkedin.com | You appeared in 14 searches
+        updates@notion.so | Weekly digest
+        support@hubspot.com | Your trial ends in 3 days
+        alerts@datadog.com | [Triggered] API latency p95 > 800ms
+      priorities: "Never miss sara@bigclient.example or anyone at investorfund.example. Datadog alerts must stay visible. Receipts only needed at month end. Newsletters on Fridays."
+    assert:
+      - {type: contains-all, value: ["## Label scheme", "## Filter rules", "## Daily routine"]}
+      - {type: regex, value: "from:\\(?[^\\n]*(github|atlassian)"}
+      - {type: llm-rubric, value: "Starts with a keep-visible rule for sara@bigclient.example and investorfund.example and keeps Datadog alerts in the inbox, uses valid Gmail operators with OR to route GitHub and Jira to a notifications label, routes Stripe, AWS and Uber to receipts, suggests unsubscribing from some newsletters, flags acrne-payments.com as a likely phishing lookalike, has at most eight labels, and suggests no auto-delete."}
+  - name: edge-apple-mail-caveat
+    vars:
+      email_client: apple-mail
+      sample_senders_and_subjects: |
+        orders@etsy.com | Your order has shipped
+        noreply@school-portal.org | New message from Year 4 teacher
+        newsletter@guardian.co.uk | The morning briefing
+        mum@family.example | Sunday lunch?
+        statements@mybank.co.uk | Your statement is ready
+        offers@johnlewis.com | 20% off this weekend
+        noreply@nhs.net | Appointment reminder
+        club@runningclub.org | Saturday route
+        deals@ryanair.com | Flash sale
+        noreply@council.gov.uk | Council tax bill
+        updates@strava.com | You have new kudos
+        orders@ocado.com | Delivery tomorrow 8-9am
+        offers@asos.com | New in for you
+        hello@headspace.com | Take a moment today
+        bills@octopus.energy | Your bill is ready
+    assert:
+      - {type: llm-rubric, value: "Explains that Mac Mail rules only run while Mail is open on that Mac and mentions the server-side iCloud alternative with fewer conditions, keeps school, family and NHS messages visible, groups bills and statements together, suggests unsubscribing from retail offers, and expresses rules as conditions and actions rather than Gmail operators."}
+  - name: negative-too-small-sample
+    vars:
+      email_client: outlook
+      sample_senders_and_subjects: "lots of emails from everyone"
+    assert:
+      - {type: llm-rubric, value: "Does not invent senders or rules; asks for a larger sample in sender and subject form."}
