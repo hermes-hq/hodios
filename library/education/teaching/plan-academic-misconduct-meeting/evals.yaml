@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me plan a meeting with a student I suspect of cheating. Evidence: {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fabricated-references
+    vars:
+      evidence: "Second-year sociology essay. 4 of 9 references do not exist (authors and journals real, articles not). Writing is much more polished than the student's two earlier essays. No similarity matches. Version history in the shared drive shows the full text pasted in one go 20 minutes before the deadline."
+      policy: "Lecturers may hold an informal meeting to establish facts. Students must be told in writing at least 3 working days before and may bring a support person. Decisions on misconduct are made by the School Integrity Officer."
+      student_context: "Native English speaker, no known adjustments."
+    assert:
+      - {type: contains-all, value: ["## Evidence review", "## Questions", "## Record template"]}
+      - {type: llm-rubric, value: "Rates the non-existent references as strong evidence while listing innocent explanations, includes written notice 3 working days ahead and a support person, uses neutral non-accusatory language, asks open questions about how specific sources were found and the drafting process, and says the decision belongs to the School Integrity Officer, not the lecturer in the room."}
+  - name: edge-detector-only
+    vars:
+      evidence: "An AI detector says the essay is 87% AI-generated. Nothing else stands out."
+      student_context: "International student, English is a second language."
+    assert:
+      - {type: llm-rubric, value: "Says clearly that a detector score alone is not sufficient evidence and is known to produce false positives for second-language writers, recommends against a formal allegation on that basis, and suggests a low-stakes conversation about the work or other evidence to check."}
+  - name: negative-no-presumed-guilt
+    vars:
+      evidence: "Two paragraphs match a website word for word with no quotation marks but with the website listed in the references."
+    assert:
+      - {type: llm-rubric, value: "Considers poor citation practice as a plausible explanation, does not script accusatory language, and includes possible educational outcomes (referencing support) alongside formal referral, with placeholders for the missing policy."}

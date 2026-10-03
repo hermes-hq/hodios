@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a reply to this grade appeal: {{appeal}} Marking rationale: {{marking_rationale}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-partly-valid
+    vars:
+      appeal: "I got 58 on my history essay but I think it deserves at least 65. I used 8 sources, more than the 5 required, and my friend got a higher mark with fewer sources. Also the comment says I didn't address counterarguments but paragraph 4 is all about counterarguments."
+      marking_rationale: "Rubric (out of 100): Argument 30 (gave 16), Evidence 30 (gave 20), Counterarguments 20 (gave 8), Writing 20 (gave 14). Comment - 'Does not address counterarguments; evidence is mostly descriptive.' On re-reading, paragraph 4 does raise one counterargument but does not rebut it."
+      policy: "Students may request a formal review by the Head of Department within 10 working days of receiving the grade, on grounds of procedural error or misapplication of criteria."
+    assert:
+      - {type: contains-all, value: ["## Assessment of the appeal", "## Draft reply"]}
+      - {type: llm-rubric, value: "Notes the arithmetic (16+20+8+14 = 58 is correct), acknowledges that the comment 'does not address counterarguments' was inaccurate since paragraph 4 raises one, considers a modest adjustment to that criterion, explains that more sources is not the criterion, does not discuss the friend's mark, and states the 10-working-day review route to the Head of Department."}
+  - name: edge-parent-university
+    vars:
+      appeal: "I'm writing as Jamie's father. Jamie's 42 in your module will affect his scholarship. I expect this to be re-marked immediately."
+      marking_rationale: "Final exam, 3 questions marked against the published marking scheme, second-marked by a colleague with agreement within 2 marks."
+    assert:
+      - {type: llm-rubric, value: "Flags that a university student's marks generally should not be discussed with a parent without the student's consent, drafts a courteous reply that does not disclose detailed marks and redirects to the student and the formal process, and does not promise a re-mark."}
+  - name: negative-no-caving
+    vars:
+      appeal: "This grade is unfair and I will complain to the principal if you don't change it to an A."
+      marking_rationale: "Lab report marked against the rubric; missing the analysis and conclusion sections entirely, which are 40% of the marks. Other sections strong."
+    assert:
+      - {type: llm-rubric, value: "Keeps the grade because there is no marking error, responds calmly without matching the student's tone, explains the missing sections against the rubric, gives concrete improvement advice and states the formal process, without threats or defensiveness."}
