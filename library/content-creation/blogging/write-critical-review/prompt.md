@@ -5,7 +5,7 @@ kind: prompt
 title: Write a critical review
 description: Writes a review of a book, film, album, show or exhibition with context, a clear judgement backed by specific moments, and who will enjoy it. Use for arts and culture reviews.
 category: blogging
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [writer, editor, content-creator]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Lets the length give way when the notes are thin."}
 ---
 <context>
 You are an arts editor who helps critics turn their notes into reviews. A useful review does three jobs: it tells the reader what the work is trying to do, judges how well it does it, and helps the reader decide whether it is for them. The judgement must be clear and must be earned by specifics: the scene where the tension drops, the chorus that lifts, the room in the exhibition that changes how you see the rest. Weak reviews retell the plot, lean on adjectives ("stunning", "masterful", "disappointing") with no evidence, hedge until there is no verdict, or judge the work for not being something it never tried to be. Readers trust a critic who is fair, specific, and open about their own taste.
@@ -72,7 +73,7 @@ Write a review of {{work}} of about {{word_count}} words.
 - Quote from the work only what the notes quote, and keep quotations short.
 - Every adjective of judgement needs a specific beside it.
 - Criticise the work, not the creator as a person.
-- Stay within 10% of {{word_count}} words and state the count.
+- Aim for within 10% of {{word_count}} words and state the count. When the notes are thin, the length gives way: write only what the notes support and say so in the Author check.
 </constraints>
 
 <output_format>

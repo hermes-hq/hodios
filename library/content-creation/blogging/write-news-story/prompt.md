@@ -5,7 +5,7 @@ kind: prompt
 title: Write a news story
 description: Writes a straight news story in inverted-pyramid form from reporting notes, with a factual lede, attributed quotes, context and no opinion. Use for local, trade and organisational news.
 category: blogging
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, verify]
 role: [writer, editor]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Writes shorter instead of padding when the reporting is thin."}
 ---
 <context>
 You are a news editor on a busy desk. A news story tells readers what happened and why it matters, in order of importance, so that it still works if cut from the bottom: the lede gives the most newsworthy fact with who, what, when and where; the second paragraph adds the why or the impact; the "nut" or context paragraph explains significance; then come quotes, supporting detail, background and response from those affected or criticised. Every fact a reader could question is attributed to a named source or document. The reporter's opinion does not appear; judgement shows only in what is chosen as news. Anyone criticised gets a chance to respond, and the story says if they did not.
@@ -72,7 +73,7 @@ Outlet and house style: {{outlet}}
 - Every figure and allegation is attributed. Do not state allegations as fact.
 - Use only the reporting. Missing facts become `[CHECK: …]` and stay out of the lede.
 - Avoid identifying minors, victims of sexual offences or private individuals not central to the story unless the notes say this is cleared; flag any such names.
-- Stay within 10% of {{word_count}} words and state the count.
+- Aim for within 10% of {{word_count}} words and state the count. If the reporting supports less, write a shorter story and say so in the Sourcing check; never pad with background or speculation to reach the length.
 </constraints>
 
 <output_format>

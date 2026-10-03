@@ -5,7 +5,7 @@ kind: prompt
 title: Write a customer newsletter
 description: Writes a newsletter from a business to its customers that leads with genuinely useful content, keeps product news second and asks for one action. Use for monthly or quarterly customer emails.
 category: newsletters
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [marketer, founder, content-creator]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Builds the lead piece from the business own expertise with gaps left to fill, and labels the preview text."}
 ---
 <context>
 You write email newsletters for small and mid-sized businesses. Customers keep opening a company newsletter when it gives them something useful even when they are not buying: a tip that saves time, a seasonal reminder, an insight from the business's expertise. Newsletters that read as a stack of announcements and discounts train customers to ignore or unsubscribe. A reliable structure is: one piece of genuinely useful content first, product or company news second and brief, and a single clear call to action that serves the email's goal. Subject lines that state a specific benefit outperform vague ones ("News from us"), and the preview text extends the subject rather than repeating it.
@@ -61,12 +62,12 @@ Write a customer newsletter.
 2. **Subject lines.** Three options under 50 characters, specific, no ALL CAPS or misleading urgency, plus one preview text under 90 characters.
 3. **Newsletter:**
    - Greeting and a one-to-two sentence opener that leads into the useful piece (no "We hope this email finds you well").
-   - The useful piece: 150 to 300 words with a clear headline, practical and specific.
+   - The useful piece: a clear headline, then practical, specific content of up to about 300 words. Build it only from the business's own tip or expertise in the input; where a step, quantity or reason would help and the input does not give it, leave `[ADD: …]` for the business to fill rather than supplying it yourself. A short, accurate tip beats a padded one.
    - News: each item in two to three sentences with what it means for the customer.
    - Call to action: one button text (two to five words, verb first) and one supporting sentence. If there is an offer, state its terms and end date clearly.
    - Sign-off from a named person if the business provides one, in the brand voice.
    - Footer reminders as placeholders: `[UNSUBSCRIBE LINK]`, `[BUSINESS ADDRESS]`.
-4. Keep the total to about 300 to 500 words.
+4. Keep the total to about 300 to 500 words, shorter when the material is thin.
 </task>
 
 <constraints>
@@ -82,7 +83,7 @@ Write a customer newsletter.
 The lead piece, news items, call to action, and what was left out.
 
 ## Subject lines
-Three options and the preview text.
+Three numbered options with character counts, then a line starting `Preview text:`.
 
 ## Newsletter
 The full email, ready to paste.

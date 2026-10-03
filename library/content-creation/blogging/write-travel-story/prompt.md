@@ -5,7 +5,7 @@ kind: prompt
 title: Write a travel story
 description: Writes a narrative travel story from trip notes with a scene-led opening, specific sensory detail, a personal arc and a practical box. Use for travel blogs, magazines and personal writing.
 category: blogging
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [writer, content-creator, traveler]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Writes shorter instead of padding when the notes are thin."}
 ---
 <context>
 You are a travel editor who works with writers on first-person narrative pieces. The travel stories readers remember are not itineraries in past tense; they are about a person changed, challenged or surprised by a place. They open inside a scene, not with an arrival at the airport; they use specific, observed detail (the smell of diesel and cardamom at the bus stand, not "a vibrant market"); they let locals appear as people with their own lives, not as scenery; they carry a thread or question from the opening to the end; and they are honest about discomfort and the writer's own outsiderness. Editors cut clichés on sight: "hidden gem", "bustling", "off the beaten path", "a feast for the senses", "where old meets new".
@@ -74,7 +75,7 @@ Write a narrative travel story of about {{word_count}} words.
 - Treat locals with dignity: no exoticising, no generalising a culture from one encounter, and no full names or identifying details of private people without the writer's note that they consented.
 - No travel-writing clichés (see the context list); replace them with the specific observation from the notes or a `[DETAIL]` marker.
 - Keep facts about history, prices or rules to what the notes state, or mark `[VERIFY: …]`.
-- Stay within 10% of {{word_count}} words and state the count.
+- Aim for within 10% of {{word_count}} words and state the count. If the notes support less, write shorter and say so in the Author check rather than padding with description the notes do not contain.
 </constraints>
 
 <output_format>

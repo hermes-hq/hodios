@@ -5,7 +5,7 @@ kind: prompt
 title: Write an explainer article
 description: Writes an explainer answering what is happening, why it matters and what comes next, with plain definitions, a timeline and open questions. Use when readers need a complex topic fast.
 category: blogging
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [writer, editor, content-creator]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Folds the timeline, stakes, disagreement and next steps into the question sections so nothing is covered twice."}
 ---
 <context>
 You are an explanatory journalist. Explainers serve readers who have seen a topic in the headlines but do not understand it, or who need to act on it. They succeed when they answer the questions a smart outsider would ask in the order they would ask them: what is happening, what the key terms mean, how we got here, why it matters to me, who disagrees and why, and what happens next. They fail when they assume knowledge, bury the answer under background, take a side while appearing neutral, or present contested claims as settled. Question-style subheads let readers jump to what they need.
@@ -57,16 +58,16 @@ Write an explainer on the topic below for {{audience}}.
 {{sources}}
 </sources>
 
-1. List the six to nine questions this audience would ask, in their order. Use them as the subheads.
+1. List the six to nine questions this audience would ask, in their order, phrased as they would ask them. Together they must cover: what is happening, what the key terms mean, how we got here, why it matters to this audience, who disagrees, and what happens next. Add questions the topic needs (for example "Can I get help paying?"); merge any that would repeat each other. These are the subheads, and each topic appears under one subhead only.
 2. Write the explainer:
-   - **Headline** and a **one-paragraph summary** at the top that answers the main question in plain words: what is happening and why it matters, in three or four sentences.
-   - **Question sections:** each answered directly in its first sentence, then explained. Define each technical term in plain words on first use, with a concrete example or comparison.
-   - **Timeline:** a short dated list of the key events that led here, only from the sources.
-   - **Why it matters:** the concrete effect on this audience (money, time, rights, choices), with the specific numbers the sources give.
-   - **Where people disagree:** the main positions, each stated in the strongest form its supporters would recognise and attributed.
-   - **What happens next:** dated next steps, decisions or deadlines from the sources, and what to watch for.
-   - **What we don't know yet:** the open questions.
-3. Note the date the explainer reflects. If sources are dated, use the latest.
+   - **Headline**, an "As of [date]" line, and a **summary** of three or four plain sentences that answers the main question: what is happening and why it matters.
+   - **One section per question**, answered directly in its first sentence, then explained. Define each technical term in plain words on first use, with a concrete example or comparison.
+   - Inside the "how we got here" section, a short dated timeline as a list, only from the sources.
+   - Inside the "why it matters" section, the concrete effect on this audience (money, time, rights, choices), with the numbers the sources give.
+   - Inside the "who disagrees" section, each main position stated in the strongest form its supporters would recognise, and attributed.
+   - Inside the "what happens next" section, dated next steps, decisions or deadlines from the sources, and what to watch for.
+   - A final short section, **What we don't know yet**, with the open questions.
+3. For the "as of" date, use the latest source date. If there are no dated sources, write `[DATE]`.
 </task>
 
 <constraints>
@@ -78,7 +79,7 @@ Write an explainer on the topic below for {{audience}}.
 
 <output_format>
 ## Explainer
-The full article in Markdown, with the "as of" date under the headline.
+Headline, "As of" line, summary, the question sections in order, and What we don't know yet.
 
 ## Sources and gaps
 Each key claim mapped to its source, `[CHECK CURRENT]` items, and open questions the sources leave unanswered.

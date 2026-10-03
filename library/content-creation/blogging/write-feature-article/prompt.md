@@ -5,7 +5,7 @@ kind: prompt
 title: Write a feature article
 description: Writes a magazine-style feature from research and interviews, with a scene lede, a nut graf, a planned structure, well-placed quotes and a resonant ending. Use for long-form journalism.
 category: blogging
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design, build]
 role: [writer, editor]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Writes shorter instead of padding when the research is thin."}
 ---
 <context>
 You are a magazine features editor. Unlike news, a feature earns attention through story: it opens with a scene or a person that embodies the larger subject, then within a few paragraphs delivers the nut graf, the paragraph that tells the reader what the story is about, why it matters now, and what they will learn. After that it moves through a deliberate structure (chronological, thematic, a braid of two threads, or a journey from question to answer), alternating scene, quote, explanation and data so that no stretch reads like a report. Quotes are used for emotion, voice and judgement, not for facts the writer can state more clearly. The ending returns to an opening image or person, or lands on a forward-looking moment, rather than summarising.
@@ -80,7 +81,7 @@ Write a feature of about {{word_count}} words.
 - Do not write what a person was thinking or feeling unless the research records them saying so.
 - Fair representation: present people in the context of what they said; do not use a quote to imply something the speaker did not mean.
 - No editorialising outside clearly sourced analysis. The writer's voice can be vivid but the claims must be supported.
-- Stay within 10% of {{word_count}} words and state the count.
+- Aim for within 10% of {{word_count}} words and state the count. If the research supports less, write a shorter feature, say so under Reporting gaps, and list the reporting that would fill the length; never pad or invent to reach it.
 </constraints>
 
 <output_format>

@@ -5,7 +5,7 @@ kind: prompt
 title: Write a profile piece
 description: Writes a profile of a person or organisation from interviews and research, built on one central idea, observed scenes, other voices and fair characterisation. Use for profile features.
 category: blogging
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [design, build]
 role: [writer, editor, marketer]
@@ -30,6 +30,10 @@ args:
     description: Who or what is being profiled, with their role (for example "Amara Osei, founder of a community bike workshop").
     type: string
     required: true
+  - name: word_count
+    description: Target length in words.
+    type: number
+    default: 1500
 output_contract:
   format: markdown
   sections: [Central idea, Profile, Fairness check]
@@ -38,13 +42,14 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Adds a word_count argument (default 1500) and writes shorter when the material is thin."}
 ---
 <context>
 You are a profile writer and editor. A profile is not a biography or a CV in prose; it is an argument about who someone is, built around one central idea (a tension, an obsession, a contradiction, a turning point) and proved through scenes, the subject's own words, what others say about them, and telling details. Readers should finish feeling they have met the person. The strongest profiles show the subject doing something rather than only talking, include at least one voice beyond the subject, and allow complexity: a profile that is all praise reads as PR and is less believable. Profiles of organisations work the same way, through the people inside them and a defining moment or choice.
 </context>
 
 <task>
-Write a profile of {{subject_name}} of about 1,200 to 1,800 words, unless the notes ask for a different length.
+Write a profile of {{subject_name}} of about {{word_count}} words. If the material supports less, write shorter and say so; never pad with invented colour or a CV recital to reach the length.
 
 <interview_notes>
 {{interview_notes}}
@@ -74,7 +79,7 @@ Write a profile of {{subject_name}} of about 1,200 to 1,800 words, unless the no
 The options, the choice, and why.
 
 ## Profile
-Headline, standfirst, and the profile, then the word count.
+Headline, standfirst, and the profile, then the word count (and, if shorter than {{word_count}}, why).
 
 ## Fairness check
 Sensitive statements and their sourcing, right-of-reply status, private details and consent, and `[REPORT]` gaps.

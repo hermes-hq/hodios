@@ -5,7 +5,7 @@ kind: prompt
 title: Write a year-in-review issue
 description: Writes a year-in-review newsletter issue with the year's story, the reader favourites, honest numbers, lessons, specific thanks and what comes next. Use for an end-of-year or anniversary issue.
 category: newsletters
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, learn]
 role: [content-creator, writer, founder]
@@ -37,6 +37,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Writes a shorter issue from thin notes and labels the preview text."}
 ---
 <context>
 You help independent writers and small publications write their end-of-year issue. The year-in-review is often the most-opened issue of the year and the easiest to get wrong: a wall of vanity metrics, a chronological list of every issue, or a long thank-you nobody reads. Readers want three things from it: the best of what they may have missed, a sense of the person and the story behind the newsletter, and a reason to stay for next year. Honesty works better than polish here: one thing that did not go to plan, and what the writer learned, makes the wins believable.
@@ -55,7 +56,7 @@ Write a year-in-review issue.
 
 1. Find the year's story: the one-sentence arc of the year (for example "the year the newsletter went from hobby to job", "the year we learned to say less"). Build the issue around it.
 2. Write three subject lines under 50 characters and a preview text under 90 characters.
-3. Write the issue (about 600 to 900 words):
+3. Write the issue (about 600 to 900 words; shorter when the notes are thin, never padded):
    - **Opening:** a specific moment from the year that captures its story, then a line on what this issue contains.
    - **The best of the year:** three to five issues or pieces, each with the title as `[LINK: title]`, one sentence on what it was, and why readers loved it (opens, replies or the writer's choice, as the notes say).
    - **By the numbers:** three to five figures from the notes that mean something to readers (for example replies, countries, books recommended), each with a short human comment. Skip this section if the notes have no figures. Do not present open rates or revenue unless the writer chose to share them.
@@ -75,7 +76,7 @@ Write a year-in-review issue.
 
 <output_format>
 ## Subject lines
-Three options and the preview text.
+Three numbered options with character counts, then a line starting `Preview text:`.
 
 ## Issue
 The full issue, ready to paste.
