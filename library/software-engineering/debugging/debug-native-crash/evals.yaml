@@ -1,0 +1,55 @@
+schema: 1
+baseline: "My program crashes. Output: {{crash_output}} Code: {{code}}. What is wrong?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-asan-vector-reallocation
+    vars:
+      crash_output: |
+        ==4211==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000000014 at pc 0x55d0c1 bp ... sp ...
+        READ of size 4 at 0x602000000014 thread T0
+            #0 0x55d0c0 in Scene::update() src/scene.cpp:42
+            #1 0x55e1f2 in main src/main.cpp:17
+        freed by thread T0 here:
+            #0 0x7f... in operator delete(void*)
+            #1 0x55c9a1 in std::vector<Entity>::_M_realloc_insert(...)
+            #2 0x55cf33 in Scene::spawn(Entity const&) src/scene.cpp:28
+        previously allocated by thread T0 here:
+            #1 0x55cf33 in Scene::spawn(Entity const&) src/scene.cpp:28
+        clang++ 18, -g -O1 -fsanitize=address, Linux x86_64
+      code: |
+        void Scene::update() {
+          Entity& player = entities[0];        // line 38
+          for (auto& e : triggers) {
+            if (e.fires()) spawn(e.payload()); // line 41
+            player.hp -= e.damage();           // line 42
+          }
+        }
+        void Scene::spawn(const Entity& e) { entities.push_back(e); } // line 28
+    assert:
+      - {type: contains, value: "## Likely causes"}
+      - {type: llm-rubric, value: "Explains that push_back in spawn reallocates the entities vector and frees the old buffer, leaving the player reference dangling, and fixes it by re-fetching the element or using an index, reserving with justification, or deferring spawns until after the loop; ties this to the three ASan stacks."}
+  - name: edge-bare-segfault-no-symbols
+    vars:
+      crash_output: "Segmentation fault (core dumped)  -- release build, gcc 13 -O2, Ubuntu 24.04, happens after about 10 minutes of load"
+    assert:
+      - {type: llm-rubric, value: "Says there is not enough evidence to name a cause, gives concrete steps to get a symbolised backtrace (debug info, core dump enablement, gdb or coredumpctl, bt full / thread apply all bt) and a sanitizer build, and offers only clearly labelled hypotheses rather than a confident fix."}
+  - name: negative-rust-stack-overflow
+    vars:
+      crash_output: |
+        thread 'main' has overflowed its stack
+        fatal runtime error: stack overflow
+        Aborted (core dumped)
+        rustc 1.81, cargo run --release, input: a JSON file nested 100,000 levels deep
+      code: |
+        fn depth(v: &Value) -> usize {
+            match v {
+                Value::Array(a) => 1 + a.iter().map(depth).max().unwrap_or(0),
+                Value::Object(o) => 1 + o.values().map(depth).max().unwrap_or(0),
+                _ => 0,
+            }
+        }
+    assert:
+      - {type: llm-rubric, value: "Identifies unbounded recursion on deeply nested input as the cause rather than memory corruption or unsafe code, and fixes with an iterative traversal using an explicit stack and/or a nesting depth limit on input; does not present raising the thread stack size as the main fix."}

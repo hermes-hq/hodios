@@ -1,0 +1,61 @@
+schema: 1
+baseline: "My Docker build fails. Dockerfile: {{dockerfile}} Log: {{build_log}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missing-lockfile
+    vars:
+      dockerfile: |
+        FROM node:22-slim
+        WORKDIR /app
+        COPY package.json ./
+        RUN npm ci
+        COPY . .
+        RUN npm run build
+        CMD ["node", "dist/server.js"]
+      build_log: |
+        #7 [3/6] COPY package.json ./
+        #7 DONE 0.0s
+        #8 [4/6] RUN npm ci
+        #8 0.912 npm error code EUSAGE
+        #8 0.913 npm error The `npm ci` command can only install with an existing package-lock.json or
+        #8 0.913 npm error npm-shrinkwrap.json with lockfileVersion >= 1.
+        #8 ERROR: process "/bin/sh -c npm ci" did not complete successfully: exit code: 1
+        ERROR: failed to solve: process "/bin/sh -c npm ci" did not complete successfully: exit code: 1
+    assert:
+      - {type: contains, value: "## First real error"}
+      - {type: llm-rubric, value: "Quotes the npm EUSAGE lockfile line, maps it to step 4 (RUN npm ci), and fixes by copying package-lock.json together with package.json (for example COPY package.json package-lock.json ./), noting to check .dockerignore does not exclude the lockfile; does not suggest switching to npm install as the main fix."}
+  - name: edge-alpine-native-module
+    vars:
+      dockerfile: |
+        FROM python:3.12-alpine
+        WORKDIR /srv
+        COPY requirements.txt .
+        RUN pip install --no-cache-dir -r requirements.txt
+        COPY . .
+      build_log: |
+        #8 [4/5] RUN pip install --no-cache-dir -r requirements.txt
+        #8 3.402 Collecting psycopg2==2.9.9
+        #8 4.110   Downloading psycopg2-2.9.9.tar.gz (384 kB)
+        #8 4.390   error: subprocess-exited-with-error
+        #8 4.391   python setup.py egg_info did not run successfully.
+        #8 4.392   Error: pg_config executable not found.
+        #8 4.393   pg_config is required to build psycopg2 from source.
+        #8 ERROR: process "/bin/sh -c pip install --no-cache-dir -r requirements.txt" did not complete successfully: exit code: 1
+    assert:
+      - {type: llm-rubric, value: "Identifies that psycopg2 is building from source on Alpine (no prebuilt wheel for musl in this case) and needs libpq development headers and a compiler; offers a concrete fix such as installing postgresql-dev/libpq-dev and build tools in a build stage, or switching to a slim Debian base where wheels exist, or psycopg2-binary/psycopg 3 binary with its trade-offs."}
+  - name: negative-private-index-token
+    vars:
+      dockerfile: |
+        FROM python:3.12-slim
+        WORKDIR /app
+        COPY requirements.txt .
+        RUN pip install -r requirements.txt --extra-index-url https://pypi.internal.example.com/simple
+      build_log: |
+        #6 [3/3] RUN pip install -r requirements.txt --extra-index-url https://pypi.internal.example.com/simple
+        #6 2.511 ERROR: HTTP error 401 while getting https://pypi.internal.example.com/simple/acme-core/
+        #6 ERROR: process "/bin/sh -c pip install ..." did not complete successfully: exit code: 1
+    assert:
+      - {type: llm-rubric, value: "Diagnoses missing authentication to the private index and fixes it with a BuildKit secret mount (or SSH mount) used only in that RUN step, explicitly warning against passing the token via ARG or ENV because it persists in image layers or history."}

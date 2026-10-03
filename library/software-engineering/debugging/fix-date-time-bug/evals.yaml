@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Fix this date bug: {{symptom}} Code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-date-only-shifted
+    vars:
+      language: "TypeScript, React, API returns JSON"
+      code: |
+        // API returns { dueDate: "2024-03-10" }
+        const due = new Date(task.dueDate);
+        return <span>{due.toLocaleDateString()}</span>;
+      symptom: "Users in California see the due date as 3/9/2024, a day early. Users in Germany see 10.3.2024, which is right."
+    assert:
+      - {type: contains, value: "## What each value should be"}
+      - {type: llm-rubric, value: "Explains that a date-only ISO string is parsed as UTC midnight, which is the previous evening in California; classifies dueDate as a local date with no time and fixes by formatting it without converting through a Date in local time (for example parsing parts, Temporal.PlainDate, or formatting with timeZone UTC), with tests that pin a negative-offset zone."}
+  - name: edge-week-based-year
+    vars:
+      language: "Java 21"
+      code: |
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+        String label = f.format(invoice.getIssuedOn()); // LocalDate
+      symptom: "An invoice issued on 2024-12-30 shows 2025-12-30 in the PDF."
+    assert:
+      - {type: llm-rubric, value: "Identifies YYYY as week-based year and fixes the pattern to yyyy or uuuu (or ISO_LOCAL_DATE), and adds a test for 2024-12-30 and nearby year-boundary dates."}
+  - name: negative-offset-for-future-events
+    vars:
+      language: "Python 3.12, Postgres"
+      code: |
+        start_utc = local_start.astimezone(timezone.utc)
+        db.execute("INSERT INTO meetings (title, starts_at) VALUES (%s, %s)", (title, start_utc))
+        # weekly recurrence: starts_at + timedelta(weeks=n)
+      symptom: "A weekly 9:00 meeting created in February for a team in New York shows at 10:00 local after mid-March."
+    assert:
+      - {type: llm-rubric, value: "Explains that a recurring local event was stored as a UTC instant and repeated by adding fixed weeks, so it drifts at the DST change; fixes by storing local time plus the IANA zone (America/New_York) and computing each occurrence in that zone with zoneinfo; does not suggest adding an hour or simply 'storing everything in UTC'."}

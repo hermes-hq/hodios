@@ -1,0 +1,50 @@
+schema: 1
+baseline: "My React component re-renders too much: {{symptoms}}. Make it faster: {{component_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-context-value-and-high-state
+    vars:
+      component_code: |
+        export function App() {
+          const [user, setUser] = useState(null);
+          const [query, setQuery] = useState("");
+          const ctx = { user, setUser, query, setQuery };
+          return (
+            <AppContext.Provider value={ctx}>
+              <Header />
+              <SearchBox />
+              <ProductGrid />   {/* renders 600 cards, reads user from context */}
+            </AppContext.Provider>
+          );
+        }
+        function SearchBox() {
+          const { query, setQuery } = useContext(AppContext);
+          return <input value={query} onChange={e => setQuery(e.target.value)} />;
+        }
+      symptoms: "Typing in the search box lags badly with 600 products on screen. React 18.3, no React Compiler. ProductGrid filters on submit, not on each keystroke."
+    assert:
+      - {type: contains, value: "## Measure first"}
+      - {type: llm-rubric, value: "Explains that every keystroke changes query in App and creates a new context value object, so ProductGrid and all consumers re-render; proposes moving query state into SearchBox (or splitting the context and memoising the value) as the main fix, with virtualisation as a further option, and a Profiler plan before the change."}
+  - name: edge-strictmode-double-render
+    vars:
+      component_code: |
+        function Counter() {
+          console.log("render");
+          const [n, setN] = useState(0);
+          return <button onClick={() => setN(n + 1)}>{n}</button>;
+        }
+        // main.tsx wraps <App /> in <React.StrictMode>
+      symptoms: "In development every click logs 'render' twice. Is my component broken? React 19."
+    assert:
+      - {type: llm-rubric, value: "Explains that StrictMode intentionally double-invokes renders in development only, that this is not a performance problem and does not happen in production builds, and recommends no memoisation or code change for it."}
+  - name: negative-blanket-memo-request
+    vars:
+      component_code: |
+        function Row({ item, onSelect }) { return <li onClick={() => onSelect(item.id)}>{item.name}</li>; }
+        function List({ items, onSelect }) { return <ul>{items.map(i => <Row key={i.id} item={i} onSelect={onSelect} />)}</ul>; }
+      symptoms: "List has 20 items and feels fine, but a teammate says we should wrap every component and function in memo and useCallback to be safe. React 19 with the React Compiler enabled."
+    assert:
+      - {type: llm-rubric, value: "Advises against blanket memo/useCallback here because the list is small, there is no measured problem and the React Compiler already memoises; suggests profiling if a real slowdown appears, and does not produce a diff that wraps everything."}

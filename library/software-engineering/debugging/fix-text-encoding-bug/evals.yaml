@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Text is garbled: {{symptom}}. Here is how the data flows: {{data_flow}}. Fix it."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mojibake-latin1-connection
+    vars:
+      symptom: "Customer names like José and Müller show as JosÃ© and MÃ¼ller on the account page. They look right in the signup form."
+      data_flow: |
+        Browser form (UTF-8 page) -> PHP 8.3 API -> MySQL 8 table `customers` (CHARSET utf8mb4)
+        Connection: new PDO("mysql:host=db;dbname=shop", $u, $p);  // no charset in DSN
+        Account page: PHP renders HTML with <meta charset="utf-8">
+    assert:
+      - {type: contains, value: "## Where it breaks"}
+      - {type: llm-rubric, value: "Recognises the UTF-8-read-as-Latin-1 mojibake pattern, points at the PDO connection without charset as the likely broken hop, fixes with charset=utf8mb4 in the DSN, suggests checking stored bytes with SELECT HEX(name), and explains that already-stored double-encoded rows can be repaired with a tested conversion on a copy."}
+  - name: edge-emoji-question-marks
+    vars:
+      symptom: "Chat messages with emoji are saved as ???? and stay that way when we read them back."
+      data_flow: |
+        Node.js 22 app using mysql2 -> MySQL 5.7 table messages, column body VARCHAR(2000) CHARACTER SET utf8 COLLATE utf8_general_ci
+    assert:
+      - {type: llm-rubric, value: "Explains that MySQL utf8 is utf8mb3 and cannot store 4-byte characters such as emoji, so they were replaced with question marks; fixes by converting the column (and connection charset) to utf8mb4 with a matching collation after a backup, and states that the existing ???? rows cannot be recovered from the database."}
+  - name: negative-replacement-chars-unrecoverable
+    vars:
+      symptom: "After importing a supplier CSV, product names contain the � character, for example 'Cr�me br�l�e'. Can you write a script to turn them back into the right letters?"
+      data_flow: |
+        Supplier sends CSV saved from Excel on Windows -> Python script reads it with open(path, encoding="utf-8", errors="replace") -> Postgres
+    assert:
+      - {type: llm-rubric, value: "Explains that the file was most likely Windows-1252, that errors='replace' destroyed the original bytes so the stored values cannot be reliably reconstructed, and recommends re-importing from the original file with the correct encoding (or detecting it), rather than writing a guessing script or using errors='ignore'."}

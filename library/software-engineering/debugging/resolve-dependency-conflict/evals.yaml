@@ -1,0 +1,55 @@
+schema: 1
+baseline: "Fix this {{package_manager}} dependency error: {{error_output}} Manifest: {{manifest}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-peer-conflict
+    vars:
+      package_manager: "npm 10"
+      error_output: |
+        npm error code ERESOLVE
+        npm error ERESOLVE unable to resolve dependency tree
+        npm error
+        npm error While resolving: shop-web@1.4.0
+        npm error Found: react@18.3.1
+        npm error node_modules/react
+        npm error   react@"^18.3.1" from the root project
+        npm error
+        npm error Could not resolve dependency:
+        npm error peer react@"^16.8.0 || ^17.0.0" from react-sortable-list@2.1.0
+        npm error node_modules/react-sortable-list
+        npm error   react-sortable-list@"^2.1.0" from the root project
+      manifest: |
+        {"name": "shop-web", "version": "1.4.0",
+         "dependencies": {"react": "^18.3.1", "react-dom": "^18.3.1", "react-sortable-list": "^2.1.0"}}
+    assert:
+      - {type: contains, value: "## The conflict"}
+      - {type: llm-rubric, value: "Traces that react-sortable-list@2.1.0 declares a peer range without React 18; recommends checking for a newer react-sortable-list release that supports React 18 (giving the npm view command rather than inventing a version) or replacing it, with a targeted override as a later option; treats --legacy-peer-deps or --force only as a last resort with its runtime risk."}
+  - name: edge-pip-resolution-impossible
+    vars:
+      package_manager: "pip 24.2"
+      error_output: |
+        ERROR: Cannot install -r requirements.txt (line 2) and -r requirements.txt (line 3) because these package versions have conflicting dependencies.
+        The conflict is caused by:
+            analytics-kit 3.2.0 depends on numpy<2.0
+            fastgeo 1.8.0 depends on numpy>=2.0
+        ERROR: ResolutionImpossible
+      manifest: |
+        pandas==2.2.2
+        analytics-kit==3.2.0
+        fastgeo==1.8.0
+    assert:
+      - {type: llm-rubric, value: "Identifies the numpy<2 versus numpy>=2 clash between the two pinned packages, proposes checking for an analytics-kit release that supports numpy 2 or an older fastgeo that supports numpy 1 (with pip index versions or the changelog, not invented versions), and explains that no override can make both constraints true at once."}
+  - name: negative-truncated-output
+    vars:
+      package_manager: "Gradle 8.10"
+      error_output: "BUILD FAILED in 14s"
+      manifest: |
+        dependencies {
+          implementation("com.squareup.okhttp3:okhttp:4.12.0")
+          implementation("io.grpc:grpc-okhttp:1.66.0")
+        }
+    assert:
+      - {type: llm-rubric, value: "Says the output does not show the conflict and asks for the full error and for gradle dependencyInsight or dependencies output for the suspected module, instead of guessing a fix or inventing version numbers."}
