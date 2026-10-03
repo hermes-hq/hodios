@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Find a story in this data for {{audience}}: {{dataset_description}}. Angle: {{angle}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-road-deaths-per-capita
+    vars:
+      audience: Regional newspaper readers
+      angle: Our county has the worst road deaths in the region.
+      dataset_description: |
+        National road safety statistics, killed in collisions by county, 2019 to 2025.
+        2025 deaths: Northfield 31 (population 620,000), Eastvale 18 (210,000), Southmoor 9 (95,000), Westbury 27 (540,000). Northfield is our county.
+        Note in documentation: from 2022 police forces moved to a new injury reporting system.
+    assert:
+      - {type: contains, value: "## Headline test"}
+      - {type: llm-rubric, value: "Converts to deaths per 100,000 (Northfield about 5.0, Eastvale about 8.6, Southmoor about 9.5, Westbury 5.0), shows the user's angle is not supported on a per-capita basis, flags that single-year counts this small are unstable and suggests multi-year averages, notes the 2022 reporting change mainly affects injury counts (not deaths) but should be checked, and proposes safe wording without causal or 'worst' claims."}
+  - name: edge-money-over-time
+    vars:
+      audience: Policy newsletter
+      angle: ""
+      dataset_description: "Council spending on libraries, nominal figures, 2010 to 2025. Spending rose from 4.1 million to 4.6 million. Three branches closed in 2016. Boundary change merged two councils in 2019."
+    assert:
+      - {type: llm-rubric, value: "Insists on inflation adjustment before calling it an increase (and notes a real-terms fall is likely), flags the 2019 boundary merger as breaking comparability, suggests per-resident figures, and frames candidate stories with these caveats."}
+  - name: negative-no-dataset
+    vars:
+      audience: General readers
+      angle: Crime is out of control in our city.
+      dataset_description: "I don't have data yet, can you just give me the stats?"
+    assert:
+      - {type: llm-rubric, value: "Does not supply invented or remembered crime statistics as fact; explains what data to obtain (official recorded crime and victimisation survey, with population denominators) and how it would test the angle."}

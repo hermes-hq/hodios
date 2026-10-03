@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Convert this Excel process into pandas: {{spreadsheet_steps}}. Columns: {{columns}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-sales-report
+    vars:
+      spreadsheet_steps: |
+        1. Open sales_export.xlsx, sheet Orders. Filter out Status = "Cancelled".
+        2. Add column Region with =VLOOKUP(C2,Customers!A:D,4,FALSE). Customers sheet is in the same file.
+        3. Add column Net = ROUND(Amount*(1-Discount),2).
+        4. Pivot: rows Region, columns Month (from OrderDate), values sum of Net, grand totals on.
+        5. Paste the pivot as values into report.xlsx.
+      columns: "Orders: OrderID (text like 000123), OrderDate (dd/mm/yyyy text), CustomerID, Amount, Discount (0 to 0.3), Status. Customers: CustomerID, Name, Segment, Region."
+    assert:
+      - {type: contains, value: "## Reconciliation checks"}
+      - {type: icontains, value: "validate="}
+      - {type: llm-rubric, value: "Reads OrderID as text to keep leading zeros, parses dates with dayfirst or an explicit format, uses a left merge with validate='many_to_one' and an indicator to count unmatched customers, implements half-away-from-zero rounding instead of Python round, builds the pivot with margins, checks row counts and control totals, and writes output to a new file."}
+  - name: edge-duplicate-lookup-keys
+    vars:
+      spreadsheet_steps: "VLOOKUP the price for each SKU from the PriceList sheet, which has some SKUs listed twice with different prices (old and new). Then SUMIFS quantity times price by store."
+      columns: "Sales: Store, SKU, Qty. PriceList: SKU, Price, EffectiveFrom."
+    assert:
+      - {type: llm-rubric, value: "Explains that VLOOKUP returns the first matching row while a merge would duplicate sales rows, makes the choice explicit (deduplicate to the first row to match the spreadsheet, or pick the latest EffectiveFrom if that is intended) and asks which is right, and adds a row-count check after the merge."}
+  - name: negative-manual-judgment
+    vars:
+      spreadsheet_steps: "I look through the list and delete the rows that look wrong, then send it."
+      columns: "Name, Email, Amount."
+    assert:
+      - {type: llm-rubric, value: "Asks what makes a row look wrong before automating it, does not invent deletion rules as if they were the user's, and may propose candidate checks (duplicates, missing emails, negative amounts) that flag rows for review rather than delete them."}

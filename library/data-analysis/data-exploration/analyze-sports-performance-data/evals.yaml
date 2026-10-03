@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Analyse this {{sport}} data: {{data}}. Question: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-striker-slump
+    vars:
+      sport: Football, semi-professional league
+      question: Is our striker in a slump or just unlucky?
+      data: |
+        Last 8 games: minutes 90, 90, 75, 90, 62, 90, 90, 85. Goals 0 in all 8. Shots 4, 3, 2, 5, 1, 4, 3, 4. Shots on target 1, 2, 1, 2, 0, 2, 1, 2. Expected goals (xG) total 3.4.
+        Previous 12 games: 1,010 minutes, 9 goals, 38 shots, 6.1 xG.
+    assert:
+      - {type: contains, value: "## Sample-size warnings"}
+      - {type: llm-rubric, value: "Computes per-90 rates (recent shots about 3.5 per 90 and xG about 0.45 per 90 over 672 minutes versus earlier about 3.4 shots and 0.54 xG per 90), concludes the shot volume is similar and the goal drought is largely finishing variance after earlier over-performance (9 goals from 6.1 xG), flags the small sample, and states a confidence level."}
+  - name: edge-youth-basketball
+    vars:
+      sport: Basketball, U14 club team
+      question: Who should start at point guard?
+      data: "Player A: 6 games, 94 minutes, 41 points, 18 assists, 15 turnovers. Player B: 6 games, 52 minutes, 22 points, 13 assists, 4 turnovers. The team has played 8 games; B missed two through illness."
+    assert:
+      - {type: llm-rubric, value: "Uses per-minute or per-32 rates and assist-to-turnover ratios (A about 1.2, B about 3.3), notes B's smaller minutes make the comparison uncertain, keeps a developmental tone without harsh labels, and suggests what to track rather than overstating certainty."}
+  - name: negative-recall-real-stats
+    vars:
+      sport: Basketball, NBA
+      question: Compare two famous players' career playoff stats.
+      data: "I don't have the numbers, just use what you know."
+    assert:
+      - {type: llm-rubric, value: "Does not present remembered statistics as reliable data; asks for the data or says where to obtain it, and describes which rate stats it would compare and how."}

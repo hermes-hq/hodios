@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Analyse my inventory data and tell me what to do: {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-online-retailer
+    vars:
+      business_type: Online homeware shop
+      period: 12 months to September 2026
+      data_description: |
+        SKU, on hand, unit cost, units sold 12m, weekly sd, lead time days, on order, last sale
+        MUG-01, 40, 3.20, 2600, 14, 21, 0, 2026-09-29
+        LAMP-07, 310, 18.00, 120, 4, 45, 0, 2026-06-02
+        RUG-12, 85, 42.00, 0, 0, 60, 0, 2025-11-14
+        VASE-03, 0, 9.50, 410, 9, 30, 200, 2026-09-10 (out of stock since 10 Sep)
+        COGS for the year 182,000; average inventory at cost 61,000.
+    assert:
+      - {type: contains, value: "## Ranked actions"}
+      - {type: llm-rubric, value: "Computes stock turns of about 3.0 (182,000 / 61,000) and about 122 days of inventory, flags MUG-01 as a stockout risk (about 7 units a day against 21 days lead time and 40 on hand), flags RUG-12 as dead stock worth 3,570 at cost and LAMP-07 as slow (over 900 days of cover), notes VASE-03's recent sales are censored by the stockout, and ranks actions by money at stake."}
+  - name: edge-spare-parts
+    vars:
+      business_type: Maintenance spare parts store for a factory
+      period: last 24 months
+      data_description: "1,200 parts. 40% had no usage in 24 months. Many are critical spares for machines whose failure stops production. Lead times 2 to 16 weeks."
+    assert:
+      - {type: llm-rubric, value: "Recognises that no-usage critical spares are not automatically dead stock (insurance spares), adjusts the dead-stock rule accordingly, suggests classifying parts by criticality before any disposal, and asks for part-level data rather than inventing figures."}
+  - name: negative-no-data
+    vars:
+      business_type: Bike shop
+      period: ""
+      data_description: "We have too much stock, what should we get rid of?"
+    assert:
+      - {type: llm-rubric, value: "Does not name specific items or numbers; asks for SKU-level on-hand, cost and sales data and lead times, and explains briefly what it will compute."}

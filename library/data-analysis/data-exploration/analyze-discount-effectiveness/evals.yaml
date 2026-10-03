@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Did our promotions work? {{promotion_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coffee-promo
+    vars:
+      baseline_period: the 6 weeks before each promotion
+      promotion_data: |
+        Promo A: 2 weeks, 30% off 1 kg coffee beans (regular price 20, unit cost 11). Baseline 100 units per week. Promo weeks sold 260 and 240. The 2 weeks after sold 60 and 80. 500 g bags of the same coffee (price 11, cost 6) normally 150 per week, sold 110 and 115 during the promo. Ads cost 400.
+        Promo B: 1 week, buy-2-get-1-free on tea (price 6, cost 2.5). Baseline 200 per week; promo week 330; next week 190.
+    assert:
+      - {type: contains, value: "## Promotion scorecard"}
+      - {type: llm-rubric, value: "For Promo A, computes gross lift of 300 units, cannibalisation of 75 units of 500 g bags, pull-forward of 60 units, net incremental around 165 units; computes profit at the promotional price of 14 (margin 3 per unit vs 9 regular) showing the subsidy on 200 baseline units, ending with a negative or near-zero incremental gross profit after ads; for Promo B, accounts for the free unit in the margin and the small post-period dip; gives repeat, redesign or stop verdicts with evidence."}
+  - name: edge-confounded-timing
+    vars:
+      baseline_period: ""
+      promotion_data: "Black Friday week 25% sitewide discount. Sales up 180% on the prior week. Same week last year (no discount, but it was also Black Friday for competitors) sales were up 70% on its prior week. We also doubled paid social spend that week."
+    assert:
+      - {type: llm-rubric, value: "Rejects the prior week as the baseline because of seasonality, uses last year's same week scaled by growth as a better baseline, names the doubled ad spend as a confounder, gives a range rather than a precise lift, and asks for margin and cost data before judging profitability."}
+  - name: negative-no-cost-data
+    vars:
+      baseline_period: ""
+      promotion_data: "Our 20% off weekend made 50,000 in sales. Was it profitable?"
+    assert:
+      - {type: llm-rubric, value: "Does not declare it profitable or not; asks for normal weekend sales, unit costs or margins, and post-promotion sales, and explains what each is needed for."}
