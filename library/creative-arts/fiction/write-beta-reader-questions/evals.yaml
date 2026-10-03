@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write questions for beta readers of my novel: {{manuscript_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mystery-with-concerns
+    vars:
+      manuscript_summary: "Cozy mystery, 78,000 words, 28 chapters. A retired librarian investigates a poisoning at a village baking contest. Ch 9: second body. Ch 17: the vicar is cleared. Ch 25: the reveal that the contest judge's sister is the killer. Ch 28: epilogue."
+      concerns: "Is the killer too easy to guess? Does the middle (ch 10-16) drag?"
+    assert:
+      - {type: contains, value: "## Concern map"}
+      - {type: llm-rubric, value: "Gives repeatable per-chapter questions, places a prediction question about the suspect before chapter 25 without revealing the killer, tests the middle-drag concern with neutral attention questions around chapters 10 to 16, avoids leading or yes/no questions, and keeps the concern mapping separate from the reader-facing questions."}
+  - name: edge-no-chapter-list
+    vars:
+      manuscript_summary: "Literary novel, 85,000 words, about a family running a failing vineyard over one harvest."
+    assert:
+      - {type: llm-rubric, value: "Places key-moment questions by act or structural point rather than invented chapter numbers, and asks the author for the chapter list."}
+  - name: negative-no-leading
+    vars:
+      manuscript_summary: "YA fantasy, 30 chapters. The big twist in chapter 22 is that the mentor is the villain."
+      concerns: "I want readers to love the twist."
+    assert:
+      - {type: not-icontains, value: "Did you love"}
+      - {type: llm-rubric, value: "Turns the concern into neutral questions (suspicions before chapter 22, reaction afterwards, whether it felt earned) and never mentions the mentor being the villain in questions placed before chapter 22."}

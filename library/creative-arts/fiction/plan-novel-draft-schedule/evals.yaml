@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make me a schedule to write {{target_words}} words in {{weeks}} weeks."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nanowrimo
+    vars:
+      target_words: 50000
+      weeks: 4
+      hours_per_week: 12
+    assert:
+      - {type: contains, value: "## Weekly schedule"}
+      - {type: llm-rubric, value: "Shows the arithmetic (about 12,500 words a week, about 1,040 words an hour at 12 hours), judges feasibility honestly, includes buffer and a lighter first week, gives a session template, and gives catch-up rules that cap how much is added to future sessions."}
+  - name: edge-missing-hours
+    vars:
+      target_words: 90000
+      weeks: 26
+    assert:
+      - {type: llm-rubric, value: "States the assumed drafting speed and the hours per week the target needs, asks the writer to confirm their available hours, and still lays out a provisional weekly plan by story section with buffer."}
+  - name: negative-infeasible
+    vars:
+      target_words: 120000
+      weeks: 3
+      hours_per_week: 5
+    assert:
+      - {type: llm-rubric, value: "Says plainly the target is not achievable in 15 hours (it would need about 8,000 words an hour), and offers concrete alternatives such as extending the deadline, lowering the target or a faster drafting mode, instead of producing an impossible schedule."}
