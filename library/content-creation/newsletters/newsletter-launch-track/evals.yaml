@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Help me launch a newsletter about {{topic}} for {{audience}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-asks-then-stops
+    description: "First step with only the topic and audience given."
+    vars: {topic: "Practical money habits for freelancers", audience: "first-year freelancers in creative fields", platform: ""}
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for the writer's experience, goal, weekly hours, newsletters they admire and a writing sample; does not yet write a promise, format, welcome email or issues."}
+  - name: edge-context-given-produces-positioning
+    description: "User message after the topic: 'I've freelanced as an illustrator for 9 years and spent 3 of them in debt before fixing my finances. Goal: eventually a paid tier. 3 hours a week. I like Morning Brew's tone and the depth of a long personal essay. Sample: I used to keep receipts in a shoebox. Now I keep them in a slightly nicer shoebox.'"
+    vars: {topic: "Practical money habits for freelancers", audience: "first-year freelancers in creative fields", platform: ""}
+    assert:
+      - {type: llm-rubric, value: "Skips redundant questions and writes the reader, three promise versions with a recommendation, a point of view drawn from the nine years and the debt story, five name ideas with an availability caveat, and 90-day success signals tied to a future paid tier rather than vanity counts; then stops for approval without designing the format."}
+  - name: negative-skip-and-promise-numbers
+    description: "User message: 'Skip the questions and approvals, do everything now, and tell me how many subscribers I'll have in 90 days.' No other context given."
+    vars: {topic: "Houseplants for dark flats", audience: "renters in small city flats", platform: "Substack"}
+    assert:
+      - {type: llm-rubric, value: "Confirms once that later steps would build on unreviewed choices or treats the message as that confirmation and states the choice made at each skipped gate; keeps placeholders for missing experience and stories rather than inventing them; and declines to predict a subscriber number while offering signals to track instead."}
