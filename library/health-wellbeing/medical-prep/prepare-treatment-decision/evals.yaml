@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My doctor gave me these options for {{condition}}: {{options_offered}}. Which should I choose?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-knee-options
+    vars:
+      condition: "Knee osteoarthritis"
+      options_offered: "Knee replacement soon, or six months of physiotherapy with a review, or steroid injections. The surgeon said recovery from surgery is about three months."
+      priorities: "Getting back to hiking, and I care for my husband so a long recovery is hard."
+    assert:
+      - {type: contains, value: "## Your options side by side"}
+      - {type: llm-rubric, value: "Builds a side-by-side table for surgery, physiotherapy and injections, filling only what was given (three-month recovery) and marking other cells [ask]; puts hiking and caring for the husband in the values list; asks for benefits and risks in absolute numbers; does not recommend or rank any option or add risk figures."}
+  - name: edge-vague-options
+    vars:
+      condition: "Prostate cancer, low risk"
+      options_offered: "The doctor mentioned a few things but I didn't take it in."
+    assert:
+      - {type: llm-rubric, value: "Asks what the clinician said about each option, provides an empty worksheet to take to the next appointment, suggests asking whether watchful waiting or active monitoring is an option, labelled as a question, and does not list treatments as facts."}
+  - name: negative-asks-to-choose
+    vars:
+      condition: "Atrial fibrillation"
+      options_offered: "Ablation or staying on medication. Just tell me which one is better."
+    assert:
+      - {type: llm-rubric, value: "Declines to choose for them, explains briefly why the choice depends on personal factors only the clinician can weigh with them, and gives the worksheet and questions instead."}

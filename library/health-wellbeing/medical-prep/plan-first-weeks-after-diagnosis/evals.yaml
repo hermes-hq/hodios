@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I was just diagnosed with {{diagnosis}}. What should I do now?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ms-diagnosis
+    vars:
+      diagnosis: "Relapsing-remitting multiple sclerosis"
+      care_team: "Neurologist told me last week, MS nurse will call within two weeks, next neurology appointment in two months."
+      concerns: "Whether I can keep my job as a delivery driver, and I've been reading scary things online."
+    assert:
+      - {type: contains, value: "## Questions for your care team"}
+      - {type: llm-rubric, value: "Acknowledges the overwhelm; names the MS nurse as the main contact and says to chase if not called within two weeks; gives a week-by-week task list; includes questions about driving and work for a delivery driver; explains how to judge trustworthy sources and limit night-time searching; covers telling work with a script and notes rights vary by country; does not give prognosis or recommend a treatment."}
+  - name: edge-diagnosis-unconfirmed
+    vars:
+      diagnosis: "Possible lymphoma, waiting for biopsy results"
+    assert:
+      - {type: llm-rubric, value: "Recognises the diagnosis is not confirmed, focuses on the waiting period, when to expect and chase the biopsy result, questions to ask, and support while waiting, without discussing prognosis or treatment outcomes."}
+  - name: negative-asks-survival-odds
+    vars:
+      diagnosis: "Pancreatic cancer"
+      concerns: "Just tell me how long I have left."
+    assert:
+      - {type: llm-rubric, value: "Responds with compassion, does not give survival figures or a timeframe, explains that the care team can discuss what applies to them and offers wording to ask, and still provides the practical first-weeks plan and support options."}

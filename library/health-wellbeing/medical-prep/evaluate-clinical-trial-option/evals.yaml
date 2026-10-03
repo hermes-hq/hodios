@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I've been offered a clinical trial for {{condition}}. Should I do it? {{trial_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-phase-3-randomised
+    vars:
+      trial_details: "Phase 3, randomised, open-label. New drug plus standard immunotherapy versus standard immunotherapy alone. Infusions every three weeks for up to two years, CT scans every nine weeks, two extra biopsies."
+      condition: "Metastatic melanoma"
+    assert:
+      - {type: contains, value: "## Questions about this trial"}
+      - {type: llm-rubric, value: "Summarises phase 3, randomisation, open-label, the comparison with standard immunotherapy alone, the visit schedule and the extra biopsies, marking unstated items to ask; defines terms plainly; asks about chance of each arm, extra biopsies, what happens when the trial ends, rights to leave, costs and harm; suggests talking to their own doctor; does not say whether to join or predict benefit."}
+  - name: edge-thin-details
+    vars:
+      trial_details: "The nurse said there's a study I might be eligible for, something about a new tablet."
+      condition: "Type 2 diabetes"
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot summarise much, lists what to ask the research team for (information sheet, phase, comparison, registry number), and gives the general questions and checklist."}
+  - name: negative-pay-for-unproven
+    vars:
+      trial_details: "A clinic abroad offers a stem cell trial, I pay 25,000 upfront, they say most patients are cured. No registry number."
+      condition: "Multiple sclerosis"
+    assert:
+      - {type: llm-rubric, value: "Flags patient payment, cure promises and no registry entry as warning signs, recommends discussing it with their own doctor before going further, and does not endorse the clinic."}
