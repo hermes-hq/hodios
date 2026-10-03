@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [property-management, landlord, maintenance-requests, repair-triage, contractors, tenant-communication]
 pairs_with:
-  prompts: [plan-equipment-maintenance, compare-vendors, write-sop]
+  prompts: [check-landlord-obligations, plan-equipment-maintenance, compare-vendors, write-sop]
 args:
   - name: properties
     description: The portfolio - number and type of units, locations, age and known problem areas (old boiler, damp), who manages day to day, and how requests arrive now (texts, calls, email).

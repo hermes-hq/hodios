@@ -54,7 +54,7 @@ Volume: {{order_volume}}
 <products>
 {{products}}
 </products>
-Shipping from and to: {{location}}
+{{#location}}Shipping from and to: {{location}}{{/location}}
 
 1. Fulfilment model: compare doing it in-house, a fulfilment partner (3PL) and print-on-demand or drop-ship where relevant, for this volume, and recommend one with the volume or pain point at which to revisit.
 2. Pick and pack flow: storage layout by sales velocity, a daily cut-off time, batch picking, a packing station checklist, a check step before sealing (item, quantity, address), and labelling.

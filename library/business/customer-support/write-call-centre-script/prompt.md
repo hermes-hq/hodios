@@ -57,7 +57,7 @@ Write a phone script.
 {{call_reasons}}
 </call_reasons>
 
-Verification rule: {{verification}}
+{{#verification}}Verification rule: {{verification}}{{/verification}}
 
 1. Opening: a greeting under 12 words with business and agent name, then an open question.
 2. Verification: the exact questions in order, what to say if the caller fails or refuses, and the rule never to reveal account details first ("Can you confirm your postcode?" not "Is it SW1…?"). If verification is "none" or empty, flag in Agent notes whether the call reasons involve personal or payment data and recommend a rule.

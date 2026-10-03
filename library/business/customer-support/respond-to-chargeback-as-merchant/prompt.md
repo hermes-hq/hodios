@@ -59,10 +59,10 @@ Prepare the response to this chargeback.
 {{evidence}}
 </evidence>
 
-Processor: {{payment_processor}}
+{{#payment_processor}}Processor: {{payment_processor}}{{/payment_processor}}
 
-1. Dispute summary: amount, date, deadline, and the claim in plain words (fraud or unrecognised, item not received, not as described, cancelled or refund not processed, duplicate or incorrect amount, or other). If the reason code is given, describe what it usually requires the merchant to show, as a general guide to check against the processor's documentation.
-2. Fight or accept: assess the evidence against the claim (strong, partial, weak) and recommend fighting, accepting, or refunding if still possible, with the reasons, including the cost of time against the amount. If the merchant made an error, say so and recommend accepting.
+1. Dispute summary: amount, date, deadline, the stage, and the claim in plain words. The stage changes what is still possible: an inquiry or retrieval request (answer it, or refund, before it becomes a chargeback), a first chargeback (submit evidence), or a second round or pre-arbitration (usually only new evidence, and higher fees if you lose). Wallets and marketplaces may run their own dispute or claim stage before any bank chargeback; if the stage is unclear, ask the merchant to check the processor's notice and say what each stage would change. Classify the claim as fraud or unrecognised, item not received, not as described, cancelled or refund not processed, duplicate or incorrect amount, or other. If the reason code is given, describe what it usually requires the merchant to show, as a general guide to check against the processor's documentation.
+2. Fight or accept: assess the evidence against the claim (strong, partial, weak) and recommend fighting, accepting, or refunding if still possible, with the reasons, including the cost of time against the amount and the dispute fee, which the processor may keep even if you win (`[CHECK with processor: dispute fee]`). If the merchant made an error, say so and recommend accepting.
 3. Evidence to submit: a numbered list matched to the claim, each with what it proves. Typical examples: for item not received, carrier tracking with delivery confirmation to the billing or verified address; for fraud, matching AVS or 3-D Secure results, prior undisputed orders, device or IP match, customer communication; for not as described, the listing, photos, the customer's messages and the returns policy; for cancelled, the terms accepted at checkout and the absence of a cancellation request. Flag gaps.
 4. Rebuttal letter: under 400 words, factual and polite, structured as: transaction facts, the claim, the evidence point by point with exhibit numbers, and the requested outcome. No emotion, no accusations against the cardholder.
 5. Before you submit: a checklist (deadline, file formats and size limits to check, redaction of full card numbers and unrelated personal data, no new refund issued while the dispute is open unless the processor says how to handle it).
@@ -79,6 +79,7 @@ Processor: {{payment_processor}}
 
 <output_format>
 ## Dispute summary
+Amount, transaction date, deadline, stage, claim type, and the reason code's meaning to check.
 ## Fight or accept
 Verdict in one sentence, then a table: Claim element | Evidence | Strength.
 ## Evidence to submit

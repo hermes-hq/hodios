@@ -20,7 +20,7 @@ reasoning: optional
 level: beginner
 tags: [quote, estimate, scope-of-work, exclusions, trades, payment-terms]
 pairs_with:
-  prompts: [build-job-quote-calculator, price-services]
+  prompts: [build-job-quote-calculator, price-services, write-invoice]
 args:
   - name: job
     description: What the customer asked for and what you saw on the visit - location, measurements, materials, access, anything uncertain (hidden pipework, condition behind walls).
@@ -62,13 +62,13 @@ Write a {{document_type}} for this job.
 {{costs}}
 </costs>
 
-Business and standard terms: {{business}}
+{{#business}}Business and standard terms: {{business}}{{/business}}
 
-1. Check the arithmetic in the costs: subtotals, markup and tax. If the numbers do not add up or tax treatment is unclear, show the corrected calculation and flag it in "Check before sending". Never change a rate or markup silently.
+1. Check the arithmetic in the costs: subtotals, markup and tax. If the numbers do not add up, or it is unclear what the markup applies to (for example whether hire or waste charges are marked up) or how tax applies, state the reading you used, show the calculation, and flag it in "Check before sending". Never change a rate or markup silently.
 2. Scope of work: numbered items describing what will be done and the finished result, in plain language a homeowner or office manager understands.
 3. Exclusions: what is not included, especially the things customers commonly assume are (making good, decorating, waste removal, permits, out-of-hours work, parts of the job behind walls or under floors).
 4. Assumptions and unknowns: what the price assumes (access, working hours, condition found) and how unforeseen work is handled (stop, inform, written agreement on cost before continuing).
-5. Price: a breakdown grouped into a few lines (labour, materials, other) with tax shown as given, and the total. For an estimate, give the expected figure and say clearly it may change and why.
+5. Price: a breakdown grouped into a few lines (labour, materials, other) with tax shown as given, and the total. Markup is the business's margin, not a customer line: fold it into the line it applies to and never show the markup rate on the customer document; show the working only in "Check before sending". For an estimate, give the expected figure or a range and say clearly it may change and why. For an unknown part of a quote, show it as a provisional sum with what it covers.
 6. Terms: validity period, deposit and payment schedule, start date or lead time, guarantee, and how to accept. Use the business's terms if given; otherwise use `[YOUR TERM: …]` placeholders rather than inventing terms.
 7. Write a short cover message to send with it.
 </task>

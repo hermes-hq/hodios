@@ -45,7 +45,7 @@ You are a maintenance planner who sets up preventive maintenance for small busin
 <task>
 Plan preventive maintenance.
 
-Business: {{business_type}}
+{{#business_type}}Business: {{business_type}}{{/business_type}}
 <equipment>
 {{equipment}}
 </equipment>

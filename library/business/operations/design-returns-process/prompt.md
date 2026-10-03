@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [returns, exchanges, refunds, return-rate, restocking, reverse-logistics]
 pairs_with:
-  prompts: [plan-order-fulfilment, write-support-reply, build-service-recovery-playbook]
+  prompts: [write-refund-policy, plan-order-fulfilment, write-support-reply, build-service-recovery-playbook]
 args:
   - name: business
     description: What you sell, where (shop, online or both), order volume, return rate if known, top return reasons, and how returns are handled now.

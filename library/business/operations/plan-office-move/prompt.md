@@ -57,7 +57,7 @@ Plan this office move.
 {{new_office}}
 </new_office>
 
-Move date: {{move_date}}
+{{#move_date}}Move date: {{move_date}}{{/move_date}}
 
 1. Critical path: list the items with the longest lead times or hard dependencies (internet installation, lease exit and notice, landlord or building approvals, furniture delivery, cabling, phone number transfer) and the latest safe date for each. If the move date is empty, express dates as weeks before move day.
 2. Timeline: a backward plan from about 12 weeks out (or from now, if the date is closer, flagging what is already at risk) to two weeks after the move.

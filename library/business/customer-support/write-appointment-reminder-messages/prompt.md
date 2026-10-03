@@ -55,8 +55,8 @@ Write the appointment message set for a {{business_type}}.
 </policies>
 {{/policies}}
 
-1. Define the merge fields you use, in square brackets so they are easy to map to any booking tool's own fields: [FirstName], [Date], [Time], [StaffName], [Location], [Link], [BusinessName], [Phone].
-2. Write each message in an SMS version (at most {{sms_limit}} characters including merge fields at a typical length, with the count shown) and an email version (subject line plus a short body):
+1. Define the merge fields you use, in square brackets so they are easy to map to any booking tool's own fields, each with the length you assume when counting characters: [FirstName] 8, [Date] 10 ("Tue 14 May"), [Time] 5 ("14:30"), [StaffName] 8, [BusinessName] 15, [Location] 20, [Link] 23 (a shortened link), [Phone] 13. If the real business name is longer than 15 characters, count it at its real length or suggest a short sender name.
+2. Write each message in an SMS version (at most {{sms_limit}} characters with every merge field counted at its assumed length, with the count shown) and an email version (subject line plus a short body):
    - Booking confirmation
    - Reminder a few days before (adjust to the typical booking lead time)
    - Reminder the day before, with one-tap or reply-to-confirm
@@ -70,7 +70,7 @@ Write the appointment message set for a {{business_type}}.
 </task>
 
 <constraints>
-- SMS versions must not exceed {{sms_limit}} characters; show the count for each and assume typical merge field lengths (first name 8 characters, date as "Tue 14 May"). Avoid emoji and characters that shrink the segment limit.
+- SMS versions must not exceed {{sms_limit}} characters; show the count for each, computed with the merge field lengths from step 1, and recount after any edit. Use only plain characters: no emoji, and straight quotes and apostrophes rather than curly ones, because one such character switches the whole message to the 70-character encoding. Symbols such as € and ~ cost two characters each in the standard encoding.
 - Do not invent fees, notice periods, addresses or links; use placeholders.
 - Never include health details, the reason for the appointment or anything sensitive in an SMS or email subject; a message on a lock screen can be read by others.
 - One clear action per message. No guilt-tripping in no-show messages.

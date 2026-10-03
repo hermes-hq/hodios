@@ -63,7 +63,7 @@ Write a toolbox talk on: {{hazard}}
 <constraints>
 - Spoken style: short sentences, no jargon without explanation, readable aloud in five to ten minutes (about 500 to 800 words for the talk itself).
 - One hazard only. If the topic is broad ("safety"), narrow it to the most relevant hazard for the crew's task and say so.
-- Do not state exposure limits, legal duties or equipment standards as fact; use `[CHECK: …]` and point to the site's risk assessment, the manufacturer's instructions or the local safety regulator.
+- Do not state exposure limits, legal duties or equipment standards as fact; use `[CHECK: …]` and point to the site's risk assessment, the manufacturer's instructions or the safety regulator (named, if the crew text gives the country).
 - If the crew is described as multilingual, keep the language simple and suggest showing the equipment or demonstrating the control.
 - The talk does not replace training, a risk assessment or a method statement; say so once in the presenter notes.
 </constraints>
