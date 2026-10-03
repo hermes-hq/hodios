@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Calculate my cost of goods sold using {{method}}: {{inventory_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fifo-with-freight
+    vars:
+      inventory_data: "Opening stock 100 units at 10.00. Purchases: 10 March 200 units at 11.00 plus 100 freight for the shipment; 5 June 150 units at 12.00. Sold 320 units in the period. Closing count 130 units."
+      method: "fifo"
+    assert:
+      - {type: contains, value: "## Checks"}
+      - {type: llm-rubric, value: "Adds the freight to the March units for a landed cost of 11.50, reconciles units (100 + 200 + 150 - 320 = 130), allocates FIFO so closing stock is 130 units at 12.00 = 1,560, COGS is 3,540 (opening 1,000 + purchases 4,100 - 1,560), and proves the identity."}
+  - name: edge-shrinkage-weighted-average
+    vars:
+      inventory_data: "Opening 50 units at 20.00. Bought 150 units at 24.00. Sold 160 units. Counted 35 units at year end. 5 of the counted units are damaged and can only be sold for 8.00 each."
+      method: "weighted-average"
+    assert:
+      - {type: llm-rubric, value: "Computes the average cost of 23.00, notices 5 units missing (200 - 160 = 40 expected versus 35 counted) and treats them as shrinkage to investigate, values closing stock at average cost, writes the damaged units down to net realisable value with the effect shown separately, and proves the totals."}
+  - name: negative-missing-costs
+    vars:
+      inventory_data: "We sold 400 units this year and have about 60 left. What's our COGS?"
+      method: "fifo"
+    assert:
+      - {type: llm-rubric, value: "Does not invent unit costs, asks for opening stock, purchases with dates and costs, and the closing count, and shows the calculation structure it will use."}

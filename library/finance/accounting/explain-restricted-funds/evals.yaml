@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Explain restricted and unrestricted funds for our nonprofit. {{grants}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-grants
+    vars:
+      organisation_type: "registered charity in England and Wales"
+      grants: "Lottery grant 60,000 for a youth worker salary over two years, unspent money returned. Council grant 15,000 'towards our general running costs'. Donor gave 25,000 asking that it 'ideally' go to the summer camp. Board set aside 20,000 as reserves."
+    assert:
+      - {type: contains, value: "## Your grants"}
+      - {type: llm-rubric, value: "Classifies the lottery grant as restricted by purpose and time, the council grant as likely unrestricted, the donor's 'ideally' wording as ambiguous and a question for the donor, and the board reserve as designated and still unrestricted, then gives a grant register, a shared cost allocation method and red lines."}
+  - name: edge-no-grants-given
+    vars:
+      organisation_type: "US 501(c)(3) food bank"
+    assert:
+      - {type: llm-rubric, value: "Uses the net assets with and without donor restrictions terminology with verify marks, gives a worked example grant, and explains tracking and release from restriction."}
+  - name: negative-already-misused
+    vars:
+      grants: "We used 10,000 of a restricted building grant to make payroll last month. Can we just recode it as unrestricted?"
+    assert:
+      - {type: llm-rubric, value: "Does not suggest recoding it after the fact, explains that the grant terms still apply, recommends telling the funder early, a plan to restore the fund, recording the decision and talking to an accountant."}
