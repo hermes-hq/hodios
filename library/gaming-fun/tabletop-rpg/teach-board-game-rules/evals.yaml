@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Explain how to play this game to new players: {{rules_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-original-rules
+    vars:
+      rules_text: |
+        HARBOUR TRADERS. 2-4 players. Components: 60 goods cards (5 types: fish, salt, wool, wine, spice), 4 ship boards, 20 contract cards, 30 coins.
+        Setup: each player takes a ship and 3 coins. Shuffle goods; deal 4 to each player. Reveal 3 contracts. The youngest player goes first; the last player starts with 1 extra coin.
+        Turn: take exactly one action: (a) Draw 2 goods cards; (b) Load up to 3 cards of one type onto your ship (max 6 cards on ship); (c) Fulfil a revealed contract by discarding the goods it shows from your ship, gain its coins, reveal a new contract.
+        Hand limit 7 at end of turn; discard down.
+        If the goods deck runs out, shuffle the discards; if it runs out a second time, the game ends immediately.
+        Game end: when a player fulfils their 5th contract, finish the round so all players have equal turns. Most coins wins; tie: most contracts.
+    assert:
+      - {type: contains, value: "## Reference card"}
+      - {type: llm-rubric, value: "Teaches in the order win condition, turn, end, then first-turn tips; covers the one-action turn, the ship limit of 6 and load limit of 3 of one type, the hand limit of 7, the finish-the-round end and the tie-breaker; lists commonly missed rules such as the hand limit, the second deck run-out ending the game and the last player's extra coin; and does not invent rules."}
+  - name: edge-ambiguous-rules
+    vars:
+      rules_text: "Players take turns rolling two dice and moving around the board. Landing on a red space means you draw a card. The first to collect 4 gems wins. Gems come from cards."
+    assert:
+      - {type: llm-rubric, value: "Writes a short teach but flags what the text leaves unclear (how many gems cards give, what other cards do, what happens on other spaces, who goes first) instead of inventing those rules."}
+  - name: negative-unknown-game-name-only
+    vars:
+      rules_text: "Zorblax Quest Deluxe"
+    assert:
+      - {type: llm-rubric, value: "Says it does not know the game and asks for the rules text instead of inventing a ruleset."}

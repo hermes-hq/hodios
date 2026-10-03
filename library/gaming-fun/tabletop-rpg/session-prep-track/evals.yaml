@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me prep my next tabletop session. Notes: {{campaign_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-recap-then-stops
+    vars:
+      campaign_notes: |
+        Party (level 4): Rook (half-orc fighter, hunting the cult that burned his village), Lyra (elf wizard, owes money to the Silver Hand guild), Pip (halfling rogue, secretly an informant for the city watch).
+        Last session: they raided the cult's warehouse, found a map of the sewers with three marked points, and Rook spared a young cultist named Ennis who is now tied up in their inn room. Session ended as the guild's debt collector knocked on Lyra's door.
+      system: dnd-5e
+    assert:
+      - {type: llm-rubric, value: "Produces a player-facing recap and a GM state of play (party location, active threads including the sewer map, Ennis and Lyra's debt, off-screen faction moves marked as suggestions) and then stops for approval without moving on to hooks or scenes."}
+  - name: edge-no-system
+    vars:
+      campaign_notes: "Space salvage crew of three on the ship Magpie. Last session they found a derelict with a survivor in cryosleep and left before waking her. The corporation that owns the wreck is tracking them."
+    assert:
+      - {type: llm-rubric, value: "Works system-light without inventing a ruleset, recaps the derelict and the cryosleep survivor, notes the corporation's likely off-screen move as a suggestion, flags missing details such as the crew members' names or goals, and stops for approval."}
+  - name: negative-notes-too-thin
+    vars:
+      campaign_notes: "We're playing next Friday."
+    assert:
+      - {type: llm-rubric, value: "Asks in one message who the player characters are and what happened last session, then stops instead of inventing a campaign."}
