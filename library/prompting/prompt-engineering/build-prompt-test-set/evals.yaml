@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write {{size}} test cases for this prompt: {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meeting-summary
+    vars:
+      size: 10
+      prompt: |
+        Summarise the meeting transcript below for people who missed it. Output exactly these sections: Decisions, Action items (owner, due date if stated), Open questions. Max 200 words. If the transcript has no decisions, write "None recorded". Do not invent owners.
+        <transcript>{{transcript}}</transcript>
+    assert:
+      - {type: contains-all, value: ["## What it must do", "## Test cases", "## Scoring sheet"]}
+      - {type: llm-rubric, value: "Lists requirements such as the three sections, 200-word limit, 'None recorded' rule and no invented owners; writes 10 cases with full realistic transcripts (not descriptions), roughly half happy, a third edge (for example no decisions, action item without owner, very short transcript) and some negative; each has a specific checkable pass criterion, and every requirement is covered."}
+  - name: edge-small-size
+    vars:
+      size: 3
+      prompt: "Translate the text to French, keep product names in English, use formal 'vous', output only the translation. Text: {{text}}"
+    assert:
+      - {type: llm-rubric, value: "Writes exactly three cases, chooses them to cover the most important requirements (product names kept, formal vous, translation only), and states which requirements remain untested because the size is small."}
+  - name: negative-vague-criteria
+    vars:
+      size: 6
+      prompt: "Write a friendly reply to the customer's complaint, apologise once, offer a refund only if the order is over 30 days late, under 120 words. Complaint: {{complaint}}"
+    assert:
+      - {type: not-regex, value: "(?i)pass criterion:\\s*(the )?(output|reply) is (good|helpful)"}
+      - {type: llm-rubric, value: "Includes boundary cases for the 30-day refund rule (for example 29, 30 and 31 days late) and a negative case where no refund should be offered; pass criteria are specific (word count, single apology, refund offered or not) rather than vague."}

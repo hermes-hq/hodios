@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a prompt for this task: {{task_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-release-notes
+    vars:
+      target_user: our product managers, non-technical, every two weeks
+      task_description: "Turn a list of merged pull request titles and ticket summaries into customer-facing release notes. They always come out too technical, mention internal ticket numbers, and invent benefits."
+      example_input_output: "Input: 'PROJ-412 fix race in export worker; PROJ-399 add CSV delimiter option'. Good output: 'Exports no longer fail occasionally on large files. You can now choose the delimiter when exporting to CSV.'"
+    assert:
+      - {type: contains-all, value: ["## Prompt", "## Variables", "## Try it with"]}
+      - {type: regex, value: "\\{\\{\\s*[a-z_]+\\s*\\}\\}"}
+      - {type: llm-rubric, value: "The prompt states the audience is customers, forbids ticket numbers and internal jargon, forbids inventing benefits not in the input, defines an exact output format, separates the input in delimiters, includes a rule for unclear items, and uses the provided example; the variables table has types and defaults."}
+  - name: edge-automation-target
+    vars:
+      target_user: a nightly automation with no human in the loop
+      task_description: Classify incoming support emails into billing, bug, feature-request or other, with a confidence level.
+    assert:
+      - {type: llm-rubric, value: "Produces a prompt with a strictly parseable output (for example fixed JSON with category and confidence), an enum of the four categories, a defined fallback instead of asking questions, and no conversational text in the output."}
+  - name: negative-too-vague
+    vars:
+      task_description: Something to help with marketing.
+    assert:
+      - {type: llm-rubric, value: "Asks up to three questions about the deliverable, audience and input before writing, rather than producing a generic marketing prompt."}

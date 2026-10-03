@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Rewrite this prompt for a reasoning model: {{prompt}} Problems: {{failure_examples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cot-classifier
+    vars:
+      failure_examples: "Sometimes prints its reasoning before the JSON, which breaks our parser. Slow on easy tickets."
+      prompt: |
+        You are an expert support analyst. Think step by step.
+        Step 1: Read the ticket carefully. Step 2: List all possible categories. Step 3: For each category, write your reasoning in <scratchpad>. Step 4: Pick the best one. Step 5: Double-check.
+        Categories: billing, bug, how-to, account-access. Tickets mentioning refunds are always billing.
+        Return JSON: {"category": "...", "urgent": true|false}
+        Ticket: {{ticket}}
+    assert:
+      - {type: contains-all, value: ["## Diagnosis", "## Rewritten prompt"]}
+      - {type: regex, value: "\\{\\{\\s*ticket\\s*\\}\\}"}
+      - {type: llm-rubric, value: "Removes 'think step by step' and the scratchpad steps, keeps the four categories, the refunds-are-billing rule and the exact JSON shape, instructs returning only the JSON, defines urgent as a success criterion if needed, and suggests a simple test case to check for overthinking."}
+  - name: edge-domain-procedure
+    vars:
+      prompt: |
+        Review this loan application. First check the applicant's age is 18+. Then verify income documents are dated within 90 days. Then compute debt-to-income; above 43% must be flagged. Output a table of checks with pass/fail.
+        Application: {{application}}
+    assert:
+      - {type: llm-rubric, value: "Recognises that the age, 90-day and 43% checks are business rules rather than reasoning scaffolding and keeps all three as explicit requirements, while keeping the pass/fail table output and the placeholder."}
+  - name: negative-keep-schema
+    vars:
+      prompt: "Think step by step and then summarise the article in exactly 3 bullet points, each under 20 words, followed by a line 'Sentiment: positive|neutral|negative'. Article: {{article}}"
+    assert:
+      - {type: llm-rubric, value: "Keeps exactly three bullets under 20 words and the 'Sentiment:' line format unchanged, removes only the step-by-step instruction, and does not add new requirements."}

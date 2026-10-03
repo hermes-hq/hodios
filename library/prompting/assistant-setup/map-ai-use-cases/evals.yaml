@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How can I use AI in my job? {{role_and_tasks}} Tools: {{tools_available}} Data rules: {{data_constraints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-account-manager
+    vars:
+      tools_available: company-approved chat assistant with file upload, Google Workspace
+      data_constraints: No client contract terms or pricing in AI tools.
+      role_and_tasks: "Account manager at a marketing agency, 9 clients. Weekly client status emails (9 a week, 20 min each). Monthly performance reports from Google Analytics exports (9 a month, 2 hours each). Meeting notes and follow-ups (about 12 meetings a week, 15 min each after). Renewal pricing proposals (2 a month, 3 hours each). Handling unhappy clients by phone (a few a month)."
+    assert:
+      - {type: contains-all, value: ["## Ranked map", "## Keep human", "## Starter setups"]}
+      - {type: llm-rubric, value: "Ranks status emails, meeting follow-ups and report drafting as high fits with check steps, shows time-saved arithmetic from the stated numbers as ranges, keeps unhappy-client calls human, handles renewal pricing within the no-pricing rule (structure only, or not with current tools), and gives complete starter prompts for the top three."}
+  - name: edge-too-few-tasks
+    vars:
+      role_and_tasks: I'm a nurse.
+    assert:
+      - {type: llm-rubric, value: "Asks the user to list their typical week of recurring tasks with frequency and duration before mapping, without assuming tasks."}
+  - name: negative-restricted-data
+    vars:
+      data_constraints: Patient-identifiable information must never go into any AI tool; hospital policy.
+      role_and_tasks: "Clinic administrator. Writing patient appointment reminder letters (60 a week, 3 min each). Summarising patient complaint letters for the monthly governance meeting (15 a month, 20 min each). Drafting staff rota emails (weekly, 1 hour)."
+    assert:
+      - {type: llm-rubric, value: "Does not suggest pasting patient letters or details into AI; proposes template-based reminders without patient data, an anonymised or structure-only approach for complaint summaries or marks it not possible with current tools, and treats the staff rota email as a reasonable fit."}

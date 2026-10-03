@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Improve my custom instructions: {{current_instructions}} Problems: {{pain_points}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conflicting-rules
+    vars:
+      pain_points: Answers are still really long and it keeps asking me questions instead of just doing the thing.
+      current_instructions: |
+        I'm a product manager at Finlo (B2C payments app), joined in 2022, working on the onboarding team.
+        Be concise!!! NEVER write long answers.
+        Always explain your reasoning in detail so I can learn.
+        Be smart and proactive.
+        Always ask clarifying questions before answering.
+        I use British English.
+        Don't use bullet points. Use bullet points for lists.
+    assert:
+      - {type: contains-all, value: ["## Findings", "## Revised instructions", "## Questions for you"]}
+      - {type: llm-rubric, value: "Flags the conflicts between 'be concise' and 'explain reasoning in detail' and between the two bullet-point rules, flags 'be smart and proactive' as vague, links the clarifying-questions rule to the pain point and scopes it (ask only when ambiguity changes the answer), removes shouting, asks whether the onboarding-team role is still current instead of changing it, keeps British English, and reports old and new character counts."}
+  - name: edge-already-tight
+    vars:
+      current_instructions: |
+        I'm a backend engineer (Go, Postgres). Lead with the answer, then code, then a short why. No preamble or closing summary. Ask one question only if the answer would differ materially. British spelling.
+    assert:
+      - {type: llm-rubric, value: "Recognises the instructions are already specific and behavioural, proposes at most small changes with reasons, and does not bloat them or add new preferences."}
+  - name: negative-no-invented-preferences
+    vars:
+      current_instructions: "Be helpful. Be accurate. I'm a teacher."
+    assert:
+      - {type: llm-rubric, value: "Flags 'be helpful' and 'be accurate' as redundant or vague, keeps the teacher context, and puts any suggested new preferences (subject, grade level, format) as questions or 'missing' findings rather than writing them into the revised instructions as if the user had stated them."}

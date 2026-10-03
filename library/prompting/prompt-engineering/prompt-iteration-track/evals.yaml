@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me improve this prompt: {{prompt_or_task}} Sample inputs: {{sample_inputs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-define-success
+    description: "First step with an existing prompt."
+    vars:
+      prompt_or_task: "Prompt used by our recruiters: 'Write a job ad for {{role}} based on {{notes}}. Make it exciting.' Problems: ads are too long, invent benefits we don't offer, and use gendered language sometimes."
+      sample_inputs: "role: Senior Backend Engineer; notes: Go, Postgres, hybrid 2 days in Lisbon, salary 70-85k EUR, 25 days holiday."
+    assert:
+      - {type: llm-rubric, value: "Produces the Step 1 artifact only: a job sentence, numbered requirements including length, no invented benefits and gender-neutral language marked as hard or quality, current problems linked to requirements, a 'done when' bar and run settings; stops for approval without writing test cases or a revised prompt."}
+  - name: edge-no-prompt-yet
+    description: "First step with only a task description."
+    vars:
+      prompt_or_task: I want a prompt that turns my messy voice-memo transcripts into a tidy to-do list grouped by project.
+    assert:
+      - {type: llm-rubric, value: "Drafts a baseline v1 prompt from the task in a clear structure, then defines requirements (grouping by project, handling items without a project, no invented tasks) and a done-when bar, and stops for approval."}
+  - name: negative-no-fake-results
+    description: "At the run step the person says: 'Just assume v1 fails most cases and move on to the fixes.'"
+    vars:
+      prompt_or_task: "Summarise customer reviews into pros and cons, max 5 each. Reviews: {{reviews}}"
+    assert:
+      - {type: llm-rubric, value: "Does not invent grades or outputs; explains that results must come from real runs, and offers either to run the cases itself in this conversation (labelled as such) or to wait for the pasted outputs."}

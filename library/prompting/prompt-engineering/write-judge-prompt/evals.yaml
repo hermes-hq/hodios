@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an LLM-as-judge prompt to grade outputs for this task on a {{scale}} scale: {{task_and_good_output}} Criteria: {{criteria}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-answers
+    vars:
+      scale: 1-5
+      criteria: "1. Correct according to the help-centre article provided. 2. Answers the customer's actual question. 3. Under 120 words. 4. Friendly and not robotic."
+      task_and_good_output: "Task: answer a customer's question using only the attached help-centre article. Good: 'You can change your billing date under Settings > Billing > Billing date. The change applies from your next invoice.' Bad: a 300-word answer that also explains invoices, refunds and taxes and gets the menu path wrong."
+    assert:
+      - {type: contains-all, value: ["## Criteria", "## Judge prompt", "## Bias checks"]}
+      - {type: llm-rubric, value: "Makes correctness against the article a gate, writes anchors for each score 1-5 per criterion with concrete examples, includes a slot for the reference article, requires evidence quotes and brief reasoning before each score, outputs JSON with a defined overall rule, and lists verbosity and position bias checks with a calibration plan using hand-labelled outputs."}
+  - name: edge-ten-point-scale
+    vars:
+      scale: 1-10
+      task_and_good_output: "Task: write a two-sentence product description for an online shop. Good: 'Hand-thrown stoneware mug, 350 ml, glazed in a speckled oat finish. Dishwasher safe and made in small batches in Porto.'"
+    assert:
+      - {type: llm-rubric, value: "Derives criteria from the example and labels them as assumptions, anchors at least scores 1, 4, 7 and 10 and explains what separates neighbouring scores, and notes that binary or 1-5 is usually more reliable unless fine distinctions are needed."}
+  - name: negative-no-reference
+    vars:
+      scale: binary
+      task_and_good_output: Grade whether answers are good.
+    assert:
+      - {type: llm-rubric, value: "Asks for the task being graded and at least one good output (and ideally a bad one) before writing a judge, instead of producing a generic 'is it helpful' judge."}
