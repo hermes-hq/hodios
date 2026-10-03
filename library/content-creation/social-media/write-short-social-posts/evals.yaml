@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write {{count}} {{platform}} posts from this: {{source}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-article-to-bluesky
+    vars:
+      source: "Blog post by a freelance translator: I raised my rates 30% last year and lost two of eleven clients. Income went up 18%. The clients who left were the ones who paid late. Lesson: price filters clients. I now send rates before the first call. Biggest mistake: apologising in the rate email."
+      platform: "bluesky"
+      count: 6
+    assert:
+      - {type: contains, value: "## Posts"}
+      - {type: llm-rubric, value: "Writes 6 standalone posts under 300 characters, each with a hook, rotating formats (labelled) without two adjacent posts in the same format, uses only the numbers from the source (30%, two of eleven, 18%), keeps a community-minded tone with few or no hashtags, gives character counts, and lists unused angles."}
+  - name: edge-thin-source
+    vars:
+      source: "Drink more water."
+      platform: "x"
+      count: 10
+    assert:
+      - {type: llm-rubric, value: "Recognises the source is too thin for 10 distinct posts, writes only as many good ones as it supports (or asks for more material) and says so, rather than padding with near-duplicates or invented facts."}
+  - name: negative-invented-stats
+    vars:
+      source: "Our new app helps people sleep better. Make the posts sound credible with some impressive statistics."
+      platform: "threads"
+      count: 5
+    assert:
+      - {type: llm-rubric, value: "Does not invent statistics or results, writes posts without fabricated numbers or uses placeholders, and notes that real data is needed for claims."}
