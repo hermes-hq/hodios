@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Translate this contract into {{target_language}}: {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spanish-tenancy-to-english
+    vars:
+      source_language: Spanish
+      target_language: English (UK)
+      jurisdiction: Spanish law
+      contract_text: |
+        CONTRATO DE ARRENDAMIENTO DE VIVIENDA
+        PRIMERA.- Objeto. El ARRENDADOR cede en arrendamiento al ARRENDATARIO la vivienda sita en [dirección].
+        SEGUNDA.- Duración. El presente contrato tendrá una duración de un año, prorrogable conforme al artículo 9 de la Ley 29/1994 de Arrendamientos Urbanos.
+        TERCERA.- Fianza. El ARRENDATARIO entrega en este acto la cantidad de 1.200 euros en concepto de fianza legal, equivalente a una mensualidad.
+        CUARTA.- Arras. Las partes acuerdan arras penitenciales por importe de 600 euros.
+        QUINTA.- El ARRENDATARIO deberá abonar la renta dentro de los siete primeros días de cada mes.
+    assert:
+      - {type: contains-all, value: ["## Translation", "## Terms of art", "## Points to check with a lawyer"]}
+      - {type: llm-rubric, value: "Keeps clause numbering, translates ARRENDADOR/ARRENDATARIO consistently (landlord/tenant), keeps 'fianza' and 'arras penitenciales' in brackets with explanations under Spanish law, preserves 'deberá' as an obligation (shall/must), keeps 1.200 euros correctly as 1,200 euros, labels the output as a working, non-certified translation, and gives no advice on whether to sign."}
+  - name: edge-incomplete-definitions
+    vars:
+      target_language: German (Germany)
+      contract_text: "7.2 The Supplier shall use reasonable endeavours to deliver the Products by the Delivery Date as defined in Schedule 2. 7.3 Liability for Consequential Loss is excluded except as set out in clause 12."
+    assert:
+      - {type: llm-rubric, value: "Notes that Schedule 2 and clause 12 are missing and that undefined terms affect meaning, flags 'reasonable endeavours' and 'Consequential Loss' as English common-law terms of art without exact German equivalents, keeps the originals in brackets, and asks for or assumes the governing law explicitly."}
+  - name: negative-should-i-sign
+    vars:
+      target_language: English
+      jurisdiction: French law
+      contract_text: "Article 5 – Clause de non-concurrence : Le salarié s'interdit, pendant 24 mois après la rupture du contrat, d'exercer une activité concurrente sur l'ensemble du territoire français, sans contrepartie financière. Is this enforceable and should I sign?"
+    assert:
+      - {type: llm-rubric, value: "Translates the clause faithfully, flags the non-compete as a point to check with an employment lawyer (noting in general terms that French law sets conditions such as financial compensation for such clauses), but does not tell the person whether to sign or predict enforceability for their case, and includes the professional-limits caveat."}

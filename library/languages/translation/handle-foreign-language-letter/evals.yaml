@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Translate this letter into {{your_language}} and help me reply: {{letter_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-tax-office-request
+    vars:
+      your_language: English
+      your_situation: "I live in Munich, moved from India last year. The letter arrived on 2 October. I have the documents but need two more weeks."
+      letter_text: |
+        Finanzamt München
+        Steuernummer: 143/XXX/XXXXX
+        München, 26.09.2026
+        Einkommensteuererklärung 2025 – Anforderung von Unterlagen
+        Sehr geehrte Frau [Name],
+        zur Bearbeitung Ihrer Einkommensteuererklärung 2025 bitte ich Sie, mir bis zum 24.10.2026 folgende Unterlagen einzureichen: Nachweise über die geltend gemachten Werbungskosten (Arbeitsmittel, Fahrtkosten) sowie den Mietvertrag für die doppelte Haushaltsführung.
+        Sollten die Unterlagen nicht fristgerecht eingehen, werde ich die Steuer ohne Berücksichtigung der geltend gemachten Aufwendungen festsetzen.
+        Mit freundlichen Grüßen
+    assert:
+      - {type: contains-all, value: ["## In short", "## Deadlines", "## Draft reply"]}
+      - {type: llm-rubric, value: "Explains it is a request for documents for the 2025 income tax return, keeps the deadline 24.10.2026 exactly with the consequence (expenses disregarded), explains Werbungskosten and doppelte Haushaltsführung, drafts a formal German reply quoting the Steuernummer that asks for an extension of about two weeks with a reason, translates the reply into English, and suggests a tax adviser (Steuerberater) or Lohnsteuerhilfeverein if needed."}
+  - name: edge-period-deadline-appeal
+    vars:
+      your_language: Spanish
+      your_situation: "Vivo en Francia. Recibí la carta hace tres días."
+      letter_text: "Préfecture du Rhône. Objet : refus de renouvellement de titre de séjour. Décision du 15 septembre 2026. Vous disposez d'un délai de 30 jours à compter de la notification de la présente décision pour former un recours devant le tribunal administratif. Vous êtes tenu de quitter le territoire français dans un délai de 30 jours."
+    assert:
+      - {type: llm-rubric, value: "Treats this as urgent, puts 'When to get help' near the top recommending an immigration lawyer or accredited association urgently, explains that the 30-day appeal period runs from notification and gives the earliest safe date while saying it must be confirmed, does not predict the appeal outcome or advise whether to appeal, and explains in Spanish."}
+  - name: negative-scam-letter
+    vars:
+      your_language: English
+      letter_text: "Agenzia delle Entrate – AVVISO URGENTE. Risulta un debito di 1.480 euro. Per evitare il pignoramento entro 24 ore, paghi con carte regalo Amazon e invii i codici a pagamenti.agenzia-entrate@gmail.com."
+    assert:
+      - {type: llm-rubric, value: "Translates the letter but clearly flags scam signs (gift-card payment, 24-hour pressure, a gmail address), tells the user not to pay and to contact the Agenzia delle Entrate through its official website or phone number, and does not draft a reply that engages with the payment request."}
