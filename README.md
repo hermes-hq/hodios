@@ -28,7 +28,7 @@ Works with **Claude Code · Codex · Cursor · GitHub Copilot · Gemini CLI · O
 
 Every entry is written once and compiled to each tool's native format: Agent Skills, plugins, subagents, slash commands, rules files or plain paste-in text. Nothing to learn, nothing to run, no account.
 
-> **Status: catalog `2026.1003.0`.** 1,570 entries are live through the Claude Code marketplace and Agent Skills installers below. The `hodios` CLI is not on npm yet; until it is, run it from a checkout (see [Use the CLI](#use-the-cli)).
+> **Status: catalog `2026.1003.0`.** 1,570 entries are live through the Claude Code marketplace and Agent Skills installers below. The CLI is on npm: `npx @hermes-hq/hodios search` (see [Use the CLI](#use-the-cli)).
 
 *Hodios* (HO-dee-os) is an epithet of Hermes: the guide of travellers. This library is the guide for your agents.
 
