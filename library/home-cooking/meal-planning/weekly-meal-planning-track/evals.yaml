@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me plan meals for the week: {{household}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-calendar
+    description: "First step for a family with enough detail to plan."
+    vars:
+      household: "2 adults, kids 7 and 10; dinners Monday to Sunday; 30 minutes on weeknights; kids love tacos and pasta; one adult avoids pork; we shop online on Saturday"
+      budget: "AUD 220"
+    assert:
+      - {type: llm-rubric, value: "Asks one short batch about this week's schedule (late nights, activities, evenings out, what needs using), then classifies days as busy, normal, free or out, picks leftover and clear-out nights, and stops for approval without choosing meals or writing a grocery list."}
+  - name: edge-review-step
+    description: "At the review step. User message: 'We skipped Thursday and Friday because of football and a birthday, the spinach and coriander went off, and everyone loved the chicken traybake.'"
+    vars:
+      household: "2 adults, kids 7 and 10; dinners Monday to Sunday; 30 minutes on weeknights"
+    assert:
+      - {type: llm-rubric, value: "Lists what to carry over or freeze, keeps the chicken traybake on a reliable meals list, and proposes targeted changes such as planning Thursday and Friday as busy or leftover nights and using spinach and coriander early or buying them only for two meals, then offers to start next week's step 1."}
+  - name: negative-missing-household
+    description: "First step with a vague household."
+    vars:
+      household: "just plan my food"
+    assert:
+      - {type: llm-rubric, value: "Asks who is eating, which meals to plan and the weeknight cooking time, then stops; does not invent a household or produce a meal plan."}
