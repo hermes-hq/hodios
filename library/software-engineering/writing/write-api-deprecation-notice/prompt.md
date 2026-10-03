@@ -5,7 +5,7 @@ kind: prompt
 title: Write an API deprecation notice
 description: Writes the notice to API consumers for a deprecation or breaking change, covering what changes, the timeline, migration steps and where to get help. Use before announcing an API change.
 category: writing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [ship, maintain]
 role: [backend-engineer, developer-advocate, tech-lead, product-manager]
@@ -47,6 +47,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Each channel value now maps to exactly one short version."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -73,7 +74,7 @@ Support: {{support}}
    - Migration steps, numbered, each one concrete, with a short request or code snippet where the change is mechanical and a link placeholder to the full migration guide.
    - Why, in two sentences at most, after the steps.
    - Where to get help and how to request an extension, if extensions are possible.
-3. Produce the short versions needed for {{channel}}: an email of at most 150 words, a changelog entry, and a docs banner of one sentence. For "all", write all three.
+3. Produce the short versions for {{channel}}: "email" gets an email of at most 150 words with the date in the subject line; "changelog-post" gets a changelog entry that links to the full notice; "docs-banner" gets a one-sentence banner for the affected reference pages; "all" gets all three.
 4. Add a sender checklist of what must exist before the notice goes out.
 </task>
 

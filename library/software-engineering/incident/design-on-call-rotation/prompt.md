@@ -5,7 +5,7 @@ kind: prompt
 title: Design an on-call rotation
 description: Designs an on-call rotation with schedule, escalation, handoff, alert ownership, compensation norms and health checks. Use when starting on-call or when the current one burns people out.
 category: incident
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, operate]
 role: [engineering-manager, sre, tech-lead, devops-engineer]
@@ -41,6 +41,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Shift boundaries account for daylight-saving changes across locations."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -67,7 +68,7 @@ Design on-call with {{coverage}} coverage for:
 - Do not invent headcount, salaries, or legal requirements. Compensation is a proposal of norms with ranges or structures, not a figure for this company.
 - Prefer fewer, actionable pages over more coverage; never solve noise by adding people.
 - Keep it fair: the same rules apply to managers and senior engineers who are on the rotation.
-- Times are written with a time zone.
+- Times are written with a time zone. Where locations observe daylight saving on different dates, say how the shift boundaries move in those weeks.
 </constraints>
 
 <output_format>

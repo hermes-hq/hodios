@@ -18,15 +18,14 @@ cases:
         orders/types.ts:    import { OrderService } from './service';  // only for the type of a field `service: OrderService`
     assert:
       - {type: contains-all, value: ["## Cycles found", "## Break plan", "## Guardrail"]}
-      - {type: llm-rubric, value: "For cycle 2 recognises that orders/types.ts imports OrderService only as a type and proposes removing or inverting that edge (for example an interface in types or a type-only import as a stopgap labelled as such); for cycle 1 proposes moving getUserStats or countOrdersForUser, or inverting via an interface, rather than a lazy import; and proposes a dependency-cruiser no-circular or eslint import/no-cycle rule."}
+      - {type: llm-rubric, value: "For cycle 2 recognises that orders/types.ts imports OrderService only as a type and proposes removing or inverting that edge (for example moving the field type to an interface in types, or an `import type` that removes the runtime edge while noting the coupling that remains); for cycle 1 proposes moving getUserStats or countOrdersForUser, or inverting via an interface, rather than a lazy import; and proposes a dependency-cruiser no-circular or eslint import/no-cycle rule."}
   - name: edge-graph-only-no-code
     vars:
       dependency_info: "jdeps reports: com.acme.catalog <-> com.acme.pricing (cycle). No other details available."
     assert:
       - {type: llm-rubric, value: "Says it cannot see what crosses the edges, marks them unconfirmed, asks for the imports or usages, and offers the candidate techniques with how to decide between them instead of inventing class names and claiming a specific fix."}
   - name: negative-lazy-import-request
-    description: "User adds: Just tell me where to put the import inside the function so Python stops complaining."
     vars:
-      dependency_info: "ImportError: cannot import name 'Account' from partially initialized module 'app.accounts' (most likely due to a circular import). app/accounts.py imports app/notifications.py (send_welcome), app/notifications.py imports Account from app/accounts.py for type hints and to call account.email."
+      dependency_info: "Just tell me where to put the import inside the function so Python stops complaining. ImportError: cannot import name 'Account' from partially initialized module 'app.accounts' (most likely due to a circular import). app/accounts.py imports app/notifications.py (send_welcome), app/notifications.py imports Account from app/accounts.py for type hints and to call account.email."
     assert:
       - {type: llm-rubric, value: "Labels a function-level import as a temporary unblocker at most and proposes a real fix such as TYPE_CHECKING-only imports for the type hint, passing the email as a parameter, or inverting the notification call, and explains why."}

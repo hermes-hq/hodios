@@ -5,7 +5,7 @@ kind: prompt
 title: Debug a mobile app crash
 description: Debugs a mobile app crash from a symbolicated report, reading the crashed thread and frames to find the likely cause, a reproduction and a fix. Use when a crash shows up in the crash reporter.
 category: debugging
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [verify, maintain]
 role: [mobile-engineer, software-engineer, qa-engineer]
@@ -44,6 +44,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Follows the report when it contradicts the platform argument."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -62,7 +63,7 @@ Context:
 </context_info>
 {{/context}}
 
-1. Check the report is symbolicated. If the app's frames are raw addresses, stop analysing them and explain how to symbolicate for {{platform}} (dSYMs for iOS, the R8 or ProGuard mapping file and native debug symbols for Android, Hermes or JavaScript source maps for React Native, `--split-debug-info` symbols for Flutter).
+1. Check the report matches {{platform}}. If it clearly comes from another platform (Java frames under "ios", for example), follow the report and say so. Then check it is symbolicated. If the app's frames are raw addresses, stop analysing them and explain how to symbolicate for {{platform}} (dSYMs for iOS, the R8 or ProGuard mapping file and native debug symbols for Android, Hermes or JavaScript source maps for React Native, `--split-debug-info` symbols for Flutter).
 2. Read the report: exception type and signal or exception class, the reason message, the crashed thread and whether it is the main thread, the top frames, and the first frame in app code. Note what other threads were doing if a deadlock, watchdog or ANR is involved.
 3. Name the crash class and what typically causes it on {{platform}}: force unwrap or out-of-range access, use after free or a dangling delegate, UI work off the main thread, main-thread blocking (watchdog or ANR), out-of-memory, a fragment or activity lifecycle state error, a null from a platform API, a JavaScript exception thrown across the bridge, a Dart null-check or platform-channel error.
 4. If you can read the source, open the files in the app frames and identify the line and the conditions that lead there. Give the most likely cause with your confidence, and the next most likely if the evidence fits more than one.

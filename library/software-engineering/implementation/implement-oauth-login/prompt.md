@@ -5,7 +5,7 @@ kind: prompt
 title: Implement OAuth or OIDC login
 description: Implements login with an OAuth 2 or OpenID Connect provider, covering flow choice, PKCE, state and nonce, token storage, sessions and logout. Use when adding social or SSO login.
 category: implementation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [backend-engineer, fullstack-engineer, frontend-engineer, mobile-engineer]
@@ -39,6 +39,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "The login transaction cookie is set so it survives a form_post callback."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -58,7 +59,7 @@ Provider: {{provider}}
 2. **Flow choice.** Authorization code with PKCE (S256). For a single-page app, prefer a backend-for-frontend that holds tokens server-side and gives the browser an HttpOnly session cookie; explain the trade-off if the user insists on tokens in the browser. For native and CLI apps, use the system browser with a loopback or claimed redirect URI, never an embedded web view. Say whether the provider is OIDC or OAuth-only and how identity is established.
 3. **Provider setup.** Exact redirect URIs per environment, scopes (minimal: `openid email profile` for OIDC), and which values are secrets. Use discovery (`.well-known/openid-configuration`) where supported.
 4. **Code**, using a maintained library for the stack (name it and why):
-   - Start login: generate `state`, `nonce` and the PKCE verifier, store them server-side or in a short-lived, signed, HttpOnly cookie bound to the browser, then redirect.
+   - Start login: generate `state`, `nonce` and the PKCE verifier, store them server-side or in a short-lived, signed, HttpOnly cookie bound to the browser, then redirect. That cookie must survive the return trip: `SameSite=Lax` works for the default query response mode, but a `form_post` response is a cross-site POST and needs `SameSite=None; Secure` on the transaction cookie only.
    - Callback: check `state`, exchange the code with the verifier, validate the ID token (signature through the provider's JWKS, `iss`, `aud`, `exp`, `nonce`), and handle the error parameter.
    - Account linking: key users by issuer plus subject (`iss` + `sub`), never by email alone; only trust email if the provider marks it verified, and decide explicitly how to link an existing local account.
    - Session: create the app session with a rotated session id, cookies `HttpOnly`, `Secure`, `SameSite=Lax` (or stricter), and a sensible lifetime. Store refresh tokens encrypted server-side only if the app calls provider APIs offline.

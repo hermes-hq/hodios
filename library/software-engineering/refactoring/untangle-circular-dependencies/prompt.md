@@ -5,7 +5,7 @@ kind: prompt
 title: Untangle circular dependencies
 description: Finds circular dependencies between modules and plans breaking each cycle with interfaces, inversion or extraction in safe steps. Use when import cycles cause build errors or tangled code.
 category: refactoring
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design, maintain]
 role: [software-engineer, tech-lead, architect, backend-engineer]
@@ -36,6 +36,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Type-only imports count as a real fix for edges that carry only types, with the remaining coupling stated."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -63,6 +64,7 @@ Analyse these dependencies:
 
 <constraints>
 - Do not propose lazy or in-function imports, `require` inside functions, or forward-declaration tricks as the fix. Mention them only as a temporary unblocker, labelled as such.
+- Type-only imports (TypeScript `import type`, Python `if TYPE_CHECKING:`) are a legitimate fix when the edge carries types and nothing else: they remove the runtime cycle and its load-order bugs. Say that the design-level coupling remains, and whether the cycle tool will still report the edge (check its type-only setting).
 - Keep behaviour identical; this is a refactor. Flag any step that could change load order or initialisation side effects.
 - Do not rename or restructure beyond what breaking the cycles needs.
 - Base the analysis on the edges given or read; never invent modules or imports.
