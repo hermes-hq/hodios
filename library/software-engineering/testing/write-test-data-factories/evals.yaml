@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write test factories in {{language}} for these models: {{models}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-orders
+    vars:
+      language: "Python, pytest, Django ORM"
+      models: "User(email unique, name, is_active default True). Order(user FK required, status choices pending|paid|refunded, total Decimal > 0, paid_at nullable but required when status is paid, refunded_at required when refunded)."
+    assert:
+      - {type: contains-all, value: ["## Factories", "## Validity test"]}
+      - {type: llm-rubric, value: "Uses factory_boy (or the project's library) with a sequence for the unique email, builds a user automatically for Order, and defines paid and refunded traits that set paid_at and refunded_at together with status."}
+      - {type: llm-rubric, value: "Includes a test that instantiates every factory and trait with no overrides and validates or saves it."}
+  - name: edge-builder-pattern-java
+    vars:
+      language: "Java 21, JUnit 5, no factory library"
+      models: "Invoice(id UUID, customer Customer required, lines List<Line> at least one, currency ISO code, issuedOn LocalDate). Customer(name, vatNumber optional). Line(description, quantity > 0, unitPrice BigDecimal)."
+    assert:
+      - {type: llm-rubric, value: "Writes Test Data Builders (for example anInvoice().withCurrency(...).build()) that create a fresh lines list per build, default to one valid line, and use a fixed reference date rather than LocalDate.now()."}
+  - name: negative-no-random-unseeded
+    vars:
+      language: "TypeScript, Vitest"
+      models: "Account { id: string; email: string (unique); plan: 'free' | 'pro'; trialEndsAt: Date | null }"
+    assert:
+      - {type: llm-rubric, value: "Does not generate unique fields or dates with unseeded randomness or the real current time; uses sequences and a fixed or fake-clock reference instead."}

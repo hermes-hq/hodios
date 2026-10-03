@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Run mutation testing on {{module}} in {{language}} and improve the tests."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pricing-module
+    vars:
+      language: "TypeScript, Jest"
+      module: "src/pricing/discounts.ts (tiered discounts: 5% over 100, 10% over 500, capped at 50 off). Tests in src/pricing/discounts.test.ts, run with npx jest src/pricing."
+    assert:
+      - {type: contains-all, value: ["## Triage", "## Re-run"]}
+      - {type: icontains, value: "stryker"}
+      - {type: llm-rubric, value: "Scopes the run to the pricing module, classifies survivors (for example boundary mutants on > versus >=) and writes tests at exactly 100, 500 and the cap that kill them."}
+  - name: edge-red-suite
+    vars:
+      language: "Python, pytest"
+      module: "billing/proration.py; two of its tests currently fail on main."
+    assert:
+      - {type: llm-rubric, value: "Stops before mutation testing because the suite is failing, explains why results would be meaningless, and reports the failing tests instead of proceeding."}
+  - name: negative-equivalent-mutants
+    vars:
+      language: "Java, Maven, JUnit 5"
+      module: "com.acme.audit.AuditLogger, which formats and writes log lines; the team wants 100% mutation score."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a 100% target, identifies equivalent or low-value mutants such as log message text, and suggests excluding them rather than writing brittle tests that assert exact log strings."}

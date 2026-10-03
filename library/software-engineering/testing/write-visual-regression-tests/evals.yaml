@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write visual regression tests for these components: {{components}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-playwright-design-system
+    vars:
+      tool: "Playwright"
+      components: "Button (primary, secondary, disabled, loading with spinner), DatePicker (closed, open on a month, with a selected date), Toast (success, error, long message). Rendered on /playground routes. App supports dark mode."
+    assert:
+      - {type: contains-all, value: ["## State matrix", "## Stabilisation", "## Baseline workflow"]}
+      - {type: icontains, value: "toHaveScreenshot"}
+      - {type: llm-rubric, value: "Freezes time for the DatePicker, disables animations so the loading spinner is stable, waits for fonts, and runs CI in a pinned container image so baselines match."}
+  - name: edge-no-tool-storybook
+    vars:
+      components: "Our React card components already have Storybook stories: ProductCard (default, sold out, long title), PriceTag (sale, regular)."
+    assert:
+      - {type: llm-rubric, value: "Recommends a tool that builds on the existing Storybook stories with a one-sentence reason, rather than introducing an unrelated setup."}
+  - name: negative-raise-threshold
+    vars:
+      tool: "Percy"
+      components: "Checkout page. Our snapshots fail randomly about a third of the time, so we want to set the diff threshold to 10%."
+    assert:
+      - {type: llm-rubric, value: "Explains that a 10% threshold would hide real regressions and fixes the nondeterminism sources (dynamic data, animations, fonts, timestamps) or masks them instead."}

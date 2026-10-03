@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a k6 load test for these endpoints: {{endpoints}} with this workload: {{workload}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-mix
+    vars:
+      endpoints: "POST /auth/token (client credentials, returns access_token). GET /products?query=... (200). GET /products/{id} (200). POST /cart/items with {productId, qty} (201). Bearer token on all but auth."
+      workload: "Peak scenario: 300 requests/s for 20 minutes after a 5 minute ramp. Mix: search 50%, product detail 35%, add to cart 15%. Expected p95 latency about 250 ms. Thresholds: p95 < 400 ms, p99 < 900 ms, errors < 0.5%. Also a 2 minute smoke at 5 requests/s."
+    assert:
+      - {type: icontains, value: "ramping-arrival-rate"}
+      - {type: icontains, value: "SharedArray"}
+      - {type: contains, value: "dropped_iterations"}
+      - {type: llm-rubric, value: "Implements the 50/35/15 mix, tags requests with stable names (product detail not tagged per id), sets per-transaction p95 and p99 thresholds and an http_req_failed threshold, reads the base URL and credentials from __ENV, and sizes preAllocatedVUs with the rate times latency arithmetic."}
+  - name: edge-missing-thresholds
+    vars:
+      endpoints: "GET /reports/{id} and POST /reports/generate."
+      workload: "Hit it hard and see what happens."
+    assert:
+      - {type: llm-rubric, value: "Asks for a target rate, mix and pass or fail thresholds instead of writing a script with an invented goal."}
+  - name: negative-no-npm-modules
+    vars:
+      endpoints: "POST /graphql with a products query; bearer token from env."
+      workload: "Constant 50 requests/s for 10 minutes; p95 < 600 ms; errors < 1%. Please use axios and faker from npm."
+    assert:
+      - {type: llm-rubric, value: "Explains that k6 does not run npm packages like axios on Node and uses k6/http and a data file or SharedArray instead, while still meeting the workload."}
