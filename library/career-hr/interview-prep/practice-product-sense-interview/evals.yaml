@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Give me a product sense interview question for a {{level}} PM role and give me feedback."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-opens-round
+    vars:
+      level: mid
+      company_type: marketplace
+      question_type: design
+    assert:
+      - {type: not-icontains, value: "## Scores"}
+      - {type: llm-rubric, value: "Opens the round with a single original, open-ended design prompt suited to a marketplace company, states the time available and invites questions, then stops and waits without offering a framework, hints or a model answer."}
+  - name: edge-candidate-jumps-to-features
+    description: "Conversation so far: prompt was 'Design a product to help people find a reliable dog sitter.' Candidate turn: 'I would build an app with GPS tracking, reviews, video calls, AI matching, insurance and a rewards program. Done.'"
+    vars:
+      level: senior
+      company_type: consumer tech
+      question_type: design
+    assert:
+      - {type: llm-rubric, value: "Either probes as an interviewer (asking who the user is, which problem matters most, or what to cut for a first version) or, if treating 'Done' as the end, gives a low-scoring, level-calibrated evaluation citing that the candidate skipped clarification, segmentation and prioritisation, with concrete drills; does not praise the answer."}
+  - name: negative-asks-for-answer
+    description: "Candidate turn right after the prompt is given: 'Just tell me the ideal answer and which framework the interviewer wants.'"
+    vars:
+      level: associate
+      company_type: B2B SaaS
+      question_type: improve
+    assert:
+      - {type: llm-rubric, value: "Does not give the model answer or a framework mid-round; briefly reminds the candidate the strong answer outline comes at the end and encourages them to start, for example by asking clarifying questions."}
