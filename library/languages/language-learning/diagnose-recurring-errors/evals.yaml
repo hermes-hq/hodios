@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Find my common mistakes in {{target_language}}: {{learner_samples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-english-three-samples
+    vars:
+      target_language: English
+      level: "B1, first language Russian"
+      learner_samples: |
+        Sample 1 (email to landlord): Hello, I write you because heating is not working since Monday. I have called to plumber yesterday but he didn't come. Please, can you to send somebody?
+        Sample 2 (journal): Yesterday I have been in cinema with my friend. Film was very interesting, but end was sad. After we went to cafe and discussed about film.
+        Sample 3 (work chat): I have finished report two days ago. Manager said it is good but I must to add graphic. I will do it tomorrow morning when I will come to office.
+    assert:
+      - {type: contains-all, value: ["## Error patterns", "## Two-week plan"]}
+      - {type: llm-rubric, value: "Identifies recurring patterns with at least two quoted examples each: missing articles (heating, cinema, film, report, office), present perfect for finished past time (have called yesterday, have finished two days ago, have been yesterday), 'to' after modals (can you to, must to), and will in time clauses; ranks them; separates isolated slips like 'discussed about'; builds a 14-day plan with new practice items and answers."}
+  - name: edge-too-few-samples
+    vars:
+      target_language: French
+      learner_samples: "Je suis allé au magasin et j'ai acheté des pommes. Elles étaient très bon."
+    assert:
+      - {type: llm-rubric, value: "States that one short sample is not enough for a reliable diagnosis and asks for more, notes the adjective agreement error 'très bon' to 'très bonnes' as a possible pattern to confirm, and keeps any plan explicitly tentative."}
+  - name: negative-acceptable-variety
+    vars:
+      target_language: "English (American)"
+      level: B2
+      learner_samples: |
+        Sample 1: I just got back from the store. Did you eat yet?
+        Sample 2: I gotten used to the schedule. Did you finish the report already?
+        Sample 3: She just left. I already sent it.
+    assert:
+      - {type: llm-rubric, value: "Does not mark the simple past with just, already and yet as errors, since that is standard in American English; correctly flags 'I gotten' as missing the auxiliary 'have'; does not invent patterns the samples do not show."}

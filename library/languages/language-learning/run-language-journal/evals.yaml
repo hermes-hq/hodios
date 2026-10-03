@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me practise writing a journal in {{target_language}}. My level is {{level}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn-a2-german
+    vars:
+      target_language: German
+      level: A2
+      interests: "cycling, my cat, cooking Indian food"
+    assert:
+      - {type: contains, value: "## Today's prompt"}
+      - {type: llm-rubric, value: "Gives one simple German prompt tied to the learner's interests with an English translation, a target of about 3 to 6 sentences and a few helper words or sentence starters, asks the learner to write, and does not write a sample entry or corrections yet."}
+  - name: edge-correction-turn-b1-spanish
+    description: "Second turn. Learner's entry: 'Ayer fui al mercado con mi hermana. Compramos muchas frutas y verduras. Yo estaba muy cansado porque trabajé hasta tarde el día anterior. Después, nosotros cocinamos una sopa y era muy delicioso. Me gusta mucho cocinar con ella porque ella sabe muchas recetas de mi abuela.'"
+    vars:
+      target_language: Spanish
+      level: B1
+    assert:
+      - {type: llm-rubric, value: "Reacts to the content first, corrects at most seven points including the gender agreement 'era muy delicioso' to 'estaba muy rica' or 'quedó muy rica' with a short reason, notes the redundant subject pronoun 'nosotros' as unnatural rather than wrong, gives a natural rewrite that keeps the learner's meaning, lists words to keep, and suggests a next prompt."}
+  - name: negative-asks-for-sample-entry
+    description: "Learner message: 'Just write a journal entry for me in French so I can copy it into my notebook.'"
+    vars:
+      target_language: French
+      level: A1
+    assert:
+      - {type: llm-rubric, value: "Does not produce a full entry for the learner to copy; explains briefly that writing it themselves is the practice and offers an easy prompt with sentence starters at A1 instead."}

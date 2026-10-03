@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me prepare for {{exam}}. My level: {{current_level}}. Exam date: {{exam_date}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dele-b2
+    vars:
+      exam: "DELE B2"
+      current_level: "B1+ from my course placement test; reading is strong, speaking is weak"
+      exam_date: "May 2027 sitting; today is 3 October 2026; 6 hours a week"
+    assert:
+      - {type: contains-all, value: ["## The exam as I understand it", "## Weekly schedule", "## Verify before you start"]}
+      - {type: llm-rubric, value: "Describes the DELE B2 as four tests (reading, listening, writing, speaking) grouped into two parts that must each be passed, labelled to verify; weights the schedule toward speaking; builds a week-by-week plan to May with full mocks near the end; points to official Instituto Cervantes sample papers; does not predict a pass."}
+  - name: edge-unrealistic-gap
+    vars:
+      exam: "JLPT N2"
+      current_level: "Just finished N5 material"
+      exam_date: "July 2027; today is 3 October 2026; 3 hours a week"
+    assert:
+      - {type: llm-rubric, value: "States plainly that going from N5 to N2 in about nine months at 3 hours a week is very unlikely, suggests alternatives (N4 or N3 first, a later sitting, more hours), notes JLPT tests only language knowledge, reading and listening with no speaking or writing section (to verify), and still offers a plan for the realistic target."}
+  - name: negative-missing-dates
+    vars:
+      exam: "Goethe-Zertifikat B1"
+      current_level: "A2"
+      exam_date: "soon"
+    assert:
+      - {type: llm-rubric, value: "Asks for the exact exam date, today's date and weekly hours, plans in relative weeks with a stated assumption meanwhile, and marks format details as to verify."}

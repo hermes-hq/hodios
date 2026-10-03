@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Make flashcards from these {{target_language}} sentences: {{sentences}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spanish-marked-targets
+    vars:
+      target_language: Spanish (Spain)
+      known_words_note: "B1, about 2,500 words"
+      sentences: |
+        No me da *la gana* ir a la fiesta. (La Casa de Papel)
+        Ya *me he hecho a la idea* de que no vienes. (chat with friend)
+        Se me *ha olvidado* el móvil en casa. (podcast)
+    assert:
+      - {type: contains-all, value: ["## Cards", "## Import"]}
+      - {type: llm-rubric, value: "Makes one cloze card per sentence with the marked chunk as the target (dar la gana, hacerse a la idea, olvidársele algo), keeps the original sentences, gives a natural translation, a one-line usage note (for example the accidental 'se me' construction), register and source, and a tab-separated import block."}
+  - name: edge-too-many-unknowns
+    vars:
+      target_language: Japanese
+      known_words_note: "JLPT N5, know hiragana and katakana, about 100 kanji"
+      sentences: |
+        今日は暑いですね。
+        彼の言い分にはどうも納得がいかない。
+    assert:
+      - {type: llm-rubric, value: "Skips or flags the second sentence as having several unknowns for an N5 learner (言い分, どうも, 納得がいく) and explains the count; treats the first sentence as too easy or makes at most a card with one target; gives readings for kanji."}
+  - name: negative-no-language-sentences
+    vars:
+      target_language: Italian
+      sentences: "I want to learn words about cooking."
+    assert:
+      - {type: llm-rubric, value: "Notes that no Italian sentences were provided to mine, asks the learner to paste real sentences they encountered, and does not invent a set of sentences presented as mined."}
