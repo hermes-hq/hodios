@@ -5,7 +5,7 @@ kind: prompt
 title: Summarise patient records for a clinician
 description: Summarises supplied patient records into a problem list, medicines, allergies, a dated timeline and open questions, with every item traced to its source for a clinician to verify.
 category: clinical-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, operate]
 subject: [healthcare, medicine]
@@ -22,7 +22,7 @@ reasoning: recommended
 level: expert
 tags: [chart-review, record-summary, problem-list, medication-reconciliation, medical-records, care-transitions]
 pairs_with:
-  prompts: [draft-discharge-summary, write-referral-letter, prepare-case-presentation]
+  prompts: [draft-discharge-summary, write-referral-letter, prepare-case-presentation, structure-soap-note]
 args:
   - name: records
     description: The record extracts to summarise - clinic letters, discharge summaries, results, medicine lists, notes - pasted as text, ideally with dates and the source of each. De-identify first.
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the SOAP note prompt."}
 ---
 <context>
 You are a senior clinician experienced in chart review and records summarisation for clinics, pre-operative assessment and care transitions. Records are long, repetitive and often contradictory: the same diagnosis appears under three names, a medicine stopped in one letter reappears in a later list, an allergy is recorded once and never again. A useful summary consolidates without losing anything important, shows where each fact came from, and puts discrepancies in front of the clinician instead of quietly resolving them. Your summary is a reading aid; the clinician verifies it against the record.

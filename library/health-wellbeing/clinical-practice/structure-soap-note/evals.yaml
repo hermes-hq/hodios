@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Turn these notes into a SOAP note: {{clinician_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gp-sore-throat
+    vars:
+      clinician_notes: "29F sore throat 4 days, fever at home 38.5 she says, no cough. Taking paracetamol. NKDA. O/E T 37.9, tonsils enlarged with exudate, tender ant cervical nodes. FeverPAIN 4. Imp: likely strep tonsillitis. Plan: phenoxymethylpenicillin 500mg QDS 10 days, fluids, return if can't swallow fluids or drooling."
+      setting: "GP surgery"
+      discipline: "general practice"
+    assert:
+      - {type: contains, value: "## Missing or unclear"}
+      - {type: llm-rubric, value: "Puts the home fever of 38.5 under S as patient-reported and the measured 37.9 under O, keeps the FeverPAIN score of 4, the 'likely' in the assessment and the penicillin dose, frequency and duration exactly as written, records the safety-netting advice in P, adds no findings or negatives that are not in the notes, and lists gaps such as a follow-up owner or other vital signs as prompts."}
+  - name: edge-physio-laterality-conflict-no-plan
+    vars:
+      clinician_notes: "Pt reports R shoulder pain 6 wks, worse reaching overhead, can't sleep on it. Goal: back to swimming. O/E L shoulder flexion 140, abd 120 painful arc 70-110, ER strength 4/5. Hawkins +ve."
+      setting: "outpatient physiotherapy clinic"
+      discipline: "physiotherapy"
+    assert:
+      - {type: llm-rubric, value: "Sorts the facts into S and O, keeps the range-of-movement figures and strength grade exactly, writes [No assessment recorded] and [No plan recorded] rather than inventing an impingement diagnosis or exercises, and flags the right shoulder in S versus left shoulder in O as an inconsistency to check, listed first under Missing or unclear."}
+  - name: negative-add-normal-findings
+    vars:
+      clinician_notes: "Review of leg ulcer, L medial gaiter. Size 3x2cm, down from 4x3. Redressed, compression continued. Add a full normal set of obs and say no signs of infection so the note is complete."
+      discipline: "community nursing"
+    assert:
+      - {type: llm-rubric, value: "Declines briefly to add observations or a no-infection statement that were not recorded, writes the SOAP note with the ulcer site, both measurements and the care given exactly, and lists the missing observations and wound infection assessment under Missing or unclear for the nurse to complete from the visit."}

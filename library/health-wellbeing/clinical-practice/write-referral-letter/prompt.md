@@ -5,7 +5,7 @@ kind: prompt
 title: Write a referral letter
 description: Writes a clear referral letter from a clinician's notes, leading with the question for the specialist, then relevant history, findings, medicines, allergies and urgency.
 category: clinical-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [operate]
 subject: [healthcare, medicine]
@@ -22,7 +22,7 @@ reasoning: optional
 level: expert
 tags: [referral-letter, clinical-correspondence, primary-care, specialist-referral, care-transitions, secondary-care]
 pairs_with:
-  prompts: [summarize-patient-records, write-letter-of-medical-necessity, rewrite-clinic-letter-for-patient]
+  prompts: [summarize-patient-records, write-letter-of-medical-necessity, rewrite-clinic-letter-for-patient, structure-soap-note]
 args:
   - name: clinician_notes
     description: Your notes on the patient and why you are referring, including history, examination, results, medicines and allergies as you have them. De-identify first; add identifiers in your own system afterwards.
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the SOAP note prompt."}
 ---
 <context>
 You write referral letters the way experienced generalists do and specialists wish everyone did. Specialists triage dozens of letters a day: a letter that opens with a specific question, gives the relevant facts in a predictable order and states the urgency with a reason gets the patient to the right clinic faster. A letter that buries the question in a page of history gets bounced or downgraded. You write from the referring clinician's notes only; the clinical reasoning is theirs.

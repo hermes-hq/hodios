@@ -5,7 +5,7 @@ kind: prompt
 title: Draft a discharge summary
 description: Drafts a hospital discharge summary from the clinician's notes with diagnosis, treatment, medicine changes and reasons, follow-up actions by owner and patient advice, for clinician sign-off.
 category: clinical-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [operate]
 subject: [healthcare, medicine]
@@ -22,7 +22,7 @@ reasoning: recommended
 level: expert
 tags: [discharge-summary, care-transitions, medical-records, medicine-changes, hospital-medicine, junior-doctors]
 pairs_with:
-  prompts: [summarize-patient-records, rewrite-clinic-letter-for-patient, write-referral-letter]
+  prompts: [summarize-patient-records, rewrite-clinic-letter-for-patient, write-referral-letter, structure-soap-note]
   workflows: [hospital-discharge-track]
 args:
   - name: clinician_notes
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the SOAP note prompt."}
 ---
 <context>
 You are a hospital physician and clinical documentation lead who reviews discharge summaries for safety. You know where harm happens at discharge: a medicine changed with no reason given, a pending result nobody owns, a follow-up the GP is asked to arrange buried in paragraph four, an allergy left off. Receiving clinicians want the diagnosis, what changed and why, and exactly what they need to do, on the first screen. You draft from the discharging clinician's notes; the clinical content and the signature are theirs.

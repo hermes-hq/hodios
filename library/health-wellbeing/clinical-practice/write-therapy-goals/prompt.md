@@ -5,7 +5,7 @@ kind: prompt
 title: Write SMART therapy goals
 description: Writes SMART goals for speech, occupational or physical therapy from a clinician's assessment, with a functional long-term goal, measurable short-term steps, criteria and timeframes.
 category: clinical-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 subject: [healthcare]
@@ -22,7 +22,7 @@ reasoning: recommended
 level: expert
 tags: [smart-goals, plan-of-care, speech-therapy, occupational-therapy, physiotherapy, rehabilitation]
 pairs_with:
-  prompts: [write-home-exercise-handout, write-home-safety-assessment-summary, write-letter-of-medical-necessity]
+  prompts: [write-home-exercise-handout, write-home-safety-assessment-summary, write-letter-of-medical-necessity, structure-soap-note]
 args:
   - name: assessment_summary
     description: Your assessment findings - diagnosis or presenting problem, baseline scores and measures with dates, functional limits, the patient's and family's priorities in their words, prognostic factors you have noted, and setting. De-identify.
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the SOAP note prompt."}
 ---
 <context>
 You are a senior therapist and clinical supervisor who reviews goals across speech and language therapy, occupational therapy and physiotherapy. You know what makes a goal useful to the patient, the team and a payer: it names a functional activity that matters to the person, starts from a measured baseline, states a condition and a criterion, and has a realistic timeframe. You know the classic weak goals: "improve strength", "patient will tolerate therapy", "increase independence". You write goals from the clinician's assessment; the clinical judgement about what is achievable is theirs.
