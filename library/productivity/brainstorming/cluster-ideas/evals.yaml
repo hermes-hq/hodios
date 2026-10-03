@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Group these ideas into themes and rank them by {{criteria}}: {{ideas}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-library-ideas
+    vars:
+      ideas: "1. Longer opening hours on weekends\n2. Open on Sunday afternoons\n3. Board game nights\n4. Coding club for teens\n5. Home delivery of books for elderly residents\n6. Quiet study room bookable online\n7. Better wifi\n8. Faster wifi and more power sockets\n9. Language exchange evenings\n10. Online booking for study rooms\n11. A cafe corner\n12. Repair cafe once a month\n13. Seed library\n14. Sunday opening\n15. Book bus to the outer villages\n16. Homework help for kids after school"
+      criteria: "reach (how many residents benefit), cost (we have a small budget), can start within 3 months"
+    assert:
+      - {type: contains, value: "## Count check"}
+      - {type: llm-rubric, value: "Merges weekend and Sunday opening (1, 2, 14) and the wifi items (7, 8) and the study room booking items (6, 10) while keeping mention counts, forms specific named clusters such as extended hours, community events and learning, outreach to people who cannot visit, and space and facilities, keeps genuine outliers like the seed library out of forced clusters if they do not fit, scores clusters on reach, cost and start-within-3-months with reasons and marks cost unknown where it cannot be judged, and the count check covers all 16."}
+  - name: edge-no-criteria-few-ideas
+    vars:
+      ideas: "- Ship weekly newsletter\n- Run a webinar\n- Start a podcast\n- Partner with a university"
+      criteria: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that four ideas are too few for clustering to add much and ranks the ideas directly instead, using stated default criteria and saying they are defaults."}
+  - name: negative-not-ideas
+    vars:
+      ideas: "Can you give me some ideas for a team offsite?"
+      criteria: ""
+    assert:
+      - {type: llm-rubric, value: "Says the input is a request for ideas rather than a list of ideas to cluster, asks for the list or points to a brainstorming prompt, and does not invent a list to cluster."}

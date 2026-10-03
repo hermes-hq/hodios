@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do a cost-benefit analysis of these options over {{horizon}}: {{options}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hire-vs-outsource
+    vars:
+      options: "Small accounting firm, 8 staff. Option A: hire a full-time office admin at 34,000 a year plus about 20% employment costs; would free roughly 10 hours a week of accountant time (accountants bill at 90 an hour but are only busy 70% of the time). Option B: outsource admin to an agency at 1,900 a month, 1-month notice, quality unknown. Option C: keep as is. Setup for A: recruiting fee 4,000."
+      horizon: "3 years"
+    assert:
+      - {type: contains, value: "## Uncertainty and sensitivity"}
+      - {type: llm-rubric, value: "Uses keep-as-is as the baseline, computes A's cost as about 40,800 a year plus the 4,000 fee and B's as 22,800 a year, values freed accountant time cautiously by recognising that only billable use of freed hours counts (not all 10 hours at 90), shows per-year arithmetic and low/likely/high cases, keeps quality and flexibility (B's one-month notice) as non-monetised factors, identifies the share of freed hours that becomes billable as the key sensitivity with a break-even, and gives a recommendation with conditions for changing it."}
+  - name: edge-personal-with-intangibles
+    vars:
+      options: "Buy a used car for about 9,000 vs keep using public transport (monthly pass 85) plus occasional car rental (about 600 a year). I live in a city, commute 40 minutes each way by train. With a car it would be 25 minutes but parking at work costs 120 a month."
+      horizon: "5 years"
+    assert:
+      - {type: llm-rubric, value: "Labels unknown car running costs (insurance, fuel, maintenance, depreciation or resale value) as assumptions with ranges rather than facts, includes parking and the pass, values or at least shows the 30 minutes a day saved separately, keeps intangibles such as flexibility and stress as non-monetised factors, shows the break-even, and does not present the answer as financial advice."}
+  - name: negative-no-options
+    vars:
+      options: "Is it worth it?"
+      horizon: "3 years"
+    assert:
+      - {type: llm-rubric, value: "Asks what options are being compared and what costs and benefits are known, and stops instead of inventing options or numbers."}

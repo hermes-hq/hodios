@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What are the second-order consequences of this decision? {{decision}} Stakeholders: {{stakeholders}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-bonus-change
+    vars:
+      decision: "Our 40-person B2B software company wants to pay sales reps a bonus only on signed annual contract value, removing the current part of the bonus tied to customer retention, to push growth this year."
+      stakeholders: "sales reps, customer success team, customers, finance"
+    assert:
+      - {type: contains, value: "## Reversibility"}
+      - {type: llm-rubric, value: "Traces chains with mechanisms, such as reps chasing poor-fit customers or discounting to close, which raises churn and loads customer success, which then affects renewals and finance a year later; labels likelihood and time frames; names a feedback loop; includes at least one positive second-order effect; rates reversibility with what gets locked in (signed contracts, expectations of the bonus plan); gives leading indicators with thresholds such as early churn or discount depth; recommends a concrete way to proceed such as keeping a retention clawback or piloting."}
+  - name: edge-personal-decision-no-stakeholders
+    vars:
+      decision: "I'm thinking of moving my family from the city to a village 90 minutes away to save on rent. I work hybrid, 2 days a week in the office. Two kids, 8 and 13."
+      stakeholders: ""
+    assert:
+      - {type: llm-rubric, value: "Infers stakeholders including both children separately, the partner if implied, the person's future self and possibly work, traces consequences such as commuting time, the 13-year-old's friendships and school, and later effects such as the cost of the commute eroding rent savings, labels speculative items as such, and rates the move's reversibility over time."}
+  - name: negative-too-vague
+    vars:
+      decision: "Should we change things?"
+      stakeholders: ""
+    assert:
+      - {type: llm-rubric, value: "Asks up to three questions about what decision is being considered and its context, and stops instead of producing a generic consequence map."}
