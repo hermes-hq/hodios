@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Give me tips for my exam. It is {{duration_minutes}} minutes. Format: {{exam_format}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-paper
+    vars:
+      duration_minutes: 120
+      exam_format: "80 marks. Section A: 20 multiple-choice questions, 1 mark each. Section B: 5 short-answer questions, 6 marks each. Section C: one extended essay, 30 marks. No negative marking."
+      known_weaknesses: "I always run out of time on the essay and make careless mistakes in multiple choice."
+    assert:
+      - {type: contains, value: "## Rules card"}
+      - {type: llm-rubric, value: "Reserves checking time, gives a time budget of roughly 1.4 minutes per mark with per-section minutes and checkpoints, protects essay time (for example by doing it earlier or capping Section B), gives a multiple-choice checking routine, says never to leave multiple-choice blank because there is no negative marking, and ends with a short rules card."}
+  - name: edge-negative-marking
+    vars:
+      duration_minutes: 90
+      exam_format: "60 multiple-choice questions, 4 options each. +1 for correct, -0.25 for wrong, 0 for blank."
+    assert:
+      - {type: llm-rubric, value: "Explains a guessing rule suited to the -0.25 penalty (for example, a guess after eliminating at least one option has positive expected value), and uses a two-pass approach with flagging."}
+  - name: negative-missing-marks
+    vars:
+      duration_minutes: 150
+      exam_format: "Three sections: problems, short proofs, and one long proof."
+    assert:
+      - {type: llm-rubric, value: "Notes that marks per section are not given and asks for them or clearly labels an estimated split, rather than presenting invented marks as fact."}

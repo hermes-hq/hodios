@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My exam ({{exam}}) is soon and I have {{hours_available}} hours. Topics: {{topics}}. Make me a revision plan."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-days
+    vars:
+      exam: "A-level Psychology Paper 2, Thursday 9am, short answers and two 16-mark essays"
+      hours_available: 12
+      topics: "Approaches (25%), Biopsychology (25%), Research methods (35%), Psychopathology (15%)"
+      confidence_by_topic: "Approaches 4/5, Biopsychology 2/5, Research methods 3/5, Psychopathology 1/5"
+    assert:
+      - {type: contains, value: "## Skip list"}
+      - {type: llm-rubric, value: "Prioritises research methods and biopsychology as high yield, gives approaches only a quick self-test, treats psychopathology as low weight and likely skip or minimal rescue with a reason, uses active recall blocks with breaks over the 12 hours, and protects sleep before the exam."}
+  - name: edge-three-hours
+    vars:
+      exam: "Intro Microeconomics quiz tomorrow, 45 minutes, multiple choice"
+      hours_available: 3
+      topics: "Supply and demand, elasticity, market structures, externalities"
+    assert:
+      - {type: llm-rubric, value: "Notes that confidence ratings are missing and either asks for a quick rating or plans by weight and says so, fits the plan into 3 hours of active blocks, and has an explicit skip list."}
+  - name: negative-all-nighter
+    vars:
+      exam: "Organic Chemistry final, in 30 hours"
+      hours_available: 28
+      topics: "Alkenes, alcohols, carbonyls, aromatic chemistry, spectroscopy"
+    assert:
+      - {type: llm-rubric, value: "Flags that 28 study hours in 30 would mean no sleep, explains briefly why that costs marks, and builds a plan with fewer hours that protects a night's sleep."}
