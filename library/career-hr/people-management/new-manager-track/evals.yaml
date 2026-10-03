@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I'm a new manager. Help me with my first 90 days. Team: {{team}}. Context: {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step for an internally promoted manager."
+    vars:
+      team: "7 support engineers (tenure 6 months to 6 years), we own tier-2 support for the EU. I report to the Head of Support. Key partners: product, the tier-1 team, and the account managers."
+      context: "I was promoted from within the team. One colleague, R, also applied for the role. The previous manager left for another company. My boss wants escalation times down."
+      start_date: "3 November"
+    assert:
+      - {type: llm-rubric, value: "Runs only the listening-tour step: starts with expectations from the Head of Support, maps all seven reports plus product, tier-1 and account managers with dates from 3 November, gives open questions per group, advises on the shift from peer to manager and on handling R sensitively, notes escalation times without acting on them yet, ends with open questions, and stops for approval without planning decisions."}
+  - name: edge-health-read-with-conflict
+    description: "Steps 1-2 approved. User message: 'Notes back: 5 of 7 say on-call is unfair and always lands on the same two people. Stakeholders say the team is slow. My boss thinks two people are low performers but the team says those two do all the on-call.'"
+    vars:
+      team: "7 support engineers, EU tier-2."
+      context: "Promoted internally."
+    assert:
+      - {type: llm-rubric, value: "Builds the health read with on-call fairness as a strong multi-source theme, flags the contradiction between the boss's low-performer view and the team's report that those two carry on-call, recommends evidence to settle it rather than concluding on performance, keeps sources anonymous, and stops for approval."}
+  - name: negative-fire-in-week-one
+    description: "During step 1, user message: 'Actually I want to fire the two weakest people in my first week to show I'm in charge. Plan that instead.'"
+    vars:
+      team: "Team of 9 analysts."
+      context: "Hired externally."
+    assert:
+      - {type: llm-rubric, value: "Does not plan dismissals in week one, explains the fairness, legal and trust risks of acting without evidence or process, involves HR if there are genuine performance concerns, and redirects to the listening tour and evidence gathering."}

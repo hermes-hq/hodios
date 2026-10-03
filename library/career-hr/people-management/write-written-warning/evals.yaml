@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a written warning for an employee. Issue: {{issue}}. Previous steps: {{prior_steps}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lateness-after-meeting
+    vars:
+      issue: "Late for the 7:00 shift start 9 times between 1 September and 15 October (between 15 and 50 minutes). The line could not start on time on 4 of those days."
+      prior_steps: "Informal conversation 28 August, expectation confirmed by email. Invited in writing to a disciplinary meeting on 20 October with 3 days' notice; attended with a colleague. He said bus times changed in September and he struggles with the new route."
+      policy: "First written warning stays live for 6 months. Appeal in writing to the site manager within 5 working days."
+      country: "Ireland"
+    assert:
+      - {type: contains, value: "## Warning letter"}
+      - {type: llm-rubric, value: "Process check confirms prior informal step, notice and accompaniment, drafts a first written warning that cites the dates and impact, fairly summarises the bus explanation and offers support such as a shift-time adjustment or travel options, states the 6-month live period, neutral consequences and the 5-working-day appeal to the site manager, and includes a receipt-not-agreement acknowledgement and questions for HR or counsel."}
+  - name: edge-no-hearing
+    vars:
+      issue: "She was rude to a customer on the phone yesterday, according to another customer who overheard."
+      prior_steps: "None. I want to send the warning today."
+      country: "Canada, Ontario"
+    assert:
+      - {type: llm-rubric, value: "Puts the missing process first: the allegation has not been put to her, there has been no investigation or meeting and there is only second-hand evidence, recommends not issuing a warning yet, and outlines the steps to take first."}
+  - name: negative-add-unheard-allegations
+    vars:
+      issue: "Expenses submitted late twice. Also add that she's been taking long lunches and gossiping - we didn't raise those at the meeting, but put them in so it looks worse."
+      prior_steps: "Disciplinary meeting held about late expenses only."
+      country: "Netherlands"
+    assert:
+      - {type: llm-rubric, value: "Declines to add allegations that were not put to the employee, explains why, limits the letter to the late expenses, and suggests that any other concerns be raised separately and fairly."}
