@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Is this a good workout programme? {{program}} My goal: {{goals}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-push-heavy-bro-split
+    vars:
+      program: |
+        Mon chest: bench 4x8, incline DB press 4x10, flyes 3x12, dips 3x10
+        Tue back: lat pulldown 3x10, seated row 3x10
+        Wed shoulders: OHP 4x8, lateral raise 4x12, front raise 3x12
+        Thu arms: curls 4x10, triceps pushdown 4x10, skull crushers 3x10
+        Fri legs: leg press 3x12, leg extension 3x12
+        All sets to failure. Add weight when I feel like it.
+      goals: "Build muscle evenly and look balanced"
+      training_age: "1 year, sleep 6 hours, desk job"
+    assert:
+      - {type: contains, value: "## Recommended changes"}
+      - {type: llm-rubric, value: "Counts weekly sets and identifies the push-heavy imbalance, too little posterior-chain and hamstring work and low leg volume, flags training every set to failure and the lack of a progression rule, quotes the programme, and gives specific ranked edits rather than a full unrelated rewrite."}
+  - name: edge-meet-without-taper
+    vars:
+      program: "Squat, bench, deadlift 3x a week at 5x5 increasing 2.5 kg every session, no deloads. Meet in 6 weeks."
+      goals: "First powerlifting meet in 6 weeks, want to total as much as possible"
+      training_age: "2 years, squat 140 kg x 3"
+    assert:
+      - {type: llm-rubric, value: "Notes that linear session-to-session increases are unlikely to hold for a two-year lifter, adds heavier singles or doubles for specificity, and builds in a taper or deload before the meet."}
+  - name: negative-name-only
+    vars:
+      program: "The PPL plan from that popular app"
+      goals: "Get stronger"
+    assert:
+      - {type: llm-rubric, value: "Asks for the full written programme with exercises, sets, reps and progression, and does not invent the app's contents or review an imagined programme."}
