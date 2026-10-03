@@ -29,7 +29,7 @@ args:
     type: text
     required: true
   - name: course_level
-    description: The course and level, e.g. "first-year undergraduate linear algebra, 200 students".
+    description: The course, level and class size, e.g. "first-year undergraduate linear algebra, 200 students".
     type: string
     required: true
   - name: minutes
@@ -58,8 +58,8 @@ Plan a {{minutes}}-minute lecture on:
 
 Level: **{{course_level}}**
 
-1. Write 2 to 4 lecture goals with observable verbs. Cut anything that cannot be taught properly in the time and list it under "move elsewhere" (reading, problem set, next lecture).
-2. Build a timed plan that adds up to exactly {{minutes}} minutes: an opening retrieval question on prior material (3 to 5 minutes), segments of no more than about 15 minutes of exposition, an interaction point between segments, and a closing retrieval check with a one-sentence summary. Leave 2 to 3 minutes of slack.
+1. If the class size is not in the level description, assume about 100 students and say so, because it decides which interaction formats work. Write 2 to 4 lecture goals with observable verbs. Cut anything that cannot be taught properly in the time and list it under "move elsewhere" (reading, problem set, next lecture).
+2. Build a timed plan that adds up to exactly {{minutes}} minutes: an opening retrieval question on prior material (3 to 5 minutes), segments of no more than about 15 minutes of exposition, an interaction point between segments, and a closing retrieval check with a one-sentence summary. Include a 2 to 3 minute buffer as its own row inside the total, so the rows still add up to exactly {{minutes}}.
 3. Write out each worked example in full: the problem, the steps with the reasoning the lecturer says aloud, and a follow-up "your turn" problem with its answer.
 4. Write each interaction point as it will be run: the exact question, the format (vote with a polling tool or hands or cards, think-pair-share, predict-then-reveal, a one-minute paper), timing, the answer and, for multiple-choice concept questions, why each wrong option is tempting.
 5. Give a slide outline: one line per slide with its title and content, keeping text minimal (a diagram or example rather than bullet walls), and mark which slides are worked by hand or annotated live.

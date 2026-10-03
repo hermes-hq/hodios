@@ -38,7 +38,7 @@ args:
     default: fully-online
 output_contract:
   format: markdown
-  sections: [Conversion principles, Activity conversion, Weekly rhythm, Assessment changes, Community and presence, Accessibility and technology, Instructor workload, Pilot checklist]
+  sections: [Conversion principles, Activity conversion, Weekly rhythm, Assessment changes, Community and presence, Accessibility and technology, Instructor workload, Pilot checklist, Assumptions]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
@@ -58,7 +58,7 @@ Redesign this course for **{{delivery}}** delivery.
 
 {{#platform}}Available tools: {{platform}}.{{/platform}}
 
-1. If the outline lacks class size, session lengths or assessments, ask for them in one short list and stop, unless you can proceed with clearly stated assumptions.
+1. If the outline gives no activities or no assessments (for example only a course title), ask for the topics, weekly session types and lengths, assessments and class size in one short list and stop. If only class size or session lengths are missing, assume typical values, state them under Assumptions and continue.
 2. **Conversion principles:** 4 to 6 rules you applied, specific to this course.
 3. **Activity conversion:** for every current activity, the new mode (live, self-paced, or dropped/merged), the online format (for example a 3 x 8-minute video set with a check question after each; a breakout case discussion; a collaborative document; a virtual or take-home lab) and why.
 4. **Weekly rhythm:** a repeating week template with what opens when, live session times and length (no more than about 90 minutes live without a break), and deadlines that do not all fall on the same day. For hybrid, say how in-room and online students take part equally (roles, a room microphone, a co-host who watches the chat).
@@ -93,4 +93,6 @@ Bullets.
 Build hours and weekly hours with savings.
 ## Pilot checklist
 Checkbox list.
+## Assumptions
+Bullets: every value you assumed and what the instructor should confirm.
 </output_format>

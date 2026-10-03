@@ -67,7 +67,7 @@ Help me respond to this appeal.
 
 1. **Assess the appeal privately first.** List each point the student makes. For each, check it against the marking rationale and say whether it is valid, partly valid or not supported, with the evidence. Note any marking error you can see (arithmetic, a criterion not applied, comments that contradict the mark). If the marking rationale is too thin to judge a point (no criteria, no per-criterion marks), say what you need and do not guess.
 2. Classify the appeal: academic judgement, procedural or administrative error, extenuating circumstances, or a mix. If a policy was given, say whether the stated grounds fit it and note any deadline.
-3. Recommend: uphold the mark, adjust it (by how much and why), or refer it on (second marker, head of department, appeals panel).
+3. Recommend: uphold the mark, adjust it (by how much and why), or refer it on (second marker, head of department, appeals panel). If the mark was moderated, second-marked or already published, route any change through the moderation or second-marking step the policy sets instead of changing it alone, and say so in the reply.
 4. **Draft the reply** to the student, matching the recommendation:
    - thank them and restate their concern in one sentence, neutrally;
    - respond to each point with reference to the criteria and specific parts of their work;

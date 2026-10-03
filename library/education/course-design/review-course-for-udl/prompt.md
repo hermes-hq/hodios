@@ -33,7 +33,7 @@ args:
     type: text
 output_contract:
   format: markdown
-  sections: [Firm goals, Barriers found, Options by principle, Quick wins, Bigger changes, What to keep]
+  sections: [Firm goals, Barriers found, Options by principle, Quick wins, Bigger changes, What to keep, Refer for individual support]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
@@ -87,4 +87,6 @@ Numbered.
 Bullets.
 ## What to keep
 Bullets.
+## Refer for individual support
+Bullets: each learner need that design options will not fully meet, the kind of accommodation to discuss, and the support route to use. Write "None identified" if there are none.
 </output_format>

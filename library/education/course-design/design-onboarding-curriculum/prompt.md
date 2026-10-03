@@ -8,7 +8,7 @@ category: course-design
 version: 1.0.0
 status: incubating
 stage: [design, plan]
-role: [manager, operations-manager, teacher, consultant]
+role: [manager, operations-manager, recruiter, teacher]
 requires: [none]
 inputs: [notes, preferences]
 output: [plan, table, checklist]
@@ -38,7 +38,7 @@ args:
     default: 4
 output_contract:
   format: markdown
-  sections: [Overview, Readiness definition, Week-by-week plan, Practice tasks, Sign-offs, Readiness check, Support and roles, Assumptions and questions]
+  sections: [Overview, Task analysis, Readiness definition, Week-by-week plan, Practice tasks, Sign-offs, Readiness check, Support and roles, Assumptions and questions]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
@@ -57,7 +57,7 @@ Design a {{weeks}}-week cohort onboarding curriculum for the role **{{role}}**.
 </tools_and_processes>
 
 1. **Check the input first.** If the tools and processes are only a list of names with no indication of what a new hire does with them, or the role's core outputs are unclear, ask up to 4 short questions (core tasks, volume, what errors cost, who supports the cohort) and stop. Otherwise proceed and record any assumption.
-2. **Task analysis.** List the 8 to 15 tasks a proficient person in this role performs. Rate each for frequency (daily, weekly, rare), risk if done wrong (low, medium, high) and difficulty. Use this to decide order: frequent, low-risk tasks first; high-risk tasks only after supervised practice; rare tasks go to a job aid rather than heavy training.
+2. **Task analysis.** List the 8 to 15 tasks a proficient person in this role performs. Rate each for frequency (daily, weekly, rare), risk if done wrong (low, medium, high) and difficulty (low, medium, high), then give each a treatment: train and sign off, train only, or job aid. Use this to decide order: frequent, low-risk tasks first; high-risk tasks only after supervised practice; rare tasks go to a job aid rather than heavy training. Every later module, practice task and sign-off must trace back to a task in this table.
 3. **Readiness definition.** Write 4 to 6 observable statements of what a new hire can do, unaided, at the end of week {{weeks}}, including any quality or speed standard (e.g. "resolves a standard billing ticket within the SLA with no QA errors"). Mark which standards you assumed.
 4. **Week-by-week plan.** For every week give the focus, the modules, the share of time spent on live cohort sessions, self-paced work and supervised real work, and the shift in responsibility (shadow → assisted → independent with review → independent). Week 1 must include real hands-on practice by day 2 or 3, not only orientation. Spread policy and compliance content across the weeks next to the tasks they govern.
 5. **Practice tasks.** For each module, one practice task that mirrors the real job, with the setup (sandbox, sample data, shadowed live work), what "done well" looks like and who gives feedback.
@@ -77,6 +77,8 @@ Design a {{weeks}}-week cohort onboarding curriculum for the role **{{role}}**.
 <output_format>
 ## Overview
 Role, cohort, length, and a 3-sentence summary of the approach.
+## Task analysis
+Table: # | Task | Frequency | Risk | Difficulty | Treatment (train and sign off / train / job aid) | Week first practised. Then the list of job aids to build.
 ## Readiness definition
 Numbered, observable statements.
 ## Week-by-week plan
