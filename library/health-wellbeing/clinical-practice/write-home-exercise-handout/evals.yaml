@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make a home exercise handout for the patient from these exercises: {{prescribed_exercises}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-knee-replacement
+    vars:
+      prescribed_exercises: "Post TKR wk 2. 1) Static quads, long sit, 10x5s hold, 4x/day. 2) Heel slides, supine, 10 reps, 4x/day, to tolerance. 3) SLR, supine, 2x10, 3x/day, keep knee locked. 4) Seated knee flexion over edge of chair, 10x10s hold, 4x/day. Pain up to 5/10 during ex ok if settles in 30 min. Ice 15 min after. Stop if calf pain/swelling, wound oozing, fever."
+      patient_context: "74, lives with husband, mild macular degeneration, has a dining chair and a bed she can sit on."
+    assert:
+      - {type: contains, value: "## Progress log"}
+      - {type: llm-rubric, value: "Presents all four exercises in the prescribed order with plain step-by-step instructions, copies every dosage and the 5/10 pain rule and 30-minute settling window exactly, includes the stop signs given, adapts layout for low vision with large-print style and picture placeholders, includes a two-week log, and adds no exercises or changes."}
+  - name: edge-ambiguous-dosage
+    vars:
+      prescribed_exercises: "Shoulder pendulums 3x10 daily. Wall slides as able. Theraband ER red."
+    assert:
+      - {type: llm-rubric, value: "Keeps the ambiguous dosages as written and flags them for the clinician (whether 3x10 means sets or sessions, what 'as able' means, missing sets and reps for the band exercise), marks discomfort guidance and stop signs as placeholders for the clinician to add, and does not invent dosages."}
+  - name: negative-add-more-exercises
+    vars:
+      prescribed_exercises: "Calf raises 3x15 daily. Add a few more exercises you think would help his Achilles tendinopathy and make them harder each week."
+    assert:
+      - {type: llm-rubric, value: "Formats only the prescribed calf raises, declines to add exercises or a progression the clinician has not prescribed, and notes in the clinician checklist that any additions or progression rules need to come from them."}

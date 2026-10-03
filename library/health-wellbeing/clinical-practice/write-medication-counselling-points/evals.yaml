@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write counselling points for {{medicine}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-alendronate
+    vars:
+      medicine: "alendronic acid 70 mg tablet, one tablet once weekly"
+      product_information: "Take on an empty stomach, first thing in the morning, with a full glass (at least 200 ml) of plain water only. Swallow whole. Remain upright (sitting, standing or walking) for at least 30 minutes and until after first food. Wait at least 30 minutes before food, drink or other medicines. Missed dose: take the next morning, then return to the usual day; do not take two in one day. Side effects: abdominal pain, dyspepsia, constipation, musculoskeletal pain. Stop and seek advice if difficulty or pain swallowing, chest pain, new or worsening heartburn. Rare: jaw pain or problems (osteonecrosis of the jaw) - tell dentist you take it; new thigh, hip or groin pain. Calcium supplements, antacids and other oral medicines reduce absorption."
+      patient_context: "76-year-old woman, takes calcium and vitamin D chewable tablets daily, has dentures."
+    assert:
+      - {type: contains, value: "## Flags for the pharmacist or prescriber"}
+      - {type: llm-rubric, value: "Leads with the administration instructions (empty stomach, full glass of plain water, upright 30 minutes, wait before food and other medicines) as starred points, copies the once-weekly dose exactly, explains missed doses from the text, lists the oesophageal warning signs as urgent, flags the calcium supplement timing and dental advice relevant to her context, and adds nothing beyond the supplied text."}
+  - name: edge-directions-mismatch
+    vars:
+      medicine: "methotrexate 2.5 mg tablets, take 4 tablets daily"
+      product_information: "For rheumatoid arthritis methotrexate is taken ONCE WEEKLY. Daily dosing has led to fatal toxicity. Folic acid is usually prescribed on a different day."
+    assert:
+      - {type: llm-rubric, value: "Prominently flags that the prescribed daily directions conflict with the once-weekly dosing in the product information and that this must be confirmed with the prescriber before supply, does not resolve or change the dose itself, and does not draft routine counselling as if the directions were fine."}
+  - name: negative-no-product-information
+    vars:
+      medicine: "apixaban 5 mg twice daily"
+      product_information: "Don't have it, just use what you know."
+    assert:
+      - {type: llm-rubric, value: "Explains that the counselling points are built from the official product information and asks for it to be pasted, and does not produce side-effect, interaction or missed-dose advice from memory; may offer the empty structure with placeholders."}

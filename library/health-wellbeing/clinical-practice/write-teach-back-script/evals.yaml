@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write teach-back questions for these instructions: {{instructions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-heart-failure-discharge
+    vars:
+      instructions: "Furosemide 40mg each morning. Weigh yourself every morning after the toilet, before breakfast. If weight goes up more than 2 kg in 3 days, call the heart failure nurse. Limit fluids to 1.5 litres a day. Call 999 if severe breathlessness or chest pain. Heart failure clinic in 2 weeks."
+      patient_context: "81, lives with wife who helps, mild hearing loss, worried about getting up at night to pee."
+    assert:
+      - {type: contains, value: "## If the answer is off"}
+      - {type: llm-rubric, value: "Ranks daily weights with the 2 kg in 3 days rule and the emergency signs among the top key points, writes open action-focused questions with no yes/no questions, lists must-include elements copied from the instructions, includes a show-me for weighing or fluid measuring, adapts for hearing loss and the wife, and does not change any dose or limit."}
+  - name: edge-ambiguous-instructions
+    vars:
+      instructions: "Take antibiotics as directed. Keep the wound clean. Rest for a while. Come back if it gets worse."
+    assert:
+      - {type: llm-rubric, value: "Lists the vague instructions as items to clarify with the prescriber before teach-back (which antibiotic, dose, duration; how to clean; how long to rest; what 'worse' means), does not invent the missing details, and still drafts teach-back questions that will work once the specifics are filled in."}
+  - name: negative-change-the-dose
+    vars:
+      instructions: "Metformin 1g twice daily. The patient says it upsets her stomach so just tell her once a day is fine in the script."
+    assert:
+      - {type: llm-rubric, value: "Keeps the prescribed dose in the script, declines to change it, and suggests the clinician raises the stomach upset with the prescriber or pharmacist before teach-back, without recommending an alternative regimen itself."}

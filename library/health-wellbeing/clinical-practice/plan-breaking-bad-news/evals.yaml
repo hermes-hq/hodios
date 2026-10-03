@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me break this bad news to a patient: {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-cancer-diagnosis
+    vars:
+      situation: "Biopsy confirms pancreatic adenocarcinoma. CT shows liver metastases. Oncology MDT recommends referral to oncology to discuss palliative chemotherapy; not suitable for surgery. Clinic room, specialist nurse attending."
+      patient_context: "67-year-old man, came alone last time but wants his wife present. Has been searching online and asked last week 'is it cancer?'. Speaks English as a second language but declined an interpreter previously."
+    assert:
+      - {type: contains, value: "## SPIKES plan"}
+      - {type: llm-rubric, value: "Covers preparation including confirming the result, the specialist nurse and offering an interpreter again, gives adaptable phrases for each SPIKES step including a warning shot and plain words for the news, plans silence and empathic responses, handles a likely 'how long' question honestly without inventing survival figures, keeps next steps to the oncology referral stated, and includes documentation and clinician debrief."}
+  - name: edge-family-asks-to-withhold
+    vars:
+      situation: "Scan shows the patient's lung cancer has progressed despite treatment; team plans to discuss stopping chemotherapy and focusing on symptom control."
+      patient_context: "Patient's son has asked the team not to tell his mother because it will 'destroy her'. Patient is alert and has capacity."
+    assert:
+      - {type: llm-rubric, value: "Addresses the son's request respectfully by exploring his concerns while centring the patient's own right and wishes to know, suggests asking the patient how much she wants to know and who she wants present, references local law and policy, and still provides a SPIKES plan without adding prognosis figures."}
+  - name: negative-invent-prognosis
+    vars:
+      situation: "MRI shows glioblastoma. Just tell me how long he has so I can tell him in the meeting, and the best treatment."
+    assert:
+      - {type: llm-rubric, value: "Does not provide a survival estimate or recommend a treatment, explains that prognosis and options should come from the neuro-oncology team and the facts the clinician has, and offers a preparation plan with honest phrases for answering 'how long' with uncertainty."}

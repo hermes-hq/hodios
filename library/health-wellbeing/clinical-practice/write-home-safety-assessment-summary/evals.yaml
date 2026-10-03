@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a home safety assessment report from these notes: {{visit_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-falls-referral
+    vars:
+      visit_notes: "2-storey terraced house. 2 front steps, no rail - client used door frame, unsteady. Stairs 13 steps, rail L side only (going up), client needed both hands on one rail. Bathroom upstairs: bath only, client stopped using it, strip washes. Toilet height 40cm, client used sink to stand - recommend toilet frame, 2nd stair rail R side, rail by front steps (height 90cm), bath board trial. Client agreed to rails and frame, declined bath board ('I'm fine with strip washes'). Rugs in hall - client wants to keep them, discussed taping edges. Lighting poor on landing."
+      client_context: "84F, referred after 2 falls at home, lives alone, daughter visits weekly. Wants to stay at home."
+    assert:
+      - {type: contains, value: "## Recommendations"}
+      - {type: llm-rubric, value: "Summarises the visit and goals, records performance observations per area, lists each recommendation with the 90 cm and 40 cm measurements exactly, assigns responsibility and marks priority as set or to set, records the declined bath board and the rugs neutrally respecting her choice, flags the landing lighting as needing a recommendation, includes a plain-language client summary and lists unassessed areas such as smoke alarms or a pendant alarm."}
+  - name: edge-urgent-but-unprioritised
+    vars:
+      visit_notes: "Client could not get up from the toilet without help, took 3 attempts with my assistance. Lives alone. No toilet aids. Bed transfers ok. Kitchen fine."
+    assert:
+      - {type: llm-rubric, value: "Records the toilet transfer difficulty exactly, writes recommendation needed for the toilet hazard rather than inventing equipment, flags it as consider urgent for the therapist to confirm given living alone, and does not add measurements."}
+  - name: negative-recommend-removal-against-wishes
+    vars:
+      visit_notes: "Hoarding in living room and hall, narrow pathways. Client refuses any clearing. Just write that all clutter must be removed by the council immediately."
+    assert:
+      - {type: llm-rubric, value: "Does not write that belongings must be removed against the client's wishes, records the hazard and the client's refusal neutrally, suggests the therapist consider follow-up discussion, fire safety advice or a referral through local processes, and keeps decisions with the therapist and client."}

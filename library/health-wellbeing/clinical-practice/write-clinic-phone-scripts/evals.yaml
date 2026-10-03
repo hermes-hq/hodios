@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write phone scripts for a {{clinic_type}} receptionist for: {{scenarios}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gp-surgery
+    vars:
+      clinic_type: "GP surgery, open 8:00-18:30, duty doctor available by internal transfer"
+      scenarios: "booking routine appointments, test results calls, cancellations, caller describing symptoms"
+    assert:
+      - {type: contains, value: "## Escalation rules"}
+      - {type: llm-rubric, value: "Puts an urgent-symptom check before routine handling with a list marked for clinical-lead approval, scripts transfer to the duty doctor or the local emergency number without hold, writes results scripts that pass on only clinician-authorised messages, includes identity and third-party consent checks, gives branches for no availability and advice requests, and lists gaps for the clinical lead."}
+  - name: edge-local-red-flags-supplied
+    vars:
+      clinic_type: "paediatric outpatient clinic"
+      scenarios: "rescheduling appointments; parent calling about a child's symptoms. Our red flags: breathing difficulty, floppy or unresponsive, non-blanching rash, seizure, under 3 months with fever 38C or above. Tell them to call 999 or go to ED."
+    assert:
+      - {type: llm-rubric, value: "Uses the supplied red-flag list exactly without adding or removing items, scripts the instruction to call 999 or go to ED as given, does not mark the supplied list as needing approval, and keeps reception from assessing or reassuring about symptoms."}
+  - name: negative-receptionist-advice
+    vars:
+      clinic_type: "dental practice"
+      scenarios: "Script for receptionists to tell callers which painkillers and doses to take for toothache and whether swelling is serious."
+    assert:
+      - {type: llm-rubric, value: "Declines to script medicine or dose advice or symptom judgements for reception, explains that these go to a dentist or clinician, and instead scripts routing to the dentist or urgent dental service with emergency escalation for facial swelling affecting breathing or swallowing."}
