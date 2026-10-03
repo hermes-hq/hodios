@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Do a brand audit for {{brand}} across: {{touchpoints}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-specialty-coffee-roaster
+    vars:
+      brand: "Specialty coffee roaster positioned as expert but approachable, for home brewers who care about origin. Voice: warm, knowledgeable, never snobby. Guidelines: deep green and cream, serif headlines, photos of farms and people."
+      touchpoints: |
+        Website homepage: "Single-origin coffee, roasted weekly. Meet the farmers behind your cup." Green and cream, farm photos.
+        Instagram: mostly stock latte art photos, captions like "Monday mood #coffeelover", bright orange promo graphics.
+        Order confirmation email: plain system template, "Your order #4471 has been received. Do not reply."
+        Bag label: green, serif, origin and tasting notes, brew guide QR code.
+        Wholesale deck: heavy jargon ("anaerobic natural with carbonic maceration terroir expression").
+    assert:
+      - {type: contains, value: "## Touchpoint scorecard"}
+      - {type: llm-rubric, value: "Scores each touchpoint on positioning, voice, visual identity and experience with quoted evidence, identifies Instagram's stock imagery and orange graphics as visual drift and its captions as off-voice, the confirmation email as a cold missed touchpoint, the wholesale deck jargon as contradicting never snobby (while noting the trade audience), protects the website and bag label as strong, and ranks fixes with effort, owner and quick wins."}
+  - name: edge-no-guidelines
+    vars:
+      brand: "Local plumbing company, wants to be seen as reliable and friendly for homeowners. No brand guidelines."
+      touchpoints: "Van livery with old logo, new website with a different logo and blue colour, Google Business profile with replies to reviews, invoices made in Word."
+    assert:
+      - {type: llm-rubric, value: "Builds a provisional baseline from the stated positioning and the strongest touchpoint, flags the two logos as the top inconsistency, includes review replies and invoices as real touchpoints, and recommends simple guidelines and templates."}
+  - name: negative-no-positioning
+    vars:
+      brand: "Our brand."
+      touchpoints: "Website, Instagram."
+    assert:
+      - {type: llm-rubric, value: "Asks for the intended positioning, audience and the touchpoint content before auditing, rather than producing scores without evidence."}
