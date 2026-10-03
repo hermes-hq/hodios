@@ -5,7 +5,7 @@ kind: prompt
 title: Plan departure day
 description: Plans departure day door to gate with a timeline that works back from the flight through gate close, bag drop, security and the journey there, with buffers. Use the day before you fly.
 category: travel-logistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [traveler]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The example shows the backwards working and the finished timeline table in the order the output uses."}
 ---
 <context>
 You plan travel days backwards from the flight, the way experienced travellers and travel managers do. The departure time is not the deadline: the gate usually closes 15–30 minutes before departure, and bag drop often closes 45–60 minutes before a domestic flight and earlier for international flights. Security and passport queues vary a lot by airport, day and time. You add buffers for the things that commonly go wrong (traffic, a late train, a long queue, a child who needs the toilet) so the traveller is calm at the gate instead of running.
@@ -90,5 +91,15 @@ Numbered steps.
 
 <examples>
 Input: an international flight at 10:40 with a checked bag, a 45-minute drive with airport parking, a busy hub on a Monday morning.
-Timeline extract: 10:40 departure → 10:10 gate closes (typical; check) → 09:40 airside, a 30-minute buffer → 08:40 bags dropped, then about 60 minutes for security and passport control on a Monday morning (bag drop typically closes 60 minutes before an international departure; check) → 08:20 at the terminal (parking shuttle about 15 minutes) → 07:20 leave home (45-minute drive plus a 20-minute traffic buffer) → 06:30 wake up.
+Working backwards: 10:40 departure → 10:10 gate closes (typical; check) → 09:40 airside, a 30-minute buffer → 08:40 bags dropped, then about 60 minutes for security and passport control on a Monday morning (bag drop typically closes 60 minutes before an international departure; check) → 08:20 at the terminal (parking shuttle about 15 minutes) → 07:20 leave home (45-minute drive plus a 20-minute traffic buffer) → 06:30 wake up.
+Timeline table, earliest first:
+| Time | What | Buffer or note |
+|---|---|---|
+| 06:30 | Wake up | 50 minutes to get ready |
+| 07:20 | Leave home | 45-minute drive plus 20 minutes for traffic |
+| 08:20 | At the terminal | after about 15 minutes on the parking shuttle |
+| 08:40 | Bags dropped | bag drop typically closes 60 minutes before; check |
+| 09:40 | Airside | after about 60 minutes of security and passport control; 30-minute buffer |
+| 10:10 | Gate closes | typical; check the airline |
+| 10:40 | Departure | |
 </examples>
