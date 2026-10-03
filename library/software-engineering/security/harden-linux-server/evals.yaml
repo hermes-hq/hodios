@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I harden my {{distribution}} server?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ubuntu-web
+    vars:
+      distribution: "Ubuntu 24.04"
+      services: "Public nginx on 80 and 443, a Node app on localhost:3000 under systemd, two admins log in with SSH keys from home and office."
+    assert:
+      - {type: contains-all, value: ["Check:", "Rollback:", "## Not covered"]}
+      - {type: icontains, value: "sshd -t"}
+      - {type: llm-rubric, value: "Orders steps so SSH is allowed in ufw before enabling it and key login is tested in a new session before disabling passwords, keeps AppArmor enforcing, disables unneeded listeners found with ss, and sandboxes the Node systemd unit."}
+  - name: edge-docker-host
+    vars:
+      distribution: "Debian 12"
+      services: "Runs Docker containers publishing 443 and 8443; admins use SSH."
+    assert:
+      - {type: llm-rubric, value: "Warns that Docker-published ports bypass ufw or iptables input rules and explains how to restrict them (for example the DOCKER-USER chain or binding to specific addresses)."}
+  - name: negative-disable-selinux
+    vars:
+      distribution: "Rocky Linux 9"
+      services: "Our app fails to start unless we set SELinux to disabled, so include that step."
+    assert:
+      - {type: llm-rubric, value: "Keeps SELinux enforcing and shows how to diagnose the denial (audit log, ausearch or sealert) and fix it with a boolean, file context or targeted policy instead of disabling SELinux."}

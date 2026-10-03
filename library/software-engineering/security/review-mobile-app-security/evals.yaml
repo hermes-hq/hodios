@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review the security of this mobile app: {{app_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-fintech
+    vars:
+      platform: android
+      app_description: "Budgeting app (Kotlin). Stores the refresh token in SharedPreferences, android:allowBackup=\"true\", network_security_config allows cleartext to api-staging.example.com, a Google Maps key and a Stripe secret key in strings.xml, deep link budget://transfer?to=&amount= opens a transfer confirmation screen, biometric unlock sets a boolean isUnlocked=true."
+    assert:
+      - {type: contains-all, value: ["## Findings", "## Not verified", "## Test plan"]}
+      - {type: llm-rubric, value: "Flags the Stripe secret key as critical (move server-side and rotate), moves the refresh token to Keystore-backed encrypted storage, disables or scopes backups, removes the cleartext exception from release builds, validates the transfer deep link, and binds biometric unlock to a Keystore key."}
+  - name: edge-description-only-ios
+    vars:
+      platform: ios
+      app_description: "A telehealth app built with SwiftUI. Users sign in with email and password and then video chat with doctors. We can't share code yet."
+    assert:
+      - {type: llm-rubric, value: "Reviews what the description supports, keeps unconfirmed concerns under Not verified, and lists the specific files and settings it would need (Info.plist ATS settings, Keychain usage, app-switcher snapshot handling) rather than inventing findings."}
+  - name: negative-obfuscate-secret
+    vars:
+      platform: both
+      app_description: "React Native app. We call OpenAI directly from the app with our API key; we plan to obfuscate the key so nobody can extract it."
+    assert:
+      - {type: llm-rubric, value: "Explains that obfuscation does not protect a key shipped in the app and recommends calling the model through the backend (or short-lived scoped tokens) and rotating the current key."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "We have a security incident, what should we do? {{incident}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cloud-key-abuse
+    vars:
+      incident: "At 03:10 our AWS bill alert fired: 40 GPU instances launched in a region we never use. CloudTrail shows the calls came from an IAM user key belonging to our CI system. Nobody has touched anything yet."
+      environment: "AWS (two accounts), GitHub Actions CI, Google Workspace, 12 engineers, customer data in RDS Postgres."
+    assert:
+      - {type: contains-all, value: ["## Preserve evidence", "## Containment options", "## Communication"]}
+      - {type: llm-rubric, value: "Exports CloudTrail and preserves evidence before terminating instances, deactivates the CI key and hunts for other attacker persistence (new IAM users, roles, keys), checks whether RDS data was accessed, and flags breach notification as a question for legal counsel."}
+  - name: edge-thin-report
+    vars:
+      incident: "A customer emailed saying they think our site was hacked."
+    assert:
+      - {type: llm-rubric, value: "Asks the few questions that matter most (what the customer saw, when, which site or account) and gives initial low-regret steps without declaring a breach or wiping anything."}
+  - name: negative-wipe-first
+    vars:
+      incident: "A web server has an unknown process mining crypto. My plan is to reimage it right now and move on."
+    assert:
+      - {type: llm-rubric, value: "Advises isolating the server and capturing a disk snapshot, memory and logs before reimaging, and investigating the entry point and other hosts before calling it resolved."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Set up git hooks for this project: {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typescript-repo
+    vars:
+      stack: "TypeScript monorepo with pnpm workspaces, Prettier and ESLint configured, team on macOS and Windows, Conventional Commits used for releases, GitHub Actions CI."
+    assert:
+      - {type: icontains, value: "lint-staged"}
+      - {type: icontains, value: "commitlint"}
+      - {type: llm-rubric, value: "Runs Prettier and ESLint only on staged files, adds secret scanning in pre-commit, installs hooks automatically through a prepare script, pins versions, and adds a CI job that runs the same checks."}
+  - name: edge-python-mixed
+    vars:
+      stack: "Python service with ruff and mypy, some Terraform and shell scripts, no commit convention yet."
+      tool: "pre-commit"
+    assert:
+      - {type: llm-rubric, value: "Uses a pinned .pre-commit-config.yaml covering ruff, terraform fmt and shellcheck on staged files with a secret scanner, and asks about (rather than imposing) a commit message convention."}
+  - name: negative-full-tests-precommit
+    vars:
+      stack: "Java Spring Boot with Maven; tests take 12 minutes. Please run all tests on every commit."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on running the 12-minute suite in pre-commit, proposes fast staged-file checks in pre-commit, optionally a quick subset in pre-push, and the full suite in CI."}

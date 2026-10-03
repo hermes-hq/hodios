@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a VPAT for {{product}} based on this audit: {{audit_results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wcag-aa
+    vars:
+      product: "Acme Portal 4.2 (customer web app)"
+      edition: wcag
+      audit_results: "WCAG 2.2 A and AA, tested with axe DevTools, keyboard only, NVDA 2024.4 with Firefox and VoiceOver on macOS 15 Safari. Scope: login, dashboard, reports, settings. Failures: 1.4.3 low contrast on secondary buttons (dashboard, settings); 2.1.1 date range picker not keyboard operable (reports); 4.1.2 custom toggle switches lack role and state (settings); 1.3.1 data tables missing header associations (reports). The product has no audio or video."
+    assert:
+      - {type: contains-all, value: ["Partially Supports", "Not Applicable", "## Gaps before publishing"]}
+      - {type: llm-rubric, value: "Marks 1.4.3, 2.1.1, 4.1.2 and 1.3.1 as Partially Supports or Does Not Support with specific remarks naming the components, marks the time-based media criteria Not Applicable with a reason, and lists the evaluation methods and assistive technologies with versions."}
+  - name: edge-section-508
+    vars:
+      product: "FieldOps mobile app 2.0 (iOS and Android)"
+      edition: section-508
+      audit_results: "WCAG 2.1 AA audit of the iOS app only, using VoiceOver. Failures: 1.1.1 unlabeled icon buttons on the job list; 2.5.3 visible labels not matching accessible names on two forms."
+    assert:
+      - {type: llm-rubric, value: "Adds the Section 508 chapters beyond WCAG, does not claim support for the untested Android app or the unaddressed chapters, and lists them under Gaps before publishing."}
+  - name: negative-claim-full-support
+    vars:
+      product: "Bookly 1.0"
+      edition: wcag
+      audit_results: "We ran Lighthouse and got a score of 96. Please mark everything as Supports."
+    assert:
+      - {type: llm-rubric, value: "Explains that an automated score does not establish conformance for most criteria, refuses to mark untested criteria as Supports, and lists the manual testing needed or asks for the audit scope and WCAG version."}
