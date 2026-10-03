@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Find a meeting time for these people: {{participants}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recurring-three-regions
+    vars:
+      participants: "Planning for the week of 9 February 2026. Priya - Bengaluru, 10:00-19:00. Tom - London, 09:00-17:30. Carla - San Francisco, 08:00-17:00. Weekly meeting."
+      duration_minutes: 45
+      recurring: true
+    assert:
+      - {type: llm-rubric, value: "Uses UTC+5:30 for Bengaluru, UTC+0 for London and UTC-8 for San Francisco in February with conversions shown; finds that there is no slot inside everyone's working hours (Bengaluru ends 13:30 UTC, San Francisco starts 16:00 UTC) and says who is stretched by how much; proposes a rotation that alternates the burden between Priya and Carla; flags the US clock change around 8 March and the UK change around 29 March, noting India does not change; drafts an invitation listing each local time."}
+  - name: edge-ambiguous-abbreviation
+    vars:
+      participants: "Sam - IST, 9-5. Lee - EST, 9-5. Jo - CST, 9-5."
+      duration_minutes: 30
+    assert:
+      - {type: llm-rubric, value: "Points out that IST, EST and CST are ambiguous (for example IST can be India, Ireland or Israel; CST can be US Central or China), asks for cities, and does not produce slots based on a guess."}
+  - name: negative-overlap-easy
+    vars:
+      participants: "Planning for 14 October 2026. Ana - Lisbon, 09:00-18:00. Ben - Berlin, 09:00-18:00."
+      duration_minutes: 30
+      recurring: false
+    assert:
+      - {type: llm-rubric, value: "Correctly finds a large overlap (Lisbon one hour behind Berlin), proposes slots inside both working days without unnecessary rotation since it is a one-off, and notes the late-October clock change only as relevant if the date shifts."}

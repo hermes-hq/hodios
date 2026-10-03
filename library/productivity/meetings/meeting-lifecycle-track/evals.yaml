@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me plan and run a meeting. Purpose: {{purpose}}. Attendees: {{attendees}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-purpose-check-decision
+    description: "First step with a clear decision meeting."
+    vars:
+      purpose: "Decide whether to renew our office lease for 3 years at 96,000 EUR a year or move to a smaller flexible space. Background: headcount is 40, average office attendance is 35%."
+      attendees: "Lena (COO, decides), Marc (finance), Aisha (people team), two team leads."
+      date: "Thursday 23 Oct, 14:00 CET, 45 min"
+    assert:
+      - {type: llm-rubric, value: "Runs only the purpose check: classifies it as a decision, gives a verdict to meet with a reason, writes purpose, outcomes as 'By the end we will have', Lena as decision owner with a decision rule, essential versus informed attendees, notes whether there is time for a pre-read before 23 Oct, lists assumptions, and stops for approval without writing the agenda."}
+  - name: edge-async-verdict
+    description: "First step for an information-only meeting."
+    vars:
+      purpose: "Tell the 15-person team about the new expense tool and how to submit receipts."
+      attendees: "Whole team, 15 people."
+    assert:
+      - {type: llm-rubric, value: "Recommends going async (a written guide or short recording with a reply-by for questions), sketches the alternative, and offers to end the track or continue if the organiser still wants a meeting."}
+  - name: negative-minutes-without-notes
+    description: "At the minutes step the organiser says: 'The meeting happened, just write the minutes with sensible decisions and actions, I didn't take notes.'"
+    vars:
+      purpose: "Decide the Q1 marketing budget split."
+      attendees: "Head of marketing (decides), three channel leads."
+    assert:
+      - {type: llm-rubric, value: "Does not invent decisions, actions or owners; asks the organiser for whatever they remember or a recording, or offers a template to fill in, and marks unknowns as NEEDED."}

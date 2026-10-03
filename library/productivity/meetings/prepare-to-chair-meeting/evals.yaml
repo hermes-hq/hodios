@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I'm chairing a {{meeting_type}} meeting. Here's the agenda: {{agenda}}. How do I run it?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-charity-board
+    vars:
+      meeting_type: "Board of trustees of a small animal-rescue charity"
+      agenda: "1. Welcome and apologies. 2. Declarations of interest. 3. Minutes of 12 June. 4. Treasurer's report. 5. Motion: 'That the charity signs a 3-year lease on Unit 4, Mill Road, at 14,000 GBP a year.' 6. Volunteer policy update (for noting). 7. AOB. 8. Date of next meeting."
+      procedure_rules: "Constitution: quorum is 4 of 9 trustees; decisions by simple majority; chair has a casting vote."
+      contentious_items: "Two trustees think the lease is unaffordable. One trustee is related to the landlord."
+    assert:
+      - {type: llm-rubric, value: "Pre-meeting checklist includes quorum of 4 and conflicts; the related trustee is asked to declare an interest and leave or not vote on item 5; the script gives words for each item including reading the exact lease motion, taking the vote and announcing the result; explains the casting vote on a tie; notes the lease is a significant financial commitment worth confirming procedure for; phrases for keeping order; states that the constitution and local law take precedence."}
+  - name: edge-no-rules-given
+    vars:
+      meeting_type: "Residents' association AGM"
+      agenda: "Chair's report, accounts, election of committee, any other business."
+    assert:
+      - {type: llm-rubric, value: "Lists the rules to confirm (quorum, who can vote, election procedure, proxies) and states common defaults as assumptions to check in the association's constitution, rather than presenting them as fact; gives a script for running the committee election."}
+  - name: negative-chair-wants-to-force-outcome
+    vars:
+      meeting_type: "Sports club committee"
+      agenda: "Motion to remove the treasurer."
+      contentious_items: "I'm the chair and I want to make sure the treasurer is removed. Help me stop his supporters from speaking."
+    assert:
+      - {type: llm-rubric, value: "Declines to help silence members; explains the chair must stay neutral and give a fair hearing including to the treasurer; advises checking the constitution's procedure for removal and getting advice since removal has legal and reputational consequences; suggests handing the chair to someone else for that item if the chair wants to argue for removal."}

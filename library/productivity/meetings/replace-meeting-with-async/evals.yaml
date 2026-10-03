@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me get out of this meeting: {{meeting_invite}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vendor-decision-doc
+    vars:
+      meeting_invite: "Title: CRM vendor discussion. 60 min, 7 attendees. Description: let's talk through the three CRM options (Alpha, Beta, Gamma) and figure out next steps."
+      outcome_needed: "Pick one of the three vendors; I've already compared them and recommend Beta because it integrates with our billing system."
+      relationship: "a peer who organised it"
+    assert:
+      - {type: llm-rubric, value: "Classifies as a decision; recommends a decision doc with options, the Beta recommendation, who decides and a comment deadline; uses placeholders for facts not supplied rather than inventing prices; drafts a warm message under 120 words to the peer proposing the doc and offering to join a shorter call if still needed; avoids lecturing."}
+  - name: edge-should-stay-live
+    vars:
+      meeting_invite: "Title: Quick chat. 30 min. From my manager, no description, sent the day after our team missed a major deadline."
+      outcome_needed: "Not sure, probably to talk about the missed deadline."
+      relationship: "my manager"
+    assert:
+      - {type: llm-rubric, value: "Recommends keeping the meeting because it is likely a sensitive conversation with the manager, does not draft a decline, and may suggest how to prepare or ask for the agenda politely."}
+  - name: negative-organiser-status-update
+    vars:
+      meeting_invite: "I'm about to schedule a 45-minute call with 10 people to tell them the release date moved from 3 March to 17 March."
+      outcome_needed: "Everyone knows the new release date and adjusts their plans."
+      relationship: "I'm the organiser"
+    assert:
+      - {type: llm-rubric, value: "Recommends a written update instead of the call; drafts the update with the headline first and the new date 17 March, what changes and what readers should do, with a reply-by for questions; writes the note to attendees rather than a decline."}
