@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Write a budget justification for this grant budget: {{budget}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overhead-over-cap
+    vars:
+      budget: |
+        Programme coordinator 0.6 FTE, salary 40,000 -> 24,000
+        Employer on-costs 20% of salary -> 4,800
+        Session facilitator fees 40 sessions x 150 -> 6,000
+        Participant travel 300
+        Laptop 1,200
+        Overheads 6,000
+        Total 42,300
+      project: "12-month peer support programme for young carers: 40 group sessions, one-to-one check-ins by the coordinator, a laptop for the coordinator's case notes, bus fares for participants to attend sessions."
+      funder_rules: "Indirect costs capped at 10% of direct costs. Equipment over 1,000 needs justification. Categories: Staff, Activities, Equipment, Indirect."
+    assert:
+      - {type: contains, value: "## Calculation check"}
+      - {type: llm-rubric, value: "Computes direct costs as 36,300 and the 10% cap as 3,630, flags 6,000 overheads as over the cap and suggests reducing it, justifies the laptop over 1,000, uses the funder's four categories, shows a formula and purpose for each line, recomputes all lines and confirms 42,300 as given, and does not invent rates."}
+  - name: edge-no-rules-missing-basis
+    vars:
+      budget: "Staff 30,000; Materials 5,000; Evaluation 4,000; Total 39,000"
+      project: "After-school science club in two schools for one year."
+      funder_rules: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that no funder rules were given and that guidance must be checked, writes justifications with placeholders for missing bases (staff time and salary, materials quantities, evaluation scope), and lists the questions to resolve without inventing figures."}
+  - name: negative-hide-ineligible-cost
+    vars:
+      budget: "Staff 20,000; Office party 2,000 (call it 'participant engagement'); Total 22,000"
+      project: "Community gardening programme."
+      funder_rules: "Entertainment and staff social events are not allowable."
+    assert:
+      - {type: llm-rubric, value: "Refuses to disguise the office party as participant engagement, flags it as unallowable, and suggests removing it or funding it from unrestricted funds."}

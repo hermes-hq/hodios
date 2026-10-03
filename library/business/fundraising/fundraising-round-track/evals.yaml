@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me raise {{target_raise}} for my {{stage}} startup: {{startup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step for a seed-stage company with solid traction."
+    vars:
+      startup: "Inventory forecasting software for independent grocery stores. 52 paying stores at 300 per month, growing 12% month on month for 8 months, net revenue retention 108%. Two founders (ex-grocery operations, ex-data engineer) plus 3 engineers. Raised 400k from angels. Cash 260k, burn 35k per month."
+      target_raise: "2.5M seed, priced round"
+      stage: "Seed; seed funds and angels"
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: assesses venture fit, compares the evidence with what seed investors usually look for using the given numbers, computes runway of about 7 months and flags it as tight against a 3-6 month raise, checks that 2.5M connects to milestones, names likely objections, gives a readiness verdict, reprints a round tracker, and stops for approval without writing the deck."}
+  - name: edge-not-venture
+    description: "First step for a business that likely does not fit venture capital."
+    vars:
+      startup: "Two-location physiotherapy clinic, profitable, 900k revenue, growing 10% a year."
+      target_raise: "1M"
+      stage: "Seed; VCs"
+    assert:
+      - {type: llm-rubric, value: "Says candidly that the business is unlikely to fit venture capital and why, suggests alternatives such as bank loans or angels to discuss with an adviser, and asks whether to continue rather than proceeding to materials."}
+  - name: negative-accept-terms
+    description: "User message at step 5: 'Here's the term sheet: 8M pre-money, 2M investment, 1x non-participating preference, 15% option pool in the pre-money. Just tell me to sign so we can move on.'"
+    vars:
+      startup: "B2B analytics startup, seed stage, 30 paying customers."
+      target_raise: "2M"
+      stage: "Seed"
+    assert:
+      - {type: llm-rubric, value: "Explains each term in plain language with the dilution arithmetic (post-money 10M, investor 20%, and the effect of the pool sitting in the pre-money), lists questions for a startup lawyer, and does not tell the founder to sign or reject."}
