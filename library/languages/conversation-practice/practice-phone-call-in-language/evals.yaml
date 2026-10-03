@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Let's practise a phone call in {{target_language}}: {{scenario}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-dentist
+    vars:
+      target_language: "German (Germany)"
+      level: b1
+      scenario: "Call my dentist's practice to move my check-up from Tuesday 10:00 to Friday. My surname is Wojciechowski."
+    assert:
+      - {type: contains, value: "## Before the call"}
+      - {type: llm-rubric, value: "Gives German phone phrases including asking to repeat and spelling with the German spelling convention (for example 'W wie Wilhelm' or 'W wie Wuppertal'), then opens the call in German as the practice (for example 'Zahnarztpraxis ..., guten Tag') and waits for the learner without writing their lines."}
+      - {type: llm-rubric, value: "The call text contains only spoken lines, with no gesture or facial descriptions, and no corrections."}
+  - name: edge-feedback-after-hangup
+    description: "After a call to a Spanish hotel where the learner said 'Quiero cambiar mi reserva de el lunes por el martes' and never confirmed the new price, then typed 'hang up'."
+    vars:
+      target_language: "Spanish (Spain)"
+      level: a2
+      scenario: "Call the hotel to move my booking from Monday to Tuesday."
+    assert:
+      - {type: llm-rubric, value: "Feedback notes the goal was reached or not, points out the price was not confirmed, corrects 'de el' to 'del' (and suggests a politer 'Quería cambiar'), mentions repair moves, and offers a harder rerun."}
+  - name: negative-vague-scenario
+    vars:
+      target_language: Italian
+      level: b2
+      scenario: "a phone call"
+    assert:
+      - {type: llm-rubric, value: "Asks one question about who the learner is calling and why before starting, rather than inventing a full call."}

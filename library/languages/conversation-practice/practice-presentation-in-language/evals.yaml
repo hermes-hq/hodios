@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me practise my presentation in {{target_language}}: {{presentation_summary}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarterly-results-german
+    vars:
+      target_language: German
+      level: b2
+      presentation_summary: "10-minute update to my German team leads in a formal internal meeting: Q3 support ticket volume rose 18%, average response time fell from 9 to 6 hours, and I propose hiring two more agents."
+    assert:
+      - {type: contains, value: "## Prep"}
+      - {type: llm-rubric, value: "Gives 10 to 15 German key terms for the topic (for example Bearbeitungszeit, Anstieg, Kennzahl) with stress hints, and formal signposting phrases including describing trends (steigen um, sinken von ... auf) and buying time."}
+      - {type: llm-rubric, value: "Ends by asking for the opening section and does not rewrite or invent the full presentation or extra data."}
+  - name: edge-section-feedback
+    description: "Second turn: the presenter sends the opening 'Hello everyone, today I am going to talk you about our project which we have been developing since some months and which has the objective to reduce the waste in the canteen of the university.' for an English class presentation, level b1."
+    vars:
+      target_language: English
+      level: b1
+      presentation_summary: "5-minute university class presentation on a project to reduce food waste in the canteen."
+    assert:
+      - {type: llm-rubric, value: "Corrects 'talk you about' to 'talk to you about' and 'since some months' to 'for some months' or 'for a few months', splits the long sentence into shorter spoken sentences, gives at most five corrections, adds one signposting tip and asks for the next section."}
+  - name: negative-missing-context
+    vars:
+      target_language: French
+      level: c1
+      presentation_summary: "My research."
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing essentials (topic and content, audience, setting, length, formality) in one short list and stops, without producing generic vocabulary."}
