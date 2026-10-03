@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which AI tool should I use for this? {{task}} {{constraints}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-therapist-notes
+    vars:
+      task: "Turn my session notes into structured progress notes after each client session, about 25 a week."
+      constraints: "I'm a self-employed counsellor in the EU. Notes contain health information. Budget around 30 a month. I already use a word processor suite with a built-in assistant."
+    assert:
+      - {type: contains-all, value: ["## What the task needs", "## Trial plan", "## Check before committing"]}
+      - {type: llm-rubric, value: "Treats health data handling as a must-have (no training on data, a data processing agreement, EU data considerations), considers the built-in assistant they already pay for, flags all prices and policies for checking rather than stating them as fact, and gives a trial with sanitised notes."}
+  - name: edge-vague
+    vars:
+      task: "I want to use AI more."
+    assert:
+      - {type: llm-rubric, value: "Asks up to three focused questions about the actual task, frequency and constraints instead of recommending a tool."}
+  - name: negative-no-ai-option
+    vars:
+      task: "Convert 40 PDFs a month into a single merged PDF in date order."
+    assert:
+      - {type: llm-rubric, value: "Recognises that a non-AI tool or simple script may suit the task better and includes 'no AI' as a serious option, without pushing a paid AI product."}

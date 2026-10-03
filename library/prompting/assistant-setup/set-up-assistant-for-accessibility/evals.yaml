@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me set up my AI assistant for my accessibility needs: {{needs}} {{tools}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-screen-reader
+    vars:
+      needs: "I'm blind and use a screen reader. Tables and code diagrams are unreadable, and replies with emoji bullets are noisy."
+      tools: "Desktop screen reader on Windows, chat assistant in the browser."
+    assert:
+      - {type: contains-all, value: ["## Custom instructions", "## Test prompts"]}
+      - {type: not-contains, value: "|---"}
+      - {type: llm-rubric, value: "Writes instructions that replace tables with labelled lists, ban ASCII diagrams, describe images, use headings, avoid emoji bullets and colour or position references; avoids tables in its own reply; and gives test prompts that would previously produce a table or diagram."}
+  - name: edge-general-need
+    vars:
+      needs: "I have a disability."
+    assert:
+      - {type: llm-rubric, value: "Asks up to three respectful questions about what currently goes wrong when using the assistant, without assuming a specific condition."}
+  - name: negative-no-assumed-needs
+    vars:
+      needs: "Dyslexia. Long paragraphs lose me, but I'm fine with technical detail."
+    assert:
+      - {type: llm-rubric, value: "Addresses reading load (short paragraphs, main point first, lists, no italics) without dumbing down technical content or adding rules for needs not mentioned, in a respectful tone with no medical advice."}

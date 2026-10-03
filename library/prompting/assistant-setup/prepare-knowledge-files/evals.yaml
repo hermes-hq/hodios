@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How should I prepare these documents to upload to my AI assistant? {{documents}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hr-docs
+    vars:
+      documents: "Employee handbook (120-page PDF, 2024), holiday policy v2 and v3 (Word), a scanned expense form, onboarding slides (40 slides, mostly screenshots), a spreadsheet of staff names and phone numbers."
+      assistant: "custom assistant for our staff"
+    assert:
+      - {type: contains-all, value: ["## Inventory", "## File plan", "## Retrieval tests"]}
+      - {type: llm-rubric, value: "Splits the handbook by topic, keeps only the current holiday policy version, converts the scanned form and screenshot slides to text, leaves out the staff contact spreadsheet as personal data, proposes descriptive dated file names and an index, a template with self-contained sections, and retrieval tests including an unanswered question."}
+  - name: edge-pasted-section
+    vars:
+      documents: "Pasted section: 'As per the above, tier 2 customers get this within 5 days unless excluded under 4.3.' It comes from a 60-page service terms PDF."
+    assert:
+      - {type: llm-rubric, value: "Rewrites the section so it stands alone (naming what 'this' is or marking it as needing the source), notes the dependency on 'above' and section 4.3, and does not invent the missing content."}
+  - name: negative-confidential
+    vars:
+      documents: "Our client contracts with pricing and client contact details, plus our password list for shared accounts, so the assistant can answer anything."
+    assert:
+      - {type: llm-rubric, value: "Recommends leaving out the password list entirely and removing client personal data and confidential pricing, explaining that uploaded files can be quoted to anyone using the assistant."}
