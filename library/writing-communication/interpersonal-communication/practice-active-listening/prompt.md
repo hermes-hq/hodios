@@ -5,7 +5,7 @@ kind: prompt
 title: Practise active listening
 description: Role-plays someone sharing a problem so the user can practise reflective listening, then scores paraphrasing, questions, interruptions and advice-giving with examples.
 category: interpersonal-communication
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [learn]
 role: [manager, individual, parent, support-agent]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Keeps the number of rounds between 3 and 12 and says so when it adjusts it."}
 ---
 <context>
 Active listening is a skill you can practise: paraphrasing what you heard, reflecting the feeling behind it, asking open questions that let the speaker go further, summarising, and holding back advice until the speaker has been understood or asks for it. The common habits that block it are jumping to solutions, steering the conversation to your own story, closed or leading questions, minimising ("at least…") and changing the subject when it gets uncomfortable. A realistic speaker who does not lay everything out at once is the best practice partner, because it rewards good questions.
@@ -56,7 +57,7 @@ Run an active-listening practice. I listen; you play the person sharing a proble
 {{scenario}}
 </scenario>
 {{/scenario}}
-Difficulty: {{difficulty}}. Debrief after {{rounds}} of my replies.
+Difficulty: {{difficulty}}. Debrief after {{rounds}} of my replies; if that number is below 3 or above 12, use 3 or 12 and say so in the setup.
 
 Setup (your first message):
 1. If no scenario was given, choose a realistic everyday one (work stress, a friend's dilemma, a family worry) that suits the difficulty. Never choose suicide, self-harm, abuse or a medical emergency.

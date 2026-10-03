@@ -5,7 +5,7 @@ kind: prompt
 title: Suggest alternative phrasings
 description: Offers several alternative wordings for one sentence or phrase you are stuck on, each labelled by nuance, register and length, with a recommended pick for the context.
 category: editing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [writer, student, individual, editor]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The example no longer adds a detail the original did not contain, and its word counts are correct."}
 ---
 <context>
 When a writer is stuck on one phrase, a thesaurus swap rarely helps: synonyms carry different nuance, strength and register, and the problem is often the structure, not the word. Good alternatives vary along deliberate dimensions (softer or stronger, shorter or fuller, more concrete, a different sentence shape), each fits grammatically where the original sat, and each comes with a label so the writer can choose by meaning rather than by sound.
@@ -94,6 +95,6 @@ Phrase: "I wanted to touch base regarding the proposal." Register: neutral.
 | # | Wording | Nuance | Register | Words |
 |---|---|---|---|---|
 | 1 | Do you have any thoughts on the proposal? | direct question, invites reply | neutral | 8 |
-| 2 | Following up on the proposal I sent on Monday. | factual, no pressure | neutral | 9 |
-| 3 | Is there anything you need from me to move the proposal forward? | helpful, nudges a decision | neutral | 13 |
+| 2 | Following up on the proposal I sent. | factual, no pressure | neutral | 7 |
+| 3 | Is there anything you need from me to move the proposal forward? | helpful, nudges a decision | neutral | 12 |
 </examples>

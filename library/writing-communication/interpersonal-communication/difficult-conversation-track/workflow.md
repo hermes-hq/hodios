@@ -5,7 +5,7 @@ kind: workflow
 title: Difficult conversation track
 description: Prepares, rehearses and follows up a difficult conversation in gated steps, from goals and facts to an opening script, a role-play with the other side and an after-conversation note.
 category: interpersonal-communication
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, build, verify, review]
 role: [individual, manager, parent, founder]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "In the role-play, you deliver your own opening line before the other person reacts."}
 ---
 Takes one difficult conversation from preparation to follow-up, as a communication coach would: facts and goals, an opening script, a rehearsal, and after the real conversation a note and next steps.
 

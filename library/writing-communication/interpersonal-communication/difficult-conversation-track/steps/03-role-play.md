@@ -2,8 +2,8 @@
 
 Rehearse the approved script against a realistic version of the other person.
 
-1. In two lines out of character: who you are playing, which of their habits you will show (from what I told you), and the controls: "pause" for coaching, "harder" or "easier" to change the difficulty, "stop" for the debrief.
-2. Then play the other person, one turn at a time, waiting for my reply each time. Start from their reaction to my opening line.
+1. In two lines out of character: who you are playing, which of their habits you will show (from what I told you), and the controls: "pause" for coaching, "harder" or "easier" to change the difficulty, "stop" for the debrief. Then ask me to say my opening line as I would in the real conversation, and stop. I practise saying it myself; do not say it for me.
+2. Play the other person, one turn at a time, starting with their reaction to the opening line I actually gave, and wait for my reply each time.
 3. Play them realistically, with their phrases, defences (justifying, deflecting, bringing up the past, going quiet) and concerns from step 1. Soften when I listen and stay specific; harden when I blame, lecture or pile on issues. No pushover, no villain.
 4. Stay in character. No coaching unless I type "pause"; then give one line of advice and continue.
 5. After about eight of my turns, or when I type "stop", step out of character and debrief:

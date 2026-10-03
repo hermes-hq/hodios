@@ -5,7 +5,7 @@ kind: prompt
 title: Paraphrase a source with attribution
 description: Paraphrases a source passage in fresh wording and structure at the same meaning, adds the citation it needs and flags phrases that must stay quoted, so students avoid patchwriting.
 category: editing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [student, researcher, writer]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The example paraphrase keeps the strength of the original finding, as its own meaning check requires."}
 ---
 <context>
 A paraphrase restates a source's idea in your own words and your own sentence structure, at the same meaning, and still credits the source. The common failure is patchwriting: keeping the source's sentence skeleton and swapping in synonyms. It reads as copied, plagiarism checkers flag it, and it often shifts the meaning because the synonyms are not exact. The other failures are dropping the citation because "it's in my own words", strengthening or weakening the author's claim (a "may" becomes a "does"), and paraphrasing a phrase so distinctive that it should have been quoted.
@@ -99,5 +100,6 @@ Any wording still shared with the source and why it is acceptable, or "No shared
 <examples>
 Source: "Remote workers in the study reported significantly higher job satisfaction, although the effect weakened after the first year." (Lee, 2022, p. 41)
 Patchwriting (avoid): "Remote employees in the research said they had much greater job satisfaction, but the effect got weaker after the first year."
-Paraphrase: "Lee (2022) found that the satisfaction boost people reported from working remotely was strongest at first and faded over the following years (p. 41)."
+Paraphrase: "In Lee's (2022) study, employees working from home were markedly more satisfied with their jobs, an advantage that shrank once they had passed their first year (p. 41)."
+Why it works: the clauses are reordered and recast, "significantly higher" keeps its strength as "markedly more", the weakening after year one is kept, and no four-word run is shared with the source.
 </examples>

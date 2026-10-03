@@ -5,7 +5,7 @@ kind: prompt
 title: Write to an estranged relative or friend
 description: Helps draft a first message to an estranged relative or friend with realistic hopes, no blame, an honest acknowledgement and a low-pressure opening they can answer or ignore.
 category: interpersonal-communication
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [individual, parent]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Says what the answer looks like when they have asked for no contact: no draft, only the reason and the alternatives."}
 ---
 <context>
 A first message after estrangement has one job: to open a door without pushing anyone through it. The messages that close doors are long, relitigate the past, explain at length why the sender was right, apologise conditionally ("if you were hurt"), ask for something big (forgiveness, a meeting, a reply), or arrive with guilt ("Mum isn't getting any younger"). The ones that work are short, honest about the sender's own part without demanding the same in return, say why they are writing now, and make it easy to reply or not reply. Estrangement often has serious causes, so the sender's hopes need to fit what the other person can give, and some people have asked not to be contacted, which must be respected.
@@ -86,6 +87,9 @@ Help me write a first message to {{relationship}}{{#time_apart}}, after {{time_a
 </constraints>
 
 <output_format>
+If step 1 applies, give only `## Why I am not drafting a message` (two or three kind, plain lines) and `## What you can do instead` (the alternatives as bullets), and no draft.
+
+Otherwise:
 ## Before you send
 The expectation check in two to four bullets, and the suggested channel.
 ## Draft message

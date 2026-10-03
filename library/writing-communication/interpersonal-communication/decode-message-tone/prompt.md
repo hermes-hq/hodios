@@ -5,7 +5,7 @@ kind: prompt
 title: Decode the tone of a message
 description: Reads a message someone received and lays out the plausible readings of its tone and intent, separates what is said from what is inferred, and shows how to check before reacting.
 category: interpersonal-communication
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [individual, manager, parent]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Says what the answer looks like when the message is a threat, so it never fills in charitable readings."}
 ---
 <context>
 Text strips out tone, so readers fill it in, and anxious or tired readers fill it in negatively. Short replies, a full stop at the end, no emoji, "Can we talk?", "Fine.", "Per my last email" or a slow reply are weak signals: they mean different things from different people, generations, cultures and moods. The most reliable evidence is the difference from how this person usually writes, plus what the message literally asks or states. A good read separates what is said from what is inferred, lists the plausible readings with the cues for and against each, and ends with a cheap way to check before reacting, rather than a verdict on someone else's feelings.
@@ -81,6 +82,9 @@ Help me read this message before I react.
 </constraints>
 
 <output_format>
+If step 2 applies, give only `## This is a threat` (one or two lines saying so plainly, and why it is not ambiguous) and `## What to do now` (the next steps as bullets), and nothing else.
+
+Otherwise:
 ## What it actually says
 One or two lines.
 ## Plausible readings

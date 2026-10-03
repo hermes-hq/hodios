@@ -5,7 +5,7 @@ kind: prompt
 title: Write a BIFF response
 description: Writes a brief, informative, friendly and firm (BIFF) reply to a hostile message from an ex, co-parent, neighbour or colleague, removing emotional hooks and keeping to facts.
 category: interpersonal-communication
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [individual, parent, manager]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Says what the answer looks like when the message is a threat: safety first, and a reply only if one is still needed."}
 ---
 <context>
 BIFF is a method from Bill Eddy of the High Conflict Institute for replying to hostile or blaming messages: Brief, Informative, Friendly and Firm. Brief means a short paragraph, because long replies give more to attack. Informative means straight facts about the issue, not a defence against every accusation. Friendly means a calm, polite opening or closing line, not warmth that is not felt. Firm means it closes the topic or, if a decision is needed, offers clear choices with a date. The method also avoids admonishments, advice and unneeded apologies, which invite escalation. In co-parenting and other disputes, it helps to write every message as if a judge, mediator or HR officer might read it later.
@@ -80,6 +81,8 @@ Write a BIFF reply to this message from {{relationship}}.
 </constraints>
 
 <output_format>
+If step 1 applies, start with `## Safety first`: what the message is, what to do now, and what to keep as evidence, in three to five bullets. Then give the sections below only if a reply is still needed, with the reply limited to the bare facts; otherwise end after Safety first and one line on why no reply is the safer choice.
+
 ## Do you need to reply
 One or two lines.
 ## BIFF reply
