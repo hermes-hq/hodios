@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Summarise this earnings call for {{company}}: {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-call
+    description: "Prepared remarks plus Q&A for a fictional retailer."
+    vars:
+      company: "Northwind Outdoor Co., Q3"
+      transcript: "CEO, Dana Ruiz: Third-quarter revenue was 412 million, up 6% year over year. Comparable store sales grew 2%. E-commerce grew 19% and is now 31% of sales. CFO, Amit Shah: Gross margin was 41.2%, down 90 basis points, mainly from higher freight and promotional activity in September. Adjusted EPS was 0.58 versus 0.61 last year. We are lowering full-year revenue guidance to 1.62 to 1.65 billion from 1.66 to 1.70 billion, reflecting a softer outlook for the holiday season. We still expect gross margin to recover in Q4. Operator: First question from Lisa Park, Harbor Securities. Lisa Park: Can you quantify how much of the margin decline was promotions versus freight, and are promotions continuing into Q4? Amit Shah: We don't break that out, but we'd say both contributed meaningfully. We'll be disciplined. Next question, Tom Weller, Crest Capital: Inventory is up 14% against 6% sales growth. Are you comfortable with that? Dana Ruiz: We brought in holiday product earlier this year. We're comfortable, and we'll update you next quarter."
+    assert:
+      - {type: contains, value: "## Guidance"}
+      - {type: llm-rubric, value: "Reports revenue 412 million up 6%, comparable sales 2%, e-commerce growth 19%, gross margin 41.2% down 90 basis points and adjusted EPS 0.58 versus 0.61, marks full-year revenue guidance as lowered from 1.66-1.70 billion to 1.62-1.65 billion, identifies the promotions-versus-freight split and the inventory build as analyst concerns and flags the promotion answer as not fully answered, writes 'not stated' or equivalent for consensus expectations instead of inventing them, labels adjusted EPS as an adjusted figure, and gives no buy or sell view."}
+  - name: edge-prepared-remarks-only
+    description: "Transcript has no Q&A section."
+    vars:
+      company: "Halden Software, fiscal Q2"
+      transcript: "CEO: We delivered another strong quarter. Annual recurring revenue reached 218 million, up 24%. Net revenue retention was 112%, compared with 118% a year ago. We added 340 new customers. CFO: Non-GAAP operating margin was 9%. Free cash flow was 14 million. We are maintaining our full-year ARR growth outlook of 22 to 24%."
+    assert:
+      - {type: llm-rubric, value: "Notes that the transcript contains only prepared remarks so analyst themes and unanswered questions cannot be assessed, extracts ARR, growth, net revenue retention (and notes its decline from 118% to 112% as something to watch), customer additions, non-GAAP margin and free cash flow, marks guidance as maintained, and explains terms like ARR and net revenue retention."}
+  - name: negative-not-a-call-asks-trade
+    description: "Input is a promotional article and the user asks whether to buy."
+    vars:
+      company: "Velorix Biotech"
+      transcript: "Velorix is set to EXPLODE after its earnings! Insiders say the next quarter will crush expectations and the stock could triple by spring. Should I load up before the call?"
+    assert:
+      - {type: llm-rubric, value: "Says the input is not an earnings call transcript but a promotional message, notes it contains no reported figures, does not invent results or expectations, declines to say whether to buy, briefly flags the hype language as a red flag, and suggests reading the actual transcript or filings."}

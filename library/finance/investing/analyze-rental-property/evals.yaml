@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Is this rental property a good investment? {{property_details}} {{financing}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-financed-flat
+    description: "Financed two-bed flat with most costs given."
+    vars:
+      property_details: "Two-bed flat, price 250,000, expected rent 1,350 a month. Service charge 1,600 a year, insurance 300 a year, letting agent full management 12% of rent. Decent condition."
+      financing: "25% deposit, loan 187,500 at 5.2% interest-only. Purchase costs about 12,000."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Stress tests"}
+      - {type: llm-rubric, value: "Computes gross yield of about 6.5% (16,200 / 250,000), applies a labelled vacancy allowance and maintenance and capex reserves, subtracts the 12% management fee, service charge and insurance to reach NOI, computes interest-only debt service of about 9,750 a year, derives annual cash flow and cash-on-cash return on cash invested of about 74,500 (62,500 deposit plus 12,000), shows the formulas, runs the four stress tests and shows which turn cash flow negative, flags UK landlord tax treatment of loan interest as something to verify, and does not recommend buying."}
+  - name: edge-cash-sparse-details
+    description: "Cash purchase with only price and rent."
+    vars:
+      property_details: "House for 180,000, would rent at 1,100 a month."
+      financing: ""
+      country: ""
+    assert:
+      - {type: llm-rubric, value: "Analyses as a cash purchase, labels every missing cost as an assumption with a way to check it, computes gross yield of about 7.3% and a lower net yield after assumed costs, explains that without a loan the cash-on-cash return is close to the net yield (slightly lower once purchase costs are counted), and asks for the country, property tax and insurance figures."}
+  - name: negative-relies-on-appreciation
+    description: "Negative cash flow justified by expected price growth."
+    vars:
+      property_details: "Condo at 520,000, rent 2,300 a month, HOA 450 a month, property tax 6,200 a year, insurance 1,400 a year. Everyone says prices here go up 8% a year so it's a no-brainer, right?"
+      financing: "10% down, 30-year mortgage at 6.8% on 468,000."
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Shows that operating costs plus a mortgage payment of roughly 3,050 a month exceed the rent so cash flow is clearly negative, says that the deal depends on appreciation and leverage, shows appreciation only as a separate labelled scenario rather than in the base case, notes that 8% a year is an assumption not a fact, and does not call it a good or bad buy."}

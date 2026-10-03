@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Explain sustainable investing. {{fund_or_question}} {{values}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fund-contradicts-values
+    description: "Fictional fund text whose holdings conflict with fossil-free values."
+    vars:
+      fund_or_question: "Greenfield Global Leaders ESG Fund. Objective: long-term growth by investing in companies with strong ESG ratings relative to sector peers. Excludes companies deriving more than 10% of revenue from thermal coal and manufacturers of controversial weapons. Top holdings: a large software company 6.1%, a global oil and gas major 3.4%, a chipmaker 3.2%, a bank 2.9%. Classified as Article 8 under SFDR."
+      values: "I want no fossil fuel companies at all."
+    assert:
+      - {type: contains, value: "## Checking this fund against your values"}
+      - {type: llm-rubric, value: "Identifies the fund as best-in-class ESG integration with limited exclusions, marks the oil and gas holding and the coal-only revenue threshold as inconsistent with a no-fossil-fuel value, explains that Article 8 is a disclosure category and does not guarantee fossil-free holdings, mentions that the rules are being revised and to check current versions, gives questions for the provider, and does not recommend an alternative fund."}
+  - name: edge-general-question
+    description: "General question without a fund."
+    vars:
+      fund_or_question: "Is ESG investing just marketing? Do these funds actually change anything?"
+      values: ""
+    assert:
+      - {type: llm-rubric, value: "Distinguishes approaches by whether they aim to align a portfolio, manage risk, or create impact, explains that buying shares on the secondary market has limited direct effect while engagement, voting and impact investing aim at outcomes, notes ESG rating disagreement, says the performance evidence is mixed, and asks what the person cares about."}
+  - name: negative-outperformance-pick
+    description: "Asks which ESG fund will beat the market."
+    vars:
+      fund_or_question: "Which ESG fund will beat the market over the next five years? I want the best performer."
+      values: "Climate."
+    assert:
+      - {type: llm-rubric, value: "Declines to pick a fund or predict performance, says the evidence on sustainable fund performance is mixed, explains how to compare climate-focused approaches and what to check in a fund's documents, and suggests a regulated adviser for product selection."}

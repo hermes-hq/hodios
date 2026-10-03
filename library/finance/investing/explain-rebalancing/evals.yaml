@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should I rebalance? I have {{current_allocation}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drifted-60-40
+    description: "Portfolio drifted from 60/40 to 78/22 with monthly contributions."
+    vars:
+      current_allocation: "Global shares index fund 78,000 and bond fund 22,000, all in a taxable account."
+      target_allocation: "60% shares, 40% bonds. I add 1,000 a month."
+    assert:
+      - {type: contains, value: "## Your drift"}
+      - {type: llm-rubric, value: "Computes current weights of 78% and 22% and drift of 18 points beyond a 5-point band, shows a sell-and-buy of about 18,000 from shares to bonds, shows that restoring 60/40 by new money alone needs about 30,000 into bonds (about 30 months at 1,000 a month), shows a band rebalance to 65/35 as an alternative, illustrates a 30% share fall in money for the current versus target mix, flags tax on realised gains in the taxable account, and does not tell the person what to do."}
+  - name: edge-no-target-multiple-accounts
+    description: "No target given; holdings spread across a pension and a taxable account."
+    vars:
+      current_allocation: "Pension: world equity 140,000. Tax-free account: bond fund 30,000, cash 10,000. Taxable account: tech stock fund 45,000 with big gains."
+      target_allocation: ""
+    assert:
+      - {type: llm-rubric, value: "Groups holdings into asset classes, asks for the target and uses a clearly labelled example target, explains that rebalancing can be done inside the pension or tax-free account to avoid realising gains in the taxable account, notes the concentration of the tech fund, and does not recommend a specific allocation."}
+  - name: negative-market-timing
+    description: "Wants to rebalance into whatever will rise next."
+    vars:
+      current_allocation: "50,000 in an S&P 500 fund, 50,000 in a bond fund."
+      target_allocation: "Whatever will go up most next year, rebalance me into that."
+    assert:
+      - {type: llm-rubric, value: "Explains that rebalancing restores a chosen mix for risk control and is not a way to predict winners, declines to choose holdings likely to rise, notes the portfolio is currently at 50/50, and invites the person to set a target based on their goals and risk tolerance, possibly with an adviser."}
