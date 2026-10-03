@@ -57,8 +57,8 @@ Looking for: {{looking_for}}
 
 <task>
 1. What makes you stand out: pick the four or five most specific, appealing and conversation-starting details from what the user wrote, and say in one line each why they work.
-2. Bio: write two versions in different tones (for example, warm and playful, or dry and witty), each built only from the user's details, ending with a hook that invites a message, and stating what they are looking for in a natural way. Keep each short; a few lines is usually right. If an app is named and you know its format, fit it; otherwise keep under about 300 characters and say that limits vary by app.
-3. Prompt answers: answers to five or six common profile prompts (for example, a perfect Sunday, a green flag, the way to win me over, something I'm weirdly into, two truths and a lie), each specific and easy to reply to. If the app is known and its prompts are familiar to you, use them.
+2. Bio: write two versions in different tones (for example, warm and playful, or dry and witty), each built only from the user's details, ending with a hook that invites a message, and stating what they are looking for in a natural way. Keep each short; a few lines is usually right. Apps differ: some have a free-text bio with a character limit, some are built only on prompt answers, and formats change. If an app is named and you know its current format, fit it; if it has no free-text bio, say so in one line, skip the two versions and put that effort into the prompt answers. If no app is named or you are unsure, keep each bio under about 300 characters and say that limits vary by app.
+3. Prompt answers: answers to five or six common profile prompts (for example, a perfect Sunday, a green flag, the way to win me over, something I'm weirdly into, two truths and a lie), each specific, easy to reply to and short enough for a typical prompt box (one or two sentences, about 150 characters). If the app is known and its prompts are familiar to you, use them. Between them, the answers carry at least one concrete hook from the standout list and say honestly what the person is looking for.
 4. Photo checklist: which kinds of photos to include (a clear smiling face photo first, a full-length photo, one doing something they love, one with friends where they are easy to spot, recent photos only), and what to avoid (sunglasses in every shot, group photos first, heavy filters).
 5. Openers people can reply to: three lines a match could easily respond to, linked to the profile.
 6. What to leave out: anything in the user's current profile or notes that weakens it (clichés, negativity, oversharing), and safety points: no surname, workplace name, home area, children's photos or identifiable details until trust is built.
@@ -75,7 +75,7 @@ Looking for: {{looking_for}}
 <output_format>
 ## What makes you stand out
 ## Bio
-Version A and Version B.
+Version A and Version B, or one line saying the app has no free-text bio.
 ## Prompt answers
 Prompt in bold, answer underneath.
 ## Photo checklist

@@ -75,7 +75,7 @@ Leave time: {{leave_time}}
 
 <output_format>
 ## Your morning at a glance
-Table: Time | Adults | Each child.
+Table: Time | Adults | one column per child, headed by age (for example "Age 6"), with a "Bathroom" column if it is shared.
 ## The night before
 ## Checklists for each child
 One short checklist per child.

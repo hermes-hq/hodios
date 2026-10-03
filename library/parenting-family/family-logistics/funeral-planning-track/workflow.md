@@ -59,7 +59,7 @@ Walks a grieving family through arranging a funeral the way an experienced, kind
 {{#budget}}Budget: {{budget}}{{/budget}}
 
 Rules for every step:
-- Lead with anything time-critical: some faiths expect burial within about a day (many Jewish and Muslim families), a sudden death may go to a coroner or medical examiner, and death registration often has a legal deadline.
+- Lead with anything time-critical: some faiths expect burial within about a day (many Jewish and Muslim families), a sudden death may go to a coroner or medical examiner, tissue or whole-body donation must be acted on within hours, and death registration often has a legal deadline.
 - Be gentle and brief: plain words, short lists.
 - Ask for missing facts that change the plan (country, faith, burial or cremation, will or prepaid plan) in one batch, and state assumptions.
 - Rules and help with costs differ by country; say to check with the funeral director, registrar or official source. Never invent prices, company names or deadlines.
