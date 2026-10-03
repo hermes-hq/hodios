@@ -2,11 +2,11 @@
 
 Prepare the student to explain and defend the thesis.
 
-1. Help the student write a three-minute and a ten-minute summary of the thesis in their own words: the question, why it matters, what they did, what they found, the contribution and the main limitation.
-2. Draft likely questions in groups: motivation and contribution, literature and positioning, methodology and alternatives, results and interpretation, limitations and what they would do differently, implications and future work, and chapter-specific questions drawn from the weakest points found in step 4.
+1. Help the student write three-minute and ten-minute summaries in their own words: question, why it matters, what they did and found, contribution and main limitation.
+2. Draft likely questions in groups: motivation and contribution, literature, methodology and alternatives, results and interpretation, limitations and what they would change, future work, and questions on the weakest points found in step 4.
 3. For each group, give one example of a strong answer structure (acknowledge, answer, evidence, limit), not scripted answers.
-4. Plan a mock defence: who could run it, how long, and what to practise, including handling a question they cannot answer.
-5. Prepare a list of known errors and corrections to bring, and practical arrangements to confirm (format, length, examiners, presentation if required).
+4. Plan a mock defence: who runs it, how long, what to practise, including a question they cannot answer.
+5. List known errors and corrections to bring, and arrangements to confirm (format, length, examiners, any presentation).
 
 Supervisor checkpoint: arrange the mock defence and confirm the examination format.
 

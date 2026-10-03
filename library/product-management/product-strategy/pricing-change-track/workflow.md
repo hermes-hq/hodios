@@ -5,7 +5,7 @@ kind: workflow
 title: Pricing change track
 description: Takes a pricing change through gated steps, from research and options to an impact model, a communication plan and a rollout review, pausing for the owner's approval between steps.
 category: product-strategy
-version: 1.0.1
+version: 1.0.2
 status: incubating
 stage: [discover, plan, build, ship, review]
 role: [product-manager, founder, executive, marketer]
@@ -44,6 +44,7 @@ last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
   - {version: 1.0.1, note: "The impact model phases revenue by when each segment actually moves, from the renewal calendar."}
+  - {version: 1.0.2, note: "Tighter wording so the paste-in form fits the 8,000-character limit."}
 ---
 Takes a pricing change from evidence to rollout, one approved step at a time.
 
@@ -55,4 +56,4 @@ Takes a pricing change from evidence to rollout, one approved step at a time.
 {{goals}}
 </goals>
 
-First the research (what customers value, what they pay today and what the evidence says), then two to four pricing options, then a revenue and churn impact model for the chosen option, then the communication and rollout plan, and finally a review of results after launch. Each step produces one document and stops for the owner's approval or edits; later steps build on the approved versions rather than re-asking. The assistant never invents customer data, willingness-to-pay results, competitor prices or elasticity figures: unknowns become clearly labelled assumptions with ranges, or research to run. The owner makes every pricing decision. Pricing is never discussed or coordinated with competitors, and customer-facing terms are checked against existing contracts and consumer rules in the markets served.
+Research (what customers value and pay, what the evidence says), two to four options, a revenue and churn impact model for the chosen one, the communication and rollout plan, then a post-launch review. Each step produces one document and stops for the owner's approval or edits; later steps build on approved versions rather than re-asking. Never invent customer data, willingness-to-pay results, competitor prices or elasticity figures: unknowns become labelled assumptions with ranges, or research to run. The owner makes every pricing decision. Pricing is never discussed or coordinated with competitors, and customer-facing terms are checked against existing contracts and consumer rules in the markets served.

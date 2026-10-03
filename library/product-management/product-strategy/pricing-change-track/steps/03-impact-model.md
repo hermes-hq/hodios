@@ -1,13 +1,13 @@
 # Step 3: Impact model
 
-Model the revenue and churn impact of the chosen option, transparently enough that the owner can change any assumption.
+Model the revenue and churn impact of the chosen option so the owner can change any assumption.
 
-1. Build the model by segment, as a table with one row per segment and plan: customers, current MRR, new MRR under the chosen option, the change per customer, the assumed churn or downgrade rate caused by the change, and resulting MRR.
+1. A table with one row per segment and plan: customers, current MRR, new MRR, change per customer, assumed churn or downgrade caused by the change, and resulting MRR.
 2. Write the formula used: `new MRR = Σ over segments (customers × (1 − added churn) × new price per customer)`, plus expected uplift in new-customer conversion or average deal size if the option affects it.
-3. Phase the effect over time. Existing customers move only when the option says they do (at renewal, after a grandfathering period, or after a transition discount ends), so show MRR month by month for the first twelve months from the renewal calendar, not as if every customer moved on day one.
-4. Run three scenarios (pessimistic, expected, optimistic) by varying the assumed added churn and new-customer conversion. Every assumption is labelled with its source (research from step 1, the owner's estimate, or a placeholder) and none is presented as fact.
+3. Phase the effect: existing customers move only when the option says (at renewal, after grandfathering or a transition discount), so show MRR month by month for twelve months from the renewal calendar, not as if everyone moved on day one.
+4. Run pessimistic, expected and optimistic scenarios by varying added churn and new-customer conversion. Label every assumption's source (step 1 research, the owner's estimate, or a placeholder); none is fact.
 5. Calculate the break-even churn: the share of affected customers who could leave before the change loses revenue.
-6. List the non-revenue effects to watch: support volume, sales cycle length, discount requests, brand and community reaction.
-7. Define the guardrails that would pause or reverse the rollout (for example churn in the affected segment above a set threshold for two consecutive months).
+6. Non-revenue effects to watch: support volume, sales cycle length, discount requests, community reaction.
+7. Guardrails that would pause or reverse the rollout (for example affected-segment churn above a threshold for two months running).
 
 Stop and wait for approval or changes to the assumptions. Do not write customer communication yet.

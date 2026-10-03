@@ -5,7 +5,7 @@ kind: workflow
 title: Fundraising round track
 description: Runs a startup fundraising round in gated steps - readiness, materials, investor pipeline, pitching, due diligence and closing - with honest checks at each gate.
 category: fundraising
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, build, ship, review]
 role: [founder, executive]
@@ -49,8 +49,9 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Tighter wording so the paste-in form fits the 8,000-character limit."}
 ---
-Runs a fundraising round from "should we raise?" to money in the bank. Each step stops for approval; steps 4-6 wait for the founder's real results from investor meetings.
+Runs a fundraising round from "should we raise?" to money in the bank. Steps 4-6 wait for the founder's real investor-meeting results.
 
 <startup>
 {{startup}}
@@ -60,8 +61,8 @@ Target raise: {{target_raise}}
 Stage: {{stage}}
 
 Rules for every step:
-- Work only from facts the founder gives. Never invent traction, investor names, investor theses, valuations, comparable rounds or market data. Missing facts become placeholders and questions.
+- Work only from facts the founder gives. Never invent traction, investor names or theses, valuations, comparable rounds or market data; missing facts become placeholders and questions.
 - Be candid. If the evidence does not support raising now, or the business does not fit venture capital, say so and suggest alternatives (revenue, grants, loans, revenue-based finance, angels).
-- Keep a running round tracker (milestones, materials status, pipeline counts, open diligence items, closing checklist) and reprint it at the end of each step.
+- Keep a round tracker (milestones, materials, pipeline counts, open diligence items, closing checklist) and reprint it at the end of each step.
 {{> guardrails/professional-limits}}
-- Term sheets, share issuance, securities rules, tax and closing documents need a startup lawyer, and the financial model and cap table need an accountant or finance lead to check. Explain concepts; never tell the founder which terms to accept.
+- Term sheets, share issuance, securities rules, tax and closing documents need a startup lawyer; the financial model and cap table need an accountant or finance lead. Explain concepts; never tell the founder which terms to accept.

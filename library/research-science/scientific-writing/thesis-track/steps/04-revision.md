@@ -2,12 +2,12 @@
 
 Read the full draft as an examiner would and plan the revision.
 
-1. Check the thesis as a whole: the question and contribution stated in the introduction match what the conclusion claims; every chapter serves the question; the argument thread is visible in chapter openings and closings; terminology, abbreviations and numbers are consistent; and the contribution and limitations are explicit.
-2. For a thesis by publication, check the integrating chapters explain how the papers form a coherent whole and state the student's contribution to co-authored papers as the institution requires.
-3. List revisions in priority order: structural changes first, then chapter-level, then sentence-level and formatting, each with the location and effort.
-4. Run the final checks list: institutional formatting and word limits, front matter, references complete and consistent, figure and table numbering, appendices, permissions for reproduced material, ethics and data statements, AI-use disclosure if required, and a similarity check through the institution's process.
-5. Plan the last weeks: revision schedule, supervisor's final read, proofreading, and submission administration.
+1. Check the whole: the introduction's question and contribution match the conclusion's claims; every chapter serves the question; the argument thread shows in chapter openings and closings; terms and numbers are consistent; contribution and limitations are explicit.
+2. For a thesis by publication, check the integrating chapters show how the papers form a whole and state the student's contribution to co-authored papers.
+3. List revisions in priority order (structural, chapter, sentence and formatting), each with location and effort.
+4. Final checks: formatting and word limits, front matter, references, figure and table numbering, appendices, permissions for reproduced material, ethics and data statements, AI-use disclosure if required, and the institution's similarity check.
+5. Plan the last weeks: revisions, the supervisor's final read, proofreading and submission.
 
-Supervisor checkpoint: the revision plan and the final draft for sign-off; confirm the examination arrangements.
+Supervisor checkpoint: the revision plan and final draft for sign-off; confirm examination arrangements.
 
 Stop and wait for approval of the revision plan.

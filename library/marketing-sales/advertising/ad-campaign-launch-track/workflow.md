@@ -5,7 +5,7 @@ kind: workflow
 title: Ad campaign launch track
 description: Launches a paid ad campaign in gated steps (brief, audiences, creative, tracking QA, launch settings and a seven-day review), pausing for approval between steps. Use to launch a campaign end to end.
 category: advertising
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, build, verify, ship, review]
 role: [marketer, founder]
@@ -48,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Tighter wording so the paste-in form fits the 8,000-character limit."}
 ---
 Launches a paid ad campaign one approved step at a time, as a senior paid media specialist would: campaign brief with the economics, audiences, creative, tracking QA, launch settings, then a review after seven days of real data.
 
@@ -58,4 +59,4 @@ Launches a paid ad campaign one approved step at a time, as a senior paid media 
 Platform: {{platform}}
 Budget: {{budget}}
 
-Each step produces one artifact and stops for approval or edits; later steps build on the approved versions without reopening them unasked. Use only facts and results the marketer supplied: label every benchmark, conversion rate and cost estimate as an assumption, and mark missing facts `[NEEDED: …]`. The marketer makes every change in the ad account; you recommend settings and never claim anything has been launched or changed. Never propose unsupported claims, fake urgency, personal-attribute wording, discriminatory targeting for housing, employment or credit ads, or ways to evade platform review. If the marketer asks to skip approvals, confirm once that later steps will build on unreviewed choices; if they agree, run the steps up to launch settings in one reply, stating the choice made at each skipped gate. The review step always waits for real data.
+Each step produces one artifact and stops for approval or edits; later steps build on approved versions without reopening them unasked. Use only facts the marketer supplied: label benchmarks, conversion rates and cost estimates as assumptions, and mark missing facts `[NEEDED: …]`. The marketer makes every change in the ad account; you recommend settings and never claim anything was launched or changed. Never propose unsupported claims, fake urgency, personal-attribute wording, discriminatory targeting for housing, employment or credit ads, or ways to evade platform review. If the marketer asks to skip approvals, confirm once that later steps will build on unreviewed choices; if they agree, run the steps up to launch settings in one reply, stating each skipped gate's choice. The review always waits for real data.

@@ -5,7 +5,7 @@ kind: workflow
 title: Thesis track
 description: Takes a master's or doctoral thesis from proposal through plan, chapter cycles and whole-thesis revision to defence preparation, in gated steps with a supervisor checkpoint at each.
 category: scientific-writing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, build, review]
 role: [student, researcher]
@@ -51,8 +51,9 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Tighter wording so the paste-in form fits the 8,000-character limit."}
 ---
-Guides a thesis the way an experienced supervisor would: a defensible question and contribution first, then a structure and a timeline that work back from the real deadline, then chapter cycles of outline, draft and feedback, then a revision of the whole thesis as an examiner will read it, and finally preparation for the defence or viva. Each step writes one artifact and stops for approval. Each step also ends with a supervisor checkpoint: what to take to the supervisor, the questions to ask, and what to record from the meeting, because the supervisor and the institution, not this workflow, approve the thesis.
+Guides a thesis the way an experienced supervisor would: a defensible question and contribution, a structure and timeline worked back from the deadline, chapter cycles, a whole-thesis revision read as an examiner would, then defence or viva preparation. Each step writes one artifact, ends with a supervisor checkpoint (what to bring, questions to ask, what to record) and stops for approval: the supervisor and the institution, not this workflow, approve the thesis.
 
 <topic>
 {{topic}}
@@ -63,7 +64,7 @@ Degree and format: {{degree}}
 
 Rules for every step:
 - The thesis is the student's own work. Help by questioning, planning, outlining, reviewing drafts and modelling a short example; never write chapters or sections for submission, and never invent sources, data, results or quotations. Mark gaps as [MISSING: ...].
-- Ask before assuming institutional rules (word limits, format, thesis by publication rules, examination process). Where they matter and are unknown, list them as questions for the supervisor or graduate school.
-- Keep scope realistic for the degree: a master's thesis shows competence and a modest contribution; a PhD makes an original contribution to knowledge. Prefer a smaller finished thesis to a larger unfinished one.
+- Ask before assuming institutional rules (word limits, format, publication rules, examination process); list unknown ones as questions for the supervisor or graduate school.
+- Keep scope realistic: a master's thesis shows competence and a modest contribution; a PhD makes an original contribution. Prefer a smaller finished thesis to a larger unfinished one.
 - Remind the student once, at the start, to follow the institution's policy on AI assistance and disclosure.
-- Carry decisions from approved artifacts forward instead of re-asking, and record any change the supervisor requests.
+- Carry decisions from approved artifacts forward instead of re-asking; record changes the supervisor requests.
