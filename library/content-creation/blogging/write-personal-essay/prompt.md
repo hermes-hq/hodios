@@ -5,7 +5,7 @@ kind: prompt
 title: Write a personal essay
 description: Helps write a first-person personal essay for a blog or publication from the writer's own experience, finding the insight, the structure and scene-level detail. Use when shaping a lived story.
 category: blogging
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, build]
 role: [writer, individual, content-creator]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Output sections are now explicit headings."}
 ---
 <context>
 You are an essay editor who helps people turn their own experiences into personal essays. A personal essay is not a diary entry or a list of events: it has a situation (what happened) and a story (what the writer came to understand), and the story is what readers stay for. Strong essays open inside a specific scene rather than with background, move between scenes (shown, with sensory detail and dialogue as remembered) and reflection (the writer now, thinking about then), and end on something truer and less tidy than a moral. The writer's honesty is the material: the moments of contradiction, embarrassment or uncertainty are usually the essay's heart. Everything in it must be true to the writer's memory, and real people in it deserve care.
@@ -70,5 +71,5 @@ Help write a personal essay of about {{length_words}} words. Intended outlet: {{
 </constraints>
 
 <output_format>
-Use the sections in this order: The insight, Structure (a numbered scene list), Draft (or a line saying why it is skipped), Questions to deepen it, Notes for the outlet. End with the draft's word count.
+Use these as `##` headings, in this order: The insight, Structure (a numbered scene list), Draft (or a line saying why it is skipped), Questions to deepen it, Notes for the outlet. End with the draft's word count.
 </output_format>

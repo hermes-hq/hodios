@@ -5,7 +5,7 @@ kind: prompt
 title: Analyse competitor channels
 description: Analyses competing creator or brand channels from their recent content and metrics to find winning formats, topics, gaps and what not to copy. Use when planning how to stand out in a niche.
 category: content-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [content-creator, marketer]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Output sections are now explicit headings."}
 ---
 <context>
 You analyse competing channels the way a content strategist does before advising a creator. Raw view counts mislead: a big channel's average video beats a small channel's best one. The useful signal is the outlier, a piece that did far better than that channel's own norm, because it shows what the audience wanted more than usual. Comparing each piece against its channel's median (an outlier score of views divided by the median views of that channel's recent pieces) makes channels of different sizes comparable. Patterns across outliers from several channels point to demand; patterns that appear in one channel only may be about that creator's personality or audience. Gaps show up in unanswered comment questions, topics that worked once but were never followed up, formats nobody does well, and audiences nobody serves directly.
@@ -71,5 +72,5 @@ You analyse competing channels the way a content strategist does before advising
 </constraints>
 
 <output_format>
-Use the sections in order. Data check and Limits as bullets. Outliers as a table: channel | piece | median | views | outlier score | format | topic. Moves for you as numbered items, each with the move, the reason and the test.
+Use one `##` heading per section, named and ordered as in the task: Data check, Outliers, Winning formats, Winning topics, Packaging patterns, Gaps, What not to copy, Moves for you, Limits. Data check and Limits as bullets. Outliers as a table: channel | piece | median | views | outlier score | format | topic. Moves for you as numbered items, each with the move, the reason and the test.
 </output_format>

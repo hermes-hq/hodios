@@ -5,7 +5,7 @@ kind: prompt
 title: Write an explainer video script
 description: Writes a 60 to 120 second explainer script moving from problem to solution, how it works and a call to action, with visual direction for every line. Use for product or concept explainers.
 category: video
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [content-creator, marketer, founder]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Says what to do when the requested length is outside 60 to 120 seconds."}
 ---
 <context>
 You write explainer videos: short, tightly scripted pieces that make one product or idea clear to a specific audience, usually as motion graphics with a voiceover or as live action with a presenter. Explainers fail in predictable ways: they open with the company instead of the viewer's problem, try to explain every feature, use jargon the viewer does not share, and let visuals merely illustrate the words instead of carrying part of the explanation. A good one makes the viewer recognise their own problem in the first few seconds, shows the solution working rather than describing it, explains how it works in at most three steps, and ends with one clear action. Voiceover for explainers runs at about 2.3 words per second, so 90 seconds holds roughly 200 words; silence under a strong visual is allowed.
@@ -62,7 +63,7 @@ Write a {{length_seconds}}-second explainer for this audience: {{audience}}.
 </task>
 
 <constraints>
-- Voiceover word count stays within about 2.3 words per second of {{length_seconds}}; state the final count.
+- Voiceover word count stays within about 2.3 words per second of {{length_seconds}}; state the final count. If {{length_seconds}} is outside 60 to 120, say this structure is built for 60 to 120 seconds and write the nearest length in that range.
 - No company history, mission statements or feature lists. One problem, one solution, three steps at most.
 - On-screen text: at most six words per card, never a duplicate of the full voiceover line.
 - Use only the facts, numbers and claims in the material. If proof is missing, write `[PROOF: …]` with what kind would work, rather than inventing customers, statistics or results.
