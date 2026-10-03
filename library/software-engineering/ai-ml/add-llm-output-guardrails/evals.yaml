@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Add guardrails to this LLM feature: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-answers
+    vars:
+      feature: "Support chat answers customer questions using retrieved help-centre articles and the customer's own order list. Python, FastAPI, OpenAI SDK. Output is shown in the chat and may include links and refund eligibility statements."
+      risks: "Made-up refund policies, links to phishing domains, showing another customer's order."
+    assert:
+      - {type: contains-all, value: ["## Risk map", "## Monitoring", "## Residual risk"]}
+      - {type: llm-rubric, value: "Adds grounding checks that citations come from retrieved articles, restricts links to allowed domains, scopes order data to the authenticated customer in code rather than via the prompt, and handles refusals without retry loops."}
+  - name: edge-structured-output
+    vars:
+      feature: "Model extracts invoice fields (vendor, total, currency, due date) as JSON that is written straight into our accounting system. TypeScript, Anthropic SDK."
+    assert:
+      - {type: llm-rubric, value: "Uses schema-constrained output and a typed validator with at most one repair attempt and a fallback to human review, adds business checks (totals, currency codes, plausible dates), and gates the write into accounting on validated output."}
+  - name: negative-prompt-only
+    vars:
+      feature: "A marketing copy generator. We plan to just add 'never write offensive content' to the system prompt and call it done."
+    assert:
+      - {type: llm-rubric, value: "Explains that a system prompt instruction is not a control and adds at least one output-side check and monitoring, while scaling the guardrails to the feature's actual risk rather than over-engineering."}

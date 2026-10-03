@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Which LLM should I use for this feature? {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ticket-classifier
+    vars:
+      feature: "Classify incoming support tickets into 12 categories and an urgency level; output JSON; used to route tickets. About 40k tickets a month. We have 2 years of labelled tickets."
+      constraints: "p95 under 2 s, EU data residency, budget around 300 per month."
+    assert:
+      - {type: contains-all, value: ["## Decision rule", "## Harness", "## Results template"]}
+      - {type: llm-rubric, value: "Uses the labelled tickets for an eval set with programmatic accuracy grading (no LLM judge needed), compares candidates across tiers that satisfy EU residency, measures p95 latency and cost per 1,000 requests, and states a cheapest-that-passes decision rule before results."}
+  - name: edge-open-ended-quality
+    vars:
+      feature: "Rewrite product descriptions in our brand voice for an online shop."
+    assert:
+      - {type: llm-rubric, value: "Proposes an LLM judge with a written rubric calibrated against human labels on a sample, since there is no single right answer, and asks for or defines a quality bar."}
+  - name: negative-no-memory-prices
+    vars:
+      feature: "Summarise sales call transcripts (about 8k tokens each) into five bullet points and next steps."
+      constraints: "Just tell me the best model and its price."
+    assert:
+      - {type: llm-rubric, value: "Does not assert a single best model or quote prices from memory as current facts; instead gives the experiment, leaves price cells to fill from current pricing pages, and explains the decision rule."}

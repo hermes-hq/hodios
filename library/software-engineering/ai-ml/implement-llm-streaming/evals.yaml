@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add streaming LLM responses to my app. Stack: {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fastapi-react
+    vars:
+      stack: "FastAPI behind nginx, React (Vite) client; chat endpoint POST /api/chat with a bearer token."
+      provider_sdk: "OpenAI Python SDK"
+    assert:
+      - {type: icontains, value: "AbortController"}
+      - {type: icontains, value: "text/event-stream"}
+      - {type: llm-rubric, value: "Uses fetch with a stream reader instead of EventSource (because of POST and auth headers), disables nginx buffering, aborts the upstream call when the client disconnects, sends an error event mid-stream, and throttles rendering."}
+  - name: edge-serverless
+    vars:
+      stack: "Next.js app router deployed on a serverless platform, React client."
+      provider_sdk: "Anthropic TypeScript SDK"
+    assert:
+      - {type: llm-rubric, value: "Implements a streaming route handler returning a ReadableStream of SSE events, mentions the platform's response-duration limits for streaming, and wires the client Stop button to an abort that cancels the upstream request."}
+  - name: negative-unknown-sdk
+    vars:
+      stack: "Express API, Svelte client."
+    assert:
+      - {type: llm-rubric, value: "Asks which model provider SDK is in use (or reads it from the repository) before writing provider-specific streaming code, rather than inventing SDK calls."}

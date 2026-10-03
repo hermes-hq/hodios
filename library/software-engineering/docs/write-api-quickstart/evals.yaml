@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a quickstart guide for this API: {{api_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments-sandbox
+    vars:
+      api_description: "Acme Payments API. Base URL https://api.acme-pay.example/v1, sandbox https://sandbox.acme-pay.example/v1. Auth: Bearer secret key from Dashboard > Developers > API keys (test keys start with sk_test_). Endpoints: GET /balance returns {available: [{amount, currency}], pending: [...]}; POST /payments creates a charge; GET /customers lists customers. Python SDK acme-pay 3.x: client = AcmePay(api_key); client.balance.retrieve()."
+      languages: "Python"
+    assert:
+      - {type: icontains, value: "export ACME"}
+      - {type: llm-rubric, value: "Uses the sandbox and a test key, chooses the read-only GET /balance as the first call rather than creating a payment, shows the expected response, includes an errors table, and ends with no more than three next-step links."}
+  - name: edge-missing-credentials-info
+    vars:
+      api_description: "Weather API at https://api.weather.example. Endpoint GET /forecast?lat=&lon= returns hourly forecasts."
+    assert:
+      - {type: llm-rubric, value: "Asks how developers obtain credentials and authenticate (or marks it as a clearly visible gap) rather than inventing an authentication scheme."}
+  - name: negative-no-concept-dump
+    vars:
+      api_description: "Inventory API with a 4-page architecture overview we'd like at the top. Base URL https://inv.example/api, header X-Api-Key from Settings > Keys. GET /items lists items. POST /items creates one."
+    assert:
+      - {type: llm-rubric, value: "Keeps the architecture overview out of the path to the first call (linking it from next steps at most), and gets the reader to a working GET /items request quickly."}
