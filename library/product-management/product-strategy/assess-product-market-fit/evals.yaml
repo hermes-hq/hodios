@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do we have product-market fit? Product: {{product}} Data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-segment-fit
+    vars:
+      product: "Self-serve B2B tool that turns sales call recordings into CRM notes. Monthly subscription per seat. 14 months in market. Used after every sales call."
+      data: "Weekly active retention by monthly cohort, week 12: Jan 18%, Feb 21%, Mar 24%, Apr 31%, May 33%. Curves still declining slowly in Jan-Feb, flat from week 8 for Apr-May. Survey of 212 users active in the last 2 weeks: 34% very disappointed overall; agencies (n=61): 52% very disappointed; in-house sales teams (n=151): 27%. 60% of new sign-ups come from referrals in agencies. NRR 104%."
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Reaches a verdict of fit in a segment (agencies), citing the 52% versus 27% split, the improving and flattening newer cohorts and referral share; notes the 40% figure is a heuristic; recommends narrowing focus to agencies and learning from somewhat-disappointed users; does not invent extra numbers."}
+  - name: edge-tiny-sample
+    vars:
+      product: "Consumer meal-planning app, launched 6 weeks ago, free with an optional subscription."
+      data: "Survey sent to our beta Discord: 19 responses, 13 said very disappointed (68%). No retention data yet; we have about 400 sign-ups."
+    assert:
+      - {type: llm-rubric, value: "Flags that 19 responses from a beta community is a small, biased sample and that 68% is directional only; does not declare strong fit; asks for or recommends cohort retention measured against weekly natural frequency and a broader survey sample."}
+  - name: negative-no-data
+    vars:
+      product: "B2B compliance software for small banks."
+      data: "Our investors love it and the team believes we have fit."
+    assert:
+      - {type: llm-rubric, value: "States that fit cannot be assessed from opinions, does not issue a verdict of fit, lists the minimum data needed (retention or renewal data, usage, a survey of active users, sales-cycle evidence) and stops."}
