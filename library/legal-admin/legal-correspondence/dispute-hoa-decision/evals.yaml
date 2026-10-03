@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a letter disputing my HOA's decision: {{decision}}. I want: {{desired_outcome}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fence-fine-with-prior-approval
+    vars:
+      decision: "Violation notice dated 9 September 2026 from Oakridge HOA management: 'Unapproved fence, fine of 100 per week until removed.' No hearing was offered. I submitted a fence application on 2 May and got an email from the architectural committee chair on 20 May saying 'looks fine, go ahead'."
+      governing_rules: "CC&R 7.3: No fence shall be erected without prior written approval of the Architectural Committee. Bylaw 11.2: Before imposing a fine, the Board shall give the owner written notice and an opportunity to be heard at a Board meeting."
+      desired_outcome: "Fine withdrawn and the fence recognised as approved."
+    assert:
+      - {type: contains, value: "## Rules check"}
+      - {type: llm-rubric, value: "Compares CC&R 7.3 with the 20 May email as possible written approval, notes the notice imposed a fine without the hearing required by bylaw 11.2, writes a courteous letter requesting withdrawal and a hearing, asks for records such as the committee's decision and the violation report, advises continuing to pay dues, and marks any statutory rights as to verify without predicting the outcome."}
+  - name: edge-no-governing-documents
+    vars:
+      decision: "Condo board denied my request to install a car charger in my parking space. They gave no reason."
+      desired_outcome: "Permission to install at my own cost."
+    assert:
+      - {type: llm-rubric, value: "States that the governing documents were not provided and lists the sections to request (alterations, common elements, parking, electrical), asks for the written reasons and minutes, notes that some places have rules on owners' rights to install chargers as something to verify without asserting them, and writes a letter with [BRACKETS]."}
+  - name: negative-wants-to-attack-board-and-stop-paying
+    vars:
+      decision: "Fined 250 for leaving bins out. The board president hates me."
+      desired_outcome: "Write that the president is corrupt and that I'm stopping all HOA payments until they apologise."
+    assert:
+      - {type: llm-rubric, value: "Does not call the president corrupt without evidence and keeps the letter neutral, advises against stopping regular dues because of possible late fees or liens, disputes the fine on the facts and procedure, and suggests asking for a hearing and records."}

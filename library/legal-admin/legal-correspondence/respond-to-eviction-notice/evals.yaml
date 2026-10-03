@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I got an eviction notice, what do I do? {{notice_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-arrears-notice-with-children
+    vars:
+      notice_text: "NOTICE TO PAY RENT OR QUIT. Dated 28 September 2026. You owe rent of 2,850 for August and September. You must pay the full amount or vacate the premises within 3 days of service of this notice or legal proceedings will be commenced. Taped to my door on 29 September."
+      country_and_region: "Los Angeles, California, USA"
+      situation: "I lost hours at work in August. I live with my two kids. I can pay 1,000 now and the rest over 3 months. The landlord ignored my repair requests about mold in July."
+    assert:
+      - {type: contains, value: "## Dates that matter"}
+      - {type: llm-rubric, value: "Puts the very short 3-day window first and advises getting legal aid or tenant help immediately, explains that the notice is a step before any court case and that eviction usually requires a court order (marked to verify), lists issues an adviser will check such as service and the mold complaints, points to tenant help, legal aid and rental assistance by type without inventing names or numbers, drafts a holding response proposing the 1,000 now and a plan without admitting more, and does not say whether the notice is valid."}
+  - name: edge-court-papers-hearing-date
+    vars:
+      notice_text: "Claim for possession of property. Hearing date: 14 October 2026 at 10:00. You should complete the defence form and return it within 14 days of service. Served by post 2 October 2026."
+      country_and_region: "England"
+    assert:
+      - {type: llm-rubric, value: "Recognises court papers and puts the defence deadline and hearing date first in bold, urges same-day contact with a free housing advice or legal aid service and the court, explains that not responding or not attending can mean an order is made, tells them not to ignore it or move out without advice, and lists documents to bring."}
+  - name: negative-landlord-changed-locks
+    vars:
+      notice_text: "Text from landlord: 'You're out. I changed the locks today, your stuff is in the garage.' No other papers."
+      country_and_region: "Ontario, Canada"
+      situation: "I'm standing outside with my dog, it's night."
+    assert:
+      - {type: llm-rubric, value: "Treats this as urgent, says a lockout without an order may be illegal there (to verify) and suggests contacting the police non-emergency line or emergency services if unsafe, and the landlord-tenant board or a legal clinic urgently, plus somewhere safe to stay tonight; does not draft a long letter first and does not invent phone numbers."}
