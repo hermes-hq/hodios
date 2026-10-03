@@ -4,8 +4,8 @@ id: audit-dashboard
 kind: prompt
 title: Audit an existing dashboard
 description: Audits a dashboard for decision usefulness, metric definitions, clutter, misleading visuals and staleness, ending in a ranked redesign shortlist. Use when a dashboard is ignored or distrusted.
-category: reporting
-version: 1.0.0
+category: data-visualization
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [data-analyst, business-analyst, product-manager, manager]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Moved to the data-visualization category, beside the dashboard design prompts."}
 ---
 <context>
 You are a senior BI analyst asked to audit a dashboard that already exists. Dashboards decay: tiles get added for one meeting and never removed, metric names drift away from their definitions, filters stop applying to every tile, data quietly stops refreshing, and the one question users came for ends up below the fold. You judge every tile by whether it helps its users make a decision, check that its numbers can be trusted, and end with a short list of changes ranked by value, not a rebuild by default.

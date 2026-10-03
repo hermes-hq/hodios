@@ -5,7 +5,7 @@ kind: prompt
 title: Build a spreadsheet dashboard
 description: Builds a working dashboard inside Excel or Google Sheets with a data tab, summary formulas, charts, slicers or dropdowns and refresh steps. Use when the team lives in spreadsheets, not a BI tool.
 category: spreadsheets
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [data-analyst, business-analyst, operations-manager, manager]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Warns that slicers do not filter Calc-tab formulas and says how to keep every tile on the same control."}
 ---
 <context>
 You are an analyst who builds spreadsheet dashboards that survive the next data refresh. A spreadsheet dashboard fails in predictable ways: numbers typed over formulas, ranges that stop short of new rows, charts pointing at the raw data, filters that only work on one tile, and nobody knowing how to update it. You design the workbook first (data, calculations, display, controls) and then give build instructions specific enough that an intermediate user can follow them without guessing.
@@ -65,7 +66,7 @@ Build a dashboard in {{app}} for the data and questions below.
 2. Check the columns can answer every question. If a field is missing (a target, a status, a date the question needs), say so and either propose a helper column with its formula or ask for the field. Never assume a column exists.
 3. Design the workbook as separate tabs: Data (raw rows only, pasted or imported, never edited by hand), Lists (dropdown values and targets as labelled inputs), Calc (every summary formula, driven by the control cells), Dashboard (tiles and charts that only reference Calc) and Notes (purpose, owner, source, refresh steps, definitions).
 4. Make the source refresh-safe. Excel: format Data as a Table (Ctrl+T) with a name such as tbl_orders and use structured references; if the data arrives as a file, import it with Data > Get Data so Refresh All replaces it. Google Sheets: keep Data as a bounded block starting at A1 with open-ended references (A2:A), or pull it with IMPORTRANGE from the source file.
-5. Choose the controls. Excel: Slicers (Insert > Slicer) on the Table or on PivotTables, with Report Connections so one slicer drives every pivot; or a Data Validation dropdown cell that the Calc formulas read. Google Sheets: Data > Data validation dropdowns read by the Calc formulas, or Data > Add a slicer for charts and pivots on the same sheet. Say which choice you made and why.
+5. Choose the controls. Excel: Slicers (Insert > Slicer) on the Table or on PivotTables, with Report Connections so one slicer drives every pivot; or a Data Validation dropdown cell that the Calc formulas read. Google Sheets: Data > Data validation dropdowns read by the Calc formulas, or Data > Add a slicer for charts and pivots on the same sheet. Slicers filter only pivot tables, pivot charts and visible table rows; SUMIFS, COUNTIFS and FILTER formulas on the Calc tab ignore them. So when KPI tiles are formulas, drive them from dropdown cells, or build every tile from pivots (with GETPIVOTDATA for single numbers) so one slicer reaches all of them. Never mix the two such that a filter moves some tiles and not others. Say which choice you made and why.
 6. Write the Calc formulas with the real column names from the data description: SUMIFS, COUNTIFS, AVERAGEIFS, MAXIFS for the KPIs; for "all" options in a dropdown use a wildcard pattern or an IF on the control cell. Use FILTER, SORT, UNIQUE and LET where the app supports them (Excel 365 or 2021, any Google Sheets) and give a SUMPRODUCT or pivot alternative if the user may be on an older Excel. QUERY is fine in Google Sheets when it is clearer.
 7. Specify each chart: the Calc range it plots, chart type, title that states what to look for, and the formatting that keeps it honest (bar axes from zero, sorted categories, one highlight colour).
 8. Lay out the Dashboard tab on one screen: controls top-left, KPI tiles in a row with the comparison under each value, charts below in reading order, a last-refreshed cell and a check status cell.

@@ -5,7 +5,7 @@ kind: prompt
 title: Compare marketing attribution models
 description: Compares last-click, first-click, linear, position-based and data-driven attribution on supplied channel data and explains what each implies for budget. Use before moving marketing spend.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, review]
 role: [marketer, data-analyst, founder]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Position-based credit now defines two-touch journeys (50/50) so every model's total equals actual conversions."}
 ---
 <context>
 You are a marketing analyst who has watched budgets move on the strength of one attribution report. Every attribution model is a rule for splitting credit among touchpoints; none measures what would have happened without a channel. Comparing several models side by side shows which channels open journeys, which close them, and where the conclusion depends on the rule chosen. Only an incrementality test answers how much a channel causes.
@@ -56,7 +57,7 @@ Compare attribution models on the data below.
 
 1. Check the data: is it path-level (touchpoints per journey) or aggregated per channel? Paths are needed for first-click, linear, position-based and data-driven models. If only platform-reported conversions per channel are available, say so, show that the platforms' totals add up to more than the actual conversions when they do (each platform claims credit for the same sale), and limit the analysis to what aggregates can support.
 2. Define the conversion, its value, the lookback window, and how direct visits, brand search, email to existing customers and view-through impressions are treated. Name the gaps that bias the result: consent and cookie loss, cross-device journeys, offline touchpoints, and channels that are not tracked at all (TV, podcasts, word of mouth).
-3. Compute credit per channel under: last click (and last non-direct click), first click, linear, position-based (40% first, 40% last, 20% spread across the middle; single-touch journeys give 100% to that touch), and a data-driven view (a Markov-chain removal effect or Shapley values) when there are enough paths; with few paths, explain that data-driven estimates are unstable and skip or caveat them.
+3. Compute credit per channel under: last click (and last non-direct click), first click, linear, position-based (40% first, 40% last, 20% spread evenly across the middle touches; two-touch journeys split 50/50 and single-touch journeys give 100% to that touch, so every journey hands out exactly one conversion), and a data-driven view (a Markov-chain removal effect or Shapley values) when there are enough paths; with few paths, explain that data-driven estimates are unstable and skip or caveat them.
 4. Put the models side by side: conversions and value credited per channel, share of total, and cost per conversion and return on ad spend where spend is supplied.
 5. Interpret: channels that gain under first click are introducers; channels that gain under last click are closers or capture demand that already exists (brand search, retargeting, email). Name where all models agree, which is the safest conclusion, and where they disagree, which is where a budget decision rests on an assumption.
 6. Translate into budget implications as ranges and conditions ("if brand search mostly captures existing demand, cutting it costs fewer conversions than last click suggests"), not as a confident reallocation.

@@ -5,7 +5,7 @@ kind: prompt
 title: Make a Fermi estimate
 description: Makes a Fermi estimate by decomposing a quantity, stating assumptions with ranges, cross-checking from another angle and naming the data that would tighten it. Use for sizing when no data exists.
 category: statistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [business-analyst, founder, consultant, student]
@@ -20,7 +20,7 @@ reasoning: recommended
 level: beginner
 tags: [estimation, market-sizing, back-of-envelope, assumptions, order-of-magnitude]
 pairs_with:
-  prompts: [explain-statistical-concept, run-what-if-analysis]
+  prompts: [estimate-market-size, explain-statistical-concept, run-what-if-analysis]
 args:
   - name: question
     description: The quantity to estimate (for example "How many dentists are there in Germany?" or "How many coffees does our office drink a year?"), with any facts you already know.
@@ -34,6 +34,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the market-size prompt."}
 ---
 <context>
 You make Fermi estimates the way good consultants and physicists do: break a quantity nobody knows into factors people can reason about, put an honest range on each, combine them, and then attack the answer from a different direction. The value is the reasoning, not the number: a transparent estimate within a factor of two or three is useful, and a precise-looking number with hidden assumptions is not.

@@ -5,7 +5,7 @@ kind: prompt
 title: Build a chart in a spreadsheet
 description: Gives exact click-by-click steps to lay out data for, build and format a chart in Excel or Google Sheets that carries one message. Use when you know the point and need the chart built right.
 category: spreadsheets
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [data-analyst, business-analyst, manager, individual]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pie rule aligned with the chart design rules (two to four parts)."}
 ---
 <context>
 You build charts in spreadsheets for people who are not chart specialists. Most spreadsheet charts go wrong before the first click: the data is laid out the wrong way round, so the app guesses the series wrongly, and the defaults (legend far from the lines, rainbow colours, a vague title) bury the point. You fix the layout first, pick the chart that carries the message, and give steps a beginner can follow without hunting for menus.
@@ -71,7 +72,7 @@ The data as it sits now:
 
 <constraints>
 - Bars and columns start at zero. If the message needs a zoomed axis, use a line chart and say so on the axis.
-- No 3D effects, no pie with more than five slices, no dual axes unless both series share a unit; if the message seems to need two units, propose two aligned charts instead.
+- No 3D effects, a pie or donut only for two to four parts of one whole, no dual axes unless both series share a unit; if the message seems to need two units, propose two aligned charts instead.
 - One click or action per step, naming the button or menu exactly. Where menus differ between versions, name the version you assume (Excel for Microsoft 365, Google Sheets on the web) once.
 - Use colours that work for colour-blind readers (for example a dark blue highlight against grey) and never make colour the only way to tell series apart.
 - If the data cannot support the message (for example it has no June data, or no region column), say so plainly, suggest the closest honest message, and do not build a chart that implies the claim.
