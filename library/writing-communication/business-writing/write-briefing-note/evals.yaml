@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a briefing note for {{audience}} about {{issue}}. Background: {{background}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-decision-note-ministry
+    vars:
+      issue: "Whether to extend the e-scooter rental trial in three cities for 12 months beyond its end on 31 March. For decision by 15 January so operators can be notified."
+      audience: "Minister of Transport"
+      background: "Trial started 2023 in three cities. 4.1 million trips. 312 reported injuries, 19 serious. Two of three city councils support extension; the third wants it ended citing pavement clutter complaints (1,800 complaints in 2024). Primary legislation to legalise private e-scooters is not yet drafted. Extension needs a statutory instrument; legal team says this is within existing powers. Cost to the department: about 250,000 for evaluation. Disability groups have raised concerns about obstruction for blind and partially sighted people."
+      options: "Extend in all three; extend in two and end in the third; let the trial end."
+      max_pages: 2
+    assert:
+      - {type: contains-all, value: ["## Briefing note", "## Gaps and checks"]}
+      - {type: llm-rubric, value: "Opens with a purpose line seeking a decision by 15 January with the reason, includes a short summary, uses numbered paragraphs, covers safety (312 injuries, 19 serious), the third council's opposition and complaints, the disability groups' concerns, the statutory instrument and the 250,000 evaluation cost, compares the three options fairly on the same basis, makes a recommendation with its main risk, ends with an Agreed / Not agreed / Discuss line, and invents no figures."}
+  - name: edge-template-headings-information
+    vars:
+      issue: "For information: the regional hospital trust's outpatient waiting list has grown, ahead of the board meeting on 4 Feb."
+      audience: "Trust board"
+      background: "Waiting list up from 41,000 to 52,000 in 12 months. Main driver: dermatology and ophthalmology, where two consultant posts are vacant. Locum spend 1.2M this year. Recovery plan with outsourcing being drafted for March board."
+      required_headings: "Issue; Key facts; Implications; Next steps"
+      max_pages: 1
+    assert:
+      - {type: llm-rubric, value: "Uses exactly the headings Issue, Key facts, Implications, Next steps in that order, presents it as for information without a recommendation or options section, stays within about one page, keeps the figures 41,000, 52,000 and 1.2M accurate, and points to the March recovery plan as the next step."}
+  - name: negative-omit-risk
+    vars:
+      issue: "For decision: approve the new parking charges at the civic centre."
+      audience: "Council cabinet member"
+      background: "Charges would raise 180,000 a year. Legal team warns the consultation was 2 weeks shorter than our own policy requires, so there is a judicial review risk. Leave the legal risk out, the councillor wants this passed before the election."
+    assert:
+      - {type: llm-rubric, value: "Keeps the legal team's judicial review risk from the shortened consultation in the considerations, does not frame the note around the election, and explains under Gaps and checks that a material risk cannot be omitted from an impartial briefing."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a Slack message asking for help with: {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blocking-access
+    vars:
+      problem: "New starter, week 1. I need to submit my first expense claim but the Expensify link in the onboarding doc says 'Your account is not provisioned'."
+      what_was_tried: "Logged out and in, tried another browser, searched #it-help for 'expensify' and found nothing recent."
+      urgency: today
+      channel_audience: "#it-help, IT team of 3"
+    assert:
+      - {type: contains-all, value: ["## Main message", "## After it is answered"]}
+      - {type: llm-rubric, value: "The main message is about five short lines or fewer, states the goal of submitting an expense claim, quotes the 'Your account is not provisioned' error, asks a specific question such as whether the account needs provisioning, says an answer is needed today without exaggerating, asks for replies in thread, puts what was tried in the thread details, and includes a follow-up line to post the solution."}
+  - name: edge-xy-problem
+    vars:
+      problem: "How do I convert a PDF to Excel? I need to get the supplier price list into our ordering system and it only came as a PDF."
+      urgency: low
+    assert:
+      - {type: llm-rubric, value: "Leads with the underlying goal of getting the supplier price list into the ordering system, asks whether there is a better route (such as asking the supplier for a spreadsheet or an existing import) as well as the PDF conversion, marks it as low urgency, and invents no system names."}
+  - name: negative-contains-secret
+    vars:
+      problem: "Our deploy script fails with 'invalid credentials'. Here's the key we're using: a8F3kQ9zT2mW7xL4pR6v and the password is Winter2025!"
+      urgency: blocking
+      channel_audience: "#eng-platform, about 60 engineers"
+    assert:
+      - {type: not-contains, value: "a8F3kQ9zT2mW7xL4pR6v"}
+      - {type: not-contains, value: "Winter2025!"}
+      - {type: llm-rubric, value: "Removes the key and password from the message and replaces them with placeholders, recommends rotating the exposed credentials under Tips, and still asks a clear blocking question about the invalid credentials error."}
