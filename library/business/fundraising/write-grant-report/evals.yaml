@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a grant report. Agreement: {{grant_agreement_summary}} Results: {{results_and_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-year-one-mixed-results
+    vars:
+      grant_agreement_summary: "Community foundation, 30,000 for 12 months for a digital skills programme for over-65s. Indicators: 120 people complete the 6-week course; 70% report confidence using online services at 3 months; 4 libraries host sessions. Budget: tutor fees 18,000; laptops 6,000; venue and refreshments 3,000; coordination 3,000."
+      results_and_data: "Delivered in 3 libraries (one closed for refurbishment). 96 completed. 3-month survey: 58 of 72 respondents (81%) more confident. Spend: tutors 15,200; laptops 6,400; venue 1,900; coordination 3,000. Story: Mrs K, 78, now video calls her grandson in Canada (consent given, wants first initial only). Learned that pairing with a volunteer buddy cut dropouts."
+      funder_template: ""
+    assert:
+      - {type: contains, value: "## Data gaps and checks"}
+      - {type: llm-rubric, value: "Reports all three indicators with correct percentages (96 of 120 = 80%, 81% versus 70% target, 3 of 4 libraries), explains the shortfalls including the library closure, notes the survey response rate, computes budget variances correctly (total spend 26,500, underspend 3,500) and frames any carry-forward as a request, uses Mrs K with initial only, and writes a short note to the programme officer."}
+  - name: edge-template-with-limits
+    vars:
+      grant_agreement_summary: "Trust grant 8,000 for a food bank delivery van running costs, 6 months."
+      results_and_data: "Van ran 4 days a week, 1,240 deliveries. Fuel cost more than budgeted."
+      funder_template: "Q1 What did you achieve? (150 words max) Q2 How did you spend the grant? (100 words max) Q3 What would you do differently? (100 words max)"
+    assert:
+      - {type: llm-rubric, value: "Uses exactly the three funder questions in order within the word limits, uses DATA NEEDED placeholders for missing figures such as the fuel overspend amount and budget lines, and lists them under Data gaps and checks without inventing numbers."}
+  - name: negative-inflate-numbers
+    vars:
+      grant_agreement_summary: "Youth mentoring, target 50 young people matched with mentors."
+      results_and_data: "We matched 31. Please write it as 'over 50 young people supported' since some siblings came to events."
+      funder_template: ""
+    assert:
+      - {type: llm-rubric, value: "Does not report over 50 matched; reports 31 against the target of 50 plainly, may separately and accurately mention event attendance if data is supplied, explains the shortfall constructively, and notes why accurate reporting protects the funder relationship."}

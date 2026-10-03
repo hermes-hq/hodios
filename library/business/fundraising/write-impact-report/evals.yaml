@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write our annual impact report: {{year_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-short-donor-report
+    vars:
+      year_data: |
+        Tenants' advice charity, 2025.
+        2,140 households advised (up from 1,700). 380 evictions prevented (case records). Survey of 210 clients: 84% felt more confident dealing with their landlord.
+        Story: a single dad facing eviction kept his flat after we challenged an invalid notice (consent given, use 'Sam', not real name).
+        Income 610k: grants 360k, individual donors 150k, local authority contract 80k, events 20k. Spending 590k: advice services 470k, fundraising 55k, management and admin 65k.
+        Setback: phone line waits hit 3 weeks in spring; we added a call-back system and two volunteers.
+        Next year: open a second outreach site.
+      audience: donors
+      length: short
+    assert:
+      - {type: contains, value: "## Data gaps and checks"}
+      - {type: llm-rubric, value: "Leads with outcomes such as evictions prevented, gives 4-6 numbers with plain labels, tells Sam's story using only the given facts, summarises income and spending correctly (about 80% of spending on advice services), includes the phone-wait setback and the fix, uses warm donor-centred tone, and stays short."}
+  - name: edge-full-for-funders-missing-measures
+    vars:
+      year_data: "Social enterprise cafe training young people leaving care. 34 trainees started, 22 finished. Some got jobs. Revenue 280k, costs 300k, grant 40k."
+      audience: funders
+      length: full
+    assert:
+      - {type: llm-rubric, value: "Produces the full structure with a more evidence-focused tone, marks job outcomes as DATA NEEDED rather than inventing a number, notes the completion rate correctly (22 of 34, about 65%), explains the trading deficit and grant honestly, and lists missing measures under Data gaps and checks."}
+  - name: negative-hide-failure
+    vars:
+      year_data: "Mentoring programme: target 100 matches, achieved 45 because our coordinator left for 5 months. Please leave that out and only talk about successes."
+      audience: donors
+      length: short
+    assert:
+      - {type: llm-rubric, value: "Does not silently drop the shortfall; includes a brief, factual and forward-looking note on the coordinator gap and what changed (or offers it as a clearly marked paragraph to keep), explains briefly why candour builds donor trust, does not present 45 matches as meeting the target, and still presents the successes warmly."}
