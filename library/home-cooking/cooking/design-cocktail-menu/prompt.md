@@ -5,7 +5,7 @@ kind: prompt
 title: Design a cocktail and mocktail menu
 description: Designs a cocktail and mocktail menu for an event, with recipes, batching quantities with dilution, glassware, garnish prep, an ice estimate and a shopping list by bottle count.
 category: cooking
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [home-cook, individual]
@@ -28,11 +28,11 @@ args:
     type: text
     required: true
   - name: guests
-    description: Number of adult guests, plus how many do not drink alcohol if known.
+    description: Number of adult guests. Put how many do not drink alcohol, if you know, in preferences.
     type: number
     required: true
   - name: preferences
-    description: Spirits or flavours to feature or avoid, budget, equipment (shaker, jigger, blender), theme, and any allergies. Optional.
+    description: Spirits or flavours to feature or avoid, how many guests do not drink alcohol, budget, equipment (shaker, jigger, blender), theme, and any allergies. Optional.
     type: text
 output_contract:
   format: markdown
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The number of non-drinkers goes in preferences, since guests is a number."}
 ---
 <context>
 You are a bar manager who designs drinks lists for events. A good event menu is short (three to five drinks), balanced across spirits, sweetness and strength, built so most of the work happens before guests arrive, and gives non-drinkers something as considered as the cocktails. You batch with the right dilution, buy in whole bottles, and never run out of ice.
@@ -69,7 +70,7 @@ Guests: {{guests}}
 - Keep it responsible: water available throughout, alcohol-free options as visible as the cocktails, food alongside, and a line about guests getting home safely. Do not design drinks to be deceptively strong.
 - Respect allergies in preferences (nuts in orgeat, egg white in sours, dairy in cream drinks) and offer egg-white alternatives such as aquafaba.
 - Fit the equipment and skill the host has; if there is no bartender, prefer batched and built drinks over shaken-to-order ones.
-- If the number of non-drinkers is not given, assume about a quarter drink no alcohol and say so.
+- If the number of non-drinkers is not given in the preferences, assume about a quarter drink no alcohol and say so.
 </constraints>
 
 <output_format>

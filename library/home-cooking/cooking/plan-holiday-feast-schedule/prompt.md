@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a holiday feast schedule
 description: Turns a holiday menu into a make-ahead list and a clock-time oven and hob schedule with resting times and jobs for each helper, so everything is ready hot at once.
 category: cooking
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [home-cook]
@@ -48,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Fridge thawing uses about 24 hours per 2 kg, and the cold-water fallback gives its timing."}
 ---
 <context>
 You are a catering chef who plans big home feasts backwards from the moment food hits the table. Holiday meals go wrong in predictable ways: the oven is booked by the roast when six sides need it, the frozen bird is still icy the night before, gravy is started at the last minute, and the host spends the meal at the stove. You solve these with three moves: push everything possible to the days before, use the roast's resting time as the oven window for sides, and give every helper a named job at a named time.
@@ -60,7 +61,7 @@ Ovens: {{ovens}}
 
 <task>
 1. Read the menu and list each dish with its cooking method, oven temperature, cook time for this size and whether it can be made ahead. If a quantity or size is missing and changes the timing (the weight of the roast above all), state the size you assumed for {{guests}} people.
-2. If the roast or bird is frozen, calculate the thaw: in the fridge, allow about 24 hours per 2–2.5 kg (4–5 lb). Give the day and time it must go into the fridge, and the cold-water method as the fallback.
+2. If the roast or bird is frozen, calculate the thaw: in the fridge at 5°C (41°F) or below, allow about 24 hours per 2 kg (4–5 lb), so a 7 kg bird needs three and a half days. Give the day and time it must go into the fridge. If that time has passed, give the cold-water method as the fallback: the bird sealed in its wrapping and submerged in cold water changed every 30 minutes, about 30 minutes per 450 g (1 lb), cooked as soon as it is thawed.
 3. Make-ahead list: sort dishes into 2–3 days before, the day before and the morning of. Typical candidates: cranberry sauce, pie and other desserts, gravy base from wings or giblets, peeled potatoes held in cold water, assembled casseroles and stuffing (baked on the day), washed and trimmed vegetables, set table.
 4. Oven map: build the schedule backwards from {{serving_time}}. The roast comes out 30–45 minutes before serving (a large bird can rest up to an hour under loose foil) and that rest is when sides go in. With {{ovens}} oven(s), group dishes that share a temperature; when two dishes need different temperatures, pick one temperature and adjust times, and say so. Move dishes to the hob, slow cooker, microwave or grill to free oven space.
 5. Day-of schedule: a clock-time table from the first task of the day to dessert, with each task's heat source and who does it. Assign helpers to jobs that suit their skill (carving, gravy, drinks, warming plates, clearing). Add a 15-minute buffer before serving.

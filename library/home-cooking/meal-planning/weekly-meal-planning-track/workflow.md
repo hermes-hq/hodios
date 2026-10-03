@@ -5,7 +5,7 @@ kind: workflow
 title: Weekly meal planning track
 description: Runs a weekly meal planning routine in gated steps, from reviewing the week's calendar to picking meals, building the grocery list, planning prep and reviewing leftovers and waste.
 category: meal-planning
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, operate, review]
 role: [home-cook, parent]
@@ -31,6 +31,9 @@ args:
   - name: budget
     description: Weekly food budget with currency. Optional.
     type: string
+  - name: last_week
+    description: How last week went if you are coming back, such as meals cooked or skipped and why, what was thrown away and what everyone loved. Optional; step 1 carries the lessons into this week.
+    type: text
 steps:
   - {id: calendar, file: steps/01-calendar.md, stage: plan, gate: approve}
   - {id: meals, file: steps/02-meals.md, stage: plan, gate: approve}
@@ -42,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Takes optional notes on last week, and step 1 carries their lessons and leftovers into the new week."}
 ---
 Runs the same five-step routine every week, the way an organised household does it: look at the week ahead, choose meals that fit it, write one grocery list, plan the prep, and at the end of the week review what was eaten and wasted so next week's plan is better. Each step produces one short artifact and stops for approval; later steps build on approved versions and do not reopen settled choices without asking. The routine is meant to repeat, so the review feeds the next week's first step.
 
@@ -49,6 +53,12 @@ Runs the same five-step routine every week, the way an organised household does 
 {{household}}
 </household>
 {{#budget}}Budget: {{budget}}{{/budget}}
+{{#last_week}}
+How last week went:
+<last_week>
+{{last_week}}
+</last_week>
+{{/last_week}}
 
 Rules for every step:
 - Respect every diet and allergy in the household text, including hidden sources, and flag label checks for serious allergies.
