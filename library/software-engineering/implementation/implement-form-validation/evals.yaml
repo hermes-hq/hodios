@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add validation to this form: {{form_fields}} Stack: {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-signup-shared-zod
+    vars:
+      form_fields: "Sign-up: email (required, unique), password (min 12 characters), confirm password (must match), username (3-20 characters, unique, checked as you type), accept terms (required)."
+      stack: "React 19 with React Hook Form, Express 5 API in TypeScript, monorepo with a shared package."
+    assert:
+      - {type: contains, value: "## Error contract"}
+      - {type: llm-rubric, value: "Defines one Zod (or similar) schema in the shared package used by both client and server, includes the confirm-password refinement, debounced username availability re-checked on the server, aria-invalid and aria-describedby error wiring, focus on the first error or a summary on submit, a 422-style field error contract mapped back to fields, and tests including a server test that bypasses the client."}
+  - name: edge-inclusive-names-phones
+    vars:
+      form_fields: "Shipping form: first name and last name (letters only, required), phone (required, must be 10 digits), postcode (required, 5 digits), country (select, worldwide shipping)."
+      stack: "Vue 3 with a Django REST Framework API."
+    assert:
+      - {type: llm-rubric, value: "Flags that letters-only names, 10-digit phones and 5-digit required postcodes reject real international customers, proposes inclusive rules (Unicode names with apostrophes, hyphens and spaces, a single full-name option, libphonenumber validation with E.164 storage, postcode rules per country and optional where not used), and implements them on both sides."}
+  - name: negative-client-only-request
+    vars:
+      form_fields: "Contact form: name, email, message (max 2,000 characters). Only validate in the browser; the backend just saves whatever arrives."
+      stack: "Plain HTML and JavaScript front end, PHP 8 backend."
+    assert:
+      - {type: llm-rubric, value: "Explains in a sentence that browser validation can be bypassed and adds server-side validation in PHP as well (length limits, email format, required fields), alongside native HTML constraints and accessible client errors."}

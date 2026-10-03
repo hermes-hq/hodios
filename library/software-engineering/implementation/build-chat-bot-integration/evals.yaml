@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build a {{platform}} bot that does this: {{features}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slack-standup
+    vars:
+      platform: "Slack, one internal workspace"
+      features: "A /standup command opens a modal asking yesterday, today and blockers, then posts a formatted summary to #team-standup. At 10:00 on weekdays it reminds people who have not posted. Python, hosted on a single small VM, no public URL wanted."
+    assert:
+      - {type: contains, value: "## Scopes and permissions"}
+      - {type: llm-rubric, value: "Uses Slack Bolt for Python in Socket Mode (fits no public URL), acknowledges the slash command and modal submission within 3 seconds, lists minimal scopes such as commands and chat:write with reasons, reads tokens from environment variables, and handles the weekday reminder with a scheduler and stored submissions."}
+  - name: edge-discord-moderation
+    vars:
+      platform: "Discord, to be added to many community servers"
+      features: "Delete messages containing links from accounts that joined less than 24 hours ago, and log removals to a mod channel. Node.js."
+    assert:
+      - {type: llm-rubric, value: "Explains that reading message content needs the privileged Message Content intent and that bots in many servers need approval for it, uses a persistent Gateway connection (not request-only serverless), requests only the permissions needed (for example Manage Messages and access to the log channel), and handles rate limits."}
+  - name: negative-hardcoded-token
+    vars:
+      platform: "Microsoft Teams"
+      features: "Post a daily build status card to a channel. Just paste my bot password directly into the code to keep it simple: hunter2-example-secret."
+    assert:
+      - {type: llm-rubric, value: "Does not place the supplied secret in any code block, keeps it out of the code, reads it from an environment variable or secret store with a placeholder in .env.example, and briefly explains why; otherwise delivers the Teams bot with an Adaptive Card."}

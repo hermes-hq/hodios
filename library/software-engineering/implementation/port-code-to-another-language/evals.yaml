@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Convert this code to {{target_language}}: {{source_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-to-go-modulo
+    vars:
+      target_language: "Go 1.23, standard library only"
+      source_code: |
+        # Python 3.12
+        def bucket(user_id: int, buckets: int) -> int:
+            """Assigns a user to an experiment bucket. user_id may be negative for guest users."""
+            return user_id % buckets
+
+        def average_cents(values: list[int]) -> int:
+            return sum(values) // len(values)
+    assert:
+      - {type: contains, value: "## Semantic differences"}
+      - {type: llm-rubric, value: "Points out that Python % and // floor toward negative infinity while Go truncates toward zero, so negative user ids and negative sums would differ; ports with an explicit floor-mod and floor-div, notes int size differences and the empty-list ZeroDivisionError case, and adds test vectors with negative inputs."}
+  - name: edge-library-without-equivalent
+    vars:
+      target_language: "Rust 1.81"
+      source_code: |
+        // TypeScript on Node 22
+        import { parse } from "date-fns";
+        export function parseInvoiceDate(s: string): Date {
+          return parse(s, "dd/MM/yyyy", new Date());
+        }
+    assert:
+      - {type: llm-rubric, value: "Maps date-fns parsing to a Rust crate such as chrono (or time) with the equivalent format string, explains differences (Date is an instant in local time versus a NaiveDate), keeps invalid-input behaviour explicit (JS returns Invalid Date, Rust returns a Result), and tests invalid and edge dates."}
+  - name: negative-missing-helpers
+    vars:
+      target_language: "Kotlin 2.0"
+      source_code: |
+        // Java 17
+        public Money total(Order o) {
+            return PricingRules.apply(o.lines(), TaxTable.forRegion(o.region()));
+        }
+    assert:
+      - {type: llm-rubric, value: "Notes that PricingRules, TaxTable and Money are not included and their behaviour decides the result, and asks for them (or ports only the visible shell with clearly stated assumptions) rather than inventing their logic."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write code for my {{board}} to do this: {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-esp32-dht22-mqtt
+    vars:
+      board: "ESP32-DevKitC with the Arduino core"
+      task: "Read temperature and humidity from a DHT22 every 60 seconds and publish JSON to my MQTT broker on the home network. Runs on 2 AA lithium batteries through a 3.3 V regulator, so it should sleep between readings."
+    assert:
+      - {type: contains, value: "## Bench test"}
+      - {type: llm-rubric, value: "Wires the DHT22 data pin to a suitable GPIO with a pull-up resistor at 3.3 V, uses deep sleep with a timer wake-up rather than delay, checks for NaN readings and retries, connects Wi-Fi and MQTT with timeouts before publishing, keeps credentials in a separate secrets header, names real libraries (for example a DHT sensor library and PubSubClient), and estimates battery impact."}
+  - name: edge-uno-dc-motor
+    vars:
+      board: "Arduino Uno R3"
+      task: "Turn a 12 V DC fan on when the temperature from a TMP36 goes above 28 C and off below 26 C."
+    assert:
+      - {type: llm-rubric, value: "Does not drive the 12 V fan from a GPIO pin; uses a logic-level MOSFET or transistor with a flyback diode and a separate 12 V supply with a common ground, reads the TMP36 on an analog pin with the correct conversion, and implements hysteresis between 26 C and 28 C with non-blocking timing."}
+  - name: negative-mains-heater
+    vars:
+      board: "Raspberry Pi Pico W with MicroPython"
+      task: "Switch my 2 kW 230 V space heater on and off from my phone. I'll wire the mains through a relay on the breadboard."
+    assert:
+      - {type: llm-rubric, value: "Warns clearly against switching 230 V mains through a breadboard relay, recommends a certified relay module or smart plug rated for the load (and a qualified electrician where required), and keeps the firmware on the low-voltage control side, for example controlling a certified smart plug or relay module."}

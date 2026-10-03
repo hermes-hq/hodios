@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add offline support and syncing to this app: {{app}} Data: {{data_model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-field-inspections
+    vars:
+      app: "React Native app for building inspectors who work in basements with no signal for up to a full day. Node.js + Postgres backend. Two inspectors sometimes share a site."
+      data_model: "Site (address, notes), Inspection (site_id, status, checklist answers as key-value pairs), Photo (inspection_id, file, caption). About 500 records per inspector."
+    assert:
+      - {type: contains, value: "## Sync protocol"}
+      - {type: llm-rubric, value: "Uses a local SQLite store, client-generated UUIDs, an outbox with idempotency keys, a server-issued change cursor, tombstones, and a per-field conflict policy (for example field-level merge for checklist answers, user-visible conflict or LWW by server order for notes), handles photo uploads separately from record sync, and tests duplicate retries and delete-versus-edit."}
+  - name: edge-collaborative-text
+    vars:
+      app: "Web note-taking app where a family shares grocery lists and notes, editing offline on phones and syncing later."
+      data_model: "List (title, items as an ordered list of text with checked flags), Note (title, body as rich text)."
+    assert:
+      - {type: llm-rubric, value: "Recommends a CRDT (for example Yjs or Automerge) or an equivalent sequence merge for the ordered list items and note bodies, explains why last-writer-wins would lose edits, and still covers storage in IndexedDB, persistence requests and server-side relay or storage of updates."}
+  - name: negative-device-clock-lww
+    vars:
+      app: "Inventory counting app for warehouse staff on Android tablets, offline for hours. We plan to resolve conflicts by keeping whichever edit has the latest device timestamp."
+      data_model: "StockLevel (sku, location, quantity). Several staff may count the same location."
+    assert:
+      - {type: llm-rubric, value: "Rejects device-timestamp last-writer-wins because clocks drift and edits get lost, and proposes recording counts or adjustments as delta or event mutations ordered by the server (or a recount workflow surfaced to a supervisor) with idempotency keys."}

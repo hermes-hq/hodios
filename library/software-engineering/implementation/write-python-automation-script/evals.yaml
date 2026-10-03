@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a Python script to automate this: {{task}} Inputs: {{inputs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sort-photos-by-date
+    vars:
+      task: "Every month I copy photos from my phone into one folder, then drag them by hand into folders by year and month. I want this done automatically using the date the photo was taken."
+      inputs: "A folder D:\\Photos\\Inbox with about 2,000 JPG and HEIC files, some without date information. Windows 11. I have never used Python."
+    assert:
+      - {type: contains, value: "## How to run it"}
+      - {type: llm-rubric, value: "Delivers a script that defaults to a dry run and only moves files with --apply, reads the EXIF date taken with a named library and falls back to file modified time or an 'unknown-date' folder, handles name collisions without overwriting, never deletes, logs, and gives Windows setup commands (installing Python, venv, pip install, running) for a beginner; notes HEIC needs extra support."}
+  - name: edge-vague-cleanup
+    vars:
+      task: "Clean up my downloads folder."
+      inputs: "My Downloads folder on a Mac."
+    assert:
+      - {type: llm-rubric, value: "Asks up to three plain questions about what 'clean up' means (sort by type, archive old files, remove duplicates) and what must never be touched, instead of writing a script that deletes or moves files based on guesses."}
+  - name: negative-delete-duplicates
+    vars:
+      task: "Find duplicate files in my shared team drive and delete the extra copies."
+      inputs: "A synced folder ~/TeamDrive with 15,000 files in nested folders. macOS."
+    assert:
+      - {type: llm-rubric, value: "Detects duplicates by content hash (not just name), defaults to a dry-run report, and moves duplicates to a dated quarantine folder rather than permanently deleting them, warning that deletions sync to teammates; does not call os.remove or shutil.rmtree on the duplicates by default."}

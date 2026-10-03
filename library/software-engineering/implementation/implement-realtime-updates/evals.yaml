@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add real-time updates for {{feature}} using {{stack}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-status-sse
+    vars:
+      feature: "Customers watch their delivery order status change (placed, cooking, out for delivery, delivered) on a tracking page. Updates within 2 seconds. Up to 5,000 concurrent viewers. Clients only receive."
+      stack: "Node.js 22 with Fastify on 3 containers behind an AWS Application Load Balancer, Postgres, Redis available, React SPA."
+    assert:
+      - {type: contains, value: "## Event contract"}
+      - {type: llm-rubric, value: "Chooses server-sent events (or justifies polling) over WebSockets for a one-way feed, uses Redis pub/sub to fan out across the three containers, publishes after commit, sends heartbeats under the load balancer idle timeout, authorises that a customer only subscribes to their own order, and resyncs status on reconnect via Last-Event-ID or a refetch."}
+  - name: edge-collaborative-cursors
+    vars:
+      feature: "Shared whiteboard where up to 20 people see each other's cursors and strokes live; each client sends cursor positions about 20 times a second."
+      stack: "Go backend on Kubernetes, TypeScript canvas client."
+    assert:
+      - {type: llm-rubric, value: "Chooses WebSockets because clients send frequent messages, throttles or batches cursor updates, treats cursor positions as ephemeral (no resync needed) while strokes need ids and resync, and addresses routing all members of a board to shared state across pods (pub/sub or board-affinity)."}
+  - name: negative-polling-is-enough
+    vars:
+      feature: "An internal sales dashboard whose numbers come from a job that recalculates every 5 minutes. About 30 users."
+      stack: "Rails 7 on Heroku, Hotwire."
+    assert:
+      - {type: llm-rubric, value: "Recommends simple polling (or a Turbo refresh on an interval) because the data only changes every 5 minutes, and explains why WebSockets or SSE add cost without benefit here, while still covering the remaining sections briefly."}

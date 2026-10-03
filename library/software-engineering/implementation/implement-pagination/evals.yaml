@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Add pagination to this endpoint using {{data_store}}: {{endpoint}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-feed
+    vars:
+      data_store: "Postgres 16 with node-postgres in an Express API"
+      endpoint: |
+        GET /api/orders?status=shipped — returns all orders for the logged-in customer, newest first.
+        Some customers have 40,000 orders; new orders arrive constantly. The mobile app uses infinite scroll.
+        Current query: SELECT * FROM orders WHERE customer_id = $1 AND status = $2 ORDER BY created_at DESC
+    assert:
+      - {type: contains, value: "## Query and index"}
+      - {type: llm-rubric, value: "Chooses cursor (keyset) pagination, orders by created_at DESC, id DESC with a row-value comparison, fetches limit+1 for has_more, proposes an index on (customer_id, status, created_at DESC, id DESC), clamps limit, encodes an opaque cursor validated server-side, and tests ties and inserts between pages."}
+  - name: edge-numbered-admin-pages
+    vars:
+      data_store: "MySQL 8 via Django ORM"
+      endpoint: |
+        Internal admin table of 3,000 support agents, edited a few times a week. Admins need numbered pages and to jump to page 12, plus a total count.
+    assert:
+      - {type: llm-rubric, value: "Justifies offset pagination with page numbers and a total count for this small, slowly changing admin data set, still adds a unique tiebreaker to the order and a maximum page size, and mentions when keyset would become necessary."}
+  - name: negative-non-unique-sort
+    vars:
+      data_store: "MongoDB 7"
+      endpoint: |
+        GET /products?sort=price — product catalogue of 2 million items, many with identical prices, browsed with a Load more button.
+    assert:
+      - {type: llm-rubric, value: "Adds _id as a tiebreaker to the price sort (sort on price and _id, range query on both), explains that sorting by price alone causes duplicates or skipped items across pages, and proposes a compound index covering the sort."}

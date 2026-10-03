@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build a browser extension that does this: {{feature}}. Browsers: {{browsers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-highlight-on-click
+    vars:
+      feature: "When I click the toolbar button, highlight every occurrence of words from my saved list on the current page. I edit the list on an options page."
+      browsers: "Chrome"
+    assert:
+      - {type: contains, value: "## Permissions"}
+      - {type: llm-rubric, value: "Uses activeTab plus scripting (and storage) instead of broad host permissions, injects the highlighter on click via chrome.scripting.executeScript, stores the word list in chrome.storage, provides manifest.json with manifest_version 3 and an options page, and avoids innerHTML with untrusted content."}
+  - name: edge-chrome-and-firefox
+    vars:
+      feature: "Show a badge with the number of open tabs, updated as tabs open and close."
+      browsers: "Chrome and Firefox"
+    assert:
+      - {type: llm-rubric, value: "Registers tab listeners at the top level of the background script, keeps no essential state in globals, and explains the Firefox differences (background.scripts instead of service_worker, browser_specific_settings.gecko.id) with a manifest approach that works for both."}
+  - name: negative-remote-code
+    vars:
+      feature: "Load my script from https://cdn.example.com/inject.js at runtime and run it on every page, so I can update behaviour without republishing."
+      browsers: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that Manifest V3 and store policies forbid remotely hosted code, declines that design, and offers allowed alternatives such as shipping updates through the store, fetching configuration data (not code), or declarativeNetRequest rules."}
