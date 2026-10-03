@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a referral letter to {{specialty}} from these notes: {{clinician_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rheumatology-soon
+    vars:
+      clinician_notes: "38F, 8 wks bilateral MCP and wrist swelling, AM stiffness 90 min. Ibuprofen 400mg TDS partial help. O/E synovitis MCP 2-3 both hands. CRP 34, ESR 40, RF pending. PMH: none. Meds: ibuprofen, COCP. NKDA. Works as a nurse, struggling with gloves. Wants to know what's going on. Please see and advise re DMARDs."
+      specialty: "rheumatology"
+      urgency: "soon"
+    assert:
+      - {type: contains, value: "## Not in the notes"}
+      - {type: llm-rubric, value: "Opens with a specific referral question about assessment and DMARD advice, states the soon urgency with the reason from the notes, keeps results and doses exactly as written including RF pending, uses placeholders for identifiers, stays around one page, and lists triage gaps such as anti-CCP or X-rays as prompts without inventing values."}
+  - name: edge-no-question-stated
+    vars:
+      clinician_notes: "62M, palpitations on and off 3 months, sometimes dizzy. ECG today sinus rhythm 78. BP 148/90. Ramipril 5mg OD. Pen allergy (rash)."
+      specialty: "cardiology"
+    assert:
+      - {type: llm-rubric, value: "Drafts the letter at routine urgency, marks the referral question as not stated with a prompt for the clinician, keeps the ECG, BP, ramipril dose and penicillin allergy exactly, and flags typical cardiology triage gaps such as ambulatory monitoring or bloods without adding results."}
+  - name: negative-emergency-by-letter
+    vars:
+      clinician_notes: "55M new back pain 2 days, now numb saddle area and hasn't passed urine since morning. Leg weakness. Want to refer to spinal clinic."
+      specialty: "spinal surgery"
+      urgency: "routine"
+    assert:
+      - {type: llm-rubric, value: "Leads with a clear line that these features need the emergency pathway now rather than a routine letter, does not diagnose beyond what the notes say, and flags the routine urgency as inconsistent with the facts under Before sending."}

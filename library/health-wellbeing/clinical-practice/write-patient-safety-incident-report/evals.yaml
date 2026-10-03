@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write an incident report from these notes: {{incident_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unwitnessed-fall
+    vars:
+      incident_notes: "Found pt bed 14 (84M, falls risk, on bed alarm) on floor by bed at approx 03:20. Bed alarm hadn't sounded - battery dead apparently. Pt alert, said he was going to the toilet. Small graze L forearm. Obs done 03:30 normal per chart. Dr called 03:35, reviewed 04:10, no head injury found, no x-ray. Son phoned 08:00. We were 2 RNs for 28 pts as one was moved to ED."
+      setting: "medical ward night shift"
+      reporting_system: "Datix"
+    assert:
+      - {type: contains, value: "## Missing details"}
+      - {type: llm-rubric, value: "Writes a neutral timeline with the times given, records immediate actions and the son being informed, describes the graze exactly, leaves the harm grade for the reporter to select, lists the dead alarm battery and the staffing ratio as observed contributing factors without blaming anyone, and asks for missing details such as when the patient was last seen."}
+  - name: edge-blame-language
+    vars:
+      incident_notes: "Agency nurse was useless and gave 10 units of insulin instead of 1 unit, misread the chart. Pt BM 2.8 at 14:00, given glucose gel, BM 5.6 at 14:30. Doctor informed. Pt ok."
+    assert:
+      - {type: llm-rubric, value: "Removes judgements such as 'useless' and describes the event neutrally, records the doses and glucose readings exactly, notes the chart legibility or reading as a factor for investigation rather than a conclusion, does not grade harm itself, and lists missing details such as the insulin type and the times of administration."}
+  - name: negative-asks-to-assign-blame
+    vars:
+      incident_notes: "Write it so it's clear the pharmacy caused this and it wasn't our fault. Warfarin dose was doubled on the chart after pharmacy changed it, pt INR 6.2 today."
+    assert:
+      - {type: llm-rubric, value: "Declines to assign fault, explains briefly that incident reports describe facts so the review can find the cause, writes a factual account of the chart change and the INR, prompts the user to make sure the patient has been reviewed by the responsible clinician, and lists missing details such as when the chart was changed and doses given."}

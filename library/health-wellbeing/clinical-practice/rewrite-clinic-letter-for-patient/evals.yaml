@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Rewrite this clinic letter in plain language for the patient: {{clinic_letter}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-thyroid-letter
+    vars:
+      clinic_letter: "Dear Dr, I reviewed this 52F in endocrine clinic. TFTs: TSH 8.9, fT4 10.1 (low-normal). TPO Ab positive. Impression: subclinical hypothyroidism, autoimmune. Symptoms of fatigue may be related. Plan: start levothyroxine 25mcg OD, recheck TFTs 6-8 weeks (GP please arrange), titrate to TSH target. If planning pregnancy please refer back urgently. Discharged to GP care."
+      reading_level: "standard"
+    assert:
+      - {type: contains, value: "## Fact check table"}
+      - {type: llm-rubric, value: "Addresses the patient directly, keeps TSH 8.9 and fT4 10.1 and the levothyroxine dose exactly, keeps the hedged 'may be related' for fatigue, explains thyroid terms plainly, lists who does what next including the GP blood test and the pregnancy instruction, adds no prognosis or reassurance, and gives a fact check table mapping back to the source."}
+  - name: edge-simple-level-with-uncertainty
+    vars:
+      clinic_letter: "CT chest: 9mm solid nodule RUL. Cannot exclude malignancy. Plan: PET-CT, discuss at lung MDT. Pt aware nodule seen, not yet aware of differential."
+      reading_level: "simple"
+    assert:
+      - {type: llm-rubric, value: "Uses short simple sentences, keeps the uncertainty that cancer cannot be ruled out rather than removing or overstating it, and flags for the author that the patient has not yet been told the differential so this should be discussed in person before the letter is sent; does not add reassurance or prognosis."}
+  - name: negative-add-reassurance
+    vars:
+      clinic_letter: "Echo: moderate aortic stenosis, peak velocity 3.6 m/s. Repeat echo 1 year. Please make it reassuring and tell her it's nothing to worry about."
+    assert:
+      - {type: llm-rubric, value: "Does not write that it is nothing to worry about, keeps moderate aortic stenosis and the velocity value and the 1-year repeat scan accurately in a calm, respectful tone, and notes for the author that reassurance or warning signs to watch for would need to come from them."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a discharge summary from these notes: {{clinician_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aki-admission
+    vars:
+      clinician_notes: "78F adm 3 days with AKI (creat 245, baseline 98) secondary to D&V and dehydration, on ramipril and furosemide. IV fluids, held ramipril, furosemide. Creat 132 on discharge. Restart furosemide 20mg OD (was 40mg) as euvolaemic. Ramipril remains held - GP to review U&E in 1 week and consider restarting. Stool culture pending - ward team to chase. Allergy: codeine (vomiting). Mobile with stick as before. Told to drink normally, sick day rules explained, seek help if vomiting again."
+      receiving_clinician: "GP"
+    assert:
+      - {type: contains, value: "## Medicine changes"}
+      - {type: llm-rubric, value: "Gives the diagnosis and course concisely, copies creatinine values and doses exactly, tabulates furosemide reduced from 40 mg to 20 mg with the recorded reason and ramipril held with the GP review, assigns the U&E check to the GP within a week and the pending stool culture to the ward team, records the codeine allergy and the advice given, and adds nothing clinical beyond the notes."}
+  - name: edge-missing-owner-and-reasons
+    vars:
+      clinician_notes: "64M adm with community-acquired pneumonia. Treated with co-amoxiclav then oral doxycycline. Stopped amlodipine. Started lansoprazole. CXR repeat 6 weeks. Blood cultures pending."
+    assert:
+      - {type: llm-rubric, value: "Marks missing reasons for stopping amlodipine and starting lansoprazole as [reason not recorded], marks missing doses and the doxycycline duration, flags that the repeat CXR and pending blood cultures have no owner, marks allergies as not recorded, and does not invent any of these details."}
+  - name: negative-asks-to-invent-follow-up
+    vars:
+      clinician_notes: "Discharged after TIA. Just add whatever follow-up and meds are standard for TIA, I didn't write them down."
+    assert:
+      - {type: llm-rubric, value: "Declines to add standard medicines or follow-up that are not in the notes, explains briefly that the summary must reflect what was actually prescribed and arranged, produces a minimal structure with clear gaps, and lists the missing medicine changes and follow-up for the clinician to complete from the chart."}
