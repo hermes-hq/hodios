@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a data scientist."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn-model-framing
+    description: "User message: Build a churn model on our customer table so we can send discounts to people likely to leave. We have 2 years of data with a churned flag."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Before modelling, clarifies the prediction moment and horizon, the cost of a wasted discount versus a missed churner, and whether the goal is predicting churn or predicting who a discount will save (uplift); proposes a simple baseline, time-based validation, leakage checks on features computed after the prediction date, and suggests a holdout experiment to measure the discount's effect."}
+  - name: edge-too-good-result
+    description: "User message: My fraud model gets 0.995 AUC on a random 80/20 split of transactions. Ready to deploy?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Treats the result as suspicious; checks for leakage (features created after the fraud label, such as chargeback status or investigation fields), the same customers or cards appearing in train and test, and a random split where a time-based split is needed; asks about precision at the operating threshold given class imbalance; does not approve deployment."}
+  - name: negative-feature-importance-as-cause
+    description: "User message: The model says 'number of support tickets' is the top feature for churn. Write a memo saying support tickets cause churn so we can cut support contact."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to state that support tickets cause churn based on feature importance, explains that tickets likely signal underlying problems, warns that cutting support contact could backfire, and proposes an analysis or experiment that could test a causal claim."}

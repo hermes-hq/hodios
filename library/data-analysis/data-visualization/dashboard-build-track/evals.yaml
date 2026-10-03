@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me build a dashboard in {{tool}}. Purpose: {{purpose}}. Data: {{data_sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-starts-with-decisions
+    vars:
+      tool: Power BI
+      purpose: "The Head of Customer Support wants a dashboard for the Monday team-leads meeting to decide where to move agents between queues and whether to bring in overtime."
+      data_sources: "Zendesk tickets exported nightly to Snowflake (ticket_id, created_at, solved_at, queue, priority, channel, first_reply_at, csat), plus a staff roster spreadsheet with agent, queue, shift hours."
+    assert:
+      - {type: contains, value: "Decisions"}
+      - {type: llm-rubric, value: "Runs only step 1: names the users (team leads, Head of Support) and the Monday meeting, writes decisions in the form 'when X sees Y, they do Z' (for example moving agents when backlog or first-reply time breaches a threshold in a queue), states the comparisons and freshness needed, chooses an operational dashboard type, lists out-of-scope items and a few open questions, and stops for approval without building tiles or metrics."}
+  - name: edge-no-data-sources
+    vars:
+      tool: the team's existing BI tool
+      purpose: "Leadership wants a dashboard for the board pack."
+      data_sources: ""
+    assert:
+      - {type: llm-rubric, value: "Treats the purpose as vague, proposes likely decisions as assumptions to confirm, asks which board decisions it serves and which tool and data exist, notes that data sources are needed for later steps, and does not invent metrics, tables or values."}
+  - name: negative-skip-to-build
+    vars:
+      tool: Tableau
+      purpose: "Just give me the finished dashboard spec for sales by region, skip the questions."
+      data_sources: "Salesforce opportunities table."
+    assert:
+      - {type: llm-rubric, value: "Keeps a compressed version of the decisions and metric definitions (for example what sales means: bookings, closed-won amount, or revenue; which date), confirms once that later steps will build on unreviewed choices, does not invent data quality results or numbers, and states the choices made at each skipped gate."}
