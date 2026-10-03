@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Make me a self-editing checklist based on my writing: {{writing_samples}} Feedback I've had: {{feedback_received}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-work-emails-with-feedback
+    vars:
+      writing_type: work emails
+      feedback_received: "Manager: 'I have to read to the end to find out what you need from me.' Colleague: 'You apologise a lot.'"
+      writing_samples: |
+        --- sample 1 ---
+        Hi Tom, sorry to bother you. I just wanted to give some background on the vendor situation. Basically we've had a few delays and I think it might possibly affect the launch. I was wondering if maybe you could approve the extra budget of 2,000 so we can switch vendors?
+        --- sample 2 ---
+        Hi all, sorry for the long email. Just a quick update on the survey. We got 340 responses, which is really great. There were some issues with question 4 that I think we should probably discuss. Could we maybe find time this week?
+        --- sample 3 ---
+        Hi Priya, sorry for the delay! I just wanted to check whether the contract is basically ready. If not, no worries. If it is, I would need it by Thursday to send to legal.
+    assert:
+      - {type: contains-all, value: ["## Self-editing checklist", "Test:", "Fix:"]}
+      - {type: llm-rubric, value: "Ranks issues with counts drawn from the samples: opening apologies ('sorry'), the request buried at the end, stacked hedges and filler ('just', 'basically', 'maybe', 'possibly'); links them to the manager's and colleague's feedback; gives quick mechanical tests such as searching for 'sorry' and 'just' or checking that the ask is in the first two lines; uses before and after examples quoted from the samples; and avoids generic items not supported by the samples."}
+  - name: edge-single-short-sample
+    vars:
+      writing_type: university essays
+      writing_samples: "In today's society, social media is a very important thing that affects many people in many different ways. There are many reasons for this which will be discussed in this essay."
+    assert:
+      - {type: llm-rubric, value: "Says the checklist is provisional because there is only one short sample, keeps the checklist short, and bases items on what the sample shows (vague opener, 'very important thing', announcing the essay, repetition of 'many')."}
+  - name: negative-feedback-not-supported
+    vars:
+      writing_type: blog posts
+      feedback_received: "A friend said my posts are too long."
+      writing_samples: |
+        --- sample 1 ---
+        Three things I learned fixing my bike. One: buy the right tyre levers. Two: check the valve type first. Three: never trust a quick-release you didn't close yourself.
+        --- sample 2 ---
+        Rain all week. I baked bread instead of riding. The loaf collapsed. Next week: sourdough, or the turbo trainer.
+    assert:
+      - {type: llm-rubric, value: "Notes the samples are short and concise, so the 'too long' feedback is not borne out by these samples and says so; produces a shorter checklist without inventing problems; names concrete strengths such as short punchy structure."}

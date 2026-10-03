@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How does this message sound? It's to {{recipient_relationship}}. I want to: {{intent}}. Message: {{message}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-curt-message-to-report
+    vars:
+      recipient_relationship: my direct report, three weeks into the job
+      intent: Get the corrected sales figures by Friday noon without making her feel she's in trouble.
+      message: "As I said yesterday, the numbers in the deck are wrong. Fix them."
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Flags", "Friday"]}
+      - {type: llm-rubric, value: "Flags 'As I said yesterday' as a pointed reminder and the message as curt for a new report, notes the missing deadline (Friday noon) and missing specifics, and produces a minimally edited message that stays clear that the figures need correcting by Friday noon without adding apologies or praise that was not intended."}
+  - name: edge-over-apologetic-to-boss
+    vars:
+      recipient_relationship: my manager
+      intent: Tell her I can't take on the new client this month because I'm at capacity, and suggest next month.
+      message: "Hi Sarah, so sorry, I really hate to say this and I'm sorry if this causes problems, but I'm not sure I could maybe take the Fenwick account right now? Sorry! Totally fine if you need me to though."
+    assert:
+      - {type: llm-rubric, value: "Flags the repeated apologies, hedging and the closing line that undercuts the refusal, recommends edits that keep a clear and polite no for this month with the offer of next month and a short capacity reason, and keeps the friendly tone."}
+  - name: negative-already-fine
+    vars:
+      recipient_relationship: a supplier I work with regularly
+      intent: Confirm the order and the delivery date.
+      message: "Hi Marco, thanks for the quote. Please go ahead with 40 units at the price quoted, delivered by 12 June to our Leeds site. Let me know if anything changes. Best, Ana"
+    assert:
+      - {type: llm-rubric, value: "Gives the verdict Send as is, raises no invented flags, and does not rewrite the message."}

@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Make this {{format}} document accessible: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-word-newsletter
+    vars:
+      format: word
+      document: |
+        **SPRING PARENT NEWSLETTER**
+        **Important dates**
+        - Sports day 14 May
+        - Parents' evening 22 May
+        [image: photo of children at last year's sports day]
+        Items in red on the attached list are overdue library books. Please return them asap.
+        To book a parents' evening slot click here: https://example.org/booking
+        [image: bar chart of attendance by year group, Year 3 lowest at 91%]
+    assert:
+      - {type: contains-all, value: ["[ALT:", "https://example.org/booking"]}
+      - {type: not-icontains, value: "click here:"}
+      - {type: llm-rubric, value: "Converts the bold lines into a title and heading levels, rewrites the 'click here' link into descriptive link text, replaces the colour-only 'items in red' instruction with a text-based one, expands 'asap', adds alt text placeholders including the chart's key finding (Year 3 lowest at 91%), and lists Word-specific steps such as applying heading styles and running Check Accessibility."}
+  - name: edge-pdf-two-column-layout
+    vars:
+      format: pdf
+      audience_needs: screen reader users
+      document: |
+        [two-column layout]
+        Left column: Annual report summary. Revenue grew 12%. See the sidebar on the right for regional figures.
+        Right column [text box]: North 4.1m, South 3.2m, East 2.7m
+        [table with merged header cells: Region | Q1 Q2 merged under "H1" | Q3 Q4 merged under "H2"]
+    assert:
+      - {type: llm-rubric, value: "Puts the content in a logical linear reading order, rewrites 'the sidebar on the right' so it does not depend on position, restructures the table to a single header row with no merged cells, and lists PDF steps such as exporting with structure tags and checking reading order and tags in an accessibility checker; does not claim the PDF is now compliant."}
+  - name: negative-no-image-details
+    vars:
+      format: web
+      document: "Our new office. [image] Find us at 12 Harbour Street. [image] We're open 9 to 5."
+    assert:
+      - {type: llm-rubric, value: "Does not invent what the images show; inserts [ALT: …] placeholders describing what must be conveyed based on context and lists the image content as an open question for the author."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Give me feedback on this draft. It is for: {{purpose_and_reader}}. Draft: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buried-ask-proposal
+    vars:
+      feedback_depth: standard
+      purpose_and_reader: "Email proposal to my department head asking for budget for a part-time data assistant. She skims and decides fast."
+      draft: |
+        Hi Maria, I hope you're well. As you know the team has been very busy this year. We've taken on the Henley account, the quarterly reporting has expanded, and two people were out on leave in spring. I have been thinking a lot about how we work and I think there are some things we could do differently. For example our reporting takes about 30 hours a month of manual work, mostly copying figures between spreadsheets. Some of the analysts have mentioned they feel stretched. I looked into options and one option could be to bring in some help. A part-time data assistant at 20 hours a week would cost roughly 18,000 a year. Anyway, let me know what you think and if this is something worth discussing. Thanks, Sam
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Issues", "## Three changes that matter most"]}
+      - {type: llm-rubric, value: "Identifies as the top issue that the ask (budget for a part-time data assistant, about 18,000 a year) is buried at the end and never stated as a clear request for a decision; ranks issues by severity with locations; notes the 30-hours figure as the strongest evidence and that the payoff is not quantified; describes fixes without rewriting the email; ends with three prioritised actions."}
+  - name: edge-quick-wedding-toast
+    vars:
+      feedback_depth: quick
+      purpose_and_reader: "Best man toast, about 3 minutes, guests include grandparents and kids."
+      draft: |
+        For those who don't know me, I'm Dev, and I've known Tom since we were eleven. Tom has always been the guy who shows up. When my car died on the M6 at 2am in 2014, Tom drove three hours to get me, and he brought sandwiches. Now, I could tell you about Prague. I won't, because his gran is here. But I'll say that what happened in Prague is the reason Tom now owns a waterproof phone case. Then he met Aisha. Aisha, you have made him a better man, mostly by teaching him what a vegetable is. So please raise your glasses to Tom and Aisha.
+    assert:
+      - {type: llm-rubric, value: "Adapts the dimensions to a toast (story, stakes, payoff, audience fit) rather than demanding evidence; gives only three to five issues; notes that Aisha gets very little and the ending is abrupt or lacks a sincere moment; treats the Prague line as a judgement call for this audience rather than banning it; names real strengths such as the M6 story; does not rewrite the toast."}
+  - name: negative-ready-draft
+    vars:
+      feedback_depth: standard
+      purpose_and_reader: "Out-of-office auto-reply for my work email, read by clients and colleagues."
+      draft: "Thanks for your email. I'm out of the office from 12 to 19 August with no access to email. For anything urgent about accounts, please contact Priya Shah at priya.shah@example.com. Otherwise I'll reply when I'm back on 20 August."
+    assert:
+      - {type: llm-rubric, value: "Judges the draft ready or very close, says so plainly, and does not manufacture Blocking or Major issues; any suggestions are minor and labelled as such; lists fewer than three changes if fewer are worth making."}

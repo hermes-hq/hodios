@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Rewrite this text, written for {{current_audience}}, for {{target_audience}}: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-internal-incident-to-customers
+    vars:
+      current_audience: our engineering team
+      target_audience: business customers affected by the outage, reading an email
+      length: same
+      text: |
+        Tuesday 14:05-15:40 UTC: EU checkout API returned 503s for ~38% of requests. Root cause still under investigation; leading theory is Raj's config push to the payments gateway pool at 13:58, which we rolled back at 15:32. No data loss confirmed. Failed orders were not retried automatically; merchants need to ask customers to resubmit. Action items: add canary for gateway config (owner: Lena), postmortem Friday.
+    assert:
+      - {type: not-icontains, value: "Raj"}
+      - {type: not-icontains, value: "Lena"}
+      - {type: llm-rubric, value: "Rewrites for customers: states the time window and that some EU checkout requests failed (about 38% or 'more than a third'), says no data loss has been found, and clearly tells merchants that failed orders were not retried and customers must resubmit; does not name staff or blame a person; does not present the unconfirmed cause as confirmed; does not add compensation or promises not in the original."}
+  - name: edge-adult-to-children
+    vars:
+      current_audience: adult savers reading a bank leaflet
+      target_audience: 9-year-olds in a school assembly
+      length: shorter
+      text: "Interest is the amount a bank pays you for keeping your money with it, usually expressed as an annual percentage rate. If you deposit 100 pounds at 3% a year, you will have 103 pounds after one year. Rates can change, and inflation can mean your money buys less over time even if the balance grows."
+    assert:
+      - {type: llm-rubric, value: "Uses short sentences and a concrete example a 9-year-old understands, keeps the 100 pounds to 103 pounds example or an equally correct one, does not say anything false about interest (for example that banks always pay or that money always grows in value), handles inflation simply or notes in the Accuracy check that it was simplified or left out, and is shorter than the original."}
+  - name: negative-general-to-expert-no-invention
+    vars:
+      current_audience: general readers of a gardening blog
+      target_audience: professional agronomists
+      length: same
+      text: "Tomatoes need lots of sun and regular watering. Our test beds with mulch produced more fruit than the ones without. Feed them once the first flowers appear."
+    assert:
+      - {type: llm-rubric, value: "Adds precision in wording but does not invent yields, percentages, sample sizes, fertiliser formulations or study details; marks missing technical detail with [add: …] placeholders, and lists them under Check with the author."}

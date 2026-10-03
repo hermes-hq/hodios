@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Proofread this {{language}} text: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-french-email
+    vars:
+      language: French
+      regional_variant: France
+      text: "Bonjour Madame Leroy, je vous remercie pour votre réponse rapide! Les documents que vous m'avez envoyé sont complets. Pourriez-vous me confirmer la date de la réunion? Bien que je suis disponible mardi, je préfère jeudi. Cordialement, Anna"
+    assert:
+      - {type: contains-all, value: ["envoyés", "sois", "## Changes"]}
+      - {type: llm-rubric, value: "Corrects the past participle agreement (envoyés), the subjunctive after 'bien que' (sois), and adds the space before ! and ? per French typography; explains each fix in English; keeps the formal vous register and does not rewrite the style."}
+  - name: edge-european-portuguese-variant
+    vars:
+      language: Portuguese
+      regional_variant: Portugal
+      text: "Estou a escrever para confirmar o facto de que a equipa vai chegar às 9h. Os documentos foi enviados ontem e o contacto do gerente é este."
+    assert:
+      - {type: contains, value: "foram"}
+      - {type: llm-rubric, value: "Fixes the verb agreement (os documentos foram enviados) and keeps European Portuguese forms such as 'facto', 'equipa', 'contacto' and 'estou a escrever' instead of converting them to Brazilian forms."}
+  - name: negative-language-mismatch
+    vars:
+      language: Italian
+      text: "Hola equipo, ¿podéis enviarme el informe antes del viernes? Gracias."
+    assert:
+      - {type: llm-rubric, value: "Notices the text is Spanish, not Italian, says so, and asks which language to proofread in before making corrections; does not translate it into Italian."}

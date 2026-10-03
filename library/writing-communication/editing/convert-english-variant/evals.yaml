@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Convert this text from {{from_variant}} English to {{to_variant}} English: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-to-uk-notice
+    vars:
+      from_variant: us
+      to_variant: uk
+      text: |
+        Tenant meeting on 10/03/2026 at 6:30 p.m. in the lobby. We'll discuss the new color scheme for the hallways, parking on the sidewalk, and the trash pickup schedule. Mr. Alvarez has gotten quotes from three contractors; the cheapest is $4,200. The building is 2 miles from the station.
+    assert:
+      - {type: contains-all, value: ["colour", "## Changes", "$4,200"]}
+      - {type: llm-rubric, value: "Converts color to colour, sidewalk to pavement, trash to rubbish, gotten to got, Mr. to Mr, and the date to 3 October 2026 or 03/10/2026 (day first); keeps the dollar amount unchanged and flags currency; keeps miles; lists every change in a table and changes no other wording."}
+  - name: edge-protected-names-and-ambiguous-date
+    vars:
+      from_variant: uk
+      to_variant: au
+      text: |
+        The Labour Party's spokesperson said the programme would be organised with the World Health Organization. "We realise it's a big ask," she said. Applications close 04/05/2026. Read our report, "Colour and Light in Hospital Design", for details.
+    assert:
+      - {type: contains-all, value: ["Labour Party", "World Health Organization", "Colour and Light in Hospital Design", "We realise it's a big ask"]}
+      - {type: llm-rubric, value: "Leaves the party name, the organisation name, the quoted speech and the report title exactly as written; recognises UK and AU share day-first dates and -ise spelling so few changes are needed; raises 'programme' versus 'program' as a judgement call for Australian usage; does not invent changes."}
+  - name: negative-same-variant
+    vars:
+      from_variant: us
+      to_variant: us
+      text: "Our organisation will analyze the colour data and finalize the program by the center's deadline."
+    assert:
+      - {type: llm-rubric, value: "Notes that source and target are the same variant, does not perform a conversion, and instead normalises the mixed spellings to American English (organization, color) and lists those changes."}

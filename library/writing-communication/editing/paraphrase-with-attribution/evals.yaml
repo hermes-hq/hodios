@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Paraphrase this passage and cite it in {{citation_style}} style. Source: {{source}}. Passage: {{passage}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-academic-passage-apa
+    vars:
+      citation_style: apa
+      source: "Moreno, L. (2020). Food deserts and diet quality. Public Health Review, 12(3), 201-219. Passage from p. 205."
+      passage: "Households located more than one mile from a full-service grocery store purchased fewer fresh vegetables on average, but the gap narrowed considerably when researchers controlled for household income, suggesting that cost may matter as much as distance."
+    assert:
+      - {type: contains-all, value: ["Moreno", "2020", "## Meaning check", "## Reference entry"]}
+      - {type: not-icontains, value: "purchased fewer fresh vegetables on average"}
+      - {type: llm-rubric, value: "The paraphrase changes sentence structure as well as words, keeps the one-mile distance, the narrowing gap after controlling for income and the hedged conclusion ('may matter'), does not turn 'may' into a definite claim, includes an APA 7 in-text citation with p. 205, and gives a reference entry that uses only the details supplied."}
+  - name: edge-missing-details-and-coined-term-mla
+    vars:
+      citation_style: mla
+      source: "An article by Priya Natarajan about smartphones and attention, I don't have the year or page"
+      passage: "What I call 'ambient distraction' is not the notification itself but the constant low-level expectation of one, a tax on attention that users pay even when the phone stays silent."
+    assert:
+      - {type: icontains, value: "ambient distraction"}
+      - {type: llm-rubric, value: "Keeps 'ambient distraction' in quotation marks as the author's coined term, uses placeholders for the missing year, title and page instead of inventing them, gives an MLA-style in-text citation with the author's surname, and paraphrases the rest with fresh structure at the same meaning."}
+  - name: negative-famous-line-should-be-quoted
+    vars:
+      citation_style: chicago
+      source: "Franklin D. Roosevelt, First Inaugural Address, March 4, 1933"
+      passage: "The only thing we have to fear is fear itself."
+    assert:
+      - {type: llm-rubric, value: "Advises quoting this famous line rather than paraphrasing it, gives the quotation with a Chicago-style footnote and bibliography entry, and if it offers a paraphrase it is clearly secondary; does not invent a page number or publisher."}
