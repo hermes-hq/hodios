@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make a succession planting plan for my market garden. Beds: {{beds}}. Crops: {{crops}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-box-scheme
+    vars:
+      beds: "24 field beds of 0.75 x 20 m with drip irrigation, plus one 30 m polytunnel."
+      crops: "Salad mix (best seller), carrots, beetroot, French beans, courgettes, kale, spring onions, radish."
+      season_dates: "Last frost around 1 May, first frost around 10 October; Yorkshire, UK; tunnel for early and late crops."
+      outlets: "Veg box scheme, 40 boxes a week from June to November; each box gets 150 g salad and 3-4 other items."
+    assert:
+      - {type: contains, value: "## Bed map"}
+      - {type: llm-rubric, value: "Lists assumptions marked as estimates, derives weekly demand from 40 boxes, gives frequent salad and radish successions and fewer plantings of longer crops, a bed map with no double-booked beds and follow-on crops, a weekly yield vs need table showing gaps, and uses the tunnel for the shoulder seasons and hungry gap."}
+  - name: edge-no-outlets
+    vars:
+      beds: "10 beds of 1 x 10 m, no tunnel"
+      crops: "Tomatoes, lettuce, basil, cucumbers"
+      season_dates: "Zone 6b Ohio, last frost late April, first frost mid-October"
+    assert:
+      - {type: llm-rubric, value: "States an assumed demand mix because no outlets were given, schedules field tomatoes and cucumbers after last frost (no field planting before then without cover), plans lettuce successions with heat-related bolting breaks in midsummer, and marks yields as estimates."}
+  - name: negative-missing-frost-dates
+    vars:
+      beds: "Some beds"
+      crops: "Salad"
+      season_dates: "not sure"
+    assert:
+      - {type: llm-rubric, value: "Asks for the number and size of beds, the location or frost dates and the outlets in one message and stops rather than producing a schedule from guesses."}
