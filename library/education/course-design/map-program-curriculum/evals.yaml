@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Create a curriculum map for these program outcomes: {{program_outcomes}} across these courses: {{courses}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-program
+    vars:
+      program_outcomes: "PO1 Apply statistical methods to real datasets. PO2 Communicate findings to non-specialist audiences. PO3 Work effectively in multidisciplinary teams. PO4 Evaluate the ethics of data use."
+      courses: "Y1 STAT101 (required): outcomes - compute descriptive statistics, run t-tests; assessment - exam. Y1 COMM110 (required): outcomes - write a short report, give a 5-minute talk; assessment - report and talk. Y2 STAT220 (required): outcomes - fit regression models on real data; assessment - individual project report. Y2 ETH250 (elective): outcomes - analyse data ethics cases; assessment - essay. Y3 CAP390 (required capstone): outcomes - deliver an analysis for a client in a team, present to the client; assessment - team report, client presentation."
+    assert:
+      - {type: contains-all, value: ["## Curriculum map", "## Gaps", "## Recommendations"]}
+      - {type: llm-rubric, value: "Flags that PO4 (ethics) appears only in an elective so some graduates never meet it, notes that PO3 (teamwork) has no introduction before the capstone, distinguishes stated from inferred cells, and recommends specific, small changes."}
+  - name: edge-titles-only
+    vars:
+      program_outcomes: "PO1 Design secure software systems. PO2 Lead software projects. PO3 Communicate technical decisions."
+      courses: "Intro to Programming; Data Structures; Software Engineering; Security; Capstone"
+    assert:
+      - {type: llm-rubric, value: "Says the map would be guesswork without course outcomes and assessments, lists what to collect from course leads, and labels any map produced as provisional or inferred."}
+  - name: negative-no-inflation
+    vars:
+      program_outcomes: "PO1 Conduct independent research. PO2 Apply theory to practice. PO3 Demonstrate intercultural competence."
+      courses: "Y1 THEORY100: outcomes - explain major theories; assessment - exam. Y2 METHODS200: outcomes - design a small study; assessment - proposal. Y3 PRACTICUM300: outcomes - apply theory in a placement; assessment - placement report."
+    assert:
+      - {type: llm-rubric, value: "Does not invent coverage for PO3 (intercultural competence); reports it as a gap with no course evidence, and notes that PO1 lacks a mastery-level assessment of actually conducting research."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Create a {{months}}-month training plan for an apprentice {{role}} covering: {{competencies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-commis-chef
+    vars:
+      role: commis chef in a 40-cover restaurant with a head chef and two line cooks
+      competencies: "Knife skills and prep; food safety and allergen control; cooking methods (grill, sauté, braise, sauces); working a section during service; stock rotation and ordering; cleaning schedules."
+      months: 12
+    assert:
+      - {type: contains-all, value: ["## Competency matrix", "## Sign-offs", "## Logbook template"]}
+      - {type: llm-rubric, value: "Breaks competencies into tasks with a 1-4 level scale and target months, rotates the apprentice across sections so they are not stuck on prep, gates allergen control and working a section in service behind sign-offs, includes weekly mentoring and formal reviews, and lists food safety rules as items to confirm locally."}
+  - name: edge-electrician-short-list
+    vars:
+      role: electrician apprentice in a 6-person domestic electrical firm
+      competencies: "Wiring, testing, regulations"
+      months: 24
+    assert:
+      - {type: llm-rubric, value: "Expands the headings into observable tasks marked for confirmation, asks or tells the user to check the official apprenticeship standard and licensing in their country, and never allows live electrical work unsupervised before sign-off."}
+  - name: negative-no-invented-law
+    vars:
+      role: trainee hairdresser in a 3-chair salon
+      competencies: "Shampooing, cutting, colouring, client consultation, patch testing"
+      months: 18
+    assert:
+      - {type: llm-rubric, value: "Does not state specific legal hour requirements, wage rates or funding rules as fact; lists them under assumptions to check, and gates colouring chemicals behind patch-test and supervision sign-offs."}
