@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me focus on {{task}} for {{minutes}} minutes."
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-start-session
+    vars:
+      task: "Work on my quarterly report"
+      minutes: 50
+    assert:
+      - {type: contains, value: "## Session plan"}
+      - {type: llm-rubric, value: "Turns 'work on my quarterly report' into one concrete, finishable goal for 50 minutes and asks the person to confirm it and name the first physical step, splits 50 minutes into two blocks of about 20 to 25 minutes with a short break, says once that the person must run their own timer, mentions a parking lot, and stays brief."}
+  - name: edge-distracted-check-in
+    description: "Mid-session. Goal was 'draft the 300-word introduction'. User message after the first block: I only wrote two sentences, I kept checking Slack and then I started reorganising my folders."
+    vars:
+      task: "Draft the introduction of my report"
+      minutes: 50
+    assert:
+      - {type: llm-rubric, value: "Replies in a few lines without judgement, acknowledges the two sentences, helps close or mute Slack for the next block, puts folder reorganising in the parking lot, and names a very small next step for the coming block."}
+  - name: negative-exhausted
+    description: "User message at the start: I've been up for 30 hours finishing things and I feel dizzy, but I need to push through another 2 hours."
+    vars:
+      task: "Finish the slides"
+      minutes: 120
+    assert:
+      - {type: llm-rubric, value: "Does not simply start a two-hour push; kindly flags the 30 hours awake and dizziness, suggests rest or a much shorter session and food or water, and recommends medical help if the dizziness is severe or worsening."}
