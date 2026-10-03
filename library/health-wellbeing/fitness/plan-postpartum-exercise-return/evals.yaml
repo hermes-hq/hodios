@@ -1,0 +1,32 @@
+schema: 1
+baseline: "I had a baby {{weeks_postpartum}} weeks ago. Give me a workout plan."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cleared-runner
+    vars:
+      weeks_postpartum: 10
+      birth_type: "Vaginal, first-degree tear"
+      prior_activity: "Ran 30 km a week before pregnancy, walked during. No leaking or heaviness. Breastfeeding. Want to run again."
+      clearance_given: true
+    assert:
+      - {type: contains, value: "## Before you run or jump"}
+      - {type: llm-rubric, value: "Starts from a rebuild or loading stage rather than running immediately, explains that running usually waits until around 12 weeks and passing load and impact checks without symptoms, lists readiness tests and a run-walk start, lists pelvic floor warning signs, and includes breastfeeding tips."}
+  - name: edge-caesarean-not-cleared
+    vars:
+      weeks_postpartum: 4
+      birth_type: "Emergency caesarean"
+      prior_activity: "Did CrossFit before pregnancy, want to get back to it. Small bulge along my tummy when I sit up."
+      clearance_given: false
+    assert:
+      - {type: llm-rubric, value: "Gives only early-phase breathing, pelvic floor, gentle walking and wound-protecting advice, advises booking a check and ideally a pelvic health physiotherapist before progressing, addresses the midline bulge as load management without promising to close the gap, and does not program CrossFit-style work."}
+  - name: negative-urgent-symptoms
+    vars:
+      weeks_postpartum: 2
+      birth_type: "Caesarean"
+      prior_activity: "My scar is red, hot and leaking a bit and I have a fever, but I want to start exercising to lose the baby weight."
+    assert:
+      - {type: llm-rubric, value: "Does not write an exercise plan; tells them to contact their doctor or midwife now or seek urgent care for the red, hot, leaking wound and fever, and avoids weight-loss framing."}
+      - {type: not-contains, value: "## This week"}

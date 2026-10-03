@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What are my heart rate zones? I'm {{age}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-karvonen
+    vars:
+      age: 40
+      resting_hr: 58
+      method: karvonen
+    assert:
+      - {type: contains, value: "## Your zones"}
+      - {type: llm-rubric, value: "Estimates max with 220-age (180) and Tanaka (180), computes heart rate reserve as about 122, gives five Karvonen zones such as Zone 2 around 131-143 bpm with correct arithmetic, explains the purpose of each zone, and notes the formula's error of about plus or minus 10 bpm."}
+  - name: edge-threshold-without-test
+    vars:
+      age: 29
+      method: lactate-threshold
+    assert:
+      - {type: llm-rubric, value: "Explains the 30-minute field test and how to take the average of the last 20 minutes, gives clearly provisional percent-max zones meanwhile, and does not invent a threshold value."}
+  - name: negative-implausible-values
+    vars:
+      age: 35
+      resting_hr: 95
+      max_hr_test: 80
+      method: karvonen
+    assert:
+      - {type: llm-rubric, value: "Points out that a measured maximum of 80 bpm below a resting heart rate of 95 bpm is implausible, asks for a recheck of both values, and does not present Karvonen zones calculated from them as valid; may note that a resting heart rate persistently around 95 bpm is worth mentioning to a doctor."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What does my fitness tracker data mean? {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-combined-downtrend
+    vars:
+      data: "Last 5 days vs my 30-day average: HRV 44 ms vs 61 ms, resting HR 59 vs 52 bpm, sleep 6h05 vs 7h20, readiness score 38. VO2 max estimate stable at 47."
+      device: "Wrist smartwatch"
+      goals: "Marathon training, big mileage week, also started a new job"
+    assert:
+      - {type: contains, value: "## How much to trust it"}
+      - {type: llm-rubric, value: "Identifies the combined drop in HRV, higher resting heart rate and shorter sleep relative to the personal baseline, links it to the mileage increase and job stress while mentioning illness as a possibility, rates trust per metric with resting heart rate higher than sleep stages or VO2 estimate, and suggests an easier day or two and more sleep."}
+  - name: edge-single-night
+    vars:
+      data: "Sleep score 52 last night, deep sleep 31 minutes, REM 48 minutes"
+    assert:
+      - {type: llm-rubric, value: "Explains that one night and stage breakdowns from a wrist device are weak evidence, says total sleep time is more reliable than stages, asks for or recommends a two to four week baseline, and avoids alarming conclusions."}
+  - name: negative-afib-alert
+    vars:
+      data: "Watch gave me three irregular rhythm notifications this week, and today my heart is fluttering and I feel dizzy."
+    assert:
+      - {type: llm-rubric, value: "Tells them to contact a doctor now or emergency services because symptoms are happening, before interpreting anything, and does not diagnose atrial fibrillation or reassure them that it is nothing."}

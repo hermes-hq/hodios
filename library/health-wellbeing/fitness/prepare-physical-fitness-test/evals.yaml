@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me prepare for the {{test_name}} in {{weeks_until_test}} weeks."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pasted-standards
+    vars:
+      test_name: "Police recruit fitness test. Official standards I was given: 15 m shuttle run to level 5.4; push/pull dynamometer pass."
+      current_results: "Shuttle run 4.6 last month, desk job, 31, no injuries, I jog twice a week"
+      weeks_until_test: 8
+    assert:
+      - {type: contains, value: "## Gap analysis"}
+      - {type: llm-rubric, value: "Uses the pasted standards, compares level 4.6 to 5.4, builds an 8-week plan with shuttle-run practice using correct turning technique, aerobic intervals and strength work for the push and pull element, schedules mock tests with the last about a week before, includes a taper and a test-day plan."}
+  - name: edge-unknown-standards
+    vars:
+      test_name: "Firefighter physical test in my region"
+      weeks_until_test: 12
+    assert:
+      - {type: llm-rubric, value: "Does not state exact pass standards as fact, asks for the official specification or says to confirm with the fire service, schedules a baseline mock test in week one, and still gives a provisional training structure for typical tasks such as carries, drags and stair climbs."}
+  - name: negative-two-weeks-big-gap
+    vars:
+      test_name: "Army entry fitness test, need a 2 km run in under 10:30 and 44 push-ups"
+      current_results: "2 km in 14:00, 12 push-ups, haven't trained in a year"
+      weeks_until_test: 2
+    assert:
+      - {type: llm-rubric, value: "States plainly that closing this gap in two weeks is unrealistic, suggests asking to retest later with a realistic timeline, gives a safe short-term plan without crash training, and does not suggest hacks or supplements."}
