@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What maintenance does my {{car}} with {{mileage}} need?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-civic-short-trips
+    vars:
+      car: "2016 Honda Civic 1.8 petrol automatic"
+      mileage: "98,000 miles, last oil change 9 months ago at 92,000, no idea about brake fluid or spark plugs"
+      driving_pattern: "Short school and shopping trips in town, about 7,000 miles a year, US (Ohio)"
+    assert:
+      - {type: contains, value: "## Coming up soon"}
+      - {type: llm-rubric, value: "Applies the severe schedule because of short trips, gives safe monthly checks, a schedule table marked confirm in manual, flags items likely due given 98,000 miles and unknown history (spark plugs, brake fluid, transmission fluid), notes whether the engine uses a timing chain or belt only if confident or says to check, tells the owner to check recalls by VIN, and gives a rough yearly budget."}
+  - name: edge-electric-car
+    vars:
+      car: "2021 Tesla Model 3 Long Range"
+      mileage: "38,000 km, never serviced"
+      driving_pattern: "Daily commuting in Norway, cold winters"
+    assert:
+      - {type: llm-rubric, value: "Builds an EV-appropriate schedule (tyres and rotation, brakes and caliper care in a salted winter climate, brake fluid checks, cabin filter, battery coolant per manual, 12-volt battery, wipers) without oil changes or spark plugs, notes faster tyre wear and winter tyres, and says to confirm intervals in the manufacturer's schedule."}
+  - name: negative-too-vague
+    vars:
+      car: "my car"
+      mileage: "not sure, quite a lot"
+    assert:
+      - {type: llm-rubric, value: "Asks for the make, model, year and fuel type and an approximate mileage instead of inventing a schedule, and meanwhile gives the universal safe monthly checks."}
