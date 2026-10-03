@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I use my points for this trip? {{points_balances}} {{trip}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-business-class-transfer
+    vars:
+      points_balances: "150,000 flexible bank points that transfer to several airline programs; 30,000 miles in a US airline program."
+      trip: "Two people, New York to Tokyo in business class, flexible within the first two weeks of May. Cash fare seen: 6,200 USD per person."
+    assert:
+      - {type: contains, value: "## Booking steps"}
+      - {type: llm-rubric, value: "Compares several programs that could book the route through partners, computes value per point using the cash fare minus award taxes and fees, warns that transfers are usually irreversible and to confirm award space before transferring, mentions surcharges, and marks award prices and ratios as things to verify."}
+  - name: edge-cash-is-better
+    vars:
+      points_balances: "40,000 points in a hotel program."
+      trip: "One night in a city hotel that costs 95 EUR cash or 35,000 points."
+    assert:
+      - {type: llm-rubric, value: "Calculates roughly 0.27 euro cents per point, judges this poor value, and suggests paying cash and saving the points unless the user has a reason to spend them, such as expiry."}
+  - name: negative-missing-trip-details
+    vars:
+      points_balances: "Some miles and some points."
+      trip: "Europe next year."
+    assert:
+      - {type: llm-rubric, value: "Asks for the program names and balances, route, dates, travellers and cabin, instead of inventing programs or award prices."}

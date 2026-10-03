@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan a train trip: {{route_or_region}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-europe-pass-decision
+    vars:
+      route_or_region: "Amsterdam to Berlin to Prague to Vienna to Venice, with 3 nights in each city"
+      dates: "Mid-May, dates fixed"
+      travelers: "Two adults aged 34 and 36, second class, one backpack each"
+    assert:
+      - {type: contains, value: "## Pass or tickets"}
+      - {type: llm-rubric, value: "Builds a leg-by-leg table, compares a pass including reservation fees with early-booked point-to-point fares and shows a break-even with stated assumptions, notes which legs usually need reservations, recommends booking popular legs early, and marks fares and booking windows as typical values to confirm with operators."}
+  - name: edge-separate-tickets-tight-connection
+    vars:
+      route_or_region: "Paris to Barcelona then a separate ticket to Madrid the same day, with 25 minutes between trains"
+      travelers: "One adult"
+    assert:
+      - {type: llm-rubric, value: "Warns that 25 minutes on separate tickets is risky and that a missed connection may not be covered, and suggests a longer buffer, a through ticket if available, or a flexible fare on the second leg."}
+  - name: negative-too-vague
+    vars:
+      route_or_region: "trains somewhere nice"
+    assert:
+      - {type: llm-rubric, value: "Asks for the region or cities, dates, number and ages of travellers and interests before planning, instead of inventing a route."}
