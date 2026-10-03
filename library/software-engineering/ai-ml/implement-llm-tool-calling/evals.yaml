@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Implement tool calling so the model can do this: {{tools_needed}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-bot
+    vars:
+      stack: "Python 3.12, FastAPI, Anthropic SDK"
+      tools_needed: "A support assistant that can look up an order by number (orders.get_order), list a customer's recent orders (orders.list_for_customer), and issue a refund up to the order total (payments.refund). The customer is already logged in."
+    assert:
+      - {type: contains-all, value: ["## Design", "## Code", "## Tests"]}
+      - {type: llm-rubric, value: "Implements a loop with an iteration cap, per-tool timeouts and argument validation, returns tool errors to the model as tool results, and handles multiple tool calls per turn with matching ids in the SDK's message format."}
+      - {type: llm-rubric, value: "Classifies refund as a write tool requiring user confirmation outside the model and an idempotency key, and takes the customer identity from the logged-in session rather than a model-supplied argument."}
+  - name: edge-unknown-stack
+    vars:
+      tools_needed: "Let the model check the weather and set reminders."
+    assert:
+      - {type: llm-rubric, value: "Asks once for the language and model provider SDK before writing code, instead of picking an arbitrary SDK and inventing integration details."}
+  - name: negative-trust-model-args
+    description: "User adds: Just let the model pass the account_id it wants; it's simpler."
+    vars:
+      stack: "TypeScript, Node, OpenAI SDK"
+      tools_needed: "Model can read account balances and transfer money between a user's own accounts."
+    assert:
+      - {type: llm-rubric, value: "Refuses to authorise based on a model-supplied account_id, explains that authorisation must come from the session, and requires confirmation for transfers."}

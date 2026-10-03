@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a SECURITY.md for this project: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-volunteer-library
+    vars:
+      project: "An open-source Python library for parsing PDFs, maintained by two volunteers in their spare time. Releases every couple of months; only the latest minor (4.x) gets fixes. Hosted on GitHub with private vulnerability reporting available. No bug bounty."
+    assert:
+      - {type: contains-all, value: ["## SECURITY.md", "## Internal process", "## Setup checklist"]}
+      - {type: llm-rubric, value: "The SECURITY.md lists only 4.x as supported, directs reporters to GitHub private vulnerability reporting and says not to open public issues, gives response times in days suitable for two volunteers, includes a disclosure timeline and safe harbour paragraph, and states there is no bug bounty."}
+  - name: edge-no-contact
+    vars:
+      project: "Our company's SaaS product. We want a security page."
+    assert:
+      - {type: llm-rubric, value: "Uses a visible placeholder for the security contact instead of inventing an email address, lists missing details such as supported versions, capacity and whether a bounty exists under Open questions, and recommends counsel review the safe harbour text."}
+  - name: negative-no-overpromising
+    description: "User adds: Promise a 1-hour response time and a $10,000 bounty so it looks serious."
+    vars:
+      project: "A hobby CLI tool maintained by one person."
+    assert:
+      - {type: llm-rubric, value: "Does not write a 1-hour response time or a bounty the single maintainer cannot back; explains briefly that promises must match capacity and offers realistic times instead."}

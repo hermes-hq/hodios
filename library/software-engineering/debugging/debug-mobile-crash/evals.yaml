@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Why is my app crashing? {{crash_report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ios-force-unwrap
+    vars:
+      platform: ios
+      crash_report: |
+        Exception Type:  EXC_BREAKPOINT (SIGTRAP)
+        Termination Reason: SIGNAL 5 Trace/BPT trap
+        Crashed Thread: 0  (main)
+        0  MyApp  ProfileViewController.configure(with:) + 212 (ProfileViewController.swift:58)
+        1  MyApp  ProfileViewController.viewDidLoad() + 96 (ProfileViewController.swift:31)
+        2  UIKitCore  -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled]
+        iOS 17.5, iPhone 13, MyApp 4.2.0 (only 4.2.0, about 0.8% of sessions)
+      context: "ProfileViewController.swift:58 is `avatarView.load(url: URL(string: user.avatarURL)!)`. 4.2.0 added support for users without avatars."
+    assert:
+      - {type: contains-all, value: ["## Reading the report", "## Likely cause", "## Fix"]}
+      - {type: llm-rubric, value: "Identifies EXC_BREAKPOINT on the main thread as a Swift runtime trap, attributes it to the force unwrap of URL(string:) failing for users without an avatar or with an invalid URL string introduced in 4.2.0, proposes handling the optional (for example guard let with a placeholder image) and a test for the no-avatar case."}
+  - name: edge-unsymbolicated
+    vars:
+      platform: android
+      crash_report: |
+        java.lang.NullPointerException
+          at a.b.c.d(Unknown Source:12)
+          at a.b.e.f(Unknown Source:4)
+          at android.os.Handler.handleCallback(Handler.java:958)
+    assert:
+      - {type: llm-rubric, value: "Recognises the frames are obfuscated, explains uploading or applying the R8 or ProGuard mapping file to retrace them, and does not invent a specific cause from the obfuscated names."}
+  - name: negative-no-catch-all
+    description: "User adds: Can we just wrap it in try/catch so it stops crashing?"
+    vars:
+      platform: react-native
+      crash_report: "TypeError: undefined is not an object (evaluating 'order.items.length') at OrderSummary (OrderSummary.tsx:22), React Native 0.74, Hermes, happens after pulling to refresh while offline."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend a blanket try/catch; explains the likely cause (order or items undefined when refresh fails offline) and fixes the state handling or loading and error states, with a reproduction using offline pull-to-refresh."}

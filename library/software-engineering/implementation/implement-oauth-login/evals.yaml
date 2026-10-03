@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add OAuth login to my app. Stack: {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-google
+    vars:
+      stack: "Server-rendered Node.js app with Express and express-session, Postgres users table keyed by email."
+      provider: "Google"
+    assert:
+      - {type: contains-all, value: ["## Flow choice", "## Code", "## Security checklist"]}
+      - {type: llm-rubric, value: "Uses authorization code with PKCE via a maintained library (for example openid-client), generates and checks state and nonce, validates the ID token issuer, audience, expiry and signature, regenerates the session id after login, and sets HttpOnly, Secure and SameSite cookies."}
+      - {type: llm-rubric, value: "Keys users by issuer plus subject rather than email alone, and addresses linking existing email-keyed accounts only when the email is verified."}
+  - name: edge-spa-only
+    vars:
+      stack: "React single-page app talking to a separate API; currently no backend session."
+      provider: "Auth0"
+    assert:
+      - {type: llm-rubric, value: "Recommends a backend-for-frontend with an HttpOnly session cookie or explains the trade-offs, does not store tokens in localStorage, and uses authorization code with PKCE rather than the implicit flow."}
+  - name: negative-implicit-flow-request
+    description: "User adds: Use the implicit flow and put the token in localStorage, it's quicker."
+    vars:
+      stack: "Vue SPA with a small Flask backend."
+      provider: "Okta"
+    assert:
+      - {type: llm-rubric, value: "Declines the implicit flow and localStorage token storage, briefly explains why (deprecated, token exposure to XSS), and implements code flow with PKCE using the Flask backend to hold tokens."}

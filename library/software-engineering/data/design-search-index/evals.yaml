@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Design a search index for this: {{content_and_queries}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-es
+    vars:
+      engine: elasticsearch
+      content_and_queries: |
+        2 million products, German and English titles and descriptions, brand, category path, price, stock flag, SKU like "AB-1234-X". About 50k updates per hour.
+        Example queries: "laufschuhe herren" should find men's running shoes ("Laufschuh", "Herren"); "AB-1234" should return that exact SKU first; "nike air" should prefer in-stock Nike Air products.
+        Need filters by brand, price range, category, and facets with counts.
+    assert:
+      - {type: contains-all, value: ["## Mappings and analysers", "## Queries", "## Indexing and reindexing"]}
+      - {type: llm-rubric, value: "Defines German and English analysers with stemming (and handles German compounds or stems so Laufschuhe matches Laufschuh), a keyword or exact sub-field for SKU that is boosted for exact matches, brand and category as keyword fields used in filter context and aggregations, and an in-stock boost via function scoring that is capped."}
+      - {type: llm-rubric, value: "Describes zero-downtime reindexing with versioned indexes behind an alias and a way to keep the index in sync with 50k updates per hour."}
+  - name: edge-recommend-small
+    vars:
+      engine: recommend
+      content_and_queries: "Help-center with 3,000 English articles, edited a few times a day, existing Postgres database, team of two backend developers. Users search phrases like 'reset password' and 'cancel subscription'."
+    assert:
+      - {type: llm-rubric, value: "Recommends Postgres full-text search (possibly with pg_trgm) over a separate Elasticsearch cluster for this size and team, and gives a weighted tsvector generated column with a GIN index."}
+  - name: negative-filters-not-scored
+    vars:
+      engine: opensearch
+      content_and_queries: "Job listings. Users filter by city and remote flag and search by title keywords like 'senior backend'."
+    assert:
+      - {type: llm-rubric, value: "Puts city and remote filters in filter context so they do not affect scoring, and does not invent data volumes, marking any it uses as assumptions."}

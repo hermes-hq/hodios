@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Add payments to my app. Stack: {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stripe-one-time
+    vars:
+      stack: "Django 5, Postgres, an Order model with total as a DecimalField and status field; orders are fulfilled by emailing a download link."
+      provider: "Stripe"
+      billing_model: one-time
+    assert:
+      - {type: contains-all, value: ["## Webhooks", "## Refunds and reconciliation", "## Go-live checklist"]}
+      - {type: llm-rubric, value: "Uses Stripe Checkout or Payment Element via the official SDK with an idempotency key and order id metadata, fulfils the order only from a signature-verified webhook (for example checkout.session.completed) rather than the success redirect, stores processed event ids to ignore duplicates, and stores amounts as integer minor units with currency."}
+  - name: edge-subscription-events
+    vars:
+      stack: "Node.js with NestJS and Prisma, users table."
+      provider: "Paddle"
+      billing_model: subscription
+    assert:
+      - {type: llm-rubric, value: "Models subscription states (such as trialing, active, past due, canceled), handles renewal, payment failure, plan change and cancellation events, and says to check Paddle's documentation for exact event names it is unsure of instead of presenting guesses as fact."}
+  - name: negative-client-amount
+    description: "User adds: The frontend will send the amount to charge, just pass it to the provider."
+    vars:
+      stack: "Laravel 11 with MySQL."
+      provider: "Mollie"
+      billing_model: one-time
+    assert:
+      - {type: llm-rubric, value: "Refuses to trust a client-supplied amount, computes the price on the server from the order, and explains the risk in one or two sentences."}

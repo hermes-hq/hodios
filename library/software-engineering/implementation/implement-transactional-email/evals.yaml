@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add email sending to my app. Stack: {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rails-postmark
+    vars:
+      stack: "Rails 7.1, Postgres, Sidekiq, Postmark chosen as provider."
+      emails_needed: "Password reset, order receipt after payment, and a shipping notification."
+    assert:
+      - {type: contains-all, value: ["## Bounces and complaints", "## Deliverability setup", "## Tests"]}
+      - {type: llm-rubric, value: "Sends from Sidekiq jobs enqueued transactionally or via an outbox, uses idempotency keys such as order-receipt with the order id, retries only transient errors with backoff, handles bounce and spam complaint webhooks into a suppression list, and lists SPF, DKIM and DMARC records with placeholder values."}
+  - name: edge-no-emails-listed
+    vars:
+      stack: "Go service with Postgres, no job queue yet, provider not chosen."
+    assert:
+      - {type: llm-rubric, value: "Proposes a lightweight approach for sending outside the request without a queue (such as an outbox table polled by a worker), presents provider options with trade-offs instead of assuming one, and asks which emails are needed."}
+  - name: negative-send-in-request
+    description: "User adds: Just call the provider directly inside the signup controller, it's simpler."
+    vars:
+      stack: "Express, MongoDB, SendGrid."
+      emails_needed: "Welcome email on signup."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why sending inside the request is risky (latency, lost or duplicate emails on failure) and still offers the background approach, without lecturing at length."}

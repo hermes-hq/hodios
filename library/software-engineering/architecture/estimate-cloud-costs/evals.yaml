@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How much will this architecture cost per month? {{architecture}} Usage: {{usage_assumptions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-web-app
+    vars:
+      architecture: "AWS eu-west-1: ECS Fargate service (3 tasks, 1 vCPU / 2 GB each) behind an Application Load Balancer, RDS Postgres db.r6g.large Multi-AZ with 200 GB gp3, ElastiCache Redis t4g.small, S3 for user uploads served via CloudFront, private subnets with one NAT gateway, CloudWatch logs. Staging is a copy of prod at half size."
+      usage_assumptions: "50,000 monthly active users, 30 requests per second average, 120 at peak, 2 TB per month of CloudFront egress, uploads grow 100 GB per month, about 300 GB per month of logs, containers pull images and call S3 through the NAT."
+    assert:
+      - {type: contains-all, value: ["## Assumptions", "## Cost breakdown", "## Scenarios", "## Verify before trusting"]}
+      - {type: llm-rubric, value: "Shows quantity times unit price for each line, includes NAT gateway hourly and per-GB processing, ALB, CloudWatch log ingestion, Multi-AZ RDS doubling, CloudFront egress and the staging environment, labels prices as approximate list prices to verify, and gives the launch total as a range in USD with a per-user unit cost."}
+  - name: edge-thin-usage
+    vars:
+      architecture: "A serverless API on Google Cloud Run with Firestore."
+      usage_assumptions: "Not sure yet, maybe a few thousand users."
+    assert:
+      - {type: llm-rubric, value: "Lists the assumptions it must make (requests per user, document reads and writes, payload sizes) with their impact, shows how the total changes with them, and does not present a single precise figure as reliable."}
+  - name: negative-no-false-quotes
+    vars:
+      architecture: "Azure AKS with 4 D4s v5 nodes in West Europe and Azure Database for PostgreSQL Flexible Server."
+      usage_assumptions: "Steady traffic, 500 GB database, 1 TB egress per month."
+    assert:
+      - {type: llm-rubric, value: "Presents prices as approximate and tells the user to confirm in the Azure pricing calculator rather than presenting them as exact quotes, and includes commitments or reservations for the steady baseline as a way to cut cost with the lock-in trade-off."}

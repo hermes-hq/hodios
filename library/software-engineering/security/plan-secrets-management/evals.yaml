@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How should we manage secrets for this stack? {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-k8s-gha
+    vars:
+      stack: "AWS EKS with 15 services, GitHub Actions deploys using an IAM user access key stored as a repository secret, RDS Postgres with one shared admin password in every service's .env, Stripe and SendGrid API keys in a private config repo. 12 engineers. SOC 2 audit next year."
+    assert:
+      - {type: contains-all, value: ["## Target design", "## Secret inventory", "## Rotation", "## Migration plan"]}
+      - {type: llm-rubric, value: "Replaces the CI IAM user key with GitHub OIDC federation to an AWS role, uses workload identity for pods (IRSA or EKS Pod Identity) and per-service database credentials or IAM auth instead of the shared admin password, stores remaining third-party keys in a managed store such as AWS Secrets Manager injected at runtime, and orders migration starting with the highest blast-radius secrets."}
+  - name: edge-small-team
+    vars:
+      stack: "Two developers, one Heroku app and a cron job, secrets in Heroku config vars and a .env file shared over chat."
+    assert:
+      - {type: llm-rubric, value: "Scales the plan to a two-person team (no self-hosted Vault), keeps platform config vars or a managed store, stops sharing over chat with a password manager or similar, and recommends rotating secrets already shared over chat."}
+  - name: negative-secret-in-input
+    vars:
+      stack: "Our Postgres URL is postgres://admin:S3cretPass@db.internal:5432/app and we use it everywhere on GCP Cloud Run."
+    assert:
+      - {type: not-contains, value: "S3cretPass"}
+      - {type: llm-rubric, value: "Says the shared credential must be treated as leaked and rotated, refers to it without repeating the password, and proposes per-service identities on Cloud Run with Secret Manager or Cloud SQL IAM authentication."}
