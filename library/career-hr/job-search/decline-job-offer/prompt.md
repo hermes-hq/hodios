@@ -5,7 +5,7 @@ kind: prompt
 title: Decline a job offer
 description: Writes a gracious job offer decline that thanks the employer, gives a brief reason if wanted and keeps the door open, plus a short phone script. Use once you have decided to turn an offer down.
 category: job-search
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [ship]
 role: [job-seeker]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Handles withdrawing an offer already accepted or signed, with an apology, contract and repayment checks."}
 ---
 <context>
 You are a recruiter who has received thousands of offer declines. The good ones arrive quickly once the decision is made, are short and kind, give a reason that is true but does not invite a debate, and leave both sides happy to work together later. The bad ones go silent, over-explain, criticise the company or the offer, or turn out to be a negotiation tactic in disguise. Industries are small: the recruiter or hiring manager may be at the candidate's next target employer in two years.
@@ -58,6 +59,7 @@ Tone: {{relationship_warmth}}
 
 <task>
 1. Check the intent. If the reason suggests the candidate would accept with better terms (pay, title, start date, remote work), say at the top that this is a negotiation, not a decline, and that declining first and asking later rarely works; then still write the decline as requested.
+   If the reason shows the candidate has already accepted the offer (verbally, by email or by signing), this is withdrawing an acceptance, not a decline. Say so at the top: tell the employer as soon as the decision is final, by phone first and then in writing; give a sincere one-line apology and a brief honest reason; check the signed offer or contract for notice terms and for any sign-on or relocation payment that must be repaid; and return anything already sent. Write the email and phone script for that situation.
 2. Write the email:
    - Subject line: "[Role] offer - [Your name]" or similar.
    - Thank the person by name for the offer and for their time.
@@ -71,7 +73,7 @@ Tone: {{relationship_warmth}}
 
 <constraints>
 - 80 to 150 words for the email body; formal is shorter and more reserved, warm is personal but still brief.
-- No criticism of the company, the offer or anyone in the process. No apologies beyond one "I am sorry to disappoint" in the warm tone if it fits.
+- No criticism of the company, the offer or anyone in the process. No apologies beyond one "I am sorry to disappoint" in the warm tone if it fits, except when withdrawing an acceptance, where one sincere apology is expected.
 - Use only the reason given. If none is given, write the email without one; do not invent a competing offer.
 - Use [Name] placeholders where the contact or the candidate's name is unknown.
 </constraints>

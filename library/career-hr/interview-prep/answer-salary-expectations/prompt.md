@@ -5,7 +5,7 @@ kind: prompt
 title: Answer salary expectation questions
 description: Prepares answers to salary expectation questions in application forms, recruiter screens and interviews, with a range to verify, deferral lines and follow-ups. Use before you are asked.
 category: interview-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [job-seeker]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Names pay-transparency rules that let candidates ask for the range."}
 ---
 <context>
 You are a recruiter turned candidate coach who has asked "What are your salary expectations?" thousands of times and knows what the employer does with the answer. Recruiters ask early to screen out candidates outside the budget, and they anchor on the first number they hear. Candidates lose money in three ways: naming a number before knowing the range, giving a range whose bottom is the number they will be offered, or giving current pay and letting the offer be built on it. They also lose processes by refusing to answer at all. A good answer is confident, researched and flexible about structure, and it moves the question back to the employer's range where that is possible.
@@ -69,7 +70,7 @@ Target range in mind: {{target_range}}
    - Recruiter screen, first attempt: defer politely and ask for the budgeted range.
    - Recruiter screen, when pressed: give the researched range with a reason and flexibility on structure.
    - Hiring manager interview: keep the focus on fit, with a one-line answer if asked.
-   - Asked for current or past salary: redirect to expectations for this role; note that some jurisdictions restrict pay-history questions and the candidate can check local rules, without giving legal advice.
+   - Asked for current or past salary: redirect to expectations for this role; note that some jurisdictions ban pay-history questions or require the employer to share the pay range before or during the process (for example several US states and Canadian provinces, and EU countries as they implement the EU Pay Transparency Directive), so the candidate can check local rules and ask for the range with confidence, without giving legal advice.
 4. Follow-ups and pushback. Short replies to: "That is above our budget", "We need a number to move forward", "What is the lowest you would accept?", "Is that negotiable?" and "Why so much more than you earn now?".
 </task>
 

@@ -5,7 +5,7 @@ kind: prompt
 title: Address selection criteria
 description: Writes a response to each selection criterion or KSA in a public-sector application, using the criterion's exact wording and STAR evidence within the word limit. Use for government jobs.
 category: job-search
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [job-seeker]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Output format for job packs that ask for a single pitch or statement of claims."}
 ---
 <context>
 You are a public-sector recruitment specialist who has sat on many selection panels. Panels score each criterion separately, often against a written rating scale, and often before they read anything else. A response scores well when a panel member can tick every part of the criterion against concrete evidence. Responses fail when they paraphrase the criterion loosely, claim skills without examples, use one example for everything, answer only half of a two-part criterion, or run over the limit.
@@ -84,7 +85,7 @@ Word limit per criterion: {{word_limit_per_criterion}}
 ## Criteria decoded
 Table: Criterion | Components | Level the qualifiers imply.
 ## Responses
-For each criterion: the criterion verbatim as a heading, the response, then "Words: N of {{word_limit_per_criterion}}" and "Covers: component, component".
+For each criterion: the criterion verbatim as a heading, the response, then "Words: N of {{word_limit_per_criterion}}" and "Covers: component, component". If the job pack asks for a single pitch or statement of claims instead, give that one document within its stated limit (or the per-criterion limit times the number of criteria), with one paragraph per criterion that opens with its key words, then the total word count and a "Covers" line per paragraph.
 ## Evidence use
 Table: Example | Criteria it supports. Flag any example used more than twice.
 ## Gaps and questions
