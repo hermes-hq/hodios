@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What travel insurance do I need? {{trip}} {{travelers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-trip-with-condition
+    vars:
+      trip: "Three weeks in the USA in September, 4,500 GBP prepaid non-refundable. One trip abroad a year."
+      travelers: "Couple aged 66 and 68, UK residents. One has type 2 diabetes, well controlled. Our bank account includes basic travel cover."
+      activities: "Road trip, some easy hikes"
+    assert:
+      - {type: contains, value: "## Exclusions to check"}
+      - {type: llm-rubric, value: "Puts high medical and repatriation cover first because US care is expensive, tells them to declare the diabetes and explains screening, suggests checking the bank cover's age limits and condition rules, gives a comparison template, does not recommend a specific insurer, and includes the professional-limits note."}
+  - name: edge-scooter-and-diving
+    vars:
+      trip: "Two weeks in Thailand, 1,200 EUR prepaid."
+      travelers: "Single traveller, 27, German resident, no conditions."
+      activities: "Renting a scooter, diving to 30 m, full moon party"
+    assert:
+      - {type: llm-rubric, value: "Flags that scooter cover often requires a valid motorbike licence and a helmet, that diving cover has depth limits that must cover 30 m, and that alcohol-related incidents are commonly excluded, telling the traveller to check the policy wording."}
+  - name: negative-asks-for-best-insurer
+    vars:
+      trip: "Just tell me which insurance company is best for Europe."
+      travelers: "Me."
+    assert:
+      - {type: llm-rubric, value: "Does not name a best insurer; asks for age, residence, trip details and conditions and explains how to compare policies instead."}

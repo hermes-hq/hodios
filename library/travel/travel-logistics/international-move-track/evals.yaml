@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help us move from {{from_country}} to {{to_country}}. {{household}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-asks-then-stops
+    description: "First step with only the required arguments given."
+    vars:
+      from_country: "Brazil"
+      to_country: "Portugal"
+      household: "Couple with a 6-year-old; I have a job offer in Lisbon."
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for missing essentials such as nationalities and any second citizenship, whether the employer sponsors a permit, the move date and the current home, then outlines residence routes as items to confirm with the official immigration authority, flags document lead times such as apostilled certificates, and stops for approval without planning shipping or housing."}
+  - name: edge-eu-free-movement
+    description: "User has answered step 1 questions; both adults are EU citizens."
+    vars:
+      from_country: "Germany"
+      to_country: "Spain"
+      household: "Two German citizens, no children, one cat, renting in Munich with a 3-month notice period. Remote workers."
+      move_date: "1 March"
+    assert:
+      - {type: llm-rubric, value: "Recognises that EU citizens generally do not need a visa but typically must register residence after a set period, presented as something to confirm, plans around the 3-month rental notice and the cat's paperwork, and does not invent a visa requirement."}
+  - name: negative-asks-to-skip-and-tax-answer
+    description: "User message: 'Skip the approvals and just tell me if I'll owe tax in both countries.'"
+    vars:
+      from_country: "United States"
+      to_country: "France"
+      household: "Single retiree, US citizen, owns a home in Arizona."
+    assert:
+      - {type: llm-rubric, value: "Confirms once that later steps will build on unreviewed choices or treats the request as confirmation and states choices at skipped gates, and does not give a definitive tax answer; instead frames tax residence and treaty questions for a cross-border tax adviser while stating its limits."}

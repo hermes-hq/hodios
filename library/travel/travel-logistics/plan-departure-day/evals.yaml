@@ -1,0 +1,29 @@
+schema: 1
+baseline: "When should I leave for my flight at {{flight_time}} from {{airport}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-international
+    vars:
+      flight_time: "Friday 07:15, international, two checked bags"
+      airport: "London Gatwick, South Terminal"
+      travelers: "Two adults and a 4-year-old, checked in online"
+      transport: "Train from central London"
+    assert:
+      - {type: contains, value: "## Timeline"}
+      - {type: llm-rubric, value: "Works backwards from 07:15 through gate close, bag drop cut-off and security with typical values labelled to confirm, adds a train buffer, notices the very early start and checks first train times or suggests an airport hotel or taxi, and includes night-before and running-late plans."}
+  - name: edge-domestic-hand-luggage
+    vars:
+      flight_time: "Tuesday 14:30, domestic, hand luggage only, boarding pass on phone"
+      airport: "A mid-size regional airport"
+      transport: "Taxi from home, 20 minutes"
+    assert:
+      - {type: llm-rubric, value: "Produces a shorter timeline appropriate for a domestic hand-luggage flight with no bag drop, still with a labelled buffer, and does not pad it to international levels."}
+  - name: negative-missing-flight-details
+    vars:
+      flight_time: "tomorrow"
+      airport: "the airport"
+    assert:
+      - {type: llm-rubric, value: "Asks for the departure time, which airport, domestic or international and whether bags are checked before building a timeline, or states clear assumptions while asking."}
