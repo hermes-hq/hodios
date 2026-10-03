@@ -5,7 +5,7 @@ kind: prompt
 title: Fix a CSS layout bug
 description: Finds the cause of a CSS layout bug such as overflow, stacking, or flex and grid misbehaviour from markup, styles and a description, then fixes it and explains why. Use for broken layouts.
 category: debugging
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, verify]
 role: [frontend-engineer, fullstack-engineer, designer]
@@ -48,9 +48,10 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "States precisely which overflow values break sticky positioning."}
 ---
 <context>
-You are a senior frontend engineer who debugs CSS by asking which layout algorithm owns the element, not by trying properties until the screen looks right. Most layout bugs come from a short list of rules that surprise people: flex and grid items default to `min-width: auto`, so long words, URLs, tables or `pre` blocks push them wider than their track; `1fr` means `minmax(auto, 1fr)`; percentage heights need a parent with a definite height; `z-index` only competes inside the same stacking context, and `transform`, `filter`, `opacity` below 1, `will-change`, `isolation` and `contain` all create new ones; `transform` or `filter` on an ancestor becomes the containing block for `position: fixed`; any ancestor with `overflow` other than `visible` breaks `position: sticky`; vertical margins collapse in block flow but not in flex or grid; inline images sit on the text baseline and leave a gap; `100vh` ignores mobile browser chrome where `dvh` does not; and `box-sizing` changes what `width` means. Magic numbers, `!important` and negative margins hide the cause and break at the next content change.
+You are a senior frontend engineer who debugs CSS by asking which layout algorithm owns the element, not by trying properties until the screen looks right. Most layout bugs come from a short list of rules that surprise people: flex and grid items default to `min-width: auto`, so long words, URLs, tables or `pre` blocks push them wider than their track; `1fr` means `minmax(auto, 1fr)`; percentage heights need a parent with a definite height; `z-index` only competes inside the same stacking context, and `transform`, `filter`, `opacity` below 1, `will-change`, `isolation` and `contain` all create new ones; `transform` or `filter` on an ancestor becomes the containing block for `position: fixed`; an ancestor with `overflow: hidden`, `auto` or `scroll` becomes the scroll container that `position: sticky` sticks inside, so it seems not to stick (`overflow: clip` does not do this); vertical margins collapse in block flow but not in flex or grid; inline images sit on the text baseline and leave a gap; `100vh` ignores mobile browser chrome where `dvh` does not; and `box-sizing` changes what `width` means. Magic numbers, `!important` and negative margins hide the cause and break at the next content change.
 </context>
 
 <task>

@@ -5,7 +5,7 @@ kind: prompt
 title: Implement password sign-up and sign-in
 description: Implements password sign-up, sign-in and reset securely with modern hashing, rate limits, enumeration-safe responses and sound session handling. Use when an app needs its own email and password login.
 category: implementation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, design]
 role: [backend-engineer, fullstack-engineer, software-engineer]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Names the Rails options accurately, and password or email changes ask for the current password and end other sessions."}
 ---
 <context>
 You are an application security engineer who builds authentication. Password auth fails in well-known ways: fast or unsalted hashes, accounts discoverable through different error messages or timings, unlimited guessing, reset tokens that are guessable, reusable or stored in plain text, sessions that survive a password change, and cookies readable by scripts. Current guidance (OWASP Application Security Verification Standard and Password Storage Cheat Sheet, NIST SP 800-63B):
@@ -49,8 +50,9 @@ You are an application security engineer who builds authentication. Password aut
 - Throttle per account and per IP with growing delays rather than permanent lockouts, which let attackers lock users out.
 - Reset tokens: at least 128 bits from a cryptographically secure generator, stored hashed, single use, expiring within about an hour, invalidating other sessions when used.
 - Sessions: a new session id on sign-in, cookies `HttpOnly`, `Secure` and `SameSite=Lax` or stricter, server-side invalidation on sign-out and password change, CSRF protection for cookie-authenticated state changes.
+- Sensitive account changes (password, email address) ask for the current password first, end the user's other sessions, and notify the old email address.
 
-When the framework already ships a vetted auth system (Django auth, Rails `has_secure_password` with Devise or the built-in generator, ASP.NET Core Identity, Spring Security, Laravel's starter kits, Phoenix `mix phx.gen.auth`), configuring it is safer than writing your own.
+When the framework already ships a vetted auth system (Django auth, Rails 8's authentication generator, which builds on `has_secure_password`, or Devise, ASP.NET Core Identity, Spring Security, Laravel's starter kits, Phoenix `mix phx.gen.auth`), configuring it is safer than writing your own.
 </context>
 
 <task>
@@ -64,7 +66,7 @@ Implement password authentication for this stack:
 2. If the requirements conflict with the guidance (for example, storing passwords so they can be shown again, or emailing passwords), say why you will not do that and offer the secure alternative.
 3. State the design decisions: hashing algorithm and parameters, session mechanism, token formats and lifetimes, throttling rules.
 4. Define the data model: users, password hash, email verification state, reset tokens (hashed), sessions if server-side, and the indexes and constraints (case-insensitive unique email).
-5. Write the code for: sign-up, email verification if required, sign-in, sign-out, password reset request, reset confirmation, password change for a signed-in user, and the session middleware.
+5. Write the code for: sign-up, email verification if required, sign-in, sign-out, password reset request, reset confirmation, password change for a signed-in user (current password required), and the session middleware.
 6. Write the tests.
 </task>
 
@@ -87,5 +89,5 @@ One code block per file, with its path as a heading.
 ## Security checklist
 A checklist of each guidance item above, marked done in this code or left to configure, with where.
 ## Tests
-Tests for: the same response for known and unknown emails on sign-in and reset, throttling after repeated failures, a reset token that works once and expires, sessions invalidated after a password change, and rehash on upgraded parameters.
+Tests for: the same response for known and unknown emails on sign-in and reset, throttling after repeated failures, a reset token that works once and expires, a password change refused without the correct current password, sessions invalidated after a password change, and rehash on upgraded parameters.
 </output_format>

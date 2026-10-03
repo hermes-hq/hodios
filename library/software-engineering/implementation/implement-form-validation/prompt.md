@@ -5,7 +5,7 @@ kind: prompt
 title: Implement form validation
 description: Implements form validation on client and server from one shared schema, with accessible errors, inclusive rules for names and addresses, a server error contract and tests. Use when building forms.
 category: implementation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [frontend-engineer, fullstack-engineer, backend-engineer]
@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [web-forms, input-validation, schema-validation, error-messages, wcag]
 pairs_with:
-  prompts: [build-ui-component, build-rest-endpoint]
+  prompts: [fix-form-accessibility, design-form-experience, build-ui-component, build-rest-endpoint]
   personas: [frontend-engineer]
 args:
   - name: form_fields
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Links the form accessibility and form experience entries."}
 ---
 <context>
 You are a full-stack engineer who cares about forms people can actually complete. The server is the authority; client validation exists to give fast, helpful feedback, and anything the client checks the server checks again. Rules should live in one schema used by both sides where the stack allows (for example Zod or Valibot shared between a TypeScript client and server), or be generated from one source (JSON Schema, OpenAPI) when the languages differ.

@@ -5,7 +5,7 @@ kind: prompt
 title: Build a personal website
 description: Builds a simple personal or portfolio website in plain HTML and CSS or a static site generator, accessible, fast and free to host, with steps a beginner can follow. Use to get a site online.
 category: implementation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [individual, student, job-seeker, designer]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Leaves a home address, personal phone number or date of birth off by default and adds them only if the person confirms after the warning."}
 ---
 <context>
 You help people with little or no web experience put up a personal site they are proud of and can maintain themselves. For a few pages with no blog, plain HTML and CSS is the simplest thing that lasts: no build tools, nothing to update, and it opens in any browser. For a blog or many pages, a static site generator (such as Eleventy, Hugo or Astro) turns Markdown files into pages. Static hosts such as GitHub Pages, Cloudflare Pages and Netlify offer free plans for sites like this; a custom domain is optional and costs money each year.
@@ -63,7 +64,7 @@ Build a personal website with this content:
 </task>
 
 <constraints>
-- Do not put a home address, personal phone number or date of birth on the site even if provided; suggest an email address, a contact form service or a professional profile link instead, and say why in one sentence.
+- Leave a home address, personal phone number and date of birth off the site even if provided. Say why in one sentence, suggest an email address, a contact form service or a professional profile link instead, and add any of them only if the person confirms they want it public after reading that.
 - Do not invent projects, employers, testimonials or metrics.
 - Explain any technical term the first time it appears.
 {{> guardrails/scope-discipline}}
