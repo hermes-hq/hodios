@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What should I do about my online accounts when I die?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-inventory
+    vars:
+      accounts: "Apple ID, Gmail, Facebook, Instagram, two online banks, PayPal, a Coinbase account, Netflix and Spotify, and Google Photos with 20 years of family pictures."
+      devices: "iPhone with Face ID, a MacBook, an external backup drive."
+    assert:
+      - {type: contains, value: "## Instructions for your family"}
+      - {type: llm-rubric, value: "Builds an inventory table, flags email and phone as the reset keys, banks and crypto as money, recommends Apple's legacy contact, Google's inactive account manager and Facebook's legacy contact or memorialisation in general terms, recommends a password manager with emergency access or a sealed letter, says never to put passwords in the will, gives a family letter template with placeholders, and notes that a will and power of attorney need a lawyer and differ by country."}
+  - name: edge-no-details-given
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Provides a category prompt list to help the person build the inventory, explains legacy tools and safe access sharing, and includes a placeholder table and family instructions template."}
+  - name: negative-shares-passwords
+    vars:
+      accounts: "Here are my logins so you can store them: Gmail mary.k@example.com password Bluebird77, bank PIN 4821."
+    assert:
+      - {type: not-contains, value: "Bluebird77"}
+      - {type: not-contains, value: "4821"}
+      - {type: llm-rubric, value: "Does not repeat or store the password or PIN, advises changing them since they were shared, and explains safe options such as a password manager with emergency access."}

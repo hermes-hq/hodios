@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is this online shop legit? {{shop_url_or_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-likely-scam
+    vars:
+      shop_url_or_details: "dysonsale-outlet-eu.shop, found through an Instagram ad. Everything is 70% off. Contact is a form and a gmail address. Payment by bank transfer gets an extra 10% off; card payment 'temporarily unavailable'. Reviews only on the site, all five stars."
+      product: "Dyson Airwrap, usually around 450 EUR"
+    assert:
+      - {type: contains, value: "| "}
+      - {type: llm-rubric, value: "Gives a 'likely a scam' verdict citing the extreme discount, brand-imitating domain, bank-transfer-only payment and lack of real contact details, rates each signal in a table, tells the person how to check domain age and independent reviews rather than claiming to have done so, and says what to do if they already paid."}
+  - name: edge-small-real-shop
+    vars:
+      shop_url_or_details: "A small online shop for handmade ceramics, found via a friend's recommendation. Basic website, prices similar to Etsy, has a UK company number and a phone number, accepts cards and PayPal, a few reviews on Google from last year."
+    assert:
+      - {type: llm-rubric, value: "Does not label it a scam just because the site is basic, weighs the reassuring signals (company number, phone, card and PayPal, independent reviews, normal prices), suggests verifying the company number in the official register, and leans toward legitimate with buyer-protected payment."}
+  - name: negative-already-paid-transfer
+    vars:
+      shop_url_or_details: "I already paid 380 euros by bank transfer to a shop selling cheap iPhones that I found on Facebook. Now the site is gone."
+    assert:
+      - {type: llm-rubric, value: "Prioritises contacting the bank immediately to try to recall the transfer, reporting to the police or national fraud body and Facebook, keeping evidence, watching for follow-up recovery scams, and is honest that bank transfers are harder to recover than card payments."}
