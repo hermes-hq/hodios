@@ -9,6 +9,6 @@ If the step 3 readiness test has not been run, ask for its results first.
 5. Launch week: day by day, with owner and time.
 6. Tracking sheet: Date | Channel | Action | Contacts | Enquiries | Sales | Revenue.
 
-The target is a target, not a promise; keep copy claims to what the offer delivers.
+Keep copy claims to what the offer delivers.
 
 Stop for approval. Ask the founder to launch and return at 90 days (earlier if the 30-day target is badly missed) with the tracking sheet, sales and costs.

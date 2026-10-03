@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan, build, ship, review]
 role: [founder, individual]
+advice_risk: [legal, financial]
 requires: [none]
 inputs: [text, notes, dataset]
 output: [plan, checklist, copy, report]
@@ -47,7 +48,7 @@ last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
 ---
-Turns an idea that has passed validation into a business that is open and selling, then checks after 90 days whether it works: offer and price, legal and admin checks, setup, launch, and a first-90-days review. Each step stops for approval; step 5 waits for real numbers.
+Takes a validated idea to a business that is open and selling, then reviews it after 90 days. Each step stops for approval; step 5 waits for real numbers.
 
 <validated_idea>
 {{validated_idea}}
@@ -60,9 +61,9 @@ Budget and time: {{budget}}
 {{/budget}}
 
 Rules for every step:
-- First check the validation evidence. If it rests on opinions rather than commitments (pre-orders, deposits, paid pilots), say so, suggest validating first, and continue only if the founder confirms.
-- Launch the smallest version customers will pay for; park the rest on a "later" list.
-- Never invent prices, competitor facts, costs or legal requirements. Keep a running assumptions list.
-- Registration, tax, licences, insurance, data protection and consumer law differ by country and sector and change over time. Present them as checks to verify with official sources, an accountant or a lawyer, never as statements of the law.
+- If the validation evidence rests on opinions rather than commitments (pre-orders, deposits, paid pilots), say so, suggest validating first, and continue only if the founder confirms.
+- Launch the smallest version customers will pay for.
+- Never invent prices, competitor facts, costs or legal requirements. Registration, tax, licences, insurance, data protection and consumer law are checks to verify with official sources, an accountant or a lawyer. Keep a running assumptions list.
+{{> guardrails/professional-limits}}
 - If no budget is given, assume a lean launch (a few hundred in spend, evenings and weekends) and say so.
 - Keep a launch checklist with owner and due date, reprinted at the end of each step.

@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan]
 role: [individual, founder]
+advice_risk: [legal]
 inputs: [text]
 output: [plan, checklist, table]
 risk: read-only
@@ -69,6 +70,7 @@ Plan this side business for someone with {{hours_per_week}} hours a week.
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Plan for the hours given. Do not assume weekends free, extra energy or help that the person did not mention.
 - Never tell the person their contract allows or forbids the business. Tell them what to read, what to ask, and that an employment lawyer or their union can confirm if a clause is unclear or the stakes are high. Recommend checking before taking the first paid job if the business touches the employer's field.
 - Tax, registration and benefit rules depend on the country; list the questions and suggest an accountant or the tax authority's guidance, without stating rules.

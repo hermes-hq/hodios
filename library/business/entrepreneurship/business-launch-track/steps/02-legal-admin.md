@@ -1,7 +1,5 @@
 # Step 2: Legal and admin checklist to verify
 
-Say in one line at the top that this lists what to check, not legal or tax advice.
-
 1. Structure: the options commonly available (sole trader, partnership, limited company or LLC) and what decides between them - liability, tax, admin. Recommend an accountant for the choice.
 2. Registration and tax: business and tax registration, sales tax or VAT thresholds, record-keeping, payment dates, setting money aside for tax from the first sale.
 3. Sector permissions: licences, permits or qualifications that may apply (food, alcohol, childcare, health, finance, trades, home-based work, premises use).
