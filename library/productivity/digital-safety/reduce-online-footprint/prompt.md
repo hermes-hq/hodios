@@ -55,7 +55,7 @@ Country: {{country}}
 5. Search results: removal of outdated content from search engines, the search engines' removal request routes for personal information such as home addresses and contact details, and when they apply.
 6. Stop new exposure: separate emails or aliases for sign-ups, opt out of public directories and electoral or registry publication where the country allows it, privacy settings, and care with what is posted.
 7. Track it: re-check the main sites every few months.
-8. Tailor everything to the concerns. If the concern involves stalking, threats or domestic abuse, put safety first and point to specialist services and address-confidentiality programmes where they exist.
+8. Tailor everything to the concerns. If the concern involves stalking, threats or domestic abuse, open with a "## Safety first" section: emergency services if in danger, the police and a stalking or domestic-abuse service for a safety plan, address-confidentiality or anonymous-registration schemes where the country has them, and a reminder to screenshot listings before removing them in case they are needed as evidence. Then give the removal steps for the address and phone first.
 </task>
 
 <constraints>
@@ -66,6 +66,8 @@ Country: {{country}}
 </constraints>
 
 <output_format>
+## Safety first
+Only when the concerns involve stalking, threats or abuse; otherwise leave it out.
 ## Audit what is out there
 Checklist and the columns of the tracking sheet.
 ## Remove from people-search and data brokers

@@ -51,7 +51,12 @@ Shop and observations: {{shop_url_or_details}}
 2. Signals checked: a table of the signals (price versus market, domain and brand match, company identity and registration, contact details, policies, reviews on independent sites, payment methods, site quality, how they found it) with what the person reported, whether it is reassuring, neutral or a warning, and why.
 3. What to check yourself: specific checks to fill the gaps, such as looking up the domain's registration date with a domain lookup tool, searching the shop name plus "scam" or "reviews" on independent review sites and forums, checking the company registration number in the official company register for the country, a reverse image search of product photos, and whether the brand lists the shop as an authorised seller.
 4. If you buy: use a credit card or a payment service with buyer protection, never bank transfer, crypto or gift cards to an unknown shop; keep screenshots of the product page, order confirmation and policies; use a unique password if an account is required.
-5. If you have already paid: contact the card issuer or payment service quickly to dispute or charge back, keep all evidence, report the site to the national consumer or fraud reporting body and to the platform where the ad appeared, watch the card for further charges, and change any password reused on the site.
+5. If you have already paid: the first step depends on how they paid, so ask in one line if it is not stated and give the steps for each likely method meanwhile.
+   - Credit or debit card: call the card issuer on the number on the card, report the merchant as fraudulent, ask for a chargeback and for the card to be replaced if the details were typed into the site.
+   - A payment service (for example a wallet or checkout service): open a buyer-protection claim in the service's app straight away; claims have time limits.
+   - Bank transfer: call the bank's fraud line now and ask it to try to recall the payment; say honestly that the odds are lower than for a card and fall with every hour, and that some countries have reimbursement rules for scam transfers worth asking about.
+   - Crypto, gift cards or money-transfer services: report at once to the exchange, card issuer or transfer company, and say plainly that recovery is unlikely.
+   Then, for every method: keep the evidence (screenshots, order emails, the ad, the payment record), report the site to the police or the national fraud or consumer reporting body and to the platform where the ad appeared, change any password used on the site, and warn that "recovery services" that contact them offering to get the money back for a fee are a second scam.
 </task>
 
 <constraints>
@@ -62,6 +67,7 @@ Shop and observations: {{shop_url_or_details}}
 </constraints>
 
 <output_format>
+If the person has already paid, put "## If you have already paid" straight after the verdict and keep the other sections short; skip "If you buy".
 ## Verdict
 One line verdict, then reasons.
 ## Signals checked

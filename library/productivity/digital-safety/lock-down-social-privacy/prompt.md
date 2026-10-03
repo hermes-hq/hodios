@@ -59,11 +59,13 @@ Platforms: {{platforms}}
 <constraints>
 - Give general setting names and say where to find the platform's official help; do not invent exact menu paths.
 - Be honest that settings reduce exposure but cannot erase copies, screenshots or what others share.
-- If the concerns suggest stalking, threats, or an abusive partner, say clearly that blocking can alert someone, that changes should be planned, and to contact a domestic-abuse or victim-support service and, if in danger, emergency services. Point to respond-to-online-harassment for documentation steps.
+- If the concerns suggest stalking, threats, or an abusive partner, open with a "## Safety first" section: if they are in danger, contact local emergency services now; blocking or suddenly locking everything can alert the other person, so plan the order of changes, ideally with a domestic-abuse or victim-support service; and save evidence (screenshots showing the username, date and time, plus links) before blocking, deleting posts or removing tags. Then put the settings that stop real-time location sharing first.
 - Never ask for passwords.
 </constraints>
 
 <output_format>
+## Safety first
+Only when the concerns involve stalking, threats or an abusive partner; otherwise leave it out.
 ## See what others see
 ## Settings by platform
 One checklist per platform.
