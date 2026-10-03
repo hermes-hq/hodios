@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Format this script for a teleprompter: {{script}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-update
+    vars:
+      script: "Q3 was our best quarter yet: revenue grew 42% YoY to $3.2M, and our NPS (net promoter score) hit 61. Visit acme.io/q3 for the full report; we'll cover the roadmap, i.e. the API v2 launch, at the AGM on 14/11."
+      reading_speed: normal
+    assert:
+      - {type: contains, value: "## Prompter text"}
+      - {type: llm-rubric, value: "Splits the long sentences, writes numbers, currency, percentages and the URL as spoken (for example 'forty-two percent', 'three point two million dollars', 'acme dot io slash q three'), writes acronyms as said, keeps every fact, uses short lines that do not split phrases or numbers, uses plain-text cues sparingly, flags the ambiguous date 14/11 or keeps it clear, and gives a running-time estimate at about 150 words per minute."}
+  - name: edge-tongue-twister
+    vars:
+      script: "Statistically, specific sixth-sense signals seldom surface successfully."
+      reading_speed: fast
+    assert:
+      - {type: llm-rubric, value: "Flags the sentence as a tongue-twister in Read-aloud warnings with a suggested alternative, and does not silently change the meaning."}
+  - name: negative-no-new-content
+    vars:
+      script: "Thanks for watching. See you next week."
+      reading_speed: slow
+    assert:
+      - {type: llm-rubric, value: "Keeps the short script essentially as is in prompter format, does not add jokes, extra lines or new calls to action, and gives a timing estimate."}

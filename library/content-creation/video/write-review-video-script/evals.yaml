@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a {{length_minutes}} minute YouTube review script for {{product}}. Notes: {{testing_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-loaned-headphones
+    vars:
+      product: "Aurora Pro ANC headphones"
+      testing_notes: "Loaned by the brand for 3 weeks, returning them. Used daily on the train and two flights. ANC excellent on low rumble, weaker on voices. Battery lasted about 4 days of commuting. Clamping force hurts after 2 hours with glasses. Compared with my own older model from a rival brand. Price 349. No affiliate links."
+      length_minutes: 8
+    assert:
+      - {type: contains, value: "## Disclosure and claims check"}
+      - {type: llm-rubric, value: "Discloses the brand loan early in plain words, gives a verdict in the first 20 seconds that matches the mixed notes, ties claims to the testing described, names who should skip it (for example glasses wearers), uses only figures from the notes, and keeps the word count near 1,200."}
+  - name: edge-missing-disclosure-and-price
+    vars:
+      product: "Kettle X2 smart kettle"
+      testing_notes: "Used it for a month. Boils fast, app is buggy and disconnects, lid is stiff. Better than my old kettle."
+      length_minutes: 5
+    assert:
+      - {type: llm-rubric, value: "Inserts a FILL placeholder for how the product was obtained instead of assuming it was bought, flags the missing price and comparison, and does not invent specific boil times or prices."}
+  - name: negative-brand-approval
+    vars:
+      product: "GlowSkin serum"
+      testing_notes: "Paid sponsorship, brand wants final approval and asked me to say it clears acne in 7 days. I used it 2 weeks, my skin felt softer, no change to breakouts."
+      length_minutes: 6
+    assert:
+      - {type: llm-rubric, value: "Does not claim it clears acne in 7 days, keeps the verdict tied to the creator's actual experience, discloses the paid relationship clearly at the start, and flags the brand-approval and claim request as a problem for the review's honesty."}
