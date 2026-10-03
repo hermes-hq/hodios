@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Translate this menu into {{target_languages}}: {{menu}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trattoria-two-languages
+    vars:
+      target_languages: "English, German"
+      cuisine: "Roman trattoria"
+      menu: |
+        PRIMI
+        Cacio e pepe — tonnarelli, pecorino romano, pepe nero (1, 3, 7) — 12 €
+        Trofie al pesto — basilico, pinoli, parmigiano — 13 €
+        SECONDI
+        Saltimbocca alla romana — vitello, prosciutto crudo, salvia, vino bianco (7, 12) — 18 €
+        Allergeni: 1 glutine, 3 uova, 7 latte, 12 solfiti
+    assert:
+      - {type: contains, value: "## Name table"}
+      - {type: llm-rubric, value: "Keeps Cacio e pepe, Trofie al pesto and Saltimbocca alla romana as original names with appetising English and German descriptions, applies the same decision in both languages, keeps prices and allergen numbers, and translates the allergen legend (gluten/Gluten, eggs/Eier, milk/Milch, sulphites/Sulfite)."}
+      - {type: llm-rubric, value: "Does not add allergen numbers to the pesto dish, but lists it in the questions for the kitchen because pine nuts (nuts) and parmigiano (milk) and possibly gluten in trofie are unmarked, and includes the line that the restaurant is responsible for allergen accuracy."}
+  - name: edge-japanese-target
+    vars:
+      target_languages: Japanese
+      menu: "Fish and chips — beer-battered haddock, triple-cooked chips, mushy peas, tartare sauce — £16"
+    assert:
+      - {type: llm-rubric, value: "Writes the menu in Japanese script with a natural description (for example フィッシュ・アンド・チップス), keeps the price in pounds, and lists likely unmarked allergens (gluten, fish, egg in tartare sauce) as questions rather than adding them."}
+  - name: negative-missing-description
+    vars:
+      target_languages: Spanish
+      menu: "House special — 22 €"
+    assert:
+      - {type: llm-rubric, value: "Translates the name (for example 'Especialidad de la casa') without inventing ingredients, and asks the kitchen what the dish contains."}

@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Translate this recipe into {{target_language}}: {{recipe}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-cookies-to-german
+    vars:
+      target_language: German
+      target_region: Germany
+      units: metric
+      recipe: |
+        Chocolate Chip Cookies (makes 24)
+        2 1/4 cups all-purpose flour
+        1 tsp baking soda
+        1 cup (2 sticks) butter, softened
+        3/4 cup granulated sugar
+        3/4 cup packed brown sugar
+        2 large eggs
+        2 cups semisweet chocolate chips
+        Preheat oven to 375°F. Cream butter and sugars, beat in eggs, stir in flour and baking soda, fold in chips. Bake 9 to 11 minutes.
+    assert:
+      - {type: contains, value: "## Conversions"}
+      - {type: llm-rubric, value: "Converts cups to grams with stated densities (flour about 280 g, butter about 227 g), gives 375°F as about 190 °C with a fan setting around 170 °C, and localises flour to Type 405 and baking soda to Natron."}
+      - {type: llm-rubric, value: "Flags brown sugar and semisweet chocolate chips as items to check with German substitutes (for example brauner Zucker or Rohrzucker, chopped Zartbitterschokolade), and does not change any ratio."}
+  - name: edge-uk-cornflour-to-us
+    vars:
+      target_language: English
+      target_region: "United States"
+      units: us
+      recipe: "Custard: 500 ml whole milk, 4 egg yolks, 75 g caster sugar, 2 tbsp cornflour, 1 tsp vanilla extract. Heat the milk, whisk yolks, sugar and cornflour, combine and cook until thick."
+    assert:
+      - {type: llm-rubric, value: "Translates UK 'cornflour' to US 'cornstarch' and 'caster sugar' to superfine sugar (or granulated as a substitute), converts metric to US units, and notes that the source is British English."}
+  - name: negative-missing-temperature
+    vars:
+      target_language: French
+      recipe: "Banana bread: 3 bananas, 1 can condensed milk, 2 cups flour, 1 tsp baking powder. Mix and bake until done."
+    assert:
+      - {type: llm-rubric, value: "States an assumed can size and does not invent an oven temperature or baking time; it marks them as missing and asks."}

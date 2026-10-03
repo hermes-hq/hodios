@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Translate this script into {{target_language}} for dubbing: {{script}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lip-sync-close-up
+    vars:
+      target_language: "Spanish (Spain)"
+      script: |
+        [00:01:10 CU] MAYA: Promise me. Promise you'll be back by morning.
+        [00:01:14 OFF] TOM: I promise.
+        [00:01:16 CU] MAYA: (nods) Then go. Before I change my mind.
+    assert:
+      - {type: contains, value: "## Adapted script"}
+      - {type: llm-rubric, value: "Keeps speakers, order and timecodes, gives syllable counts for source and target per line, and on Maya's close-up lines places labial sounds or open vowels where the English has them (for example near 'Promise' and 'morning') or explains the trade-off."}
+      - {type: llm-rubric, value: "Tom's off-screen line is short and natural, the nod is matched with an affirmative word, and the Spanish sounds like spoken Spain Spanish rather than written prose."}
+  - name: edge-voice-over-documentary
+    vars:
+      target_language: German
+      timing_info: "Voice-over for a documentary interview; original audio stays underneath. Line 1 runs 6 seconds, line 2 runs 4 seconds."
+      script: |
+        1. FARMER: We've been growing rice on this land for four generations, you know.
+        2. FARMER: The rain just doesn't come when it used to.
+    assert:
+      - {type: llm-rubric, value: "Uses voice-over mode (no lip-sync constraints), keeps the German lines shorter than the source so they can start after and end before the original, and keeps a natural first-person spoken style."}
+  - name: negative-no-speakers
+    vars:
+      target_language: French
+      script: "Where were you? Out. Out where? Just out, okay? Don't lie to me."
+    assert:
+      - {type: llm-rubric, value: "Notes that speaker turns are not marked and asks for them (or for the video timing) before producing a final adaptation, rather than silently guessing who says what."}

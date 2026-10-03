@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Check this translation against the source. Source: {{source_text}} Translation: {{translation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-consent-modality-shift
+    vars:
+      purpose: "Consent form for a research study, read by adult participants in Mexico."
+      source_text: "Taking part is voluntary. You may stop at any time without giving a reason. Some participants may experience mild headaches."
+      translation: "Su participación es obligatoria. Puede detenerse en cualquier momento dando una razón. Los participantes tendrán dolores de cabeza leves."
+    assert:
+      - {type: contains, value: "## Discrepancies"}
+      - {type: llm-rubric, value: "The literal back-translation exposes 'participation is obligatory', 'stop ... giving a reason' and 'participants will have mild headaches', and all three are rated critical (voluntariness reversed, condition added, possibility turned into certainty)."}
+      - {type: llm-rubric, value: "Proposes corrected Spanish for each (for example 'Su participación es voluntaria', 'sin dar ninguna razón', 'Algunos participantes podrían tener') with back-translations, and states that a human back-translation is still needed for a real study."}
+  - name: edge-survey-scale
+    vars:
+      purpose: "Employee engagement survey, 5-point agreement scale, results compared across countries."
+      source_text: "I feel valued at work. (Strongly disagree / Disagree / Neither agree nor disagree / Agree / Strongly agree)"
+      translation: "Ich fühle mich bei der Arbeit geschätzt. (Stimme gar nicht zu / Stimme nicht zu / Weiß nicht / Stimme zu / Stimme voll und ganz zu)"
+    assert:
+      - {type: llm-rubric, value: "Flags that the midpoint 'Weiß nicht' back-translates as 'Don't know', which is not a neutral scale point, rates it as major or critical for cross-country comparability, and suggests 'Weder noch' or 'Teils/teils'."}
+  - name: negative-mismatched-texts
+    vars:
+      source_text: "Please keep this door closed at all times."
+      translation: "Prière de ne pas fumer dans le bâtiment."
+    assert:
+      - {type: llm-rubric, value: "Back-translates the French as 'Please do not smoke in the building', states that it does not correspond to the source, and stops rather than producing a full severity analysis of unrelated texts."}
