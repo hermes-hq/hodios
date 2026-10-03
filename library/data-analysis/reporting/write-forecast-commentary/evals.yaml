@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write commentary for this forecast: {{forecast}} Previous: {{previous_forecast}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-reforecast
+    vars:
+      forecast: "Full-year revenue forecast (October reforecast): 18.6m. Budget 19.0m. Actuals Jan-Sep 13.5m versus 13.8m forecast for those months in July: new business below plan in Q3 (-0.4m), price increase landed better than expected (+0.1m). Q4: two enterprise deals worth 0.3m moved to Q1 next year. Churn assumption improved, adding 0.2m in Q4. A 0.25m one-off professional services project was added. Risk: a key customer (0.5m annual) is reviewing its contract, 30% chance of loss, would hit 0.1m this year. Opportunity: a partnership deal could add 0.2m, 25% likely."
+      previous_forecast: "July forecast: full year 18.75m."
+    assert:
+      - {type: contains, value: "## Forecast bridge"}
+      - {type: llm-rubric, value: "Builds a bridge from 18.75m to 18.6m that sums exactly (actuals variance -0.3m comprising -0.4m and +0.1m, timing -0.3m, churn +0.2m, one-off +0.25m), labels the deal slip as timing and the services project as one-off, quantifies the customer risk and partnership opportunity with likelihoods into a range, states the gap to budget of 0.4m, and lists decisions needed."}
+  - name: edge-no-previous
+    vars:
+      forecast: "First forecast of the year for a restaurant group: 6.1m revenue, 0.48m EBITDA. Budget was 6.4m revenue and 0.62m EBITDA. Two of nine sites opened 3 months late. Food cost inflation running at 7% vs 4% budgeted."
+      previous_forecast: ""
+    assert:
+      - {type: llm-rubric, value: "Compares with budget because there is no previous forecast and says so, attributes the gap to the late openings (timing or volume) and food cost inflation (rate), shows a bridge that sums to the stated differences or flags missing amounts needed to complete it, and avoids vague drivers."}
+  - name: negative-inconsistent-numbers
+    vars:
+      forecast: "New forecast 10.0m. Changes: volume +0.5m, price +0.2m, timing -0.1m."
+      previous_forecast: "Previous forecast 9.0m."
+    assert:
+      - {type: llm-rubric, value: "Notices the listed changes sum to +0.6m while the forecast moved by +1.0m, flags the unexplained 0.4m instead of hiding it, and asks for the missing driver before finalising the bridge."}

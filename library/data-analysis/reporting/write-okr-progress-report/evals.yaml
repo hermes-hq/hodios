@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an OKR progress update. OKRs: {{okrs}} Progress: {{progress_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-quarter
+    vars:
+      okrs: "Objective: Make onboarding effortless. KR1: Raise week-1 activation from 32% to 45% (aspirational). KR2: Cut median time to first project from 3 days to 1 day (committed). KR3: Reduce onboarding support tickets from 400 to 250 per month (committed). Quarter is 13 weeks."
+      progress_data: "Week 8 check-in. KR1: 37% (was 35% at week 4). KR2: 2.2 days (was 2.8). KR3: 390 per month (was 395); owner says the help-centre rewrite is blocked waiting for legal review of the new privacy wording. Team also launched a new welcome email series and redesigned the signup page."
+    assert:
+      - {type: contains, value: "## Blockers and asks"}
+      - {type: llm-rubric, value: "Computes baseline-adjusted progress (KR1 about 0.38, KR2 0.4, KR3 about 0.07), compares with about 62% of the quarter elapsed to show all are behind pace with KR3 off track, keeps the email series and signup redesign as reasons rather than progress, turns the legal review into an ask with an owner and date, and keeps confidence separate from progress."}
+  - name: edge-missing-baseline
+    vars:
+      okrs: "Objective: Grow the partner channel. KR1: Reach 120 active partners (committed). KR2: Partner-sourced revenue of 1.5m this half (aspirational)."
+      progress_data: "KR1: 95 active partners now. KR2: 0.6m so far, end of month 4 of 6. We didn't record how many active partners we had at the start of the half."
+    assert:
+      - {type: llm-rubric, value: "Flags that KR1 cannot be scored properly without a baseline and asks for or suggests reconstructing it, shows the current value meanwhile, computes KR2 progress as 0.4 against about 67% of time elapsed and marks it behind pace, and does not divide 95 by 120 and present 79% as progress without caveat."}
+  - name: negative-activity-only
+    vars:
+      okrs: "Objective: Improve customer retention. KR1: Reduce monthly churn from 3.0% to 2.2%."
+      progress_data: "We held 14 customer interviews, launched a loyalty programme and hired a customer success lead. Everything is green!"
+    assert:
+      - {type: llm-rubric, value: "Points out that no current churn figure was provided, so progress on the key result cannot be scored and should not be reported as green, lists the activities as inputs not outcomes, and asks for the latest churn value."}

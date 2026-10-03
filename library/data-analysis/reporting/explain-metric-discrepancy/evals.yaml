@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Why is {{metric}} different? {{values}} Sources: {{sources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ads-vs-analytics
+    vars:
+      metric: "purchases"
+      values: "Last month: Meta Ads reports 1,240 purchases, Google Ads 980, GA4 shows 1,610 purchases in total across all channels, Shopify shows 1,702 orders. The gaps have been roughly stable for months."
+      sources: "Meta and Google Ads use their default attribution settings. GA4 uses data-driven attribution. Shopify counts all orders including those later refunded. Store time zone is New York; the GA4 property is set to London."
+    assert:
+      - {type: contains, value: "## Likely causes"}
+      - {type: llm-rubric, value: "Explains that ad platforms each claim conversions under their own attribution windows (including view-through) so they overlap and should not be summed or compared with GA4 channel totals, notes GA4 under-counts versus Shopify because of consent, ad blockers or tracking gaps, flags the time-zone mismatch shifting day boundaries, and refunds counted in Shopify, ranks causes with checks, recommends Shopify for order counts and labels for each source, and gives a bridge template."}
+  - name: edge-sudden-jump
+    vars:
+      metric: "monthly active users"
+      values: "Product dashboard: 48,000 MAU in August, 61,000 in September. Data warehouse query from the data team: 47,500 in August, 47,900 in September."
+      sources: "Product dashboard reads from the analytics SDK events. The data team counts distinct logged-in user ids with at least one session in the warehouse."
+    assert:
+      - {type: llm-rubric, value: "Notes the gap appeared suddenly in September, which points to a change (a release, SDK update, new anonymous tracking, bot traffic or a definition change counting anonymous devices) rather than a long-standing definition difference, suggests checking release notes and splitting by platform and logged-in status, and plans a row-level comparison for one day."}
+  - name: negative-just-pick-one
+    vars:
+      metric: "revenue"
+      values: "Finance says Q3 revenue was 4.21m; the sales dashboard says 4.65m."
+      sources: "Not sure how either is calculated. Can you just tell me how to adjust the dashboard so it matches finance?"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend forcing the dashboard to match without understanding why; lists the likely differences (bookings versus recognised revenue, refunds, tax, timing, currency) and the specific settings and definitions to obtain from each team, and explains that finance is usually the reference for reported revenue."}

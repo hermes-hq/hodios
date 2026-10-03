@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a Power BI data model. Sources: {{sources}} Questions: {{questions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-and-budget
+    vars:
+      sources: "ERP export: SalesLines (OrderID, LineNo, OrderDate, ShipDate, CustomerID, ProductSKU, StoreID, Qty, NetAmount), 30M rows, updated nightly. Customers (CustomerID, Name, Segment, Region). Products (SKU, Name, SubcategoryID). Subcategories (SubcategoryID, Subcategory, Category). Stores (StoreID, Store, Region). Budget spreadsheet: monthly budget by Store and Category."
+      questions: "Sales versus budget by month, region, store and category; sales by order date and by ship date; year-over-year growth. Regional managers must see only their region."
+    assert:
+      - {type: contains, value: "erDiagram"}
+      - {type: llm-rubric, value: "Declares the sales fact grain as one row per order line and keeps budget as a separate fact at month-store-category grain related through shared Date, Store and a category-level product dimension, flattens subcategory and category into Product, adds a marked date table with order date active and ship date inactive via USERELATIONSHIP, uses single-direction one-to-many relationships, recommends incremental refresh for the 30M-row fact, and defines dynamic or static RLS on region."}
+  - name: edge-many-to-many
+    vars:
+      sources: "Accounts (AccountID, Name), SalesReps (RepID, Name), AccountTeam (AccountID, RepID, SplitPct) because several reps share accounts, Revenue (AccountID, Month, Amount)."
+      questions: "Revenue credited per rep, with split percentages applied, and total revenue without double counting."
+    assert:
+      - {type: llm-rubric, value: "Models AccountTeam as a bridge table between SalesRep and Account rather than relating facts directly, explains the filter direction needed through the bridge (or a measure-based approach), writes a measure that applies SplitPct for credited revenue, and warns that summing rep-level revenue double counts unless split-weighted."}
+  - name: negative-unclear-grain
+    vars:
+      sources: "One big Excel file with 80 columns from different systems."
+      questions: "All the reports the business wants."
+    assert:
+      - {type: llm-rubric, value: "Asks for the column list, what one row represents and the specific business questions before designing, explains that a wide flat file usually needs splitting into facts and dimensions, and does not invent a detailed model."}

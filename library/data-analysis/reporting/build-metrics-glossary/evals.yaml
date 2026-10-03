@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Create a metrics glossary for these metrics: {{metrics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-metrics
+    vars:
+      metrics: "MRR (finance: sum of active subscription fees normalised to monthly, excluding one-off fees; sales dashboard includes signed-but-not-started contracts). Active users (product: users with any event in last 28 days; customer success: users who logged in this calendar month). Churn rate (finance: MRR lost / starting MRR; CS calls it 'logo churn' and counts accounts). NRR. CAC (marketing owns, formula unknown). Trial conversion rate."
+    assert:
+      - {type: contains, value: "## Conflicts and duplicates"}
+      - {type: llm-rubric, value: "Splits homonyms into separately named metrics (MRR versus contracted or committed MRR; product 28-day active users versus monthly logged-in users; revenue churn versus logo churn), recommends canonical definitions while leaving decisions to owners, fills each entry with grain, exclusions, source and owner, marks CAC's formula and other unknowns as TBD with questions rather than inventing them, tiers the metrics, and proposes governance."}
+  - name: edge-semantic-layer
+    vars:
+      metrics: "We use a semantic layer. Certify these: Orders (count of distinct order_id from fct_orders where status not in ('test','cancelled')), Gross merchandise value (sum of order_total in EUR before refunds), Average order value (GMV / Orders). Owner: commerce analytics. Timezone: Europe/Berlin."
+    assert:
+      - {type: llm-rubric, value: "Writes complete glossary entries using the given SQL logic, defines average order value as a ratio of the two certified metrics rather than an average of per-order values at another grain, includes neutral YAML blocks per metric with expression, filters, time dimension and owner, and notes caveats such as refunds being excluded from GMV."}
+  - name: negative-names-only
+    vars:
+      metrics: "Revenue, users, engagement, retention, NPS."
+    assert:
+      - {type: llm-rubric, value: "Builds entry skeletons and conventions but marks formulas, sources and owners as TBD rather than inventing definitions, flags that terms like engagement and users are ambiguous and need qualifiers, and lists targeted questions for owners."}
