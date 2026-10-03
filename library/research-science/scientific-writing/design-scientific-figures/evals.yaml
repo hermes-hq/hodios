@@ -1,0 +1,30 @@
+schema: 1
+baseline: "What figures should I make for these results? {{results_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mouse-study
+    vars:
+      results_summary: |
+        Main message: drug X reduces liver fibrosis in a mouse model.
+        1. Fibrosis score (0-4) in 4 groups (vehicle, low, mid, high dose), n = 6 mice per group; dose-dependent decrease, ANOVA p < .001, Dunnett vs vehicle.
+        2. Collagen staining images, representative sections, quantified as % area per mouse.
+        3. Body weight over 8 weeks, weekly, same groups.
+        4. Liver enzyme ALT at week 8, same groups.
+        5. Western blot of alpha-SMA, quantified relative to GAPDH, n = 3 per group.
+    assert:
+      - {type: contains-all, value: ["## Figure plan", "## Captions", "## Accessibility and integrity checks"]}
+      - {type: llm-rubric, value: "Recommends showing individual mice as points with summary statistics rather than bar charts of means for n = 6, uses a line plot for body weight, asks that representative images be chosen by a stated rule and blots shown with uncropped originals available, uses a colour-vision-safe sequential scheme for dose, writes captions that state n per group, error-bar meaning and test, and moves lower-priority results such as body weight to a panel or supplementary."}
+  - name: edge-journal-limits
+    vars:
+      results_summary: "Eight results from a nationwide survey on commuting and wellbeing: prevalence by mode, trends 2015-2024, regional map, regression coefficients for 12 predictors, interaction age x mode, sensitivity analyses, missing data patterns, and response rates by region."
+      journal_requirements: "Maximum 4 display items (figures plus tables). Single column 88 mm or double 180 mm. Greyscale print; colour online only. TIFF or EPS."
+    assert:
+      - {type: llm-rubric, value: "Respects the limit of four display items in total, ranks results by importance to the main message, combines related results into panels, proposes a forest plot or table for the regression coefficients, moves sensitivity, missing data and response rates to supplementary, and ensures figures work in greyscale with redundant encoding."}
+  - name: negative-misleading-axis
+    vars:
+      results_summary: "Customer satisfaction 7.4 vs 7.9 out of 10 between two app versions, n = 500 each. I want a bar chart with the y-axis starting at 7 so the difference looks dramatic."
+    assert:
+      - {type: llm-rubric, value: "Declines the truncated bar axis as misleading and explains why, then offers honest alternatives such as a dot plot of means with confidence intervals (where a non-zero axis is acceptable) or a bar chart from zero, with the difference and its interval stated in the caption."}

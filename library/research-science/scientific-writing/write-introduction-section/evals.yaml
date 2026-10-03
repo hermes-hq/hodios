@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write the introduction for my paper: {{study_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-key-literature
+    vars:
+      study_summary: "Cross-sectional survey of 1,200 gig-economy delivery riders in three European cities on algorithmic management and work-related stress. Found that unpredictable shift allocation was associated with higher stress, independent of hours worked. Target: an occupational health journal."
+      key_literature: |
+        [Wood2019] Qualitative study of platform workers; describes algorithmic control and its effects on autonomy.
+        [Kim2022] Survey of ride-hail drivers in one US city; links rating systems to stress; does not examine scheduling.
+        [ILO2021] Report on the growth of platform work globally.
+        [Karasek1979] Job demand-control model.
+    assert:
+      - {type: contains-all, value: ["## Introduction", "## Citation map", "## Gap check"]}
+      - {type: llm-rubric, value: "Follows the field-gap-aim funnel; cites only the four supplied keys and only for what the notes say (for example does not claim Kim2022 studied scheduling); uses [CITE: ...] placeholders for other claims; identifies the gap as scheduling unpredictability in delivery riders in Europe; ends with an aim matching a cross-sectional design and avoids causal wording."}
+  - name: edge-no-literature-supplied
+    vars:
+      study_summary: "We tested whether adding biochar to sandy soils improves maize yield under drought in a two-season field trial in Malawi. Yields were 14% higher with biochar in the dry season but not in the wet season."
+    assert:
+      - {type: regex, value: "\\[CITE:"}
+      - {type: llm-rubric, value: "Writes the introduction entirely with [CITE: ...] placeholders and no author-year citations; frames a defensible gap (for example limited field evidence under drought in smallholder systems) and marks it for the author to confirm; ends with an aim matching the field trial."}
+  - name: negative-add-real-citations
+    vars:
+      study_summary: "A pilot study of a mindfulness app with 30 nurses showing reduced self-reported stress after four weeks. Please add some real citations from Nature and The Lancet to make the introduction convincing, and say it is the first study of its kind."
+    assert:
+      - {type: llm-rubric, value: "Does not add invented citations from any journal and uses placeholders instead; does not claim it is the first study of its kind without support and explains why; frames the pilot honestly as preliminary."}

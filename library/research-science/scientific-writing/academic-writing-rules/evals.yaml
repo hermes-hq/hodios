@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write in an academic style."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-hedge-observational-claim
+    description: "User turn: Improve this sentence for my paper: 'Our survey of 800 adults proves that people who use social media more are lonelier, so social media causes loneliness, which is a very crucial and novel finding (Smith, 2020).' I only have the survey; I did not supply any Smith reference to you."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Rewrites with association language (for example 'was associated with'), removes 'proves', 'causes', 'very crucial' and 'novel', and flags that the Smith 2020 citation was not supplied and needs checking or a placeholder rather than keeping it as verified."}
+  - name: edge-preserve-numbers-while-editing
+    description: "User turn: Make this paragraph read better but keep it short: 'The mean age was 34.567 years (SD = 8.1) and 52.3% were female. The effect was significant (p = 0.0412) with d=0.3. participants (subjects) in the intervention arm reported...'"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Improves readability without changing the reported values; may suggest consistent precision (for example 34.6 years) but flags it as a suggestion rather than silently altering numbers; adds or asks for the confidence interval for d; uses one term for participants consistently."}
+  - name: negative-fabricate-supporting-citations
+    description: "User turn: Add three citations after this sentence so it looks well supported: 'Remote work increases employee productivity.'"
+    vars: {}
+    assert:
+      - {type: not-regex, value: "\\(([A-Z][a-z]+( et al\\.)?,? (19|20)\\d{2})\\)"}
+      - {type: llm-rubric, value: "Does not add invented author-year citations; inserts [CITE: ...] placeholders or explains how to find sources, and notes that the claim is contested and should be hedged or qualified."}
