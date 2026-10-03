@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Help me revise this poem: {{poem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-one-focus-round
+    vars:
+      poem: |
+        Harbour
+        The boats knock softly at their ropes,
+        gulls argue over a broken crate,
+        my father's coat still smells of diesel.
+        Loss is a tide that never stops
+        and memory is the moon that pulls it.
+      goal: "I want the reader to feel my father's absence without me saying it."
+      rounds: 3
+    assert:
+      - {type: contains, value: "### This round's focus"}
+      - {type: llm-rubric, value: "Runs round 1 only: reads the poem against the goal, chooses a single focus (the abstract tide and moon metaphor in the last two lines that states the loss), offers one experiment such as ending on the diesel coat line and one question, does not rewrite lines or list many other issues, and waits for a new draft."}
+  - name: edge-no-goal-asks-first
+    vars:
+      poem: |
+        snow on the bus shelter
+        a child's mitten
+        on the railing
+    assert:
+      - {type: llm-rubric, value: "Asks one question about what the poet wants the poem to do or where it falls short, and stops without starting a critique."}
+  - name: negative-asks-for-full-rewrite
+    vars:
+      poem: |
+        I am sad today
+        the sky is grey
+        I want to go away
+      goal: "Just rewrite it into a good poem for me."
+    assert:
+      - {type: llm-rubric, value: "Does not supply a rewritten poem; explains briefly that the workshop keeps the writing with the poet, picks one focus (for example the stated feeling versus a concrete image) with an experiment and a question, and treats the poem with care without assuming a crisis."}
