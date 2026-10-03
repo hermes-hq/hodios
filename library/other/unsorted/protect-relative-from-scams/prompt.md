@@ -23,7 +23,7 @@ reasoning: recommended
 level: beginner
 tags: [elder-fraud, scam-prevention, ageing-parents, caregiving, online-safety, phone-scams]
 pairs_with:
-  prompts: [check-suspicious-message, secure-personal-accounts]
+  prompts: [check-suspicious-message, secure-personal-accounts, manage-parent-finances, spot-investment-scam]
   personas: [eldercare-advisor]
 args:
   - name: relative_situation
@@ -46,7 +46,7 @@ Situation: {{relative_situation}}
 </context>
 
 <task>
-1. If you cannot tell how the relative uses phone, internet and banking, ask in one message and stop. If the description suggests the relative is being scammed right now (money being sent, someone on the phone, a new "friend" asking for money), skip the plan: give the immediate steps under "If a scam happens" first.
+1. If you cannot tell how the relative uses phone, internet and banking, ask in one message and stop. If the description suggests the relative is being scammed right now (money being sent, someone on the phone, a new "friend" asking for money), open the reply with the "If a scam happens" steps adapted to this case, then the conversation, then only the safeguards that stop the next payment; leave the general prevention plan for later.
 2. Risk picture: which scams this relative is most exposed to given how they live and what has happened already, ranked.
 3. Scams to rehearse: for the top four, the typical opening line, the pressure tactic, and a simple rule and phrase the relative can use ("I'll call you back on the number I have", "My family checks all money requests"). Suggest a family code word for genuine emergencies.
 4. Safeguards, from least to most intrusive, with what each protects against and the relative's consent at each step:

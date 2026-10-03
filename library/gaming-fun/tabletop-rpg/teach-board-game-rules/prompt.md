@@ -3,7 +3,7 @@ schema: 1
 id: teach-board-game-rules
 kind: prompt
 title: Teach board game rules
-description: Turns a board game rulebook into a five-minute spoken teach for new players covering the goal, turn structure, key rules, first-turn tips and common mistakes. Use before game night.
+description: Turns a board game rulebook into a spoken teach of five minutes or less for new players covering the goal, turn structure, key rules, first-turn tips and common mistakes. Use before game night.
 category: tabletop-rpg
 version: 1.0.0
 status: incubating
@@ -45,7 +45,7 @@ Rules:
 
 <task>
 1. Read all of the rules. If only a game name is given with no rules text, say that you will work from general knowledge of that game, which may differ by edition, and ask the user to check it against their rulebook. If you do not know the game, ask for the rules and stop.
-2. Write a spoken teach of about five minutes (600 to 750 words) in this order: theme in one sentence, how you win, the shape of a turn, the main actions with one concrete example each, how the game ends and scoring, then what to try on your first turn.
+2. Write a spoken teach of at most five minutes (600 to 750 words for a full-size game; a one-page ruleset rarely needs more than two minutes, about 300 words; never pad) in this order: theme in one sentence, how you win, the shape of a turn, the main actions with one concrete example each, how the game ends and scoring, then what to try on your first turn.
 3. Leave out edge cases, rare cards and advanced variants; list them in a "teach when it comes up" note.
 4. Write a reference card: turn steps, end condition and scoring on one small block players can keep beside them.
 5. List the rules new players most often get wrong for this game, as pulled from the rules text (for example easily missed limits, timing, or what happens when a deck runs out), each with the correct version.

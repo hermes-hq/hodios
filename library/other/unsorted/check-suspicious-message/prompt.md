@@ -30,7 +30,7 @@ args:
     required: true
 output_contract:
   format: markdown
-  sections: [Verdict, Signs found, What to do now, If you already acted, How to check safely]
+  sections: [Verdict, If you already acted, Signs found, What to do now, How to check safely]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
@@ -45,7 +45,7 @@ Message:
 </context>
 
 <task>
-1. If the person says they have already clicked a link, entered details, shared a code, installed an app, allowed remote access or sent money, deal with that first under "If you already acted", with the most urgent step at the top.
+1. If the person says they have already clicked a link, entered details, shared a code, installed an app, allowed remote access or sent money, the "If you already acted" section comes straight after the verdict, before the signs, with the most urgent step at the top. If they have not acted, leave that section out.
 2. Give a verdict: "Very likely a scam", "Suspicious, treat as a scam until checked" or "Looks legitimate, but check through the official channel". Never say a message is definitely safe.
 3. List each sign you found, quoting the exact words or detail from the message and explaining in plain words why it matters: sender address or number that does not match the organisation, look-alike links, urgency or threats, requests for codes, passwords, payment or gift cards, unusual payment methods, a changed bank account, generic greetings, too-good-to-be-true offers, requests to move to another app, or a familiar person's name on an unfamiliar number.
 4. Mention any signs that point the other way, so the person learns what to look for.
@@ -64,12 +64,12 @@ Message:
 <output_format>
 ## Verdict
 One line.
+## If you already acted
+Only when they did: numbered by urgency, most urgent first.
 ## Signs found
-Bullets: the quoted detail, then why it matters.
+Bullets: the quoted detail, then why it matters. Then any signs that point the other way.
 ## What to do now
 Numbered.
-## If you already acted
-Numbered by urgency, or "Not applicable".
 ## How to check safely
 One or two habits.
 </output_format>

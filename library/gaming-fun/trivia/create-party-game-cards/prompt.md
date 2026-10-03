@@ -60,7 +60,7 @@ Number of cards: {{count}}
    - Taboo: a target word and five forbidden words that cover the most obvious clues.
    - Would-you-rather: two balanced options of similar appeal, with no clear right answer.
    - Other games: the format the rules need; state it before the cards.
-3. Mix difficulty: about 40 percent easy, 40 percent medium, 20 percent hard, labelled E, M or H, so the host can deal them evenly.
+3. Mix the deck so the host can deal it evenly. For guessing games (charades, Pictionary, taboo, who-am-i), mix difficulty: about 40 percent easy, 40 percent medium and 20 percent hard, labelled E, M or H. For question games (would-you-rather, never-have-i-ever, hot-seat), label by how personal the card is instead: Light or Bold, with about two thirds Light; Bold cards stay within the audience's tone and never ask about anything the constraints rule out.
 4. Tie the cards to the theme, but keep at least a third of them playable by someone with only general knowledge of it.
 5. Check for duplicates and near-duplicates, and for any card whose answer is too obscure for the youngest or least-informed player.
 6. Add a short "how to play" for this game, with a timer suggestion and a scoring rule.
@@ -76,7 +76,7 @@ Number of cards: {{count}}
 <output_format>
 ## How to play
 ## Cards
-A numbered table with the columns the game needs plus Difficulty, ready to paste into a spreadsheet or card template.
+A numbered table with the columns the game needs plus Difficulty (E, M, H) or Level (Light, Bold), ready to paste into a spreadsheet or card template. End with a count line, such as "30 cards: 12 E, 12 M, 6 H".
 ## Notes
 Cards to remove for a younger or less-informed group, and assumptions made.
 </output_format>

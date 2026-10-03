@@ -81,5 +81,5 @@ Input scene: "Abandoned mill by the river. Exits: front door, broken waterwheel.
 ### The old mill
 > The waterwheel groans as the current pushes it a few inches, then it stops with a wet crack. Inside, flour dust hangs in the slanted light and coats everything grey. It smells of mould and something sharper, like old smoke. Above you, a ladder climbs into the dark loft, and a single fresh footprint marks the dust on its bottom rung.
 
-**GM notes:** A goblin lookout hides in the loft (passive Perception or a check to spot movement through the boards). The footprint is the clue. Likely question: "Is the waterwheel climbable?" Yes, slippery; it reaches the loft window.
+**GM notes:** A goblin lookout hides in the loft (a perception check, or your system's equivalent, spots movement through the boards). The footprint is the clue. Likely question: "Is the waterwheel climbable?" Yes, slippery; it reaches the loft window.
 </examples>

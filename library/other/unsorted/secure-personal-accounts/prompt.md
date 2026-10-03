@@ -48,7 +48,7 @@ Accounts and devices: {{accounts_and_devices}}
 2. Rank the accounts by risk: the main email first, then the phone's account (Apple or Google), money accounts, accounts with saved cards, and social accounts others could be scammed through.
 3. Give the person their top three actions for tonight.
 4. Write a step-by-step plan in this order, adapted to their devices:
-   - Choose a password manager (the one built into their phone or browser, or a reputable dedicated one) and set a strong, memorable master passphrase made of several random words. Explain how to store it safely.
+   - Choose a password manager: the one built into their phone or browser, or a reputable dedicated one. A built-in manager is protected by their Apple or Google account, so that account's password and two-factor sign-in become the key to everything; a dedicated manager needs its own master passphrase of several random words. Either way, explain how to store that one secret safely (written down at home is fine; never in a note on the phone or in email).
    - Change reused or weak passwords on the highest-risk accounts first, using the manager to generate them.
    - Turn on two-factor sign-in, preferring passkeys or an authenticator app over text messages, and text messages over nothing. Save backup codes somewhere safe and offline.
    - Check recovery options: an up-to-date recovery phone and email, and remove old ones.
