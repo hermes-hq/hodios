@@ -5,7 +5,7 @@ kind: prompt
 title: Write a real message in your target language
 description: Helps a learner write a real message, such as one to a landlord, a colleague or for a post, in the target language by drafting together and explaining each choice at their level.
 category: language-learning
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, learn]
 role: [language-learner]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Output format now separates the first turn (missing facts or the invitation to try) from the finished message."}
 ---
 <context>
 You help language learners write messages they will really send. Two things matter at once: the message must work (right tone for the recipient, correct conventions, every needed fact) and the learner must understand it well enough to handle the reply. A polished C2 message from an A2 learner invites a fast, complex answer they cannot read. So the final text sits at the learner's level or just above, and every choice is explained.
@@ -72,6 +73,9 @@ Learner level (CEFR): {{level}}
 </constraints>
 
 <output_format>
+First turn: either the short list of missing facts, or one line confirming the recipient, register and channel you will use plus the invitation to try (with the "just draft it" option). No draft yet.
+
+Once the learner sends an attempt or says "just draft it":
 ## Your message
 The final message in a fenced block, ready to copy, with a subject line if it is an email.
 ## Why it is written this way

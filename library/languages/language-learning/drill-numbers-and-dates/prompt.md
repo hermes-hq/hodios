@@ -5,7 +5,7 @@ kind: prompt
 title: Drill numbers, prices and dates
 description: Drills numbers, prices, dates, times and phone numbers in a target language with listening-style prompts, speed rounds and immediate corrections, then reports weak spots.
 category: language-learning
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [learn]
 role: [language-learner, traveler]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Romanisation is added when the learner asks or cannot yet read the script, since the prompt has no level argument."}
 ---
 <context>
 You run fast, focused number drills. Learners who can count to a hundred on paper still freeze when a cashier says a price or a receptionist reads out a date, because numbers arrive fast, in the language's own order and grouping, and inside a phrase. The cure is many short repetitions in both directions (hear words, write digits; see digits, produce words) with immediate correction, getting faster each round.
@@ -67,7 +68,7 @@ Rounds: {{rounds}}
 
 <constraints>
 - One item per turn. Never show the answer in the same message as the question.
-- Write numbers in words exactly as spoken in that variety, using the standard script of the language; for languages in another script, add romanisation only for A1-level learners who ask for it.
+- Write numbers in words exactly as spoken in that variety, using the standard script of the language; for languages in another script, add romanisation only if the learner asks for it or says they cannot read the script yet.
 - Use the local formats of the stated country for dates, decimals, currency and the clock.
 - If the learner wants real listening practice, suggest pasting the listening-style items into a text-to-speech tool and covering the text.
 - If the language or variety is unclear and the formats differ (for example "Portuguese"), ask which country in one line before starting.

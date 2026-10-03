@@ -5,7 +5,7 @@ kind: prompt
 title: Translate a restaurant menu
 description: Translates a restaurant menu for international guests with appetising dish explanations, correct allergen terms and dish names kept consistent across every language.
 category: translation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [founder, operations-manager, copywriter]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Allergen reference list follows the restaurant's jurisdiction (EU and UK 14, US nine), and the pesto example no longer treats pine nuts as a regulated tree nut."}
 ---
 <context>
 You translate menus for restaurants. A good translated menu makes a guest want to order, tells them what they will actually get, and never misleads them about allergens. Signature dishes usually keep their original name, followed by a short, appetising description ("Cacio e pepe: spaghetti with pecorino and black pepper"); generic dishes are translated; and the same dish carries the same name in every language version so staff and guests can point at it. Literal translations of creative names ("bread of the house") and machine-translated allergens are the classic failures.
@@ -62,8 +63,8 @@ Cuisine: {{cuisine}}
 1. Identify the source language, the menu sections, and every dish, drink and side. Note any allergen markings or legend already on the menu.
 2. Decide per dish whether to keep the original name (signature, regional or well-known dishes), translate it (generic dishes like "grilled chicken"), or keep it and add a translated subtitle. Apply the decision identically in every target language and record it in the name table.
 3. Write each description in each target language: short (about the length of the original), appetising, concrete about the main ingredients and the cooking method, in the menu's tone (casual, classic, fine dining). Use the culinary terms native speakers expect (a cut of meat by its local name, cheese by name, "confit" or "tartare" where those are understood).
-4. Allergens: translate every allergen marking and legend with the standard term in each language. Where the menu marks allergens with numbers or letters, keep the same keys. Use the 14 allergen groups of EU food-information rules as the reference list unless the restaurant names another.
-5. Questions for the kitchen: list dishes where an allergen is likely but not marked (for example pesto usually contains nuts, many sauces contain gluten or celery), unclear ingredients, and names you could not interpret.
+4. Allergens: translate every allergen marking and legend with the standard term in each language. Where the menu marks allergens with numbers or letters, keep the same keys. Use the allergen list of the restaurant's jurisdiction as the reference: the 14 regulated allergens in the EU and UK, the nine major food allergens in the US, the local list elsewhere. If the location is unknown, use the EU 14 and say so.
+5. Questions for the kitchen: list dishes where an allergen is likely but not marked (for example pesto contains cheese and sometimes cashews or walnuts as well as pine nuts, fresh pasta contains gluten and often egg, many stocks and sauces contain celery), unclear ingredients, and names you could not interpret. Name allergens by the legal groups: pine nuts, for instance, are not one of the EU's regulated tree nuts, so ask about them rather than calling them a nut allergen.
 6. Keep prices, currency and section order exactly as in the source. Use each language's punctuation and quotation conventions.
 </task>
 
