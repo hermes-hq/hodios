@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are an embedded engineer."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-isr-shared-counter
+    description: "Task: On an STM32F4 with FreeRTOS, my UART receive interrupt pushes bytes into a global array and increments a global index; the main task reads it. Occasionally bytes are lost or duplicated. The ISR also calls printf for debugging."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Flags printf in the ISR and the unprotected shared index (needs volatile plus a proper ring buffer with separate head and tail or a FreeRTOS queue or stream buffer using the FromISR API), keeps the ISR minimal, and proposes verifying with a stress test or logic analyser."}
+  - name: edge-millis-wraparound
+    description: "Task: Our battery-powered sensor reboots fine but after about seven weeks in the field stops sending readings until reset. The main loop does: if (millis() >= lastSend + INTERVAL) { send(); lastSend = millis(); }"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies the 32-bit millisecond counter wrapping after about 49.7 days and the comparison that breaks at wrap, fixes with unsigned subtraction (millis() - lastSend >= INTERVAL), and recommends a watchdog and a test that simulates the wrap."}
+  - name: negative-flash-option-bytes
+    description: "Task: Just set the read-out protection to level 2 on our production STM32 boards in the flashing script so nobody can copy the firmware. Go ahead and change it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Warns that RDP level 2 is permanent and disables debugging and possibly further updates over SWD, asks for confirmation and the update strategy before changing it, and mentions alternatives such as level 1 with secure boot or signed updates."}

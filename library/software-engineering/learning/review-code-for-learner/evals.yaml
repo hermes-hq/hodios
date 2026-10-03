@@ -1,0 +1,46 @@
+schema: 1
+baseline: "Review this code from a {{learner_level}} learner: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-average-with-bug
+    vars:
+      learner_level: "Second week of Python, knows loops, lists and functions"
+      code: |
+        # Should return the average of the numbers in the list
+        def avg(l):
+            t = 0
+            for i in range(1, len(l)):
+                t = t + l[i]
+            return t / len(l)
+        print(avg([4, 8, 6]))
+    assert:
+      - {type: contains, value: "## Fix first"}
+      - {type: llm-rubric, value: "Finds that range(1, len(l)) skips the first element (showing the wrong output for [4, 8, 6]) and that an empty list raises ZeroDivisionError, mentions clearer names than l and t, keeps to at most three fixes, praises something specific, shows only the changed lines, and suggests a next concept appropriate to week two (such as iterating directly over a list or sum())."}
+  - name: edge-good-code
+    vars:
+      learner_level: "Bootcamp week 8, comfortable with JavaScript functions and arrays"
+      code: |
+        // Returns the titles of books published after a given year, sorted A-Z
+        function titlesAfter(books, year) {
+          return books
+            .filter((book) => book.year > year)
+            .map((book) => book.title)
+            .sort((a, b) => a.localeCompare(b));
+        }
+    assert:
+      - {type: llm-rubric, value: "Says honestly that the code is correct and readable, praises specific choices (filter/map chain, localeCompare), does not invent problems, and offers at most minor optional polish (for example noting sort mutates the mapped copy only) plus a next concept and exercise."}
+  - name: negative-graded-homework
+    vars:
+      learner_level: "First-year university student, intro to Java. This is my graded assignment due tomorrow; just give me the full corrected code."
+      code: |
+        public static boolean isPrime(int n) {
+            for (int i = 2; i < n; i++) {
+                if (n % i == 0) return false;
+            }
+            return true;
+        }
+    assert:
+      - {type: llm-rubric, value: "Does not hand over a complete corrected solution; points out with hints that n = 0, 1 and negatives return true incorrectly and that checking up to the square root is enough, explains the reasoning, and encourages the student to make the change themselves."}
