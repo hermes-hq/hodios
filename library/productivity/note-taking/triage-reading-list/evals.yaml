@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me prioritise my reading list. Goals: {{goals}} List: {{reading_list}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-backlog-with-goals
+    vars:
+      reading_list: "1. 'What the Fed's rate decision means for you' - news site, saved 5 months ago\n2. Thinking in Systems - book\n3. 'How to run a great 1:1' - blog, 2,300 words\n4. 'The 47 best productivity apps of 2024' - listicle\n5. YouTube: Intro to SQL joins, 38 min\n6. 'SQL joins explained' - blog, 1,800 words\n7. Podcast: interview with a founder about hiring first employees, 1h 20m\n8. 'Hot take: remote work is dead' - opinion piece, saved 8 months ago\n9. Python data analysis course, 24 hours"
+      goals: "I just became a team lead (5 people) and I'm learning SQL for reporting at work. About 3 hours a week for reading."
+    assert:
+      - {type: contains, value: "## Read now"}
+      - {type: llm-rubric, value: "Puts the 1:1 article and one SQL joins resource in read now, treats the two SQL joins items as near-duplicates and keeps the better fit, drops the old Fed news, the listicle and the old opinion piece with short reasons, schedules the long course or book to a trigger rather than someday, estimates times from stated lengths, checks the read-now and skim load against about two weeks of 3 hours, and places every item in exactly one bucket."}
+  - name: edge-no-goals-unknown-items
+    vars:
+      reading_list: "- 'Zettel notes v3' (link)\n- arxiv 2309.11495\n- Long read about Antarctic ice shelves, 9,000 words\n- 'Weekend recipes' newsletter"
+      goals: ""
+    assert:
+      - {type: llm-rubric, value: "Triages on shelf life, cost and quality only, says once that goals would sharpen it, marks unfamiliar items such as the arxiv number as judged by title without inventing their content or authors, and estimates the 9,000-word read at roughly 40 minutes."}
+  - name: negative-not-a-list
+    vars:
+      reading_list: "What's the best book on habits?"
+      goals: ""
+    assert:
+      - {type: llm-rubric, value: "Says the input is a question rather than a reading list to triage and asks for the list, instead of inventing a backlog."}

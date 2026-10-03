@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise this transcript. Purpose: {{purpose}}. {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-podcast-with-timestamps
+    vars:
+      transcript: "[00:00] Host: Welcome back to Kitchen Science. Quick thanks to our sponsor, Fresh Knives, use code KS10.\n[01:40] Host: Today's guest is a pastry chef, Amara. Amara, why do people's sourdough loaves come out flat?\n[02:05] Amara: Nine times out of ten it's underproofing, not overproofing. People see bubbles and think it's ready.\n[06:30] Amara: Here's the poke test, I'll show it on camera - you press a floured finger in and watch how fast it springs back. Slow and partial spring means ready.\n[11:15] Amara: Also, hydration. Most beginners start at 80 percent, which is too wet. Start at 68 to 70.\n[15:00] Host: There's a study that says cold retarding doubles flavour compounds?\n[15:20] Amara: I've heard that, I don't know the study. It definitely tastes better to me.\n[19:00] Host: That's all for today, see you next week."
+      purpose: "I want to fix my flat sourdough"
+    assert:
+      - {type: contains, value: "## Worth watching in full"}
+      - {type: llm-rubric, value: "Uses only the given timestamps, attributes points to Amara and the host correctly, captures underproofing as the main cause, the poke test and 68 to 70 percent hydration, quotes at least one line verbatim, recommends watching the poke-test segment around 06:30 because it is shown on camera, lists the claim about cold retarding doubling flavour compounds as a claim to check with Amara's own uncertainty kept, and marks the sponsor read and outro as skippable."}
+  - name: edge-no-timestamps
+    vars:
+      transcript: "So today I want to argue that most meetings fail because they have no decision owner. First, an example from my time at a hospital... [long story] ... Second, the fix is simple: name the decider in the invite. Third, people resist this because it feels rude. But in my experience teams love it after two weeks. Thanks everyone."
+      purpose: ""
+    assert:
+      - {type: llm-rubric, value: "States that the transcript has no timestamps and locates points by order or approximate position instead of inventing times, keeps the speaker's hedge ('in my experience'), and does not add facts beyond the talk."}
+  - name: negative-not-a-transcript
+    vars:
+      transcript: "https://www.youtube.com/watch?v=abc123"
+      purpose: ""
+    assert:
+      - {type: llm-rubric, value: "Says it received a link rather than a transcript, explains it needs the transcript or captions pasted in, and does not invent a summary of the video."}

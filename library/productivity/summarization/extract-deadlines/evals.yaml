@@ -1,0 +1,26 @@
+schema: 1
+baseline: "List all the deadlines in these documents. Time zone: {{timezone}}. {{documents}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-letters-and-syllabus
+    vars:
+      documents: "Letter from City Housing Office, dated 2 March 2026: 'Please submit proof of income within 21 days of the date of this letter. Your inspection appointment is on Tuesday 17 March at 10:30. Rent is due on the 1st of each month.'\n\nSyllabus, Statistics 201, Spring 2026: 'Problem set 1 due Fri 6 March, 23:59 Pacific. Midterm: 2 April in class. Final project proposal due two weeks after the midterm.'"
+      timezone: "America/New_York"
+    assert:
+      - {type: contains, value: "## All dates"}
+      - {type: llm-rubric, value: "Computes proof of income as 23 March 2026 showing the 21-day calculation, lists the 17 March 10:30 inspection and notes 17 March 2026 is a Tuesday, lists rent as a recurring obligation on the 1st with next occurrences, converts the 23:59 Pacific problem-set deadline to 02:59 Eastern on 7 March, lists the 2 April midterm, computes the proposal as 16 April from the midterm, sorts chronologically, and quotes the source line for every item."}
+  - name: edge-unknown-anchor-ambiguous-format
+    vars:
+      documents: "Insurance renewal notice (no date shown): 'Your policy renews on 04/05/2026. You may cancel without charge within 14 days of receiving your renewal documents. To avoid auto-renewal, give notice at least 30 days before renewal.'"
+      timezone: ""
+    assert:
+      - {type: llm-rubric, value: "Flags 04/05/2026 as ambiguous (4 May or 5 April) and gives both readings, computes the notice deadline 30 days before for each reading or for the likely one with the calculation shown, lists the 14-day cancellation window under relative deadlines that need an anchor because the receipt date is unknown, recommends using the earlier date as the safe date, and does not invent a receipt date."}
+  - name: negative-no-dates
+    vars:
+      documents: "Hi team, great work on the launch. Let's keep the momentum going. Cheers, Ana"
+      timezone: ""
+    assert:
+      - {type: llm-rubric, value: "Says there are no dates, deadlines or time-bound obligations in the text and does not invent any."}

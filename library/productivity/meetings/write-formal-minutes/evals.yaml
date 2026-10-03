@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write formal minutes for this {{body_type}} meeting: {{notes_or_transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nonprofit-board
+    vars:
+      notes_or_transcript: "Riverside Food Bank board, 12 March, 7pm, community hall. Chair: Priya. Secretary: Dan (me). Present: Priya, Dan, Lucy, Omar, Grace, Tom. Apologies: Ken. Quorum is 5. Last minutes approved, no changes. Treasurer (Lucy) report: income 42,300 for the quarter, spending 39,800. Omar declared interest on item 4 (his company quoted for the van) and left. Item 4: Grace moved we buy the refrigerated van from Omar's company quote at 18,500, Tom seconded. Vote 4 for, 0 against, 1 abstain. Item 5: volunteer policy - agreed Grace will draft by April meeting. Tom left at 8:10. AOB none. Next meeting 9 April. Closed 8:25."
+      body_type: "nonprofit board"
+    assert:
+      - {type: contains, value: "## To confirm before circulation"}
+      - {type: llm-rubric, value: "Lists present and apologies correctly, confirms quorum of 5, records Lucy's figures as stated, records Omar's declaration and that he left before item 4, writes the van motion with Grace moving and Tom seconding and the 4-0-1 result as carried, notes that with Omar out 5 remained so quorum held for the vote, records Grace's action to draft the volunteer policy by the April meeting, Tom's 8:10 departure, next meeting 9 April and close at 8:25, in neutral past-tense third person with a chair signature block."}
+  - name: edge-missing-details
+    vars:
+      notes_or_transcript: "Parish council planning committee. Discussed the Elm St extension application. Someone proposed objecting on parking grounds, seemed most agreed. Mark said he'd write to the planning office. Talked about hedge on Mill Lane, no decision."
+      body_type: "council committee"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a date, attendance, mover, seconder or vote count; marks them [to confirm] and lists them in the confirmation section, records the objection as a motion or decision whose wording and result must be confirmed, records Mark's letter as an action without a due date, and the hedge item as discussed with no decision."}
+  - name: negative-not-a-meeting
+    vars:
+      notes_or_transcript: "What should a board's minutes include in general?"
+      body_type: "board of directors"
+    assert:
+      - {type: llm-rubric, value: "Says the input is a question rather than meeting notes and asks for the notes, optionally giving a brief answer, and does not fabricate minutes of a meeting."}

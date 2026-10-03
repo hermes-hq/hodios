@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a meeting cadence for my team. Team: {{team_and_work}} Current meetings: {{current_meetings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-events-team-with-current
+    vars:
+      team_and_work: "Events team of 7 (lead, 4 event managers, 1 designer, 1 coordinator) running about 20 corporate events a year, each with its own client. Work changes daily near event dates. Fully in one office, 40-hour weeks. We depend on the finance team for supplier payments."
+      current_meetings: "Daily 30-min standup with everyone, Monday 90-min team meeting (mostly status), Wednesday 60-min creative review, monthly 2-hour all-hands with the wider company, ad hoc client calls. People say Monday is a waste and the designer never has a full afternoon."
+    assert:
+      - {type: contains, value: "## Time budget"}
+      - {type: llm-rubric, value: "Keeps meetings tied to outputs, shortens or restructures the daily check-in, turns the Monday status meeting into a shorter priorities meeting plus a written update, keeps a focused creative review, protects at least two meeting-free half-days especially for the designer, gives a card for each meeting with an async alternative, computes weekly meeting hours per role against 40, maps every current meeting to a verdict with a reason, and proposes a trial with review questions."}
+  - name: edge-time-zones-from-scratch
+    vars:
+      team_and_work: "New support operations team: 3 people in Manila, 2 in Lisbon, 1 in São Paulo. We handle customer escalations and update the help centre."
+      current_meetings: ""
+    assert:
+      - {type: llm-rubric, value: "Notices the very small or nonexistent overlap across the three time zones, makes written or async updates the default, schedules any live meeting within the narrow overlap or rotates the inconvenient time fairly, keeps live meetings few, and omits the changes-from-today section or marks it not applicable."}
+  - name: negative-too-thin
+    vars:
+      team_and_work: "My team."
+      current_meetings: ""
+    assert:
+      - {type: llm-rubric, value: "Asks up to three questions about team size, the kind of work and location or time zones, and stops instead of producing a generic cadence."}
