@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Do a morphological analysis for this problem: {{problem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-community-event
+    vars:
+      problem: "A recurring monthly event format for our 300-member neighbourhood association. Budget 500 per event, must work for families with young children and older residents, run by volunteers."
+      dimensions: "Venue: community hall, park, someone's garden; Activity: talk, potluck, workshop; Time: Saturday morning, weekday evening"
+    assert:
+      - {type: contains, value: "## Inconsistent pairs"}
+      - {type: llm-rubric, value: "Keeps the user's dimensions and adds missing independent ones such as who leads or how people sign up, includes unusual options per dimension, states the total number of combinations, excludes pairs that clash with constraints (for example a park on winter weekday evenings), names and describes reference, small-shift, bold and forced combinations, and shortlists three to five with cheap tests."}
+  - name: edge-overlapping-dimensions
+    vars:
+      problem: "A new lunch product for office workers"
+      dimensions: "Food type: salad, sandwich, bowl; Format: salad, wrap; Delivery: pickup, delivery, vending; Healthy: yes, no"
+    assert:
+      - {type: llm-rubric, value: "Notices that food type and format overlap and fixes them, questions the yes-or-no healthy dimension, ends with independent dimensions, and generates concrete product concepts."}
+  - name: negative-vague-problem
+    vars:
+      problem: "something new"
+    assert:
+      - {type: llm-rubric, value: "Does not build a box from nothing; asks up to three questions about the goal, context and constraints."}

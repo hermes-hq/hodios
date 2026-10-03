@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me build a reading habit. Goal: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-yearly-target
+    vars:
+      goal: "Read 24 books this year, I've only read 2 in the last three years and spend my evenings scrolling"
+      interests: "Loved The Martian and Sapiens. Curious about history and space. Don't like slow literary fiction."
+      minutes_per_day: 20
+    assert:
+      - {type: contains, value: "## Book list"}
+      - {type: llm-rubric, value: "Shows the arithmetic from 20 minutes a day, concludes that 24 books is a stretch for a returning reader and proposes a realistic number (roughly 10-15), lists real well-known books matching space and history interests with short gripping on-ramp books first, anchors reading to a slot replacing evening scrolling with the phone out of reach, tracks days not pages, and includes a quit-a-book rule."}
+  - name: edge-no-interests-foreign-language
+    vars:
+      goal: "Read more in German, I'm at B1 level"
+    assert:
+      - {type: llm-rubric, value: "Asks quick questions about interests or offers a starting list, includes graded readers or easier German titles first, uses the default 20 minutes a day in the arithmetic, and keeps the reading plan in German."}
+  - name: negative-no-invented-books
+    vars:
+      goal: "Learn about the history of a small town called Fernhollow in Idaho"
+      minutes_per_day: 15
+    assert:
+      - {type: llm-rubric, value: "Does not invent books or authors about the town; says it does not know of specific books and suggests asking a local library, historical society or archive, and may suggest well-known general books about the region, labelled as such."}
