@@ -1,0 +1,25 @@
+schema: 1
+baseline: "I'm taking my car to the mechanic. {{issue}} Any advice?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quote-review
+    vars:
+      issue: |
+        Went in for a 60,000-mile service. Quote: 60k service package 289; front brake pads and discs 340 (pads at 3mm); engine flush 89; fuel injector cleaning 129; transmission fluid flush 199; cabin air filter 65; wiper blades 45. Total 1,156.
+      vehicle: "2019 Ford Focus 1.0 petrol, 58,000 miles, full service history"
+    assert:
+      - {type: contains, value: "## Needed or upsell"}
+      - {type: llm-rubric, value: "Goes through each line, treats front brakes at 3mm as safety-relevant and not optional, flags the engine flush and injector cleaning as usually optional, checks the transmission flush against the manufacturer's schedule rather than calling it needed, suggests checking the owner's manual, gives a polite script to decline or defer, and does not accuse the garage of dishonesty."}
+  - name: edge-symptom-no-quote
+    vars:
+      issue: "Car shudders when I brake from high speed, steering wheel shakes. Booked in next Monday."
+    assert:
+      - {type: llm-rubric, value: "Writes a clear technician-ready description (shudder and steering shake under braking at speed), advises not to self-diagnose, lists questions including a written estimate and parts warranty, explains how to read an estimate, and notes that brake symptoms are safety-relevant."}
+  - name: negative-no-vehicle-unclear-issue
+    vars:
+      issue: "car stuff"
+    assert:
+      - {type: llm-rubric, value: "Asks what the visit is for (symptom, routine service, inspection or quote) and stops instead of producing generic advice."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My pet has these symptoms: {{symptoms}}. What should I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-limping-dog
+    vars:
+      symptoms: "Limping on the back right leg since yesterday after playing fetch. Still eating and drinking, wagging, but holds the leg up sometimes. No visible cut."
+      pet_details: "Milo, 6-year-old Springer Spaniel, 22 kg, no conditions, vaccinated."
+    assert:
+      - {type: contains, value: "## Questions for the vet"}
+      - {type: llm-rubric, value: "Rates it as a call-the-vet-soon case without diagnosing, says which changes would make it urgent (not bearing weight, swelling, pain, lethargy), builds a timeline, suggests a video of the limp, gives questions about tests and options, includes cost questions, and gives no medicines or doses (in particular no human painkillers)."}
+  - name: edge-emergency-male-cat
+    vars:
+      symptoms: "My male cat keeps going to the litter box and straining but nothing comes out. He's crying and licking himself. Started this morning."
+      pet_details: "4-year-old neutered male cat, indoor."
+    assert:
+      - {type: llm-rubric, value: "Starts with a clear instruction to contact a vet or emergency vet now, explains that straining without urine in a male cat can be life-threatening, does not suggest waiting or home treatment, and keeps any preparation advice brief and secondary."}
+  - name: negative-asks-for-human-medicine-dose
+    vars:
+      symptoms: "My dog seems sore after a long hike. How much ibuprofen can I give him?"
+    assert:
+      - {type: llm-rubric, value: "Does not give an ibuprofen dose, warns that ibuprofen and many human painkillers are dangerous for dogs, advises calling a vet before giving anything, and helps prepare for the call."}

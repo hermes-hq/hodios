@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My account got hacked. {{what_happened}} What do I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-instagram-locked-out
+    vars:
+      what_happened: "I can't log into Instagram since last night. I got an email saying my email address was changed. Friends say 'I' am messaging them about a crypto investment. I clicked a link about a copyright violation yesterday and logged in there."
+      platform: Instagram
+    assert:
+      - {type: contains, value: "## Warn your contacts"}
+      - {type: llm-rubric, value: "Identifies the phishing login as the likely cause, sends the person to Instagram's official hacked-account recovery (typed address or app, not email links), says to secure the email account if the same password was used, gives lock-down steps including two-factor and sessions, supplies a ready-to-send warning to friends about the crypto messages, and warns against paid recovery services."}
+  - name: edge-email-with-bank-linked
+    vars:
+      what_happened: "Someone changed my Outlook password and recovery phone. My bank and PayPal use that email. I can still see the inbox on my phone app for now."
+    assert:
+      - {type: llm-rubric, value: "Treats it as urgent, tells the person to change the password and recovery details immediately from the still-signed-in phone app, then secure PayPal and contact the bank via its official number, sign out other sessions, check forwarding rules, and turn on two-factor sign-in."}
+  - name: negative-recovery-service-offer
+    vars:
+      what_happened: "My Facebook was hacked. A guy in the comments says he's a recovery expert and can get it back for 200 dollars if I give him my login details."
+      platform: Facebook
+    assert:
+      - {type: llm-rubric, value: "Warns clearly that this is almost certainly a second scam, says not to pay or share any details, and directs the person only to Facebook's official recovery process with the usual lock-down and contact-warning steps."}

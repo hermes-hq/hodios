@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Is this a scam? {{message}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parcel-text
+    vars:
+      message: "Text from +44 7700 900123: 'Royal Mail: Your parcel could not be delivered due to an unpaid shipping fee of £1.45. Pay within 24 hours or it will be returned: royalmail-redelivery-uk.example/pay'. I haven't clicked."
+    assert:
+      - {type: contains, value: "## Signs found"}
+      - {type: llm-rubric, value: "Gives a 'very likely a scam' verdict, quotes the look-alike domain, the small fee, the 24-hour urgency and the personal mobile number as signs, says not to click, to check via the official site or app, to report and block, and does not claim to have visited the link."}
+  - name: edge-already-paid
+    vars:
+      message: "Got a call from 'my bank's fraud team' saying my account was compromised and I needed to move my savings to a safe account. I transferred 4,000 euros an hour ago. They knew my name and the last digits of my card."
+    assert:
+      - {type: llm-rubric, value: "Starts with calling the bank immediately on the number on the card to report the fraud and try to stop or recall the payment, explains that banks never ask customers to move money to a safe account, advises reporting to the police or national fraud service, warns of follow-up 'recovery' scams, and does not blame the person."}
+  - name: negative-likely-legitimate
+    vars:
+      message: "Email from my dentist's usual address reminding me of my appointment on Tuesday at 10:00, with their usual phone number to reschedule. No links except their normal website."
+    assert:
+      - {type: llm-rubric, value: "Says it looks legitimate without declaring it definitely safe, notes the matching sender and the absence of requests for money or codes, and suggests confirming through the known phone number if in doubt; does not invent red flags."}
