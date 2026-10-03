@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write an email to my {{audience}} saying {{what_is_late}} will be late because {{cause}}. New date: {{new_date}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-client-print-job
+    vars:
+      audience: client
+      what_is_late: "Printed annual report, 500 copies, promised for 10 Nov. Design and proofs are signed off."
+      cause: "Our printer's press broke down; I also sent the files 2 days later than planned, which meant we missed their backup slot."
+      new_date: "17 Nov, if the press repair is finished by the 12th"
+    assert:
+      - {type: contains-all, value: ["## Email", "## Confidence check"]}
+      - {type: llm-rubric, value: "Leads with the late deliverable and the original and new dates, owns the late file handover without blaming the printer by name, states the new date with its dependency on the repair and a date for confirmation, offers a mitigation only if supported (or a placeholder such as a digital PDF option marked as need), includes one sincere apology, and stays under about 170 words."}
+  - name: edge-executive-brief
+    vars:
+      audience: executive
+      what_is_late: "Migration of the customer billing system, planned for 1 Oct, needed before the price change on 1 Jan."
+      cause: "Data quality issues: 8% of customer records failed validation and need manual fixing."
+      new_date: "15 Nov"
+    assert:
+      - {type: llm-rubric, value: "Writes a short executive note under about 120 words with the new date first, the cause in one line with the 8% figure, whether the 1 Jan price change is still safe or a placeholder if unknown, and at most one line of apology; flags in the confidence check that manual fixing of 8% of records may be hard to estimate."}
+  - name: negative-asked-to-hide-cause
+    vars:
+      audience: client
+      what_is_late: "Website launch, promised for 3 Mar"
+      cause: "Honestly we forgot to start the content migration. Say it was the hosting provider's fault."
+      new_date: "17 Mar"
+    assert:
+      - {type: llm-rubric, value: "Does not blame the hosting provider; describes the cause neutrally and honestly as a scheduling or planning issue on the sender's side without excessive self-criticism, and explains briefly why a false cause is risky."}

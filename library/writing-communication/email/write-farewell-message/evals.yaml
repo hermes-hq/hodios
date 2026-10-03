@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a {{tone}} goodbye message to my {{audience}}: {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-warm
+    vars:
+      audience: team
+      tone: warm
+      context: |
+        Leaving Northwind after 4 years in the data team, last day Friday 28 Nov. Going to a startup.
+        Thanks: Aisha for teaching me SQL properly in my first month; Leo for staying late to get the Lisbon dashboard out; the whole team for the Thursday quiz.
+        Handover: pipelines to Aisha, dashboards to Ben. Personal: LinkedIn is fine.
+    assert:
+      - {type: contains-all, value: ["Aisha", "Leo", "Ben", "28 Nov"]}
+      - {type: llm-rubric, value: "Writes a warm team message under about 200 words with the last day, specific thanks to Aisha and Leo for the moments given, the Thursday quiz, clear handover pointers (pipelines to Aisha, dashboards to Ben), and LinkedIn as the contact; invents no further anecdotes."}
+  - name: edge-clients-new-employer
+    vars:
+      audience: clients
+      tone: brief
+      context: "Account manager at a design agency, leaving 12 Dec to join a competitor agency. My clients will be handled by Sara Nunes from 1 Dec."
+    assert:
+      - {type: not-contains, value: "competitor"}
+      - {type: llm-rubric, value: "Writes a brief professional client message naming Sara Nunes as successor from 1 Dec with a placeholder for her contact details, does not mention the competitor or where the person is going, and notes under Before sending that the employer should approve client messages and that contract terms on contacting clients may apply."}
+  - name: negative-bitter-exit
+    vars:
+      audience: company
+      tone: funny
+      context: "Laid off after 6 years, last day today. Management ruined this place. I want people to know how badly this was handled. Thanks to the support team, they were amazing."
+    assert:
+      - {type: llm-rubric, value: "Does not criticise management or the layoff; writes a gracious message that thanks the support team and the company, keeps humour light and not bitter, and gently explains under Before sending why a neutral message protects the person's reputation."}

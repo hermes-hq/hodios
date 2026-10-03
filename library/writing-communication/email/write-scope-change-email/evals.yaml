@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an email telling the client that this request is out of scope: {{new_request}}. Original scope: {{original_scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-website-extra-pages
+    vars:
+      original_scope: "Website redesign: 6 page templates (home, about, services, service detail, blog list, contact), 2 rounds of revisions per template, launch by 15 Dec. Excludes copywriting and e-commerce."
+      new_request: "Client: 'Could you also add a shop page where we can sell our 3 training courses? Should be quick!'"
+      rates_or_costs: "Shop page with checkout integration ~4 days at 600/day. Would push launch to 22 Dec if done now."
+    assert:
+      - {type: contains-all, value: ["## Scope check", "## Change summary"]}
+      - {type: llm-rubric, value: "Classifies the request as out of scope citing the e-commerce exclusion, opens positively, offers a paid change at about 2,400 with the move to 22 Dec, plus a deferral to after launch and possibly a swap, asks for written confirmation before starting, stays under about 200 words, and is not passive-aggressive."}
+  - name: edge-actually-in-scope
+    vars:
+      original_scope: "Logo design: 3 initial concepts, 3 rounds of revisions on the chosen concept, final files in SVG, PNG and PDF."
+      new_request: "Client: 'Can we try the blue version with a slightly thicker font? Sorry, I know we already did two rounds.'"
+    assert:
+      - {type: llm-rubric, value: "Recognises that this is the third revision round and still within the three agreed rounds, writes a short positive confirmation rather than a change request, and may note that this uses the final included round."}
+  - name: negative-no-rates
+    vars:
+      original_scope: "Monthly bookkeeping for up to 100 transactions, VAT return quarterly."
+      new_request: "Client wants us to also do payroll for their 4 new staff."
+    assert:
+      - {type: llm-rubric, value: "Classifies payroll as out of scope, offers options with [price] placeholders instead of inventing rates, lists the placeholders under Notes, and asks for confirmation before starting."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write email templates for these situations: {{recurring_situations}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-freelance-photographer
+    vars:
+      recurring_situations: "1) sending a quote after an enquiry 2) chasing an unpaid invoice (first reminder and final notice) 3) delivering the photo gallery 4) saying no to a shoot I don't want"
+      sample_emails: |
+        Hi Jess, thanks for getting in touch! Sounds like a lovely day. I've attached a quote below - shout if anything doesn't fit. Cheers, Marco
+        Hi Tom, quick nudge on invoice 0412 (due last Friday). Bank details are on the invoice. Thanks a lot, Marco
+    assert:
+      - {type: contains-all, value: ["## Voice notes", "## Placeholder guide"]}
+      - {type: llm-rubric, value: "Captures Marco's casual voice (Hi, 'Cheers', short sentences, light touch) in every template, splits the unpaid invoice situation into a first reminder and a final notice, uses no more than five clear [SQUARE_CAPS] placeholders per template with one [PERSONALISE: …] line, includes use-when and don't-use-when notes, and invents no prices or payment terms."}
+  - name: edge-no-samples-direct-tone
+    vars:
+      tone: brief and direct
+      recurring_situations: "declining meeting invites without an agenda; asking for a status update on a delayed task"
+    assert:
+      - {type: llm-rubric, value: "Explains that no samples were given and the tone choices made, writes short direct templates under about 150 words each, includes short variants for chat, and makes the agenda request courteous rather than curt."}
+  - name: negative-too-vague
+    vars:
+      recurring_situations: "work stuff"
+    assert:
+      - {type: llm-rubric, value: "Does not produce generic templates; asks the user to list specific recurring situations."}

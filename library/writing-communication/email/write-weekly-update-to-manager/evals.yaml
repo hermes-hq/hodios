@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a weekly update to my manager as {{format}} from these notes: {{week_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-with-priorities
+    vars:
+      format: email
+      priorities: "1) Launch partner onboarding guide by 30 Nov 2) Cut support backlog to under 50 tickets 3) Hire a support specialist"
+      week_notes: |
+        mon: 3 meetings, inbox
+        onboarding guide: draft done, legal review requested Tue, no answer yet - need it by 21st or we miss 30 Nov
+        backlog 120 -> 85, Priya did most of the macros work
+        interviewed 2 candidates for specialist role, one strong (Sam), want to move to final round - need your OK for the budget
+        sat in the all-hands
+        feeling a bit stretched covering the queue myself
+    assert:
+      - {type: contains-all, value: ["## Update", "## Left out"]}
+      - {type: llm-rubric, value: "Puts asks first (chase or escalate legal review needed by the 21st; approval to move Sam to the final round), reports progress against all three priorities with status (guide at risk, backlog 120 to 85 credited to Priya, hiring progressing), raises the workload concern factually, lists meetings and the all-hands under Left out, stays under about 200 words, and invents no figures."}
+  - name: edge-chat-no-priorities
+    vars:
+      format: chat
+      week_notes: "fixed login bug for enterprise customer (they confirmed), started on export feature (30%), code review for Ana's PR, flaky CI cost me most of Wednesday"
+    assert:
+      - {type: llm-rubric, value: "Writes a chat message under about 120 words with outcomes such as the confirmed login fix, export at 30%, mentions the flaky CI as a risk or blocker with a possible ask, and does not invent priorities."}
+  - name: negative-empty-notes
+    vars:
+      week_notes: "?"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a week of work; asks for the notes from the week."}

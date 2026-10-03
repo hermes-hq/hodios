@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an email asking for approval: {{request}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contractor-hire
+    vars:
+      approver_context: "Head of Finance, cost-focused"
+      deadline: "Friday 14 Nov"
+      request: |
+        Need to hire a contract accountant for 3 months to cover year-end close while Mia is on leave. Agency quote: 650 EUR/day, ~60 days = 39,000 EUR. Alternative: spread work across the team = 2 people doing overtime, about 18,000 EUR overtime, but high risk of missing the 31 Jan filing deadline (late filing penalty up to 25,000 EUR). Budget: there's 30k left in the temp staffing line. Agency needs confirmation by Friday to start 1 Dec.
+    assert:
+      - {type: regex, value: "(?i)approval needed by.*(14 nov|friday)"}
+      - {type: llm-rubric, value: "Puts the 39,000 EUR contractor request and the reply needed by Friday in the first two lines, compares the contractor and overtime options with costs and the filing-penalty risk, recommends one, states plainly that the cost exceeds the 30k remaining in the temp staffing line by 9,000 EUR, gives a one-line reply path, stays under about 180 words, and invents no figures."}
+  - name: edge-policy-exception
+    vars:
+      request: "I want to book a business class flight to Singapore for the client workshop (13 hours). Policy says economy for flights under 14 hours. Business is 3,100 EUR vs 1,200 economy. I present the morning I land."
+    assert:
+      - {type: llm-rubric, value: "States in the opening lines that this is an exception to the travel policy, with the 1,900 EUR difference, gives the reason (presenting on arrival), offers an alternative such as premium economy or arriving a day earlier only as an option to consider without inventing its price, and uses a placeholder for the deadline."}
+  - name: negative-unclear-ask
+    vars:
+      request: "Need sign-off on the thing we talked about."
+    assert:
+      - {type: llm-rubric, value: "Does not write an approval email around an invented request; asks what needs approving and what it costs."}
