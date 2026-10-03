@@ -5,7 +5,7 @@ kind: prompt
 title: Write a site visit report
 description: Turns field or site visit notes into a structured report with observations, evidence, issues rated by severity and owned follow-ups. For consultants, inspectors, auditors and area managers.
 category: business-writing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [consultant, operations-manager, manager, project-manager]
@@ -42,6 +42,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Says how to use attached photos as evidence."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -67,7 +68,7 @@ Write a site visit report for {{report_audience}}.
 
 1. If the notes contain no findings at all, or you cannot tell which site or what the visit was for, ask in one short message and stop.
 2. Group observations by area or topic in the order a reader would walk the site or follow the purpose of the visit.
-3. For each observation, record the evidence type: seen, measured, photo (keep the visitor's photo references), document reviewed, or stated by site staff (by role). Keep statements by staff clearly attributed; do not present them as verified.
+3. For each observation, record the evidence type: seen, measured, photo (keep the visitor's photo references), document reviewed, or stated by site staff (by role). Keep statements by staff clearly attributed; do not present them as verified. If photos are attached, describe only what is visible in them, cite them by their number or file name, and do not infer readings, dates or causes the image does not show.
 4. Turn problems into issues. Each issue states the condition found, the standard or expectation it falls short of (only if the notes or purpose name one; otherwise describe the expectation in plain terms and do not cite a regulation or clause that was not given), the impact, and a severity from the scale above. Explain any Critical rating in one line.
 5. Record what is working well, with the same specificity. Good practice is a finding too and helps the site accept the rest.
 6. Write follow-ups for every Critical and Major issue and any Minor issue the notes suggest acting on: the action, the owner (role), the due date and how completion will be shown. Use `[need: owner]` or `[need: date]` when the notes do not say.

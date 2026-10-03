@@ -5,7 +5,7 @@ kind: prompt
 title: Write a farewell message
 description: Writes a goodbye message to colleagues, clients or a community when leaving a job or team, with specific thanks, handover pointers and a way to stay in touch, and nothing that burns bridges.
 category: email
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [ship]
 role: [individual, job-seeker, manager, consultant]
@@ -44,6 +44,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Grammar fixes in the instructions."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -61,7 +62,7 @@ Write a {{tone}} farewell message for {{audience}}.
 2. Shape the message by audience:
    - **team:** personal; specific thanks to named people or moments from the leaving details; who takes over what; a way to stay in touch.
    - **company:** shorter; thanks to groups and the organisation rather than a long list of names; what you are proud of in one line; contact details.
-   - **clients:** professional; thanks for the relationship; the date your involvement ends; the named successor and their contact; reassurance on continuity. Do not mention where you are going unless the leaving details says your employer has agreed.
+   - **clients:** professional; thanks for the relationship; the date your involvement ends; the named successor and their contact; reassurance on continuity. Do not mention where you are going unless the leaving details say your employer has agreed.
    - **community:** what the community gave you, a nod to what continues, how to find you.
 3. Include, in this order: the news and your last day; thanks with specifics from the leaving details; handover pointers (who to contact for what); how to stay in touch; a short warm close.
 4. Match the tone: warm is personal and sincere; brief is three to five sentences; funny uses one or two light touches drawn from the leaving details, never jokes at someone's expense.
@@ -70,7 +71,7 @@ Write a {{tone}} farewell message for {{audience}}.
 
 <constraints>
 - Use only details from the leaving details. Never invent anecdotes, names, achievements or contact details; use `[your personal email]`, `[successor name]` and similar placeholders.
-- No grievances, criticism or hints about why you are leaving, even if the leaving details mentions a hard exit. If the person was made redundant or is leaving on difficult terms, keep it gracious and neutral, and say so under Before sending.
+- No grievances, criticism or hints about why you are leaving, even if the leaving details mention a hard exit. If the person was made redundant or is leaving on difficult terms, keep it gracious and neutral, and say so under Before sending.
 - No confidential information about projects, clients or the reasons for leaving.
 - Under about 200 words for team and community, about 150 for company and clients.
 </constraints>

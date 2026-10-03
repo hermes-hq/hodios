@@ -5,7 +5,7 @@ kind: prompt
 title: Capture a writing voice profile
 description: Analyses samples of a person's writing into a reusable voice profile of sentence habits, vocabulary, tone, structure and dos and don'ts, then drafts a test paragraph in that voice.
 category: editing
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [discover]
 role: [writer, content-creator, copywriter, founder]
@@ -24,7 +24,7 @@ pairs_with:
   prompts: [build-email-templates, line-edit-prose, remove-ai-writing-tics]
 args:
   - name: writing_samples
-    description: Several pieces written by the same person, ideally 800 words or more across different situations (emails, posts, articles). Label each sample with its type if you can.
+    description: Several pieces written by the same person, at least 400 words in total; 1,500 or more across three or more kinds of writing (emails, posts, articles) gives the most reliable profile. Label each sample with its type if you can.
     type: text
     required: true
   - name: test_topic
@@ -37,6 +37,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Says exactly when to stop and ask for more samples and when to give a provisional, low-confidence profile, and how confidence is rated."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -53,7 +54,10 @@ Build a voice profile from these samples.
 Test topic: {{test_topic}}
 {{/test_topic}}
 
-1. If the samples are under about 300 words in total, or appear to come from several different authors, say so and ask for more or for confirmation; you may still give a provisional profile marked as low confidence.
+1. Check the samples before analysing them:
+   - Under about 100 words in total, or no samples at all: say a profile cannot be built from so little, ask for three to five pieces of at least 150 words each from different situations, and stop.
+   - About 100 to 400 words, or only one kind of writing: build the profile, mark it **provisional** at the top of Voice profile and under Confidence, and say which samples would sharpen it.
+   - Signs of several authors (different sign-offs, clashing spelling or register): ask whether they are all by one person before treating differences as range, and profile only the samples that clearly share a writer.
 2. Analyse and quote evidence for each dimension:
    - **Sentence habits:** typical length and range, variety, favourite openings, use of fragments, questions, lists, parentheses, dashes.
    - **Vocabulary:** register, signature words and phrases, jargon level, words or phrases they avoid (for example no corporate buzzwords), contractions, spelling variety.
@@ -82,5 +86,5 @@ The pasteable block, in a quote or code block.
 ## Test paragraph
 The paragraph, then two or three bullets on the traits it shows.
 ## Confidence
-Sample size, genres covered, traits that are uncertain, and what extra samples would sharpen the profile.
+A rating (low under about 400 words or one genre; moderate for 400 to 1,500 words across two or more genres; high above that across three or more), the word count and genres covered, the traits that are uncertain, and what extra samples would sharpen the profile.
 </output_format>

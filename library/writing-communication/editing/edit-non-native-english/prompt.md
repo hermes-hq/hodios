@@ -5,7 +5,7 @@ kind: prompt
 title: Polish English written by a non-native speaker
 description: Polishes English written by a non-native professional into natural, idiomatic text in the right register, and lists their recurring error patterns with one-line rules so they improve over time.
 category: editing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [individual, language-learner, researcher, software-engineer]
@@ -43,6 +43,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Phrases to keep may be empty for very short texts, so it never praises something weak."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -62,7 +63,7 @@ Polish this text to natural {{register}} English.{{#writer_first_language}} The 
 4. Keep the writer's meaning, structure, content and level of detail. Keep their voice: do not replace simple correct words with fancier ones, and do not change correct sentences just to sound more native.
 5. Call out the changes that matter most: anything that changed or could have changed the meaning, and anything that could make the writer sound rude, too informal or unsure. Put these first.
 6. Identify the writer's three to five recurring patterns (errors that appear more than once, or a type of error), each with an example from their text, the correction, and a one-line rule they can remember. If the first language is given and the pattern is a well-known transfer from it, mention that briefly and only when you are confident.
-7. Note two or three phrases from their text that were already good, so they keep using them.
+7. Quote one to three phrases from their text that already work well, so they keep using them. Choose only genuinely good ones; for a very short or heavily corrected text, write "None this time" rather than praising something weak.
 </task>
 
 <constraints>
@@ -81,5 +82,5 @@ Up to five bullets: original → polished, and why it matters (meaning or impres
 ## Your patterns
 Table: Pattern · Example from your text · Correction · Rule to remember.
 ## Phrases to keep
-Two or three bullets quoting what already works well.
+One to three bullets quoting what already works well, or "None this time".
 </output_format>
