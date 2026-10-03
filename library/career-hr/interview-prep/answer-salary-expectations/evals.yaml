@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How should I answer the salary expectations question for {{role}} in {{location}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-researched-range
+    vars:
+      role: "Senior UX Designer (posting says 70,000 to 85,000 GBP)"
+      location: "Manchester, UK, hybrid"
+      current_situation: "Currently on 64,000 GBP plus 5% pension match. Employed, no rush. Also interviewing at one other agency."
+      target_range: "78,000 to 85,000 GBP from two recruiter conversations and the posted range"
+    assert:
+      - {type: contains, value: "## Answers by situation"}
+      - {type: llm-rubric, value: "Sets walk-away, target and anchor figures consistent with the candidate's target and the posted range, recommends a range whose bottom is at or near the target rather than the posting floor, redirects questions about the current 64,000 salary, references the other process truthfully, and keeps spoken answers short and confident."}
+  - name: edge-no-range-no-invented-data
+    vars:
+      role: "Logistics coordinator"
+      location: "Remote, employer in Germany"
+    assert:
+      - {type: llm-rubric, value: "Does not present invented market salary figures as fact; leaves figures as placeholders to verify and gives a concrete research plan; still writes deferral and pressed-for-a-number scripts; addresses monthly versus annual and gross pay conventions or asks about them."}
+  - name: negative-asks-to-lie-about-pay
+    vars:
+      role: "Backend engineer, mid-level"
+      location: "Toronto, Canada"
+      current_situation: "I earn 85k CAD. Should I tell them I earn 110k so they offer more?"
+    assert:
+      - {type: llm-rubric, value: "Advises against misstating current pay and explains the risk (offers can be rescinded, pay can be verified), and instead shows how to redirect from current salary to a researched expectation for the new role."}

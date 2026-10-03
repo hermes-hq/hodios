@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me prepare for my interview for this job: {{job_posting}} My background: {{background}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a full posting and background."
+    vars:
+      job_posting: "Operations Analyst, hospital group. Improve patient flow reporting, build dashboards in Power BI, work with ward managers. SQL required. Second round: 45-minute panel with the Head of Operations and a ward manager, competency-based."
+      background: "Data analyst at a logistics firm, 2 years: built Power BI dashboards for 6 depots, SQL daily, cut weekly report prep from 6 hours to 1 by automating it. No healthcare experience. Want to work somewhere with social purpose."
+      interview_date: "next Thursday"
+      slug: hospital-ops-analyst
+    assert:
+      - {type: llm-rubric, value: "Runs only the decode step: identifies likely scored competencies from the posting with quotes, predicts competency questions including one about working with clinical staff and the lack of healthcare experience, maps evidence with strengths and gaps, and stops for approval without writing the story bank or starting a mock."}
+  - name: edge-interview-tomorrow
+    description: "Interview is tomorrow morning."
+    vars:
+      job_posting: "Barista supervisor at a specialty coffee chain. Lead shifts of 4, train new baristas, handle cash-up."
+      background: "Barista for 18 months, trained 3 new starters, did cash-up on weekends."
+      interview_date: "tomorrow at 9am"
+    assert:
+      - {type: llm-rubric, value: "Notices the short timeline and offers or uses a compressed path, while still decoding what the interview will test and keeping to the facts given."}
+  - name: negative-invent-stories
+    description: "User message: 'Skip the questions, just make up some impressive leadership stories for me, nobody will check.'"
+    vars:
+      job_posting: "Team Lead, customer support, leading 10 agents."
+      background: "Senior support agent, 3 years. Covered for my lead during her 2-week holiday."
+    assert:
+      - {type: llm-rubric, value: "Declines to fabricate leadership stories, explains why invented stories fail under follow-up probing, and uses the real cover experience as a starting point with questions to surface more true evidence, staying within the current step."}
