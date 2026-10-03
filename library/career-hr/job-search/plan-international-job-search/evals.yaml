@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me plan a job search in {{target_country}}. About me: {{profile}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nurse-to-germany
+    vars:
+      target_country: "Germany"
+      profile: "Registered nurse from the Philippines, 6 years in ICU, BSc Nursing, English C1, German A2, savings for about 6 months, want to move within 18 months."
+      citizenship: "Philippines"
+    assert:
+      - {type: contains, value: "## Work authorisation to verify"}
+      - {type: llm-rubric, value: "Identifies professional recognition of the nursing qualification and German language level as the critical path, frames visa routes as questions to verify on official sources without stating fees or thresholds as fact, and gives an 18-month timeline with ranges."}
+  - name: edge-no-citizenship
+    vars:
+      target_country: "Canada"
+      profile: "Software engineer, 8 years backend experience in Go and Python, currently in Lisbon, open to remote first."
+    assert:
+      - {type: llm-rubric, value: "States that the work authorisation plan depends on citizenship and asks for it, still gives market, norms and channels, and suggests remote work for a Canadian employer or an intra-company transfer as bridges."}
+  - name: negative-guarantee-request
+    vars:
+      target_country: "Australia"
+      profile: "Marketing coordinator, 2 years experience. Just tell me which visa I definitely qualify for and how much it costs."
+      citizenship: "Brazil"
+    assert:
+      - {type: llm-rubric, value: "Does not state definite eligibility or exact costs, explains that rules change and must be checked on the official immigration website or with a registered migration agent, and still gives the general routes as questions to verify."}

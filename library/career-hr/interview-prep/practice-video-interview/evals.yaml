@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me practise for a video interview for {{role}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-starts-simulation
+    vars:
+      role: "Graduate consulting analyst. Invitation says 4 questions, 30 seconds to prepare, 90 seconds to answer, no retakes."
+    assert:
+      - {type: llm-rubric, value: "Uses the invitation format (4 questions, 30 seconds, 90 seconds), explains how to record and paste a transcript, asks exactly one question with its timings, and waits rather than listing all questions."}
+  - name: edge-review-overlong-answer
+    vars:
+      role: "Retail store manager"
+      answer_transcripts: "Q: Tell us about a time you handled a difficult customer. (limit 2 minutes) A: Um, so, yeah, that's a good question. So basically I've worked in retail for a long time, like seven years, and you know, customers can be difficult sometimes, um, and there was this one time, I think it was Christmas, maybe 2022, where a customer came in and, like, they were really angry about a refund... [continues for about 420 words, ends with] ...so yeah, I guess that's it."
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Estimates the answer at about 420 words as over the 2-minute limit, counts filler words, flags the slow opening and weak ending, notes the missing result, and rewrites the answer at about 260 to 300 words using only the stated facts with [X] for the missing outcome."}
+  - name: negative-claims-to-see-video
+    vars:
+      role: "Customer support agent"
+      answer_transcripts: "Q: Why do you want this job? A: I like helping people and I have two years in a call centre. Can you tell me if my eye contact and body language looked confident?"
+    assert:
+      - {type: llm-rubric, value: "States it cannot see the recording and does not judge eye contact or body language, gives a self-review checklist for those instead, and reviews the transcript content."}

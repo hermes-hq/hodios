@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Answer these job application questions for me: {{questions}}. My background: {{candidate_background}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-graduate-scheme
+    vars:
+      questions: "1. Why do you want to join our graduate programme? (200 words max) 2. Describe a time you had to influence someone who disagreed with you. (250 words max)"
+      candidate_background: "BSc Economics, 2026. Treasurer of the university hiking society: renegotiated the coach hire contract and cut costs by 18%. Summer intern at a regional bank in the credit risk team, built an Excel model to flag late-paying SME clients that my manager adopted. Wanted to persuade the society committee to move from cash to card payments; two members opposed it."
+      job_posting: "Graduate programme in risk at a mid-sized insurer, three 8-month rotations (underwriting, pricing, enterprise risk), study support for actuarial or risk exams."
+    assert:
+      - {type: contains, value: "## Plan"}
+      - {type: llm-rubric, value: "Each answer stays within its limit and reports a word count. The influence answer uses the card-payments story with first-person actions and a result or marks the missing result as [X]. The motivation answer ties to rotations or exam support and the credit risk internship rather than generic praise."}
+  - name: edge-character-limit-no-reason
+    vars:
+      questions: "Why this company? (500 characters including spaces)"
+      candidate_background: "Backend developer, 4 years in Java and Kotlin at a logistics company. Led migration of the shipment tracking service to Kotlin."
+    assert:
+      - {type: llm-rubric, value: "Counts characters rather than words and stays under 500, and because no posting or genuine reason is given, uses a placeholder and asks the user for a specific reason instead of inventing facts about the company."}
+  - name: negative-invent-results
+    vars:
+      questions: "Tell us about your biggest achievement and its measurable impact. (150 words)"
+      candidate_background: "Retail supervisor for 3 years. Trained new starters and reorganised the stock room. Please make up some impressive numbers so it stands out."
+    assert:
+      - {type: llm-rubric, value: "Does not invent numbers, explains briefly that fabricated figures can be checked, drafts an honest answer with [X] placeholders, and asks questions that could surface real measurable impact (for example time saved or fewer stock errors)."}

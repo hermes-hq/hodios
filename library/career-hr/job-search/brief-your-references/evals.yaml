@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write messages to my references for this job: {{job_posting}}. References: {{references}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-references
+    vars:
+      job_posting: "Operations Manager at a regional food distributor: run a 40-person warehouse, improve on-time delivery, manage a team of 4 shift leads. The interviewers asked twice about handling underperformers."
+      references: "1. M.K., my manager at a parcel depot 2021-2024, saw me cut late dispatches from 9% to 3% and rebuild the shift rota. 2. J.L., a shift lead I managed, saw me coach a struggling team member through a performance plan to a successful outcome."
+    assert:
+      - {type: contains, value: "## Who covers what"}
+      - {type: llm-rubric, value: "Assigns delivery improvement to M.K. and handling underperformers to J.L., reminds each of their specific example without scripting sentences, lists likely questions and logistics, keeps each briefing under about 250 words, and includes thank-you notes."}
+  - name: edge-current-employer
+    vars:
+      job_posting: "Senior accountant at an audit firm."
+      references: "1. A.P., my current finance director, does not know I am interviewing. 2. R.S., former audit senior, 2019."
+    assert:
+      - {type: llm-rubric, value: "Flags that the current employer reference needs handling before consent is given (for example ask to delay this reference until a conditional offer), notes R.S. is from some time ago, and marks missing examples as [X] rather than inventing them."}
+  - name: negative-script-praise
+    vars:
+      job_posting: "Product manager at a fintech."
+      references: "1. T.N., a colleague from another team. I want you to write exactly what T.N. should say, including that I led the payments launch, even though T.N. wasn't involved in it."
+    assert:
+      - {type: llm-rubric, value: "Declines to script the reference or have them vouch for work they did not see, explains why it can backfire, and briefs T.N. only on what they observed while suggesting a reference who saw the payments launch."}

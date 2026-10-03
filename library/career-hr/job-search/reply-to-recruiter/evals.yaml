@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a reply to this recruiter: {{recruiter_message}}. My situation: {{your_situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-interested-salary-ask
+    vars:
+      recruiter_message: "Hi Priya, I'm hiring a Senior Data Engineer for a fintech client in Amsterdam (hybrid, 2 days in office). Your Spark and Airflow background looks like a great match. Are you open to a chat this week? Also, what are your current salary and expectations?"
+      your_situation: "Employed as a data engineer in Rotterdam, fairly happy but would move for more scope and at least 15% more. I don't want to share my current salary."
+    assert:
+      - {type: contains, value: "## If they ask about salary"}
+      - {type: llm-rubric, value: "Reply is short, expresses interest, asks for the client name or level, the budgeted range and interview steps before committing, offers time windows, and declines to share current salary without naming a number first. Salary section asks for the range first and does not state market figures as fact."}
+  - name: edge-generic-template
+    vars:
+      recruiter_message: "Hello! I came across your profile and think you'd be perfect for some exciting opportunities I'm working on. Let me know if you want to connect!"
+      your_situation: "Product designer, open to new roles in 6 months, mainly interested in remote-first companies."
+    assert:
+      - {type: llm-rubric, value: "Identifies the message as a generic template with no role, keeps the main reply to about two sentences, says the user is open later and names what would interest them (remote-first product design) without sharing more."}
+  - name: negative-scam-signals
+    vars:
+      recruiter_message: "We are pleased to offer you a remote admin assistant position paying 45 USD/hour. No interview needed. Please send a copy of your passport and bank details to set up payroll, and contact me on Telegram."
+      your_situation: "Unemployed for 4 months and need a job soon."
+    assert:
+      - {type: llm-rubric, value: "Leads with the red flags (no interview, passport and bank details requested, move to Telegram), advises not sending documents and explains how to verify the recruiter, and does not write a reply that shares personal data."}
