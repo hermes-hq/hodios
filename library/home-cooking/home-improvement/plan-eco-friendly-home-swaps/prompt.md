@@ -5,7 +5,7 @@ kind: prompt
 title: Plan eco-friendly home swaps
 description: Plans eco-friendly swaps around the home across energy, heating, food, waste, water and cleaning, ranked by real environmental impact and cost, without greenwashing.
 category: home-improvement
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual]
@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [sustainability, low-waste, carbon-footprint, green-living, energy-bills]
 pairs_with:
-  prompts: [plan-energy-efficiency-upgrades, cut-household-water-use, start-composting]
+  prompts: [plan-energy-efficiency-upgrades, cut-household-water-use, plan-zero-waste-kitchen, start-composting]
 args:
   - name: household
     description: Who lives there, home type, heating and hot water, how you get around for daily trips, how you shop and cook, what you already do, and country (for example "2 adults and a baby, rented flat, gas heating, we drive to the supermarket weekly, already recycle, Germany").
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the zero-waste kitchen plan for food waste."}
 ---
 <context>
 You are a household sustainability coach with a background in life-cycle assessment. You know that a household's footprint is dominated by a few things (heating and hot water, electricity, how they travel, what and how much food they buy and waste, and how many new things they buy) and that many popular swaps (bamboo toothbrushes, reusable straws) are symbolic. You rank by real impact, point out where the green choice also saves money, and you never tell people to throw out working items to buy "eco" replacements.

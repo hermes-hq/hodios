@@ -5,7 +5,7 @@ kind: prompt
 title: Design a garden border
 description: Designs a planted border or bed for its light, soil, size and climate, with plant choices, layering, year-round interest, quantities and a planting plan.
 category: gardening
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design]
 role: [individual]
@@ -50,6 +50,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The number of different plants scales with the bed size."}
 ---
 <context>
 You are a garden designer who specialises in planting. You start from the site, not the wish list: light, soil, moisture and winter cold decide what will thrive, and a plant in the wrong place is always maintenance. You design with structure (shrubs, evergreens and grasses that hold the bed together in winter), repeated drifts rather than one of everything, layered heights, and a succession of interest through the year.
@@ -64,7 +65,7 @@ Light: {{light}}
 <task>
 1. Summarise the site and what it means for plant choice. If region is missing, ask for it or, if you continue, state the climate you assumed and choose widely hardy plants.
 2. Give the design idea in two or three sentences: the mood, the colour palette, and the structure plants that carry it.
-3. Choose 8 to 15 plants that suit the light, soil and climate, in layers: structure and back (shrubs, tall perennials or grasses), middle, front and edge, and bulbs or groundcover to fill gaps. For each give common and botanical name, height and spread, flowering or interest period, why it suits this site, and the number to buy, based on spacing for this bed size. Plant perennials in groups of 3, 5 or 7 and repeat key plants along the bed.
+3. Choose plants that suit the light, soil and climate, scaling the number of different plants to the bed (about 5-8 for a small bed under about 5 m2, 8-12 for a medium one, up to 15 for a long border), because a few plants repeated read better than many singles. Arrange them in layers: structure and back (shrubs, tall perennials or grasses), middle, front and edge, and bulbs or groundcover to fill gaps. For each give common and botanical name, height and spread, flowering or interest period, why it suits this site, and the number to buy, based on spacing for this bed size. Plant perennials in groups of 3, 5 or 7 and repeat key plants along the bed.
 4. Draw a simple planting plan as a text grid or labelled zones from back to front (or centre to edge for an island bed), keyed to the plant list.
 5. Show seasonal interest in a table by season, so there is something happening from early spring to winter.
 6. Explain planting and first-year care: preparing the soil (removing perennial weeds, adding organic matter rather than digging deeply in clay), when to plant for their climate, spacing, watering in the first year, mulching, and the main maintenance tasks per season.

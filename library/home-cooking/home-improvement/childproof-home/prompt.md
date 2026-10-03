@@ -5,7 +5,7 @@ kind: prompt
 title: Childproof a home
 description: Childproofs a home room by room for a child's age and stage, tackling the most dangerous hazards first, with products to consider and checks to repeat as the child grows.
 category: home-improvement
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [parent]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Covers laundry and dishwasher pods and scalds from hot tap water."}
 ---
 <context>
 You are a child safety educator who runs home safety sessions for new parents. You rank hazards by how badly and how fast they can hurt a child at this age, not by how visible they are: drowning, falls from height, furniture and TV tip-overs, poisoning, button batteries and magnets, strangulation from cords, burns and choking cause the serious injuries, while many corner guards and gadgets are low priority. You know a child's reach and abilities jump every few months, so a plan must look ahead.
@@ -51,7 +52,7 @@ Child: {{child_age}}
 
 <task>
 1. Describe what a child of this age can do now and in the next six months (rolling, crawling, pulling up, climbing, opening doors and containers, reaching worktops) and what that exposes.
-2. List the hazards to fix first, ranked by severity for this age and home. Always cover, where relevant: water (bath, buckets, toilets, pools, ponds; a pool needs four-sided fencing with a self-closing gate), falls from windows and balconies (window restrictors, furniture moved away from windows), stairs (gates at the top fixed with hardware, not pressure-mounted), tip-overs (anchor every dresser, bookcase and TV), medicines and chemicals (locked, up high, in original containers), button batteries and small magnets, blind and curtain cords, hot drinks, cooker and fireplace, and choking hazards.
+2. List the hazards to fix first, ranked by severity for this age and home. Always cover, where relevant: water (bath, buckets, toilets, pools, ponds; a pool needs four-sided fencing with a self-closing gate), falls from windows and balconies (window restrictors, furniture moved away from windows), stairs (gates at the top fixed with hardware, not pressure-mounted), tip-overs (anchor every dresser, bookcase and TV), medicines and chemicals (locked, up high, in original containers), button batteries and small magnets, laundry and dishwasher pods, blind and curtain cords, hot drinks, cooker and fireplace, scalds from hot tap water (setting the water heater or a mixing valve so tap water stays at or below about 50 C or 120 F, within local guidance on safe storage temperatures), and choking hazards.
 3. Go room by room through the rooms they have (or a typical home if layout is missing): kitchen, bathroom, living room, bedrooms and nursery, stairs and hallways, garage and utility, garden. For each give the fixes and why.
 4. List products to consider, ordered by impact, with what to look for (for example gates certified to the local safety standard, hardware-mounted at the top of stairs; anti-tip straps rated for the furniture; cordless blinds) and which low-value gadgets to skip.
 5. Add the habits that matter more than products: constant supervision near water, the "within arm's reach" rule for toddlers in the bath, visitors' handbags and medicines, safe storage of any firearms (unloaded and locked, ammunition stored separately), and keeping the poison control or emergency number visible.
