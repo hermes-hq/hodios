@@ -6,31 +6,105 @@
   <img alt="Hodios: open prompts for every AI tool" src="assets/brand/banner-dark.png" width="100%">
 </picture>
 
-**Hodios — prompts by Hermes IDE**
+### Expert prompts for every AI tool. Open source, tested, free forever.
 
-Expert prompts, personas and workflows for work, learning, creativity and everyday life — one line to use in any AI tool.<br>
-Open, tested and free forever.
+<!-- stats:start -->
+<b>2,570</b> entries &nbsp;·&nbsp; <b>22</b> domains &nbsp;·&nbsp; <b>136</b> categories &nbsp;·&nbsp; <b>154</b> personas &nbsp;·&nbsp; <b>69</b> workflows
+<!-- stats:end -->
+
+Prompts, personas and workflows for work, learning, creativity and everyday life.<br>
+Written once, installed natively in your AI tool with one line.
 
 [![check](https://github.com/hermes-hq/hodios/actions/workflows/check.yml/badge.svg)](https://github.com/hermes-hq/hodios/actions/workflows/check.yml)
 [![catalog](https://img.shields.io/github/v/release/hermes-hq/hodios?label=catalog&color=7c3aed)](https://github.com/hermes-hq/hodios/releases)
+[![npm](https://img.shields.io/npm/v/@hermes-hq/hodios?label=npx%20%40hermes-hq%2Fhodios&color=cb3837)](https://www.npmjs.com/package/@hermes-hq/hodios)
 [![content: CC0-1.0](https://img.shields.io/badge/content-CC0--1.0-green)](LICENSES/CC0-1.0.txt)
 [![code: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue)](LICENSE)
-[![DCO](https://img.shields.io/badge/contributions-DCO-informational)](CONTRIBUTING.md#sign-off)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-support-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/anhaia)
 
-[Browse the library](https://hermes-ide.com/prompts) · [Install](#install) · [What's inside](#whats-inside) · [Contribute in 5 minutes](CONTRIBUTING.md)
+[**Browse the library →**](https://hermes-ide.com/prompts) &nbsp;·&nbsp; [Try it in 10 seconds](#try-it-in-10-seconds) &nbsp;·&nbsp; [What's inside](#whats-inside) &nbsp;·&nbsp; [Contribute in 5 minutes](CONTRIBUTING.md)
 
 </div>
 
 ---
 
-Works with **Claude Code · Codex · Cursor · GitHub Copilot · Gemini CLI · OpenCode · ChatGPT · claude.ai** and any tool that reads Agent Skills or `AGENTS.md`, and ships as the built-in library of [Hermes IDE](https://hermes-ide.com).
+Works with **Claude Code · Codex · Cursor · GitHub Copilot · Gemini CLI · OpenCode · ChatGPT · claude.ai** and any tool that reads Agent Skills or `AGENTS.md`. Coming soon as the built-in library of [Hermes IDE](https://hermes-ide.com).
 
-Every entry is written once and compiled to each tool's native format: Agent Skills, plugins, subagents, slash commands, rules files or plain paste-in text. Nothing to learn, nothing to run, no account.
+Every entry is written once and compiled to each tool's native format: Agent Skills, plugins, subagents, slash commands, rules files or plain paste-in text. Nothing to learn, nothing to run, no account, no API key.
 
-> **Status: catalog `2026.1003.1`.** 2,570 entries. The 1,900 curated ones are live through the Claude Code marketplace and Agent Skills installers below; the CLI on npm searches and installs all of them: `npx @hermes-hq/hodios search` (see [Use the CLI](#use-the-cli)).
+## Try it in 10 seconds
 
-*Hodios* (HO-dee-os) is an epithet of Hermes: the guide of travellers. This library is the guide for your agents.
+```sh
+# Claude Code: a whole domain as one plugin
+claude plugin marketplace add hermes-hq/hodios-dist
+claude plugin install hodios-software-engineering@hodios
+
+# Codex, Cursor, Copilot, OpenCode or any Agent Skills tool
+npx skills add hermes-hq/hodios-dist --skill review-pull-request -a codex
+
+# Search the whole catalog, ranked for the project you're in
+npx @hermes-hq/hodios search
+```
+
+Using ChatGPT or claude.ai? Open any entry on [hermes-ide.com/prompts](https://hermes-ide.com/prompts), press Copy and paste it into a chat.
+
+## Not just for code
+
+A small taste. Every one of these is a single line to install.
+
+| You want to… | Use |
+|---|---|
+| Get a pull request reviewed the way a careful senior engineer would | [`review-pull-request`](library/software-engineering/code-review/review-pull-request/) |
+| Have a security subagent that only reports issues with a real attack path | [`security-auditor`](library/software-engineering/security/security-auditor/) |
+| Find out whether an online shop is a scam before you pay | [`check-online-shop-legitimacy`](library/productivity/digital-safety/check-online-shop-legitimacy/) |
+| Understand a scary error message and fix it safely | [`explain-error-message`](library/productivity/tech-help/explain-error-message/) |
+| Ask for a raise with evidence, a number and a script | [`ask-for-raise`](library/career-hr/career-growth/ask-for-raise/) |
+| Appeal a denied insurance claim against the policy wording | [`appeal-insurance-denial`](library/legal-admin/legal-correspondence/appeal-insurance-denial/) |
+| Tell a child about a divorce, an illness or a death | [`explain-hard-topic-to-child`](library/parenting-family/parenting/explain-hard-topic-to-child/) |
+| Plan a week of meals, with the shopping list grouped by aisle | [`plan-weekly-meals`](library/home-cooking/meal-planning/plan-weekly-meals/) |
+| Build a training plan that progresses safely | [`build-training-plan`](library/health-wellbeing/fitness/build-training-plan/) |
+| Budget a trip before you book it | [`plan-trip-budget`](library/travel/travel-logistics/plan-trip-budget/) |
+| Compare a stack of papers for a literature review | [`build-literature-matrix`](library/research-science/literature-review/build-literature-matrix/) |
+| Call an A/B test: ship, iterate or stop | [`analyze-ab-test-results`](library/data-analysis/statistics/analyze-ab-test-results/) |
+| Balance a combat encounter for your tabletop party | [`balance-combat-encounter`](library/gaming-fun/tabletop-rpg/balance-combat-encounter/) |
+| Rewrite a prompt for a reasoning model | [`adapt-prompt-for-reasoning-model`](library/prompting/prompt-engineering/adapt-prompt-for-reasoning-model/) |
+
+[See every domain and category ↓](#whats-inside)
+
+## What an entry looks like
+
+One Markdown file with typed arguments, an explicit output contract and shared guardrails ([full file](library/software-engineering/code-review/review-pull-request/prompt.md)):
+
+```markdown
+---
+id: review-pull-request
+kind: prompt
+title: Review a pull request
+args:
+  - {name: diff, type: text, required: true}
+  - {name: focus, type: enum, enum: [correctness, security, performance, all], default: all}
+output_contract: {format: markdown, sections: [Verdict, Findings, Missing tests]}
+pairs_with: {personas: [code-reviewer, security-auditor]}
+---
+<task>
+Review {{diff}}. If it is a PR URL or branch name, fetch the diff; if you cannot, ask for it once and stop.
+1. Read the whole diff once before judging any hunk.
+2. For each suspected defect, trace the input that triggers it. Drop it if you cannot construct one.
+3. Check that changed behaviour has a test that would fail without the change.
+</task>
+```
+
+Next to it sits an `evals.yaml`: realistic cases that compare the entry with a plain one-line request on models from two vendors, graded by a third. The compiler turns that one file into a Claude Code skill and slash command, a Codex skill, a Copilot prompt file, a Gemini command, a Cursor rule or paste-in text.
+
+## Why Hodios
+
+- **Measured, not claimed.** Stable entries must beat a plain request on their own evals, on models from two vendors, before they are promoted.
+- **Native everywhere.** One source, compiled to each tool's real format and limits. No wrapper, no runtime, no lock-in.
+- **The ones for you, not all of them.** Entries are tagged by stack, stage, needs and tool, so search puts what fits your project first.
+- **Self-contained.** An installed entry never depends on another entry being installed.
+- **Safe by construction.** Entries are text only: no scripts, no tool grants, no hidden characters, no download-and-run. Every change is linted and reviewed.
+- **Free for any use.** Content is CC0: copy it into your repo, your product or your docs. A link back is appreciated, never required.
+- **No telemetry.** The library and the CLI collect nothing.
 
 ## Install
 
@@ -42,9 +116,9 @@ Pick your tool. Each command was run against the published install tree in [herm
 | **Codex, Cursor, Copilot, OpenCode and other Agent Skills tools** | `npx skills add hermes-hq/hodios-dist --skill review-pull-request -a codex` |
 | **Gemini CLI** | `gemini skills install https://github.com/hermes-hq/hodios-dist --path skills/review-pull-request --consent` |
 | **ChatGPT, claude.ai, anything else** | Copy `paste/<id>.md` from [hodios-dist](https://github.com/hermes-hq/hodios-dist/tree/main/paste), or run `npx @hermes-hq/hodios use <id>` for any entry |
-| **Hermes IDE** | Built in. Open the Library tab. |
+| **Hermes IDE** | Coming soon: built in, in the Library tab. |
 
-Claude Code installs a whole domain at a time: `hodios-software-engineering`, `hodios-education`, `hodios-travel` and so on, one plugin per domain. Then call an entry as `/hodios-software-engineering:review-pull-request`, or let Claude pick the subagents (`hodios-software-engineering:security-auditor`). For `npx skills`, `-a` takes `claude-code`, `codex`, `cursor`, `github-copilot`, `opencode`, `gemini-cli` and more; `--skill '*'` installs all 1,900 curated entries.
+Claude Code installs a whole domain at a time: `hodios-software-engineering`, `hodios-education`, `hodios-travel` and so on, one plugin per domain. Then call an entry as `/hodios-software-engineering:review-pull-request`, or let Claude pick the subagents (`hodios-software-engineering:security-auditor`). For `npx skills`, `-a` takes `claude-code`, `codex`, `cursor`, `github-copilot`, `opencode`, `gemini-cli` and more; `--skill '*'` installs every curated entry.
 
 ### Use the CLI
 
@@ -382,15 +456,6 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 </details>
 <!-- catalog:end -->
 
-## Why Hodios
-
-- **Measured, not claimed.** Stable entries must beat a plain request on their own evals, on models from two vendors, before they are promoted.
-- **Native everywhere.** One source, compiled to each tool's real format and limits. No wrapper, no runtime, no lock-in.
-- **Self-contained.** An installed entry never depends on another entry being installed.
-- **Safe by construction.** Entries are text only: no scripts, no tool grants, no hidden characters, no download-and-run. Every change is linted and reviewed.
-- **Free for any use.** Content is CC0: copy it into your repo, your product or your docs. A link back is appreciated, never required.
-- **No telemetry.** The library and the CLI collect nothing.
-
 ## Contribute
 
 Adding a prompt takes about five minutes: copy an example folder, edit the frontmatter, write the body, run `npm run validate`, and open a pull request. [CONTRIBUTING.md](CONTRIBUTING.md) has the walkthrough, the quality bar and what we do not accept. Questions and ideas go to [Discussions](https://github.com/hermes-hq/hodios/discussions).
@@ -408,6 +473,10 @@ curated.txt                          the curated tier: the entries hodios-dist s
 ```
 
 The compiled install tree (the curated tier) and the searchable catalog (every entry, `catalog/v1`) live in [hermes-hq/hodios-dist](https://github.com/hermes-hq/hodios-dist), built by the release bot. How entries are picked for the curated tier: [TAXONOMY.md §6.1](TAXONOMY.md#61-tiers-and-the-curated-list).
+
+## The name
+
+*Hodios* (HO-dee-os) is an epithet of Hermes: the guide of travellers. This library is the guide for your agents.
 
 ## Support
 

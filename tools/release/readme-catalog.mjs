@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Writes the README catalog section (between <!-- catalog:start --> and <!-- catalog:end -->) from the library.
+// Writes the README catalog section (between <!-- catalog:start --> and <!-- catalog:end -->) and the headline
+// numbers (between <!-- stats:start --> and <!-- stats:end -->) from the library.
 // One row per category, never one per entry, so the table stays readable at any catalog size.
 //
 // Usage: npm run build && node tools/release/readme-catalog.mjs [--check]
@@ -10,6 +11,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const START = '<!-- catalog:start -->';
 const END = '<!-- catalog:end -->';
+const STATS_START = '<!-- stats:start -->';
+const STATS_END = '<!-- stats:end -->';
 const EXAMPLES = 3;
 const KINDS = ['prompt', 'persona', 'workflow', 'rule', 'style'];
 
@@ -47,12 +50,33 @@ export function renderCatalog(entries, vocab) {
   return lines.join('\n').trimEnd();
 }
 
+/**
+ * The headline numbers under the banner: entries, domains, categories, personas and workflows.
+ * The holding area (`other`) is not counted as a domain or category.
+ * @param {{kind: string, category: string}[]} entries
+ * @param {{domains: {value: string}[], categories: {value: string, domain: string}[]}} vocab
+ */
+export function renderStats(entries, vocab) {
+  const n = (x) => x.toLocaleString('en-US');
+  const used = new Set(entries.map((e) => e.category));
+  const categories = vocab.categories.filter((c) => used.has(c.value) && c.domain !== 'other');
+  const domains = new Set(categories.map((c) => c.domain));
+  const count = (kind) => entries.filter((e) => e.kind === kind).length;
+  return [
+    `<b>${n(entries.length)}</b> entries`,
+    `<b>${n(domains.size)}</b> domains`,
+    `<b>${n(categories.length)}</b> categories`,
+    `<b>${n(count('persona'))}</b> personas`,
+    `<b>${n(count('workflow'))}</b> workflows`,
+  ].join(' &nbsp;·&nbsp; ');
+}
+
 /** Replaces the text between the markers; throws if they are missing. */
-export function replaceSection(readme, body) {
-  const start = readme.indexOf(START);
-  const end = readme.indexOf(END);
-  if (start < 0 || end < start) throw new Error(`README.md needs ${START} and ${END}`);
-  return `${readme.slice(0, start + START.length)}\n${body}\n${readme.slice(end)}`;
+export function replaceSection(readme, body, start = START, end = END) {
+  const from = readme.indexOf(start);
+  const to = readme.indexOf(end);
+  if (from < 0 || to < from) throw new Error(`README.md needs ${start} and ${end}`);
+  return `${readme.slice(0, from + start.length)}\n${body}\n${readme.slice(to)}`;
 }
 
 async function main() {
@@ -80,13 +104,20 @@ async function main() {
     title: e.fm.title,
     path: `${(folders.get(e.fm.id) ?? '').split(sep).join('/')}/`,
   }));
-  const body = renderCatalog(entries, { domains: values('domain'), categories: values('category') });
+  const vocab = { domains: values('domain'), categories: values('category') };
   const file = join(root, 'README.md');
   const before = readFileSync(file, 'utf8');
-  const after = replaceSection(before, body);
+  const after = replaceSection(
+    replaceSection(before, renderCatalog(entries, vocab)),
+    renderStats(entries, vocab),
+    STATS_START,
+    STATS_END,
+  );
   if (process.argv.includes('--check')) {
     if (before !== after) {
-      console.error('README.md catalog section is out of date; run node tools/release/readme-catalog.mjs');
+      console.error(
+        'README.md catalog section or headline numbers are out of date; run node tools/release/readme-catalog.mjs',
+      );
       process.exit(1);
     }
     return;
