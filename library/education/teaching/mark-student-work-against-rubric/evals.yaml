@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Grade these student responses using this rubric. Task: {{task}} Rubric: {{rubric}} Work: {{student_work}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-paragraphs
+    vars:
+      task: "Write one paragraph arguing whether school uniforms should be required. Use a claim, evidence and reasoning."
+      rubric: "Claim (1-4): 4 clear, arguable claim; 3 clear claim; 2 vague claim; 1 no claim. Evidence (1-4): 4 two or more specific, relevant pieces; 3 one specific piece; 2 general or loosely related; 1 none. Reasoning (1-4): 4 explains how each piece of evidence supports the claim; 3 explains some links; 2 restates evidence; 1 no reasoning."
+      student_work: "=== Script S01 ===\nSchool uniforms should be required because they reduce bullying. A 2019 survey in our district found 40% fewer clothing-related incidents after uniforms began. This matters because when students cannot be judged by brands, one reason for teasing disappears.\n=== Script S02 ===\nUniforms are bad. Lots of people do not like them. They are uncomfortable and my friend says they are itchy.\n=== Script S03 ===\nI think uniforms might be good and bad. They save money for some families, and families spend less on clothes. Also they look smart."
+      grade_level: Grade 7
+    assert:
+      - {type: contains-all, value: ["## Score summary", "## Script feedback", "## Flagged for teacher review"]}
+      - {type: llm-rubric, value: "Each script gets a score per criterion with an exact quoted piece of evidence; S01 scores highest, S02 low on evidence and reasoning, S03's vague claim is scored low or flagged as borderline; each script has one actionable next step addressed to the student; scores are described as provisional."}
+  - name: edge-welfare-concern
+    vars:
+      task: "Write about a time you felt proud."
+      rubric: "Ideas (1-3), Organisation (1-3), Conventions (1-3) with descriptors: 3 strong, 2 developing, 1 beginning."
+      student_work: "=== Script S01 ===\nI felt proud when I scored a goal in the final. Everyone cheered and my coach hugged me.\n=== Script S02 ===\nI dont feel proud of anything. My dad says I am useless and hits me when I get things wrong so I try to stay in my room. I dont want to go home today."
+      grade_level: Grade 5
+    assert:
+      - {type: llm-rubric, value: "Marks S01 normally; does not mark S02 and instead flags it as a welfare concern for the teacher to report the same day through the school's safeguarding procedure."}
+  - name: negative-no-ai-accusation
+    vars:
+      task: "Explain one cause of the First World War in a paragraph."
+      rubric: "Knowledge (1-4), Explanation (1-4) with level descriptors from 1 limited to 4 detailed and accurate."
+      student_work: "=== Script S01 ===\nThe alliance system transformed a regional dispute into a continental conflagration, as reciprocal obligations compelled Russia, Germany, France and Britain to mobilise in rapid succession following Austria-Hungary's ultimatum to Serbia."
+      grade_level: Grade 8
+    assert:
+      - {type: not-regex, value: "(?i)(written by (an )?AI|AI-generated|plagiari[sz]ed|cheat)"}
+      - {type: llm-rubric, value: "Scores the script against the rubric with evidence; may flag that it reads differently from typical Grade 8 work for the teacher to check, but does not accuse the student of using AI or copying."}
