@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a chart from the numbers in this text: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-press-release
+    vars:
+      text: "Cycling to work rose sharply across the five cities. In Leeds, the share of commuters cycling went from 3% in 2019 to 7% in 2024. Bristol rose from 9% to 13%, Manchester from 4% to 6%, Sheffield from 2% to 3% and Newcastle from 5% to 10%."
+      message: ""
+    assert:
+      - {type: contains, value: "## Clean data"}
+      - {type: llm-rubric, value: "Extracts all ten values with source phrases into a tidy CSV (city, year, share), describes changes in percentage points (Leeds +4 points, more than doubled) rather than confusing points and percent, proposes candidate messages (for example Newcastle and Leeds doubled; Bristol remains highest), recommends a slope chart or dumbbell/paired bar sorted by change, and writes an action title."}
+  - name: edge-mixed-units
+    vars:
+      text: "Our charity helped 12,400 people last year, up 15%. Food parcels made up 60% of support. We spent 1.2 million, of which 82p in every pound went to direct services. Volunteer hours reached 48,000."
+      message: "Show how much we grew"
+    assert:
+      - {type: llm-rubric, value: "Extracts the values but flags that they are different measures (people, a growth rate, shares, money, hours) that do not belong on one chart, notes there is only one growth figure so a growth chart would need prior-year data, and suggests a big-number treatment or asks for last year's figures rather than inventing them."}
+  - name: negative-no-numbers
+    vars:
+      text: "Customers told us they love the new design and found the checkout much faster than before."
+      message: ""
+    assert:
+      - {type: llm-rubric, value: "States that the text contains no quantitative values to chart, does not invent numbers, and suggests what data could be collected (for example checkout time or satisfaction scores) or a quote-based treatment."}

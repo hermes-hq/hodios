@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Tableau calculated fields for: {{definitions}} Data: {{data_structure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cohort-and-running-total
+    vars:
+      definitions: "1) Each customer's first order date. 2) Share of customers whose first order was in their sign-up month, by sign-up month. 3) Running total of sales by week that resets each calendar year."
+      data_structure: "Orders table, one row per order line: [Order ID], [Customer ID], [Order Date], [Sales]. Customers table joined on [Customer ID] with [Signup Date]. Dashboard has a Region filter."
+    assert:
+      - {type: regex, value: "\\{\\s*FIXED\\s+\\[Customer ID\\]"}
+      - {type: llm-rubric, value: "Uses a FIXED LOD on Customer ID for first order date, computes the share as a ratio of distinct counts rather than an average of row-level flags at order-line grain, writes a RUNNING_SUM table calculation with compute-using across weeks partitioned by year, and explains that the Region dimension filter will not affect the FIXED calculation unless it is added to context."}
+  - name: edge-percent-of-total-filter
+    vars:
+      definitions: "Each product category's share of total sales. When the user filters to one category, the share should still be relative to all categories."
+      data_structure: "[Category], [Sales]; category filter on the dashboard."
+    assert:
+      - {type: llm-rubric, value: "Explains that a TOTAL()-based table calculation would show 100% after the category filter, offers a FIXED LOD (or EXCLUDE with an appropriate filter setup) for the denominator so the share stays relative to all categories, and describes the order of operations that makes this work."}
+  - name: negative-ambiguous-active
+    vars:
+      definitions: "Number of active users."
+      data_structure: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that 'active' needs a definition (activity type and time window) and the grain is unknown, writes the calculation with a parameter for the window and placeholder field names, and lists the questions to confirm instead of asserting one definition."}

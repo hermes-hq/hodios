@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Draw a {{format}} diagram in Mermaid for this process: {{process}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-swimlane-expenses
+    vars:
+      process: "An employee submits an expense claim in the portal with receipts. Their manager approves or rejects it. If rejected, the employee can fix and resubmit. Claims over 500 also need finance director approval. Finance checks receipts, then pays in the next payroll run."
+      format: swimlane
+    assert:
+      - {type: contains, value: "```mermaid"}
+      - {type: contains, value: "subgraph"}
+      - {type: llm-rubric, value: "Uses flowchart with one subgraph per owner (employee, manager, finance director, finance), includes the over-500 decision with both labelled exits and the reject-and-resubmit loop, ends paths in end states, uses valid Mermaid ids and quoted labels, and lists real gaps such as what happens if finance finds a receipt problem."}
+  - name: edge-sequence-api
+    vars:
+      process: "When a customer pays on our website, the web app sends the card details to the payment provider, which returns approved or declined. If approved, the web app tells the order service to create the order, and the order service emails the customer. If declined, the web app shows an error and the customer can retry up to 3 times."
+      format: sequence
+    assert:
+      - {type: contains, value: "sequenceDiagram"}
+      - {type: llm-rubric, value: "Lists participants (customer, web app, payment provider, order service), uses an alt/else block for approved versus declined and a loop or note for up to 3 retries, distinguishes requests and responses, and asks what happens after the third decline."}
+  - name: negative-too-vague
+    vars:
+      process: "Onboarding new clients."
+      format: flowchart
+    assert:
+      - {type: llm-rubric, value: "Does not invent a detailed process; asks for the trigger, the steps, owners and decisions, and may offer a short skeleton clearly marked as a placeholder."}

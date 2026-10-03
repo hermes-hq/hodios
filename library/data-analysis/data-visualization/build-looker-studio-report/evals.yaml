@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me build a Looker Studio report. Data: {{data_sources}} Questions: {{questions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketing-report
+    vars:
+      data_sources: "GA4 property for our online shop, Google Ads account, and a Google Sheet with monthly revenue targets per channel (columns: month, channel, target)."
+      questions: "Weekly for the marketing team: are we on track against target by channel, which campaigns drive revenue efficiently (ROAS), and how is conversion rate trending?"
+    assert:
+      - {type: contains, value: "## Blends"}
+      - {type: llm-rubric, value: "Plans data sources with credentials and freshness, blends the targets sheet with GA4 by month and channel and warns about matching channel names and date granularity, defines ROAS and conversion rate as calculated fields computed as ratios of sums, lays out an overview page with scorecards versus target and a campaign page, scopes controls, and flags GA4 quota limits with an extract or BigQuery alternative."}
+  - name: edge-viewer-permissions
+    vars:
+      data_sources: "BigQuery table of sales by region. Regional managers must see only their own region."
+      questions: "Monthly sales performance by region and product for 8 regional managers and the sales director."
+    assert:
+      - {type: llm-rubric, value: "Addresses row-level access, for example viewer's credentials with BigQuery permissions or filtering by the viewer's email in a calculated field or parameter, explains the trade-offs and the risk of relying on report filters for security, and plans pages and controls for the two audiences."}
+  - name: negative-vague-questions
+    vars:
+      data_sources: "GA4, Search Console, Facebook Ads, Shopify, HubSpot, and 6 Google Sheets."
+      questions: "Put everything in one dashboard."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on an everything-dashboard, asks who will use it and which decisions it supports, and suggests starting with a few headline metrics before planning blends across many sources."}

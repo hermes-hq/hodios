@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write alt text for this chart: {{chart_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-line-chart-web
+    vars:
+      chart_description: "Line chart for a council website, title 'Household recycling rate, 2015-2024'. Y-axis: % of household waste recycled, 0-60. Red line (our council): 2015 38%, 2016 39%, 2017 41%, 2018 42%, 2019 44%, 2020 43%, 2021 46%, 2022 49%, 2023 51%, 2024 52%. Grey line (national average): flat around 44-45% throughout. Source: council waste data and national statistics."
+      key_message: "We overtook the national average in 2021 and the gap keeps growing."
+    assert:
+      - {type: contains, value: "## Data table"}
+      - {type: not-icontains, value: "red line"}
+      - {type: llm-rubric, value: "Alt text is short and states the chart type, subject and the overtaking of the national average with anchoring numbers (38% to 52%); the long description gives axes, range and source, notes the 2020 dip and the crossing in 2021, refers to series by name not colour; includes a Markdown data table and web implementation notes such as aria-describedby or a linked description."}
+  - name: edge-no-key-message
+    vars:
+      chart_description: "Bar chart in a slide deck: customer support tickets by channel in Q3. Email 4,200; chat 6,800; phone 2,100; social 600."
+      key_message: ""
+    assert:
+      - {type: llm-rubric, value: "Infers a key message (chat is the largest channel, roughly half of 13,700 tickets) and labels it as inferred for confirmation, writes alt text and a long description consistent with the numbers, gives a data table, and gives slide-specific notes (alt text field, speaker notes)."}
+  - name: negative-no-data
+    vars:
+      chart_description: "A pie chart about our budget."
+      key_message: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the categories, values and units (or the chart image) instead of inventing figures, and may note that the description will also benefit from a data table."}
