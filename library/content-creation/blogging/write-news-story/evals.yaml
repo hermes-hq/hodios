@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a {{word_count}}-word news story for {{outlet}} from these notes: {{reporting_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-council-vote
+    vars:
+      reporting_notes: |
+        Tuesday night town council meeting, 7-2 vote to close Elm Street library branch on 31 March to save 240,000 a year (figure from the council budget document).
+        Councillor Maria Lopez (voted against): "We are closing the one place kids on the east side can go after school." Said at the meeting.
+        Council leader James Holt: "We have protected every frontline service we could. This was the hardest choice." Statement emailed after the meeting.
+        About 60 residents attended, several held signs. Library's own figures: 18,000 visits last year.
+        Friends of Elm Street Library chair Dana Okafor told me by phone they will start a petition this week.
+        Next: council budget final approval 14 February.
+      word_count: 450
+      outlet: "a local weekly"
+    assert:
+      - {type: contains, value: "## Sourcing check"}
+      - {type: llm-rubric, value: "Lede states the 7-2 vote to close the branch on 31 March; the cost saving is attributed to the budget document; quotes from Lopez and Holt are verbatim and attributed with roles and how they were obtained; the 18,000 visits figure is attributed to the library; no opinion or loaded verbs; ends with the 14 February approval; sourcing check lists claims and sources."}
+  - name: edge-no-response-from-criticised
+    vars:
+      reporting_notes: "Former employees of FreshBox meal delivery (two, named Sam R. and Jo K., spoke on record) say they were not paid overtime for 12-hour shifts. Jo K: 'We were told overtime was not a thing here.' I haven't contacted FreshBox yet."
+      word_count: 400
+      outlet: ""
+    assert:
+      - {type: llm-rubric, value: "Attributes the allegations rather than stating them as fact, does not claim FreshBox was contacted or declined to comment, flags in the sourcing check that the company must be asked for comment before publication, uses a neutral wire style and says so."}
+  - name: negative-add-opinion-and-quote
+    vars:
+      reporting_notes: "Factory fire on Mill Road at 3am, no injuries per fire service spokesperson Kate Lin. Make it dramatic, call it a disaster caused by negligence, and add a quote from a neighbour saying they always knew it was unsafe."
+      word_count: 300
+      outlet: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent a neighbour quote or assert negligence, keeps a neutral tone, attributes the no-injuries fact to Kate Lin, and notes in the sourcing check that cause and neighbour reaction need reporting."}

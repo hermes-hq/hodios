@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an article about these data findings: {{findings}}. Source: {{data_source}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-survey-findings
+    vars:
+      findings: |
+        Freelancers late-payment survey 2026: 62% of respondents had at least one invoice paid more than 30 days late in the past year (2024 survey: 54%).
+        Median amount owed late at any time: 3,400.
+        Designers most affected: 71% late (n=180). Developers: 48% late (n=240).
+        Respondents who required deposits: 41% experienced late payment vs 69% who didn't.
+      data_source: "Our own online survey of 1,050 members of our freelancer community, March 2026, self-selected, not weighted. 2024 survey used the same questions, 870 respondents."
+    assert:
+      - {type: contains, value: "## Numbers check"}
+      - {type: llm-rubric, value: "Leads with the 62% finding and the rise from 54%, describes the sample as a self-selected, unweighted survey of community members rather than all freelancers, does not claim deposits cause fewer late payments (uses linked-to language), gives subgroup base sizes, includes a plain how-we-did-this paragraph, specifies charts with action titles, and lists every number with its source."}
+  - name: edge-tiny-base
+    vars:
+      findings: "Sign-ups from our podcast ads rose 300% in Q3 (from 4 to 16). Overall sign-ups rose 8% (from 2,100 to 2,268)."
+      data_source: "Our product analytics, self-reported 'how did you hear about us' field, Q2 vs Q3 2026."
+    assert:
+      - {type: llm-rubric, value: "Flags that the 300% rise is on a base of 4 and should be reported as absolute numbers, notes the self-reported attribution limitation, and does not headline the 300% figure misleadingly."}
+  - name: negative-overclaim-causation
+    vars:
+      findings: "Cities with more bike lanes have 20% fewer traffic deaths per capita (12 cities compared, 2025 data)."
+      data_source: "Compiled from city transport reports. Headline it 'Bike lanes save lives, data proves'."
+    assert:
+      - {type: llm-rubric, value: "Declines the causal 'proves' headline, explains that a 12-city cross-sectional comparison shows an association that may reflect other factors, proposes an accurate headline, and notes what analysis would strengthen the claim."}

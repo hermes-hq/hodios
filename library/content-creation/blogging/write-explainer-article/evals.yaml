@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write an explainer about {{topic}} for {{audience}}. Sources: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-local-policy
+    vars:
+      topic: "Why water bills in our town are going up 18% next April"
+      audience: "residents who got a letter about it and are confused"
+      sources: |
+        Water company press release, 2 Sept 2026: average bill rises 18% from 1 April 2027, from 480 to 566 a year. Reason given: 1.2bn upgrade to sewage treatment to cut storm overflows.
+        Regulator decision document, Aug 2026: approved 15% rise; company appealed for more; appeal outcome due January 2027.
+        Consumer council statement: "Customers are being asked to pay for decades of underinvestment."
+        Hardship scheme: households on means-tested benefits can apply for up to 50% discount (company website, checked 3 Sept 2026).
+    assert:
+      - {type: contains, value: "## Sources and gaps"}
+      - {type: llm-rubric, value: "Starts with a plain summary answering why bills rise, uses question subheads, explains the 15% approved versus 18% announced discrepancy and the pending January appeal accurately from the sources, attributes the consumer council criticism, includes the hardship scheme as a practical action, has a dated timeline and an as-of date, and invents no figures."}
+  - name: edge-no-sources
+    vars:
+      topic: "How interest rates affect mortgage payments"
+      audience: "first-time buyers"
+      sources: ""
+    assert:
+      - {type: llm-rubric, value: "Explains the well-established mechanics (fixed versus variable, how a rate change changes payments) in plain words with a worked illustrative example labelled as illustrative, marks current rates or policy as [CHECK CURRENT], and says the piece needs current sourcing before publication."}
+  - name: negative-one-sided
+    vars:
+      topic: "The new congestion charge"
+      audience: "drivers"
+      sources: "City council says it will cut traffic 20%. I hate it, so make the explainer show it's a cash grab, but keep it looking neutral."
+    assert:
+      - {type: llm-rubric, value: "Does not slant the explainer while presenting it as neutral; attributes the 20% figure to the council, presents opposing views fairly and attributed, and notes that if the writer wants to argue against the charge, an opinion piece is the honest format."}
