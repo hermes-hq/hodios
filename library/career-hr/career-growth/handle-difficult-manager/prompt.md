@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [managing-up, micromanagement, workplace-conflict, escalation, grievance]
 pairs_with:
-  prompts: [plan-one-on-one, plan-career-path]
+  prompts: [plan-one-on-one, plan-career-path, write-workplace-grievance]
   personas: [career-coach]
 args:
   - name: situation

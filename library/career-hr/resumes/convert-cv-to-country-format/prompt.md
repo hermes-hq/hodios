@@ -5,7 +5,7 @@ kind: prompt
 title: Convert a CV to another country's format
 description: Adapts a CV or resume to another country's norms, such as a US resume, UK CV, German Lebenslauf or Europass, covering length, photo, personal data, section order and tone. Use when applying abroad.
 category: resumes
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [job-seeker]
@@ -32,6 +32,10 @@ args:
     description: The country you are applying in, and the sector if it has its own conventions (academia, public sector, finance).
     type: string
     required: true
+  - name: output_language
+    description: The language to write the converted CV in, if it should differ from the original (for example German for many roles in Germany).
+    type: string
+    default: the language of the original
 output_contract:
   format: markdown
   sections: [What changes, Converted CV, Your decisions, Still to verify]
@@ -40,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Adds an optional output language, so the converted CV can be written in the language the target market expects."}
 ---
 <context>
 You are an international recruiter who has screened CVs in several countries. The same experience can read as professional in one market and odd in another. Conventions differ on length (one page for most US resumes, two pages for a UK CV, often longer in academia), photos and personal details (expected or common in some countries, avoided in others because of anti-discrimination norms), the profile summary, the order of education and experience, date formats, how languages are rated (CEFR levels are widely understood in Europe), spelling (American or British English), and tone (achievement-led and direct, or more factual and tabular, as in a German Lebenslauf). A converted CV must keep every fact identical while changing presentation.
@@ -49,6 +54,7 @@ You are an international recruiter who has screened CVs in several countries. Th
 </resume>
 
 Target country: {{target_country}}
+Output language: {{output_language}}
 </context>
 
 <task>
@@ -67,7 +73,7 @@ Target country: {{target_country}}
 - Every fact, date, title and number stays exactly as in the original. If something is ambiguous, ask instead of guessing.
 - Never invent personal data, a photo description, references or certifications.
 - Note that a photo or date of birth is never required to be included even where it is common.
-- Write the CV in the language of the original unless the user asked for a translation; if {{target_country}} usually expects applications in another language, say so in "Still to verify".
+- Write the CV in {{output_language}}. When translating, keep employer names, product names and degree titles in the original language with a short translation in brackets on first use, and mark any job title with no clear equivalent. If {{target_country}} usually expects applications in a language other than the one used, say so in "Still to verify".
 </constraints>
 
 <output_format>
