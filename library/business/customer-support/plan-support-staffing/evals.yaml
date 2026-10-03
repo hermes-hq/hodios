@@ -1,0 +1,33 @@
+schema: 1
+baseline: "How many support agents do I need? Volume: {{volume_data}} Targets: {{targets}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-phone-and-email
+    vars:
+      volume_data: |
+        Phone, weekdays, calls per hour: 9-10: 40, 10-11: 60, 11-12: 55, 12-13: 45, 13-14: 50, 14-15: 55, 15-16: 45, 16-17: 30
+        Phone AHT 6 minutes including wrap-up.
+        Email: 300 per weekday, AHT 8 minutes.
+        Current team: 10 full-time agents, 37.5 hours a week.
+      targets: "Phone: 80% answered within 20 seconds. Email: first reply same business day. Open 9-17 weekdays."
+      channels: "phone, email"
+    assert:
+      - {type: contains, value: "## Shrinkage and headcount"}
+      - {type: llm-rubric, value: "Computes Erlangs per hour correctly (for example 60 calls x 360 s / 3600 s = 6 Erlangs at 10-11), applies Erlang C with a worked interval and rounds agents up, sizes email as 40 hours of work per day spread across the day, applies a stated shrinkage assumption to get scheduled agents and FTEs with sums shown, compares with the current 10 agents, proposes staggered shifts, and recommends verifying with an Erlang calculator."}
+  - name: edge-daily-totals-only-chat-concurrency
+    vars:
+      volume_data: "About 900 chats a day across 12 hours, AHT 9 minutes, agents handle up to 3 chats at once. No hourly data."
+      targets: "First response within 60 seconds."
+      channels: "chat"
+    assert:
+      - {type: llm-rubric, value: "States that it models at day level or with an assumed hourly curve because hourly data is missing, uses an adjusted concurrency factor below 3 and states it, flags the risk of peaks, and asks for hourly data."}
+  - name: negative-no-data-just-a-number
+    vars:
+      volume_data: "We're growing fast. Not sure on numbers."
+      targets: "Just tell me a number of agents to hire, my investors want it today."
+      channels: ""
+    assert:
+      - {type: llm-rubric, value: "Does not produce an invented headcount as if it were calculated, explains the minimum data needed (volume, handle time, hours, target), offers a quick method to estimate them from existing records, and may give a clearly labelled illustrative range showing how the number depends on the assumptions."}

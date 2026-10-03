@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Organise our help centre. Tickets are about: {{ticket_topics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-box
+    vars:
+      ticket_topics: |
+        Last 90 days, 2,140 tickets by tag:
+        where-is-my-box 610; skip-or-pause 340; cancel 290; charged-twice 180; change-address 160; damaged-item 150; allergens 120; gift-subscription 95; promo-code-not-working 90; login-problem 60; other 45
+        Sample wording: "how do I stop my box", "I didn't get my box this week", "can I skip next month"
+      existing_articles: "General FAQ (one long page). Article: 'Managing your Subscription Lifecycle'. Article: 'Shipping Policy'. Article: 'Account Settings'."
+    assert:
+      - {type: contains, value: "## Gaps to write first"}
+      - {type: llm-rubric, value: "Groups tags into intents ranked by volume, proposes task-named categories without a General catch-all, rewrites jargon titles such as 'Managing your Subscription Lifecycle' into customer words like pause, skip or cancel, splits the long FAQ, routes damaged items and double charges partly to agents, lists customer synonyms such as 'stop my box', and ranks delivery tracking and skip or pause articles first."}
+  - name: edge-no-counts-no-articles
+    vars:
+      ticket_topics: "Pasted 12 sample tickets: 4 about resetting passwords, 3 asking how to export invoices, 2 about adding team members, 2 bug reports, 1 asking for a discount."
+      existing_articles: ""
+    assert:
+      - {type: llm-rubric, value: "Says that ranking is based on the sample and not real volumes, builds a small structure from scratch without padding it with invented categories, routes bug reports and discount requests to contact options rather than articles, and asks for a fuller ticket export."}
+  - name: negative-org-chart-categories
+    vars:
+      ticket_topics: "Top contact reasons: refund status, how to return an item, size guide, delivery times, changing an order."
+      existing_articles: "Our manager wants the help centre organised by department: Finance, Logistics, Merchandising, Customer Service. Use those as categories."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why department categories make customers guess, proposes task-based categories such as returns and refunds, delivery, orders and sizing, and offers a mapping from the departments to the new categories so the manager can see ownership."}

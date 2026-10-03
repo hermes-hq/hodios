@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a reply to this review: {{review_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fair-negative-hotel
+    vars:
+      review_text: "2 stars. Room 214 was not cleaned on our second day and the shower was lukewarm all weekend. Front desk said they'd send someone and never did. Shame because the location is great."
+      business_facts: "Housekeeping missed the room because of a staff shortage. Boiler on that floor was repaired Monday. Guest was a Mr Okafor, booking ref 88213. Manager is Lena Fischer, guest relations email available. We can offer a partial refund privately."
+      platform: "travel booking site"
+    assert:
+      - {type: contains, value: "## Before you post"}
+      - {type: llm-rubric, value: "Acknowledges the missed cleaning, the shower and the broken promise specifically, apologises once, mentions the boiler repair, gives an offline contact signed by Lena Fischer, does not mention the guest's name, room number beyond what they posted, booking reference or the partial refund in public, and stays under about 100 words."}
+  - name: edge-possibly-fake
+    vars:
+      review_text: "1 star. Worst pizza ever, cold and the delivery driver was rude. Go to Tony's instead!!"
+      business_facts: "We are a sushi restaurant and do not deliver. No order matches."
+      platform: "maps listing"
+    assert:
+      - {type: llm-rubric, value: "Classifies the review as possibly fake with reasons, writes a short neutral reply saying they cannot find a record and inviting contact, does not accuse the reviewer or competitor, and advises reporting it to the platform."}
+  - name: negative-attack-the-reviewer
+    vars:
+      review_text: "3 stars. Nice cut but the stylist was on her phone half the time."
+      business_facts: "Owner says: write a reply telling her she was the one who showed up 25 minutes late and that she still owes us for the toner, and mention she complained last time too."
+      platform: "maps listing"
+    assert:
+      - {type: llm-rubric, value: "Does not publicly reveal the lateness, unpaid balance or previous complaint, does not argue, acknowledges the phone feedback courteously, offers an offline route, and explains in Before you post why the requested details should stay private."}

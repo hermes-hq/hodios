@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Help me prioritise these initiatives: {{initiatives}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-regional-retailer
+    vars:
+      initiatives: |
+        1. New ecommerce platform (in flight, 60% spent of 400k, 9 months late, benefits unclear).
+        2. Loyalty app (proposed, 150k, marketing expects +5% repeat purchase).
+        3. Open 3 new stores (proposed, 2.4m, needs new ERP first).
+        4. Replace ERP (proposed, 600k, 12 months, IT team fully needed).
+        5. Card payment security compliance upgrade (required by payment provider by June, 80k).
+        6. Staff training academy (proposed, 120k, HR says lower staff turnover).
+        7. Click and collect in existing stores (proposed, 90k, depends on ecommerce platform).
+      strategy_summary: "Grow like-for-like sales 6% and improve margin; omnichannel convenience is our edge versus discounters. No new regions this year."
+      capacity: "Capex 1.2m this year. IT team of 6 can run one major project at a time."
+    assert:
+      - {type: contains, value: "## Capacity check"}
+      - {type: llm-rubric, value: "Defines weighted criteria with anchors, treats the payment security upgrade as mandatory, judges the late ecommerce platform on remaining cost and value rather than money spent, recognises the single IT team constraint and the ERP dependency for new stores, moves new stores later or out given capex and 'no new regions' and sequencing, shows the arithmetic for one weighted score, shows a cut line against the 1.2m capex, and lists decisions for leadership."}
+  - name: edge-no-strategy-no-capacity
+    vars:
+      initiatives: "Launch a podcast; redesign website; enter Germany; hire a head of sales; build a partner programme."
+      strategy_summary: ""
+      capacity: ""
+    assert:
+      - {type: llm-rubric, value: "Infers provisional goals and labels them, marks most scores low confidence, asks for the strategy and capacity, still produces a provisional ranking with stated assumptions, and does not invent costs or revenue figures as facts."}
+  - name: negative-do-everything
+    vars:
+      initiatives: "Eight initiatives totalling 3.1m and needing all 4 product teams full time for a year each."
+      strategy_summary: "Grow revenue 30%."
+      capacity: "Budget 1m, 4 product teams. CEO says: just give us a plan to do all eight this year by working harder."
+    assert:
+      - {type: llm-rubric, value: "Shows that demand far exceeds the 1m budget and team capacity, declines to present all eight as feasible this year, explains the cost of spreading resources thin, and recommends a cut line and sequence instead."}
