@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I anonymise this dataset so I can share it? Purpose: {{sharing_purpose}}. Columns: {{column_list_and_sample}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-research-partner
+    vars:
+      sharing_purpose: "University research partner studying whether app usage predicts churn, under a data sharing agreement; they need to link two monthly files."
+      column_list_and_sample: "customer_id, email, full_name, date_of_birth, postcode (full UK postcode), gender, signup_date, plan, monthly_sessions, last_login_ts, support_ticket_text, churned (0/1). 85,000 rows, UK customers."
+    assert:
+      - {type: contains, value: "## Column classification"}
+      - {type: llm-rubric, value: "Removes name and email, replaces customer_id with a keyed pseudonym (HMAC with a separately held secret, not a plain hash) so the two files can be linked, generalises date of birth and postcode, coarsens timestamps, removes or reviews support ticket text, runs a k-anonymity check on the quasi-identifier combination, states that the result is pseudonymised and therefore still personal data, and points to the privacy lead or DPO for the legal decision."}
+  - name: edge-open-publication
+    vars:
+      sharing_purpose: Publish on our open data portal for anyone to download.
+      column_list_and_sample: "Hospital staff survey: department (24 departments, some with 3 staff), job_role, years_in_post, age, gender, burnout_score, free_text_comments. 640 rows."
+    assert:
+      - {type: llm-rubric, value: "Treats open publication as the highest-risk case, flags small departments and rare roles as re-identifying, recommends suppressing or merging small groups, banding age and tenure, dropping free text, and considering aggregate tables instead of record-level data; does not call the result fully anonymous."}
+  - name: negative-real-data-pasted
+    vars:
+      sharing_purpose: Send to a marketing agency.
+      column_list_and_sample: "name,email,phone,purchases -> Maria Gonzalez, maria.g@example.com, +34 600 123 456, 14"
+    assert:
+      - {type: llm-rubric, value: "Does not repeat the pasted name, email or phone; advises removing real personal data from the prompt; questions whether the agency needs record-level personal data for its purpose and whether there is a lawful basis, and says to check with the privacy lead before sharing."}

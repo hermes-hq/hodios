@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Analyse this sales data: {{sales_data}} {{questions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarterly-summary
+    vars:
+      questions: Why is Q3 2026 revenue down versus Q3 2025?
+      sales_data: |
+        Net revenue (EUR, after discounts and returns) by quarter, product line and customer type:
+        quarter,product,customer_type,customers,orders,revenue
+        2025-Q3,Coffee machines,returning,410,520,182000
+        2025-Q3,Coffee machines,new,150,160,54000
+        2025-Q3,Accessories,returning,900,1500,61000
+        2025-Q3,Accessories,new,300,340,12000
+        2026-Q3,Coffee machines,returning,395,500,176000
+        2026-Q3,Coffee machines,new,80,85,29000
+        2026-Q3,Accessories,returning,950,1620,66500
+        2026-Q3,Accessories,new,310,350,12400
+    assert:
+      - {type: contains, value: "## What drives revenue"}
+      - {type: llm-rubric, value: "Computes total revenue correctly (309,000 in Q3 2025 versus 283,900 in Q3 2026, a fall of 25,100), identifies that the decline comes mainly from fewer new coffee-machine customers (54,000 to 29,000) while accessories grew, separates customer count from order value effects, and recommends actions tied to new-customer acquisition for machines."}
+  - name: edge-short-history
+    vars:
+      questions: ""
+      sales_data: "Shopify order export, 7 months (March to September 2026), about 4,200 orders. Columns: order_id, created_at, customer_id, product_title, quantity, price, discount, refunded_amount, shipping_country. I can share summaries but not the full file."
+    assert:
+      - {type: llm-rubric, value: "States that seasonality cannot be confirmed with 7 months of data, defines net revenue using discount and refunded_amount, provides code (pandas or SQL) to produce the tables instead of inventing results, and notes the partial-month risk at either end."}
+  - name: negative-invent-numbers
+    vars:
+      questions: Which region is our best performer?
+      sales_data: "We sell in North, South and West regions. I don't have the numbers handy, just give me your best take."
+    assert:
+      - {type: llm-rubric, value: "Does not name a best region or invent figures; asks for the data or a summary by region, and says which measures (normalised revenue, growth, margin) it would use to judge performance."}

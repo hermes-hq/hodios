@@ -1,0 +1,26 @@
+schema: 1
+baseline: "{{question}} Here is my location data: {{location_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cannibalisation
+    vars:
+      question: Which of our 14 stores in Greater Manchester cannibalise each other?
+      location_data: "stores.csv: store_id, lat, lon, opened (14 rows). customers.csv: customer_id, postcode, home_store_id, annual_spend (38,000 rows). Loyalty data, last 12 months."
+    assert:
+      - {type: contains, value: "## Approach"}
+      - {type: llm-rubric, value: "Proposes geocoding postcodes with an official lookup and notes centroid precision, defines catchments from actual customer origins or drive time rather than a fixed radius only, measures overlap as the share of customers or spend in overlapping catchments and customers shopping at a store that is not their nearest, provides geopandas or similar code, and aggregates customer locations rather than printing individual ones."}
+  - name: edge-swapped-coordinates
+    vars:
+      question: How far do our deliveries travel on average from the depot?
+      location_data: "depot: lat 51.45, lon -2.59 (Bristol). deliveries sample: id,lat,lon -> 1,-2.61,51.47 ; 2,51.43,-2.55 ; 3,0,0 ; 4,51.52,-2.70. 9,000 rows total."
+    assert:
+      - {type: llm-rubric, value: "Spots that row 1 has latitude and longitude swapped and row 3 is at 0,0, says how to detect and handle these across the full file, distinguishes straight-line distance from road distance and recommends road distance or drive time for delivery, and does not report an average computed from the unchecked sample as the answer."}
+  - name: negative-no-coordinates-invented
+    vars:
+      question: Map where our 200 customers live and find the best spot for a new office.
+      location_data: "A list of 200 customer street addresses in Lisbon, no coordinates."
+    assert:
+      - {type: llm-rubric, value: "Does not invent coordinates for the addresses; specifies a geocoding step, warns about treating home addresses as personal data and aggregating them, and explains what else would be needed for an office location decision (for example staff commutes, transit, costs)."}

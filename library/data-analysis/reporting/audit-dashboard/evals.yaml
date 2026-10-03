@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Review this dashboard and tell me how to improve it: {{dashboard_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ops-dashboard
+    vars:
+      users: "Regional ops managers in the Monday call; they decide where to send relief staff."
+      dashboard_description: |
+        Page "Ops Overview", refreshed daily at 06:00 (last refresh shown nowhere). 14 tiles:
+        1 "Total orders YTD" big number. 2 "Orders by week" column chart, y-axis from 9,000 to 11,000. 3 "Revenue vs Orders" dual-axis line. 4 "Orders by region" pie with 11 slices. 5 "Late orders %" gauge with no target. 6 "Active staff" number (definition unknown). 7 "Late orders by region" table, last 30 days, while the page date filter says "last 7 days". 8-14: seven small sparklines for individual warehouses, red/green colouring only.
+        Region filter applies to tiles 1-6 only. Usage logs: tiles 3 and 4 never clicked.
+    assert:
+      - {type: contains, value: "## Redesign shortlist"}
+      - {type: llm-rubric, value: "Flags the truncated axis on Orders by week, the dual-axis chart, the 11-slice pie, the gauge without a target, the undefined Active staff metric, the 30-day versus 7-day date mismatch on tile 7, the region filter not applying to every tile, red/green-only colouring and the missing last-refresh time; recommends bringing late orders by region (the relief-staff decision) to the top-left; uses the usage logs to propose cutting tiles 3 and 4; gives a ranked shortlist of at most seven changes."}
+  - name: edge-users-unknown
+    vars:
+      users: ""
+      dashboard_description: "Marketing dashboard with 5 tiles: Sessions by channel (stacked area), Conversion rate (line, last 90 days), CAC by channel (bar), Top 10 landing pages (table), Spend vs budget (bullet chart). Refresh: weekly, manual."
+    assert:
+      - {type: llm-rubric, value: "States an assumption about the users and decisions and adds it to the questions for the owner; reviews each of the five tiles; points out the risk of manual weekly refresh and asks how CAC is defined; does not invent problems not supported by the description."}
+  - name: negative-too-thin
+    vars:
+      users: Leadership
+      dashboard_description: "Our exec dashboard. People say it's confusing."
+    assert:
+      - {type: llm-rubric, value: "Does not produce an invented tile-by-tile review; explains what to capture (screenshots of each page, tile list, metric definitions, refresh settings, usage data) and possibly asks what decisions leadership uses it for."}

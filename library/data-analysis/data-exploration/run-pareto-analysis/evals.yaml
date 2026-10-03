@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Do a Pareto analysis of {{measure}} on this data: {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-complaints
+    vars:
+      measure: number of customer complaints, Q3 2026
+      data: |
+        reason,complaints
+        Late delivery,412
+        Damaged item,198
+        Wrong item,121
+        Billing error,64
+        Late Delivery,38
+        App crash,31
+        Rude agent,18
+        Missing invoice,9
+        Other,9
+    assert:
+      - {type: contains, value: "## Pareto table"}
+      - {type: llm-rubric, value: "Merges 'Late Delivery' into 'Late delivery' (450 total) and lists the merge, keeps Other as a separate bucket, computes the total of 900 and correct cumulative shares (late delivery 50%, plus damaged item 72%, plus wrong item about 85.4%), reports that 3 reasons reach 80% of complaints, gives Pareto chart steps for Excel and Google Sheets, and suggests weighting by cost or severity as an alternative measure."}
+  - name: edge-revenue-vs-margin
+    vars:
+      measure: revenue by customer, last 12 months
+      data: "Customer A 1,200,000 (margin -40,000); Customer B 600,000 (margin 90,000); Customer C 350,000 (margin 70,000); Customer D 150,000 (margin 45,000); Customer E 100,000 (margin 30,000); 95 other customers 600,000 combined (margin 160,000)."
+    assert:
+      - {type: llm-rubric, value: "Runs the analysis on revenue as asked, shows that Customer A alone is about 40% of revenue, and points out that A is loss-making so a margin-based Pareto would rank customers very differently; summarises the 95 others as one tail line."}
+  - name: negative-no-data
+    vars:
+      measure: defects by root cause
+      data: "We have a lot of defects, mostly from supplier issues I think."
+    assert:
+      - {type: llm-rubric, value: "Does not invent defect counts or a Pareto table; asks for the defect data by cause and explains how to set up the analysis (or gives the spreadsheet layout to do it)."}

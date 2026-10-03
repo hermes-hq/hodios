@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How can I automate this report? {{current_process}} Tools: {{tools_available}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-sales-pack
+    vars:
+      tools_available: "Microsoft 365 (Excel, Power BI Pro, Outlook, Teams), read-only SQL Server access. Analyst knows Excel well and basic SQL; no Python."
+      current_process: "Every Monday I export last week's orders from the ERP as CSV (15 min), paste into the master Excel (10 min), fix product codes that changed (20 min), refresh 6 pivots and copy them into a PowerPoint (60 min), write commentary (30 min), and email it to 25 managers. Twice this year the pivot ranges missed new rows and the totals were wrong."
+    assert:
+      - {type: contains, value: "## Data checks"}
+      - {type: llm-rubric, value: "Recommends Power Query or Power BI with scheduled refresh connected to SQL Server (or the ERP) instead of manual CSV export, moves the product-code fixes into a maintained mapping table, replaces pivots-to-PowerPoint with a refreshable report, keeps commentary manual, specifies checks including row counts and totals reconciled to the ERP with the report held on failure, and plans a parallel run of at least two cycles."}
+  - name: edge-skills-mismatch
+    vars:
+      tools_available: "Google Workspace only. Nobody on the team codes."
+      current_process: "Monthly: download CSVs from Stripe, HubSpot and Google Ads, combine in Sheets with VLOOKUPs, build charts, send as PDF to the founders. About 6 hours."
+    assert:
+      - {type: llm-rubric, value: "Chooses a no-code or low-code route the team can maintain (for example Google Sheets with scheduled imports or a connector add-on, or Looker Studio with native connectors), names the dependency on a third-party connector as a cost or risk, does not recommend a Python or dbt stack, and includes checks and a runbook."}
+  - name: negative-missing-details
+    vars:
+      tools_available: ""
+      current_process: "Our board report takes forever. Automate it."
+    assert:
+      - {type: llm-rubric, value: "Asks for the current steps, sources, delivery and available tools before designing, possibly giving a short list of the information needed; does not produce a detailed pipeline built on invented sources."}

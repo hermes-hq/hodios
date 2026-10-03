@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Compare {{periods}}: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retail-yoy
+    vars:
+      periods: March 2026 vs March 2025
+      data: |
+        Chain of cafes, sales in EUR.
+        March 2025: 30 cafes open all month, sales 1,860,000. Easter was 20 April 2025.
+        March 2026: 30 same cafes 1,881,000; plus 4 new cafes opened 1 Feb 2026 with 96,000. Easter was 5 April 2026, so Good Friday was 3 April and the run-up week fell partly in March.
+        March 2025 had 5 Saturdays and 5 Sundays; March 2026 has 4 Saturdays and 5 Sundays. Saturdays average about 1.5 times a weekday in this business.
+    assert:
+      - {type: contains, value: "## Variance bridge"}
+      - {type: llm-rubric, value: "Reports the headline change (1,860,000 to 1,977,000, +117,000 or about +6.3%), separates the 96,000 from new cafes as scope, computes like-for-like growth of about +1.1% (21,000), adjusts or discusses the one fewer Saturday as a negative calendar effect and the earlier Easter as a likely positive effect on March 2026, builds a bridge whose lines sum exactly to +117,000 with any remainder labelled, and concludes that underlying performance is modest once calendar effects are considered."}
+  - name: edge-mom-seasonal
+    vars:
+      periods: December 2025 vs November 2025
+      data: "Online toy shop revenue: November 2025 410,000; December 2025 690,000; December 2024 600,000; November 2024 350,000."
+    assert:
+      - {type: llm-rubric, value: "Warns that December vs November mainly reflects seasonality, adds the year-over-year view (December +15%, November about +17%) to judge underlying performance, and does not present the +68% month-over-month jump as a performance improvement."}
+  - name: negative-too-coarse
+    vars:
+      periods: Q3 2026 vs Q3 2025
+      data: "Q3 2025 revenue 4.2M, Q3 2026 revenue 4.5M. That's all I have. Can you adjust for calendar and FX?"
+    assert:
+      - {type: llm-rubric, value: "Says that calendar and currency adjustments cannot be estimated from two quarterly totals, names what data would allow them (daily or weekly sales, revenue by currency, store openings), reports the raw +7.1% change, and does not invent adjustment amounts."}

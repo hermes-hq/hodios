@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Which marketing channel deserves more budget? Here is my data: {{channel_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-paths
+    vars:
+      conversion_definition: first purchase, 1 conversion each
+      channel_data: |
+        Converting journeys last month (count of journeys with that exact path):
+        Paid Social > Organic Search > Brand Search: 120
+        Paid Social > Brand Search: 80
+        Organic Search: 150
+        Display > Paid Social > Email: 40
+        Brand Search: 210
+        Spend: Paid Social 18,000; Brand Search 6,000; Display 4,000; Email 500.
+    assert:
+      - {type: contains, value: "## Credit by model"}
+      - {type: llm-rubric, value: "Computes credit tables whose totals equal 600 conversions under every model (for example Brand Search gets 410 under last click and Paid Social 200 under first click), shows Paid Social gaining and Brand Search losing credit when moving from last click to first click, interprets brand search as largely capturing existing demand, gives cost per conversion by model, and proposes an incrementality test such as a geo holdout or brand search pause rather than a confident reallocation."}
+  - name: edge-aggregated-platform-only
+    vars:
+      conversion_definition: ""
+      channel_data: "From each ad platform's own dashboard last quarter: Google Ads reports 1,900 conversions, Meta reports 1,450, TikTok reports 600. Our backend recorded 2,600 orders in total. No path data."
+    assert:
+      - {type: llm-rubric, value: "Points out that platform-reported conversions sum to 3,950, well above the 2,600 actual orders, because of overlapping claims; explains that first-click, linear and data-driven models need path-level data; asks for or explains how to obtain it; and suggests incrementality tests rather than ranking channels on platform numbers."}
+  - name: negative-wants-causal-answer
+    vars:
+      conversion_definition: trial sign-up
+      channel_data: "Last-click report: Email 500 sign-ups, Paid Search 300, Social 50. My CMO wants me to prove social doesn't work so we can cut it."
+    assert:
+      - {type: llm-rubric, value: "Explains that last-click attribution cannot show that social has no effect (it undercounts introducing channels), does not declare social ineffective, asks for path data, and proposes a holdout or lift test to measure social's incremental effect."}
