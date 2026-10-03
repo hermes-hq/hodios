@@ -48,12 +48,11 @@ Claude Code installs a whole domain at a time: `hodios-software-engineering`, `h
 
 ### Use the CLI
 
-The CLI searches the catalog, ranks what fits your project and writes each tool's native files (rules and personas included, which the installers above do not cover). It goes to npm as `hodios`; until then, from a checkout:
+The CLI searches the catalog, ranks what fits your project and writes each tool's native files (rules and personas included, which the installers above do not cover). Run it with npx, or install it once to get the `hodios` command:
 
 ```sh
-git clone https://github.com/hermes-hq/hodios ~/hodios
-cd ~/hodios && npm ci && npm run build && npm run hodios -- build
-alias hodios="HODIOS_CATALOG=~/hodios/dist/catalog/v1 node ~/hodios/packages/cli/bin/hodios.js"
+npx @hermes-hq/hodios install review-pull-request --target claude-code
+npm install -g @hermes-hq/hodios                 # then use `hodios` directly
 
 cd ~/my-project
 hodios search                                    # what fits this project first, and why
@@ -79,7 +78,7 @@ Entries are organised by domain and category, from **code review**, **debugging*
 
 Every entry is tagged with what it is for: the **stack** it targets (TypeScript, Django, Terraform…), the **stage** of work (plan, build, review, operate…), what it **needs** (repo access, shell, an MCP server) and which **tools** it works in. Hermes IDE, the site and the CLI use those tags to put the entries that match your project and your interests first, so you see a short, relevant list instead of the whole catalog. Stack-agnostic entries stay visible to everyone.
 
-In a project folder, `npx hodios search` with no query does this on your machine: it reads the project's manifests and agent config folders, ranks what fits first and says why ("your project uses React"). Nothing is sent anywhere, and `--all` turns it off.
+In a project folder, `npx @hermes-hq/hodios search` with no query does this on your machine: it reads the project's manifests and agent config folders, ranks what fits first and says why ("your project uses React"). Nothing is sent anywhere, and `--all` turns it off.
 
 <!-- catalog:start -->
 **1070 entries** (914 prompts, 94 personas, 29 workflows, 20 rules, 13 styles).
