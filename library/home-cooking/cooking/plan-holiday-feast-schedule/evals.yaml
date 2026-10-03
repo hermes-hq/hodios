@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me time my holiday dinner: {{menu}} for {{guests}} people, serving at {{serving_time}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-thanksgiving-one-oven
+    vars:
+      menu: "Frozen 7 kg turkey, sausage stuffing, mashed potatoes, gravy, green bean casserole, roasted sweet potatoes, dinner rolls, pumpkin pie. Helpers: my partner (confident cook) and two teenagers. 4 hob burners and a slow cooker."
+      guests: 12
+      serving_time: "Thursday 3 pm"
+      ovens: 1
+    assert:
+      - {type: contains, value: "## Day-of schedule"}
+      - {type: llm-rubric, value: "Gives a fridge thaw start several days earlier (about 24 hours per 2-2.5 kg), puts pie, gravy base and assembled casseroles in make-ahead, uses the turkey's 30-45 minute rest to bake sides, moves mash to the slow cooker or hob, gives clock times with named helpers, and states 74°C/165°F in the thigh checked with a thermometer."}
+  - name: edge-impossible-oven-load
+    vars:
+      menu: "Prime rib roast 4 kg at low temperature, Yorkshire puddings at 220°C, roast potatoes, cauliflower cheese, baked ham, sticky toffee pudding. No slow cooker."
+      guests: 14
+      serving_time: "Saturday 7 pm"
+      ovens: 1
+    assert:
+      - {type: llm-rubric, value: "Recognises the temperature conflict between a low roast and hot Yorkshire puddings, schedules the puddings and potatoes during the rib's rest, says what to make ahead or move (ham cooked earlier and served warm or cold), and never puts incompatible temperatures in the one oven at the same time."}
+  - name: negative-too-vague
+    vars:
+      menu: "turkey and the usual sides"
+      guests: 8
+      serving_time: "dinner"
+    assert:
+      - {type: llm-rubric, value: "Asks for the specific dishes, the turkey size and a clock serving time before producing a detailed schedule, rather than inventing a full menu and timetable."}

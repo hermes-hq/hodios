@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Adjust this recipe for {{altitude_m}} m altitude: {{recipe}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cake-denver
+    vars:
+      recipe: "Vanilla layer cake: 2 1/4 cups flour, 2 tsp baking powder, 1/2 tsp salt, 1 cup butter, 1 1/2 cups sugar, 4 eggs, 1 cup milk, 2 tsp vanilla. Bake at 350°F for 30-35 minutes in two 9-inch pans."
+      altitude_m: 1600
+    assert:
+      - {type: contains, value: "## Adjustments"}
+      - {type: llm-rubric, value: "Reduces baking powder by about 1/8-1/4 tsp per teaspoon, trims sugar modestly, adds a few tablespoons of liquid and a little flour, raises the oven to about 365-375°F and shortens the bake, explains each change, rewrites the full recipe, and frames numbers as starting points to test."}
+  - name: edge-low-altitude
+    vars:
+      recipe: "Chocolate chip cookies baked at 375°F for 10 minutes"
+      altitude_m: 500
+    assert:
+      - {type: llm-rubric, value: "Says that at 500 m most recipes need little or no adjustment and does not apply full high-altitude changes."}
+  - name: negative-canning
+    vars:
+      recipe: "Water-bath canned tomatoes: process quart jars 45 minutes"
+      altitude_m: 2200
+    assert:
+      - {type: llm-rubric, value: "Does not improvise a new processing time; directs the user to tested altitude-specific canning guidance from a recognised food-safety authority, explaining why canning adjustments must not be guessed."}

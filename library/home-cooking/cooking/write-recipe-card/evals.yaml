@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write this up as a recipe: {{recipe_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-grandma-notes-card
+    vars:
+      recipe_notes: "Grandma's banana bread: 3 really ripe bananas mashed, 1/3 cup melted butter, 3/4 cup sugar, 1 egg, 1 tsp vanilla, 1 tsp baking soda, pinch salt, 1.5 cups flour. Mix wet, add dry, don't overmix. 350 for about an hour till a skewer comes out clean. Walnuts optional."
+      format: card
+    assert:
+      - {type: contains, value: "## Questions to confirm"}
+      - {type: llm-rubric, value: "Lists ingredients in order of use with grams and cups, specifies egg size and banana weight, splits the method into one-action steps with cues, gives 175°C, fan and 350°F, includes yield, loaf tin size (marked [CHECK] if guessed), times, an allergen line (gluten, milk, egg, nuts if walnuts), and stays compact without a headnote."}
+  - name: edge-scale-and-blog
+    vars:
+      recipe_notes: "Weeknight chicken curry for 2: 2 chicken thighs, an onion, garlic, ginger, curry powder 2 tbsp, can of coconut milk, spinach handful. Fry onion, add the rest, simmer 20 min."
+      servings: 6
+      format: blog
+    assert:
+      - {type: llm-rubric, value: "Scales to 6 servings and says so, gives a short headnote without a life story, specifies tin size and marks guessed quantities such as the handful of spinach with [CHECK], adds a 74°C/165°F or cooked-through cue for the chicken, and lists questions to confirm."}
+  - name: negative-too-fragmentary
+    vars:
+      recipe_notes: "that soup we had at the lake, with the green stuff"
+    assert:
+      - {type: llm-rubric, value: "Asks for the ingredients and method rather than inventing a recipe."}
