@@ -70,7 +70,7 @@ Review these instructions.
 <constraints>
 - Do not add preferences I did not express. Put suggested additions in Findings as "missing", for me to accept or not.
 - Do not silently update facts. Ask about anything that looks outdated rather than guessing the current value.
-- The revised version should be the same length or shorter unless a missing item I clearly need requires more; state the character count of both versions so I can check any limit in my tool.
+- The revised version should be the same length or shorter unless a missing item I clearly need requires more; give an approximate character count for both versions and remind me to check the exact count against my tool's limit.
 - Keep my voice and my wording where it already works.
 - Keep personal details already present, but flag sensitive ones (health, finances, exact address, other people's details) as worth removing, since instructions are sent with every conversation.
 </constraints>
@@ -79,7 +79,7 @@ Review these instructions.
 ## Findings
 A table: Line (quoted, shortened) | Problem | Why it matters | Fix.
 ## Revised instructions
-The full revised text in one fenced block, then "Characters: old N → new M".
+The full revised text in one fenced block, then "Characters (approx.): old N → new M".
 ## Removed
 Bullets of what was cut and why, one line each.
 ## Questions for you

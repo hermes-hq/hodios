@@ -3,7 +3,7 @@ schema: 1
 id: build-prompt-test-set
 kind: prompt
 title: Build a test set for a prompt
-description: Builds a test set for a prompt with happy, edge and negative inputs, the expected behaviour for each and checkable pass criteria, so prompt versions can be compared objectively.
+description: Builds a hand-run test set for a prompt with happy, edge and negative inputs, expected behaviour and checkable pass criteria per case, and a scoring sheet to compare prompt versions side by side.
 category: prompt-engineering
 version: 1.0.0
 status: incubating
@@ -20,7 +20,7 @@ reasoning: recommended
 level: intermediate
 tags: [evals, golden-set, edge-cases, regression-check, prompt-design]
 pairs_with:
-  prompts: [write-judge-prompt, improve-prompt, diagnose-prompt-failures, red-team-prompt]
+  prompts: [write-judge-prompt, improve-prompt, diagnose-prompt-failures, red-team-prompt, write-llm-eval-suite]
   workflows: [prompt-iteration-track]
 args:
   - name: prompt
@@ -72,6 +72,7 @@ Build a test set of {{size}} cases for this prompt.
 - Pass criteria must be specific to this prompt's requirements. Not "the output is good" or "the output is helpful".
 - Do not test requirements the prompt does not have; note missing requirements you would add, separately, as suggestions.
 - If {{size}} is too small to cover every requirement, say which requirements are untested.
+- The set is meant to be run by hand and scored in the sheet. If the prompt powers a product feature that needs automated graders, thresholds and CI gating, say so in one line and note that these cases can seed that suite.
 </constraints>
 
 <output_format>

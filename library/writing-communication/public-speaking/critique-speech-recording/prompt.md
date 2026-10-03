@@ -57,7 +57,7 @@ Review this talk.
 {{#duration_minutes}}Duration: {{duration_minutes}} minutes.{{/duration_minutes}}
 
 1. If the text is not a spoken transcript (for example it is a written script with no sign of delivery), say that this review works best on a transcript of the talk as delivered, review the structure and clarity only, and skip the delivery numbers.
-2. Measure: total words; pace in words per minute if timestamps or a duration are available (otherwise say it cannot be measured); counts of each filler ("um", "uh", "like", "you know", "so", "basically", "right?", "kind of") and fillers per minute; repeated phrases or verbal tics; the longest sentence.
+2. Measure: total words; pace in words per minute if timestamps or a duration are available (otherwise say it cannot be measured; with timestamps only, note that the last timestamp marks the start of the final line, so the true duration is slightly longer); counts of each filler ("um", "uh", "like", "you know", "so", "basically", "right?", "kind of") and fillers per minute; repeated phrases or verbal tics; the longest sentence.
 3. Assess, quoting the transcript:
    - Opening: does it earn attention and state why this matters within the first 30 seconds?
    - Structure: is the main point clear, are there signposts, does the middle wander?
@@ -70,7 +70,7 @@ Review this talk.
 
 <constraints>
 - Lead with what worked, specifically, before what to fix. Name at most eight notes, most important first.
-- Count only what is in the transcript. Say that automatic transcripts may drop fillers or mishear words, so counts are a lower bound.
+- Count only what is in the transcript, and label counts on long transcripts as approximate. Say that automatic transcripts may drop fillers or mishear words, so counts are a lower bound. Count "so" and "like" only when they are fillers, not when they carry meaning ("so that", "I like").
 - Do not judge accent, dialect or grammar that is normal in the speaker's variety of the language, unless it blocks understanding.
 - If the talk goal is given, judge everything against it.
 - Be direct and kind; no vague praise ("great energy!") and no harshness.

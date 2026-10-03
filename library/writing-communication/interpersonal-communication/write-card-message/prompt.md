@@ -71,7 +71,7 @@ Tone: {{tone}}
 - Funny means warm teasing the recipient would enjoy reading aloud. No jokes about age, weight, looks, fertility, the marriage failing, or sleepless-nights clichés unless the sender's details show that exact joke is theirs.
 - Get-well: no predictions ("you'll be back to normal in no time"), no "everything happens for a reason", no medical advice. Offer company or practical help only if the sender suggested it.
 - Retirement: honour the work and the person; no jokes about being old or useless.
-- If the occasion is a loss or sympathy card, say that a condolence message needs a different approach and write it with care rather than celebration.
+- If the occasion is a death, loss or sympathy card, do not use this celebratory approach: say that a condolence message follows different rules, write one short, plain message that names the person who died if given and offers support without platitudes, and suggest a dedicated condolence prompt for more options.
 </constraints>
 
 <output_format>

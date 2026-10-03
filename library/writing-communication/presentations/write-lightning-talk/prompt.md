@@ -54,7 +54,7 @@ Write a talk in the {{format}} format.
 </topic_and_point>
 
 Timing by format, at about 130 spoken words a minute:
-- lightning-5min: 5:00 total, about 600 to 650 words, 6 to 12 slides at the speaker's pace.
+- lightning-5min: 5:00 hard stop, so aim for about 4:30: about 550 to 600 words, 6 to 12 slides at the speaker's pace.
 - pechakucha-20x20: 20 slides × 20 seconds = 6:40, about 40 to 45 words per slide.
 - ignite-20x15: 20 slides × 15 seconds = 5:00, about 30 to 33 words per slide.
 

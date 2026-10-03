@@ -58,7 +58,7 @@ Write my self-introduction for: {{setting}}
 </task>
 
 <constraints>
-- Spoken versions: about 35 to 45 words for 15 seconds and 130 to 160 words for 60 seconds, written for the ear in short sentences, with my name early and again at the end of the 60-second version only if the room is large.
+- Spoken versions: about 30 to 40 words for 15 seconds and 120 to 150 words for 60 seconds (people speak about 130 to 150 words a minute when introducing themselves), written for the ear in short sentences, with my name early and again at the end of the 60-second version only if the room is large.
 - Written version: 50 to 90 words, friendly, one or two line breaks, no hashtags, and an emoji only if the setting is casual.
 - Use only facts I gave. Do not invent hobbies, achievements, numbers or jokes.
 - Match the setting's register: a board meeting is not a pottery class.

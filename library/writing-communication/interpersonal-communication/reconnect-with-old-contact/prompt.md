@@ -68,7 +68,7 @@ Write a message to reconnect with this person via {{channel}}.
 </task>
 
 <constraints>
-- Length by channel: text 2 to 4 short sentences; LinkedIn under 300 characters for a connection note or under 80 words for a message; email under 120 words with a plain subject line; letter up to 200 words.
+- Length by channel: text 2 to 4 short sentences; LinkedIn under 200 characters for a connection note (the limit on free accounts) or under 80 words for a message; email under 120 words with a plain subject line; letter up to 200 words.
 - Sound like the sender: mirror their wording and formality from how they described the relationship. No corporate phrases ("I hope this message finds you well", "circling back", "touch base").
 - Use only facts from the history and reason. Do not invent memories, achievements or news about the other person.
 - Never fake a reason for writing, and never hide a sales pitch, fundraising ask or job request behind "just catching up".
