@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design the search experience for our product. Searchable content: {{content_types}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-helpdesk-search
+    vars:
+      content_types: "Internal support tool: tickets (2 million; fields: ID like T-48213, subject, customer, status, assignee, tags, created date), customers (300,000; name, email, plan), help-centre articles (1,200). Agents can only see tickets for their team's region."
+      users_and_tasks: "Support agents. Most searches are a ticket ID or a customer email pasted from an email. Agents complain search ignores typos and that results mix articles and tickets."
+    assert:
+      - {type: contains, value: "## Zero results and errors"}
+      - {type: llm-rubric, value: "Ranks known-item lookup (ticket ID, email) as the main job and makes exact ID and email matches jump straight to the item or rank first, groups or tabs results by type with type badges, adds typo tolerance, proposes facets like status, assignee and date for tickets, respects regional permissions without revealing hidden titles, writes exact zero-results copy, and lists metrics such as zero-result and reformulation rate plus an offline query set."}
+  - name: edge-tiny-content
+    vars:
+      content_types: "A settings area with 40 settings pages in a mobile banking app."
+      users_and_tasks: ""
+    assert:
+      - {type: llm-rubric, value: "Scales the design down for a small set (simple search over settings with synonyms such as 'PIN' and 'password', no heavy faceting), states its assumptions about users, and still covers zero results and accessibility."}
+  - name: negative-no-content-info
+    vars:
+      content_types: "Stuff in our app."
+      users_and_tasks: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what content types are searchable (and their fields and volume) and stops instead of producing a generic search design."}

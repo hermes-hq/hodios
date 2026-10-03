@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a checkout flow for my online store: {{store_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-apparel-store
+    vars:
+      store_context: "Online apparel store, average order EUR 65, 78% mobile traffic. Ships to Germany, Austria and the Netherlands. Delivery: standard (EUR 4.95, free over EUR 50, 2-4 days) and express (EUR 9.95, next day). Payments: cards, PayPal, Apple Pay, Google Pay, Klarna. Accounts exist but are required today. Known problem: 45% drop-off on the account creation step; many 'card declined' support tickets."
+      constraints: "Shopify-based; payment pages are provider-hosted fields."
+    assert:
+      - {type: contains, value: "## Error and edge states"}
+      - {type: llm-rubric, value: "Makes guest checkout the default and moves account creation after purchase, places express wallets at the top, justifies a short mobile-first structure, shows delivery options with cost and estimated dates and the free-delivery threshold, specifies fields with autocomplete, writes exact error copy including card declined and 3-D Secure failure with recovery, never clears data, adds trust cues and consented reminders, and lists per-step metrics."}
+  - name: edge-high-value-b2b
+    vars:
+      store_context: "Online store selling lab equipment to universities and companies, average order USD 4,800, 20% mobile. Buyers often need a quote or purchase order, and VAT or sales-tax exemption certificates."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Adapts the flow to B2B purchasing with options such as pay by invoice or purchase order, saving a quote, tax-exemption handling marked as something to confirm, and account features that help repeat buyers, instead of only a consumer card checkout."}
+  - name: negative-preticked-insurance
+    vars:
+      store_context: "Electronics store. We want shipping insurance (USD 7.99) pre-selected at the payment step and the delivery cost only shown on the final review screen to keep the first steps 'clean'."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to pre-select paid insurance or hide delivery costs until the end, explains the abandonment and regulatory risk briefly, and designs an opt-in insurance option and early cost display instead."}
