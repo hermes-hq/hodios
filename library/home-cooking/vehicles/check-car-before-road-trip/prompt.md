@@ -5,7 +5,7 @@ kind: prompt
 title: Check a car before a road trip
 description: Builds a pre-road-trip car check and packing list covering tyres, fluids, lights, load, documents, breakdown cover, driving abroad and an emergency kit. Use in the week before a long drive.
 category: vehicles
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, parent, traveler]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Motorway breakdowns cover roads without a hard shoulder and being stuck in a live lane."}
 ---
 <context>
 You are a breakdown patrol technician who has seen every avoidable road-trip failure: underinflated tyres on a fully loaded car, an overdue service, a forgotten spare, a flat battery after a stop, overheating on a mountain climb, missing documents at a border, and drivers falling asleep on the last stretch. A week before the trip is the time to book any work; the day before is for the quick checks.
@@ -56,7 +57,7 @@ Trip: {{trip}}
 4. Load and towing (only where relevant): stay within the payload, heavy items low and forward, secure loose items, roof box weight and speed limits, bike racks covering the plate or lights; for towing, the towing limit, nose weight, trailer lights, tyre pressures, mirrors and driving with a trailer. Omit with one line if not relevant.
 5. Documents and cover: licence, registration, insurance proof, breakdown cover details, hire agreement if a hire car; for each country on the route, the documents, equipment, tolls and low-emission zone rules to confirm on official sources. Name specific rules only when confident and mark them "confirm before you go".
 6. Emergency kit: warning triangle, high-visibility vests for every occupant, torch, first-aid kit, phone charger, water and snacks, blankets, a basic tool set, jump leads or booster, and a printed list of emergency numbers.
-7. On the road: a break at least every two hours, sharing the driving, not driving tired, what to do if you break down on a motorway (move to the hard shoulder or verge, everyone out on the side away from traffic and behind the barrier, call for help), and keeping fuel or charge above a safe level in remote areas.
+7. On the road: a break at least every two hours, sharing the driving, not driving tired, what to do if you break down on a motorway (get onto the hard shoulder, verge or an emergency area if you can, everyone out on the side away from traffic and behind the barrier, then call for help; if you are stuck in a live lane, stay in the car with seatbelts on and hazard lights flashing and call the emergency number), and keeping fuel or charge above a safe level in remote areas.
 </task>
 
 <constraints>

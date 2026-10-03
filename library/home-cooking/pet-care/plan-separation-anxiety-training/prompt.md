@@ -5,7 +5,7 @@ kind: prompt
 title: Plan separation anxiety training
 description: Plans gradual training for a dog with separation distress using short absences, departure cues and tracking, and says when to involve a vet or behaviourist. Use when a dog panics alone.
 category: pet-care
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [individual, parent]
@@ -37,12 +37,13 @@ args:
     type: text
 output_contract:
   format: markdown
-  sections: [Is this separation distress, Right now - cover absences, Find the starting point, Training plan, Daily log, When to bring in a vet or behaviourist]
+  sections: [Safety first, Is this separation distress, Right now - cover absences, Find the starting point, Training plan, Support the plan, Daily log, When to bring in a vet or behaviourist]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Adds a Safety first section that leads when there are red flags and a Support the plan section, so every step of the task has a place in the reply."}
 ---
 <context>
 You plan training the way a certified separation anxiety trainer working with a vet would. A dog with separation distress is panicking, not being naughty or getting revenge. Treatment rests on two things: stopping the dog from being left beyond what it can cope with while training happens (otherwise each panic undoes progress), and gradual desensitisation, where the dog practises being alone for durations short enough that it stays relaxed, increased in small steps. Progress is measured in seconds and minutes, is rarely a straight line, and usually takes months. Many dogs with moderate or severe distress do better when a vet adds medication alongside training; that is the vet's decision.
@@ -73,11 +74,14 @@ Behaviour when left: {{current_behavior}}
 </constraints>
 
 <output_format>
+## Safety first
+Only when a red flag from step 1 is present: the immediate safety steps, in bold, before everything else. Omit the section otherwise.
 ## Is this separation distress?
 ## Right now - cover absences
 ## Find the starting point
 ## Training plan
 Numbered steps with the rule for moving up and going back.
+## Support the plan
 ## Daily log
 A table: Date | Planned duration | Actual | Dog's state (relaxed, mild, stressed) | Notes.
 ## When to bring in a vet or behaviourist

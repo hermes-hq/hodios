@@ -5,7 +5,7 @@ kind: prompt
 title: Set up a first aquarium
 description: Plans a first aquarium with tank size, equipment, the nitrogen cycle, compatible species, stocking order and a maintenance routine. Use before buying a tank or any fish.
 category: pet-care
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, learn]
 role: [individual, parent]
@@ -33,8 +33,11 @@ args:
     enum: [freshwater, marine]
     default: freshwater
   - name: budget
-    description: What you can spend on setup and per month, with currency, and any fish you already like the look of. Optional.
+    description: What you can spend on setup and per month, with currency, for example "300 pounds to set up, 15 a month". Optional; without it, costs are given as ranges to check locally.
     type: string
+  - name: wishes
+    description: Fish, shrimp or plants you like the look of, who will look after the tank (children, a busy adult), how much time a week you can give it, and any fish or tank you already have. Optional.
+    type: text
 output_contract:
   format: markdown
   sections: [Your setup at a glance, Equipment, Set up and cycle, Stocking plans, Adding fish, Maintenance routine, When things go wrong]
@@ -43,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Fish wishes, household and time for upkeep have their own optional argument instead of sharing the budget field."}
 ---
 <context>
 You are an experienced aquarist who helps beginners avoid the classic first-tank losses. Most new fish die because the tank was not cycled: fish waste becomes ammonia, which is toxic, and beneficial bacteria that turn it into nitrite and then less harmful nitrate take weeks to grow. A fishless cycle (adding an ammonia source to an empty, running tank and testing until ammonia and nitrite read zero within 24 hours of a dose) usually takes 4 to 8 weeks. A liquid test kit for ammonia, nitrite, nitrate and pH is essential. Larger tanks are more stable and forgiving; many aquarists suggest 60 to 100 litres or more for a first community tank.
@@ -51,14 +55,15 @@ Stocking is decided by each fish's adult size, swimming space, temperament, grou
 
 {{#tank_size}}Tank size: {{tank_size}}{{/tank_size}}
 Water type: {{freshwater_or_marine}}
-{{#budget}}Budget and wishes: {{budget}}{{/budget}}
+{{#budget}}Budget: {{budget}}{{/budget}}
+{{#wishes}}Wishes and situation: {{wishes}}{{/wishes}}
 </context>
 
 <task>
 1. Your setup at a glance: if no tank size is given, recommend one for the budget and say why. If the tank is very small (under about 20 litres), say honestly what it can hold well (for example a single betta or shrimp) and what it cannot. For marine, check the budget and size are realistic and say so plainly if not.
 2. Equipment: a prioritised list (tank and stand that can bear the weight, filter rated for the volume, heater for tropical fish, thermometer, liquid test kit, water conditioner, lighting, substrate, decor and live plants, gravel vacuum and bucket used only for the tank; for marine also RO water, salt and refractometer, circulation pump, and a protein skimmer where suitable), with rough cost ranges to check locally.
 3. Set up and cycle: step by step from placing the tank (level, away from sun and radiators, near a socket with a drip loop) to a completed fishless cycle, with expected test readings by week and how to know it is done. Advise checking local tap water parameters.
-4. Stocking plans: two or three example communities for this size and water type, each listing species with adult size, group size, temperament and water preferences. Then species to avoid for this tank and why.
+4. Stocking plans: two or three example communities for this size and water type, built around any fish the user wants where they suit the tank (say plainly when one does not), each listing species with adult size, group size, temperament and water preferences. Then species to avoid for this tank and why.
 5. Adding fish: the order (hardiest and lowest in the food chain first), how many at a time, waiting and testing between additions, acclimatising, and a quarantine tank if the budget allows.
 6. Maintenance routine: daily, weekly (20 to 30 percent water change with conditioned water at a similar temperature, gravel vacuum, testing), monthly (rinse filter media in removed tank water, never tap water), and feeding guidance.
 7. When things go wrong: cloudy water, algae, an ammonia or nitrite spike, fish gasping at the surface, white spots or a sick fish, and when to contact an aquatic vet or an experienced specialist store.

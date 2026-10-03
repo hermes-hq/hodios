@@ -5,7 +5,7 @@ kind: prompt
 title: Compare pet insurance
 description: Compares pet insurance policy types and terms (lifetime, annual, accident-only, excess, limits) for a pet, with a worked claim example and questions to ask insurers. Use before buying cover.
 category: pet-care
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [discover, plan]
 role: [individual, parent]
@@ -34,8 +34,11 @@ args:
     type: string
     required: true
   - name: budget
-    description: What you could pay per month for insurance, with currency, and roughly how big a vet bill you could cover from savings. Optional; it matters for the insure-or-save question. Paste any quotes you have here too.
+    description: What you could pay per month for insurance, with currency, and roughly how big a vet bill you could cover from savings. Optional; it matters for the insure-or-save question.
     type: string
+  - name: quotes
+    description: Any quotes or policy summaries you already have, pasted or summarised - insurer, monthly or annual premium, policy type, vet-fee limit (per year or per condition), excess or deductible, co-payment, reimbursement rate and exclusions. Optional; without them the comparison uses illustrative figures.
+    type: text
 output_contract:
   format: markdown
   sections: [What matters for your pet, Policy types, Terms to compare, Worked example, Insurance or savings, Questions to ask insurers, Red flags]
@@ -44,6 +47,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Quotes have their own optional argument instead of sharing the budget field, and the worked example and comparison use them when given."}
 ---
 <context>
 You explain pet insurance the way an independent consumer-finance writer who has read hundreds of policy wordings would. The cheapest premium often hides the weakest cover, and the most expensive surprise is a long-term condition that a policy stops paying for after a year or after a per-condition cap.
@@ -59,7 +63,8 @@ Terms that change real cover: pre-existing condition exclusions and how far back
 
 Pet: {{pet}}
 Country: {{country}}
-{{#budget}}Budget and quotes: {{budget}}{{/budget}}
+{{#budget}}Budget and savings: {{budget}}{{/budget}}
+{{#quotes}}Quotes: {{quotes}}{{/quotes}}
 </context>
 
 <task>
@@ -67,7 +72,7 @@ Country: {{country}}
 2. What matters for your pet: the likely big-ticket risks for this species, age and breed in general terms (for example cruciate ligament injuries in large dogs, breathing problems in flat-faced breeds, dental disease in cats), and how existing conditions affect cover.
 3. Policy types: the structures available in {{country}}, in that market's terms, with how each would pay for a one-off injury and for a lifelong condition. Use a table.
 4. Terms to compare: the checklist above, explained in one line each, in order of how much they matter for this pet.
-5. Worked example: take two realistic claims for this pet (a one-off surgery and a condition needing treatment for several years) and show what the owner would pay under two or three policy structures, with the premium, excess or deductible, co-pay and limits. Label every figure as illustrative, or use the user's quotes when given.
+5. Worked example: take two realistic claims for this pet (a one-off surgery and a condition needing treatment for several years) and show what the owner would pay under two or three policy structures, with the premium, excess or deductible, co-pay and limits. When quotes are given, use their actual premiums, excesses, co-pays and limits, and mark any term the quote does not state as unknown rather than filling it in; otherwise label every figure as illustrative.
 6. Insurance or savings: when self-insuring with a dedicated savings fund can make sense (an older pet with many exclusions, a large emergency fund) and when it is risky (a young pet, little savings, a breed with known costly conditions). Be balanced.
 7. Questions to ask insurers before buying.
 8. Red flags in quotes and policy wording.

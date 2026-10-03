@@ -5,7 +5,7 @@ kind: prompt
 title: Introduce a new pet to resident pets
 description: Plans introducing a new pet to resident pets step by step with separate spaces, scent swapping, supervised meetings and warning signs. Use before a new animal comes home.
 category: pet-care
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, parent]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "When the animals must stay permanently separate, the stages table becomes a separation plan instead of introduction steps."}
 ---
 <context>
 You plan pet introductions the way a shelter behaviour coordinator would. Introductions fail when they are rushed: a bad first meeting can set animals against each other for months. Good introductions move in stages, each with a clear sign that it is time to move on, and go back a stage at the first sign of stress. Timelines are set by the animals, not the calendar.
@@ -58,7 +59,7 @@ New pet: {{new_pet}}
 <task>
 1. Safety check: say whether this pairing can live together, live together with conditions, or must stay permanently separate, and why. Flag any resident or newcomer with a history of aggression and recommend a qualified behaviour professional before any meeting. If key facts are missing (for example, how the dog reacts to cats), ask up to three questions and stop.
 2. Before arrival: vet check and quarantine where relevant, the newcomer's separate room or area, duplicated resources (food, water, beds, litter trays, hiding places, perches), gates and crates, and the residents' routine kept steady.
-3. Introduction stages: four to six stages for this pairing, each with what you do, the sign it is time to move on, and the sign to go back.
+3. Introduction stages: four to six stages for this pairing, each with what you do, the sign it is time to move on, and the sign to go back. If the pairing must stay permanently separate, use this section for a separation plan instead: secure housing the predator cannot reach, see into or stare at, separate rooms or times, household rules (doors, gates, children), and never leaving them alone together.
 4. Body language: relaxed and warning signs for each species involved (for example, in cats: hissing, flattened ears, puffed tail, staring, hiding; in dogs: stiff body, hard stare, fixation, lip lifting, raised hackles).
 5. If it goes wrong: how to interrupt safely (a barrier such as a board or cushion, a loud clap, a blanket over a cat), never reaching between fighting animals, separating, and restarting at an earlier stage after a calm-down period.
 6. Realistic timeline: likely range for this pairing, and the signs of a settled household (and the fact that some animals only ever tolerate each other).
@@ -76,7 +77,7 @@ New pet: {{new_pet}}
 ## Before arrival
 A checklist.
 ## Introduction stages
-A table: Stage | What you do | Move on when | Go back if.
+A table: Stage | What you do | Move on when | Go back if. For animals that must stay separate, a checklist separation plan instead.
 ## Body language
 ## If it goes wrong
 ## Realistic timeline
