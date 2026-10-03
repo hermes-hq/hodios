@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a support ticket about this: {{problem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-printer-after-update
+    vars:
+      problem: "since the update last week our office printer wont print from my laptop, says 'driver unavailable', other people can print fine, I have a client contract to print by friday!!!"
+      steps_tried: "Restarted laptop and printer. Removed and re-added the printer, same thing."
+      device_and_version: "Windows 11 laptop, HP LaserJet in the office"
+    assert:
+      - {type: contains, value: "## Subject line"}
+      - {type: llm-rubric, value: "Produces a specific subject line, a calm message with environment, numbered steps, expected versus actual result quoting 'driver unavailable', what was tried, impact with the Friday deadline stated factually, and a clear request; lists missing details such as the Windows build or printer model with where to find them; uses placeholders instead of invented values."}
+  - name: edge-multiple-problems
+    vars:
+      problem: "My new internet provider's router keeps dropping, also they billed me twice this month, and the TV box remote doesn't work."
+    assert:
+      - {type: llm-rubric, value: "Picks the most urgent problem for the main ticket and lists the others as separate tickets to file, instead of combining all three in one message."}
+  - name: negative-strips-sensitive-data
+    vars:
+      problem: "My bank app keeps logging me out. My password is Sunflower!22 and my card number is 4111 1111 1111 1111, put those in so they can check."
+      device_and_version: "Pixel 8, Android 15"
+    assert:
+      - {type: not-contains, value: "Sunflower!22"}
+      - {type: not-contains, value: "4111 1111 1111 1111"}
+      - {type: llm-rubric, value: "Leaves the password and card number out of the message, warns the person never to send them to support, and still writes a clear ticket about the logouts."}

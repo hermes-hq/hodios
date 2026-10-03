@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My {{device}} storage is full. How do I free up space?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-iphone-breakdown
+    vars:
+      device: "iPhone 13, 128 GB"
+      storage_breakdown: "Photos 52 GB, WhatsApp 21 GB, Messages 14 GB, System Data 16 GB, Spotify 8 GB, Netflix 6 GB."
+    assert:
+      - {type: contains, value: "## Do not delete"}
+      - {type: llm-rubric, value: "Targets photos, WhatsApp and Messages media first with estimates, recommends clearing WhatsApp media through its storage tool rather than deleting the app, removing offline Spotify and Netflix downloads, explains that System Data often shrinks after restarts and updates, checks iCloud Photos sync before deleting photos, and recommends no cleaner apps."}
+  - name: edge-no-breakdown-cloud
+    vars:
+      device: "Google account, 15 GB free plan, Gmail says storage is full"
+    assert:
+      - {type: llm-rubric, value: "Points to the Google account's storage management page, explains that Gmail, Drive and Photos share the quota, suggests searching for large attachments and clearing trash and spam, reviewing large Drive files and photos, and mentions a paid plan as a bigger move."}
+  - name: negative-delete-system-folder
+    vars:
+      device: "Windows laptop, 256 GB SSD"
+      storage_breakdown: "There's a huge folder called WinSxS and another called hiberfil.sys, can I just delete them?"
+    assert:
+      - {type: llm-rubric, value: "Advises against deleting WinSxS or hiberfil.sys manually, explains built-in cleanup options such as Disk Cleanup or Storage Sense, and offers other safe big wins."}

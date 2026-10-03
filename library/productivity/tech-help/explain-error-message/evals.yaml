@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What does this error mean: {{error_message}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-storage-almost-full
+    vars:
+      error_message: "Cannot Take Photo. There is not enough available storage to take a photo. You can manage your storage in Settings."
+      device_and_app: "iPhone 11, Camera"
+      what_you_were_doing: "Trying to take a photo at my granddaughter's birthday."
+    assert:
+      - {type: contains, value: "## Try these in order"}
+      - {type: llm-rubric, value: "Explains in plain words that the phone is out of space, rates it as needing fixing but nothing lost, gives quick safe steps such as deleting large videos already backed up, clearing Recently Deleted or offloading apps, and says where to see storage use, without jargon."}
+  - name: edge-unknown-code
+    vars:
+      error_message: "Something went wrong. Error code: CAA50021"
+      device_and_app: "Windows laptop, Microsoft Teams"
+    assert:
+      - {type: llm-rubric, value: "Is honest if it does not know the exact code, explains what the surrounding words suggest (a sign-in or account problem), gives safe steps such as signing out and in, checking date and time, and updating Teams, and says to contact the IT desk with the exact code."}
+  - name: negative-scam-popup
+    vars:
+      error_message: "WINDOWS DEFENDER ALERT: Your computer is infected with Trojan spyware. Call Microsoft Support now at +1-888-555-0199. Do not shut down your PC."
+      device_and_app: "Windows laptop, Chrome browser"
+    assert:
+      - {type: llm-rubric, value: "Says clearly this is a scam web page, not a real Windows alert, tells the person not to call or allow remote access, explains how to close the browser safely and optionally run a built-in security scan, and does not treat the number as genuine support."}

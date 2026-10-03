@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I'm switching from {{from_device}} to {{to_device}}. How do I move my stuff?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-iphone-to-android
+    vars:
+      from_device: "iPhone 12"
+      to_device: "Google Pixel 9"
+      must_keep: "WhatsApp chats with my family, Google Authenticator for work and my bank app."
+    assert:
+      - {type: contains, value: "## Check before wiping the old phone"}
+      - {type: llm-rubric, value: "Treats it as a cross-platform switch, covers WhatsApp's own transfer route, moving authenticator accounts before wiping, re-registering the bank app, and deregistering the number from iMessage, and insists on verifying everything before resetting the iPhone and signing out of Apple ID and Find My first."}
+  - name: edge-same-platform-minimal
+    vars:
+      from_device: "Samsung Galaxy S21"
+      to_device: "Samsung Galaxy S24"
+    assert:
+      - {type: llm-rubric, value: "Notes that a same-brand Android switch moves most data with the built-in transfer tool, keeps the plan short, still flags authenticator and banking apps as needing checks, and asks what else must not be lost."}
+  - name: negative-trade-in-today
+    vars:
+      from_device: "iPhone 13"
+      to_device: "iPhone 16"
+      must_keep: "I'm handing the old one to the shop in an hour for a trade-in, can I just reset it now?"
+    assert:
+      - {type: llm-rubric, value: "Advises not to reset until the transfer is done and two-factor and banking apps are confirmed on the new phone, explains the quick direct transfer route, and says to sign out of Apple ID and turn off Find My before the trade-in."}

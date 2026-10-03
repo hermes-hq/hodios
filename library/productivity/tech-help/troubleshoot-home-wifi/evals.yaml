@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My Wi-Fi is bad. {{symptoms}} How do I fix it?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coverage-upstairs
+    vars:
+      symptoms: "Fast in the living room, but in the upstairs bedrooms video calls freeze and pages crawl. Speed test next to the router shows 180 Mbps, upstairs 4 Mbps."
+      equipment: "Provider's combined modem-router, about 6 years old. 200 Mbps plan. No extenders."
+      home_layout: "Three-storey terraced house, router in a cupboard by the front door on the ground floor."
+    assert:
+      - {type: contains, value: "## Checks in order"}
+      - {type: llm-rubric, value: "Identifies a coverage problem (fast near the router, slow far away) rather than a provider fault, suggests moving the router out of the cupboard to a central raised spot and checking firmware first, and then recommends a mesh system or wired access point for a three-storey home with reasoning, noting that a simple extender is a weaker choice."}
+  - name: edge-provider-side-fault
+    vars:
+      symptoms: "Internet drops completely for a minute or two several times every evening, on every device, even the PC that is plugged into the router with a cable."
+    assert:
+      - {type: llm-rubric, value: "Recognises that drops on a wired connection point to the line or provider rather than Wi-Fi, advises checking the modem lights and logging the times, and gives a clear list of what to tell the provider (times, wired test, steps tried), without sending the person through a long list of Wi-Fi placement tweaks."}
+  - name: negative-no-premature-reset
+    vars:
+      symptoms: "My phone keeps disconnecting from the Wi-Fi but my husband's phone and the laptop are fine. Should I factory reset the router?"
+    assert:
+      - {type: llm-rubric, value: "Points out that only one device is affected so the device is the likely problem, gives device steps first (restart, forget and rejoin the network, update, check power-saving or private address settings), and advises against a factory reset now, explaining that it wipes the network settings."}
