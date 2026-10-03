@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an account plan for this customer: {{account_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-account
+    vars:
+      account_notes: "Northwind Logistics, 3PL with 2,000 staff in 6 warehouses. Buys our warehouse labour scheduling module for 2 sites, 96k USD ARR, renewal 30 June. Main contact Priya Shah, Director of Ops (loves us, presented our results at their exec offsite: overtime down 18% at site 1). IT Director Mark Lee is sceptical, prefers one vendor for everything and mentioned their ERP vendor's scheduling add-on. CFO unknown to us. Their 2026 priorities from the annual report: open 2 new sites, cut labour cost per order 10%. Support tickets low. Usage 85% of licensed managers weekly."
+      products: "Scheduling module 48k per site per year. Forecasting add-on 20k per site. Time and attendance 15k per site."
+      horizon: 12 months
+    assert:
+      - {type: contains, value: "## Stakeholder map"}
+      - {type: llm-rubric, value: "Maps Priya as champion and Mark as sceptic with reasons from the notes, flags the unknown CFO as the economic buyer gap and single-threading risk; whitespace shows 4 unowned sites plus 2 new sites and sizes them only from the supplied prices; ties actions to their stated goals (new sites, labour cost per order); names the ERP add-on as a competitive risk with mitigation; quarterly actions have owners and success signals; does not invent people or figures."}
+  - name: edge-thin-notes
+    vars:
+      account_notes: "Acme Foods, big customer, buys our packaging design services, about 200k a year. Contact is Tom in marketing. Renewal sometime next year."
+    assert:
+      - {type: llm-rubric, value: "Produces a plan skeleton that marks most fields unknown rather than inventing them, flags single-threading on Tom and the missing renewal date, and leads with a prioritised list of open questions and discovery actions for the first quarter."}
+  - name: negative-champion-leaving
+    vars:
+      account_notes: "Helios Bank, 400k ARR, renewal in 4 months. Our champion, the Head of Digital, just announced she is leaving next month. New CIO joined from a competitor's customer. Usage down 25% since Q1. Sales leadership wants a plan to upsell 150k this year."
+      horizon: 12 months
+    assert:
+      - {type: llm-rubric, value: "Puts retention ahead of the upsell target: flags the champion departure, new CIO with competitor history and usage decline as top renewal risks, proposes immediate actions (meet the successor and CIO, executive sponsor, value review, adoption recovery) before expansion, and says the 150k upsell is unrealistic or secondary until the renewal is secured."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Review my pipeline and tell me my forecast: {{pipeline}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-q4-pipeline
+    vars:
+      pipeline: "Today 3 Nov. Deal | Owner | Amount | Stage | Close | Last activity | Next step | Notes\nAtlas Corp | Ana | 120k | Contract | 28 Nov | 1 Nov | Legal redlines call 6 Nov | CFO signed off budget\nBirch Health | Ben | 80k | Proposal | 15 Dec | 30 Oct | Exec demo 12 Nov | Champion is IT manager only\nCobalt Bank | Ana | 200k | Negotiation | 30 Nov | 2 Sep | follow up | Close date moved 3 times\nDelta Foods | Cho | 45k | Discovery | 20 Dec | 31 Oct | Scoping call 8 Nov |\nEmber Retail | Ben | 60k | Contract | 12 Dec | 28 Oct | Signature expected after board 10 Dec | Procurement done\nFjord Media | Cho | 30k | Proposal | 31 Oct | 10 Oct | none |\nClosed won this quarter: 190k."
+      quota_and_period: "Q4 (Oct-Dec), quota 500k USD."
+    assert:
+      - {type: contains, value: "## Forecast call"}
+      - {type: llm-rubric, value: "Classifies Atlas and Ember as commit with evidence; Birch as best case (single-threaded); Delta as pipeline; Cobalt omitted or heavily downgraded (no activity since 2 Sep, vague next step, close date moved 3 times) despite Negotiation stage; flags Fjord's past close date and no next step; computes gap to target from 190k closed (310k remaining) and gives a single call with range and arithmetic; pointed questions for Cobalt and Birch."}
+  - name: edge-missing-fields-no-quota
+    vars:
+      pipeline: "Deal A 50k Proposal close 15 Dec; Deal B 20k Negotiation close 30 Nov; Deal C 90k Discovery close 20 Dec."
+    assert:
+      - {type: llm-rubric, value: "Notes that last activity, next steps and target are missing so hygiene checks and gap to quota cannot be run, infers the period from close dates and says so, classifies conservatively with stated reasons, and does not apply generic win rates."}
+  - name: negative-rep-commits-stale
+    vars:
+      pipeline: "Today 1 Dec. Rep-entered forecast category in brackets. Orion 150k Negotiation close 20 Dec last activity 18 Oct next step none [Commit]; Pike 90k Proposal close 19 Dec last activity 15 Oct next step none [Commit]; Quill 40k Contract close 10 Dec last activity 29 Nov next step signature 5 Dec [Commit]."
+      quota_and_period: "December, target 250k."
+    assert:
+      - {type: llm-rubric, value: "Does not accept the rep's Commit labels: keeps Quill as commit and downgrades Orion and Pike (about six weeks without activity, no next step) to best case, pipeline or omit; states that the forecast is far below the 280k the reps imply and gives a defensible lower number with questions for the owners."}

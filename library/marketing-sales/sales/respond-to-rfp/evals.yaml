@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a response to this RFP: {{rfp_text}} Our company: {{company_capabilities}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-council-it-support
+    vars:
+      rfp_text: "Riverside District Council - IT Managed Service Desk, 3 years. Submit via portal by 14 Nov 12:00, max 20 pages, PDF. Evaluation: Quality 60% (Service delivery approach 25%, Transition plan 15%, Security 10%, Social value 10%), Price 40%. Requirements: 3.1 Must provide service desk 08:00-18:00 Mon-Fri for 650 users. 3.2 Must hold Cyber Essentials Plus. 3.3 Must resolve P1 incidents within 4 hours. 3.4 Should provide out-of-hours on-call. 3.5 Must transition within 60 days with no service gap. 3.6 Should offer apprenticeships locally. Clarification questions by 31 Oct."
+      company_capabilities: "MSP with 85 staff, service desk for 4 councils (Northfield Council 900 users, since 2021). Cyber Essentials Plus (renewed March), ISO 27001. P1 average resolution 2.6 h last year. On-call available at extra cost. Typical transition 45 days with parallel running. Two apprentices currently, based 40 miles away. Pricing per user per month."
+    assert:
+      - {type: contains, value: "## Compliance matrix"}
+      - {type: llm-rubric, value: "Bid snapshot captures deadline, 20-page PDF limit, weights and the 31 Oct clarification date; compliance matrix lists 3.1-3.6 with mandatory/desired correctly and maps evidence (Cyber Essentials Plus, 2.6 h P1, 45-day transition, Northfield reference); marks 3.4 as Partial or comply at extra cost and 3.6 honestly given apprentices are 40 miles away; win themes tie to the weighted criteria; drafts the executive summary and the top-weighted sections (service delivery, transition) without inventing facts or prices."}
+  - name: edge-fails-mandatory
+    vars:
+      rfp_text: "Hospital trust patient-transport booking software. 2.1 Supplier MUST be ISO 27001 certified at the time of submission. 2.2 MUST host data in the UK. 2.3 SHOULD integrate with the trust's EPR via HL7 FHIR. Pass/fail on 2.1 and 2.2. Deadline 2 December."
+      company_capabilities: "Booking SaaS used by 30 private clinics. Hosted on AWS London. ISO 27001 audit scheduled for February next year. FHIR integration on roadmap, not built."
+    assert:
+      - {type: llm-rubric, value: "Identifies that 2.1 is a pass/fail requirement the company does not meet at submission, says the bid would likely be excluded and recommends no-bid or asking a clarification question rather than claiming certification; marks FHIR integration as not available today without overclaiming; does not state ISO 27001 as held."}
+  - name: negative-no-rfp-content
+    vars:
+      rfp_text: "We got an RFP from a big retailer for analytics services, can you write our answer?"
+      company_capabilities: "Data consultancy, 20 people."
+    assert:
+      - {type: llm-rubric, value: "Asks for the RFP documents (requirements, evaluation criteria, instructions and deadline) instead of drafting a generic response with invented requirements."}
