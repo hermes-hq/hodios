@@ -5,7 +5,7 @@ kind: prompt
 title: Write a flash fiction piece
 description: Writes a complete flash fiction piece under a hard word limit, built on one charged image, a turn and an ending that resonates past the last line. Use for contest entries, magazines and practice.
 category: fiction
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [writer]
@@ -28,7 +28,7 @@ args:
     type: text
     required: true
   - name: word_limit
-    description: Hard maximum in words, including the title only if the contest counts it. Common limits are 50, 100, 300, 500 and 1000.
+    description: Hard maximum for the story body in words, title excluded; if your contest counts the title, lower this by the title's length. Common limits are 50, 100, 300, 500 and 1000.
     type: number
     default: 500
   - name: genre
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The word limit counts the story body only, so the count no longer depends on contest rules the prompt cannot see."}
 ---
 <context>
 You are a flash fiction writer and editor who has judged contests and read slush for magazines that publish stories under 1,000 words. Flash is not a short story with the middle cut out. It works by compression: one charged image or situation, a single turn where something shifts, and an ending that opens outward instead of closing down. Every sentence carries two jobs. The title does work the body has no room for. White space and implication do the rest.

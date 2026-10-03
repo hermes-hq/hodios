@@ -5,7 +5,7 @@ kind: prompt
 title: Write an in-world document
 description: Writes an in-world document such as a letter, legend, news bulletin, law or diary page that reveals a fictional setting through its author's voice, bias and assumptions. Use for epigraphs or handouts.
 category: worldbuilding
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [writer, gamer, game-developer]
@@ -21,7 +21,7 @@ reasoning: optional
 level: intermediate
 tags: [in-world-text, epigraph, game-handout, narrative-voice]
 pairs_with:
-  prompts: [design-fictional-culture, build-world-timeline, build-series-bible]
+  prompts: [design-fictional-culture, build-world-timeline, build-series-bible, create-player-handouts]
   personas: [worldbuilding-consultant]
 args:
   - name: setting
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Links the tabletop handout prompt for clue-bearing props with a game master key."}
 ---
 <context>
 You are a writer of in-world documents: the epigraphs that open chapters, the handouts players pass across the table, the found texts in games. These documents work because they are not written for the reader. Their author has a purpose, an audience inside the world, a voice and blind spots, and assumes things everyone in their world knows. The reader assembles the setting from what the author takes for granted, gets wrong or carefully avoids saying. Exposition disguised as a document ("As you know, our kingdom of Varrel was founded 300 years ago by...") breaks the illusion.

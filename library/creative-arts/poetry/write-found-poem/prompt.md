@@ -5,7 +5,7 @@ kind: prompt
 title: Write a found or erasure poem
 description: Makes a found or erasure poem from a source text, keeping only selected words in their original order, shows the erasure, and explains the choices. Use for poetry practice, workshops and art projects.
 category: poetry
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [writer, artist, teacher]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The shown erasure uses middle dots instead of underscores, which Markdown misreads as emphasis."}
 ---
 <context>
 You are a poet who works in found and erasure forms, in the tradition of Tom Phillips's A Humument, Mary Ruefle's erasures and the blackout poems taught in classrooms. The constraint is the art: every word in the poem must come from the source, in the order it appears there, and the poem's power comes from what the source did not know it was saying. A good erasure finds a voice inside the text that argues with, haunts or transforms it, rather than summarising it.
@@ -67,7 +68,7 @@ Source text: {{source_text}}
 ## Poem
 A title (which may come from the source, or be marked as the poet's own), then the poem with its line breaks.
 ## The erasure
-The source with each unused word replaced by a dot or underscore block of similar length, chosen words in bold.
+The source with each unused word replaced by a run of middle dots (···) of similar length and each chosen word in bold, keeping the source's paragraph breaks. Do not use underscores or asterisks as erasure marks; Markdown reads them as emphasis.
 ## Choices
 Mode used, the speaker or angle, key selections, and a one-line order check confirming every word appears in sequence.
 </output_format>

@@ -5,7 +5,7 @@ kind: prompt
 title: Write a novel synopsis for agents
 description: Compresses a finished novel into a present-tense agent synopsis that tells the whole plot including the ending, follows the emotional arc and fits the word limit. Use for agent submissions.
 category: fiction
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [ship]
 role: [writer]
@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [synopsis, literary-agent, manuscript-submission, querying]
 pairs_with:
-  prompts: [write-query-letter, write-book-blurb, outline-story]
+  prompts: [write-query-letter, write-book-blurb, write-logline-and-synopsis, outline-story]
 args:
   - name: manuscript_summary
     description: A chapter-by-chapter summary or detailed outline of the finished novel, including the ending, the main characters and their arcs, genre and word count. A full manuscript also works.
@@ -31,6 +31,9 @@ args:
     description: The agent's or contest's limit in words. One single-spaced page is about 500 words; two pages about 1000.
     type: number
     default: 750
+  - name: title
+    description: The novel's title as you will submit it. Optional; a [TITLE] placeholder is used if missing.
+    type: string
 output_contract:
   format: markdown
   sections: [Synopsis, Short synopsis, What I cut, Checks]
@@ -39,12 +42,14 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Takes the title as an argument instead of inventing one, and points loglines and screenplay synopses to the logline prompt."}
 ---
 <context>
-You are a literary agent's former assistant who has read thousands of submission synopses. An agent reads a synopsis to check one thing: does the story work all the way through? They want the main character's goal, the stakes, the major turning points, how the protagonist changes, and exactly how it ends. A synopsis is not a blurb: no cliffhangers, no rhetorical questions, no hiding the twist. The usual failures are trying to fit every subplot, listing events without the emotional cause and effect that links them, naming too many characters, and running long.
+You are a literary agent's former assistant who has read thousands of submission synopses. An agent reads a synopsis to check one thing: does the story work all the way through? They want the main character's goal, the stakes, the major turning points, how the protagonist changes, and exactly how it ends. A synopsis is not a blurb: no cliffhangers, no rhetorical questions, no hiding the twist. The usual failures are trying to fit every subplot, listing events without the emotional cause and effect that links them, naming too many characters, and running long. This is the novel-submission synopsis, sized to a specific agent's limit; loglines and screenplay synopses are a different job.
 
 Manuscript summary: {{manuscript_summary}}
 Word limit: {{word_limit}}
+{{#title}}Title: {{title}}{{/title}}
 </context>
 
 <task>
@@ -66,7 +71,7 @@ Word limit: {{word_limit}}
 
 <output_format>
 ## Synopsis
-Title line in capitals, then genre and word count on one line, then the synopsis.
+The title in capitals (or [TITLE] if none was given; never invent one), then genre and word count on one line (taken from the summary, or [GENRE] and [WORD COUNT] placeholders), then the synopsis.
 ## Short synopsis
 One paragraph.
 ## What I cut
