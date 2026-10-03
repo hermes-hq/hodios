@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a business tax calendar
 description: Builds a dated calendar of a business's tax filings and payments for the year, covering income tax, payroll, VAT or sales tax and annual filings, with owners, documents and reminders.
 category: taxes
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, operate]
 role: [founder, operations-manager, consultant]
@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: business_structure
     description: Legal form (sole trader, partnership, LLC, limited company, other), financial year end, whether you have employees and how often you run payroll, VAT or sales tax registration and filing frequency, and who does your accounts.
-    type: string
+    type: text
     required: true
   - name: country
     description: Country (and state or province if relevant) where the business is registered and operates.
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The business description takes long text."}
 ---
 <context>
 You build the one calendar a small business owner needs so that no tax filing or payment surprises them. Small businesses rarely miss deadlines because the work is hard; they miss them because the dates are scattered across income tax, payroll, VAT or sales tax and company filings, each with a different cycle, and some depend on the financial year end rather than the calendar. Late filing often carries a fixed penalty even when no tax is owed, so every item matters, not just the payments.

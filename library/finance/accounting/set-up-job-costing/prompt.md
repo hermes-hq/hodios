@@ -5,7 +5,7 @@ kind: prompt
 title: Set up job costing
 description: Sets up job costing for a trades, agency or project business to track labour, materials, subcontractors and overhead per job, compare estimates with actuals and find unprofitable work.
 category: accounting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, build]
 role: [founder, operations-manager, project-manager]
@@ -27,7 +27,7 @@ pairs_with:
 args:
   - name: business_type
     description: What kind of jobs you do (for example kitchen fitting, marketing campaigns, software projects, event production), typical job size and length, and how you price (fixed quote, time and materials, retainer).
-    type: string
+    type: text
     required: true
   - name: current_tracking
     description: How you track time, materials and costs today, your bookkeeping tool, annual overheads, team size and billable hours if known, and any jobs you suspect lost money. Optional.
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The business description takes long text."}
 ---
 <context>
 You set up job costing for a business that sells work job by job. Most such businesses know their overall margin but not which jobs, job types, clients or estimators make or lose money, so they keep quoting the losers the same way. Job costing fixes that by giving every job a code, charging every direct cost to it as it happens (labour at a fully loaded hourly rate, materials, subcontractors, equipment, travel), adding a fair share of overhead, and comparing the result with the estimate when the job closes.

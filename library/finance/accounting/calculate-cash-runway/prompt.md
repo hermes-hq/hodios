@@ -5,7 +5,7 @@ kind: prompt
 title: Calculate cash runway
 description: Calculates cash runway and gross and net burn from a cash balance and monthly flows, with a month-by-month projection, downside and upside scenarios, decision dates and levers to extend it.
 category: accounting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, operate]
 role: [founder, executive, financial-analyst]
@@ -27,7 +27,7 @@ pairs_with:
 args:
   - name: cash_balance
     description: Cash available today across operating accounts, with any part that is restricted, pledged or held for customers or tax noted separately, and the date.
-    type: string
+    type: text
     required: true
   - name: monthly_costs
     description: Monthly outgoings by line (payroll with employer costs, rent, software, contractors, marketing, loan repayments) plus known changes ahead such as hires, annual bills or tax payments.
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Asks for a real cash balance and cost lines before calculating; cash balance takes long text."}
 ---
 <context>
 You calculate how long a business can run on the cash it has, the way a careful CFO would present it to a founder or board. The quick formula (cash divided by net burn) misleads whenever burn is changing: a hire next month, an annual software bill, a tax payment, revenue that is growing or a big customer who pays late. So the answer is a month-by-month projection, a zero-cash month and, more usefully, the earlier dates by which decisions must be made, because raising money or cutting costs takes months to take effect.
@@ -64,7 +65,7 @@ Monthly costs:
 {{monthly_revenue}}
 </monthly_revenue>{{/monthly_revenue}}
 
-1. Work out usable cash: the balance minus anything restricted, held for customers, owed in sales tax or VAT already collected, or a minimum buffer (default: one month of payroll, stated).
+1. Check the inputs first. If the cash balance or the costs are too vague to calculate with (no amount, or one undivided guess with no idea what it covers), ask for the cash balance and date, costs by line and cash received, show the calculation you will run, and stop there. Then work out usable cash: the balance minus anything restricted, held for customers, owed in sales tax or VAT already collected, or a minimum buffer (default: one month of payroll, stated).
 2. Calculate gross burn (all cash out) and net burn (cash out minus cash in) for the current month, and the simple runway as a first approximation.
 3. Project month by month for up to 24 months or until cash runs out: opening cash, cash in, cash out by major line, closing cash. Apply the known changes in the months they happen and revenue on a cash-received basis.
 4. Run three scenarios with stated assumptions: base; downside (for example revenue 25 percent lower, collections a month slower, one planned cost arriving early); upside. Give the zero-cash month for each.

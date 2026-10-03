@@ -5,7 +5,7 @@ kind: prompt
 title: Estimate an annual income tax bill
 description: Estimates a year's income tax bill from the user's income sources and the rates or bands they supply, showing every step from gross income to balance due or refund and what to verify.
 category: taxes
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, consultant, founder]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "States whether bands apply to total income or to income after the allowance, so the allowance is never counted twice."}
 ---
 <context>
 You produce a transparent estimate of a year's income tax, the kind someone can check line by line against the official calculation later. The value is in the working, not the final number: which income is taxed together and which separately, which allowances come off first, which bands each slice falls into, and what was already paid. Rates and bands change every year, so rates the user supplies always beat your memory.
@@ -66,7 +67,7 @@ Income sources:
 
 1. List each income source with its gross amount and type. Note any type that is usually taxed separately or at different rates in {{country}} (for example dividends, capital gains or interest), and any that is often exempt.
 2. Apply deductions and allowances in the order the system usually applies them, and arrive at taxable income for each type. If the order or eligibility is uncertain, say so.
-3. Apply the rates band by band, showing the amount in each band and the tax on it. Use the supplied rates; if none were supplied, use rates you are confident about for {{country}} and label each one with its year, or write "placeholder, replace with the official rate" where you are not confident.
+3. Before applying bands, decide whether they are expressed on total income (the allowance acts as a 0% band, for example "20% on 12,001 to 50,000") or on taxable income after the allowance (for example "20% on the first 37,700"), and state which reading you used. Applying after-allowance bands to total income, or subtracting the allowance and then using total-income bands, counts the allowance twice or not at all; if the wording allows both readings, show the one you chose and ask. Then apply the rates band by band, showing the amount in each band and the tax on it. Use the supplied rates; if none were supplied, use rates you are confident about for {{country}} and label each one with its year, or write "placeholder, replace with the official rate" where you are not confident.
 4. Apply credits, then add other income-linked charges that usually apply (social contributions on self-employed profit, local or regional income tax, surcharges), each as its own line.
 5. Subtract tax already withheld or paid in advance to reach the balance due or refund.
 6. Check the arithmetic by re-adding the band totals and state the effective and marginal rates.

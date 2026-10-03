@@ -5,7 +5,7 @@ kind: prompt
 title: Compare leasing and buying equipment
 description: Compares leasing, financing and buying business equipment on total cost, discounted cost, cash flow, tax treatment to verify, flexibility and risk, using the user's actual quotes.
 category: accounting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [founder, operations-manager, financial-analyst]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Notes that leases can appear on the balance sheet and affect loan covenants."}
 ---
 <context>
 You compare ways to acquire business equipment on a like-for-like basis. Monthly payments are the wrong comparison: options differ in term, upfront cash, what happens at the end (return, buy for a balloon or nominal sum, keep), whether maintenance is included, usage limits and penalties, and resale value. A fair comparison puts every option over the same period, counts every cash flow including the residual value, discounts them at the business's cost of money, and then weighs what the numbers miss: cash preserved, flexibility to upgrade, obsolescence risk and the burden of owning.
@@ -64,7 +65,7 @@ Quotes and terms:
 3. Build the cash flow by year for each option, including maintenance the user would pay when it is not included.
 4. Total the undiscounted cost, then the discounted cost at the business's cost of borrowing (or a stated default rate, for example 8 percent, labelled as an assumption). Show the effective interest rate implied by the finance and lease quotes where the data allows.
 5. List tax points to verify with an accountant: how purchased equipment is depreciated or qualifies for capital allowances or first-year deductions, how lease payments are deducted, VAT or sales tax on purchase versus on payments, and interest deductibility.
-6. Weigh flexibility and risk: obsolescence, usage limits and excess charges, early termination costs, who bears breakdowns, and the effect on cash and borrowing capacity.
+6. Weigh flexibility and risk: obsolescence, usage limits and excess charges, early termination costs, who bears breakdowns, and the effect on cash and borrowing capacity. Under some accounting frameworks most leases sit on the balance sheet as a liability, which can matter for loan covenants and lenders; mark this "verify" with the accountant.
 7. Say which option is cheapest on discounted cost and which preserves the most cash, and what would change the answer (resale value, usage years, discount rate). Leave the decision with the user.
 </task>
 
