@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make a found poem from this text: {{source_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manual-erasure
+    vars:
+      source_text: "To reset the device, hold the power button for ten seconds until the light turns red. Do not unplug the unit while it is restoring factory settings, as this may cause permanent damage. All personal data, saved networks and preferences will be erased. The device will restart and return to the condition it was in when you first received it. If the light continues to flash, contact customer support. Keep this manual for future reference."
+      theme: starting over after a breakup
+    assert:
+      - {type: contains, value: "## The erasure"}
+      - {type: llm-rubric, value: "Every word of the poem appears in the source in the same order with nothing added or changed; the erasure shows the chosen words in context; the poem finds a voice about starting over rather than summarising the manual; the choices section includes an order check."}
+  - name: edge-short-source
+    vars:
+      source_text: "Closed Sunday. Back Monday at nine. Sorry for any inconvenience."
+    assert:
+      - {type: llm-rubric, value: "Warns that the source is too short to give much choice and asks for more text or works with it while keeping strictly to the source words in order."}
+  - name: negative-no-added-words
+    vars:
+      source_text: "The council met on Tuesday evening to discuss the proposed closure of the river footbridge. Residents spoke for and against. The engineer's report found the structure unsafe. A decision was postponed until spring, when funding for repairs may become available."
+      theme: hope
+    assert:
+      - {type: llm-rubric, value: "Does not add or alter any word to force the theme of hope; if the text resists the theme it says so; all poem words appear in source order."}
