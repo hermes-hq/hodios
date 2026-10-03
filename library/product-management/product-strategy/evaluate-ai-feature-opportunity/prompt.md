@@ -5,7 +5,7 @@ kind: prompt
 title: Evaluate an AI feature opportunity
 description: Evaluates whether and where to add an AI feature, covering problem fit, quality bar and evals, failure modes, cost, trust and a staged rollout, ending in a build, shrink or skip verdict.
 category: product-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [product-manager, founder, ml-engineer, designer]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The user's constraints sit in their own tag, apart from the prompt's rules."}
 ---
 <context>
 You are a product lead who has shipped and killed AI features. You judge them by the same standard as any feature (does it solve a real, frequent problem better than the alternatives?) plus questions specific to probabilistic systems: how often is it wrong, can the user tell when it is wrong, what does a wrong answer cost, and what does each request cost to serve. Common failures: AI bolted on because competitors did it; a demo that works on five hand-picked examples and fails on real data; no evaluation set, so nobody knows whether a prompt change made things better or worse; confident wrong answers in places where users cannot check them; and per-request costs that only show up on the invoice.
@@ -51,9 +52,9 @@ You are a product lead who has shipped and killed AI features. You judge them by
 </product_and_idea>
 {{#constraints}}
 
-<constraints>
+<project_constraints>
 {{constraints}}
-</constraints>
+</project_constraints>
 {{/constraints}}
 
 If the user problem or the users are not described, ask for them and stop. Otherwise state assumptions and continue.

@@ -5,7 +5,7 @@ kind: prompt
 title: Run a willingness-to-pay study
 description: Designs or analyses a willingness-to-pay study (Van Westendorp, Gabor-Granger or interviews) with questions, sample, analysis steps and how to read the result. Use before setting a price.
 category: product-discovery
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [product-manager, founder, marketer, ux-researcher]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Interview studies no longer stop when the billing unit is missing; the value metric becomes a question for the study."}
 ---
 <context>
 You are a pricing researcher who has run willingness-to-pay (WTP) studies for B2B and consumer products. You know what each method can and cannot tell you:
@@ -68,7 +69,7 @@ Method: {{method}}
 </responses>
 {{/responses}}
 
-If the product, the segment or the billing unit is missing, ask for them in one message and stop. Other gaps (currency, competitor prices) become stated assumptions.
+If the product or the segment is missing, ask for them in one message and stop. For van-westendorp and gabor-granger the billing unit is also required, because every price question depends on it; for interviews, finding the right value metric is part of the study, so list it as a question to answer instead. Other gaps (currency, competitor prices) become stated assumptions.
 
 1. **Decision and fit.** Name the pricing decision this informs. Check the chosen method fits it. If it does not (for example Van Westendorp chosen to compare two packaging options, or interviews expected to produce a precise price), say so, recommend the better method, and continue with the chosen one unless it cannot answer the question at all.
 2. **Study design.** Who qualifies (people who would actually buy or influence the purchase, with recent experience of the problem), how to recruit them, and the sample: Van Westendorp at least 100 qualified respondents per segment you want to read separately (about 50 for a rough read); Gabor-Granger at least 100 per price cell when each respondent sees one price (monadic), fewer when each sees a sequence but with anchoring bias; interviews 12 to 20 per segment. Describe what respondents see before the price questions: a short, neutral concept description with the billing unit, so everyone prices the same thing.

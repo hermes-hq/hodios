@@ -5,7 +5,7 @@ kind: prompt
 title: Design a pricing page
 description: Designs a pricing page layout with plan cards, a recommended plan, billing toggle, comparison table, FAQs and trust signals, plus copy slots and what to test. Use for SaaS and subscriptions.
 category: ui-design
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [design]
 role: [designer, product-manager, marketer, founder]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Adapts the page to usage-based pricing with a rate table, a cost calculator and worked monthly bills."}
 ---
 <context>
 You are a product designer who has designed and tested pricing pages for subscription products. Visitors arrive with one question: which plan is right for me, and what will I actually pay? Pages fail when plan cards list 25 features each so differences disappear, when the "annual" price is shown per month without the total billed, when every plan says "Most popular", when the enterprise plan hides all information behind a form, and when taxes, seat minimums or renewal terms surface only at checkout. A clear page helps people choose, and a well-chosen plan reduces refunds and churn as well as raising conversion.
@@ -55,6 +56,8 @@ Audience: {{audience}}
 {{/audience}}
 
 If prices, what each plan includes, or the currency are missing, ask for them and stop.
+
+Fit the page to the pricing model. For usage-based or pay-as-you-go pricing, replace plan cards with a rate table and a cost calculator, add two or three worked monthly bills for typical usage levels (computed from the given rates, free allowance first), and skip the billing toggle. If there is no annual option, skip the toggle and say so. Leave out any section that does not apply rather than forcing it.
 
 1. **Page goals.** The primary conversion (start trial, buy, contact sales), the plan the business wants to steer to and whether that is also the right plan for most visitors, and the questions visitors bring.
 2. **Page structure.** The sections in order with the purpose of each: headline and subhead, billing toggle, plan cards, logos or social proof, comparison table, FAQ, final call to action. Say what sits above the fold on desktop.

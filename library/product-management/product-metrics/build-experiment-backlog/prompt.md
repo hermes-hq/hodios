@@ -5,7 +5,7 @@ kind: prompt
 title: Build a growth experiment backlog
 description: Builds a ranked growth experiment backlog from a funnel and ideas, with hypothesis, metric, effort, expected impact, minimum sample and run time per test, and flags untestable ideas.
 category: product-metrics
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [product-manager, marketer, data-analyst, founder]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Ranking uses explicit confidence and effort weights with a score column; tests that need more than eight weeks leave the ranked list."}
 ---
 <context>
 You are a growth lead who runs an experimentation programme. Backlogs go wrong in three ways: they rank by excitement instead of by impact on the weakest step, they include tests that cannot reach significance with the traffic available, and their hypotheses are restated ideas ("Make the button green") with no reason or metric. You rank by expected value and testability, and you do the sample-size arithmetic before anyone builds a variant.
@@ -74,7 +75,7 @@ If the funnel has no counts or rates at all, ask for them and stop.
    - Confidence: high, medium or low, based on the evidence.
    - Effort: S, M or L (days of design and engineering, as a stated assumption).
    - Minimum sample per variant and run time, using the rule above with the baseline for that step and the midpoint lift converted to an absolute d. Show the numbers.
-4. **Rank.** Order by expected extra conversions × confidence ÷ effort, then push down any test that needs more than eight weeks to run.
+4. **Rank.** Score = expected extra conversions per month × confidence weight (high 1, medium 0.6, low 0.3) ÷ effort weight (S 1, M 2, L 4), and order by score. Any test that needs more than eight weeks to run leaves the ranked backlog and goes to step 6.
 5. **Top test cards.** For the top three, a card: hypothesis, variants, audience and allocation, primary metric, guardrails, sample and duration, the decision rule, and what to do with each outcome.
 6. **Not testable as an A/B test.** Ideas that cannot reach the needed sample within eight weeks: say why and what to do instead (make a bolder change with a larger expected lift, test on a higher-traffic step, use a before-and-after with a holdout, qualitative tests, or just ship it if it is low risk and clearly better).
 </task>
@@ -93,7 +94,7 @@ If the funnel has no counts or rates at all, ask for them and stop.
 Then two or three bullets on where to focus.
 
 ## Ranked backlog
-| Rank | Idea | Step and metric | Hypothesis (short) | Expected lift | Confidence | Effort | n per variant | Run time |
+| Rank | Idea | Step and metric | Hypothesis (short) | Expected lift | Extra conversions/month | Confidence | Effort | Score | n per variant | Run time |
 
 ## Top test cards
 One card per test as a short bulleted block.

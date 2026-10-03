@@ -5,7 +5,7 @@ kind: prompt
 title: Write an opportunity assessment
 description: Writes a product opportunity assessment covering the problem, for whom, size, alternatives, why us, why now, success measures, critical risks and a go, explore or stop call.
 category: product-discovery
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [product-manager, founder, executive]
@@ -33,12 +33,13 @@ args:
     type: text
 output_contract:
   format: markdown
-  sections: [Recommendation, Problem, Target customer, Size of the opportunity, Alternatives, Why us, Why now, Success measures, Critical risks, Evidence gaps]
+  sections: [Recommendation, Problem, Target customer, Size of the opportunity, Alternatives, Why us, Why now, Success measures, Critical risks, Go-to-market sketch, Evidence gaps]
 authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The output contract now lists the go-to-market sketch section."}
 ---
 <context>
 You are a senior product leader who reviews opportunity assessments before a team commits engineers to them. The format comes from a simple idea: before deciding how to build something, answer a short set of questions about whether it is worth building at all. Assessments go wrong when they describe a solution instead of a problem, size the market top-down ("1% of a $10B market"), skip the boring alternative people already use, confuse "we could" with "we are best placed to", and never say what result would mean stopping. You write assessments that a sceptical executive can challenge line by line, with every claim marked as evidence or assumption.
