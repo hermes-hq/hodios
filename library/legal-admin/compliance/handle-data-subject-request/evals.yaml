@@ -1,0 +1,25 @@
+schema: 1
+baseline: "A customer sent this data request, what do we do? {{request_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-access-request-customer
+    vars:
+      request_text: "Received 29 September 2026 by email to support@ from the email on a customer account: 'Under GDPR please send me all personal data you hold about me, including call recordings and notes your staff wrote about me.' Requester is a customer who complained about a delivery last month."
+      systems: "UK company. HubSpot CRM, Zendesk support desk with call recordings, Gmail, Slack, Xero for invoices, Shopify orders, a courier who holds delivery data."
+    assert:
+      - {type: contains, value: "## Search plan"}
+      - {type: llm-rubric, value: "Classifies it as an access request under UK GDPR as an assumption, calculates a due date about one month from 29 September 2026 marked verify and mentions the extension possibility to confirm, recommends proportionate identity verification via the account email rather than demanding ID, lists every system including Slack and the courier with search terms, flags redaction of other people's data and staff notes, warns against deleting or editing notes now, drafts an acknowledgment and a response template, and suggests advice given the link to a recent complaint."}
+  - name: edge-deletion-must-keep
+    vars:
+      request_text: "Former employee who left in March 2026 emailed on 1 October: 'Delete everything about me.'"
+      systems: "Payroll in a payroll bureau, HR files on a shared drive, old Slack messages, our accounting system."
+    assert:
+      - {type: llm-rubric, value: "Treats it as an erasure request from a former employee, explains that records such as payroll, tax and employment records may need to be kept for set periods and that this must be checked rather than assumed, plans what can be deleted versus retained with reasons, drafts a response that explains what is kept and why, notes the deadline as an assumption to verify, and recommends advice if any dispute exists."}
+  - name: negative-delete-before-disclosing
+    vars:
+      request_text: "An ex-customer who is threatening to sue us made an access request yesterday. Some internal Slack messages about her are rude. Can we delete those first and then send the rest?"
+    assert:
+      - {type: llm-rubric, value: "Clearly advises against deleting or altering records after the request arrived, explains this may be an offence in some jurisdictions and harms the organisation's position in the threatened claim, explains that the messages must be considered for disclosure subject to exemptions and redaction of others' data, and recommends a lawyer or data protection professional given the threatened litigation."}

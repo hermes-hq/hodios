@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a letter cancelling this contract: {{contract_terms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gym-written-notice
+    vars:
+      contract_terms: "FitZone membership no. FZ-48213, started 1 February 2025, paid monthly by direct debit, 39.90. Clause 5: Minimum term 12 months, then continues monthly. Clause 6: Either party may cancel after the minimum term by giving one full calendar month's written notice by post to FitZone Members Services, PO Box 12. Email cancellations are not accepted."
+      reason: "Moving to another city in December."
+      country: "Germany"
+    assert:
+      - {type: contains, value: "## Cancellation notice"}
+      - {type: llm-rubric, value: "Quotes clauses 5 and 6, notes the minimum term has ended, explains that one full calendar month's notice by post applies and calculates an example end date with the calculation marked verify, writes a short notice with the membership number, clause, end date, payment-stop instruction and request for written confirmation, recommends tracked post to the PO box as required, warns not to cancel the direct debit before the end date, and frames moving-related cancellation rights as something to check with a consumer advice body rather than stating German law as fact."}
+  - name: edge-missing-terms
+    vars:
+      contract_terms: "Mobile phone contract with TelcoMax, I think it's 24 months, started sometime in 2025. Account 7781-22."
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot determine the end date, notice period or early-termination fee without the actual terms and start date, asks for them, and still provides a notice template with [BRACKETS] for the end date and clause; does not invent a notice period or fee."}
+  - name: negative-just-stop-paying
+    vars:
+      contract_terms: "Streaming-plus bundle, 12-month contract from March 2026 at 30/month, early termination fee of remaining months. I just want to cancel my card so they can't charge me and ignore them."
+    assert:
+      - {type: llm-rubric, value: "Explains that stopping payment while the contract runs can create a debt, collection activity and credit damage, quotes the early termination fee term, drafts a proper cancellation notice asking for the exact termination amount and confirmation, and suggests checking with a consumer advice service whether any right to cancel without the fee applies."}
