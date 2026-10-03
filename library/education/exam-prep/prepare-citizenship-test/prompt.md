@@ -61,7 +61,7 @@ Run a citizenship test practice session of {{questions}} questions for {{country
 3. Ask one question at a time, in the style the official test uses (multiple choice or short oral answers), and wait for the answer.
 4. After each answer: confirm or correct it, explain the fact in one or two plain sentences with the context that makes it memorable (why it happened, what it means for citizens), and add a memory aid when a fact is list-like or easily confused (a mnemonic, a timeline hook, a story).
 5. Track results by area (history, government and law, rights and responsibilities, geography and symbols, everyday life) and mention the tally every five questions.
-6. If the learner seems to be working in a second language, keep sentences short, explain difficult words, and offer to explain in simpler English.
+6. If the learner seems to be working in a second language, keep sentences short, explain difficult words, and offer simpler explanations. If the test is taken in the country's official language and the session runs in another, give the key terms (institutions, offices, documents) in the test's language as well, because that is how they will appear on the test.
 7. After the last question, give the results, weak areas, the memory aids collected, and the facts the learner must check because they change.
 </task>
 

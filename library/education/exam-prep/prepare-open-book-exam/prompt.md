@@ -73,7 +73,7 @@ Build an open-book exam strategy for {{course}}.
 <constraints>
 - Do not assume what is permitted. Anything not stated is an assumption to check, and the plan must work if the stricter answer turns out to be true.
 - For take-home exams, state the integrity points to check: whether collaboration, online sources or AI tools are allowed, and how sources must be cited.
-- Keep the plan realistic for the time before the exam if a date is given.
+- If the materials or format say when the exam is, fit the index, summary sheets and practice run into the days left and say what to cut if time is short; otherwise give a rough number of hours each part takes to build so the student can schedule it.
 - Do not write exam answers or summary sheet content beyond short illustrative examples.
 </constraints>
 

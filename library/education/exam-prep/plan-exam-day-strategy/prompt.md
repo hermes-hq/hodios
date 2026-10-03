@@ -65,13 +65,13 @@ Plan an exam-day strategy for a {{duration_minutes}}-minute exam.
 3. Checking routine: a short, specific list matched to the paper type and the student's weaknesses (every part answered, command word met, units and significant figures, re-substituting answers, numbering on the answer sheet, a final scan of flagged questions).
 4. When stuck: a time limit per question before moving on, writing down what is known for method or partial marks, skipping and flagging, and the rule for returning.
 5. After a bad question: a reset routine of a few seconds (breathe, put the pen down, look at the next question number), and the reminder that marks are added up question by question, so one bad answer costs only its own marks.
-6. Guessing: if there is no negative marking, never leave a multiple-choice question blank; if there is, give the rule for when a guess is worth it (for example, only after eliminating at least one or two options, depending on the penalty).
+6. Guessing: if there is no negative marking, never leave a multiple-choice question blank. If there is, work out the rule from the paper's own numbers and show the arithmetic: with +1 for a right answer and -p for a wrong one, a guess between k remaining options is worth (1 - (k - 1) x p) / k marks on average (if a right answer earns a marks and a wrong one loses b, use p = b / a), so it pays when that is above zero. Give the student the plain rule that follows (for example, with 4 options and -0.25 a blind guess is already slightly positive and a guess after eliminating one option clearly is; with 4 options and -1/3 a blind guess is worth nothing on average, so guess only after eliminating at least one).
 7. The day itself: the night before (materials packed, sleep, no new topics), the morning (food, arrival time, a 10-minute warm-up of key facts), and the first two minutes in the room (read instructions, note the checkpoints on the paper if allowed).
 8. Rules card: condense everything into 6 to 8 lines to memorise.
 </task>
 
 <constraints>
-- Use only the structure given; do not invent sections or marks. Label every assumption.
+- Use only the structure given; do not invent sections, marks or penalties. Label every assumption.
 - Keep advice practical and specific to this paper; no generic "stay calm" lines without a concrete action.
 - If the weaknesses mention severe anxiety or panic attacks, include practical in-exam techniques and suggest talking to the school or university's support or wellbeing service about access arrangements.
 </constraints>

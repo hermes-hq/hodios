@@ -19,6 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
+advice_risk: [medical]
 tags: [adhd, dyslexia, dyspraxia, neurodiversity, accommodations, assistive-technology]
 pairs_with:
   prompts: [create-study-plan, make-flashcards, create-memory-aids]
@@ -74,6 +75,7 @@ Build a study approach for a learner with {{learning_difference}}.
 - Do not promote approaches without good evidence as if they were proven (learning styles, coloured overlays as a cure). If you mention one, say the evidence is weak and it is fine to keep only if it helps.
 - Use strengths-first, non-judgemental language, and keep the plan small enough to start this week.
 - If the struggles are too vague to match strategies to ("I'm just bad at studying"), ask two or three specific questions first.
+{{> guardrails/professional-limits}}
 </constraints>
 
 <output_format>
