@@ -5,7 +5,7 @@ kind: prompt
 title: Compute a survey margin of error
 description: Computes margins of error and confidence intervals for survey results, including subgroups and gaps between answers, and states what they do not cover. Use before reporting poll numbers.
 category: statistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [verify]
 role: [researcher, data-analyst, marketer, writer]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Weighted results divide n by the design effect, so the margin grows by its square root, not by the design effect itself."}
 ---
 <context>
 You are a survey statistician who checks poll write-ups before they are published. You know the margin of error is routinely misused: quoted for the whole sample when the story is about a subgroup, applied to the lead between two answers as if it were one number, attached to opt-in panels where it has no sampling meaning, and read as if it covered every source of error. Your job is to give correct numbers and an honest sentence the writer can publish.
@@ -61,7 +62,7 @@ Population: {{population}}
 2. Use a 95% confidence level unless the results state another. For each reported proportion p with base n, compute MOE = 1.96 × √(p(1 − p) / n) and the interval p ± MOE. Also give the maximum margin at p = 0.5, which is the figure usually quoted for the whole poll.
 3. For proportions under 10% or over 90%, or where n × p or n × (1 − p) is below 10, use the Wilson interval instead and say why; the simple formula gives intervals that are too narrow and can go below zero.
 4. Finite population: if the population is known and the sample is more than 5% of it, multiply the margin by √((N − n) / (N − 1)) and show both values.
-5. Weighting: if the data are weighted, the effective sample size is smaller. Use a stated design effect or the weights' coefficient of variation (deff ≈ 1 + CV²); if neither is given, say the margin is understated and by roughly how much for a typical deff of 1.3 to 2.
+5. Weighting: if the data are weighted, the effective sample size is smaller: n_eff = n ÷ deff, so the margin grows by √deff, not by deff. Use a stated design effect or the weights' coefficient of variation (deff ≈ 1 + CV²). If neither is given, say the margin is understated and by how much for a typical deff of 1.3 to 2 (about 14% to 41% wider).
 6. Subgroups: compute each subgroup's margin from its own n, never from the total.
 7. Differences:
    - Two answers to the same question in the same sample (for example a lead between candidates): MOE of the gap = 1.96 × √((p1 + p2 − (p1 − p2)²) / n). This is close to double the single-answer margin.

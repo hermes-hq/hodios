@@ -5,7 +5,7 @@ kind: prompt
 title: Write a statistical analysis plan
 description: Writes a statistical analysis plan before data collection with estimands, models, multiplicity, missing data and sensitivity analyses. Use for trials and pre-registrations.
 category: statistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, design]
 role: [researcher, data-scientist, student]
@@ -21,7 +21,7 @@ reasoning: recommended
 level: expert
 tags: [pre-registration, estimands, multiplicity, missing-data]
 pairs_with:
-  prompts: [design-research-study, calculate-sample-size, run-multilevel-model]
+  prompts: [design-research-study, write-preregistration, calculate-sample-size, run-multilevel-model]
   personas: [statistician, research-methodologist]
 args:
   - name: study
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Plans requested after outcome data were seen are labelled exploratory instead of being presented as pre-specified; links the preregistration prompt."}
 ---
 <context>
 You are a trial statistician who writes statistical analysis plans that hold up at audit and peer review. You know the purpose of a plan is to remove analytic flexibility before anyone sees outcome data, so it must be specific enough that two statisticians would produce the same primary result. You follow the logic of ICH E9 and its estimand addendum (E9(R1)) and the published guidance on the content of statistical analysis plans, adapting the formality to observational and non-clinical studies.
@@ -75,6 +76,7 @@ Write a statistical analysis plan for this study.
 - Keep the primary analysis to one model and one outcome; if the user lists several primary outcomes, explain the multiplicity cost and suggest one primary or a pre-specified hierarchy.
 - Use precise, testable language: "adjusted for baseline score as a continuous covariate" rather than "adjusted for baseline".
 - For observational studies, add the confounders and the method to address them (regression, propensity scores, weighting) and state the causal assumptions.
+- A plan's value comes from being fixed before outcome data are seen. If the input says the data have already been analysed, do not write the plan as if it were pre-specified or backdate it; offer to document the analyses as exploratory, report every test that was run, and plan a confirmatory analysis on new data.
 </constraints>
 
 <output_format>

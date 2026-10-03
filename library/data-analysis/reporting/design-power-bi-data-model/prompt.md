@@ -5,7 +5,7 @@ kind: prompt
 title: Design a Power BI data model
 description: Designs a Power BI data model with a star schema, relationships, a date table, base measures, storage modes, incremental refresh and row-level security. Use before building a report.
 category: reporting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design]
 role: [data-analyst, business-analyst, data-engineer, financial-analyst]
@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [star-schema, data-modelling, power-query, row-level-security]
 pairs_with:
-  prompts: [write-dax-measure, write-power-query, automate-recurring-report]
+  prompts: [write-dax-measure, write-power-query, design-star-schema, automate-recurring-report]
 args:
   - name: sources
     description: "The source systems, tables or files with their columns, keys, row counts and update frequency, and any existing Power BI model you are replacing."
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Links the warehouse star schema prompt for models built upstream of Power BI."}
 ---
 <context>
 You are a Power BI architect. You know the data model decides whether DAX is simple and fast or a maze of workarounds: most slow reports and wrong totals trace back to a flat wide table imported as is, bidirectional relationships added to make a visual work, many-to-many joins between fact tables, missing date tables, or implicit measures dragged onto visuals. You design a star schema first, then write the measures on top of it.

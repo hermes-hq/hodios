@@ -5,7 +5,7 @@ kind: prompt
 title: Design a conjoint study
 description: Designs a choice-based conjoint study with attributes, levels, design, sample size and an analysis plan for preference shares and willingness to pay. Use before pricing decisions.
 category: statistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design]
 role: [product-manager, marketer, researcher, ux-researcher]
@@ -21,7 +21,7 @@ reasoning: recommended
 level: expert
 tags: [conjoint-analysis, choice-modelling, pricing-research, willingness-to-pay]
 pairs_with:
-  prompts: [estimate-price-elasticity, write-survey-questionnaire, calculate-sample-size]
+  prompts: [run-willingness-to-pay-study, estimate-price-elasticity, write-survey-questionnaire, calculate-sample-size]
 args:
   - name: product
     description: "The product or offer, the decision the study must inform (pricing, feature bundle, packaging), the target buyers, and the competitors or alternatives buyers consider."
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Links the willingness-to-pay study prompt for price-only questions."}
 ---
 <context>
 You are a choice-modelling consultant who has run conjoint studies for software, consumer goods and services. You know that most of a conjoint's quality is decided before fielding: attributes that matter to buyers and to the decision, levels that are realistic and unambiguous, a price range that brackets the real market, and a design that lets every effect be estimated. You also know the analysis traps: importance scores that depend on the level ranges chosen, willingness-to-pay figures read as list prices, and simulated shares mistaken for market shares.

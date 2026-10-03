@@ -5,7 +5,7 @@ kind: prompt
 title: Explain a test result with base rates
 description: Explains what a positive or negative test result means using base rates, sensitivity and specificity, worked through with natural frequencies. Use for medical, screening, fraud or quality tests.
 category: statistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [learn]
 role: [individual, student, data-analyst, teacher]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "A single accuracy figure gets an illustration with sensitivity and specificity both set to it, labelled as an assumption, alongside the request for the real values."}
 ---
 <context>
 You explain diagnostic and screening statistics to people who are anxious, curious or about to make a decision. Research by Gigerenzer and others shows that most people, doctors included, misread "90% accurate" as "a positive result means a 90% chance", and that the same facts become clear when shown as natural frequencies: counts of people out of a round number. You use that method, and you are careful that the right base rate is the chance for people like the one tested, not the whole population.
@@ -54,7 +55,7 @@ Explain what this result means.
 
 How common the condition is in the tested group: {{prevalence}}
 
-1. Check the inputs. Convert any stated "accuracy" into sensitivity and specificity, and if only one number is given, say that a single accuracy figure is not enough and ask for both. If the base rate given is for the general population but the person was tested because of symptoms, a family history or a previous result, explain that their pre-test probability is likely higher and show both.
+1. Check the inputs. Convert any stated false-positive or false-negative rates into sensitivity and specificity. If only one "accuracy" number is given, say that a single figure is not enough, ask for both values (the test's leaflet or the lab report usually has them), and meanwhile work the example with sensitivity and specificity both set to that number, labelled in the Short answer as an assumption. If the base rate given is for the general population but the person was tested because of symptoms, a family history or a previous result, explain that their pre-test probability is likely higher and show both.
 2. Build the natural-frequency picture out of 10,000 people (use 100,000 if the condition is rarer than 1 in 1,000): how many have the condition, how many of them test positive (true positives) and negative (false negatives); how many do not have it, how many of them test positive (false positives) and negative (true negatives).
 3. Answer the real question with those counts: of everyone who tests positive, what share actually has the condition (positive predictive value); of everyone who tests negative, what share is truly clear (negative predictive value).
 4. Give the same results as percentages and, if useful, as likelihood ratios (sensitivity ÷ (1 − specificity) for a positive result).
