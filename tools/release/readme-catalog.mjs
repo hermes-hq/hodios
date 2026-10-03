@@ -1,11 +1,14 @@
 #!/usr/bin/env node
-// Writes the README catalog section (between <!-- catalog:start --> and <!-- catalog:end -->) and the headline
-// numbers (between <!-- stats:start --> and <!-- stats:end -->) from the library.
+// Writes the generated parts of the README from the library, each between its own pair of markers:
+//   <!-- stats:start -->   headline numbers under the banner
+//   <!-- tools:start -->   the "Works with" tool list (the same list hermes-ide.com/prompts shows)
+//   <!-- status:start -->  status, authorship, eval and tier counts ("Where it stands")
+//   <!-- catalog:start --> the catalog section
 // One row per category, never one per entry, so the table stays readable at any catalog size.
 //
 // Usage: npm run build && node tools/release/readme-catalog.mjs [--check]
 //   --check  exit 1 if README.md is out of date instead of writing it
-import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -13,6 +16,12 @@ const START = '<!-- catalog:start -->';
 const END = '<!-- catalog:end -->';
 const STATS_START = '<!-- stats:start -->';
 const STATS_END = '<!-- stats:end -->';
+const TOOLS_START = '<!-- tools:start -->';
+const TOOLS_END = '<!-- tools:end -->';
+const STATUS_START = '<!-- status:start -->';
+const STATUS_END = '<!-- status:end -->';
+/** Targets that are formats or integrations rather than tools a reader would recognise; the site hides them too. */
+const NOT_TOOLS = new Set(['agents-md', 'mcp', 'hermes']);
 const EXAMPLES = 3;
 const KINDS = ['prompt', 'persona', 'workflow', 'rule', 'style'];
 
@@ -71,6 +80,40 @@ export function renderStats(entries, vocab) {
   ].join(' &nbsp;·&nbsp; ');
 }
 
+/**
+ * The "Works with" line: every target in vocab/targets.yml except formats and integrations.
+ * @param {{id: string, label: string}[]} targets
+ */
+export function renderTools(targets) {
+  const names = targets.filter((t) => !NOT_TOOLS.has(t.id)).map((t) => `**${t.label}**`);
+  return `Works with ${names.join(' · ')}.`;
+}
+
+/**
+ * "Where it stands": how many entries are at each status, who wrote them, how many ship evals, and the curated tier.
+ * @param {{status?: string, authorship?: string, evals?: boolean}[]} entries
+ * @param {number} curated entries in the curated tier
+ */
+export function renderStatus(entries, curated) {
+  const n = (x) => x.toLocaleString('en-US');
+  const count = (pred) => entries.filter(pred).length;
+  const status = (s) => n(count((e) => e.status === s));
+  const by = (a) => n(count((e) => e.authorship === a));
+  const deprecated = count((e) => e.status === 'deprecated');
+  return [
+    '| Status | Entries | What it means |',
+    '|---|---:|---|',
+    `| Stable | ${status('stable')} | Beat a plain one-line request on its own evals, on models from two vendors |`,
+    `| Experimental | ${status('experimental')} | Has at least three eval cases (happy path, edge case, negative case); not yet promoted |`,
+    `| Incubating | ${status('incubating')} | New; evals are optional at this stage |`,
+    ...(deprecated > 0 ? [`| Deprecated | ${n(deprecated)} | Replaced by a newer entry |`] : []),
+    '',
+    `- **${n(count((e) => e.evals === true))}** of ${n(entries.length)} entries ship with eval cases.`,
+    `- Who wrote them: **${by('human')}** by a person, **${by('ai-assisted')}** by a person with AI help, **${by('ai-generated')}** drafted by AI.`,
+    `- **${n(curated)}** entries are in the curated tier that the plugins and \`npx skills\` install. The CLI installs all ${n(entries.length)}.`,
+  ].join('\n');
+}
+
 /** Replaces the text between the markers; throws if they are missing. */
 export function replaceSection(readme, body, start = START, end = END) {
   const from = readme.indexOf(start);
@@ -102,21 +145,23 @@ async function main() {
     kind: e.fm.kind,
     category: e.fm.category,
     title: e.fm.title,
+    status: e.fm.status,
+    authorship: e.fm.authorship,
+    evals: existsSync(join(root, folders.get(e.fm.id) ?? '', 'evals.yaml')),
     path: `${(folders.get(e.fm.id) ?? '').split(sep).join('/')}/`,
   }));
   const vocab = { domains: values('domain'), categories: values('category') };
   const file = join(root, 'README.md');
   const before = readFileSync(file, 'utf8');
-  const after = replaceSection(
-    replaceSection(before, renderCatalog(entries, vocab)),
-    renderStats(entries, vocab),
-    STATS_START,
-    STATS_END,
-  );
+  const targets = parse(readFileSync(join(root, 'vocab', 'targets.yml'), 'utf8')).targets;
+  let after = replaceSection(before, renderCatalog(entries, vocab));
+  after = replaceSection(after, renderStats(entries, vocab), STATS_START, STATS_END);
+  after = replaceSection(after, renderTools(targets), TOOLS_START, TOOLS_END);
+  after = replaceSection(after, renderStatus(entries, lib.curated.size), STATUS_START, STATUS_END);
   if (process.argv.includes('--check')) {
     if (before !== after) {
       console.error(
-        'README.md catalog section or headline numbers are out of date; run node tools/release/readme-catalog.mjs',
+        'README.md generated sections (catalog, numbers, tools or status) are out of date; run node tools/release/readme-catalog.mjs',
       );
       process.exit(1);
     }

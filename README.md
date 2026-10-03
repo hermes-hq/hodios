@@ -6,15 +6,16 @@
   <img alt="Hodios: open prompts for every AI tool" src="assets/brand/banner-dark.png" width="100%">
 </picture>
 
-### Expert prompts for every AI tool. Open source, tested, free forever.
+### One open prompt library, native in every AI tool. Free forever.
 
 <!-- stats:start -->
 <b>2,570</b> entries &nbsp;·&nbsp; <b>22</b> domains &nbsp;·&nbsp; <b>136</b> categories &nbsp;·&nbsp; <b>154</b> personas &nbsp;·&nbsp; <b>69</b> workflows
 <!-- stats:end -->
 
 Prompts, personas and workflows for work, learning, creativity and everyday life.<br>
-Written once, installed natively in your AI tool with one line.
+Each one is written once and installs in your AI tool's own format with one line.
 
+[![GitHub stars](https://img.shields.io/github/stars/hermes-hq/hodios?style=flat&logo=github&label=stars&color=7c3aed)](https://github.com/hermes-hq/hodios/stargazers)
 [![check](https://github.com/hermes-hq/hodios/actions/workflows/check.yml/badge.svg)](https://github.com/hermes-hq/hodios/actions/workflows/check.yml)
 [![catalog](https://img.shields.io/github/v/release/hermes-hq/hodios?label=catalog&color=7c3aed)](https://github.com/hermes-hq/hodios/releases)
 [![npm](https://img.shields.io/npm/v/@hermes-hq/hodios?label=npx%20%40hermes-hq%2Fhodios&color=cb3837)](https://www.npmjs.com/package/@hermes-hq/hodios)
@@ -22,15 +23,26 @@ Written once, installed natively in your AI tool with one line.
 [![code: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue)](LICENSE)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-support-FFDD00?logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/anhaia)
 
-[**Browse the library →**](https://hermes-ide.com/prompts) &nbsp;·&nbsp; [Try it in 10 seconds](#try-it-in-10-seconds) &nbsp;·&nbsp; [What's inside](#whats-inside) &nbsp;·&nbsp; [Contribute in 5 minutes](CONTRIBUTING.md)
+[**Browse the library →**](https://hermes-ide.com/prompts) &nbsp;·&nbsp; [Try it in 10 seconds](#try-it-in-10-seconds) &nbsp;·&nbsp; [Where it stands](#where-it-stands) &nbsp;·&nbsp; [Suggest a prompt](https://github.com/hermes-hq/hodios/issues/new?template=new-prompt.yml) &nbsp;·&nbsp; [Contribute](CONTRIBUTING.md)
+
+<sub>If Hodios saves you time, <a href="https://github.com/hermes-hq/hodios/stargazers">star the repo</a>. It is how other people find it.</sub>
 
 </div>
 
 ---
 
-Works with **Claude Code · Codex · Cursor · GitHub Copilot · Gemini CLI · OpenCode · ChatGPT · claude.ai** and any tool that reads Agent Skills or `AGENTS.md`. Coming soon as the built-in library of [Hermes IDE](https://hermes-ide.com).
+<!-- tools:start -->
+Works with **Claude Code** · **Codex** · **Cursor** · **GitHub Copilot** · **Gemini CLI** · **Antigravity** · **OpenCode** · **Windsurf** · **Zed** · **Continue** · **ChatGPT** · **claude.ai**.
+<!-- tools:end -->
+
+Anything else that reads Agent Skills or `AGENTS.md` works too. Coming soon as the built-in library of [Hermes IDE](https://hermes-ide.com) (the IDE, not Hermes Agent).
 
 Every entry is written once and compiled to each tool's native format: Agent Skills, plugins, subagents, slash commands, rules files or plain paste-in text. Nothing to learn, nothing to run, no account, no API key.
+
+<p align="center">
+  <img src="assets/demo/cli-demo.svg" alt="A terminal in a Next.js project: hodios search &quot;pull request&quot; lists three review entries, hodios install review-pull-request --target claude-code writes .claude/skills/review-pull-request/SKILL.md, and the first lines of that skill file are shown." width="100%">
+  <br><sub>Real output from the published CLI, recorded by <a href="tools/demo/record-cli.mjs"><code>tools/demo/record-cli.mjs</code></a>.</sub>
+</p>
 
 ## Try it in 10 seconds
 
@@ -80,6 +92,8 @@ One Markdown file with typed arguments, an explicit output contract and shared g
 id: review-pull-request
 kind: prompt
 title: Review a pull request
+status: experimental
+authorship: human
 args:
   - {name: diff, type: text, required: true}
   - {name: focus, type: enum, enum: [correctness, security, performance, all], default: all}
@@ -94,17 +108,29 @@ Review {{diff}}. If it is a PR URL or branch name, fetch the diff; if you cannot
 </task>
 ```
 
-Next to it sits an `evals.yaml`: realistic cases that compare the entry with a plain one-line request on models from two vendors, graded by a third. The compiler turns that one file into a Claude Code skill and slash command, a Codex skill, a Copilot prompt file, a Gemini command, a Cursor rule or paste-in text.
+Next to it sits an `evals.yaml`: realistic cases (here an off-by-one bug, an empty diff and a harmless comment fix) that set the entry against a plain one-line request, `Review this pull request: {{diff}}`, on models from two vendors, graded by a third. The compiler turns that one file into a Claude Code skill and slash command, a Codex skill, a Copilot prompt file, a Gemini command, a Cursor rule or paste-in text.
+
+What the model gets, side by side:
+
+| A plain request | The Hodios entry |
+|---|---|
+| `Review this pull request: <diff>` | Why the review matters and what a careful senior reviewer blocks on |
+| | Three steps: read the whole diff, trace the input that triggers each defect, check for a test that would fail without the change |
+| | Limits: at most 10 findings, no style comments, ask for anything missing instead of guessing |
+| | A fixed output: Verdict, Findings as `path:line`, Missing tests |
+| | One worked example of a good finding |
+
+Run `npx @hermes-hq/hodios use review-pull-request` to see the full text your model receives.
 
 ## Why Hodios
 
-- **Measured, not claimed.** Stable entries must beat a plain request on their own evals, on models from two vendors, before they are promoted.
+- **Evals in the open.** Entries ship with eval cases that set them against a plain one-line request. An entry is marked stable only after it beats that request on models from two vendors, and every entry shows its status. [Where the library stands today ↓](#where-it-stands)
 - **Native everywhere.** One source, compiled to each tool's real format and limits. No wrapper, no runtime, no lock-in.
 - **The ones for you, not all of them.** Entries are tagged by stack, stage, needs and tool, so search puts what fits your project first.
 - **Self-contained.** An installed entry never depends on another entry being installed.
 - **Safe by construction.** Entries are text only: no scripts, no tool grants, no hidden characters, no download-and-run. Every change is linted and reviewed.
 - **Free for any use.** Content is CC0: copy it into your repo, your product or your docs. A link back is appreciated, never required.
-- **No telemetry.** The library and the CLI collect nothing.
+- **No telemetry in the library or the CLI.** They collect nothing. (The website, hermes-ide.com, uses analytics.)
 
 ## Install
 
@@ -134,7 +160,25 @@ hodios install review-pull-request python-style-rules --target cursor
 hodios use review-pull-request --arg diff=@- < my-change.diff | claude -p
 ```
 
-Targets: `claude-code`, `codex`, `cursor`, `copilot`, `gemini-cli`, `opencode`, `agents-md`, `paste`, `hermes`. `list` shows what is installed and `remove` takes it out again.
+Targets: `claude-code`, `codex`, `cursor`, `copilot`, `gemini-cli`, `opencode`, `agents-md`, `paste`, `hermes` (Hermes IDE). `list` shows what is installed and `remove` takes it out again.
+
+## Where it stands
+
+Hodios is new, so here is exactly how far it has got. No eval results are published yet; they will be, entry by entry, as entries reach stable.
+
+<!-- status:start -->
+| Status | Entries | What it means |
+|---|---:|---|
+| Stable | 0 | Beat a plain one-line request on its own evals, on models from two vendors |
+| Experimental | 139 | Has at least three eval cases (happy path, edge case, negative case); not yet promoted |
+| Incubating | 2,431 | New; evals are optional at this stage |
+
+- **2,565** of 2,570 entries ship with eval cases.
+- Who wrote them: **2** by a person, **1,698** by a person with AI help, **870** drafted by AI.
+- **1,900** entries are in the curated tier that the plugins and `npx skills` install. The CLI installs all 2,570.
+<!-- status:end -->
+
+The status and authorship of every entry are in its frontmatter. Every AI-assisted or AI-drafted entry names the contributor who reviewed it and signed it off, and every change goes through the same lint and review.
 
 ## What's inside
 
@@ -458,7 +502,11 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 
 ## Contribute
 
-Adding a prompt takes about five minutes: copy an example folder, edit the frontmatter, write the body, run `npm run validate`, and open a pull request. [CONTRIBUTING.md](CONTRIBUTING.md) has the walkthrough, the quality bar and what we do not accept. Questions and ideas go to [Discussions](https://github.com/hermes-hq/hodios/discussions).
+**No git needed:** [suggest a prompt](https://github.com/hermes-hq/hodios/issues/new?template=new-prompt.yml). Describe the task and what a great result looks like in a short form, and say whether you want to write it yourself.
+
+**Write one yourself** in about five minutes: copy an example folder, edit the frontmatter, write the body, run `npm run validate`, and open a pull request. [CONTRIBUTING.md](CONTRIBUTING.md) has the walkthrough, the quality bar and what we do not accept. Found a prompt that gives bad advice? [Report it](https://github.com/hermes-hq/hodios/issues/new?template=prompt-quality.yml). Questions and ideas go to [Discussions](https://github.com/hermes-hq/hodios/discussions).
+
+**Share an entry:** every entry has its own page at `hermes-ide.com/prompts/<id>`, for example [hermes-ide.com/prompts/plan-weekly-meals](https://hermes-ide.com/prompts/plan-weekly-meals).
 
 ## Repository layout
 

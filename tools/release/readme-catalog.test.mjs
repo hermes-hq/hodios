@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { renderCatalog, renderStats, replaceSection } from './readme-catalog.mjs';
+import { renderCatalog, renderStats, renderStatus, renderTools, replaceSection } from './readme-catalog.mjs';
 
 const vocab = {
   domains: [
@@ -58,6 +58,43 @@ describe('renderStats', () => {
   it('groups thousands', () => {
     const many = Array.from({ length: 2570 }, (_, i) => entry(`e${i}`, 'prompt', 'testing'));
     expect(renderStats(many, vocab)).toMatch(/^<b>2,570<\/b> entries/);
+  });
+});
+
+describe('renderTools', () => {
+  it('lists every tool target and leaves out formats and integrations', () => {
+    expect(
+      renderTools([
+        { id: 'claude-code', label: 'Claude Code' },
+        { id: 'agents-md', label: 'AGENTS.md' },
+        { id: 'mcp', label: 'MCP' },
+        { id: 'chatgpt', label: 'ChatGPT' },
+        { id: 'hermes', label: 'Hermes IDE' },
+      ]),
+    ).toBe('Works with **Claude Code** · **ChatGPT**.');
+  });
+});
+
+describe('renderStatus', () => {
+  it('counts statuses, eval files, authorship and the curated tier', () => {
+    const md = renderStatus(
+      [
+        { status: 'incubating', authorship: 'ai-generated', evals: true },
+        { status: 'incubating', authorship: 'ai-assisted', evals: false },
+        { status: 'experimental', authorship: 'human', evals: true },
+      ],
+      2,
+    );
+    expect(md).toContain('| Stable | 0 |');
+    expect(md).toContain('| Experimental | 1 |');
+    expect(md).toContain('| Incubating | 2 |');
+    expect(md).not.toContain('Deprecated');
+    expect(md).toContain('- **2** of 3 entries ship with eval cases.');
+    expect(md).toContain('**1** by a person, **1** by a person with AI help, **1** drafted by AI.');
+    expect(md).toContain('- **2** entries are in the curated tier');
+  });
+  it('adds a deprecated row only when there are deprecated entries', () => {
+    expect(renderStatus([{ status: 'deprecated' }], 0)).toContain('| Deprecated | 1 |');
   });
 });
 
