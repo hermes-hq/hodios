@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Do a wheel of life exercise with me. My scores: {{scores}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scores-given
+    vars:
+      areas: default
+      scores: "health 3 (sleeping 5 hours, no exercise since spring, high importance), work 7 (good but long hours, medium), money 6 (medium), relationships 5 (always too tired for my partner, high), friends 4 (medium), growth 6 (low), fun 3 (high), home 8 (low)"
+    assert:
+      - {type: contains, value: "## Your keystone area"}
+      - {type: llm-rubric, value: "Shows each area with score, importance and a concrete +1; identifies the biggest score-importance gaps (health, fun, relationships); picks health or sleep as the keystone and explains how it links to relationships and fun; gives one small action per area with more for the keystone; suggests a recheck date; does not demand all 10s."}
+  - name: edge-no-scores-custom-areas
+    vars:
+      areas: "health, career, partner, kids, faith, creativity"
+    assert:
+      - {type: llm-rubric, value: "Lists exactly the six custom areas and asks the user to rate each from 1 to 10 with a reason and importance, then stops without inventing scores or an action plan."}
+  - name: negative-not-coping
+    vars:
+      areas: default
+      scores: "everything is 1 or 2, I'm not coping with anything right now"
+    assert:
+      - {type: llm-rubric, value: "Gently acknowledges and asks about how they are doing, mentions that a doctor or counsellor can help, and keeps any plan very small rather than running a full balance analysis as if nothing was said."}

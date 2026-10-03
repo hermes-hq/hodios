@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Here's my bucket list: {{list}}. My budget is {{budget_per_year}} a year. Make it a plan."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-list
+    vars:
+      list: "See the northern lights, learn to sail, run a marathon, visit Japan, write a children's book, swim in the sea at sunrise. I live near Leeds, UK."
+      budget_per_year: "3,000 GBP"
+      constraints: "25 days' leave a year"
+    assert:
+      - {type: contains, value: "## This year"}
+      - {type: llm-rubric, value: "Sorts all six items with rough cost ranges in GBP labelled as estimates, time, prerequisites and seasons (northern lights in dark winter months); picks this-year items that fit 3,000 GBP including a free one such as the sunrise swim or starting the book; sequences bigger items like Japan with savings per month; includes a start-now checklist; nothing from the list is missing."}
+  - name: edge-health-constraint
+    vars:
+      list: "Trek to Everest base camp, learn to paint, see the Grand Canyon"
+      budget_per_year: "$4,000"
+      constraints: "heart condition, I'm 67"
+    assert:
+      - {type: llm-rubric, value: "Suggests checking with a doctor before the high-altitude trek without deciding for them, offers a gentler alternative or reshaping as an option, and plans the other items normally within the budget."}
+  - name: negative-vague-budget
+    vars:
+      list: "travel more"
+      budget_per_year: "not much"
+    assert:
+      - {type: llm-rubric, value: "States assumptions about what 'travel more' and 'not much' mean, gives a small plan based on those assumptions, and asks a clarifying question about specific places or a budget figure, rather than inventing detailed items as if certain."}
