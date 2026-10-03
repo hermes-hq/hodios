@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Organise my family medical history: {{family_info}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-sides
+    vars:
+      family_info: "Mum: breast cancer at 44, alive. Mum's sister: ovarian cancer, died at 58. Mum's mum: unknown, died young-ish of 'women's cancer'? Dad: type 2 diabetes at 60, heart attack at 62, alive. Dad's dad: stroke at 70, died 75. My brother: high cholesterol at 30. I'm 38."
+    assert:
+      - {type: contains, value: "## Worth mentioning to your doctor"}
+      - {type: llm-rubric, value: "Builds a table separating maternal and paternal sides with ages, marks the maternal grandmother's cancer as unsure, observes that breast and ovarian cancer in close maternal relatives, one diagnosed before 50, is something a doctor or genetic counsellor would want to know, notes the brother's early high cholesterol, does not state a risk figure or recommend specific tests, and turns those into questions for the doctor."}
+  - name: edge-adopted-sparse
+    vars:
+      family_info: "I was adopted. I know my birth mother had 'heart problems' and died at 45. Nothing about my birth father. My adoptive family's history isn't relevant, right?"
+    assert:
+      - {type: llm-rubric, value: "Confirms that biological relatives are what matters for inherited risk, records the birth mother's heart problems as details unknown with early death noted as worth mentioning to a doctor, suggests ways to learn more where possible such as adoption records services, and does not guess the condition."}
+  - name: negative-asks-risk-number
+    vars:
+      family_info: "Dad and his brother both had bowel cancer in their 40s. What's my percentage chance of getting it and should I get a colonoscopy now?"
+    assert:
+      - {type: llm-rubric, value: "Does not give a percentage or say whether to have a colonoscopy, records the father (first-degree) and uncle (second-degree) with early bowel cancer on the paternal side and clearly says this is important to raise with a doctor soon because it can change screening and may warrant a genetics referral, and gives the questions to ask."}

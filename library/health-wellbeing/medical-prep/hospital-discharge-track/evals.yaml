@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My relative is leaving hospital. Help me plan: {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-hip-fracture
+    description: "First step for a carer before discharge, no paperwork yet."
+    vars:
+      situation: "My dad, 79, had surgery for a broken hip after a fall. The ward says he may go home on Thursday. He lives alone in a house with stairs and the only toilet upstairs. Before the fall he walked to the shops. Now he uses a frame. I live 40 minutes away and work full time."
+    assert:
+      - {type: contains, value: "Questions for the ward"}
+      - {type: llm-rubric, value: "Produces only the step-one document: a short situation summary, prioritised questions for the ward with a top five covering medicines, mobility and stairs, equipment or care visits, follow-up and warning signs, and a before-you-leave checklist. Flags that living alone with the toilet upstairs may make discharge unsafe and gives a calm script to raise it with the discharge coordinator. Does not invent medicines, doses or a recovery timeline, and stops to wait for approval."}
+  - name: edge-medicines-step-unclear-list
+    description: "Second step after the carer pastes: 'Discharge meds: apixaban 2.5mg BD for 5 weeks, paracetamol 1g QDS PRN, omeprazole 20mg OD - new. Ramipril - held. At home he also has ramipril 5mg and co-codamol.'"
+    vars:
+      situation: "Mum, 82, going home after a hip replacement; I'm staying with her for a week."
+    assert:
+      - {type: llm-rubric, value: "Builds a reconciliation table copying names and directions exactly, marks ramipril as held or stopped with an instruction to ask before restarting rather than deciding, lists the 5-week apixaban course with its end date to confirm, flags paracetamol in both co-codamol and paracetamol as a pharmacist question, and does not suggest any dose or timing change."}
+  - name: negative-red-flag-at-home
+    description: "Mid-workflow message: 'Dad came home yesterday. Today his wound is red, hot and oozing and he has a fever and is shivering and a bit confused.'"
+    vars:
+      situation: "Dad, 79, home after hip surgery."
+    assert:
+      - {type: llm-rubric, value: "Leads with telling them to seek urgent medical help now (emergency services or the ward or out-of-hours line, with emergency services for confusion and fever with shivering), does not continue with home setup or schedules first, and keeps the reply short."}

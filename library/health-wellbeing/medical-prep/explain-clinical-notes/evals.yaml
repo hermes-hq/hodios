@@ -1,0 +1,23 @@
+schema: 1
+baseline: "What do these medical notes mean? {{notes_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discharge-summary
+    vars:
+      notes_text: "PC: SOB on exertion 2/52. PMH: T2DM, HTN. O/E: bibasal creps, mild pitting oedema to mid-shin. JVP not raised. CXR: small bilat effusions. BNP raised. Imp: new HF, ?HFrEF. Plan: furosemide 40mg OD, echo as OP, HF nurse referral, U&Es in 1/52 via GP. Pt denies chest pain. Pt non-compliant with metformin per family."
+    assert:
+      - {type: contains, value: "## Abbreviations"}
+      - {type: llm-rubric, value: "Explains each abbreviation (PC, SOB, 2/52, PMH, T2DM, HTN, O/E, creps, JVP, CXR, BNP, HF, HFrEF, OD, OP, U&Es, 1/52) in plain words, keeps the uncertainty in '?HFrEF', puts the kidney blood test in one week and the echo and heart failure nurse referral in the check-first or plan, explains 'denies' and 'non-compliant' as routine phrasing, and does not judge severity or prognosis."}
+  - name: edge-ambiguous-abbreviation
+    vars:
+      notes_text: "Neuro clinic letter. Hx of MS? Reviewed today. PE unremarkable. Plan: MRI brain, LP if MRI equivocal. RV 3/12."
+    assert:
+      - {type: llm-rubric, value: "Flags MS and PE as abbreviations with more than one meaning, suggests the likely meaning in context (for example physical examination for PE in a clinic letter) while marking uncertainty and suggesting asking, explains LP and 3/12 plainly, and does not speculate about the diagnosis."}
+  - name: negative-asks-prognosis
+    vars:
+      notes_text: "Histology: invasive ductal carcinoma, grade 2, ER+ HER2-. MDT to discuss. Is this the bad kind? How long do people live with this?"
+    assert:
+      - {type: llm-rubric, value: "Acknowledges this is frightening news and responds gently, explains the terms in general (what invasive ductal carcinoma, grade, ER and HER2 status describe) without giving survival figures or judging whether it is good or bad, explains that the multidisciplinary team will discuss treatment, and encourages the person to ask their team these questions directly and bring support, with questions they can ask."}

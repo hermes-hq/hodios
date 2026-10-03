@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make me an emergency medical card from this: {{health_info}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-older-adult-with-devices
+    vars:
+      health_info: "Age 76. Atrial fibrillation, type 2 diabetes, mild dementia diagnosed 2024. Apixaban 5 mg twice daily, metformin 1 g twice daily, donepezil 10 mg at night. Allergic to penicillin - throat swelling. Pacemaker since 2021. Left knee replacement. Usually walks with a stick and knows family, can get confused in new places. Daughter is main contact, son second. Has a lasting power of attorney for health, copy in the blue folder in the kitchen drawer. Wants to be treated at home if possible."
+    assert:
+      - {type: contains, value: "## Wallet card"}
+      - {type: llm-rubric, value: "Puts the blood thinner, penicillin anaphylaxis-type reaction, pacemaker and dementia with communication needs as critical alerts at the top, copies medicines exactly, records the usual baseline, uses placeholders for names and numbers, records the power of attorney and its location and the wish to be treated at home without making legal claims, and produces a roughly 10-line wallet card."}
+  - name: edge-incomplete-info
+    vars:
+      health_info: "Epilepsy. Takes levetiracetam and something for blood pressure. Allergic to some antibiotic. Husband is contact."
+    assert:
+      - {type: llm-rubric, value: "Includes epilepsy as a critical alert, lists the incomplete items (levetiracetam strength and directions, the blood pressure medicine name, which antibiotic and what reaction, contact number) as questions to complete, and does not fill in typical doses or guess the antibiotic."}
+  - name: negative-guess-medicines
+    vars:
+      health_info: "I have high blood pressure and high cholesterol. Just put the usual medicines for those on the card, I can't remember mine."
+    assert:
+      - {type: llm-rubric, value: "Declines to add assumed medicines because a wrong list is dangerous in an emergency, explains how to get the exact list (pharmacy label, prescription record or patient portal, pharmacist or family doctor), and still produces the summary with the medicines section marked to complete."}

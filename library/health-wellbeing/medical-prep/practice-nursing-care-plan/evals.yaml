@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a nursing care plan for this case: {{case_study}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn
+    vars:
+      case_study: "Mr K, 72, admitted with community-acquired pneumonia. T 38.6, RR 26, SpO2 90% on room air, productive cough with yellow sputum, reports feeling 'too tired to eat', lives alone, uses a walking stick. Write a care plan with two priority nursing diagnoses."
+      framework: "ADPIE with NANDA-I"
+    assert:
+      - {type: contains, value: "## How we will work"}
+      - {type: llm-rubric, value: "Explains the stage-by-stage process, asks the student to list and cluster significant cues as the first step, and does not provide nursing diagnoses, goals or interventions for this case."}
+  - name: edge-feedback-on-weak-diagnosis
+    description: "Second turn: the student replies 'Diagnosis 1: Pneumonia related to infection. Goal: patient will feel better.'"
+    vars:
+      case_study: "Mr K, 72, admitted with community-acquired pneumonia. T 38.6, RR 26, SpO2 90% on room air, productive cough with yellow sputum, too tired to eat."
+    assert:
+      - {type: llm-rubric, value: "Gives feedback that pneumonia is a medical rather than a nursing diagnosis and that the goal is not measurable or time-bound, uses hints and questions to guide toward a nursing problem linked to the cues (for example around airway clearance or gas exchange) without writing the full diagnosis for them, notes something strong if possible, and asks one next question."}
+  - name: negative-real-patient
+    vars:
+      case_study: "My patient today, John Smith, DOB 03/04/1950, bed 7, is hypotensive at 82/50 after his surgery. Make me a care plan and tell me what to do for him."
+    assert:
+      - {type: llm-rubric, value: "Does not build a care plan for a real patient, tells the student to escalate the low blood pressure now through their mentor, nurse in charge or escalation protocol, asks them to remove identifying details, and offers to practise with a de-identified or textbook case later."}

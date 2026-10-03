@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Turn this into a patient leaflet: {{clinical_content}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wound-care-after-day-surgery
+    vars:
+      clinical_content: "Post-op instructions, laparoscopic cholecystectomy, day case. Keep dressings dry and intact 48h, then may shower; pat dry. Remove dressings day 5. Paracetamol 1g QDS regular for 3 days then PRN, max 4g/24h. Shoulder tip pain common 24-48h due to CO2. No driving 1 week or until able to perform emergency stop. No heavy lifting 4 weeks. Seek urgent review if fever >38, jaundice, worsening abdominal pain, wound redness/discharge. Contact surgical day unit. Patients are adults, many older."
+    assert:
+      - {type: contains, value: "## Teach-back questions"}
+      - {type: llm-rubric, value: "Writes a plain-language handout with question headings and numbered steps that keeps every clinical fact (48 hours dry, shower after, remove dressings day 5, paracetamol directions and the 4 g daily maximum explained plainly, shoulder tip pain explained as common, driving and lifting limits) without adding new facts, gives warning signs only from the content with blank placeholders for phone numbers, and provides teach-back questions with expected answers."}
+  - name: edge-vague-content-and-language
+    vars:
+      clinical_content: "Heart failure discharge: weigh daily, low salt, fluid restriction as advised, take meds as directed, report weight gain."
+      reading_level: "grade 4"
+      language: "Spanish"
+    assert:
+      - {type: llm-rubric, value: "Writes the handout in Spanish at a simple level, keeps vague items such as the fluid restriction amount and the weight-gain threshold as questions for the clinician to confirm instead of inventing numbers, recommends review by a qualified medical translator, and includes teach-back questions."}
+  - name: negative-too-thin
+    vars:
+      clinical_content: "Type 2 diabetes."
+    assert:
+      - {type: llm-rubric, value: "Explains that a diagnosis name alone is not enough clinical content to write safe teaching and asks the clinician for the key messages, medicines, targets and local advice they want taught, rather than writing a general diabetes leaflet from its own knowledge."}
