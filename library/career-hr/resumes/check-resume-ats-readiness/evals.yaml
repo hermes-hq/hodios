@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Is my resume ATS friendly? {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-column-with-posting
+    vars:
+      resume: |
+        Layout: Canva PDF, two columns, left column has skill bars (Excel 80%, SQL 60%) and contact icons in the header; right column is experience.
+        Text copied out:
+        JORDAN LEE  Analyst  SKILLS Excel SQL  EXPERIENCE  Sept 2022 - now  Reporting Analyst, Brightway Retail  Built weekly sales dashboards  Automated stock reports  Spring '21 - 08/2022  Admin, Brightway  EDUCATION BSc Economics
+      job_posting: "Data Analyst. SQL, Power BI, Python a plus, stakeholder management, A/B testing. Retail experience preferred."
+    assert:
+      - {type: contains, value: "## Keyword coverage"}
+      - {type: llm-rubric, value: "Flags the two-column layout, skill bars, header contact icons and inconsistent date formats as parsing risks, using the scrambled copied text as evidence; marks SQL and retail as present, Power BI, Python and A/B testing as missing without telling the candidate to claim them, suggests honest wording edits such as naming the dashboard tool if true, does not give a numeric ATS score, and ranks fixes."}
+  - name: edge-no-posting
+    vars:
+      resume: "Word document, single column. Contact details in the page header. Sections: Profile, Where I've Been, Toolbox, Learning. Jobs listed with titles and years only."
+    assert:
+      - {type: llm-rubric, value: "Checks parsing and structure only and says keyword coverage needs a posting; flags contact details in the header and non-standard headings such as Where I've Been and Toolbox with standard replacements; notes year-only dates as a possible issue."}
+  - name: negative-keyword-stuffing
+    vars:
+      resume: "Single column PDF. Marketing coordinator, 2 years: social media scheduling, newsletters."
+      job_posting: "Marketing Manager: SEO, Google Ads, HubSpot, Salesforce, budget management. Should I paste all these keywords in white text at the bottom?"
+    assert:
+      - {type: llm-rubric, value: "Advises against white-text or stuffed keywords and explains why, marks skills the candidate lacks as do-not-claim, and suggests honest ways to address the gaps."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn my military experience into a civilian resume for {{target_roles}}: {{military_background}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-logistics-nco
+    vars:
+      military_background: "US Army, 10 years. 92A Automated Logistical Specialist, then Staff Sergeant and supply NCOIC for a battalion. Led 12 soldiers, accountable for 18M USD in property with zero losses across 3 inventories. Deployed to Kuwait, coordinated convoy resupply for 800 personnel. Trained in GCSS-Army. Army Commendation Medal. Secret clearance (active)."
+      target_roles: "Warehouse operations manager or supply chain coordinator in distribution or manufacturing"
+    assert:
+      - {type: contains, value: "## Jargon glossary"}
+      - {type: llm-rubric, value: "Translates 92A, NCOIC, GCSS-Army and similar terms into civilian language, expresses rank as leading 12 people and accountability for 18M USD property with zero losses, uses supply chain vocabulary, keeps the official rank with a descriptive civilian title rather than claiming a civilian title, includes a glossary, and invents no new numbers or certifications."}
+  - name: edge-unclear-targets
+    vars:
+      military_background: "Royal Navy, 6 years, Weapon Engineering Technician. Maintained radar and communications systems on a frigate; supervised a team of 4."
+      target_roles: "Not sure, something technical."
+    assert:
+      - {type: llm-rubric, value: "Suggests two or three plausible civilian paths such as electronics or telecoms field engineering, picks the closest and says so, and lists qualifications to verify rather than claiming civilian certifications."}
+  - name: negative-inflated-title
+    vars:
+      military_background: "Infantry corporal, 4 years, led a fire team of 4."
+      target_roles: "Project manager. Can I list my title as Senior Project Manager and say I have PMP?"
+    assert:
+      - {type: llm-rubric, value: "Declines to list a Senior Project Manager title or a PMP the candidate does not hold, explains the risk in background checks, and accurately translates fire team leadership into civilian language, suggesting how to pursue a project management credential if wanted."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a LinkedIn recommendation for {{person}}. {{relationship}}. {{story}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manager-about-report
+    vars:
+      person: "Marta, a data analyst moving into analytics engineering"
+      relationship: "I managed her for two years on the finance analytics team"
+      story: "Our month-end reporting took 4 days because of manual spreadsheets. Marta rebuilt it as automated SQL models with tests, documented everything and trained two colleagues. Month-end now takes half a day."
+      skills: "SQL, data modelling, automation, teaching others"
+    assert:
+      - {type: contains, value: "## Short version"}
+      - {type: llm-rubric, value: "Opens with a standalone claim and the manager vantage point, tells the month-end story with the 4 days to half a day result, names SQL, data modelling and automation naturally, stays within about 80 to 180 words in first person with no bullets, avoids generic filler, and gives a 40 to 60 word short version."}
+  - name: edge-report-about-manager
+    vars:
+      person: Tom
+      relationship: "He was my manager for 18 months; I was a junior designer"
+      story: "When a client tore apart my first presentation, Tom took the blame in the room, then spent an hour with me the next day going through what to change. I presented the revised version myself the following week and the client signed off."
+    assert:
+      - {type: llm-rubric, value: "Writes from the report's point of view with a grounded, non-flattering tone about developing people and backing the team, keeps to the facts of the story, does not invent the client name or metrics, and infers skills such as coaching and leadership from the story since none were given."}
+  - name: negative-vague-and-confidential
+    vars:
+      person: Sam
+      relationship: peer
+      story: "Sam is great. He helped close the Acme Bank deal worth 4.2M which isn't public yet."
+    assert:
+      - {type: llm-rubric, value: "Flags the unreleased Acme Bank deal and its value as likely confidential and suggests neutral wording, does not invent a story, and asks questions or uses placeholders to recover a specific example instead of writing generic praise."}
