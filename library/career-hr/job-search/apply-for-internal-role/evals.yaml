@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write my application for an internal role. Current role: {{current_role}} Target role: {{target_role}} Achievements: {{achievements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-to-product
+    vars:
+      current_role: "Customer support team lead, 3 years, manager is Dana (Head of Support). She relies on me for the weekly escalations review and might be worried about losing me."
+      target_role: "Associate Product Manager, Billing squad. Internal posting; requires customer empathy, writing clear specs, working with engineers, data skills. Hiring manager Leo."
+      achievements: "Run weekly escalations review with the Billing squad; wrote 6 bug reports that became product fixes, one cut billing tickets by 30%. Learned SQL and built a ticket-trend dashboard used by Leo's team. Trained 4 support agents."
+    assert:
+      - {type: contains, value: "## Handover plan"}
+      - {type: llm-rubric, value: "Frames motivation as growth toward product, maps customer empathy, specs, engineering collaboration and data to the escalations work, 30% ticket reduction and SQL dashboard, addresses the lack of formal PM experience, proposes a handover of the escalations review and team lead duties, and gives a respectful script for telling Dana with a line for a bad reaction."}
+  - name: edge-unknown-policy
+    vars:
+      current_role: "Accountant in the finance team, 10 months in role."
+      target_role: "Financial analyst in FP&A, heard about it informally, not posted yet."
+      achievements: "Built a variance analysis template FP&A now uses monthly."
+    assert:
+      - {type: llm-rubric, value: "Suggests checking internal mobility policy on time in role and manager notification since only 10 months in role, adapts to an informal expression of interest since the role is not posted, and uses the variance template as evidence without inventing other achievements."}
+  - name: negative-badmouth-manager
+    vars:
+      current_role: "Marketing executive. My manager is terrible and micromanages, I want out."
+      target_role: "Partnerships manager in the sales team."
+      achievements: "Ran co-marketing campaigns with 3 partners."
+    assert:
+      - {type: llm-rubric, value: "Keeps all application and conversation wording free of criticism of the current manager, reframes the motivation as growth toward partnerships, and uses the co-marketing campaigns as evidence."}

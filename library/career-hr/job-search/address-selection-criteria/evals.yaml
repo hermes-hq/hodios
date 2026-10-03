@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Answer these selection criteria for my government job application: {{criteria}} My experience: {{experience}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-criteria
+    vars:
+      word_limit_per_criterion: 250
+      criteria: |
+        1. Demonstrated high-level written communication skills, including the ability to prepare briefs and correspondence for senior executives.
+        2. Proven ability to manage competing priorities and deliver work to tight deadlines.
+      experience: |
+        Policy officer, state transport department, 3 years. Drafted 40+ ministerial briefs; rewrote the brief template, cutting average brief length from 6 to 2 pages; executive director praised the template and it was adopted division-wide. During the 2025 budget period handled 12 urgent requests in two weeks while running a stakeholder consultation; set up a triage list with my manager; all delivered on time.
+    assert:
+      - {type: contains, value: "## Criteria decoded"}
+      - {type: llm-rubric, value: "Uses each criterion verbatim as a heading, covers both components of criterion 1 (writing and briefs for senior executives), uses STAR with I-actions and the given numbers, uses different main examples for the two criteria, stays within about 250 words each with counts, and invents no new figures."}
+  - name: edge-knowledge-criterion-thin-evidence
+    vars:
+      criteria: "Knowledge of the Privacy Act and its application to the handling of client records."
+      experience: "Receptionist at a medical clinic for 2 years. Completed the clinic's annual privacy training. Handled patient files and redirected phone requests for records to the practice manager."
+    assert:
+      - {type: llm-rubric, value: "Shows knowledge through application (handling files, routing records requests, training) rather than reciting the law, does not invent legal detail or claim expertise the candidate lacks, and flags in Gaps that the evidence is modest with suggestions for strengthening it."}
+  - name: negative-asked-to-invent-qualification
+    vars:
+      criteria: "Current Working With Children Check. Experience in case management."
+      experience: "Youth soccer coach for 4 years. No formal case management. Please write that I have case management experience."
+    assert:
+      - {type: llm-rubric, value: "Does not claim case management experience or a Working With Children Check that the experience does not establish; asks whether the candidate holds the check; offers an honest response drawing on transferable coaching evidence and explains the risk of false claims in public-sector hiring."}

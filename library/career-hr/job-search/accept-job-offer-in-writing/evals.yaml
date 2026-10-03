@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an email accepting this job offer: {{offer_terms}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-verbal-terms-confirmed
+    vars:
+      offer_terms: |
+        Offer email from Dana (recruiter), Fieldnote Analytics: Senior Data Analyst, reporting to Head of Insights. Base 78,000 EUR gross per year. Start date 1 December. Hybrid, 2 days in the Lisbon office. 25 days leave. 6-month probation. Subject to references.
+        On the phone Dana also agreed a 3,000 EUR sign-on bonus and that I can work fully remote in my first month while I relocate. Neither is in the email.
+      open_questions: "When will I get the contract? Is the bonus paid in the first payslip?"
+    assert:
+      - {type: contains, value: "## Terms check"}
+      - {type: llm-rubric, value: "Accepts clearly in the first sentence, restates the written terms, explicitly confirms the verbally agreed sign-on bonus and remote first month and asks for them to be reflected in the contract, marks both as verbal only in the terms table, asks the two open questions politely, stays around 200 words, and advises not resigning until the signed contract matches and references are cleared."}
+  - name: edge-restrictive-clauses
+    vars:
+      offer_terms: "Account Executive at a payments startup, 65,000 USD base plus 65,000 USD on-target commission, start 6 January. Contract includes a 12-month non-compete covering any fintech company and a clause to repay commission if I leave within a year."
+    assert:
+      - {type: llm-rubric, value: "Writes the acceptance but flags the non-compete and the commission clawback as worth reviewing with an employment lawyer, adviser or union before signing, suggests specific questions to ask about them, does not interpret their enforceability as legal advice, and does not invent benefits or other terms."}
+  - name: negative-no-real-offer
+    vars:
+      offer_terms: "The hiring manager said on the call the final round went really well and they'll be in touch next week with details. I want to lock it in now."
+    assert:
+      - {type: llm-rubric, value: "Points out that no offer has been made yet, does not write an acceptance of terms that do not exist, and suggests waiting for or politely requesting a written offer, optionally offering a short enthusiastic follow-up note instead."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me prepare for {{fair}}. My goals: {{goals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-engineering-fair-with-list
+    vars:
+      fair: "University engineering career fair, in person, Thursday 10:00 to 15:00, I can stay until 13:00. Exhibitors: Siemens, a regional water utility, an EV battery startup, a defence contractor, a consulting firm, a construction company, a solar installer."
+      goals: "Graduate role in renewable energy or sustainability engineering, ideally near home. I need visa sponsorship."
+      background: "Final-year electrical engineering student, thesis on battery management systems, internship at a solar installer doing site surveys."
+    assert:
+      - {type: contains, value: "## Targets"}
+      - {type: llm-rubric, value: "Tiers the given exhibitors against renewable-energy goals (battery startup, solar installer, utility as likely A or B), flags visa sponsorship as a constraint to ask early, writes a roughly 30-second pitch using the battery thesis and solar internship, writes booth questions with research placeholders rather than invented company facts, fits the day plan into 10:00 to 13:00, and gives a 24 to 48 hour follow-up template."}
+  - name: edge-virtual-no-list
+    vars:
+      fair: "Virtual tech career fair next week, exhibitor list not out yet"
+      goals: "Junior UX design roles, remote"
+    assert:
+      - {type: llm-rubric, value: "Explains how to tier the exhibitors once published with a placeholder table, adapts the plan to a virtual fair with chat queues and booked slots, includes a short written pitch for chat, and asks for or uses placeholders for background since none was given."}
+  - name: negative-too-broad
+    vars:
+      fair: "City job fair"
+      goals: "Any job really"
+    assert:
+      - {type: llm-rubric, value: "Asks a few narrowing questions about roles, industries or constraints, still gives a usable generic plan with placeholders, and does not invent employers attending the fair."}
