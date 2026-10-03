@@ -50,7 +50,9 @@ function main() {
   if (errors.length > 0) throw new Error(errors.join('\n'));
 
   for (const path of GENERATED) {
-    rmSync(join(to, path), { recursive: true, force: true });
+    // Catalog objects are content-addressed: earlier ones stay, so a manifest a CDN still caches can resolve them.
+    if (path === 'catalog') rmSync(join(to, 'catalog', 'v1', 'manifest.json'), { force: true });
+    else rmSync(join(to, path), { recursive: true, force: true });
     if (existsSync(join(from, path))) cpSync(join(from, path), join(to, path), { recursive: true });
   }
   const rows = Object.values(manifest.tiers ?? {}).reduce((n, t) => n + t.rows, 0);

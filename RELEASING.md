@@ -37,7 +37,7 @@ git add -A && git commit -s -m "Catalog $VERSION: <N> entries" && git push
 git tag "v$VERSION" && git push origin "v$VERSION"
 ```
 
-`sync-dist.mjs` replaces every generated path (`.claude-plugin`, `plugins`, `skills`, `native`, `paste`, `bundles`, `catalog`), keeps `README.md` and `LICENSE`, updates the README's catalog line, and checks the caps: at most 2,000 skills, at most 100 plugins, one plugin per domain.
+`sync-dist.mjs` replaces every generated path (`.claude-plugin`, `plugins`, `skills`, `native`, `paste`, `bundles`, `catalog/v1/manifest.json`), adds the new catalog objects next to the earlier ones so a CDN-cached manifest still resolves, keeps `README.md` and `LICENSE`, updates the README's catalog line, and checks the caps: at most 2,000 skills, at most 100 plugins, one plugin per domain.
 
 ## 4. Verify
 
