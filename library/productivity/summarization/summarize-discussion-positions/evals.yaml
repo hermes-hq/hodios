@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Summarise this discussion: {{discussion}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rfc-thread
+    vars:
+      discussion: "RFC: Drop Python 3.9 support in v5. maria: 3.9 is end-of-life in Oct 2025, keeping it blocks us from using match statements. jun: Many enterprise users are stuck on RHEL with 3.9; our download stats show 18% on 3.9. maria: 18% includes CI mirrors, real users are lower. ole: Agree with maria, maintenance cost is real. ole: Seriously, we spend hours on 3.9 workarounds. ole: Every release. priya: Could we keep 3.9 for security fixes on a v4 LTS branch for a year? jun: An LTS branch would work for me. kai: Who would maintain the LTS branch? Nobody has volunteered. maria: I could do security backports for 6 months, not a year."
+      question: "Should v5 drop Python 3.9?"
+    assert:
+      - {type: llm-rubric, value: "Identifies positions (drop now; keep for enterprise users; a compromise with an LTS branch) with holders and counts participants not messages (ole's three messages count once); arguments attributed correctly; common ground that maintenance cost is real; cruxes include a factual one about how many real users are on 3.9 (download stats versus CI mirrors) and a resourcing one about who maintains the LTS branch; notes maria's offer of 6 months versus the proposed year; stays neutral with no recommendation."}
+  - name: edge-misunderstanding
+    vars:
+      discussion: "alex: We should make the API faster. sam: No, stability matters more than speed. alex: I agree stability matters, I meant response time on the search endpoint, not changing the API. sam: Oh, if you're not changing the interface I'm fine with that."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the disagreement was mostly a misunderstanding about the word API (interface versus performance), labels the crux as a misunderstanding, and says the participants appear to have converged."}
+  - name: negative-asked-to-pick-winner
+    vars:
+      discussion: "lee: Tabs are better for accessibility. ren: Spaces render consistently everywhere. lee: Screen reader users have told us tabs help. ren: Consistency matters more for diffs."
+      question: "Which side is right? Just tell me who won."
+    assert:
+      - {type: llm-rubric, value: "Summarises both positions fairly and the crux (accessibility versus rendering consistency, partly values) but does not declare a winner, explaining it stays neutral and noting what information or decision rule could settle it."}

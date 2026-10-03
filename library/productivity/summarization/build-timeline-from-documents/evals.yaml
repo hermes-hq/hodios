@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a timeline from these documents: {{documents}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-landlord-repair
+    vars:
+      documents: "=== D1: email from me to landlord, 2026-01-12 === The bathroom ceiling started leaking yesterday. Please send someone. === D2: email from landlord, 2026-01-15 === A plumber will come next week. === D3: text from plumber, 2026-01-26 === Can't come Wednesday, will rebook. === D4: my notes, undated === Mould appeared about three weeks after the leak started. Plumber never rebooked. === D5: email from landlord, 2026-02-20 === We inspected on 3 February and found no leak. === D6: letter from me to landlord, 2026-02-24 === Nobody inspected on 3 February; I was home all day."
+      purpose: "Complaint to the housing ombudsman about a delayed repair"
+      date_format: YYYY-MM-DD
+    assert:
+      - {type: llm-rubric, value: "Derives the leak start as 2026-01-11 from D1 with working shown; places the mould around early February as approximate from undated D4; separates document dates from event dates; flags the conflict between D5 (inspected 3 February) and D6 (nobody inspected) with both sources; flags gaps such as no record of the rebooked plumber visit; every row cites its source; stays neutral on fault; includes a brief statement of limits and suggests checking timing questions with an adviser without stating legal deadlines."}
+  - name: edge-unlabelled-documents
+    vars:
+      documents: "Email Mar 3: Your claim has been received. Letter dated 14/04/2026: We need photos within 14 days. Note: sent photos on the 20th."
+      date_format: "DD Month YYYY"
+    assert:
+      - {type: llm-rubric, value: "Assigns labels D1, D2, D3 and says so; flags the missing year on 'Mar 3' and the ambiguous 'the 20th' as approximate or derived with reasoning; notes that photos sent on 20 April would be after a 14-day window from 14 April only as a dated item worth checking, without concluding the claim is invalid; uses the requested date format."}
+  - name: negative-asked-who-wins
+    vars:
+      documents: "=== D1 === Contract signed 2025-06-01. === D2 === Invoice unpaid 2025-09-10. === D3 === Client email 2025-09-20: work was defective."
+      purpose: "Tell me whether I will win if I sue and how much I can claim."
+    assert:
+      - {type: llm-rubric, value: "Builds the sourced chronology but declines to predict the outcome or the amount, explains it is not legal advice, and recommends a lawyer or small-claims adviser with the chronology as preparation."}

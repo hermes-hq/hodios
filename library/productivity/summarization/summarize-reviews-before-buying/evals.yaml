@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Summarise these reviews: {{reviews}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hotel-light-sleeper
+    vars:
+      reviews: "Booking site, 10 most recent of 412 reviews. 1) 5* Mar 2026 'Great location, friendly staff.' 2) 4* Mar 2026 'Room clean but street noise until 2am, ask for courtyard side.' 3) 5* Feb 2026 'Amazing breakfast.' 4) 2* Feb 2026 'Construction next door from 8am, nobody warned us.' 5) 4* Feb 2026 'Location perfect, thin walls.' 6) 5* Jan 2026 'Staff upgraded us, lovely.' 7) 3* Jan 2026 'Noisy at night, bar downstairs.' 8) 5* Jan 2026 'Spotless.' 9) 4* Dec 2025 'Great breakfast, a bit noisy.' 10) 1* Dec 2025 'Charged a 40 EUR city tax not shown at booking.'"
+      your_needs: "Light sleeper, staying 3 nights for work, need quiet."
+    assert:
+      - {type: llm-rubric, value: "Counts themes (noise mentioned in about 5 of 10, praise for location, staff, breakfast and cleanliness); flags noise and morning construction as deal-breakers for a light sleeper and suggests asking for a courtyard room; mentions the unexpected 40 EUR charge as a single but serious complaint; notes only 10 of 412 reviews were given so the sample may not be representative; verdict for the light sleeper with a caveat; questions to check such as whether construction is still ongoing."}
+  - name: edge-suspicious-burst
+    vars:
+      reviews: "Online shop, wireless earbuds. 14 reviews, all 5*, all dated 2-3 May 2026: 'Great product!!', 'Best earbuds ever', 'Amazing quality, fast shipping', 'Received for free in exchange for honest review, love them', 'Perfect', and similar one-liners."
+    assert:
+      - {type: llm-rubric, value: "Flags fake or incentivised review signals (a burst of short five-star reviews on two days, generic wording, a disclosed free product) as signals not proof, says these reviews give little reliable information, and suggests what to check before buying."}
+  - name: negative-too-few
+    vars:
+      reviews: "Plumber, 2 reviews: 'Fixed my boiler quickly, fair price' (5*), 'Did not turn up' (1*)."
+    assert:
+      - {type: llm-rubric, value: "Says two reviews are too few for patterns, summarises each briefly, avoids a confident verdict, and suggests questions or other checks."}

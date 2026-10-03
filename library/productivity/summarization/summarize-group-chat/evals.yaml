@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise this group chat: {{chat_log}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parent-group
+    vars:
+      chat_log: "[Mon 18:02] Carla: Class trip to the science museum is on Thursday 16th! [18:05] Ben: Do they need packed lunch? [18:20] Carla: Yes, and 12 EUR by Wednesday in an envelope. [18:31] Dee: lol my son already lost his envelope [18:40] Fatima: @Jonas you said you could drive two kids to the bus stop, still ok? [19:02] Carla: Correction, the money is 14 EUR not 12, the school updated it. [19:15] Ben: anyone know if siblings can come? [20:45] Dee: meme.jpg [20:46] Fatima: haha [21:10] Carla: Teachers need two more volunteers to accompany, reply here if you can."
+      your_name: Jonas
+      priorities: "School trip logistics and money"
+    assert:
+      - {type: llm-rubric, value: "Puts Fatima's question to Jonas about driving two kids first under For you, plus the volunteer request to everyone; lists the trip on Thursday 16th with packed lunch and 14 EUR by Wednesday, noting it changed from 12 EUR; lists Ben's question about siblings as still open; summarises the meme and joke as skippable; short."}
+  - name: edge-relative-dates-no-names
+    vars:
+      chat_log: "can we do tomorrow instead? / sure / ok what time / 7? / works / I'll book"
+      your_name: Sam
+    assert:
+      - {type: llm-rubric, value: "Notes that the log has no names or timestamps so 'tomorrow' cannot be resolved to a date and who will book is unclear, gives the best reading with that caveat, and does not invent names or a date."}
+  - name: negative-nothing-relevant
+    vars:
+      chat_log: "[Sat 10:00] Ola: look at this sunset [10:02] Kim: wow [10:05] Raj: beautiful [11:30] Ola: another one [11:31] Kim: amazing"
+      your_name: Priya
+    assert:
+      - {type: llm-rubric, value: "Says there is nothing for Priya, no decisions or plans, and everything can be skipped, in a few lines, without padding."}

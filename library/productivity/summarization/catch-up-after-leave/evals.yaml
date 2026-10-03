@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I'm back from leave. Summarise what I missed: {{materials}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-weeks-away
+    vars:
+      materials: "Handover from Leo (covering): 'Checkout redesign on track; I told Finance you'd send the Q4 forecast by 20 Oct.' Email 8 Oct from CPO: launch moved from 1 Nov to 15 Nov. Chat 9 Oct, Mia: @you can you approve the vendor contract? Legal needs it by 17 Oct. Chat 10 Oct, Raj: I'm leaving the team end of month, Ana takes over analytics. Email 11 Oct: newsletter. Email 12 Oct: 14 automated build notifications. Doc comment 13 Oct, Ana: decided to drop the gift-card feature from v1 (agreed with CPO)."
+      role: "Product lead for checkout, own the Q4 launch"
+      days_away: 10
+    assert:
+      - {type: llm-rubric, value: "Puts the vendor contract approval (Legal by 17 Oct, Mia waiting since 9 Oct) and the Q4 forecast Leo promised Finance by 20 Oct at the top of Needs you first; What changed includes the launch moving from 1 Nov to 15 Nov and Raj leaving with Ana taking over analytics; Decisions made without you includes dropping the gift-card feature, flagged as one the reader may revisit as owner; newsletter and build notifications as safe to ignore; suggests talking to Leo, Mia and Ana; a first-day plan with slack."}
+  - name: edge-conflicting-thread
+    vars:
+      materials: "Email 3 Mar, Tom: client meeting moved to Thursday. Email 4 Mar, Client: see you Wednesday as planned! No further messages."
+      role: "Account manager"
+    assert:
+      - {type: llm-rubric, value: "Flags that the meeting day is unclear because the messages conflict, does not pick one as fact, and lists confirming with Tom or the client under Who to talk to."}
+  - name: negative-nothing-needs-reader
+    vars:
+      materials: "Email: company newsletter. Email: office closed Friday for maintenance (already passed). Chat: team celebrated a birthday. Notifications: 30 automated reports."
+      days_away: 5
+    assert:
+      - {type: llm-rubric, value: "Says nothing needs the reader's action, summarises the rest as safe to ignore in a few lines, and does not invent tasks or urgency."}
