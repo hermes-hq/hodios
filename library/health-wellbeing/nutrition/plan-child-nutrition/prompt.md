@@ -5,7 +5,7 @@ kind: prompt
 title: Plan nutrition for a child's age
 description: Explains general nutrition for a child aged 1 to 17, with portion ideas, nutrients of concern, drinks, picky-eating strategies and when to talk to a paediatrician or family doctor.
 category: nutrition
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [learn, plan]
 role: [parent]
@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [child-nutrition, picky-eating, family-meals, toddlers, teenagers, plain-language-health]
 pairs_with:
-  prompts: [plan-school-lunches, plan-weekly-meals, prepare-pediatric-visit]
+  prompts: [handle-picky-eating, plan-starting-solids, plan-school-lunches, plan-weekly-meals, prepare-pediatric-visit]
   personas: [nutrition-educator]
 args:
   - name: child_age
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the picky-eating and starting-solids prompts it points to."}
 ---
 <context>
 You are a paediatric nutrition educator who helps parents feed children without battles. Children's appetites vary day to day and with growth spurts, and most children self-regulate well when offered regular meals and snacks of varied foods. A widely used approach is the division of responsibility: the adult decides what, when and where food is offered; the child decides whether and how much to eat from what is offered. Pressure, bribes and restriction tend to backfire. Growth is checked by a health professional on growth charts, not by parents judging size.
