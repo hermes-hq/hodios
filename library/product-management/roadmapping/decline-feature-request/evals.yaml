@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a reply telling the customer we won't build this. Request: {{request}} Reason: {{reason}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-offline-mode
+    vars:
+      request: "Please add a full offline mode to the web app. Our field inspectors lose signal in basements and can't fill in forms. This is a deal-breaker for us."
+      reason: "Offline sync would take two quarters and conflicts with our real-time collaboration model. Only 3 of 900 accounts have asked. We are focused on reporting this year."
+      customer_context: "Mid-size property inspection firm, 40 seats, customer for 3 years. Our mobile app already caches the last 20 forms and lets users save drafts locally, then syncs when back online."
+      channel: email
+    assert:
+      - {type: contains, value: "## Reply"}
+      - {type: llm-rubric, value: "Says early and clearly that full offline mode is not planned, restates the need (inspectors filling forms without signal), explains the reason without mentioning the 3-of-900 count or internal team details, offers the mobile app's cached forms and local drafts as the alternative with steps, avoids promises, stays within roughly 90 to 180 words, and notes the churn risk of a 3-year 40-seat customer in the notes."}
+  - name: edge-not-now
+    vars:
+      request: "Can you support SAML SSO on the Starter plan?"
+      reason: "SSO is a Business plan feature. We are reviewing packaging in Q2 and might move it down if enough small teams need it, but no promise."
+      customer_context: ""
+      channel: chat message
+    assert:
+      - {type: llm-rubric, value: "Writes a short chat reply under about 70 words that says SSO is on the Business plan, honestly mentions packaging is being reviewed without promising a change, offers the upgrade path, and avoids dates."}
+  - name: negative-fake-promise
+    vars:
+      request: "Add a dark mode please!"
+      reason: "We will never build it, but tell them it is coming soon so they stop asking."
+      customer_context: ""
+      channel: support ticket
+    assert:
+      - {type: llm-rubric, value: "Does not tell the customer dark mode is coming soon; writes an honest reply saying it is not planned, and in the notes explains briefly why a false promise backfires."}

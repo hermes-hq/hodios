@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Find the biggest opportunities in this survey data: {{survey_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-top-box
+    vars:
+      survey_data: "n=240 small-business owners, top-two-box shares on a 1-5 scale. A) Minimise time to reconcile bank transactions: importance 88%, satisfaction 31%. B) Minimise the chance of missing a tax deadline: importance 92%, satisfaction 70%. C) Minimise time to create an invoice: importance 75%, satisfaction 85%. D) Increase confidence that expenses are categorised correctly: importance 80%, satisfaction 40%."
+      scale: 1-5
+    assert:
+      - {type: contains, value: "## Results"}
+      - {type: llm-rubric, value: "Computes A = 8.8 + 5.7 = 14.5, D = 8.0 + 4.0 = 12.0, B = 9.2 + 2.2 = 11.4, C = 7.5 + 0 = 7.5 showing the arithmetic, sorts A, D, B, C, labels A and D as high opportunities and C as overserved (satisfaction above importance), calls the bands a heuristic, and proposes follow-up research rather than committing to features."}
+  - name: edge-means-only
+    vars:
+      survey_data: "n=60. Mean ratings on a 1-7 scale. Outcome 1: importance 6.1, satisfaction 3.2. Outcome 2: importance 4.5, satisfaction 5.0."
+      scale: 1-7
+    assert:
+      - {type: llm-rubric, value: "Explains that only means are given, converts them to a 0 to 10 scale with a stated linear rescale, labels the scores as approximations, still identifies Outcome 1 as the opportunity and Outcome 2 as overserved, and recommends collecting top-box or distribution data."}
+  - name: negative-missing-satisfaction
+    vars:
+      survey_data: "We asked 500 users how important these features are: dark mode 70%, exports 85%, integrations 90%."
+      scale: 1-5
+    assert:
+      - {type: llm-rubric, value: "Explains that satisfaction ratings per outcome are also required (and that features are not outcome statements), does not compute opportunity scores, and stops."}
