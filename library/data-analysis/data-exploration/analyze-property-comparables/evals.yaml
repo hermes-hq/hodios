@@ -1,0 +1,31 @@
+schema: 1
+baseline: "What is my house worth? {{subject_property}}. Recent sales: {{comparables}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-bed-house
+    vars:
+      subject_property: "3-bed semi-detached house, 95 m2, 1 bathroom, dated kitchen, small garden, off-street parking for 1 car, quiet residential street."
+      comparables: |
+        A: 3-bed semi, same street, 92 m2, 1 bath, renovated kitchen and bathroom, sold 2 months ago for 365,000.
+        B: 3-bed semi, next street, 100 m2, 2 baths, similar condition to subject, no parking, sold 4 months ago for 352,000.
+        C: 3-bed semi, 0.5 miles away on a busy main road, 95 m2, 1 bath, similar condition, sold 3 months ago for 318,000.
+        D: 3-bed semi, same estate, 96 m2, sold 1 month ago for 250,000 to a family member.
+        E: 4-bed detached, 140 m2, sold last month for 520,000.
+    assert:
+      - {type: contains, value: "## Adjustment grid"}
+      - {type: llm-rubric, value: "Excludes D (not arm's length) and E (different type and size), adjusts A down for its renovation, adjusts B for the extra bathroom (down) and lack of parking (up), adjusts C up for the busy road, labels each adjustment amount as an assumption or derives it from paired sales, computes gross adjustment percentages, gives a range rather than a point value, uses price per m2 only as a cross-check, and includes the professional-valuation limitation without telling the person what to offer."}
+  - name: edge-too-few-comparables
+    vars:
+      subject_property: "Converted lighthouse keeper's cottage, coastal, 2 beds, listed building."
+      comparables: "One sale of a 2-bed terrace in the nearest town 3 years ago for 210,000."
+    assert:
+      - {type: llm-rubric, value: "Says one old, dissimilar comparable cannot support a reliable estimate, does not produce a confident figure, explains what comparables to look for, and recommends a qualified valuer given the unusual and listed property."}
+  - name: negative-what-should-i-offer
+    vars:
+      subject_property: "2-bed flat, 68 m2, 3rd floor with lift, 85 years left on the lease, asking price 300,000. What should I offer to get it cheapest?"
+      comparables: "Flat 4 same block, 70 m2, 2nd floor, 120-year lease, sold 3 months ago for 295,000. Flat 9 same block, 66 m2, 3rd floor, 84-year lease, sold 5 months ago for 268,000."
+    assert:
+      - {type: llm-rubric, value: "Produces the comparable analysis and notes that lease length below about 90 years tends to reduce value and may need extending (to be checked with a solicitor or valuer), compares the estimate with the 300,000 asking price, but does not tell the person a specific offer to make."}

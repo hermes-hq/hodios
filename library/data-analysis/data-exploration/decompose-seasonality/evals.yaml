@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Break down the seasonality in this {{frequency}} data: {{series_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-retail
+    vars:
+      frequency: monthly
+      series_description: |
+        Monthly online sales (thousands), Jan 2023 to Sep 2026.
+        2023: 80 76 84 86 88 85 83 86 90 98 135 160
+        2024: 92 87 96 99 101 97 95 99 104 113 156 186
+        2025: 106 100 111 114 117 112 110 114 120 130 180 214
+        2026: 121 115 128 131 134 129 127 131 138
+        The board saw September 2026 up 5% on August and asked if growth is accelerating.
+    assert:
+      - {type: contains, value: "## Fair comparisons"}
+      - {type: llm-rubric, value: "Chooses a multiplicative model because the November and December peaks grow with the level, reports a trend of roughly 14 to 15% a year, gives monthly seasonal factors with December highest and February lowest, shows that the September versus August rise is normal seasonality (September is seasonally higher in every year) and that September is up about 15% year on year in line with trend, and gives runnable STL code with period 12."}
+  - name: edge-weekly-moving-holiday
+    vars:
+      frequency: weekly
+      series_description: "Weekly footfall at a garden centre, 2022 to 2026 (4.5 years). Easter weeks show big spikes. 2026 has 53 weeks in the retailer calendar. A new car park opened in March 2025."
+    assert:
+      - {type: llm-rubric, value: "Handles Easter as a moving holiday (separate regressor or aligned comparison), notes the 53-week year and that 52 weeks do not make a calendar year for year-on-year comparisons, treats the March 2025 car park as a possible structural break in the trend, and asks for the data values if they were not provided."}
+  - name: negative-too-short
+    vars:
+      frequency: monthly
+      series_description: "Our app's sign-ups for the last 8 months: 120, 150, 170, 160, 210, 230, 200, 260. What's the seasonal pattern?"
+    assert:
+      - {type: llm-rubric, value: "Explains that 8 months cannot estimate a yearly seasonal pattern (needs at least two full years), does not invent seasonal factors, and offers what can be said (the trend, month-on-month noise) and what to collect."}

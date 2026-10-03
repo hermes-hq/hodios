@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a {{tool}} form for: {{purpose}}. Fields: {{fields}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-maintenance-requests
+    vars:
+      tool: google-forms
+      purpose: "Facilities team at a school trust (6 schools) wants staff to report maintenance issues so they can see open issues by school and category, and how long fixes take. Staff report on phones."
+      fields: "name, school, where in the building, what's wrong, photo, how urgent, date noticed, contact details"
+    assert:
+      - {type: contains, value: "## Field specification"}
+      - {type: llm-rubric, value: "Uses a dropdown for school and a category list for the issue type, a date picker for date noticed, a labelled urgency scale or choice list, a file upload for the photo, separates location into building or room fields, explains how each response gets a unique ID, adds the fields needed to measure fix time (status and completion date in the response sheet), keeps raw responses unedited, and includes test entries including one that validation rejects."}
+  - name: edge-sensitive-data
+    vars:
+      tool: microsoft-forms
+      purpose: "Youth football club wants to collect registrations for under-12 players for the season."
+      fields: "child's name, date of birth, medical conditions, allergies, parent name, parent phone, photo consent, emergency contact"
+    assert:
+      - {type: llm-rubric, value: "Flags children's and health data as sensitive and recommends a consent and data protection check, minimises fields, uses a date picker for date of birth with sensible limits, uses a clear yes/no for photo consent, notes Microsoft Forms validation limits and what to check afterwards, and includes a privacy statement with placeholders."}
+  - name: negative-unclear-purpose
+    vars:
+      tool: other
+      purpose: "Collect data."
+      fields: "everything we might need"
+    assert:
+      - {type: llm-rubric, value: "Asks what the data is for and who fills it in before designing fields, rather than producing a generic long form."}
