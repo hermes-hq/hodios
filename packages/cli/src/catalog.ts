@@ -17,8 +17,16 @@ import type { ResolvedEntry } from '@hermes-hq/hodios-core/compile';
 import type { Io } from './cli.js';
 import { findRoot } from './root.js';
 
-/** The public catalog. Same v1 format as `dist/catalog/v1` (design §3.3). */
-export const DEFAULT_CATALOG_URL = 'https://library.hermes-ide.com/v1';
+/**
+ * The public catalog, mirrored in hermes-hq/hodios-dist. Same v1 format as `dist/catalog/v1` (design §3.3).
+ * jsDelivr serves the latest release tag from a CDN; raw GitHub on main is the fallback.
+ */
+export const DEFAULT_CATALOG_URLS = [
+  'https://cdn.jsdelivr.net/gh/hermes-hq/hodios-dist@latest/catalog/v1',
+  'https://raw.githubusercontent.com/hermes-hq/hodios-dist/main/catalog/v1',
+];
+/** @deprecated use DEFAULT_CATALOG_URLS */
+export const DEFAULT_CATALOG_URL = DEFAULT_CATALOG_URLS[0];
 
 const sha256 = (text: string) => createHash('sha256').update(text, 'utf8').digest('hex');
 const TIERS: Tier[] = ['curated', 'verified', 'community'];
@@ -69,6 +77,39 @@ function httpStore(base: string, cacheDir: string): ObjectStore {
       writeFileSync(`${cached}.tmp`, text);
       renameSync(`${cached}.tmp`, cached);
       return text;
+    },
+  };
+}
+
+/** Tries each base in order; once one serves the manifest, objects come from it first. */
+function mirrorStore(bases: string[], cacheDir: string): ObjectStore {
+  const stores = bases.map((b) => httpStore(b, cacheDir));
+  let order = stores;
+  return {
+    label: bases.join(' | '),
+    async manifest() {
+      const errors: string[] = [];
+      for (const [i, s] of stores.entries()) {
+        try {
+          const text = await s.manifest();
+          order = [s, ...stores.filter((_, j) => j !== i)];
+          return text;
+        } catch (err) {
+          errors.push(err instanceof Error ? err.message : String(err));
+        }
+      }
+      throw new Error(errors.join('; '));
+    },
+    async get(path) {
+      let last: unknown;
+      for (const s of order) {
+        try {
+          return await s.get(path);
+        } catch (err) {
+          last = err;
+        }
+      }
+      throw last instanceof Error ? last : new Error(String(last));
     },
   };
 }
@@ -179,5 +220,5 @@ export async function openCatalog(io: Io, flag?: string): Promise<Catalog> {
     }
     return Catalog.open(dirStore(dir));
   }
-  return Catalog.open(httpStore(DEFAULT_CATALOG_URL, join(cacheDir(io), 'default')));
+  return Catalog.open(mirrorStore(DEFAULT_CATALOG_URLS, join(cacheDir(io), 'default')));
 }

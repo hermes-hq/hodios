@@ -40,7 +40,7 @@ Build and check (inside a Hodios checkout):
       List lint rule ids.
 
 Targets: claude-code, codex, cursor, copilot, gemini-cli, opencode, agents-md, paste (chatgpt, claude-ai), hermes.
-Catalog: --catalog <dir|url> or HODIOS_CATALOG; default is this checkout's dist/catalog/v1, else library.hermes-ide.com.
+Catalog: --catalog <dir|url> or HODIOS_CATALOG; default is this checkout's dist/catalog/v1, else the public catalog in hermes-hq/hodios-dist (jsDelivr, then raw GitHub).
 
 Options:
   -h, --help       Show this help
