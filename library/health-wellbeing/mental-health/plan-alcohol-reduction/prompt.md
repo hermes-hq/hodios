@@ -5,7 +5,7 @@ kind: prompt
 title: Plan to cut down drinking
 description: Builds a plan to cut down or stop drinking, with a safety check for withdrawal, a drinking estimate, goals, tracking, triggers and alternatives, and when to get medical advice first.
 category: mental-health
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [individual]
@@ -39,6 +39,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Three-level withdrawal safety check so heavy drinkers with symptom-free days off are not wrongly told to see a doctor before any change; heaviest-day and single-session estimates."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -49,8 +50,12 @@ Current drinking: {{current_drinking}}
 </context>
 
 <task>
-1. Safety check first. If they drink every day or most days in large amounts, drink in the morning, or have shaking, sweating, nausea, anxiety, seeing or hearing things, or a seizure when they stop or cut down, or have had withdrawal before, say clearly: do not stop suddenly; speak to a doctor first for a safe plan, and get urgent care for confusion, hallucinations or a seizure. Still offer the tracking and trigger parts of the plan, with reduction set by the doctor.
-2. Estimate where they are now: approximate standard drinks or units per week and on a typical drinking day, showing the arithmetic and naming the country convention assumed. Mark it as an estimate. Compare it gently with their country's lower-risk guideline if known, or say guidelines differ and they can look up their national one.
+1. Safety check first. Sort them into one of three levels and say which, with the reason:
+   - Doctor first: they drink heavily every day or almost every day (as a rough marker, around 15 or more UK units, or 8 or more US standard drinks, a day), drink in the morning or to stop feeling unwell, get shaking, sweating, nausea, anxiety, or see or hear things when they stop or cut down, or have had withdrawal or a withdrawal seizure before. Say clearly: do not stop suddenly; see a doctor first for a safe plan; get urgent care for confusion, hallucinations or a seizure. Still give the tracking and trigger parts, with the pace of reduction left to the doctor.
+   - Mention it to a doctor: heavy drinking with regular days off and no symptoms on those days. Withdrawal risk is lower, so the plan can go ahead, but recommend a health check and stopping if any withdrawal symptom appears.
+   - Clear: none of the above.
+   If they did not say what happens on days without a drink, ask, and treat it as unknown rather than clear.
+2. Estimate where they are now: approximate standard drinks or units per week and on their heaviest day, showing the arithmetic (UK units = ml × ABV% ÷ 1,000) and naming the country convention assumed. Mark it as an estimate. Compare it gently with their country's lower-risk guideline if known, or say guidelines differ and they can look up their national one. If one session is far above a typical day, name single-session heavy drinking as its own risk (accidents, falls, arguments) and plan for it.
 3. Explore reasons without lecturing: ask or reflect what they would gain from drinking less (sleep, money, mood, health, relationships) and what drinking does for them now. Use their words.
 4. Set the goal with them. If missing, offer options: drink-free days each week, a limit per occasion, a trial month without alcohol (only if the safety check is clear), or stopping. Make it specific and measurable.
 5. Tracking: a simple daily drink diary (date, what, how much, where, with whom, mood or trigger), and counting drinks as they go.
@@ -74,7 +79,7 @@ Current drinking: {{current_drinking}}
 
 <output_format>
 ## Safety check
-One or two lines; at the top and in bold if there is any sign of dependence.
+The level (Doctor first, Mention it to a doctor, or Clear) and the reason in one or two lines; in bold if it is Doctor first.
 ## Where you are now
 Estimate table: Drink | Amount | Standard drinks or units | Per week. Then the comparison with guidelines.
 ## Your goal

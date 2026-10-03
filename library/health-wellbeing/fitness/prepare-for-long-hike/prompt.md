@@ -5,7 +5,7 @@ kind: prompt
 title: Prepare for a long hike
 description: Prepares someone for a long or multi-day hike with a conditioning plan, pack weight targets, a gear checklist, a pacing plan and a safety plan. Use weeks before a big trail day or trek.
 category: fitness
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [individual, traveler]
@@ -30,8 +30,8 @@ args:
     type: text
     required: true
   - name: fitness_level
-    description: Your current activity and hiking experience, for example "walk 5 km on flat ground most days, never carried a heavy pack", "regular day hiker, 1,000 m climbs fine". Mention knees, back or health conditions. Optional.
-    type: string
+    description: Your current activity and hiking experience, for example "walk 5 km on flat ground most days, never carried a heavy pack", "regular day hiker, 1,000 m climbs fine". Mention knees, back, health conditions and body weight (for a pack target in kg). Optional; asked for if missing.
+    type: text
 output_contract:
   format: markdown
   sections: [Hike at a glance, Readiness, Conditioning plan, Pack and gear, Pacing plan, Safety plan, Warning signs on the trail]
@@ -39,6 +39,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Asks for fitness and date when missing, handles a short run-in, and adds descent, pack and break time to pacing estimates."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -49,12 +50,12 @@ Hike details: {{hike_details}}
 </context>
 
 <task>
-1. Summarise the hike: total days, daily distance, ascent and descent, highest point, terrain, season, overnight type, and whether it is remote. List any detail you need but do not have (for example ascent per day or altitude) and ask for it; if the plan can still be useful, continue with a stated assumption.
-2. Judge readiness from the gap between the hike and the person's current fitness, and the weeks left before the date. If the gap is large and time is short, say so and suggest a shorter route, extra rest days, a guided option or a later date.
+1. Summarise the hike: weeks until the start, total days, daily distance, ascent and descent, highest point, terrain, season, overnight type, and whether it is remote. List any detail you need but do not have (for example the date, ascent per day or altitude) and ask for it; if the plan can still be useful, continue with a stated assumption.
+2. Judge readiness from the gap between the hike and the person's current fitness, and the weeks left. If fitness was not given, ask for it and size the plan for someone who walks regularly but has not carried a loaded pack on hills, saying so. If the gap is large and time is short, say so and suggest a shorter route, extra rest days, a guided option or a later date. Fewer than four weeks: give a maintenance-and-taper plan with gear and pacing, not a crash build.
 3. Build a weekly conditioning plan up to the hike: one long hike a week that grows towards about 60–75% of the longest planned day with a pack that grows towards the planned weight; one or two shorter sessions on hills or stairs; two strength sessions focused on step-ups, split squats, slow controlled step-downs and lowering for the downhills, calf raises, hip and core work; a lighter final week. Include back-to-back long days for multi-day treks.
 4. Give a pack weight target. As a general guide, a loaded pack for a multi-day trip is often kept at or below about 20% of body weight, and lighter for beginners and day hikes. List the biggest weight savings first (shelter, sleep system, pack, then water and food carried).
 5. Write a gear checklist adapted to season, terrain and overnight type, covering navigation (offline map and a paper backup), light, sun protection, insulation and rain layers, first aid and blister kit, fire or stove where allowed, repair kit, nutrition, water and treatment, emergency shelter, and communication. Mark each item Essential or Optional.
-6. Make a pacing plan per day: estimate moving time with Naismith's rule (about 5 km per hour plus 1 hour per 600 m of ascent), adjust for pack, terrain and group, add breaks, and set a start time and a turnaround time that leaves daylight to spare.
+6. Make a pacing plan per day: estimate moving time with Naismith's rule (about 5 km per hour plus 1 hour per 600 m of ascent), add about 10 minutes per 300 m of steep descent, slow it for a heavy pack, rough or snowy ground and the slowest person in the group, add about 10 minutes of breaks per hour, and set a start time and a turnaround time that leaves daylight to spare. Show the arithmetic for one day.
 7. Write a safety plan: who holds the route and the expected check-in time, what they do if you do not check in, local emergency number to look up, escape routes or early exits, weather and conditions to check before leaving, and water sources.
 8. If the hike goes above about 2,500 m, add altitude guidance: ascend gradually, plan acclimatisation days, know the symptoms of altitude illness, and descend if they get worse.
 </task>

@@ -91,5 +91,5 @@ Table: Measure | Average | Range | Days recorded.
 ## What stands out
 Bullets, each with the number of days it is based on.
 ## Questions for your appointment
-Questions, then a three-line summary to read out.
+Questions, then a three-line summary to read out, then one or two tracker fields to add or drop for the next weeks.
 </output_format>

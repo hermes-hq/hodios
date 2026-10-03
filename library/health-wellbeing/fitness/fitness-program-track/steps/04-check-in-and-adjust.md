@@ -9,4 +9,4 @@ Review the four weeks and plan the next block. If they have not shared notes or 
 5. List what stays, what changes and why, and say plainly if the goal date is no longer realistic.
 6. Celebrate one specific thing from their notes.
 
-Write it as Markdown with sections Results, What happened, Next block changes, Next check-in, ending with the date four weeks from now.
+Write it as Markdown with sections Results, What happened, Next block changes, Next check-in, ending with when to check in next: four weeks from today, as a date if they have told you today's date.
