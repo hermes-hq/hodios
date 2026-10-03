@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a prompt for this task with long documents: {{task}} {{document_types}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contract-qa
+    vars:
+      task: "Answer procurement staff questions about our supplier contracts: notice periods, price escalation, liability caps."
+      document_types: "PDF contracts converted to text, 20 to 80 pages each, up to 15 contracts per question set."
+    assert:
+      - {type: contains-all, value: ["## Prompt", "## Chunked variant", "## Tests"]}
+      - {type: llm-rubric, value: "Places documents before the question in tagged blocks with id and date, requires verbatim quotes with contract id and clause before the answer, includes a not-found rule, handles conflicting contract versions, gives a chunked per-chunk and combine design, notes the output supports review rather than legal advice, and includes buried-detail and absent-answer tests."}
+  - name: edge-unclear-scale
+    vars:
+      task: "Summarise documents for my boss."
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions about the documents, their length and what the summary is for before designing, or states explicit assumptions and keeps the design adaptable."}
+  - name: negative-no-general-knowledge
+    vars:
+      task: "Answer questions about our internal engineering handbook."
+      document_types: "One 300-page handbook in Markdown."
+    assert:
+      - {type: llm-rubric, value: "The prompt forbids filling gaps from general knowledge, requires a 'not found in the provided documents' answer when the handbook is silent, and gives chunk sizes as a fraction of the context limit rather than a model-specific number."}

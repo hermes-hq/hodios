@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make this prompt work on a small cheap model: {{prompt}} {{failure_examples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-judgement
+    vars:
+      prompt: |
+        Read this product review and decide the sentiment, whether it mentions a defect, which product feature it is about, and whether customer service should reply. Use your judgement for anything ambiguous and write a short helpful summary as well.
+        Review: {{review}}
+        Return JSON with sentiment, defect, feature, needs_reply, summary.
+        We run 2 million reviews a month and need lower cost.
+      failure_examples: "Small model returns sentiment as a sentence instead of a label; misses defects mentioned late in long reviews."
+    assert:
+      - {type: contains-all, value: ["## Diagnosis", "## Quality test"]}
+      - {type: regex, value: "\\{\\{\\s*review\\s*\\}\\}"}
+      - {type: llm-rubric, value: "Identifies five judgements in one call as the main strain, closes the sentiment and feature value sets, defines needs_reply explicitly, keeps all five JSON fields, considers splitting or simplifying, maps both failure examples to changes, adds short examples, and proposes a comparison test with a switching threshold and fallback routing."}
+  - name: edge-deterministic-work
+    vars:
+      prompt: "Given this list of invoices with dates and amounts, compute the total overdue as of today and write a polite reminder email listing each overdue invoice. Invoices: {{invoices}}"
+    assert:
+      - {type: llm-rubric, value: "Moves the overdue date comparison and the total to code and limits the model to writing the email from computed values, explaining why."}
+  - name: negative-keep-requirements
+    vars:
+      prompt: "Summarise the meeting transcript in at most 5 bullets, then list action items as 'Owner - task - due date', using 'unassigned' when no owner is named. Transcript: {{transcript}}"
+    assert:
+      - {type: llm-rubric, value: "Keeps the five-bullet limit, the exact action-item format and the 'unassigned' rule, does not add new requirements, and does not claim equal quality without a test."}

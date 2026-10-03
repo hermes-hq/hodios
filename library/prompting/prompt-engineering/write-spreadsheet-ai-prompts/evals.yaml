@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a prompt for a spreadsheet AI function to do this: {{task}} Rows: {{sample_rows}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feedback-themes
+    vars:
+      task: "Tag each customer feedback comment with one theme so we can count them in a pivot table."
+      sample_rows: |
+        ID | Date | Comment
+        1 | 2026-09-01 | Delivery took two weeks
+        2 | 2026-09-02 | Love the new app design
+        3 | 2026-09-02 |
+        4 | 2026-09-03 | Charged twice for one order!!
+        5 | 2026-09-04 | asdfgh
+    assert:
+      - {type: contains-all, value: ["## Cell prompt", "## Expected results"]}
+      - {type: llm-rubric, value: "Defines a closed theme list with an Other or Unclear value, a fixed value for the blank and junk rows, an instruction to reply with only the label, a generic AI_FUNCTION pattern with cell references, expected labels for all five rows using only allowed values, and a test-then-fill-down plan including freezing values."}
+  - name: edge-ambiguous-task
+    vars:
+      task: "Clean up the addresses."
+      sample_rows: "Name | Address\nAna | 12 rua das flores lisboa\nTom | Flat 3, 45 High St, Leeds LS1 4AB"
+    assert:
+      - {type: llm-rubric, value: "Asks one question about what cleaning means (extract a city, normalise format, split into columns) before writing, or states a clear assumption."}
+  - name: negative-no-product-claims
+    vars:
+      task: "Extract the invoice due date from a free-text notes column."
+      sample_rows: "Invoice | Notes\nINV-1 | due end of month, net 30\nINV-2 | pay by 15/10/2026\nINV-3 | no terms given"
+    assert:
+      - {type: llm-rubric, value: "Does not present a specific product's function name or limits as fact, defines a single date format and a value for 'no terms given', and flags 'end of month, net 30' as needing a rule rather than guessing a date."}

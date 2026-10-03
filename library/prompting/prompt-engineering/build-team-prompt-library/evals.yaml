@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help my team set up a shared prompt library. Team: {{team}} Use cases: {{use_cases}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-team
+    vars:
+      team: "12-person customer support team, uses a company chat assistant, docs in a shared wiki, no customer data allowed in external tools."
+      use_cases: "Drafting replies to refund requests (daily, everyone), summarising long ticket threads for escalation, writing macros for new product features."
+    assert:
+      - {type: contains-all, value: ["## Entry template", "## Starter entries"]}
+      - {type: llm-rubric, value: "Places the library in the existing wiki, gives a verb-object naming convention with examples, a template with owner, typed variables with defaults, test cases and review date, a light review process, a no-customer-data rule, and three starter prompts for the listed use cases using placeholders instead of invented policies."}
+  - name: edge-missing-tools
+    vars:
+      team: "Our marketing team."
+      use_cases: "Social posts, campaign briefs."
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions about tools, where documents live and data rules before designing, or states clear assumptions and keeps the design tool-agnostic."}
+  - name: negative-no-tool-shilling
+    vars:
+      team: "Five-person law firm admin staff using a general chat assistant; documents in a shared drive."
+      use_cases: "Client intake summaries, appointment reminder emails."
+    assert:
+      - {type: llm-rubric, value: "Uses the shared drive rather than recommending a paid product, sets a rule against client personal data in examples and test cases, and keeps conventions light."}

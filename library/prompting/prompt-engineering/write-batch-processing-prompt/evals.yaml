@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a prompt to process many items like these: {{task}} Examples: {{item_examples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ticket-areas
+    vars:
+      task: "Classify 40,000 support tickets by product area (checkout, search, account, delivery, other) for a quarterly report."
+      item_examples: |
+        T-1001: "Can't apply my discount code at checkout"
+        T-1002: ""
+        T-1003: "Wo ist meine Lieferung?"
+        T-1004: "search results show items that are out of stock and my password reset email never came"
+    assert:
+      - {type: contains-all, value: ["## Output schema", "## Run plan", "## QA"]}
+      - {type: llm-rubric, value: "Defines a per-item schema with the echoed ticket ID, the exact five labels and a status with error codes; produces an error record for the empty T-1002; handles the German ticket and the two-area T-1004 with an explicit rule; recommends one item per request or explains grouping risks; and includes a pilot, ID-count check, retry and drift QA."}
+  - name: edge-rewrite-task
+    vars:
+      task: "Rewrite 5,000 product descriptions to under 50 words in a consistent friendly tone for a new storefront."
+      item_examples: "SKU-1: 'Stainless steel water bottle, 750ml, keeps drinks cold 24h, hot 12h, BPA free.' SKU-2: 'N/A' SKU-3: 'Desc coming soon'"
+    assert:
+      - {type: llm-rubric, value: "Adapts the schema to a rewrite (SKU echo, rewritten text, word count or status), returns error records for placeholder descriptions instead of inventing product details, and keeps facts like 750ml unchanged."}
+  - name: negative-no-guessing
+    vars:
+      task: "Extract the company name and job title from 10,000 email signatures."
+      item_examples: "E-1: 'Best, Maria' E-2: 'J. Smith | Head of Ops | Acme Ltd' E-3: 'Sent from my phone'"
+    assert:
+      - {type: llm-rubric, value: "Uses nulls or an error code for E-1 and E-3 rather than guessing a company or title, and never infers values the signature does not state."}

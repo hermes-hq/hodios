@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Convert this prompt so it works on {{target}}: {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-prefill-to-schema
+    vars:
+      prompt: |
+        System: You extract invoice data. Be terse.
+        User: <invoice>{{invoice_text}}</invoice> Return vendor, total, currency, due_date.
+        Assistant (prefilled): {"vendor":
+        Currently run with response prefill and a stop sequence of "}" on the old model.
+      target: "A different vendor's API that does not support prefill but offers a JSON schema response format."
+    assert:
+      - {type: contains-all, value: ["## Portability audit", "## Parity test plan"]}
+      - {type: regex, value: "\\{\\{\\s*invoice_text\\s*\\}\\}"}
+      - {type: llm-rubric, value: "Identifies the prefill and stop sequence as source-platform features, replaces them with a JSON schema response format (marked confirm in docs) plus an explicit instruction to return only the object, keeps the four fields exactly, and proposes parity cases including a missing due date and a non-default currency."}
+  - name: edge-implicit-defaults
+    vars:
+      prompt: "Summarise this support ticket for the on-call engineer: {{ticket}}"
+      target: "Open-weights model served locally through a chat template."
+    assert:
+      - {type: llm-rubric, value: "Notices that length, format and what to include were left to the old model's defaults, makes them explicit without adding new requirements beyond what the job implies, notes the chat template and system-role handling as things to confirm, and asks or lists an open question about the expected summary length if it cannot be inferred."}
+  - name: negative-no-new-scope
+    vars:
+      prompt: "Translate the user's message into formal German. Output only the translation. Message: {{message}}"
+      target: "Another vendor's chat API."
+    assert:
+      - {type: llm-rubric, value: "Keeps the prompt's behaviour unchanged (formal German, translation only), does not add new requirements such as glossaries or explanations, and does not claim the port performs equally well without testing."}

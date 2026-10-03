@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a prompt that classifies items into these labels: {{labels}} {{examples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-routing
+    vars:
+      labels: "Route support tickets to: billing, bug, feature-request, account-access, other. Used to assign tickets to queues."
+      examples: |
+        "I was charged twice and now can't log in" -> we argue about billing vs account-access
+        "Export to CSV would be great" -> feature-request
+        "The export button does nothing" -> bug
+    assert:
+      - {type: contains-all, value: ["## Label definitions", "## Measuring it"]}
+      - {type: llm-rubric, value: "Defines each label with includes and excludes, gives an explicit tie-break for the charged-twice-and-locked-out case tied to queue routing, adds an abstain or unclear rule, requires exact label strings, includes balanced examples across all five labels, and gives a measuring plan with a confusion matrix."}
+  - name: edge-overlapping-labels
+    vars:
+      labels: "Classify customer reviews as: positive, negative, complaint, praise, suggestion."
+    assert:
+      - {type: llm-rubric, value: "Flags that positive/praise and negative/complaint overlap and that suggestion can co-occur with either, then either asks whether multi-label is intended or proposes a cleaner structure (for example sentiment plus type) marked for confirmation."}
+  - name: negative-no-invented-policy
+    vars:
+      labels: "Classify insurance claims emails as: urgent, standard, fraud-review."
+    assert:
+      - {type: llm-rubric, value: "Does not invent the insurer's fraud criteria as fact; proposes tie-break and fraud-review definitions marked for confirmation, includes an abstain path to human review, and avoids real personal data in examples."}

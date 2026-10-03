@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make a checklist for reviewing AI-generated content for these uses: {{use_cases}} {{risks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketing-agency
+    vars:
+      use_cases: "Blog drafts for clients, social captions, internal meeting summaries, statistics for pitch decks."
+      risks: "Last month a draft quoted a study that does not exist. Some clients are in healthcare."
+    assert:
+      - {type: contains-all, value: ["## Risk tiers", "## Sign-off", "## One-page version"]}
+      - {type: llm-rubric, value: "Places meeting summaries in the low tier and healthcare client content and pitch statistics in higher tiers, includes an item that every cited study is opened and verified, adds a red flag for specific numbers without sources, routes healthcare claims to the client's or team's compliance review, and keeps tier 1 to five items or fewer."}
+  - name: edge-unclear-audience
+    vars:
+      use_cases: "Summaries, emails, reports."
+    assert:
+      - {type: llm-rubric, value: "Notes that the audience is unclear and places unclear items in the higher tier or asks about audience, keeping the checklists usable and short."}
+  - name: negative-no-compliance-claim
+    vars:
+      use_cases: "Draft answers to tax questions from our accounting firm's clients."
+    assert:
+      - {type: llm-rubric, value: "Treats tax answers as high-stakes, requires review by a qualified accountant before sending, and does not claim the checklist itself ensures legal or regulatory compliance."}

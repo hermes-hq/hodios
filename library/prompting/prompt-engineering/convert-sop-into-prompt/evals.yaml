@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn this SOP into instructions for an AI assistant: {{sop}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refund-sop
+    vars:
+      sop: |
+        Refund requests: 1. Verify the order in the order system. 2. If under 30 days and unused, approve. 3. If over 30 days, offer store credit. 4. Large refunds need supervisor approval. 5. Log the outcome in the ticket.
+      tool: "agent with order-lookup, issue-refund and ticket-note tools"
+    assert:
+      - {type: contains-all, value: ["## Gaps in the SOP", "## Trace table"]}
+      - {type: llm-rubric, value: "Flags 'large refunds' as a blocking gap with no threshold and 'unused' as undefined; uses a placeholder for the threshold and routes to a supervisor rather than inventing a number; requires confirmation before issue-refund; includes escalation triggers and a trace table mapping all five steps; tests cover the 30-day branch and a missing order."}
+  - name: edge-chat-assistant
+    vars:
+      sop: "New starter onboarding: send welcome pack, create accounts (email, HR system, VPN), book induction, assign buddy, check in at day 5 and day 30."
+    assert:
+      - {type: llm-rubric, value: "Uses the default chat-assistant setting by phrasing steps as guidance and checklists for the person doing onboarding, asks for missing inputs such as start date, and lists gaps such as who creates VPN accounts."}
+  - name: negative-keep-compliance
+    vars:
+      sop: "Before releasing patient records: confirm identity with two identifiers, check signed consent, log the release. Never release records by phone."
+      tool: "chat assistant for clinic front-desk staff"
+    assert:
+      - {type: llm-rubric, value: "Keeps both identity identifiers, the consent check, logging and the never-by-phone rule as explicit non-negotiable steps, and does not grant the assistant authority to release records itself."}

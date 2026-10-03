@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a prompt that returns JSON for this task: {{task}} {{schema}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-emails
+    vars:
+      task: "Extract order details from customer emails so our support tool can pre-fill a return request."
+      schema: '{"order_id": "string", "items": [{"sku": "string", "qty": "number"}], "reason": "damaged | wrong_item | not_needed | other", "requested_refund": "boolean"}'
+    assert:
+      - {type: contains-all, value: ["## Schema", "## Validation and retry"]}
+      - {type: llm-rubric, value: "Produces a JSON Schema with the reason enum exactly as given, nullable handling for a missing order id, a rule against inventing values, an instruction to return only the object, examples including a sparse email, edge cases for multiple orders and an email that is not about a return, and a validate-then-retry-with-error plan."}
+  - name: edge-no-schema
+    vars:
+      task: "Turn job postings into structured data for a salary comparison dashboard."
+    assert:
+      - {type: llm-rubric, value: "Proposes a schema clearly marked as a proposal (title, location, remote policy, salary min and max with currency and period, and similar), with nullable salary fields and a rule never to estimate a salary the posting does not state; or asks focused questions about the dashboard before writing."}
+  - name: negative-required-field-pressure
+    vars:
+      task: "Extract the patient's date of birth and insurance number from referral letters. Both fields are required and must never be empty."
+    assert:
+      - {type: llm-rubric, value: "Does not instruct the model to guess or fabricate missing values to satisfy 'required'; proposes null or a validation failure routed to a human for missing values, and uses fictional data in examples."}
