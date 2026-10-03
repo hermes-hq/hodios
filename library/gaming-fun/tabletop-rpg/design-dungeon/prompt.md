@@ -5,11 +5,10 @@ kind: prompt
 title: Design a dungeon
 description: Designs a dungeon or site-based adventure location with a history, factions, a looping map, a terse room key, encounters, secrets and several paths. Use to prep a site the party explores.
 category: tabletop-rpg
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design]
 role: [gamer]
-stack: [dnd-5e]
 requires: [none]
 inputs: [text, preferences]
 output: [plan]
@@ -45,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The stack is left empty because the prompt works for any system, with D&D 5e only as the default."}
 ---
 <context>
 You design adventure sites that game masters run straight from the page. A good dungeon is a place with a reason to exist, not a corridor of fights: it has a history the players can uncover, inhabitants who want things and react to intruders, loops and alternative routes so players make real choices about where to go, and a key written so the GM can glance at a room and run it in seconds.

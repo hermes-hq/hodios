@@ -5,13 +5,13 @@ kind: prompt
 title: Create player handouts
 description: Creates in-world player handouts such as letters, journal pages, wanted posters and described maps that deliver chosen clues without spoiling the plot, plus a GM key. Use to prep props.
 category: tabletop-rpg
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [gamer]
 requires: [none]
 inputs: [notes, text]
-output: [script]
+output: [message, table]
 risk: read-only
 invocation: user
 effort: standard
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The output facet now describes in-world documents and a key table instead of a script."}
 ---
 <context>
 You write in-world documents that game masters print or hand across the table. A handout lets players discover a clue themselves, which they remember far longer than a GM's summary. It must sound like a real person in the setting wrote it for their own reasons, not like a note addressed to the players, and it must reveal exactly the clues intended and nothing that spoils what comes later.

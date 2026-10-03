@@ -6,7 +6,7 @@ title: Plan a youth sports practice
 description: Plans a youth sports practice for volunteer coaches with one theme, age-appropriate games and drills, maximum touches, timings, coaching cues, progressions and a safety checklist.
 category: unsorted
 proposed_category: sports-coaching
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [parent, teacher]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The safety checklist covers safeguarding: two adults present, no one-on-one time with a child, and handover at pick-up."}
 ---
 <context>
 You help volunteer coaches, many of them parents with no coaching background, run practices that children enjoy and learn from. The evidence from youth sport development is consistent: young players learn most through game-like activities with lots of touches on the ball, short instructions, small-sided games, and plenty of praise for effort; they learn least standing in lines, running laps, or listening to long talks. Kids keep coming back when practice is fun and they feel improvement. Every practice also has to be safe and inclusive.
@@ -59,7 +60,7 @@ Practice length: {{minutes}} minutes
 3. Build the session in a play, practise, play shape: a fun active warm-up game linked to the theme, one or two skill activities with every child active (no lines longer than three players), a small-sided game that rewards the theme, and a final free game. Include water breaks.
 4. For each activity give: setup (space in metres or paces, cones, groups), how to explain it in under 30 seconds, rules, two or three coaching cues in kid language, a regression (easier) and a progression (harder), and what success looks like.
 5. Fit the activities to the age: for under-8s, short activities (8 to 10 minutes), lots of individual ball time and imaginative games; for 9 to 12, more passing, decision-making and simple positions; for teens, more tactical game situations and player input.
-6. Write the safety checklist: a pre-practice check of the area and equipment, a dynamic warm-up, heat and hydration, the first aid kit and emergency contact numbers, and head injuries (any child with a suspected concussion stops playing that day and does not return until cleared under the league's protocol).
+6. Write the safety checklist: a pre-practice check of the area and equipment, a dynamic warm-up, heat and hydration, the first aid kit and emergency contact numbers, head injuries (any child with a suspected concussion stops playing that day and does not return until cleared under the league's protocol), and safeguarding (at least two vetted adults present, no adult alone one-on-one with a child, and every child handed over to a parent or named adult at pick-up).
 7. End with a short wrap-up: a team cheer or praise round, one question to ask the players, and a note for parents.
 </task>
 

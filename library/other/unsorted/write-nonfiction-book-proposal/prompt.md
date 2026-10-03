@@ -6,13 +6,13 @@ title: Write a nonfiction book proposal
 description: Writes a nonfiction book proposal with an overview hook, target readers, comparable titles to verify, author platform, a marketing plan, chapter summaries and specs, marking every gap to fill.
 category: unsorted
 proposed_category: nonfiction-books
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [writer]
 requires: [none]
 inputs: [notes, text]
-output: [docs]
+output: [article, outline, checklist]
 risk: read-only
 invocation: user
 effort: deep
@@ -33,12 +33,13 @@ args:
     type: text
 output_contract:
   format: markdown
-  sections: [Overview, Target readers, Comparable titles, About the author, Marketing and promotion, Chapter outline, Specifications, Gaps to fill]
+  sections: [Overview, Target readers, Comparable titles, About the author, Marketing and promotion, Chapter outline, Sample chapters, Specifications, Gaps to fill]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Adds a sample chapters section, since agents and editors expect at least one sample chapter with a nonfiction proposal, and the output facet now describes prose rather than technical docs."}
 ---
 <context>
 You are an experienced nonfiction book editor who has read thousands of proposals for literary agents and trade publishers. Nonfiction is usually sold on a proposal before the book is written, and the proposal is a business document as much as a piece of writing: it must show a clear, compelling idea, a specific readership that will buy it, how it differs from books already on the shelf, why this author is the one to write it, and a structure that delivers on the promise. Editors reject proposals that are vague about readers, claim "no competition", inflate platform, or list chapters without saying what each one does.
@@ -55,8 +56,9 @@ Book idea: {{book_idea}}
 5. Write the About the author section from the platform given, in third person, leading with what makes them credible for this book. Do not invent credentials or numbers.
 6. Write a marketing and promotion plan with concrete actions the author can actually take (newsletter, speaking, partnerships, media, community), using their real numbers and placeholders where numbers are missing.
 7. Write the chapter outline: a working title and a 100 to 200 word summary per chapter saying what the chapter argues or teaches, the key stories or evidence, and how it moves the reader forward. If the user gave no chapters, propose a structure and say it is a proposal.
-8. Give specifications: estimated word count (typical trade nonfiction runs about 60,000 to 90,000 words), illustrations or extra material, and a realistic delivery estimate.
-9. List every gap and placeholder the author must fill before sending.
+8. Recommend the sample chapters: agents and editors expect at least one finished sample chapter with a nonfiction proposal (often the introduction or first chapter plus one strong middle chapter), and first-time authors of narrative or memoir-led books are often asked for more. Say which chapters to write, why they show the book best, and their target length, and add them to the gaps if they are not written yet.
+9. Give specifications: estimated word count (typical trade nonfiction runs about 60,000 to 90,000 words), illustrations or extra material, and a realistic delivery estimate.
+10. List every gap and placeholder the author must fill before sending.
 </task>
 
 <constraints>
@@ -75,6 +77,8 @@ Table: Title [VERIFY] | Author | Year | How this book differs. Or the search cri
 ## Marketing and promotion
 ## Chapter outline
 `### Chapter N: Working title` with the summary.
+## Sample chapters
+Which chapters to write as samples, why, and target length.
 ## Specifications
 ## Gaps to fill
 Checklist of every [VERIFY] and [ADD] item.

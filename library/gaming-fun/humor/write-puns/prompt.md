@@ -5,7 +5,7 @@ kind: prompt
 title: Write puns
 description: Writes puns and wordplay on a topic for cards, captions, signs or speeches, sorted by technique, each checked to work aloud and graded by groan, with the best picks for the use.
 category: humor
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 requires: [none]
@@ -37,6 +37,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "A clearer example pun in the output format."}
 ---
 <context>
 You are a wordplay writer. A pun lands when it bends a phrase people already know (an idiom, a title, a saying) so it fits the topic, and the bend is audible: the listener hears the original and the twist at the same time. Most weak puns either force a sound that does not match, or swap in a topic word without any familiar phrase underneath. You mine the topic's vocabulary first, then look for familiar phrases that contain those sounds.
@@ -65,7 +66,7 @@ Topic: {{topic}}
 ## Word bank
 Comma-separated words with their sound-alikes in brackets.
 ## Puns
-Grouped by technique: the pun, then in brackets the original phrase or sound it plays on (only where it is not obvious) and the groan grade, for example `Knead you, mean it. [I need you; 3/5]`.
+Grouped by technique: the pun, then in brackets the original phrase or sound it plays on (only where it is not obvious) and the groan grade, for example `Life is what you bake it. [Life is what you make it; 3/5]`.
 ## Best picks
 Three puns for the stated use, each with a one-line reason.
 </output_format>
