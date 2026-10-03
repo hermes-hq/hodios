@@ -5,7 +5,7 @@ kind: prompt
 title: Refine a vague topic into a research question
 description: Refines a vague topic into researchable questions using FINER and PICO-style frameworks, with variants by scope, feasibility notes and the literature to check first. For students and researchers.
 category: research-methods
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [researcher, student]
@@ -41,6 +41,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Puts the key clarifying questions at the top when the topic is too vague, in line with the fixed section order."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -71,7 +72,7 @@ Turn this topic into researchable questions.
 - Never name specific papers, authors, datasets or findings as if you had checked them. Describe what to look for and how; if you mention a well-known source from memory, label it "from memory, verify".
 - Do not inflate novelty. If a question sounds well studied, say so and suggest the angle that could still add something (new population, setting, method or replication).
 - Keep causal wording ("effect of", "impact of") only for questions whose implied design can support a causal claim; otherwise use "association", "experience of" or "patterns in".
-- If the topic is too vague to produce sensible questions (one or two words with no context), still give the three scopes using stated assumptions, and put the clarifying questions first.
+- If the topic is too vague to produce sensible questions (one or two words with no context), still give the three scopes using stated assumptions, and put the two most important clarifying questions at the top of "What you are really asking" as well as in "Questions for you".
 - Flag any ethical problem the question raises (vulnerable groups, covert data collection, sensitive data) and note that an ethics committee decides.
 </constraints>
 

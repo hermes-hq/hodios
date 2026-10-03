@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a PhD or long research project timeline
 description: Builds a PhD or multi-year research project timeline with phases, milestones, a chapter and paper plan, buffers and a monthly check-in routine, working back from the end date. For doctoral students.
 category: research-methods
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [student, researcher]
@@ -42,6 +42,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Plans from the current month, asking for it when the input does not say, so the remaining time and the next 90 days are right."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -60,7 +61,7 @@ Dates: {{start_and_end}}
 </requirements>
 {{/requirements}}
 
-1. Compute the months available, convert to full-time equivalent if part-time or with teaching or a job, and state your assumptions about anything missing.
+1. Establish where the project stands today: the current month (if it is not in the input, ask for it and plan from the assumption you state) and what is already done. Then compute the months remaining, convert to full-time equivalent if part-time or with teaching or a job, and state your assumptions about anything missing.
 2. Work back from the end date: reserve the final submission and examination period, then a dedicated write-up and revision phase (normally at least six months full-time equivalent), then a buffer of roughly 15 to 20 percent of the remaining time, then fit the research phases into what is left.
 3. Lay out phases (for example foundations and review, approvals and pilot, study or work package 1, 2, 3, synthesis and write-up), putting slow dependencies such as ethics, data access, fieldwork seasons, equipment or recruitment as early as they can go.
 4. Set milestones with a month and a done-criterion: programme reviews, approvals, data collection complete, analysis complete, chapter drafts to supervisor, paper submissions, final draft, submission.
@@ -79,7 +80,7 @@ Dates: {{start_and_end}}
 
 <output_format>
 ## Assumptions
-Bulleted, including FTE months available.
+Bulleted, including the current month used and FTE months remaining.
 ## Phase plan
 A table: phase | months | goals | deliverables. Then a text Gantt with one row per phase and one column per quarter.
 ## Milestones

@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a conference or lab-meeting research talk
 description: Plans a short research talk for a conference or lab meeting with a one-sentence message, timed slide sequence, figure choices, opening and close, and Q&A preparation. For researchers presenting work.
 category: scientific-writing
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, ship]
 role: [researcher, student]
@@ -42,6 +42,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Plans within a format's own rules, such as the single static slide of a Three Minute Thesis, and drops Q&A when the format has none."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -67,6 +68,7 @@ Plan a {{minutes}}-minute talk{{#audience}} for {{audience}}{{/audience}} about 
 - Do not include more slides than about one per minute; explain any exception.
 - Adjust depth to the audience: specialists need less context and more method; mixed audiences need more motivation, fewer acronyms and an explicit "why it matters".
 - If the time given is very short (under about 7 minutes), plan a lightning format: problem, one result, takeaway.
+- If the format has its own rules, plan within them and say so: for example a Three Minute Thesis allows one static slide and no props, so plan that slide and a spoken script instead of a slide sequence. If the format has no questions, replace the Q&A section with one line saying so.
 - Do not invent audience questions that attack the work unfairly, but include the real weaknesses a fair critic would raise.
 </constraints>
 

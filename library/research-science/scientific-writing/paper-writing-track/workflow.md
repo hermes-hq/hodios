@@ -5,7 +5,7 @@ kind: workflow
 title: Paper writing track
 description: Takes a manuscript from target journal and outline through methods and results, introduction and discussion, title and abstract, and a pre-submission check, pausing for approval between steps.
 category: scientific-writing
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, build, review]
 role: [researcher, student]
@@ -46,6 +46,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Reports qualitative results as themes with verbatim quotes in the methods and results step."}
   - {version: 1.0.0, note: "First version."}
 ---
 Writes a research paper the way experienced authors do: venue and message first, then methods and results while the numbers are fixed, then the introduction and discussion that frame them, then the title and abstract, and finally a check of the whole manuscript as an editor and reviewer would read it. Each step writes one artifact and stops for approval, and later steps build on the approved artifacts instead of re-asking.

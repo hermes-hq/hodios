@@ -5,7 +5,7 @@ kind: prompt
 title: Write a results section
 description: Writes a manuscript results section that reports findings in a logical order with exact statistics, effect sizes, confidence intervals and figure references, and no interpretation.
 category: scientific-writing
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [researcher, student]
@@ -39,6 +39,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Handles qualitative results: themes with definitions and verbatim quotes from the input, checked against it."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -65,6 +66,7 @@ Write the results section from this output{{#reporting_guideline}}, following {{
 - Do not round, recompute or change any number except to apply consistent decimal places, and say if you did. Do not invent any statistic that is not in the input; mark gaps as [MISSING: ...].
 - Use the past tense for findings.
 - If the primary outcome is not identified, ask for it, and order results by the hypotheses as given in the meantime.
+- If the results are qualitative (themes or categories), report each theme with its definition, how widely it occurred in the terms the author used, and supporting quotes taken word for word from the input, labelled with the participant codes given; replace the statistical consistency checks with a check that every quote and code appears in the input.
 </constraints>
 
 <output_format>

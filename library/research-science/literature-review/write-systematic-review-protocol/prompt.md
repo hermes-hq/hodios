@@ -5,7 +5,7 @@ kind: prompt
 title: Write a systematic review protocol
 description: Writes a PROSPERO-style systematic review protocol with the question, eligibility criteria, search, screening, extraction, risk of bias and synthesis plan, following PRISMA-P. For review teams.
 category: literature-review
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, design]
 role: [researcher, student]
@@ -38,6 +38,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Adds scoping-review handling: PRISMA-ScR and JBI guidance, data charting instead of risk of bias and certainty rating, and OSF registration."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -67,6 +68,8 @@ Then write the protocol sections:
 11. Synthesis: criteria for meta-analysis, the model and heterogeneity plan, pre-specified subgroups and sensitivity analyses, publication-bias assessment if enough studies, and a structured narrative synthesis (SWiM) if pooling is not appropriate.
 12. Certainty of evidence (GRADE or CERQual) and how findings will be summarised.
 13. Amendments, timeline and roles.
+
+For a scoping review, follow PRISMA-ScR and JBI scoping guidance instead: use PCC, replace steps 10 to 12 with data charting and a descriptive or thematic summary, say that critical appraisal and certainty rating are usually not done (or why this review does them), and register on OSF rather than PROSPERO.
 </task>
 
 <constraints>
