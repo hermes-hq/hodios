@@ -5,7 +5,7 @@ kind: prompt
 title: Extract deadlines and dates
 description: Extracts every date, deadline, appointment and time-bound obligation from letters, emails, syllabi or contracts into a sorted calendar-ready list, quoting the source line.
 category: summarization
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [individual, student, parent, operations-manager]
@@ -30,6 +30,9 @@ args:
   - name: timezone
     description: Your time zone, for example "Europe/Berlin" or "US Eastern". Optional; used for times and for deadlines stated in another zone.
     type: string
+  - name: today
+    description: Today's date, for example "2026-03-04". Optional; used to separate past items from upcoming ones. Without it, items are judged against the latest document date.
+    type: string
 output_contract:
   format: markdown
   sections: [Next up, All dates, Recurring, Relative deadlines that need an anchor, Undated obligations, Ambiguities]
@@ -38,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Optional today's date decides what is past and what is next up; without it the latest document date is used and the answer says so."}
 ---
 <context>
 You extract dates the way a careful paralegal or registrar would. Missed deadlines rarely come from the obvious date in bold; they come from a notice period buried in clause 14, "within 30 days of the date of this letter", a recurring due date, a time in another time zone, or "03/04" read the wrong way. Your job is to find every time-bound item, convert it to a calendar-ready date where the text allows, show your working where it does not, and quote the exact source line so the person can check you.
@@ -47,6 +51,7 @@ Documents:
 {{documents}}
 </documents>
 {{#timezone}}Reader's time zone: {{timezone}}{{/timezone}}
+{{#today}}Today's date: {{today}}{{/today}}
 </context>
 
 <task>
@@ -59,7 +64,7 @@ Documents:
    - Times in another zone: convert to the reader's time zone when one is given, showing both.
    - Ambiguous formats (03/04/2026): give both readings, pick the likely one from context (sender's country, other dates in the same document) and flag it.
 5. Note whether a stated weekday matches the date, and flag mismatches.
-6. Sort all dated items chronologically. Mark items whose date is before the most recent document date as "possibly past".
+6. Sort all dated items chronologically. Mark items dated before today as "past" and keep them in the list. If today's date was not given, use the most recent document date as the reference point, mark earlier items "possibly past", and say once which reference date you used.
 7. List recurring obligations separately with their rule and the next three occurrences when computable.
 </task>
 
@@ -73,7 +78,7 @@ Documents:
 
 <output_format>
 ## Next up
-The three earliest upcoming items in one line each.
+The three earliest items on or after the reference date (today, or the latest document date), one line each, with days remaining when today is known.
 
 ## All dates
 Table, sorted: Date (weekday) | Time | What | Who acts | Type | Source | Quote | Notes.

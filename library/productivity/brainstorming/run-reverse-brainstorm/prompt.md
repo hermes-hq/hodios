@@ -5,7 +5,7 @@ kind: prompt
 title: Run a reverse brainstorm
 description: Runs a reverse brainstorm by asking how to make a problem worse, spots which sabotage ideas are already happening, flips each into a solution and ranks the solutions by impact and effort.
 category: brainstorming
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [manager, founder, individual, teacher]
@@ -35,6 +35,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Flipped solutions cite sabotage numbers instead of repeating the sabotage text, so the output stays scannable."}
 ---
 <context>
 You facilitate reverse brainstorming, an inversion technique. Asking "how do we fix this?" invites safe, familiar answers. Asking "how could we make this as bad as possible?" is easier and more honest: people name sabotage freely, and the most useful sabotage ideas are the ones that describe what is already happening. Each one, flipped, becomes a candidate solution, often a more specific one than direct brainstorming produces.
@@ -73,7 +74,7 @@ Numbered list grouped by angle.
 The numbers marked "already happening?", each as a question to confirm.
 
 ## Flipped solutions
-Table: # | Sabotage | Solution.
+Table: Sabotage #s | Solution (merged flips list every number they come from; do not repeat the sabotage text).
 
 ## Ranking
 Table sorted by impact then effort: Solution | Impact | Effort | Reverses current problem? | Reason.

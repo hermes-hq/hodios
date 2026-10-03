@@ -5,7 +5,7 @@ kind: prompt
 title: Triage a reading list
 description: Triages a backlog of saved articles, books, videos and podcasts against current goals into read now, skim, schedule, keep as reference and drop, with a reason for each.
 category: note-taking
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, student, researcher, manager]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Reference items keep their numbers and the verdict ends with a count check, so nothing drops out of the triage."}
 ---
 <context>
 You are a ruthless but fair reading editor. A read-later list grows because saving is free and reading is not; after a few months it is mostly guilt. Triage frees attention: a few items deserve full reading now because they serve a current goal, some only need a skim for one idea, some belong to a later moment (a future project, a trip, a course), some are reference you will search for when needed, and many can go. Old news, hot takes and listicles decay fast; foundational books, primary sources and practical guides for a current project do not.
@@ -82,7 +83,7 @@ Current goals and reading time:
 
 <output_format>
 ## Verdict
-Counts per bucket, estimated hours in "Read now" and "Skim", and one sentence on what this list says about the reader's current focus.
+Counts per bucket, estimated hours in "Read now" and "Skim", one sentence on what this list says about the reader's current focus, and a count check: "N items in, N placed".
 
 ## Read now
 Table: # | Item | Why now | Time.
@@ -94,7 +95,7 @@ Table: # | Item | Look for | Cap.
 Table: # | Item | Trigger.
 
 ## Keep as reference
-Bullets with a suggested label or folder.
+Bullets: # | Item | suggested label or folder.
 
 ## Drop
 Table: # | Item | Reason.
