@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an R script to answer: {{question}} Data: {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-store-layout
+    vars:
+      question: Do weekly sales differ between stores with and without the new layout, after accounting for store size?
+      data_description: "store_weeks.csv, one row per store per week, 52 weeks x 120 stores. Columns: store_id (chr), week_start (date, YYYY-MM-DD), sales_eur (dbl), new_layout (0/1, constant per store), floor_area_m2 (dbl), region (chr: North, South, East, West). Missing sales coded as empty."
+    assert:
+      - {type: contains, value: "sessionInfo()"}
+      - {type: not-contains, value: "setwd("}
+      - {type: llm-rubric, value: "Reads the CSV with explicit col_types; checks expected columns, uniqueness of store_id plus week_start, and allowed region values; accounts for repeated weeks per store (for example aggregating to store level or using store-clustered errors or a mixed model) rather than treating 6,240 rows as independent; adjusts for floor area; produces a labelled ggplot saved with ggsave; writes results to CSV; does not claim results."}
+  - name: edge-missing-column
+    vars:
+      question: Is customer satisfaction higher for customers who used live chat?
+      data_description: "survey.xlsx with columns: resp_id, csat (1-5), channel_used, age_band. 2,300 rows."
+    assert:
+      - {type: llm-rubric, value: "Uses readxl for the Excel file, notes that channel_used values are unknown and puts the live-chat value as a marked placeholder in the config block, treats csat as ordinal (for example a proportional odds model or a rank-based test, or compares the share satisfied) with the choice explained in a comment, and lists placeholders under Assumptions."}
+  - name: negative-no-question
+    vars:
+      question: ""
+      data_description: "Some sales data in a CSV."
+    assert:
+      - {type: llm-rubric, value: "Asks for the question and the column details (or states that the script cannot be written meaningfully without them), rather than producing a full script with invented columns and an invented analysis."}

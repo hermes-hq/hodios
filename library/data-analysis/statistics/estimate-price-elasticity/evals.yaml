@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What is the price elasticity from this data? {{price_volume_data}} {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-price-test
+    vars:
+      context: "Subscription meal kit. Considering moving the standard box from 50 to 55 for everyone. Variable cost per box 31."
+      price_volume_data: "Randomised price test over 4 weeks on new visitors: control price 50, 20,000 visitors, 1,000 sign-ups; test price 55, 20,000 visitors, 900 sign-ups. Same traffic mix confirmed."
+    assert:
+      - {type: contains, value: "## What it means for pricing"}
+      - {type: llm-rubric, value: "Uses the randomised test as the method, computes the drop in conversion (10%) for a 10% price rise (or the midpoint arc elasticity of about -1.1), gives a confidence interval reflecting about 1,000 versus 900 conversions, computes contribution per visitor (19 x 5.0% = 0.95 versus 24 x 4.5% = 1.08) showing higher gross profit at 55 despite fewer sign-ups, notes that a 4-week test measures sign-ups not long-run retention, and proposes a follow-up."}
+  - name: edge-positive-elasticity
+    vars:
+      context: Premium olive oil sold in supermarkets.
+      price_volume_data: "52 weeks of weekly data: price ranged 8.99 to 11.49, units 600 to 1,400. Regressing log units on log price gives a coefficient of +0.6. Price was raised in November and December when gift demand is high. Promotions with end-cap displays ran in 9 weeks."
+    assert:
+      - {type: llm-rubric, value: "Does not report +0.6 as the elasticity; explains it as confounding by seasonal demand (price raised in high-demand weeks) and promotions with displays, specifies a model with week or season controls and promotion and display flags, and recommends a controlled price test."}
+  - name: negative-two-points-only
+    vars:
+      context: "Should I raise the price to 30?"
+      price_volume_data: "Last year at 20 we sold 1,000 units; this year at 22 we sold 950."
+    assert:
+      - {type: llm-rubric, value: "Computes an arc elasticity only as a fragile indication (about -0.5), explains that other changes between the years are uncontrolled, refuses to extrapolate it to a price of 30 well outside the observed range, and suggests a test."}

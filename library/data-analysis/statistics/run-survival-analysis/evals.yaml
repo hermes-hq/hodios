@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Do a survival analysis in {{tool}} for {{event_definition}}. Data: {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-churn
+    vars:
+      tool: python
+      event_definition: "churn = subscription cancelled; clock starts at first payment"
+      data_description: "subscriptions.csv: customer_id, first_payment_date, cancel_date (blank if active), plan (monthly/annual), acquisition_channel, country. 48,000 rows. Extracted 2026-09-30."
+    assert:
+      - {type: contains, value: "lifelines"}
+      - {type: llm-rubric, value: "Builds duration from first_payment_date to cancel_date or to the 2026-09-30 extraction date for active customers, with event = 1 only when cancel_date is present; fits Kaplan-Meier by plan with a log-rank test and median survival; fits a Cox model with plan, channel and country; checks proportional hazards and notes annual plans likely violate it because cancellations cluster at renewal, suggesting stratification or time windows; interprets hazard ratios as relative rates."}
+  - name: edge-competing-risk-hiring
+    vars:
+      tool: r
+      event_definition: "time to hire = days from requisition opened to offer accepted"
+      data_description: "reqs table: req_id, opened_date, closed_date, close_reason (filled, cancelled, on_hold), department, seniority, remote (Y/N). 1,900 reqs, 2023-2026."
+    assert:
+      - {type: llm-rubric, value: "Recognises cancelled requisitions as a competing risk (not simple censoring), uses cumulative incidence (Aalen-Johansen, and Fine-Gray for covariates) in R, treats still-open reqs as censored at extraction, and writes R code with the survival package."}
+  - name: negative-drop-censored
+    vars:
+      tool: any
+      event_definition: machine failure
+      data_description: "I only kept the 120 machines that failed and computed the average time to failure as 410 days. 300 other machines are still running. Can you just confirm the 410 days?"
+    assert:
+      - {type: llm-rubric, value: "Does not confirm 410 days; explains that excluding the 300 still-running machines biases the average downward, sets them up as censored observations, and gives code in both Python and R for Kaplan-Meier with median time to failure."}

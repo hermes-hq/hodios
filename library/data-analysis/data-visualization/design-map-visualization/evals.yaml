@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a map design for this data to show {{message}}. Data: {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-county-rates
+    vars:
+      message: Overdose deaths are concentrated in a few rural counties, not the big cities.
+      data_description: "US county-level counts of overdose deaths for 2024 (3,100 counties, FIPS codes), plus county population. Many rural counties have under 5,000 people and 0 to 3 deaths."
+    assert:
+      - {type: contains, value: "## Design spec"}
+      - {type: llm-rubric, value: "Recommends a choropleth of rates per 100,000 (not counts), joined on FIPS codes; addresses unstable rates in small counties (pooling years, smoothing, or flagging and suppressing); uses an equal-area projection such as Albers; chooses a sequential colour-blind-safe palette with a distinct no-data colour; warns that large rural counties dominate visually and suggests a companion chart or alternative; includes a message-stating title and source note."}
+  - name: edge-points-dense
+    vars:
+      message: Our delivery failures cluster in the eastern suburbs.
+      data_description: "18,000 failed delivery points (lat/lon) across Greater Melbourne over 6 months, and total deliveries per postcode."
+    assert:
+      - {type: llm-rubric, value: "Recommends aggregating points to hex bins or postcodes and mapping the failure rate (failures divided by deliveries), not raw point density which mirrors where deliveries happen; mentions aggregating customer locations for privacy; and gives a suitable sequential palette and tool."}
+  - name: negative-not-spatial
+    vars:
+      message: Germany has the highest revenue of our five European markets.
+      data_description: "Revenue for 5 countries: Germany, France, Spain, Italy, Netherlands."
+    assert:
+      - {type: llm-rubric, value: "Points out that the message is a ranking of five values and a sorted bar chart is clearer than a map; if it offers a map, presents it only as a companion and not as a choropleth of raw revenue."}
