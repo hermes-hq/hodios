@@ -5,7 +5,7 @@ kind: prompt
 title: Write an advertorial or native ad article
 description: Writes an advertorial or native ad article that informs first, discloses its sponsorship and leads naturally to the offer. Use for sponsored content in publications and newsletters.
 category: copywriting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [copywriter, marketer, content-creator]
@@ -42,6 +42,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "A missing landing page becomes a placeholder, and a missing publication defaults to a general native placement instead of stopping."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -58,7 +59,7 @@ Write an advertorial.
 Audience: {{audience}}
 {{#publication}}Publication: {{publication}}{{/publication}}
 
-1. If the offer lacks the product, the action you want or any proof, ask in one message and stop.
+1. If the offer lacks the product or any proof at all, ask in one message and stop: an advertorial without proof is only an advert. A missing landing page or action becomes a `[landing page]` placeholder. If no publication is given, write for a general native ad placement of about 700 words labelled "Sponsored", and say so.
 2. Angle: the reader question or problem the article answers, why it is useful to this audience on its own, and where the product enters (usually after the reader has learned something). Offer two angles in one line each (for example a how-to, a mistakes list, a story of a named customer with permission, a trend explained) and choose one.
 3. Write five headlines that promise the useful content, not the product, and do not mimic news ("Breaking", "Report reveals") or the publication's editorial bylines.
 4. Write the article, about 600 to 900 words unless the publication says otherwise:

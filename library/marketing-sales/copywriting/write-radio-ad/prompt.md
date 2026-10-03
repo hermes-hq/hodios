@@ -21,7 +21,7 @@ reasoning: optional
 level: intermediate
 tags: [radio-ad, audio-ad, sound-design, broadcast, streaming-audio]
 pairs_with:
-  prompts: [write-video-ad-script, write-podcast-ad-read, plan-podcast-ad-buy, plan-local-advertising]
+  prompts: [write-video-ad-script, write-podcast-ad-read, write-jingle, plan-podcast-ad-buy, plan-local-advertising]
   personas: [copywriter]
 args:
   - name: offer

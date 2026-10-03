@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a holiday sale campaign
 description: Plans a holiday sale campaign such as Black Friday with the offer, an email and SMS calendar, segments, subject lines and stock and operations checks. Use six to eight weeks before a peak sale.
 category: email-marketing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [marketer, founder, operations-manager]
@@ -34,7 +34,7 @@ args:
     description: The planned offer with exact terms, or leave empty to get a recommendation (for example "25% off sitewide except new arrivals", "gift with purchase over 60 EUR").
     type: text
   - name: dates
-    description: The sale window and key dates with time zone (for example "Black Friday week 24 November to Cyber Monday 1 December 2026, last UK shipping for Christmas 19 December").
+    description: The sale window and key dates with time zone (for example "Black Friday 27 November to Cyber Monday 30 November 2026, early access from 25 November, last UK posting for Christmas 18 December, all times UK").
     type: string
     required: true
 output_contract:
@@ -44,6 +44,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "The example sale dates fall on the right days of the week."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>

@@ -5,7 +5,7 @@ kind: prompt
 title: Specify a reusable marketing email template
 description: Specifies a reusable marketing email template system with layout, modules, typography, mobile behaviour, accessibility and dark-mode checks. Use before a designer or developer builds templates.
 category: email-marketing
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [design]
 role: [marketer, designer, frontend-engineer]
@@ -35,11 +35,12 @@ args:
     required: true
 output_contract:
   format: markdown
-  sections: [Principles, Layout grid, Module library, Typography and colour, Mobile and dark mode, Accessibility, QA checklist]
+  sections: [Principles, Layout grid, Module library, Typography and colour, Mobile and dark mode, Accessibility, Recipes, QA checklist]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "A missing platform gives a platform-agnostic spec instead of stopping, and recipes are their own section with the modules each email type must never use."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -57,14 +58,14 @@ Specify a reusable email template system.
 {{email_types}}
 </email_types>
 
-1. If brand colours, fonts or the email platform are missing, ask in one message and stop: they decide what the template can do.
+1. If brand colours or fonts are missing, ask in one message and stop: the type and colour specs depend on them. If the email platform is missing, write the spec platform-agnostic, say so in one line at the top, and name the one thing that would change once the platform is known (saved blocks, drag-and-drop sections or coded templates).
 2. Principles: five or six rules that the whole system follows (for example one primary action per email, live text for every key message, mobile first).
 3. Layout grid: container width, outer and inner padding, column behaviour (single column by default, two columns that stack on mobile only where needed), spacing scale, and the preheader and header area.
 4. Module library: the 10 to 15 modules needed to build every email type listed (header, hero with image, hero text-only, text block, button, product card or grid, two-column feature, quote or review, divider, coupon or offer block, image with caption, social and footer, transactional details table). For each: purpose, content fields and their limits (headline length, image ratio and size), variants, and which email types use it.
 5. Typography and colour: font stack with web-safe fallbacks, sizes for headings, body (at least about 14 to 16 pixels) and small print, line height, button style (height of at least about 44 pixels, padding, bulletproof button built with code rather than an image), the colour palette with roles, and contrast ratios checked against WCAG AA.
 6. Mobile and dark mode: stacking rules, font size changes, image scaling, hiding nothing essential on mobile, and dark-mode handling (transparent PNG logos with a dark-background version or outline, avoiding pure black and white, testing colour inversion in clients that force it, and the meta and media queries the platform supports).
 7. Accessibility: a lang attribute, role="presentation" on layout tables, heading order, alt text rules (descriptive for content images, empty for decorative ones), link text that makes sense alone, no information conveyed by colour alone, and minimal text in images.
-8. A recipe per email type: the modules in order.
+8. Recipes: for each email type listed, the modules in order, and the modules it must never use (for example no coupon or product grid in an order confirmation).
 9. QA checklist for every new email built from the template.
 </task>
 
@@ -94,6 +95,9 @@ Bullets.
 ## Accessibility
 A checklist.
 
+## Recipes
+A table: Email type | Modules in order | Never use.
+
 ## QA checklist
-A checklist for each new email, including a test send to several clients, images-off view, dark mode, links, tracking parameters, plain-text version and spam-word scan. Then a table: Email type | Module recipe.
+A checklist for each new email, including a test send to several clients, images-off view, dark mode, links, tracking parameters, plain-text version and spam-word scan.
 </output_format>

@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [packaging, claim-hierarchy, label-copy, retail-shelf, on-pack]
 pairs_with:
-  prompts: [write-product-description, write-taglines, write-marketplace-listing]
+  prompts: [write-product-description, write-taglines, write-marketplace-listing, design-packaging]
   personas: [copywriter]
   rules: [marketing-claims-rules]
 args:

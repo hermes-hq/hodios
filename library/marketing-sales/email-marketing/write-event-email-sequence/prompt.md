@@ -5,7 +5,7 @@ kind: prompt
 title: Write an event email sequence
 description: Writes an event email sequence with the announcement, reminders, last chance, day-of logistics and a follow-up with recordings, with send timing. Use for webinars, conferences and workshops.
 category: email-marketing
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [marketer, founder, content-creator]
@@ -39,6 +39,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Only a missing date, start time or format stops the sequence; a missing link becomes a placeholder and in-person events use the venue's local time."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -54,7 +55,7 @@ Write an event email sequence.
 
 Audience: {{audience}}
 
-1. If the date, time with time zone, format or registration link is missing, ask in one message and stop.
+1. If the date, the start time or the format (online or in person) is missing, ask in one message and stop. For an in-person event without a time zone, use the venue's local time and say so. A missing registration or joining link becomes a `[registration link]` placeholder.
 2. Sequence map: two tracks with timing relative to the event.
    - Invitation track (not registered): announcement, a value or speaker email, last chance. Stop sending to anyone who registers.
    - Registrant track: confirmation with calendar invite, a reminder about a week before for events more than a week away, a day-before reminder, a one-hour or day-of logistics email, and a "we're live" or doors-open email for online events.

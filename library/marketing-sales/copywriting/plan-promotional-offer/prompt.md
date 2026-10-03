@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a promotional offer
 description: Designs a promotional offer or discount structure that drives the goal without destroying margin, with alternatives to discounts and the exact wording. Use before a sale, launch or slow season.
 category: copywriting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [marketer, founder, operations-manager]
@@ -43,6 +43,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Margin math gives the break-even volume formula for a straight discount and how to cost threshold and gift offers."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -67,7 +68,7 @@ Design a promotional offer.
 1. If the goal has no measurable outcome, or the typical order value is missing, ask for it in one message and stop. If margins are missing, continue but label every margin figure as an assumption.
 2. Name the goal type (acquire new customers, raise order value, clear stock, reactivate lapsed customers, fill quiet periods, launch a product) and the customers the offer should reach and should not reach.
 3. Compare four to six offer options that fit the goal, including at least two that are not straight discounts (for example: spend threshold with free shipping or a gift, bundle price, gift with purchase, buy-more-save-more tiers, first-order offer, free trial or sample, loyalty points multiplier, early access, a limited edition, a donation per order). For each: how it drives the goal, the risk (margin, cannibalisation, pull-forward, brand), and effort to run.
-4. Margin math for the top two options: the cost per redeemed order, the margin left per order, and the break-even uplift in orders or order value needed for the promotion to pay off, showing the formula and inputs.
+4. Margin math for the top two options: the cost per redeemed order, the margin left per order, and the break-even uplift in orders or order value needed for the promotion to pay off, showing the formula and inputs. For a straight discount d on a gross margin m (both as fractions of price), sales volume must rise by d ÷ (m − d) to keep the same gross profit: a 20% discount on a 50% margin needs 67% more units. For a threshold or gift offer, cost it per qualifying order (the gift or shipping cost plus the extra items needed to reach the threshold) and include orders that would have crossed the threshold anyway.
 5. Recommend one offer with the reason. Write its terms: who qualifies, what they get, minimum spend, exclusions, how to redeem, start and end date and time with time zone, one use per customer or not, and whether it stacks with other offers.
 6. Write the offer wording: a headline, a one-line explanation, the button text, and the terms in plain words as they should appear on site and in email.
 7. Measure and stop rules: the success metric against the goal, a control or comparison period to estimate the real uplift, what you will watch daily (margin per order, redemption rate, returns), and the condition that ends or changes the promotion early.

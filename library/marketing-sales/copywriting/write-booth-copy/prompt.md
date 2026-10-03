@@ -5,7 +5,7 @@ kind: prompt
 title: Write trade show booth copy
 description: Writes trade show booth copy with a headline readable from a distance, three proof points, a conversation opener and a lead capture offer. Use for stands, banners and pop-ups at expos and conferences.
 category: copywriting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [marketer, copywriter, sales-rep, founder]
@@ -21,7 +21,7 @@ reasoning: optional
 level: beginner
 tags: [trade-show, booth-graphics, lead-capture, conversation-opener]
 pairs_with:
-  prompts: [plan-event-marketing, write-event-promo-copy, write-cold-call-script, qualify-leads]
+  prompts: [plan-event-marketing, plan-booth-design, write-event-promo-copy, write-cold-call-script, qualify-leads]
   personas: [copywriter]
 args:
   - name: offer
@@ -42,6 +42,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "A missing audience is inferred from the event and stated instead of stopping the brief."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -58,7 +59,7 @@ Write trade show booth copy.
 Event and booth: {{event}}
 {{#audience}}Audience: {{audience}}{{/audience}}
 
-1. If what you sell, who it is for or the action you want is missing, ask in one message and stop.
+1. If what you sell or the action you want visitors to take is missing, ask in one message and stop. If no audience is given, infer the likely visitors from the event and the offer, and say so in one line.
 2. Stopping message: the problem and the audience in one line. Write five headline options of at most about six words, readable from about ten metres, each naming the problem, the outcome or the audience. Recommend one.
 3. Graphics copy for the booth format given:
    - Back wall or main banner: the headline, a subline of at most about ten words, the logo placement.
