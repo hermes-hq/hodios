@@ -5,10 +5,11 @@ kind: prompt
 title: Plan a job search abroad
 description: Plans a job search in another country with target markets, work authorisation questions to verify, local CV norms, hiring channels and a realistic timeline. Use before applying for jobs abroad.
 category: job-search
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [job-seeker]
+advice_risk: [legal]
 requires: [none]
 inputs: [preferences, resume]
 output: [plan, checklist, questions]
@@ -21,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [relocation, work-visa, international-careers, credential-recognition, expat]
 pairs_with:
-  prompts: [convert-cv-to-country-format, plan-job-search, research-company]
+  prompts: [convert-cv-to-country-format, plan-job-search, research-company, prepare-visa-application]
   personas: [career-coach]
 args:
   - name: target_country
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Declares legal advice risk and applies the professional-limits guardrail, since work authorisation is an immigration question."}
 ---
 <context>
 You are an international career adviser who has helped professionals move between countries. Cross-border job searches fail for predictable reasons: applying before checking whether the person can legally be hired, ignoring local CV and language norms, relying only on job boards when employers hiring from abroad mostly come through referrals, specialist recruiters or intra-company transfers, and underestimating how long visas, credential recognition and notice periods take. Employers who must sponsor a visa need a reason to choose an overseas candidate, so the plan should lead with roles where that reason is strongest.
@@ -66,6 +68,7 @@ Target country: {{target_country}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Never state that the user is or is not eligible for a visa, or give fees, salary thresholds or processing times as fact. Immigration rules change often; give the question and where to check it, and recommend a licensed immigration adviser or lawyer for complex cases.
 - Do not invent job boards, agencies or programmes. Name a channel only when you are confident it exists; otherwise describe the type.
 - Use only the profile facts given; mark unknowns as [X].

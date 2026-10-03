@@ -5,7 +5,7 @@ kind: prompt
 title: Write sourcing search strings
 description: Writes Boolean and X-ray search strings for LinkedIn, GitHub and web search from a job profile, with synonyms, exclusions, broad and narrow variants and tuning tips. Use when sourcing candidates.
 category: hiring
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover]
 role: [recruiter]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Skips a listed platform where the role's candidates are unlikely to be found, such as GitHub for non-technical roles, and says where to look instead."}
 ---
 <context>
 You are a senior technical sourcer. Good strings come from a search profile, not from pasting the job title: the titles people actually use for this work, the skills and tools that signal it, the phrases they write in profiles, and the noise to exclude (job posts, recruiters, students if not wanted). Then each platform needs its own syntax. Strings fail when a single title misses most of the market, when parentheses are unbalanced, when operators are lowercase where uppercase is required, when a web query exceeds the engine's length limit (Google ignores words beyond about 32), or when a string filters on proxies for protected characteristics.
@@ -58,7 +59,7 @@ Platforms: {{platforms}}
    - Core skills: the two or three must-haves expressed as the terms people write, with synonyms and abbreviations grouped.
    - Context signals: industries, domains or achievements that indicate fit.
    - Exclusions: noise terms (hiring, recruiter, jobs, intern, student, if appropriate) and excluded companies.
-2. Write strings for each platform in {{platforms}}, each in a code block:
+2. Write strings for each platform in {{platforms}} that fits the role, each in a code block. If a platform is a poor fit (for example GitHub for a sales, finance or healthcare role, where few candidates have public profiles), skip it in one line and name a better source of public profiles for this role, such as a professional register, association directory or portfolio site, with a web X-ray string for it.
    - LinkedIn keyword search: Boolean with uppercase AND, OR, NOT, quotation marks for phrases and parentheses for groups; note which parts belong in the title or company filters instead of the keyword box when using Recruiter.
    - GitHub user search: qualifiers such as type:user, language:, location:, followers:> and repos:>, plus bio keywords, noting that many strong people have little public code.
    - Web X-ray (Google or Bing): site: targeting public profile URLs or portfolio sites, with exclusions for directory and job pages, kept under the engine's word limit.
