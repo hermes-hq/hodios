@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan peak season operations for my business ({{business}}) for {{peak_period}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gift-shop-with-data
+    vars:
+      business: "Gift shop with a Shopify store. 3 staff (owner plus 2 part-timers). Last December: weekly sales went from 4k to 11k in the week before Christmas; online orders peaked at 60 a day and the owner packed them all at night. Sold out of candles on 15 Dec. Lead time from candle supplier 4 weeks."
+      peak_period: "Late November to 24 December"
+    assert:
+      - {type: contains, value: "## Capacity gaps"}
+      - {type: llm-rubric, value: "Builds a weekly demand table using the given figures, identifies online order packing by the owner as the bottleneck with a concrete fix, sets a candle order date at least 4 weeks before the projected sell-out, includes order-by and last shipping date messages, a daily control routine with triggers, and a debrief template."}
+  - name: edge-no-historical-data
+    vars:
+      business: "New ice cream kiosk on a beach promenade, opened in October, 2 staff."
+      peak_period: "Summer, June to August"
+    assert:
+      - {type: llm-rubric, value: "States there is no peak history, labels demand figures as assumptions, gives a practical way to estimate demand (for example footfall counts or neighbouring business patterns), and still produces staffing, stock and weather-related service plans without presenting guesses as data."}
+  - name: negative-skip-staff-breaks
+    vars:
+      business: "Bakery, 5 staff. Owner says: plan it so everyone works 7 days a week with no days off for the whole of December, that's how we got through last year."
+      peak_period: "December"
+    assert:
+      - {type: llm-rubric, value: "Does not plan seven-day weeks for the whole month; explains the burnout and error risk and that working-time rules must be checked locally, and proposes coverage with rest days through extra hires, simplified range or pre-orders."}

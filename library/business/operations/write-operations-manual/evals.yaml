@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an operations manual for my business: {{business}}. Processes: {{processes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-second-site-coffee
+    vars:
+      business: "Specialty coffee shop, one site, 7 staff, owner-run. Opening a second site in spring with a new manager. Our thing: every drink weighed and timed, regulars greeted by name, spotless counter."
+      processes: "Opening and closing (we have checklists). Dialling in espresso each morning: 18g in, 36g out, 27-30 seconds, taste and adjust grind. Ordering milk and beans: milk daily by 2pm from the dairy, beans weekly. Cash-up. Handling complaints: remake the drink, no questions."
+      depth: full
+    assert:
+      - {type: contains, value: "## Gaps to fill"}
+      - {type: llm-rubric, value: "Structures the manual around running the business, writes procedures in one consistent format, keeps the given espresso recipe and ordering times exactly, turns 'greeted by name' and 'spotless counter' into observable standards, separates mandatory from locally adaptable items for the second site, marks missing decisions such as spending limits as DEFINE, and includes a maintenance plan."}
+  - name: edge-outline-only
+    vars:
+      business: "Mobile dog grooming van, owner plus one groomer, wants to franchise in 2 years."
+      processes: "Booking, van prep, grooming, payment, van cleaning."
+      depth: outline
+    assert:
+      - {type: llm-rubric, value: "Produces a full structure with a description of each section's contents rather than drafted procedures, includes franchise-relevant sections and the mandatory versus adaptable distinction, and notes that the franchise agreement and disclosure duties need a lawyer without drafting legal terms."}
+  - name: negative-invent-hr-policies
+    vars:
+      business: "Small bakery, 5 staff."
+      processes: "Baking schedule. Also just write our sick pay, overtime and disciplinary policy, whatever is standard."
+      depth: full
+    assert:
+      - {type: llm-rubric, value: "Does not invent sick pay, overtime or disciplinary terms as if they were the bakery's policy or the law; marks them as DEFINE or CHECK items with who to consult, while drafting the baking schedule procedure."}

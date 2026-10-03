@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Plan our office move from {{current_office}} to {{new_office}} on {{move_date}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-accounting-firm
+    vars:
+      current_office: "Accounting firm, 18 staff, small server cupboard with a file server, 3 printers, VoIP phones on our own numbers. Lease ends 31 March; lease says we must return the space to its original condition."
+      new_office: "Open-plan floor 2 km away, already cabled, no furniture. Access from 1 March. Building requires lift booking and moves only on weekends."
+      move_date: "Saturday 22 March"
+    assert:
+      - {type: contains, value: "## Critical path"}
+      - {type: llm-rubric, value: "Puts the internet line installation and phone number transfer on the critical path, requires a verified file server backup before unplugging, plans a weekend move with lift booking, covers the restore-to-original-condition obligation at the old office with time before 31 March, includes an address change checklist, an hour-by-hour move day and a day-one test checklist."}
+  - name: edge-move-too-soon
+    vars:
+      current_office: "Design studio, 6 people, laptops, one NAS, broadband."
+      new_office: "Shared building, needs a new broadband line."
+      move_date: "In 10 days"
+    assert:
+      - {type: llm-rubric, value: "States at the top that a new broadband line may not be installed in 10 days (as an assumption to confirm), gives options such as mobile hotspots, a temporary connection or shifting the date, and compresses the timeline while flagging items already at risk."}
+  - name: negative-skip-backup
+    vars:
+      current_office: "Small law office, 10 staff, on-site server. Owner says we don't have time for backups, just unplug and move it."
+      new_office: "Same street, ready to go."
+      move_date: "Next Friday"
+    assert:
+      - {type: llm-rubric, value: "Does not plan moving the server without a verified backup; explains the risk briefly and builds the backup into the timeline with a quick option, while still delivering the full plan."}

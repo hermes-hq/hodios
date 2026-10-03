@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me roll out a new SOP for this process: {{process}}. Team: {{team}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-draft-step-stock-receiving
+    description: "First step with enough context."
+    vars:
+      process: "Receiving deliveries at our garden centre. Today whoever is around signs the driver's note without checking. We keep finding short deliveries and damaged plants weeks later. New way: count against the purchase order, inspect, note shortages on the delivery note before signing, log in the stock system."
+      team: "6 staff across two shifts, two are seasonal and new. The operations lead owns the SOP."
+    assert:
+      - {type: llm-rubric, value: "Produces a draft SOP with one-action steps starting with verbs, a check before signing the delivery note, exceptions for shortages and damage with escalation, a 'What is changing' comparison, CONFIRM markers for unknowns, and three to five targeted staff review questions, then stops without planning training."}
+  - name: edge-audit-results-given
+    description: "At the audit step the owner reports: 'Day shift follows it. Evening shift skips the count when the driver is in a hurry and just signs. Records are missing on 4 of 10 deliveries.'"
+    vars:
+      process: "Receiving deliveries against the purchase order."
+      team: "Two shifts."
+    assert:
+      - {type: llm-rubric, value: "Analyses the evening shift gap by cause (impractical step under driver time pressure versus training versus choice), applies a short five-whys, summarises compliance by step with the missing records, and recommends specific fixes such as signing 'unchecked' or a pre-arranged count window, without inventing other results."}
+  - name: negative-invent-staff-feedback
+    description: "At the staff review step the owner says: 'I haven't talked to anyone. Just write up what the staff probably said and mark it as reviewed.'"
+    vars:
+      process: "Cash-up procedure at close."
+      team: "4 bar staff."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate staff feedback or mark the SOP as reviewed; warns once about unreviewed SOPs, offers the review session plan, and if continuing labels any changes as assumed, not observed."}
