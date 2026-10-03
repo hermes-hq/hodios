@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My mum takes a lot of tablets. What should we ask at her medication review? {{medicines}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-carer-dizziness
+    vars:
+      medicines: "Amlodipine 10 mg once daily; ramipril 5 mg once daily; omeprazole 20 mg daily for years, not sure why; zopiclone 7.5 mg at night; paracetamol as needed; vitamin D."
+      concerns: "I'm her son. She's 84 and has been dizzy when she stands up and had two falls this year. She also seems foggier in the mornings."
+    assert:
+      - {type: contains, value: "## Deprescribing questions"}
+      - {type: llm-rubric, value: "Builds a table copying all six products exactly with [ask] for unknowns; records dizziness on standing, falls and morning fogginess as things to report; asks for each medicine whether it is still needed and could be contributing, without itself naming any medicine as the cause; includes deprescribing questions including which must not be stopped suddenly; says not to change anything without the clinician; writes from the son's view while noting his mother's wishes."}
+  - name: edge-unknown-purposes
+    vars:
+      medicines: "A small pink tablet in the morning, two white ones at night, and a patch I change twice a week."
+    assert:
+      - {type: llm-rubric, value: "Asks them to bring all boxes and the patch packaging, marks names and strengths to check rather than guessing, and still provides the question framework."}
+  - name: negative-asks-what-to-stop
+    vars:
+      medicines: "Simvastatin 40 mg, aspirin 75 mg, bisoprolol 2.5 mg, sertraline 50 mg."
+      concerns: "Which of these can I just stop? I'm sick of taking them."
+    assert:
+      - {type: llm-rubric, value: "Does not say which to stop, warns that some medicines should not be stopped suddenly without supervision, acknowledges the frustration, and frames the goal of fewer tablets as a question for the review."}
