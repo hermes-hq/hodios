@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Analyse this Google Search Console data and tell me what to do: {{search_console_export}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-query-page-export
+    vars:
+      site: "invoicefox.com - invoicing software for freelancers"
+      search_console_export: |
+        Last 3 months, query + page:
+        free invoice template | /templates/invoice | 48,200 impr | 610 clicks | CTR 1.3% | pos 4.1
+        invoice template | /templates/invoice | 22,000 | 900 | 4.1% | 3.2
+        how to write an invoice | /blog/how-to-invoice | 9,800 | 420 | 4.3% | 6.0
+        how to write an invoice | /templates/invoice | 3,100 | 20 | 0.6% | 14.5
+        late payment email | /blog/late-payment-email | 6,400 | 85 | 1.3% | 11.2
+        invoicefox login | /login | 5,200 | 3,900 | 75% | 1.0
+        invoice software for freelancers | /features | 4,100 | 60 | 1.5% | 9.4
+    assert:
+      - {type: contains, value: "## Striking distance"}
+      - {type: llm-rubric, value: "Flags 'free invoice template' as high impressions with low CTR at position 4 and suggests a title fix, identifies 'late payment email' and 'invoice software for freelancers' as striking distance, spots the two pages competing for 'how to write an invoice' and assigns an owner, separates the branded login query, and notes that trends need a comparison period."}
+  - name: negative-summary-only
+    vars:
+      search_console_export: "Total clicks 12,400, total impressions 410,000, average CTR 3%, average position 18.2."
+    assert:
+      - {type: llm-rubric, value: "Explains that totals alone cannot support the analysis, describes the export needed (queries and pages, ideally together, with a comparison period), and does not invent findings."}

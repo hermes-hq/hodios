@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My organic traffic dropped. Here's the data: {{traffic_data}}. Recent changes: {{recent_changes}}. Why?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-release-noindex
+    vars:
+      traffic_data: "Search Console clicks fell from about 9,000 to 3,500 per week starting the week of 14 September. Impressions fell by a similar share. The drop is concentrated in /blog/ pages; product pages are flat. Mobile and desktop both down."
+      recent_changes: "Moved the blog to a new CMS theme on 11 September. Also updated the cookie banner in August."
+    assert:
+      - {type: contains, value: "## Hypotheses"}
+      - {type: llm-rubric, value: "Notes that impressions fell alongside clicks and that the drop is limited to /blog/ right after the theme change, ranks a technical cause from the theme migration (noindex, canonicals, robots, rendering, internal links) highest, deprioritises the August cookie banner since Search Console also dropped, lists concrete checks such as URL inspection and the indexing report, and advises against mass changes before confirming."}
+  - name: edge-clicks-down-impressions-flat
+    vars:
+      traffic_data: "Clicks down 30% over two months, gradual. Impressions flat. Average position unchanged. Mostly informational 'how to' queries."
+    assert:
+      - {type: llm-rubric, value: "Recognises that flat impressions and position with falling clicks points to result page changes or snippet CTR, considers AI answers or new SERP features taking clicks on informational queries, and suggests checking the live results and titles rather than technical fixes."}
+  - name: negative-normal-variation
+    vars:
+      traffic_data: "Organic sessions this week 4,820, last week 5,060. Previous 8 weeks ranged 4,700 to 5,300."
+    assert:
+      - {type: llm-rubric, value: "Says the change is within normal weekly variation, does not invent a cause, and suggests monitoring with a threshold for when to investigate."}
