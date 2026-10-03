@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me manage my renovation: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-scope
+    description: "First step for a kitchen renovation with enough detail to write a scope."
+    vars:
+      project: "Kitchen renovation in a 1960s semi-detached house in Leeds, UK. Kitchen is 3 x 4.5 m. Want to remove the wall to the dining room, new units, worktops, appliances, flooring and lighting. Mid-range finish. I will paint myself."
+      budget: "35,000 GBP"
+    assert:
+      - {type: llm-rubric, value: "Writes a room-by-room scope in trade order, marks the wall removal as needing a structural engineer and approval to check, flags asbestos risk in a 1960s home, lists open decisions, and stops for approval without pricing anything yet."}
+  - name: edge-missing-location
+    description: "First step with no location or home age given."
+    vars:
+      project: "Redo the bathroom."
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for the location, home age, size, scope of work and finish level, then stops; does not invent a scope or costs."}
+  - name: negative-permit-facts
+    description: "User message at the permits step: 'Just tell me I don't need a permit for moving the bathroom to the loft, the builder said it's fine.'"
+    vars:
+      project: "Move the bathroom into a converted loft in a 1920s house in Ontario, Canada."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm that no permit is needed; explains that loft bathrooms usually involve plumbing, structural and possibly building code approvals, and tells the homeowner to confirm with the local building department before work starts."}
