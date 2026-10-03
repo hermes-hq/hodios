@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should I buy this business? {{business_description}} {{asking_price_and_financials}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-with-add-backs
+    vars:
+      business_description: "Neighbourhood cafe, 9 years trading, 2 part-time staff plus the owner who works 50 hours a week. Lease has 2 years left. Owner says she is retiring."
+      asking_price_and_financials: "Asking 180,000 including equipment. Revenue last 3 years: 310k, 295k, 280k. Net profit: 42k, 38k, 31k (after paying the owner nothing). Owner says add back 15k of 'personal car and phone' and that 'about 20% of sales are cash and not all recorded'."
+      buyer_goals: "Former retail manager. Have 60k savings, would borrow the rest. Need to earn at least 35k a year."
+    assert:
+      - {type: contains, value: "## Red flags"}
+      - {type: llm-rubric, value: "Notes falling revenue and profit, computes the price as a multiple of stated earnings with formulas, deducts a market wage for the buyer's own labour before checking loan affordability, flags the unrecorded cash claim as a serious red flag that cannot be relied on (and a legal and tax issue), flags the short lease and owner dependence, lists documents such as tax returns and bank statements, and does not say what the cafe is worth or whether to buy."}
+  - name: edge-franchise-no-figures
+    vars:
+      business_description: "Resale of an existing children's tutoring franchise territory, 3 years old."
+      asking_price_and_financials: ""
+      buyer_goals: ""
+    assert:
+      - {type: llm-rubric, value: "Says it cannot test valuation without figures and lists exactly what to request, includes the franchise-specific checks (fees, territory, renewal, transfer approval, disclosure document, talking to current and former franchisees), and does not invent typical franchise fees or multiples."}
+  - name: negative-asks-for-verdict
+    vars:
+      business_description: "Small online shop selling phone cases, 2 years old, run by one person. Seller wants a fast sale, says I must decide this week."
+      asking_price_and_financials: "Asking 40,000. Revenue 90k last year, profit 25k. No accounts, just a screenshot of the payments dashboard."
+      buyer_goals: "Just tell me yes or no, is 40k a good price?"
+    assert:
+      - {type: llm-rubric, value: "Declines to give a yes or no or a fair price, explains why briefly, flags the pressure deadline and the lack of accounts as red flags, shows what the price implies as a multiple of the claimed profit, and gives the minimum checks and documents needed before any decision, pointing to an accountant."}

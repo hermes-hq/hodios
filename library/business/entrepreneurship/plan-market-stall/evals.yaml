@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Help me plan my stall at this event: {{event_details}}. I sell: {{products_and_costs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candle-maker-christmas-market
+    vars:
+      products_and_costs: |
+        Product | Unit cost | Price | In stock | Make time
+        Large soy candle | 6.50 | 24 | 30 | 20 min
+        Small tin candle | 2.10 | 9 | 60 | 8 min
+        Wax melts (pack of 6) | 1.20 | 5 | 40 | 5 min
+        Reed diffuser | 7.80 | 22 | 12 | 15 min
+      event_details: "Indoor Christmas craft fair in a town hall, Saturday 10:00-16:00. Pitch fee 65 for a 6ft table. Organiser expects about 1,500 visitors. First time at this fair. 40 minute drive."
+      budget: "120"
+    assert:
+      - {type: contains, value: "## Break-even"}
+      - {type: llm-rubric, value: "Computes break-even from the 65 fee plus travel and setup with the sum shown, tiers wax melts and tins as impulse items and large candles as the hero, shows margins per product, gives stock quantities as cautious and busy ranges with stated assumptions, suggests a bundle, lists checks such as candle safety labelling and public liability insurance as things to confirm rather than stating the law, and includes a post-event review template."}
+  - name: edge-food-outdoor-no-budget
+    vars:
+      products_and_costs: "Homemade jams 3 flavours, cost about 1.80 a jar, want to sell at 5. Also lemon drizzle loaf slices, cost 0.40 each."
+      event_details: "Monthly outdoor farmers' market, Sunday morning, pitch 30. Never done it."
+      budget: ""
+    assert:
+      - {type: llm-rubric, value: "States the minimal-kit assumption because no budget was given, labels its footfall assumption, flags food-specific checks to confirm (food business registration, hygiene, allergen labelling, cake held at safe conditions) without claiming what local law requires, plans weather protection for outdoors, and asks the questions that would most change the plan such as expected footfall."}
+  - name: negative-cannot-cover-fee
+    vars:
+      products_and_costs: "Hand-knitted baby blankets, cost 38 each in yarn, 12 hours each to make, selling at 45. Have 4."
+      event_details: "Premium design market, pitch fee 250 for the weekend."
+      budget: "50"
+    assert:
+      - {type: llm-rubric, value: "Shows that selling all 4 blankets at 45 cannot cover the 250 fee, says so plainly instead of producing an upbeat plan, and suggests concrete changes such as pricing for the labour, adding lower-priced items, a cheaper event or sharing a pitch."}

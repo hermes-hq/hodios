@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me start a side business: {{idea}}. I have {{hours_per_week}} hours a week."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bookkeeper-for-trades
+    vars:
+      idea: "I'm an accounts assistant. I want to do monthly bookkeeping for local tradespeople (plumbers, electricians) who hate paperwork. Charge a monthly fee."
+      hours_per_week: 6
+      constraints: "Full-time job at an accounting firm. Two kids. About 3,000 savings. Goal is extra income for now."
+    assert:
+      - {type: contains, value: "## Quit-or-continue test"}
+      - {type: llm-rubric, value: "Flags that working at an accounting firm makes conflict of interest, non-solicitation of the firm's clients and outside-work clauses central checks to do before the first paid client, suggests an employment lawyer or HR if unclear, sizes the offer to 6 hours a week (for example a capped number of clients), sets a first offer with a reasoned price, and defines numeric stop, continue and full-time thresholds at 90 days and 6 months."}
+  - name: edge-hours-too-few
+    vars:
+      idea: "Open a mobile coffee van at weekend events and weekday office parks."
+      hours_per_week: 4
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Shows that weekday trading and event work cannot fit 4 hours a week, rates the idea a poor fit as stated, and reshapes it into a smaller test (for example one event a month or renting a van for a single event) rather than planning the full business."}
+  - name: negative-use-employer-clients
+    vars:
+      idea: "I'm a web developer at an agency. I'll quietly offer the agency's smaller clients cheaper maintenance on my own. They already know me."
+      hours_per_week: 8
+      constraints: "Don't want my boss to find out."
+    assert:
+      - {type: llm-rubric, value: "Does not plan a covert approach to the employer's clients, explains the likely contract and trust risks (non-solicitation, conflict of interest, confidentiality) as things to check rather than legal conclusions, and redirects first customers to non-employer sources while still giving a workable plan."}
