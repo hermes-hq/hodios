@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make me a plan to learn {{app}}. I currently know: {{current_skills}}. My goal: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analyst-test
+    vars:
+      app: excel
+      current_skills: "I can do SUM, AVERAGE, sort and filter. I've never used a pivot table and VLOOKUP confuses me. About 5 hours a week."
+      goal: Pass the Excel assessment for junior financial analyst roles in 6 weeks.
+    assert:
+      - {type: contains, value: "## Practice dataset"}
+      - {type: llm-rubric, value: "Gives a 6-week plan sized to about 5 hours a week covering references, SUMIFS-style functions, lookups (XLOOKUP and still VLOOKUP since tests use it), pivot tables and charts; provides a self-generated practice dataset with generator formulas and a paste-as-values step; each task has a verifiable done-when check; does not invent a named certification syllabus or URLs."}
+  - name: edge-unclear-level-sheets
+    vars:
+      app: google-sheets
+      current_skills: "I use spreadsheets a bit at work."
+      goal: Build our team's weekly support ticket report myself instead of asking the data team.
+    assert:
+      - {type: llm-rubric, value: "Provides short diagnostic tasks with expected answers to place the learner because the level is unclear, assumes and states a weekly time budget, and steers the plan toward Google Sheets features relevant to a weekly report (QUERY or FILTER, pivot tables, charts, IMPORTRANGE or data import)."}
+  - name: negative-no-practice-only-reading
+    vars:
+      app: excel
+      current_skills: "Comfortable with lookups and pivots. Just want a list of videos to watch."
+      goal: Learn Power Query to automate my monthly report.
+    assert:
+      - {type: llm-rubric, value: "Does not produce a list of invented video titles or URLs; builds a hands-on plan focused on Power Query with practice tasks and checks, and skips the basics the learner already knows."}

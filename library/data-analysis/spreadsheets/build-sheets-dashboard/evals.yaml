@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me build a dashboard in {{app}}. My data: {{data_description}}. It should answer: {{questions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-excel
+    vars:
+      app: excel
+      data_description: "Weekly CSV export from our WMS, about 12,000 rows per quarter. Columns: Order ID (text), Order Date (date), Ship Date (date, blank if not shipped), Promised Date (date), Warehouse (text: Leeds, Bristol, Glasgow), Channel (text: web, wholesale), Units (number), Value GBP (number)."
+      questions: "Every Monday the ops lead wants: on-time shipment rate this week vs last week, late orders by warehouse, open (unshipped) orders older than 3 days, and a 12-week trend of on-time rate. Filter by channel."
+    assert:
+      - {type: contains, value: "## Formulas"}
+      - {type: llm-rubric, value: "Uses a Data tab formatted as an Excel Table (or Get Data import) with structured references, defines on-time rate as a ratio of counts using Ship Date versus Promised Date, keeps the 3-day threshold and week boundaries in labelled input cells rather than inside formulas, connects a channel control (slicer or dropdown) to all KPIs, gives Tab!Cell locations for formulas, and includes refresh steps plus at least one reconciliation check."}
+  - name: edge-sheets-missing-target
+    vars:
+      app: google-sheets
+      data_description: "Google Form responses sheet: Timestamp, Store, Rating (1-5), Would recommend (Yes/No), Comment. About 300 new rows a month."
+      questions: "Show the area manager how each store is doing against its target satisfaction score, month by month."
+    assert:
+      - {type: llm-rubric, value: "Notices that there is no target column and either proposes a Lists tab with a labelled target per store as an input or asks for the targets, rather than inventing target values; uses Google Sheets features (open-ended ranges or a separate Data tab fed by the form sheet, Data validation dropdowns or slicers, QUERY or FILTER) with Google Sheets menu names."}
+  - name: negative-no-columns
+    vars:
+      app: excel
+      data_description: "Our sales data."
+      questions: "A dashboard for the leadership team."
+    assert:
+      - {type: llm-rubric, value: "Asks for the column headers with a sample row and for the specific questions or decisions the dashboard serves, and does not build a full dashboard around invented column names or invented KPIs."}

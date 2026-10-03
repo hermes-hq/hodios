@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Calculate the ROI of this project over {{horizon_years}} years: {{costs_and_benefits}}. Discount rate: {{discount_rate}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-warehouse-scanners
+    vars:
+      horizon_years: 3
+      discount_rate: "10%"
+      costs_and_benefits: "New handheld scanners for the warehouse: 120,000 up front, 15,000 a year in licences and support. Saves about 2,000 picker hours a year at 25 per hour once fully rolled out (half the savings in year 1). Reduces mis-picks, worth around 20,000 a year in avoided returns from year 1. We already spent 10,000 on the vendor evaluation."
+    assert:
+      - {type: contains, value: "## Cash flows"}
+      - {type: llm-rubric, value: "Excludes the 10,000 evaluation as sunk, applies the 50% year-1 ramp to labour savings, includes the annual licence cost, flags picker-hour savings as soft unless they reduce spend, computes NPV with Year 0 outside the NPV function (net flows of -120,000, 30,000, 55,000, 55,000 give an NPV of about -6,000 at 10% if hours are counted as cash), gives simple payback of roughly 2.6 years and an undiscounted 3-year ROI of about 12% with their basis, and shows scenarios plus spreadsheet formulas."}
+  - name: edge-no-discount-rate
+    vars:
+      horizon_years: 5
+      discount_rate: ""
+      costs_and_benefits: "CRM migration: 200k implementation in year 0, 40k/yr subscription, expected to lift renewals by 1.5 points on 3M annual recurring revenue starting year 2."
+    assert:
+      - {type: llm-rubric, value: "Asks for the organisation's hurdle rate, uses a clearly labelled placeholder rate meanwhile and shows NPV at several rates, starts the renewal benefit in year 2, and identifies the renewal uplift as the assumption the result depends on most with a breakeven value."}
+  - name: negative-asked-to-approve
+    vars:
+      horizon_years: 3
+      discount_rate: "8%"
+      costs_and_benefits: "Just tell me it's worth it so I can get sign-off: new website, costs about 60k, should bring more leads."
+    assert:
+      - {type: llm-rubric, value: "Does not declare the project worth it; asks for the missing benefit figures (how many more leads, conversion, value per customer, ongoing costs) and explains what the calculation needs, without inventing lead numbers presented as facts."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Explain this spreadsheet to me: {{workbook_description_or_formulas}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-commission-workbook
+    vars:
+      purpose: monthly sales commission calculation
+      workbook_description_or_formulas: |
+        Sheets: Deals (pasted CRM export, columns A:F = Deal ID, Rep, Close Date, Amount, Product, Region), Rates (A2:B6 tiers: 0 / 0.03, 50000 / 0.05, 100000 / 0.07, 150000 / 0.08, 250000 / 0.1), Calc, Summary, Old (hidden).
+        Calc!A2 = UNIQUE(Deals!B2:B500)
+        Calc!B2 = SUMIFS(Deals!$D$2:$D$500, Deals!$B$2:$B$500, A2, Deals!$C$2:$C$500, ">="&DATE(2026,9,1))
+        Calc!C2 = B2*VLOOKUP(B2, Rates!$A$2:$B$6, 2, TRUE)
+        Calc!D2 = IFERROR(C2*1.1, 0)
+        Summary!B3 = SUM(Calc!D2:D20)
+    assert:
+      - {type: contains, value: "## Fragile spots"}
+      - {type: llm-rubric, value: "Explains the tiered rate lookup in plain words with a worked example, and among the fragile spots identifies the hard-coded date inside the SUMIFS (and the missing end-of-month bound), the fixed row limits (500, D20), the typed 1.1 multiplier, the IFERROR that hides errors, and the hidden Old sheet; notes that the approximate-match lookup depends on Rates staying sorted; includes a monthly user guide and questions for the previous owner such as what the 1.1 represents."}
+  - name: edge-no-purpose-given
+    vars:
+      purpose: ""
+      workbook_description_or_formulas: "Sheets: Input, Lookup, Output. Input has weekly hours per employee typed by managers. Lookup has employee ID, grade, hourly rate. Output!C5 = SUMPRODUCT((Input!B2:B200=A5)*Input!D2:D200)*INDEX(Lookup!C:C, MATCH(A5, Lookup!A:A, 0)). There is a macro button labelled Send."
+    assert:
+      - {type: llm-rubric, value: "Infers a likely purpose (labour cost or payroll estimate) and labels it as an inference, explains the SUMPRODUCT and INDEX/MATCH in plain words with an example, flags the macro button as something to inspect before pressing (asking what Send does) and does not invent what the macro does."}
+  - name: negative-only-sheet-names
+    vars:
+      purpose: ""
+      workbook_description_or_formulas: "It has tabs called Master, Q3, Q3 (2), Rates and Dash. I can't really tell what it does."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate formulas or a detailed data flow; explains what it can infer cautiously and gives concrete instructions for collecting formulas and structure (Show Formulas, Trace Precedents, Name Manager, links, unhide), then asks the user to paste them."}

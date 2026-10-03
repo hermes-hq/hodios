@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Convert this to {{target_format}}: {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-csv-to-json-leading-zeros
+    vars:
+      target_format: json
+      data: |
+        store_id,zip,opened,manager,monthly_sales
+        0042,02134,03/04/2021,"Lee, Ana",18250.50
+        0107,10001,11/12/2019,Raj Patel,
+        0311,94110,07/01/2022,"O'Brien, Kim",22010
+    assert:
+      - {type: contains, value: "\"0042\""}
+      - {type: contains, value: "\"02134\""}
+      - {type: llm-rubric, value: "Keeps store_id and zip as strings with leading zeros, keeps the date strings exactly as written and flags them as ambiguous between day-first and month-first, keeps names with commas intact, states how the empty monthly_sales value was handled, and reports 3 rows in and 3 objects out."}
+  - name: edge-nested-json-to-csv
+    vars:
+      target_format: csv
+      data: |
+        [{"id": 1, "customer": {"name": "Acme", "country": "DE"}, "tags": ["b2b", "priority"]},
+         {"id": 2, "customer": {"name": "Beta \"North\"", "country": "FR"}, "tags": []}]
+    assert:
+      - {type: llm-rubric, value: "Flattens customer into dotted columns (customer.name, customer.country), states how the tags array was handled (joined into one cell or exploded, with the choice explained or asked about), escapes the inner double quotes in Beta \"North\" per CSV rules, and reports rows in and out."}
+  - name: negative-ragged-rows
+    vars:
+      target_format: xml
+      data: |
+        name;amount;date
+        Widget;12,50;2026-01-04
+        Gadget;8;2026-01-05;extra
+        Gizmo;2026-01-06
+    assert:
+      - {type: llm-rubric, value: "Detects the semicolon delimiter and decimal comma, identifies the rows with the wrong number of fields and stops or asks how to handle them rather than guessing where the values belong; does not silently drop or shift fields."}

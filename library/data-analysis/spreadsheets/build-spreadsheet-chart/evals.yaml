@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I make a chart in {{app}} that shows {{message}}? Data: {{data_layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-returns-line-excel
+    vars:
+      app: excel
+      message: Returns in the North region doubled after the carrier change in June 2026.
+      data_layout: "Sheet Returns, A1:E13. Column A Month (Jan-26 to Dec-26 as real dates), columns B:E return rate % for North, South, East, West. Row 14 has a TOTAL row."
+    assert:
+      - {type: contains, value: "## Build steps"}
+      - {type: llm-rubric, value: "Chooses a line chart over months, excludes the TOTAL row from the range, highlights North in a strong colour with other regions grey, adds an annotation at June marking the carrier change, writes a message-stating title, and uses Excel menu names (Insert, Chart Design, Select Data, Format pane)."}
+  - name: edge-wrong-orientation-sheets
+    vars:
+      app: google-sheets
+      message: Product C is our top seller this quarter by a wide margin.
+      data_layout: "Products are across the columns B1:I1 (8 products), one row 2 with Q3 units sold. No other rows."
+    assert:
+      - {type: llm-rubric, value: "Recommends a sorted horizontal bar chart with Product C highlighted, explains how to handle the row-wise layout (Switch rows/columns in the Chart editor or a helper range with TRANSPOSE and SORT), and uses Google Sheets Chart editor names (Setup and Customize tabs)."}
+  - name: negative-data-cannot-support
+    vars:
+      app: excel
+      message: Our new pricing caused customers to buy more.
+      data_layout: "A1:B7, Month (Apr to Sep) and Units sold. Pricing changed in July. No other data."
+    assert:
+      - {type: llm-rubric, value: "Points out that a units-over-time chart cannot show causation and that no control or other factors are present, proposes an honest message such as units before and after the July price change with the change marked, and does not write a title claiming pricing caused the increase."}
