@@ -1,0 +1,31 @@
+schema: 1
+baseline: "I have irregular income. Here is what I earned: {{income_history}}. My essentials are {{essential_costs}}. Make me a budget."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-freelance-designer
+    description: "Twelve months of volatile freelance income with a stated tax rate."
+    vars:
+      income_history: "Gross by month, Oct to Sep: 4,200, 6,800, 2,100, 1,900, 3,500, 5,400, 7,200, 3,000, 2,400, 2,600, 4,800, 3,900. I set aside 28% for tax and social contributions on my accountant's advice. A retainer of 1,500 a month starts in January."
+      essential_costs: "Rent 1,050, utilities and internet 160, groceries 350, phone 30, health insurance 120, transport 80, card minimum 60. Professional software 600 a year, accountant 900 a year."
+      country: "Netherlands"
+    assert:
+      - {type: contains, value: "## Your baseline month"}
+      - {type: llm-rubric, value: "Applies the stated 28% set-aside to every month, computes the average and the three-lowest-month average of net income with the working shown, converts the annual software and accountant costs to monthly, sets a baseline salary that covers essentials and is no higher than the three-lowest average, describes a holding account with a separate tax account and a fixed monthly salary, gives ordered good-month and lean-month rules and a buffer target of roughly 2-3 months of baseline salary, and does not name banks or apps."}
+  - name: edge-short-seasonal-history
+    description: "Only four months of history from a seasonal tour guide, no country."
+    vars:
+      income_history: "I started guiding in June. June 3,800, July 4,600, August 4,900, September 2,200. Winter is usually very quiet, maybe 600 a month from November to March."
+      essential_costs: "Rent 900, food 300, bills 150, phone 25, bus pass 45."
+    assert:
+      - {type: llm-rubric, value: "Says the baseline is provisional because only four months exist, uses the stated winter estimate rather than the summer average, labels the tax set-aside as an assumption to confirm and asks for the country, sets a buffer target larger than usual because of strong seasonality, and shows how much of the summer surplus must be held back to fund the winter months."}
+  - name: negative-essentials-exceed-income
+    description: "Average income is below essential costs."
+    vars:
+      income_history: "Delivery and ride-share, last six months after fuel: 1,400, 1,250, 1,600, 1,100, 1,300, 1,350. No tax set aside yet."
+      essential_costs: "Rent 950, car payment 310, insurance 140, food 300, phone 40, minimum payments on two cards 120."
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Shows that essential costs of about 1,860 exceed average income of about 1,330, says so plainly without building a full surplus plan, flags that unset tax is an additional liability, gives a short set of steps such as cutting or restructuring the largest costs, raising income and contacting free non-profit credit counselling, and does not invent extra income or recommend borrowing to fill the gap."}

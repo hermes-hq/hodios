@@ -1,0 +1,111 @@
+---
+schema: 1
+id: budget-irregular-income
+kind: prompt
+title: Budget on an irregular income
+description: Builds a budget for irregular freelance, gig or commission income with a baseline month, a buffer account, tax set-aside and rules for good and lean months.
+category: budgeting
+version: 1.0.0
+status: incubating
+stage: [plan]
+role: [individual, content-creator, consultant, sales-rep]
+requires: [none]
+inputs: [text, dataset]
+output: [plan, table, checklist]
+risk: read-only
+advice_risk: [financial]
+invocation: user
+effort: standard
+interaction: one-shot
+model_tier: frontier
+reasoning: recommended
+level: beginner
+tags: [irregular-income, freelance, gig-work, income-buffer, self-employed]
+pairs_with:
+  prompts: [plan-freelance-tax-set-aside, build-emergency-fund-plan, set-up-sinking-funds, build-monthly-budget]
+  personas: [personal-finance-coach]
+args:
+  - name: income_history
+    description: What came in each month for as many months as you have (ideally 12), before tax, plus anything you know about the months ahead (contracts, seasonality, commission cycles).
+    type: text
+    required: true
+  - name: essential_costs
+    description: Monthly costs you cannot skip (housing, utilities, food, transport, insurance, minimum debt payments), plus annual or irregular essentials with amounts.
+    type: text
+    required: true
+  - name: country
+    description: Country you live and pay tax in, so the tax set-aside and account suggestions are framed correctly. Optional.
+    type: string
+output_contract:
+  format: markdown
+  sections: [Your income picture, Your baseline month, How the money flows, Baseline budget, Good-month rules, Lean-month rules, Buffer target and build plan, Monthly routine, Questions and assumptions]
+authorship: ai-generated
+authors: [gabrielanhaia]
+last_reviewed: 2026-10-03
+changelog:
+  - {version: 1.0.0, note: "First version."}
+---
+<context>
+A normal budget assumes the same pay arrives every month. With freelance, gig, seasonal or commission income, that assumption is what breaks people: they spend a good month as if it will repeat, under-save for tax, and then a lean month lands on a credit card. The fix that works is structural, not willpower: plan your life on a deliberately low **baseline month**, route all income through a **holding (buffer) account**, pay tax money aside **first**, pay yourself a steady "salary" from the buffer, and decide in advance what happens to surplus in a good month and what gets cut in a lean one.
+
+{{#country}}Country: {{country}}{{/country}}
+
+<income_history>
+{{income_history}}
+</income_history>
+
+<essential_costs>
+{{essential_costs}}
+</essential_costs>
+</context>
+
+<task>
+1. Income picture: table each month given (gross, estimated tax set-aside, net after set-aside). Compute the average, the lowest month, and the average of the three lowest months. Note any seasonality or one-off spikes and exclude one-offs from the baseline.
+2. Tax set-aside: if the person states a rate, use it. Otherwise use a clearly labelled placeholder percentage, explain that it must be confirmed (point to a tax set-aside calculation or an accountant), and apply it to every month. Tax money is never part of spendable income.
+3. Baseline month: set the baseline salary as the lower of (a) the average of the three lowest net months and (b) the person's essential costs plus a small margin, if income allows. Explain the choice in two sentences. If essentials exceed even the average net income, say so plainly, stop building the full plan, and give the three most useful steps (cut, raise income, get free debt or money advice) instead.
+4. Money flow: describe a simple account set-up in order: all income lands in a holding account, tax percentage moves to a separate tax account the same day, a fixed salary moves to the spending account on a fixed date, and bills are paid from the spending account. Do not name banks or apps.
+5. Baseline budget: allocate the baseline salary across essentials, annual costs converted to monthly, minimum debt payments, and a modest flexible amount. Totals must equal the salary.
+6. Good-month rules: an order of priority for income above baseline (tax top-up if behind, buffer to target, high-interest debt, sinking funds, savings goals, a capped amount for enjoyment) expressed as percentages or amounts.
+7. Lean-month rules: draw the salary from the buffer, the cut order if the buffer runs low (flexible spending first, then pause savings, never skip tax or priority bills), and the trigger to act (for example buffer below one month).
+8. Buffer target: target of 2-3 months of baseline salary before extra goals (more if income is highly seasonal), a month-by-month build plan using the person's own good-month surplus, and how long the current pattern takes to reach it.
+9. Routine: a 15-minute monthly check and a quarterly review of the baseline.
+</task>
+
+<constraints>
+{{> guardrails/professional-limits}}
+- Use only the figures given. Mark any assumption (tax rate, a missing month, an unstated cost) as an assumption and list it at the end. Never invent income or costs.
+- Show the arithmetic for the averages, the baseline and the buffer target so the person can redo it.
+- If fewer than six months of history are given, say the baseline is provisional and set it more conservatively.
+- Do not recommend specific banks, apps, funds or investments. Account types are fine.
+- Keep the tone practical and non-judgemental; irregular income is a normal way to work, not a failure.
+{{> output/uncertainty}}
+</constraints>
+
+<output_format>
+## Your income picture
+Table: month | gross | tax set-aside | net. Then average, lowest, three-lowest average.
+
+## Your baseline month
+The baseline salary and the reason, with the arithmetic.
+
+## How the money flows
+Numbered account set-up.
+
+## Baseline budget
+Table: category | monthly amount. Total row equals the baseline salary.
+
+## Good-month rules
+Ordered list with percentages or amounts.
+
+## Lean-month rules
+Ordered list, including the trigger.
+
+## Buffer target and build plan
+Target, months to reach it, short table.
+
+## Monthly routine
+Five bullets at most.
+
+## Questions and assumptions
+Bullets.
+</output_format>

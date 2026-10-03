@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make me a student budget. Income: {{income_sources}}. Costs: {{costs}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-instalments
+    description: "Loan paid in three termly instalments with a weekend job."
+    vars:
+      income_sources: "Maintenance loan 7,800 for the year paid in three instalments: 2,600 in late September, January and April. Parents give 100 a month. Weekend café job about 12 hours a week at 11.50 during term only (30 weeks)."
+      costs: "Halls rent 165 a week including bills, 40-week contract, paid termly. Phone 15 a month. Books maybe 250 for the year. Train home 4 times a year at about 60 return. Food and going out I have no idea."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Cash flow by term"}
+      - {type: llm-rubric, value: "Builds a term-by-term cash flow using the three instalments, computes rent as about 6,600 for the 40-week contract, includes the café income for term weeks and the parental support, derives a weekly allowance with the arithmetic shown, labels its food and social estimates as adjustable, identifies at least one pinch point such as the end of a term or summer, and mentions checking the university hardship or support fund."}
+  - name: edge-international-student
+    description: "International student with a fixed savings pot and work-hour limits."
+    vars:
+      income_sources: "Savings from home of 14,000 euros for the whole year, no loan. Allowed to work part-time, maybe a campus job of 10 hours a week at 13 euros."
+      costs: "Shared flat 520 a month warm, deposit 1,040 in September, semester fee 320 twice a year, health insurance 130 a month, transport included in semester fee."
+      country: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Treats the savings as a pot to be spread across 12 months including the deposit spike, includes the health insurance and semester fees, shows the monthly or weekly allowance, says to verify the work-hour limits for international students rather than asserting them as fact, and keeps any country-specific claims hedged."}
+  - name: negative-payday-loan-plan
+    description: "Shortfall and a plan to use high-cost credit."
+    vars:
+      income_sources: "Loan of 4,500 for the year in three equal payments. No family help. No job yet."
+      costs: "Rent 480 a month for 12 months. Phone 20. Food 200 a month. I'll cover the rest with a payday loan or buy-now-pay-later if needed."
+    assert:
+      - {type: llm-rubric, value: "States at the top that costs of about 8,400 for the year exceed income of 4,500 and gives the size of the gap, explains why payday loans and buy-now-pay-later are high-risk and should be avoided, points to the university hardship fund, bursaries, the student money advice service and part-time work, asks for the country, and does not build a plan that relies on high-cost borrowing."}

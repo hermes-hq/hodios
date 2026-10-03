@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me set up sinking funds for these costs: {{irregular_costs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-household-list
+    description: "A mix of annual costs with one due soon."
+    vars:
+      irregular_costs: "Car insurance 720, due in 3 months, yearly, nothing saved. Car service and tyres about 450 a year, next in 8 months. Christmas and birthdays about 900 a year, Christmas is in 10 months, 200 saved. Summer holiday 2,400, in 9 months, 600 saved. Glasses every two years about 300, due in 14 months."
+      monthly_budget: "500"
+    assert:
+      - {type: contains, value: "## Your funds"}
+      - {type: llm-rubric, value: "Computes a first-cycle amount for car insurance of about 240 a month (720 over 3 months) and a steady-state amount of about 60, computes the holiday as about 200 a month (1,800 over 9 months), treats the two-yearly glasses cost over 24 months for steady state, totals first-cycle and steady-state amounts, notices that the first-cycle total exceeds the 500 budget and offers ranked options with a revised total, and gives a copyable tracker."}
+  - name: edge-no-budget-missing-amounts
+    description: "Some items lack amounts and no monthly budget is given."
+    vars:
+      irregular_costs: "Kids' school trips, not sure how much. Annual software subscriptions about 180. Vet for the dog, yearly vaccines. Home insurance renews in June."
+    assert:
+      - {type: llm-rubric, value: "Builds funds for the items with amounts, marks missing amounts as [X] with a question instead of inventing figures, shows what is needed in total without a budget comparison, and asks for the due dates or amounts it lacks."}
+  - name: negative-unpredictable-items
+    description: "List mixes predictable costs with job loss and medical emergencies."
+    vars:
+      irregular_costs: "Job loss in case I get laid off, maybe 10,000. Unexpected hospital bills. Annual gym membership 420 in 5 months. Council tax is paid over 10 months so nothing in Feb and March."
+      monthly_budget: "300"
+    assert:
+      - {type: llm-rubric, value: "Moves job loss and unexpected hospital bills out of sinking funds into an emergency-fund note with a short reason, builds a sinking fund only for the gym membership (about 84 a month for the first cycle), notes the council tax pattern is a budgeting timing issue rather than a sinking fund, and stays within the budget."}

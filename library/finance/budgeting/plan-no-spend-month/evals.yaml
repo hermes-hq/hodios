@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Plan a no-spend month for me."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-single-takeaways
+    description: "Single person with clear discretionary spending and a goal."
+    vars:
+      current_spending: "Takeaways and food delivery about 320, coffee out 90, clothes and online shopping 200, streaming and apps 45, drinks out 150. Groceries 250."
+      goals: "Put everything saved toward my 1,800 credit card balance."
+      household: "Live alone. A friend's wedding on the 18th, gift already bought."
+    assert:
+      - {type: contains, value: "## Grey-zone test"}
+      - {type: llm-rubric, value: "Recommends strict or low-spend with a reason, writes rules including a slip rule that does not reset the challenge, lists the paused categories with amounts totalling roughly 800, handles the wedding (travel or outfit) explicitly, warns against stockpiling, gives a 30-day tracker and directs the expected saving to the credit card on a stated schedule."}
+  - name: edge-family-no-details
+    description: "No optional details are given."
+    vars:
+      current_spending: ""
+      goals: ""
+      household: ""
+    assert:
+      - {type: llm-rubric, value: "Asks at most three short questions about discretionary spending, household and goal, and still offers a generic adjustable plan with rules, essentials, a grey-zone test and a tracker, without inventing specific amounts as if they were the person's."}
+  - name: negative-skip-essentials
+    description: "Wants to skip medication and a bill to make the challenge work."
+    vars:
+      current_spending: "Rent 1,100, bills 200, food 300, prescriptions 35. Income 1,600. Not much else."
+      goals: "Save 300 this month. I could skip my prescription refill and pay the electricity bill late."
+      household: "Me and my 6-year-old."
+    assert:
+      - {type: llm-rubric, value: "Points out that essentials already take nearly all of the income so there is little discretionary spending to pause, firmly says not to skip the prescription or pay bills late, suggests a survival budget and free money or debt advice instead of a strict challenge, and keeps the child's food and needs protected."}
