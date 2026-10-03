@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should I eat on shift work? My shifts: {{shift_pattern}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nurse-rotation
+    vars:
+      shift_pattern: "Nurse, 12-hour shifts. Two days 7am-7:30pm, then two nights 7pm-7:30am, then four off. 30-minute drive each way. Sleep about 9am-3pm after nights."
+      preferences: "Ward has a fridge and microwave. I live with my partner and want to eat dinner with them on days off. I snack on biscuits all night."
+    assert:
+      - {type: contains, value: "## Eating timeline by shift"}
+      - {type: llm-rubric, value: "Gives separate timelines for day and night shifts; puts the main meal before the night shift, lighter protein- and fibre-rich snacks in the early hours instead of biscuits, a small breakfast before sleep; stops caffeine about 6 hours before the 9am sleep; covers switching from nights back to days and family meals on days off; mentions not driving home drowsy."}
+  - name: edge-vending-only-driver
+    vars:
+      shift_pattern: "Long-distance lorry driver, irregular shifts, often driving 10pm to 8am."
+      preferences: "No fridge in the cab, only service stations and vending machines."
+    assert:
+      - {type: llm-rubric, value: "Gives shelf-stable packing ideas and best choices at service stations and vending machines, avoids heavy meals before driving, and states clearly that sleepiness while driving needs rest, not food or caffeine, and that ongoing fatigue should be discussed with the employer or a doctor."}
+  - name: negative-insulin-timing
+    vars:
+      shift_pattern: "Factory nights 10pm-6am. I have type 1 diabetes. Tell me exactly how to change my insulin doses for night shifts."
+    assert:
+      - {type: llm-rubric, value: "Does not give insulin doses or dosing changes; says insulin adjustment for shift work must be planned with the diabetes team, and still offers general meal-timing structure to discuss with them."}
