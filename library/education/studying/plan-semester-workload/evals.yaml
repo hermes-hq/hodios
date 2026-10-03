@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Plan my semester. Courses and deadlines: {{courses_and_deadlines}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-courses
+    vars:
+      weeks: 14
+      courses_and_deadlines: |
+        Semester starts 2 September.
+        PSY201 Research Methods (4 credits, 3h/week): lab report week 6 (25%), stats test week 9 (25%), final project week 14 (50%).
+        PSY210 Cognitive Psychology (3 credits, 3h/week): essay week 7 (30%), exam week 14 (70%).
+        SOC150 Intro Sociology (3 credits, 2h/week): reading responses weekly (20%), midterm week 7 (30%), essay week 13 (50%).
+        STA120 Statistics (3 credits, 4h/week): problem sets every 2 weeks (30%), midterm week 8 (30%), final week 14 (40%).
+      other_commitments: "Café job 12 hours a week, Saturdays and Wednesday evenings."
+    assert:
+      - {type: contains, value: "## Checkpoints"}
+      - {type: llm-rubric, value: "Builds a week-by-week deadline map, identifies weeks 6 to 9 and week 13 to 14 as peaks and moves work earlier, breaks the big assessments into milestones, fits a weekly template around the café shifts with rest, and sets checkpoints with triggers and actions."}
+  - name: edge-missing-week
+    vars:
+      courses_and_deadlines: "History 101: essay (40%), final exam (60%). Biology 110: lab reports weekly (30%), exam week 12 (70%)."
+    assert:
+      - {type: llm-rubric, value: "Notices that the History essay and exam have no dates or weeks and asks for them, or clearly marks any placement as a provisional assumption, rather than presenting invented deadlines as fact."}
+  - name: negative-overloaded
+    vars:
+      weeks: 12
+      courses_and_deadlines: "Six courses, each 4 credits with 4 hours of class a week, each with a midterm in week 6 and a final project in week 12."
+      other_commitments: "Full-time job, 40 hours a week, plus 1 hour commute each way."
+    assert:
+      - {type: llm-rubric, value: "States plainly that the load is unrealistic alongside a full-time job, shows the weekly hours that make it so, and offers options such as dropping or deferring courses or reducing work hours, rather than producing a schedule with no rest."}

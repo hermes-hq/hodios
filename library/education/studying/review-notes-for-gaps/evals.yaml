@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Check my notes against the syllabus. Notes: {{notes}} Syllabus: {{syllabus_or_source}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-syllabus-audit
+    vars:
+      notes: |
+        Enzymes: biological catalysts, lower activation energy.
+        Lock and key model - active site matches substrate exactly.
+        Temperature: higher temp = faster always.
+        pH: each enzyme has an optimum pH.
+      syllabus_or_source: |
+        4.1 Describe enzymes as biological catalysts.
+        4.2 Explain enzyme action using the lock and key and induced fit models.
+        4.3 Explain the effect of temperature, including denaturation, on rate of reaction.
+        4.4 Explain the effect of pH on enzyme activity.
+        4.5 Describe competitive and non-competitive inhibition.
+    assert:
+      - {type: contains, value: "## Add these next"}
+      - {type: llm-rubric, value: "Flags 'higher temp = faster always' as an error because enzymes denature above the optimum, marks induced fit and inhibition as missing, marks pH as shallow because it is not explained, and gives targeted additions rather than rewriting the notes."}
+  - name: edge-syllabus-only-accuracy
+    vars:
+      notes: "Supply and demand: if price rises, demand curve shifts left."
+      syllabus_or_source: "Explain the difference between a movement along and a shift of the demand curve."
+    assert:
+      - {type: llm-rubric, value: "Identifies that a price change causes a movement along the demand curve, not a shift, says the reference is a syllabus so the correction should be verified in the textbook, and says what to add."}
+  - name: negative-mismatched
+    vars:
+      notes: "French Revolution: causes - debt, Estates-General 1789, storming of the Bastille."
+      syllabus_or_source: "Unit 3: Photosynthesis and respiration in plants."
+    assert:
+      - {type: llm-rubric, value: "Points out that the notes and the reference cover different topics, asks for the matching notes or syllabus, and does not produce a coverage table."}

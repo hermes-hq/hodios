@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a glossary for {{subject}}: {{terms_or_material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-term-list
+    vars:
+      subject: "GCSE Biology, cells and transport"
+      level: "Year 10"
+      terms_or_material: "diffusion, osmosis, active transport, mitosis, meiosis, eukaryotic, prokaryotic, chloroplast, ribosome, partially permeable membrane"
+    assert:
+      - {type: contains, value: "## Flashcards"}
+      - {type: regex, value: "(?i)osmosis;"}
+      - {type: llm-rubric, value: "Defines each term without using the term itself, gives examples, includes confused pairs such as mitosis vs meiosis and diffusion vs osmosis with a quick test, and only gives roots it is sure of (for example pro- and eu- with karyon)."}
+  - name: edge-extract-from-material
+    vars:
+      subject: "Intro Macroeconomics"
+      terms_or_material: "Inflation is a sustained rise in the general price level. Central banks often target inflation of around 2 percent using the policy interest rate. When the economy grows above potential output, a positive output gap can build up inflationary pressure. Deflation, by contrast, is a sustained fall in prices, and should not be confused with disinflation, a fall in the rate of inflation."
+    assert:
+      - {type: llm-rubric, value: "Extracts terms that appear in the passage (inflation, policy interest rate, potential output, output gap, deflation, disinflation), follows the passage's definitions, and highlights deflation vs disinflation as a confused pair."}
+  - name: negative-no-terms
+    vars:
+      subject: "Chemistry"
+      terms_or_material: "I need help with chemistry."
+    assert:
+      - {type: llm-rubric, value: "Says there are no terms or material to work from and asks for a term list or a passage, without generating a generic chemistry glossary."}

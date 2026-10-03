@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Turn my lecture notes into Cornell notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-membrane-lecture
+    vars:
+      course: "Year 1 Cell Biology, lecture 4"
+      notes: |
+        membranes - phospholipid bilayer, hydrophilic heads hydrophobic tails
+        fluid mosaic model (Singer + Nicolson 1972) -> proteins float
+        cholesterol - fluidity buffer?? (high temp less fluid, low temp ...)
+        transport: passive = diffusion, facilitated diff (channel + carrier prots), osmosis
+        active transport needs ATP e.g. Na/K pump 3 Na out 2 K in
+        endo/exocytosis - bulk, vesicles
+        aquaporins - water channels
+    assert:
+      - {type: contains, value: "## Gaps to check"}
+      - {type: llm-rubric, value: "Groups the notes into sections with a Cue | Notes table each, writes cue questions answerable from the notes without giving their answers, flags the unfinished cholesterol note as a gap to check, and ends with a spaced review routine that uses the cue column for self-testing."}
+  - name: edge-wrong-note
+    vars:
+      course: "GCSE Biology, photosynthesis"
+      notes: |
+        photosynthesis happens in mitochondria
+        CO2 + water -> glucose + oxygen, needs light
+        chlorophyll absorbs mostly green light
+        limiting factors: light, CO2, temperature
+    assert:
+      - {type: llm-rubric, value: "Flags in Gaps to check that photosynthesis happens in chloroplasts, not mitochondria, and that chlorophyll absorbs mainly red and blue light and reflects green; does not silently correct these without telling the student."}
+  - name: negative-too-little
+    vars:
+      notes: "lecture 3 - economics stuff"
+    assert:
+      - {type: llm-rubric, value: "Says the notes are too short to structure, asks for the actual notes, and does not invent lecture content or a Cornell table from general knowledge."}
