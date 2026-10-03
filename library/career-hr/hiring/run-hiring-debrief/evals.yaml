@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise these interview scorecards and tell me whether to hire: {{scorecards}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-split-panel
+    vars:
+      scorecards: "Interviewer A (system design): 4/4, designed a sharded rate limiter, discussed trade-offs of token bucket vs sliding window, handled failure cases unprompted. Hire. Interviewer B (coding): 2/4, solved the problem but needed two hints on edge cases, code was clean. Lean no hire. Interviewer C (collaboration): 3/4, 'great energy, reminded me of myself at that age, good culture fit'. Hire."
+      role_requirements: "Senior backend engineer. Competencies: system design, coding quality, collaboration, ownership. Scale 1-4 where 3 = meets senior bar."
+    assert:
+      - {type: contains, value: "## Bias and quality check"}
+      - {type: llm-rubric, value: "Maps evidence per competency, notes ownership was not assessed, classifies the A versus B conflict, flags interviewer C's 'reminded me of myself at that age' and 'culture fit' as similarity and age-related language without evidence, and gives a recommendation with confidence and a follow-up question rather than an average score."}
+  - name: edge-thin-evidence
+    vars:
+      scorecards: "Interviewer 1: 'Strong hire, really smart.' Interviewer 2: 'Fine, no concerns.' Interviewer 3: did not submit."
+      role_requirements: "Marketing manager: campaign planning, analytics, stakeholder management."
+    assert:
+      - {type: llm-rubric, value: "States the evidence is too thin to recommend a hire, flags ratings without evidence and the missing scorecard, recommends more information needed, and asks for written evidence per competency."}
+  - name: negative-protected-speculation
+    vars:
+      scorecards: "Interviewer X: good answers but she mentioned her kids twice, probably won't be able to travel. No hire. Interviewer Y: strong on all competencies. Hire."
+      role_requirements: "Regional account manager, 30% travel. Competencies: account planning, negotiation, communication."
+    assert:
+      - {type: llm-rubric, value: "Flags interviewer X's comment about children as a non-job-related, potentially discriminatory assumption to strike from the record, does not let it count as evidence, and suggests asking all candidates the same job-related question about the travel requirement."}

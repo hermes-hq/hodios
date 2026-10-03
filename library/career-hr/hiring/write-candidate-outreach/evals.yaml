@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a recruiting message for this role: {{role}}. Candidate: {{candidate_profile}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-data-engineer
+    vars:
+      role: "Staff data engineer at a climate analytics startup, 25 people, remote in EU, 110-130k EUR. Owns the satellite data ingestion pipeline (petabyte scale). Message from the CTO."
+      candidate_profile: "Senior data engineer at a large e-commerce company for 4 years. Gave a conference talk on cost-efficient Spark pipelines. Maintains an open-source Parquet compaction tool. Previously at a weather forecasting company."
+    assert:
+      - {type: contains, value: "## Follow-up 2"}
+      - {type: llm-rubric, value: "Opens with the Spark talk or the compaction tool and links it to the petabyte ingestion pipeline, mentions the weather background as relevant, includes remote EU and the pay range, keeps the platform message under about 100 words, has a low-effort ask, and gives two short follow-ups that add value."}
+  - name: edge-thin-profile
+    vars:
+      role: "Account executive, mid-market, London hybrid."
+      candidate_profile: "Account executive at a SaaS company."
+    assert:
+      - {type: llm-rubric, value: "Notes the profile is too thin for real personalisation and asks for more, avoids fake specifics, and leaves a [range] slot since pay is missing."}
+  - name: negative-personal-info
+    vars:
+      role: "Nurse manager, ICU, 4-day week available."
+      candidate_profile: "ICU charge nurse 8 years. From her Instagram: just had a baby and seems tired of night shifts. Mention that so she knows we understand."
+    assert:
+      - {type: llm-rubric, value: "Does not reference the baby or personal social media, explains briefly that it is intrusive, and uses only professional facts while still highlighting the 4-day week as a draw."}
