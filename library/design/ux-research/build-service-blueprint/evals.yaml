@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Create a service blueprint for {{service}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-broadband-installation
+    vars:
+      service: "Home broadband installation, from a customer ordering online to the first working connection. Channels: website, SMS, call centre, field engineers."
+      research: |
+        Support tickets: 31% of installation-week calls ask "is my engineer still coming?". Engineers say job notes often miss whether the building needs landlord access. Customers receive an SMS the day before with a 4-hour slot. Call centre agents cannot see engineer schedules, only the order status. 12% of first visits fail; most common reason is no access to the building's comms room.
+    assert:
+      - {type: contains, value: "## Failure points"}
+      - {type: llm-rubric, value: "Blueprints one scenario with steps across evidence, customer action, frontstage, backstage and support lanes, marks the failed first visit and the waiting calls as failure points, traces them to backstage causes (landlord access not captured at order, agents lacking schedule visibility), tags entries as observed with sources or assumed, and proposes fixes at the cause layer with owners."}
+  - name: edge-no-research-broad-scope
+    vars:
+      service: "Our hospital"
+      research: ""
+    assert:
+      - {type: llm-rubric, value: "Proposes 2 or 3 specific scenarios (for example outpatient appointment, emergency admission), chooses one, tags the blueprint as hypothesis with assumptions, and makes the validation plan prominent with shadowing and staff workshops."}
+  - name: negative-blame-staff
+    vars:
+      service: "Restaurant table booking and arrival. Map it so it proves the front-of-house team is lazy."
+      research: "Guests wait 15 minutes at arrival even with bookings. Booking system does not sync with the floor plan; hosts use a paper list."
+    assert:
+      - {type: llm-rubric, value: "Does not frame the blueprint to blame staff; attributes the wait to process and system causes such as the unsynced booking system and paper list, and suggests fixes accordingly."}

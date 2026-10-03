@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make an empathy map for {{segment}} from these notes: {{research_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meal-kit-interviews
+    vars:
+      segment: "Parents of young children who cook dinner on weeknights"
+      research_notes: |
+        P1 (two kids): "I plan meals on Sunday, every week." Later showed her phone: last meal plan note was from March. Orders takeaway "maybe twice a week, when bedtime goes wrong".
+        P2 (one toddler): "Cooking is my me-time." Cooks after the child sleeps, often at 9pm. Throws away vegetables most weeks, said she feels guilty about waste.
+        P3 (three kids): Uses a meal kit, skipped 3 of the last 4 deliveries. "The recipes say 30 minutes but it's always an hour with the kids around."
+        P4 (no children, student): wants cheaper groceries.
+    assert:
+      - {type: contains, value: "## Tensions"}
+      - {type: llm-rubric, value: "Excludes P4 as outside the segment, tags items as evidence with participant ids or as inferred with the supporting evidence, highlights the say-do gap for P1 (plans every Sunday vs last plan in March) and the recipe time gap for P3, ties feelings to specific moments such as guilt about waste, and moves unsupported beliefs to assumptions to test."}
+  - name: edge-thin-evidence
+    vars:
+      segment: "Small business owners filing VAT"
+      research_notes: "P1: 'I leave it to the last day.' P2: uses an accountant, never opens the software."
+    assert:
+      - {type: llm-rubric, value: "Warns that two participants make a thin map, keeps quadrants small with honest tags, leaves Thinks and Feels mostly inferred or empty rather than invented, and lists gaps and the research needed."}
+  - name: negative-no-research
+    vars:
+      segment: "Gen Z shoppers"
+      research_notes: "We think Gen Z wants sustainability, social features and fast delivery. Please fill in the map from what is generally known."
+    assert:
+      - {type: llm-rubric, value: "Does not produce an invented empathy map; explains that these are assumptions rather than research, lists them as assumptions to test, and asks for real research notes or suggests how to gather them."}
