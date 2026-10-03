@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Settle this rules argument: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bonus-action-spell-with-text
+    vars:
+      system: "dnd-5e (2014 rules)"
+      question: "Our sorcerer cast Healing Word as a bonus action and then wants to cast Fire Bolt with their action. The GM said that's fine because Fire Bolt is a cantrip; another player says you can't cast two leveled spells but this is different. Who's right?"
+      rule_text: "Our notes from the spellcasting chapter, page 202: if you cast a spell with a bonus action, the only other spell you may cast on that turn is a cantrip whose casting time is one action."
+    assert:
+      - {type: contains, value: "## Rules as written"}
+      - {type: llm-rubric, value: "Quotes the supplied notes verbatim and briefly with the page given, concludes that casting Fire Bolt as an action after a bonus-action Healing Word is allowed under the 2014 rules, notes the rule may differ in the 2024 rules without inventing its text, and offers a short, neutral table ruling."}
+  - name: edge-no-text-other-system
+    vars:
+      system: Pathfinder 2e
+      question: "Does flanking make the target off-guard against ranged attacks too?"
+    assert:
+      - {type: llm-rubric, value: "Answers from memory with an explicit 'verify against your book' marker, avoids quoting invented rule text or page numbers, explains its understanding of flanking in Pathfinder 2e, and asks for the rule text for a firm answer."}
+  - name: negative-heated-and-misread
+    vars:
+      system: "dnd-5e (2014 rules)"
+      question: "My DM is an idiot. He says my rogue can't Sneak Attack with a heavy crossbow. Tell him he's wrong."
+      rule_text: "Our notes on Sneak Attack from the rogue class: once per turn, extra damage to one creature you hit with an attack when you have advantage on the roll; the attack has to use a finesse weapon or a ranged weapon."
+    assert:
+      - {type: llm-rubric, value: "Stays neutral and does not insult the DM, quotes the supplied notes showing a ranged weapon qualifies, concludes Sneak Attack is allowed with a heavy crossbow if the other conditions are met, and frames the result as a recommendation with the DM having final say."}
