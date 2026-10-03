@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [json-output, json-schema, structured-extraction, output-validation]
 pairs_with:
-  prompts: [write-batch-processing-prompt, create-few-shot-examples, build-prompt-test-set]
+  prompts: [build-structured-extraction, write-batch-processing-prompt, create-few-shot-examples, build-prompt-test-set]
   personas: [prompt-engineer]
 args:
   - name: task
@@ -55,7 +55,7 @@ JSON from a model fails in predictable ways: prose or code fences around the obj
 
 <task>
 1. If no schema was given, propose one from the task and mark it as a proposal. If the task does not say what the JSON feeds or which fields matter, ask up to three questions and stop.
-2. Write the schema as JSON Schema: types, required fields, enums for closed sets, formats for dates and emails, number ranges, and a one-line description per field that says where the value comes from in the input. Decide for each field whether a missing value is null, an empty array or a validation failure.
+2. Write the schema as JSON Schema: types, required fields, enums for closed sets, formats for dates and emails, number ranges, and a one-line description per field that says where the value comes from in the input. Decide for each field whether a missing value is null, an empty array or a validation failure. Keep the schema inside the subset that strict schema-constrained modes commonly accept: `additionalProperties: false` on every object, every property listed in `required`, optional values expressed as a nullable type rather than an omitted key, and no conditional keywords such as `if`/`then` or `oneOf`; move rules the subset cannot express into the semantic checks.
 3. Write the prompt: the job and the reader of the JSON; the input in delimiters; field rules (copy values verbatim or normalise, units, date format, how to choose among conflicting values); the missing-data rule ("use null; never infer a value the input does not state"); and an instruction to return only one JSON object matching the schema, with no prose or code fences.
 4. Write two or three examples: a complete input, a sparse input with nulls, and one awkward case from this task (multiple items, conflicting values, a different language). Keep examples short and consistent with every rule.
 5. List edge cases and the expected output for each: empty input, irrelevant input, several candidates for one field, values outside an enum, very long input.
@@ -68,6 +68,7 @@ JSON from a model fails in predictable ways: prose or code fences around the obj
 - Model-agnostic. Mention a native structured-output or tool-call mode as an operator option to confirm in the platform's documentation, not as the only safeguard.
 - Keep the prompt under about 500 words excluding the schema and examples.
 - Do not include real personal data in examples; use fictional values.
+- Stay on the prompt, schema and validation plan. Do not write the integration code unless asked; if the user needs a full document pipeline (calling code, review queue, labelled eval set), say it is a separate step.
 </constraints>
 
 <output_format>

@@ -60,7 +60,7 @@ Prompt injection happens when text the model reads as data is treated as instruc
    - Wrap each untrusted source in clearly labelled delimiters with its provenance, and tell the model what to do if that content contains instructions (ignore them, and mention it to the user when relevant).
    - Restate the task after long untrusted content so the last instruction the model reads is the operator's.
    - Narrow scope: what the assistant does, what it refuses, and that it never reveals its instructions, credentials or other users' data.
-   - Require confirmation from the user before any consequential action (sending, deleting, paying, sharing), showing what will happen.
+   - If the assistant can take actions, require confirmation from the user before any consequential one (sending, deleting, paying, sharing), showing what will happen. For a read-only assistant, focus instead on misleading answers and leaked instructions or data.
    - Limit output: no links or images built from untrusted content unless needed and allow-listed.
    Keep the original purpose, tone and format intact.
 3. List controls outside the prompt that matter more than wording: least-privilege tools and scoped credentials, human approval for consequential actions, allow-listed URLs and rendering, input and output filtering, separating privileged and unprivileged model calls, logging and rate limits.

@@ -57,7 +57,7 @@ Spreadsheet AI functions run a prompt once per cell. That makes consistency ever
 1. Work out which columns the prompt needs and what the output column should hold. If the task could mean several outputs (one label or several, extract or normalise), ask one question and stop.
 2. Design the output: the exact allowed values (for labels, a closed list with an "Other" or "Unclear" value; for extraction, the format such as ISO dates or a city name only; for rewrites, a word limit), and the fixed values for blank, unreadable or irrelevant rows (for example "N/A").
 3. Write the cell prompt: one or two sentences of task, the label definitions or format rule, the blank rule, "Reply with only the [value], nothing else", and slots where each column value is inserted with its header name.
-4. Show how to assemble it in a cell: a generic pattern that joins the prompt text with cell references, written as AI_FUNCTION("prompt text", A2, B2) with a note to replace AI_FUNCTION with the actual function name in their spreadsheet. If the prompt text is long, suggest keeping it in one fixed cell and referencing that cell.
+4. Show how to assemble it in a cell: a generic pattern that joins the prompt text with cell references, written as AI_FUNCTION("prompt text", A2, B2) with a note to replace AI_FUNCTION with the actual function name in their spreadsheet. Wrap it so blank rows get the blank value without a model call, for example IF(TRIM(C2)="", "N/A", AI_FUNCTION(...)), which saves cost and keeps blanks consistent. If the prompt text is long, suggest keeping it in one fixed cell and referencing that cell.
 5. Run the prompt on each sample row yourself and give the expected output, flagging rows where the right answer is debatable and the rule you used.
 6. Give the checks before filling down: test on 20 rows, read every output, count values not in the allowed list with a COUNTIF-style formula, fix the prompt, then fill down; freeze results as values once checked; and a note on cost and rate limits for large sheets.
 </task>
@@ -75,7 +75,7 @@ Allowed values or format, and blank handling.
 ## Cell prompt
 One fenced block.
 ## Assembling the formula
-The generic pattern and the long-prompt tip.
+The generic pattern with the blank guard, and the long-prompt tip.
 ## Expected results
 Table: Row | Input summary | Expected output | Note.
 ## Before you fill down

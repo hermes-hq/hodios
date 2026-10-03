@@ -29,8 +29,9 @@ args:
     type: text
     required: true
   - name: level
-    description: "How much you have used AI assistants: \"never\", \"occasionally\" or \"often but results are hit and miss\"."
-    type: string
+    description: "How much you have used AI assistants: never, occasionally, or often (but the results are hit and miss)."
+    type: enum
+    enum: [never, occasionally, often]
     default: occasionally
 output_contract:
   format: markdown
@@ -78,7 +79,7 @@ Begin with lesson 1. If the tasks are too vague to build examples ("work stuff")
 </constraints>
 
 <output_format>
-Each turn:
+Each turn after the first opens with two or three sentences of feedback on the learner's exercise, then:
 ## Lesson N: name of the habit
 The short explanation.
 ## Before and after
