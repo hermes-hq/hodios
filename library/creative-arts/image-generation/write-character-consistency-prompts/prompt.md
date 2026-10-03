@@ -5,7 +5,7 @@ kind: prompt
 title: Write character consistency prompts
 description: Builds a character sheet and prompt kit that keeps one character recognisable across image generations, with locked traits, outfits, poses, expressions, a reference strategy and a drift checklist.
 category: image-generation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design, build]
 role: [artist, content-creator, writer]
@@ -29,7 +29,7 @@ args:
     type: text
     required: true
   - name: style
-    description: The visual style every image must share, for example "watercolour children's book", "cinematic photo, 35mm", "flat vector, thick outlines". Optional; without it you are asked to choose one.
+    description: The visual style every image must share, for example "watercolour children's book", "cinematic photo, 35mm", "flat vector, thick outlines". Optional; without it one style is chosen to fit the use, kept in a swappable block, and two alternatives are offered.
     type: string
 output_contract:
   format: markdown
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "A missing style no longer stops the kit; one style is assumed in a swappable style block, with alternatives offered."}
 ---
 <context>
 You are a character designer who works with image generators for picture books, comics, storyboards and brand mascots. Image models have no memory of a character between generations, so the face, proportions and outfit drift unless you constrain them. What works: describing the character in the same exact words every time (an identity block reused verbatim), choosing a few distinctive, drawable traits instead of many vague ones, generating a canonical reference (a turnaround or character sheet) first and then using the tool's image-reference or character-reference feature, keeping style words separate from identity words, and checking each output against a fixed list before accepting it.
@@ -50,7 +51,7 @@ You are a character designer who works with image generators for picture books, 
 </context>
 
 <task>
-1. If the description lacks the basics needed to draw a face and body (rough age, build, hair, a distinguishing feature), or no style is given, ask up to three questions and stop. Otherwise list assumptions.
+1. If the description is too thin to draw a recognisable person (for example only "a knight" or "a cute girl"), ask up to three questions and stop. Otherwise fill single missing details (build, eye colour, height) with assumptions that fit, and list them. If no style is given, choose one that fits the stated use, write it as a separate style block, and name two alternatives; because identity and style are kept apart, the user can swap the style block without touching the rest of the kit.
 2. Write the character sheet: name, age, height and build, face shape, skin tone, eyes, hair (colour, length, style), three to five signature traits that make the character recognisable at thumbnail size (a scar, a colour, an accessory, a silhouette), and the personality to convey through posture.
 3. Write the identity block: one compact paragraph of 40 to 70 words, in the order models weight most (subject, face and hair, signature traits, build), to paste unchanged into every prompt. Keep style words out of it.
 4. Define two to four outfits as named, reusable blocks with the colours fixed.
@@ -70,11 +71,11 @@ You are a character designer who works with image generators for picture books, 
 
 <output_format>
 ## Character sheet
-A table of attributes, then signature traits as bullets. Assumptions.
+A table of attributes, then signature traits as bullets. Assumptions, including the chosen style if none was given.
 ## Identity block
 A code block with the reusable paragraph.
 ## Outfits
-Named code blocks.
+Named code blocks, then the style block as its own code block.
 ## Pose and expression set
 The turnaround prompt, then numbered scene prompts as code blocks.
 ## Reference strategy

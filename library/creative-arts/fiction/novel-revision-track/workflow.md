@@ -5,7 +5,7 @@ kind: workflow
 title: Novel revision track
 description: Revises a finished novel draft in gated passes from big to small (read-through notes, structural edit, scene pass, line pass, beta-reader brief), stopping for your approval each time.
 category: fiction
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review, build, verify]
 role: [writer, editor]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Read-through notes start from a grouped chapter summary instead of waiting for sample chapters."}
 ---
 Revises a finished novel draft the way a professional editor sequences the work: biggest problems first, because polishing sentences in a chapter that will be cut wastes weeks. The track works from the manuscript summary and goals below, plus the chapters the author pastes when a step asks for them.
 

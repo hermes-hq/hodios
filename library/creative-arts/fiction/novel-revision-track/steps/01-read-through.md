@@ -2,7 +2,7 @@
 
 Build an honest picture of the whole book before changing anything.
 
-1. If the summary lacks a chapter-by-chapter outline, the genre or the word count, ask for them and stop. Also ask the author to paste the first chapter, one middle chapter and the final chapter (or tell you they cannot), because openings, middles and endings fail in different ways.
+1. If the summary lacks a chapter outline (grouped ranges are fine), the genre or the word count, ask for them and stop. Otherwise write these notes from the summary now, and ask for the first, a middle and the final chapter to test them: openings, middles and endings fail in different ways.
 2. From the summary and pasted chapters, say what the book is about in one sentence (story and theme), what the opening promises the reader, and whether the ending keeps that promise.
 3. Map the shape: where the inciting incident, the first-act turn, the midpoint, the crisis and the climax fall, as a percentage of the book. Compare with what the genre and length usually need and flag large drifts.
 4. Note the five biggest strengths to protect in revision.
