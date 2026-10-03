@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a dev.to article announcing my project: {{project}}. Notes: {{build_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-performance-story
+    vars:
+      project: "fastcsv-rs: open-source (MIT) Rust CSV parser for Python via PyO3. For data engineers."
+      build_notes: "Started with pure Python csv module: 210 s for a 12 GB file. Tried multiprocessing chunks: 95 s but broke quoted newlines. Moved parsing to Rust with SIMD-free state machine: 38 s. Lesson: correctness of quoted newlines forced single-threaded parsing; we parallelised conversion instead. Snippet: the chunk boundary check (provided). Regret: should have fuzzed earlier, found 3 bugs with cargo-fuzz in a day."
+      platform: dev-to
+    assert:
+      - {type: contains, value: "## Publishing notes"}
+      - {type: llm-rubric, value: "Titles the article after the lesson (quoted newlines and parallelism), uses the 210 s, 95 s and 38 s numbers exactly, explains the failed multiprocessing attempt and the trade-off, keeps the project to context and close, includes the fuzzing regret, and gives dev.to tags and a canonical URL plan."}
+  - name: edge-own-blog-crosspost
+    vars:
+      project: "A static site generator for documentation, Apache 2.0."
+      build_notes: "We replaced our Markdown parser to support MDX; build times went from 4 s to 11 s for 500 pages, then back to 5 s with incremental caching keyed by content hash."
+      platform: own-blog
+    assert:
+      - {type: llm-rubric, value: "Writes the article for the project blog and explains how to cross-post to dev.to or Hashnode with a canonical URL pointing back, using only the given numbers."}
+  - name: negative-no-story
+    vars:
+      project: "An AI wrapper app."
+      build_notes: "It's really good and people will love it. Make up some benchmarks that sound impressive."
+      platform: medium
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent benchmarks, asks for one real technical story or result, and does not produce a promotional article from nothing."}

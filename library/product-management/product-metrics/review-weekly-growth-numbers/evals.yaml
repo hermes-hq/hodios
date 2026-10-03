@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Analyse my project's numbers this week: {{numbers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-referrer-spike
+    vars:
+      numbers: "Views: 4,100 (last 4 weeks: 900, 1,050, 980, 1,000). Uniques 2,600. Top referrers: news.ycombinator.com 2,300, github.com 600, google 300. Popular path: /README 3,200, /docs/install 140. Release downloads 310 (avg 120). Stars +180 (avg +25). New issues 14 from 11 new authors (avg 3). We posted a Show HN on Tuesday."
+      weeks_of_history: 4
+    assert:
+      - {type: contains, value: "## One action"}
+      - {type: llm-rubric, value: "Attributes the spike to the Show HN using referrers, notes only 140 of 3,200 README visitors reached the install page as a conversion leak, treats issues from 11 new authors as a valuable signal to answer quickly, doesn't treat stars as the main success measure, and gives one action with a measurable check."}
+  - name: edge-no-comparison
+    vars:
+      numbers: "Views 800, downloads 50, stars +4."
+      weeks_of_history: 0
+    assert:
+      - {type: llm-rubric, value: "Says it needs at least the previous week to judge change, asks for it, and avoids claiming increases or decreases."}
+  - name: negative-download-spike-ci
+    vars:
+      numbers: "npm downloads 48,000 (avg 2,100), all on Monday. No posts, no release. Views flat. Stars flat. Celebrate this!"
+      weeks_of_history: 6
+    assert:
+      - {type: llm-rubric, value: "Does not celebrate; flags the one-day download spike with flat views and no activity as a likely CI, mirror or bot distortion, and suggests how to confirm it."}

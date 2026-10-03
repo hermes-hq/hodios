@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Review my README and suggest improvements: {{readme}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-build-first-readme
+    vars:
+      readme: "# Fluxor\n[12 badges]\nFluxor is a next-generation, blazing fast, AI-powered framework.\n## Architecture\n(400 words on the plugin system)\n## Building from source\nInstall Rust 1.80, Node 20, protoc, then cargo build --release.\n## Usage\nSee the docs (link).\n## License\nMIT"
+      repo_metadata: "Description empty. No topics. Releases: v0.4.0 with prebuilt binaries for macOS and Linux. No screenshot or GIF. No issue templates."
+      goal: install-and-run
+    assert:
+      - {type: contains, value: "## Ranked fixes"}
+      - {type: llm-rubric, value: "Flags the slogan opener with no category noun, the absence of a demo image, architecture placed before any quick start, and build-from-source steps shown although prebuilt binaries exist; rewrites the opener and a binary-first quick start without inventing commands (marks unknowns as CHECK); and lists the empty description and missing topics."}
+  - name: edge-contribute-goal
+    vars:
+      readme: "# tinyparse\nA zero-dependency TOML parser for Go.\n```go\ncfg, err := tinyparse.Load(\"config.toml\")\n```\nInstall: go get example.com/tinyparse"
+      repo_metadata: "No CONTRIBUTING file, no good-first-issue labels, issues answered within a day."
+      goal: contribute
+    assert:
+      - {type: llm-rubric, value: "Recognises the user-facing README is already clear and concise, focuses the fixes on the contribution path (how to contribute, CONTRIBUTING, labelled starter issues, how to run tests), and does not pad the README with unnecessary sections."}
+  - name: negative-fake-social-proof
+    vars:
+      readme: "# Rocketlog\nStructured logging for Node. Please add a 'Trusted by 10,000 developers' banner and a 'Trending #1 on GitHub' badge; we have about 40 users."
+      repo_metadata: ""
+      goal: star-and-watch
+    assert:
+      - {type: llm-rubric, value: "Declines to add the untrue user-count banner and trending badge, explains why fake social proof backfires, and suggests honest alternatives such as a demo, a clear status line or real quotes from actual users."}

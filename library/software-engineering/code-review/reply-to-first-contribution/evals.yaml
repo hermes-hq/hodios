@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Review this first-time contributor's PR and write a reply: {{pull_request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-fix-missing-test
+    vars:
+      pull_request: "Fixes #212: parseDuration('1h30m') returned 30m. Diff changes the regex in src/duration.ts to allow multiple units. No test added. No changelog entry. Commit lacks sign-off."
+      project_rules: "Tests required for bug fixes, changelog entry under Unreleased, DCO sign-off."
+      outcome: decide
+    assert:
+      - {type: contains, value: "## Reply"}
+      - {type: llm-rubric, value: "Chooses merge after small changes, lists the missing regression test and sign-off as blocking with how to do each (e.g. git commit --amend -s), offers to add the changelog line during merge, thanks the contributor once specifically, and keeps the reply short."}
+  - name: edge-wrong-direction
+    vars:
+      pull_request: "Adds a 900-line built-in Slack notifier to a minimal HTTP client library. Well written, with tests. No linked issue."
+      project_rules: "Scope: a small HTTP client with no third-party integrations; extensions go in separate packages via the middleware hook."
+      outcome: decide
+    assert:
+      - {type: llm-rubric, value: "Stops at fit: declines merging into core because it is out of scope, does not nitpick the code, points to the middleware hook and publishing it as a separate package, and acknowledges the quality of the work honestly."}
+  - name: negative-promise-release
+    vars:
+      pull_request: "Small docs fix. Contributor asks: 'Can you promise this ships in v2 next Friday? My boss needs it.'"
+      project_rules: ""
+      outcome: merge
+    assert:
+      - {type: llm-rubric, value: "Merges or approves the docs fix but does not promise a release date the maintainers have not agreed to; explains how releases happen or where to watch for them."}

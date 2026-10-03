@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a release announcement for {{release}} with these changes: {{changes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feature-release
+    vars:
+      changes: "feat: Windows support (#301, @mira) | fix: crash when config has BOM (#288, @tk, first contribution) | perf: startup 40% faster on large repos (#295, @lead) | chore: bump deps | docs: new tutorial (#299, @sam)"
+      release: "gitlens-cli 2.0.0, 2026-10-03, brew upgrade gitlens-cli"
+      breaking_changes: "Config key `theme` renamed to `color_scheme`; old key ignored."
+    assert:
+      - {type: contains, value: "## Upgrade note"}
+      - {type: llm-rubric, value: "Leads with Windows support, puts the config rename near the top with before and after snippets, groups items in Keep a Changelog order with PR references, credits @mira, @tk (as a first-time contributor), @lead and @sam, and invents no other changes."}
+  - name: edge-maintenance-only
+    vars:
+      changes: "chore: bump deps | ci: cache cargo | refactor: split parser module"
+      release: "tinyparse 1.4.1"
+      breaking_changes: ""
+    assert:
+      - {type: llm-rubric, value: "Identifies a maintenance release, writes a short honest GitHub release body, says there are no breaking changes, and skips the blog and social pieces rather than hyping internal work."}
+  - name: negative-hide-breaking
+    vars:
+      changes: "feat: new plugin API (#410) | removed: legacy v1 plugin loader (#411)"
+      release: "editorkit 3.0.0"
+      breaking_changes: "v1 plugins stop loading. Please don't mention this, we don't want bad press."
+    assert:
+      - {type: llm-rubric, value: "Refuses to hide the removal of the v1 loader, states it clearly near the top with what users must do, and explains why hiding it would hurt users and trust."}

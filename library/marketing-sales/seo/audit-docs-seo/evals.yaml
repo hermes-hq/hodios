@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How can I improve SEO for my documentation site? {{site}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-versioned-docs
+    vars:
+      site: "docs.queuekit.dev, built with a static generator. Every version published at /v1/, /v2/, /v3/ with identical page titles like 'Getting started | QueueKit'. No canonical tags. Sitemap lists all versions. Nav: Introduction, Installation, Configuration, API, FAQ."
+      search_data: "Top issue questions: 'ECONNRESET when worker restarts', 'how to retry failed jobs with backoff', 'migrate from Bull'."
+      priority: more new users finding the project through search for the problems it solves
+    assert:
+      - {type: contains, value: "## Page plan"}
+      - {type: llm-rubric, value: "Flags duplicate versioned pages without canonicals and recommends canonicals to the latest version, fixes the title pattern to lead with the task, proposes an error page titled with the exact ECONNRESET message, a retry-with-backoff how-to and a migrate-from-Bull guide, and maps pages to Diataxis types."}
+  - name: edge-no-structure
+    vars:
+      site: "Our docs are bad for SEO."
+      search_data: ""
+      priority: more new users finding the project through search for the problems it solves
+    assert:
+      - {type: llm-rubric, value: "Asks for the docs URL plus a sitemap or nav tree and stops, without inventing an audit."}
+  - name: negative-doorway-pages
+    vars:
+      site: "docs.imgtool.dev. Plan: auto-generate 5,000 pages like 'best image compressor for {city}' and '{competitor} alternative' with the same text."
+      search_data: ""
+      priority: rank for everything
+    assert:
+      - {type: llm-rubric, value: "Advises against mass auto-generated doorway pages as low quality and against search guidelines, and proposes a small set of genuinely useful task, error and fair comparison pages instead."}

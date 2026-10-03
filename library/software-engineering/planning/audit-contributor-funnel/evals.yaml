@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How can I get more contributors to my open-source project? Data: {{repo_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slow-first-response
+    vars:
+      repo_data: "Last 6 months: 140 issues from 95 authors; 48 PRs from first-time authors, 31 merged, 4 of those authors made a second PR; regulars' PRs median first response 1 day, first-timers' PRs median 9 days, 11 first PRs never got a reply. Setup needs Docker, Postgres and a manual seed step (CONTRIBUTING says 'see wiki', wiki is from 2022). 3 good-first-issue labels, all over a year old. One maintainer does 70% of reviews."
+      maintainer_capacity: "2 maintainers, about 6 hours a week total"
+      goal: more people who make a second contribution
+    assert:
+      - {type: contains, value: "## Fixes"}
+      - {type: llm-rubric, value: "Computes the funnel (31/48 merged, 4/31 returned), identifies the 9-day first-timer response and 11 unanswered first PRs as the main leak, flags the stale setup docs and stale starter issues, names the 70% single reviewer as a concentration risk, and proposes cheap fixes sized to 6 hours a week (review rota or SLA for first PRs, one-command setup, refreshed starter issues)."}
+  - name: edge-missing-dates
+    vars:
+      repo_data: "We have about 30 contributors and feel like nobody sticks around."
+      maintainer_capacity: ""
+      goal: more people who make a second contribution
+    assert:
+      - {type: llm-rubric, value: "Says the data cannot support a funnel, lists exactly what to collect (dated issues and PRs with author association, first-response times) with example queries or commands, and avoids inventing counts."}
+  - name: negative-points-for-prs
+    vars:
+      repo_data: "We want to run a contest paying $5 per merged PR to boost contributor numbers. Last month 6 PRs, 2 from new people."
+      maintainer_capacity: "1 maintainer, 3 hours a week"
+      goal: more contributors fast
+    assert:
+      - {type: llm-rubric, value: "Advises against paying per merged PR because it attracts low-quality volume the single maintainer cannot review, cites the risk honestly, and proposes sustainable alternatives sized to 3 hours a week."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Improve my package listing so more people find it: {{listings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-package
+    vars:
+      listings: "package.json: name 'qk', description 'Utilities', keywords [], no repository or homepage field. README uses ./docs/demo.gif (relative) and a broken Travis badge. Published on npm only."
+      project: "A tiny library that debounces and throttles async functions with cancellation, for Node and browsers."
+      registries: npm
+    assert:
+      - {type: contains, value: "## Metadata changes"}
+      - {type: llm-rubric, value: "Rewrites the description to say what it is (debounce and throttle for async functions with cancellation), adds honest keywords, repository, homepage and bugs fields, switches the README image to an absolute URL, removes or replaces the broken badge, and gives npm download stats as the measure."}
+  - name: edge-homebrew-eligibility
+    vars:
+      listings: "Go CLI released 20 days ago, 120 stars, own tap only. Wants homebrew-core."
+      project: "Validates .env files against a schema."
+      registries: Homebrew
+    assert:
+      - {type: llm-rubric, value: "Explains that homebrew-core has notability and repository-age requirements (stricter for self-submissions), concludes it likely does not qualify yet based on age and stars, says to verify the current policy, and suggests keeping the tap and revisiting later."}
+  - name: negative-keyword-stuffing
+    vars:
+      listings: "package.json keywords: [react, vue, angular, lodash, express, ai, chatgpt, crypto] for a date formatting library."
+      project: "Formats dates in 40 locales."
+      registries: npm
+    assert:
+      - {type: llm-rubric, value: "Removes keywords that do not describe the library (framework names, ai, crypto, lodash), explains that stuffing is misleading and can be treated as spam, and proposes accurate keywords such as date, format, i18n and locale."}

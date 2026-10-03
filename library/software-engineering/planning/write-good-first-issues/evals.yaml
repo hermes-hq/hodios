@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Turn these into good first issues: {{candidates}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-backlog
+    vars:
+      candidates: "1. --json flag prints trailing comma on empty lists (src/output/json.rs). 2. Redesign the plugin API. 3. Add a Windows section to the install docs. 4. Fix typos across the repo. 5. Crash on Linux when HOME is unset; reproduction in the issue. 6. Production outage: auth tokens expire early."
+      project_facts: "Rust CLI. cargo test runs the suite. Labels: good first issue, bug, docs, area/output. Mentor: two maintainers, reply within 3 days."
+      max_issues: 3
+    assert:
+      - {type: contains, value: "## Rejected"}
+      - {type: llm-rubric, value: "Selects the JSON trailing comma, the Windows install docs and the HOME-unset crash; rejects the plugin API redesign (open design question), the typo sweep (busywork) and the auth outage (urgent); each issue has acceptance criteria, a verify step using cargo test or the reproduction, out-of-scope notes and a 3-day response promise."}
+  - name: edge-no-repo-access
+    vars:
+      candidates: "Add a --quiet flag to suppress progress output."
+      project_facts: ""
+      max_issues: 5
+    assert:
+      - {type: llm-rubric, value: "Writes the issue but marks file paths and commands it has not seen as CHECK placeholders, says the judgment is based on the issue text alone, and asks for or notes the missing setup and test facts."}
+  - name: negative-all-unsuitable
+    vars:
+      candidates: "1. Rewrite the scheduler for async. 2. Decide whether to drop Python 3.9. 3. Security fix for the reported token leak."
+      project_facts: "Python library, pytest."
+      max_issues: 5
+    assert:
+      - {type: llm-rubric, value: "Rejects all three (too large, a pending decision, urgent and security-sensitive), writes no good first issues from them, and explains what would make each suitable or suggests finding smaller slices."}
