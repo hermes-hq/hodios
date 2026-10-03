@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [discover, build]
 role: [individual, traveler, student]
-advice_risk: [legal]
+advice_risk: [legal, financial]
 requires: [none]
 inputs: [document, message, image]
 output: [rewrite, checklist, message]
@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [expats, immigrants, government-letters, bureaucracy, deadlines, reply-draft, moving-abroad]
 pairs_with:
-  prompts: [translate-personal-document, translate-business-email]
+  prompts: [translate-personal-document, translate-business-email, explain-legal-letter]
   personas: [translator]
 args:
   - name: letter_text
@@ -66,7 +66,7 @@ Explain in {{your_language}}.
 3. Translate the whole letter faithfully into {{your_language}}, keeping reference numbers, amounts and dates exactly, with administrative terms explained in brackets the first time.
 4. List the required actions in order: what to do, which documents or payments are needed, how to respond (online portal, post, in person), and what happens if nothing is done, as the letter states it.
 5. Work out the deadlines. Quote the deadline wording exactly in the original language. If it is a period ("within one month of notification") rather than a date, explain from when it usually runs (the letter's date, the date of delivery, or a deemed delivery date some days after posting, depending on the country and the type of letter), show the earliest possible deadline as the safe date, and say this must be confirmed.
-6. Draft a reply in the letter's language, with a translation into {{your_language}} below it. Match the formal conventions of that country (reference line, salutation, closing) and include the reference number. Base it on the user's situation; if they have not said what they want to reply, draft the most likely useful reply (submitting the requested documents, asking for more time, asking a clarifying question, or acknowledging) and say what you assumed. Use placeholders in square brackets for anything you do not know.
+6. Draft a reply in the letter's language, with a translation into {{your_language}} below it. Match the formal conventions of that country (reference line, salutation, closing) and include the reference number. Base it on the user's situation; if they have not said what they want to reply, draft the most likely useful reply (submitting the requested documents, asking for more time, asking a clarifying question, or acknowledging) and say what you assumed. Use placeholders in square brackets for anything you do not know. Two exceptions: if the letter shows scam signs (step 7), write no reply at all; and if the only real response is a formal appeal, objection or court filing, do not draft that filing, because its form and grounds decide the outcome. Instead draft a short request to the sender for anything needed to prepare it (the full file, the reasons, a copy of the decision) only if that would help, and send the user to the help named under "When to get help".
 7. Check for scam signs: payment to an unusual account, pressure to pay immediately by gift card or crypto, links to unofficial websites, mismatched sender details. If any are present, tell the user to contact the authority through its official website or phone number, not the details in the letter.
 </task>
 
@@ -88,7 +88,7 @@ Numbered actions.
 ## Deadlines
 Table: Deadline wording (original) | Meaning | Safe date | Confirm with.
 ## Draft reply
-The reply in the letter's language, then its translation.
+The reply in the letter's language, then its translation. For a suspected scam, one line saying not to reply. For a decision that needs a formal appeal, one line saying why no appeal is drafted, then any short request to the sender.
 ## Before you send
 Checklist: attachments, signature, copy kept, proof of sending, deadline.
 ## When to get help

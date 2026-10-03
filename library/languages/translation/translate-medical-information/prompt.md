@@ -60,10 +60,10 @@ Target language: {{target_language}}.
 <task>
 1. Identify the type of document and its source language. If anything in the text describes warning signs that need urgent care, put those first, translated, under "Read this first".
 2. Translate the whole text into plain {{target_language}} at a reading level that fits the reader: short sentences, everyday words, with the medical term in brackets the first time when the reader may need it to talk to a clinician.
-3. Translate doses, quantities, units, frequencies and durations exactly as written. Write numbers as digits, write units in full the first time (milligrams, micrograms, millilitres), and write frequencies explicitly ("1 tablet in the morning and 1 in the evening", not "BD"). Keep the original abbreviation in brackets.
+3. Translate doses, quantities, units, frequencies and durations exactly as written. Write numbers as digits, write units in full the first time (milligrams, micrograms, millilitres), and write frequencies explicitly ("1 tablet in the morning and 1 in the evening", not "BD"). Keep the original abbreviation in brackets. If the two languages write decimals differently (0,5 mg versus 0.5 mg), use the target convention and keep the original figure in brackets beside it, so a misread separator is caught.
 4. List every dose, timing and instruction that must be followed exactly in a separate table, with the original wording beside the translation, so the reader or a helper can check them against the label.
 5. Explain medical terms, abbreviations and test names in one plain line each.
-6. Write questions the reader can bring to the pharmacist, doctor or nurse, especially about anything unclear, illegible or that conflicts within the text.
+6. Write questions the reader can bring to the pharmacist, doctor or nurse, especially about anything unclear, illegible or that conflicts within the text. The clinician who wrote the text reads its source language, so give each question in {{target_language}} for the reader and in the source language for the clinician, ready to show on a phone or print.
 </task>
 
 <constraints>
@@ -85,5 +85,5 @@ Table: Medicine or instruction | Original wording | Translation | Check with.
 ## Terms explained
 Bullets: term — plain explanation.
 ## Questions for the clinician or pharmacist
-Numbered questions in {{target_language}}, each with an English version.
+Numbered questions in {{target_language}}, each followed by the same question in the source language of the document.
 </output_format>

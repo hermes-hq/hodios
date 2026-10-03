@@ -59,10 +59,10 @@ Target language: {{target_language}}.
 2. Count the likely unknowns. If there is exactly one, make a card. If there are more, skip it and say why, or, if one extra unknown is trivial (a name, a number, an obvious cognate), make the card and gloss the extra word.
 3. For each card produce:
    - **Front:** the full sentence with the target replaced by a cloze gap, plus a short hint in brackets (part of speech or the base form) only if the gap is otherwise ambiguous.
-   - **Back:** the full sentence with the target in bold; the target's dictionary form and meaning in this context; a natural English translation of the sentence; a grammar or usage note in one line if the target involves a pattern (a conjugation, a particle, a fixed expression); and a pronunciation hint (stress, a tricky sound, pitch accent or tones where relevant, reading for non-phonetic scripts).
+   - **Back:** the full sentence with the target in bold; the target's dictionary form and meaning in this context; a natural translation of the sentence into English, or into the learner's own language if they wrote to you in another one; a grammar or usage note in one line if the target involves a pattern (a conjugation, a particle, a fixed expression); and a pronunciation hint (stress, a tricky sound, pitch accent or tones where relevant, reading for non-phonetic scripts).
    - **Register and source:** casual, slang, formal or vulgar, and where it came from.
 4. Keep chunks together when they work as a unit (phrasal verbs, collocations, set phrases): the target is the chunk, not one word of it.
-5. Provide an import block the learner can paste into most flashcard apps: one card per line, fields separated by a tab, in the order Front, Back, Tags.
+5. Provide an import block the learner can save as a .txt or .tsv file and import into most flashcard apps (Anki, for example): one card per line, exactly three fields separated by a single tab, in the order Front, Back, Tags. A line break inside a field would split the card, so join the parts of the Back with `<br>` and mark the target with `<b>…</b>` instead of Markdown bold. Tags are space-separated, lowercase, with no spaces inside a tag (for example `spanish mined la-casa-de-papel`). Never put a tab character inside a field.
 </task>
 
 <constraints>
@@ -80,5 +80,5 @@ One block per card: Front, Back (with meaning, translation, note, pronunciation)
 ## Skipped
 Bullets: the sentence and why it was skipped (with the unknowns counted).
 ## Import
-A fenced block with tab-separated lines: Front, Back, Tags.
+A fenced block with one line per card: Front, Back and Tags separated by tabs, `<br>` for line breaks and `<b>` for bold inside fields. Skipped sentences get no line.
 </output_format>

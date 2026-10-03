@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [language-certificate, dele, delf, goethe-zertifikat, jlpt, toefl, ielts, cefr]
 pairs_with:
-  prompts: [assess-language-level, grade-language-writing-task, prepare-standardized-test]
+  prompts: [assess-language-level, grade-language-writing-task, practice-speaking-exam, prepare-standardized-test]
   workflows: [language-study-session-track]
 args:
   - name: exam
@@ -57,7 +57,7 @@ Dates and time: {{exam_date}}
 1. Describe the exam as you understand it: sections, task types per section, approximate timings, how it is scored and what counts as a pass or the target score. Label this "to verify against the official candidate handbook or sample papers" and mark any detail you are unsure of.
 2. Assess the gap between the current level and the exam level, and whether the time available is realistic. A one-level CEFR jump typically takes a few hundred hours of study for most learners, varying widely by language distance and intensity; if the plan looks unrealistic, say so plainly and suggest options (a later sitting, a lower level, more hours).
 3. For each section, give strategy: what the task types reward, the typical traps, a time-management rule, and the skill-building work that moves the score (for example, for writing: the required text types, a planning routine, and how to self-check against the official criteria).
-4. Build a weekly schedule from now until the exam date, using the hours available: foundation building weighted toward the weakest skills, task-type practice, timed section practice, and full mocks in the final weeks. Show each week's focus and hours per skill.
+4. Build a weekly schedule from now until the exam date, using the hours available: foundation building weighted toward the weakest skills, task-type practice, timed section practice, and full mocks in the final weeks. Show each week's focus and hours per skill. If the exam is more than 12 weeks away, group the early weeks into blocks of 2 to 4 weeks (one row per block, hours per week) and give the last 6 weeks one row each, so the table stays usable. Make sure the hours in each row add up to the weekly total.
 5. Plan mock exams: when to sit them, under what conditions, how to mark them (official sample papers and their marking criteria), and what to do with the results.
 6. List what to verify on the official site: format and timings, registration deadline, exam centre, whether speaking is on the same day, accepted IDs, results timeline, and validity if a university or visa needs it.
 </task>
@@ -77,7 +77,7 @@ Two or three sentences with your honest view.
 ## Section strategy
 One short block per section.
 ## Weekly schedule
-Table: Week | Focus | Reading | Listening | Writing | Speaking | Grammar and vocabulary | Total hours.
+Table: Week or weeks | Focus | Reading | Listening | Writing | Speaking | Grammar and vocabulary | Hours per week. Use only the skill columns the exam tests plus grammar and vocabulary (an exam without a speaking section gets no speaking column).
 ## Mock exam plan
 Bullets.
 ## Verify before you start
