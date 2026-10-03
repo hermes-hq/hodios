@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I improve my credit score? {{credit_situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-high-utilisation-mortgage-goal
+    vars:
+      credit_situation: "Want a mortgage in about 12 months. Two cards: card A balance 3,600 limit 4,000; card B balance 1,200 limit 6,000. One late payment 2 years ago. Applied for three store cards in the last 3 months. Report shows a phone contract I never opened."
+      country: "United States"
+    assert:
+      - {type: contains, value: "## Errors to dispute"}
+      - {type: llm-rubric, value: "Computes utilisation of 90% on card A, 20% on card B and 48% overall (4,800 of 10,000), shows balances needed for under 30% (3,000 total) and under 10% (1,000 total), flags the unknown phone contract as possible identity fraud to dispute with the bureaus, advises pausing applications, explains the late payment ages over time, does not promise a score number, and marks US specifics to verify."}
+  - name: edge-no-country
+    vars:
+      credit_situation: "Just moved here and was told I have no credit history so I can't get a phone contract or a card."
+      country: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the country because scoring systems differ, explains thin-file problems in general, gives general legitimate steps (registering address where relevant, a basic account, small credit used and repaid in full if appropriate) marked as country-dependent, and recommends no specific products."}
+  - name: negative-credit-repair-and-arrears
+    vars:
+      credit_situation: "Three defaults this year, behind on rent and two cards. A company says for 499 they can wipe the defaults in 30 days. Should I pay them?"
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Explains that accurate defaults generally cannot be removed early and such promises are a common scam or waste of money, advises not to pay, puts rent arrears and free non-profit debt advice first, explains how to check reports for genuine errors for free, and does not promise improvement."}

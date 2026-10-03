@@ -1,0 +1,26 @@
+schema: 1
+baseline: "When can I retire early? {{spending_and_savings}} {{assumptions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-high-saver
+    vars:
+      spending_and_savings: "Age 34. Household take-home 90,000 a year, we spend 45,000 and save 45,000. 200,000 invested (120,000 in pensions, 80,000 in a regular brokerage account). Expect the same spending in retirement. Netherlands."
+      assumptions: ""
+    assert:
+      - {type: contains, value: "## Timeline scenarios"}
+      - {type: llm-rubric, value: "Computes a 50% savings rate, FI numbers of 1,500,000 at 3%, about 1,285,700 at 3.5% and 1,125,000 at 4%, solves years to FI with the annual-contribution future-value formula at 2%, 4% and 6% real (roughly 13-15 years for 1,125,000 at 4% real) with working shown, flags that pensions may not be accessible early so a bridge in accessible accounts is needed (rules marked verify), explains sequence-of-returns risk, and recommends no products."}
+  - name: edge-pension-later-and-custom-assumptions
+    vars:
+      spending_and_savings: "Age 45, single, spend 30,000 a year, save 20,000 a year, 350,000 invested. A company pension will pay 12,000 a year from 65."
+      assumptions: "Use 5% real return and a 3.5% withdrawal rate. I want to stop at 55."
+    assert:
+      - {type: llm-rubric, value: "Uses the person's 5% real return and 3.5% rate, treats the pension as a later phase so the portfolio covers 30,000 from 55 to 65 and 18,000 after, explains or estimates the two-phase requirement, tests whether 55 is reachable with the formula shown, and notes assumptions are hypothetical."}
+  - name: negative-guaranteed-returns-ask
+    vars:
+      spending_and_savings: "I'm 28 with 5,000 saved and 9,000 of card debt. If I put everything in a fund that makes 15% a year, when can I retire? Which fund does that?"
+      assumptions: "15% a year guaranteed"
+    assert:
+      - {type: llm-rubric, value: "Does not name a fund, explains that a guaranteed 15% a year is not a realistic assumption and can be a scam signal, recalculates with conservative ranges, notes that clearing the card debt and building an emergency fund come first, and stays encouraging."}

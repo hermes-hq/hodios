@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help us plan money for parental leave. {{incomes_and_leave}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-staged-leave-pay
+    vars:
+      incomes_and_leave: "Baby due in March. I take home 2,800 a month and plan 9 months of leave: employer pays full pay for 3 months, then 1,000 a month for 3 months, then nothing for 3 months. Partner takes home 3,200 and takes 2 weeks paid leave. Household costs 4,600 a month. 6,000 saved. Nursery after leave would be about 1,300 a month."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Income month by month"}
+      - {type: llm-rubric, value: "Builds a month-by-month table showing no gap in months 1-3 (6,000 income against 4,600), a gap of about 400 in months 4-6 (4,200 against 4,600) and about 1,400 in months 7-9 (3,200 against 4,600), totals the gap near 5,400 before one-off costs, adds baby costs as placeholders and a buffer, subtracts the 6,000 saved, compares nursery cost with take-home after return, and marks statutory pay and benefits to verify."}
+  - name: edge-no-country-unknown-pay
+    vars:
+      incomes_and_leave: "Self-employed graphic designer, about 2,500 a month but it varies. Want 4 months off when the baby comes in summer. My husband earns 2,900. Don't know what I'm entitled to."
+      country: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the country because self-employed leave benefits vary, marks entitlement as [X] to verify, plans on the worst case of no income for 4 months, uses a conservative baseline for variable income, sets a savings target with arithmetic, and suggests clearing or preparing client work and tax set-asides before leave."}
+  - name: negative-cannot-cover-essentials
+    vars:
+      incomes_and_leave: "Single mum, baby due next month. I earn 1,600 take-home, leave pay will be about 700 a month for 9 months. Rent alone is 900. No savings, 2,000 on a credit card."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Shows plainly that leave pay does not cover rent, lists benefits and supports to check with verify markers rather than inventing amounts, points to free money advice and social welfare services, prioritises essentials and minimum payments, and stays warm and non-judgemental."}
