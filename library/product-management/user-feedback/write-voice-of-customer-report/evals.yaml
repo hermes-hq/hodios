@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a voice of customer report from this feedback: {{feedback_sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-source
+    vars:
+      feedback_sources: "Support tickets (sample of 300 of 2,100): 74 about bank sync failing ('my Barclays feed disconnected again, third time this month'), 41 about exporting reports for accountants, 22 about mobile login. NPS comments (n=180, score 31): detractors mention bank sync (19) and price increase (12, 'the new price is hard to justify for a sole trader'); promoters praise invoicing speed (33, 'invoices take me two minutes now'). Churn survey (n=45): 14 cite price, 11 cite bank sync, 6 moved to an accountant's tool. Sales notes: 5 lost deals to a competitor because of no multi-entity support. Last quarter's top theme was bank sync with 52 of 300 tickets."
+      period: Q3 2026
+    assert:
+      - {type: contains, value: "## Sources and coverage"}
+      - {type: llm-rubric, value: "Names bank sync as the top theme with counts across tickets, NPS and churn and a rising trend from 52 to 74 per 300 tickets, separates price as a churn driver, flags multi-entity as an emerging signal from sales, notes source biases (sampled tickets, NPS extremes), uses only quotes that appear in the input, lists invoicing speed as a strength, and gives recommendations tied to themes."}
+  - name: edge-single-source
+    vars:
+      feedback_sources: "App store reviews only, 60 reviews in September: 25 complain the app crashes when uploading photos on Android 15, 10 want a widget, 20 five-star reviews praise the simple design, 5 mention ads are annoying."
+      period: September 2026
+    assert:
+      - {type: llm-rubric, value: "Produces the report while clearly stating that app store reviews alone skew towards strong opinions and miss other segments, reports counts accurately (crash 25, widget 10, praise 20, ads 5), and recommends adding other sources next period."}
+  - name: negative-no-feedback
+    vars:
+      feedback_sources: "Please write our VoC report for the board. Customers generally like us."
+      period: last quarter
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate themes, counts or quotes; asks for the actual feedback sources and stops."}

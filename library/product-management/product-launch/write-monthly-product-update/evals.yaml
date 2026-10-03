@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a monthly product update email about what we shipped: {{shipped}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-october
+    vars:
+      shipped: "PROJ-1423 recurring tasks (all plans) - most requested feature, 410 votes. PROJ-1502 Gantt view v2 refactor, now loads 3x faster on big projects (Business plan). Fixed: CSV export timeout on projects over 5,000 tasks. Internal: migrated job queue to new cluster. Slack integration now posts task due-date reminders. Help: help.example.com/recurring"
+      audience: all customers
+      coming_next: "Confirmed: time tracking reports, in beta now, GA expected within 6 weeks. Not confirmed: mobile offline mode."
+    assert:
+      - {type: contains, value: "## Subject lines"}
+      - {type: llm-rubric, value: "Leads with recurring tasks as the highlight (mentioning it was highly requested and available on all plans, with the help link), presents the faster Gantt view as a benefit with the Business plan note and without ticket numbers or 'refactor', lists the export fix and Slack reminders as short bullets, omits the job queue migration, includes only time tracking reports in coming next without a firm date and leaves out offline mode, and stays under about 350 words."}
+  - name: edge-fixes-only
+    vars:
+      shipped: "Only bug fixes this month: login loop on Safari fixed, PDF invoices now show the correct VAT number, dashboard loads faster for large accounts."
+      audience: small business owners
+      coming_next: ""
+    assert:
+      - {type: llm-rubric, value: "Writes a short, honest update framed around reliability, with the three fixes in customer language, no invented features and no coming-next section, or suggests a brief note instead of a full newsletter."}
+  - name: negative-nothing-shipped
+    vars:
+      shipped: "Nothing customer-facing this month, we did infrastructure work. Make it sound like we shipped a lot."
+      audience: all customers
+      coming_next: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent features or exaggerate; says nothing customer-visible shipped and suggests skipping the month or sending a short honest note about reliability work."}

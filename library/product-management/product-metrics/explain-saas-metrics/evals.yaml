@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Explain my SaaS metrics: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarter
+    vars:
+      data: "Q3. Starting MRR $200,000. New MRR $30,000. Expansion $18,000. Contraction $6,000. Churned MRR $14,000. Reactivation $0. Ending MRR $228,000. Customers at start 500, lost 40, new 70, at end 530."
+      question: "Why is NRR above 100% when we lost 40 customers?"
+    assert:
+      - {type: contains, value: "## MRR bridge check"}
+      - {type: icontains, value: "99"}
+      - {type: llm-rubric, value: "Confirms the bridge reconciles (200,000 + 30,000 + 18,000 - 6,000 - 14,000 = 228,000), computes logo churn 8.0%, gross revenue churn 10.0%, GRR 90.0%, NRR 99.0% (not above 100%), and quick ratio 2.4, points out that NRR from these numbers is actually 99.0% so the premise needs checking (perhaps new MRR was included), and explains how expansion offsets churn."}
+  - name: edge-annual-mix
+    vars:
+      data: "Monthly churn rate 3%. Our investor deck says annual churn is 36%. Also we booked a $120,000 annual contract in March and counted it as March MRR."
+      question: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that 3% monthly churn compounds to about 30.6% annual churn (1 - 0.97^12), not 36%, and that the $120,000 annual contract should count as $10,000 MRR rather than $120,000 in one month."}
+  - name: negative-no-numbers
+    vars:
+      data: "We're a SaaS company. What's a good NRR?"
+      question: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent the user's metrics; explains the minimum inputs needed, may use a clearly labelled illustrative example, and notes that typical NRR ranges vary widely by segment rather than giving one target as fact."}

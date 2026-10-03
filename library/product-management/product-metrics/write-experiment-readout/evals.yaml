@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write up these experiment results. Hypothesis: {{hypothesis}} Results: {{results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-test
+    vars:
+      hypothesis: "Showing delivery dates on the product page will increase checkout conversion by at least 0.5 percentage points because uncertainty about delivery causes drop-off."
+      results: "Ran 14 days as planned, 50/50 split. Control: 40,000 users, 2,000 purchases (5.0%). Variant: 40,100 users, 2,240 purchases (5.59%). Guardrail: average order value control $62.10, variant $61.80 (tool says not significant). Pre-planned decision rule: ship if the primary metric lift is positive with a 95% CI excluding zero and AOV does not drop significantly. Exploratory: mobile users showed +1.1 pp, desktop +0.1 pp."
+      audience: product and leadership stakeholders
+    assert:
+      - {type: contains, value: "## TL;DR"}
+      - {type: llm-rubric, value: "Checks sample ratio (40,000 vs 40,100 is consistent with 50/50), computes an absolute lift of about 0.59 percentage points (about 11.7% relative) with a 95% interval roughly 0.28 to 0.90 pp showing the arithmetic, notes AOV guardrail held, applies the pre-set rule to recommend shipping, labels the mobile versus desktop difference as exploratory, and leads with a three-line TL;DR."}
+  - name: edge-srm
+    vars:
+      hypothesis: "A shorter sign-up form increases completed sign-ups."
+      results: "Planned 50/50. Control 25,000 users, 3,000 sign-ups. Variant 22,000 users, 3,100 sign-ups. Ran 10 days."
+      audience: product team
+    assert:
+      - {type: llm-rubric, value: "Detects a sample ratio mismatch (25,000 vs 22,000 under a planned 50/50 split), states the result is not trustworthy and should not be used to decide, recommends investigating assignment or logging, and leads with this rather than declaring a winner."}
+  - name: negative-no-numbers
+    vars:
+      hypothesis: "New onboarding increases activation."
+      results: "The variant felt better and the team liked it. The dashboard was green."
+      audience: product and leadership stakeholders
+    assert:
+      - {type: llm-rubric, value: "Asks for users and outcomes per variant (or the tool's effect estimate and interval) and stops, without inventing results or declaring a winner."}

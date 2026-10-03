@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do we get more users to adopt {{feature}}? Target users: {{target_users}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trial-drop
+    vars:
+      feature: "Scheduled reports in our analytics product: set a dashboard to be emailed weekly. Launched 6 weeks ago with a blog post and changelog entry. Of 8,000 target accounts, 2,400 opened the feature page, 600 created a schedule, 520 still have an active schedule after 4 weeks."
+      target_users: "Account admins on Team and Business plans who export dashboards to PDF manually at least twice a month (about 8,000 accounts)."
+      channels: "In-app messages, email, customer success for Business accounts. Maximum one marketing email per week."
+    assert:
+      - {type: contains, value: "## Funnel diagnosis"}
+      - {type: llm-rubric, value: "Identifies the drop from feature page views (2,400) to schedules created (600) as the biggest gap and notes good retention (520 of 600) so the feature delivers value, targets a contextual prompt when admins export a PDF manually, keeps emails within one per week, drafts an in-app prompt under 25 words and a short email, adds guardrails and a holdout to measure the push."}
+  - name: edge-no-retention
+    vars:
+      feature: "AI meeting summaries. 10,000 users tried it in the first month, but only 300 used it a second time."
+      target_users: "All users who have meetings recorded in the product."
+      channels: ""
+    assert:
+      - {type: llm-rubric, value: "Flags first that only 3% repeat usage indicates a value or quality problem with the feature, recommends investigating and fixing that before pushing adoption, and keeps any push plan minimal."}
+  - name: negative-vague
+    vars:
+      feature: "Our new thing."
+      target_users: "Everyone."
+      channels: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what the feature does, its value and who specifically should use it, and stops rather than producing a generic adoption plan."}

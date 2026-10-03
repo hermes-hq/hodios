@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design a holdout test for {{feature}} measuring {{metric}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-push-programme
+    vars:
+      feature: "Our push notification programme (reminders, recommendations, win-back). We send about 5 pushes per user per week. Leadership wants to know whether it actually increases retention or just annoys people, to decide whether to cut it back."
+      metric: "60-day retention"
+      context: "About 200,000 new users per month. Baseline 60-day retention is 25%. We care about an absolute change of 1 percentage point. We run several A/B tests on push copy at the same time."
+    assert:
+      - {type: contains, value: "## Decision rule"}
+      - {type: llm-rubric, value: "Justifies a channel holdout tied to the cut-back decision, randomises at user level with persistent assignment, keeps transactional or security notifications for the held-out group, computes n per group with 16 x 0.25 x 0.75 / 0.01^2 = 30,000 and adjusts for an unequal split such as 5 to 10 percent, sets a duration of at least 60 days plus enrolment, addresses interaction with the concurrent copy tests and contamination, and writes a decision rule before results."}
+  - name: edge-safety-feature
+    vars:
+      feature: "Fraud warning banner shown before users send money to a new payee."
+      metric: "fraud losses per 1,000 users"
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Advises against withholding a fraud protection feature from users and proposes alternatives (for example comparing variants of the warning, before-and-after analysis, or holding out only an incremental enhancement), rather than designing a full holdout."}
+  - name: negative-no-decision
+    vars:
+      feature: "Everything we shipped this year."
+      metric: "engagement"
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what decision the holdout would inform (and what engagement means precisely) before designing anything, and stops instead of producing a full design."}
