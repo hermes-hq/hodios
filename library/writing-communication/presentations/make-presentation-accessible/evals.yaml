@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Is this presentation accessible? {{slides}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-live-talk
+    vars:
+      slides: "Slide 1: title in light grey (#BBBBBB) on white, 40pt. Slide 2: project status table, rows coloured red, amber or green with no text labels. Slide 3: line chart of monthly active users Jan-Jun: 12k, 13k, 15k, 14k, 18k, 22k; two lines (web in blue, mobile in orange) distinguished only by colour; no alt text. Slide 4: 14 bullet points in 16pt. Slide 5: embedded 2-minute customer video, no captions. Slide 6: decorative stock photo of a handshake."
+      delivery: live
+    assert:
+      - {type: contains, value: "## Describe it aloud"}
+      - {type: llm-rubric, value: "Flags low contrast of light grey on white as a blocker or major issue; flags red/amber/green status without labels as colour-only meaning with a fix such as text labels; writes alt text for the line chart using the supplied values; flags 14 bullets at 16pt as too small and dense; flags the uncaptioned video; marks the handshake photo decorative; gives describe-aloud lines; includes live-delivery tips such as repeating questions and enabling captions."}
+  - name: edge-shared-file
+    vars:
+      slides: "Slide 1: 'Untitled' title placeholder, a diagram of our org structure (image). Slide 2: two text boxes, the conclusion box was added first. Slide 3: link text 'click here'."
+      delivery: shared-file
+    assert:
+      - {type: llm-rubric, value: "For a shared file, flags the missing meaningful slide title, reading order of text boxes, the non-descriptive link text and missing alt text for the diagram; marks the diagram's details as needed rather than inventing the org structure; gives a shared-file checklist such as running the authoring tool's accessibility checker."}
+  - name: negative-no-detail
+    vars:
+      slides: "10 slides about our quarterly results with some charts."
+    assert:
+      - {type: llm-rubric, value: "Does not invent issues or a pass verdict; explains it needs each slide's text, colours, sizes and visual descriptions, lists what to check under Could not check, and may give a general checklist."}

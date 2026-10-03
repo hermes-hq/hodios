@@ -1,0 +1,31 @@
+schema: 1
+baseline: "My presentation is {{current_minutes}} minutes and I need it to be {{target_minutes}} minutes. Here are my slides: {{slide_outline}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-30-to-15
+    vars:
+      slide_outline: "1 Title (1 min). 2 About me (2 min). 3 Agenda (1 min). 4 The problem: checkout abandonment at 68% (3 min). 5 Industry benchmarks, 4 charts (4 min). 6 User research: 12 interviews, 3 quotes (4 min). 7 Our hypothesis (2 min). 8 Live demo of new checkout (6 min). 9 A/B test results: abandonment down to 54% (3 min). 10 Rollout plan (2 min). 11 Ask: two more engineers for Q3 (1 min). 12 Questions (1 min)."
+      current_minutes: 30
+      target_minutes: 15
+      must_keep: "The A/B test results and the ask"
+    assert:
+      - {type: contains, value: "## New running order"}
+      - {type: llm-rubric, value: "Keeps the A/B results and the ask; cuts or compresses about-me and agenda; moves benchmarks to the appendix; replaces or shortens the 6-minute live demo; merges hypothesis with the problem or research; new running order minutes plus buffer add up exactly to 15 with the sum shown; suggests bridging sentences for changed transitions; does not tell the speaker to talk faster."}
+  - name: edge-must-keep-exceeds-slot
+    vars:
+      slide_outline: "1 Intro (2 min). 2 Case study A (8 min). 3 Case study B (8 min). 4 Case study C (8 min). 5 Lessons (4 min)."
+      current_minutes: 30
+      target_minutes: 10
+      must_keep: "All three case studies in full"
+    assert:
+      - {type: llm-rubric, value: "Points out that the three case studies in full take 24 minutes and cannot fit in 10, and proposes the least harmful option such as one case in depth and the other two as one-line examples, or asks the speaker to choose, with a timing that adds up to 10."}
+  - name: negative-target-longer
+    vars:
+      slide_outline: "1 Intro. 2 Results. 3 Next steps."
+      current_minutes: 10
+      target_minutes: 20
+    assert:
+      - {type: llm-rubric, value: "Notes the new slot is longer, so no cut is needed, and offers a different kind of help instead of producing a cut plan."}

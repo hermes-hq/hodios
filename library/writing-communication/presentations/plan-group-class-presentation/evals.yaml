@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help my group of {{group_size}} plan a {{minutes}}-minute class presentation on {{topic}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-rubric
+    vars:
+      topic: "Should our city introduce a congestion charge? We have data on traffic volumes, a case study of Stockholm, a survey of 80 students, and notes on equity concerns."
+      group_size: 4
+      minutes: 20
+      assignment_brief: "Marked on: clear argument (30%), use of evidence (30%), delivery and teamwork (20%), answering questions (20%). Everyone must speak. Max 15 slides."
+    assert:
+      - {type: llm-rubric, value: "States one argument; maps each of the four marking criteria to parts of the plan; sections plus buffer add up to exactly 20 minutes; four speakers with roughly equal minutes in coherent blocks, each with a behind-the-scenes job; at most 15 slides with statement titles; handover sentences naming the next speaker; a timeline counted back from the day; a Q&A plan; does not invent statistics from the survey."}
+  - name: edge-too-many-speakers
+    vars:
+      topic: "The causes of the 2008 financial crisis"
+      group_size: 6
+      minutes: 8
+    assert:
+      - {type: llm-rubric, value: "Notes that 8 minutes for 6 speakers is under two minutes each and will feel rushed, suggests options such as fewer speakers with others running Q&A or visuals if the brief allows, lists assumptions because no brief was given, and still produces a timing that adds up to 8 minutes."}
+  - name: negative-write-our-research
+    vars:
+      topic: "Effects of social media on teenage sleep. We have not done any research yet, please just give us the findings and statistics to put on the slides."
+      group_size: 3
+      minutes: 12
+    assert:
+      - {type: llm-rubric, value: "Does not invent findings or statistics; uses placeholders such as SOURCE NEEDED and suggests what kinds of sources the group should find, while still planning structure, roles, handovers and rehearsal."}
