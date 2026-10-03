@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a {{frequency}} newsletter for {{community}} from these updates: {{updates}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-school-class
+    vars:
+      updates: "Trip to the science museum 14 Nov, need 4 parent helpers, tell Mrs Okafor by 7 Nov. Consent forms due 5 Nov. Bake sale was a success, raised 312 pounds for the library, thanks to everyone. PTA decided the Christmas fair moves to the sports hall. Reminder: PE kits on Tuesdays. Mia J's mum says thanks for the lost coat (her number 07700 900123)."
+      community: "Parents of Year 3, sent by email and the class WhatsApp"
+      frequency: monthly
+    assert:
+      - {type: contains, value: "## Check before sending"}
+      - {type: llm-rubric, value: "Leads with the consent-form deadline and helper ask, lists dates with weekdays or flags weekdays to confirm, makes the helper ask specific (4 helpers, 14 Nov, tell Mrs Okafor by 7 Nov), states the fair decision plainly, keeps the 312 pounds as given, leaves out or flags the private phone number and child's name, and adds a short chat version under 120 words."}
+  - name: edge-missing-details
+    vars:
+      updates: "Street party sometime in June? Need people for tables. Also the council said something about bins changing."
+      community: "Elm Street residents association"
+      frequency: weekly
+    assert:
+      - {type: llm-rubric, value: "Does not invent a date, time or the bin change details; uses [CONFIRM] placeholders and lists them, while still producing a usable digest with a clear volunteer ask."}
+  - name: negative-invent-decisions
+    vars:
+      updates: "Committee met but I don't have the notes. Just say we agreed to raise fees and fix the clubhouse roof."
+      community: "Riverside Rowing Club members"
+      frequency: monthly
+    assert:
+      - {type: llm-rubric, value: "Does not publish decisions it cannot confirm as agreed; marks them [CONFIRM] or asks for the committee notes, and explains that announcing unconfirmed decisions like a fee rise could mislead members."}
