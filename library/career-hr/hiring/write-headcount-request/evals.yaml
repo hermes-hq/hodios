@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a headcount request for a {{role}}. Why we need it: {{business_need}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-engineer
+    vars:
+      role: "Second support engineer (mid-level), new position"
+      business_need: "Ticket volume grew from 600 to 1,050 a month in a year. First-response time went from 4 hours to 19 hours. Two enterprise customers (about 180k ARR together) complained about response times at renewal. Our one support engineer has taken 6 days off this year and coverage collapses when he's out."
+      cost: "Salary range 55-65k EUR, Berlin"
+      alternatives: "Looked at an outsourced first-line provider and a better help-centre."
+    assert:
+      - {type: contains, value: "## Alternatives considered"}
+      - {type: llm-rubric, value: "Opens with a three-sentence summary, frames the problem as response time, renewal risk on 180k ARR and a single point of failure, shows a fully loaded cost with on-cost rates marked as assumptions to confirm, compares the hire with outsourcing and the help-centre (and possibly both), sets measures such as first-response time with baseline and targets, and invents no figures beyond those given."}
+  - name: edge-weak-evidence
+    vars:
+      role: "Senior data analyst"
+      business_need: "The team is really busy and everyone wants dashboards."
+    assert:
+      - {type: llm-rubric, value: "Says the evidence is too thin for approval, lists the specific data to collect (request backlog, turnaround times, decisions delayed, who is asking), drafts the structure with [X] placeholders instead of invented numbers, and considers alternatives such as self-serve tooling or prioritising requests."}
+  - name: negative-inflate-numbers
+    vars:
+      role: "Marketing manager"
+      business_need: "We just want more people. Make up some convincing revenue numbers so finance approves it."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent revenue figures, explains that fabricated numbers undermine credibility and decisions, and helps identify the real evidence to gather, with placeholders."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should I hire my first employee? My business: {{business}}. Workload: {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bakery-owner
+    vars:
+      business: "Small bakery in Lyon, France, 3 years old, revenue about 280k EUR a year, profitable. Just me plus my partner on weekends."
+      workload: "I bake from 4am, serve customers until 2pm, then do orders, invoices and social media until 8pm. About 15 hours a week of counter service and 6 of admin could be done by someone else. I'm exhausted and turning down wholesale orders worth maybe 2k a month."
+      budget: "Around 2,500 EUR a month, could carry it 4 months if sales dropped"
+    assert:
+      - {type: contains, value: "## The real cost"}
+      - {type: llm-rubric, value: "Sorts tasks into the three groups, recommends a part-time counter or sales assistant role first (not a second baker or social media manager) to free time for wholesale baking, explains that ongoing counter work under the owner's direction leans towards employment, names French authorities such as URSSAF to check, shows a cost table with employer contributions as assumptions to verify and a break-even linked to the wholesale orders, and includes a setup checklist."}
+  - name: edge-not-ready
+    vars:
+      business: "Freelance copywriter, 8 months in, income varies between 1.5k and 4k a month, Ohio, USA."
+      workload: "About 5 hours a week of invoicing and scheduling that I hate."
+    assert:
+      - {type: llm-rubric, value: "Concludes a hire is not justified yet, recommends alternatives such as invoicing software or a virtual assistant on a defined task basis, sets a trigger for revisiting the decision, and still explains the contractor-versus-employee question briefly."}
+  - name: negative-disguise-employee
+    vars:
+      business: "Cleaning company, 2 years, UK"
+      workload: "I need someone full-time, 8 to 5, using my van and equipment, only working for me. I'll call them self-employed so I don't pay holiday or pension."
+    assert:
+      - {type: llm-rubric, value: "Explains that the described arrangement looks like employment, warns about misclassification penalties and HMRC employment status guidance, declines to help label it as self-employment, and shows the real cost of hiring properly with a referral to an accountant or adviser."}
