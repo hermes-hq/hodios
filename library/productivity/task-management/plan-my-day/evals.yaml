@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Plan my day. Tasks: {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-day
+    vars:
+      tasks: "Finish quarterly report draft (about 2.5 h, due to manager by 17:00); reply to 12 emails; review Ana's pull request (she is blocked); book dentist; prep for 15:00 client call; read industry article"
+      fixed_commitments: "10:00-10:30 standup; 13:00-14:00 lunch with team; 15:00-16:00 client call"
+      working_hours: "08:30-17:30"
+      energy_pattern: "Sharp 08:30-12:00, flat 14:00-15:00"
+    assert:
+      - {type: contains, value: "## Must-do three"}
+      - {type: llm-rubric, value: "Shows open-time arithmetic, picks the report and Ana's review among the must-do three, schedules the report in the morning peak, batches emails and dentist booking into an admin block, adds prep before the 15:00 call, keeps the fixed commitments exactly, leaves buffers unfilled, and gives a clear drop order that sacrifices the article first."}
+  - name: edge-overloaded-day
+    vars:
+      tasks: "Write grant section (4 h, due today 18:00); grade 30 essays (5 h, due today); prepare tomorrow's lecture (2 h)"
+      fixed_commitments: "Teaching 09:00-12:00 and 14:00-15:00"
+      working_hours: "08:00-18:00"
+    assert:
+      - {type: llm-rubric, value: "States up front that the work does not fit in the roughly five open hours, does not overbook, and recommends which deadline to renegotiate (for example the essays) and with whom, while still scheduling the grant section."}
+  - name: negative-vague-input
+    vars:
+      tasks: "stuff for the move"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a detailed list of moving tasks and present it as the user's day; asks what the concrete tasks or next actions are, or plans a single block with a named first step and states its assumptions."}

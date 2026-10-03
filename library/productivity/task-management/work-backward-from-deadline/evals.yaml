@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me plan backwards to hit this deadline. Goal: {{goal}}. Deadline: {{deadline}}. I have {{hours_per_week}} hours a week."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dissertation
+    vars:
+      goal: "Submit my 12,000-word master's dissertation. Literature review is drafted (4,000 words). Still need methods, analysis of my survey data, discussion, conclusion, and formatting. My supervisor needs two weeks to give feedback on a full draft."
+      deadline: "2027-01-15 (today is 2026-10-05; I'm away 2026-12-20 to 2026-12-28)"
+      hours_per_week: 10
+    assert:
+      - {type: contains, value: "## Milestones"}
+      - {type: llm-rubric, value: "Counts roughly 14 weeks minus the holiday week, gives effort ranges per stage, treats the supervisor's two-week feedback as a calendar lead time separate from effort, keeps a buffer before 15 January, lists milestones latest first with a full draft date that leaves time for feedback, gives a verdict with numbers, and lists concrete tasks for this week."}
+  - name: edge-unrealistic
+    vars:
+      goal: "Run a full marathon. I currently run 5 km twice a week."
+      deadline: "Six weeks from today"
+      hours_per_week: 4
+    assert:
+      - {type: llm-rubric, value: "Says plainly in the first line that the deadline is unrealistic or risky, explains why with numbers and injury risk, and offers options such as a half-marathon or shorter race, a later marathon date, or run-walk, without inventing medical claims."}
+  - name: negative-no-today
+    vars:
+      goal: "Finish and self-publish my children's picture book"
+      deadline: "2027-06-01"
+      hours_per_week: 6
+    assert:
+      - {type: llm-rubric, value: "Asks for today's date before counting weeks or states that the count depends on it and asks, rather than guessing a start date silently; may outline stages while waiting."}

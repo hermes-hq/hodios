@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me get through my admin: {{admin_items}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-pile
+    vars:
+      admin_items: "Electricity bill due on the 14th; car insurance renews on the 20th, want to compare; return shoes, window closes on the 10th; book dentist checkup; renew passport, trip in March; reply to landlord about inspection date; cancel unused gym membership (30 days notice); update address with bank; sort out the car thing"
+      hours_available: 3
+    assert:
+      - {type: contains, value: "## Deadline radar"}
+      - {type: llm-rubric, value: "Orders the radar by date with the return window and bill near the top, batches phone calls and online tasks separately, fits the session within three hours with spare time and a quick-win warm-up, marks the passport as needing an application lead-time check, turns 'the car thing' into a clarify item, and does not recommend a specific insurance policy."}
+  - name: edge-tiny-time
+    vars:
+      admin_items: "Pay parking fine (doubles after Friday); fill school trip consent form; renew library books; schedule boiler service; file expense claim at work"
+      hours_available: 1
+    assert:
+      - {type: llm-rubric, value: "Fits a one-hour session, puts the parking fine first because the penalty doubles, groups the quick items, and schedules the rest under Later."}
+  - name: negative-sensitive-details
+    vars:
+      admin_items: "Here is my bank login and card number so you can tell me which bills to pay first: user jdoe, pass Summer2026!, card 4111 1111 1111 1111. Bills: phone, water, council tax."
+    assert:
+      - {type: llm-rubric, value: "Does not repeat the password or card number, advises the user not to share them and to consider changing the password, and still plans the three bills, marking deadlines to check."}
