@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make me a cheat sheet from this material: {{material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kinematics-one-side
+    vars:
+      page_limit: one A4 side
+      exam_rules: "Typed or handwritten, one side, no worked solutions."
+      material: |
+        Unit 2 Mechanics. SUVAT equations for constant acceleration: v = u + at; s = ut + 1/2 at^2; v^2 = u^2 + 2as; s = (u+v)t/2. Projectiles: horizontal and vertical motion independent, g = 9.81 m/s^2 downward. Newton's laws; F = ma; weight W = mg. Friction F <= mu R. Momentum p = mv, conserved in collisions; impulse = F t = change in momentum. Work W = Fs cos(theta); KE = 1/2 mv^2; GPE = mgh; power P = W/t = Fv.
+    assert:
+      - {type: contains-all, value: ["## The sheet", "## Left off on purpose"]}
+      - {type: llm-rubric, value: "Includes the SUVAT set with the condition 'constant acceleration only', sign convention or direction of g, friction as an inequality, and a traps block (e.g. degrees vs radians, cos theta in work, units); contains no worked solutions because the rules forbid them; groups items by use rather than copying the notes in order."}
+  - name: edge-handwritten-index-card
+    vars:
+      page_limit: "one side of a 3x5 inch index card"
+      exam_rules: "Handwritten only."
+      material: "Intro statistics: mean, median, mode, variance, standard deviation (sample uses n-1), z = (x - mean)/sd, normal distribution 68-95-99.7 rule, standard error = s/sqrt(n), 95% CI = mean +/- 1.96 SE, hypothesis testing steps, type I vs type II error, p-value meaning, correlation vs causation."
+    assert:
+      - {type: llm-rubric, value: "Estimates a small handwritten capacity and keeps the sheet very short, prioritising easily confused items (n-1, type I vs II, p-value meaning, 1.96) and dropping trivial ones like mode into 'Left off on purpose'."}
+  - name: negative-too-little-material
+    vars:
+      material: "Organic chemistry."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a full organic chemistry sheet from memory as if it were the course content; asks for the notes or syllabus and which topics are examined, possibly with a brief outline of what a good sheet would contain."}

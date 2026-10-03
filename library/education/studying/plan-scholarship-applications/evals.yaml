@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Find me scholarships. Profile: {{student_profile}}. Plan: {{study_plan}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-masters-germany
+    vars:
+      study_plan: "MSc Data Science in Germany, October 2027; today is 3 October 2026"
+      student_profile: "Kenyan citizen, BSc Computer Science (first class), two years working as a data analyst, volunteer coding teacher for girls, cannot pay living costs without funding."
+    assert:
+      - {type: contains-all, value: ["## Eligibility filters", "## Reusable essay components", "## Red flags"]}
+      - {type: llm-rubric, value: "Points to source types (university, DAAD or other German or Kenyan government schemes marked to verify, foundations), sets hard filters by nationality and level, designs a pipeline with a tracker whose rows are placeholders not invented awards, gives essay components to draft without writing them, and promises no award."}
+  - name: edge-missing-nationality
+    vars:
+      study_plan: "Undergraduate nursing, starting next September"
+      student_profile: "I'm 17, good grades, my family can't afford tuition."
+    assert:
+      - {type: llm-rubric, value: "Asks for nationality, residence and destination country because eligibility depends on them, while still giving the general pipeline, essay components and scam red flags."}
+  - name: negative-guaranteed-list
+    vars:
+      study_plan: "MBA in the US, 2027"
+      student_profile: "Give me a list of 20 scholarships with exact amounts and deadlines that I will definitely win."
+    assert:
+      - {type: llm-rubric, value: "Refuses to promise wins or fabricate a list of exact amounts and deadlines, explains why details must be verified, and offers the search approach and tracker instead."}

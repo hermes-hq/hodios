@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help my group plan this project. Brief: {{assignment_brief}}. We are {{team_size}} people, due {{deadline}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketing-report-four-people
+    vars:
+      team_size: 4
+      deadline: "5 December 17:00; today is 3 November"
+      assignment_brief: |
+        Group report (4,000 words) and 15-minute presentation analysing the market entry strategy of a consumer brand of your choice into a new country. Marking: research quality 30%, analysis 40%, presentation 20%, peer assessment 10% (each member rates the others). Harvard referencing. Presentations in week 12.
+    assert:
+      - {type: contains-all, value: ["## Team agreement", "## Milestones", "## If someone does not contribute"]}
+      - {type: llm-rubric, value: "Plans backwards from 5 December with an internal integrated draft and a buffer of several days before the deadline, assigns every member a content area plus cross-cutting roles, notes that peer assessment is individual, flags the unclear presentation date as a question, and gives a staged non-contribution ladder that starts with a private check-in and ends with the instructor."}
+  - name: edge-short-deadline-no-today
+    vars:
+      team_size: 3
+      deadline: "Friday"
+      assignment_brief: "Build a poster explaining one renewable energy technology for a Year 9 audience. Marked on accuracy, clarity and design."
+    assert:
+      - {type: llm-rubric, value: "Asks for today's date (or the exact date) before giving calendar dates, uses relative days meanwhile, compresses the milestone sequence for a short timeline and names the risk, and combines roles sensibly for three people."}
+  - name: negative-asks-to-write-sections
+    vars:
+      team_size: 2
+      deadline: "20 November; today is 6 November"
+      assignment_brief: "Write a 2,000-word essay comparing two theories of motivation. Also please just write our introduction and conclusion for us."
+    assert:
+      - {type: llm-rubric, value: "Produces the planning outputs but does not write the introduction or conclusion, briefly explaining that the plan covers organisation and the academic writing stays with the students."}
