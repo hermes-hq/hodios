@@ -86,7 +86,8 @@ Qualify these leads with {{framework}}.
 Counts by status and the two leads to contact first, with why.
 
 ## Lead scores
-A table: Lead | ICP fit (met/total) | Framework elements (one short code per element, for example B? A+ N+ T-) | Status | Key evidence | Next question.
+A table: Lead | ICP fit (met/total) | Framework elements | Status | Key evidence | Next question.
+Write the framework elements as one code per element, each followed by + strong, ~ partial, - weak or ? unknown. Codes: bant B A N T; meddicc M EB DC DP IP CH CO; champ C A M P. Example: `B? A~ N+ T-`. Put the legend under the table.
 
 ## Lead notes
 Two to four lines per lead: what is known, what is missing, and any risk.

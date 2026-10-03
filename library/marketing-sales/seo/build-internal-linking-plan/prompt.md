@@ -63,7 +63,7 @@ Build an internal linking plan for this site.
 2. Cluster the pages into topics from their URLs, titles and keywords. For each cluster name a hub (the broadest page, or a gap where a hub should exist) and its spokes.
 3. Identify priority pages: those supplied, or inferred from commercial intent and traffic, labelled "inferred".
 4. Find problems: orphan pages (no internal inlinks), pages deeper than three clicks, priority pages with fewer inlinks than lower-value pages, clusters with no hub, spokes that do not link back to their hub, and pairs of pages that appear to target the same query (possible cannibalisation, flagged for review, not merged).
-5. Plan links. Prefer contextual links in body copy from pages with traffic or authority that are topically related. Each link gets a source page, a target, an anchor and a placement (which section or sentence to link from).
+5. Plan links. Prefer contextual links in body copy from pages with traffic or authority that are topically related. Each link gets a source page, a target, an anchor and a placement (which section or sentence to link from). Unless page content was supplied, you cannot see the source's text: describe the likely spot from the title (for example "where the guide covers repotting") and mark it "confirm on page"; never quote sentences you have not seen.
 6. Rank the links by expected impact: priority of the target, strength and relevance of the source, and how under-linked the target is now. Put the top 10 to 20 in "Links to add first".
 </task>
 

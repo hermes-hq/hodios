@@ -55,7 +55,7 @@ Review this pipeline and make the forecast call.
 
 {{#quota_and_period}}Period and target: {{quota_and_period}}{{/quota_and_period}}
 
-1. Check the data. You need at least deal, amount, stage and close date. If those are missing, ask and stop. If last activity, next step or created date is missing, continue and note which checks you could not run. If the period is not given, infer it from close dates and say so.
+1. Check the data. You need at least deal, amount, stage and close date. If those are missing, ask and stop. If last activity, next step or created date is missing, continue and note which checks you could not run. If the period is not given, infer it from close dates and say so. Measure staleness and past-due dates from today's date if given; otherwise use the latest date in the export as "today" and say so, never an assumed calendar date.
 2. Run hygiene checks per deal: close date in the past, close date outside the period, no next step or a vague one ("follow up"), no activity in the last 14 days (21 for enterprise deals), close date pushed two or more times, stage much older than its peers, amount changed late, and a single contact engaged.
 3. Classify each open deal in the period:
    - Commit: buyer has confirmed intent, the economic buyer is engaged, the paper process (procurement, legal, signature) is known and on track, next steps are dated.

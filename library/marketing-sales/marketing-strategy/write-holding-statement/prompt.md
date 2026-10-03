@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [crisis-communications, holding-statement, media-relations, reactive-qa, public-relations]
 pairs_with:
-  prompts: [write-press-release, pitch-journalist]
+  prompts: [write-press-release, pitch-journalist, handle-social-media-backlash]
   personas: [pr-strategist]
 args:
   - name: situation

@@ -87,5 +87,5 @@ A table: # | Purpose | Message | Characters | Encoding | Segments.
 A table: # | Day and local time | Who receives it (including exclusions such as buyers and opt-outs).
 
 ## Pre-send checklist
-Short checklist: test send, link works and is tracked, opt-out keyword processed, quiet hours, exclusions applied.
+Short checklist: sender registered or verified where the country requires it (for example 10DLC or toll-free verification for US business texting, sender ID registration in some other markets), test send, link works and is tracked, opt-out keyword processed, quiet hours, exclusions applied.
 </output_format>

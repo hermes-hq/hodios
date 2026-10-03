@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [renewals, upsell, account-retention, pricing-conversation]
 pairs_with:
-  prompts: [write-account-plan, prepare-deal-negotiation, handle-sales-objections]
+  prompts: [write-account-plan, prepare-business-review, prepare-deal-negotiation, handle-sales-objections]
   personas: [sales-coach]
 args:
   - name: account_history
@@ -60,7 +60,7 @@ Prepare me for this renewal conversation.
 {{/renewal_terms}}
 
 1. If you cannot tell what the customer buys or when the renewal is, ask and stop. If the terms are missing, prepare everything except a numeric pricing stance and list the terms you need.
-2. Situation: renewal date, notice period, auto-renewal, current value, who signs, and days left. Work back from the date: procurement and legal lead times mean the real decision is often 60 to 90 days earlier.
+2. Situation: renewal date, notice period, auto-renewal, current value, who signs, and days left. Work back from the date: procurement and legal lead times mean the real decision is often 60 to 90 days earlier. If today's date is not given, do not guess it: express every date relative to the renewal (for example "R-90: notice deadline") and ask for today's date at the end.
 3. Value delivered: compare outcomes with the goals agreed at the start, using the customer's own numbers or quotes; where there is no measured outcome, say so and suggest what to show instead (adoption, time saved estimates the customer agrees with).
 4. Health and risks: adoption trend, support issues, stakeholder changes, budget pressure, competitor activity, and unmet promises. Rate overall renewal risk low, medium or high with reasons. If risk is high, make the conversation retention-first and move expansion to a later meeting.
 5. Expansion options: only those linked to a customer goal or observed need (more teams, more usage, an add-on that solves a raised problem), each with the trigger and a rough size from the terms if supplied.
@@ -104,5 +104,5 @@ Numbered list.
 A table: Objection | Response | Follow-up question.
 
 ## Timeline to renewal
-Dated steps from today to signature, with owners.
+Dated steps from today to signature (or steps relative to the renewal date if today's date is unknown), with owners. Mark the notice deadline.
 </output_format>
