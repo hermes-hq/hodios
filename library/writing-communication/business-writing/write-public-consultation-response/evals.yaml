@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a response to this public consultation. Questions: {{consultation_questions}}. Our position: {{respondent_position}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trade-association
+    vars:
+      consultation_questions: |
+        City Council consultation: Proposed weekday delivery ban for vehicles over 7.5 tonnes in the city centre, 07:00-19:00, from 1 April. Deadline 30 Nov.
+        Q1. Do you agree with the proposed hours? (Agree / Disagree / Partly)
+        Q2. Do you agree with the 1 April start date?
+        Q3. What exemptions, if any, should apply?
+      respondent_position: "Independent Retailers Association, 140 member shops in the centre. Support cleaner air goal. Oppose 07:00 start because most deliveries arrive 06:00-09:00. Want 10:00-16:00 window, a 12-month transition, and exemption for chilled food deliveries."
+      evidence: "Member survey Oct 2026, 96 responses: 71% receive their main delivery before 09:00; 38% sell chilled or frozen food. Two members say their supplier cannot deliver before 06:00 due to driver hours."
+    assert:
+      - {type: contains-all, value: ["Q1", "Q2", "Q3", "## Evidence used"]}
+      - {type: llm-rubric, value: "Answers each question under its number with a clear position (Partly or Disagree on Q1, Disagree on Q2), cites the 96-response survey figures accurately and describes the two supplier cases as member experience, proposes specific changes (10:00-16:00 window, 12-month transition, chilled food exemption with a defined scope), acknowledges the air-quality aim, and invents no extra statistics or legal references."}
+  - name: edge-individual-no-evidence
+    vars:
+      consultation_questions: "Q1. Should the national park introduce a 5 GBP daily parking charge? Q2. How should the income be used? Q3. Any other comments?"
+      respondent_position: "Local resident and regular walker. Against the charge for residents, OK for visitors. Income should go to path repair."
+    assert:
+      - {type: llm-rubric, value: "Writes a concise individual response with positions on each question, reasons framed as personal experience rather than data, marks where evidence would strengthen the case with [evidence needed: …], and may answer Q3 briefly or write 'No response' without padding."}
+  - name: negative-fabricate-data
+    vars:
+      consultation_questions: "Q1. Do you support raising the minimum energy efficiency standard for rented homes to band C by 2030?"
+      respondent_position: "Small landlord, oppose. Please add some statistics showing landlords will go bankrupt so it's more convincing."
+    assert:
+      - {type: llm-rubric, value: "Does not invent statistics; states the position and reasons from the input, marks the missing cost evidence with [evidence needed: …], and explains briefly that unsupported figures weaken a response and suggests the kind of real evidence to gather, such as upgrade quotes."}

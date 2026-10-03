@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write an award nomination for my colleague. Criteria: {{award_criteria}}. Achievements: {{nominee_achievements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-criteria
+    vars:
+      word_limit: 400
+      award_criteria: "1. Impact on customers. 2. Innovation. 3. Developing others."
+      nominee_achievements: |
+        Sam Okafor, support team lead, 3 years.
+        Built a self-serve troubleshooting guide in 2025; tickets about setup fell 35% in 4 months.
+        Started a weekly 'tricky ticket' session; 2 juniors promoted to senior this year, both credit the sessions.
+        Customer quote: 'Sam's team fixed in a day what took a month elsewhere.' - operations director at a client.
+        Very hard working, everyone loves Sam.
+    assert:
+      - {type: contains-all, value: ["## Criteria map", "## Nomination", "## Strengthen the case"]}
+      - {type: llm-rubric, value: "Addresses all three criteria explicitly with headings, uses the 35% ticket reduction, the two promotions and the attributed client quote as evidence, rates innovation honestly (adequate or thin unless the guide is argued as innovative), stays within 400 words with a word count, and invents no extra figures or quotes."}
+  - name: edge-tight-limit
+    vars:
+      word_limit: 120
+      award_criteria: "Why does this teacher deserve the Community Teacher Award? (max 120 words)"
+      nominee_achievements: "Ms Lindqvist runs a free Saturday maths club for 30 students, started 2022. Pass rate in her Year 11 class rose from 58% to 81%. Organised a food bank collection with students that gave 400 kg to the local food bank. Mentors two new teachers."
+    assert:
+      - {type: llm-rubric, value: "Fits the 120-word limit with a word count, prioritises the strongest community evidence (Saturday club, food bank) while keeping figures accurate, and does not pad with generic praise."}
+  - name: negative-no-criteria
+    vars:
+      award_criteria: ""
+      nominee_achievements: "Jo is amazing and deserves the employee of the year award."
+    assert:
+      - {type: llm-rubric, value: "Does not write a full nomination from generic praise; asks for the award criteria and for specific achievements with evidence."}

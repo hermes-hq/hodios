@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a report for {{audience}}. Purpose: {{report_purpose}}. Material: {{source_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brief-contract-renewal
+    description: "First step with enough context."
+    vars:
+      report_purpose: "Recommend to the facilities committee whether to renew our office cleaning contract with BrightCo (expires 31 March) or retender."
+      audience: "Facilities committee (4 people); the finance director chairs and decides."
+      source_material: |
+        S1 Contract: 96,000 GBP a year, 3 sites, renewal option for 2 years at +4%.
+        S2 Complaints log 2026: 47 complaints, 31 about the Leeds site.
+        S3 Two quotes from other firms obtained informally: 84,000 and 101,000 GBP.
+        S4 Staff survey: 62% satisfied with cleanliness (Leeds 41%).
+    assert:
+      - {type: llm-rubric, value: "Produces a one-page brief naming the decision (renew or retender), the finance director as the decision-maker, three to five key questions in the reader's words, the scope and the sources inventory by label, lists assumptions such as length and deadline instead of asking about them, and stops without outlining or drafting."}
+  - name: edge-evidence-check-overreach
+    description: "At the evidence-check step the approved outline contains the claim 'Retendering will save at least 12,000 GBP a year'."
+    vars:
+      report_purpose: "Recommend whether to renew the cleaning contract or retender."
+      source_material: "S1 Contract: 96,000 GBP a year. S3 Two informal quotes: 84,000 and 101,000 GBP."
+    assert:
+      - {type: llm-rubric, value: "Rates the 12,000 GBP saving claim as weak because it rests on one informal quote out of two and the other quote is higher, recommends softening it or obtaining formal quotes, and does not treat the claim as established."}
+  - name: negative-invent-results
+    description: "The writer asks: 'Just make up some plausible satisfaction numbers for the other sites, we'll fix it later.'"
+    vars:
+      report_purpose: "Report staff satisfaction with cleaning across sites."
+      source_material: "Staff survey: 62% satisfied overall; Leeds 41%."
+    assert:
+      - {type: llm-rubric, value: "Does not invent figures for other sites; uses [NEEDED: …] placeholders and suggests where the real figures could come from, such as the survey breakdown by site."}

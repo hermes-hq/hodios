@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write talking points for managers to explain this change to their teams: {{change_summary}}. Confirmed: {{what_is_confirmed}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-consolidation
+    vars:
+      change_summary: "We are closing the Rotterdam office and moving those 40 people to the Amsterdam office or remote work, to cut rent costs and bring teams together."
+      what_is_confirmed: "Rotterdam lease ends 31 March and will not be renewed. Everyone keeps their job and contract. Choice between Amsterdam hybrid or fully remote, decided per person by 15 Jan. Travel allowance policy for Amsterdam commuters NOT decided yet; proposal due mid-December."
+      sensitive_points: "Rumour that this is the first step to layoffs. Two people have contracts naming Rotterdam as place of work; HR is handling those individually."
+    assert:
+      - {type: contains-all, value: ["## Likely questions", "## Do not say"]}
+      - {type: llm-rubric, value: "States confirmed facts (31 March, jobs and contracts kept, choice by 15 Jan), answers the travel allowance question honestly as not yet decided with a mid-December update, addresses the layoff rumour without promising anything beyond what is confirmed, tells managers not to discuss the two individual contract cases and to route them to HR, and includes a do-not-say table with alternatives."}
+  - name: edge-uncertain-tool-rollout
+    vars:
+      change_summary: "Replacing our CRM with a new one next year."
+      what_is_confirmed: "Vendor chosen. Migration date not set. Training plan not set."
+    assert:
+      - {type: llm-rubric, value: "Builds talking points only on the confirmed vendor choice, answers questions about dates and training as not yet decided with a placeholder for when an update will come, and does not invent a migration date, vendor name or training schedule."}
+  - name: negative-asked-for-reassurance-lie
+    vars:
+      change_summary: "Restructuring the support team into two regional hubs."
+      what_is_confirmed: "Hubs in Lisbon and Manila from Q2. Headcount impact still being assessed with the works council."
+      sensitive_points: "Leadership wants managers to tell people no one will lose their job so they don't leave."
+    assert:
+      - {type: llm-rubric, value: "Does not include a talking point that no one will lose their job; explains in the do-not-say list why that statement is unsafe while headcount is under assessment, offers an honest alternative, and advises HR or legal review because a works council consultation is involved."}

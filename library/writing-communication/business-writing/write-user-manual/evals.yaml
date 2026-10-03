@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a user manual for this product: {{product_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-coffee-machine
+    vars:
+      reader_skill: novice
+      product_description: |
+        Bean-to-cup coffee machine for small offices. Front panel buttons: POWER, ESPRESSO, LUNGO, HOT WATER, CLEAN. Bean hopper on top, water tank at the back (remove and fill to MAX line), drip tray and grounds drawer at the front. Steam wand on the right gets very hot. Display shows 'FILL WATER', 'EMPTY GROUNDS', 'DESCALE'. Clean cycle runs 3 minutes, needs a cup under the spout.
+      known_issues: "Coffee comes out too slowly: grinder set too fine (dial inside hopper, turn to 5). Display says EMPTY GROUNDS right after emptying: drawer not pushed fully in."
+    assert:
+      - {type: contains-all, value: ["## Manual", "## Facts to confirm", "Troubleshooting"]}
+      - {type: llm-rubric, value: "Organises content by user tasks (fill water, make espresso, clean, descale, empty grounds), uses the button and message names exactly as given in bold, places a hot-surface warning for the steam wand before the relevant step, builds a symptom-based troubleshooting table including both known issues, and marks missing specs such as voltage, capacity and descaling steps or interval with [confirm: …] rather than inventing them."}
+  - name: edge-expert-service
+    vars:
+      reader_skill: expert
+      product_description: "Shared meeting room booking system: rooms have a wall tablet showing status (green free, red booked). Book from the calendar app by adding the room as a guest. Check in on the tablet within 10 minutes or the booking is released. Admins can set room capacity and equipment in the admin portal."
+    assert:
+      - {type: llm-rubric, value: "Produces a compact reference-style manual for experienced users with tasks for booking, checking in and admin settings, explains the 10-minute release rule, includes symptom-based troubleshooting, and does not invent product names, URLs or admin menu labels."}
+  - name: negative-too-vague
+    vars:
+      product_description: "Our new device."
+    assert:
+      - {type: llm-rubric, value: "Does not write a manual for an invented device; asks what the product is, its controls and how it is used."}

@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a site visit report for {{report_audience}} about {{site_and_purpose}} from these notes: {{visit_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-restaurant-standards-visit
+    vars:
+      site_and_purpose: "Riverside restaurant, 9 Sept, quarterly food safety and brand standards visit for the franchise owner"
+      report_audience: franchise owner
+      visit_notes: |
+        front of house clean, staff friendly, new menu boards up (good)
+        walk-in fridge 9C on display, probe read 8.5C (photo 4). manager says compressor serviced last month, no paperwork shown
+        temp log missing entries Sat+Sun
+        raw chicken stored above salad in walk-in (photo 5)
+        allergen matrix up to date, staff could explain it - great
+        back door propped open, fly screen torn (photo 7)
+        2 hand wash sinks, 1 had no soap
+    assert:
+      - {type: contains-all, value: ["## Visit report", "## Questions for the visitor"]}
+      - {type: llm-rubric, value: "Rates the fridge temperature and raw chicken above salad as the most severe issues (Critical or Major with a reason), keeps photo references, attributes the compressor service claim to the manager as unverified, records the allergen matrix and menu boards as good practice, gives follow-ups with placeholder owners and dates, and cites no regulation that the notes did not mention."}
+  - name: edge-thin-notes-no-standard
+    vars:
+      site_and_purpose: "Supplier warehouse in Brno, 2 Feb, first visit before signing a logistics contract"
+      visit_notes: "Big site, seemed busy. Racking looked old in zone C. Ops lead said they ship 4k orders/day. Didn't see the returns area."
+    assert:
+      - {type: llm-rubric, value: "Writes a short report that records the 4k orders/day as stated by the ops lead, not verified, treats the racking as an observation or issue needing inspection rather than a confirmed hazard, lists the unseen returns area as out of scope, and asks questions about what was checked instead of inventing findings."}
+  - name: negative-no-findings
+    vars:
+      site_and_purpose: "Visit to the Leeds office"
+      visit_notes: "Went there today."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate observations or issues; asks for the purpose of the visit and what was observed, then stops."}

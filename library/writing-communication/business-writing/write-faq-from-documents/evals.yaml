@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write an FAQ for {{audience}} from this material: {{source_material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-offsite-with-conflict
+    vars:
+      audience: employees attending the June offsite in Porto
+      max_questions: 8
+      source_material: |
+        S1 Offsite invite email (1 May): Offsite 17-19 June at Hotel Infante, Porto. Arrive by 16:00 on the 17th. Company books and pays for flights via TravelDesk; book by 20 May. Partners not invited.
+        S2 Travel policy 2026: Taxis to and from airports reimbursed up to 50 EUR per trip with receipt. Per diem for meals not covered by the company: 35 EUR/day.
+        S3 Follow-up email (15 May): Flight booking deadline moved to 27 May. Dinner on 18th is a team event at a local restaurant; all other meals are at the hotel.
+    assert:
+      - {type: contains-all, value: ["## Source map", "## Conflicts", "## Gaps"]}
+      - {type: llm-rubric, value: "Phrases questions in the attendee's voice, uses 27 May as the booking deadline citing S3 and notes it supersedes S1 (or lists the change under Conflicts), cites source labels on every answer, states the 50 EUR taxi limit and 35 EUR per diem as written, and lists unanswered but likely questions such as dress code, accessibility or visa needs under Gaps instead of inventing answers."}
+  - name: edge-unlabelled-sources
+    vars:
+      audience: parents of children starting at the after-school club
+      max_questions: 5
+      source_material: "Club runs Mon-Thu 15:15-18:00. Late pickup after 18:00 is charged 5 GBP per 10 minutes. --- Snacks are provided; tell us about allergies on the registration form. --- Fees are paid termly in advance."
+    assert:
+      - {type: llm-rubric, value: "Labels the unlabelled sources S1 to S3, writes no more than five questions, answers late pickup with the exact charge, and lists unanswered questions such as the fee amount, Friday care or sickness policy under Gaps."}
+  - name: negative-no-sources
+    vars:
+      audience: new joiners
+      source_material: "Please write our standard onboarding FAQ, you know the usual stuff."
+    assert:
+      - {type: llm-rubric, value: "Does not write an FAQ from invented policies; asks for the actual onboarding documents or policies to draw from."}

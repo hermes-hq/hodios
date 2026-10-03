@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a formal letter to {{recipient}} to {{purpose}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-gym-cancellation
+    vars:
+      country_convention: de
+      recipient: "FitWerk GmbH, Kundenservice, Hauptstraße 12, 10115 Berlin"
+      purpose: "Cancel my gym membership at the end of the minimum term and ask for written confirmation."
+      facts_and_references: "Member number 448210. Contract started 1 Feb 2025, 12-month minimum term."
+    assert:
+      - {type: contains-all, value: ["Mit freundlichen Grüßen", "448210", "## Translation notes"]}
+      - {type: not-contains, value: "Mit freundlichen Grüßen,"}
+      - {type: llm-rubric, value: "Writes the letter in German in DIN 5008 style with a bold subject line without the word Betreff, 'Sehr geehrte Damen und Herren,' followed by a lower-case first word, asks for written confirmation of the cancellation date, uses placeholders for the sender's name and address, gives an English gist, and advises checking the notice period and delivery method rather than asserting them."}
+  - name: edge-uk-unknown-name
+    vars:
+      country_convention: uk
+      recipient: "Planning department, Harrow Council"
+      purpose: "Object to planning application for a 6-storey building next to our street because of loss of light and parking."
+    assert:
+      - {type: llm-rubric, value: "Uses 'Dear Sir or Madam,' with 'Yours faithfully,', a UK date format, a subject line with a placeholder for the planning application reference, states the objection grounds clearly, and does not invent planning law or policy references."}
+  - name: negative-vague-purpose
+    vars:
+      country_convention: fr
+      recipient: "La banque"
+      purpose: "Something about my account."
+    assert:
+      - {type: llm-rubric, value: "Does not draft a letter around an invented problem; asks what the letter should achieve and which bank and account it concerns."}

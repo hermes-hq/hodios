@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a project close-out report for {{audience}} from these notes: {{project_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-move
+    vars:
+      audience: COO (sponsor)
+      original_goals: "Move 120 staff from Elm St to Harbour House by 30 June. Budget 480,000 EUR. Zero lost working days. Reduce annual rent by 15%."
+      project_notes: |
+        Move completed 14 July (fit-out contractor late on cabling). Final cost 531,000 EUR incl. 38k for weekend cabling crew.
+        1 lost working day for the finance team (network down on first Monday).
+        New lease signed, rent is 18% lower than Elm St.
+        Staff survey: 74% happy with new space; complaints about meeting room shortage.
+        Still open: 6 snag items with fit-out contractor, final invoice from movers not received, Elm St dilapidations negotiation ongoing.
+        Lesson: we should have had IT in the fit-out meetings from the start.
+    assert:
+      - {type: contains-all, value: ["## Calculations", "Open items"]}
+      - {type: llm-rubric, value: "Computes budget variance as +51,000 EUR (about +10.6%) and the schedule slip as 14 days, marks the rent objective met (18% vs 15%) and zero lost days not met, writes the IT lesson as a specific recommendation with its effect, lists the snags, mover invoice and dilapidations as open items with placeholder owners, and asks the sponsor for acceptance."}
+  - name: edge-benefits-later
+    vars:
+      project_notes: "Rolled out new visitor sign-in kiosks at 4 sites in March, on time, 22k GBP vs 25k budget. Goal was to cut reception queue time by half; we have not measured yet. Two sites asked for printed badges, deferred to phase 2."
+    assert:
+      - {type: llm-rubric, value: "Reports the 3k GBP underspend correctly (-12%), marks the queue-time objective as to be measured with a placeholder owner and date, records printed badges as deferred scope, and does not invent measurement results."}
+  - name: negative-no-goals
+    vars:
+      project_notes: "Project finished. Went okay. Team was great."
+    assert:
+      - {type: llm-rubric, value: "Does not invent objectives, figures or variances; asks for the original objectives, budget and dates and the actual results."}

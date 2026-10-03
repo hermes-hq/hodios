@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a {{length}} internal newsletter for {{audience}} from these updates: {{updates}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-company-issue
+    vars:
+      audience: whole company (80 people, two offices)
+      length: short
+      updates: |
+        - CEO visited the Porto office, nice dinner
+        - New expense tool goes live 1 Dec, old one switched off 15 Dec. Everyone must submit open claims before 15 Dec.
+        - Priya (support) rebuilt the returns process: refunds now take 2 days instead of 9
+        - big thanks to the finance team
+        - Holiday party 12 Dec, Lisbon office, RSVP by 28 Nov
+        - Welcome Tomás, joining sales on 18 Nov
+        - Q4 revenue looks like it'll beat target by 20% (don't share outside leadership yet)
+    assert:
+      - {type: contains-all, value: ["## Subject lines", "## Check before sending"]}
+      - {type: not-contains, value: "20%"}
+      - {type: llm-rubric, value: "Leads with the expense tool change and the 15 Dec deadline (or explains another reader-impact choice), recognises Priya with the specific 9-to-2-day effect, uses an [add: …] placeholder for the generic finance thanks, keeps the CEO dinner minor or drops it, flags the Q4 revenue item as confidential instead of publishing it, and stays near 350 words."}
+  - name: edge-standard-team-issue
+    vars:
+      audience: the 9-person design team
+      length: standard
+      updates: "Design system v3 shipped (Ana led, 42 components). User research for checkout starts next week, need 2 volunteers to observe sessions. Lukas presenting at Config. Team offsite moved to 20 March."
+    assert:
+      - {type: llm-rubric, value: "Writes a team-scale issue with a lead on the design system release crediting Ana with the 42 components, a single clear ask for two volunteers, dates kept as given, and no invented details about Config or the offsite."}
+  - name: negative-too-thin
+    vars:
+      updates: "Nothing much happened this month."
+    assert:
+      - {type: llm-rubric, value: "Does not invent news; says there is not enough material and suggests the kinds of items to gather."}

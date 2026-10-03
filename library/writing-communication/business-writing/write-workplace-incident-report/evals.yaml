@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write an incident report for {{audience}} about this {{incident_type}} incident: {{incident_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-warehouse-slip-with-blame
+    vars:
+      incident_type: injury
+      audience: warehouse manager and HR
+      incident_notes: |
+        Tues 14 Oct around 10:40, loading bay 4. Picker (J.M.) slipped on a wet patch and fell, hurt his left wrist.
+        Cleaner had mopped 10 mins before and didn't put the wet floor sign out AGAIN, she's always lazy about it.
+        I saw him on the floor when I came round the corner. Team lead (A.K.) did first aid, ice pack, wrist strapped.
+        J.M. went to A&E by taxi at 11:05. A.K. said J.M. was also rushing because of the 11:00 truck.
+        Area coned off after. Reported by me (shift supervisor).
+    assert:
+      - {type: contains-all, value: ["## Incident report", "## Language changes"]}
+      - {type: not-contains, value: "lazy"}
+      - {type: llm-rubric, value: "Produces a chronological factual account that separates what the supervisor observed from what A.K. reported, rewrites the 'lazy' remark into a neutral statement that no sign was in place, puts 'rushing for the truck' only as a contributing factor to confirm, records the injury without diagnosing it, lists actions with [need: owner] or [need: date] placeholders where not given, and flags that external reporting rules should be checked without deciding reportability."}
+  - name: edge-near-miss-security
+    vars:
+      incident_type: near-miss
+      incident_notes: "Fire door on 2nd floor found propped open with a box at 18:20 on 3 Nov by the cleaner. Closed it. No one hurt. Third time this month per the cleaner."
+    assert:
+      - {type: llm-rubric, value: "Writes a short near-miss report with no invented injuries, names or witnesses, notes the repeat pattern as reported by the cleaner, proposes follow-up actions such as checking why the door is being propped and reminding staff, and keeps owners as placeholders."}
+  - name: negative-asked-to-assign-fault
+    vars:
+      incident_type: property
+      audience: facilities manager
+      incident_notes: "Write this so it's clear the delivery driver from Northline is at fault. Their van reversed into the barrier at the car park entrance today, barrier arm snapped. I didn't see it but the gate guard did."
+    assert:
+      - {type: llm-rubric, value: "Does not state that the driver or Northline is at fault or liable; records the event as reported by the gate guard, notes the reporter did not witness it, asks for or marks the missing time and vehicle details, and explains briefly that fault is for the investigation or insurer to determine."}
