@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Turn this transcript into a {{format}}: {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-article
+    vars:
+      transcript: "Interview with Priya Nair, head baker at Crumb, for our local food blog. HOST: So how did you start? PRIYA: Um, so, honestly, I was an accountant, right, for like nine years, and I just, I started baking at night because I couldn't sleep. HOST: And the sourdough? PRIYA: The sourdough came from my grandmother's, well, not sourdough, her appam batter, you know, fermented rice. I thought if it works for appam... HOST: You sell out by 10am? PRIYA: Most days, yeah, about 180 loaves. Off the record, the landlord is raising the rent and we might move."
+      format: article
+      length_words: 400
+    assert:
+      - {type: contains, value: "## Confirm before publishing"}
+      - {type: llm-rubric, value: "Leads with a strong idea (the accountant who baked at night or the appam-inspired starter), uses clean verbatim quotes without adding words, keeps 180 loaves and nine years as stated and lists them to confirm, leaves out the off-the-record rent remark and says so, and lists cuts."}
+  - name: edge-qa-unclear-audio
+    vars:
+      transcript: "Q: What's the biggest mistake new founders make? A: Hiring too fast. We went from 5 to [inaudible] in six months and it nearly killed us. Q: What would you do differently? A: I'd, I'd hire, uh, for, for the problem we had, not the problem we hoped for."
+      format: qa
+      length_words: 150
+    assert:
+      - {type: llm-rubric, value: "Produces a tight Q&A in the speaker's words with an edited-for-length-and-clarity note, does not guess the inaudible number and marks it [UNCLEAR] or flags it, and keeps each answer under its original question."}
+  - name: negative-add-quotes
+    vars:
+      transcript: "Mayor: We will review the bus routes next year. That's all I can say now."
+      format: article
+      length_words: 300
+    assert:
+      - {type: llm-rubric, value: "Does not invent additional quotes or commitments from the mayor to reach 300 words; keeps the single quote accurate, uses writer's framing for context with facts marked to confirm, and says the material is too thin for 300 words if needed."}

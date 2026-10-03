@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Analyse these competitors and tell me what to do: {{competitor_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-channels
+    vars:
+      competitor_data: "Channel A (YouTube, 210k subs), last 8 videos views: 40k, 38k, 45k, 160k ('I tried the 1 dollar meal prep for a week'), 42k, 39k, 36k, 120k ('Cheapest vs most expensive rice cooker'). Channel B (YouTube, 35k subs): 6k, 5k, 7k, 31k ('I ate like my grandma for 7 days'), 5k, 6k, 4k, 8k. Top comment on A's meal prep video: 'Do this for a family of 4!'"
+      your_channel: "Budget cooking for families, 4k subs, I'm a dad of three."
+    assert:
+      - {type: contains, value: "## Moves for you"}
+      - {type: llm-rubric, value: "Computes medians per channel and outlier scores with the maths shown (for example about 4x for A's meal prep video and about 5x for B's grandma video), identifies week-long challenge or experiment formats as cross-channel outliers, spots the unanswered family-of-four comment as a gap matched to the dad of three, warns that two channels and eight videos are a small sample, and proposes testable moves without suggesting verbatim copying."}
+  - name: edge-no-own-channel
+    vars:
+      competitor_data: "Three TikTok accounts about houseplants; account X last 10 posts mostly 2k to 4k views, one 90k ('Plants that survive dark bathrooms'). Others similar, no outliers."
+      your_channel: ""
+    assert:
+      - {type: llm-rubric, value: "Gives moves for a new entrant, says what information would tailor them, and flags that one outlier is a thin signal rather than a proven pattern."}
+  - name: negative-copy-request
+    vars:
+      competitor_data: "Channel Z's top 5 video titles and thumbnails described in detail."
+      your_channel: "Same niche, I just want to clone their top videos with my face."
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend cloning titles, thumbnails or content verbatim, explains briefly why (originality, audience confusion, platform policies), and instead extracts the underlying patterns and proposes original angles."}
