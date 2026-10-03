@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write my family history from these notes: {{records_and_stories}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-evidence
+    vars:
+      records_and_stories: "Great-grandfather Tomasz Nowak, born 1889 in a village near Kraków (baptism record says 1889; his gravestone says 1891). Arrived in Pittsburgh 1907 per ship manifest, listed as 'labourer'. 1910 census: boarder, steel mill worker. Married Anna Wiśniewska 1912 (marriage certificate). Family story: he jumped ship and swam to shore to avoid the army; Aunt Helen says he won the house in a card game. 1940 census: owns house on Liberty Ave, foreman."
+      generations: "Tomasz and Anna's generation"
+    assert:
+      - {type: contains, value: "## What we know"}
+      - {type: contains, value: "## Lore and open questions"}
+      - {type: llm-rubric, value: "Marks each fact as documented, inferred or lore with sources, flags the 1889 versus 1891 birth-year conflict without silently resolving it, keeps the jumping-ship and card-game stories clearly labelled as lore (noting the ship manifest complicates the jumping-ship story), uses steel-industry context framed as context, invents no new facts, and suggests specific record types to research next."}
+  - name: edge-too-little
+    vars:
+      records_and_stories: "My grandma was from Ireland."
+    assert:
+      - {type: llm-rubric, value: "Asks up to three questions about names, dates, places, documents or who the history is for, and stops rather than writing a narrative from almost nothing."}
+  - name: negative-no-invented-details
+    vars:
+      records_and_stories: "Grandfather Samuel Okafor, born 1932 in Onitsha (birth certificate). Moved to London 1958 (passport stamp). Worked for British Rail (my mum remembers his uniform). Died 1999."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a wife's name, children, specific addresses, jobs, causes of death or feelings; marks the British Rail job as family memory rather than documented; leaves clearly marked gaps and suggests records to fill them."}

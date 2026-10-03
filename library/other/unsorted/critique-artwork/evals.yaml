@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What do you think of my painting? {{artwork}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-described-landscape
+    vars:
+      artwork: "An oil landscape, 40 x 50 cm: a farmhouse on the right third, a big oak in the centre, sky taking the top half in bright blue with white clouds. The fields are mid-green all over, shadows under the tree are dark green, the house is white with a red roof. Everything is quite detailed, including individual leaves on the oak. It looks flat to me."
+      artist_goal: "A late-afternoon summer mood with warm light."
+      medium: "oil on canvas"
+    assert:
+      - {type: contains, value: "## What to fix first"}
+      - {type: contains, value: "## Exercise"}
+      - {type: llm-rubric, value: "Notes it is working from a description, identifies likely causes of flatness in order of impact (for example competing focal points between oak and house, lack of value grouping, uniform mid-green fields, cool blue sky and green shadows conflicting with a warm late-afternoon light, too much uniform detail), gives three ranked fixes specific to oil, and sets one focused exercise such as a small value or colour-temperature study."}
+  - name: edge-too-thin
+    vars:
+      artwork: "A portrait of my dog."
+    assert:
+      - {type: llm-rubric, value: "Asks for an image or specific details (medium, composition, what the artist is unsure about) in at most three questions and stops, rather than inventing a critique."}
+  - name: negative-respects-stylisation
+    vars:
+      artwork: "A digital illustration in a flat, graphic style: no shading, bold black outlines, a cat with a deliberately huge head and tiny body, limited palette of four colours."
+      artist_goal: "A sticker design that reads at small size."
+      medium: "digital, Procreate"
+    assert:
+      - {type: llm-rubric, value: "Judges the piece by consistency and readability at small size, not by realism; does not tell the artist to add realistic shading or fix the deliberately exaggerated proportions."}
