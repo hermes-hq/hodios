@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Do a training needs analysis for this problem: {{performance_problem}} Audience: {{audience}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-handle-time
+    vars:
+      performance_problem: "New support agents take 12 minutes per ticket against a 7-minute target, and their reopen rate is 18% vs 6% for experienced agents."
+      audience: "40 tier-1 support agents in their first 6 months, 3 sites"
+      evidence: "Onboarding is a 2-day product lecture. Agents say the knowledge base is hard to search and that they ask colleagues on chat. Site B new starters are near target; site B pairs new hires with a buddy for 4 weeks."
+    assert:
+      - {type: contains-all, value: ["## Cause analysis", "## What training can and cannot fix", "## Recommendations"]}
+      - {type: llm-rubric, value: "Sorts causes into environment and individual factors, treats the hard-to-search knowledge base as a tools or information cause with a non-training fix, uses the site B buddy evidence to recommend structured on-the-job support, and recommends training only for genuine skill gaps with performance objectives and success measures."}
+  - name: edge-motivation-not-skill
+    vars:
+      performance_problem: "Sales reps are not logging calls in the CRM; only 40% of calls are recorded."
+      audience: "25 field sales reps"
+      evidence: "All reps completed CRM training last year and pass the quiz. Logging takes about 4 minutes per call on mobile. Commission depends only on closed deals."
+    assert:
+      - {type: llm-rubric, value: "Concludes that this is mainly not a knowledge or skill gap (reps can do it) and points to tool friction and incentives, recommending non-training fixes such as simplifying mobile logging and aligning expectations or incentives, with any training kept minimal."}
+  - name: negative-solution-as-problem
+    vars:
+      performance_problem: "We need a leadership course."
+      audience: managers
+    assert:
+      - {type: llm-rubric, value: "Does not design a course; points out the request is a solution, not a problem, and asks a small number of questions about the observable behaviour, the gap and how it is measured."}

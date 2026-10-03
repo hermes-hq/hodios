@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How should I evaluate this training programme? {{programme_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-safety-training
+    vars:
+      programme_description: "Half-day forklift safety refresher for 120 warehouse operators across 4 sites, rolled out one site per month. Objectives: pre-use checks, safe loading, pedestrian awareness."
+      business_goal: "Reduce forklift-related incidents and near misses by 20% within 6 months."
+    assert:
+      - {type: contains-all, value: ["## Evaluation logic", "## Success measures", "## Level 4 results"]}
+      - {type: llm-rubric, value: "Links incidents to specific behaviours (pre-use checks completed, pedestrian zones respected) and skills; Level 2 uses practical demonstration or scenarios rather than recall; Level 3 uses observation or check logs at about 30 and 90 days; Level 4 uses the staggered site rollout or pre/post trend as a comparison and avoids overclaiming causation; reaction items focus on relevance and intent to apply."}
+  - name: edge-no-business-goal
+    vars:
+      programme_description: "A 6-week online course on writing clear emails for 30 customer service staff, one 45-minute module per week."
+    assert:
+      - {type: llm-rubric, value: "Proposes a plausible business result (e.g. fewer follow-up contacts or better customer satisfaction on email tickets), marks it as proposed for confirmation, and keeps the evaluation proportionate for a small programme."}
+  - name: negative-thin-description
+    vars:
+      programme_description: "Our training."
+    assert:
+      - {type: llm-rubric, value: "Asks for the audience, objectives and format of the training rather than producing a generic evaluation plan."}
