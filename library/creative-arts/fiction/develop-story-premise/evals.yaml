@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Give me some story ideas based on this: {{seed_idea}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-image-seed-novel
+    vars:
+      seed_idea: "A lighthouse keeper on a remote Norwegian island starts receiving letters addressed to her dead brother, postmarked after his death. I want to keep the island and the letters."
+      genre: literary suspense
+      length: novel
+    assert:
+      - {type: contains, value: "## Stress test"}
+      - {type: contains, value: "## Ranking"}
+      - {type: llm-rubric, value: "Gives five distinct premises that all keep the island and the letters, each with what-if, protagonist with a concrete want, escalating opposition, personal stakes, a conflict engine big enough for a novel, a genre promise and a logline; scores each against the stress-test questions with honest variation; recommends one and names its biggest risk."}
+  - name: edge-too-vague
+    vars:
+      seed_idea: "time"
+    assert:
+      - {type: llm-rubric, value: "Recognises the seed is too vague to build from and asks at most three targeted questions (for example what about time draws them, genre, or a character) and stops, rather than inventing five full premises from nothing."}
+  - name: negative-short-form-not-overbuilt
+    vars:
+      seed_idea: "A woman returns a library book forty years overdue."
+      length: short
+    assert:
+      - {type: llm-rubric, value: "Sizes the conflict engines for a short story (one turn or revelation, few characters) rather than novel-scale plots with subplots and multiple acts, and avoids stock phrasing such as 'a dark secret' or 'nothing will ever be the same'."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me revise my novel. {{manuscript_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-starts-with-read-through
+    vars:
+      manuscript_summary: "The Orchard Year, upmarket women's fiction, 104,000 words. Ch1: Nell inherits her aunt's failing cider orchard. Ch2-6: she moves in, meets the farm manager Tom, finds debts. Ch7-15: harvest problems, a festival subplot, flashbacks to the aunt. Ch16-22: a buyer offers to purchase the land; Nell refuses after finding the aunt's letters. Ch23-26: festival succeeds, debts are paid by a surprise grant. I think the middle drags."
+      author_goals: "Get it ready to query agents by spring. The flashbacks must stay."
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: asks for the opening, a middle and the final chapter (or proceeds on the summary), maps the shape with rough percentages, lists strengths including the flashbacks to protect, ranks problems by impact with evidence (for example the surprise grant resolving the climax by coincidence and the dragging middle), and stops for approval without proposing line edits or rewriting chapters."}
+  - name: edge-summary-too-thin
+    vars:
+      manuscript_summary: "My fantasy novel, about 150k words. It needs work."
+    assert:
+      - {type: llm-rubric, value: "Asks for a chapter-by-chapter summary and what the author thinks is wrong (and the requested sample chapters) and stops, rather than inventing problems in a book it has not seen."}
+  - name: negative-skip-to-line-edit
+    vars:
+      manuscript_summary: "A 70,000-word YA thriller with a full chapter outline attached. Just line edit chapter one, I don't need the structural stuff."
+    assert:
+      - {type: llm-rubric, value: "Briefly explains why structure comes before line edits, offers a faster route (for example running the structural step on the summary alone), keeps the approval gates, and does not jump straight into a full line edit of chapter one."}
