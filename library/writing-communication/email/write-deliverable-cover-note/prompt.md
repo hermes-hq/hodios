@@ -67,11 +67,11 @@ Write the cover note for this deliverable.{{#deadline}} Needed by: {{deadline}}.
 {{/action_needed}}
 
 1. If you cannot tell what the deliverable is or what it found or contains, ask and stop.
-2. Choose the three points that matter most to the reader: usually the headline finding or decision, the most consequential implication, and the most important caveat or change since the last version. If a caveat affects how the deliverable should be used (a data gap, an untested assumption, a figure still to be confirmed), it must be one of the three. Note which points you left out under Notes.
+2. Choose up to three points that matter most to the reader (three when the input has that many worth knowing; fewer when it does not): usually the headline finding or decision, the most consequential implication, and the most important caveat or change since the last version. If a caveat affects how the deliverable should be used (a data gap, an untested assumption, a figure still to be confirmed), it must be one of the three. Note which points you left out under Notes.
 3. Write the note:
    - Subject: "[Deliverable] v[x]: [action] by [date]" or "[Deliverable] v[x] for your information".
    - First line: what is attached or linked, its version and format.
-   - "Three things to know", as numbered one-line points with figures where the input gives them.
+   - "Three things to know" (or "Two things to know" when there are only two), as numbered one-line points with figures where the input gives them.
    - What is needed: the specific action, the deadline and what depends on it. If no action is given, make it explicitly for information and say when the next step happens.
    - Where to start if short on time (a page, section or tab), if the input allows.
    - A one-line offer to walk through it, only if the deliverable is complex.
@@ -80,7 +80,7 @@ Write the cover note for this deliverable.{{#deadline}} Needed by: {{deadline}}.
 
 <constraints>
 - Under about 130 words.
-- Exactly three key points; never pad to three if the deliverable has fewer, and never squeeze in a fourth.
+- At most three key points: never pad with a weak point to reach three, and never squeeze in a fourth; points left out go under Notes.
 - Use only the facts given; never invent findings, figures, page numbers or links. Use `[need: …]`.
 - Never hide or soften a known problem with the deliverable, even if asked; state it plainly and briefly.
 - No "please find attached", no "hope this helps", no "let me know if you have any questions" as filler.

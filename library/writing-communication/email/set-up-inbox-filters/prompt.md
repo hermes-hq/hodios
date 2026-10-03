@@ -63,12 +63,11 @@ Design an inbox filter setup for {{email_client}}.
 1. If the sample has fewer than about 15 messages or gives no senders, ask for a larger sample in "sender | subject" form and stop.
 2. Classify the sample into groups: people needing a reply, people FYI or CC, automated notifications (tools, calendars, systems), transactional (receipts, invoices, shipping), newsletters and marketing, mailing lists or group mail, and possible phishing or spam. Count each group.
 3. Propose a label or folder scheme of at most eight, named by what you do with the mail (for example "Read later", "Receipts", "Notifications", "Waiting on"), not by topic. Explain each in one line.
-4. Write the filter rules, most important first, one per row, using only domains and addresses that appear in the sample (or the priorities):
-   - For Gmail: the exact search query using operators such as `from:`, `to:`, `list:`, `subject:`, `has:attachment`, `OR`, `-` and `{}`, followed by the actions (skip the inbox, apply label, mark as read, never send to spam, mark as important).
-   - For Outlook: the rule as conditions and actions in Outlook's terms (from, subject includes, sent only to me, my name in Cc; move to folder, categorise, mark as read), noting that some conditions only run while the desktop app is open in classic Outlook.
-   - For Apple Mail: the rule as conditions and actions, noting that Mac Mail rules run only while Mail is open on that Mac, and that iCloud mail rules on the web run on the server but support fewer conditions.
-   - For other: generic condition and action pairs.
-   Start with a "keep visible" rule for the priority senders (star, mark important, or VIP) so later rules can never bury them.
+4. Write the filter rules, one per row, using only domains and addresses that appear in the sample (or the priorities). Rule 1 is always a "keep visible" rule for the priority senders (star, mark important, VIP or flag). How it protects them depends on the client, so follow the client's own logic:
+   - For Gmail: give the exact search query using operators such as `from:`, `to:`, `list:`, `subject:`, `has:attachment`, `OR`, `-` and `{}`, followed by the actions (skip the inbox, apply label, mark as read, star, always mark as important, never send to spam). Gmail applies every matching filter, whatever their order, so a keep-visible filter does not stop a later filter from archiving the same message. Any filter that skips the inbox and could also match a priority sender (for example a whole-domain filter on the user's own company) must exclude that sender with `-from:` in its query; say this in one line under the rule.
+   - For Outlook: the rule as conditions and actions in Outlook's terms (from, subject includes, sent only to me, my name in Cc; move to folder, categorise, mark as read). Rules run top to bottom, so put the keep-visible rule first with "stop processing more rules". Note that some conditions run only while the desktop app is open in classic Outlook.
+   - For Apple Mail: the rule as conditions and actions; rules run in list order, so put the keep-visible rule first with the "Stop evaluating rules" action. Note that Mac Mail rules run only while Mail is open on that Mac, and that iCloud mail rules on the web run on the server but support fewer conditions.
+   - For other: generic condition and action pairs, plus a line telling the user to check whether their client applies rules in order or all at once, and to exclude priority senders from archiving rules if it applies them all.
 5. List senders to unsubscribe from or mute instead of filtering, drawn from the sample's newsletters and marketing.
 6. Flag any sample items that look like phishing (lookalike domains, urgent payment or password requests) and recommend reporting them, never filtering them into a trusted label.
 7. Write a daily routine: two or three set processing times, the order to work through labels, the two-minute rule for quick replies, and a weekly ten-minute review of the filters.
@@ -79,6 +78,7 @@ Design an inbox filter setup for {{email_client}}.
 - Never suggest an auto-delete rule, or a rule that skips the inbox for mail from a person (as opposed to a system), unless the priorities ask for it, and then flag the risk.
 - Never invent senders, domains or list ids that are not in the sample or priorities.
 - At most eight labels and about twelve rules; merge rules that share an action using OR.
+- Never rely on rule order alone to protect priority senders in a client that applies every matching rule.
 - Mark anything you are unsure of in the client's current interface as "check in your version".
 - Plain instructions a non-technical person can follow.
 </constraints>
@@ -89,7 +89,7 @@ A short table: group, count, examples from the sample.
 ## Label scheme
 Bullets: label and what it means.
 ## Filter rules
-Numbered rules, each with the exact query or conditions, then the actions.
+Numbered rules, rule 1 the keep-visible rule, each with the exact query or conditions, then the actions, and any exclusion it carries.
 ## Unsubscribe or mute
 Bullets of senders.
 ## Daily routine

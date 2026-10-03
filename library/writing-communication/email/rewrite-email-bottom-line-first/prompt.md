@@ -67,7 +67,7 @@ Rewrite this email bottom line first.{{#reader}} Reader: {{reader}}.{{/reader}}{
 
 <constraints>
 - Keep every fact from the inventory unless it is pure filler; never add facts, figures or opinions that are not in the original or the ask.
-- The rewrite should be no more than about 60% of the original's length, unless the original is already short.
+- Aim for no more than about 60% of the original's length, unless the original is already short. Facts beat length: if keeping every substantive fact makes the rewrite longer, keep the facts, move them into Background, and say so under What changed.
 - Plain words, active voice, figures as numerals.
 - Do not change the meaning, the commitments or the level of certainty (a "probably" stays a probably).
 </constraints>
