@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Write an audio description for this video. Transcript: {{video_transcript}} Scenes: {{scene_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-short-film-scene
+    vars:
+      style: standard
+      video_transcript: |
+        00:00-00:04 [rain, distant traffic]
+        00:04-00:07 ANNA: You came back.
+        00:07-00:12 [silence]
+        00:12-00:16 TOM: I never really left.
+        00:16-00:22 [music swells]
+      scene_notes: |
+        00:00 Night, a bus shelter in heavy rain. A woman in a yellow raincoat (Anna) sits alone.
+        00:03 A man in a soaked grey suit (Tom) steps into the shelter.
+        00:07 Anna stands, looks at him, then at the ticket in her hand: a one-way ticket to Lisbon. She crumples it.
+        00:16 They sit side by side. A bus pulls up; neither moves. The bus leaves.
+    assert:
+      - {type: llm-rubric, value: "Maps the gaps (0:00-0:04, 0:07-0:12, 0:16-0:22) with word budgets, writes present-tense descriptions only in those gaps without overlapping dialogue, reads the ticket text (one-way to Lisbon), describes actions rather than feelings, names Anna and Tom appropriately, and checks overlaps and budgets."}
+  - name: edge-extended-training
+    vars:
+      style: extended
+      video_transcript: |
+        00:00-00:20 TRAINER: To reset the router, hold the button for ten seconds until the light changes, then release and wait.
+        00:20-00:21 [beep]
+      scene_notes: |
+        00:05 Close-up: a small recessed button labelled RESET on the back of the router, next to the yellow cable port.
+        00:08 A paperclip presses the button. The front light blinks orange.
+        00:18 The light turns solid green.
+    assert:
+      - {type: llm-rubric, value: "Recognises there are no usable gaps during the continuous narration, uses extended description with pause points to describe the recessed RESET button and its position, the paperclip, the orange blinking and the solid green light, and marks where to resume."}
+  - name: negative-no-scene-notes
+    vars:
+      style: standard
+      video_transcript: "00:00-00:05 NARRATOR: Welcome to our campus. 00:08-00:12 NARRATOR: This is the library."
+      scene_notes: "Just guess what's on screen, it's a university video."
+    assert:
+      - {type: llm-rubric, value: "Does not invent visual content; asks for scene notes or timestamped visuals (or marks descriptions as needing a visual check) and explains that audio description must reflect what is actually on screen."}
