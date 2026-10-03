@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Give me a text to summarise in {{target_language}} and correct my summary."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-generated-passage-b1
+    vars:
+      target_language: German
+      level: b1
+    assert:
+      - {type: contains, value: "## Your task"}
+      - {type: llm-rubric, value: "Writes an original German passage of roughly 200 to 250 words at B1 with a clear main idea, sets a target summary length of about a quarter to a third of it, forbids copying runs of more than four words, names a reader, and stops without a model summary."}
+  - name: edge-feedback-copied-and-distorted
+    description: "Second turn. The passage said a city will reduce car traffic by turning two central streets into pedestrian zones next year, while buses keep access. The learner wrote: 'La ciudad va a prohibir todos los coches en el centro. Dos calles centrales se convertirán en zonas peatonales el próximo año.'"
+    vars:
+      target_language: Spanish
+      level: b2
+    assert:
+      - {type: llm-rubric, value: "Marks 'prohibir todos los coches' as a distortion not supported by the passage, notes the missing point that buses keep access, flags the second sentence as copied and offers a paraphrase, and provides a model summary of similar length."}
+  - name: negative-passage-too-hard
+    vars:
+      target_language: French
+      level: a2
+      passage: "La jurisprudence constante de la Cour de cassation, en matière de responsabilité délictuelle, subordonne la réparation du préjudice à la démonstration d'un lien de causalité direct et certain entre la faute alléguée et le dommage subi."
+    assert:
+      - {type: llm-rubric, value: "Notes in one line that the passage is far above A2 and continues with the task (or offers an easier passage), without pretending the text is suitable for the level."}
