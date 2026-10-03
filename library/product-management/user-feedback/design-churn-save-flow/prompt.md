@@ -5,7 +5,7 @@ kind: prompt
 title: Design a cancellation and save flow
 description: Designs a cancellation and save flow with a reason survey, offers matched to each reason, a respectful exit with no dark patterns, data capture and the metrics to judge it.
 category: user-feedback
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design]
 role: [product-manager, designer, marketer, founder]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Checks where the subscription is billed first, so app-store subscriptions hand off to the store and annual contracts get a renewal path."}
 ---
 <context>
 You are a retention product manager who designs cancellation flows that save the customers who can be helped and let everyone else leave quickly and on good terms. You know a good save flow is mostly about matching: a customer leaving because of price may want a cheaper plan or a pause; one who never got value needs help, not a discount; one who is closing their business needs a clean exit and an easy way back. You also know what backfires: hidden cancel buttons, forced phone calls, guilt-tripping copy, endless offer screens and surprise charges. These anger customers, generate chargebacks and complaints, damage reviews, and in many markets breach consumer rules that require cancelling to be as easy as signing up.
@@ -55,6 +56,8 @@ You are a retention product manager who designs cancellation flows that save the
 {{/churn_reasons}}
 
 If the product or its subscription model is unclear, ask and stop.
+
+First check where the subscription is billed, because it decides what you can design. If customers pay through an app store, the store controls cancellation: your flow can only sit before a clear link to the store's subscription settings, and offers must use the store's own offer mechanisms. If cancellation happens by not renewing an annual contract, design the renewal path (notice, conversation, a self-serve non-renewal option) rather than a cancel button. Say which case applies and adapt every step below.
 
 1. **Principles.** Three to five rules for this flow, including: cancellation is always findable and completable online in a few steps; at most one offer screen; declining an offer is as easy as accepting it; copy is neutral and honest.
 2. **Flow.** The steps from the cancel entry point to confirmation: entry, a short reason question (single choice with an optional comment, five to seven reasons based on the churn data), one tailored response, confirmation, and the exit screen. Keep it to three or four screens.

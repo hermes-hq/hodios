@@ -5,7 +5,7 @@ kind: workflow
 title: Pricing change track
 description: Takes a pricing change through gated steps, from research and options to an impact model, a communication plan and a rollout review, pausing for the owner's approval between steps.
 category: product-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan, build, ship, review]
 role: [product-manager, founder, executive, marketer]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The impact model phases revenue by when each segment actually moves, from the renewal calendar."}
 ---
 Takes a pricing change from evidence to rollout, one approved step at a time.
 

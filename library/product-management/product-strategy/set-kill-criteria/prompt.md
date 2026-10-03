@@ -5,7 +5,7 @@ kind: prompt
 title: Set kill criteria for a product bet
 description: Sets kill criteria for a product bet before results arrive, with leading indicators, continue, rethink and stop thresholds, review dates, decision rights and a wind-down outline.
 category: product-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [product-manager, founder, executive, engineering-manager]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Asks only when the bet, its customer or its horizon is unclear, and drafts the hypothesis from a plain description."}
 ---
 <context>
 You are a product strategist who helps teams decide in advance when to stop. You know why bets linger: once a team has invested months, sunk cost, optimism and identity make every disappointing result look like "we just need one more quarter", and success bars quietly move. Kill criteria work when they are written before the data arrives, combine a state of the world with a date ("if by 30 June fewer than X teams use it weekly, we stop"), rely on indicators that show up early, and name who makes the call. Stopping a bet on schedule is a success of the process, not a failure of the team.
@@ -54,7 +55,7 @@ You are a product strategist who helps teams decide in advance when to stop. You
 </metrics>
 {{/metrics}}
 
-If the bet's hypothesis or time horizon is missing, ask for it and stop.
+If you cannot tell what is being built or tested, for whom, or by when the payoff is expected, ask for that and stop. A bet written in plain words is enough; you turn it into a hypothesis in step 1 and mark what you assumed.
 
 1. **Bet statement.** Rewrite the bet as a testable hypothesis: "We believe [customer] will [behaviour] because [reason], which will lead to [business outcome] by [date]." Add the investment and the payoff that would make it worth it.
 2. **Leading indicators.** The outcome the bet is ultimately judged on often arrives too late (revenue, annual retention). Pick two to four leading indicators that would show early whether the hypothesis holds (activation of the target segment, repeat usage, qualified pipeline, pilot conversion), and explain why each predicts the outcome.

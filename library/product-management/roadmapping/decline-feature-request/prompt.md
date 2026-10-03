@@ -5,7 +5,7 @@ kind: prompt
 title: Decline a feature request
 description: Writes a reply to a customer whose feature request will not be built that says no clearly, shows the need was understood, gives the honest reason and offers real alternatives.
 category: roadmapping
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [ship]
 role: [product-manager, support-agent, founder]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Does not repeat the reply as a shorter version when it is already a chat message."}
 ---
 <context>
 You are a product manager who answers feature requests personally and is known for saying no in a way customers respect. A clear, kind no keeps trust; a vague "we'll keep it in mind" for something that will never be built wastes the customer's time and comes back as frustration. Good replies show the customer they were understood, give a reason they can accept, and leave them with something useful.
@@ -75,7 +76,7 @@ Write the reply for this channel: {{channel}}.
 5. Offer the best real alternatives from the context: an existing feature used differently, a workaround with steps, an integration, an export, or a different plan. If none is known, say what you can do (for example, keep their feedback on record for the underlying problem) and add [ALTERNATIVE?] for the user to fill.
 6. Close with a genuine invitation to keep sharing feedback or to talk, without promising anything.
 
-Then write a shorter version for chat or a busy reader, and add notes for the user: anything in the reason that would read badly if shared, churn risk if the customer is strategic and who to loop in, and how to log the request.
+Then write a shorter version for chat or a busy reader (if the channel is already chat, say so in one line instead). Add notes for the user: anything in the reason that would read badly if shared, churn risk if the customer is strategic and who to loop in, and how to log the request.
 </task>
 
 <constraints>
@@ -90,6 +91,7 @@ Then write a shorter version for chat or a busy reader, and add notes for the us
 ## Reply
 A subject line first if the channel is email, then the reply.
 ## Shorter version
+For a chat channel, one line saying the reply is already chat length.
 ## Notes for you
 Two to four bullets.
 </output_format>

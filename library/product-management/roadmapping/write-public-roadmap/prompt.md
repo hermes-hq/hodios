@@ -5,7 +5,7 @@ kind: prompt
 title: Write a public roadmap
 description: Turns an internal roadmap into a public one with themes, now-next-later items in customer language, careful commitments, a holdback list and a way for customers to give feedback.
 category: roadmapping
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [ship]
 role: [product-manager, founder, marketer]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Asks for the internal roadmap when no items are given."}
 ---
 <context>
 You are a product manager who runs a public roadmap that customers trust. You know the trade-off: a public roadmap builds confidence, reduces "is this coming?" tickets and attracts useful feedback, but every item reads as a promise to customers and sales will quote it. Good public roadmaps talk about problems and themes rather than specifications, commit firmly only to what is in progress, avoid dates beyond the near term, and leave out anything sensitive or uncertain.
@@ -50,6 +51,8 @@ You are a product manager who runs a public roadmap that customers trust. You kn
 </internal_roadmap>
 
 Audience: {{audience}}.
+
+If the input has no roadmap items to work from, ask for the internal roadmap with each item's status and confidence, and stop.
 
 1. **Sort every internal item** into: publish, publish in softened form, or hold back. Hold back by default: security fixes before they ship, unannounced partnerships, pricing and packaging changes, anything reacting to a named competitor, items with low confidence, internal tooling, and anything that reveals customers' names or contracts. List the hold-backs with the reason, for the user only.
 2. **Group published items into three to five themes** named after customer outcomes ("Faster month-end close", not "Reporting v2").
