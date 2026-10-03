@@ -1,0 +1,27 @@
+schema: 1
+baseline: "A colleague took credit for my work. What should I do? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-peer-presented-analysis
+    vars:
+      relationship: peer
+      situation: "In Monday's team meeting, Chris presented the churn analysis I built over three weeks and said 'I found that…' throughout. Our manager praised him. It's the second time this quarter."
+      evidence: "The notebook and the slide deck are in my name in the shared drive, and I emailed Chris the findings on the 4th."
+    assert:
+      - {type: contains-all, value: ["## The direct conversation", "## Involving your manager"]}
+      - {type: llm-rubric, value: "Treats it as a repeated, fairly clear case; suggests visibility habits such as updates to the manager; gives calm in-the-moment lines; scripts a private, factual conversation with Chris with a specific request (for example naming contributors or agreeing who presents) and replies to 'it was a team effort'; says when and how to raise it with the manager using the file history and the email on the 4th as evidence; advises against public accusations."}
+  - name: edge-senior-leader
+    vars:
+      relationship: senior
+      situation: "My skip-level manager sent an email to the leadership team presenting the onboarding redesign I proposed and built as 'my initiative'. My own manager knows it was my work."
+    assert:
+      - {type: llm-rubric, value: "Adapts to the power difference: recommends working through the user's own manager and visibility rather than confronting the skip-level directly, offers a light curious approach at most, and avoids language that could damage the user's career; scripts the conversation with the user's manager."}
+  - name: negative-shared-work-weak-evidence
+    vars:
+      relationship: peer
+      situation: "Sam and I wrote the proposal together. In the client call Sam said 'we've designed a three-phase plan' and the client thanked Sam. I feel like I didn't get credit."
+    assert:
+      - {type: llm-rubric, value: "Points out that Sam said 'we' and the work was shared, so this is not clear credit-taking; recommends prevention such as agreeing roles and speaking parts before client calls rather than a confrontation or escalation; stays kind to the user's feelings."}

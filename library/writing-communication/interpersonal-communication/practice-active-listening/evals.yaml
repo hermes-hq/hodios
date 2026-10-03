@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Let's practise active listening. You share a problem and I'll listen. Scenario: {{scenario}}. Difficulty: {{difficulty}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-setup-with-scenario
+    description: "First turn: the model should only set up and give the speaker's opening line."
+    vars:
+      scenario: "A team member who has just been put in charge of a project she didn't ask for."
+      difficulty: medium
+      rounds: 6
+    assert:
+      - {type: icontains, value: "pause"}
+      - {type: llm-rubric, value: "Gives a brief out-of-character setup naming the character and how to pause or stop, then one opening line in character that is somewhat vague (medium difficulty) and leaves room for questions; does not continue the conversation on its own or give coaching yet."}
+  - name: edge-no-scenario-hard
+    description: "First turn with no scenario and hard difficulty."
+    vars:
+      difficulty: hard
+      rounds: 4
+    assert:
+      - {type: llm-rubric, value: "Chooses a realistic everyday scenario that does not involve suicide, self-harm, abuse or a medical emergency, sets it up briefly, and opens in character in a way that hints at a problem without stating it, consistent with the hard difficulty."}
+  - name: negative-debrief-after-advice-giving
+    description: "Debrief turn. Over six rounds the user mostly gave advice ('You should just tell your boss', 'Have you tried making a to-do list?') and once told their own story about a bad manager, with one good paraphrase in round 4: 'So it sounds like it's less the workload and more that nobody asked you.'"
+    vars:
+      scenario: "A friend who is overwhelmed at work."
+      difficulty: medium
+      rounds: 6
+    assert:
+      - {type: contains, value: "## Scores"}
+      - {type: llm-rubric, value: "Scores holding back advice and staying with the speaker low, quoting the advice and the personal story as evidence; credits the round 4 paraphrase with a quote; offers stronger alternatives; does not give inflated scores."}

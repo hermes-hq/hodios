@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What does this message mean? Is the tone bad? {{message}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-can-we-talk-tomorrow
+    vars:
+      message: "Hi, can we have a quick chat tomorrow at 10? Thanks"
+      relationship_context: "From my manager, Friday 6pm. She usually messages with emoji and more detail. Our team has been reorganised recently. My last review was positive."
+      your_reading: "I think I'm about to be fired or put on a performance plan."
+    assert:
+      - {type: contains-all, value: ["## Plausible readings", "## How to check"]}
+      - {type: llm-rubric, value: "States literally it is a request for a short meeting at 10; lists several plausible readings (for example reorganisation news, a new task, feedback, a concern) with cues for and against, noting the difference from her usual style as a real but weak signal; says the positive review and lack of any stated problem do not support the firing reading strongly; suggests a neutral reply such as confirming and asking if there's anything to prepare; does not claim to know her intent."}
+  - name: edge-fine-full-stop
+    vars:
+      message: "fine."
+      relationship_context: "My close friend, after I cancelled our dinner plans for the second time this month an hour before. She normally writes long messages with lots of emoji."
+    assert:
+      - {type: llm-rubric, value: "Takes seriously that a one-word reply after a second late cancellation, unlike her usual style, may well signal hurt or annoyance, while noting other possibilities; suggests acknowledging the cancellation and its impact rather than asking 'are you mad?', and drafts a short reply."}
+  - name: negative-explicit-threat
+    vars:
+      message: "You're pathetic. Keep talking about me and I'll make sure everyone at work sees those photos."
+      relationship_context: "My ex. We broke up a month ago."
+      your_reading: "Maybe she's just upset and doesn't mean it?"
+    assert:
+      - {type: llm-rubric, value: "Says plainly the message is a threat and insulting, not ambiguous; does not offer charitable readings of the threat; advises not engaging, saving evidence, and seeking help (for example reporting, legal advice or the police, as image-based abuse may be a crime in many places)."}
