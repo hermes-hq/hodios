@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a MongoDB aggregation for: {{question}} Schema: {{collection_schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-revenue-by-day
+    vars:
+      collection_schema: "orders: {_id, customerId, status: 'paid'|'refunded'|'pending', createdAt: Date, items: [{sku, qty, price}], couponCode?: string}. 12M documents. Index on {status: 1}."
+      question: "Daily paid revenue for the last 30 days in Europe/Berlin time, with order count and the share of orders that used a coupon."
+    assert:
+      - {type: icontains, value: "timezone"}
+      - {type: contains, value: "$match"}
+      - {type: llm-rubric, value: "Starts with a $match on status and createdAt, computes revenue from items without losing orders through $unwind, buckets days with the Europe/Berlin time zone, treats a missing couponCode as no coupon, and recommends a compound index such as {status: 1, createdAt: 1}."}
+  - name: edge-lookup-join
+    vars:
+      collection_schema: "users: {_id, plan, country}. events: {userId, type, ts}. 500M events, index on {ts: 1} only."
+      question: "Number of active users per plan in the last 7 days, where active means at least one 'login' event."
+    assert:
+      - {type: llm-rubric, value: "Filters events first by type and time, groups by userId before joining to users (rather than looking up events per user), and recommends an index that serves the type and ts filter."}
+  - name: negative-ambiguous-definition
+    vars:
+      collection_schema: "subscriptions: {_id, userId, startedAt, cancelledAt?: Date, plan}"
+      question: "What is our churn?"
+    assert:
+      - {type: llm-rubric, value: "Asks how churn should be defined (period, denominator, what counts as cancelled) or states a clearly labelled definition, instead of silently picking one."}

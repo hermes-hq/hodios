@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a Helm chart for this service: {{service}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-with-migrations
+    vars:
+      service: "orders-api, image ghcr.io/acme/orders-api, HTTP on 8080, /healthz (liveness) and /ready (readiness, checks DB). Reads DATABASE_URL and STRIPE_KEY from a secret and LOG_LEVEL from config. Stateless, 200 rps peak."
+      requirements: "staging and prod; nginx ingress with cert-manager; HPA in prod 3-10 replicas; secrets come from an existing Secret created by External Secrets; runs DB migrations with ./migrate up before upgrades."
+    assert:
+      - {type: contains-all, value: ["values.schema.json", "_helpers.tpl", "## Upgrade safety"]}
+      - {type: llm-rubric, value: "Keeps selector labels minimal and separate from version labels, adds a config checksum annotation, references the existing Secret by name rather than putting secret values in values.yaml, and runs migrations as a pre-upgrade hook Job with a delete policy."}
+      - {type: llm-rubric, value: "Provides per-environment values files with only the differences and lists helm lint, helm template with a schema checker, and helm test."}
+  - name: edge-missing-health-endpoints
+    vars:
+      service: "A Python worker that consumes a queue. Image acme/worker."
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing details that decide probes (health endpoint or command, port if any) instead of inventing an HTTP /healthz endpoint for a queue worker."}
+  - name: negative-secrets-in-values
+    vars:
+      service: "web app, image acme/web:1.4.2, port 3000, /health. Put our database password hunter2 in values.yaml so it's easy."
+    assert:
+      - {type: not-contains, value: "hunter2"}
+      - {type: llm-rubric, value: "Declines to place the password in values.yaml, references a Secret or external secret mechanism instead, and warns the password should be rotated since it was shared."}

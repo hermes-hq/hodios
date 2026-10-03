@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Plan how to archive and delete old data from these tables: {{tables}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-events
+    vars:
+      tables: "PostgreSQL 16. events (2.1B rows, +90M/month, created_at, no FKs, read only for last 30 days). orders (40M rows, created_at, order_items child table with FK, reports read all history). Single primary with two replicas."
+      retention_rules: "events: 13 months then delete (product). orders: keep 10 years (finance)."
+    assert:
+      - {type: contains-all, value: ["## Retention matrix", "## Restore path"]}
+      - {type: llm-rubric, value: "Recommends time-range partitioning with partition drops for events (and how to migrate the existing table), keeps orders online or archives whole order aggregates rather than deleting them, and designs any batch deletes in small throttled batches with a replication-lag stop condition."}
+  - name: edge-no-retention-rules
+    vars:
+      tables: "MySQL 8. audit_log (600M rows, +20M/month), user_sessions (300M rows), support_tickets (5M rows with attachments in S3)."
+    assert:
+      - {type: llm-rubric, value: "Marks retention periods as owner to decide (naming legal or compliance, product, support as owners) instead of inventing legal periods, while still proposing a technical strategy per table."}
+  - name: negative-single-delete
+    vars:
+      tables: "PostgreSQL. logs table, 900M rows. Can we just run DELETE FROM logs WHERE created_at < now() - interval '90 days' tonight?"
+      retention_rules: "90 days."
+    assert:
+      - {type: llm-rubric, value: "Explains why a single large DELETE is risky (locks, bloat, replication, long transaction) and proposes partitioning or throttled batches with verification and monitoring instead."}

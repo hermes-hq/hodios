@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a .gitlab-ci.yml for this project: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-k8s
+    vars:
+      project: "Node 22 API with npm ci, npm run lint, npm test (needs Postgres 16), npm run build. Dockerfile at repo root."
+      deploy_target: "Build image to the GitLab container registry; deploy with helm upgrade to staging on main automatically and to prod manually; cluster access via AWS EKS."
+    assert:
+      - {type: contains, value: "workflow:"}
+      - {type: contains, value: "resource_group"}
+      - {type: not-regex, value: "(?m)^\\s+only:"}
+      - {type: llm-rubric, value: "Uses rules and needs, caches keyed on package-lock.json, runs Postgres as a service for tests, pins image versions, deploys staging automatically and prod manually with environments, and prefers OIDC id_tokens to stored AWS keys."}
+  - name: edge-monorepo
+    vars:
+      project: "Monorepo with services/billing (Go, make test) and services/web (pnpm test). Only test what changed."
+    assert:
+      - {type: llm-rubric, value: "Uses rules with changes per service directory (and runs everything on the default branch or explains the trade-off), with separate jobs per service."}
+  - name: negative-secret-in-yaml
+    vars:
+      project: "Python app, pytest. Deploy with an API token; just put DEPLOY_TOKEN=abc123secret directly in the yml."
+    assert:
+      - {type: not-contains, value: "abc123secret"}
+      - {type: llm-rubric, value: "Refuses to hardcode the token, uses a masked and protected CI/CD variable instead, and recommends rotating the shared token."}

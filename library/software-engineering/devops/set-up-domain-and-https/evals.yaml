@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I set up {{domain}} with HTTPS? Hosting: {{hosting}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vps-cloudflare
+    vars:
+      domain: "bakery-orders.com, main address should be the bare domain"
+      hosting: "My own VPS at 203.0.113.10 running nginx; DNS is on Cloudflare; we use Google Workspace email on this domain."
+    assert:
+      - {type: contains-all, value: ["## DNS records", "Check:"]}
+      - {type: icontains, value: "dig"}
+      - {type: llm-rubric, value: "Preserves the existing MX and email records, gives an A record for the bare domain and a www record, uses certbot or similar with port 80 open, recommends Cloudflare SSL mode Full (strict) rather than Flexible, and redirects www and HTTP to the canonical HTTPS bare domain."}
+  - name: edge-apex-on-managed-platform
+    vars:
+      domain: "studio-lena.de, bare domain"
+      hosting: "Site on Vercel; domain registered and DNS managed at a registrar that only supports A, CNAME, MX and TXT records."
+    assert:
+      - {type: llm-rubric, value: "Explains that a CNAME cannot sit on the bare domain, uses the platform's documented A record for the apex or suggests moving DNS, points to the dashboard for the exact values rather than inventing them, and redirects www."}
+  - name: negative-unknown-dns
+    vars:
+      domain: "myproject.io"
+      hosting: "Not sure, a friend set it up."
+    assert:
+      - {type: llm-rubric, value: "Asks where the app runs, where DNS is managed and which address should be canonical (or explains how to find out with whois or dig) before giving records."}

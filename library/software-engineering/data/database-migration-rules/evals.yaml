@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write safe database migrations."
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-add-required-column
+    description: "User turn: Our users table in Postgres has 80M rows. Add a required column 'tenant_id' (bigint, FK to tenants) and an index on it. Write the Rails migration."
+    vars: {}
+    assert:
+      - {type: icontains, value: "concurrently"}
+      - {type: llm-rubric, value: "Adds the column as nullable first, creates the index concurrently with the DDL transaction disabled, adds the foreign key as NOT VALID and validates separately, backfills in batches in a separate migration, and only then enforces NOT NULL."}
+  - name: edge-rename-column
+    description: "User turn: Rename orders.amount to orders.total_amount in our Django app. We deploy with rolling updates."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that a direct rename breaks the running old code during a rolling deploy and proposes an expand and contract sequence (add, dual-write, backfill, switch reads, drop later) across releases."}
+  - name: negative-edit-applied-migration
+    description: "User turn: Migration 0042_add_status was applied to staging and prod last week but has a typo in the default value. Just edit 0042 to fix it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to edit the already-applied migration and writes a new migration that corrects the default instead."}

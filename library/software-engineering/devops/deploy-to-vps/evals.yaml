@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I deploy this app to a VPS? {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-ubuntu
+    vars:
+      provider: "Hetzner, Ubuntu 24.04"
+      app: "Django app served by gunicorn on port 8000, Postgres database, static files collected to /static, env vars SECRET_KEY and DATABASE_URL, domain shop.example.com."
+    assert:
+      - {type: contains-all, value: ["Check:", "## Rollback"]}
+      - {type: llm-rubric, value: "Confirms key-based login in a second session before disabling password and root login, allows SSH in ufw before enabling it, runs gunicorn under systemd as a dedicated user bound to localhost, keeps Postgres on localhost with off-server backups, and uses release directories or similar for rollback."}
+  - name: edge-dockerised-app
+    vars:
+      app: "Node app with a Dockerfile and docker-compose.yml (app + redis), listens on 3000, domain api.example.dev."
+    assert:
+      - {type: llm-rubric, value: "Chooses Docker Compose because the app is containerised, binds the app port to localhost only behind a TLS reverse proxy, sets restart policies and log rotation, and deploys by pulling or building a new tagged image with a rollback to the previous tag."}
+  - name: negative-missing-runtime
+    vars:
+      app: "My web app, please put it on my server."
+    assert:
+      - {type: llm-rubric, value: "Asks for the runtime, start command, port and database before writing steps instead of assuming a stack."}

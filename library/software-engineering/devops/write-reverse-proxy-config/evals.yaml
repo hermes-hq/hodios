@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a {{proxy}} reverse proxy config for: {{services}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nginx-app-and-websocket
+    vars:
+      proxy: nginx
+      services: "Bare-metal Ubuntu. app.example.com -> Next.js on 127.0.0.1:3000 (hashed assets under /_next/static). api.example.com -> Node API on 127.0.0.1:4000 with uploads up to 25 MB and a websocket at /ws. Let's Encrypt certificates."
+    assert:
+      - {type: icontains, value: "$http_upgrade"}
+      - {type: icontains, value: "client_max_body_size"}
+      - {type: llm-rubric, value: "Redirects HTTP to HTTPS, forwards X-Forwarded-Proto and X-Forwarded-For, configures the /ws location with Upgrade and Connection headers and a long read timeout, caches only /_next/static immutably, and includes nginx -t and curl test commands."}
+  - name: edge-traefik-docker
+    vars:
+      proxy: traefik
+      services: "Docker Compose: grafana on port 3000 at grafana.example.org, and an SSE dashboard service on port 8080 at live.example.org."
+    assert:
+      - {type: llm-rubric, value: "Uses Traefik's Docker provider with labels on the services, an ACME certificate resolver, an HTTP to HTTPS redirect, and addresses buffering or timeouts for the server-sent events service."}
+  - name: negative-missing-upstream
+    vars:
+      proxy: caddy
+      services: "Put my app behind Caddy."
+    assert:
+      - {type: llm-rubric, value: "Asks for the public hostname, the upstream address and port, and how Caddy runs, instead of writing a config with invented hosts."}
