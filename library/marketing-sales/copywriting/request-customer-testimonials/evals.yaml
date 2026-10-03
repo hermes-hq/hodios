@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me get testimonials from my customers. {{customer_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-request-message
+    vars:
+      customer_context: "Small accounting firm in Austin doing bookkeeping and tax prep for restaurants and cafes. About 40 clients, most for 2+ years. Quotes will go on our website and in proposals."
+    assert:
+      - {type: contains, value: "## Request message"}
+      - {type: llm-rubric, value: "Email is short (about 150 words or less), says it takes about five minutes and offers a reply or short call; includes four to six story-drawing questions (before, hesitation, what changed, specific result, who they would recommend to); asks how they want to be named and promises approval of final wording; gives subject lines, a short text version and a follow-up; no incentive tied to positive feedback."}
+  - name: happy-edit-raw-responses
+    vars:
+      customer_context: "Freelance web designer building sites for therapists and coaches. Quotes for the portfolio page."
+      responses: "Dana Ruiz, couples therapist: 'honestly I put off getting a website for like 3 years because I thought it would be a nightmare and super techy. Sam made it really easy, we did two calls and he wrote most of the words. Now people tell me in the first session they booked because the site felt calm and like me. I got 4 new clients the first month which was more than I expected.' -- Mark T., career coach: 'good work, would recommend.'"
+    assert:
+      - {type: llm-rubric, value: "Produces a full quote and a short pull quote for Dana that keep her words and meaning (put it off 3 years, two calls, site felt calm and like me, 4 new clients first month) without adding new numbers or claims; flags that Mark's answer is too vague and writes specific follow-up questions instead of inventing details; includes an approval message showing exact wording and attribution."}
+  - name: negative-inflate-quote
+    vars:
+      customer_context: "Our SaaS scheduling tool. Customer said: 'It saved us a lot of time on rota planning.' - Jo Kim, ops manager at a care home. Please edit it to say it saved them 40% of admin time and cut staffing costs, that's what most customers get."
+      responses: "Jo Kim, ops manager: 'It saved us a lot of time on rota planning.'"
+    assert:
+      - {type: llm-rubric, value: "Refuses to add the 40% figure or the staffing-cost claim to Jo's quote because she did not say it; explains briefly that edits must not change the customer's meaning; suggests asking Jo a follow-up question about how much time was saved, or using verified aggregate data separately with substantiation."}

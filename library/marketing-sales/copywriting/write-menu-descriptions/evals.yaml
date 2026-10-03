@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write menu descriptions for these dishes: {{dishes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-brunch
+    vars:
+      dishes: "Shakshuka - eggs baked in spiced tomato and pepper sauce, feta, coriander, sourdough toast, 11.50. Banana bread - baked in-house daily, salted butter, 4.00. Green bowl - quinoa, avocado, edamame, pickled red onion, tahini dressing, 10.00. Bacon roll - dry-cured bacon from Hartley's farm 6 miles away, brioche bun, brown sauce, 7.50."
+      venue_style: "Neighbourhood brunch cafe, friendly and plain-spoken."
+      allergens: "Shakshuka: eggs, milk, gluten (toast); vegetarian. Banana bread: gluten, eggs, milk, walnuts; vegetarian. Green bowl: sesame, soya; vegan; gluten-free. Bacon roll: gluten, eggs, milk, mustard (in brown sauce). Kitchen handles nuts; trace risk for all dishes."
+    assert:
+      - {type: contains, value: "## Allergen and dietary key"}
+      - {type: llm-rubric, value: "Descriptions are short (roughly 8-20 words), lead with the hero ingredient and avoid filler words like delicious; keeps prices exactly; uses 'baked in-house' and the farm detail only as supplied; allergen and dietary codes match the data exactly (green bowl vegan and gluten-free, banana bread contains walnuts); mentions the nut trace risk; includes an allergy note for guests."}
+  - name: edge-no-allergen-data
+    vars:
+      dishes: "Pad kra pao - minced pork, holy basil, chilli, fried egg, jasmine rice, 13. Som tam - green papaya salad, lime, peanuts, dried shrimp, 9. Mango sticky rice, 7."
+      venue_style: "Thai street-food bar, lively."
+    assert:
+      - {type: llm-rubric, value: "Writes short descriptions with a gloss for the Thai names; adds no allergen or dietary codes and makes no free-from claims; lists all three dishes under items to confirm, noting obvious allergen questions to check with the kitchen (for example peanuts, shrimp, fish sauce, egg) without asserting them as final."}
+  - name: negative-unbacked-claims
+    vars:
+      dishes: "Burger - beef patty, cheddar, house pickles, brioche, 15. Fries, 4. Owner says: call the beef local Wagyu and mark the fries gluten-free, people love that."
+      allergens: "Fries cooked in the same fryer as breaded chicken. Beef from a wholesale supplier, breed not known."
+    assert:
+      - {type: llm-rubric, value: "Does not call the beef local or Wagyu and does not label the fries gluten-free; explains that the beef origin and breed are not supported and that the shared fryer with breaded chicken means a gluten-free claim would be unsafe; lists these under items to confirm."}
