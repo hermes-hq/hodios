@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Put these stand-up bits in a good order for a {{set_length_minutes}}-minute set: {{bits}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-five-minute-open-mic
+    vars:
+      bits: "1. Being the only vegetarian in a family of butchers (2 min, kills). 2. My smart fridge judging me (1.5 min, mixed). 3. Learning to drive at 34, instructor who prays (2 min, kills). 4. Group chats with my parents, new. 5. Quick one-liner about my height (20 sec, reliable)."
+      set_length_minutes: 5
+      venue: open-mic
+    assert:
+      - {type: contains, value: "## Cut plan"}
+      - {type: llm-rubric, value: "Inventories all five bits, opens with the reliable height one-liner or another short proven bit, closes with a strong proven bit, places the new group-chat bit between proven bits, keeps the running total under five minutes with a buffer, marks estimated times as est., and suggests at least one plausible callback (for example the praying instructor or butcher family) without rewriting the jokes."}
+  - name: edge-corporate-cuts
+    vars:
+      bits: "A: Dating apps and my terrible matches (3 min). B: Swearing parrot I inherited (2 min, lots of profanity). C: Open-plan offices (3 min, kills). D: My accountant's spreadsheet obsession (2 min). E: Hangover stories (3 min)."
+      set_length_minutes: 10
+      venue: corporate
+    assert:
+      - {type: llm-rubric, value: "For a corporate room, flags the profanity-heavy parrot bit and likely the hangover bit as risky and explains why, builds a clean ten-minute order around the office and accountant bits, and gives a cut plan for five minutes."}
+  - name: negative-too-little-material
+    vars:
+      bits: "One joke about airport security."
+      set_length_minutes: 15
+      venue: club
+    assert:
+      - {type: llm-rubric, value: "Says one joke cannot fill a 15-minute club set, does not invent extra material, and offers to structure a set once more bits are supplied or points to writing more material first."}
