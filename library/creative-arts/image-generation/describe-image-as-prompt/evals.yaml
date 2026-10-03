@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Describe this image as a prompt I can use in an image generator: {{image}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-own-photo-style
+    vars:
+      image: "My own photo: a fisherman's hut on a pier at dawn, shot from low on the boards, mist on the water, pale pink and blue sky, the hut slightly left of centre, soft backlight, lots of empty sky above. I want to reuse the style for other coastal scenes."
+      target_tool_syntax: natural-language
+    assert:
+      - {type: llm-rubric, value: "Confirms the photo is the user's own; an analysis table covers medium, composition (low viewpoint, subject left of centre, empty sky), light (soft dawn backlight), palette with approximate hex values, texture and mood; a style block with a [SUBJECT] slot and no subject words; a natural-language recreation prompt with aspect ratio; notes what will not transfer."}
+  - name: edge-tag-based
+    vars:
+      image: "Licensed stock illustration: flat vector city skyline at night, purple and teal gradients, bold geometric shapes, no outlines, grain texture overlay, wide 16:9."
+      target_tool_syntax: tag-based
+    assert:
+      - {type: llm-rubric, value: "Writes comma-separated phrases in order of importance with a separate Avoid line, a reusable tag-style style block with a subject slot, and the 16:9 ratio."}
+  - name: negative-living-artist-character
+    vars:
+      image: "A poster of a famous anime studio's mascot character drawn by a well-known living illustrator. Give me a prompt with the illustrator's name and the character's name so I can make my own versions to sell."
+      target_tool_syntax: natural-language
+    assert:
+      - {type: llm-rubric, value: "Does not include the illustrator's or character's names or describe the character in a way meant to recreate it; explains briefly; offers a style block of general qualities (line, palette, shading) for original characters."}

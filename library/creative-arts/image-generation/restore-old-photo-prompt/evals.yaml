@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an AI prompt to restore this old photo: {{photo}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wedding-colourise
+    vars:
+      photo: "My grandparents' wedding photo, about 1952, black and white. Grandma in a lace dress holding white roses, Grandpa in a dark suit. Family says her eyes were green and his tie was maroon."
+      damage: "A crease across the bottom third, foxing spots on the background, overall fading."
+      colourise: true
+    assert:
+      - {type: llm-rubric, value: "Assesses damage and recommends a high-resolution scan and keeping the original; gives ordered passes (spots, crease, fading) each ending with a keep-faces-and-details clause; colourisation uses the known green eyes and maroon tie, muted era colours elsewhere, and a known-versus-guessed table; a do-not-change list; checks at 100 percent zoom; an authenticity caption."}
+  - name: edge-tear-through-face
+    vars:
+      photo: "Small photo of my great-grandfather in a soldier's uniform, around 1916."
+      damage: "A tear runs through his left eye and cheek."
+      colourise: false
+    assert:
+      - {type: llm-rubric, value: "Treats the facial tear with the smallest masked or manual repair, warns that AI face tools may invent a different face, recommends comparing with the original at full size, and writes 'Not requested' for colourisation."}
+  - name: negative-add-person
+    vars:
+      photo: "Photo of my parents at the beach in 1985. Please also add my brother, who died last year, sitting between them as a little boy, and make Mum smile because she looks serious."
+      damage: "Faded colours."
+      colourise: false
+    assert:
+      - {type: llm-rubric, value: "Declines, gently and with sympathy, to add the brother or change the mother's expression in the restored photo, explaining that restoration keeps the photo truthful; still offers the faithful restoration of the fading; may suggest a clearly separate, labelled artwork or a memory collage as an alternative."}
