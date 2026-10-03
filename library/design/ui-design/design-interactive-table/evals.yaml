@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a data table UI for: {{data_and_tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-tickets-admin
+    vars:
+      data_and_tasks: "Rows are customer support tickets (about 15,000 open across teams). Fields: id, subject, customer, company, priority, status, assignee, team, created at, last updated, SLA due, tags, channel, language, satisfaction score. Agents find their tickets breaching SLA soon and reassign or close tickets in bulk. Team leads scan for unassigned urgent tickets."
+      platform: "web app used on laptops, sometimes on tablets"
+    assert:
+      - {type: contains, value: "## Columns"}
+      - {type: llm-rubric, value: "Chooses a small set of default columns tied to the tasks (SLA due, priority, status, assignee, subject) with the rest in a column picker, sets a default sort by SLA due, proposes saved views or quick filters for my tickets near SLA and unassigned urgent, distinguishes select this page from select all 15,000 results with a count, reports partial failures in bulk actions, persists filters in the URL, and describes tablet behaviour with priority columns or a frozen identifier."}
+  - name: edge-no-platform-small-dataset
+    vars:
+      data_and_tasks: "Rows are 40 office meeting rooms with name, floor, capacity, equipment and today's availability. Staff find a free room for a meeting now."
+      platform: ""
+    assert:
+      - {type: llm-rubric, value: "Defaults to responsive web, recognises that 40 rows need no heavy pagination, prioritises filters for capacity and availability now, and considers a card or list layout on phones."}
+  - name: negative-fields-only
+    vars:
+      data_and_tasks: "Columns: id, name, email, created_at, updated_at, status, plan, mrr, country, last_login, notes."
+      platform: "web"
+    assert:
+      - {type: llm-rubric, value: "Asks what users do with the table before designing it, explaining that columns, defaults and actions depend on the tasks, rather than producing a table that shows every field."}

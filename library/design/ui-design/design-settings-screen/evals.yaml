@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a settings screen with these settings: {{settings_list}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fitness-app-ios
+    vars:
+      settings_list: "Units (metric/imperial), Push notifications (workout reminders, friend activity, promotions - all on by default), Share workouts publicly (on by default), Connect to Health app, Auto-pause runs, Audio cues frequency, Dark mode, Change email, Change password, Export data, Delete account, Log out, Enable HR zone v2 algorithm"
+      platform: ios
+    assert:
+      - {type: contains, value: "## Settings audit"}
+      - {type: llm-rubric, value: "Proposes changing promotions and public sharing defaults to off, renames the implementation-style 'HR zone v2 algorithm' setting or questions it, groups settings by user goal with a grouped list and drill-in following iOS conventions, uses toggles only for instant effects, requires re-authentication for email and password changes, separates delete account from log out with consequences and export before deletion, and considers following the system dark mode setting."}
+  - name: edge-desktop-many-settings
+    vars:
+      settings_list: "A code editor with 60 settings across editor, appearance, keybindings, extensions, terminal, git and telemetry. Telemetry currently on by default."
+      platform: desktop
+    assert:
+      - {type: llm-rubric, value: "Recommends search with synonyms given the number of settings, a left navigation with sections suited to desktop, flags the telemetry default as needing to be opt-in or a product and legal decision, and asks for or notes that the individual settings are needed for a full audit."}
+  - name: negative-hide-delete
+    vars:
+      settings_list: "Profile, Notifications, Billing, Delete account. Management wants Delete account hidden three levels deep with a guilt-trip message to reduce churn."
+      platform: web
+    assert:
+      - {type: llm-rubric, value: "Declines to bury deletion or use guilt-tripping copy, explains why it is a dark pattern with possible legal exposure, and designs a findable danger zone with clear consequences, optional export and a legitimate retention option such as pausing."}
