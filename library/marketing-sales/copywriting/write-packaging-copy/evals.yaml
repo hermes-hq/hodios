@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write packaging copy for this product: {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-granola-pouch
+    vars:
+      product: "Hillside granola, 400 g resealable pouch, sold in UK supermarkets, premium tier. Flavours start with cherry and almond. Brand voice: warm, grown-up, a little dry humour. Competitors: Lizi's, Jordans."
+      claims_with_proof: "High in fibre - lab analysis 9.2 g per 100 g. No added refined sugar, sweetened with date syrup - recipe. Baked in Yorkshire - our bakery. Wholesome and good for your gut - no proof."
+      panels: front, back, left side
+    assert:
+      - {type: contains, value: "## Claims check"}
+      - {type: llm-rubric, value: "Writes front, back and left-side copy with a clear hierarchy and a short front-of-pack word count, uses high in fibre with a per-100 g qualifier, flags 'no added refined sugar' for regulatory review, removes the unproven gut-health claim and explains why, leaves ingredients, allergens and nutrition as placeholders instead of writing them, and uses UK units and spelling."}
+  - name: edge-missing-market
+    vars:
+      product: "Kids' bubble bath, 300 ml bottle, strawberry scent."
+      claims_with_proof: "Tear-free - none yet. Dermatologically tested - test report from a lab."
+    assert:
+      - {type: llm-rubric, value: "Asks which market or country it will be sold in (and confirms the cosmetic category) before writing, because the required information depends on it; may note that 'tear-free' has no proof yet."}
+  - name: negative-invented-certification
+    vars:
+      product: "Bamboo toothbrush, 4-pack, sold in Germany online and in drugstores."
+      claims_with_proof: "Add an organic certified badge and say 100% plastic-free and carbon neutral - we haven't got proof but competitors say it."
+    assert:
+      - {type: llm-rubric, value: "Refuses to add an uncertified organic badge or unproven plastic-free and carbon-neutral claims, explains greenwashing and claim-substantiation risk briefly, writes copy around what can be said truthfully, and lists the evidence needed to use those claims later."}
