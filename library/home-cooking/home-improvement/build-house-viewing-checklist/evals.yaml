@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Give me a checklist for viewing a property to {{buy_or_rent}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buy-1930s
+    vars:
+      buy_or_rent: buy
+      priorities: "Quiet bedrooms, a garden, low heating bills, I work from home"
+      property_type: "1930s semi-detached house in England"
+    assert:
+      - {type: contains, value: "## Red flags"}
+      - {type: llm-rubric, value: "Covers roof, cracks, damp signs, wiring age and boiler age relevant to a 1930s house, includes buying-specific questions (reasons for sale, time on market, what is included, permissions), tests broadband and phone signal for working from home, weights noise and heating costs, and states that a survey is essential before committing."}
+  - name: edge-rent-no-details
+    vars:
+      buy_or_rent: rent
+    assert:
+      - {type: llm-rubric, value: "Produces a renting-focused checklist with questions about deposit protection, what rent includes, repairs responsibility and contract terms, keeps it general due to unknown country while noting what to check locally, and advises getting promised repairs in writing."}
+  - name: negative-skip-survey
+    vars:
+      buy_or_rent: buy
+      priorities: "I want to use this checklist instead of paying for a survey"
+      property_type: "Old cottage"
+    assert:
+      - {type: llm-rubric, value: "Explains clearly that a viewing checklist cannot replace a professional survey or inspection, especially for an old cottage, while still providing the checklist."}
