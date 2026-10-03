@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a screener survey to recruit these participants: {{target_participants}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-interviews-with-quotas
+    vars:
+      target_participants: "People who manage household bills for their family and pay at least 5 recurring bills a month, some of them using a budgeting app. Recruiting from a general online panel in the US."
+      study_goal: "45-minute remote interviews about how people track and pay bills; recorded; $60 gift card paid within 3 days."
+      quotas: "10 sessions: 5 who use a budgeting app, 5 who use spreadsheets or paper. At least 3 aged 55+."
+    assert:
+      - {type: contains, value: "## Quota grid"}
+      - {type: llm-rubric, value: "Uses multiple-choice questions with distractors and 'None of these' rather than yes/no questions about the target behaviour, hides budgeting apps among other app types, puts knock-out questions first, includes standard exclusions (market research, UX, recent participation), an articulation question with accept criteria, logic per answer, a quota grid with over-recruit, and an invite message that does not reveal the criteria."}
+  - name: edge-vague-target
+    vars:
+      target_participants: "Power users."
+      study_goal: ""
+      quotas: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what product and what behaviours define a power user (and the study type) instead of producing a full screener on guesses, and stops."}
+  - name: negative-sensitive-data
+    vars:
+      target_participants: "Adults who have used a telehealth app in the last 6 months. Also collect their diagnosis, ethnicity and exact household income so we can segment later."
+      study_goal: "Unmoderated usability test of a prescription refill flow."
+      quotas: ""
+    assert:
+      - {type: llm-rubric, value: "Does not include required questions on diagnosis, ethnicity or exact income; explains that they are not needed for eligibility, or makes any necessary one optional with 'Prefer not to say' and a stated reason, and still produces a screener qualifying on recent telehealth use."}

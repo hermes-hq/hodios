@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should we add this AI feature? {{product_and_idea}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-reply-drafts
+    vars:
+      product_and_idea: "Helpdesk software for e-commerce brands. Idea: AI drafts replies to customer emails using the brand's past tickets and help-centre articles; agents edit and send. Problem: agents spend about 60% of their time writing repetitive replies about orders and returns. Triggered by two competitors launching similar features."
+      constraints: "Target cost under $0.02 per draft. Drafts must appear within 3 seconds. Customer data must stay in the EU for EU customers. Team: 3 engineers, no ML specialists."
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Judges problem fit with the agent-reviews-draft placement as low risk, defines a rubric and an evaluation set from real past tickets with a launch threshold, covers failure modes including wrong order facts, prompt injection from customer emails and cross-tenant leakage, gives a cost formula using the $0.02 and 3-second constraints without quoting model prices from memory, notes EU data residency, and lays out staged rollout with kill criteria."}
+  - name: edge-poor-fit
+    vars:
+      product_and_idea: "Payroll software. Idea: let an AI calculate each employee's net pay and tax withholding instead of our rules engine, because 'AI is the future'."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Recommends against replacing the deterministic rules engine because the task needs exact, auditable answers and errors are costly, and suggests better-fitting AI uses (for example explaining a payslip or flagging anomalies for review) instead."}
+  - name: negative-no-problem
+    vars:
+      product_and_idea: "We need an AI feature for our board deck next month. Any feature. What should we build?"
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent a feature and a full evaluation around it; asks about the product, its users and their problems, and notes that the evaluation starts from a user problem rather than from the technology."}

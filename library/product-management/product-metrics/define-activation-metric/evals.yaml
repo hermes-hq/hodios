@@ -1,0 +1,37 @@
+schema: 1
+baseline: "What should our activation metric be? Here is our data: {{usage_data_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pick-balanced-action
+    vars:
+      product: "Collaborative whiteboard for remote teams, used a few times a week"
+      usage_data_summary: |
+        Cohort: 8,000 sign-ups in March-April. Retained = active in week 4.
+        Overall week-4 retention: 20% (1,600 users).
+        Within the first 7 days:
+        - Created 1+ board: 6,400 users; 1,500 of them retained.
+        - Added 10+ objects to a board: 3,200 users; 1,200 retained.
+        - Invited 1+ teammate: 2,000 users; 1,000 retained.
+        - Invited teammate AND a teammate edited the board: 1,200 users; 840 retained.
+        - Installed the desktop app: 400 users; 260 retained.
+    assert:
+      - {type: contains, value: "## Metric definition"}
+      - {type: llm-rubric, value: "Computes reach, retention if reached and not reached, coverage and precision from the counts (for example invite: 50% retention vs about 10% without, coverage about 62%), rejects 'created a board' as too common and the desktop app as too rare despite its high precision, recommends a collaborative action such as a teammate editing within 7 days (or invite) with a clear trade-off explanation, gives a full definition with numerator, denominator and exclusions, and proposes an experiment-based validation."}
+  - name: edge-small-samples
+    vars:
+      product: "B2B invoicing tool, used monthly"
+      usage_data_summary: |
+        42 trials last quarter, 11 converted to paid.
+        Sent first invoice in 14 days: 18 trials, 9 converted.
+        Connected bank account: 9 trials, 6 converted.
+    assert:
+      - {type: llm-rubric, value: "Flags the samples as too small to rank confidently, still computes the rates correctly, offers a provisional definition clearly labelled as such (likely sending a first invoice), and recommends collecting more cohorts and a validation plan before adopting it."}
+  - name: negative-no-outcome-data
+    vars:
+      product: "Meditation app"
+      usage_data_summary: "In week 1, 60% of users complete one session, 25% complete three sessions and 10% set a reminder."
+    assert:
+      - {type: llm-rubric, value: "Explains that without retention data split by these actions no activation metric can be chosen, does not invent retention rates, and describes the analysis or query needed to get them."}

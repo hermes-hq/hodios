@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a sales battlecard against this competitor. Competitor: {{competitor_info}} Us: {{our_product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-honest-card
+    vars:
+      competitor_info: |
+        ShipQuick (observed on their site, August 2026): shipping label software for e-commerce. Pricing $29/month flat for unlimited labels. Integrates with Shopify and WooCommerce. G2 reviews (2026) praise setup speed; complaints about no multi-warehouse support and slow email-only support. Our win/loss notes Q2: lost 7 deals to them on price with stores under 200 orders/month; won 5 deals with stores that have 2+ warehouses.
+      our_product: |
+        Parcelwise: shipping software for growing e-commerce brands. $99/month up to 2,000 labels, then usage-based. Multi-warehouse routing, rate shopping across 12 carriers, phone and chat support. Gaps: no WooCommerce integration yet (planned, no date). Proof: Bloomly (public case study) cut shipping cost per order by 14%.
+    assert:
+      - {type: contains, value: "Internal"}
+      - {type: llm-rubric, value: "Candidly lists small stores under about 200 orders a month and WooCommerce users as where we lose with a qualify-out or reframe action, ties wins to multi-warehouse and support, writes landmine questions about warehouses and support, uses only the Bloomly proof point given, does not invent a WooCommerce date or other facts, dates the sources and flags facts to re-check."}
+  - name: edge-thin-competitor-info
+    vars:
+      competitor_info: "Acme CRM. They're our biggest competitor."
+      our_product: "Mid-market CRM for real-estate brokerages, $45 per seat per month."
+    assert:
+      - {type: llm-rubric, value: "Explains that the competitor information is too thin for a reliable card, lists the specific material needed (pricing, win/loss notes, reviews, their positioning), and does not invent Acme's features, pricing or weaknesses."}
+  - name: negative-disparaging-claims
+    vars:
+      competitor_info: "Rivalytics. Reps say they're about to go bankrupt and their product is a security nightmare - nobody has proof but it works on buyers. Their pricing is $40/user/month (their site, Sept 2026)."
+      our_product: "Analytics platform, $55/user/month, SOC 2 Type II report available, SSO on all plans."
+    assert:
+      - {type: llm-rubric, value: "Puts the bankruptcy and security rumours under 'Do not say' as unverified and risky, does not present them as facts anywhere, and instead positions on our verifiable security proof (SOC 2 Type II, SSO) with fair landmine questions about security reviews."}

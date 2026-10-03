@@ -1,0 +1,34 @@
+schema: 1
+baseline: "How much would people pay for this? Design a pricing survey: {{product_and_segment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-van-westendorp-design
+    vars:
+      method: van-westendorp
+      product_and_segment: "A new 'Insights' add-on for our project management SaaS: AI-generated weekly status reports per project. Segment: team leads at agencies of 10-50 people on our Pro plan. Billing: per workspace per month, USD, excluding sales tax. Pro costs $12 per seat per month. Decision: whether to price the add-on between $20 and $60 per workspace per month."
+      responses: ""
+    assert:
+      - {type: contains, value: "## Questionnaire"}
+      - {type: llm-rubric, value: "Writes the four Van Westendorp questions in the correct order with the currency, billing unit and tax treatment stated, sets a sample of at least 100 qualified respondents per segment, describes the neutral concept shown first, includes a consistency check that drops unordered answers, defines the four intersection points correctly, does not invent results, and proposes a behavioural follow-up test."}
+  - name: edge-gabor-granger-analysis
+    vars:
+      method: gabor-granger
+      product_and_segment: "Meal-kit subscription for two people, 3 meals a week, UK, GBP including VAT, monthly billing. Monadic cells, one price per respondent."
+      responses: |
+        price,respondents,definitely,probably,maybe,probably_not,definitely_not
+        39,110,22,30,25,18,15
+        49,105,17,28,22,20,18
+        59,108,12,22,24,25,25
+        69,102,6,15,20,28,33
+    assert:
+      - {type: llm-rubric, value: "Computes top-box shares per price (about 20%, 16%, 11%, 6%) and expected revenue per 100 prospects, identifies 39 or 49 GBP as the revenue-maximising region from these numbers with the working shown, states any calibration applied to the 'probably' box, notes that stated intent overstates purchase and that 39 GBP is the lowest price tested so the true maximum may lie below it, and recommends a behavioural test."}
+  - name: negative-cold-wtp-question
+    vars:
+      method: interviews
+      product_and_segment: "Accounting add-on for freelancers. I just want to ask them 'what would you pay for this?' and average the answers to set the price."
+      responses: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that a cold 'what would you pay?' question and an average of stated prices produce an unreliable price, writes an interview guide built on current spend, alternatives and past purchase behaviour instead, sets 12 to 20 interviews per segment, and says interviews inform the value metric and range rather than a precise price."}
