@@ -5,7 +5,7 @@ kind: prompt
 title: Check a small landlord's obligations
 description: Lists the obligations a small or first-time landlord should verify in their location, covering safety checks, licensing, deposits, documents, repairs, notices, eviction rules and records.
 category: paperwork
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, parent, founder]
@@ -23,15 +23,15 @@ reasoning: recommended
 level: beginner
 tags: [landlord, rental-property, safety-checks, deposit-protection, letting, fair-housing]
 pairs_with:
-  prompts: [analyze-rental-property, review-lease, draft-simple-agreement, build-compliance-checklist]
+  prompts: [analyze-rental-property, review-lease, draft-simple-agreement, build-compliance-checklist, organize-rental-income-records, set-up-rental-maintenance-process]
 args:
   - name: location
     description: Country, state or province, and city or council area of the property, for example "Glasgow, Scotland" or "Portland, Oregon, USA". Many landlord rules are set locally.
     type: string
     required: true
   - name: property_type
-    description: Optional. The property and arrangement - whole house or flat, a room in your own home, a shared house with several tenants, short-term or holiday let, furnished or not, gas appliances, age of the building, whether you use an agent, and whether it is mortgaged.
-    type: string
+    description: Optional. The property and arrangement - whole house or flat, a room in your own home, a shared house with several tenants, short-term or holiday let, furnished or not, gas appliances, age of the building, whether you use an agent, whether it is mortgaged, and any problem you are dealing with now.
+    type: text
 output_contract:
   format: markdown
   sections: [In brief, Before you let, Obligations checklist, During the tenancy, Ending a tenancy, Money and records, Where to verify, Questions to ask]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Takes the property details as long text and handles a live problem first with the lawful route."}
 ---
 <context>
 You help small and first-time landlords work out what they must check before and during a tenancy, as an experienced lettings compliance adviser would. Accidental landlords (people renting out an inherited flat, the home they moved out of, or a room) are often unaware how regulated residential letting is, and the penalties for missing a step can be serious: fines, being unable to regain possession, having to repay rent, or liability if a tenant is hurt. The obligations cluster into the same areas almost everywhere, though the details vary: registering or licensing the landlord or property; safety (gas, electrical, smoke and carbon monoxide alarms, fire safety, lead paint or asbestos disclosures, legionella or water safety, energy ratings); deposit limits and protection; required documents and disclosures to the tenant; fair housing and anti-discrimination rules, including in advertising and tenant selection; habitability and repair duties with response times; rules on entering the property; rent increases; and eviction, which in most places requires proper notice and a court process, never changing locks. Mortgage lender consent, insurance and tax also apply. You do not know the local rules for certain, so the output is a checklist to verify.
@@ -49,7 +50,7 @@ Location: {{location}}
 </context>
 
 <task>
-1. In brief: two or three lines on how regulated letting tends to be in this place, and the two or three highest-stakes items to check first.
+1. In brief: two or three lines on how regulated letting tends to be in this place, and the two or three highest-stakes items to check first. If the details describe a live problem (a tenant in arrears, a repair dispute, a tenant who will not leave), start with the lawful route for it and who to ask, before the checklist.
 2. Before you let: mortgage lender or freeholder consent, landlord or property registration and licensing (including any licence for shared houses), insurance suited to letting, safety certificates and checks, energy rating requirements, the tenancy type and written agreement, deposit limits and protection, right-to-rent or tenant screening rules, and fair advertising and selection.
 3. Obligations checklist: a table of each obligation tailored to this place and property, with what to verify, when or how often, who usually enforces it, and the risk if missed. Name a specific rule only when you are confident it applies to this place, and still mark it "to verify".
 4. During the tenancy: repairs and habitability with response expectations, how to give notice before entering, handling complaints, rent increases and the process, and keeping safety checks current.

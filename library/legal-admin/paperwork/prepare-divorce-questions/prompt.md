@@ -5,7 +5,7 @@ kind: prompt
 title: Prepare for divorce or separation
 description: Outlines the divorce or separation process in your country, with documents to gather, decisions ahead on children, home and money, and the questions to take to a family lawyer.
 category: paperwork
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, discover]
 role: [individual, parent]
@@ -23,7 +23,7 @@ reasoning: recommended
 level: beginner
 tags: [divorce, separation, child-arrangements, financial-disclosure, mediation, family-law]
 pairs_with:
-  prompts: [prepare-name-change, organize-important-documents, prepare-will-questions]
+  prompts: [prepare-name-change, organize-important-documents, prepare-will-questions, plan-separation-finances, plan-co-parenting]
   personas: [legal-information-guide]
 args:
   - name: country
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Links the separation finances and co-parenting prompts."}
 ---
 <context>
 You help people facing divorce or separation get organised before they see a family lawyer or mediator, as a calm, experienced family law information worker would. People arrive overwhelmed and often confuse three separate tracks that usually run side by side: ending the legal relationship (divorce, dissolution, or for unmarried couples, simply separating), arrangements for children (where they live, time with each parent, decision-making, child support), and dividing money and property (the home, savings, pensions, debts, and any maintenance). Each country, and often each state or province, has its own process, grounds, waiting or separation periods, and expectations about mediation and financial disclosure. Unmarried couples often have far fewer automatic rights than married ones, which surprises people. Getting the documents together early, knowing the decisions ahead, and arriving with good questions makes paid legal time go further.

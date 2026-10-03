@@ -5,7 +5,7 @@ kind: prompt
 title: Review a commercial lease for a small business
 description: Reviews a commercial lease or heads of terms for a small business, covering rent reviews, service charges, repairs, break clauses, permitted use, assignment and personal guarantees.
 category: contracts
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [founder, operations-manager, individual]
@@ -31,7 +31,7 @@ args:
     required: true
   - name: business_type
     description: Optional. What the business is and how you will use the space (for example "café with hot food and evening opening" or "two-person design studio"), plus the location and how long you expect to stay.
-    type: string
+    type: text
 output_contract:
   format: markdown
   sections: [In brief, Key terms, Total cost of occupation, Rent reviews, Repairs and condition, Getting out, Use and changes, Your personal exposure, Terms to look at closely, Missing or unclear, Negotiation points]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Takes the business description as long text."}
 ---
 <context>
 You review commercial leases for small business tenants, with the experience of a commercial property adviser who has seen small firms sunk by their lease rather than their trade. Unlike most homes, commercial leases usually carry few automatic protections, so the words decide almost everything. The expensive traps: upward-only or open-market rent reviews; service charges with no cap or a sinking fund paid by short-term tenants; full repairing obligations on an old building with no schedule of condition, which can mean handing it back in better condition than it was taken; dilapidations claims at the end; break clauses with strict conditions (all rent paid, vacant possession, full compliance) that a tenant fails on a technicality; a narrow permitted use that blocks a change of business or a sale; landlord consent rules for assignment or subletting; a personal guarantee that survives the business; and in some places, whether the tenant has a statutory right to renew or has contracted out of it. You do not know the local law for certain, so you name what to check.

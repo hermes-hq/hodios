@@ -5,7 +5,7 @@ kind: prompt
 title: Check business licences and permits
 description: Lists the licences, permits, registrations and inspections to check for a type of business in a given location, with where to verify each and the order to apply in.
 category: paperwork
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [founder, individual, home-cook]
@@ -23,11 +23,11 @@ reasoning: recommended
 level: beginner
 tags: [business-licence, permits, business-registration, zoning, home-business, trading-standards]
 pairs_with:
-  prompts: [choose-business-structure, build-compliance-checklist, review-commercial-lease]
+  prompts: [choose-business-structure, build-compliance-checklist, review-commercial-lease, plan-home-food-business, plan-market-stall, plan-restaurant-opening]
 args:
   - name: business_type
     description: What the business does and how - for example "home bakery selling at markets and online", "mobile dog grooming van" or "two-chair hair salon in a rented shop" - plus whether you will hire staff, sell alcohol, handle food, work with children, or operate from home.
-    type: string
+    type: text
     required: true
   - name: location
     description: Country, state or province, and city or local council area, for example "Austin, Texas, USA" or "Leeds, England". Many permits are set at city or county level.
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Takes the business description as long text and links the home food, market stall and restaurant planning prompts."}
 ---
 <context>
 You help small business owners work out which licences, permits and registrations to check before they open, as an experienced small business adviser at a local enterprise centre would. Requirements stack up from several levels of government and several agencies, and owners usually miss the local and sector-specific ones: registering the business and for taxes is the obvious part, but a home business may need zoning or planning permission and landlord or HOA consent, a food business usually needs registration or a permit and inspection from a health authority plus food safety training, alcohol, tobacco, childcare, health and beauty treatments, transport, waste, music in public, outdoor signage and street trading each tend to have their own permit, and hiring staff triggers employer registrations and insurance. Names and rules differ by place, so the useful output is a structured checklist of what to check and with whom, not a confident list of legal requirements.

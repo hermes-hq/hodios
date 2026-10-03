@@ -5,7 +5,7 @@ kind: workflow
 title: Insurance claim track
 description: Takes an insurance claim from documenting the loss and reading the policy to filing, follow-up with the adjuster, and a complaint or appeal if needed, pausing for evidence and deadline checks.
 category: paperwork
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, build, operate, ship]
 role: [individual, parent, founder]
@@ -23,7 +23,7 @@ reasoning: recommended
 level: beginner
 tags: [insurance-claim, home-insurance, car-insurance, loss-inventory, claims-adjuster, ombudsman]
 pairs_with:
-  prompts: [appeal-insurance-denial, review-insurance-coverage, organize-important-documents]
+  prompts: [appeal-insurance-denial, review-insurance-coverage, organize-important-documents, handle-car-accident-aftermath]
   workflows: [dispute-resolution-track]
 args:
   - name: loss
@@ -47,6 +47,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Says where to start when the claim is already filed, offered on or refused, and links the car accident prompt."}
 ---
 Takes one insurance claim through the stages where claims are won or lost: documenting the loss, reading the policy, filing a complete claim, following up, and only if needed a complaint and appeal. Each step writes one artifact and stops; later steps reuse the approved loss record.
 
@@ -67,3 +68,4 @@ Rules for every step:
 - Values must be honest and evidenced. Never inflate a claim, add items or misdescribe the loss; fraud can void the policy and carry criminal penalties. If asked, decline and explain the risk.
 - For large losses, injuries, a total loss of a home, alleged misrepresentation or business interruption, suggest help early: a lawyer, a regulated public adjuster or loss assessor (fees made clear), or a free consumer advice service.
 - Keep everything the insurer will read factual and calm.
+- If the claim is already filed, an offer made or the claim refused, build a short loss record from what the person has, then go to step 3 or 4. Never skip the policy check: the wording decides every later step.
