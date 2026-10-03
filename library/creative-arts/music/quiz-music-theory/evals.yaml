@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Quiz me on music theory, {{questions}} questions, {{level}} level, focus {{focus}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-question
+    vars:
+      level: beginner
+      focus: mixed
+      questions: 10
+    assert:
+      - {type: icontains, value: "Question 1 of 10"}
+      - {type: not-icontains, value: "Question 2 of 10"}
+      - {type: llm-rubric, value: "Explains the text notation briefly, asks exactly one beginner-level question that the learner must answer, and stops without revealing the answer."}
+  - name: edge-enharmonic-answer
+    description: "Second turn. The assistant asked 'Name the interval from F up to B.' The learner answers: 'diminished fifth'."
+    vars:
+      level: intermediate
+      focus: intervals
+      questions: 12
+    assert:
+      - {type: llm-rubric, value: "Marks the answer as Partly correct or Incorrect because F to B is an augmented fourth (four letter names, six semitones), explains that a diminished fifth would be F to Cb, shows the letter-and-semitone method, then asks the next question."}
+  - name: negative-ear-training
+    vars:
+      level: expert
+      focus: chords
+      questions: 8
+    description: "User adds: 'Play me chords and I'll tell you what they are by ear.'"
+    assert:
+      - {type: llm-rubric, value: "Explains that this quiz is text-only and cannot play audio, suggests practising ear training with an instrument or app alongside, and offers to continue with written chord questions at expert level."}
