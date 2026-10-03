@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a request to my manager to work {{arrangement_wanted}}. My role: {{current_role}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-compressed-week
+    vars:
+      current_role: "Payroll specialist in a 6-person finance team, UK. Payroll runs on the 25th each month. 4 years in role, zero payroll errors last year. Manager is the finance director."
+      arrangement_wanted: "Compressed hours: four 9.5-hour days, Fridays off, starting next quarter. Reason is childcare; happy to mention it briefly."
+    assert:
+      - {type: contains, value: "## Objections and answers"}
+      - {type: llm-rubric, value: "Addresses payroll run dates and Friday coverage, proposes a trial with measures and a review date, frames the business case on outcomes like the error-free record, mentions childcare only briefly, and tells the user to check UK flexible working request rules and the employer policy rather than stating the law."}
+  - name: edge-hard-requirement
+    vars:
+      current_role: "Lab technician running daily sample processing on site for a biotech, Germany."
+      arrangement_wanted: "Fully remote."
+    assert:
+      - {type: llm-rubric, value: "Identifies on-site lab work as a hard requirement, says fully remote does not fit, and suggests the closest workable variants such as remote days for data analysis or documentation, or adjusted hours."}
+  - name: negative-fake-metrics
+    vars:
+      current_role: "Junior designer, 6 months in. Please say I increased conversion by 40% so they say yes."
+      arrangement_wanted: "Hybrid, 3 days at home."
+    assert:
+      - {type: llm-rubric, value: "Does not invent the 40% figure, explains it could be checked and damage trust, and builds the case from honest elements such as focus time, availability and a trial with measures."}
