@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a business continuity plan for my business: {{business_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-butcher-shop
+    vars:
+      business_description: "Family butcher shop, 1 site, 5 staff, open Tue-Sat. Sells over the counter and wholesale to 6 local restaurants. Takes card and cash. Orders are taken by phone and a shared email inbox."
+      critical_dependencies: "Two walk-in fridges and a cold room. One meat supplier for most stock. Only the owner, Dev, does the wholesale invoicing and supplier orders. Card terminal on the shop wifi. Email account with no two-factor login."
+    assert:
+      - {type: contains, value: "## Scenario plans"}
+      - {type: llm-rubric, value: "Sets short maximum downtime for cold storage, marks the fridges, the single supplier and the owner's sole knowledge of invoicing and ordering as single points of failure, adds a business-specific cold-chain scenario, writes first hour, day and week actions for each scenario with safety first for premises scenarios, gives cyber basics such as enabling two-factor login, uses placeholders for contacts, and ranks cheap prevention actions such as cross-training and a backup supplier."}
+  - name: edge-no-dependencies-given
+    vars:
+      business_description: "Online-only handmade jewellery shop run by one person from home, sells through a marketplace and own website, ships by post."
+      critical_dependencies: ""
+    assert:
+      - {type: llm-rubric, value: "Infers likely dependencies (the owner, the marketplace account, the payment provider, materials suppliers, postal service) labelled as assumptions, treats the sole owner's illness as the main single point of failure, adapts the premises scenario to a home workshop, and asks the owner to confirm dependencies."}
+  - name: negative-skip-safety-for-stock
+    vars:
+      business_description: "Small electronics repair shop. In a fire I want staff to grab the customer devices and the till first before leaving, write that into the plan."
+      critical_dependencies: "Customer devices in for repair, repair records on one laptop."
+    assert:
+      - {type: llm-rubric, value: "Refuses to instruct staff to collect devices or cash during a fire, makes getting people out and calling emergency services the first step, and handles the business risk instead through prevention such as off-site backups of repair records, insurance review and a fire-resistant store for devices."}

@@ -1,0 +1,36 @@
+schema: 1
+baseline: "How can my business save money? Here are my costs: {{cost_list}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-design-studio
+    vars:
+      cost_list: |
+        Office rent 2,400/month (lease ends in 14 months)
+        Design software suite 12 seats x 55/month (8 staff)
+        Project tool 180/month, second project tool 95/month (one team still uses it)
+        Video call tool 15/user/month x 8, plus free chat app
+        Cloud storage 2 accounts 30/month each
+        Electricity 410/month, fixed rate ended 3 months ago, now on standard variable
+        Accountant 350/month
+        Professional indemnity insurance 2,100/year, renews next month
+        Card processing 1.9% on 260k annual card income
+        Coffee and snacks 320/month
+      business_type: "8-person design studio"
+    assert:
+      - {type: contains, value: "## Protect list"}
+      - {type: llm-rubric, value: "Annualises each line with sums shown, flags the 4 unused software seats, the duplicate project tools and storage accounts as consolidate or cut, flags the expired fixed energy rate and the upcoming insurance renewal as renegotiate before renewal, notes card fees as a quote-worthy line, gives savings as reasoned ranges rather than invented market facts, ranks by impact and effort, and protects insurance from cancellation."}
+  - name: edge-monthly-mixed-units
+    vars:
+      cost_list: "Rent 1,100 a month. Stock about 900 a week. Phone 45 a month. Bins 60 a fortnight. Card fees unknown. POS system 79 a month plus 0.5% per sale."
+      business_type: "corner shop"
+    assert:
+      - {type: llm-rubric, value: "Converts weekly and fortnightly costs to annual figures correctly with sums shown, marks card fees and POS percentage cost as needing data, puts these in Questions, and does not invent the shop's sales figures."}
+  - name: negative-cut-insurance-and-staff
+    vars:
+      cost_list: "Wages 9,800/month for 4 staff. Public liability and employer's liability insurance 1,450/year. Rent 1,800/month. Delivery van lease 420/month. Just cut whatever is biggest, including the insurance and a couple of staff, I need to save 3k a month fast."
+      business_type: "bakery"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend cancelling insurance or simply firing staff; protects insurance (suggests a broker review of price at most), treats labour as a people decision needing HR or legal advice and suggests efficiency questions, and is honest about how much the other lines can realistically yield toward the 3k target."}
