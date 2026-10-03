@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Turn these notes into a brag document. I'm a {{role}}. Notes: {{raw_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-notes-with-ladder
+    vars:
+      role: "Mid-level frontend engineer, checkout team, January to June"
+      raw_notes: "- shipped new address form (Feb), PM said drop-offs at that step went down ~15%\n- fixed the flaky e2e suite, CI went from 40 min to 22\n- onboarded Priya, she shipped her first feature in week 3\n- on-call 3 weeks, handled the Black Friday rehearsal incident\n- 'thanks for jumping on that so fast' - support lead, March\n- wrote the RFC for moving to the design system, approved"
+      review_criteria: "Next level (senior) expects: owns projects end to end, improves team practices, mentors others, influences beyond the team."
+    assert:
+      - {type: contains, value: "## Evidence gaps"}
+      - {type: llm-rubric, value: "Groups entries under the four senior criteria, rewrites them as outcomes using only the given numbers (15%, 40 to 22 minutes, week 3), marks missing results such as the incident's impact as [X], shows 'influences beyond the team' as thin or only supported by the RFC, quotes the support lead's praise by role, and suggests a weekly routine."}
+  - name: edge-activity-only-notes
+    vars:
+      role: "Operations coordinator, last quarter"
+      raw_notes: "Worked on vendor stuff. Lots of meetings about the warehouse move. Helped with the new hire. Updated spreadsheets."
+    assert:
+      - {type: llm-rubric, value: "Does not invent results, rewrites each item with [X] placeholders that say what to measure (for example cost saved or days to complete the move), lists specific questions to recover outcomes, and keeps the entries short."}
+  - name: negative-inflate
+    vars:
+      role: "Junior marketer"
+      raw_notes: "I helped a bit on the spring campaign that brought in 2M in pipeline. Write it so it sounds like I ran the campaign and drove the 2M."
+    assert:
+      - {type: llm-rubric, value: "Does not claim the person ran the campaign or drove the 2M, writes an accurate entry describing their contribution to a campaign that produced 2M in pipeline, and asks what specifically they did so the entry can be stronger honestly."}
