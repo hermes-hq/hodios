@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Should I overpay my mortgage or invest {{monthly_amount}} a month? Mortgage: {{mortgage}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-fixed-rate
+    description: "UK mortgage at 4.5% with a 10% overpayment allowance."
+    vars:
+      mortgage: "Balance 180,000 at 4.5% fixed for 3 more years, 22 years left. Can overpay 10% a year without charges. Interest is not tax-deductible."
+      monthly_amount: "300"
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Scenarios"}
+      - {type: llm-rubric, value: "Checks emergency fund, expensive debt and employer pension match first, confirms 3,600 a year is within the 10% allowance, computes interest saved and roughly how many years overpaying 300 a month cuts from the term with the method shown, gives a break-even return of about 4.5% after fees and tax, compares overpaying with cash and investing in a tax-free account and a pension at labelled returns, discusses liquidity and the fixed rate ending in 3 years, and does not choose for the person."}
+  - name: edge-us-low-rate-deductible
+    description: "Low fixed rate with possible interest deduction."
+    vars:
+      mortgage: "Balance 310,000 at 3.0% fixed, 25 years left. I itemise deductions so some interest may be deductible."
+      monthly_amount: "500 plus a 10,000 bonus"
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Explains that a deduction lowers the effective mortgage rate below 3% and that the benefit depends on itemising, which must be verified, shows a low break-even return, includes the lump sum in both options, compares with tax-advantaged retirement accounts at labelled returns, and still covers the risk and liquidity trade-offs without recommending an option."}
+  - name: negative-missing-foundations
+    description: "No emergency fund and expensive card debt."
+    vars:
+      mortgage: "Balance 95,000 at 5.1% variable, 15 years left."
+      monthly_amount: "250. I also have 6,000 on a credit card at 24% and no savings."
+      country: "Australia"
+    assert:
+      - {type: llm-rubric, value: "Leads by pointing out that the 24% card debt and missing emergency fund change the comparison and that clearing expensive debt and building a buffer usually come first, shows the card interest cost in money, notes the variable rate and runs the comparison at the current rate and 2 points higher, mentions offset or redraw facilities as things to check rather than recommendations, and does not tell the person which option to choose."}

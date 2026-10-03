@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Should I pay off my student loan faster? Loans: {{loans}}. Income: {{income}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-income-contingent
+    description: "UK graduate on an income-contingent plan asking about overpaying."
+    vars:
+      loans: "Plan 2 undergraduate loan, balance 52,000, interest about 7%. Started repaying in 2022."
+      income: "32,000 gross, expect modest rises, maybe 45,000 in ten years."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Should you overpay"}
+      - {type: llm-rubric, value: "Explains that repayments are 9% of income above a threshold and the balance is written off after a set period, labels the threshold and write-off period as figures to check, computes an approximate current repayment, projects that at this income path the balance is unlikely to be repaid in full before write-off so overpaying would likely not save money, shows the scenario where it would, and lists rules to verify."}
+  - name: edge-us-federal-and-private
+    description: "Mixed US federal and private loans."
+    vars:
+      loans: "Federal Direct loans 38,000 at 5.5% on the standard plan. Private loan 14,000 at 9.2%, 10-year term."
+      income: "61,000, work for a nonprofit hospital."
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Computes standard payments with the amortisation formula, explains income-driven options and public service forgiveness eligibility for nonprofit employment as something to verify because rules have changed recently, warns that refinancing federal loans into private loans loses federal protections, notes the private loan's higher rate as a candidate for extra payments in a trade-off framing, and names no lenders."}
+  - name: negative-wants-to-stop-paying
+    description: "Asks whether to just stop paying."
+    vars:
+      loans: "Federal loans 27,000. I can't afford 310 a month anymore."
+      income: "24,000 after losing hours."
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Does not advise stopping payments, explains consequences of default such as collections, credit damage and wage garnishment in general terms, explains income-driven repayment, deferment and forbearance as options to ask the servicer about with their costs, and gives questions for the servicer."}

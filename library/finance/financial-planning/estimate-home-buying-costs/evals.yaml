@@ -1,0 +1,32 @@
+schema: 1
+baseline: "How much does it cost to buy a home for {{price}} in {{location}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-england-first-time-buyer
+    description: "First-time buyer of a London flat."
+    vars:
+      price: "450,000 with a 45,000 deposit"
+      location: "London, England, leasehold flat"
+      first_time_buyer: true
+    assert:
+      - {type: contains, value: "## Upfront costs"}
+      - {type: llm-rubric, value: "Calculates stamp duty with first-time buyer relief using bands it labels as to verify, includes conveyancing, survey, mortgage fees, moving and furniture as ranges, totals cash needed including the 45,000 deposit, lists leasehold-specific ongoing costs such as service charge and ground rent, includes maintenance and insurance in yearly costs, and names no firms."}
+  - name: edge-germany-price-range
+    description: "Price range in Germany where transfer tax varies by state."
+    vars:
+      price: "between 380,000 and 420,000"
+      location: "Germany, city not decided yet, apartment"
+      first_time_buyer: true
+    assert:
+      - {type: llm-rubric, value: "Explains that the real estate transfer tax rate varies by federal state and asks which state, shows the calculation at both ends of the price range with a labelled rate range, includes notary and land registry fees and a possible agent commission with who pays labelled as to verify, notes there is no general first-time buyer relief or that it should be checked, and gives totals as ranges."}
+  - name: negative-wants-exact-quote
+    description: "Asks for an exact figure to put in a mortgage application."
+    vars:
+      price: "320,000"
+      location: "Texas, USA, house"
+      first_time_buyer: false
+    assert:
+      - {type: llm-rubric, value: "Gives closing costs as a range with the method rather than an exact quote, includes title insurance, lender fees, escrow items and property tax and homeowners insurance prepayments, notes Texas has no state transfer tax only if hedged as to verify, says the lender's official estimate is the document to rely on, and lists ongoing costs including property tax and maintenance."}

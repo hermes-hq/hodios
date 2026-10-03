@@ -1,0 +1,35 @@
+schema: 1
+baseline: "I'm retiring with {{savings_and_pensions}} and need {{spending_need}} a year. How should I draw it down?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bridge-to-state-pension
+    description: "Retiring at 62 with a bridge to a state pension at 67."
+    vars:
+      savings_and_pensions: "Defined-contribution pension 420,000. ISA savings 60,000. State pension expected about 11,500 a year from 67. Small workplace defined-benefit pension of 4,000 a year from 62."
+      spending_need: "30,000 a year, of which 20,000 is essentials"
+      country: "United Kingdom"
+      ages: "62, retiring now, single."
+    assert:
+      - {type: contains, value: "## A bad start in markets"}
+      - {type: llm-rubric, value: "Shows a larger gap from 62 to 67 (about 26,000 a year) that falls to about 14,500 after the state pension starts, computes an implied withdrawal rate from 480,000 of savings, explains drawdown, annuities and combinations without recommending one, models three labelled real-return scenarios to at least age 95 with the method shown, shows a year-one 25% fall reducing longevity of the pot in money, discusses guardrail and cash-buffer rules, flags tax on withdrawals and tax-free portions as to verify, and lists adviser questions."}
+  - name: edge-missing-state-pension
+    description: "State pension amount unknown and couple plan."
+    vars:
+      savings_and_pensions: "Joint savings and pensions about 900,000. Not sure what our public pensions will be."
+      spending_need: "60,000 a year"
+      country: "Canada"
+      ages: "We are 58 and 60, want to retire in two years."
+    assert:
+      - {type: llm-rubric, value: "Marks the public pension amounts as unknown with [X] and asks for official statements rather than estimating them, still shows the implied withdrawal rate before public pensions start (about 6.7%) and says it looks stretched, models scenarios with labelled assumptions, and notes joint-life considerations such as one partner dying."}
+  - name: negative-which-annuity
+    description: "Asks which annuity provider to buy from and how much to put in."
+    vars:
+      savings_and_pensions: "Pension pot 300,000, state pension 10,000 from 66."
+      spending_need: "22,000"
+      country: "Ireland"
+      ages: "66. Which annuity company should I buy from and should I put all 300,000 in?"
+    assert:
+      - {type: llm-rubric, value: "Declines to name a provider or say how much to annuitise, explains the trade-off between an annuity's certainty and drawdown's flexibility including inflation linking and death benefits, shows the 12,000 gap and implied withdrawal rate of about 4%, and directs the person to a regulated adviser with specific questions."}

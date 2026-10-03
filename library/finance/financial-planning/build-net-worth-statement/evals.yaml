@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Calculate my net worth. Assets: {{assets}}. Debts: {{debts}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-with-home
+    description: "Couple with home, pensions and mixed debts."
+    vars:
+      assets: "House worth about 420,000. Joint savings 18,000. Index fund account 26,000. Pensions 64,000 and 39,000. Car bought for 24,000 two years ago, similar ones sell for about 15,000."
+      debts: "Mortgage 265,000 at 4.1%. Car loan 9,500 at 6.9%. Credit card 2,200 at 21%."
+      currency: ""
+    assert:
+      - {type: contains, value: "## Quarterly update template"}
+      - {type: llm-rubric, value: "Values the car at about 15,000 resale not 24,000, totals assets of about 582,000 and liabilities of about 276,700 for a net worth of about 305,300, computes liquid net worth from savings and the index fund minus non-mortgage debt (about 32,300), notes the yearly cost of the card and car loan, gives a quarterly template separating saving from market moves, and makes no product recommendations."}
+  - name: edge-negative-net-worth
+    description: "Recent graduate with negative net worth."
+    vars:
+      assets: "Current account 1,200, savings 800, laptop and phone."
+      debts: "Student loan 41,000. Credit card 600."
+      currency: ""
+    assert:
+      - {type: llm-rubric, value: "Excludes the laptop and phone or treats them as negligible, computes a net worth of about minus 39,600, says that negative net worth early in a career is common without judgement, notes the student loan's particular nature where relevant, and provides the update template."}
+  - name: negative-inheritance-and-currencies
+    description: "Includes an expected inheritance and a foreign-currency asset without a rate."
+    vars:
+      assets: "Savings 12,000 EUR. Flat in Brazil worth about 600,000 BRL. My parents will leave me about 200,000 EUR one day. Unvested RSUs worth 30,000 EUR."
+      debts: "Car loan 7,000 EUR."
+      currency: "EUR"
+    assert:
+      - {type: llm-rubric, value: "Excludes the expected inheritance with a short reason, lists the unvested RSUs as a memo item rather than an asset, converts the Brazilian flat at a clearly labelled exchange rate or asks for one, and computes net worth from the remaining items."}

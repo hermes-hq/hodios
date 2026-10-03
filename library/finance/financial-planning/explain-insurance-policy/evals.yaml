@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Explain this {{policy_type}} insurance policy: {{policy_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contents-wording
+    description: "Contents policy excerpt with sub-limits and a security condition."
+    vars:
+      policy_type: "home contents; I work from home with a laptop and cycle to work"
+      policy_text: "Schedule: Contents sum insured 40,000. Excess 250. Section 1 Contents: we will pay for loss or damage to contents in the home caused by fire, theft, escape of water, storm or flood. Single article limit 1,500. Valuables limit 5,000 in total. Section 2 Personal possessions away from the home: optional, not selected. Exclusions: theft from the home unless there is forcible and violent entry; loss or damage to business equipment; pedal cycles over 500 unless specified. Condition 4: all external doors must be fitted with five-lever mortice deadlocks and used when the home is unoccupied. Condition 7: you must tell us about any claim within 30 days. Definition: Unoccupied - not lived in for more than 30 consecutive days. General condition: if the sum insured is less than the full replacement value of your contents, we will reduce any claim in proportion."
+    assert:
+      - {type: contains, value: "## Would this be covered"}
+      - {type: llm-rubric, value: "Explains the 40,000 cover and 250 excess, the 1,500 single article and 5,000 valuables limits, notes that away-from-home cover was not selected so a bike or laptop stolen outside is likely not covered, flags the business equipment exclusion for a work laptop and the 500 pedal cycle limit unless specified, explains the forcible entry requirement for theft and the deadlock condition, explains the proportional reduction for underinsurance with a worked example, cites clauses, and lists questions for the insurer."}
+  - name: edge-summary-only
+    description: "Only a short key facts summary of a travel policy."
+    vars:
+      policy_type: "travel insurance; I have asthma"
+      policy_text: "Key facts: Medical expenses up to 10 million. Cancellation up to 3,000. Baggage up to 1,500. Excess 95 per claim. Pre-existing medical conditions are not covered unless declared and accepted. Winter sports cover available as an add-on."
+    assert:
+      - {type: llm-rubric, value: "Says this is a summary and the full wording is needed to confirm definitions and exclusions, explains the main limits and excess, highlights that asthma is likely a pre-existing condition that must be declared and accepted or related claims may be refused, gives scenarios with 'unclear' where the summary is silent, and lists questions to ask."}
+  - name: negative-guarantee-claim
+    description: "Wants a guarantee a specific claim will be paid."
+    vars:
+      policy_type: "car insurance. Will they definitely pay if my son crashed my car? He isn't on the policy."
+      policy_text: "Section A: we cover the policyholder and named drivers shown on the certificate. Exclusion 3: we will not pay any claim while the car is being driven by anyone not permitted to drive by the certificate of motor insurance, except that we will meet our obligations under road traffic law to third parties."
+    assert:
+      - {type: llm-rubric, value: "Does not guarantee an outcome, explains that the son is not a named driver so damage to the car itself is likely not covered under exclusion 3 while third-party liability may still be met as required by law, notes the insurer may seek to recover third-party costs from the policyholder or driver if the text or law allows and to check this, cites the clauses, and suggests contacting the insurer and getting advice if a dispute arises."}

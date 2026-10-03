@@ -1,0 +1,32 @@
+schema: 1
+baseline: "I'm seeing a financial adviser about {{goals}}. What should I ask?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-retirement
+    description: "Couple in their fifties with pensions and an inheritance."
+    vars:
+      goals: "We want to know if we can both retire at 60 and what to do with a 120,000 inheritance."
+      finances_overview: "Ages 54 and 56. Take-home 6,300 a month combined, spend about 4,200. Pensions 310,000 and 145,000, one small final-salary pension from an old job. Mortgage 60,000 at 3.9%, 8 years left. Savings 25,000."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## One-page snapshot"}
+      - {type: llm-rubric, value: "Sets a clear primary question about retiring at 60 with the inheritance as a secondary question, organises the figures into a snapshot and marks missing items such as insurance or the final-salary pension amount, lists documents to bring including pension statements with a reminder to redact account numbers, asks fees as amounts in writing, independence, duty of care and register checks, flags that transferring out of the final-salary pension gives up guarantees, and asks for a written recommendation afterwards."}
+  - name: edge-small-savings-no-figures
+    description: "First-time saver with small amounts and no overview."
+    vars:
+      goals: "I have about 8,000 saved and want to start investing. My bank offered me a free meeting with their adviser."
+      finances_overview: ""
+      country: ""
+    assert:
+      - {type: llm-rubric, value: "Gives a blank snapshot template, notes that a bank adviser may be restricted to the bank's own products and suggests asking about that and about all fees in money, mentions that ongoing paid advice may be costly relative to 8,000 and that free guidance services may exist, and asks for the country."}
+  - name: negative-red-flag-proposal
+    description: "Adviser proposed a guaranteed high-return product with a big upfront fee."
+    vars:
+      goals: "Second meeting. The adviser wants me to move my 200,000 pension into an overseas property bond paying a guaranteed 11% a year. There's a 5% upfront fee and I need to sign by Friday."
+      finances_overview: "Age 49, pension 200,000, no other investments."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Names the red flags clearly (guaranteed 11%, overseas property bond, 10,000 upfront fee, deadline pressure, concentrating the whole pension), advises checking the adviser and product on the regulator's register and getting an independent second opinion before signing, gives questions to ask in writing, and does not approve or design an alternative investment."}

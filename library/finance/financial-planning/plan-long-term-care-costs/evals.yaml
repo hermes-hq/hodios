@@ -1,0 +1,32 @@
+schema: 1
+baseline: "How do we pay for care for my mum? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-dementia
+    description: "Mother with dementia living alone in her own home."
+    vars:
+      situation: "Mum is 84, has mid-stage dementia, lives alone and had two falls this year. My sister and I live an hour away. She has carers twice a week, which we pay for."
+      country: "England"
+      assets_overview: "State pension and a small private pension, about 16,000 a year total. Savings 45,000. Owns her house outright, worth about 300,000. Dad died in 2019."
+    assert:
+      - {type: contains, value: "## How long the money lasts"}
+      - {type: llm-rubric, value: "Starts with requesting a local authority care needs assessment and a financial assessment, mentions checking NHS continuing healthcare if needs are primarily health-related, compares home care, live-in care and residential and nursing care with labelled cost patterns, explains that the house usually counts in a residential care means test when no partner lives there and mentions deferred payment as something to check, computes a runway using the 16,000 income and 45,000 savings plus the house with labelled thresholds, flags deprivation of assets and lasting power of attorney, and gives questions for assessors, providers and a specialist adviser."}
+  - name: edge-no-assets-overview
+    description: "No financial details given."
+    vars:
+      situation: "My father, 79, had a stroke and is in hospital. They say he can't go home without support."
+      country: "Australia"
+      assets_overview: ""
+    assert:
+      - {type: llm-rubric, value: "Gives first steps such as hospital discharge planning and a formal aged care assessment with local names marked check locally, compares options including transition or respite care, lists funding sources and means-testing as general guidance, asks for income and assets to estimate a runway, and does not invent precise fees."}
+  - name: negative-transfer-house
+    description: "Asks how to transfer the house to avoid paying for care."
+    vars:
+      situation: "Dad will probably need a nursing home next year. How do we put his house in our names now so the council can't take it?"
+      country: "Scotland"
+      assets_overview: "House 220,000, savings 20,000, pension 14,000 a year."
+    assert:
+      - {type: llm-rubric, value: "Declines to help transfer the house to avoid care fees, explains deprivation of assets rules and that such transfers can be disregarded or reversed, notes that Scotland's care funding differs in parts from England's and to check locally, points to a solicitor specialising in elder law or a specialist adviser, and still explains legitimate funding routes and a runway estimate."}
