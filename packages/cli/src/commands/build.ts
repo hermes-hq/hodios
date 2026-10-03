@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:
 import { dirname, join, relative, resolve } from 'node:path';
 import { parseArgs } from 'node:util';
 import {
+  CURATED_MAX,
   INSTALL_TARGETS,
   PASTE_MAX,
   claudeMarketplace,
@@ -22,8 +23,11 @@ import { findRoot } from '../root.js';
 
 /** Marks a folder `hodios build` owns, so a rebuild may clear it. Any other non-empty folder is left alone. */
 const MARKER = '.hodios-build';
-/** hodios-dist scale caps (design §3.3, §6.4): installers clone or tree-list the whole repo. */
-const SKILL_MAX = 2000;
+/**
+ * hodios-dist scale caps (design §3.3, §6.4): installers clone or tree-list the whole repo, so it holds the curated
+ * tier only (curated.txt). Every entry, in every tier, goes to the catalog.
+ */
+const SKILL_MAX = CURATED_MAX;
 const PLUGIN_MAX = 100;
 
 function prepareOut(out: string): void {
@@ -91,15 +95,17 @@ export function runBuild(args: string[], io: Io): number {
   };
   const ctx = { catalog };
   const all = targets.length === 0;
+  // The install tree (skills, plugins, native, paste, bundles) takes the curated tier only; the catalog takes all.
+  const curated = lib.entries.filter((e) => lib.curated.has(e.fm.id));
+  if (curated.length > SKILL_MAX) {
+    io.err(`hodios build: ${curated.length} curated entries; hodios-dist holds at most ${SKILL_MAX}`);
+    return 1;
+  }
   const wants = (id: string) => all || targets.some((t) => t.id === id);
 
   // Agent Skills, flat (hodios-dist/skills/<id>/): spec-clean SKILL.md plus Codex's agents/openai.yaml.
   if (all) {
-    if (lib.entries.length > SKILL_MAX) {
-      io.err(`hodios build: ${lib.entries.length} skills; hodios-dist holds at most ${SKILL_MAX}`);
-      return 1;
-    }
-    for (const entry of lib.entries) {
+    for (const entry of curated) {
       const id = exportName(entry.fm.id);
       add('skills', `skills/${id}/SKILL.md`, specSkill(entry, ctx));
       add('skills', `skills/${id}/agents/openai.yaml`, codexSkillYaml(entry));
@@ -111,14 +117,14 @@ export function runBuild(args: string[], io: Io): number {
   if (all || wants('claude-code')) {
     const groups: PluginGroup[] = [];
     const domainOf = (category: string) => lib.vocab.get('category')?.meta.get(category)?.domain ?? 'other';
-    const domains = [...new Set(lib.entries.map((e) => domainOf(e.fm.category)))].sort();
+    const domains = [...new Set(curated.map((e) => domainOf(e.fm.category)))].sort();
     for (const domain of domains) {
       const label = lib.vocab.get('domain')?.meta.get(domain)?.label ?? domain;
       groups.push({
         name: domain,
         category: domain,
         description: `${label} prompts, personas and workflows from Hodios.`,
-        entries: lib.entries.filter((e) => domainOf(e.fm.category) === domain),
+        entries: curated.filter((e) => domainOf(e.fm.category) === domain),
       });
     }
     for (const pack of lib.packs) {
@@ -126,7 +132,7 @@ export function runBuild(args: string[], io: Io): number {
       groups.push({
         name: pack.id,
         description: pack.description || pack.title,
-        entries: lib.entries.filter((e) => pack.ids.includes(e.fm.id)),
+        entries: curated.filter((e) => pack.ids.includes(e.fm.id)),
       });
     }
     const shipped: PluginGroup[] = [];
@@ -148,7 +154,7 @@ export function runBuild(args: string[], io: Io): number {
   // Drop-in project trees per tool (hodios-dist/native/<target>/), default formats, project scope.
   for (const target of INSTALL_TARGETS) {
     if (!wants(target.id)) continue;
-    for (const entry of lib.entries) {
+    for (const entry of curated) {
       if (!target.defaults[entry.fm.kind]) continue;
       const result = compileFor(entry, target.id, ctx);
       warnings.push(...result.warnings);
@@ -162,7 +168,8 @@ export function runBuild(args: string[], io: Io): number {
     }
   }
 
-  // Paste-in text (ChatGPT, claude.ai). Above the custom GPT cap is a build error.
+  // Paste-in text (ChatGPT, claude.ai). Above the custom GPT cap is a build error for every entry, since
+  // `hodios use` and the site paste any of them; only curated entries get a file in the install tree.
   let pasteErrors = 0;
   if (wants('paste')) {
     for (const entry of lib.entries) {
@@ -171,14 +178,14 @@ export function runBuild(args: string[], io: Io): number {
         io.err(`error   ${entry.fm.id}: paste form is ${text.length} characters; the limit is ${PASTE_MAX}`);
         pasteErrors++;
       }
-      add('paste', `paste/${exportName(entry.fm.id)}.md`, text);
+      if (lib.curated.has(entry.fm.id)) add('paste', `paste/${exportName(entry.fm.id)}.md`, text);
     }
   }
 
-  // Hermes bundles: everything, plus one per pack.
+  // Hermes bundles: the curated tier, plus one per pack (every member, so a pack bundle is complete).
   if (wants('hermes')) {
     const hash = (e: (typeof lib.entries)[number]) => `sha256:${sha256(`${JSON.stringify(e)}\n`)}`;
-    add('bundles', 'bundles/all.hermes-prompts', hermesBundle(lib.entries, { catalog, hash }));
+    add('bundles', 'bundles/all.hermes-prompts', hermesBundle(curated, { catalog, hash }));
     for (const pack of lib.packs) {
       const entries = lib.entries.filter((e) => pack.ids.includes(e.fm.id));
       add('bundles', `bundles/${pack.id}.hermes-prompts`, hermesBundle(entries, { catalog, hash }));
@@ -204,7 +211,9 @@ export function runBuild(args: string[], io: Io): number {
   const summary = Object.entries(counts)
     .map(([k, n]) => `${n} ${k}`)
     .join(', ');
-  io.out(`Built ${lib.entries.length} entries (catalog ${catalog}) into ${shown}: ${summary}.`);
+  io.out(
+    `Built ${lib.entries.length} entries, ${curated.length} curated (catalog ${catalog}) into ${shown}: ${summary}.`,
+  );
   if (notes.size > 0)
     io.out(`${notes.size} rules are not in Claude Code plugins (plugins cannot carry rules); use hodios install <id>.`);
   return pasteErrors > 0 ? 1 : 0;

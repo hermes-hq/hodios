@@ -15,6 +15,7 @@ export {
   type VocabProblem,
 } from './vocab.js';
 export { parseIdsLock, type IdsLock, type IdsLockEntry } from './ids-lock.js';
+export { CURATED_MAX, CURATED_TARGET, checkCurated, parseCuratedList, type CuratedList } from './curation.js';
 export { RULES, type Issue, type RuleId, type Severity } from './rules.js';
 export {
   FOLDER_LIMITS,

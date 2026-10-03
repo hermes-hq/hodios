@@ -10,6 +10,7 @@ import {
   type EntryFrontmatter,
   type Kind,
 } from '@hermes-hq/hodios-schema';
+import { checkCurated, type CuratedList } from './curation.js';
 import type { IdsLock } from './ids-lock.js';
 import { parseFrontmatter, parseYamlDocument } from './parse.js';
 import type { Issue, RuleId, Severity } from './rules.js';
@@ -29,6 +30,8 @@ export interface LibraryContext {
   /** Partials by path under partials/, e.g. `guardrails/scope-discipline.md`. */
   partials: Map<string, string>;
   idsLock: IdsLock;
+  /** curated.txt, when the checkout has one. Without it every entry is curated. */
+  curated?: CuratedList;
 }
 
 export interface CheckedEntry {
@@ -663,6 +666,11 @@ export function checkLibrary(sources: EntrySource[], ctx: LibraryContext): Check
         message: `line ${locked.line}: released id "${locked.id}" has no entry; restore it, deprecate it, or add it to a successor's aliases`,
       });
     }
+  }
+
+  if (ctx.curated) {
+    const live = entries.flatMap((e) => (e.frontmatter && e.file ? [e.frontmatter] : []));
+    issues.push(...checkCurated(ctx.curated, live));
   }
 
   return { entries, issues };

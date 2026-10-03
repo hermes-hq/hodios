@@ -3,6 +3,7 @@ import { join, relative, sep } from 'node:path';
 import {
   buildVocab,
   checkVocabFile,
+  parseCuratedList,
   parseIdsLock,
   parseYamlDocument,
   type EntrySource,
@@ -36,7 +37,7 @@ export interface LoadedRepo {
   issues: Issue[];
 }
 
-/** Reads library/, vocab/, partials/ and ids.lock from a Hodios source checkout. */
+/** Reads library/, vocab/, partials/, ids.lock and curated.txt from a Hodios source checkout. */
 export function loadRepo(root: string): LoadedRepo {
   const issues: Issue[] = [];
 
@@ -102,6 +103,10 @@ export function loadRepo(root: string): LoadedRepo {
     issues.push({ rule: 'PS003', severity: 'error', file: 'ids.lock', message: 'ids.lock is missing' });
   }
 
+  // curated.txt: the curated tier (TAXONOMY.md §6). Without it every entry is curated.
+  const curatedPath = join(root, 'curated.txt');
+  const curated = existsSync(curatedPath) ? parseCuratedList(readFileSync(curatedPath, 'utf8')) : undefined;
+
   // library/<domain>/<category>/[<subcategory>/]<id>/… (legacy: library/<category>/<id>/).
   // An entry folder is any folder that directly holds a <kind>.md file; the core checks its depth (PS051).
   const sources: EntrySource[] = [];
@@ -140,5 +145,5 @@ export function loadRepo(root: string): LoadedRepo {
     issues.push({ rule: 'PS009', severity: 'error', file: 'library', message: 'library/ is missing' });
   } else walkLibrary(libraryDir, 'library', 1);
 
-  return { context: { vocab: buildVocab(vocabFiles), partials, idsLock }, sources, issues };
+  return { context: { vocab: buildVocab(vocabFiles), partials, idsLock, curated }, sources, issues };
 }

@@ -16,8 +16,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { INSTALL_TARGETS } from '@hermes-hq/hodios-core';
-import type { Manifest, ShardList } from '@hermes-hq/hodios-core/catalog';
+import { CURATED_MAX, INSTALL_TARGETS } from '@hermes-hq/hodios-core';
+import { parseShard, type Manifest, type ShardList } from '@hermes-hq/hodios-core/catalog';
 import { run } from '../src/cli.js';
 
 const repoRoot = fileURLToPath(new URL('../../../', import.meta.url));
@@ -52,6 +52,14 @@ function walk(dir: string): string[] {
     const full = join(dir, name);
     return statSync(full).isDirectory() ? walk(full).map((f) => `${name}/${f}`) : [name];
   });
+}
+
+/** Rows of one tier of the built catalog. */
+function rowsOf(tier: 'curated' | 'verified') {
+  const manifest = JSON.parse(readFileSync(join(catalogDir, 'manifest.json'), 'utf8')) as Manifest;
+  const object = (ref: string) => readFileSync(join(catalogDir, 'o', ref.slice(7, 9), ref.slice(7)), 'utf8');
+  const list = JSON.parse(object(manifest.tiers[tier]?.list ?? '')) as ShardList;
+  return Object.values(list.shards).flatMap((s) => parseShard(object(s.object)));
 }
 
 function project(name: string): string {
@@ -146,6 +154,22 @@ describe('hodios build', () => {
     expect(list.prefixLen).toBe(0);
   });
 
+  it('ships the curated tier to the install tree and every entry to the catalog', () => {
+    const curated = rowsOf('curated');
+    const verified = rowsOf('verified');
+    expect(curated.length).toBeLessThanOrEqual(CURATED_MAX);
+    expect(verified.length).toBeGreaterThan(0); // the library is larger than the curated tier
+    expect(verified.every((r) => r.tier === 'verified')).toBe(true);
+    const skills = readdirSync(join(out, 'skills'));
+    expect(skills).toHaveLength(curated.length);
+    const longTail = verified[0]?.id as string;
+    expect(skills).not.toContain(longTail);
+    expect(existsSync(join(out, 'paste', `${longTail}.md`))).toBe(false);
+    expect(walk(join(out, 'plugins')).some((f) => f.includes(`/${longTail}/`) || f.endsWith(`/${longTail}.md`))).toBe(
+      false,
+    );
+  });
+
   it('rejects a --seq that is not a non-negative integer', async () => {
     const result = await cli(['build', '--out', project('bad-seq'), '--seq', '-1']);
     expect(result.code).toBe(2);
@@ -232,6 +256,18 @@ describe('hodios install, list, remove', () => {
       expect(walk(dir)).toEqual([]);
     });
   }
+
+  it('finds and installs a long-tail entry that is only in the catalog', async () => {
+    const row = rowsOf('verified').find((r) => r.kind === 'prompt');
+    expect(row).toBeDefined();
+    const id = row?.id as string;
+    const found = JSON.parse((await cli(['search', id, '--limit', '100', '--json'])).out) as { hits: { id: string }[] };
+    expect(found.hits.map((h) => h.id)).toContain(id);
+    const dir = project('long-tail');
+    const installed = await cli(['install', id, '--target', 'claude-code'], { cwd: dir });
+    expect(installed.code).toBe(0);
+    expect(existsSync(join(dir, '.claude', 'skills', id, 'SKILL.md'))).toBe(true);
+  });
 
   it('installs into the user scope', async () => {
     const dir = project('user-scope');

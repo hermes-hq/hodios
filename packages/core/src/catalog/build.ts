@@ -1,6 +1,15 @@
 import type { ResolvedEntry } from '../compile/types.js';
 import type { Vocab } from '../vocab.js';
-import type { CatalogRow, Manifest, ObjectRef, PackObject, ShardList, Tier, VocabObject } from './types.js';
+import {
+  TIER_ORDER,
+  type CatalogRow,
+  type Manifest,
+  type ObjectRef,
+  type PackObject,
+  type ShardList,
+  type Tier,
+  type VocabObject,
+} from './types.js';
 
 /** Rows per shard the prefix length aims for (≈ 1 MB uncompressed at ~250 B/row). */
 export const ROWS_PER_SHARD = 4000;
@@ -109,7 +118,10 @@ export interface CatalogInput {
   sha256: (text: string) => string;
   packs?: readonly PackObject[];
   seq?: number;
+  /** Tier of every entry, when `tierOf` is not given. Default `curated`. */
   tier?: Tier;
+  /** Tier per entry (curated.txt decides it at release). Each tier gets its own shard list. */
+  tierOf?: (entry: ResolvedEntry) => Tier;
   minClientVersion?: string;
 }
 
@@ -120,7 +132,7 @@ export interface CatalogOutput {
   rows: CatalogRow[];
 }
 
-/** Builds the v1 manifest, shard list, NDJSON shards, body objects, packs and vocab object. Deterministic. */
+/** Builds the v1 manifest, one shard list per tier, NDJSON shards, body objects, packs and vocab. Deterministic. */
 export function buildCatalog(input: CatalogInput): CatalogOutput {
   const objects = new Map<ObjectRef, string>();
   const put = (text: string): ObjectRef => {
@@ -128,7 +140,7 @@ export function buildCatalog(input: CatalogInput): CatalogOutput {
     objects.set(ref, text);
     return ref;
   };
-  const tier = input.tier ?? 'curated';
+  const tierOf = input.tierOf ?? (() => input.tier ?? 'curated');
   const vocab = vocabObject(input.vocab);
   const rows = [...input.entries]
     .sort((a, b) => a.fm.id.localeCompare(b.fm.id))
@@ -138,24 +150,31 @@ export function buildCatalog(input: CatalogInput): CatalogOutput {
       return toRow(entry, {
         body,
         bytes: new TextEncoder().encode(text).length,
-        tier,
+        tier: tierOf(entry),
         domain: vocab.domains[entry.fm.category],
       });
     });
 
-  const prefixLen = prefixLenFor(rows.length);
-  const byShard = new Map<string, CatalogRow[]>();
-  for (const row of rows) {
-    const key = input.sha256(row.id).slice(0, prefixLen);
-    const bucket = byShard.get(key);
-    if (bucket) bucket.push(row);
-    else byShard.set(key, [row]);
+  const tiers: Manifest['tiers'] = {};
+  for (const tier of (Object.keys(TIER_ORDER) as Tier[]).sort((a, b) => TIER_ORDER[a] - TIER_ORDER[b])) {
+    const tierRows = rows.filter((r) => r.tier === tier);
+    // An empty catalog still lists its default tier, so clients always find a shard list.
+    if (tierRows.length === 0 && (rows.length > 0 || tier !== (input.tier ?? 'curated'))) continue;
+    const prefixLen = prefixLenFor(tierRows.length);
+    const byShard = new Map<string, CatalogRow[]>();
+    for (const row of tierRows) {
+      const key = input.sha256(row.id).slice(0, prefixLen);
+      const bucket = byShard.get(key);
+      if (bucket) bucket.push(row);
+      else byShard.set(key, [row]);
+    }
+    const shards: ShardList['shards'] = {};
+    for (const [key, shardRows] of [...byShard].sort(([a], [b]) => a.localeCompare(b))) {
+      shards[key] = { object: put(shardRows.map((r) => `${json(r)}\n`).join('')), rows: shardRows.length };
+    }
+    const list: ShardList = { schema: 1, tier, prefixLen, shards };
+    tiers[tier] = { list: put(`${json(list)}\n`), rows: tierRows.length };
   }
-  const shards: ShardList['shards'] = {};
-  for (const [key, shardRows] of [...byShard].sort(([a], [b]) => a.localeCompare(b))) {
-    shards[key] = { object: put(shardRows.map((r) => `${json(r)}\n`).join('')), rows: shardRows.length };
-  }
-  const list: ShardList = { schema: 1, tier, prefixLen, shards };
   const packs: Record<string, ObjectRef> = {};
   for (const pack of [...(input.packs ?? [])].sort((a, b) => a.id.localeCompare(b.id)))
     packs[pack.id] = put(`${json(pack)}\n`);
@@ -166,7 +185,7 @@ export function buildCatalog(input: CatalogInput): CatalogOutput {
     seq: input.seq ?? 0,
     minClientVersion: input.minClientVersion ?? '0.1.0',
     objects: 'o/{aa}/{sha256}',
-    tiers: { [tier]: { list: put(`${json(list)}\n`), rows: rows.length } },
+    tiers,
     deltas: [],
     packs,
     vocab: put(`${json(vocab)}\n`),

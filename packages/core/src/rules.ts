@@ -34,6 +34,7 @@ export const RULES = {
   PS057: 'a tag does not duplicate a category, stack, subject, role or stage value',
   PS058: 'stack and subject do not list a value together with one it implies',
   PS059: 'facet cardinality stays within vocab/facets.yml limits',
+  PS060: 'curated.txt lists live entries outside the holding area, sorted, not deprecated, at most 2,000',
 } as const;
 
 export type RuleId = keyof typeof RULES;

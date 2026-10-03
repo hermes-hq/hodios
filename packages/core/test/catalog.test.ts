@@ -75,6 +75,28 @@ describe('buildCatalog', () => {
     expect(JSON.stringify(built.manifest).length).toBeLessThan(8192);
   });
 
+  it('gives each tier its own shard list and tags every row with its tier', () => {
+    const curated = new Set(['fix-flaky-test', 'test-react-hooks']);
+    const tiered = buildCatalog({
+      entries,
+      vocab,
+      catalog: '2026.1002.0',
+      sha256,
+      tierOf: (e) => (curated.has(e.fm.id) ? 'curated' : 'verified'),
+    });
+    expect(Object.keys(tiered.manifest.tiers)).toEqual(['curated', 'verified']);
+    expect(tiered.manifest.tiers.curated?.rows).toBe(2);
+    expect(tiered.manifest.tiers.verified?.rows).toBe(3);
+    for (const tier of ['curated', 'verified'] as const) {
+      const list = JSON.parse(tiered.objects.get(tiered.manifest.tiers[tier]?.list as string) as string) as ShardList;
+      expect(list.tier).toBe(tier);
+      const shardRows = Object.values(list.shards).flatMap((s) => parseShard(tiered.objects.get(s.object) as string));
+      expect(shardRows.every((r) => r.tier === tier)).toBe(true);
+      expect(shardRows.every((r) => curated.has(r.id) === (tier === 'curated'))).toBe(true);
+    }
+    expect(tiered.rows).toHaveLength(entries.length);
+  });
+
   it('is deterministic', () => {
     const again = buildCatalog({ entries: [...entries].reverse(), vocab, catalog: '2026.1002.0', sha256 });
     expect(again.manifest).toEqual(built.manifest);

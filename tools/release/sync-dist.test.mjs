@@ -27,6 +27,13 @@ describe('checkTree', () => {
     expect(checkTree({ manifest, skills: 1, plugins: twice })).toEqual(['more than one plugin for domain travel']);
   });
 
+  it('keeps the tree under 60,000 entries', () => {
+    expect(checkTree({ manifest, skills: 1900, plugins, entries: 59999 })).toEqual([]);
+    expect(checkTree({ manifest, skills: 1900, plugins, entries: 60000 })).toEqual([
+      '60000 tree entries; hodios-dist must stay under 60000',
+    ]);
+  });
+
   it('always copies the catalog tree', () => {
     expect(GENERATED).toContain('catalog');
   });
@@ -37,6 +44,13 @@ describe('updateReadme', () => {
     const readme = 'the generated install tree for catalog `2026.1002.2`: 1,070 entries compiled into skills.';
     expect(updateReadme(readme, '2026.1003.0', 1570)).toBe(
       'the generated install tree for catalog `2026.1003.0`: 1,570 entries compiled into skills.',
+    );
+  });
+
+  it('writes the curated count and, when the README names it, the catalog total', () => {
+    const readme = 'catalog `2026.1003.0`: 1,570 entries (the curated tier, of 1,570 in the catalog) compiled.';
+    expect(updateReadme(readme, '2026.1003.1', 1900, 2570)).toBe(
+      'catalog `2026.1003.1`: 1,900 entries (the curated tier, of 2,570 in the catalog) compiled.',
     );
   });
 

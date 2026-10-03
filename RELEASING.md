@@ -8,8 +8,9 @@ Until the release workflow's publishing steps are enabled, a maintainer cuts eac
 git pull --rebase && npm ci && npm run check
 VERSION=$(node tools/release/calver.mjs $(git tag --list 'v20*'))   # e.g. 2026.1003.0
 SEQ=$(node tools/release/calver.mjs --seq $(git tag --list 'v20*')) # one step per release
+node tools/release/curate.mjs                                        # curated tier: review the curated.txt diff
 node tools/release/readme-catalog.mjs                                # README catalog section
-# then set the catalog version and entry count in the README status line and the `--skill '*'` sentence
+# then set the catalog version, the entry count and the curated count in the README status line and the `--skill '*'` sentence
 git commit -s -am "Update the README catalog section for $VERSION" && git push
 ```
 
@@ -28,7 +29,7 @@ Notes are written for people: what is new, what was merged (old id and the entry
 
 ## 3. Update hermes-hq/hodios-dist
 
-The install tree and the v1 catalog (`catalog/v1/`: manifest, shards and content-addressed objects) go to hodios-dist together. The published `hodios` CLI reads `https://cdn.jsdelivr.net/gh/hermes-hq/hodios-dist@latest/catalog/v1`, falling back to `https://raw.githubusercontent.com/hermes-hq/hodios-dist/main/catalog/v1`.
+The install tree (curated tier only) and the v1 catalog (`catalog/v1/`: manifest, one shard list per tier, content-addressed objects, every entry) go to hodios-dist together. The published `hodios` CLI reads `https://cdn.jsdelivr.net/gh/hermes-hq/hodios-dist@latest/catalog/v1`, falling back to `https://raw.githubusercontent.com/hermes-hq/hodios-dist/main/catalog/v1`.
 
 ```sh
 git clone https://github.com/hermes-hq/hodios-dist ../hodios-dist && cd ../hodios-dist
@@ -37,7 +38,7 @@ git add -A && git commit -s -m "Catalog $VERSION: <N> entries" && git push
 git tag "v$VERSION" && git push origin "v$VERSION"
 ```
 
-`sync-dist.mjs` replaces every generated path (`.claude-plugin`, `plugins`, `skills`, `native`, `paste`, `bundles`, `catalog/v1/manifest.json`), adds the new catalog objects next to the earlier ones so a CDN-cached manifest still resolves, keeps `README.md` and `LICENSE`, updates the README's catalog line, and checks the caps: at most 2,000 skills, at most 100 plugins, one plugin per domain.
+`sync-dist.mjs` replaces every generated path (`.claude-plugin`, `plugins`, `skills`, `native`, `paste`, `bundles`, `catalog/v1/manifest.json`), adds the new catalog objects next to the earlier ones so a CDN-cached manifest still resolves, keeps `README.md` and `LICENSE`, updates the README's catalog line, and checks the caps before it copies anything: at most 2,000 skills, at most 100 plugins, one plugin per domain, fewer than 60,000 files and folders in the tree.
 
 ## 4. Verify
 
@@ -45,7 +46,8 @@ With a temporary `HOME` and no `CLAUDECODE` or `CLAUDE_CODE_*` variables:
 
 ```sh
 claude plugin marketplace add hermes-hq/hodios-dist && claude plugin install hodios-travel@hodios && claude plugin list
-npx skills add hermes-hq/hodios-dist --list
+npx skills add hermes-hq/hodios-dist --list                         # the curated tier
+npx -y @hermes-hq/hodios search <word>                              # finds curated and verified entries
 curl -s https://cdn.jsdelivr.net/gh/hermes-hq/hodios-dist@latest/catalog/v1/manifest.json   # "catalog": "$VERSION"
 ```
 

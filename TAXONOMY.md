@@ -1,6 +1,6 @@
 # Hodios taxonomy (vocab 1.1.0)
 
-How Hodios organises entries so the library can grow from dozens to millions without breaking a link, an install or a contributor's mental model. This file explains the rules. The data lives in [`vocab/`](vocab/), and the validator enforces it (rules PS050–PS059, §5.4).
+How Hodios organises entries so the library can grow from dozens to millions without breaking a link, an install or a contributor's mental model. This file explains the rules. The data lives in [`vocab/`](vocab/), and the validator enforces it (rules PS050–PS060, §5.4).
 
 Hodios is a general-purpose library. It covers software engineering, and it also covers studying, content creation, marketing, research, design, the arts, careers, money, legal paperwork, health, cooking, travel, family, productivity, games and anything else people use AI for.
 
@@ -315,6 +315,7 @@ Clients ignore unknown facets and values (the design's "ignore unknown fields" r
 | PS057 | warning | A tag duplicates a value or synonym of a real facet (`category`, `stack`, `subject`, `role`, `stage`) |
 | PS058 | warning | `stack` or `subject` lists a value together with something it implies |
 | PS059 | warning | Cardinality above the `vocab/facets.yml` limit for `stage` (workflows exempt), `stack`, `requires`, `inputs`, `output`. New facets (`role`, `subject`, `advice_risk`) enforce their limits in the schema |
+| PS060 | error | `curated.txt` (§6.1) is sorted, lists each id once, names only live entries (not an alias, not deprecated, not in `other/unsorted`) and holds at most 2,000 |
 
 PS006 continues to check every faceted value against its vocab, including the new `role`, `subject`, `subcategory` and `advice-risk` vocabs. It warns on deprecated values and names the successor.
 
@@ -355,6 +356,23 @@ practice conversation subject:es mode:interactive
 | tier | `tier:` | `--tier` | curated + verified by default; community is a labelled group | same | `tier` |
 
 **UI rule:** show 6 primary facets (domain, category, kind, works_in, stack or subject, role) and put the rest under "More filters". Facet counts come from the FTS index (facets compile to hidden FTS tokens), so they stay cheap at a million rows. `hodios vocab list <facet>` and MCP `list_facets` return the vocab with live counts, and `hodios vocab resolve <word>` explains a synonym.
+
+### 6.1 Tiers and the curated list
+
+Every catalog row carries a `tier`, computed at release and never authored in an entry:
+
+- **curated**: listed in [`curated.txt`](curated.txt), at most 2,000 entries. Only this tier goes to [hermes-hq/hodios-dist](https://github.com/hermes-hq/hodios-dist): the Agent Skills tree (`npx skills`, `gh skill`, Gemini), the Claude Code and Copilot marketplace plugins, the `native/` trees, `paste/` and the Hermes bundle. Those installers clone or tree-list the whole repository, so it has to stay small (design §12.4).
+- **verified**: every other entry in this repository. It is in `catalog/v1` like the curated tier, so `hodios search`, `hodios install`, the site and Hermes IDE find and install it; it ranks after curated entries when relevance ties.
+- **community**: reserved for registry entries (`@owner/name`), which do not exist yet.
+
+`curated.txt` is one id per line, sorted. `tools/release/curate.mjs` regenerates it before each release, and the maintainer reviews the diff. The rule is deterministic and stable, so entries do not churn in and out of the install tree between releases:
+
+1. An id stays once listed. It leaves only if it is deprecated, moves to `other/unsorted` or is opted out. A renamed id is replaced by its successor.
+2. Every new persona, workflow, rule and style is added.
+3. New prompts fill the list up to 1,900, leaving headroom under the cap. They are picked one at a time: first from the domain furthest below its quota (its share of the library times 1,900), then from the category with the fewest curated entries, then by status (stable, experimental, incubating), number of eval cases, whether it has examples, and finally by id.
+4. Never added automatically: `other/unsorted`, deprecated entries, and entries with `advice_risk`, whose promotion needs a reviewer from the domain's CODEOWNERS group (§3.9). A maintainer adds those by hand after that review.
+
+To curate an entry by hand, add its id. To keep an entry out, write `!<id>`: it leaves the tier and the script never adds it back. The first list kept every entry of catalog 2026.1003.0, the last release that shipped the whole library to hodios-dist.
 
 ## 7. The v1 vocabulary
 

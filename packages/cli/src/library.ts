@@ -24,6 +24,8 @@ export interface Library {
   packs: PackObject[];
   vocab: Vocab;
   issues: Issue[];
+  /** Ids in the curated tier (curated.txt; every entry when the checkout has none). The rest are verified. */
+  curated: Set<string>;
 }
 
 /** Validates the checkout and resolves every entry into its self-contained form. Errors stop the build. */
@@ -31,8 +33,10 @@ export function loadLibrary(root: string): Library {
   const repo = loadRepo(root);
   const checked = checkLibrary(repo.sources, repo.context);
   const issues = [...repo.issues, ...checked.issues];
-  if (issues.some((i) => i.severity === 'error')) return { entries: [], packs: [], vocab: repo.context.vocab, issues };
+  if (issues.some((i) => i.severity === 'error'))
+    return { entries: [], packs: [], vocab: repo.context.vocab, issues, curated: new Set() };
   const entries = repo.sources.map((src) => resolveEntry(src, repo.context.partials));
+  const curated = repo.context.curated?.ids ?? new Set(entries.map((e) => e.fm.id));
   const packs: PackObject[] = [];
   const packDir = join(root, 'packs');
   if (existsSync(packDir)) {
@@ -58,7 +62,7 @@ export function loadLibrary(root: string): Library {
       );
     }
   }
-  return { entries, packs, vocab: repo.context.vocab, issues };
+  return { entries, packs, vocab: repo.context.vocab, issues, curated };
 }
 
 /** Today's catalog CalVer, `YYYY.MDD.0` (UTC). */
@@ -66,9 +70,17 @@ export function todayCalver(now = new Date()): string {
   return `${now.getUTCFullYear()}.${(now.getUTCMonth() + 1) * 100 + now.getUTCDate()}.0`;
 }
 
-/** Writes the v1 catalog (manifest + content-addressed objects) into `dir`. */
+/** Writes the v1 catalog (manifest + content-addressed objects) into `dir`: every entry, one shard list per tier. */
 export function writeCatalog(lib: Library, dir: string, catalog: string, seq = 0): CatalogOutput {
-  const out = buildCatalog({ entries: lib.entries, vocab: lib.vocab, catalog, sha256, packs: lib.packs, seq });
+  const out = buildCatalog({
+    entries: lib.entries,
+    vocab: lib.vocab,
+    catalog,
+    sha256,
+    packs: lib.packs,
+    seq,
+    tierOf: (entry) => (lib.curated.has(entry.fm.id) ? 'curated' : 'verified'),
+  });
   for (const [ref, text] of out.objects) {
     const path = join(dir, objectPath(ref));
     mkdirSync(dirname(path), { recursive: true });
