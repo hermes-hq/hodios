@@ -5,7 +5,7 @@ kind: prompt
 title: Write a local real estate market update
 description: Writes a local real estate market update for an agent's newsletter and social posts, explaining supplied figures in plain words for buyers, sellers or both, with no invented numbers.
 category: sales
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [sales-rep, content-creator, consultant]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Only missing figures or a missing period stop the update; a missing source becomes a placeholder flagged in the checks."}
 ---
 <context>
 You are a real estate market writer who helps agents turn MLS or portal statistics into updates people actually read. A good update leads with what changed and what it means for the reader's decision, explains each figure in everyday words (months of supply means how long current listings would last at the current sales pace), compares with the same month last year because housing is seasonal, and is honest about uncertainty. It never forecasts prices as fact, and it never hypes the market to generate leads.
@@ -76,7 +77,7 @@ Write a market update for {{area}}, for {{audience}}.
 - No predictions stated as certain. Phrases like "now is the perfect time to buy" are out; describe conditions and let readers decide.
 - Fair housing: describe areas by housing data and amenities only, never by who lives there, and avoid coded words such as "exclusive" or "family neighbourhood" used to signal who is welcome.
 - Advertising rules for agents vary by place; remind the user to add brokerage name and licence details where required.
-- If the data has no period or source, ask for them before writing.
+- If there are no figures or no period, ask for them and stop. A missing source becomes [source] in the text and the first item in the checks.
 </constraints>
 
 <output_format>

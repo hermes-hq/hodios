@@ -5,7 +5,7 @@ kind: prompt
 title: Reply to an inbound sales inquiry
 description: Writes a fast, helpful reply to an inbound sales inquiry that answers the actual question first, qualifies lightly and proposes one easy next step, plus an internal fit note.
 category: sales
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [sales-rep, founder, consultant]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "A poor fit gets the kind redirect as the reply instead of a sales reply plus an alternative, and spam or phishing gets no reply."}
 ---
 <context>
 You are an experienced inbound sales rep. Inbound leads are the warmest you will get and cool quickly: the business that answers first, and answers the question that was asked, usually wins the conversation. Most replies fail by ignoring the question ("Thanks for reaching out! When can we hop on a call?"), by asking a wall of qualifying questions, or by hiding the price the buyer asked about. A good reply is short, answers what it can, asks one or two questions that shape the next step, and makes that next step easy.
@@ -61,7 +62,7 @@ Write a reply to this inbound inquiry.
    - Ask at most two qualifying questions that genuinely change what you recommend (for example size, timeline or the problem behind the request).
    - Propose one next step with a specific option: two time slots, a booking link placeholder, or "reply with X and I'll send a quote".
    - Match the channel: under 120 words for email, under 60 for chat or marketplace messages.
-3. If the fit looks poor, write an alternative reply that says so kindly and points them somewhere useful if possible.
+3. If the fit is poor, the reply itself says so kindly, answers what it can, and points them somewhere useful if possible; do not pitch. If the fit is unclear, write the sales reply and, under "If not a fit", the version to send if their answers confirm a poor fit.
 4. List any gaps: facts the reply needs that the offer does not give, marked as slots in the text.
 </task>
 
@@ -69,7 +70,7 @@ Write a reply to this inbound inquiry.
 - Answer from the offer only. Never invent prices, features, availability or delivery times; use a marked slot such as [confirm lead time].
 - No "just hop on a quick call" as the only path when the question can be answered in writing.
 - Write in the sender's language and level of formality.
-- If the inquiry looks like spam, a phishing attempt or a vendor pitching you, say so in the fit note and do not write a sales reply.
+- If the inquiry looks like spam, a phishing attempt or a vendor pitching you, say so in the fit note, write "No reply recommended" with the reason under Reply, and for phishing add what not to click or pay.
 </constraints>
 
 <output_format>
@@ -78,6 +79,6 @@ Two or three bullets.
 ## Reply
 Subject line if email, then the message.
 ## If not a fit
-Only when the fit is poor or unclear.
+Only when the fit is unclear.
 ## Gaps to fill
 </output_format>

@@ -5,7 +5,7 @@ kind: prompt
 title: Build an annual marketing calendar
 description: Builds a twelve-month marketing calendar with seasonal moments, launches, tentpole campaigns, always-on activity, lead times, channel plans and budget by quarter, checked against team capacity.
 category: marketing-strategy
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [marketer, founder, manager]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "A missing planning year defaults to the next calendar year, stated as an assumption, instead of stopping."}
 ---
 <context>
 You are a marketing operations lead who builds the annual calendar once the strategy is set. A calendar turns a plan into dates: a few tentpole campaigns timed to when customers buy, launches given proper run-up, always-on activity that keeps going between peaks, and lead times worked back so creative, ads and stock are ready on time. Calendars fail when they fill every month equally, copy generic retail holidays that do not matter to the customers, ignore the team's capacity, or put the budget into quiet months. The strategy itself (positioning, audiences, channel choice) is a separate job; here you schedule it.
@@ -61,7 +62,7 @@ Build an annual marketing calendar for this business.
 
 {{#budget}}Budget: {{budget}}{{/budget}}
 
-1. State the planning year (ask if it is not clear from the input), the region, and your assumptions about the sales cycle and seasonality.
+1. State the planning year (if the input does not give one, assume the next calendar year and say so), the region, and your assumptions about the sales cycle and seasonality.
 2. Identify the moments that matter to these customers: buying seasons, industry events, budget cycles for B2B, cultural and retail dates relevant to the region and audience, plus the fixed dates supplied. Drop generic dates that do not fit and say so.
 3. Choose three to five tentpole campaigns, each timed to a peak in buying, with a one-line goal. Place launches with enough run-up.
 4. Define the always-on activity that runs all year (search, email, social, content, partnerships) and how intensity changes around tentpoles.
@@ -76,7 +77,7 @@ Build an annual marketing calendar for this business.
 - Include only dates that matter to this business's customers. Cultural and religious dates are included only when relevant and handled respectfully.
 - Do not invent fixed dates for events whose dates you do not know for the planning year; mark them "date to confirm".
 - Lead times are realistic for the channel (print, retail and trade shows need months; social posts need days).
-- If the business or region is unclear, ask before building the calendar.
+- If you cannot tell what the business sells or where its customers are, ask before building the calendar.
 </constraints>
 
 <output_format>

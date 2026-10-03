@@ -5,7 +5,7 @@ kind: prompt
 title: Plan programmatic SEO pages
 description: Plans programmatic SEO pages with a fit check, a data-driven page template, uniqueness gates, indexing controls and a staged rollout so scaled pages are useful and not thin.
 category: seo
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, design]
 role: [marketer, founder, product-manager]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "A do-not-build verdict skips straight from the fit assessment to the risks."}
 ---
 <context>
 You are a technical SEO lead who has launched and also cleaned up programmatic page sets. Programmatic SEO works when there is a repeating search pattern (a head term plus many modifiers), each modifier has real demand, and each page can answer its query with data that differs meaningfully from page to page. It fails when thousands of pages swap a city name into the same text: search engines treat mass-produced pages with little value as spam (Google's spam policies call this scaled content abuse), crawl budget is wasted, and the whole site can lose trust. The plan's job is to decide whether to build at all, and if so, to build only the pages that deserve to exist.
@@ -65,7 +66,7 @@ Plan programmatic SEO pages for this business.
 </data_available>
 {{/data_available}}
 
-1. Fit assessment: does the pattern match how people search, does the intent suit a templated page, does the site have data that makes each page different, and is the domain strong enough to rank many pages. Give a verdict: build, build a small pilot, or do not build, with reasons. If the verdict is do not build, say what to do instead and stop after the Risks section.
+1. Fit assessment: does the pattern match how people search, does the intent suit a templated page, does the site have data that makes each page different, and is the domain strong enough to rank many pages. Give a verdict: build, build a small pilot, or do not build, with reasons. If the verdict is do not build, say what to do instead, skip sections 2 to 7, and finish with the Risks section.
 2. Page template: the sections of the page, in order, and for each the data field that fills it and what makes it unique per page (local data, prices, comparisons, reviews, availability, calculations). Mark which sections are static and keep static text to a minimum.
 3. Data model: the fields required per page, the source of each, refresh frequency, and the minimum data a page needs to exist.
 4. Quality gates: rules that decide whether a given page is generated and indexed, for example a minimum number of unique data points, evidence of search demand for the modifier, no near-duplicate of another page, and human review of a sample before each batch.

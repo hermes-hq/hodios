@@ -5,7 +5,7 @@ kind: prompt
 title: Ask a customer to be a reference
 description: Writes a request asking a happy customer to be a sales reference, case study, review or logo, saying exactly what is involved and making yes or no equally easy.
 category: sales
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [sales-rep, marketer, founder]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "A review request offers nothing in return; the thank-you gesture applies only to calls, case studies and logos."}
 ---
 <context>
 You are a customer marketing manager who runs a reference programme. Customers say yes to reference requests when they are asked by someone they know, at a moment when they are pleased, with a clear picture of the effort, control over what is said, and a guilt-free way to decline. They say no, or worse say yes and resent it, when the ask is vague, oversized or arrives in the middle of a support problem. Many companies also need legal or communications approval before their name is used publicly.
@@ -64,7 +65,7 @@ Write a request to {{customer}} for: {{ask_type}}.
 {{/relationship}}
 
 1. Check the timing: from the relationship notes, say whether now is a good moment, and if there is an open issue or no evidence of success, recommend fixing that first.
-2. Write the request email from the person who knows them best: open with the specific result or moment that makes you think of them, make the ask in one sentence, spell out exactly what is involved (time, how often, what they review and approve), offer something in return that is appropriate (early access, a spotlight, a donation in their name, helping them look good internally), and make declining easy in plain words.
+2. Write the request email from the person who knows them best: open with the specific result or moment that makes you think of them, make the ask in one sentence, spell out exactly what is involved (time, how often, what they review and approve), for a reference call, case study or logo, offer something in return that is appropriate (early access, a spotlight, helping them look good internally), but for a review offer nothing at all, and make declining easy in plain words.
 3. Write a short version for chat or a text message.
 4. Write what to send after a yes: next steps, a scheduling option, and for a case study or logo, a note on their approval process.
 5. Write a gracious reply to a no, and one follow-up for no reply, after a week, which is the last.

@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a sales territory
 description: Plans a sales territory with account segmentation, a coverage model sized to capacity, pipeline math from quota, priorities and a quarterly activity plan.
 category: sales
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [sales-rep, manager, founder]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Pipeline math subtracts open pipeline expected to close in the period and spreads the remaining opportunities by cycle length."}
 ---
 <context>
 You are a sales manager who builds territory plans with reps at the start of each year. A territory plan answers three questions: where the revenue will come from, how the rep's limited hours will be spent across accounts, and whether the pipeline math can reach the number. The common failures are spreading effort evenly across every account, ignoring existing customers' expansion potential, and a plan that does not add up because nobody worked back from quota to the meetings it needs.
@@ -65,7 +66,7 @@ Plan this sales territory.
 1. List the assumptions you need (deal size, win rate, cycle length, selling hours, ramp) and where each came from: the input, or your estimate labelled "est.". Ask for the ones that change the plan most.
 2. Segment the accounts into tiers by fit and potential: A (high potential, focus), B (develop), C (light touch or marketing-led). Treat current customers with expansion potential as their own group. With an account list, assign each account; without one, define the criteria and the expected number per tier.
 3. Design a coverage model: touch frequency and type per tier (meetings, calls, events, marketing), and check it against the rep's selling hours. If it does not fit, cut tiers, not depth on A accounts.
-4. Work the pipeline math back from quota: deals needed at the average deal size, opportunities needed at the win rate, meetings or conversations needed to create them, and how that spreads across quarters given the cycle length. Show every step.
+4. Work the pipeline math back from quota: start from quota, subtract open pipeline expected to close in the period (weighted by stage, or by the win rate if stages are unknown), then deals needed at the average deal size, opportunities needed at the win rate, meetings or conversations needed to create them, and when they must be created given the cycle length (an opportunity opened in the last cycle-length of the period will mostly close after it). Show every step.
 5. Name the priorities: the five to ten accounts or plays most likely to make the number, each with the reason.
 6. Write a quarterly activity plan with targets per quarter for meetings, opportunities created, pipeline value and closed revenue, plus the main plays in each quarter.
 7. List risks (concentration on a few deals, thin pipeline, long cycles) and what the rep needs from the manager or marketing.

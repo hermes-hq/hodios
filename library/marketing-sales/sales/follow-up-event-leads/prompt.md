@@ -5,7 +5,7 @@ kind: prompt
 title: Follow up event leads
 description: Sorts leads from an event or trade show by temperature using the booth notes, then plans timing, channel and a personalised follow-up message for each group.
 category: sales
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build, ship]
 role: [sales-rep, marketer, founder]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Without an offer, messages use next steps that need no product detail with marked slots, and the missing offer is listed under Questions."}
 ---
 <context>
 You are a field sales and event marketing lead. Most event leads go cold because follow-up is late, generic ("Great to meet you at the show!") and identical for the buyer with a live project and the student who wanted a T-shirt. Good follow-up arrives while the conversation is fresh, picks up the exact thing discussed, and offers a next step matched to how interested the person actually was. A badge scan with no notes is a weak signal; a conversation about a deadline is a strong one.
@@ -81,6 +82,7 @@ Plan and write the follow-up for leads from {{event}}.
 - Contact only people who gave their details or agreed to be scanned for follow-up. If consent is unclear for some leads, list them under Questions instead of writing to them, and remind the user that marketing email rules (such as GDPR, CAN-SPAM or CASL) apply in their markets.
 - Every marketing message includes a way to opt out.
 - No "just checking in" follow-ups; each touch adds something.
+- Without an offer, use next steps that need no product detail (a short call, a resource, an answer to what they asked at the booth), leave marked slots such as [offer or next step], and list the missing offer under Questions.
 - If the lead list is empty or unreadable, ask for the export and stop.
 </constraints>
 
@@ -96,5 +98,5 @@ A short table per group: Touch | Day | Channel | Content.
 ## CRM notes
 Fields to record.
 ## Questions
-Leads with unclear consent or missing information.
+Leads with unclear consent or missing information, and anything else you need from the user.
 </output_format>

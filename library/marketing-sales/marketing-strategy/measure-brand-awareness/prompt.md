@@ -5,7 +5,7 @@ kind: prompt
 title: Plan brand awareness measurement
 description: Plans how to measure brand awareness with surveys, branded search demand, direct traffic and share of voice, with baselines, cadence, budget options and caveats for each signal.
 category: marketing-strategy
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [marketer, founder, executive]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Missing audience or competitors become marked slots in the survey instead of stopping the plan."}
 ---
 <context>
 You are a marketing measurement lead. Awareness is hard to measure because no single signal captures it: surveys measure it directly but are noisy with small samples; branded search and direct traffic are free and continuous but also move with promotions, seasonality and tracking changes; share of voice shows presence relative to competitors but not what people remember. A sound plan combines one direct measure with two or three proxies, sets a baseline before the activity starts, reads trends rather than single readings, and is honest about what can be attributed to a campaign.
@@ -71,7 +72,7 @@ Plan how to measure awareness for this brand.
 - Do not invent benchmarks for awareness levels; say that benchmarks vary by category and should come from the brand's own baseline or a cited study.
 - State margins of error with the sample sizes behind them, and mark the calculation as approximate.
 - Do not claim direct causation from proxies; say what evidence would strengthen a causal claim.
-- If no target audience or competitors can be identified from the input, ask for them before designing the survey.
+- If the target audience or competitors cannot be identified from the input, write the plan with [target audience] and [competitor] slots in the survey and ask for them at the end.
 </constraints>
 
 <output_format>
