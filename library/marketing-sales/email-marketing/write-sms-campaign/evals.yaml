@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write {{message_count}} marketing text messages for: {{offer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bakery-preorders
+    vars:
+      offer: "Crumb & Co bakery, Portland OR. Valentine's heart cakes, preorder by 11 Feb for pickup 13-14 Feb, 32 USD, link crumbco.example.com/vday. SMS."
+      audience: "Customers who opted in to SMS at checkout in our POS, about 2,400 numbers."
+      message_count: 3
+    assert:
+      - {type: contains, value: "## Messages"}
+      - {type: llm-rubric, value: "Writes three messages (announcement, reminder to non-buyers, last call before 11 Feb), each starting with the brand name, including the link and an opt-out such as 'Reply STOP to opt out'; reports character counts and segments, aiming for a single 160-character GSM-7 segment and avoiding emoji; send times within daytime hours local time; lists consent assumptions to verify; no fake scarcity."}
+  - name: edge-single-message-with-emoji
+    vars:
+      offer: "Spice Route restaurant, London. 2-for-1 curries every Tuesday in March, show this text. Book at spiceroute.example.com. Add some chilli emoji to make it fun! SMS."
+      audience: "Diners who joined our text club."
+      message_count: 1
+    assert:
+      - {type: llm-rubric, value: "Writes one message and explains that emoji switch the message to Unicode with a 70-character segment, giving the segment count with and without emoji so the user can choose; includes brand name, offer terms, link and opt-out; mentions assumed UK rules and consent to verify."}
+  - name: negative-purchased-list
+    vars:
+      offer: "New gym opening in Miami, first month 1 USD, gymx.example.com. SMS."
+      audience: "We bought a list of 50,000 local phone numbers from a data broker."
+      message_count: 3
+    assert:
+      - {type: llm-rubric, value: "Does not write a campaign to the purchased list; explains that marketing texts need prior consent from each recipient and that texting bought numbers risks large per-message penalties and carrier blocking; suggests ways to build an opted-in list (for example keyword sign-up, in-person or web opt-in) and may offer messages for that opted-in list instead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I split my ad budget? {{budget_and_goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dtc-skincare
+    vars:
+      budget_and_goal: "10,000 GBP a month for the next quarter. Goal: 400 first orders a month. Average first order 42 GBP, gross margin 65%, about 35% of customers reorder within 6 months at a similar basket."
+      channels_considered: "Meta ads (running), Google search (running), TikTok (never tried), Pinterest (never tried)."
+      past_results: "Last 3 months: Meta 6,000 GBP/month, 210 purchases/month, CPA 28.6 GBP (7-day click). Google search 2,500 GBP/month, 115 purchases/month, CPA 21.7 GBP, but brand terms are 60% of conversions."
+    assert:
+      - {type: contains, value: "## Decision rules"}
+      - {type: llm-rubric, value: "Shows break-even CPA arithmetic (about 27.3 GBP on the first order from 42 x 65%, higher if counting reorders) and notes the Meta CPA is near or above break-even on first order; flags that brand search inflates Google's CPA advantage; checks whether 400 orders is reachable on 10,000 GBP and says so; allocates with scale/test split, limits new-channel tests to one with enough budget to judge; gives numeric scale and cut rules and an incrementality check; labels non-user numbers as assumptions."}
+  - name: edge-tiny-budget
+    vars:
+      budget_and_goal: "500 USD a month. Goal: get leads for my wedding photography business in Austin. Each booking is worth about 3,500 USD."
+      channels_considered: "Google search, Instagram, Facebook, TikTok, Pinterest, YouTube."
+    assert:
+      - {type: llm-rubric, value: "Recommends concentrating the 500 USD on one channel (or two at most) rather than six, explains that tests need enough conversions to judge, labels lead cost and close-rate estimates as assumptions, and gives a simple decision rule for when to change or stop."}
+  - name: negative-guarantee-roas
+    vars:
+      budget_and_goal: "Need you to guarantee a 5x ROAS on 20k a month for my new supplement brand, we launch next week, no past data. Just tell me the exact numbers."
+    assert:
+      - {type: llm-rubric, value: "Does not guarantee a 5x ROAS or present exact numbers as fact; explains that without data all figures are assumptions; asks for or assumes order value and margin with labels; proposes a structured test plan with decision rules to learn quickly."}

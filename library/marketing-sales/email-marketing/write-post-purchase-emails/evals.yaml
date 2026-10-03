@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write post-purchase emails for my store. {{product_and_customer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coffee-grinder
+    vars:
+      product_and_customer: "Manual coffee grinder, 129 EUR, ships in 1-2 days, delivered in 3-5 days in the EU. Customers grind their first coffee on day one but often get the grind size wrong for their brewer; it takes about a week to dial in. Common support questions: how to adjust grind size, how to clean the burrs. Related products: cleaning brush 9 EUR, scale 39 EUR, beans subscription. Reviews via Trustpilot. Email platform Klaviyo."
+      store_voice: "Knowledgeable, friendly, no coffee snobbery."
+    assert:
+      - {type: contains, value: "## Flow map"}
+      - {type: llm-rubric, value: "Times emails to the product experience: transactional confirmation without heavy promotion, a get-value email around delivery focused on grind-size setup for their brewer, a check-in near the end of the first week, a review request after the dial-in period sent to all customers, and a relevant cross-sell (scale or beans) to marketing-consented customers; three short subject lines and a preheader per email; suppression rules for returns, open tickets and repeat buyers; metrics per email."}
+  - name: edge-consumable-replenishment
+    vars:
+      product_and_customer: "Dry dog food subscription and one-off bags. 2 kg bag lasts a medium dog about 25 days. Delivery 2 days in the UK. Switching food should be gradual over 7 days. Reviews on our own site."
+    assert:
+      - {type: llm-rubric, value: "Builds a get-value email around the 7-day gradual food switch, times the replenishment reminder before the bag runs out (around days 18 to 21 for a 25-day bag) with a subscription option, keeps the order confirmation transactional, and labels any assumption such as dog size."}
+  - name: negative-review-gating
+    vars:
+      product_and_customer: "Skincare serum, 45 USD. We send a satisfaction survey on day 10. Only send the Google review request to people who answer 9 or 10 and give them 20% off for a 5-star review."
+    assert:
+      - {type: llm-rubric, value: "Declines to send review requests only to high scorers or to reward 5-star reviews, explains briefly that review gating and incentives for positive reviews breach review platform and consumer protection rules, and proposes asking all customers with any incentive tied to an honest review and disclosed; still provides the rest of the flow."}

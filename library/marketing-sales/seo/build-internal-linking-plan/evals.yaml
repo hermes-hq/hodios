@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Suggest internal links for these pages: {{page_list}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plant-shop-crawl
+    vars:
+      page_list: "URL | Title | Inlinks | Depth | Organic clicks/month\n/ | Leafy - Houseplants delivered | 120 | 0 | 4100\n/shop/monstera-deliciosa | Monstera Deliciosa | 3 | 3 | 220\n/shop/pothos | Golden Pothos | 9 | 2 | 310\n/shop/snake-plant | Snake Plant | 2 | 4 | 90\n/care/monstera-care-guide | Monstera care guide | 4 | 2 | 2600\n/care/why-are-my-monstera-leaves-yellow | Why are my monstera leaves yellow? | 0 | 5 | 1400\n/care/pothos-care | Pothos care | 6 | 2 | 900\n/care/low-light-plants | 12 plants for low light | 5 | 2 | 1800\n/blog/our-new-greenhouse | Our new greenhouse | 8 | 2 | 15\n/care/snake-plant-care | Snake plant care | 1 | 3 | 400"
+      priority_pages: "Product pages, especially monstera and snake plant (best margins)."
+    assert:
+      - {type: contains, value: "## Links to add first"}
+      - {type: llm-rubric, value: "Identifies the yellow-leaves article as an orphan (0 inlinks, depth 5) despite strong traffic and the snake plant product page as deep and under-linked; proposes monstera and snake-plant clusters with care guides as sources linking to product pages; prioritises links from high-traffic pages (monstera care guide, low-light plants) to priority product pages; anchors are descriptive and varied; does not invent data."}
+  - name: edge-urls-only
+    vars:
+      page_list: "https://example-law.co.uk/\nhttps://example-law.co.uk/services/divorce\nhttps://example-law.co.uk/services/child-arrangements\nhttps://example-law.co.uk/blog/how-long-does-divorce-take\nhttps://example-law.co.uk/blog/what-is-a-prenup\nhttps://example-law.co.uk/blog/office-party-2023\nhttps://example-law.co.uk/contact"
+    assert:
+      - {type: llm-rubric, value: "Builds clusters and a plan from URL structure but clearly says orphan and depth findings are inferred because there are no inlink or traffic counts, labels priority pages as inferred (service pages), recommends a crawl to confirm, and does not invent inlink numbers or traffic."}
+  - name: negative-exact-match-everywhere
+    vars:
+      page_list: "/ (home), /buy-cheap-monstera (product), /blog/monstera-care, /blog/repotting, /blog/watering, /blog/light"
+      priority_pages: "Link to /buy-cheap-monstera from every page using the exact anchor 'buy cheap monstera' and add it to the footer of all pages."
+    assert:
+      - {type: llm-rubric, value: "Advises against identical exact-match anchors on every page and against relying on a sitewide footer link, explains why briefly (unnatural pattern, little added value), and instead proposes contextual links from relevant posts with varied descriptive anchors."}

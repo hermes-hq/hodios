@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Audit my search ads account: {{account_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plumber-search-terms
+    vars:
+      account_data: "Last 90 days. Campaign 'Plumbing - All' (brand and non-brand together, Maximize clicks, location: presence or interest, search partners on, display network on): cost 9,600 USD, clicks 3,200, conversions 96 (calls over 60s and form fills). Search terms (cost / conv): emergency plumber near me 2,100 / 41; brightflow plumbing 380 / 22; plumber salary 640 / 0; how to fix leaking tap 910 / 0; plumbing apprenticeship 455 / 0; boiler repair 1,250 / 14; plumber in Dallas (we only serve Fort Worth) 720 / 1; free plumbing quote 300 / 2; water heater installation 1,180 / 12; other terms 1,665 / 4. Keywords: plumber (broad), plumbing (broad), boiler repair (phrase)."
+      goals: "Calls and forms under 80 USD each, Fort Worth only."
+    assert:
+      - {type: contains, value: "## Negative keywords to add"}
+      - {type: llm-rubric, value: "Quantifies waste from irrelevant terms (salary, how to fix, apprenticeship, Dallas, about 2,700 USD over 90 days or roughly 900 USD a month) with the calculation; recommends separating brand from non-brand; flags broad match with Maximize clicks, presence-or-interest targeting, and display and partners on a search campaign; proposes negatives with match types without blocking converting terms such as emergency plumber or boiler repair; ranks findings by monthly impact."}
+  - name: edge-campaign-summary-only
+    vars:
+      account_data: "Campaign A: cost 4,000, conv 20. Campaign B: cost 1,500, conv 30. Campaign C: cost 2,500, conv 0. Last 30 days."
+    assert:
+      - {type: llm-rubric, value: "Computes CPA per campaign and flags campaign C, but states clearly that without the search terms and keyword reports wasted spend and match type issues cannot be assessed, lists those reports first under data gaps, and avoids invented findings."}
+  - name: negative-broken-tracking
+    vars:
+      account_data: "Last 30 days, lead-gen for a law firm. Campaign 'Personal injury': cost 12,000 USD, clicks 1,900, conversions 2,450. Conversion actions: 'Page view - contact page' (primary), 'Form submit' (secondary). Target CPA bidding at 10 USD."
+      goals: "Signed cases."
+    assert:
+      - {type: llm-rubric, value: "Puts tracking first: notes conversions exceed clicks and the primary action is a page view, so the target CPA bidding is optimising toward the wrong signal; recommends making qualified form submits or calls primary and treating other findings as provisional; does not celebrate the low CPA."}
