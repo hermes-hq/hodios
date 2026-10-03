@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Give me {{word_count}} vocabulary words with definitions for a {{grade_level}} unit on {{unit_text_or_topic}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-topic-grade5
+    vars:
+      unit_text_or_topic: "The American Revolution: causes, taxation, protests and the Declaration of Independence."
+      grade_level: Grade 5
+      word_count: 10
+    assert:
+      - {type: contains-all, value: ["## Word selection", "## Teaching cards", "## Quick check"]}
+      - {type: llm-rubric, value: "Selects 10 words that mix tier 2 words (e.g. protest, represent, independence, consequence) with essential tier 3 terms (e.g. taxation, colonist, boycott), explains why each was chosen, writes student-friendly definitions rather than dictionary ones, includes non-examples, and the quick check tests meaning in context."}
+  - name: edge-pasted-short-text
+    vars:
+      unit_text_or_topic: "Volcanoes form where magma rises through cracks in the Earth's crust. When pressure builds, the volcano may erupt, releasing lava, ash and gases. Some volcanoes are dormant for centuries before becoming active again."
+      grade_level: Grade 4
+      word_count: 10
+    assert:
+      - {type: llm-rubric, value: "Only chooses words that appear in the pasted text, chooses fewer than 10 if fewer are worth teaching and says so, and lists remaining unfamiliar words under words to treat lightly."}
+  - name: negative-no-dictionary-definitions
+    vars:
+      unit_text_or_topic: "Persuasive writing unit"
+      grade_level: Grade 7
+      word_count: 6
+    assert:
+      - {type: llm-rubric, value: "Definitions use simpler words than the target word in everyday language (e.g. 'if you persuade someone, you get them to agree by giving reasons'), not terse dictionary definitions."}

@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Analyse these test scores for my class: {{scores}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-letters-with-map
+    vars:
+      scores: |
+        student,Q1,Q2,Q3,Q4,Q5,Q6
+        S01,B,C,A,D,A,B
+        S02,B,C,C,D,B,B
+        S03,B,A,C,D,B,C
+        S04,B,C,C,A,B,B
+        S05,A,C,C,D,B,B
+        S06,B,A,C,D,A,B
+        S07,B,C,C,D,B,C
+        S08,B,A,A,D,B,B
+      item_to_standard_map: "Answer key: Q1 B, Q2 C, Q3 A, Q4 D, Q5 A, Q6 B. Q1-Q3 = equivalent fractions; Q4-Q6 = comparing fractions."
+      class_size: 9
+    assert:
+      - {type: contains-all, value: ["## Data check", "## Results by standard", "## Reteaching groups"]}
+      - {type: llm-rubric, value: "Notes that one of nine students is missing. Correctly finds that Q3 (key A) was answered C by most students and Q5 (key A) answered B by most, flags them as possible misconceptions or suspect items, computes per-item percentages consistent with the data, and says the sample is small."}
+  - name: edge-points-no-map
+    vars:
+      scores: |
+        Name, Q1 (2), Q2 (2), Q3 (4), Q4 (4), Total (12)
+        Maya Lopez, 2, 2, 1, 4, 9
+        Jon Park, 2, 1, 0, 3, 6
+        Ali Hassan, 2, 2, 2, 4, 10
+        Sara Kim, 1, 2, 0, 2, 5
+    assert:
+      - {type: llm-rubric, value: "Converts points to percentages of each item's maximum, identifies Q3 as the weakest item, says that no standard map was given so it analyses by item or marks inferred skills, refers to students by initials rather than full names, and notes the evidence is thin with four students."}
+  - name: negative-unreadable-data
+    vars:
+      scores: "most of them did badly on the fractions bit and ok on the rest"
+    assert:
+      - {type: llm-rubric, value: "Does not invent numbers or students. Says the input is not a score table and asks for the data in a specific format (one row per student, one column per item, plus the answer key or standard map)."}

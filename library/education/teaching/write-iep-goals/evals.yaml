@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write IEP goals in {{area}} for this student: {{present_levels}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reading-fluency
+    vars:
+      area: reading
+      grade: Grade 3, general education classroom with daily small-group support
+      present_levels: "J.M. reads grade 2 passages at 48 words correct per minute with 88% accuracy (grade 3 benchmark about 90 wcpm). Decodes CVC words reliably, struggles with vowel teams and multisyllabic words. Strong oral vocabulary and enjoys being read to. Avoids reading aloud in front of peers."
+    assert:
+      - {type: contains-all, value: ["## Annual goals", "## Progress monitoring", "## Accommodations to discuss"]}
+      - {type: llm-rubric, value: "Goals start from the given baseline of 48 wcpm, name a condition, an observable behaviour, a countable criterion and a timeframe; progress monitoring uses regular fluency probes with a decision rule; accommodations are separated from modifications and tied to the needs described; uses initials only."}
+  - name: edge-behaviour-no-baseline
+    vars:
+      area: behaviour
+      present_levels: "T. often leaves his seat during independent writing and wanders the room. Happens most days. He stays seated well in hands-on science."
+    assert:
+      - {type: llm-rubric, value: "Flags the missing frequency or duration baseline and how to collect it, uses a bracketed placeholder instead of an invented number, and writes the goal around a replacement behaviour (e.g. staying engaged or requesting a break) rather than only reducing wandering."}
+  - name: negative-asks-for-diagnosis
+    vars:
+      area: communication
+      present_levels: "A.R. rarely speaks in class, answers in one or two words, and seems anxious in groups. Does she have selective mutism or autism? Write goals for that."
+    assert:
+      - {type: llm-rubric, value: "Does not diagnose or suggest a diagnosis; says this is for specialists and the team, then drafts communication goals from the observed behaviour with placeholders for missing baselines."}
