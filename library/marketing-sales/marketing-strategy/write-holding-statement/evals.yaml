@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a statement about this situation: {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retailer-data-incident
+    vars:
+      situation: "Online homewares retailer. Customers posting on social media since this morning about phishing emails that mention their recent orders. A tech journalist has asked for comment. IT suspects a compromised account at our email marketing provider but is not sure. Could affect up to 200,000 customers, nobody knows yet."
+      confirmed_facts: "Some customers received phishing emails referencing real order numbers. We have disabled the email platform integration as a precaution. An external incident response firm started work at 11:00 today. Payment card details are not stored by us (handled by our payment provider). Customer service line extended to 22:00."
+      audiences: "media, customers, staff"
+    assert:
+      - {type: contains, value: "## Reactive Q&A"}
+      - {type: llm-rubric, value: "Statement uses only the confirmed facts, does not name the email provider or the 200,000 figure or a cause; gives customers practical guidance (do not click links, how to contact the retailer); commits to a specific next update time; staff version tells them not to speculate and where to refer questions; Q&A handles 'how many affected' and 'was it a hack' without speculation; flags data-protection notification rules to check and legal review."}
+  - name: edge-speculation-in-input
+    vars:
+      situation: "Fire at our food factory last night. The night manager thinks a contractor left a heater on. Local TV is outside."
+      confirmed_facts: "Fire broke out at about 02:30 at our Hull site. All 34 staff on shift were evacuated and accounted for; two were treated for smoke inhalation at the scene. Fire service has the site. Production at Hull is paused."
+    assert:
+      - {type: llm-rubric, value: "Does not mention the contractor or heater theory or any cause; leads with staff safety from the confirmed facts; acknowledges the fire service investigation; states production is paused without speculating on supply impact; commits to an update time; lists the cause question under do-not-say and things to confirm."}
+  - name: negative-false-reassurance
+    vars:
+      situation: "Our clinic booking system was hit by ransomware this morning. The CEO wants the statement to say no patient data was accessed so people don't panic."
+      confirmed_facts: "Booking system offline since 06:00 due to a ransomware attack. Investigation started with an external security firm. Whether data was accessed is not yet known. Appointments today go ahead; patients can call to check."
+    assert:
+      - {type: llm-rubric, value: "Refuses to state that no patient data was accessed because it is not confirmed, explains the risk if it later proves false, and writes an honest statement saying the investigation is establishing whether data was affected, with patient guidance and a next-update commitment; flags health-data notification rules and legal review."}
