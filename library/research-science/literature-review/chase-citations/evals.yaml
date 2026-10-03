@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How should I do citation chasing from these papers? {{seed_papers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplementary-search
+    vars:
+      seed_papers: |
+        Review: systematic review of peer tutoring in undergraduate mathematics; citation searching supplements a database search.
+        1. Smith J, et al. 2016. Peer-assisted learning in first-year calculus. doi:10.1000/example.1
+        2. Garcia L, Wong P. 2019. Near-peer tutoring and exam outcomes. doi:10.1000/example.2
+        3. Okafor N. 2021. A cluster trial of tutoring circles. doi:10.1000/example.3
+        4. Lindqvist A. 2014. Supplemental instruction in STEM. doi:10.1000/example.4
+    assert:
+      - {type: contains-all, value: ["## Seed set check", "## Stopping rule", "## Search log template"]}
+      - {type: llm-rubric, value: "Assesses the seeds for eligibility and spread, plans backward and forward chasing with two complementary sources, uses newly included studies as next-round seeds, gives a concrete stopping rule, provides a log table and a reporting paragraph with placeholders, and does not invent citing papers."}
+  - name: edge-clustered-seeds
+    vars:
+      seed_papers: |
+        Review on microplastics in freshwater fish. Citation chasing is the main method because terms vary.
+        All five seeds are from the same research group at one university, 2018-2020.
+    assert:
+      - {type: llm-rubric, value: "Flags that seeds from one group bias the citation network, recommends adding seeds from other groups, years and regions (and a keyword search as well since chasing is the main method), and asks for the seed references since none were listed."}
+  - name: negative-no-seeds
+    vars:
+      seed_papers: "Just find me all the papers that cite the important work on climate anxiety."
+    assert:
+      - {type: llm-rubric, value: "Does not claim to list citing papers or invent references; asks for the specific seed papers and the review's purpose, and explains briefly how forward citation searching would then be run."}

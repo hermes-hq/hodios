@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Why do these studies disagree about {{question}}? {{studies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-different-populations
+    vars:
+      question: "Does a daily step-count target improve HbA1c in type 2 diabetes?"
+      studies: |
+        Study A: RCT, 420 adults newly diagnosed (under 1 year), primary care, 6 months, pedometer plus coaching vs usual care. HbA1c -0.4% (95% CI -0.6 to -0.2). ITT.
+        Study B: RCT, 96 adults with diabetes for over 10 years, most on insulin, hospital clinic, 12 weeks, pedometer only. HbA1c -0.1% (-0.5 to 0.3). Per-protocol, 30% dropout.
+    assert:
+      - {type: contains-all, value: ["## Side-by-side comparison", "## Bottom line"]}
+      - {type: llm-rubric, value: "Notes B's wide interval overlaps A's and that B is small and imprecise, then ranks explanations including disease duration and insulin use (effect modification), coaching vs pedometer only, follow-up length, per-protocol analysis with high dropout; says what would settle it, such as a subgroup analysis by duration or a meta-analysis."}
+  - name: edge-not-really-conflicting
+    vars:
+      question: "Is coffee drinking associated with lower all-cause mortality?"
+      studies: |
+        Cohort 1: 200,000 adults, HR 0.88 (0.84 to 0.93) for 3-4 cups/day, reported as "significant protective association".
+        Cohort 2: 8,000 adults, HR 0.91 (0.78 to 1.06), reported as "no association".
+    assert:
+      - {type: llm-rubric, value: "Explains that the estimates are similar in direction and size, the intervals overlap, and the second study is simply less precise, so they do not really conflict; also notes both are observational and residual confounding remains."}
+  - name: negative-missing-details
+    vars:
+      question: "Do standing desks reduce back pain?"
+      studies: "One article says yes, another says no."
+    assert:
+      - {type: llm-rubric, value: "Says it cannot compare the studies without their details, asks for abstracts or methods and results, and lists the specific details it would compare, without inventing study characteristics."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is this journal predatory? {{journal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spam-invitation
+    vars:
+      journal: "International Journal of Omni-Disciplinary Research Frontiers; site claims Global Impact Factor 5.8, indexed in Google Scholar and 'Index Copernicus'; APC 150 USD shown only after acceptance."
+      invitation: "Dear Esteemed Professor, We have gone through your eminent paper and invite you to submit to our journal. Peer review in 72 hours, publication within one week. Kindly submit before Friday to be included in the current issue. Sent from: ijodrf-editor@webmail.example"
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## What to verify", "## Invitation red flags"]}
+      - {type: llm-rubric, value: "Concludes likely predatory with reasons including the non-Clarivate impact factor, everything-in-scope title, fees disclosed after acceptance, 72-hour review promise, flattery, urgency and a non-institutional sender address; tells the user how to check DOAJ, Scopus, Web of Science and the ISSN; and does not assert list membership from memory."}
+  - name: edge-small-legitimate-journal
+    vars:
+      journal: "A two-year-old diamond open-access journal on Baltic regional history published by a university press, no impact factor, editorial board of historians from regional universities, no fees."
+    assert:
+      - {type: llm-rubric, value: "Does not label it predatory for lacking an impact factor or major indexing, explains that new regional journals often lack these, weighs the university press, relevant board and no fees as reassuring, and lists checks such as DOAJ application status, board members' own pages and archiving."}
+  - name: negative-hijacked-lookalike
+    vars:
+      journal: "Journal of Northern Coastal Ecology, website jnce-journal.example, emailed asking for 600 USD after I submitted; I found two websites with the same journal name."
+    assert:
+      - {type: llm-rubric, value: "Raises the possibility of a hijacked or look-alike journal, explains how to find the authentic site via the ISSN Portal, the publisher's site and indexing databases, advises not paying until verified, and gives steps to withdraw in writing and contact the library if it is fake."}

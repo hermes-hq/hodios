@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check this AI answer for errors: {{ai_answer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-suspicious-citations
+    vars:
+      ai_answer: "Studies consistently show that standing desks increase productivity by 46% (Thompson & Rao, 2018, Journal of Workplace Ergonomics, 12(3), 45-58). A 2020 Harvard meta-analysis of 87 trials confirmed these benefits reduce back pain in 92% of users. The WHO recommends standing for at least 4 hours per workday."
+      topic: "workplace wellbeing report for my company"
+    assert:
+      - {type: contains-all, value: ["## Claim audit", "## Source check", "## Verification plan"]}
+      - {type: llm-rubric, value: "Breaks the text into claims, flags the 46% and 92% figures as high risk false precision, flags the citation and the vague 'Harvard meta-analysis' as possibly fabricated with what to check, flags the WHO 4-hour recommendation as a likely error to verify against WHO guidance, notes 'consistently show' overstatement, and does not claim to have verified any reference."}
+  - name: edge-jurisdiction
+    vars:
+      ai_answer: "In the UK, employees are entitled to 20 days of paid annual leave plus public holidays, and employers must give 2 weeks' notice of redundancy regardless of length of service. At-will employment means you can be dismissed without reason."
+      topic: "UK employment, for an HR policy"
+    assert:
+      - {type: llm-rubric, value: "Flags 'at-will employment' as a US concept that does not apply in the UK, rates the notice-period claim as high risk because statutory notice depends on length of service, treats the leave claim as needing exact verification against official guidance, labels its own assessments as needing confirmation, and advises checking official government guidance or a qualified professional."}
+  - name: negative-accurate-answer
+    vars:
+      ai_answer: "Water boils at 100 degrees Celsius at sea-level atmospheric pressure. At higher altitudes, lower air pressure lowers the boiling point."
+      topic: "school science"
+    assert:
+      - {type: llm-rubric, value: "Rates the claims low risk and consistent with well-established physics, keeps the audit short, does not invent problems, and may note the standard-pressure condition."}

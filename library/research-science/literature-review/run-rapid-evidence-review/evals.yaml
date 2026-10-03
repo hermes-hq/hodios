@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do a rapid evidence review on: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plan-only
+    vars:
+      question: "Our hospital board must decide next month whether to fund a nurse-led telephone follow-up after discharge for heart failure patients. Does it reduce 30-day readmissions?"
+      deadline: "4 weeks, one analyst full time"
+    assert:
+      - {type: contains-all, value: ["## Scoped question", "## Rapid review plan", "GRADE"]}
+      - {type: llm-rubric, value: "Writes a PICO question, plans an existing-reviews-first search, names the shortcuts for screening and extraction with their added risk and a day budget fitting 4 weeks, and does not present findings or effect sizes because no evidence was supplied."}
+  - name: edge-evidence-supplied
+    vars:
+      question: "Do four-day school weeks affect student achievement?"
+      deadline: "2 weeks"
+      evidence: "1) Quasi-experimental study, Oregon, 2015: four-day week associated with -0.06 SD in maths, larger for low-income students. 2) Difference-in-differences, Colorado, 2011: +0.07 SD maths, no reading effect. 3) Opinion piece by a superintendent, 2019, says morale improved. 4) Missouri, 2021, event study: small negative effects in maths and reading growing over time."
+    assert:
+      - {type: llm-rubric, value: "Excludes the opinion piece, synthesises the three quasi-experimental studies by outcome noting inconsistency and possible effect modification by income and duration, rates certainty low or very low with GRADE reasons, and uses only the supplied studies."}
+  - name: negative-vague
+    vars:
+      question: "Is remote work good?"
+    assert:
+      - {type: llm-rubric, value: "Says the question is too vague to scope, asks up to three questions about the decision, outcome and population, and stops instead of producing a plan or findings."}
