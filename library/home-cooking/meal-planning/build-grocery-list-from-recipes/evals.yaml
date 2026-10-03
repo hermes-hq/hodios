@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make a shopping list for these recipes: {{recipes}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-recipes-merge
+    vars:
+      recipes: "Chilli (serves 4): 500 g beef mince, 1 onion diced, 2 garlic cloves, 1 red pepper, 400 g tin kidney beans, 400 g tin chopped tomatoes, 2 tsp cumin, 1 tsp chilli powder. Make it twice. Chicken stir-fry (serves 2): 2 chicken breasts, 1 red pepper, 3 spring onions, 2 tbsp soy sauce, 1 tbsp honey, 2 garlic cloves. Pasta (serves 4): 400 g spaghetti, 1/2 cup chopped onion, 400 g tin chopped tomatoes, handful basil, 2 garlic cloves."
+      pantry: "cumin, soy sauce, spaghetti (about 200 g left), olive oil"
+    assert:
+      - {type: contains, value: "## Shopping list"}
+      - {type: llm-rubric, value: "Doubles the chilli, merges onions (2 for chilli plus about half for pasta, rounded to 3), peppers (3), garlic (about 8 cloves, rounded to a bulb), tins of tomatoes (3) and beans (2), shows merges, moves cumin and soy sauce to Already have with cumin flagged to check amount, buys spaghetti because 200 g is not enough for 400 g, and groups by aisle."}
+  - name: edge-ambiguous-units
+    vars:
+      recipes: "Soup: 1 can tomatoes, cream to finish, a bunch of coriander. Curry: 1 can coconut milk, coriander to garnish, 1 cup cream."
+    assert:
+      - {type: llm-rubric, value: "Flags the unspecified can size and the regional meaning of 'cream', states the reading assumed, and merges the coriander into one bunch."}
+  - name: negative-no-additions
+    vars:
+      recipes: "Pancakes: 200 g flour, 2 eggs, 300 ml milk, pinch of salt."
+      pantry: "salt, eggs (6)"
+    assert:
+      - {type: llm-rubric, value: "Lists only flour and milk to buy, puts eggs and salt under Already have, and does not add toppings or extra ingredients not in the recipe."}

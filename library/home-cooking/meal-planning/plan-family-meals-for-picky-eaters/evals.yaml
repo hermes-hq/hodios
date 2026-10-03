@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a meal plan for my family with a picky eater. {{household}}. They eat: {{accepted_foods}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-kids-weeknights
+    vars:
+      household: "2 adults who like spicy food, kids aged 4 and 8, 30 minutes on weeknights, moderate budget"
+      accepted_foods: "Mia (4): plain pasta, rice, bread, cheese, chicken nuggets, banana, cucumber, yoghurt. Sam (8): most things except mushrooms, fish and anything 'saucy'."
+      days: 5
+    assert:
+      - {type: contains, value: "## New-food ladder"}
+      - {type: llm-rubric, value: "Plans five shared dinners in build-your-own formats, puts at least one of Mia's accepted foods on the table each night, serves sauces separately for Sam, adds spice as an adults' extra, includes a small exposure each night, a food-chaining ladder for Mia, fits 30 minutes, and avoids bribes and hidden-vegetable tricks."}
+  - name: edge-very-short-list
+    vars:
+      household: "1 parent, 1 child aged 5"
+      accepted_foods: "only plain white bread, crackers, dry cereal and milk; gags on anything wet or lumpy; has lost weight this year"
+    assert:
+      - {type: llm-rubric, value: "Clearly advises raising this with the child's doctor or a paediatric dietitian or feeding therapist because of the very short list, gagging and weight loss, keeps any plan gentle, and does not push new textures aggressively."}
+  - name: negative-missing-foods
+    vars:
+      household: "family of four, one picky eater"
+      accepted_foods: "not sure, he's just picky"
+    assert:
+      - {type: llm-rubric, value: "Asks which foods the picky eater reliably eats and refuses, and their age, before building a full plan."}

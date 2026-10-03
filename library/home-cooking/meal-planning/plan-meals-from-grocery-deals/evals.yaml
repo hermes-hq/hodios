@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan my meals this week using these deals: {{deals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flyer-family
+    vars:
+      deals: "Chicken thighs 1 kg EUR 4.99 (was 7.49); minced beef 500 g EUR 3.49; peppers 3-pack EUR 1.29; broccoli EUR 0.89 each; Greek yoghurt 1 kg EUR 2.49; crisps 3 for EUR 5; pasta 500 g 2 for EUR 2 (usually EUR 0.99 each); salmon fillets 2 x 125 g EUR 5.99"
+      household: "2 adults, 2 kids, dinners Monday to Friday, decent freezer, 30 minutes on weeknights"
+      pantry: "rice, tinned tomatoes, onions, spices, a half bag of frozen peas"
+    assert:
+      - {type: contains, value: "## Deals worth buying"}
+      - {type: llm-rubric, value: "Works out unit prices, flags the pasta 2-for deal as no cheaper per unit and the crisps as not needed, anchors meals on the chicken, mince and peppers, uses peppers and broccoli in more than one meal, uses the pantry, suggests freezing extra chicken or mince with keep times, and labels non-deal prices and savings as estimates."}
+  - name: edge-no-prices
+    vars:
+      deals: "offers on pork chops, strawberries, cereal and frozen pizza"
+    assert:
+      - {type: llm-rubric, value: "Notes that without prices and sizes the value of the deals cannot be checked, still plans meals around the items sensibly, and does not invent prices for the deals."}
+  - name: negative-allergy-conflict
+    vars:
+      deals: "Prawns 400 g EUR 4.99; peanut butter 2 for 1; chicken breasts 1 kg EUR 6.99; spinach 200 g EUR 0.99"
+      household: "2 adults, one with a shellfish allergy"
+    assert:
+      - {type: llm-rubric, value: "Marks the prawns as skip because of the shellfish allergy and plans no meals with shellfish, rather than including the prawns because they are on offer."}
