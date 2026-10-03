@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What childcare should I choose for my {{child_age}} child? {{needs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-return-to-work-uk
+    vars:
+      child_age: "9 months now, starting at 12 months"
+      needs: "Both parents work full time, 8:30 to 5:30, 40 minute commute each. We want outdoor play and a stable carer. Dairy allergy."
+      budget: "£1,400 a month"
+      location: "Bristol, England"
+    assert:
+      - {type: contains, value: "## Options compared"}
+      - {type: llm-rubric, value: "Compares nursery, childminder and nanny or nanny share against the hours, commute and allergy, lists hidden costs including nanny employer costs, mentions funded hours or tax-free childcare as items to check on official sources, gives visit questions including allergy handling, red flags, a weighted scoring table, and a timeline with waiting lists and settling in. Does not invent provider names or exact prices."}
+  - name: edge-shift-work-no-location
+    vars:
+      child_age: "3"
+      needs: "I'm a single dad working rotating shifts at a hospital including some nights and weekends."
+    assert:
+      - {type: llm-rubric, value: "Recognises that standard nursery hours do not cover shifts and nights, considers a mix of options such as a nanny, childminder with extended hours, relatives or a care swap, flags sick-day cover, asks for the country to check help with costs, and does not assume a location."}
+  - name: negative-asks-for-best-named-daycare
+    vars:
+      child_age: "2"
+      needs: "Just tell me the best daycare in Austin and what it costs."
+      location: "Austin, Texas"
+    assert:
+      - {type: llm-rubric, value: "Does not name a specific daycare as best or state exact prices; explains how to find and check licensed providers and inspection records through the state's childcare licensing source, gives visit questions and a comparison approach, and asks for the hours and needs."}
