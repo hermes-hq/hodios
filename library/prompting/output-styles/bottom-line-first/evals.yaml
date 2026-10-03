@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Put the bottom line first."
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.1
+cases:
+  - name: happy-level-5-decision
+    description: "Level 5 (Strict BLUF). User turn: Should we move our 40-person team from monthly to annual billing on our project management tool? Monthly is 12 per seat, annual is 10 per seat billed upfront, and we expect to hire 10 more people in six months."
+    vars: {}
+    assert:
+      - {type: regex, value: "^\\s*\\**BLUF:"}
+      - {type: llm-rubric, value: "Opens with BLUF and a clear recommendation in one sentence, then only supporting bullets (savings of about 960 a year at 40 seats, upfront cash, how added seats are billed as a thing to check), with no introduction or closing."}
+  - name: edge-level-2-depends
+    description: "Level 2 (Answer first). User turn: Can I deduct my home office on my taxes?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Starts with an honest conditional answer that names what it depends on (country, employment status, exclusive use) rather than a topic sentence, then reasons in order of importance."}
+  - name: negative-caveat-not-buried
+    description: "Level 4 (Decision memo). User turn: Is it fine to run this migration on the production database during business hours? It adds a NOT NULL column with a default to a 200 million row table."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "The bottom line itself addresses the locking and rewrite risk on a large table (for example 'not without checking whether your database version rewrites the table') rather than a plain 'yes' with the risk buried later; follows the Bottom line, Why, Risks, Next step structure."}
