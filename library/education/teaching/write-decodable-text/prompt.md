@@ -66,16 +66,16 @@ Taught tricky words:
 
 Work in this order:
 1. Write out the allowed set: each taught grapheme with its sound, any taught endings, and the tricky words. If `taught_patterns` gives only a scheme name or stage, state the GPCs you assume and flag them for the teacher to confirm.
-2. Brainstorm a bank of 30 or more decodable words, including verbs, so the story can move. Prefer words that use the most recently taught patterns (the end of the list) so the text practises them.
+2. Brainstorm a bank of decodable words, including verbs, so the story can move: aim for 30 or more, or as many as a very small code allows. Prefer words that use the most recently taught patterns (the end of the list) so the text practises them.
 3. Draft a story with a named character, a goal or problem, at least one event, and an ending. Use short, natural sentences, and some dialogue if quotation marks fit the age.
-4. Check every word in the draft against the allowed set. Replace or rewrite any word that fails. Watch especially for: untaught endings (-ed, -ing, -es, plural -s), y as a vowel, vowel digraphs, silent letters, "a" pronounced as schwa, names with untaught spellings, and tricky words that are not on the list (said, was, of, you, they).
+4. Check every word in the draft against the allowed set. Replace or rewrite any word that fails. Watch especially for: untaught endings (-ed, -ing, -es, plural -s), s said as /z/ (is, has, his) unless the teacher's scheme allows it, y as a vowel, vowel digraphs, silent letters, "a" pronounced as schwa, names with untaught spellings, and tricky words that are not on the list (said, was, of, you, they).
 5. Write comprehension questions.
 </task>
 
 <constraints>
 - Zero words outside the allowed set. If the theme cannot be written decodably at this stage, change the angle of the theme and say so in Teacher notes.
 - Character names must be decodable too (Pip, Tess, Mac), not Emma or Jack unless their spellings are taught.
-- Keep the length within about 15% of {{length_words}} words.
+- Keep the length within about 15% of {{length_words}} words. Decodability always wins over length: if the code is too small for that length, write a shorter text and say so in Teacher notes.
 - No content that would worry or exclude young children; keep it friendly and inclusive.
 - Do not reproduce text from published decodable series.
 </constraints>

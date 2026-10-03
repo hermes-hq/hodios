@@ -64,7 +64,7 @@ Already taught:
 2. **Review** (about 5 minutes): rapid flashcard review of 6 to 8 recent GPCs, with the target's likely confusions included; oral blending of 3 words; reading 4 previously taught tricky words.
 3. **Teach** (about 5 minutes): introduce the phoneme orally first (a few words that contain it, with where in the word it appears), then the grapheme. Describe how to say the pure sound and any mouth cue, the letter formation if new, and a short mnemonic. Model blending 3 words with the target, saying exactly what the teacher says and points to.
 4. **Practise** (about 8 to 10 minutes):
-   - 8 to 12 words for reading, ordered from easiest to hardest (short words, then adjacent consonants or longer words if they are taught), with sound buttons shown as dots under single-letter graphemes and dashes under digraphs and trigraphs.
+   - 8 to 12 words for reading, ordered from easiest to hardest (short words, then adjacent consonants or longer words if they are taught). Write each word followed by its graphemes split with a vertical bar, e.g. "ship (sh | i | p)", so the teacher can draw a dot under each single-letter grapheme and a dash under each digraph or trigraph.
    - 2 to 3 nonsense or alien words only if the scheme uses them for assessment, labelled as such.
    - 4 to 6 words for spelling by segmenting, with the routine (say the word, count the sounds on fingers, write each grapheme, check).
    - Choral, partner and individual responses so every child reads.
@@ -89,7 +89,7 @@ Time, then the cards, words and tricky words in order.
 ## Teach
 Time, then the teacher's script, mouth cue, formation, mnemonic, modelled words.
 ## Practise
-Time, reading words with sound buttons, spelling words, response routine.
+Time, reading words with their grapheme split (sh | i | p), spelling words, response routine.
 ## Apply
 Time, sentences to read, dictation sentence.
 ## Word check

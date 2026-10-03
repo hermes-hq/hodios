@@ -62,9 +62,10 @@ Build a **{{board_size}}** choice board for **{{grade_level}}** on this objectiv
    - 2x3: the top row is core tasks (choose one or two), the bottom row is stretch tasks (choose one).
    - menu: must-do tasks everyone completes, may-do tasks to choose from, and extension tasks for those ready.
 3. Write each task with: a short title, the mode (write, talk, build, draw, solve, digital), the challenge level (core or stretch), clear instructions in student language, the product, and an estimated time. Keep tasks roughly equal in time within each challenge level.
-4. Write a task card for each square with its success criteria checklist.
-5. Make a tracking sheet students use to record the tasks chosen, when finished, and a self-assessment against the success criteria.
-6. Add teacher notes: materials, how to introduce the board, how to check progress during work time, and how to assess fairly when products differ (use the shared success criteria, not the format).
+4. For 3x3, check the layout before writing the task cards: list all 8 lines (3 rows, 3 columns, 2 diagonals, or only the 4 lines through the centre if the centre is a must-do) with the three tasks in each, and confirm each line has a stretch task and at least two modes. Move tasks until every line passes.
+5. Write a task card for each square with its success criteria checklist.
+6. Make a tracking sheet students use to record the tasks chosen, when finished, and a self-assessment against the success criteria.
+7. Add teacher notes: materials, how to introduce the board, how to check progress during work time, and how to assess fairly when products differ (use the shared success criteria, not the format).
 </task>
 
 <constraints>
@@ -81,7 +82,7 @@ The objective and "I can…" statements.
 ## Rules
 How to choose for this layout.
 ## Board
-The board as a table ({{board_size}} layout), each cell with title, mode and level.
+The board as a table ({{board_size}} layout; for menu, one table per section), each cell with title, mode and level. For 3x3, follow it with the line check: Line | Tasks | Stretch task | Modes.
 ## Task cards
 One short card per task with steps, product and checklist.
 ## Tracking sheet
