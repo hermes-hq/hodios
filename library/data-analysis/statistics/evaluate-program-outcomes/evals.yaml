@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Evaluate whether this programme worked. Programme: {{program}} Data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pre-post-with-attrition
+    vars:
+      program: "12-week mentoring programme for young people referred by schools for low wellbeing. Report is for our main funder."
+      data: "Wellbeing measured with WEMWBS (14-70). 120 enrolled, 74 completed both measurements. Completers: baseline mean 38.2 (SD 7.1), week-12 mean 45.0 (SD 8.0), mean change 6.8 (SD of change 7.5). Drop-outs had a baseline mean of 35.1."
+    assert:
+      - {type: contains, value: "## Design and threats"}
+      - {type: llm-rubric, value: "Computes the mean change with a confidence interval (about 5.1 to 8.5) and a paired effect size (d_z around 0.9), flags 38% attrition and that drop-outs started lower, names regression to the mean because young people were referred for low wellbeing, rates the evidence as suggestive rather than proof of impact, and drafts funder wording that says participants improved without claiming the programme caused it."}
+  - name: edge-comparison-group
+    vars:
+      program: "Adult numeracy course run in 3 libraries; comparison group is people on the waiting list at 2 other libraries."
+      data: "Course (n=60): pre 52, post 63 on a 0-100 test. Waiting list (n=45): pre 58, post 61. Course participants were older on average (51 vs 42)."
+    assert:
+      - {type: llm-rubric, value: "Computes a difference-in-differences of about 8 points (11 versus 3), notes baseline differences in score and age between groups and recommends adjusting for them (for example ANCOVA), asks for standard deviations to compute a confidence interval and effect size, and rates the design as stronger than pre-post but still non-randomised."}
+  - name: negative-only-satisfaction
+    vars:
+      program: "Financial coaching for families. We want to say it improves financial resilience."
+      data: "95% of participants rated the coaching good or excellent on our end-of-programme feedback form (n=210)."
+    assert:
+      - {type: llm-rubric, value: "Explains that satisfaction ratings do not measure financial resilience outcomes, does not support the impact claim, suggests outcome measures (for example savings buffer, arrears, a validated financial wellbeing scale) with baseline and follow-up, and offers honest wording about satisfaction for now."}

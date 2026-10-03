@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I fit a mixed model for this? {{data_structure}} {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pupils-in-schools
+    vars:
+      data_structure: "4,200 pupils in 180 classes in 45 schools. Outcome: end-of-year maths score (0-100). Pupil level: prior attainment, free school meals (0/1). School level: share of pupils on free school meals, school size."
+      question: "Does the school's share of disadvantaged pupils relate to maths scores beyond each pupil's own disadvantage?"
+    assert:
+      - {type: icontains, value: "lmer"}
+      - {type: llm-rubric, value: "Starts with a null model and ICC, specifies random intercepts for schools and classes nested in schools, separates the within-school effect of pupil free school meals from the school-level share (a contextual effect, using group-mean or grand-mean centring with the school mean included), uses lmerTest-style degrees of freedom, and warns against reading the school-level coefficient as an individual effect."}
+  - name: edge-few-clusters
+    vars:
+      data_structure: "Customer satisfaction scores from 2,000 customers served by 6 regional call centres."
+      question: "Do call centres differ, and does agent tenure predict satisfaction?"
+    assert:
+      - {type: llm-rubric, value: "Explains that 6 call centres are too few to estimate a between-centre variance reliably, recommends fixed effects for centre (or cluster-robust errors with a caveat about few clusters), and asks whether agents are an additional grouping level that might support a random effect for agents."}
+  - name: negative-convergence-output
+    vars:
+      data_structure: "Repeated reaction times: 40 participants x 200 trials, 4 conditions within participant, 50 stimulus items crossed with participants. My model (1 + condition | participant) + (1 + condition | item) gives 'boundary (singular) fit' and a convergence warning."
+      question: "Is condition C slower than A?"
+    assert:
+      - {type: llm-rubric, value: "Interprets the singular fit as an over-complex random structure, recommends simplifying in steps (removing random-effect correlations, then the smallest random slopes) and reporting what was dropped, keeps crossed random effects for participants and items, and suggests checking whether reaction times need a log transform or a generalised model; does not invent coefficient values."}

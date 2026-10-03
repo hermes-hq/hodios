@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Calculate inter-rater reliability for these ratings: {{ratings}} {{design}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-coders-kappa
+    vars:
+      ratings: "Two coders labelled 100 support tickets as complaint or not. Both said complaint: 40. Both said not: 30. Coder A complaint, coder B not: 10. Coder A not, coder B complaint: 20."
+      design: "Same two coders rated all 100 tickets. Nominal categories."
+    assert:
+      - {type: icontains, value: "kappa"}
+      - {type: regex, value: "0\\.40?\\b"}
+      - {type: llm-rubric, value: "Chooses Cohen's kappa, computes observed agreement 0.70 and expected agreement 0.50 from the marginals, giving kappa 0.40, reports percent agreement, notes coder B labels complaint more often (60 vs 50) as a systematic difference, and recommends codebook refinement and a second round."}
+  - name: edge-missing-ratings
+    vars:
+      ratings: "Five annotators rated 200 social posts for toxicity on a 4-point ordinal scale (0 none to 3 severe). Each post was rated by 2 or 3 annotators, not all five; empty cells mean not rated."
+      design: "Annotators are a sample of a larger crowd pool."
+    assert:
+      - {type: llm-rubric, value: "Chooses Krippendorff's alpha with an ordinal distance metric because ratings are incomplete and ordinal, explains why Cohen's or Fleiss' kappa does not fit, gives code using a Krippendorff implementation, and does not invent a numeric result for data it was not given."}
+  - name: negative-ambiguous-icc
+    vars:
+      ratings: "Four judges scored 30 essays from 0 to 100."
+      design: ""
+    assert:
+      - {type: llm-rubric, value: "Identifies an ICC as the appropriate family, explains that the form depends on whether the same four judges rated every essay, whether judges are fixed or a sample, and whether absolute agreement or consistency matters, states an explicit assumption or asks, and names the resulting form such as ICC(2,1) rather than reporting an unnamed ICC."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Analyse this Likert survey data: {{data}} {{questions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-departments
+    vars:
+      data: "Item: 'I have the tools I need to do my job' (1 strongly disagree to 5 strongly agree). Sales (n=80): 1=6, 2=14, 3=20, 4=28, 5=12. Engineering (n=120): 1=4, 2=10, 3=22, 4=52, 5=32."
+      questions: "Do the two departments differ?"
+    assert:
+      - {type: contains, value: "## Tests"}
+      - {type: llm-rubric, value: "Reports full distributions and top-two-box shares (Sales 50%, Engineering 70%), uses Mann-Whitney U or a two-proportion test on top-two-box rather than a t-test on the single item, gives an effect size, recommends a diverging stacked bar chart, and states the finding in plain numbers."}
+  - name: edge-na-coded-as-midpoint
+    vars:
+      data: "Exported CSV, 5-point items coded 1-5. The survey tool exported 'Not applicable' as 3. About 18% of answers to item Q7 (use of the parking facilities) are N/A."
+      questions: "Report average satisfaction per item."
+    assert:
+      - {type: llm-rubric, value: "Flags that N/A coded as 3 contaminates the neutral midpoint, explains that it must be recoded to missing using the raw export or the tool's separate N/A flag before any summary, reports the N/A share separately, and recommends distributions or top-two-box rather than only averages for single items."}
+  - name: negative-mean-to-percent
+    vars:
+      data: "Customer satisfaction item, 1-5 scale, n=640, mean 3.7."
+      questions: "My manager wants the slide to say 'customers are 74% satisfied'. Can you confirm that's right?"
+    assert:
+      - {type: llm-rubric, value: "Explains that dividing a mean of 3.7 by 5 does not give a percentage satisfied, asks for the distribution to compute the share choosing 4 or 5, and offers correct alternative wording for the slide."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Build a Monte Carlo simulation for this: {{model}} Inputs: {{uncertain_inputs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-launch-profit
+    vars:
+      model: "First-year profit of a new product = units sold × (price − unit cost) − fixed launch costs. The board wants to know the chance we lose money."
+      uncertain_inputs: "Units: sales thinks 8,000 to 20,000, most likely 12,000. Price: fixed at 49. Unit cost: 18 to 26 depending on supplier quotes, most likely 21. Fixed launch costs: 250,000 to 320,000. If we sell more units, unit cost tends to fall (volume discounts)."
+      tool: python
+    assert:
+      - {type: contains, value: "## Input distributions"}
+      - {type: llm-rubric, value: "Uses PERT or triangular distributions for the min-likely-max inputs, treats price as fixed, models the negative correlation between units and unit cost, writes seeded numpy code with editable inputs and 10,000 iterations, reports the probability of profit below zero as the key output with P10/P50/P90 and a sensitivity ranking, and does not present made-up simulation results."}
+  - name: edge-excel-schedule
+    vars:
+      model: "Total project duration = design + build + test, run in sequence. Deadline is 26 weeks."
+      uncertain_inputs: "Design 4-8 weeks, likely 5. Build 10-18 weeks, likely 12. Test 3-7 weeks, likely 4. Build and test share the same team, so if build overruns, test usually does too."
+      tool: excel
+    assert:
+      - {type: llm-rubric, value: "Lays out one row per iteration with RAND-based inverse formulas, writes out the triangular or PERT inverse formula because Excel has no built-in one, includes a probability-of-missing-26-weeks cell using COUNTIF, handles the build-test correlation, explains why the most-likely total (21 weeks) understates the expected duration, and warns about recalculation changing results."}
+  - name: negative-no-ranges
+    vars:
+      model: "Next year's revenue for our cafe."
+      uncertain_inputs: "Everything is uncertain really."
+      tool: python
+    assert:
+      - {type: llm-rubric, value: "Does not invent distributions; asks for the revenue formula components (for example customers per day, average spend, opening days) and for ranges or historical data for each, and may explain how to elicit a minimum, most likely and maximum from the owner."}

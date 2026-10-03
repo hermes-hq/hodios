@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I run a factor analysis on these survey items? {{items}} n = {{sample_size}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-engagement-scale
+    vars:
+      items: "12 new items for an employee engagement scale, 5-point agree-disagree. We think they measure three things: vigour (items 1-4), dedication (5-8) and absorption (9-12). Items 3 and 10 are reverse-worded."
+      sample_size: 350
+    assert:
+      - {type: contains, value: "## Code"}
+      - {type: llm-rubric, value: "Recommends EFA for a new scale (optionally split-sample EFA then CFA), polychoric correlations for 5-point items, parallel analysis rather than eigenvalue above 1, oblique rotation, reverse-coding items 3 and 10, omega for reliability, and provides R code with psych and lavaan."}
+  - name: edge-interpret-poor-cfa
+    vars:
+      items: "Established 3-factor, 15-item burnout scale translated into Portuguese. Our CFA output: CFI 0.89, TLI 0.87, RMSEA 0.091 (90% CI 0.083-0.099), SRMR 0.072. Highest modification index: correlated errors between items 6 and 7 (MI 48). Item 13 loads 0.28."
+      sample_size: 410
+    assert:
+      - {type: llm-rubric, value: "Interprets the fit as inadequate on CFI, TLI and RMSEA while noting SRMR is acceptable, checks whether items 6 and 7 share wording or translation problems before allowing correlated errors and insists any change be justified and reported, flags item 13's weak loading, and suggests measurement invariance testing against the original-language version rather than just tweaking the model to fit."}
+  - name: negative-too-small
+    vars:
+      items: "40 items on attitudes to remote work, 7-point scale, no hypothesised structure."
+      sample_size: 60
+    assert:
+      - {type: llm-rubric, value: "States that 60 responses are far too few for a stable factor analysis of 40 items, does not provide a full EFA plan as if it would work, and suggests alternatives such as item analysis, reducing items, or collecting more data with a target sample size."}

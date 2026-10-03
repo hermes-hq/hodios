@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a conjoint study for {{product}} {{attributes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-pricing
+    vars:
+      product: "Project management SaaS for agencies of 10-50 people, deciding the price and features of a new mid-tier plan. Competitors charge 8-25 per user per month."
+      attributes: "Price per user per month: 9, 14, 19, 24. Storage: 50 GB, 250 GB, unlimited. Client portal: yes/no. Time tracking: none, basic, advanced. Support: email, chat, dedicated manager."
+    assert:
+      - {type: contains, value: "## Sample"}
+      - {type: llm-rubric, value: "Recommends CBC with a none or dual-response none option, keeps the given attributes and checks level balance, proposes 10-12 tasks with 3 concepts and holdout tasks, applies 500 x c / (t x a) with c = 4 (giving a small minimum, then raised for subgroups to about 200 each), plans hierarchical Bayes estimation and a share-of-preference simulator, and cautions that importance depends on level ranges and that simulated shares are not market shares."}
+  - name: edge-no-attributes
+    vars:
+      product: "A neighbourhood bakery chain deciding what to put in a weekday lunch meal deal for office workers."
+      attributes: ""
+    assert:
+      - {type: llm-rubric, value: "Proposes plausible attributes and levels (for example main item, side, drink, price, availability time) marked as assumptions to validate with customers, keeps to a manageable number, sets a realistic price range as a placeholder to confirm, and estimates respondent burden; does not present invented market data as fact."}
+  - name: negative-wrong-method
+    vars:
+      product: "We just want to know which of our 25 possible new features customers care about most, to prioritise the roadmap. No pricing decision."
+      attributes: ""
+    assert:
+      - {type: llm-rubric, value: "Recognises that ranking a long feature list without trade-offs against price or configurations is better served by MaxDiff than full conjoint, explains why, and outlines a MaxDiff design (items per set, number of sets) instead of forcing 25 features into a conjoint."}

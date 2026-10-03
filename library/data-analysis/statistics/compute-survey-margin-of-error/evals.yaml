@@ -1,0 +1,30 @@
+schema: 1
+baseline: "What is the margin of error for this survey? n = {{sample_size}}. {{results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candidate-lead
+    vars:
+      sample_size: 1000
+      results: "Random-digit-dial phone poll of likely voters, unweighted. Candidate A 46%, Candidate B 42%, undecided 12%. Among voters under 30 (n = 140): A 55%, B 33%."
+      population: ""
+    assert:
+      - {type: contains, value: "## Differences"}
+      - {type: regex, value: "3\\.1"}
+      - {type: llm-rubric, value: "Gives about plus or minus 3.1 points overall, computes the margin of the 4-point lead with the same-sample difference formula (about plus or minus 5.8 points) and says the lead cannot be distinguished from zero without calling it a tie, computes a wider margin (about 8 points) for the under-30 subgroup from its own n of 140, and lists non-sampling errors such as likely-voter screening and non-response."}
+  - name: edge-small-population
+    vars:
+      sample_size: 200
+      results: "Staff engagement survey sent to every employee. 62% agree they would recommend us as a place to work."
+      population: "our 400 employees"
+    assert:
+      - {type: llm-rubric, value: "Applies the finite population correction because 200 of 400 is far more than 5% (factor about 0.71), shows the uncorrected margin of about 6.7 points and the corrected one of about 4.8 points, and warns that with a census-style invitation the bigger risk is non-response bias among the 200 who did not answer."}
+  - name: negative-opt-in-poll
+    vars:
+      sample_size: 5000
+      results: "Poll on our news website homepage: 71% of 5,000 readers say the new bypass should not be built. Our reporter wants to write 'margin of error 1.4 points'."
+      population: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that a self-selected website poll is not a probability sample, so a classical margin of error does not apply and quoting 1.4 points would mislead, notes self-selection bias dwarfs sampling error, and offers honest wording that describes it as readers who chose to respond rather than the public."}

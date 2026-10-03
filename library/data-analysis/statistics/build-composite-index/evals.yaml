@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me build a composite index. Purpose: {{purpose}} Indicators: {{indicators}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-health-score
+    vars:
+      purpose: "A customer health score for our B2B SaaS so account managers can spot accounts at risk of churning each month."
+      indicators: "Weekly active users as % of seats, support tickets per month, NPS response (0-10, 40% missing), days since last admin login, invoice days overdue, number of integrations enabled. 1,800 accounts."
+    assert:
+      - {type: contains, value: "## Sensitivity checks"}
+      - {type: llm-rubric, value: "Groups indicators into pillars (for example usage, support, sentiment, commercial), flips the direction of tickets, days since login and days overdue, handles the 40% missing NPS explicitly rather than zero-filling, chooses and justifies a normalisation and aggregation, explains that nominal weights differ from effective influence, recommends validating the score against actual churn history, and provides pandas code."}
+  - name: edge-tracking-over-time
+    vars:
+      purpose: "A regional wellbeing index for 12 regions, published every year, to show whether each region is improving."
+      indicators: "Median income, life expectancy, unemployment rate, adults with a degree (%), crime rate per 1,000, park area per resident."
+    assert:
+      - {type: llm-rubric, value: "Warns that re-normalising min-max each year makes scores incomparable across years and recommends fixing reference values to a base year or using distance to target, discusses skew (for example park area, crime) and outlier treatment, chooses arithmetic versus geometric aggregation with the compensation trade-off, and plans a rank-stability sensitivity analysis."}
+  - name: negative-no-purpose
+    vars:
+      purpose: "Just combine them into one score."
+      indicators: "Revenue, headcount, office size, customer satisfaction, carbon emissions for our 30 offices."
+    assert:
+      - {type: llm-rubric, value: "Asks what the score should represent and what decision it drives before choosing weights or directions, points out that these indicators measure different things (size, quality, impact) and that combining them without a concept is arbitrary, and may suggest separate scores or a framework."}

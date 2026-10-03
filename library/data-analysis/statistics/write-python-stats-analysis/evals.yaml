@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Python code to analyse this data. {{dataset_description}} Question: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-regression-with-checks
+    vars:
+      dataset_description: "sales.csv, one row per store-month for 2023-2024, about 2,400 rows. Columns: store_id (string), month (YYYY-MM), revenue (EUR), floor_area_m2, region (North, South, East, West), promo_weeks (0-4). Revenue has some missing values coded as -1."
+      question: "Is running more promotion weeks associated with higher monthly revenue, after accounting for store size and region?"
+    assert:
+      - {type: contains, value: "import statsmodels"}
+      - {type: llm-rubric, value: "Recodes -1 as missing and logs dropped rows, validates columns and ranges with assertions, fits an OLS model of revenue on promo_weeks with floor area and region via the formula API, uses cluster-robust standard errors by store because rows repeat per store, checks residuals, reports the promo coefficient with a 95% CI in euros, avoids causal wording, and includes pinned requirements."}
+  - name: edge-binary-outcome
+    vars:
+      dataset_description: "trial.parquet, one row per patient (n about 600): patient_id, arm (control or treatment), age, site (8 hospitals), readmitted_30d (0/1)."
+      question: "Does the treatment reduce 30-day readmission?"
+    assert:
+      - {type: llm-rubric, value: "Uses a logistic model (or risk difference with a CI) rather than OLS for the binary outcome, reports an odds ratio or risk difference with a 95% CI, accounts for hospital site (fixed effects, cluster-robust errors or a mixed model), and also gives the absolute risk difference for interpretability."}
+  - name: negative-vague-columns
+    vars:
+      dataset_description: "An Excel file from our HR system."
+      question: "Find what's interesting."
+    assert:
+      - {type: llm-rubric, value: "Does not write a full analysis script on invented columns; asks for the unit of each row, the columns and a specific question or decision, and may suggest a starter profiling step or explain why a fishing expedition across many tests risks false findings."}

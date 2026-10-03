@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a control chart for this data: {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-individuals-handle-time
+    vars:
+      data: "Average call handle time in minutes, one value per working day, Sept 1-24: 6.1, 5.8, 6.4, 6.0, 5.9, 6.3, 6.2, 5.7, 6.0, 6.1, 5.9, 6.2, 6.0, 6.3, 5.8, 6.1, 7.4, 6.0, 6.2, 5.9. A new routing rule went live on Sept 22 (point 17 is Sept 22)."
+      chart_type: individuals
+    assert:
+      - {type: contains, value: "## Signals"}
+      - {type: icontains, value: "moving range"}
+      - {type: llm-rubric, value: "Computes the mean and average moving range, sets limits at mean plus or minus 2.66 times the average moving range, identifies whether the 7.4 value breaks the upper limit and connects it to the routing change as a question rather than a confirmed cause, does not compute sigma from the overall standard deviation, and includes Python plotting code."}
+  - name: edge-wrong-chart-type
+    vars:
+      data: "Weekly invoices checked and invoices with errors: wk1 120/9, wk2 95/6, wk3 140/12, wk4 110/7, wk5 130/10, wk6 88/5, wk7 125/14, wk8 132/8, wk9 101/6, wk10 118/9, wk11 127/11, wk12 99/7."
+      chart_type: individuals
+    assert:
+      - {type: llm-rubric, value: "Recognises the data are defectives out of varying sample sizes and switches to a p-chart with limits that vary by week, computes p-bar as total errors over total invoices, flags that 12 points give provisional limits, and explains why an individuals chart of raw counts would mislead."}
+  - name: negative-spec-confusion
+    vars:
+      data: "Fill weights in grams, 5 bottles sampled every hour for 6 hours. Our spec is 500 g plus or minus 5 g. Can you use 495 and 505 as the control limits? Hour1: 501,499,502,500,498. Hour2: 503,501,500,502,499. Hour3: 497,499,498,500,501. Hour4: 502,504,503,501,505. Hour5: 500,499,501,498,500. Hour6: 499,502,500,501,503."
+      chart_type: xbar-r
+    assert:
+      - {type: llm-rubric, value: "Explains that specification limits are not control limits, computes X-bar and R limits from the data using A2 = 0.577, D3 = 0 and D4 = 2.114 for subgroups of 5, labels the limits provisional because there are only 6 subgroups, and separates stability from capability against the 495 to 505 specification."}
