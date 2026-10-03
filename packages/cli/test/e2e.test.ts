@@ -167,7 +167,9 @@ describe('hodios search, show, use', () => {
     expect(result.code).toBe(0);
     expect(result.out).toContain('review-pull-request');
     expect(result.out).not.toContain('security-auditor ');
-    const json = JSON.parse((await cli(['search', '--kind', 'persona', '--limit', '100', '--json'])).out) as {
+    const json = JSON.parse(
+      (await cli(['search', 'security', '--kind', 'persona', '--limit', '100', '--json'])).out,
+    ) as {
       hits: { id: string; kind: string }[];
     };
     expect(json.hits.map((h) => h.id)).toContain('security-auditor');
