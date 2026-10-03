@@ -1,4 +1,4 @@
-# Hodios taxonomy (vocab 1.0.0)
+# Hodios taxonomy (vocab 1.1.0)
 
 How Hodios organises entries so the library can grow from dozens to millions without breaking a link, an install or a contributor's mental model. This file explains the rules. The data lives in [`vocab/`](vocab/), and the validator enforces it (rules PS050–PS059, §5.4).
 
@@ -56,7 +56,7 @@ A new kind is a schema MAJOR change (§5.3), because every adapter and UI branch
 
 ### 2.1 What it is
 
-**Domain** is the field of human activity: `software-engineering`, `education`, `content-creation`, `finance`, … There are 23 in v1 (§7.1). **Category** is the job to be done inside that field: `debugging`, `exam-prep`, `video`, `budgeting`, … There are 128 live categories in v1 (§7.2).
+**Domain** is the field of human activity: `software-engineering`, `education`, `content-creation`, `finance`, … There are 23 in v1 (§7.1). **Category** is the job to be done inside that field: `debugging`, `exam-prep`, `video`, `budgeting`, … There are 137 live categories in vocab 1.1 (§7.1).
 
 - Every entry has exactly one category. The domain follows from the category. An entry never declares a domain.
 - Category ids are **globally unique across domains**, so `cat:testing` never needs a domain prefix.
@@ -94,7 +94,7 @@ GitHub documents a cap of 3,000 entries per directory and truncates its web view
 | Domains | 30 | 50 | GOVERNANCE vote only |
 | `other/unsorted` (holding area) | 40 | 50 | Graduate entries (§2.5) |
 
-The core repo is capped at 20k entries overall (design §12.2). At 128 categories that is about 155 entries per category on average, so the 1,000 cap bites only on genuinely hot categories. The community registry has no folders, so these limits do not apply there. Category is only a facet there, and splits are still reflected through `subcategory`.
+The core repo is capped at 20k entries overall (design §12.2). At 137 categories that is about 146 entries per category on average, so the 1,000 cap bites only on genuinely hot categories. The community registry has no folders, so these limits do not apply there. Category is only a facet there, and splits are still reflected through `subcategory`.
 
 ### 2.4 When a category outgrows its folder: split, sub-categorise, redirect
 
@@ -374,16 +374,16 @@ The YAML files in `vocab/` are authoritative; this section is the readable index
 | `data-analysis` | spreadsheets, data-exploration, statistics, data-visualization, reporting |
 | `research-science` | literature-review, research-methods, scientific-writing, fact-checking, peer-review |
 | `design` | ux-research, ui-design, design-systems, graphic-design, branding |
-| `creative-arts` | fiction, poetry, screenwriting, music, image-generation, worldbuilding |
+| `creative-arts` | fiction, poetry, screenwriting, music, image-generation, worldbuilding, visual-art, photography, life-writing |
 | `writing-communication` | business-writing, editing, email, presentations, public-speaking, interpersonal-communication |
 | `career-hr` | job-search, resumes, interview-prep, career-growth, hiring, people-management |
 | `finance` ⚠ | budgeting, investing, taxes, accounting, financial-planning |
-| `legal-admin` ⚠ | contracts, legal-correspondence, compliance, policies, paperwork |
-| `health-wellbeing` ⚠ | fitness, nutrition, mental-health, medical-prep |
-| `home-cooking` | cooking, meal-planning, home-improvement, gardening |
+| `legal-admin` ⚠ | contracts, legal-correspondence, compliance, policies, paperwork, legal-practice |
+| `health-wellbeing` ⚠ | fitness, nutrition, mental-health, medical-prep, clinical-practice |
+| `home-cooking` | cooking, meal-planning, home-improvement, gardening, pet-care, vehicles |
 | `travel` | trip-planning, travel-logistics, local-culture |
 | `parenting-family` | parenting, kids-activities, relationships, family-logistics |
-| `productivity` | task-management, note-taking, meetings, summarization, decision-making, brainstorming, habits |
+| `productivity` | task-management, note-taking, meetings, summarization, decision-making, brainstorming, habits, tech-help, digital-safety |
 | `gaming-fun` | tabletop-rpg, video-games, trivia, puzzles, humor |
 | `prompting` | prompt-engineering, assistant-setup, output-styles |
 | `other` | unsorted (holding area, §2.5) |
