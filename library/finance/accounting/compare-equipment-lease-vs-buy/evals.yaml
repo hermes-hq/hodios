@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should I lease or buy this {{equipment}}? Quotes: {{quotes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-van-three-options
+    vars:
+      equipment: "electric delivery van for a florist"
+      quotes: "Buy outright 42,000. Hire purchase: 4,200 deposit, 48 payments of 860, then 1 fee to own. Lease: 3 months upfront then 47 payments of 640, maintenance included, 15,000 miles a year limit, 0.12 per extra mile, return at end. Resale after 4 years about 14,000. We do about 18,000 miles a year. Our overdraft rate is 9%."
+      usage_years: 4
+    assert:
+      - {type: contains, value: "## Discounted comparison"}
+      - {type: llm-rubric, value: "Restates the three options comparably, credits the resale value to buying and hire purchase, adds maintenance cost for owned options as an assumption, adds excess mileage charges to the lease (3,000 extra miles a year), discounts at 9%, computes totals consistently, lists tax points to verify, and leaves the decision to the user."}
+  - name: edge-mismatched-terms
+    vars:
+      equipment: "industrial embroidery machine"
+      quotes: "Buy for 28,000. Or lease for 3 years at 850 a month with an option to buy at the end for 4,000. We expect to use it for 6 years."
+      usage_years: 6
+    assert:
+      - {type: llm-rubric, value: "Notices the lease covers 3 of 6 years, compares over 6 years by including the buyout option or a replacement, labels resale and maintenance assumptions, and shows the implied interest rate of the lease where possible."}
+  - name: negative-missing-quote-details
+    vars:
+      equipment: "laptops for 10 staff"
+      quotes: "Leasing is about 50 a month each, buying is cheaper I think."
+    assert:
+      - {type: llm-rubric, value: "Asks for the purchase price, lease term, upfront costs, end-of-lease terms and what is included, does not invent a full comparison, and shows the structure it will use once the figures are in."}

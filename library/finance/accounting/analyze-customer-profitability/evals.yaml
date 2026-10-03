@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which of my customers are profitable? {{customer_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wholesale-five-customers
+    vars:
+      customer_data: "Last year. A: revenue 220,000, discount 15%, COGS 60% of list, 310 orders, 40 support tickets, pays in 75 days. B: revenue 140,000, discount 5%, COGS 60% of list, 48 orders, 6 tickets, pays in 30 days. C: 90,000, no discount, 60%, 24 orders, 3 tickets, 30 days. D: 35,000, 10% discount, 60%, 160 orders, 25 tickets, 45 days. E: 15,000, no discount, 60%, 10 orders, 1 ticket, 30 days."
+      cost_to_serve: "Order picking and delivery costs 54,800 a year in total, driven by orders. Customer service 15,000, driven by tickets. Cost of money 8% a year."
+    assert:
+      - {type: contains, value: "## Customer profit table"}
+      - {type: llm-rubric, value: "Clarifies or states how revenue and discounts relate to list price, computes a cost per order and per ticket from the totals so assigned costs add back, adds a financing cost for slow payers, shows that A's or D's profit is much smaller than its revenue suggests, ranks customers, and suggests actions with estimated effects."}
+  - name: edge-no-shared-costs
+    vars:
+      customer_data: "Clients this year: Northwind 80,000 revenue, 520 hours; Contoso 45,000, 190 hours; Fabrikam 30,000, 260 hours. Direct consultant cost 55 per hour."
+    assert:
+      - {type: llm-rubric, value: "Computes gross profit per client after hours times 55, shows effective revenue per hour, notes that shared costs were not given so only gross profit is shown, and flags Fabrikam's low revenue per hour."}
+  - name: negative-invented-details
+    vars:
+      customer_data: "We have about 200 customers, some are a pain."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate customer figures, asks for per-customer revenue, discounts, costs and activity data, and explains the method it will apply."}

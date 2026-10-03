@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How much runway do we have? Cash {{cash_balance}}, costs {{monthly_costs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-with-hires
+    vars:
+      cash_balance: "640,000 USD on 1 November 2026, none restricted"
+      monthly_costs: "Payroll with employer costs 62,000, rent 6,000, software 4,500, contractors 8,000. Two engineers join in January adding 26,000 a month. Annual insurance 18,000 due in March."
+      monthly_revenue: "About 21,000 a month collected, growing about 5% a month, customers pay in 30 days."
+    assert:
+      - {type: contains, value: "## Month-by-month projection"}
+      - {type: llm-rubric, value: "Computes gross and net burn, projects month by month with the January hires and the March insurance bill in the right months, keeps opening and closing balances consistent, gives base and downside zero-cash months, sets a fundraising start date well before the downside zero-cash month, and ranks levers by months gained."}
+  - name: edge-restricted-and-vat
+    vars:
+      cash_balance: "180,000 GBP, of which 30,000 is a rent deposit held by the landlord and 22,000 is VAT collected and due next month"
+      monthly_costs: "Total outgoings about 41,000 a month, steady."
+    assert:
+      - {type: llm-rubric, value: "Excludes the rent deposit and the VAT owed from usable cash, applies a stated buffer, calculates runway on gross burn because no revenue was given and says so, and flags if runway is under six months."}
+  - name: negative-vague-numbers
+    vars:
+      cash_balance: "some money in the bank"
+      monthly_costs: "we spend a lot"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a runway figure, asks for the cash balance, monthly costs by line and revenue received, and shows the structure of the calculation it will run."}

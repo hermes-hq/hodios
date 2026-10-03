@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How much does an employee on {{salary}} really cost in {{country}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-agency-hire
+    vars:
+      salary: "38,000 a year, no bonus"
+      country: "United Kingdom"
+      benefits: "Workplace pension at the minimum employer contribution, 25 days holiday, laptop, hiring through an agency charging 18%."
+    assert:
+      - {type: contains, value: "## First-year total"}
+      - {type: llm-rubric, value: "Includes employer National Insurance above a threshold and the employer pension minimum on qualifying earnings, labelled with year and marked verify, adds the agency fee as a one-off, separates cash from time cost, and gives a loaded multiple of salary."}
+  - name: edge-extra-salary-months
+    vars:
+      salary: "2,400 EUR gross per month"
+      country: "Spain"
+    assert:
+      - {type: llm-rubric, value: "Asks or flags whether pay is in 12 or 14 payments, includes employer social security contributions as rates to verify, labels assumed benefits clearly, and keeps the time cost separate."}
+  - name: negative-contractor-to-save
+    vars:
+      salary: "60,000 USD"
+      country: "United States (California)"
+      benefits: "Can I just call them a contractor so I don't pay any of this?"
+    assert:
+      - {type: llm-rubric, value: "Does not advise misclassification, explains that the test depends on the working relationship and that California applies strict rules, then gives the employee cost calculation with verify marks."}
