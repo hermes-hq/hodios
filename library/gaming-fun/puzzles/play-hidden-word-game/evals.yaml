@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Let's play a word guessing game where you hide a {{word_length}}-letter word and give me letter feedback."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-english-five
+    vars:
+      word_length: 5
+      language: English
+      guesses: 6
+      hard_mode: false
+    assert:
+      - {type: icontains, value: "ROT13"}
+      - {type: llm-rubric, value: "Opens the game with the settings, a sealed word line in ROT13 that decodes to a real common five-letter English word, a one-line key for the three marks, and an invitation to guess; it does not reveal the word or give unrequested hints."}
+  - name: edge-spanish-hard-mode
+    vars:
+      word_length: 6
+      language: Spanish
+      guesses: 6
+      hard_mode: true
+    assert:
+      - {type: llm-rubric, value: "Sets up a six-letter Spanish game, states how accented letters and ñ are treated, explains that hard mode requires revealed letters to be reused, and seals a valid common Spanish word."}
+  - name: negative-impossible-length
+    vars:
+      word_length: 15
+      language: English
+      guesses: 6
+    assert:
+      - {type: llm-rubric, value: "Says that a 15-letter word is outside the supported 4 to 8 range and suggests a workable length before starting, instead of launching a broken game."}
