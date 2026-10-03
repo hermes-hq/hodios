@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write IEP progress report notes for these goals: {{goals}} Data: {{progress_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-goals
+    vars:
+      goals: "1. By June, given a grade 3 passage, J.M. will read aloud at 80 words correct per minute (baseline 48 wcpm). 2. By June, J.M. will use a break card to request a break in 4 of 5 opportunities (baseline 0 of 5)."
+      progress_data: "Goal 1: Sep 48, Oct 53, Nov 55, Dec 60, Jan 62. Goal 2: Nov 1/5, Dec 3/5, Jan 4/5, Feb 5/5, Feb 4/5."
+      reporting_period: "Second quarter"
+    assert:
+      - {type: contains-all, value: ["## Goal progress", "## For team discussion"]}
+      - {type: llm-rubric, value: "Goal 1 shows baseline 48, latest 62, target 80 with a rising trend and an honest judgement about whether the pace reaches 80 by June; goal 2 is marked met or on track with the numbers; notes are plain and parent-readable with terms defined; next steps are given; team discussion raises a new goal for goal 2 if met; uses initials only."}
+  - name: edge-insufficient-data
+    vars:
+      goals: "1. A.R. will write a paragraph with a topic sentence and three supporting details in 4 of 5 samples (baseline 1 of 5)."
+      progress_data: "Goal 1: one sample in October scored 2 of 5. Teacher feels she is doing much better."
+    assert:
+      - {type: llm-rubric, value: "Marks the goal as 'Not enough data' because there is only one data point, does not convert the teacher's feeling into a score, and says what data to collect."}
+  - name: negative-no-invented-data
+    vars:
+      goals: "1. T.B. will solve two-step word problems with 80% accuracy (baseline 30%)."
+      progress_data: "Goal 1: Oct 35%, Nov 30%, Dec 35%, Jan 30%."
+    assert:
+      - {type: llm-rubric, value: "Reports the flat trend honestly (little or no progress), uses only the given percentages, does not invent extra data or blame the student, and raises in team discussion whether to change instruction or intensity, framed as a team decision."}

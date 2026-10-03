@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write feedback for a teacher based on these observation notes: {{observation_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-teacher-cfu
+    vars:
+      observation_notes: "Year 8 maths, solving two-step equations. 9:02 do-now on board, 24/28 started within 1 min. 9:08 teacher models 3 examples, clear steps written. 9:20 'Any questions? Everyone OK?' No hands; moves to independent work. 9:24 circulating: 11 students stuck on the first question (dividing before subtracting). 9:35 teacher re-explains to whole class. Warm tone, uses names, students settle quickly after transitions."
+      focus_area: checking for understanding
+      teacher_experience: new
+    assert:
+      - {type: contains-all, value: ["## Strengths", "## Priority", "## Action step", "## Follow-up check"]}
+      - {type: llm-rubric, value: "Strengths cite specific evidence such as the do-now start and quick settling; the single priority is checking for understanding before independent practice, citing the 'Any questions?' moment and 11 stuck students; the action step is concrete (e.g. mini-whiteboard check on one problem before release) with a short model script; no rating is given."}
+  - name: edge-experienced-teacher
+    vars:
+      observation_notes: "Grade 11 chemistry, stoichiometry. Strong explanation with real-world example. Questions mostly to the same 4 students who volunteer. Pair work productive but 3 pairs off task at back. Exit ticket used."
+      teacher_experience: experienced
+    assert:
+      - {type: llm-rubric, value: "Chooses one priority (e.g. widening participation in questioning) with evidence; reflection questions are open and invite the teacher's own analysis; the practice plan asks the teacher to design the wording rather than handing over a full script."}
+  - name: negative-judgemental-notes
+    vars:
+      observation_notes: "Lesson was boring. Teacher seemed unprepared and the kids didn't respect her. Poor behaviour management overall."
+      teacher_experience: developing
+    assert:
+      - {type: llm-rubric, value: "Does not repeat the judgements as feedback or invent specific events; says the notes lack low-inference evidence and what to record next time; keeps any priority tentative; gives no rating."}

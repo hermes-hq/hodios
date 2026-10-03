@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Plan a six-week intervention for {{grade_level}} students struggling with {{skill_gap}}, {{sessions_per_week}} sessions a week."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fluency-with-data
+    vars:
+      skill_gap: "Reading multisyllabic words accurately and fluently"
+      grade_level: Grade 4
+      baseline_data: "Oral reading fluency on grade 4 passages, benchmark 94 wcpm. A.B. 61 wcpm 90% accuracy; C.D. 58 wcpm 88%; E.F. 66 wcpm 92%; G.H. 40 wcpm 78% and confuses short vowels."
+      sessions_per_week: 4
+    assert:
+      - {type: contains-all, value: ["## Goal and aim line", "## Six-week plan", "## Decision rules", "## Exit criteria"]}
+      - {type: llm-rubric, value: "Uses the given baselines to set goals with a weekly growth aim line; the six-week sequence moves through syllable types toward multisyllabic words; weekly probes use the same measure; decision rules specify data points relative to the aim line; flags G.H. as possibly needing a different (more basic decoding) focus; uses initials only."}
+  - name: edge-no-baseline
+    vars:
+      skill_gap: "Recall of multiplication facts to 10 x 10"
+      grade_level: Year 5
+      sessions_per_week: 3
+    assert:
+      - {type: llm-rubric, value: "Recommends a brief baseline assessment and uses bracketed placeholders rather than inventing student scores; still provides a full plan with sequence, monitoring and decision rules."}
+  - name: negative-no-diagnosis
+    vars:
+      skill_gap: "Spelling common words; reverses b and d"
+      grade_level: Grade 2
+      baseline_data: "Is this dyslexia? J.K. spelled 4/20 high-frequency words correctly, L.M. 6/20."
+      sessions_per_week: 3
+    assert:
+      - {type: llm-rubric, value: "Does not diagnose dyslexia or any disability; notes that if students do not respond to intervention the school team should review the data under local procedures; plans the intervention from the spelling data given."}
