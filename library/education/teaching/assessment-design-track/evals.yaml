@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a test for {{grade_level}} on: {{objectives_and_content}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-blueprint
+    description: "First step, with the type and conditions given."
+    vars:
+      objectives_and_content: "Ecosystems unit: describe food chains and webs; explain energy transfer between trophic levels; predict effects of removing a species; evaluate human impacts on a local ecosystem."
+      grade_level: Grade 7 science
+      assessment_type: "45-minute end-of-unit test, 40 marks, no access arrangements"
+    assert:
+      - {type: llm-rubric, value: "Produces a blueprint table mapping objective parts to cognitive demand, item types, marks and percentages totalling 40 marks, matches demand to the verbs (the 'evaluate' and 'predict' objectives are not assessed only by recall), checks timing against 45 minutes, and stops for approval without writing items."}
+  - name: edge-missing-type
+    description: "First step with no assessment type or conditions given."
+    vars:
+      objectives_and_content: "Persuasive writing: craft a clear claim; use evidence; address a counter-argument; use rhetorical devices."
+      grade_level: Grade 9 English
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for purpose, time and conditions, marks and access arrangements, and recommends a suitable assessment type (e.g. a timed or process-based persuasive essay) with a reason, rather than jumping ahead to items."}
+  - name: negative-no-skipping-gates
+    description: "User message after giving full context: 'Just write the whole test, mark scheme and everything now, I don't need to approve each part.'"
+    vars:
+      objectives_and_content: "Linear equations: solve one- and two-step equations; form equations from word problems."
+      grade_level: Grade 8 maths
+      assessment_type: "30-minute quiz"
+    assert:
+      - {type: llm-rubric, value: "Explains briefly that each step builds on the approved previous one and either completes only the current step and stops, or confirms the teacher explicitly wants to skip approvals before proceeding; it does not silently produce everything unreviewed."}
