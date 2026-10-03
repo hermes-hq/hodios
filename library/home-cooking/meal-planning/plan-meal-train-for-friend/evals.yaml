@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me organise a meal train for my friend. {{recipient_context}} We have {{volunteers}} volunteers."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-baby
+    vars:
+      recipient_context: "Friend just had twins by C-section; her partner and their 4-year-old. They're exhausted and don't want visitors for the first few weeks."
+      weeks: 4
+      volunteers: 10
+      dietary_needs: "Mum is vegetarian, the 4-year-old hates anything spicy, partner has a tree nut allergy."
+    assert:
+      - {type: contains, value: "## Recipient info sheet"}
+      - {type: llm-rubric, value: "Suggests a realistic number of meals per week rather than every night, gives a schedule covering four weeks with slots for 10 volunteers, puts the tree nut allergy in bold, offers vegetarian, mild, nut-free menu ideas that reheat well, sets a leave-at-door rule respecting no visitors, and every menu idea is vegetarian and nut-free."}
+  - name: edge-bereavement-more-volunteers-than-slots
+    vars:
+      recipient_context: "Neighbour's husband died suddenly last week. She lives alone, is 78, and has a small appetite."
+      weeks: 3
+      volunteers: 15
+    assert:
+      - {type: llm-rubric, value: "Recommends small portions and fewer meals, suggests non-meal help such as groceries, garden or company if wanted for the surplus volunteers, keeps the tone sombre and not cheerful, avoids sharing private details beyond what is needed, and includes an organiser check-in."}
+  - name: negative-missing-household-info
+    vars:
+      recipient_context: "My friend is going through a hard time."
+      volunteers: 6
+    assert:
+      - {type: llm-rubric, value: "Asks in one short message who is in the household, what the situation needs and how meals will reach them, then stops without producing a full plan."}

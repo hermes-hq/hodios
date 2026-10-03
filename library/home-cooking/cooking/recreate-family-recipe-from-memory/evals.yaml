@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me recreate my grandmother's recipe. Here's what we remember: {{dish_memory}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn-rich-memory
+    vars:
+      dish_memory: "Nonna's Easter bread. Round, braided, shiny brown top, coloured eggs baked into it. Not very sweet, smelled of citrus and something like aniseed. Soft but a bit dense, good toasted the next day. She started it the night before. My aunt says there was no butter, my mum says there was."
+      origin: "Calabria, emigrated to Toronto in the 1960s"
+    assert:
+      - {type: contains, value: "## Questions"}
+      - {type: llm-rubric, value: "Sorts the memories into certain, likely and uncertain, lists the butter disagreement as a contradiction and offers to test both, relates the bread to southern Italian Easter breads, asks at most five sensory questions ranked by impact, gives a small test recipe with [GUESS] marks (for example on the fat and the anise), and lists tasting checkpoints to report back on."}
+  - name: edge-later-attempt-adjustment
+    vars:
+      dish_memory: "Mum's beef stew, very dark gravy, thick, slightly sweet, falling-apart beef, always with dumplings on top. Made in a heavy pot in the oven all afternoon."
+      origin: "Northern England, 1970s"
+      attempts_so_far: "Attempt 1: browned chuck, onions, carrots, beef stock, 3 hours at 160C, dumplings with suet. Beef perfect. Gravy too thin and not dark or sweet enough. Dumplings right."
+    assert:
+      - {type: llm-rubric, value: "Compares attempt 1 with the memory point by point, keeps what worked (beef, dumplings), changes only one or two variables for the gravy (for example flour-dusting the beef or a gravy browning or dark ale, and a sweet element like a spoon of brown sauce or caramelised onions typical of the era), explains why, gives a revised recipe with changes marked and starts an attempt log."}
+  - name: negative-too-little-to-go-on
+    vars:
+      dish_memory: "My granddad made this amazing soup when I was little. I don't remember much, it was red."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a full recipe; explains the memory is too thin to start, asks a few easy sensory and background questions (where granddad came from, chunky or smooth, sour or sweet, served hot or cold, any meat or beans) and suggests other relatives or photos as sources, then stops."}
