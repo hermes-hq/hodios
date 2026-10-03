@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Is this coding agent configuration safe? {{config}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ci-triage-bot
+    vars:
+      config: |
+        # runs on every new GitHub issue
+        permissions:
+          allow: ["Bash(*)", "Read(**)", "Edit(**)", "WebFetch(*)"]
+        env:
+          GITHUB_TOKEN: "from secret ADMIN_PAT"   # repo admin, can push to main
+          NPM_TOKEN: "from secret NPM_TOKEN"
+        approval_mode: never
+      intended_use: "A bot that reads new issues from anyone on the internet, labels them and posts a triage comment."
+    assert:
+      - {type: contains-all, value: ["## Exposure summary", "## Least-privilege config", "## Residual risks"]}
+      - {type: llm-rubric, value: "Identifies that untrusted issue text, an admin token and NPM token, and unrestricted shell plus web fetch meet in one session, gives a concrete injection scenario such as exfiltrating or misusing the tokens or pushing to main, and proposes removing shell and edit, dropping NPM_TOKEN, and using a token scoped only to issues with no push rights."}
+  - name: edge-unknown-format
+    vars:
+      config: |
+        agent:
+          trust_level: 3
+          tools: [fs, exec]
+          exec_policy: relaxed
+    assert:
+      - {type: llm-rubric, value: "Says it does not recognise keys such as trust_level and exec_policy and does not invent their exact meaning, asks for the intended use and the tool's documentation, and still flags exec with a relaxed policy as a potential broad shell exposure to verify."}
+  - name: negative-keep-needed-permissions
+    vars:
+      config: |
+        allow: ["Bash(npm test)", "Bash(npm run lint)", "Edit(src/**)", "Edit(test/**)", "Read(**)"]
+        deny: ["Read(.env*)", "Read(~/.ssh/**)", "Edit(.claude/**)"]
+        network: none
+        sandbox: true
+      intended_use: "Local pair-programming on my own private repo; I review every diff before committing."
+    assert:
+      - {type: llm-rubric, value: "Recognises the configuration is already tightly scoped, does not remove the test, lint or source edit permissions the use needs, and limits itself to minor or residual points such as npm scripts being able to run arbitrary code defined in package.json."}

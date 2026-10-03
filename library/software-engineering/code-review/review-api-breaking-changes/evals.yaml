@@ -1,0 +1,48 @@
+schema: 1
+baseline: "Does this API change break anything? {{diff_or_spec}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-openapi-quiet-breaks
+    vars:
+      clients: "Public developers and our iOS app; about 30% of iOS users are on versions older than six months."
+      diff_or_spec: |
+        --- a/openapi.yaml
+        +++ b/openapi.yaml
+        @@ /orders/{id} GET 200 schema
+           Order:
+             required: [id, status, total]
+             properties:
+        -      id: {type: integer}
+        +      id: {type: string}
+               status:
+        -        enum: [pending, paid, shipped]
+        +        enum: [pending, paid, shipped, partially_refunded]
+        -      total: {type: number, description: "Order total in dollars"}
+        +      total: {type: integer, description: "Order total in cents"}
+        +      notes: {type: string}
+        @@ /orders POST requestBody
+        -      required: [items]
+        +      required: [items, currency]
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Breaking changes", "## Recommended path"]}
+      - {type: llm-rubric, value: "Classifies as breaking the id type change, the total unit change from dollars to cents, and the newly required currency request field; classifies the new partially_refunded enum value as risky for clients that switch exhaustively; classifies the new optional notes response field as safe; and proposes compatible alternatives such as a new total_cents field and a default currency."}
+  - name: edge-no-clients-given
+    vars:
+      diff_or_spec: |
+        -  rpc GetUser(GetUserRequest) returns (User);
+        +  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+    assert:
+      - {type: llm-rubric, value: "States the assumption that clients cannot upgrade in lockstep because none were described, and identifies changing the gRPC response message type as breaking for generated clients."}
+  - name: negative-additive-only
+    vars:
+      diff_or_spec: |
+        +  /v1/invoices/{id}/pdf:
+        +    get:
+        +      responses: {"200": {description: PDF}}
+        @@ /v1/invoices GET parameters
+        +    - {name: created_after, in: query, required: false, schema: {type: string, format: date-time}}
+    assert:
+      - {type: llm-rubric, value: "Judges the change compatible, listing the new operation and optional query parameter as safe, without inventing breaking changes."}

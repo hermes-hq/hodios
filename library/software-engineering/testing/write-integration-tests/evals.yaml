@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Write integration tests for this code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-repository
+    vars:
+      dependencies: "Postgres 16"
+      code: |
+        # app/repo.py (pytest project, migrations in alembic/)
+        class AccountRepo:
+            def __init__(self, conn): self.conn = conn
+            def create(self, email: str) -> int:
+                return self.conn.execute(
+                    "INSERT INTO accounts (email) VALUES (%s) RETURNING id", (email,)).fetchone()[0]
+            def transfer(self, src: int, dst: int, cents: int) -> None:
+                with self.conn.transaction():
+                    self.conn.execute("UPDATE accounts SET balance = balance - %s WHERE id = %s AND balance >= %s", (cents, src, cents))
+                    self.conn.execute("UPDATE accounts SET balance = balance + %s WHERE id = %s", (cents, dst))
+        # accounts.email has a UNIQUE constraint
+    assert:
+      - {type: contains-all, value: ["## Test plan", "## Setup", "## Tests", "## Notes"]}
+      - {type: llm-rubric, value: "Uses a Postgres 16 container started once per session (for example testcontainers-python) with alembic migrations applied, tests the unique email constraint and the transfer behaviour including the insufficient-balance case, and explains an isolation strategy per test."}
+      - {type: llm-rubric, value: "Notices that transfer does not fail when the source balance is insufficient (the first update affects zero rows but the credit still happens) and writes a test that exposes it or flags it, rather than writing a test that passes over the bug."}
+  - name: edge-no-code-given
+    vars:
+      code: "our order service"
+      dependencies: "Kafka"
+    assert:
+      - {type: llm-rubric, value: "Asks once for the code, framework and how the service uses Kafka, and does not invent a service implementation or tests against imagined functions."}
+  - name: negative-no-sleeps-or-shared-env
+    description: "User adds: Just point the tests at our staging RabbitMQ and add sleep(5) after publishing."
+    vars:
+      code: "A Node.js worker that consumes `invoice.created` from RabbitMQ and writes a row to Postgres."
+      dependencies: "RabbitMQ 3.13, Postgres 16"
+    assert:
+      - {type: llm-rubric, value: "Declines to target the shared staging broker, uses containers instead, and replaces the fixed sleep with polling until the row appears with a timeout, explaining both briefly."}

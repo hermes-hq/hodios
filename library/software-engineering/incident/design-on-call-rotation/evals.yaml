@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design an on-call rotation for this team: {{team_and_services}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-regions
+    vars:
+      team_and_services: "10 engineers: 6 in Berlin (UTC+1), 4 in Austin (UTC-6). Services: payments API (tier 1, 24/7), internal admin tool (tier 3). About 25 pages per week today, roughly half at night, many from a disk-space alert on old hosts."
+      coverage: around-the-clock
+    assert:
+      - {type: contains-all, value: ["## Rotation", "## Escalation", "## Handoff", "## Health checks"]}
+      - {type: llm-rubric, value: "Proposes a follow-the-sun split between Berlin and Austin with primary and secondary, sets acknowledge and escalation times that differ for the tier 1 payments API and tier 3 admin tool, and addresses the noisy disk-space alert through alert ownership rather than adding coverage."}
+      - {type: llm-rubric, value: "Proposes compensation and rest norms without stating a specific salary figure and tells the user to confirm with HR and local labour law."}
+  - name: edge-team-too-small
+    vars:
+      team_and_services: "3 engineers in one time zone run a B2B SaaS app; customers expect 24/7 availability."
+      coverage: around-the-clock
+    assert:
+      - {type: llm-rubric, value: "States plainly that three people in one time zone are too few for a sustainable around-the-clock rotation and offers options such as reducing coverage tiers, best-effort nights, a shared rotation or vendor support, instead of scheduling each person every third week without comment."}
+  - name: negative-no-invented-figures
+    vars:
+      team_and_services: "Team of 8, Lisbon, one web app. How much should we pay per on-call week?"
+      coverage: business-hours
+    assert:
+      - {type: llm-rubric, value: "Does not state a specific pay amount as fact for this company; offers compensation structures (per shift, per out-of-hours page, time off in lieu) and advises checking local practice and labour law."}

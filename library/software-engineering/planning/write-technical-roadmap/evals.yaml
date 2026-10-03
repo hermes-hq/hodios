@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an engineering roadmap for these goals: {{goals}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-goals-and-debt
+    vars:
+      goals: "H1 2027: launch self-serve onboarding for SMB customers by end of March (promised to sales), cut checkout errors in half, and pass SOC 2 Type II audit in June."
+      systems_and_debt: "Team of 6 engineers, one on-call each week, about 20% support load. Monolith in Rails 6.1 (end of security support already), Postgres 12 on a self-managed VM (no automated failover), CI takes 45 minutes, no feature flags. Checkout errors mostly from a flaky payment-provider timeout path. Audit needs access reviews and audit logging."
+      horizon: half-year
+    assert:
+      - {type: contains-all, value: ["## Themes", "## Capacity assumptions", "## Not doing", "gantt"]}
+      - {type: llm-rubric, value: "Shows capacity arithmetic from 6 engineers over about 26 weeks minus on-call and support, plans to at most about 80 percent, sequences the March onboarding launch and SOC 2 prerequisites (audit logging, access reviews) by their deadlines, includes the Rails 6.1 upgrade as risk-driven debt, and moves items that do not fit into Not doing."}
+      - {type: llm-rubric, value: "Uses size ranges rather than single-number estimates and states theme outcomes as measurable metrics."}
+  - name: edge-vague-goals
+    vars:
+      goals: "Make the platform better and more scalable."
+    assert:
+      - {type: llm-rubric, value: "Lists missing information (measurable outcomes, dates, team size, systems) under Open questions, labels any capacity or metric it uses as an assumption, and does not invent specific incidents or customer commitments."}
+  - name: negative-overcommitted-wishlist
+    vars:
+      goals: "In one quarter: rewrite the backend in Go, move to Kubernetes, launch a mobile app, add AI search, and achieve 99.99% uptime."
+      systems_and_debt: "Team of 3 engineers, no SRE, currently 99.5% uptime on a single region."
+      horizon: quarter
+    assert:
+      - {type: llm-rubric, value: "Does not schedule everything; shows that capacity for 3 engineers in a quarter cannot cover the list, cuts or defers most items into Not doing with reasons, and flags 99.99% uptime from a single region as unrealistic in that period."}

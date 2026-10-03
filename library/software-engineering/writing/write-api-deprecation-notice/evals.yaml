@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a deprecation notice for our API users about this change: {{change}} Dates: {{dates}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-field-removal
+    vars:
+      change: "In the Orders API, GET /v1/orders/{id} returns `customer_email` as a top-level field. We are removing it for privacy reasons; it moves to GET /v1/customers/{id} under `email`, which needs the new `customers:read` OAuth scope. After removal the field is simply absent from the response."
+      dates: "Announce 2026-11-01, Deprecation header from 2026-11-01, brownouts 2027-01-12 and 2027-02-09 (14:00-15:00 UTC), removal 2027-03-01"
+      channel: all
+      support: "api-support forum and migration office hours every Thursday"
+    assert:
+      - {type: contains-all, value: ["## Notice", "## Short versions", "## Sender checklist"]}
+      - {type: llm-rubric, value: "The headline names the Orders API, the action required and the 2027-03-01 date; the notice includes a before and after table for customer_email to GET /v1/customers/{id} email, mentions the customers:read scope as a migration step, lists both brownout windows in UTC, and states the field will be absent after removal."}
+      - {type: llm-rubric, value: "Provides an email of at most about 150 words, a changelog entry and a one-sentence docs banner, and puts the reason (privacy) after the migration steps in no more than two sentences."}
+  - name: edge-missing-replacement
+    vars:
+      change: "We are shutting down the legacy XML endpoints."
+      dates: "Removal sometime in Q2 2027"
+      channel: email
+    assert:
+      - {type: llm-rubric, value: "Lists the missing facts (which XML endpoints exactly, what replaces them, an exact removal date) under Missing information and uses visible placeholders instead of inventing endpoint names or a specific date."}
+  - name: negative-no-invented-promises
+    vars:
+      change: "Basic auth with API keys in the URL query string is removed; consumers must send the key in the Authorization header instead. Requests with a key in the query string will get 401."
+      dates: "Announce 2026-10-10, removal 2026-11-10"
+      channel: changelog-post
+    assert:
+      - {type: llm-rubric, value: "Does not promise extensions, credits or SDK releases that were not given, and flags in the sender checklist that 31 days is a short window for a breaking change while keeping the given dates."}

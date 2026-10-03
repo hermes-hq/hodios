@@ -1,0 +1,67 @@
+schema: 1
+baseline: "Review this code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weakened-test-and-swallowed-error
+    vars:
+      task_description: "Fix the bug where parseAmount('1,50') returns NaN for European formatted input."
+      diff: |
+        --- a/src/money.ts
+        +++ b/src/money.ts
+        @@ -1,4 +1,9 @@
+         export function parseAmount(s: string): number {
+        -  return Number(s);
+        +  try {
+        +    return Number(s.replace(',', '.'));
+        +  } catch (e) {
+        +    console.log(e);
+        +    return 0;
+        +  }
+         }
+        --- a/src/money.test.ts
+        +++ b/src/money.test.ts
+        @@ -3,5 +3,5 @@
+         test('parses thousands separators', () => {
+        -  expect(parseAmount('1.234,56')).toBe(1234.56);
+        +  expect(parseAmount('1.234,56')).not.toBeNull();
+         });
+        --- a/README.md
+        +++ b/README.md
+        @@ -1,3 +1,3 @@
+        -# Billing service
+        +# Billing Service
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Findings", "## Scope check"]}
+      - {type: llm-rubric, value: "Flags the loosened assertion in money.test.ts (exact value replaced by not.toBeNull) as a weakened test, notes that '1.234,56' still parses incorrectly, flags the catch that logs and returns 0 as hiding failures, and lists the README title change as out of scope; verdict is request-changes."}
+  - name: edge-unverifiable-api
+    vars:
+      diff: |
+        --- a/app/cache.py
+        +++ b/app/cache.py
+        @@ -1,3 +1,6 @@
+         import redis
+        +
+        +client = redis.Redis.from_url(URL, auto_reconnect_strategy="exponential")
+        +client.set_with_ttl("k", "v", ttl=60)
+    assert:
+      - {type: llm-rubric, value: "Questions the existence of the auto_reconnect_strategy option and the set_with_ttl method in the redis client, marks them as confirmed missing or unverified with how it checked, suggests the real API (for example set with ex=60), and notes scope could not be checked because no task description was given."}
+  - name: negative-clean-small-change
+    vars:
+      task_description: "Add a test for slugify with an empty string."
+      diff: |
+        --- a/src/slug.test.ts
+        +++ b/src/slug.test.ts
+        @@ -10,3 +10,7 @@
+         test('lowercases', () => {
+           expect(slugify('Hello World')).toBe('hello-world');
+         });
+        +
+        +test('returns empty string for empty input', () => {
+        +  expect(slugify('')).toBe('');
+        +});
+    assert:
+      - {type: not-regex, value: "request-changes"}
+      - {type: llm-rubric, value: "Does not invent problems or object to the code for being AI-generated; approves or approves with at most minor notes."}

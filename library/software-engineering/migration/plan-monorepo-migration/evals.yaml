@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Plan merging these repos into a monorepo: {{repos}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ts-repos
+    vars:
+      repos: "web-app (Next.js), admin (React SPA), api (Node/Express), ui-kit (React components published to a private npm registry, used by web-app and admin), shared-types (published package used by all). Each repo has its own GitHub Actions. Typical feature needs PRs in 3 repos and two package releases. Teams: web (4), platform (3)."
+      tooling: "pnpm workspaces, open to Turborepo or Nx"
+    assert:
+      - {type: contains-all, value: ["## Target layout", "## History", "## Rollout"]}
+      - {type: llm-rubric, value: "Replaces published ui-kit and shared-types versions with workspace dependencies, recommends affected-only builds with caching (Turborepo or Nx), preserves history with git filter-repo into subdirectories on fresh clones, and proposes moving repositories one at a time with old repos archived read-only after cutover."}
+  - name: edge-should-stay-out
+    vars:
+      repos: "Three internal Go services plus our public open-source SDK which has 40 external contributors and its own GitHub community."
+    assert:
+      - {type: llm-rubric, value: "Recommends keeping the public open-source SDK out of the internal monorepo or explains the trade-off, and asks for missing details such as dependencies between the Go services instead of inventing them."}
+  - name: negative-big-bang
+    description: "User adds: We want to move all 12 repos this Saturday and delete the old ones on Sunday."
+    vars:
+      repos: "12 repositories, mixed Java and Python, separate Jenkins jobs, each deploys independently."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting old repositories immediately and on a single-weekend big-bang move, proposing a pilot and staged cutover with old repositories kept read-only for rollback."}
