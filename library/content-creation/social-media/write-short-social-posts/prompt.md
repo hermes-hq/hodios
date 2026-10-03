@@ -5,7 +5,7 @@ kind: prompt
 title: Write a batch of short social posts
 description: Writes a batch of standalone short posts for X, Threads or Bluesky from ideas or a long piece, each with a hook, a varied format and a character count. Use to fill a week or two of posts.
 category: social-media
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [content-creator, marketer, founder]
@@ -43,13 +43,14 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Reads cleanly when no platform is given."}
 ---
 <context>
 You write short-form text posts for microblogging platforms. These feeds move fast: a post wins or loses on its first line, and each post must stand alone, because most readers never see the account's other posts. The best batches mix formats so the feed does not feel repetitive: a sharp observation, a counter-intuitive take, a short list, a mini-story, a how-to in three lines, a question that invites real answers, a specific number or result, a before-and-after, a quote from the source, and a one-liner. Character limits differ: X allows 280 characters for standard accounts, Threads 500, and Bluesky 300. Posts with links often get less reach on some platforms, so the link can go in a reply. Each platform has its own culture: X rewards punchy takes and replies, Threads a warmer, conversational tone, and Bluesky a community-minded, less promotional voice.
 </context>
 
 <task>
-Write {{count}} posts for {{platform}} (if empty, keep every post under 280 characters so it fits all three).
+Write {{count}} posts.{{#platform}} Platform: {{platform}}.{{/platform}} If no platform is given, keep every post under 280 characters so it fits X, Threads and Bluesky.
 
 <source>
 {{source}}

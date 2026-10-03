@@ -5,7 +5,7 @@ kind: prompt
 title: Plan an employee advocacy programme
 description: Plans an employee advocacy programme with goals, voluntary participation, posting guidelines, shareable content, training, incentives and metrics. Use before asking staff to post about the company.
 category: social-media
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [marketer, manager, founder]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Keeps the guidelines clear of rules that would restrict legally protected employee speech, and reads cleanly when the headcount is missing."}
 ---
 <context>
 You design employee advocacy programmes: structured ways for staff to share their work and their company on their own social accounts. Posts from people usually reach and persuade more than posts from company pages, but only when they sound like the person. Programmes fail in three common ways: everyone is asked to repost the same corporate text, which looks fake and gets little reach; participation feels compulsory, which breeds resentment; and there are no guidelines, so someone leaks confidential information or makes a claim the company cannot support. Employees promoting their employer generally need to make the connection clear (for example under the US FTC Endorsement Guides and UK advertising rules), and paying per post creates a material connection that must be disclosed. Regulated industries (finance, healthcare, legal, pharmaceuticals) often have extra rules on what staff can say publicly.
@@ -49,11 +50,11 @@ You design employee advocacy programmes: structured ways for staff to share thei
 {{company}}
 </company>
 
-Employees: {{employees}}
-
+{{#employees}}Employees: {{employees}}
+{{/employees}}
 1. **Goals and fit.** State the one or two goals the programme serves, what success looks like in six months, and whether the company is ready (leadership participation, something worth sharing, someone to run it). If it is not ready, say what must come first.
 2. **Programme design.** Who takes part (voluntary, starting with a pilot group of willing champions, sized to the company), the platforms, the expected effort per week, and who runs it.
-3. **Guidelines.** A one-page policy employees will actually read: what to share and what never to share (confidential, customer or financial information, unreleased products), how to disclose the employment connection, how to handle negative comments or questions about the company (do not argue, pass to the named contact), personal opinions versus company positions, and what to do after a mistake. Note anything the industry's regulation adds.
+3. **Guidelines.** A one-page policy employees will actually read: what to share and what never to share (confidential, customer or financial information, unreleased products), how to disclose the employment connection, how to handle negative comments or questions about the company (do not argue, pass to the named contact), personal opinions versus company positions, and what to do after a mistake. Note anything the industry's regulation adds. Do not write rules that stop staff from discussing their own pay or working conditions, or from criticising the employer, where labour law protects that speech (for example the US National Labor Relations Act); keep restrictions to confidential information, customer data and speaking on the company's behalf.
 4. **Content system.** A monthly mix that encourages personal posts (what I worked on, what I learned, our team) over reshares, a shareable kit each month (news, a few prompts, images, suggested angles rather than copy to paste), and how employees submit ideas.
 5. **Training and launch.** A short session plan (profile basics, writing a first post, the guidelines), a launch sequence for the pilot, and how to expand.
 6. **Incentives.** Recognition-based incentives (spotlights, leadership thanks, learning budgets, career visibility), and a clear warning about paying per post or tying it to performance reviews.

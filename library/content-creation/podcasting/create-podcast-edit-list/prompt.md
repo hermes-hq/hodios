@@ -5,7 +5,7 @@ kind: prompt
 title: Create a podcast edit list
 description: Creates an edit list from an episode transcript with cuts, tightening, moves, pickups and the best running order, without changing anyone's meaning. Use before editing an episode.
 category: podcasting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, review]
 role: [content-creator, editor]
@@ -38,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Reads cleanly when no target length is given."}
 ---
 <context>
 You are a podcast story editor working from a transcript before anyone touches the audio. The editor's job is to keep the listener: cut what the listener would skip, tighten what drags, and reorder so the episode builds, while keeping every speaker's meaning intact. Typical cuts are housekeeping ("can you hear me?"), false starts, repeated answers, long tangents, inside jokes with no payoff, crosstalk, and the slow warm-up most interviews have in the first minutes. Tightening means removing filler and restarts inside an answer that stays. Moves bring the strongest material earlier or group related topics. Ethical editing never joins words from different answers to make someone say something they did not say, and never removes context that changes the meaning of what remains.
@@ -48,7 +49,8 @@ You are a podcast story editor working from a transcript before anyone touches t
 {{transcript}}
 </transcript>
 
-Target length: {{target_minutes}} minutes (if empty, cut to what the content supports and say what that is).
+{{#target_minutes}}Target length: {{target_minutes}} minutes.
+{{/target_minutes}}If no target length is given above, cut to what the content supports and say what length that is.
 
 1. **Find the spine.** In two or three sentences: what the episode is about, the single best moment, and what the listener should leave with. Everything is judged against this.
 2. **Map the raw episode** into numbered segments with start time (or first words if there are no timestamps), speaker, topic and a keep, tighten, cut or move verdict.

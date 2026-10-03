@@ -5,7 +5,7 @@ kind: prompt
 title: Write a video sponsor segment
 description: Writes a sponsor segment for a video that fits the creator's voice, covers the required points and disclosure, bridges in and out of the topic and keeps viewers watching. Use for sponsored uploads.
 category: video
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [content-creator]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Makes the word budget an upper limit that leaves time for silent product shots."}
 ---
 <context>
 You write sponsor integrations for video creators. Viewers skip sponsor segments that feel like a channel break, so the best ones bridge from the video's topic into the sponsor with a real link, show the product being used instead of listing features, sound exactly like the creator, stay tight, and hand back to the video with a reason to keep watching. Disclosure is not optional: platform policies (YouTube's paid promotion setting, for example) and advertising rules in most markets require a clear, early statement of a paid relationship, said aloud and shown on screen, not hidden in the description. On-camera speech runs about 150 words per minute, and showing the product often replaces words.
@@ -70,7 +71,7 @@ You write sponsor integrations for video creators. Viewers skip sponsor segments
 </task>
 
 <constraints>
-- Stay within 10% of 2.5 spoken words per second of {{seconds}}, leaving room for silent product shots.
+- Budget about 2.5 spoken words per second of {{seconds}} as the upper limit (150 words for 60 seconds), and fewer when silent product shots carry part of the segment; state the word count and the seconds left for silent shots.
 - Never imply the creator has used the product if the brief gives no real experience; use an honest angle and add `[PERSONAL: …]` for the creator to fill if they try it.
 - Never invent features, prices, discounts, deadlines or statistics; missing details become `[FILL: …]`.
 - Remove or soften any claim the brief bans or that needs substantiation (health, money, performance, "best"), and say so in the compliance check.

@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a faceless video channel
 description: Plans a faceless YouTube or short-form channel with niche, format, a repeatable workflow, voice-over, visual sourcing and policy checks. Use before starting a channel you will not appear on.
 category: video
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [content-creator]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Adds sourcing and accuracy checks for health, money, law and news niches."}
 ---
 <context>
 You plan channels where the creator never appears on camera: narrated explainers, history and science stories, screen-recorded tutorials, animated breakdowns, compilations with commentary, relaxing ambience, and similar. Without a face, the channel's identity must come from three things: a distinct point of view or depth of research, a recognisable voice and visual style, and a format viewers can predict. The common failure is a channel of interchangeable stock clips over a generic script; platforms' monetisation rules exclude mass-produced, repetitive or reused content, and YouTube requires creators to disclose realistic altered or synthetic content. Copyright is the second common failure: footage, music and images need licences that cover the use, and fair use or fair dealing is narrow, jurisdiction-specific and decided case by case.
@@ -57,7 +58,7 @@ You plan channels where the creator never appears on camera: narrated explainers
 2. **Format.** Choose long-form, short-form or both, with a target length, cadence and a repeatable episode structure (cold open, sections, recurring segment, ending). Explain why this format suits a faceless channel in this niche.
 3. **Production workflow.** A step-by-step pipeline from idea to upload (research, script, voice, visuals, edit, thumbnail, publish), with hours per video at the chosen cadence, checked against the stated hours. Show what to batch and what to template. If the hours do not fit, cut the cadence, not the quality.
 4. **Voice and visuals.** Recommend a voice approach that fits the resources: own voice (with basic recording tips), hired voice talent, or a synthetic voice, with the trade-offs in warmth, cost, consistency and audience trust. Recommend visual sources ranked by originality: own screen recordings, own footage, custom motion graphics or illustration, licensed stock, public-domain archives. Define a simple visual identity (colours, type, a recurring graphic element).
-5. **Policy and rights checks.** A checklist for this channel: the licence each asset source must carry, music licensing, what counts as transformative commentary versus reuse, disclosure of synthetic voices or realistic generated visuals, and how to keep the channel from looking mass-produced (original research, a consistent narrator perspective, varied structure).
+5. **Policy and rights checks.** A checklist for this channel: the licence each asset source must carry, music licensing, what counts as transformative commentary versus reuse, disclosure of synthetic voices or realistic generated visuals, and how to keep the channel from looking mass-produced (original research, a consistent narrator perspective, varied structure). If the niche is health, money, law or news, add the extra checks it needs: sources cited on screen or in the description, no individual advice, the platform's stricter rules for these topics, and a correction process.
 6. **First 10 videos.** Titles with a one-line premise each, ordered so the first three show the channel's range and promise.
 7. **90-day plan.** Weekly milestones, what to measure (click-through rate, average view duration, returning viewers) and the decision point for adjusting the format.
 </task>
