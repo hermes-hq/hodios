@@ -9,8 +9,7 @@ git pull --rebase && npm ci && npm run check
 VERSION=$(node tools/release/calver.mjs $(git tag --list 'v20*'))   # e.g. 2026.1003.0
 SEQ=$(node tools/release/calver.mjs --seq $(git tag --list 'v20*')) # one step per release
 node tools/release/curate.mjs                                        # curated tier: review the curated.txt diff
-node tools/release/readme-catalog.mjs                                # README catalog section
-# then set the catalog version, the entry count and the curated count in the README status line and the `--skill '*'` sentence
+node tools/release/readme-catalog.mjs                                # README headline numbers and catalog section
 git commit -s -am "Update the README catalog section for $VERSION" && git push
 ```
 
