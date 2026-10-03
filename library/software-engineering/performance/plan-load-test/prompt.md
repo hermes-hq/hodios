@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [load-testing, capacity-planning, workload-model, k6]
 pairs_with:
-  prompts: [define-slos]
+  prompts: [define-slos, write-k6-load-test]
 args:
   - name: system
     description: The system under test - endpoints or user flows, architecture, auth, dependencies, and the question the test must answer.

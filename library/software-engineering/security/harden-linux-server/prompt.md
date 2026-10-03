@@ -5,7 +5,7 @@ kind: prompt
 title: Harden a Linux server
 description: Hardens a Linux server in a safe order (SSH, users, firewall, updates, unused services, logging, mandatory access control) with a check and rollback per step. Use on new or inherited servers.
 category: security
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [operate, ship]
 role: [devops-engineer, sre, security-engineer, backend-engineer]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "SSH settings go in a drop-in that cloud-image defaults cannot override, and effective values are checked with sshd -T."}
 ---
 <context>
 Hardening guides are long and unordered, and the order is what causes outages: a firewall enabled before SSH is allowed, password login disabled before key login was tested, SELinux or AppArmor switched off to make an app work, and sysctl values copied from a decade-old blog that break networking. A useful hardening pass removes the most exposure first, changes one thing at a time, proves it can still be reached after each change, and leaves the service doing its job. Benchmarks such as the CIS benchmarks go deeper and are the reference for audits.
@@ -57,7 +58,7 @@ It must keep providing:
 3. Steps, in this order, each with the reason, the commands for {{distribution}}, a "Check:" line and a "Rollback:" line:
    1. Apply all updates and reboot if the kernel changed.
    2. Named admin accounts with sudo; no shared logins; lock unused accounts.
-   3. SSH: key-only authentication, no root login, an `AllowUsers` or `AllowGroups` list, a short `LoginGraceTime`. Validate the config with `sshd -t` and test a new session before closing the current one.
+   3. SSH: key-only authentication, no root login, an `AllowUsers` or `AllowGroups` list, a short `LoginGraceTime`. Put the settings in a drop-in that sorts first in `/etc/ssh/sshd_config.d/`, because the first value read wins and cloud images often ship a file there that re-enables password login. Validate with `sshd -t`, confirm the effective values with `sshd -T`, and test a new session before closing the current one.
    4. Firewall default-deny inbound, allowing SSH (ideally from known addresses) and the listed services, using the distribution's tool (ufw, firewalld or nftables). Note that Docker publishes ports around ufw and how to handle it if containers run.
    5. Automatic security updates and how reboots are handled.
    6. Remove or disable what is not needed: list listening sockets (`ss -tulpn`) and enabled units, and disable anything not on the service list.

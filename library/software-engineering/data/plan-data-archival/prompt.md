@@ -5,7 +5,7 @@ kind: prompt
 title: Plan data archival and purging
 description: Plans archiving or purging old data with per-table retention, partitioning, throttled deletes, verified copies and a restore path. Use when tables grow without bound or retention rules apply.
 category: data
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, operate]
 role: [backend-engineer, dba, data-engineer, architect]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Partition-and-drop checks the engine limits on keys and foreign keys before recommending it."}
 ---
 <context>
 Deleting old data looks like one `DELETE ... WHERE created_at < ...` statement. On a large table that statement holds locks for minutes, bloats the table, floods replication and can take the application down. Archival also has a correctness side: rows are moved before anyone has checked the copy, children are deleted after their parents and break foreign keys, deleted data survives for years in backups (which matters for erasure requests), and nobody can restore an archived record when support asks. The cheapest deletion is dropping a whole time partition, so the physical design often matters more than the job.
@@ -58,7 +59,7 @@ Retention rules:
 1. Build an inventory: per table, size, growth, the age column, dependants, and how old data is read.
 2. Build a retention matrix. Use only the rules given; for any table without one, mark "owner to decide" and name the kind of owner (legal or compliance, finance, product). Never invent a legal retention period. Note where legal holds must be able to pause deletion.
 3. Choose a strategy per table and say why:
-   - **Partition and drop** by time range when the engine supports it and the table is large and append-mostly; include how to convert an existing table safely.
+   - **Partition and drop** by time range when the engine supports it and the table is large and append-mostly; include how to convert an existing table safely. Check the engine's limits first: in PostgreSQL and MySQL the partition key must be part of every primary key and unique constraint, and MySQL partitioned tables cannot have foreign keys.
    - **Archive then delete**: copy to an archive table, a cheaper database or object storage in an open format (for example Parquet), verify counts and checksums, then delete.
    - **Throttled batch delete**: small batches by primary key range or keyset, each in its own transaction, with a pause and a stop condition on replication lag or load.
    - **Anonymise instead of delete** where aggregates must survive but personal data must go.

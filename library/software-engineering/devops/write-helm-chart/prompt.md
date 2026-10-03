@@ -5,7 +5,7 @@ kind: prompt
 title: Write a Helm chart
 description: Writes a Helm chart for a service with a validated values schema, shared helpers, probes, resources, per-environment values and safe upgrades. Use when a service needs a reusable, versioned chart.
 category: devops
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [devops-engineer, sre, backend-engineer]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Migration hooks no longer read chart-created config that does not exist yet or is stale, and upgrade safety covers automatic rollback and what rollback leaves behind."}
 ---
 <context>
 A Helm chart is a package with a lifecycle, not just templated YAML. The problems show up on the second install and the tenth upgrade: a renamed label that changes a Deployment's immutable selector and blocks every upgrade, a values key typo that silently does nothing, a ConfigMap change that never restarts pods, secrets committed in values files, a pre-upgrade migration hook that runs twice, and charts nobody can configure without reading every template. A good chart validates its values, exposes a small documented surface, keeps resource names and selectors stable, and can be linted, rendered and tested before it reaches a cluster.
@@ -61,7 +62,7 @@ Requirements:
 4. `values.schema.json` with types, required keys and enums, so `helm install` rejects a typo or a wrong type.
 5. `templates/_helpers.tpl` with name, fullname, chart, standard `app.kubernetes.io/*` labels and a separate, minimal selector-labels helper. Selector labels never include the version or chart, because Deployment selectors are immutable.
 6. Templates: Deployment (rolling update with `maxUnavailable: 0`, startup, readiness and liveness probes that check different things, requests and limits, `securityContext` with non-root, read-only root filesystem and dropped capabilities, topology spread), Service, ServiceAccount, optional Ingress, HorizontalPodAutoscaler and PodDisruptionBudget, ConfigMap, and a checksum annotation on the pod template so config changes roll the pods.
-7. Migrations, if any: a Job with the pre-upgrade and pre-install hook annotations, a hook delete policy, a backoff limit, and a note that the migration must be backward compatible with the running version.
+7. Migrations, if any: a Job with the pre-upgrade and pre-install hook annotations, a hook delete policy, a backoff limit, and a note that the migration must be backward compatible with the running version. Hooks run before the release's own resources are applied, so the Job cannot read a ConfigMap or Secret the chart creates (on install it does not exist yet; on upgrade it still holds the old values): give the Job its configuration directly, use an externally managed Secret, or make those resources hooks with a lower `helm.sh/hook-weight`. Hook resources are not part of the release, so `helm rollback` does not undo a migration.
 8. `templates/NOTES.txt` with how to reach the service, and `templates/tests/` with a `helm test` connection check.
 9. Per-environment values files (for example `values-staging.yaml`, `values-prod.yaml`) holding only the differences.
 </task>
@@ -84,7 +85,7 @@ Table: key, default, description.
 ## Validation
 Commands: `helm lint`, `helm template` piped to a schema checker such as kubeconform, `helm test`, and a dry-run upgrade, with what each catches.
 ## Upgrade safety
-Bullets: what changes are breaking for this chart, how rollback works (`helm rollback`), and how to preview an upgrade (`helm diff` plugin or a dry run).
+Bullets: what changes are breaking for this chart, how to make a failed upgrade roll back on its own (`--wait` with the automatic rollback flag of the Helm version in use, `--atomic` in Helm 3), how manual rollback works (`helm rollback`) and what it does not undo, and how to preview an upgrade (`helm diff` plugin or a dry run).
 ## Open questions
 Numbered, or "None".
 </output_format>

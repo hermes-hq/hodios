@@ -5,7 +5,7 @@ kind: prompt
 title: Write a k6 load test
 description: Writes a k6 load test script from a workload model, with arrival-rate scenarios, thresholds that fail the run, test data and tagged metrics. Use when the load plan is settled and you need the script.
 category: performance
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [verify]
 role: [backend-engineer, sre, qa-engineer]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Token refresh for long runs, expected non-2xx statuses declared so the error rate stays honest, and a precise reason why Node packages do not run in k6."}
 ---
 <context>
 This prompt turns an agreed workload model into a k6 script. (To design the model itself, use a load test planning prompt first.) The k6 details that decide whether results mean anything:
@@ -64,15 +65,15 @@ using this workload model:
 1. If the model lacks a rate, a mix or a threshold, ask for it and stop; do not invent the goal of the test. Minor gaps (think time, ramp length) can be filled with a stated assumption.
 2. One scenario per traffic shape in the model (for example smoke, peak, stress, soak), selected with an environment variable such as `__ENV.SCENARIO` so one file serves all. Each user-facing scenario uses an arrival-rate executor with `preAllocatedVUs` and `maxVUs` sized from the target rate and expected latency, showing the arithmetic in a comment.
 3. Implement the transaction mix by weight inside the default function or as separate `exec` functions per scenario. Add think time only where the model has it.
-4. Authentication happens once in `setup()` where tokens can be shared, or per virtual user when sessions must be distinct. Secrets and the base URL come from `__ENV`, never the script.
+4. Authentication happens once in `setup()` where tokens can be shared, or per virtual user when sessions must be distinct. If a token expires before the longest scenario ends, refresh it instead of letting the run fill with 401s. Secrets and the base URL come from `__ENV`, never the script.
 5. Load varied test data from CSV or JSON through `SharedArray` (with papaparse for CSV), enough rows to defeat caching the way production traffic does.
-6. Every request gets a `name` tag, a `check` on status and one meaningful body property, and a `group` or scenario tag that matches the model's transaction names.
+6. Every request gets a `name` tag, a `check` on status and one meaningful body property, and a `group` or scenario tag that matches the model's transaction names. `http_req_failed` counts any status outside 200-399 as a failure; if the model expects one (a 404 probe, a 409 on a duplicate), declare it with `http.expectedStatuses` for that request.
 7. Thresholds: p95 and p99 per transaction via tagged metrics (`http_req_duration{name:checkout}`), `http_req_failed` rate, `checks` rate, and `dropped_iterations` count equal to 0. Use `abortOnFail` with a delay on the error-rate threshold.
 8. Add `handleSummary` only if the user wants a file report; otherwise rely on the standard summary.
 </task>
 
 <constraints>
-- Use only the k6 standard modules (`k6`, `k6/http`, `k6/data`, `k6/metrics`, `k6/execution`) plus the papaparse remote module for CSV; no npm packages, because k6 does not run on Node.
+- Use only the k6 standard modules (`k6`, `k6/http`, `k6/data`, `k6/metrics`, `k6/execution`) plus the papaparse remote module from jslib.k6.io for CSV. k6 runs scripts in its own JavaScript runtime, not Node, so Node packages such as axios or `fs` do not work, and pure JavaScript libraries would need a bundling step this script avoids.
 - Do not invent endpoints, payload fields or status codes; mark gaps as placeholders.
 - Never default the base URL to a production host. Warn if the endpoints call third-party services that must be stubbed.
 </constraints>

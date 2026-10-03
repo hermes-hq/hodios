@@ -5,7 +5,7 @@ kind: rule
 title: Database migration rules
 description: Standing rules for schema migrations an assistant writes, keeping them backward compatible, reversible, lock-aware, batched for data changes and tested on realistic data sizes.
 category: data
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, review]
 role: [backend-engineer, dba, software-engineer]
@@ -25,13 +25,15 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "NOT NULL on large PostgreSQL tables finishes with SET NOT NULL and drops the helper check, and volatile column defaults are called out as table rewrites."}
 ---
 When you write or change a database migration in this project, follow these rules. If the user's request cannot be done safely in one migration, say so and propose the sequence instead.
 
 Compatibility with running code
 - Assume the previous version of the application is still running while and after the migration runs. Every migration must work with both the old and the new code.
 - Use expand and contract for breaking changes: add the new column or table, deploy code that writes both and reads the new one, backfill, then remove the old one in a later migration. Never rename or drop a column or table that deployed code still reads in the same release.
-- Add new columns as nullable or with a default. Add NOT NULL only after the backfill, and on large PostgreSQL tables add it through a `CHECK (col IS NOT NULL) NOT VALID` constraint followed by `VALIDATE CONSTRAINT`.
+- Add new columns as nullable or with a constant default. On PostgreSQL 11 and later a constant default is a metadata change; a volatile default such as `gen_random_uuid()` or `clock_timestamp()` rewrites the whole table, so add the column without it and backfill.
+- Add NOT NULL only after the backfill. On large PostgreSQL tables, add a `CHECK (col IS NOT NULL) NOT VALID` constraint, run `VALIDATE CONSTRAINT` separately, then `SET NOT NULL` (PostgreSQL 12 and later use the validated constraint and skip the full-table scan) and drop the check constraint.
 - State the required deploy order (migrate first, or code first) in the migration's comment or the summary.
 
 Locks and duration

@@ -5,7 +5,7 @@ kind: prompt
 title: Write a GitLab CI pipeline
 description: Writes a .gitlab-ci.yml with stages, a needs graph, lockfile-keyed caching, rules, environments and secrets kept out of logs. Use when setting up or rebuilding CI/CD for a GitLab project.
 category: devops
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [devops-engineer, software-engineer, backend-engineer]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Monorepo change rules compare against the target or default branch instead of the previous push."}
 ---
 <context>
 GitLab CI pipelines usually go wrong in these places: duplicate pipelines for a branch and its merge request, because `workflow:rules` is missing; legacy `only` and `except` mixed with `rules`, so jobs run when they should not; caches keyed on the branch so every branch reinstalls dependencies; a strictly staged pipeline where `needs` would let jobs start earlier; long-lived cloud keys stored as variables when the runner could use OIDC ID tokens; secrets printed by `set -x` or debug output; two deploys to the same environment racing; and production deploys any developer can trigger from an unprotected branch.
@@ -57,7 +58,7 @@ Write a GitLab CI pipeline for:
 3. Stages that read as the delivery flow (for example lint, test, build, deploy), with `needs` so independent jobs run as soon as their inputs exist. Mark non-deploy jobs `interruptible: true`.
 4. Images pinned to a version, never `latest`. Shared setup goes in a hidden job used with `extends`, not copied.
 5. Cache keyed on the lockfile (`cache:key:files`), with `pull` policy for jobs that only read it. Artifacts only for outputs later jobs need, each with `expire_in`. Test reports through `artifacts:reports:junit` and coverage through the coverage report so results show in the merge request.
-6. Use `rules` with `changes` to skip unaffected work in a monorepo, if the layout calls for it.
+6. Use `rules` with `changes` to skip unaffected work in a monorepo, if the layout calls for it. In branch pipelines `changes` compares with the previous push rather than the default branch (and is always true on a new branch), so either rely on merge request pipelines, which compare with the target branch, or set `changes:compare_to` to the default branch; run everything on the default branch and tags.
 7. Deploy jobs: an `environment` with a name and URL; `resource_group` so deploys to one environment never overlap; staging deploys automatically from the default branch; production is `when: manual` (or on tags) and the docs tell the user to make it a protected environment.
 8. Secrets: masked and protected CI/CD variables for anything sensitive, used only in jobs on protected refs. For cloud access, prefer OIDC with `id_tokens` and a role that trusts the project and branch over stored keys. No `set -x` in jobs that touch secrets.
 </task>

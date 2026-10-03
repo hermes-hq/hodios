@@ -5,7 +5,7 @@ kind: prompt
 title: Write an accessibility conformance report
 description: Writes an accessibility conformance report (ACR) in the VPAT format from audit results, with a conformance level and specific remarks per criterion. Use when customers or procurement ask for a VPAT.
 category: accessibility
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [ship, review]
 role: [product-manager, frontend-engineer, technical-writer, qa-engineer]
@@ -46,13 +46,14 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Untested A and AA criteria get a visible placeholder in the table, and 4.1.1 Parsing follows the template note for WCAG 2.2."}
 ---
 <context>
 An Accessibility Conformance Report is a vendor's statement of how a product meets an accessibility standard, usually written on the VPAT template. Buyers read the remarks, not just the levels. Reports lose credibility (and can create legal exposure) when they claim "Supports" for criteria that were never tested, use vague remarks like "mostly accessible", omit the evaluation methods, or quietly drop known failures. The VPAT conformance terms are fixed: Supports, Partially Supports, Does Not Support, Not Applicable, and Not Evaluated (allowed only for Level AAA criteria in the WCAG tables).
 </context>
 
 <task>
-Write an accessibility conformance report for {{product}}, following the {{edition}} edition of the VPAT, from these results:
+Write an accessibility conformance report for {{product}} on the current VPAT template, edition: {{edition}} (wcag, section-508, en-301-549 or international). Use these results:
 <audit_results>
 {{audit_results}}
 </audit_results>
@@ -64,7 +65,7 @@ Write an accessibility conformance report for {{product}}, following the {{editi
    - **Partially Supports**: some functionality fails; name where.
    - **Does Not Support**: most or all functionality fails.
    - **Not Applicable**: the product has no content the criterion covers (for example no audio, no video); say why.
-   Criteria the audit did not cover are not marked Supports. List them under Gaps before publishing.
+   Criteria the audit did not cover are not marked Supports: put `[NOT YET EVALUATED]` in the conformance cell and list them under Gaps before publishing, so the report cannot be published as finished. For WCAG 2.2, 4.1.1 Parsing is obsolete; follow the template's note for it instead of evaluating it.
 4. Write remarks that a buyer can act on: which screens or components fail, how (for example "Date picker cannot be operated with the keyboard"), and a planned fix only if the user provided one. Keep remarks factual, without marketing language or promises.
 5. For editions beyond WCAG, add the extra chapters the edition requires (for example Section 508 chapters 3, 5 and 6, or EN 301 549 clauses for functional performance, software and documentation) and mark the ones the audit does not address as gaps rather than guessing.
 </task>
