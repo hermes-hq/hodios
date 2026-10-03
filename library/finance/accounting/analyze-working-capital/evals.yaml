@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Analyse my working capital: {{financial_figures}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wholesaler
+    vars:
+      financial_figures: "Annual figures, excluding VAT. Revenue 3,650,000. Cost of sales 2,190,000. At year end: trade receivables 600,000, inventory 480,000, trade payables 180,000. Customer terms 30 days, supplier terms 45 days. About 15% of stock hasn't moved in 6 months."
+    assert:
+      - {type: contains, value: "## Cash released"}
+      - {type: llm-rubric, value: "Computes DSO of 60 days, DIO of 80 days, DPO of 30 days and a cash conversion cycle of 110 days, compares DSO with 30-day terms and DPO with 45-day terms, values one day of DSO at 10,000 and one day of DPO or DIO at 6,000, ranks receivables and slow-moving stock actions, shows realistic and stretch cash released with arithmetic, and suggests using full supplier terms without breaching them."}
+  - name: edge-service-business-no-inventory
+    vars:
+      financial_figures: "Marketing agency, last 6 months: revenue 900,000 including 20% VAT, cost of sales 450,000. Receivables at end of period 330,000 including VAT. Payables 40,000. No stock. Terms 30 days."
+    assert:
+      - {type: llm-rubric, value: "Adjusts for VAT so revenue and receivables are on the same basis (or flags the mismatch), uses about 182 or 183 days for the period, skips DIO because there is no stock, computes DSO near 67 days against 30-day terms, and recommends receivables actions such as deposits, milestone billing and a chasing routine."}
+  - name: negative-missing-data
+    vars:
+      financial_figures: "Revenue about 1.2m. We're always short of cash. What's our cash conversion cycle?"
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot compute DSO, DIO, DPO or the cycle without receivables, inventory, payables and cost of sales, lists exactly what to provide and where to find it, explains the formulas briefly, and does not invent balances."}

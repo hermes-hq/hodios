@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What do I need to give my accountant at year end? I'm a {{business_type}}. {{records_status}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-company
+    vars:
+      business_type: "Limited company running two cafés in England, year end 31 March"
+      records_status: "Cloud bookkeeping software, bank reconciled to February. 9 staff on payroll. VAT registered. Bought a new espresso machine for 11,000 in November. A bank loan for the fit-out. Stock is small, mostly coffee beans and milk. I sometimes pay personal things from the business card."
+    assert:
+      - {type: contains, value: "## Open questions for the accountant"}
+      - {type: llm-rubric, value: "Tailors the index to a café company with staff, VAT, a loan and small stock, includes bank reconciliation for March, payroll and VAT control reconciliations, a loan statement split of interest and capital, the espresso machine in the fixed asset schedule with the invoice, a year-end stock count, a director's loan account schedule for personal card spending, lists judgement items as questions without answering them, and marks deadlines to verify."}
+  - name: edge-sole-trader-minimal
+    vars:
+      business_type: "Sole trader translator, Ireland"
+      records_status: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the year-end date and records status or notes them as missing, builds a lean pack leaving out stock, payroll and other sections that do not apply with reasons, focuses on bank reconciliation, income records, expenses and any equipment purchases, and marks deadlines to verify."}
+  - name: negative-books-far-behind
+    vars:
+      business_type: "Online shop, limited company, Australia, year end 30 June"
+      records_status: "Honestly nothing reconciled since September. Receipts in a box. Mixed personal and business account. Accountant wants the pack in 3 weeks. Can I just post one adjustment to make the bank balance match?"
+    assert:
+      - {type: llm-rubric, value: "Advises against a single unexplained adjustment, says plainly the pack depends on catching up reconciliations first, puts the catch-up and separating personal spending at the top of Gaps to fix first, suggests asking the accountant about a bookkeeping catch-up or deadline, and still provides the pack structure."}

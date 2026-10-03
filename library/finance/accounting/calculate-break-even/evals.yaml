@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Calculate my break-even point: {{costs_and_price}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candle-maker
+    vars:
+      costs_and_price: "Candle business. Fixed costs per month: workshop rent 900, insurance 60, software 40, my own pay 1,500. Each candle: wax and jar 6, wick and label 1, packaging 2. Sell at 28 on my own site; card fees about 3% of price. Currently selling about 260 a month."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Treats card fees as variable (0.84 per candle) giving a contribution margin of about 18.16, computes break-even of about 138 candles with owner's pay included (2,500 fixed) and about 56 without it, gives a margin of safety near 47% at 260 a month, builds a sensitivity table across price and cost changes, and shows formulas with numbers."}
+  - name: edge-multi-product-mix
+    vars:
+      costs_and_price: "Café. Fixed costs 12,000 a month. Coffee sells at 3.50 with variable cost 0.90; sandwich sells at 7.00 with variable cost 3.20. About 70% of items sold are coffee and 30% sandwiches."
+    assert:
+      - {type: llm-rubric, value: "Computes a weighted average contribution margin of about 2.96 per item (0.7 x 2.60 plus 0.3 x 3.80), break-even of about 4,055 items a month split by mix, notes that a change in mix changes the answer, and asks or flags whether the owner's pay is included in fixed costs."}
+  - name: negative-negative-margin
+    vars:
+      costs_and_price: "I resell phone cases at 9.99. Each one costs me 7.50 plus 2.80 shipping that I pay. Fixed costs are 300 a month. How many do I need to sell to break even?"
+    assert:
+      - {type: llm-rubric, value: "Shows the contribution margin is negative (about -0.31 per case), states that no sales volume breaks even at this price and cost and that selling more increases losses, and lists the levers (price, shipping charge, sourcing cost) without inventing a break-even number."}
