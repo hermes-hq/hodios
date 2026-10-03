@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Rewrite this message for someone from {{reader_culture}}: {{message}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-direct-to-japan
+    vars:
+      reader_culture: senior manager at a Japanese manufacturing supplier
+      writer_culture: Dutch
+      message: "Purpose: push back on a quality problem. 'Hi Kenji, the last two batches had a 4% defect rate, which is not acceptable. We need a fix plan by Friday or we'll have to look at other suppliers. Thanks, Anouk'"
+    assert:
+      - {type: contains-all, value: ["## Adapted message", "## What changed"]}
+      - {type: llm-rubric, value: "Keeps the 4% defect rate, the need for a fix plan and the Friday deadline clear, adjusts the address to a more formal form and softens the bare ultimatum without hiding it, adds appropriate courtesy, and explains each change as a tendency (directness, hierarchy, relationship) rather than a stereotype."}
+  - name: edge-too-broad
+    vars:
+      reader_culture: Asian
+      message: "Purpose: decline a partnership. 'Thanks for the proposal, but we've decided not to move forward.'"
+    assert:
+      - {type: llm-rubric, value: "Asks which country or organisation the reader is from, noting that business cultures across Asia differ widely, rather than rewriting for a generic 'Asian' reader."}
+  - name: negative-keep-the-no
+    vars:
+      reader_culture: Indian IT services firm, mid-level project lead
+      writer_culture: American
+      message: "Purpose: refuse a scope change. 'Hi Ravi, we can't add the reporting module to this release. It has to go in the next phase. Best, Dana'"
+    assert:
+      - {type: llm-rubric, value: "Adapts politeness and framing but keeps the refusal unmistakable: the reporting module is not in this release and goes to the next phase. Does not turn the no into a maybe, and notes the risk that over-softening could be read as openness."}

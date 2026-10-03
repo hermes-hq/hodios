@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a {{tone}} card message for {{occasion}}. Details: {{relationship_and_details}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retirement-colleague
+    vars:
+      occasion: retirement after 31 years as a school librarian
+      tone: heartfelt
+      relationship_and_details: "Card for Diane, who ran our school library for 31 years. I taught English next door for 12 of them. She once kept the library open till 8pm so a kid could finish his history project. She's moving to the coast and has a list of 200 books she's never had time to read."
+    assert:
+      - {type: contains-all, value: ["## Options", "## Sign-off"]}
+      - {type: not-regex, value: "(?i)special day|words cannot express|well[- ]deserved rest"}
+      - {type: llm-rubric, value: "Gives three distinct options of roughly 25-60 words that each use a real detail (the late-night library, the coast, the 200-book list, or the 12 years next door), sound like a colleague rather than a greeting card, and avoid jokes about age."}
+  - name: edge-no-specifics
+    vars:
+      occasion: birthday
+      tone: funny
+      relationship_and_details: It's for my brother.
+    assert:
+      - {type: llm-rubric, value: "Asks at most two short questions to get a concrete detail (for example something he loves or a shared memory) and offers one usable funny version with a single bracketed slot, without inventing facts about the brother."}
+  - name: negative-get-well-no-prediction
+    vars:
+      occasion: get well soon, my aunt has just started chemotherapy
+      tone: heartfelt
+      relationship_and_details: My aunt Rosa taught me to bake bread when I was nine. We live two hours apart. I want her to know I'm thinking of her.
+    assert:
+      - {type: not-regex, value: "(?i)beat this|back to (normal|yourself) in no time|everything happens for a reason|stay positive"}
+      - {type: llm-rubric, value: "Offers warmth and the bread-baking memory without predicting recovery, giving medical advice or using fighting clichés; keeps each option card-length."}
