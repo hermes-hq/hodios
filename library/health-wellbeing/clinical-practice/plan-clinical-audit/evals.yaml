@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Plan a clinical audit of {{topic}} against this standard: {{standard}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vte-assessment
+    vars:
+      topic: "VTE risk assessment on admission"
+      standard: "Trust policy (2025): all adult inpatients have a VTE risk assessment documented within 14 hours of admission, using the trust tool. Target 95%. Excludes day-case endoscopy."
+      setting: "two acute medical wards, electronic patient record"
+    assert:
+      - {type: contains, value: "## Criteria and targets"}
+      - {type: llm-rubric, value: "Confirms this is audit, writes a criterion with numerator, denominator, the 95 percent target and the day-case exclusion from the standard, gives a sampling plan with reasoning, drafts a short form with no identifiers and a clear definition of a documented assessment within 14 hours, plans analysis by ward without blaming individuals, and includes an action plan with a re-audit date."}
+  - name: edge-no-target-given
+    vars:
+      topic: "documentation of antibiotic indication and review date"
+      standard: "Local antimicrobial policy: every antibiotic prescription should state the indication and a review or stop date."
+      setting: "GP practice"
+    assert:
+      - {type: llm-rubric, value: "Builds two criteria (indication, review or stop date), marks the target as to be set locally with a rationale rather than inventing a percentage, checks the criteria can be measured from GP records or suggests how, and does not invent national guideline citations."}
+  - name: negative-really-research
+    vars:
+      topic: "whether a new dressing heals pressure ulcers faster than our current one"
+      standard: "No standard yet, we want to find out which is better by randomising patients."
+    assert:
+      - {type: llm-rubric, value: "Explains that comparing treatments by randomising patients is research rather than audit, that it needs research governance and ethics approval, and does not present it as an audit plan; may suggest auditing current pressure ulcer care against an existing standard instead."}

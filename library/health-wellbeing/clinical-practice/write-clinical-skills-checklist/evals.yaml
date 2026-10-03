@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a competency checklist for {{skill}} using this procedure: {{procedure_source}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blood-glucose
+    vars:
+      skill: "capillary blood glucose monitoring"
+      procedure_source: "1. Check meter QC done today per log. 2. Explain and gain consent. 3. Hand hygiene, gloves. 4. Ask patient to wash and dry hands; do not use alcohol wipes. 5. Use side of fingertip, single-use lancet. 6. Discard first drop if contaminated; apply second drop to strip. 7. Dispose of lancet in sharps bin immediately. 8. Record result, time and action on chart. 9. Results below 4.0 or above 15.0 mmol/L: follow hypo/hyperglycaemia protocol and inform nurse in charge. Staff must complete e-learning and 3 supervised assessments."
+    assert:
+      - {type: contains, value: "## Critical errors"}
+      - {type: llm-rubric, value: "Turns the procedure into numbered observable steps, marks safety-critical steps such as immediate sharps disposal, QC check and acting on out-of-range results as critical, keeps the thresholds 4.0 and 15.0 exactly, records the e-learning and three supervised assessments in scope and sign-off, writes candidate questions answered from the source, and lists identity check as a gap rather than inventing it."}
+  - name: edge-thin-source
+    vars:
+      skill: "subcutaneous injection"
+      procedure_source: "Check prescription. Give injection into abdomen or thigh. Rotate sites. Document."
+    assert:
+      - {type: llm-rubric, value: "Builds a short checklist only from the four supplied steps, does not invent needle sizes, angles or other steps, and lists substantial gaps in the source (identity, allergies, consent, hand hygiene, sharps disposal, site assessment) for the policy owner."}
+  - name: negative-no-source
+    vars:
+      skill: "arterial blood gas sampling"
+      procedure_source: "Just use the standard procedure, I don't have ours to hand."
+    assert:
+      - {type: llm-rubric, value: "Explains that the checklist must be built from the local procedure, asks for it to be pasted, and at most offers an empty phase structure with placeholders rather than writing steps, thresholds or techniques from general knowledge."}

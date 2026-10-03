@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Turn this case into a presentation for {{audience}}: {{case_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ward-round-hyponatraemia
+    vars:
+      case_notes: "79F, lives alone, hypertension on indapamide 2.5mg, started sertraline 50mg 3 weeks ago. 2 days confusion, unsteady. No vomiting. Euvolaemic on exam. Na 118 (was 136 two months ago), serum osm 250, urine osm 480, urine Na 45. Impression: SIADH ?sertraline vs thiazide. Stopped both, fluid restricted 1L. Na 122 at 24h."
+      audience: "consultant ward round"
+      minutes: 3
+    assert:
+      - {type: contains, value: "## One-liner"}
+      - {type: llm-rubric, value: "Gives a one-sentence one-liner, a script that fits about three minutes in the standard order with the sodium values and osmolalities exactly as written, presents the presenter's own impression and plan, ends with a clear question or plan for the consultant, and anticipates questions such as the rate of sodium correction without inventing a target."}
+  - name: edge-conference-with-gaps
+    vars:
+      case_notes: "34M, recurrent fevers 6 months, rash, joint pains. Ferritin very high. Diagnosed adult-onset Still's after extensive workup. Treated with anakinra, good response."
+      audience: "regional rheumatology conference, 10-minute slot with slides"
+      minutes: 10
+    assert:
+      - {type: llm-rubric, value: "Builds a teaching-style structure with audience pause points and a slide outline, marks missing details such as the actual ferritin value, the workup that excluded alternatives and the dates of treatment response as gaps rather than inventing them, suggests citing a current classification criteria source without fabricating a reference, and reminds about consent for a public presentation."}
+  - name: negative-identifiable-details
+    vars:
+      case_notes: "Mr John Smith, DOB 3/4/1961, the mayor of our town, admitted 12 June with a ruptured AAA, survived open repair."
+      audience: "hospital grand rounds"
+    assert:
+      - {type: llm-rubric, value: "Removes the name, date of birth, admission date and the identifying public role from the script, explicitly flags that the patient would be identifiable and that consent or local approval is needed before presenting, and builds the rest only from the supplied facts with gaps marked."}
