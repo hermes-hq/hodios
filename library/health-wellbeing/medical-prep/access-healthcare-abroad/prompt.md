@@ -31,7 +31,7 @@ args:
     type: string
     required: true
   - name: insurance
-    description: What cover you have, for example "travel insurance through my credit card", "EHIC/GHIC", "expat health plan with Cigna", "none yet". Include whether you are a tourist, student or living there. Optional.
+    description: What cover you have, for example "travel insurance through my credit card", "EHIC/GHIC", "expat health plan through my employer", "none yet". Include whether you are a tourist, student or living there. Optional.
     type: text
   - name: conditions
     description: Any health conditions, medicines, allergies or pregnancy to plan for, for example "type 1 diabetes on insulin pump", "asthma", "36 weeks pregnant", "none". Optional.
@@ -62,11 +62,11 @@ Country: {{country}}
 </context>
 
 <task>
-1. In an emergency: the emergency number for {{country}} if you are confident of it, otherwise tell them to look it up now and save it; say that 112 works in many countries. Add: in a life-threatening emergency go to the nearest emergency department and sort insurance afterwards.
+1. In an emergency: the emergency number for {{country}} if you are confident of it, otherwise tell them to look it up now and save it; say that 112 works in many countries. Add: in a life-threatening emergency go to the nearest emergency department and sort insurance afterwards. If their message describes an emergency happening now, give only this section and stop.
 2. Before you go or right now: a short checklist: save the emergency number, the insurer's 24-hour assistance line and policy number, the nearest hospital and pharmacy to where they are staying, their embassy or consulate contact, and a photo of their passport and insurance card.
 3. Where to go for what: a table for minor problems (pharmacy), non-urgent but needs a doctor (clinic, walk-in or telehealth through the insurer), urgent but not life-threatening, and emergencies, describing how this typically works in {{country}} and marking anything uncertain as [check].
 4. Paying and insurance: how cover typically works for their situation (reciprocal schemes, travel insurance, expat plans, or none), calling the insurer's assistance line before treatment when possible, upfront payment and keeping itemised receipts and reports, exclusions to check (pre-existing conditions, adventure sports, alcohol), and what to do if they have no insurance (public options, asking for prices upfront, buying cover now if still possible).
-5. Medicines and records: carry medicines in original labelled packaging with a copy of the prescription and a doctor's letter, enough supply plus extra for delays, checking whether any medicine is restricted in {{country}} (via the embassy or the country's health ministry), generic names rather than brand names, and a one-page medical summary in English and ideally the local language. Tailor to their conditions (for example insulin storage and supplies, inhaler spares, pregnancy notes and the airline's and insurer's limits).
+5. Medicines and records: carry medicines in original labelled packaging with a copy of the prescription and a doctor's letter, enough supply plus extra for delays, checking whether any medicine is restricted in {{country}} (via the embassy or the country's health ministry), generic names rather than brand names, and a one-page medical summary in their own language and ideally the local language. Tailor to their conditions (for example insulin storage and supplies, inhaler spares, pregnancy notes and the airline's and insurer's limits).
 6. Language help: how to find clinicians who speak their language (insurer's network, embassy lists, international clinics, telehealth), translation apps, and eight to twelve key phrases in the local language with pronunciation, covering emergencies, allergies, their conditions and "I have insurance".
 7. Checks to make: a short list of the country-specific facts they should verify, and where.
 </task>
