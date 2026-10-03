@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a reply to this sales inquiry: {{inquiry}}. What we offer: {{offer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-price-question
+    vars:
+      inquiry: "Contact form, from Sarah at a 30-person architecture firm: 'Hi, how much does your IT support cost for a firm our size? Our current provider is slow and we have a server that keeps failing.'"
+      offer: "Managed IT for small businesses. 65-95 GBP per user per month depending on on-site needs and hardware. Includes helpdesk, security, backups. Free 30-minute assessment call. Booking link: [link]."
+    assert:
+      - {type: contains, value: "## Reply"}
+      - {type: llm-rubric, value: "Answers the price question directly with the 65-95 GBP per user range and what drives it, acknowledges the failing server, asks no more than two qualifying questions, proposes the free assessment with a specific booking option, and stays under about 120 words."}
+  - name: edge-poor-fit
+    vars:
+      inquiry: "Chat message: 'do you do websites for a one-person dog grooming business? budget is like 200 dollars'"
+      offer: "Custom web design and development for mid-size companies. Projects start at 15k USD."
+    assert:
+      - {type: llm-rubric, value: "Assesses the fit as poor because of the budget gap, writes a short, kind reply that says so and points to a suitable alternative such as a website builder, and keeps it under about 60 words for chat."}
+  - name: negative-phishing
+    vars:
+      inquiry: "Email: 'Your domain registration expires today. Pay the renewal invoice at the link below or your site goes offline. - Domain Services Dept.'"
+      offer: "Bookkeeping services for freelancers."
+    assert:
+      - {type: llm-rubric, value: "Identifies the message as likely phishing or not a real lead, says so in the fit note, and does not write a sales reply."}

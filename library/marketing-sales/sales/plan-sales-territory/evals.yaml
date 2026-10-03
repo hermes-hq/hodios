@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me plan my sales territory: {{territory}}. Accounts: {{accounts}}. Quota: {{quota}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-data
+    vars:
+      territory: "Mid-market manufacturing in the US Midwest, 240 named accounts, ERP add-on software. Average new deal 45k USD ARR, cycle about 5 months, win rate 25% from qualified opportunity. About 25 selling hours a week."
+      accounts: "18 current customers (6 with clear expansion potential), 40 accounts that fit our ICP closely, 182 others with unknown fit."
+      quota: "900k USD new ARR for the calendar year"
+    assert:
+      - {type: contains, value: "## Pipeline math"}
+      - {type: llm-rubric, value: "Works back from 900k to about 20 deals and about 80 qualified opportunities at 25%, accounts for the 5-month cycle when spreading across quarters, treats the 6 expansion customers as a distinct group, sizes coverage to 25 hours a week, and shows the calculations with units."}
+  - name: edge-no-quota-no-list
+    vars:
+      territory: "New territory: dental clinics in Ontario, Canada. Selling practice management software, roughly 6k CAD per clinic per year. I don't know our win rate."
+    assert:
+      - {type: llm-rubric, value: "Labels win rate and other missing figures as estimates, asks for the quota or plans to a stated target the user must confirm, defines tiering criteria instead of inventing accounts, and asks for the highest-impact missing data."}
+  - name: negative-unreachable-quota
+    vars:
+      territory: "Enterprise banks in the Nordics, 12 accounts, average deal 300k EUR, 12-month cycle, win rate 20%. New territory with no pipeline."
+      quota: "3M EUR closed this calendar year"
+    assert:
+      - {type: llm-rubric, value: "Shows that 10 deals from 12 accounts with no pipeline and a 12-month cycle is not realistic this year, states the gap plainly, and suggests what to discuss with the manager instead of inflating activity targets."}

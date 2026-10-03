@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Analyse why we win and lose deals: {{deal_data}} {{interviews}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crm-plus-interviews
+    vars:
+      deal_data: |
+        Q1-Q2 2026, 22 closed deals: 8 won, 9 lost, 5 no decision.
+        Lost reasons (rep): price x6, timing x2, feature gap x1. Competitor on lost deals: Acme x5, none x4.
+        Won: 6 of 8 had a demo with the CFO. Lost: 1 of 9 had CFO involvement.
+        No decision deals averaged 7 months open.
+      interviews: |
+        Lost buyer A: 'Price was fine, honestly. We couldn't get finance to see the ROI.'
+        Lost buyer B: 'Acme showed us how it fits our approval workflow. You showed features.'
+        Won buyer C: 'Your rep built the business case with our CFO. That made it easy.'
+    assert:
+      - {type: contains, value: "## Recommendations"}
+      - {type: llm-rubric, value: "Notes that interviews contradict 'price' as the main loss reason and point to business case and economic buyer access, highlights the CFO involvement difference between wins and losses, treats no decision as a major outcome, labels confidence given 22 deals, quotes verbatim, and gives owned recommendations."}
+  - name: edge-small-sample-no-interviews
+    vars:
+      deal_data: "Last quarter: won 3, lost 4. Loss reasons: price, price, timing, went with competitor."
+    assert:
+      - {type: llm-rubric, value: "States the sample is too small for conclusions, presents patterns as hypotheses, flags that the analysis rests only on rep-entered reasons, and recommends interviewing buyers with a neutral question list."}
