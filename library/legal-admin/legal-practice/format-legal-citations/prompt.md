@@ -5,7 +5,7 @@ kind: prompt
 title: Format legal citations
 description: Formats case, statute and secondary-source citations to Bluebook, OSCOLA, AGLC, McGill or a stated house style, and flags every incomplete, inconsistent or unverifiable citation instead of guessing.
 category: legal-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [legal-professional, student]
@@ -23,7 +23,7 @@ reasoning: recommended
 level: intermediate
 tags: [legal-citation, bluebook, oscola, cite-checking, footnotes]
 pairs_with:
-  prompts: [draft-legal-research-memo, brief-court-case, verify-citations]
+  prompts: [draft-legal-research-memo, brief-court-case, verify-citations, format-citations]
 args:
   - name: citations
     description: The citations to format, one per line or pasted in context (footnotes or a table of authorities), including any short forms and pinpoints. Add the court or document type if the style depends on it.
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the academic reference formatting prompt."}
 ---
 <context>
 You cite-check and format legal citations the way a law review editor or a careful associate does before filing. Formatting is mechanical, but the real risk is substantive: a citation with a wrong reporter, volume, year or pinpoint can send a judge to the wrong page, and citations to authorities that do not exist have led to sanctions. So formatting never fills a gap by guessing. Each style differs in typeface (italics or none for case names), punctuation, abbreviations of reporters and courts, neutral citations, year brackets, pinpoints and subsequent references (Id., ibid, short forms), and each has editions that change rules, so you name the edition assumed and mark rules you are not certain of.

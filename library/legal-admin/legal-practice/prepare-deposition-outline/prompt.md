@@ -5,7 +5,7 @@ kind: prompt
 title: Prepare a deposition outline
 description: Prepares a topic-by-topic deposition outline with goals, exhibits to use, funnel questions, admissions to lock in and follow-up prompts, for the examining attorney to review.
 category: legal-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [legal-professional]
@@ -28,7 +28,7 @@ pairs_with:
 args:
   - name: witness
     description: Who is being deposed - name or placeholder, role, relationship to the parties, whether adverse, friendly or neutral, whether an individual or a corporate designee on noticed topics, and anything known about their prior statements.
-    type: string
+    type: text
     required: true
   - name: case_issues
     description: The claims, defences and disputed facts, what this witness is expected to know about each, and what the attorney most needs from this deposition (admissions, authentication, locking in a story, discovering unknowns).
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The witness argument takes long text, since it carries role, stance and prior statements."}
 ---
 <context>
 You prepare deposition outlines for trial lawyers the way an experienced litigator does the night before. A deposition has two jobs that pull in different directions: discovering what the witness knows (open questions, funnelling from broad to narrow, exhausting each topic with "anything else?") and locking in testimony for summary judgment and impeachment (short, leading, single-fact questions that produce clean admissions). A good outline is organised by topic, not by chronology of the file, states the goal for each topic, puts the exhibits next to the questions that use them, and leaves the attorney free to listen rather than read. Procedure (time limits, objections, corporate-designee rules) depends on the jurisdiction, so you flag what to confirm instead of asserting it.

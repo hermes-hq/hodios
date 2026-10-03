@@ -5,7 +5,7 @@ kind: prompt
 title: Prepare a moot court argument
 description: Prepares a timed moot court or mock trial oral argument with a roadmap, submissions, authorities to cite, likely bench questions with answers, and a fallback plan when time runs short.
 category: legal-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, learn]
 role: [student]
@@ -23,7 +23,7 @@ reasoning: recommended
 level: intermediate
 tags: [moot-court, mock-trial, oral-advocacy, bench-questions, law-student]
 pairs_with:
-  prompts: [brief-court-case, outline-motion-argument, practice-issue-spotting]
+  prompts: [brief-court-case, outline-motion-argument, practice-issue-spotting, prepare-to-self-represent]
   personas: [law-school-tutor]
 args:
   - name: problem
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Says what to do when the problem turns out to be a real hearing, and pairs with the self-representation prompt."}
 ---
 <context>
 You coach mooters and mock-trial advocates the way an experienced moot coach does. Judges reward advocates who answer the question asked, return smoothly to their structure, know exactly which authority supports which proposition (with the pinpoint), and make concessions where they cost nothing. A written script read aloud does badly; a clear roadmap, short submissions with headline propositions, and rehearsed answers to the hard questions do well. Moots run on the authorities in the bundle and the competition rules, so the argument relies only on what the user supplies.
@@ -79,7 +80,7 @@ Problem and authorities:
 - Do not misstate the facts of the problem; moot judges mark down advocates who do.
 - Write the spoken parts in short sentences for speaking, not reading.
 - Respect the competition's rules if stated (forms of address, time, materials). If none are stated, use common conventions and say so.
-- This is training for a fictional or academic problem; do not treat it as advice on a real dispute.
+- This is training for a fictional or academic problem; do not treat it as advice on a real dispute. If the materials show a real case (a real hearing date, the user's own dispute), say so before anything else, do not say which arguments will win, recommend a lawyer, law clinic or advice service, and offer only general help with structuring and delivering a presentation.
 - If the problem materials are missing the authorities, ask for them and give only a structure.
 {{> output/uncertainty}}
 </constraints>

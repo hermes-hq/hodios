@@ -5,7 +5,7 @@ kind: prompt
 title: Write an accessibility statement
 description: Writes an honest accessibility statement for a website or app, covering the standard targeted, conformance status, known issues with workarounds, alternatives, feedback contact and review date.
 category: policies
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [product-manager, designer, frontend-engineer, legal-professional]
@@ -23,7 +23,7 @@ reasoning: recommended
 level: intermediate
 tags: [accessibility-statement, wcag, conformance, digital-inclusion, public-sector]
 pairs_with:
-  prompts: [audit-web-accessibility, audit-mobile-accessibility]
+  prompts: [audit-web-accessibility, audit-mobile-accessibility, write-accessibility-conformance-report]
   personas: [accessibility-specialist]
 args:
   - name: product
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Pairs with the accessibility conformance report prompt."}
 ---
 <context>
 You write accessibility statements that disabled users can rely on. The statement's job is practical: tell people what works, what does not, how to get the content another way, and how to report a problem and get a response. The common failures are overclaiming ("fully accessible", "WCAG compliant" with no testing behind it) and vague known-issues sections. Some regimes prescribe the statement's structure and content (for example public sector bodies in the UK and EU, and organisations within the European Accessibility Act), others do not require one at all; an inaccurate statement can create legal exposure. So every claim traces back to the testing described, and required elements are flagged for confirmation.

@@ -5,7 +5,7 @@ kind: prompt
 title: Draft contract clause options
 description: Drafts two or three alternative versions of a contract clause, from favourable to balanced to protective, with a comparison of the trade-offs, fallback positions and points for the lawyer to check.
 category: legal-practice
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [legal-professional]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Options follow the contract's own drafting conventions instead of switching to 'must' inside a 'shall' contract, and each option keeps the same trigger and defined terms so only the commercial position changes."}
 ---
 <context>
 You draft alternative contract clauses for transactional lawyers preparing for a negotiation. Lawyers rarely need one "right" clause; they need an opening position, a credible middle ground and a protective fallback, each drafted precisely enough to drop into the document, with a clear view of what each one gives away. Precision matters more than length: consistent use of the contract's defined terms, a clear trigger, a clear consequence, and no ambiguity about carve-outs. Enforceability of some clause types (limitation of liability, penalties and liquidated damages, restrictive covenants, unilateral variation, consumer terms) depends on the governing law, so those points are flagged for the lawyer rather than asserted.
@@ -66,7 +67,7 @@ Deal context:
    - Option A, favourable: the strongest position for the party represented that is still credible to put forward.
    - Option B, balanced: a position a reasonable counterparty would likely accept, typical of deals of this kind.
    - Option C, protective (when useful): the minimum acceptable position, protecting the party represented against the worst outcome.
-   Draft each as complete, numbered clause text in the contract's style, using its defined terms exactly; new terms are defined within the clause.
+   Draft each as complete, numbered clause text in the contract's style, using its defined terms exactly; new terms are defined within the clause. Keep the structure parallel across options (same clause numbering, same defined terms, same trigger wording where possible) so the lawyer can see that only the commercial position changes.
 3. Comparison: a table setting out for each option what it gives the party represented, what it concedes, the main risk left open, and how the counterparty is likely to react.
 4. Negotiation notes: the order to offer them, trade-offs that could be swapped elsewhere in the contract, and red lines suggested by the purpose.
 5. Points to check: enforceability or regulatory points under the governing law, interaction with other clauses (definitions, liability, termination, indemnities), and drafting choices the lawyer should confirm.
@@ -79,7 +80,7 @@ Deal context:
 - Do not cite statutes or cases unless supplied; describe the legal issue and mark it to confirm.
 - Each option must be internally consistent and complete; no "[insert carve-outs]" placeholders unless a commercial figure is genuinely missing, in which case use [BRACKETS] for that figure only.
 - Do not draft clauses designed to mislead the counterparty, hide obligations, or that would obviously be unenforceable or unlawful (for example excluding liability for fraud). If asked, explain why and offer a lawful alternative.
-- Plain modern drafting: "must" for obligations, active voice, short sentences, no archaic words.
+- Follow the drafting conventions of the existing contract (for example "shall" or "must" for obligations, how cross-references and numbers are written), because a clause in a different style creates the inconsistencies a defined-terms check would flag. Where the context shows no convention, use plain modern drafting: "must" for obligations, active voice, short sentences, no archaic words.
 {{> output/uncertainty}}
 </constraints>
 

@@ -5,13 +5,13 @@ kind: prompt
 title: Check endorsement disclosures
 description: Checks influencer, affiliate and endorsement content against advertising disclosure expectations for the market and platform, flags hidden or unclear disclosures, and suggests compliant wording.
 category: compliance
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [marketer, content-creator, legal-professional]
 subject: [law]
 requires: [none]
-inputs: [text, image, url]
+inputs: [text, image]
 output: [checklist, rewrite, table]
 risk: read-only
 advice_risk: [legal]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Inputs list pasted text and screenshots only; the prompt does not fetch links."}
 ---
 <context>
 You review endorsement and influencer content for advertising disclosure, the way a marketing compliance specialist does before a post goes live. Across most markets the principle is the same: if there is a material connection between the creator and the brand (payment, free products, commission, a family or employment link), the audience must be able to see clearly and immediately that the content is advertising. The common failures are disclosures hidden after "more", buried in a block of hashtags, vague ("#sp", "#collab", "thanks to X"), only in the bio, only in a voice-over the viewer might skip, or missing in some story frames. Enforcers and guidance differ (for example consumer protection and advertising regulators and self-regulatory bodies in the US, UK, EU member states and Australia), and the brand can be liable as well as the creator, so you name the market's general approach and flag specifics for confirmation.

@@ -5,7 +5,7 @@ kind: prompt
 title: Draft an engagement letter
 description: Drafts a law firm engagement letter covering client identity, scope and exclusions, fees, billing, responsibilities, conflicts, file retention and termination, with every rule-dependent term flagged.
 category: legal-practice
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [legal-professional, operations-manager]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Adds identity and anti-money-laundering checks, how client money is held, and how the firm uses the client's personal data."}
 ---
 <context>
 You draft engagement letters for law firms the way a practice-management lawyer does. A well-drafted engagement letter prevents the two most common sources of complaints and malpractice claims: disputes about what the firm agreed to do (scope) and disputes about money (fees and billing). The essentials are: who exactly the client is, a scope stated specifically enough that exclusions are obvious, a fee basis the client can understand and estimate, what the client must do, how either side ends the relationship, and what happens to the file. Many regulators require specific content (for example written contingency agreements, information on complaints procedures, costs estimates or client-care information), and those requirements differ between jurisdictions and change, so you include the topics and flag the exact wording for the lawyer to confirm against their own rules.
@@ -73,7 +74,10 @@ Fee arrangement:
    - Fees: the basis, rates or fixed fee and what it covers, a good-faith estimate or the stages where one will be given, expenses and third-party costs, retainer or deposit and how it is held, billing frequency, payment terms, and what happens on non-payment. For a contingency fee, how the percentage is calculated, before or after costs, and what the client owes if the matter ends early.
    - Client responsibilities: honesty, timely instructions and documents, preserving evidence, keeping contact details up to date.
    - No guarantee of outcome.
-   - Communications and confidentiality, including electronic communications.
+   - Communications and confidentiality, including electronic communications and the risk of payment-detail fraud (the firm will never change its bank details by email).
+   - Identity and anti-money-laundering checks, where the firm must carry them out: what the client must provide and that work may not start until they are complete. Mark this to confirm, since the duty depends on the jurisdiction and the type of work.
+   - Client money: how money on account is held (for example a client or trust account) and whether interest is paid, marked to confirm against the rules.
+   - How the firm uses the client's personal data, with a pointer to its privacy notice as [LINK].
    - Conflicts: confirmation a check was done, and any disclosed conflict and consent if applicable.
    - Complaints: how to raise a concern with the firm and any external route the regulator requires.
    - Ending the engagement: by the client at any time, by the firm in stated circumstances subject to its professional obligations, and what is owed on termination.
