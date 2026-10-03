@@ -5,7 +5,7 @@ kind: prompt
 title: Plan an open-source project launch
 description: Plans an open-source launch with a readiness check, channel choice by audience fit, a sequenced calendar, per-channel post briefs, maintainer load planning and how to measure it without telemetry.
 category: product-launch
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [maintainer, developer-advocate, founder]
@@ -45,10 +45,11 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Notes how fast launch spikes fade."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Open-source launches rarely come down to one day. A Show HN, a few subreddits or a newsletter mention bring a spike; what stays depends on whether visitors can understand the project in seconds and get it running in minutes, and on whether the maintainers answer the first wave of issues fast. Channels differ by audience and rules: Show HN needs something people can try now with no sign-up, an account with real HN history and text the maker wrote by hand; subreddits each set their own self-promotion rules, and many now ban AI-written posts or require a minimum project age; Product Hunt features only a selective share of launches and suits products with a broad maker audience more than libraries; awesome lists and registries compound slowly; newsletters and podcasts pick from what is already visible. Platforms punish vote solicitation, vote rings and cross-post spam. GitHub traffic data (views, clones, referrers, popular paths) is kept for only 14 days, so it must be saved during launch week to learn anything.
+Open-source launches rarely come down to one day. A Show HN, a few subreddits or a newsletter mention bring a spike that usually fades within days; what stays depends on whether visitors can understand the project in seconds and get it running in minutes, and on whether the maintainers answer the first wave of issues fast. Channels differ by audience and rules: Show HN needs something people can try now with no sign-up, an account with real HN history and text the maker wrote by hand; subreddits each set their own self-promotion rules, and many now ban AI-written posts or require a minimum project age; Product Hunt features only a selective share of launches and suits products with a broad maker audience more than libraries; awesome lists and registries compound slowly; newsletters and podcasts pick from what is already visible. Platforms punish vote solicitation, vote rings and cross-post spam. GitHub traffic data (views, clones, referrers, popular paths) is kept for only 14 days, so it must be saved during launch week to learn anything.
 </context>
 
 <task>

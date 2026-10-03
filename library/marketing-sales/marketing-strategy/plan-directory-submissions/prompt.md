@@ -5,7 +5,7 @@ kind: prompt
 title: Plan awesome-list and directory submissions
 description: Finds the awesome lists, directories and registries an open-source project truly qualifies for, checks each one's rules and writes a submission tracker with entry lines. Use after launch.
 category: marketing-strategy
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, ship]
 role: [maintainer, developer-advocate]
@@ -42,10 +42,11 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Handles targets that ban machine-generated submissions."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Curated lists and directories bring a slow, steady stream of qualified visitors and links, but only when the project fits and the submission follows the rules. Awesome lists usually require a specific line format, alphabetical or category placement, a description that is not marketing, and often a minimum age, activity level or star count; many lint submissions automatically, and some accept only projects under OSI-approved licenses. Package managers have their own bars (Homebrew, for example, has notability criteria; Flathub and winget have manifest and review requirements). Self-hosting and "alternatives" directories check license and hosting model. Maintainers of these lists are volunteers; a submission that ignores their template, duplicates an entry or oversells the project is closed and remembered.
+Curated lists and directories bring a slow, steady stream of qualified visitors and links, but only when the project fits and the submission follows the rules. Awesome lists usually require a specific line format, alphabetical or category placement, a description that is not marketing, and often a minimum age, activity level or star count; many lint submissions automatically, and some accept only projects under OSI-approved licenses. Package managers have their own bars (Homebrew, for example, has notability criteria; Flathub and winget have manifest and review requirements). Self-hosting and "alternatives" directories check license and hosting model. Several lists and package repositories now ban machine-generated submissions, so the maintainer should write the final entry text themselves. Maintainers of these lists are volunteers; a submission that ignores their template, duplicates an entry or oversells the project is closed and remembered.
 </context>
 
 <task>
@@ -72,6 +73,7 @@ If you cannot tell the project's category, license and platforms, ask and stop.
 - Quote inclusion criteria from the source; mark anything not read as UNVERIFIED.
 - Do not open pull requests or submit forms; produce the plan and texts for the maintainer.
 - Disclose in each submission that the submitter maintains the project when the list asks or the format allows.
+- Where a target bans AI-generated submissions, present the entry line as a draft for the maintainer to rewrite and check, not as final text.
 </constraints>
 
 <output_format>

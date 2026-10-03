@@ -5,7 +5,7 @@ kind: prompt
 title: Set up growth metrics for an open-source project without telemetry
 description: Defines the handful of public, telemetry-free metrics that show an open-source project's adoption and community health, with collection commands, a weekly archive and leading versus vanity signals.
 category: product-metrics
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [maintainer, developer-advocate, data-analyst]
@@ -39,6 +39,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Token guidance for the weekly archive job."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -56,7 +57,7 @@ If you cannot tell where the project is distributed or whether the user can read
 1. **North-star and inputs.** Propose one north-star metric tied to {{goal}} that can be measured from public or owner-visible data (for example weekly downloads of the latest major version, or monthly new issue authors who are not maintainers), and four to six input metrics that move it. Explain why each is a leading or lagging signal.
 2. **Metric definitions.** For each metric: exact definition, source, granularity, known distortions (mirrors and CI inflate downloads; bots inflate clones; AI-generated issues inflate activity; stars can be bought) and how to correct for them.
 3. **Collection.** For each source available to this project, give the exact command or API call to collect it, for example `gh api repos/OWNER/REPO/traffic/views`, `.../traffic/clones`, `.../traffic/popular/referrers`, `.../traffic/popular/paths`, the releases endpoint summing each asset's `download_count`, the npm downloads range endpoint, and the Homebrew analytics JSON. Mark any endpoint you are not sure of as [CHECK] and point to its documentation.
-4. **Weekly archive.** Design a small archive: a scheduled job (for example a GitHub Actions workflow on a weekly cron with a token that can read traffic) that appends each week's numbers to a CSV in a separate branch or repository. Give the CSV columns. Say what it must never collect (personal data about visitors or users).
+4. **Weekly archive.** Design a small archive: a scheduled job (for example a GitHub Actions workflow on a weekly cron using a fine-grained token with the repository permission the traffic API requires; the default workflow token may not be enough, so tell the user to check the API documentation) that appends each week's numbers to a CSV in a separate branch or repository. Give the CSV columns. Say what it must never collect (personal data about visitors or users).
 5. **What not to track.** List metrics to drop or demote (raw star totals as a goal, follower counts, total clones), and say why.
 </task>
 

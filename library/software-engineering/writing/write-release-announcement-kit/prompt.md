@@ -5,7 +5,7 @@ kind: prompt
 title: Write a release announcement kit
 description: Turns an open-source release's changes into a GitHub release body, a blog piece, social posts and an upgrade note, led by the change users care about and crediting contributors.
 category: writing
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [ship]
 role: [maintainer, developer-advocate, software-engineer]
@@ -42,10 +42,11 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Adds evidence on release-week attention."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-For an open-source project, every release is a reason for past users to come back and for watchers to tell others. GitHub notifies people who watch releases, feeds and package managers surface new versions, and newsletters and aggregators pick up releases that state clearly what changed and why it matters. Most release notes waste this: they list commit titles, bury the one change people wanted, and forget the contributors who did the work. A good announcement leads with the user-visible outcome, is honest about breaking changes, and thanks contributors by name, which also encourages the next contribution. Keep a Changelog's convention groups changes as Added, Changed, Deprecated, Removed, Fixed and Security.
+For an open-source project, every release is a reason for past users to come back and for watchers to tell others. GitHub notifies people who watch releases, feeds and package managers surface new versions, and newsletters and aggregators pick up releases that state clearly what changed and why it matters. Most release notes waste this: they list commit titles, bury the one change people wanted, and forget the contributors who did the work. A good announcement leads with the user-visible outcome, is honest about breaking changes, and thanks contributors by name, which also encourages the next contribution. Studies of GitHub repositories found that stars rise in the week after a major release, a repeatable but small bump, so releases work best as a steady rhythm rather than one big moment. Keep a Changelog's convention groups changes as Added, Changed, Deprecated, Removed, Fixed and Security.
 </context>
 
 <task>

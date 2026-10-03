@@ -5,7 +5,7 @@ kind: prompt
 title: Audit an open-source contributor funnel
 description: Finds where would-be contributors drop off, from first visit to a second merged PR, using public repo data, and ranks fixes by maintainer hours. Use when contributors do not stick.
 category: planning
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [review, plan]
 role: [maintainer, tech-lead, developer-advocate]
@@ -42,10 +42,11 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Wording on AI-generated activity matches the source."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Contributors move through stages: user, issue reporter, first pull request, merged first PR, second contribution, regular. Research on newcomers lists dozens of barriers, mostly in how they are received, oriented and documented, and technical hurdles such as setup. The CHAOSS project defines public metrics for this: time to first response (excluding bots), change request closure ratio, new contributors, and the contributor absence factor (the fewest people responsible for half the contributions). Most popular developer tools have many users and few contributors, so the goal is a realistic, sustainable flow, not a crowd. Since 2025, AI-generated issues and pull requests inflate activity counts, so look at who the authors are before trusting volumes. Events that reward contribution counts tend to attract spam unless maintainers gate what counts.
+Contributors move through stages: user, issue reporter, first pull request, merged first PR, second contribution, regular. Research on newcomers lists dozens of barriers, mostly in how they are received, oriented and documented, and technical hurdles such as setup. The CHAOSS project defines public metrics for this: time to first response (excluding bots), change request closure ratio, new contributors, and the contributor absence factor (the fewest people responsible for half the contributions). Most popular developer tools have many users and few contributors, so the goal is a realistic, sustainable flow, not a crowd. AI-generated issues and pull requests now inflate activity counts and response times, so look at who the authors are before trusting volumes. Events that reward contribution counts tend to attract spam unless maintainers gate what counts.
 </context>
 
 <task>

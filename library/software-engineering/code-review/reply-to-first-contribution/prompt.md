@@ -5,7 +5,7 @@ kind: prompt
 title: Reply to a first-time contribution
 description: Reviews a first-time contributor's pull request and drafts the reply that gets it merged or redirected without losing the person, with blocking items separated from optional ones. Use on any first PR.
 category: code-review
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [review]
 role: [maintainer, software-engineer, tech-lead]
@@ -43,10 +43,11 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Context matches the evidence on first-response speed versus tone."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-A first pull request is the most fragile point of the contributor funnel. First contributions wait longer for a response than other pull requests, and contributors reviewed within about two days are far more likely to come back than those left waiting a week. Speed and clarity matter more than enthusiasm: a fast, specific reply that says exactly what is needed beats a warm one that leaves the person guessing. Newcomers often do not know unwritten rules (sign-off, changelog, commit style), so the reply should teach those once, with links, and maintainers can often make trivial fixes themselves rather than send the work back.
+A first pull request is the most fragile point of the contributor funnel. A study of millions of first pull requests found they wait longer for a first response than other pull requests, and that how positive the reply sounded did not predict whether newcomers stayed, while project activity and responsiveness did; data Mozilla reported points the same way, with contributors reviewed within about two days far more likely to return. So speed and clarity matter more than enthusiasm: a fast, specific reply that says exactly what is needed beats a warm one that leaves the person guessing. Newcomers often do not know unwritten rules (sign-off, changelog, commit style), so the reply should teach those once, with links, and maintainers can often make trivial fixes themselves rather than send the work back.
 </context>
 
 <task>

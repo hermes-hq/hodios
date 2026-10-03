@@ -5,7 +5,7 @@ kind: prompt
 title: Sharpen an open-source project's pitch
 description: Finds an open-source project's real category, audience and differentiator, then writes the one-line pitch, repo description, topics and README opener. Use before a launch or when nobody gets it.
 category: marketing-strategy
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [maintainer, founder, developer-advocate]
@@ -42,6 +42,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Checks for name collisions and adds a disambiguation line."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -60,7 +61,7 @@ First audience: {{audience}}.
 
 If you cannot tell what the project does, who runs it, or how they install it, ask for those in one message and stop.
 
-1. **Name the category.** List three to five nouns a user would type to find something like this (for example "terminal emulator", "prompt library", "feature flag service"). Pick the one with the clearest existing demand and say why. If the project creates a new category, pair the new term with an existing one.
+1. **Name the category.** List three to five nouns a user would type to find something like this (for example "terminal emulator", "prompt library", "feature flag service"). Pick the one with the clearest existing demand and say why. If the project creates a new category, pair the new term with an existing one. Check the project name too: if it collides with a well-known project or product in the same space, say so and write a one-line disambiguation for the README.
 2. **Pin the first audience.** One specific group with a trigger moment ("when you run three coding agents at once and lose track of which one is waiting"). Name who it is not for yet.
 3. **Find the differentiator.** Compare against each alternative on the two or three things this audience cares about. Keep only differences the user can verify in minutes (open license, runs offline, no account, works with X). Mark any claim that needs a benchmark or proof as [NEEDS PROOF].
 4. **Write pitch options.** Five one-liners, each under 15 words, each built as category noun plus audience or job plus differentiator. Avoid "revolutionary", "supercharge", "blazing", "AI-powered" as the whole idea, and any superlative you cannot prove. Recommend one and explain the choice in two sentences.

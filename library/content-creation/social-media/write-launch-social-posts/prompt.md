@@ -5,7 +5,7 @@ kind: prompt
 title: Write launch posts for X, Bluesky, Mastodon and LinkedIn
 description: Writes an open-source project's launch or release posts for X, Bluesky, Mastodon and LinkedIn, each fitted to the network's length and culture, with alt text. Use on launch day.
 category: social-media
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [ship]
 role: [maintainer, developer-advocate, founder]
@@ -43,10 +43,11 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Adds evidence on author versus user posts; softens the thread claim."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Developer audiences are spread across networks with different norms. X rewards a strong first post with media; long threads lose most readers after the first post, so the first one must stand alone. Bluesky has a 300-character limit and a developer community that dislikes engagement bait. Mastodon is federated: posts are found mainly through hashtags (written in CamelCase for screen readers) and boosts, link previews and content warnings follow local norms, and alt text on images is expected. LinkedIn favours a short personal story with the link and context in the text; heavy hashtag use and "agree?" bait read as spam. On every network, a demo GIF or short video of the real thing usually beats a logo, and a maker who replies to people beats one who broadcasts. Character limits and link handling change, so the user should check the current limits.
+Developer audiences are spread across networks with different norms. On X many readers see only the first post of a thread, so it must stand alone with media. Research on tweets about GitHub projects found a measurable but modest effect on stars, larger for posts by people other than the authors, and much smaller on contributors: posts from real users who tried a project carry more weight than the maker's own, so make it easy for them to share, and never fake that. Bluesky has a 300-character limit and a developer community that dislikes engagement bait. Mastodon is federated: posts are found mainly through hashtags (written in CamelCase for screen readers) and boosts, link previews and content warnings follow local norms, and alt text on images is expected. LinkedIn favours a short personal story with the link and context in the text; heavy hashtag use and "agree?" bait read as spam. On every network, a demo GIF or short video of the real thing usually beats a logo, and a maker who replies to people beats one who broadcasts. Character limits and link handling change, so the user should check the current limits.
 </context>
 
 <task>

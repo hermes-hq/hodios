@@ -5,7 +5,7 @@ kind: prompt
 title: Pitch developer newsletters and podcasts
 description: Finds developer newsletters, podcasts and channels that cover projects like yours, checks how each takes submissions, and writes a short personal pitch per outlet. Use after a launch.
 category: marketing-strategy
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [ship]
 role: [maintainer, developer-advocate, founder]
@@ -42,6 +42,7 @@ authorship: ai-generated
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.1.0, note: "Drafts are explicitly for the maintainer to rewrite."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -69,7 +70,7 @@ If nothing about the project is newsworthy yet (no release, story or result), sa
 - No mass or templated sends, no fake familiarity, no pretending to be a reader tipping the outlet about your own project.
 - Paid placements must be disclosed as sponsored; do not suggest disguising them.
 - Use only facts from the input; never invent coverage, users or numbers.
-- Do not send anything; produce the list and drafts for the maintainer.
+- Do not send anything; produce the list and drafts for the maintainer, who personalises and rewrites each one in their own words before sending.
 </constraints>
 
 <output_format>
