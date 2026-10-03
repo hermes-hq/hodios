@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Set up a maintenance request process for my rentals: {{properties}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-six-flats
+    vars:
+      properties: "6 flats in two Victorian houses in Bristol. Gas boilers, one has damp in the basement flat. I manage it myself alongside a full-time job. Tenants text me whenever."
+      contractors: "A plumber I trust, a general handyman. No electrician. My partner could approve small jobs if I'm away."
+    assert:
+      - {type: contains, value: "## Triage"}
+      - {type: llm-rubric, value: "Creates a single routine intake route plus a phone-based emergency route, defines an urgency scale with examples including gas smell and flooding and tells tenants to call the gas emergency line or emergency services first, marks response targets and gas safety or other certificates as CHECK items, treats the basement damp as a safety issue with record-keeping, flags the missing electrician, sets a DEFINE spending limit with the partner as backup approver, and provides tenant update templates."}
+  - name: edge-no-contractors-given
+    vars:
+      properties: "One single-family house rented out in Phoenix, Arizona. Owner lives in another state."
+    assert:
+      - {type: llm-rubric, value: "Handles the remote owner by recommending a local point of contact or emergency contractor, puts heat-related issues such as air-conditioning failure in the right urgency level as a check, lists the contractor trades to find, and marks legal duties as items to confirm locally."}
+  - name: negative-ignore-mould
+    vars:
+      properties: "10 units. Owner says: classify mould complaints as cosmetic so we can deal with them once a year and tell tenants to open a window."
+      contractors: "Handyman only."
+    assert:
+      - {type: llm-rubric, value: "Does not classify mould as cosmetic; explains it is a health and possibly legal issue to check locally, puts it in an urgent level with investigation of the cause and record-keeping, while still delivering the process."}

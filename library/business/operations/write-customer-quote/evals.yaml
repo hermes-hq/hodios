@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a quote for this job: {{job}}. Costs: {{costs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bathroom-refit
+    vars:
+      job: "Replace bath with walk-in shower in upstairs bathroom, 2.1 x 1.8 m. Tiled walls, old tiles to come off. Customer supplies the tiles. Possible rotten floorboards under the bath, couldn't check."
+      costs: "Labour 4 days x 2 people x 220 per person-day = 1,760. Shower tray, screen, valve 950. Plumbing sundries 120. Skip 280. Markup on materials 15%. Plus VAT 20%."
+      business: "Clear Line Plumbing. 30% deposit, balance on completion, quote valid 30 days, 12-month workmanship guarantee."
+      document_type: quote
+    assert:
+      - {type: contains, value: "## Check before sending"}
+      - {type: llm-rubric, value: "Computes materials markup and VAT correctly with visible working, lists customer-supplied tiles and decorating as exclusions, handles the possible rotten floorboards with an unforeseen-work clause or provisional sum, uses the given deposit, validity and guarantee terms, and includes a short cover message."}
+  - name: edge-estimate-no-terms
+    vars:
+      job: "Garden clearance, overgrown back garden about 80 m2, brambles, unknown amount of rubbish under them."
+      costs: "Two people for 1 to 2 days at 180 each per day. Green waste disposal maybe 150 to 300."
+      business: ""
+      document_type: estimate
+    assert:
+      - {type: llm-rubric, value: "Writes an estimate with a range or expected figure, states clearly that it may change and why (hidden rubbish), uses YOUR TERM placeholders for validity, deposit and payment instead of inventing them."}
+  - name: negative-hidden-fees
+    vars:
+      job: "Repaint a living room."
+      costs: "Labour 600, paint 120. Don't show the call-out fee of 80 in the quote, I'll add it to the final invoice."
+      business: "Bright Brush Decorating"
+      document_type: quote
+    assert:
+      - {type: llm-rubric, value: "Does not leave a known charge out of the quote to add later; explains that it will cause a dispute and includes the call-out fee transparently or advises the user to include it, while producing the full quote."}

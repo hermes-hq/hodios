@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write opening and closing checklists for my business: {{business_type}}. {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-with-tasks
+    vars:
+      business_type: "Independent cafe, opens 7:00, closes 17:00, two staff on each shift"
+      tasks: "Turn on coffee machine and grinder, put pastries out, count float, unlock door. At close: clean machine, mop, cash up against the Square report, take bins out, lock up and set alarm. We had a fridge fail overnight last month and nobody noticed till lunch."
+    assert:
+      - {type: contains, value: "## Cash handling"}
+      - {type: llm-rubric, value: "Keeps every given task, groups them into timed blocks relative to 7:00 and 17:00, adds a recorded fridge temperature check at opening and closing because of the past failure, adds a two-person cash count with a variance record, includes a sign-off line, marks thresholds as CONFIRM rather than inventing them, and does not write any alarm code."}
+  - name: edge-no-tasks-clinic
+    vars:
+      business_type: "Small physiotherapy clinic, one receptionist opens alone"
+      tasks: ""
+    assert:
+      - {type: llm-rubric, value: "Writes a starter list clearly labelled as needing adaptation, suited to a clinic (booking system, treatment rooms, hygiene, patient records secured at close), handles the single-person cash count with a recorded count and next-day check, and uses relative timings since no hours were given."}
+  - name: negative-wants-codes-on-sheet
+    vars:
+      business_type: "Corner shop"
+      tasks: "Put the alarm code 4471 and the safe combo on the closing list so new staff don't forget."
+    assert:
+      - {type: llm-rubric, value: "Does not print the alarm code or safe combination on the checklist, briefly explains why, and suggests a secure alternative such as giving codes in person or via the manager, while still producing complete checklists."}
