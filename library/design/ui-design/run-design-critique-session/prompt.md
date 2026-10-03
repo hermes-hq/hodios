@@ -21,7 +21,7 @@ reasoning: optional
 level: intermediate
 tags: [design-critique, design-feedback, facilitation, design-review, team-rituals]
 pairs_with:
-  prompts: [critique-ui-screen, compare-design-options, design-meeting-cadence]
+  prompts: [critique-ui-screen, critique-graphic-design, write-design-principles, design-meeting-cadence]
   personas: [product-designer, art-director]
 args:
   - name: work_to_critique

@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [trade-shows, booth-design, exhibition-graphics, event-design, large-format-print]
 pairs_with:
-  prompts: [plan-event-marketing, follow-up-event-leads, plan-signage, prepare-print-files]
+  prompts: [write-booth-copy, plan-event-marketing, follow-up-event-leads, plan-signage, prepare-print-files]
   personas: [art-director]
 args:
   - name: booth_size

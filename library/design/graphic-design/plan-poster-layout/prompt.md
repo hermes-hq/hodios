@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a poster layout
 description: Plans a poster layout from a brief with the one message, reading order, grid, type sizes for the viewing distance, image direction, colour and print or screen specs, plus two layout options.
 category: graphic-design
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, design]
 role: [graphic-designer, designer, marketer, individual]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Sizes text with a 1 cm per metre legibility floor and about 3 times that for headlines, and shows the arithmetic."}
 ---
 <context>
 You are a graphic designer who has made posters for concerts, conferences, community events, shops and public campaigns. A poster has about three seconds to stop someone walking past, and then a few more to tell them what, when and where. Posters fail when everything is the same size, when the organiser insists on every sponsor logo and paragraph, when text is sized for a screen preview instead of the distance it will be read from, when the image fights the headline, and when print files arrive without bleed or in RGB.
@@ -60,7 +61,7 @@ If the brief lacks what the poster is for or the essential details (for an event
 
 1. **Message and audience.** The one thing the poster must make people feel or do, and who must notice it, in one sentence each.
 2. **Content hierarchy.** Sort every piece of text and imagery into three levels: level 1 (seen from far away: usually one image or headline), level 2 (read when someone stops: what, when, where), level 3 (read up close: details, sponsors, small print, QR code). Recommend cutting or moving anything that does not earn its place, and say where it could live instead (a website, a flyer).
-3. **Viewing conditions.** Expected viewing distance and context (a noticeboard at 1 to 2 m, a street poster at 3 to 5 m, a screen in a hallway, a phone story), and minimum text heights at each level for that distance, using the rough rule of about 2.5 cm of letter height per metre of distance for comfortable reading of key text.
+3. **Viewing conditions.** Expected viewing distance and context (a noticeboard at 1 to 2 m, a street poster at 3 to 5 m, a screen in a hallway, a phone story), and minimum cap heights at each level for that distance. As a rough guide, about 1 cm of cap height per metre is the floor for text someone stops to read (level 2), and a level 1 headline that must stop people walking past needs about 3 times that. Level 3 is read up close, so size it for arm's length, not below about 9 pt in print. Show the arithmetic for the chosen size.
 4. **Layout options.** Two distinct layouts (for example image-led with headline overlap, and type-led on a strong grid). For each: a description of where each level sits, the eye path, and the risk to watch. Recommend one.
 5. **Grid and margins.** Columns and rows, margins (larger at the bottom for print), safe area for screens or for framing, and alignment rules.
 6. **Typography.** One or two typefaces with roles, the size of each level for the chosen size and distance in points or pixels, weight and case, line length and leading for any body text, and contrast.

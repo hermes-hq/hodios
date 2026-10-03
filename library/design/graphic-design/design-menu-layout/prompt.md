@@ -5,7 +5,7 @@ kind: prompt
 title: Design a menu layout
 description: Designs a restaurant menu layout with sections, eye path, item placement, price presentation, typography and allergen marking for print, digital or menu board formats. For restaurant owners.
 category: graphic-design
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design]
 role: [graphic-designer, founder, designer, operations-manager]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Drops the unsupported upper-right sweet spot claim in favour of first and last positions within sections, and gives format specs only for the chosen format."}
 ---
 <context>
 You are a graphic designer who specialises in hospitality, working with chefs and owners on menus that guests find easy to order from and that support the business. Menus fail when they are too long to choose from, when sections follow the kitchen's logic instead of the guest's, when prices are lined up in a right-hand column with dot leaders so guests shop by price, when the items the restaurant wants to sell are buried mid-list, when type is tiny and low-contrast in dim light, and when allergen information is missing or unreadable. A menu is the restaurant's main sales tool and also a legal document in many places.
@@ -67,12 +68,12 @@ If there are no prices or no item list, ask for them and stop. If no brand is gi
 
 1. **Menu edit.** Flag sections with too many items (more than about 7 to 10 per section slows decisions), duplicates, and items that could be cut or combined; recommendations only, the owner decides.
 2. **Structure.** Section order in the order guests eat or decide (for example snacks, starters, mains, sides, desserts; drinks separately or on the back), section names in the restaurant's voice but still clear.
-3. **Layout.** For the format: panels or pages and what goes on each, the eye path (for a single page, guests often look first near the top and centre; for a two-panel spread, the upper right panel draws attention), white space, and where the logo, contact details and service notes sit.
-4. **Item placement.** Where signature and high-margin items go (first or last in a section, in a box or with a small graphic device, used sparingly on 1 or 2 items per section), and how the rest are ordered.
+3. **Layout.** For the format: panels or pages and what goes on each, the eye path, white space, and where the logo, contact details and service notes sit.
+4. **Item placement.** Where signature and high-margin items go. Do not rely on the old "sweet spot" claim that eyes go first to the upper right of a spread: eye-tracking studies find guests mostly read a menu like a book, section by section, and items at the start and end of a section are the likeliest to be noticed. So place them first or last in their section, optionally in a box or with a small graphic device (used sparingly, on 1 or 2 items per section), and say how the rest are ordered.
 5. **Prices.** Present prices after the description in the same type size or slightly smaller, without currency symbols where local practice allows, no dot leaders, no price column. Note local rules on showing prices with tax or service included.
 6. **Typography and colour.** One or two typefaces, sizes (item names around 11 to 14 pt for print, descriptions not below about 9 to 10 pt), weights, contrast for the actual lighting, and colour use.
 7. **Dietary and allergen marking.** A clear, consistent key (letters or icons with a legend), placement next to each item, and a line telling guests to ask staff about allergies. Do not mark an item free of an allergen unless the input says so.
-8. **Format specs.**
+8. **Format specs.** Only for {{format}}:
    - print: size and fold, paper weight and coating (wipeable or laminated for daily use, uncoated for disposable), bleed, colour mode, and how often prices change (inserts or a printable single sheet).
    - digital: single-column mobile layout, real text rather than an image or PDF scan, fast loading, collapsible sections, accessible contrast and text sizing.
    - board: viewing distance and letter heights, a maximum number of items per board, grouping by colour or panel, and where daily specials sit.

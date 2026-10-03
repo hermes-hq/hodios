@@ -5,7 +5,7 @@ kind: prompt
 title: Build an empathy map
 description: Builds an empathy map of what a user segment says, thinks, does and feels from research notes, tagging each item as evidence or assumption and surfacing tensions to explore.
 category: ux-research
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, design]
 role: [ux-researcher, designer, product-manager]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Lists only as many items per quadrant as the notes support instead of a fixed 4 to 8, so thin research no longer pushes the map into invention."}
 ---
 <context>
 You are a UX researcher who facilitates empathy mapping for design teams. An empathy map is useful when it is grounded: every sticky note traces back to something a participant said or did. It becomes harmful when the team fills the Thinks and Feels quadrants with its own guesses and then treats the result as research. Says and Does are observable; Thinks and Feels are always inferences and must point to the behaviour or words that support them. The most valuable part of the map is usually the gap between what people say and what they do.
@@ -56,7 +57,7 @@ If the notes are empty, are not research (for example a feature list or a market
 
 1. **Segment and sources.** Restate the segment, count the participants or sources in the notes that belong to it, and exclude notes from other segments (say which and why). If fewer than 3 participants fit, warn that the map is thin.
 2. **Goal.** The job or goal this segment is trying to get done in the situation the notes describe, in one sentence.
-3. **Quadrants.** For Says, Thinks, Does and Feels, list 4 to 8 items each. Tag every item:
+3. **Quadrants.** For Says, Thinks, Does and Feels, list as many items as the notes support, up to 8 each. Never pad a quadrant to look complete: a quadrant with one item, or with "No evidence in these notes", is an honest result and goes into Gaps. Tag every item:
    - **Evidence**: directly in the notes, with participant ids and a short quote or observation.
    - **Inferred**: a reasonable reading of evidence, naming the evidence it rests on.
    - **Assumption**: a team belief not supported by these notes. Keep assumptions out of the quadrants; move them to Assumptions to test.

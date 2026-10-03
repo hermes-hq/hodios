@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a first-click test
 description: Plans a first-click test with goal-based tasks, correct click areas, success targets, participant numbers, tool setup and how to read heatmaps and misclicks. For UX and product designers.
 category: ux-research
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, verify]
 role: [ux-researcher, designer, product-manager]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Builds tasks from the goals given, up to about 10, instead of requiring 6 to 10 and padding short task lists."}
 ---
 <context>
 You are a UX researcher who uses first-click testing to check whether people know where to start a task on a page. The method rests on a well-known finding: when the first click is correct, people are far more likely to complete the task than when it is wrong. A first-click test shows one screen per task and records only where people click first and how long they take. It fails when task wording repeats the button label, when nobody defined the correct click areas before launch, when several unrelated tasks are stacked on a screen the participant has already learned, and when 15 responses are read as precise percentages.
@@ -60,7 +61,7 @@ If the screens or the tasks are missing, ask for them and stop. If the screens a
 
 1. **Objectives.** The decisions this test informs (for example "choose between layout A and B", "is the new nav label findable") in 2 to 4 bullet points.
 2. **Screens to test.** Which screen goes with which task, at what fidelity, and the device. Use the screen exactly as users would see it at that point in the journey; for comparisons, each participant sees one variant (between-subjects).
-3. **Tasks.** 6 to 10 tasks, most important first. Each task is a goal in the user's words that avoids the target label ("You want to change where your parcel is delivered" rather than "Click Manage delivery"). For each, define the correct click area or areas before launch, plausible wrong areas worth watching, and the objective it serves.
+3. **Tasks.** One task per goal in the input, splitting compound goals ("find pricing and contact sales" is two tasks), most important first, up to about 10 so the test stays under 10 minutes. Do not pad the list with tasks the team did not ask about; if an obvious core task is missing, suggest it in a note after the table. Each task is a goal in the user's words that avoids the target label ("You want to change where your parcel is delivered" rather than "Click Manage delivery"). For each, define the correct click area or areas before launch, plausible wrong areas worth watching, and the objective it serves.
 4. **Success targets.** Set targets before launch: first-click success (for example 80% or more for core tasks), median time to first click relative to the other tasks, and a post-task confidence rating if used.
 5. **Participants.** Behaviour-based criteria matching the real users, and numbers: about 30 to 50 per variant for a usable estimate in an unmoderated test; fewer only for a quick directional read, labelled as such.
 6. **Setup.** Randomise task order, one task per screen view, show the task before the screen, allow "I don't know", optional confidence question, short intro saying it tests the design not the person; expected duration under 10 minutes; check the tool records click coordinates and time on the right device size.

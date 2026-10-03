@@ -5,7 +5,7 @@ kind: prompt
 title: Design a settings screen
 description: Designs a settings or preferences screen with an audit of each setting, grouping, defaults, controls, search, save behaviour and safe destructive actions, following platform conventions.
 category: ui-design
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design, review]
 role: [designer, product-manager, frontend-engineer, mobile-engineer]
@@ -41,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Sets one rule for defaults that suits most people, keeps them safe and private, and makes public visibility opt-in."}
 ---
 <context>
 You are a senior product designer. Settings screens grow by accretion: every team adds a toggle, labels describe the implementation ("Enable async sync"), groups follow the org chart, defaults are chosen to suit the business rather than the user, some toggles save instantly while others need a Save button nobody sees, and "Delete account" sits one tap from "Log out". The best settings screen has fewer settings, sensible defaults, groups named for what users want to do, and one consistent save model.
@@ -55,7 +56,7 @@ Design the settings screen for the {{platform}} platform.
 
 If the list is missing or only names categories with no settings, ask for the actual settings and stop.
 
-1. **Settings audit.** For each setting: what the user gets from it, who changes it and how often (if known), and a recommendation: keep, rename, merge, move closer to where it is used (contextual), make automatic, or remove. Check every default: it should be the safest, most private and most common choice, and opt-in for marketing and data sharing. Mark defaults that need a product or legal decision.
+1. **Settings audit.** For each setting: what the user gets from it, who changes it and how often (if known), and a recommendation: keep, rename, merge, move closer to where it is used (contextual), make automatic, or remove. Check every default: it should suit most people while being the safe and private option, and marketing, data sharing and public visibility are always opt-in. Where those pull in different directions, say so and recommend one. Mark defaults that need a product or legal decision.
 2. **Structure.** Groups named for user goals ("Notifications", "Privacy", "Your account"), ordered by how often people visit, with the danger zone last. Decide between a single page and a list that drills into sub-pages based on the number of settings and {{platform}} conventions (for example a grouped list with drill-in on ios and android, a left nav with sections on web and desktop). Keep the depth to two levels.
 3. **Screen design.** For each group: controls per setting (a toggle only for instant on/off effects, radio or segmented control for a few exclusive options, select for long lists, a row that opens a sub-screen for complex settings), label and one-line description, current value visible on the row, and dependent settings shown only when relevant.
 4. **Save behaviour.** One model per screen: instant apply with confirmation feedback for simple preferences, explicit Save and Cancel for forms with several related fields; guard unsaved changes when leaving. Say which settings need re-authentication (email, password, two-factor) and which take effect later.
