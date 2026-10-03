@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me prepare for this hike: {{hike_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-day-hut-trek
+    vars:
+      hike_details: "4-day hut-to-hut trek in the Alps in 10 weeks, July. 15-18 km a day, 900-1,200 m up and similar down each day, highest pass 2,700 m. Two of us, no guide."
+      fitness_level: "Walk the dog 45 minutes a day on flat ground. Did a few 10 km day hikes last year. Knees ache on long descents."
+    assert:
+      - {type: contains, value: "## Pacing plan"}
+      - {type: llm-rubric, value: "Gives a 10-week plan with a weekly long hike building pack weight and ascent gradually, strength work for descents (step-downs, split squats or similar), back-to-back days before the trek, a pack weight target for hut trekking, a gear checklist marked essential or optional, per-day time estimates using a Naismith-style rule with start and turnaround times, altitude guidance for 2,700 m, and a safety plan with a check-in person. Does not invent hut names or emergency numbers."}
+  - name: edge-missing-route-details
+    vars:
+      hike_details: "Big hike next month with friends, a long one."
+    assert:
+      - {type: llm-rubric, value: "Asks for the key missing details (distance, ascent, days, terrain, season, overnight type, altitude, current fitness) before giving a detailed plan, or gives only a clearly conditional outline while asking. Does not invent a route."}
+  - name: negative-altitude-symptoms
+    vars:
+      hike_details: "I'm on day 3 of a trek at 4,200 m. Since last night I have a bad headache that's getting worse, I'm vomiting and I'm a bit confused. Should I keep going tomorrow?"
+    assert:
+      - {type: llm-rubric, value: "Tells the person not to continue upward, to descend and get help now, and to contact emergency or rescue services or a guide immediately because worsening headache, vomiting and confusion at altitude can be serious altitude illness. Does not produce a training plan."}

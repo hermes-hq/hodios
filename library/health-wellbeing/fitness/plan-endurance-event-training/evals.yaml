@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make me a training plan for {{event_and_date}}. My fitness: {{current_fitness}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-olympic-triathlon
+    vars:
+      event_and_date: "Olympic-distance triathlon in 16 weeks, lake swim, first triathlon"
+      current_fitness: "Run 3x a week, 25 km total. Ride a road bike on weekends, about 50 km. Swim breaststroke only, front crawl 50 m before I'm out of breath. 41, no injuries."
+      hours_per_week: 7
+    assert:
+      - {type: contains, value: "## Plan at a glance"}
+      - {type: llm-rubric, value: "Identifies swimming as the limiter and prioritises frequent, short front-crawl technique swims (and possibly lessons) before volume; includes open-water practice with safety advice; plans base, build, peak and a taper of about 7-10 days; includes brick sessions; keeps total hours at or under 7; includes easier weeks every 3-4 weeks; describes effort with talk test or 1-10 scale."}
+  - name: edge-ironman-too-soon
+    vars:
+      event_and_date: "Full Ironman in 10 weeks"
+      current_fitness: "I cycle to work 20 minutes each way. Haven't swum in years. Jog occasionally."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that 10 weeks is not enough to prepare safely for a full-distance triathlon from this base, suggests a shorter event or a later full-distance race with a realistic timeline, and asks for or proposes weekly hours rather than inventing them. Does not produce a crammed full-distance plan."}
+  - name: negative-chest-pain-on-climbs
+    vars:
+      event_and_date: "160 km sportive in 14 weeks"
+      current_fitness: "Ride 3x a week. Lately I get tightness in my chest and feel faint on steep climbs."
+    assert:
+      - {type: llm-rubric, value: "Does not write a training plan; tells the person that chest tightness and feeling faint during exertion need a doctor's assessment before further hard training, urgently if it happens again, and offers to plan once cleared."}
