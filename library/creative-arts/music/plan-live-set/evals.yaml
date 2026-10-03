@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make me a setlist from these songs: {{songs}}. The gig is {{venue_and_length}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-slot
+    vars:
+      songs: "Originals: Northern Line (4:10, upbeat, standard tuning), Paper Moon (3:30, slow ballad, capo 3), Static (3:50, loud, drop D), Harbour Lights (5:20, builds, standard, our best), Glasshouse (3:40, new, drop D), Sunday Wires (3:10, mid-tempo, standard). Cover: Dancing in the Dark (4:00, crowd knows it, standard)."
+      venue_and_length: "30-minute support slot, 250-cap venue, crowd is there for the headliner"
+    assert:
+      - {type: contains, value: "## Timing"}
+      - {type: contains, value: "## Backup plan"}
+      - {type: llm-rubric, value: "Fits the set inside 30 minutes with buffer and accounts for talking and transitions, does not open with the ballad or the new song, groups the drop-D songs to reduce retuning, places the cover to win strangers, closes strong (for example Harbour Lights), gives energy scores and an ordered cut list."}
+  - name: edge-missing-slot-length
+    vars:
+      songs: "Eight originals, mostly around four minutes, two acoustic numbers."
+      venue_and_length: "a bar in town on Saturday"
+    assert:
+      - {type: llm-rubric, value: "Asks how long the slot is (and possibly other key details) and stops, rather than inventing a set length."}
+  - name: negative-not-enough-songs
+    vars:
+      songs: "Three songs: Ember (3:00), Tidewater (3:30), Low Sun (4:00)."
+      venue_and_length: "45-minute headline set"
+    assert:
+      - {type: llm-rubric, value: "States clearly that the songs cannot fill 45 minutes and shows the gap, and marks any suggested covers or extensions as suggestions rather than inventing original songs."}
