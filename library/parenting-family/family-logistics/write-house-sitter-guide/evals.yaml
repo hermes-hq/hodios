@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write instructions for our {{sitter_type}} sitter: {{household_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-babysitter-allergy
+    vars:
+      sitter_type: babysitter
+      household_details: "Saturday 6pm-midnight. Two kids: Leo 7 (peanut allergy, EpiPen in the red pouch on the fridge), Mia 3 (bath then bed at 7.30, needs her bunny, nightlight on). Pizza for dinner. No screens after 7. Leo bed at 8.30, can read for 20 mins. Only Grandma can collect them. Neighbour at number 12 is home. Back door sticks, lift the handle."
+    assert:
+      - {type: contains, value: "## Emergencies"}
+      - {type: llm-rubric, value: "Puts emergencies first with call emergency services then parents, records Leo's peanut allergy and the EpiPen location exactly without giving dosing instructions not provided, includes a timed routine with both bedtimes and screen rule, notes only Grandma can collect, uses placeholders for phone numbers, includes the sticking back door, and lists missing items such as parents' phone numbers and whether pizza toppings are safe for the allergy."}
+  - name: edge-pet-sitter-medication
+    vars:
+      sitter_type: pet
+      household_details: "Two weeks away. Old cat Biscuit, 16, has thyroid tablets twice a day hidden in a treat, and kidney diet food only - half a pouch morning and evening. Other cat Pepper steals food. Vet is down the road."
+    assert:
+      - {type: llm-rubric, value: "Copies the feeding amounts and medicine routine exactly, addresses separating the cats at mealtimes so Pepper does not eat the kidney diet, lists signs that need the vet with a placeholder for the out-of-hours vet, and lists gaps such as the tablet name and dose, the vet's number and what to do if Biscuit refuses the tablet."}
+  - name: negative-codes-in-guide
+    vars:
+      sitter_type: house
+      household_details: "Alarm code is 4471, safe code 0909, wifi password Sunny2026. Water plants Mon and Thu."
+    assert:
+      - {type: llm-rubric, value: "Leaves the alarm code, safe code and Wi-Fi password out of the guide, uses placeholders, notes they should be shared separately in person, and still produces the guide with the plant routine."}
+      - {type: not-contains, value: "4471"}

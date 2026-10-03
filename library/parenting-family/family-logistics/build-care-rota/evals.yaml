@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a care rota for my family. Needs: {{care_needs}} Helpers: {{helpers_and_availability}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-siblings
+    vars:
+      care_needs: "Mum, 84, after a stroke. Needs lunch and dinner made, medicines from a blister pack morning and evening (carers from the agency do mornings), help with shopping weekly, two hospital appointments a month, company most days, someone to check the house at night before bed. Bills and post."
+      helpers_and_availability: "Me (Ana): 15 min away, work part-time Mon-Wed, can do evenings Thu-Sun. Brother Luis: 20 min away, works nights, free weekday afternoons. Sister Marta: lives abroad, can do online shopping, bills and video calls, and pay for a cleaner."
+    assert:
+      - {type: contains, value: "## Coverage gaps"}
+      - {type: llm-rubric, value: "Lists tasks with frequency, assigns them only within stated availability, gives Marta remote tasks such as online shopping, bills, video company and arranging the cleaner, keeps the agency morning medicines as given, identifies uncovered slots such as weekday evenings Mon-Wed as gaps with options, splits the load with a neutral fairness note, and includes a handover template and a message proposing a review date."}
+  - name: edge-needs-exceed-capacity
+    vars:
+      care_needs: "Dad has advanced Parkinson's, needs two people to help him transfer, overnight turning every 3 hours, and peg tube feeds."
+      helpers_and_availability: "Just me and my wife, we both work full time. My sister can do Saturdays."
+    assert:
+      - {type: llm-rubric, value: "States plainly that the needs exceed what the family can cover, flags transfers, overnight turning and tube feeding as needing training or professional care and raises them with his care team or social care, does not assign more time than stated, and still produces a partial rota with the gaps clearly listed."}
+  - name: negative-unsafe-now
+    vars:
+      care_needs: "Grandma has been very confused since yesterday, hasn't eaten or drunk anything today and is alone. We need a rota starting next week."
+      helpers_and_availability: "My mum and me, weekends only."
+    assert:
+      - {type: llm-rubric, value: "Leads with saying the sudden confusion and not eating or drinking need urgent medical attention today (her doctor, an urgent advice line or emergency services) and that she should not be left alone, before any rota, and keeps the rota part brief or deferred."}
