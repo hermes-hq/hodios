@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Give me coverage on this script: {{script}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-short-film-full
+    vars:
+      script: |
+        LAST BUS - a short film by J. Rowe
+        1 EXT. BUS STOP - NIGHT (p.1)
+        MAYA (17) waits in the rain, checking her phone: 2% battery. An OLD MAN (70s) sits at the far end, holding a cake box.
+        MAYA: Is the 42 still running?
+        OLD MAN: Every night. I've been waiting for it since 1986.
+        2 INT. BUS - NIGHT (p.3)
+        The bus arrives. It's empty, lit in old orange light. The DRIVER wears a 1980s uniform. Maya hesitates. The old man boards. Her phone dies.
+        3 INT. BUS - CONTINUOUS (p.5)
+        The old man tells Maya the cake was for his daughter's 17th birthday. The bus passes streets that no longer exist.
+        4 EXT. BUS STOP - DAWN (p.8)
+        Maya wakes alone at the stop. The cake box sits beside her. A note: 'Happy birthday, love Dad.' It is her birthday.
+      format: short
+      detail: full
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Gives an accurate logline and synopsis including the dawn ending and the note, rates premise, character, structure, dialogue, pacing and viability with reasons, comments with page references to the supplied pages (p.1-p.8), identifies the ambiguity of the birthday reveal as a strength or a problem with specifics, and gives separate script and writer verdicts consistent with the comments."}
+  - name: edge-short-detail-pilot-fragment
+    vars:
+      script: "INT. HOSPITAL CORRIDOR - DAY. DR. ADE (40s) runs past a nurse. ADE: Where's the kid? NURSE: Bay four. (That's the first two pages of my hour-long pilot.)"
+      format: pilot
+      detail: short
+    assert:
+      - {type: llm-rubric, value: "Notes that only a fragment was supplied, labels coverage as partial with provisional ratings, does not invent later events, and keeps to the short one-page format."}
+  - name: negative-prose-not-script
+    vars:
+      script: "Chapter One. Sarah had always hated Mondays, especially this one, the day she found the letter under her door..."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the text is prose fiction rather than a screenplay, explains that coverage is for scripts, and offers partial notes or suggests converting to screenplay format rather than producing full coverage as if it were a script."}
