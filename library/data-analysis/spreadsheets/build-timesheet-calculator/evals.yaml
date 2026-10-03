@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a timesheet in {{app}} with these rules: {{pay_rules}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-daily-and-weekly-overtime
+    vars:
+      app: excel
+      pay_rules: "Pay 22.00 per hour. Over 8 hours in a day is 1.5x. Over 40 hours in a week (Monday to Sunday) is 1.5x, but hours already paid as daily overtime don't count twice. 30-minute unpaid lunch on shifts over 6 hours. Some staff work 22:00 to 06:00. Night hours (22:00 to 06:00) get an extra 2.00 per hour."
+    assert:
+      - {type: contains, value: "## Test cases"}
+      - {type: icontains, value: "MOD("}
+      - {type: icontains, value: "[h]:mm"}
+      - {type: llm-rubric, value: "Uses MOD(End-Start,1) for midnight-crossing shifts, multiplies by 24 before applying rates, deducts the 30-minute break only on shifts over 6 hours, computes night-premium overlap on both sides of midnight, avoids double-counting daily and weekly overtime, keeps rates and thresholds in named Settings cells, and includes hand-computed test cases such as a 22:00 to 06:00 shift."}
+  - name: edge-rounding-rule
+    vars:
+      app: google-sheets
+      pay_rules: "Clock-in and clock-out round to the nearest 15 minutes. Flat 18.50 per hour, no overtime. Breaks are paid."
+    assert:
+      - {type: llm-rubric, value: "Rounds clock times to 15 minutes with MROUND (or equivalent) before subtracting, includes test cases one minute either side of the rounding midpoint (for example 08:07 and 08:08), and notes briefly that rounding policies should be checked against local law or payroll without lecturing."}
+  - name: negative-missing-rate
+    vars:
+      app: excel
+      pay_rules: "Normal overtime rules."
+    assert:
+      - {type: llm-rubric, value: "Does not assume a jurisdiction's overtime law as the user's rules; asks for the rate, thresholds, multipliers and break rules, and may offer a structure with clearly labelled placeholders."}

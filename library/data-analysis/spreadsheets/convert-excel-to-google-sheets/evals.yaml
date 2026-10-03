@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Convert this workbook ({{direction}}): {{workbook_description}}. Macros: {{macros}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vba-to-apps-script
+    vars:
+      direction: excel-to-sheets
+      workbook_description: "Order tracker. Sheet Orders uses =XLOOKUP(B2,Customers!A:A,Customers!C:C,\"?\") and =SUMIFS. A Power Query pulls a CSV from a shared drive every morning. A pivot by region with a calculated item 'North+South'. Dependent dropdowns with INDIRECT named ranges."
+      macros: |
+        Private Sub Worksheet_Change(ByVal Target As Range)
+          If Not Intersect(Target, Range("E:E")) Is Nothing Then
+            Target.Offset(0, 1).Value = Now
+          End If
+        End Sub
+    assert:
+      - {type: contains, value: "## Test plan"}
+      - {type: icontains, value: "onEdit"}
+      - {type: llm-rubric, value: "Converts the Worksheet_Change timestamp macro to an Apps Script onEdit function that checks the edited column is E and writes a timestamp in the next column, flags Power Query as having no Sheets equivalent with a workaround (script, IMPORTDATA or manual import), notes calculated items in pivots are not supported in Sheets, addresses INDIRECT-based dependent dropdowns, and gives a comparison test plan."}
+  - name: edge-sheets-to-excel-query
+    vars:
+      direction: sheets-to-excel
+      workbook_description: "Dashboard using =QUERY(Data!A:F,\"select B, sum(F) where C = 'Paid' group by B order by sum(F) desc\",1), =IMPORTRANGE from two other files, =ARRAYFORMULA(IF(A2:A=\"\",,B2:B*C2:C)) and =GOOGLEFINANCE(\"CURRENCY:EURUSD\")."
+      macros: ""
+    assert:
+      - {type: llm-rubric, value: "Rewrites the QUERY as Excel dynamic arrays (GROUPBY or UNIQUE with SUMIFS and SORT) or a pivot, replaces IMPORTRANGE with linked workbooks or Power Query, replaces ARRAYFORMULA with a spilling formula or Table column, and flags GOOGLEFINANCE currency rates as needing STOCKHISTORY, the Currencies data type or Power Query, with a caveat on availability."}
+  - name: negative-no-detail
+    vars:
+      direction: excel-to-sheets
+      workbook_description: "Our finance workbook, it has lots of macros."
+      macros: ""
+    assert:
+      - {type: llm-rubric, value: "Does not pretend to convert unseen macros or formulas; asks for the macro code, key formulas and feature list, and may outline the general checklist it will apply."}

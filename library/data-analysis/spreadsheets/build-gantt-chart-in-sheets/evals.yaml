@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Make me a Gantt chart in {{app}} with {{granularity}} columns for these tasks: {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-website-launch-weeks
+    vars:
+      app: google-sheets
+      granularity: week
+      tasks: |
+        Project starts Monday 2 November 2026, weekends off, holidays 24 to 26 December.
+        1 Discovery, 10 days, Ana
+        2 Design, 15 days, after 1, Ben
+        3 Build, 25 days, after 2, Chen
+        4 Content, 12 days, starts 16 Nov, Ana
+        5 Testing, 8 days, after 3
+        6 Launch, milestone, after 5
+    assert:
+      - {type: contains, value: "## Bar and today rules"}
+      - {type: icontains, value: "WORKDAY"}
+      - {type: llm-rubric, value: "Computes dependent starts as the next working day after the predecessor's end using WORKDAY with a Holidays range, computes End as WORKDAY(Start, Duration-1, Holidays), treats Launch as a zero-duration milestone, writes a week-overlap conditional formatting formula with locked header row and locked Start/End columns, and adds a today-marker rule ordered before the bars."}
+  - name: edge-days-with-gaps
+    vars:
+      app: excel
+      granularity: day
+      tasks: "Kitchen renovation: demolition 3 days from 5 Jan; plumbing after demolition; electrics 2 days after demolition; tiling 4 days after plumbing and electrics; painting 2 days."
+    assert:
+      - {type: llm-rubric, value: "Flags the missing durations (plumbing) and the missing start or predecessor for painting instead of inventing them, handles tiling's two predecessors by taking the later End (MAX or MAXIFS), and still gives the full column formulas and day-level bar rules with weekend shading."}
+  - name: negative-no-tasks
+    vars:
+      app: google-sheets
+      granularity: week
+      tasks: "Our product launch next year."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a task list with dates presented as the user's plan; asks for the tasks, durations and start date (it may offer a blank template with the formulas)."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an Excel LAMBDA function for: {{calculation}}. Examples: {{example_inputs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tiered-shipping
+    vars:
+      calculation: "Shipping cost from order weight in kg and zone (1, 2 or 3). Base 4.50 for up to 1 kg, then 1.20 per extra kg or part of a kg. Zone 2 adds 20%, zone 3 adds 50%. Result rounded to 2 decimals. Zone is optional and defaults to 1."
+      example_inputs: "0.8 kg zone 1 = 4.50; 2.3 kg zone 2 = 8.28; 5 kg zone 3 = 13.95"
+    assert:
+      - {type: contains, value: "## Add it to the workbook"}
+      - {type: icontains, value: "ISOMITTED"}
+      - {type: icontains, value: "LET("}
+      - {type: llm-rubric, value: "Defines a LAMBDA with weight and an optional zone defaulting to 1 via ISOMITTED, uses CEILING or ROUNDUP for part kilograms, applies the zone surcharge, rounds to 2 decimals, reproduces the three examples (4.50, 8.28, 13.95), explains Name Manager steps, and notes version requirements."}
+  - name: edge-array-safe-conditions
+    vars:
+      calculation: "Return TRUE when a date is a weekday and not in the Holidays range; should work when passed a whole column of dates."
+      example_inputs: ""
+    assert:
+      - {type: llm-rubric, value: "Produces a function that spills over a range, avoiding AND/OR inside array logic (using multiplication or MAP instead), checks holidays with COUNTIF or XMATCH against a named range or parameter, and shows example calls with results including a holiday and a weekend."}
+  - name: negative-ambiguous-rule
+    vars:
+      calculation: "Calculate the bonus for each person."
+      example_inputs: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent a bonus rule; asks what the bonus depends on and how it is calculated before writing the function."}

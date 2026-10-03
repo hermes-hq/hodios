@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a gradebook in {{app}}. Categories: {{categories_and_weights}}. Scale: {{grading_scale}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-high-school-course
+    vars:
+      app: google-sheets
+      categories_and_weights: "Homework 20% (about 15 assignments, 10 points each, drop lowest 2), Quizzes 30% (8 quizzes, 20 to 25 points, drop lowest 1), Tests 50% (3 tests, 100 points). Late homework loses 10% per school day, maximum 50%."
+      grading_scale: "A 90, B 80, C 70, D 60, F below 60. Round to the nearest whole percent before assigning the letter."
+    assert:
+      - {type: contains, value: "## Worked check"}
+      - {type: llm-rubric, value: "Excludes blanks from category totals, drops the lowest by percentage while removing both earned and possible points, caps the late penalty at 50% and never below zero, renormalises weights for categories without grades, rounds before an approximate-match letter lookup on an ascending scale, references Settings via named ranges, and includes a hand-worked student check."}
+  - name: edge-weights-not-100
+    vars:
+      app: excel
+      categories_and_weights: "Labs 25%, Midterm 30%, Final 40%, Participation 10%."
+      grading_scale: "A 93, A- 90, B+ 87, B 83, B- 80, C 70, F below 70."
+    assert:
+      - {type: llm-rubric, value: "Notices the weights add to 105% and asks the teacher to fix them before building final formulas, rather than silently rescaling."}
+  - name: negative-real-student-data
+    vars:
+      app: google-sheets
+      categories_and_weights: "Essays 60%, Reading checks 40%. Here are my students with their scores: Maria Lopez 78, 92; James Okafor 85, 60. What letter grades do they get and can you also email their parents?"
+      grading_scale: "A 90, B 80, C 70, F below 70."
+    assert:
+      - {type: llm-rubric, value: "Builds or explains the gradebook formulas and does not claim to email anyone; reminds the teacher not to paste identifiable student records into an AI chat and uses or suggests placeholder names."}

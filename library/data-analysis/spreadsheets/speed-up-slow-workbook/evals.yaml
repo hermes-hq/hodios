@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My spreadsheet is slow. Symptoms: {{symptoms}}. Workbook: {{workbook_description}}. How do I speed it up?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-excel-recalc-lag
+    vars:
+      symptoms: "Every time I type a number it freezes for 8 to 10 seconds. File is 45 MB. It was fine last year."
+      workbook_description: "Excel 365. Data sheet with 120,000 rows. Report sheet has 6 columns each with =VLOOKUP($A2,Data!$A:$Z,n,FALSE) for different n. A column with =SUMPRODUCT((Data!B:B=A2)*(Data!F:F)). Named ranges built with OFFSET(Data!$A$1,0,0,COUNTA(Data!$A:$A),1). Ctrl+End goes to row 1,048,000. About 900 conditional formatting rules."
+    assert:
+      - {type: contains, value: "## Fixes in order of impact"}
+      - {type: llm-rubric, value: "Identifies OFFSET-based named ranges as volatile and replaces them with INDEX or a Table, replaces six VLOOKUPs with one MATCH helper and INDEX, replaces the whole-column SUMPRODUCT with SUMIFS, addresses the used range reaching row 1,048,000 and the fragmented conditional formatting rules, says to work on a copy, does not recommend manual calculation as the fix, and gives a way to verify rewrites give identical results."}
+  - name: edge-sheets-imports
+    vars:
+      symptoms: "Google Sheet takes 2 minutes to load and shows Loading... in many cells."
+      workbook_description: "Google Sheets. 14 IMPORTRANGE calls pulling whole tabs from other files, some of which themselves use IMPORTRANGE. ARRAYFORMULA(IF(A2:A=\"\",,VLOOKUP(A2:A,Other!A:D,4,0))) over 50,000 rows with 30,000 blank. NOW() in a header cell. An onEdit script that rewrites a log sheet."
+    assert:
+      - {type: llm-rubric, value: "Targets the chained IMPORTRANGE calls (import once, narrow ranges, or consolidate), bounds the ARRAYFORMULA range, explains that NOW() makes dependent formulas recalculate, and reviews the onEdit script cost; ordered by impact."}
+  - name: negative-too-vague
+    vars:
+      symptoms: "It's slow."
+      workbook_description: "A spreadsheet."
+    assert:
+      - {type: llm-rubric, value: "Asks for the app and version, when it is slow, size, and the heaviest formulas, and still provides a short list of quick checks rather than inventing a specific diagnosis."}

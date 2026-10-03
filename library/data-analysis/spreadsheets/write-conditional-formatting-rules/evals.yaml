@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I use conditional formatting in {{app}} to do this: {{goal}}. Sheet: {{sheet_layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overdue-rows-excel
+    vars:
+      app: excel
+      goal: Highlight the whole row when the invoice is unpaid and more than 30 days past the due date. Paid invoices should never be highlighted.
+      sheet_layout: "Sheet Invoices: A = Invoice no, B = Client, C = Amount, D = Due date, E = Paid (Yes/No). Headers in row 1, about 1,200 rows, new invoices added at the bottom. Not a Table."
+    assert:
+      - {type: contains, value: "## Rules"}
+      - {type: icontains, value: "TODAY()"}
+      - {type: llm-rubric, value: "Applies the rule to a range spanning columns A to E starting at row 2, with a formula anchored on the column only (for example $D2 and $E2), tests the due date being more than 30 days before TODAY() and the paid column not being Yes, guards against blank rows, and gives the Excel menu path for a formula-based rule."}
+  - name: edge-duplicates-and-priority-sheets
+    vars:
+      app: google-sheets
+      goal: Flag duplicate email addresses in yellow, but only the second and later copies. Also make any row with Status "Cancelled" grey, and grey should win over yellow.
+      sheet_layout: "Sheet Signups: A = Timestamp, B = Name, C = Email, D = Status. Data from row 2, form responses keep arriving."
+    assert:
+      - {type: llm-rubric, value: "Uses an expanding COUNTIF range such as COUNTIF($C$2:$C2,$C2)>1 for later duplicates, applies the cancelled rule to whole rows with $D2, puts the cancelled rule first and explains that in Google Sheets only the first matching rule applies, and handles blank rows."}
+  - name: negative-missing-columns
+    vars:
+      app: excel
+      goal: Make overdue stuff red.
+      sheet_layout: It's my project tracker.
+    assert:
+      - {type: llm-rubric, value: "Does not invent column letters or a final formula; asks which column holds the due date, how 'done' is marked and where data starts, before giving rules."}

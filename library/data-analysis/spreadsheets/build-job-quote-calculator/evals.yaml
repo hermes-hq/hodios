@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a quote calculator spreadsheet for my {{business_type}} business. Costs: {{cost_items}}. Pricing: {{markup_rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-electrician
+    vars:
+      business_type: "Electrician, sole trader with one apprentice, UK, VAT registered"
+      cost_items: "Materials from wholesaler (cable per metre 1.10, double socket 4.80, consumer unit 145). My time costs me about 32/hour all in, apprentice 16/hour. Van and fuel about 12 per trip. Yearly overheads (insurance, tools, accounting, phone) around 9,000 for about 1,400 billable hours."
+      markup_rules: "I add 20% on materials and charge 55/hour for me, 30/hour for the apprentice. Minimum job 90. I want at least 35% margin on every job."
+    assert:
+      - {type: contains, value: "## Worked example"}
+      - {type: llm-rubric, value: "Keeps rates on a Rates sheet, computes overhead recovery of about 6.43 per billable hour, distinguishes markup from margin (20% markup is about 16.7% margin), applies the minimum charge, adds a margin-floor warning at 35%, asks or states the VAT assumption (20% standard rate) and suggests confirming with an accountant, and keeps markups off the customer quote."}
+  - name: edge-margin-target
+    vars:
+      business_type: Residential cleaning company, US (Texas)
+      cost_items: "Cleaners paid 17/hour; supplies about 6 per visit; travel 0.67 per mile; typical 3-bedroom deep clean takes 2 cleaners 3 hours."
+      markup_rules: "We want a 40% gross margin, not a markup."
+    assert:
+      - {type: llm-rubric, value: "Prices with cost / (1 - 0.40) rather than cost * 1.40, shows the difference in one example, includes a loaded labour cost note beyond the base wage, and asks whether sales tax applies to the service rather than assuming."}
+  - name: negative-wants-industry-rates
+    vars:
+      business_type: Landscaper
+      cost_items: "Just use typical industry prices for everything."
+      markup_rules: ""
+    assert:
+      - {type: llm-rubric, value: "Does not present invented prices or markups as industry standard; asks for the owner's actual costs and rates and offers the calculator structure with clearly labelled placeholders."}

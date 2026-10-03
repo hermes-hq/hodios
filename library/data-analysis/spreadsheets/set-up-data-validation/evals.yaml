@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me add data validation to my {{app}} sheet. Purpose: {{sheet_purpose}}. Fields: {{fields}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-expense-log-excel
+    vars:
+      app: excel
+      sheet_purpose: Shared expense log for a 15-person team. People add one row per expense; finance pulls it monthly into a pivot.
+      fields: "Date (must be in the current year, not in the future), Employee (from staff list), Category (Travel, Meals, Software, Equipment), Subcategory (depends on category), Amount (positive, max 5,000), Receipt ID (format R-0000, unique), Notes (free text)."
+    assert:
+      - {type: contains, value: "## Field rules"}
+      - {type: icontains, value: "Protect Sheet"}
+      - {type: llm-rubric, value: "Puts the dropdown lists on a separate Lists sheet in a growing range, builds the Category to Subcategory dependent dropdown with FILTER and a spill reference or INDIRECT with named ranges, uses a custom formula with COUNTIF for unique Receipt IDs, leaves Notes unvalidated, chooses reject versus warning per field with a reason, and explains that pasting can bypass validation."}
+  - name: edge-sheets-dependent-dropdown
+    vars:
+      app: google-sheets
+      sheet_purpose: Volunteer shift sign-up used by about 80 volunteers on their phones.
+      fields: "Name (free text), Site (5 sites), Shift (each site has different shifts), Phone (digits only), Role (Driver, Packer, Greeter)."
+    assert:
+      - {type: llm-rubric, value: "Explains that Google Sheets data validation cannot use a formula as the list source and offers a workable dependent-dropdown approach (helper ranges with FILTER per row or an Apps Script), uses a growing Lists range, and covers protection with Data > Protect sheets and ranges."}
+  - name: negative-unclear-allowed-values
+    vars:
+      app: excel
+      sheet_purpose: Order intake sheet.
+      fields: "Customer, Product, Quantity, Status."
+    assert:
+      - {type: llm-rubric, value: "Does not invent product names or status values; asks for the allowed options for Product and Status (and quantity limits) while still proposing sensible rules for the fields that are clear."}

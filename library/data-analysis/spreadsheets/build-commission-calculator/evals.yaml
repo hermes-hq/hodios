@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build a commission calculator in {{app}} for this plan: {{commission_plan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marginal-tiers-with-cap
+    vars:
+      app: excel
+      commission_plan: |
+        Quarterly quota 300,000 in new bookings. 0 to 100% of quota pays 8%. 100% to 150% pays 12% on the amount in that band. Above 150% pays 15%. Total quarterly commission capped at 60,000. No commission if attainment is below 50%. Deals cancelled within 90 days of booking are clawed back in the quarter of cancellation.
+    assert:
+      - {type: contains, value: "## Test cases"}
+      - {type: icontains, value: "SUMPRODUCT"}
+      - {type: llm-rubric, value: "Treats the tiers as marginal bands, keeps all rates and thresholds in a Plan sheet, shows hand-calculated test cases including below 50% attainment (zero), exactly 300,000 (24,000), 450,000 (24,000 + 18,000 = 42,000), and an amount large enough to hit the 60,000 cap, and models the 90-day clawback in a separate column."}
+  - name: edge-ambiguous-retroactive
+    vars:
+      app: google-sheets
+      commission_plan: "Reps earn 5% of revenue. Once they pass 200k in the year they get 7%. Above 400k they get 10%."
+    assert:
+      - {type: llm-rubric, value: "Flags that the plan does not say whether higher rates apply to all revenue or only to revenue above each threshold, shows the payout difference at one example amount under both readings, and says the plan owner should decide; also notes the boundary question at exactly 200k and 400k."}
+  - name: negative-no-plan
+    vars:
+      app: excel
+      commission_plan: "Standard commission like most SaaS companies."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a commission plan presented as the user's; asks for quota, rates, tiers, caps and clawback terms (it may describe common plan structures as examples only)."}

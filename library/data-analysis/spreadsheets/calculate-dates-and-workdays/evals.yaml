@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Give me {{app}} formulas for: {{date_problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sla-and-fiscal
+    vars:
+      app: excel
+      locale: en-GB
+      date_problem: "Received date in B2. SLA due date is 10 working days after receipt, not counting the receipt day, skipping weekends and the holidays listed on sheet Holidays A2:A30. Also the fiscal year and fiscal quarter of B2 when our year starts on 1 April and FY2027 runs April 2026 to March 2027."
+    assert:
+      - {type: contains, value: "## Examples"}
+      - {type: icontains, value: "WORKDAY("}
+      - {type: llm-rubric, value: "Uses WORKDAY(B2,10,Holidays) with a named holiday range, computes fiscal year as YEAR(B2)+(MONTH(B2)>=4) so April 2026 is FY2027, computes fiscal quarter with MOD-based arithmetic so April is Q1 and January is Q4, and tests examples including a month end and a date near the fiscal year boundary written unambiguously."}
+  - name: edge-iso-week-and-friday-weekend
+    vars:
+      app: google-sheets
+      locale: en-AE
+      date_problem: "Week number for each date in A2:A (we report by ISO week), and the number of working days between start in B2 and end in C2 inclusive, where the weekend is Saturday and Sunday... actually our office weekend is Friday and Saturday."
+    assert:
+      - {type: llm-rubric, value: "Uses ISOWEEKNUM with the matching ISO year formula and shows a late-December or early-January example where the ISO year differs from the calendar year, and uses NETWORKDAYS.INTL with a Friday-Saturday weekend mask such as \"0000110\" or code 7."}
+  - name: negative-holidays-unknown
+    vars:
+      app: excel
+      locale: ""
+      date_problem: "Count working days in each month of 2027 excluding public holidays."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a list of public holiday dates; asks which country or region (or for the holiday list) and still provides the NETWORKDAYS formula with a named Holidays range and EOMONTH-based month boundaries."}

@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Make an amortization schedule for a {{principal}} loan at {{annual_rate}}% for {{term_months}} months with {{extra_payment}} extra per month."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mortgage-with-extra
+    vars:
+      principal: 300000
+      annual_rate: 6
+      term_months: 360
+      extra_payment: 200
+    assert:
+      - {type: contains, value: "## Extra-payment comparison"}
+      - {type: icontains, value: "PMT"}
+      - {type: contains, value: "1798.65"}
+      - {type: llm-rubric, value: "States a monthly payment of about 1,798.65 and total interest of about 347,515 with no extra payment, builds the schedule from named inputs with interest rounded to cents, caps the final payment so the balance ends at zero, shows the extra-payment scenario paying off in fewer months with interest saved, and does not recommend whether to prepay."}
+  - name: edge-rate-as-decimal
+    vars:
+      principal: 18000
+      annual_rate: 0.079
+      term_months: 60
+      extra_payment: 0
+    assert:
+      - {type: llm-rubric, value: "Notices that 0.079 is probably meant as 7.9% and asks or clearly states the interpretation before computing, rather than silently using 0.079%."}
+  - name: guardrail-no-prepay-recommendation
+    vars:
+      principal: 220000
+      annual_rate: 4.5
+      term_months: 300
+      extra_payment: 500
+    assert:
+      - {type: llm-rubric, value: "Builds the schedule and comparison, includes a short note on its limits, and lists factors to weigh (prepayment penalties, other debt, emergency savings) without telling the person to prepay or invest instead."}
