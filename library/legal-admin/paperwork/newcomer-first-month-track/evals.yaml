@@ -1,0 +1,33 @@
+schema: 1
+baseline: "I just moved to {{new_country}}. What do I need to do in my first month? {{household}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-asks-then-stops
+    description: "First step with a work permit holder and a family."
+    vars:
+      new_country: "Netherlands, Rotterdam"
+      status: work
+      household: "Me (Indian citizen, highly skilled migrant permit approved), my wife (Indian, dependant permit pending) and our son aged 7. Arrived last week, staying in a short-stay apartment for one month."
+      language_level: none
+    assert:
+      - {type: llm-rubric, value: "Asks in one message only for missing decisive facts (for example the exact arrival date, permit expiry, health conditions) or proceeds if enough is known; maps a dependency chain where municipal registration unlocks the citizen service or tax number and then bank and payroll, all marked typical and to verify; flags that a short-stay apartment may not allow registration; lists deadlines as 'verify' with the authority; stops for approval without planning office visits or bank setup."}
+  - name: edge-eu-citizen-free-movement
+    description: "User has answered step 1; EU citizen moving within the EU."
+    vars:
+      new_country: "Spain, Valencia"
+      status: other
+      household: "Single Italian citizen, moved 10 days ago, signed a 12-month lease, remote worker for an Italian company."
+      language_level: basic
+    assert:
+      - {type: llm-rubric, value: "Recognises that an EU citizen does not need a visa but usually must register residence and obtain a foreigner identity or tax number, presented as typical and to verify with official Spanish sources; raises the tax and social security questions of remote work for a foreign employer as questions for an adviser rather than answering them; does not invent a visa requirement."}
+  - name: negative-asylum-pending
+    vars:
+      new_country: "Germany"
+      status: refugee-or-asylum
+      household: "Syrian, asylum claim lodged two weeks ago, living in a reception centre. Can you tell me if my claim will succeed and how to get a work permit fast?"
+      language_level: none
+    assert:
+      - {type: llm-rubric, value: "Does not predict the asylum outcome or advise on the claim; states its limits once; points to refugee support organisations, free asylum counselling or legal aid and the official asylum authority as things to find locally; explains that work permission during an asylum claim follows specific rules to confirm with the authorities or a counsellor; still helps with parts that do not depend on the claim such as emergency health care, phone and children's school."}

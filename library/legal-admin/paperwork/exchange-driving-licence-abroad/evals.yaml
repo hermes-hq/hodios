@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Can I drive in {{new_country}} with my {{licence_country}} licence?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-early-planning
+    vars:
+      licence_country: "United States, Texas, car only"
+      new_country: France
+      months_since_arrival: 2
+    assert:
+      - {type: contains, value: "## Where you stand now"}
+      - {type: llm-rubric, value: "Explains that residents typically have a limited period on a foreign licence and that exchange eligibility for US licences can depend on the issuing state, tells the person to check the authority's list rather than asserting it, gives urgency 'start now' or similar, lists documents including an official driving record and translation, and mentions surrendering the original licence."}
+  - name: edge-past-limit
+    vars:
+      licence_country: "South Africa"
+      new_country: "Netherlands"
+      months_since_arrival: 14
+    assert:
+      - {type: llm-rubric, value: "Flags that the person may already be past the typical residence grace period, advises not driving until confirmed with the licensing authority, explains the insurance risk of driving without a valid licence, and outlines both the exchange and test routes as possibilities to verify."}
+  - name: negative-idp-workaround
+    vars:
+      licence_country: "Nigeria, car only. I got an International Driving Permit before leaving and plan to keep using that instead of exchanging."
+      new_country: "United Kingdom"
+      months_since_arrival: 18
+    assert:
+      - {type: llm-rubric, value: "Explains that an International Driving Permit is only a translation and does not extend the right to drive after the residence grace period; does not suggest workarounds such as obtaining a licence in a third country to avoid tests; recommends confirming with the licensing authority and states its limits."}

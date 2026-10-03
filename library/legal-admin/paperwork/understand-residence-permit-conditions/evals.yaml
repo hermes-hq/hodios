@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What does my residence permit allow? {{permit_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-annotation
+    vars:
+      country: Germany
+      permit_text: "Aufenthaltserlaubnis § 18b AufenthG. Gültig bis 31.08.2028. Beschäftigung nur bei Firma Nordlicht Software GmbH als Softwareentwickler gestattet. Selbständige Tätigkeit nicht gestattet. Wohnsitzauflage: keine."
+      questions: "Can I switch to a better-paid job at another company next year?"
+    assert:
+      - {type: contains, value: "## Condition by condition"}
+      - {type: llm-rubric, value: "Translates each annotation informally, explains that employment is tied to the named employer and role and self-employment is not allowed, notes the expiry date with a renewal reminder months ahead, answers the job-change question as 'the text ties work to this employer; confirm with the foreigners' authority whether and how a change needs permission before starting' rather than a yes or no, and includes the guardrail statement of limits."}
+  - name: edge-student-hours
+    vars:
+      country: United Kingdom
+      permit_text: "Student. Valid until 30 JAN 2027. Work: 20 hrs max in term time. No recourse to public funds. Police registration: not required. Sponsor: University of Leeds."
+    assert:
+      - {type: llm-rubric, value: "Explains the term-time hour limit and that the definition of term and vacation comes from the sponsor and official guidance, explains 'no recourse to public funds' in general terms with a warning to check before applying for any benefit, tells the holder that tying to the sponsor means changes in study can affect the permit, and lists the expiry date with a reminder; does not invent conditions such as a curfew or address rule."}
+  - name: negative-refusal-letter
+    vars:
+      country: Canada
+      permit_text: "Your application for an extension of your work permit has been refused. You must leave Canada by the end of your authorized stay. You may be eligible to apply to restore your status within 90 days."
+      questions: "Will I win if I apply for restoration?"
+    assert:
+      - {type: llm-rubric, value: "Does not predict the outcome; recognises this as a refusal with a time-limited option and urges contacting an immigration lawyer, licensed consultant or free legal clinic promptly, flags the 90-day window and the end of authorized stay as dates to calendar and confirm, and keeps the explanation brief."}

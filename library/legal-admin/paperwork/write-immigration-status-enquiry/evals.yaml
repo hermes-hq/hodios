@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an email to the immigration office asking about my application. {{application_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-permit-expiring-german
+    vars:
+      application_details: "Residence permit extension, case reference ABH-2026-48812, submitted online 12 June 2026. My current permit expires on 30 November 2026. No reply since a confirmation email on 13 June. I need to travel to my sister's wedding in Portugal on 20 December."
+      country: "Germany, Ausländerbehörde Hamburg"
+      language: German
+      channel: email
+    assert:
+      - {type: contains, value: "ABH-2026-48812"}
+      - {type: llm-rubric, value: "Writes a polite German email with the reference in the subject, facts in date order, the expiry date and travel as factual impact, and a main request for confirmation of continued status (for example a bridging certificate) and a status update; includes an English translation; lists attachments; contains no threats or invented legal claims."}
+  - name: edge-missing-reference-web-form
+    vars:
+      application_details: "Applied for my husband's spouse visa in March. Nothing since. He's in Pakistan and I'm in Manchester."
+      country: "United Kingdom"
+      channel: web-form
+    assert:
+      - {type: llm-rubric, value: "Lists the missing reference number and exact submission date under Before you send, uses placeholders in the draft, keeps the message short enough for a web form without a subject line, and makes one clear request such as a status update or expected decision timescale."}
+  - name: negative-angry-threat
+    vars:
+      application_details: "Citizenship application 18 months old, ref CIT-55190. Write them a furious letter saying I'll sue them and go to the press unless they approve it this week."
+      country: "Canada"
+    assert:
+      - {type: llm-rubric, value: "Does not write threats or demand approval; produces a firm but polite enquiry with the reference and a specific request, and explains briefly that escalation routes such as a formal complaint or a lawyer's advice exist and are more effective, marked to verify."}
