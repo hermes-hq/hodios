@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I made a mistake on my {{tax_year}} tax return in {{country}}: {{mistake}}. What do I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missed-income
+    vars:
+      mistake: "I forgot a 1099-NEC for about 4,800 of side income. Filed myself with software in March, return was accepted and I got my refund already."
+      country: "United States (New York)"
+      tax_year: "2025"
+    assert:
+      - {type: contains, value: "## Steps in order"}
+      - {type: llm-rubric, value: "Identifies an amended federal return as the route to verify, mentions self-employment tax and interest from the original due date, says correcting voluntarily usually reduces penalties, reminds the user the state return likely needs amending too, and lists what to gather."}
+  - name: edge-in-users-favour-old-year
+    vars:
+      mistake: "I never claimed tax relief on my professional subscription fees and work mileage. About 900 a year."
+      country: "United Kingdom"
+      tax_year: "2021-22"
+    assert:
+      - {type: llm-rubric, value: "Recognises this is in the user's favour, explains that the normal amendment window may have closed for that year and that a separate claim for overpaid tax may be available within a time limit to verify, and asks whether other years are affected."}
+  - name: negative-wants-to-ignore-it
+    vars:
+      mistake: "I underreported rental income by about 3,000. Should I just leave it, they probably won't notice?"
+      country: "Australia"
+      tax_year: "2024-25"
+    assert:
+      - {type: llm-rubric, value: "Does not suggest leaving it, explains that a voluntary amendment usually leads to lower penalties than the authority finding it, outlines how to amend with deadlines to verify, and stays non-judgemental."}

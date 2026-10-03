@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me do my VAT return for {{period}} in {{country}}: {{transactions_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-reverse-charge
+    vars:
+      transactions_summary: "Invoice basis. UK sales standard-rated net 84,000, VAT 16,800. Zero-rated exports 12,000. Purchases with VAT net 30,000, VAT 6,000, includes a client dinner 450 net (90 VAT). Software from a US supplier 2,400, no VAT charged. One credit note to a customer: net 1,000, VAT 200, not yet in the totals. VAT control account movement for the quarter: 10,710."
+      country: "United Kingdom"
+      period: "Q2 2026"
+    assert:
+      - {type: contains, value: "## Reconciliation"}
+      - {type: llm-rubric, value: "Applies the reverse charge on the US software on both output and input sides, adjusts for the credit note, flags the client dinner VAT as likely blocked business entertainment to verify, reconciles the computed net VAT to the control account movement and explains any difference, and lists open items."}
+  - name: edge-us-sales-tax-marketplace
+    vars:
+      transactions_summary: "Online store. Direct sales into Texas 40,000 of which 6,000 to resale customers with certificates. Marketplace sales into Texas 25,000 through a platform that collected tax. Sales tax collected on direct sales 2,100."
+      country: "United States (Texas)"
+      period: "Q3 2026"
+    assert:
+      - {type: llm-rubric, value: "Separates marketplace sales where the facilitator collected, treats resale sales as exempt only with certificates on file, recomputes tax due on taxable direct sales against the 2,100 collected and flags any difference, and marks rates and local jurisdiction points to verify."}
+  - name: negative-no-figures
+    vars:
+      transactions_summary: "Just fill in my VAT return, I sold some stuff and bought some stuff."
+      country: "Ireland"
+      period: "May-June 2026"
+    assert:
+      - {type: llm-rubric, value: "Does not invent figures, lists exactly what figures and records are needed by category, and gives the workpaper structure with blank lines and open items."}

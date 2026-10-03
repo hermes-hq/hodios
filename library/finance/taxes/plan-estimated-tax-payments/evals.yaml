@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I pay estimated taxes in {{country}}? {{income_projection}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-quarterly
+    vars:
+      income_projection: "Freelance designer. Last year I earned 70,000 net profit and my total federal tax was 14,200. This year I expect about 95,000. No salary. Paid nothing yet."
+      country: "United States (Florida)"
+      tax_year: "2026"
+    assert:
+      - {type: contains, value: "## Payment schedule"}
+      - {type: llm-rubric, value: "Explains quarterly estimated payments with due dates marked to confirm, compares a prior-year safe harbour method with a current-year estimate using the figures and shows the arithmetic, notes self-employment tax, and gives a set-aside percentage routine."}
+  - name: edge-uk-first-payments-on-account
+    vars:
+      income_projection: "Went self-employed last year. First tax return showed 9,000 owed. This year profit looks similar. Nobody told me about payments on account."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Explains payments on account based on the previous year's bill as something to verify, flags that the first January can combine the balancing payment and the first payment on account so cash needed is much higher than expected, schedules the dates to confirm, and mentions reducing payments on account only with care."}
+  - name: negative-unknown-country
+    vars:
+      income_projection: "About 4,000 a month from consulting, no tax withheld."
+      country: "somewhere in Europe"
+    assert:
+      - {type: llm-rubric, value: "Asks which country, explains that advance payment rules differ, gives only the general structure and a cautious set-aside routine, and does not invent due dates."}

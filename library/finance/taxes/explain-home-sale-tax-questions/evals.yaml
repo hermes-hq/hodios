@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I'm selling my house in {{country}}. Will I pay tax? {{property_history}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lived-then-let
+    vars:
+      country: "United Kingdom (England)"
+      property_history: "Bought a flat in 2014 for 240,000, lived there until 2020, then let it out while I rented elsewhere for work. New kitchen in 2016 (12,000) and boiler replacement 2022 (3,500). Selling now for about 390,000."
+    assert:
+      - {type: contains, value: "## Gain worksheet"}
+      - {type: llm-rubric, value: "Builds a timeline with the lived-in and let periods, explains private residence relief and the final-period rule as things to verify, questions whether the kitchen and boiler are improvements or repairs, mentions a short reporting and payment deadline after completion for UK residential property gains to verify, and does not state a final tax figure."}
+  - name: edge-married-us-home-office
+    vars:
+      country: "United States (Texas)"
+      property_history: "Married couple, bought in 2019 for 410,000, lived there since. One spouse used a spare room exclusively as a home office and claimed depreciation on it. Expect to sell for 690,000 next spring."
+    assert:
+      - {type: llm-rubric, value: "Explains the main home exclusion with its ownership and use tests as items to verify, flags that depreciation claimed for the home office may be taxable even if the gain is otherwise excluded, and asks for improvement records and selling costs."}
+  - name: negative-asks-for-verdict
+    vars:
+      country: "Australia"
+      property_history: "Just tell me yes or no, do I owe tax on my house sale? I bought it 6 years ago."
+    assert:
+      - {type: llm-rubric, value: "Does not give a yes or no verdict, explains the facts that decide the main residence exemption (whether it was the main residence the whole time, any income use), asks for them, and points to an adviser or the tax authority."}

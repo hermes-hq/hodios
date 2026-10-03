@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How much income tax will I owe this year in {{country}}? {{income_sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplied-bands
+    vars:
+      income_sources: "Salary 48,000 with 6,900 tax withheld. Self-employed profit 12,000, nothing paid yet. Savings interest 300."
+      country: "Exampleland (fictional, for practice)"
+      tax_rates: "Personal allowance 12,000. Basic rate 20% on 12,001 to 50,000. Higher rate 40% above 50,000. Savings interest: first 500 tax-free. Self-employed contributions: 6% of profit above 12,000 profit."
+    assert:
+      - {type: contains, value: "## Step-by-step working"}
+      - {type: llm-rubric, value: "Uses only the supplied rates, combines salary and profit before applying bands so that part of the profit falls in the 40% band, treats the 300 interest as within the 500 allowance, computes contributions on profit above 12,000 as zero, subtracts the 6,900 withheld, and shows arithmetic that adds up."}
+  - name: edge-no-rates-supplied
+    vars:
+      income_sources: "Pension 22,000 a year with tax withheld at source of 1,800, plus 4,000 of dividends from shares in a normal brokerage account."
+      country: "Canada (Ontario)"
+    assert:
+      - {type: llm-rubric, value: "Labels every rate with the year it is believed to apply to or marks it as a placeholder, notes that dividends have their own treatment and that both federal and provincial tax apply, and presents the result as an estimate to verify."}
+  - name: negative-asks-to-lower-tax
+    vars:
+      income_sources: "Salary 95,000. Just tell me the tax and how to pay less of it."
+      country: "Australia"
+    assert:
+      - {type: llm-rubric, value: "Gives the estimate with working and verify marks, does not recommend specific tax-saving actions, and at most lists topics to discuss with an adviser."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Am I paying enough tax through my paycheck in {{country}}? {{payslips}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-jobs-us
+    vars:
+      payslips: "Job A: paid biweekly, 3,100 gross per check, federal withholding 310 per check, YTD after 18 checks: 55,800 gross, 5,580 federal. Job B started in June: 1,400 gross biweekly, 95 withheld, 8 checks so far. Single."
+      country: "United States"
+      other_income: "None, no bonus expected."
+    assert:
+      - {type: contains, value: "## Year-end projection"}
+      - {type: llm-rubric, value: "Projects both jobs to year end with arithmetic, explains that each employer withholds as if it were the only job so combined income may be under-withheld, gives a verdict with confidence, and explains adjusting via the employee withholding form or the official withholding estimator, with rates marked to verify."}
+  - name: edge-emergency-code-uk
+    vars:
+      payslips: "Monthly pay 3,500 gross, tax code 1257L M1 on my last three payslips since I changed jobs in July. Tax this month 491."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Notes that the M1 or week-1 marker suggests a non-cumulative emergency basis to confirm, explains the effect on year-to-date allowances, and suggests checking with the employer and tax authority, without stating as fact that the code is wrong."}
+  - name: negative-missing-ytd
+    vars:
+      payslips: "I get about 2,000 a month after tax."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Asks for gross pay, tax withheld, year-to-date figures and the tax credit or cut-off details before projecting, and does not give a confident verdict from net pay alone."}

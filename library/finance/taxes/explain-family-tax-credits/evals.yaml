@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What family tax credits can I get in {{country}}? {{family_situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-earners-childcare
+    vars:
+      country: "United States (California)"
+      family_situation: "Married, filing jointly, combined income about 140,000 USD. Two kids aged 3 and 7. We pay 18,000 a year for daycare and after-school care. My employer offers a dependent care FSA."
+    assert:
+      - {type: contains, value: "## What may apply"}
+      - {type: llm-rubric, value: "Covers the child tax credit, the child and dependent care credit and the dependent care FSA, explains that both can't cover the same childcare dollars, mentions state-level credits to check, lists provider tax ID and children's SSNs as documents, and marks amounts and income limits to verify."}
+  - name: edge-separated-parents
+    vars:
+      country: "United Kingdom"
+      family_situation: "Separated last year. Our daughter (9) lives with me Monday to Thursday and with her dad the rest. I earn 38,000 and he earns about 64,000. Not sure who should claim Child Benefit."
+    assert:
+      - {type: llm-rubric, value: "Explains that only one person can get Child Benefit for a child and how the main carer question works, flags the High Income Child Benefit Charge as an income-linked clawback to verify, mentions Tax-Free Childcare or other support as possibilities, and suggests agreeing in writing or asking the agency, without telling the user what to claim."}
+  - name: negative-missing-facts
+    vars:
+      country: "Germany"
+      family_situation: "We have kids."
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing facts that decide eligibility (children's ages, income, marital status, childcare costs), gives only the general structure such as Kindergeld versus the child allowance and childcare cost deductions with verify marks, and does not invent an entitlement."}

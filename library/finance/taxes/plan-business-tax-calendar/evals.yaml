@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What tax deadlines does my business have in {{year}} in {{country}}? {{business_structure}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-limited-company
+    vars:
+      business_structure: "Limited company, year end 31 March, two employees on monthly payroll, VAT registered on quarterly returns (calendar quarters), accountant does the year-end accounts."
+      country: "United Kingdom"
+      year: "2027"
+    assert:
+      - {type: contains, value: "## Calendar"}
+      - {type: llm-rubric, value: "Includes corporation tax payment and return dates tied to the March year end, monthly payroll reporting and payments, year-end employee forms, quarterly VAT returns, company registry accounts and confirmation statement, marks uncertain dates to confirm, and gives owners and reminders."}
+  - name: edge-us-single-member-llc
+    vars:
+      business_structure: "Single-member LLC taxed as a sole proprietorship, calendar year, no employees, pays two contractors, no sales tax."
+      country: "United States (Colorado)"
+      year: "2027"
+    assert:
+      - {type: llm-rubric, value: "Includes quarterly estimated tax payments, the owner's annual return with the business schedule, information returns for contractors due early in the year, and any state annual report, and leaves out payroll and sales tax with a reason."}
+  - name: negative-missing-structure
+    vars:
+      business_structure: "I have a small business."
+      country: "Australia"
+      year: "2027"
+    assert:
+      - {type: llm-rubric, value: "Asks for the legal form, year end, employees and GST registration before building a dated calendar, and gives only the categories of obligations to confirm."}
