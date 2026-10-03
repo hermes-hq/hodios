@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review this NDA: {{nda_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recipient-broad-nda
+    vars:
+      nda_text: |
+        1. "Confidential Information" means all information disclosed by Company to Recipient in any form, whether or not marked as confidential.
+        2. Recipient shall not use Confidential Information for any purpose and shall not disclose it to any person.
+        3. The obligations in this Agreement continue in perpetuity.
+        4. For 2 years Recipient shall not solicit or hire any employee of Company.
+        5. Recipient shall pay Company 50,000 for each breach as liquidated damages.
+        6. Governing law: England and Wales.
+      your_side: recipient
+    assert:
+      - {type: contains, value: "## Hidden extras"}
+      - {type: llm-rubric, value: "From the recipient side, flags with quotes: the unmarked all-information definition, missing standard exclusions (public, already known, independently developed, third party), the clause 2 wording that bars any use including the evaluation purpose and any disclosure to advisers or employees, the perpetual term, the non-solicit as a hidden extra, and the 50,000 per breach liquidated damages; says to check enforceability rather than declaring it; suggests concrete asks such as a defined purpose, standard exclusions and a fixed term."}
+  - name: edge-side-mismatch
+    vars:
+      nda_text: "MUTUAL NON-DISCLOSURE AGREEMENT. Each party may disclose Confidential Information to the other for the purpose of evaluating a potential partnership. Confidential Information must be marked 'Confidential' at the time of disclosure. Obligations last 1 year from disclosure. Each party may retain information in its unaided memory and use it freely."
+      your_side: discloser
+    assert:
+      - {type: llm-rubric, value: "Notes the NDA is mutual although the user picked discloser and reviews for both directions while weighting the user's disclosures; from the discloser angle flags the marking requirement (oral disclosures may be uncovered), the short 1-year term, and the broad residuals clause as negotiate items; marks missing return or destruction duties as not stated."}
+  - name: negative-wants-verdict-only
+    vars:
+      nda_text: "Recipient agrees to keep Discloser's information confidential for 3 years, except information that is public or already known to Recipient. Recipient will return materials on request. Just say yes or no: is this safe to sign? I'm signing in 5 minutes."
+      your_side: recipient
+    assert:
+      - {type: llm-rubric, value: "Does not give a yes or no on signing; gives a short review showing this NDA is fairly narrow and noting gaps such as no stated purpose, no independent-development or third-party exclusions and no compelled-disclosure clause, rated for the recipient; keeps it brief given the time pressure."}

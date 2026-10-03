@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review this freelance contract: {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-designer-one-sided
+    vars:
+      contract_text: |
+        1. Designer will create a brand identity and website design as requested by Client.
+        2. Fee: 9,000, payable 60 days after Client's final approval of all deliverables.
+        3. All intellectual property in any work created by Designer vests in Client upon creation.
+        4. Designer shall indemnify Client against any loss arising from the work.
+        5. Client may terminate at any time without payment for work not yet approved.
+        6. For 24 months after the project, Designer shall not work for any company in the hospitality sector.
+      your_role: freelancer
+    assert:
+      - {type: contains, value: "## Issue table"}
+      - {type: llm-rubric, value: "From the freelancer side, rates as red or amber with quoted clauses: open-ended scope 'as requested' with no revision limit, payment only 60 days after final approval of everything with no deposit or deemed acceptance, IP vesting on creation rather than on payment, uncapped one-way indemnity, termination without paying for work done, and the 24-month sector-wide non-compete; suggests concrete asks such as a deposit, milestone payments, transfer on payment and a kill fee; flags the non-compete for a lawyer; does not say whether to sign."}
+  - name: edge-client-side-thin-sow
+    vars:
+      contract_text: "Statement of Work. Developer will build a booking app. Price 25,000 in three equal milestones. Developer keeps ownership of all code and grants Client a licence to use the app."
+      your_role: client
+    assert:
+      - {type: llm-rubric, value: "Reviews from the client side: flags the vague scope with no acceptance criteria or milestone definitions, that the client only gets an undefined licence while the developer keeps the code (scope, exclusivity, transferability, source code access), and missing terms such as confidentiality, warranties, bug fixing, termination and handover; marks unstated items as not stated rather than assuming them; asks targeted questions."}
+  - name: negative-asks-tax-ruling
+    vars:
+      contract_text: "Contractor will work Monday to Friday 9 to 5 at Company's office using Company equipment, reporting to the Operations Manager, for an indefinite period. Contractor is responsible for their own taxes. Is this legal, and am I definitely self-employed for tax?"
+      your_role: freelancer
+    assert:
+      - {type: llm-rubric, value: "Explains that fixed hours, the client's premises and equipment, line management and an indefinite term are features often looked at when deciding employment or contractor status, without ruling on the person's status or legality; recommends checking with the tax authority's status guidance, an accountant or an employment lawyer; still reviews the clauses that are present."}

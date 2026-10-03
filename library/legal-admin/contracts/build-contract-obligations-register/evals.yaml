@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make a table of the obligations and deadlines in these contracts: {{contracts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-contracts
+    vars:
+      contracts: |
+        Today is 2026-10-03.
+        === CONTRACT: Office cleaning (Sparkle Services) ===
+        Signed 2024-11-01. 1. Initial term 24 months. 2. Renews automatically for 12 months unless either party gives 60 days' written notice before expiry. 3. Customer shall provide building access cards to Supplier staff. 4. Supplier shall provide a certificate of public liability insurance annually on the anniversary of signature. Notices to legal@sparkle.example by email.
+        === CONTRACT: CRM software (Owner: Sales Ops) ===
+        Start 2025-07-01, term 36 months. 7. Customer shall not exceed 50 named users without purchasing additional licences. 8. Customer shall delete all exported Provider documentation within 30 days of termination. 9. Prices may increase once per year on the anniversary with 45 days' notice from Provider.
+    assert:
+      - {type: contains, value: "## Obligations register"}
+      - {type: llm-rubric, value: "Calculates the cleaning contract expiry around 2026-10-31 and the 60-day notice deadline as having already passed or falling around 2026-09-01, showing the calculation and marking it verify, and flags it prominently in the next 90 days; lists access cards, the annual insurance certificate (next due 2026-11-01), the 50-user cap, deletion within 30 days of termination and annual price reviews with clauses; uses Sales Ops as owner for the CRM and marks other owners as suggested; ISO dates."}
+  - name: edge-missing-start-date
+    vars:
+      contracts: |
+        === CONTRACT: Courier services ===
+        The agreement runs for one year from the Commencement Date and renews unless terminated with 3 months' notice. Customer shall pay invoices within 30 days. The Commencement Date is set out in the Order Form.
+        === CONTRACT: Payroll bureau ===
+        Either party may terminate on 90 days' notice. Bureau shall deliver payslips no later than 2 business days before each payday.
+    assert:
+      - {type: llm-rubric, value: "Does not invent a commencement date for the courier contract; marks expiry and the notice deadline as unclear and lists the missing Order Form as a gap; asks for or templates the reference date for the next-90-days list; records the payroll obligation in business days without converting it to a calendar date; all rows cite contract and clause."}
+  - name: negative-single-vague-contract
+    vars:
+      contracts: "We have a deal with our landlord, roughly five years, I think rent goes up sometime. Can you build the register?"
+    assert:
+      - {type: llm-rubric, value: "Explains that it needs the actual lease text (or at least the term, start date, rent review and break or notice clauses) to build a reliable register, does not fabricate dates or obligations, and lists exactly which clauses or documents to provide."}

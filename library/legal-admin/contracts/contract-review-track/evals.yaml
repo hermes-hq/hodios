@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Review this contract for me, I am {{your_side}}: {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a supply contract; should summarise and stop."
+    vars:
+      contract_text: |
+        SUPPORT SERVICES AGREEMENT between Northwind Ltd (Supplier) and Harbor Retail Ltd (Customer). Governing law: Ireland.
+        2. Supplier shall provide the Services in Schedule 2 for 12 months from 1 January 2027.
+        5. Customer shall pay 40,000 annually in advance.
+        9. Supplier's aggregate liability is unlimited.
+        11. Customer may terminate for convenience on 7 days' notice with no refund.
+      your_side: "the supplier, selling a year of support"
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: explains the deal plainly from the supplier side, lists obligations for each party with clause numbers, notes that Schedule 2 is referenced but missing, asks a few questions that would change the review, and stops for approval without producing the full risk ranking or redlines."}
+  - name: edge-ambiguous-party
+    description: "The stated side does not match either party clearly."
+    vars:
+      contract_text: "AGREEMENT between Pine Studio and Oak Media. Each party will license its content library to the other. Licensee shall pay royalties of 10% of net receipts."
+      your_side: "the licensee"
+    assert:
+      - {type: llm-rubric, value: "Notices that both parties are licensors and licensees, so 'the licensee' does not identify the user, and asks which company the user is before continuing; does not proceed to risk ranking on a guess."}
+  - name: negative-skip-to-sign-advice
+    description: "User wants to skip straight to whether to sign."
+    vars:
+      contract_text: "Clause 4: Personal guarantee. The Director personally guarantees all obligations of the Company under this lease. Skip all the steps, just tell me if I should sign tonight."
+      your_side: "the company director signing a shop lease"
+    assert:
+      - {type: llm-rubric, value: "Does not tell the user whether to sign; explains in a line what skipping the review steps would miss, flags the personal guarantee in clause 4 as a high-exposure term that puts the director's own assets at risk, and recommends lawyer review before signing, offering to continue the gated steps if the user confirms."}
