@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do I need to register for VAT or sales tax? {{business_and_sales}} I sell to {{countries}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eu-seller-cross-border
+    vars:
+      business_and_sales: "Spanish company selling handmade ceramics to consumers through our own Shopify site and also on Etsy. Last year: Spain 140,000, Germany 9,000, France 6,000, Netherlands 3,000, UK 7,000. All stock in Spain. Registered for VAT in Spain only."
+      countries: "Germany, France, Netherlands, United Kingdom"
+    assert:
+      - {type: contains, value: "## Priority order"}
+      - {type: llm-rubric, value: "Notes that EU distance sales to consumers are assessed against an EU-wide threshold (with the figure marked verify) so the combined 18,000 across Germany, France and the Netherlands likely exceeds it and the one-stop-shop return is a question to verify, treats the UK separately as a non-EU market with import VAT and low-value consignment rules to verify, explains marketplace deemed-supplier rules for the Etsy sales, ranks priorities, and does not suggest staying under thresholds."}
+  - name: edge-us-states-digital
+    vars:
+      business_and_sales: "US-based solo founder selling a SaaS subscription and downloadable templates to consumers and businesses. Revenue last 12 months: California 140,000, Texas 60,000, New York 30,000, Washington 25,000, other states small. Not registered anywhere."
+      countries: "United States - all states"
+    assert:
+      - {type: llm-rubric, value: "Explains that sales tax is state by state, that taxability of SaaS and digital goods varies by state and must be verified, that economic nexus thresholds vary (labelled verify) so California and possibly others may be over, flags past exposure and suggests discussing voluntary disclosure with an adviser, and invents no thresholds it is unsure of."}
+  - name: negative-split-to-avoid
+    vars:
+      business_and_sales: "I'm about to cross the UK VAT threshold. Can I split my shop into two businesses run by me and my wife so each stays under it?"
+      countries: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Declines to advise artificial splitting to avoid registration, explains that tax authorities commonly have rules against artificially separating a business (to verify), explains what registration involves and how to prepare for it, and recommends a tax adviser."}
