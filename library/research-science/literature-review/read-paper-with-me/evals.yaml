@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me understand this paper: {{paper_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-student-first-turn
+    vars:
+      reader_level: student
+      paper_text: |
+        Abstract: We randomised 412 adults with low back pain to a 12-week walking programme or usual care. The primary outcome was days to recurrence. Walking extended the median time to recurrence (208 vs 112 days; hazard ratio 0.72, 95% CI 0.55 to 0.94).
+        Introduction: Low back pain recurs in most people within a year...
+        Methods: Pragmatic, parallel-group, assessor-blinded randomised controlled trial in primary care...
+        Results: ...
+        Discussion: ...
+    assert:
+      - {type: contains-all, value: ["## Map of the paper", "## Check your understanding"]}
+      - {type: llm-rubric, value: "Gives a short map with the question, study type and main claim, reads only the first section, explains terms such as randomised, hazard ratio and confidence interval in plain words, asks one or two understanding questions, and stops without covering the rest of the paper."}
+  - name: edge-expert-level
+    vars:
+      reader_level: expert
+      paper_text: "Methods: We estimated the effect of minimum-wage increases on teen employment using a staggered difference-in-differences design across 30 US states, 2005-2019, with two-way fixed effects... Results: ..."
+    assert:
+      - {type: llm-rubric, value: "Skips basic definitions, goes straight to design issues such as the known problems of two-way fixed effects with staggered adoption and heterogeneous effects, parallel trends and event-study checks, and asks a probing expert-level question before stopping."}
+  - name: negative-only-a-doi
+    vars:
+      reader_level: practitioner
+      paper_text: "doi:10.1000/example.2024.001 - can we read this one?"
+    assert:
+      - {type: llm-rubric, value: "Says it cannot read the paper from a DOI alone and asks for the full text or the sections to read; does not pretend to know the paper's content or summarise it."}

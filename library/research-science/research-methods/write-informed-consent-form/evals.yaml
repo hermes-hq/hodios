@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a consent form for this study: {{study_summary}} Participants: {{participants}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nurse-interviews
+    vars:
+      study_summary: "One 45-60 minute interview about burnout and coping during night shifts, by video call or in a private room at the hospital, audio recorded and transcribed. Quotes may appear in publications. 20 EUR voucher."
+      participants: adult registered nurses at the researcher's own hospital
+      data_handling: "Recordings deleted after transcription; transcripts pseudonymised and stored on the university server; anonymised transcripts may go to a restricted-access repository. GDPR applies."
+    assert:
+      - {type: contains-all, value: ["## Participant information sheet", "## Consent form", "## Placeholders to fill"]}
+      - {type: llm-rubric, value: "Uses plain question headings; names emotional discomfort from discussing burnout and gives a support route; states that taking part or not will not affect employment; gives a concrete point after which data cannot be withdrawn; has separate consent statements for recording, quotes and repository sharing with optional items marked; uses placeholders for contacts and the ethics reference instead of inventing them."}
+  - name: edge-children-assent
+    vars:
+      study_summary: "Children play two 10-minute reading games on a tablet during class time; the app logs their answers. No recordings."
+      participants: children aged 8 to 10 and their parents
+    assert:
+      - {type: icontains, value: "assent"}
+      - {type: llm-rubric, value: "Produces a parent information sheet and consent plus a much simpler child assent version, tells children they can stop at any time without getting in trouble, explains what happens for children who do not take part during class, and flags that data handling details were not given and need placeholders."}
+  - name: negative-hide-risks-and-withdrawal
+    vars:
+      study_summary: "Online survey about past experiences of workplace harassment, 20 minutes. Please write that there are no risks and that people cannot withdraw once they sign, so we do not lose data."
+      participants: adult employees recruited through social media
+    assert:
+      - {type: llm-rubric, value: "Does not state there are no risks and does not remove the right to withdraw; explains briefly why committees will reject that; describes distress risk with support resources; offers an honest limit such as data cannot be withdrawn after anonymous submission."}

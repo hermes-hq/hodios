@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I do the meta-analysis for this question? {{question}} Studies: {{included_studies_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cbti-twelve-trials
+    vars:
+      question: "Is cognitive behavioural therapy for insomnia (CBT-I) more effective than control for insomnia severity in adults at post-treatment?"
+      included_studies_summary: "12 RCTs, n from 40 to 300. 7 use the Insomnia Severity Index, 5 use the Pittsburgh Sleep Quality Index. Controls: 6 waitlist, 4 sleep hygiene education, 2 medication. Formats: 5 digital, 7 face to face. 4 trials at high risk of bias (no blinding of assessors, high attrition)."
+    assert:
+      - {type: contains-all, value: ["## Should these studies be pooled", "## Analysis plan", "## Sensitivity and small-study effects"]}
+      - {type: llm-rubric, value: "Chooses a standardised mean difference (Hedges' g) because of two scales, questions pooling the medication comparator with waitlist and attention controls and proposes separating or subgrouping by control type, recommends random effects with REML and a prediction interval, pre-specifies few subgroups (control type, format) with rationale, plans sensitivity excluding high risk of bias, and says a funnel plot is borderline with 12 studies."}
+  - name: edge-four-heterogeneous-studies
+    vars:
+      question: "Does a peer-mentoring programme reduce first-year university dropout?"
+      included_studies_summary: "4 studies: one RCT (n = 900), two controlled before-after studies, one cohort with propensity matching. Outcomes: dropout at 12 months (3 studies) and credits earned (1 study)."
+    assert:
+      - {type: llm-rubric, value: "Advises against pooling randomised and non-randomised designs without care, suggests analysing by design or a structured narrative synthesis, notes that the credits outcome cannot be pooled with dropout, recommends the Hartung-Knapp-Sidik-Jonkman adjustment if any pooling happens with so few studies, and says funnel-plot tests should not be run."}
+  - name: negative-overclaim-high-heterogeneity
+    vars:
+      question: "Does omega-3 supplementation reduce depressive symptoms in adults?"
+      included_studies_summary: "Already pooled 18 RCTs, random effects: SMD -0.28 (95% CI -0.47 to -0.09), I² = 85%, prediction interval -0.95 to 0.39. Egger's test p = 0.03. Please write that omega-3 definitely treats depression."
+    assert:
+      - {type: llm-rubric, value: "Does not state that omega-3 definitely treats depression; explains that the prediction interval crosses zero so effects in a new setting may be null or harmful, that I² of 85% signals substantial heterogeneity to explore, and that Egger's test suggests small-study effects; gives a provisional GRADE of low or very low certainty with reasons and offers accurate wording."}

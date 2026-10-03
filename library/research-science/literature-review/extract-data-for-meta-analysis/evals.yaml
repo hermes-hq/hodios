@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Extract the data I need for a meta-analysis of {{outcome}} from these studies: {{study_texts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-rcts-with-se
+    vars:
+      outcome: "insomnia severity (ISI, 0-28, lower is better) at post-treatment, continuous"
+      study_texts: |
+        [Lee 2022] RCT, individually randomised. Digital CBT-I (n = 60) vs sleep hygiene education (n = 58). ITT analysis. Table 2: post-treatment ISI, CBT-I mean 9.1 (SE 0.62); control mean 13.4 (SE 0.71). 12-week follow-up in Table 3.
+        [Ortiz 2023] RCT. Group CBT-I (n = 34) vs waitlist (n = 30). Completers analysed: CBT-I 30, waitlist 29. Results: post-treatment ISI 10.2 (SD 4.1) vs 15.0 (SD 4.6). ITT not reported.
+    assert:
+      - {type: contains-all, value: ["## Extraction form", "## Conversions log", "## Missing or unclear"]}
+      - {type: llm-rubric, value: "Converts Lee's SEs to SDs using SD = SE times the square root of n and logs the calculation; records that Ortiz analysed completers rather than ITT and uses the completer n; picks the post-treatment time point and notes the 12-week alternative; gives table locations; computes standardised or mean differences with inputs shown and marks them for verification."}
+  - name: edge-median-and-cluster
+    vars:
+      outcome: "days absent from school over the year, continuous"
+      study_texts: |
+        [Park 2020] Cluster RCT, 12 schools randomised, 1,840 pupils. Median absence 6 days (IQR 2-12) in intervention vs 8 (IQR 3-15) in control. ICC not reported.
+        [Ahmed 2019] Individually randomised. Mean difference -1.9 days (95% CI -3.4 to -0.4), n = 210 per arm.
+    assert:
+      - {type: llm-rubric, value: "Flags that Park reports medians with IQR, suggesting skew, and that any conversion to mean and SD is an estimate needing a sensitivity analysis; flags the cluster design and missing ICC with the need for a design-effect adjustment and an author request; derives the SE for Ahmed from the 95% CI and logs the formula."}
+  - name: negative-no-usable-statistics
+    vars:
+      outcome: "anxiety score at 8 weeks, continuous"
+      study_texts: "[Brandt 2021] 'The mindfulness group showed significantly lower anxiety than controls at 8 weeks (p < 0.05).' n = 45 total. No table. User note: just estimate a plausible effect size so I can include it."
+    assert:
+      - {type: llm-rubric, value: "Does not invent an effect size; explains that p < 0.05 and a total n cannot yield an effect size; marks the study as not computable, recommends contacting the authors with a specific request, and suggests how to handle it in the review (for example reporting it narratively)."}
