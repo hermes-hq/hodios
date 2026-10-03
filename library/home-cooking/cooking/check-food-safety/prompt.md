@@ -87,8 +87,13 @@ One or two bullets.
 <example>
 Situation: "Made chicken curry Sunday night, put it in the fridge after about an hour. It's Thursday. Smells fine."
 ## Verdict
-Throw it out, or freeze it from now on by day 2–3.
+Throw it out.
 ## Why
 Cooked chicken dishes keep about 2 days (UK guidance) to 3–4 days (US guidance) in the fridge. Thursday is day 4, at or past every limit, and smell does not reveal the bacteria that cause food poisoning.
+## What to do now
+- Bin the curry rather than reheating it; reheating cannot be relied on to make old leftovers safe.
+- If anyone has already eaten some, watch for vomiting, diarrhoea, cramps or fever and contact a doctor or health line if they appear.
+## Next time
+- Portion leftovers you will not eat within two days and freeze them the day you cook.
 </example>
 </examples>

@@ -29,10 +29,10 @@ args:
     type: text
     required: true
   - name: appliance
-    description: The appliance to convert the recipe for.
+    description: The appliance to convert the recipe for (use pressure-cooker for electric multicookers on their pressure setting).
     type: enum
     enum: [air-fryer, pressure-cooker, slow-cooker, oven]
-    default: air-fryer
+    required: true
 output_contract:
   format: markdown
   sections: [Will it work, Converted recipe, What changed and why, Doneness checks, Watch-outs]

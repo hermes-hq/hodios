@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: food
     description: What you want to preserve and how much (for example "5 kg ripe tomatoes", "a glut of courgettes", "venison steaks"), plus any recipe you already have in mind.
-    type: string
+    type: text
     required: true
   - name: method
     description: The preservation method to use, or any to get a recommendation.
