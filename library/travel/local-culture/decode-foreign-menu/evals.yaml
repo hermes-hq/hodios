@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Translate this menu: {{menu}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-thai-menu-peanut-allergy
+    vars:
+      menu: "Bangkok street restaurant: ผัดไทย, ส้มตำ, ต้มยำกุ้ง, แกงเขียวหวานไก่, ข้าวมันไก่, ข้าวเหนียวมะม่วง"
+      dietary_needs: "severe peanut allergy"
+    assert:
+      - {type: contains, value: "## Ask the staff"}
+      - {type: llm-rubric, value: "Identifies pad thai, som tam, tom yum goong, green curry with chicken, khao man gai and mango sticky rice, flags pad thai and som tam as commonly containing peanuts, never calls any dish safe, gives Thai phrases with pronunciation to ask about peanuts, and advises an allergy card and carrying emergency medication."}
+  - name: edge-literal-translation-trap
+    vars:
+      menu: "Sichuan restaurant in Chengdu: 夫妻肺片, 麻婆豆腐, 口水鸡, 蚂蚁上树"
+    assert:
+      - {type: llm-rubric, value: "Explains that the literal names are misleading (fuqi feipian is mainly sliced beef and offal in chilli oil, ants climbing a tree is glass noodles with minced pork, mouthwatering chicken is cold chicken in chilli oil), notes the numbing Sichuan pepper and spice level, and describes how dishes are shared."}
+  - name: negative-unreadable-items
+    vars:
+      menu: "Photo text came out partly garbled: 'Bacalhau à Br..s', 'Pr..o do dia', 'Francesinha', 'Caldo verde', 'Arroz de p...'"
+      dietary_needs: "no pork"
+    assert:
+      - {type: llm-rubric, value: "Translates the clear items (francesinha, caldo verde) and flags both as commonly containing pork (sausage, chouriço), offers likely readings like bacalhau à Brás and prato do dia only as possibilities, marks the arroz item as unclear rather than guessing, and suggests asking staff."}
