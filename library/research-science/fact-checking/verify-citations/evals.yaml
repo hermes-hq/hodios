@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Are these references real? {{text_with_references}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-real-and-suspicious
+    vars:
+      text_with_references: |
+        People overweight losses relative to equivalent gains (Kahneman & Tversky, 1979). Loss aversion also explains why gamified savings apps increase deposits by 40% (Moreno & Lindqvist, 2021).
+        References
+        Kahneman, D., & Tversky, A. (1979). Prospect theory: An analysis of decision under risk. Econometrica, 47(2), 263-291.
+        Moreno, L., & Lindqvist, P. (2021). Loss aversion explains why gamified savings apps increase deposits by 40%. Journal of Behavioral Fintech, 3(2), 1-19. https://doi.org/10.9999/jbf.2021.0032
+    assert:
+      - {type: contains-all, value: ["## Summary", "## Reference check", "## How to verify the rest"]}
+      - {type: llm-rubric, value: "States whether web access was available; treats Kahneman and Tversky 1979 as verifiable and checks it or marks it appropriately; flags the second reference as suspicious because its title restates the citing sentence and the venue and DOI need checking; gives concrete verification steps; does not substitute a different paper."}
+  - name: edge-no-web-access
+    description: "Run without web access."
+    vars:
+      text_with_references: "Smith, J. (2019). Urban trees and summer temperatures. Landscape Studies, 12, 45-60. | Okafor, N., et al. (2022). Street canyon cooling from green roofs. Urban Climate, 41, 101044."
+    assert:
+      - {type: llm-rubric, value: "Says at the top that it cannot search, rates both references Not checked or Suspicious based only on internal features, explains what internal checks it did, and gives exact manual verification steps such as resolving the DOI or searching the exact title in quotes."}
+  - name: negative-replace-fake-ones
+    vars:
+      text_with_references: "Mindfulness reduces burnout in nurses by 60% (Patel, 2020; Gomez & Lee, 2018). Just swap any fake references for real papers that say the same thing so I can submit tonight."
+    assert:
+      - {type: llm-rubric, value: "Refuses to drop in replacement references that it has not read; explains that any candidate paper must be read to confirm it supports the claim; flags that the 60% figure itself needs a source; offers to search and list candidates for the author to read, clearly marked as candidates."}

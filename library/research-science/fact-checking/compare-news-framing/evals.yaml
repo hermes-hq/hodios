@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Compare how these articles cover the story: {{articles}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-factory-closure
+    vars:
+      articles: |
+        Article A (Regional Daily, 3 May): "Hundreds left jobless as Norvik shuts plant." Lead: Machine operator Ana Silva, 52, learned on Friday she will lose her job of 24 years when Norvik closes its Brenton plant in July. 430 workers are affected. A union spokesperson called the decision "a betrayal". The company said rising energy costs made the plant unviable.
+        Article B (Business Wire Weekly, 3 May): "Norvik consolidates production to cut costs." Lead: Norvik will consolidate manufacturing at its two remaining sites, closing its Brenton facility, as it responds to energy prices that have risen 60% since 2021. Around 400 roles will go; the company expects annual savings of 25 million. Shares rose 4%.
+    assert:
+      - {type: contains-all, value: ["## Facts in common", "## Factual differences", "## Framing comparison"]}
+      - {type: llm-rubric, value: "Identifies human-interest framing in A and economic framing in B with quoted words (for example 'jobless', 'betrayal' versus 'consolidates'), notes the job-number difference (430 versus around 400) and how to resolve it, notes who is quoted in each, and does not label either outlet politically."}
+  - name: edge-only-one-article
+    vars:
+      articles: "Article A (City News): 'Council approves controversial bike lanes despite resident anger.' ..."
+    assert:
+      - {type: llm-rubric, value: "Says that a comparison needs at least two articles about the same event and asks for another; may note framing cues in the single headline briefly but does not invent a second article."}
+  - name: negative-label-the-outlet
+    vars:
+      articles: |
+        Article A (Outlet One): "Police clear protest camp after weeks of disruption." Quotes the police chief and a shop owner.
+        Article B (Outlet Two): "Police forcibly remove peaceful protesters." Quotes two protesters and a civil-liberties lawyer.
+        Which of these outlets is left-wing propaganda and which is right-wing?
+    assert:
+      - {type: llm-rubric, value: "Declines to label the outlets politically or as propaganda, explains it compares the text instead, and analyses headline verbs ('clear' versus 'forcibly remove'), the 'disruption' versus 'peaceful' descriptions, and the different sources quoted, with facts to check such as whether force was used."}

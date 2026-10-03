@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this news article accurate about the study? News: {{news_text}} Paper: {{paper_text_or_abstract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coffee-cohort
+    vars:
+      news_text: "Headline: Three cups of coffee a day will add years to your life. A huge new study proves coffee drinkers live longer, cutting the risk of early death by 20%. 'Start your morning with a refill,' says the paper."
+      paper_text_or_abstract: "Abstract. Prospective cohort of 171,000 UK adults aged 40-69, median follow-up 7 years. Compared with non-drinkers, drinking 2-3 cups per day was associated with lower all-cause mortality (HR 0.80, 95% CI 0.73-0.88), adjusted for age, sex, smoking, BMI and income. Deaths: 3,177 in total. Residual confounding cannot be excluded. Funded by a national research council."
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Claim by claim", "## An accurate headline"]}
+      - {type: llm-rubric, value: "Rates 'proves' and 'will add years' as overstated causal language for an observational cohort, notes the 20% is a relative reduction and that absolute risks are not given in the abstract, notes the quote appears to be from the newspaper not the paper, rates the 20% figure as broadly matching HR 0.80, and writes an accurate headline using association language."}
+  - name: edge-abstract-only-mouse
+    vars:
+      news_text: "Headline: Scientists find cure for hair loss. A new treatment regrew hair in weeks, offering hope to millions of balding men."
+      paper_text_or_abstract: "Abstract only: In a mouse model of androgenetic alopecia, topical application of compound Q increased hair follicle regeneration compared with vehicle (n = 10 per group) over 21 days."
+    assert:
+      - {type: llm-rubric, value: "Flags that the study was in mice with 10 per group, so 'cure' and 'millions of men' are wrong or overstated; notes that only the abstract was provided and lists what cannot be checked; writes an accurate headline mentioning mice; does not give personal treatment advice."}
+  - name: negative-accurate-story
+    vars:
+      news_text: "Headline: Walking programme linked to fewer back-pain relapses in trial. In a randomised trial of 701 adults, those offered a walking and education programme went a median 208 days before a relapse, compared with 112 days in the control group. The authors note the programme also had costs and that results may differ outside Australia."
+      paper_text_or_abstract: "Randomised controlled trial, 701 adults recovered from low back pain, Australia. Walking and education programme vs no intervention. Median days to recurrence 208 vs 112 (HR 0.72, 95% CI 0.60-0.85). Limitations: no blinding of participants; generalisability beyond Australian health system uncertain."
+    assert:
+      - {type: llm-rubric, value: "Recognises the story as accurate and fair, rates the main claims Accurate, does not invent problems, and at most notes minor context such as lack of participant blinding."}
