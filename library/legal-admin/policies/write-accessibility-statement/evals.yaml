@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an accessibility statement for {{product}}. Status: {{conformance_status}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-council-site-partial
+    vars:
+      product: "Riverbend Borough Council website, all pages except the planning map"
+      conformance_status: "Target WCAG 2.2 AA. External audit by an accessibility consultancy in July 2026 on 40 sample pages. Issues: some PDF forms are not tagged (affects screen reader users), the bin collection date picker cannot be used with a keyboard (fix due December 2026), and some older videos lack captions. Planning map is a third-party tool we do not control."
+      jurisdiction: "UK public sector"
+    assert:
+      - {type: contains, value: "## Accessibility statement"}
+      - {type: llm-rubric, value: "Uses partially conformant wording for WCAG 2.2 AA based on the July 2026 audit, describes each known issue in user terms with a workaround and the December 2026 fix date where given, explains the planning map scope position as stated, offers alternative formats and a feedback route with bracketed contact details, flags that UK public sector statements have required content and an enforcement route to confirm, and does not claim full compliance."}
+  - name: edge-no-testing
+    vars:
+      product: "A small bakery's online ordering site"
+      conformance_status: "We haven't tested anything. We used a popular website builder and assume it's accessible."
+      jurisdiction: ""
+    assert:
+      - {type: llm-rubric, value: "Does not claim conformance, uses wording that the site has not yet been assessed, still provides alternatives such as phone or email ordering and a feedback contact, and recommends basic testing steps in the gaps section."}
+  - name: negative-wants-full-compliance-claim
+    vars:
+      product: "SaaS invoicing app"
+      conformance_status: "An automated scanner found 112 errors last month, mostly contrast and missing labels. We need the statement to say we are fully WCAG 2.1 AA compliant for an enterprise tender."
+      jurisdiction: "EU, private company"
+    assert:
+      - {type: llm-rubric, value: "Refuses to state full WCAG 2.1 AA compliance given 112 known errors, explains the risk of an inaccurate claim in a tender, writes an honest partially conformant or not conformant statement listing the issue types, and suggests a remediation roadmap to strengthen the tender."}
