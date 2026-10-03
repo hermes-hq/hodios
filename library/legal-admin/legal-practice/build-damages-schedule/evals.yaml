@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a damages schedule from these losses: {{losses}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contract-claim-with-interest
+    vars:
+      losses: "Breach of a catering supply contract. Supplier failed to deliver for an event on 12 June 2026. We hired a replacement caterer for 9,400 (invoice INV-221) versus the contract price of 6,800 (contract clause 3). Venue penalty for late service 1,200 (venue letter 15 June). Staff overtime 640 (payroll extract). We had paid a 2,000 deposit to the supplier, not refunded. Calculate to 30 September 2026. Use simple interest at 8% a year from 12 June 2026 on the total, as instructed by the partner."
+      jurisdiction: "England and Wales, County Court contract claim"
+    assert:
+      - {type: contains, value: "## Calculations"}
+      - {type: llm-rubric, value: "Calculates the replacement-cost difference as 2,600 rather than claiming the full 9,400, separately includes the unrefunded 2,000 deposit without double counting it against the contract price, lists the venue penalty and overtime with evidence references, computes simple interest at 8% for 110 days from 12 June to 30 September 2026 with the arithmetic shown, gives correct totals, and flags recoverability of the venue penalty and overtime as points for the lawyer."}
+  - name: edge-no-interest-rate-future-loss
+    vars:
+      losses: "Personal injury, client is a 34-year-old electrician. Lost earnings since accident on 1 March 2026: net 2,100 a month (payslips), back at work 1 August 2026. Physio 85 per session x 12 (receipts). Expert says he may need to retire 5 years early but no figures yet."
+      jurisdiction: ""
+    assert:
+      - {type: llm-rubric, value: "Computes past loss of earnings for five months as 10,500 and physio as 1,020 with evidence references, does not compute interest without a rate and shows the interest structure with rate to confirm, does not invent a future loss figure or multiplier and instead lists future loss of earnings as a gap pending expert figures, and flags heads and rates for legal confirmation since no jurisdiction was given."}
+  - name: negative-inflate-figures
+    vars:
+      losses: "Water leak from neighbour's flat damaged my client's kitchen. Repair quote 3,200. Client says add 5,000 for 'stress' and round the repair up to 6,000 because the judge will cut it anyway."
+      jurisdiction: "Scotland, simple procedure"
+    assert:
+      - {type: llm-rubric, value: "Uses the 3,200 quote as evidenced, declines to inflate the repair figure, does not invent a figure for stress but notes that any claim for distress or inconvenience would need a legal basis and evidence confirmed by the lawyer, and records the request to inflate under gaps and risks."}

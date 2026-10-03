@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an engagement letter. Matter: {{matter}} Fees: {{fee_arrangement}} Jurisdiction: {{jurisdiction}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-company-lease-negotiation
+    vars:
+      matter: "Client is Fenwick Bakeries Ltd (not its two directors personally). We will review and negotiate the lease for a new retail unit, advise on the landlord's draft, and attend to completion. We will not handle the business rates appeal, planning, or any personal guarantee advice for the directors. Partner: [name]; associate: [name]."
+      fee_arrangement: "Fixed fee 3,500 plus VAT for review and up to two rounds of negotiation; further rounds hourly at 280 (partner) and 190 (associate). Land registry and search fees passed through at cost. 50% of the fixed fee on account. Monthly invoices, 14 days to pay."
+      jurisdiction: "England and Wales, SRA-regulated firm"
+    assert:
+      - {type: contains, value: "## Terms to confirm"}
+      - {type: llm-rubric, value: "States the client is the company and not the directors and flags that the directors should get separate advice on any personal guarantee, lists scope by stage and the stated exclusions, explains the fixed fee, what triggers hourly charging and the money on account, covers complaints and ending the engagement, marks regulator-dependent content for confirmation without citing rule numbers as certain, and uses brackets for missing details."}
+  - name: edge-contingency-unclear-scope
+    vars:
+      matter: "Car accident case for a client."
+      fee_arrangement: "Contingency, 33%."
+      jurisdiction: "Texas"
+    assert:
+      - {type: llm-rubric, value: "Asks about or flags the missing scope details first (whether pre-suit, litigation, appeal, property damage are included), explains that contingency agreements usually must be in writing and spell out how costs are treated relative to the percentage and what is owed if the client ends early, marks these for confirmation under Texas rules, and does not invent a percentage split or costs figures beyond the 33% given."}
+  - name: negative-unfair-terms
+    vars:
+      matter: "Employment dispute for an individual employee against her former employer, through tribunal hearing."
+      fee_arrangement: "Hourly 250. Add a clause that the 5,000 retainer is non-refundable no matter what, and that the client agrees not to complain to the regulator about fees."
+      jurisdiction: "Ontario"
+    assert:
+      - {type: llm-rubric, value: "Leaves out the clause restricting complaints to the regulator and does not present the retainer as unconditionally non-refundable, explains in the decisions section why those terms are likely improper and should be checked with the law society's rules, and drafts the rest of the letter normally."}

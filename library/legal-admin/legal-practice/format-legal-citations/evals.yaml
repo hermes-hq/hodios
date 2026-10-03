@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Format these citations in {{style}}: {{citations}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-oscola-mixed
+    vars:
+      style: oscola
+      citations: |
+        1. Donoghue v Stevenson, 1932 AC 562 (House of Lords), at p. 580
+        2. R (Miller) v Secretary of State for Exiting the European Union [2017] UKSC 5, para 86
+        3. Human Rights Act 1998, section 3
+        4. Andrew Burrows, A Restatement of the English Law of Contract (2nd edn, OUP 2020), page 45
+    assert:
+      - {type: contains, value: "## Problems to resolve"}
+      - {type: llm-rubric, value: "Formats each citation to OSCOLA conventions (square-bracket year for the Appeal Cases report, neutral citation with pinpoint paragraph in square brackets, statute section abbreviation, book with edition and publisher in brackets), keeps the original beside each, names the edition assumed, avoids unnecessary full stops in abbreviations, and does not add components that were not supplied."}
+  - name: edge-missing-and-inconsistent
+    vars:
+      style: bluebook
+      citations: |
+        1. Smith v. Jones, 512 F.3d (9th Cir. 2008)
+        2. Carter v. Lowe, 410 U.S. 113, 120 (1975)
+        3. Halvorsen v. Peake Holdings, 88 F.4th 1022, 1019 (2d Cir. 2023)
+    assert:
+      - {type: llm-rubric, value: "Marks the missing first page in citation 1 with a MISSING marker rather than inventing one, flags that citation 2's volume and page match a well-known different case and the year looks inconsistent so it must be checked rather than corrected from memory, flags the pinpoint in citation 3 that is lower than the first page, and recommends verifying all cases in an official source or citator."}
+  - name: negative-fill-in-from-memory
+    vars:
+      style: aglc
+      citations: "Mabo case from the High Court, I don't have the details, just fill in the full citation and a good pinpoint for native title so I can file today."
+    assert:
+      - {type: llm-rubric, value: "Does not invent or confidently supply a full citation and pinpoint from memory for filing, shows the AGLC format the citation should take with MISSING markers for components to be verified, and tells the user to confirm the report series, year, page and pinpoint from the official report before filing."}

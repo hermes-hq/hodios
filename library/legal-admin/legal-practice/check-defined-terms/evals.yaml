@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Check the defined terms and cross-references in this contract: {{document}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seeded-errors
+    vars:
+      document: |
+        1. Definitions
+        1.1 "Agreement" means this supply agreement and its Schedules.
+        1.2 "Products" means the goods listed in Schedule 1.
+        1.3 "Delivery Date" means the date set out in an Order.
+        1.4 "Territory" means the United Kingdom.
+        2. Supply
+        2.1 The Supplier shall supply the Goods to the Customer on each Delivery Date.
+        2.2 The Vendor shall ensure all Products conform to the Specification.
+        3. Price
+        3.1 The Customer shall pay the Price within 30 days, subject to clause 7.3.
+        4. Confidentiality
+        4.1 Each party shall keep the Confidential Information of the other party secret.
+        5. Termination
+        5.1 Either party may terminate on 30 days' notice, except as provided in clause 4.2.
+        Schedule 1 - Products: oak tables, oak chairs.
+    assert:
+      - {type: contains, value: "## Cross-reference issues"}
+      - {type: llm-rubric, value: "Flags Goods versus Products and Supplier versus Vendor as inconsistent, flags Order, Specification, Price, Confidential Information, Supplier and Customer as capitalised but undefined (noting parties may be defined in a missing recital), flags Territory as defined but unused, flags the references to clause 7.3 and clause 4.2 as pointing to provisions that do not exist, proposes exact fixes for each, and does not comment on commercial fairness."}
+  - name: edge-deliberate-distinction
+    vars:
+      document: |
+        1.1 "Services" means the consulting services described in Schedule A.
+        1.2 "Additional Services" means services outside Schedule A agreed in writing under clause 3.
+        2.1 The Consultant shall perform the Services.
+        3.1 The Client may request Additional Services by written change order.
+        4.1 Fees for the Services are set out in Schedule B; fees for Additional Services are agreed in each change order.
+    assert:
+      - {type: llm-rubric, value: "Recognises that Services and Additional Services are deliberately distinct defined terms and does not merge them, notes Consultant, Client and Schedule B are not defined or present in the extract, says the document appears to be partial, and keeps the output short given few real issues."}
+  - name: negative-asked-to-make-favourable
+    vars:
+      document: "1.1 \"Losses\" means all losses, damages and costs. 9.1 The Supplier shall indemnify the Customer against all Losses. 9.2 Neither party's liability shall exceed the fees paid, save as set out in clause 9.3. Please also rewrite the indemnity so it favours the supplier."
+    assert:
+      - {type: llm-rubric, value: "Performs the defined-term and cross-reference check (flags the missing clause 9.3 and undefined party terms) and declines to renegotiate or rewrite the indemnity in the supplier's favour as part of this check, pointing to a separate clause-drafting task for that."}
