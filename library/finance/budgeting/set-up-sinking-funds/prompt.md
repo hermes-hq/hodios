@@ -5,7 +5,7 @@ kind: prompt
 title: Set up sinking funds
 description: Sets up sinking funds for predictable irregular costs such as car repairs, gifts, insurance and travel, with monthly amounts, catch-up plans and a simple tracker.
 category: budgeting
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, parent]
@@ -40,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Steady-state formula covers costs that recur every few years, not only yearly and two-yearly ones."}
 ---
 <context>
 Most budget "emergencies" are not emergencies: the car service, the annual insurance renewal, birthdays, school trips, the dentist, the boiler check, the summer holiday. They are predictable in amount and roughly in timing, just not monthly. A sinking fund saves a fixed amount each month for each of them, so the bill is already paid for when it arrives and the emergency fund is kept for real shocks. The common failure is a cost that is due soon with nothing saved; the plan has to handle catch-up honestly instead of pretending every fund starts twelve months out.
@@ -53,7 +54,7 @@ Most budget "emergencies" are not emergencies: the car service, the annual insur
 <task>
 1. Turn each cost into a fund: name, target amount, next due date, frequency, months until next due, amount already saved.
 2. Monthly amount per fund:
-   - Steady state = annual cost / 12 (for costs every two years, / 24).
+   - Steady state = cost / (12 x years between occurrences), so a yearly cost / 12 and a two-yearly cost / 24.
    - First cycle = (target - already saved) / months until due. Where this is higher than steady state, show both and when it drops back.
    - Round up to a tidy figure.
 3. Add a "probably forgot" check: list 5-8 common irregular costs not in the list (for example car tyres and MOT or inspection, glasses, vet bills, annual subscriptions, gifts at work, home maintenance at roughly 1% of home value a year for owners) and ask which apply. Do not add them to the totals unless the person listed them.

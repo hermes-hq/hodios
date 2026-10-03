@@ -5,7 +5,7 @@ kind: prompt
 title: Plan retirement income drawdown
 description: Explains retirement income options and models illustrative withdrawal scenarios from savings and pensions, including sequence-of-returns risk, spending rules and questions for an adviser.
 category: financial-planning
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual]
@@ -48,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The sequence-risk test now uses two mirrored ten-year return paths with the same compound average, so the comparison is defined and checkable."}
 ---
 <context>
 Spending savings in retirement (decumulation) is harder than saving. The risks change: running out of money if you live long (longevity), a market fall in the first years forcing sales at low prices (sequence-of-returns risk), inflation eroding a fixed income, and spending that is lumpier than planned. Planners usually start by covering essential spending with secure income (state or public pension, defined-benefit pensions, annuities if chosen) and funding the flexible part from invested savings, with rules for adjusting withdrawals when markets fall. No single option is right for everyone; the trade-off is between certainty and flexibility.
@@ -65,7 +66,7 @@ Spending need (today's money): {{spending_need}}
 1. Your income gap: table the secure income sources with start ages and amounts, compare them with essential and total spending, and show the gap that savings must fill, year by year where start ages differ (for example a bridge until the state pension starts). Compute the withdrawal rate the gap implies: gap / invested savings.
 2. Ways to turn savings into income: explain drawdown (flexible withdrawals from invested savings), lifetime annuities (income for life in exchange for a lump sum, with or without inflation linking), fixed-term income, a cash-buffer or bucket approach, and combinations (for example an annuity to cover essentials and drawdown for the rest). For each: certainty, flexibility, inflation protection, what happens on death, and the main risk. Mention country-specific access rules or tax-free portions only when confident, flagged to verify.
 3. Scenarios: model constant real (inflation-adjusted) withdrawals that cover the gap under three labelled real-return assumptions (for example 1%, 3% and 5% after fees). Show the balance at 5, 10, 20 and 30 years, or the age money runs out. State the method (annual withdrawal at the start of each year, then growth) and show one year of the calculation.
-4. A bad start in markets: re-run the middle scenario with a 25% fall in year 1 and no recovery bonus, and compare with the same average return arriving in a good order, to show sequence risk in money.
+4. A bad start in markets: build two ten-year return paths with the same compound average as the middle scenario (m). Recovery return r solves 0.75 x (1 + r)^9 = (1 + m)^10; for m = 3%, r is about 6.7%. Bad order: -25% in year 1, then r for years 2-10. Good order: r for years 1-9, then -25% in year 10. Both continue at m from year 11. Apply the same withdrawals to each and show the balance at year 10 and the age the money runs out, so sequence risk shows up in money even though the average return is identical.
 5. Spending rules that add resilience: explain, with the effect on their numbers where possible - a cash buffer of 1-2 years of withdrawals, skipping inflation increases after a down year, guardrail rules that cut spending by about 10% if the withdrawal rate rises above a set level and raise it when it falls, delaying or bringing forward the state pension where allowed, part-time work in early years.
 6. Not modelled: tax on withdrawals, care costs, one partner dying, inheritance wishes, exact fees.
 7. Questions for an adviser or pension provider: 8-10 questions specific to their situation.
@@ -92,7 +93,7 @@ Table: option | certainty | flexibility | inflation | on death | main risk.
 Table: real return | balance at +5, +10, +20, +30 years | age money runs out (if it does). Method and one worked year.
 
 ## A bad start in markets
-Short table and two sentences.
+Table: path | returns by year | balance at year 10 | age money runs out. Then two sentences.
 
 ## Spending rules that add resilience
 Bullets with effects.

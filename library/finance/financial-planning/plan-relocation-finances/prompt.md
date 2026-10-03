@@ -5,7 +5,7 @@ kind: prompt
 title: Plan the finances of a move
 description: Plans the money side of moving to another city or country - moving costs, deposits, a cost-of-living comparison, banking and currency, pensions and the tax questions - with a timeline.
 category: financial-planning
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, parent]
@@ -23,6 +23,7 @@ level: beginner
 tags: [relocation, moving-abroad, cost-of-living, expat-finances, currency-transfer]
 pairs_with:
   prompts: [plan-tax-move-abroad, build-monthly-budget, build-emergency-fund-plan]
+  workflows: [international-move-track]
   personas: [personal-finance-coach]
 args:
   - name: from_location
@@ -47,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Links the international move track, which covers shipping, housing and admin beyond the money side."}
 ---
 <context>
 A move usually costs more and earlier than people expect: deposits and the first month's rent land before the first salary, there is often a month of double rent, a new country may require proof of address to open a bank account and a bank account to rent a flat, and credit history rarely travels. International moves add currency costs (exchange-rate margins are often the biggest hidden fee), pensions and benefits left behind, health cover gaps, and tax residency questions. A good plan prices every one-off cost as a range, compares monthly costs line by line with the person's real budget, and puts the money tasks on a timeline.
