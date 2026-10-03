@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Plan a {{minutes}}-minute phonics lesson on {{target_gpc}} for {{grade_level}}. Already taught: {{previously_taught}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sh-reception
+    vars:
+      target_gpc: sh
+      previously_taught: "s a t p i n m d g o c k ck e u r h b f ff l ll ss; tricky words: I, the, to, no, go"
+      grade_level: Reception
+      minutes: 25
+    assert:
+      - {type: contains-all, value: ["## Review", "## Teach", "## Practise", "## Apply", "## Word check"]}
+      - {type: llm-rubric, value: "All reading and spelling words use only the listed GPCs plus sh (e.g. ship, shop, fish, rush, shed); no words need untaught GPCs such as ee, oo, ing or y; the word check table lists each word; timings add up to 25 minutes; teacher modelling uses pure sounds."}
+  - name: edge-scheme-stage-only
+    vars:
+      target_gpc: "ai as in rain"
+      previously_taught: "Everything up to Phase 3 week 2"
+      grade_level: Year 1
+      minutes: 20
+    assert:
+      - {type: llm-rubric, value: "Recognises the previously taught input is ambiguous, states the GPCs it assumes and asks the teacher to confirm them, then plans a decodable lesson within that assumption; timings add up to 20 minutes."}
+  - name: negative-no-undecodable-words
+    vars:
+      target_gpc: ch
+      previously_taught: "s a t p i n m d g o c k ck e u r h b; tricky: the, I"
+      grade_level: Kindergarten
+      minutes: 25
+    assert:
+      - {type: not-regex, value: "(?i)\\b(cheese|children|chair|teacher|lunch|catching)\\b"}
+      - {type: llm-rubric, value: "Uses only decodable words such as chin, chop, rich, much, such and chat; does not include words requiring untaught GPCs (f, l, x, ee, er, ai, -ing)."}

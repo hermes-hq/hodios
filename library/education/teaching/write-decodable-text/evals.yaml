@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a decodable story of about {{length_words}} words for a child who has learned: {{taught_patterns}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-early-digraphs
+    vars:
+      taught_patterns: "s a t p i n m d g o c k ck e u r h b f ff l ll ss j v w x y z zz qu ch sh th ng"
+      tricky_words: "the, to, I, no, go, into, he, she, we, me, be"
+      theme: a lost dog
+      length_words: 100
+    assert:
+      - {type: contains-all, value: ["## Text", "## Decodability check", "## Comprehension questions"]}
+      - {type: not-regex, value: "(?i)\\b(said|was|they|you|looked|barked|running|puppy|happy|found)\\b"}
+      - {type: llm-rubric, value: "The story has a character, a problem about a lost dog and an ending; every word is decodable with the listed GPCs and tricky words (no -ed or -ing endings, no ee/ai/oa, no y as a vowel); length is roughly 85 to 115 words; the check table maps patterns to words."}
+  - name: edge-stage-label-only
+    vars:
+      taught_patterns: "Phase 2 only"
+      length_words: 60
+    assert:
+      - {type: llm-rubric, value: "States the GPCs it assumes for 'Phase 2' (the single-letter set plus ck, ff, ll, ss) and asks the teacher to confirm; the text uses only those, with very short sentences; no tricky words beyond any it states it assumes."}
+  - name: negative-theme-not-decodable
+    vars:
+      taught_patterns: "s a t p i n m d"
+      theme: "a birthday party at the zoo"
+      length_words: 40
+    assert:
+      - {type: llm-rubric, value: "Does not use words like birthday, party or zoo because they are not decodable; explains in teacher notes that the theme was adapted; every word uses only s a t p i n m d (e.g. Pam, Tim, sat, tap, pin, nap, dip)."}
