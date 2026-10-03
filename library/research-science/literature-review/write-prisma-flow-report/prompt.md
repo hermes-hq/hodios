@@ -5,7 +5,7 @@ kind: prompt
 title: Write a PRISMA flow report
 description: Checks screening numbers add up, then writes the PRISMA 2020 flow diagram content, a drawable diagram and the results paragraph on study selection with exclusion reasons.
 category: literature-review
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, verify]
 role: [researcher, student]
@@ -35,6 +35,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Other-methods sources skip record screening in the arithmetic check, as in the PRISMA 2020 template, and Mermaid labels are quoted so the diagram renders."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -48,7 +49,7 @@ Build the PRISMA flow report from these numbers:
 </screening_numbers>
 
 1. Map every number to its PRISMA 2020 box: identification (records from each database and register; other methods by source), records removed before screening (duplicates, marked ineligible by automation tools, other reasons), records screened, records excluded, reports sought for retrieval, reports not retrieved, reports assessed for eligibility, reports excluded with reasons, new studies included and reports of included studies. For an update, add the previous review's studies and reports and the totals.
-2. Check the arithmetic at each step, separately for the database and other-methods columns: identified minus removed equals screened; screened minus excluded equals sought; sought minus not retrieved equals assessed; assessed minus excluded equals included reports. Check that exclusion reasons sum to the full-text exclusion total. Show each sum.
+2. Check the arithmetic at each step, separately for each column. Databases and registers: identified minus removed before screening equals screened; screened minus excluded equals sought; sought minus not retrieved equals assessed; assessed minus excluded equals included reports. Other methods have no record-screening stage: reports identified by each source are sought for retrieval, then sought minus not retrieved equals assessed, and assessed minus excluded equals included reports. Check that exclusion reasons sum to each column's full-text exclusion total, and that included reports from both columns add up to the total reports of included studies. Show each sum.
 3. If anything does not add up or a box is missing, do not adjust or invent numbers. Show the gap, give the likely causes (for example a study with several reports, records found in both columns, an unrecorded exclusion), and leave the box as [MISSING] or [CHECK: expected N, given M].
 4. Write the diagram content box by box, and drawable code for it.
 5. Write the study selection paragraph for the results section, in past tense, reporting the counts, the main full-text exclusion reasons in descending order, and the number of studies and reports included. Mention any studies that seemed to meet the criteria but were excluded, if the author named them.
@@ -67,7 +68,7 @@ A table: step | calculation | result | OK or mismatch.
 ## Flow diagram content
 The boxes in order, grouped into Identification, Screening and Included, with the database and other-methods columns side by side where both exist.
 ## Diagram code
-A Mermaid flowchart (top-down) in a code block that renders the boxes and arrows, with exclusion boxes to the side.
+A Mermaid flowchart (top-down) in a code block that renders the boxes and arrows, with exclusion boxes to the side. Put every node label in double quotes, for example `A["Records identified from databases (n = 812)"]`, because parentheses and commas in unquoted labels break rendering; use `<br>` for line breaks inside a box.
 ## Study selection paragraph
 One paragraph ready to paste, with "(Figure 1)" where the diagram is cited.
 ## Missing items

@@ -5,7 +5,7 @@ kind: prompt
 title: Check a journal or conference for legitimacy
 description: Checks whether a journal or conference is legitimate or predatory using indexing, editorial, peer-review, fee and invitation signals, and lists exactly what to verify and where before submitting.
 category: peer-review
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, verify]
 role: [researcher, student]
@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: journal
     description: The journal or conference name, plus its website address, publisher, ISSN and any claimed indexing, impact factor or fees you have seen.
-    type: string
+    type: text
     required: true
   - name: invitation
     description: The invitation email or call for papers, pasted in full, if you received one.
@@ -38,6 +38,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "The journal argument takes long text, since it asks for the website, publisher, ISSN, indexing claims and fees."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>

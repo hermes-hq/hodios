@@ -5,7 +5,7 @@ kind: prompt
 title: Write a research impact statement
 description: Writes a research impact statement or pathway to impact naming beneficiaries, the mechanisms that reach them, activities, indicators and evidence, matched to the funder's or assessment's format.
 category: scientific-writing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, build]
 role: [researcher]
@@ -29,7 +29,7 @@ args:
     type: text
     required: true
   - name: funder
-    description: The funder or assessment and section, for example "NSF Broader Impacts", "UKRI impact section", "Horizon Europe impact", "REF impact case study", with any word limit and headings.
+    description: The funder or assessment and section, for example "NSF Broader Impacts", "Horizon Europe impact section", "REF impact case study", or a foundation's impact section, with any word limit and headings. Funders change their forms, so paste the current headings if you have them.
     type: string
 output_contract:
   format: markdown
@@ -38,6 +38,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Retrospective case studies open with a summary of the impact and make the research-to-impact link explicit; the funder examples no longer name a retired format."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -54,7 +55,7 @@ Write an impact statement for this research.
 1. Identify the format: forward-looking plan or retrospective case study, the funder's criteria, headings and word limit. If the funder is not given or its criteria are unknown to you, use a generic forward-looking structure and say what to check in the call documents.
 2. Build the impact logic: for each beneficiary group, what will change for them (knowledge, practice, policy, economy, health, environment, culture), the mechanism linking the research to that change, the activities and outputs that drive it, the time frame, and the assumptions and risks along the way.
 3. Distinguish dissemination (papers, talks) from engagement (working with users) and impact (the change itself), and keep only credible claims; say which ones are long-term and outside the project's control.
-4. Write the statement in the funder's format and voice, concrete and evidenced, with partners and users named as given, resources and responsibilities, and how impact will be monitored. For a retrospective case study, structure it as underpinning research, references to that research, details of the impact, and sources to corroborate it.
+4. Write the statement in the funder's format and voice, concrete and evidenced, with partners and users named as given, resources and responsibilities, and how impact will be monitored. For a retrospective case study, structure it as a summary of the impact, underpinning research, references to that research, details of the impact, and sources to corroborate it, and make the link from each piece of research to each claimed change explicit.
 5. Propose indicators and evidence for each claimed change: what will be collected, by whom and when (for example adoption numbers, policy citations, testimonials collected through a defined process, changes in practice data).
 </task>
 

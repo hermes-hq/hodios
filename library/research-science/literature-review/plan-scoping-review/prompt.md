@@ -5,7 +5,7 @@ kind: prompt
 title: Plan a scoping review
 description: Plans a scoping review from a topic, first testing whether scoping is the right review type, then the PCC question, iterative search, selection, charting form and PRISMA-ScR reporting.
 category: literature-review
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, design]
 role: [researcher, student]
@@ -38,6 +38,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Says when to continue with a scoping plan after recommending a different review type, and when to stop."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -55,7 +56,7 @@ Plan a scoping review on this topic.
 </purpose>
 {{/purpose}}
 
-1. Decide whether a scoping review fits. Compare it with a systematic review, rapid review, evidence gap map and narrative review for this purpose, and recommend one. If another type fits better, say so plainly, give the reason, and still sketch the scoping plan only if the user may need it.
+1. Decide whether a scoping review fits. Compare it with a systematic review, rapid review, evidence gap map and narrative review for this purpose, and recommend one. If another type fits better, say so plainly and give the reason. Continue with the scoping plan only if mapping still serves the purpose (for example to check whether enough studies exist before a systematic review), and say what it can and cannot conclude; otherwise stop after the recommendation and list what the better-fitting review needs next.
 2. Write the review question and two or three sub-questions, and the PCC elements (Population, Concept, Context) with definitions precise enough to apply consistently.
 3. Write eligibility criteria per PCC element plus evidence sources (primary studies, reviews, grey literature, policy documents), languages and dates, each with a reason.
 4. Plan the search: databases suited to the field, grey literature and registries, the three-step JBI approach (initial limited search to harvest terms, full search, reference lists), a draft concept-block structure with [TERM TO CONFIRM] placeholders, and the role of an information specialist.

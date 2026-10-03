@@ -5,7 +5,7 @@ kind: prompt
 title: Write paper highlights and summaries
 description: Writes journal highlights, a graphical abstract concept and a plain-language summary for an accepted or submitted paper, within the journal's limits and true to the results.
 category: scientific-writing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [researcher, student]
@@ -38,6 +38,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Highlights stay a margin under the character limit, with a reminder to confirm counts before submitting."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -66,7 +67,7 @@ Write the highlights, graphical abstract concept and plain-language summary for 
 - Use only results in the paper. If a highlight would need a number the paper does not give, write it without the number.
 - No causal wording for associations, and no "first", "novel" or "breakthrough" unless the paper itself establishes it.
 - Respect every limit in the journal requirements; if none are given, use 3 to 5 highlights of at most 85 characters and a summary of at most 200 words, and say these are defaults.
-- Show the character count after each highlight.
+- Show the character count, including spaces, after each highlight. Counting by eye is error-prone, so keep each highlight at least five characters under the limit and remind the author to confirm counts with a character counter before submitting.
 </constraints>
 
 <output_format>

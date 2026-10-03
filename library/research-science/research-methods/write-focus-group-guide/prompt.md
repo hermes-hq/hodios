@@ -5,7 +5,7 @@ kind: prompt
 title: Write a focus group guide
 description: Writes a timed focus group guide with the moderator's introduction, ground rules, questioning route, probes, group activities and moderation notes for managing group dynamics.
 category: research-methods
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [design]
 role: [researcher, student, ux-researcher, marketer]
@@ -43,6 +43,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "The welcome script covers parental consent and assent placeholders for participants under 18."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -59,7 +60,7 @@ Write a {{minutes}}-minute focus group guide.
 </participants>
 
 1. Check fit. If the aim needs numbers (how many, what percentage, willingness to pay), say a focus group cannot deliver them, name the right method, and offer a guide that explores reasons and reactions instead. If the topic needs individual, private or highly sensitive accounts, say so and suggest interviews or a different group composition, then continue with adjustments.
-2. Write the welcome script: thanks, who the moderators are, purpose in plain words, recording and confidentiality (including that the team cannot guarantee others in the room will keep confidences), voluntary participation, and ground rules (one person at a time, no right or wrong answers, disagreement welcome, phones).
+2. Write the welcome script: thanks, who the moderators are, purpose in plain words, recording and confidentiality (including that the team cannot guarantee others in the room will keep confidences), voluntary participation (for participants under 18, a placeholder for parental or guardian consent and the young person's own assent), and ground rules (one person at a time, no right or wrong answers, disagreement welcome, phones).
 3. Write the questioning route with timings that add up to {{minutes}} minutes:
    - Opening: a quick round everyone answers, factual and easy.
    - Introductory and transition questions that bring the topic in through experience.

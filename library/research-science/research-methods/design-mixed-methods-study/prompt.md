@@ -5,7 +5,7 @@ kind: prompt
 title: Design a mixed-methods study
 description: Designs a mixed-methods study by choosing convergent, explanatory or exploratory sequential or a complex design, and planning sampling, integration points, joint displays and analysis.
 category: research-methods
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, design]
 role: [researcher, student, ux-researcher]
@@ -38,6 +38,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
+  - {version: 1.0.1, note: "Mermaid node labels are quoted so the procedural diagram renders."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -76,7 +77,7 @@ Design a mixed-methods study for:
 ## Why mixed methods
 The rationale, or the case for a single method.
 ## Design choice
-A comparison table (design | fits because | problem for this study), the recommendation and notation, and a procedural diagram as a Mermaid flowchart in a code block.
+A comparison table (design | fits because | problem for this study), the recommendation and notation, and a procedural diagram as a Mermaid flowchart in a code block, with every node label in double quotes (for example `A["QUAN survey (n = 300)"]`) so arrows, parentheses and commas in labels render.
 ## Procedures
 Sub-questions, then each strand's design, sample, data and instruments.
 ## Integration plan
