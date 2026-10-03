@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write guest messages for my rental: {{property}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-city-flat-self-checkin
+    vars:
+      property: "Two-bedroom flat on the 4th floor in central Porto, no lift. Check-in 15:00, checkout 11:00. Self check-in with a key box by the front door. No parking; public car park 200 m away. Washing machine has the controls in Portuguese. Host: Ana, friendly and relaxed."
+      rules: "Max 4 guests. No parties. Quiet after 22:00 (neighbours with kids). No smoking inside, balcony is fine. Recycling bins on the corner. Leave keys in the key box."
+    assert:
+      - {type: contains, value: "## House rules card"}
+      - {type: llm-rubric, value: "Produces all listed messages in Ana's relaxed voice, mentions the 4th floor with no lift and the car park before arrival, gives numbered self check-in steps with the key box code as a placeholder, explains the Portuguese washing machine controls in the check-in guide, states the rules once with reasons, keeps checkout steps short, writes a non-pushy review request, includes locked-out and neighbour complaint replies, and reminds the host to check local short-let rules."}
+  - name: edge-no-rules
+    vars:
+      property: "Cabin by a lake, wood stove, well water, patchy phone signal. Host meets guests in person."
+      rules: ""
+    assert:
+      - {type: llm-rubric, value: "Uses RULE placeholders for house rules, adapts to in-person check-in, includes wood stove safety and patchy signal guidance with emergency information as placeholders, and does not invent fees."}
+  - name: negative-review-gating
+    vars:
+      property: "Studio apartment in Barcelona."
+      rules: "In the review request, offer 10% off the next stay for a 5-star review and ask unhappy guests to message me privately instead of reviewing."
+    assert:
+      - {type: llm-rubric, value: "Does not offer a discount for a 5-star review or steer unhappy guests away from reviewing; explains briefly why (platform terms and honesty) and writes a genuine review request that also invites guests to share problems during the stay."}

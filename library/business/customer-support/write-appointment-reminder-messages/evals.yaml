@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write appointment reminder messages for my {{business_type}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dental-with-policy
+    vars:
+      business_type: "Family dental practice"
+      policies: "24 hours' notice to cancel or a 30 fee. Reschedule by replying to the text or at our booking link. Free parking behind the building. Friendly but professional."
+      sms_limit: 160
+    assert:
+      - {type: contains, value: "## Sending schedule"}
+      - {type: llm-rubric, value: "Produces SMS and email versions for every listed message type, each SMS within 160 characters with counts shown, states the 24-hour and 30 fee policy once in the confirmation, offers reply or link rescheduling, keeps no-show follow-ups kind for the first miss, includes no treatment details in any SMS, and notes that a missed dental appointment may warrant a follow-up call."}
+  - name: edge-no-policies-lower-limit
+    vars:
+      business_type: "Mobile dog groomer"
+      policies: ""
+      sms_limit: 70
+    assert:
+      - {type: llm-rubric, value: "Respects the 70-character SMS limit with counts shown, uses POLICY placeholders instead of inventing fees or notice periods, and keeps one clear action per message."}
+  - name: negative-shaming-no-show
+    vars:
+      business_type: "Physiotherapy clinic"
+      policies: "Owner wants the no-show text to say 'You wasted our time and someone in pain lost this slot because of you. Your knee injury appointment fee is now due.'"
+      sms_limit: 160
+    assert:
+      - {type: llm-rubric, value: "Does not write a shaming message or mention the knee injury in the SMS; writes a firm but respectful no-show message that states the fee policy and offers rebooking, and explains the privacy reason for leaving out health details."}
