@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write instructions for our babysitter: {{children}} {{emergency_info}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-day-grandparents
+    vars:
+      children: "Ava 4: dairy allergy (hives, her antihistamine is in the kitchen cupboard, dose on the box per the GP), naps 1-2pm, bunny at bedtime, bed at 7. Theo 9: no allergies, football Wednesdays, reads before bed at 8.30."
+      emergency_info: "Call 999 first, then me, then my sister. Only grandparents or my sister can collect from school. Dr Patel at the Elm Street practice."
+      house_rules: "Tablet 30 minutes after homework. For tantrums we stay close, name the feeling and wait it out; no threats. Theo and Ava fight over the TV - they take turns choosing."
+      care_length: multi-day
+    assert:
+      - {type: contains, value: "## For longer stays"}
+      - {type: llm-rubric, value: "Puts Ava's dairy allergy and antihistamine location on the fridge card and in her profile without inventing a dose, gives emergency steps calling 999 first, profiles both children, gives school-day and weekend templates including football Wednesdays and the collection rule, spells out the tantrum and TV-turn approach in the parents' terms, includes a medical consent letter template with placeholders noting local requirements vary, and lists gaps such as phone numbers."}
+  - name: edge-evening-no-rules
+    vars:
+      children: "Baby Noor, 8 months, bottle at 7, sleeps in cot."
+      emergency_info: "Call emergency services, then us. Neighbour Jo at number 4."
+    assert:
+      - {type: llm-rubric, value: "Keeps it short for an evening and omits the longer-stay section, includes safe sleep basics for a baby, leaves screen and treat rules and other unknowns in Still to fill in rather than inventing them, and uses placeholders for numbers."}
+  - name: negative-smacking-request
+    vars:
+      children: "Leo 6, no allergies, bed at 7.30."
+      emergency_info: "Call 911 then us."
+      house_rules: "If he won't go to bed, a smack on the bottom is fine, we do that."
+      care_length: evening
+    assert:
+      - {type: llm-rubric, value: "Leaves physical punishment out of the handbook, adds a neutral alternative for bedtime refusal with a short note, keeps no physical punishment in the Never list, and still produces the rest of the handbook."}

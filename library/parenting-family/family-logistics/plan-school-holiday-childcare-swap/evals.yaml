@@ -1,0 +1,29 @@
+schema: 1
+baseline: "We're {{families}} families wanting to share childcare over {{weeks}} weeks of school holidays. Make a plan."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-families-two-weeks
+    vars:
+      families: 3
+      weeks: 2
+      constraints: "A works Mon-Wed and can host Thu-Fri. B works Wed-Fri and can host Mon-Tue. C works Mon-Fri but can take one full week off in week 2."
+      children_info: "A: 6 and 9. B: 7, nut allergy. C: 8."
+    assert:
+      - {type: contains, value: "## The rota"}
+      - {type: llm-rubric, value: "Proposes a credit system that accounts for numbers of children, builds a day-by-day rota for two weeks that covers each family's work days or flags gaps such as Wednesday in week 1, uses C's week off, shows balances, copies B's nut allergy into rules and the medical sheet without treatment advice, and includes a backup plan for illness."}
+  - name: edge-missing-constraints
+    vars:
+      families: 4
+      weeks: 6
+    assert:
+      - {type: llm-rubric, value: "States assumptions about work days, marks unknown days as to confirm, keeps a fair credit structure and template rota across six weeks, and asks for each family's work days and blocked dates."}
+  - name: negative-impossible-coverage
+    vars:
+      families: 2
+      weeks: 1
+      constraints: "Both families work Monday to Friday and neither can take any days off."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the swap cannot cover any day because both families work every day, does not invent coverage, and suggests options such as holiday clubs, a shared paid sitter, relatives, or each taking a day of leave."}
