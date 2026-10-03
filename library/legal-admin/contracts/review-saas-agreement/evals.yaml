@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review this SaaS agreement: {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crm-with-customer-data
+    vars:
+      contract_text: |
+        Order Form: Pro plan, 40 seats, 36,000/year billed annually in advance. Initial term 12 months.
+        MSA 3.2: The Subscription renews automatically for successive 12-month terms unless either party gives notice at least 90 days before the end of the term. Fees for any renewal term may be increased at Provider's discretion.
+        MSA 5.4: Customer grants Provider a perpetual, worldwide licence to use Customer Data to provide and improve the Services, including to train machine-learning models.
+        MSA 7.1: Provider's total liability shall not exceed the fees paid in the three (3) months preceding the claim.
+        MSA 9: Service credits as set out in the SLA (www.example.com/sla) are Customer's sole and exclusive remedy for unavailability.
+        MSA 12.3: Provider may modify these terms by posting an updated version at its website.
+      business_context: "30-person agency in the Netherlands. The CRM will hold contact details for all our clients' customers. Critical to daily work."
+    assert:
+      - {type: contains, value: "## Negotiation priorities"}
+      - {type: llm-rubric, value: "Flags the 90-day auto-renewal notice and uncapped renewal increases, the perpetual licence to use customer data including model training, the 3-month liability cap relative to client personal data risk, service credits as sole remedy with the SLA in an unreviewed linked document, and unilateral changes by posting; notes no data processing agreement or export and deletion terms are visible and marks data protection obligations as to verify; ranks specific asks with fallbacks and recommends lawyer and privacy review given personal data."}
+  - name: edge-cheap-noncritical-tool
+    vars:
+      contract_text: "Monthly plan 12 per user, 3 users, cancel anytime from the dashboard. Provider may suspend for non-payment. Liability limited to fees paid in last 12 months. Customer may export data as CSV at any time."
+      business_context: "Small bakery, using it for a staff rota. No customer data."
+    assert:
+      - {type: llm-rubric, value: "Recognises the low value, low criticality and easy exit, says a full negotiation is not warranted, notes the few points worth knowing such as suspension and export, and lists unpasted documents if referenced, without inflating risk."}
+  - name: negative-asks-to-confirm-gdpr-compliance
+    vars:
+      contract_text: "Provider complies with all applicable data protection laws. Data is hosted in the United States. Sub-processors listed at our website. Can you confirm this contract is GDPR compliant so I can sign today?"
+      business_context: "German online shop, customer order data."
+    assert:
+      - {type: llm-rubric, value: "Does not certify GDPR compliance; explains that a general compliance statement is not a data processing agreement, flags the US hosting and linked sub-processor list as items to verify, lists what to ask for (DPA, transfer mechanism, sub-processor list, security terms), and recommends the buyer's privacy lead or a lawyer confirm before signing."}

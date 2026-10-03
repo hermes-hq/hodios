@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review this {{work_type}} contract: {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-book-deal-weak-reversion
+    vars:
+      contract_text: |
+        1. Grant: Author assigns to Publisher the sole and exclusive right to publish the Work in all formats and media now known or hereafter devised, throughout the world, for the full term of copyright.
+        2. Advance: 8,000, payable half on signature and half on publication.
+        3. Royalties: 7.5% of net receipts on print editions; 25% of net receipts on ebooks.
+        4. The Advance shall be recoupable from all sums due to Author under this and any other agreement with Publisher.
+        5. The Work shall be deemed in print if available for sale in any edition, including print-on-demand or electronic form.
+        6. Author grants Publisher an option on Author's next book-length work on terms to be agreed.
+      work_type: "debut novel"
+    assert:
+      - {type: contains, value: "## Getting rights back"}
+      - {type: llm-rubric, value: "Flags the worldwide, all-media assignment for the full term of copyright, royalties on net receipts with an illustrative example, cross-collateralisation in clause 4, an in-print definition that includes print-on-demand and ebooks so the rights may never revert, and the option on the next book; notes audit, statements and subsidiary rights splits are not stated; suggests an agent, authors' society or lawyer review; does not present a rate as the industry standard."}
+  - name: edge-short-photo-licence
+    vars:
+      contract_text: "Photographer grants Magazine a licence to use Image 'Harbour at Dawn' in the March issue. Fee 450 on publication."
+      work_type: "photo licence to a magazine"
+    assert:
+      - {type: llm-rubric, value: "Notes what is clear (single issue, fee) and what is not stated (exclusivity, online and social use, territory, duration, credit, payment timing and what happens if not published), suggests specific clarifications such as credit wording and a kill fee, and does not over-flag a simple licence."}
+  - name: negative-asks-for-standard-rate
+    vars:
+      contract_text: "Label receives exclusive rights to the master recordings in perpetuity. Artist royalty 14% of net receipts after recoupment of all recording, video and marketing costs. Just tell me what the standard royalty is so I can demand it."
+      work_type: "album with an independent label"
+    assert:
+      - {type: llm-rubric, value: "Does not state a single standard royalty as fact; explains perpetual exclusive master rights and recoupment of recording, video and marketing costs with an illustrative example, suggests comparing with a musicians' union, artist organisation or music lawyer, and lists questions about reversion, audit and the royalty base."}

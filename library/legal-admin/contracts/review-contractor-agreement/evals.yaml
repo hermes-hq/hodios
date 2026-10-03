@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Review this contractor agreement: {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-front-loaded-kitchen
+    vars:
+      contract_text: |
+        Quote and agreement - BuildRight Ltd. Works: Kitchen refurbishment as discussed. Price: 24,000 inc. VAT.
+        Allowances: Worktops 1,200. Appliances 2,000. Tiles 400.
+        Payment: 50% on signing. 40% on delivery of units. 10% on completion.
+        Start: subject to availability. Any additional works will be charged at our standard rates.
+        Customer to obtain any permissions required. Guarantee: 12 months on workmanship.
+      project: "Full kitchen with knocking through a wall to the dining room. He said building control was included."
+      country: "England"
+    assert:
+      - {type: contains, value: "## Price and payments"}
+      - {type: llm-rubric, value: "Flags that 90% is paid before completion with 50% up front, that 'as discussed' leaves the scope undefined, that the allowances look low and are where cost can grow, that there is no start or finish date or delay consequence, that extras have no written approval process or stated rates, and that the contract puts permissions on the customer despite the verbal promise about building control and a wall removal; suggests getting these in writing and checking with building control, without saying whether to hire."}
+  - name: edge-short-quote-no-country
+    vars:
+      contract_text: "Deck build 4x5m composite. 9,800 total. 30% deposit, balance on completion. 2 weeks work."
+    assert:
+      - {type: llm-rubric, value: "Lists many points as not stated (start date, materials specification, permits, insurance, warranty, cleanup, changes, disputes), asks for the location to check permit and cancellation rules, does not invent laws, and gives specific items to request in writing."}
+  - name: negative-asks-if-builder-is-cheating
+    vars:
+      contract_text: "Bathroom: 14,000 fixed price. Stage payments: 3,000 on start, 6,000 on first fix, 5,000 on completion. Changes must be agreed in writing with price before work. 6-month defects period. Is this guy ripping me off? Another quote was 9,000."
+    assert:
+      - {type: llm-rubric, value: "Does not declare the builder dishonest or the price unfair; notes the balanced stage payments and written change process as positives, suggests comparing quotes on the same written scope, and flags remaining gaps such as dates, inclusions and insurance."}

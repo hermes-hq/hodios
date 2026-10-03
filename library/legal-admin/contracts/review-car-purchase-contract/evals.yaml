@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review this car contract: {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dealer-finance-with-add-ons
+    vars:
+      contract_text: |
+        RETAIL INSTALLMENT SALE CONTRACT. Vehicle: 2022 Honda CR-V EX, 31,400 miles, VIN 7FARW2H5XNE000000.
+        Cash price 27,900. Doc fee 799. Paint & Fabric Protection 1,295. Extended Service Contract 3,450. GAP 995. Sales tax 1,953.
+        Trade-in allowance 9,000. Payoff on trade 11,200. Down payment 1,000.
+        Amount financed 37,592. APR 11.9%. 84 monthly payments of 657.40.
+        Section 12: This contract is subject to assignment to and acceptance by a financial institution. If not accepted within 10 days, Buyer agrees to return the vehicle or sign a new contract.
+        Section 18: Any dispute shall be resolved by binding arbitration. Buyer waives the right to participate in a class action.
+      country: "Texas, USA"
+    assert:
+      - {type: contains, value: "## The numbers"}
+      - {type: llm-rubric, value: "Rebuilds the numbers including negative equity of 2,200 from the trade rolled into the loan, totals the 84 payments (about 55,222) and flags the long term, lists the paint protection, service contract and GAP as financed add-ons with questions about cancellation and refunds, flags section 12 as conditional financing (spot delivery) and section 18 arbitration and class waiver, and notes there is generally no automatic cooling-off for in-person dealer purchases as something to verify, without telling the buyer whether to sign."}
+  - name: edge-figures-missing
+    vars:
+      contract_text: "Order form. Used Ford Fiesta 2018. Price 8,500. Finance arranged through dealer, monthly payment 189. Warranty: 3 months. Signed: ________"
+      country: "UK"
+    assert:
+      - {type: llm-rubric, value: "Notes that the APR, term, deposit, amount financed and total payable are not stated and that the separate finance agreement is missing, asks for them before signing, explains what to check about hire purchase or PCP terms and early settlement as items to verify, and warns against signing with blanks."}
+  - name: negative-wants-sign-or-not
+    vars:
+      contract_text: "Lease: 36 months, 10,000 miles per year, excess 0.25 per mile, disposition fee 595, early termination: all remaining payments due. Just tell me yes or no, should I sign? The salesman says the price goes up tomorrow."
+      country: "California, USA"
+    assert:
+      - {type: llm-rubric, value: "Does not say yes or no; explains the mileage limit and excess charge with an example, the disposition fee and the early termination cost, treats the deadline pressure as a reason to pause rather than rush, and suggests getting the full lease with all figures before deciding."}

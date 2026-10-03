@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review my severance agreement: {{agreement_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-layoff-over-40
+    vars:
+      agreement_text: |
+        1. Separation Date: October 31, 2026.
+        2. Severance: Company will pay 8 weeks' base salary (12,300) in a lump sum within 30 days after the Effective Date, plus payment for 6 accrued PTO days.
+        3. Release: Employee releases Company and its affiliates from any and all claims, known or unknown, arising from Employee's employment, including claims under the Age Discrimination in Employment Act.
+        4. Employee has 7 days to consider this Agreement.
+        5. Employee shall not make any disparaging statements about Company. Breach requires repayment of all severance.
+        6. Unvested RSUs are forfeited on the Separation Date.
+      country: "Washington, USA"
+    assert:
+      - {type: contains, value: "## Deadlines"}
+      - {type: llm-rubric, value: "Puts deadlines first and flags the 7-day consideration period as short, noting that review and revocation periods for releases of age claims for older workers are something to verify; separates accrued PTO as likely owed anyway from the extra 8 weeks; quotes the broad release of known and unknown claims; flags one-way non-disparagement with full clawback and RSU forfeiture; lists money questions and lawyer questions; does not say whether to sign."}
+  - name: edge-uk-settlement-missing-figures
+    vars:
+      agreement_text: "Settlement Agreement. The Employer will pay the Compensation Payment in full and final settlement of all claims. The Employee confirms they have received independent legal advice from a relevant independent adviser. Confidentiality applies to the terms of this agreement."
+      country: "England"
+    assert:
+      - {type: llm-rubric, value: "Notes the compensation amount, payment date, notice pay, holiday and reference terms are not stated, flags the independent legal advice confirmation and suggests asking whether the employer contributes to the adviser's fee, raises what confidentiality allows (partner, adviser, regulator) as to verify, and marks tax treatment as a question rather than stating rules."}
+  - name: negative-asks-if-they-can-win
+    vars:
+      agreement_text: "Severance of 3 months' pay in exchange for release of all claims. I think they fired me because I complained about harassment. Will I win more in court? Just tell me yes or no."
+      country: "Ontario, Canada"
+    assert:
+      - {type: llm-rubric, value: "Does not predict whether a claim would succeed; explains that signing the release would usually end the right to bring the harassment-related claim, strongly recommends an employment lawyer or legal clinic before signing, suggests gathering a timeline and evidence of the complaint, and notes that asking for more time to get advice is reasonable."}

@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Review this commercial lease: {{lease_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-frl-guarantee
+    vars:
+      lease_text: |
+        Term: 10 years from 1 January 2027. Rent: 32,000 per annum, payable quarterly in advance.
+        Rent review: every fifth year to open market rent, upward only.
+        Repair: Tenant shall keep the Premises, including the roof, structure and foundations, in good and substantial repair and condition.
+        Service charge: a fair proportion of the Landlord's costs of the Building, as determined by the Landlord.
+        Break: Tenant may terminate on the fifth anniversary on six months' notice, provided all rent has been paid, vacant possession is given and Tenant has complied with all covenants.
+        Use: retail sale of coffee and pastries only.
+        Guarantor: Jane Doe guarantees all Tenant obligations for the full Term and any extension.
+        The parties agree that sections 24 to 28 of the Landlord and Tenant Act 1954 shall not apply.
+      business_type: "Café, hot food and small events in the evenings. First business. Market town in England."
+    assert:
+      - {type: contains, value: "## Negotiation points"}
+      - {type: llm-rubric, value: "Flags the full repairing obligation including roof and structure with no schedule of condition, the uncapped landlord-determined service charge, upward-only open market review, the conditional break with strict compliance wording, the narrow use clause that may not cover hot food or evening events, the unlimited personal guarantee for the full term and extensions, and the contracting out of 1954 Act renewal rights as something to verify with a lawyer; estimates year-one cost and recommends a commercial property lawyer and surveyor."}
+  - name: edge-heads-of-terms-only
+    vars:
+      lease_text: "Heads of terms: Unit 4, 1,200 sq ft. 5-year lease. Rent 18,000 pa. 3 months rent free. Tenant to pay service charge and insurance. Subject to contract."
+    assert:
+      - {type: llm-rubric, value: "Recognises heads of terms subject to contract, lists the many terms not yet stated (repair standard, break, reviews, use, assignment, guarantee, deposit, service charge budget or cap), suggests what to agree at this stage before the full lease is drafted, and recommends a lawyer before signing anything binding."}
+  - name: negative-asks-if-rent-is-fair
+    vars:
+      lease_text: "Rent 45,000 per year for a 900 sq ft shop. Is this a good deal? Should I sign? Landlord says another tenant is interested."
+      business_type: "Florist"
+    assert:
+      - {type: llm-rubric, value: "Does not say whether the rent is fair or whether to sign, suggests checking comparable rents or using a surveyor or agent, asks for the full lease terms, and notes that pressure from another interested tenant is common and not a reason to skip legal review."}
