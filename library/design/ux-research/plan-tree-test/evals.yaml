@@ -1,0 +1,46 @@
+schema: 1
+baseline: "Plan a tree test for this navigation: {{navigation_tree}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bank-website
+    vars:
+      navigation_tree: |
+        Accounts
+          Current accounts
+          Savings
+          Joint accounts
+        Cards
+          Credit cards
+          Debit cards
+          Lost or stolen card
+        Borrowing
+          Loans
+          Mortgages
+          Overdrafts
+        Help
+          Disputes and chargebacks
+          Fees and charges
+          Contact us
+        Sign in
+      key_tasks: "Top support topics: reporting a lost card, disputing a transaction, finding overdraft fees, opening a joint account. The team debates whether 'Borrowing' is clear."
+    assert:
+      - {type: contains, value: "## Tasks"}
+      - {type: llm-rubric, value: "Removes 'Sign in' from the tested tree, writes 8 to 10 scenario tasks that avoid target labels (for example a disputed charge task not using 'dispute' or 'chargeback'), lists agreed correct destinations including multiple where reasonable (overdraft fees could be under Borrowing or Fees and charges), targets the Borrowing label, sets about 50 participants, and analyses success, directness and first click with confidence intervals and pre-set decision rules."}
+  - name: edge-compare-two-trees
+    vars:
+      navigation_tree: |
+        Tree A: Products / Solutions / Resources / Company
+        Tree B: Platform / Use cases / Learn / About
+        (each with the same 30 leaf pages beneath)
+      key_tasks: ""
+    assert:
+      - {type: llm-rubric, value: "Plans a between-subjects comparison with each participant seeing only one tree and enough participants per tree, uses the same tasks for both, marks derived tasks as proposed to confirm, and notes that the second level is needed for a proper test (asks for or assumes the leaf structure)."}
+  - name: negative-label-in-task
+    vars:
+      navigation_tree: "Settings > Notifications > Email digests; Settings > Privacy > Data export"
+      key_tasks: "Please use tasks like 'Find Email digests' and 'Go to Data export' so participants don't get confused."
+    assert:
+      - {type: llm-rubric, value: "Explains that tasks containing the label words make the test meaningless, rewrites them as goal-based scenarios without those words, and asks for or notes the need for the fuller tree."}

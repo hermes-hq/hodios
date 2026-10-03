@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me run a UX research study to answer this: {{research_question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-then-stop
+    vars:
+      research_question: "Our grocery delivery app's substitution feature (picking replacements for out-of-stock items) gets many complaints. Product wants to decide by 30 November whether to redesign the substitution approval flow or replace it with automatic substitutions plus easy refunds. Head of Product decides. Known: 18% of orders have a substitution; 40% of substitution-related tickets say 'didn't see the notification'."
+      product: "Grocery delivery mobile app, iOS and Android"
+      timeline: "4 weeks, $1,500 incentives, one researcher and one designer"
+    assert:
+      - {type: llm-rubric, value: "Completes only step 1: states the decision, owner, date and the two options; writes three to five specific research questions labelled behaviour, attitude or prevalence; summarises what is known from the 18% and 40% figures and what they do not show; lists out-of-scope items and pre-set 'what would change our mind' criteria for each option; then stops for approval without choosing the method or writing a screener."}
+  - name: edge-wrong-method-requested
+    description: "User message at step 2: 'Let's just run 5 usability tests to find out whether customers would prefer automatic substitutions.'"
+    vars:
+      research_question: "Decide whether to switch our grocery app to automatic substitutions. Head of Product decides by month end."
+      product: "Grocery delivery app"
+      timeline: "3 weeks"
+    assert:
+      - {type: llm-rubric, value: "Explains that five usability tests can show whether people can use a flow but not which approach customers prefer or how common a preference is, and recommends a fitting method (for example interviews about past substitution experiences, possibly a survey or a live test) while keeping a usability test only for usability questions."}
+  - name: negative-synthesis-without-notes
+    description: "User message at step 6: 'Sessions are done, just write the synthesis with some quotes, we're short on time.' No notes are pasted."
+    vars:
+      research_question: "Why do small clinics abandon our booking software setup?"
+      product: ""
+      timeline: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the session notes or transcripts and stops, without inventing findings, participant counts or quotes."}

@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Summarise the usability problems from my session recording notes: {{observations}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-signup-recordings
+    vars:
+      flow: "Free-trial sign-up form to first dashboard"
+      observations: |
+        Reviewed 20 randomly sampled sessions from last week (14 mobile, 6 desktop).
+        S03 (mobile) 0:42 tapped "Continue" 5 times while button greyed out; password field showed no message; left at 1:10.
+        S07 (mobile) 0:35 same greyed Continue, then scrolled up, found red text under password "must include a symbol" above the keyboard fold; fixed and continued.
+        S11 (desktop) completed sign-up in 48 seconds.
+        S12 (mobile) 0:50 repeated taps on disabled Continue, abandoned.
+        S15 (mobile) pasted email with trailing space, got "invalid email", retyped, continued.
+        S18 (desktop) hovered over "Company size" dropdown for 6 seconds, picked "1-10".
+        Heatmap (all devices): 31% of clicks on the sign-up page land on the disabled Continue button.
+        Scroll map mobile: 60% never scroll below the password field.
+    assert:
+      - {type: contains, value: "## Issue details"}
+      - {type: llm-rubric, value: "Identifies the hidden password requirement and disabled Continue as the top issue with counts such as 3 of 20 sessions (S03, S07, S12) concentrated on mobile and rated critical or serious, cites session ids and timestamps, separates the observed taps from the interpreted cause, treats the email whitespace as a minor issue (1 of 20), notes S11 as something that worked, avoids percentages for session counts, and proposes analytics sizing and follow-up testing."}
+  - name: edge-biased-sample
+    vars:
+      flow: "Checkout"
+      observations: "Watched 12 sessions filtered by 'rage click' on the payment page. 9 of them rage-clicked the 'Apply coupon' button after entering a code that returned no message."
+    assert:
+      - {type: llm-rubric, value: "Points out that sessions filtered by rage clicks overstate frequency and cannot show how common the issue is overall, still reports the coupon feedback issue with 9 of 12 and its likely severity, and recommends sizing it in analytics with an unfiltered sample."}
+  - name: negative-no-observations
+    vars:
+      flow: "Onboarding"
+      observations: "I watched a bunch of recordings and people seemed confused. Write up the usability issues with severity and quotes."
+    assert:
+      - {type: llm-rubric, value: "Does not invent issues, sessions, timestamps or quotes; asks for the specific observations, number of sessions and how they were selected."}
