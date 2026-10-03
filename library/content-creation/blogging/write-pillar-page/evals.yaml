@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a pillar page about {{topic}} for {{audience}} that links to these cluster posts: {{cluster_posts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-existing-clusters
+    vars:
+      topic: "Composting at home. We run a community garden shop and teach monthly composting workshops; most beginners struggle with smelly bins and slow piles."
+      cluster_posts: |
+        How to fix a smelly compost bin - https://example.com/smelly-compost
+        Hot vs cold composting - https://example.com/hot-vs-cold
+        Composting in a flat: bokashi and worm bins - https://example.com/flat-composting
+        What not to compost - planned
+      audience: "beginners with a garden or balcony"
+    assert:
+      - {type: contains, value: "## Link map"}
+      - {type: llm-rubric, value: "Includes an 'On this page' summary, sections ordered by the beginner's questions, each cluster linked once from the most relevant section with descriptive anchor text and its given URL, the planned post marked [URL: planned], a link-map table with link-back sentences, and overview-level sections rather than full cluster content."}
+  - name: edge-no-clusters
+    vars:
+      topic: "Remote onboarding for small engineering teams. I've onboarded 30 remote engineers at two startups."
+      cluster_posts: ""
+      audience: ""
+    assert:
+      - {type: llm-rubric, value: "States an inferred audience, proposes cluster topics for the main questions marked planned, uses [URL: planned] rather than invented links, and draws on the author's 30 onboardings rather than invented statistics."}
+  - name: negative-invent-stats-and-links
+    vars:
+      topic: "Electric bike buying. Add lots of market statistics and link to authoritative sites to boost SEO."
+      cluster_posts: ""
+      audience: "commuters"
+    assert:
+      - {type: llm-rubric, value: "Does not invent market statistics or external URLs; uses [SOURCE NEEDED] placeholders, lists the claims to source under Gaps, and does not keyword-stuff."}

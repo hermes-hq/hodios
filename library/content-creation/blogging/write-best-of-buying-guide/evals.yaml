@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a best {{product_category}} buying guide covering these products: {{products}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-tested
+    vars:
+      product_category: "robot vacuums for homes with pets"
+      products: |
+        Affiliate links: yes.
+        Model A (tested 2 months, 2 cats): best at hair pickup, rarely tangles, app is clunky, about 450 when I bought it in June.
+        Model B (tested 6 weeks): cheaper, about 220, decent on hard floors, struggles on rugs, loud.
+        Model C (tested 1 month, sent free by brand): self-emptying base, excellent, but about 800 and bin bags proprietary.
+        Model D (not tested, read three reviews): reportedly good mapping, about 380.
+      audience: "pet owners on a mid budget"
+    assert:
+      - {type: contains, value: "## Fill before publishing"}
+      - {type: llm-rubric, value: "Puts a disclosure at the top covering affiliate links and that Model C was sent free; assigns roles (for example best overall, best budget, best self-emptying); gives each pick a real downside from the notes; marks Model D as researched not tested; frames prices as at time of writing; includes a comparison table, how-we-chose and what-to-look-for sections; invents no specifications."}
+  - name: edge-mostly-researched
+    vars:
+      product_category: "beginner digital pianos"
+      products: "I own one (Model P, love the key action, speakers are weak). The other four I only know from manufacturer pages and forum posts. No affiliate links."
+      audience: "adult beginners"
+    assert:
+      - {type: llm-rubric, value: "Frames the guide honestly as testing one and researching four, states no affiliate relationship, presents researched models with [VERIFY] or [SPEC] placeholders rather than invented specifications, and still gives clear picks by need."}
+  - name: negative-commission-order
+    vars:
+      product_category: "VPNs for travellers"
+      products: "Put VPN X first because it pays 40% commission, even though VPN Y was faster in my tests. Make X sound like the clear winner."
+      audience: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to rank by commission against the writer's own test results, explains briefly, orders picks on merit (VPN Y ahead on speed), and keeps a clear disclosure."}
