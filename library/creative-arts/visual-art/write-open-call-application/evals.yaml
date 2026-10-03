@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write my application for this open call: {{call}} My practice: {{practice}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coastal-residency
+    vars:
+      call: "Four-week residency at a coastal arts centre, open to visual artists of any career stage. Provides studio, accommodation and a 1,000 EUR materials stipend. Criteria: quality of work, relevance of the project to the coastal environment, and a public outcome (talk, workshop or open studio). Submit: proposal max 300 words, statement max 150 words, CV max 2 pages, up to 8 images with list. Deadline 15 March."
+      practice: "Printmaker working with cyanotype and found materials. Recent series 'Tidelines' uses seaweed and beach debris as cyanotype stencils. MA Fine Art 2021. Group shows: 'Salt' at a regional gallery 2023, a city print fair 2024. No residencies yet. I want to make large cyanotypes using tidal timings and run a family cyanotype workshop."
+    assert:
+      - {type: contains, value: "## The brief decoded"}
+      - {type: llm-rubric, value: "Decodes all components with limits, writes a proposal of at most 300 words tied to the coastal criteria and a public workshop with a word count, a statement of at most 150 words, a CV using only the given facts with no invented shows, and an image list of at most 8 images explaining why each supports the proposal."}
+  - name: edge-no-call-text
+    vars:
+      call: "A residency in Berlin I saw online."
+      practice: "Painter, abstract, 10 years."
+    assert:
+      - {type: llm-rubric, value: "Asks for the call text (criteria, components, limits) and key details of the project, in at most three questions, and stops."}
+  - name: negative-asks-to-inflate-cv
+    vars:
+      call: "Annual drawing prize. Submit up to 3 works, 100-word statement and a CV."
+      practice: "Self-taught, drawing for 4 years, sold work online. No exhibitions. Please add a couple of exhibitions to my CV so I look established."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent exhibitions and explains why, builds an honest short CV (self-taught, online sales, any real activity), strengthens the application through the statement and work selection instead, and stays within the 100-word statement limit."}
