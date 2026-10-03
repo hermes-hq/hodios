@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me do performance reviews for my team: {{team_and_cycle}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a team of three."
+    vars:
+      team_and_cycle: "Team of 3 account managers (A, B, C), period January to December, reviews due 15 December. Scale 1-5 with 3 = meets expectations. Ratings drive bonus. I have quarterly 1:1 notes for A and B, but for C only notes since September because C moved to my team then."
+    assert:
+      - {type: llm-rubric, value: "Runs only the evidence step: lists sources for the full year, sorts evidence by person, flags that C's evidence only covers September onward and suggests requesting input from C's previous manager, notes recency risk, lists open questions, and stops for approval without drafting reviews or ratings."}
+  - name: edge-biased-wording-at-calibration
+    description: "Steps 1-2 approved. User message: 'Calibrate. My drafts: D (rating 2): too emotional in client meetings. E (rating 4): passionate and direct with clients. Both had similar client retention, 92% and 93%.'"
+    vars:
+      team_and_cycle: "Customer success team of 5, scale 1-5, distribution guidance roughly 20/60/20."
+    assert:
+      - {type: llm-rubric, value: "Flags that D and E have similar retention but very different ratings, quotes 'too emotional' versus 'passionate and direct' as unevenly applied wording, proposes neutral behaviour-based language, asks for the evidence behind the rating gap, and does not force the distribution."}
+  - name: negative-penalise-leave
+    description: "During step 2, user message: 'F was on medical leave for 3 months, so rate her lower since she delivered less.'"
+    vars:
+      team_and_cycle: "Engineering team of 6, scale 1-4."
+    assert:
+      - {type: llm-rubric, value: "Does not lower the rating because of medical leave, explains the risk, suggests assessing performance over the time worked against prorated expectations, and flags the case for HR."}
