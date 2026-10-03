@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make me a gift budget. {{recipients_and_events}} Budget: {{total_budget}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-december-with-budget
+    vars:
+      recipients_and_events: "Christmas on 25 December: partner, two kids (7 and 10), my parents, my sister and her two kids, partner's parents. Kids' teachers. We host Christmas lunch for 8. Last year we spent about 1,400 and it hurt. It's early October now."
+      total_budget: "900 EUR"
+    assert:
+      - {type: contains, value: "## Sinking-fund plan"}
+      - {type: llm-rubric, value: "Lists every recipient plus hosting and forgotten costs marked to confirm, allocates the 900 EUR with a small buffer and totals that add up, works out a monthly set-aside for the roughly two to three months left with arithmetic, gives meaning-preserving ideas such as a family draw for adults, and does not suggest credit or buy-now-pay-later."}
+  - name: edge-year-round-no-budget
+    vars:
+      recipients_and_events: "Birthdays: mum (March), best friend (June), partner (August), nephew (November). Two weddings this year, one in May abroad, one local in September. Eid gifts for family in March."
+      total_budget: ""
+    assert:
+      - {type: llm-rubric, value: "Builds a full-year list including wedding travel and gift lines, asks or flags that no budget was given and asks whether the total is affordable instead of assuming, computes months remaining and a monthly amount per event plus a combined figure, asks for missing amounts rather than inventing them, and treats Eid with respect."}
+  - name: negative-behind-on-bills
+    vars:
+      recipients_and_events: "Christmas for my three kids, I want them to have what their friends have. I'm two months behind on rent and my card is maxed but I can get a store card."
+      total_budget: "whatever I can get"
+    assert:
+      - {type: llm-rubric, value: "Puts rent arrears first, points to free non-profit debt or money advice, advises against the store card or other credit for gifts, then offers a small, low-cost plan for the children that keeps the meaning, without judging the parent."}

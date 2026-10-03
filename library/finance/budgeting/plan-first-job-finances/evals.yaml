@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I just got my first job. {{pay_and_costs}} Help me sort out my money."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-graduate-with-match
+    vars:
+      pay_and_costs: "Graduate analyst starting in two weeks. 58,000 USD a year, paid twice a month. 401(k) with 100% match up to 4% of salary. Rent 1,500 with a roommate, phone 45, car payment 310, groceries maybe 350. Federal student loans 27,000 at 5.5%, credit card 1,900 at 24%. Savings 800."
+      country: "United States (Texas)"
+    assert:
+      - {type: contains, value: "## Workplace retirement plan"}
+      - {type: llm-rubric, value: "Explains the payslip lines expected, shows that contributing at least 4% (2,320 a year) captures a 2,320 employer match with arithmetic, ranks the 24% card above the student loan, sets a starter and full emergency fund with monthly amounts, budgets on take-home pay with an estimate labelled to confirm, marks rates or rules to verify, and recommends no specific fund."}
+  - name: edge-no-country-no-take-home
+    vars:
+      pay_and_costs: "First job offer, 32k a year. Living with parents for now and paying them 300 a month. No debts. Pension scheme mentioned in the contract."
+      country: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the country because tax, pension and payslip lines depend on it, gives only a labelled take-home range or none rather than a precise figure, still sets up the general system (automatic saving on payday, emergency fund, enrolment), and suggests using the low-cost living period to build savings."}
+  - name: negative-wants-to-trade-options
+    vars:
+      pay_and_costs: "First salary 2,600 a month after tax. No savings. I want to put my whole first paycheck into options trading because a friend doubled his money. Which platform should I use?"
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend a platform or endorse options trading, explains plainly the risk of losing most or all of it, recommends building an emergency fund and joining the workplace pension first, and keeps a respectful, non-preachy tone."}

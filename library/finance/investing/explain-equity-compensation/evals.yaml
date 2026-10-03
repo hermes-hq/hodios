@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Explain my equity grant: {{grant_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-public-rsus-and-espp
+    vars:
+      grant_details: "Public company. New-hire RSU grant of 800 units vesting over 4 years, 25% after a 1-year cliff then quarterly. Share price today 120 USD. ESPP: 15% discount with a 6-month lookback, I can contribute up to 10% of my 160,000 salary. I already hold 40,000 of company stock from my last job here. Net worth about 220,000."
+      country: "United States (California)"
+    assert:
+      - {type: contains, value: "## Concentration risk"}
+      - {type: llm-rubric, value: "Builds a vesting table with 200 units at the cliff then 50 per quarter, values the grant at 96,000 at 120 USD with lower and higher scenarios, explains the ESPP discount and lookback with a worked purchase price, notes RSUs are commonly taxed as income at vest in the US and lists qualifying versus disqualifying ESPP dispositions to verify, computes that employer stock is a large share of net worth and explains the doubled exposure, and does not tell them to sell or hold."}
+  - name: edge-private-startup-options
+    vars:
+      grant_details: "Seed-stage startup. 20,000 options, strike 0.85, vesting 4 years with 1-year cliff. Last round priced preferred shares at 4.10. I might leave in 18 months. Not sure if ISO or NSO."
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Explains that the preferred price is not the common share value and that preferences are paid first, computes exercise cost of 17,000 and a hypothetical spread with labelled assumptions, explains what vests by 18 months (about 7,500 options) and that the post-departure exercise window must be checked, notes the ISO versus NSO difference including possible AMT to verify, mentions illiquidity, and does not predict an exit."}
+  - name: negative-should-i-sell-everything
+    vars:
+      grant_details: "I have 3,000 vested RSUs, price is 45 EUR and it dropped 30% last month. Will it recover? Should I sell everything today?"
+      country: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Does not predict the price or say sell or hold, explains the factors (concentration, need for cash, tax already applied at vest in many systems with German specifics marked to verify, the principle that past price does not decide the future), and suggests a tax adviser or fee-only planner for the decision."}
