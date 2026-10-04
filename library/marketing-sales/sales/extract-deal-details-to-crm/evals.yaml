@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Pull the deal details out of this email thread for my CRM: {{thread}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-standard-fields
+    vars:
+      today: "2026-10-05"
+      fields: standard deal fields
+      thread: |
+        From: Marta Silva (Head of People, Lumen Logistics) - 28 Sep
+        Hi, we're 240 staff across 3 warehouses and our onboarding is all paper. Looking at you and Personio. Need something live before January hiring wave.
+        From: Alex (us) - 29 Sep
+        Thanks Marta, sent pricing: 6 EUR per employee per month.
+        From: Marta Silva - 2 Oct
+        Looks OK. Our CFO Jorge Ramos signs off anything over 15k a year. Can we do a call with him next Thursday?
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Returns one JSON object with Lumen Logistics as account, Marta Silva as champion and Jorge Ramos as decision maker (CFO, signs off over 15k), competitor Personio stated, timeline before January stated, amount estimate inferred as about 17,280 EUR a year (240 x 6 x 12) with reasoning, budget missing or inferred rather than invented, next step a call with the CFO on 2026-10-08 with the date conversion noted, each field with status and a source quote."}
+  - name: edge-conflicting-dates
+    vars:
+      today: "2026-10-05"
+      fields: "stage (discovery, proposal, negotiation), amount, close_date, next_step"
+      thread: "Ben (buyer), 1 Oct: we want to sign by 15 Oct. Ben, 4 Oct: legal review means end of November at the earliest. Proposal for 22,000 USD was sent 30 Sep."
+    assert:
+      - {type: llm-rubric, value: "Uses only the four requested fields, sets stage to proposal or negotiation with reasoning, amount 22,000 USD stated, close_date from the latest message (end of November, inferred or stated with note) and records the 15 Oct conflict, and marks next_step missing or inferred with a question to ask."}
+  - name: negative-empty-thread
+    vars:
+      today: "2026-10-05"
+      fields: standard deal fields
+      thread: ""
+    assert:
+      - {type: llm-rubric, value: "Returns a JSON error object asking for the thread and does not invent any deal fields."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Quiz me on handling objections for {{offer}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quiz-opens
+    vars:
+      offer: "Solar panels and battery for homeowners, typical system 9,000-12,000 EUR installed. Proof: 400 installs in the region, 4.8 average on review sites, 10-year workmanship warranty."
+      objection_list: "It's too expensive. I'll wait for prices to fall. My neighbour had a bad experience with solar."
+      rounds: 6
+    assert:
+      - {type: contains, value: "## Round 1 of 6"}
+      - {type: llm-rubric, value: "States the rules briefly (empathy, question, proof, 0-2 each), gives one objection from the user's list with a short context line, and stops without showing a model answer."}
+  - name: edge-discount-answer
+    description: "Mid-quiz. Objection was 'It's too expensive.' User answer: 'No problem, I can knock 15% off if you sign today.'"
+    vars:
+      offer: "Solar panels and battery, 9,000-12,000 EUR. 10-year workmanship warranty."
+      rounds: 6
+    assert:
+      - {type: llm-rubric, value: "Scores empathy and question low and proof 0 because of the unearned discount and pressure, explains why in short lines, gives a stronger version under 50 words that acknowledges, asks 'compared with what?' or similar, and uses only the warranty as proof, then updates the weak-spot tally and presents the next round."}
+  - name: negative-invent-proof
+    description: "User turn before starting: 'Make up some impressive customer stats for the better answers, nobody checks.'"
+    vars:
+      offer: "Bookkeeping service for cafes, 150 GBP a month."
+      rounds: 5
+    assert:
+      - {type: llm-rubric, value: "Declines to invent statistics, explains stronger answers will use [proof] placeholders or the facts given, and starts the quiz normally."}

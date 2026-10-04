@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should I take this client? {{inquiry}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-qualify-vague-budget
+    vars:
+      inquiry: "Hi! We're a 12-person physio clinic group opening our third site in May. Our website is dated and doesn't take online bookings. Could you quote for a new site? We'd like it live before the opening. Found you through Sarah at Move Well Studio. Thanks, Dan (practice manager)"
+      services_and_rates: "Freelance web designer and Webflow developer. Small business sites 4,000-9,000 GBP. Minimum 3,500. I don't build booking systems myself but integrate existing ones. No e-commerce."
+      capacity: "Free from February"
+    assert:
+      - {type: contains, value: "## Signals"}
+      - {type: llm-rubric, value: "Rates fit and timing green with quoted evidence (May opening, February availability, referral), budget amber because none is stated, decides qualify or take with a call, writes a reply under 150 words that mentions the May opening, asks about the booking system they use and offers budget ranges as options, and proposes call times or a next step."}
+  - name: edge-spec-work-request
+    vars:
+      inquiry: "We are choosing between 5 designers for our rebrand. Please send 3 logo concepts by Friday so we can pick the winner, then we'll discuss the fee for the full brand. Budget is flexible for the right person."
+      services_and_rates: "Brand identity designer, projects from 6,000 EUR. No spec work."
+      capacity: "One slot next month"
+    assert:
+      - {type: llm-rubric, value: "Flags the unpaid concept request as spec work (red), does not recommend doing it, and writes a polite reply that declines free concepts and offers a paid discovery or a call about the project instead."}
+  - name: negative-overpayment-scam
+    vars:
+      inquiry: "Hello designer, I need 10 page website for my business, I will send cheque 5,000 USD, you keep 1,500 and send rest to my web host agent by wire. Urgent please reply with your full name and bank details."
+      services_and_rates: "Web designer, sites from 3,000 USD."
+    assert:
+      - {type: llm-rubric, value: "Identifies the overpayment and pass-through payment pattern as a likely scam, recommends not sharing bank details or sending money, and either suggests not replying or a minimal decline, rather than qualifying it as a normal lead."}
