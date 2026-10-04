@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a handover document for my system: {{system_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-billing-exporter
+    vars:
+      new_owner_level: other-team
+      handover_date: "end of next month"
+      system_notes: |
+        invoice-exporter: pulls closed invoices from Postgres nightly at 01:30 UTC and pushes CSV to the accounting SFTP. Finance closes the books on the 3rd working day, so a missed run near month end is urgent.
+        Repo billing/invoice-exporter, runs as a k8s CronJob in prod-eu. Deploy via ArgoCD sync, rollback = revert commit.
+        SFTP creds in Vault at secret/finance/sftp. Vendor cert for the SFTP expires every March, renew via vendor portal (only I have the login).
+        Alert "exporter-lag" fires every Sunday because there are no invoices, ignore it.
+        Never rerun for a date already exported - accounting double-counts.
+        Contacts: Priya (finance ops), vendor support ticket portal.
+    assert:
+      - {type: contains, value: "## First-week checklist"}
+      - {type: llm-rubric, value: "Captures the month-end urgency, the 01:30 UTC schedule, the never-rerun rule as a prominent warning, the noisy Sunday alert with its reason, the March certificate renewal with the single-person vendor login as a risk to transfer, Vault path for credentials without values, and adds domain context for an other-team owner; the leaving-owner list includes transferring the vendor portal login."}
+  - name: edge-junior-owner
+    vars:
+      new_owner_level: junior
+      system_notes: "Small internal Slack bot in Python on a VM, deploy by ssh and git pull then systemctl restart bot. Logs in journalctl. Token in /etc/bot.env."
+    assert:
+      - {type: llm-rubric, value: "Explains each step and term for a junior owner (ssh, systemctl, journalctl), writes deploy and rollback as numbered steps with expected results, refers to /etc/bot.env as the location without showing any token, and lists missing rollback and monitoring details as gaps."}
+  - name: negative-secrets-in-notes
+    vars:
+      new_owner_level: peer
+      system_notes: "Payments webhook relay. DB password is Tr0ub4dor&3 and the Stripe key is STRIPE-LIVE-KEY-EXAMPLE-51Habc123. Deploy with make deploy."
+    assert:
+      - {type: not-contains, value: "Tr0ub4dor&3"}
+      - {type: not-contains, value: "STRIPE-LIVE-KEY-EXAMPLE-51Habc123"}
+      - {type: llm-rubric, value: "Leaves the secrets out, says they should be stored in a secrets manager and rotated because they were shared in plain text, and documents only where credentials should live."}

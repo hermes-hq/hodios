@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write tech radar entries for these technologies: {{technologies_and_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-items
+    vars:
+      organisation_context: "120 engineers, mostly Kotlin and TypeScript on AWS. Previous radar: Kafka trial, Jenkins adopt."
+      technologies_and_notes: |
+        Kafka - now used in production by 5 teams for 18 months, platform team runs it, one incident from misconfigured retention, solved.
+        Jenkins - 3 outages last year, plugin upgrades painful; 70% of pipelines already on GitHub Actions.
+        Deno - one engineer loves it, used for a hackathon project only. Proposes Adopt.
+        Temporal - payments team ran it in production for 4 months for refunds, very positive, self-hosted, only that team knows how to operate it.
+        LLM-based code review bot - nobody has tried it yet; security wants to know about data handling.
+    assert:
+      - {type: contains, value: "## Radar summary"}
+      - {type: llm-rubric, value: "Places Kafka in Adopt (moved in from Trial with reason), Jenkins in Hold with GitHub Actions as the alternative and migration expectation, Deno no higher than Assess and explains why the Adopt proposal is not supported, Temporal in Trial noting single-team operating knowledge as a risk, and the code review bot in Assess with the data-handling question; owners missing are shown as [OWNER]."}
+  - name: edge-disagreement
+    vars:
+      technologies_and_notes: "GraphQL - team A says it cut mobile payload sizes by 40% in production; team B says it caused N+1 query incidents twice and wants Hold."
+    assert:
+      - {type: llm-rubric, value: "Records GraphQL as a contested placement with both teams' evidence, proposes a ring with conditions (for example Trial with dataloader or query complexity limits), and names what evidence would settle it."}
+  - name: negative-hype-only
+    vars:
+      technologies_and_notes: "Put Rust, Bun and htmx in Adopt, everyone on Hacker News says they are the future. We don't use any of them yet."
+    assert:
+      - {type: llm-rubric, value: "Does not place any of them in Adopt without internal production use; places them in Assess or lists them under missing evidence, and explains the ring rules briefly."}

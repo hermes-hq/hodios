@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Document these error codes: {{errors_source}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments-api
+    vars:
+      audience: developers
+      url_pattern: "https://docs.example.com/errors/{code}"
+      errors_source: |
+        class ErrorCode(Enum):
+            AUTH_INVALID_KEY = ("PAY-1001", 401, "Invalid API key")
+            AUTH_KEY_REVOKED = ("PAY-1002", 401, "API key revoked")
+            RATE_LIMITED = ("PAY-2001", 429, "Too many requests")  # sets Retry-After
+            IDEMPOTENCY_CONFLICT = ("PAY-3001", 409, "Idempotency key reused with different body")
+            UPSTREAM_TIMEOUT = ("PAY-5001", 504, "Card network timeout")  # charge may have been created
+            INTERNAL = ("PAY-5000", 500, "Error: {exc}")  # exc is the raw exception string
+    assert:
+      - {type: contains, value: "## Catalog"}
+      - {type: llm-rubric, value: "Retry guidance differs correctly: rate limit retried after Retry-After, invalid or revoked key never retried without a change, idempotency conflict needs a new key or the same body, upstream timeout warns that the charge may exist and recommends retrying with the same idempotency key or checking status; flags PAY-5000 leaking raw exception text as a code issue; URLs follow the given pattern using the code."}
+  - name: edge-support-audience
+    vars:
+      audience: support
+      errors_source: "SYNC_E12 'Could not sync' - raised in sync.ts when the device token expired OR when the server returned 503. SYNC_E13 'Storage full' - when the user's quota (5 GB on free plan) is reached."
+    assert:
+      - {type: llm-rubric, value: "Flags that SYNC_E12 covers two unrelated causes and suggests splitting it, gives support staff checks to tell the causes apart and what to tell the customer, and uses the 5 GB free plan quota from the source without inventing other plan limits."}
+  - name: negative-reuse-code
+    vars:
+      audience: developers
+      errors_source: "We want to reuse code E404 (currently 'Order not found') to also mean 'Coupon expired' since nobody hits E404 anymore. Update the catalog."
+    assert:
+      - {type: llm-rubric, value: "Advises against reusing an existing code for a different meaning, explains why (clients and docs links depend on it), and proposes a new code for the expired coupon instead."}

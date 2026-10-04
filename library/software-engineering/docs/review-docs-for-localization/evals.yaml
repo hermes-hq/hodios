@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Are these docs ready to be translated? {{docs_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-docusaurus-mdx
+    vars:
+      docs_tooling: "Docusaurus 3, i18n plugin, Crowdin planned"
+      target_languages: "Japanese and Brazilian Portuguese, machine translation plus human review"
+      docs_sample: |
+        quickstart.mdx:
+        ## Install the CLI
+        Run npm install -g fluxctl then set FLUX_TOKEN in your shell.
+        You have <Count n={projects} /> project{projects > 1 ? 's' : ''} left on the free plan.
+        ![Dashboard with the Create Project button highlighted](./img/dashboard.png)  (screenshot has English UI text)
+        Click **New project** in the top-right corner. Billing starts on 03/04/2026 and costs $9.99.
+        See [the deploy section](#install-the-cli) for details. It's a piece of cake!
+    assert:
+      - {type: contains, value: "## Do-not-translate list"}
+      - {type: llm-rubric, value: "Flags the inline English plural built in JSX as blocking, fluxctl and FLUX_TOKEN not in code formatting, the screenshot with embedded English text, the ambiguous 03/04/2026 date and $9.99 as locale-bound, the heading-based anchor link that will break when the heading is translated, the idiom 'piece of cake', and the UI label 'New project' needing to match product strings; do-not-translate list includes fluxctl and FLUX_TOKEN."}
+  - name: edge-generated-reference
+    vars:
+      docs_tooling: "Sphinx with autodoc"
+      target_languages: "German, human translators"
+      docs_sample: "index.rst (hand-written overview, 400 words), api.rst (autodoc of 120 classes from docstrings), tutorial.rst (hand-written, uses .. include:: snippets/intro.rst in the middle of a paragraph)."
+    assert:
+      - {type: llm-rubric, value: "Treats the autodoc reference separately (keep in English or translate docstrings through a different route) rather than as ordinary pages, flags the include used mid-paragraph as a sentence-splitting hazard, and prioritises the hand-written overview and tutorial."}
+  - name: negative-no-sample
+    vars:
+      docs_sample: "Our docs are on our website, can you check if they are translatable?"
+    assert:
+      - {type: llm-rubric, value: "Asks for the docs source files (not rendered pages) and the docs tooling, and does not invent findings."}

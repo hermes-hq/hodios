@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a documentation style guide for {{product}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-sample
+    vars:
+      product: "Tidewave, an open-source job scheduler for Node.js; readers are backend developers"
+      base_guide: "Google developer documentation style guide"
+      existing_docs_sample: |
+        install.md: "# Installing TideWave\nFirst, we'll simply install the package: `$ npm i tidewave`\nThen you should create a tidewave.config.js."
+        jobs.md: "## Create A Job\n1. Open your config and add a job, then run `npx tidewave start` and check the logs.\nNOTE: Jobs run in UTC."
+        retry.md: "## Configure retries\nYou can set `maxRetries` in the job definition. Tidewave retries failed jobs with exponential backoff.\n```js\nqueue.add('email', data, { maxRetries: 3 })\n```"
+    assert:
+      - {type: contains, value: "## Lint configuration"}
+      - {type: llm-rubric, value: "Standardises the product name (Tidewave vs TideWave) in a terminology table and a Vale substitution rule; bans 'simply'; sets one heading case with an example; requires commands without the $ prompt and one action per numbered step (citing jobs.md step 1); defines admonition use instead of 'NOTE:'; lists these inconsistencies with their pages; Vale rules are given with error/warning levels."}
+  - name: edge-already-consistent
+    vars:
+      product: "Small CLI with consistent docs"
+      existing_docs_sample: "Three pages, all second person, present tense, sentence-case headings, fenced code with language tags, consistent product name 'quill'."
+    assert:
+      - {type: llm-rubric, value: "Codifies the existing conventions in a short guide rather than inventing new ones, keeps it brief, and reports few or no inconsistencies without fabricating problems."}
+  - name: negative-no-sample
+    vars:
+      product: "Our API"
+      existing_docs_sample: "We don't have docs yet."
+    assert:
+      - {type: llm-rubric, value: "Explains that rules would normally be drawn from existing pages, asks for any drafts or the audience, or offers a minimal starter guide clearly marked as defaults to revisit; does not report inconsistencies that cannot exist."}

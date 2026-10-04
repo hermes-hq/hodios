@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Document the configuration options in this code: {{config_source}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pydantic-settings
+    vars:
+      format: markdown-table
+      config_source: |
+        class Settings(BaseSettings):
+            model_config = SettingsConfigDict(env_prefix="RELAY_", env_file=".env")
+            port: int = 8080
+            db_url: str  # required
+            request_timeout: float = 30  # seconds
+            max_body_mb: int = Field(10, ge=1, le=100)
+            log_level: Literal["debug", "info", "warn", "error"] = "info"
+            api_token: SecretStr | None = None
+            cache_ttl: int = Field(300, validation_alias=AliasChoices("RELAY_CACHE_TTL", "RELAY_CACHE_SECONDS"))
+        # main.py: settings = Settings(); log level can be changed via SIGHUP reload, others need restart
+    assert:
+      - {type: contains, value: "## Precedence"}
+      - {type: llm-rubric, value: "Lists env vars with RELAY_ prefix (RELAY_PORT, RELAY_DB_URL etc.), marks db_url as required, gives defaults exactly as in code with units (30 seconds, 10 MB, 300 for cache_ttl with unit flagged if unclear), shows max_body_mb range 1-100 and the log_level enum, marks api_token as sensitive with a placeholder, notes RELAY_CACHE_SECONDS as an alternative or legacy name, says only log_level reloads live, and explains env vars over .env precedence or flags it as needing confirmation."}
+  - name: edge-yaml-annotated
+    vars:
+      format: yaml-annotated
+      config_source: "Go struct: type Config struct { Listen string `yaml:\"listen\" env:\"APP_LISTEN\" default:\":8080\"`; Workers int `yaml:\"workers\" env:\"APP_WORKERS\" default:\"4\"`; Timeout time.Duration `yaml:\"timeout\" env:\"APP_TIMEOUT\"` }"
+    assert:
+      - {type: llm-rubric, value: "Produces a commented YAML block with listen, workers and timeout, shows that timeout has no default in code rather than inventing one, explains the Go duration format (for example 30s), and lists the missing default as a discrepancy."}
+  - name: negative-no-source
+    vars:
+      format: markdown-table
+      config_source: "Our service has the usual config options, document them."
+    assert:
+      - {type: llm-rubric, value: "Does not invent option names or defaults; asks for the settings code, schema or default config file and explains what it needs to see."}

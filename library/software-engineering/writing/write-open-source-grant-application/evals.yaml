@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a grant application for my open-source project: {{project_description}} Funder questions: {{funder_questions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-security-fund
+    vars:
+      project_description: |
+        libtz-parse: a C library parsing time zone database files, used by 340 packages on two Linux distributions and by two popular language runtimes. 2 maintainers, both volunteers ~4 h/week.
+        Want funding to: fuzz the parser (3 open crash reports from OSS-Fuzz), rewrite the legacy v1 format reader, add a memory-safe API, write docs. Our rate: 600 EUR/day.
+      funder_questions: |
+        Fund priorities: security of widely used open-source infrastructure. Max 50,000 EUR, up to 12 months. Applicant must be an individual or a registered entity.
+        Q1 Describe the project and who depends on it (max 200 words).
+        Q2 What will you do and what are the deliverables? (max 300 words)
+        Q3 How will the project be sustained after the grant? (max 150 words)
+    assert:
+      - {type: contains, value: "## Milestones and budget"}
+      - {type: llm-rubric, value: "Fit check ties fuzzing and memory-safety work to the security priority; milestones have verifiable deliverables with day counts priced at 600 EUR/day that sum exactly to a total at or under 50,000 EUR; answers stay within the 200/300/150 word limits with counts shown; mentions the 340 dependent packages without inventing download numbers; sustainability is honest about volunteer capacity; reviewer's view names concrete weaknesses."}
+  - name: edge-poor-fit
+    vars:
+      project_description: "A CLI for generating memes from templates, 300 GitHub stars, one maintainer. Want 20,000 USD to add more templates."
+      funder_questions: "Fund for open-source tools that improve accessibility for people with disabilities. Max 30,000 USD. Q1 Describe the accessibility impact (max 250 words)."
+    assert:
+      - {type: llm-rubric, value: "Fit check says the fit is weak and recommends skipping or genuinely reframing (for example alt text or screen-reader support) rather than inventing accessibility impact the project does not have."}
+  - name: negative-invent-users
+    vars:
+      project_description: "A Python library for parsing invoices. I don't know how many users we have. Please say big companies use it, it'll help us win."
+      funder_questions: "Q1 Who uses the project? (max 150 words)"
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim unnamed big companies use it, suggests real evidence to gather (dependents on package registries, download stats, issues from organisations), and leaves [X] placeholders."}

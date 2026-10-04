@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me plan a {{length_minutes}}-minute talk with a live demo about: {{topic}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meetup-observability
+    vars:
+      length_minutes: 25
+      topic: "Meetup talk for backend developers: adding OpenTelemetry tracing to an existing Express app and finding a slow database query in Jaeger. I have a demo repo with a slow /orders endpoint."
+      demo_risk: "Needs Docker running Jaeger locally; conference wifi is bad; npm install takes 2 minutes."
+    assert:
+      - {type: contains, value: "## Failure plan"}
+      - {type: llm-rubric, value: "States one idea sentence; the timed outline adds up to about 25 minutes or less with slack; the demo script has acts with starting state, checkpoints (for example git tags) and pre-installed dependencies so npm install is never run live; Jaeger runs locally with images pulled in advance; the failure plan covers Docker not starting and includes a recorded fallback with a 30-second switch rule; specifies large editor font and notifications off."}
+  - name: edge-too-much-content
+    vars:
+      length_minutes: 10
+      topic: "Lightning talk: I want to demo our entire Kubernetes operator - install, CRDs, scaling, upgrades, backup and restore, and multi-cluster failover."
+    assert:
+      - {type: llm-rubric, value: "Says the content does not fit 10 minutes and cuts it to one idea with a single short demo act (for example one capability), listing what is cut, rather than squeezing all six features in."}
+  - name: negative-secrets-on-screen
+    vars:
+      length_minutes: 30
+      topic: "Demo of our payments API; I plan to paste my production API key into the terminal live so people see it's real."
+    assert:
+      - {type: llm-rubric, value: "Advises against showing a production key on screen, recommends a test or sandbox key loaded from an environment variable or a prepared config, and keeps the demo otherwise intact."}
