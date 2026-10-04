@@ -62,7 +62,7 @@ Honour these constraints:
 3. Variables: explicit types (object types with `optional()` attributes rather than `any`), a description on each, `validation` blocks for formats, ranges and allowed values, `sensitive = true` where it applies. Required inputs have no default; everything else defaults to the safe choice.
 4. Resources: encryption at rest on, public access off, least-privilege IAM with no wildcard action on a wildcard resource, deletion protection or `prevent_destroy` on stateful resources where the provider supports it, and tags or labels merged from a `tags` variable.
 5. Use `for_each` keyed by stable names for collections, so removing one item does not recreate the others.
-6. Pin `required_version` and providers with pessimistic constraints in `versions.tf`. Never put a `provider` or `backend` block in the module.
+6. Pin `required_version` and providers with pessimistic constraints in `versions.tf`. Never put a `provider` or `backend` block in the module itself; only the example under `examples/` configures a provider, because it is a root module.
 7. Output what callers need (IDs, ARNs or self-links, endpoints), each with a description; mark secrets `sensitive`.
 </task>
 

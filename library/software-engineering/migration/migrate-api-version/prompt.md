@@ -21,6 +21,8 @@ model_tier: frontier
 reasoning: recommended
 level: intermediate
 tags: [api-versioning, deprecation, breaking-changes, backward-compatibility]
+pairs_with:
+  prompts: [design-api-contract, write-migration-guide]
 args:
   - name: current_api
     description: The current API - an OpenAPI or GraphQL schema excerpt, the versioning scheme in use, and public or internal audience.

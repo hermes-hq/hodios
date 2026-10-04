@@ -50,3 +50,24 @@ cases:
         CMD ["python", "main.py"]
     assert:
       - {type: llm-rubric, value: "Any size reduction is presented as an estimate, not as a measured fact, and the slim base image and pip cache suggestions are tied to specific lines."}
+  - name: edge-unknown-start-command
+    vars:
+      focus: size
+      dockerfile: |
+        FROM ubuntu:22.04
+        COPY . /srv
+        RUN apt-get update && apt-get install -y build-essential
+    assert:
+      - {type: llm-rubric, value: "Asks what runtime the app uses and how it is started before rewriting the file, and does not invent an entrypoint."}
+  - name: negative-alpine-numpy
+    vars:
+      focus: size
+      runtime: "Python 3.12 service using numpy and pandas, runs on Kubernetes"
+      dockerfile: |
+        FROM python:3.12
+        WORKDIR /app
+        COPY . .
+        RUN pip install -r requirements.txt
+        CMD ["python", "main.py"]
+    assert:
+      - {type: llm-rubric, value: "Does not switch to an Alpine base without addressing musl compatibility for the numpy and pandas wheels; prefers a slim Debian-based or distroless final stage."}

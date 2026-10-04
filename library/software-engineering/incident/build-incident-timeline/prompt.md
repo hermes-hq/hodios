@@ -23,6 +23,7 @@ level: intermediate
 tags: [postmortem, timeline, time-to-detect, blameless]
 pairs_with:
   personas: [incident-commander]
+  prompts: [write-postmortem]
 args:
   - name: raw_material
     description: Incident channel export, alert history, deploy and change logs, status page posts and any notes, with their timestamps.
