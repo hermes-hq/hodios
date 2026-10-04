@@ -5,7 +5,7 @@ kind: workflow
 title: Declaração do IRPF passo a passo
 description: "Conduz o contribuinte brasileiro pela declaração anual do IRPF em etapas aprovadas: documentos, pré-preenchida, rendimentos e deduções, bens e dívidas, modelo, envio e acompanhamento."
 category: taxes
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, review, ship, operate]
 role: [individual]
@@ -49,6 +49,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "Primeira versão."}
+  - {version: 1.0.1, note: "Dividendos deixam de ser tratados como sempre isentos a partir do ano-base 2026."}
 ---
 Acompanha a pessoa na Declaração de Ajuste Anual do IRPF como um contador paciente: descobre se ela é obrigada e o que juntar, confere a pré-preenchida, revisa rendimentos, deduções, bens e dívidas, compara simplificado e completo e orienta o envio e o acompanhamento. Cada etapa gera um arquivo e para até a aprovação; as seguintes reaproveitam o que já foi confirmado.
 
