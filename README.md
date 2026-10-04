@@ -9,7 +9,7 @@
 ### One open prompt library, native in every AI tool. Free forever.
 
 <!-- stats:start -->
-<b>2,570</b> entries &nbsp;·&nbsp; <b>22</b> domains &nbsp;·&nbsp; <b>136</b> categories &nbsp;·&nbsp; <b>154</b> personas &nbsp;·&nbsp; <b>69</b> workflows
+<b>3,427</b> entries &nbsp;·&nbsp; <b>22</b> domains &nbsp;·&nbsp; <b>136</b> categories &nbsp;·&nbsp; <b>203</b> personas &nbsp;·&nbsp; <b>105</b> workflows
 <!-- stats:end -->
 
 Prompts, personas and workflows for work, learning, creativity and everyday life.<br>
@@ -171,11 +171,11 @@ Hodios is new, so here is exactly how far it has got. No eval results are publis
 |---|---:|---|
 | Stable | 0 | Beat a plain one-line request on its own evals, on models from two vendors |
 | Experimental | 139 | Has at least three eval cases (happy path, edge case, negative case); not yet promoted |
-| Incubating | 2,431 | New; evals are optional at this stage |
+| Incubating | 3,288 | New; evals are optional at this stage |
 
-- **2,565** of 2,570 entries ship with eval cases.
-- Who wrote them: **2** by a person, **1,698** by a person with AI help, **870** drafted by AI.
-- **1,900** entries are in the curated tier that the plugins and `npx skills` install. The CLI installs all 2,570.
+- **3,422** of 3,427 entries ship with eval cases.
+- Who wrote them: **2** by a person, **2,399** by a person with AI help, **1,026** drafted by AI.
+- **1,996** entries are in the curated tier that the plugins and `npx skills` install. The CLI installs all 3,427.
 <!-- status:end -->
 
 The status and authorship of every entry are in its frontmatter. Every AI-assisted or AI-drafted entry names the contributor who reviewed it and signed it off, and every change goes through the same lint and review.
@@ -199,295 +199,295 @@ Every entry is tagged with what it is for: the **stack** it targets (TypeScript,
 In a project folder, `npx @hermes-hq/hodios search` with no query does this on your machine: it reads the project's manifests and agent config folders, ranks what fits first and says why ("your project uses React"). Nothing is sent anywhere, and `--all` turns it off.
 
 <!-- catalog:start -->
-**2570 entries** (2295 prompts, 154 personas, 69 workflows, 29 rules, 23 styles).
+**3427 entries** (3042 prompts, 203 personas, 105 workflows, 44 rules, 33 styles).
 
-<details><summary><b>Software engineering</b> · 290</summary>
+<details><summary><b>Software engineering</b> · 411</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Implementation | 36 | [`add-feature-flag`](library/software-engineering/implementation/add-feature-flag/) · [`add-rate-limiting`](library/software-engineering/implementation/add-rate-limiting/) · [`build-browser-extension`](library/software-engineering/implementation/build-browser-extension/) |
-| Security | 19 | [`audit-dependencies`](library/software-engineering/security/audit-dependencies/) · [`harden-linux-server`](library/software-engineering/security/harden-linux-server/) · [`harden-web-app-config`](library/software-engineering/security/harden-web-app-config/) |
-| DevOps | 18 | [`deploy-to-vps`](library/software-engineering/devops/deploy-to-vps/) · [`design-deployment-strategy`](library/software-engineering/devops/design-deployment-strategy/) · [`plan-disaster-recovery`](library/software-engineering/devops/plan-disaster-recovery/) |
-| AI and ML engineering | 17 | [`add-llm-output-guardrails`](library/software-engineering/ai-ml/add-llm-output-guardrails/) · [`build-mcp-server`](library/software-engineering/ai-ml/build-mcp-server/) · [`build-structured-extraction`](library/software-engineering/ai-ml/build-structured-extraction/) |
-| Debugging | 17 | [`bisect-regression`](library/software-engineering/debugging/bisect-regression/) · [`debug-mobile-crash`](library/software-engineering/debugging/debug-mobile-crash/) · [`debug-native-crash`](library/software-engineering/debugging/debug-native-crash/) |
-| Data engineering | 16 | [`design-data-pipeline`](library/software-engineering/data/design-data-pipeline/) · [`design-database-schema`](library/software-engineering/data/design-database-schema/) · [`design-search-index`](library/software-engineering/data/design-search-index/) |
-| Testing | 16 | [`add-characterization-tests`](library/software-engineering/testing/add-characterization-tests/) · [`add-regression-test`](library/software-engineering/testing/add-regression-test/) · [`fill-test-gaps`](library/software-engineering/testing/fill-test-gaps/) |
-| Documentation | 14 | [`audit-documentation`](library/software-engineering/docs/audit-documentation/) · [`document-public-api`](library/software-engineering/docs/document-public-api/) · [`write-api-quickstart`](library/software-engineering/docs/write-api-quickstart/) |
-| Incident and operations | 13 | [`build-incident-timeline`](library/software-engineering/incident/build-incident-timeline/) · [`define-slos`](library/software-engineering/incident/define-slos/) · [`design-alerting-rules`](library/software-engineering/incident/design-alerting-rules/) |
+| Implementation | 61 | [`add-feature-flag`](library/software-engineering/implementation/add-feature-flag/) · [`add-rate-limiting`](library/software-engineering/implementation/add-rate-limiting/) · [`add-retries-and-timeouts`](library/software-engineering/implementation/add-retries-and-timeouts/) |
+| AI and ML engineering | 42 | [`add-llm-output-guardrails`](library/software-engineering/ai-ml/add-llm-output-guardrails/) · [`analyze-aspect-sentiment`](library/software-engineering/ai-ml/analyze-aspect-sentiment/) · [`answer-from-retrieved-context`](library/software-engineering/ai-ml/answer-from-retrieved-context/) |
+| Learning to code | 28 | [`coach-coding-kata`](library/software-engineering/learning/coach-coding-kata/) · [`create-coding-exercises`](library/software-engineering/learning/create-coding-exercises/) · [`emulate-assembly-stepper`](library/software-engineering/learning/emulate-assembly-stepper/) |
+| Conventions | 21 | [`api-design-rules`](library/software-engineering/conventions/api-design-rules/) · [`csharp-style-rules`](library/software-engineering/conventions/csharp-style-rules/) · [`django-rules`](library/software-engineering/conventions/django-rules/) |
+| Security | 21 | [`audit-dependencies`](library/software-engineering/security/audit-dependencies/) · [`audit-dependency-licenses`](library/software-engineering/security/audit-dependency-licenses/) · [`audit-repo-for-secrets`](library/software-engineering/security/audit-repo-for-secrets/) |
+| DevOps | 19 | [`deploy-to-vps`](library/software-engineering/devops/deploy-to-vps/) · [`design-deployment-strategy`](library/software-engineering/devops/design-deployment-strategy/) · [`plan-disaster-recovery`](library/software-engineering/devops/plan-disaster-recovery/) |
+| Debugging | 18 | [`bisect-regression`](library/software-engineering/debugging/bisect-regression/) · [`debug-mobile-crash`](library/software-engineering/debugging/debug-mobile-crash/) · [`debug-native-crash`](library/software-engineering/debugging/debug-native-crash/) |
+| Testing | 18 | [`add-characterization-tests`](library/software-engineering/testing/add-characterization-tests/) · [`add-regression-test`](library/software-engineering/testing/add-regression-test/) · [`fill-test-gaps`](library/software-engineering/testing/fill-test-gaps/) |
+| Data engineering | 17 | [`convert-notebook-to-pipeline`](library/software-engineering/data/convert-notebook-to-pipeline/) · [`design-data-pipeline`](library/software-engineering/data/design-data-pipeline/) · [`design-database-schema`](library/software-engineering/data/design-database-schema/) |
+| Documentation | 17 | [`audit-documentation`](library/software-engineering/docs/audit-documentation/) · [`audit-readme-conversion`](library/software-engineering/docs/audit-readme-conversion/) · [`document-public-api`](library/software-engineering/docs/document-public-api/) |
+| Incident and operations | 16 | [`build-incident-timeline`](library/software-engineering/incident/build-incident-timeline/) · [`collect-incident-evidence`](library/software-engineering/incident/collect-incident-evidence/) · [`define-slos`](library/software-engineering/incident/define-slos/) |
+| Migration | 14 | [`migrate-api-version`](library/software-engineering/migration/migrate-api-version/) · [`migrate-auth-provider`](library/software-engineering/migration/migrate-auth-provider/) · [`migrate-ci-provider`](library/software-engineering/migration/migrate-ci-provider/) |
+| Git and version control | 13 | [`choose-branching-strategy`](library/software-engineering/git/choose-branching-strategy/) · [`clean-up-commit-history`](library/software-engineering/git/clean-up-commit-history/) · [`investigate-code-history`](library/software-engineering/git/investigate-code-history/) |
+| Refactoring | 13 | [`convert-callbacks-to-async-await`](library/software-engineering/refactoring/convert-callbacks-to-async-await/) · [`decouple-for-testability`](library/software-engineering/refactoring/decouple-for-testability/) · [`extract-configuration-from-code`](library/software-engineering/refactoring/extract-configuration-from-code/) |
+| Accessibility | 12 | [`audit-mobile-accessibility`](library/software-engineering/accessibility/audit-mobile-accessibility/) · [`audit-web-accessibility`](library/software-engineering/accessibility/audit-web-accessibility/) · [`build-aria-widget`](library/software-engineering/accessibility/build-aria-widget/) |
 | Architecture | 12 | [`compare-design-options`](library/software-engineering/architecture/compare-design-options/) · [`design-api-contract`](library/software-engineering/architecture/design-api-contract/) · [`design-event-driven-system`](library/software-engineering/architecture/design-event-driven-system/) |
-| Accessibility | 11 | [`audit-mobile-accessibility`](library/software-engineering/accessibility/audit-mobile-accessibility/) · [`audit-web-accessibility`](library/software-engineering/accessibility/audit-web-accessibility/) · [`build-aria-widget`](library/software-engineering/accessibility/build-aria-widget/) |
-| Conventions | 11 | [`api-design-rules`](library/software-engineering/conventions/api-design-rules/) · [`csharp-style-rules`](library/software-engineering/conventions/csharp-style-rules/) · [`go-style-rules`](library/software-engineering/conventions/go-style-rules/) |
+| Code review | 12 | [`play-code-review-bug-hunt`](library/software-engineering/code-review/play-code-review-bug-hunt/) · [`reply-to-first-contribution`](library/software-engineering/code-review/reply-to-first-contribution/) · [`respond-to-review-comments`](library/software-engineering/code-review/respond-to-review-comments/) |
+| Planning | 12 | [`audit-contributor-funnel`](library/software-engineering/planning/audit-contributor-funnel/) · [`break-down-epic`](library/software-engineering/planning/break-down-epic/) · [`estimate-with-ranges`](library/software-engineering/planning/estimate-with-ranges/) |
 | Performance | 11 | [`find-memory-leak`](library/software-engineering/performance/find-memory-leak/) · [`fix-n-plus-one-queries`](library/software-engineering/performance/fix-n-plus-one-queries/) · [`fix-react-rerenders`](library/software-engineering/performance/fix-react-rerenders/) |
-| Code review | 10 | [`respond-to-review-comments`](library/software-engineering/code-review/respond-to-review-comments/) · [`review-ai-generated-code`](library/software-engineering/code-review/review-ai-generated-code/) · [`review-api-breaking-changes`](library/software-engineering/code-review/review-api-breaking-changes/) |
-| Git and version control | 10 | [`choose-branching-strategy`](library/software-engineering/git/choose-branching-strategy/) · [`clean-up-commit-history`](library/software-engineering/git/clean-up-commit-history/) · [`purge-file-from-git-history`](library/software-engineering/git/purge-file-from-git-history/) |
-| Planning | 10 | [`break-down-epic`](library/software-engineering/planning/break-down-epic/) · [`estimate-with-ranges`](library/software-engineering/planning/estimate-with-ranges/) · [`plan-spike`](library/software-engineering/planning/plan-spike/) |
-| Learning to code | 9 | [`create-coding-exercises`](library/software-engineering/learning/create-coding-exercises/) · [`explain-algorithm`](library/software-engineering/learning/explain-algorithm/) · [`explain-codebase`](library/software-engineering/learning/explain-codebase/) |
-| Migration | 8 | [`migrate-api-version`](library/software-engineering/migration/migrate-api-version/) · [`migrate-database-engine`](library/software-engineering/migration/migrate-database-engine/) · [`migrate-javascript-to-typescript`](library/software-engineering/migration/migrate-javascript-to-typescript/) |
-| Refactoring | 8 | [`extract-module`](library/software-engineering/refactoring/extract-module/) · [`improve-naming`](library/software-engineering/refactoring/improve-naming/) · [`plan-large-refactor`](library/software-engineering/refactoring/plan-large-refactor/) |
-| Localization (software) | 7 | [`build-localization-glossary`](library/software-engineering/localization/build-localization-glossary/) · [`extract-ui-strings`](library/software-engineering/localization/extract-ui-strings/) · [`plan-rtl-support`](library/software-engineering/localization/plan-rtl-support/) |
-| Coding-agent operations | 6 | [`audit-agent-permissions`](library/software-engineering/meta/audit-agent-permissions/) · [`review-agent-transcript`](library/software-engineering/meta/review-agent-transcript/) · [`write-agent-handoff`](library/software-engineering/meta/write-agent-handoff/) |
+| Developer writing | 10 | [`explain-tech-to-executives`](library/software-engineering/writing/explain-tech-to-executives/) · [`rewrite-for-clarity`](library/software-engineering/writing/rewrite-for-clarity/) · [`write-api-deprecation-notice`](library/software-engineering/writing/write-api-deprecation-notice/) |
+| Localization (software) | 9 | [`build-localization-glossary`](library/software-engineering/localization/build-localization-glossary/) · [`extract-ui-strings`](library/software-engineering/localization/extract-ui-strings/) · [`implement-locale-formatting`](library/software-engineering/localization/implement-locale-formatting/) |
+| Coding-agent operations | 9 | [`audit-agent-permissions`](library/software-engineering/meta/audit-agent-permissions/) · [`manage-agent-context-for-long-task`](library/software-engineering/meta/manage-agent-context-for-long-task/) · [`plan-coding-agent-rollout`](library/software-engineering/meta/plan-coding-agent-rollout/) |
 | Product (engineering) | 6 | [`define-non-functional-requirements`](library/software-engineering/product/define-non-functional-requirements/) · [`refine-backlog-ticket`](library/software-engineering/product/refine-backlog-ticket/) · [`write-acceptance-criteria`](library/software-engineering/product/write-acceptance-criteria/) |
-| Developer writing | 5 | [`explain-tech-to-executives`](library/software-engineering/writing/explain-tech-to-executives/) · [`rewrite-for-clarity`](library/software-engineering/writing/rewrite-for-clarity/) · [`write-api-deprecation-notice`](library/software-engineering/writing/write-api-deprecation-notice/) |
 
 </details>
 
-<details><summary><b>Learning and education</b> · 163</summary>
+<details><summary><b>Learning and education</b> · 235</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Teaching | 68 | [`adapt-text-reading-level`](library/education/teaching/adapt-text-reading-level/) · [`align-lesson-to-standards`](library/education/teaching/align-lesson-to-standards/) · [`analyze-class-assessment-results`](library/education/teaching/analyze-class-assessment-results/) |
-| Course design | 29 | [`build-course-reading-list`](library/education/course-design/build-course-reading-list/) · [`build-self-study-curriculum`](library/education/course-design/build-self-study-curriculum/) · [`convert-course-to-online`](library/education/course-design/convert-course-to-online/) |
-| Tutoring | 28 | [`analyze-literary-work`](library/education/tutoring/analyze-literary-work/) · [`analyze-primary-source`](library/education/tutoring/analyze-primary-source/) · [`check-my-reasoning`](library/education/tutoring/check-my-reasoning/) |
-| Studying | 24 | [`adapt-study-for-learning-difference`](library/education/studying/adapt-study-for-learning-difference/) · [`analyze-exam-mistakes`](library/education/studying/analyze-exam-mistakes/) · [`build-concept-map`](library/education/studying/build-concept-map/) |
-| Exam preparation | 14 | [`analyze-past-papers`](library/education/exam-prep/analyze-past-papers/) · [`generate-practice-exam`](library/education/exam-prep/generate-practice-exam/) · [`grade-practice-answers`](library/education/exam-prep/grade-practice-answers/) |
+| Teaching | 83 | [`adapt-text-reading-level`](library/education/teaching/adapt-text-reading-level/) · [`align-lesson-to-standards`](library/education/teaching/align-lesson-to-standards/) · [`analyze-class-assessment-results`](library/education/teaching/analyze-class-assessment-results/) |
+| Tutoring | 47 | [`analyze-literary-work`](library/education/tutoring/analyze-literary-work/) · [`analyze-primary-source`](library/education/tutoring/analyze-primary-source/) · [`check-my-reasoning`](library/education/tutoring/check-my-reasoning/) |
+| Exam preparation | 42 | [`analyze-past-papers`](library/education/exam-prep/analyze-past-papers/) · [`coach-enem-essay`](library/education/exam-prep/coach-enem-essay/) · [`coach-gaokao-essay`](library/education/exam-prep/coach-gaokao-essay/) |
+| Course design | 32 | [`build-course-reading-list`](library/education/course-design/build-course-reading-list/) · [`build-self-study-curriculum`](library/education/course-design/build-self-study-curriculum/) · [`convert-course-to-online`](library/education/course-design/convert-course-to-online/) |
+| Studying | 31 | [`adapt-study-for-learning-difference`](library/education/studying/adapt-study-for-learning-difference/) · [`analyze-exam-mistakes`](library/education/studying/analyze-exam-mistakes/) · [`build-concept-map`](library/education/studying/build-concept-map/) |
 
 </details>
 
-<details><summary><b>Languages</b> · 78</summary>
+<details><summary><b>Languages</b> · 107</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Language learning | 43 | [`assess-language-level`](library/languages/language-learning/assess-language-level/) · [`build-personal-phrasebook`](library/languages/language-learning/build-personal-phrasebook/) · [`build-vocabulary-list`](library/languages/language-learning/build-vocabulary-list/) |
-| Translation | 23 | [`adapt-regional-variant`](library/languages/translation/adapt-regional-variant/) · [`adapt-script-for-dubbing`](library/languages/translation/adapt-script-for-dubbing/) · [`back-translate-to-verify`](library/languages/translation/back-translate-to-verify/) |
-| Conversation practice | 12 | [`practice-interview-in-language`](library/languages/conversation-practice/practice-interview-in-language/) · [`practice-opinion-debate`](library/languages/conversation-practice/practice-opinion-debate/) · [`practice-phone-call-in-language`](library/languages/conversation-practice/practice-phone-call-in-language/) |
+| Language learning | 60 | [`adapt-language-learning-for-dyslexia`](library/languages/language-learning/adapt-language-learning-for-dyslexia/) · [`assess-language-level`](library/languages/language-learning/assess-language-level/) · [`build-personal-phrasebook`](library/languages/language-learning/build-personal-phrasebook/) |
+| Translation | 26 | [`adapt-regional-variant`](library/languages/translation/adapt-regional-variant/) · [`adapt-script-for-dubbing`](library/languages/translation/adapt-script-for-dubbing/) · [`back-translate-to-verify`](library/languages/translation/back-translate-to-verify/) |
+| Conversation practice | 21 | [`describe-pictures-in-language`](library/languages/conversation-practice/describe-pictures-in-language/) · [`discuss-article-in-language`](library/languages/conversation-practice/discuss-article-in-language/) · [`practice-interview-in-language`](library/languages/conversation-practice/practice-interview-in-language/) |
 
 </details>
 
-<details><summary><b>Content creation</b> · 125</summary>
+<details><summary><b>Content creation</b> · 155</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Blogging | 29 | [`edit-transcript-into-article`](library/content-creation/blogging/edit-transcript-into-article/) · [`generate-blog-post-ideas`](library/content-creation/blogging/generate-blog-post-ideas/) · [`pitch-freelance-article`](library/content-creation/blogging/pitch-freelance-article/) |
-| Social media | 27 | [`brainstorm-brand-memes`](library/content-creation/social-media/brainstorm-brand-memes/) · [`build-creator-rate-card`](library/content-creation/social-media/build-creator-rate-card/) · [`deconstruct-viral-post`](library/content-creation/social-media/deconstruct-viral-post/) |
-| Video | 26 | [`adapt-script-for-teleprompter`](library/content-creation/video/adapt-script-for-teleprompter/) · [`adapt-trend-format`](library/content-creation/video/adapt-trend-format/) · [`analyze-video-retention`](library/content-creation/video/analyze-video-retention/) |
-| Podcasting | 17 | [`choose-podcast-setup`](library/content-creation/podcasting/choose-podcast-setup/) · [`create-podcast-edit-list`](library/content-creation/podcasting/create-podcast-edit-list/) · [`launch-podcast`](library/content-creation/podcasting/launch-podcast/) |
-| Content strategy | 16 | [`analyze-competitor-channels`](library/content-creation/content-strategy/analyze-competitor-channels/) · [`analyze-content-performance`](library/content-creation/content-strategy/analyze-content-performance/) · [`audit-content-library`](library/content-creation/content-strategy/audit-content-library/) |
-| Newsletters | 10 | [`curate-link-roundup`](library/content-creation/newsletters/curate-link-roundup/) · [`grow-newsletter`](library/content-creation/newsletters/grow-newsletter/) · [`plan-newsletter-format`](library/content-creation/newsletters/plan-newsletter-format/) |
+| Social media | 37 | [`brainstorm-brand-memes`](library/content-creation/social-media/brainstorm-brand-memes/) · [`build-creator-rate-card`](library/content-creation/social-media/build-creator-rate-card/) · [`choose-community-channels`](library/content-creation/social-media/choose-community-channels/) |
+| Blogging | 32 | [`edit-transcript-into-article`](library/content-creation/blogging/edit-transcript-into-article/) · [`generate-blog-post-ideas`](library/content-creation/blogging/generate-blog-post-ideas/) · [`pitch-freelance-article`](library/content-creation/blogging/pitch-freelance-article/) |
+| Video | 32 | [`adapt-script-for-teleprompter`](library/content-creation/video/adapt-script-for-teleprompter/) · [`adapt-trend-format`](library/content-creation/video/adapt-trend-format/) · [`analyze-video-retention`](library/content-creation/video/analyze-video-retention/) |
+| Podcasting | 22 | [`choose-podcast-setup`](library/content-creation/podcasting/choose-podcast-setup/) · [`create-podcast-edit-list`](library/content-creation/podcasting/create-podcast-edit-list/) · [`launch-podcast`](library/content-creation/podcasting/launch-podcast/) |
+| Content strategy | 17 | [`analyze-competitor-channels`](library/content-creation/content-strategy/analyze-competitor-channels/) · [`analyze-content-performance`](library/content-creation/content-strategy/analyze-content-performance/) · [`audit-content-library`](library/content-creation/content-strategy/audit-content-library/) |
+| Newsletters | 15 | [`audit-newsletter-performance`](library/content-creation/newsletters/audit-newsletter-performance/) · [`curate-link-roundup`](library/content-creation/newsletters/curate-link-roundup/) · [`grow-newsletter`](library/content-creation/newsletters/grow-newsletter/) |
 
 </details>
 
-<details><summary><b>Marketing and sales</b> · 130</summary>
+<details><summary><b>Marketing and sales</b> · 164</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Copywriting | 31 | [`analyze-competitor-copy`](library/marketing-sales/copywriting/analyze-competitor-copy/) · [`critique-marketing-copy`](library/marketing-sales/copywriting/critique-marketing-copy/) · [`plan-promotional-offer`](library/marketing-sales/copywriting/plan-promotional-offer/) |
-| Sales | 30 | [`ask-clients-for-referrals`](library/marketing-sales/sales/ask-clients-for-referrals/) · [`build-sales-playbook`](library/marketing-sales/sales/build-sales-playbook/) · [`follow-up-event-leads`](library/marketing-sales/sales/follow-up-event-leads/) |
-| Marketing strategy | 24 | [`analyze-competitors`](library/marketing-sales/marketing-strategy/analyze-competitors/) · [`brainstorm-guerrilla-marketing`](library/marketing-sales/marketing-strategy/brainstorm-guerrilla-marketing/) · [`build-annual-marketing-calendar`](library/marketing-sales/marketing-strategy/build-annual-marketing-calendar/) |
-| SEO | 17 | [`analyze-search-console-data`](library/marketing-sales/seo/analyze-search-console-data/) · [`audit-on-page-seo`](library/marketing-sales/seo/audit-on-page-seo/) · [`audit-technical-seo`](library/marketing-sales/seo/audit-technical-seo/) |
+| Copywriting | 43 | [`analyze-competitor-copy`](library/marketing-sales/copywriting/analyze-competitor-copy/) · [`critique-marketing-copy`](library/marketing-sales/copywriting/critique-marketing-copy/) · [`plan-promotional-offer`](library/marketing-sales/copywriting/plan-promotional-offer/) |
+| Sales | 39 | [`ask-clients-for-referrals`](library/marketing-sales/sales/ask-clients-for-referrals/) · [`build-sales-playbook`](library/marketing-sales/sales/build-sales-playbook/) · [`follow-up-event-leads`](library/marketing-sales/sales/follow-up-event-leads/) |
+| Marketing strategy | 33 | [`analyze-competitors`](library/marketing-sales/marketing-strategy/analyze-competitors/) · [`brainstorm-guerrilla-marketing`](library/marketing-sales/marketing-strategy/brainstorm-guerrilla-marketing/) · [`build-annual-marketing-calendar`](library/marketing-sales/marketing-strategy/build-annual-marketing-calendar/) |
+| SEO | 20 | [`analyze-search-console-data`](library/marketing-sales/seo/analyze-search-console-data/) · [`audit-docs-seo`](library/marketing-sales/seo/audit-docs-seo/) · [`audit-on-page-seo`](library/marketing-sales/seo/audit-on-page-seo/) |
 | Advertising | 15 | [`analyze-ad-performance`](library/marketing-sales/advertising/analyze-ad-performance/) · [`audit-search-ads-account`](library/marketing-sales/advertising/audit-search-ads-account/) · [`check-ad-policy-compliance`](library/marketing-sales/advertising/check-ad-policy-compliance/) |
-| Email marketing | 13 | [`audit-email-deliverability`](library/marketing-sales/email-marketing/audit-email-deliverability/) · [`design-email-template`](library/marketing-sales/email-marketing/design-email-template/) · [`plan-email-segmentation`](library/marketing-sales/email-marketing/plan-email-segmentation/) |
+| Email marketing | 14 | [`audit-email-deliverability`](library/marketing-sales/email-marketing/audit-email-deliverability/) · [`design-email-template`](library/marketing-sales/email-marketing/design-email-template/) · [`plan-email-segmentation`](library/marketing-sales/email-marketing/plan-email-segmentation/) |
 
 </details>
 
-<details><summary><b>Product management</b> · 81</summary>
+<details><summary><b>Product management</b> · 101</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Product strategy | 18 | [`assess-product-market-fit`](library/product-management/product-strategy/assess-product-market-fit/) · [`define-mvp-scope`](library/product-management/product-strategy/define-mvp-scope/) · [`design-free-tier`](library/product-management/product-strategy/design-free-tier/) |
-| Product discovery | 16 | [`analyze-competitor-reviews`](library/product-management/product-discovery/analyze-competitor-reviews/) · [`define-jobs-to-be-done`](library/product-management/product-discovery/define-jobs-to-be-done/) · [`design-validation-experiment`](library/product-management/product-discovery/design-validation-experiment/) |
-| Product metrics | 13 | [`analyze-conversion-funnel`](library/product-management/product-metrics/analyze-conversion-funnel/) · [`build-experiment-backlog`](library/product-management/product-metrics/build-experiment-backlog/) · [`define-activation-metric`](library/product-management/product-metrics/define-activation-metric/) |
-| Product launch | 12 | [`plan-feature-adoption-push`](library/product-management/product-launch/plan-feature-adoption-push/) · [`plan-price-change-communication`](library/product-management/product-launch/plan-price-change-communication/) · [`plan-product-hunt-launch`](library/product-management/product-launch/plan-product-hunt-launch/) |
-| Roadmapping | 12 | [`build-outcome-roadmap`](library/product-management/roadmapping/build-outcome-roadmap/) · [`build-user-story-map`](library/product-management/roadmapping/build-user-story-map/) · [`decline-feature-request`](library/product-management/roadmapping/decline-feature-request/) |
-| User feedback | 10 | [`analyze-cancellation-feedback`](library/product-management/user-feedback/analyze-cancellation-feedback/) · [`analyze-user-feedback`](library/product-management/user-feedback/analyze-user-feedback/) · [`close-feedback-loop`](library/product-management/user-feedback/close-feedback-loop/) |
+| Product strategy | 20 | [`assess-product-market-fit`](library/product-management/product-strategy/assess-product-market-fit/) · [`define-mvp-scope`](library/product-management/product-strategy/define-mvp-scope/) · [`design-free-tier`](library/product-management/product-strategy/design-free-tier/) |
+| Product discovery | 18 | [`analyze-competitor-reviews`](library/product-management/product-discovery/analyze-competitor-reviews/) · [`define-jobs-to-be-done`](library/product-management/product-discovery/define-jobs-to-be-done/) · [`design-validation-experiment`](library/product-management/product-discovery/design-validation-experiment/) |
+| Product launch | 18 | [`define-launch-tiers`](library/product-management/product-launch/define-launch-tiers/) · [`plan-feature-adoption-push`](library/product-management/product-launch/plan-feature-adoption-push/) · [`plan-launch-retrospective`](library/product-management/product-launch/plan-launch-retrospective/) |
+| Product metrics | 18 | [`analyze-conversion-funnel`](library/product-management/product-metrics/analyze-conversion-funnel/) · [`build-experiment-backlog`](library/product-management/product-metrics/build-experiment-backlog/) · [`choose-marketplace-metrics`](library/product-management/product-metrics/choose-marketplace-metrics/) |
+| User feedback | 14 | [`analyze-cancellation-feedback`](library/product-management/user-feedback/analyze-cancellation-feedback/) · [`analyze-site-search-for-demand`](library/product-management/user-feedback/analyze-site-search-for-demand/) · [`analyze-user-feedback`](library/product-management/user-feedback/analyze-user-feedback/) |
+| Roadmapping | 13 | [`build-outcome-roadmap`](library/product-management/roadmapping/build-outcome-roadmap/) · [`build-user-story-map`](library/product-management/roadmapping/build-user-story-map/) · [`decline-feature-request`](library/product-management/roadmapping/decline-feature-request/) |
 
 </details>
 
-<details><summary><b>Business and strategy</b> · 125</summary>
+<details><summary><b>Business and strategy</b> · 170</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Operations | 33 | [`automate-business-workflow`](library/business/operations/automate-business-workflow/) · [`build-staff-schedule`](library/business/operations/build-staff-schedule/) · [`choose-small-business-kpis`](library/business/operations/choose-small-business-kpis/) |
-| Fundraising | 27 | [`build-investor-pipeline`](library/business/fundraising/build-investor-pipeline/) · [`explain-term-sheet`](library/business/fundraising/explain-term-sheet/) · [`plan-capital-campaign`](library/business/fundraising/plan-capital-campaign/) |
-| Entrepreneurship | 24 | [`evaluate-buying-a-business`](library/business/entrepreneurship/evaluate-buying-a-business/) · [`evaluate-pivot`](library/business/entrepreneurship/evaluate-pivot/) · [`find-cofounder`](library/business/entrepreneurship/find-cofounder/) |
-| Customer support | 22 | [`analyze-support-tickets`](library/business/customer-support/analyze-support-tickets/) · [`build-service-recovery-playbook`](library/business/customer-support/build-service-recovery-playbook/) · [`build-support-macros`](library/business/customer-support/build-support-macros/) |
-| Business strategy | 19 | [`analyze-business-model`](library/business/business-strategy/analyze-business-model/) · [`assess-competitive-advantage`](library/business/business-strategy/assess-competitive-advantage/) · [`build-annual-operating-plan`](library/business/business-strategy/build-annual-operating-plan/) |
+| Operations | 63 | [`automate-business-workflow`](library/business/operations/automate-business-workflow/) · [`build-allergen-matrix`](library/business/operations/build-allergen-matrix/) · [`build-commercial-cleaning-rota`](library/business/operations/build-commercial-cleaning-rota/) |
+| Customer support | 29 | [`analyze-support-tickets`](library/business/customer-support/analyze-support-tickets/) · [`build-service-recovery-playbook`](library/business/customer-support/build-service-recovery-playbook/) · [`build-support-macros`](library/business/customer-support/build-support-macros/) |
+| Fundraising | 29 | [`build-investor-pipeline`](library/business/fundraising/build-investor-pipeline/) · [`choose-oss-funding-model`](library/business/fundraising/choose-oss-funding-model/) · [`explain-term-sheet`](library/business/fundraising/explain-term-sheet/) |
+| Entrepreneurship | 26 | [`evaluate-buying-a-business`](library/business/entrepreneurship/evaluate-buying-a-business/) · [`evaluate-pivot`](library/business/entrepreneurship/evaluate-pivot/) · [`find-cofounder`](library/business/entrepreneurship/find-cofounder/) |
+| Business strategy | 23 | [`analyze-business-model`](library/business/business-strategy/analyze-business-model/) · [`assess-competitive-advantage`](library/business/business-strategy/assess-competitive-advantage/) · [`build-annual-operating-plan`](library/business/business-strategy/build-annual-operating-plan/) |
 
 </details>
 
-<details><summary><b>Data analysis</b> · 132</summary>
+<details><summary><b>Data analysis</b> · 154</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Data exploration | 39 | [`analyze-discount-effectiveness`](library/data-analysis/data-exploration/analyze-discount-effectiveness/) · [`analyze-donor-data`](library/data-analysis/data-exploration/analyze-donor-data/) · [`analyze-employee-survey`](library/data-analysis/data-exploration/analyze-employee-survey/) |
-| Spreadsheets | 31 | [`audit-spreadsheet-model`](library/data-analysis/spreadsheets/audit-spreadsheet-model/) · [`build-amortization-schedule`](library/data-analysis/spreadsheets/build-amortization-schedule/) · [`build-commission-calculator`](library/data-analysis/spreadsheets/build-commission-calculator/) |
-| Statistics | 28 | [`analyze-ab-test-results`](library/data-analysis/statistics/analyze-ab-test-results/) · [`analyze-likert-data`](library/data-analysis/statistics/analyze-likert-data/) · [`build-composite-index`](library/data-analysis/statistics/build-composite-index/) |
-| Data visualisation | 18 | [`audit-dashboard`](library/data-analysis/data-visualization/audit-dashboard/) · [`build-looker-studio-report`](library/data-analysis/data-visualization/build-looker-studio-report/) · [`choose-chart-colors`](library/data-analysis/data-visualization/choose-chart-colors/) |
-| Reporting | 16 | [`automate-recurring-report`](library/data-analysis/reporting/automate-recurring-report/) · [`build-kpi-tree`](library/data-analysis/reporting/build-kpi-tree/) · [`build-metrics-glossary`](library/data-analysis/reporting/build-metrics-glossary/) |
+| Data exploration | 49 | [`analyze-contact-centre-data`](library/data-analysis/data-exploration/analyze-contact-centre-data/) · [`analyze-discount-effectiveness`](library/data-analysis/data-exploration/analyze-discount-effectiveness/) · [`analyze-donor-data`](library/data-analysis/data-exploration/analyze-donor-data/) |
+| Spreadsheets | 33 | [`audit-spreadsheet-model`](library/data-analysis/spreadsheets/audit-spreadsheet-model/) · [`build-amortization-schedule`](library/data-analysis/spreadsheets/build-amortization-schedule/) · [`build-commission-calculator`](library/data-analysis/spreadsheets/build-commission-calculator/) |
+| Statistics | 30 | [`analyze-ab-test-results`](library/data-analysis/statistics/analyze-ab-test-results/) · [`analyze-likert-data`](library/data-analysis/statistics/analyze-likert-data/) · [`build-composite-index`](library/data-analysis/statistics/build-composite-index/) |
+| Reporting | 22 | [`automate-recurring-report`](library/data-analysis/reporting/automate-recurring-report/) · [`build-kpi-tree`](library/data-analysis/reporting/build-kpi-tree/) · [`build-metrics-glossary`](library/data-analysis/reporting/build-metrics-glossary/) |
+| Data visualisation | 20 | [`audit-dashboard`](library/data-analysis/data-visualization/audit-dashboard/) · [`build-dashboard-from-csv`](library/data-analysis/data-visualization/build-dashboard-from-csv/) · [`build-looker-studio-report`](library/data-analysis/data-visualization/build-looker-studio-report/) |
 
 </details>
 
-<details><summary><b>Research and science</b> · 93</summary>
+<details><summary><b>Research and science</b> · 117</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
+| Research methods | 32 | [`agree-authorship-order`](library/research-science/research-methods/agree-authorship-order/) · [`build-qualitative-codebook`](library/research-science/research-methods/build-qualitative-codebook/) · [`calculate-solution-dilutions`](library/research-science/research-methods/calculate-solution-dilutions/) |
 | Scientific writing | 29 | [`appeal-journal-rejection`](library/research-science/scientific-writing/appeal-journal-rejection/) · [`choose-target-journal`](library/research-science/scientific-writing/choose-target-journal/) · [`design-research-poster`](library/research-science/scientific-writing/design-research-poster/) |
-| Research methods | 23 | [`agree-authorship-order`](library/research-science/research-methods/agree-authorship-order/) · [`build-qualitative-codebook`](library/research-science/research-methods/build-qualitative-codebook/) · [`design-case-study-research`](library/research-science/research-methods/design-case-study-research/) |
-| Literature review | 19 | [`appraise-study-quality`](library/research-science/literature-review/appraise-study-quality/) · [`build-literature-matrix`](library/research-science/literature-review/build-literature-matrix/) · [`build-search-string`](library/research-science/literature-review/build-search-string/) |
-| Fact-checking | 13 | [`audit-ai-answer-for-errors`](library/research-science/fact-checking/audit-ai-answer-for-errors/) · [`check-health-claim`](library/research-science/fact-checking/check-health-claim/) · [`check-science-news-against-paper`](library/research-science/fact-checking/check-science-news-against-paper/) |
-| Peer review | 9 | [`assess-reproducibility`](library/research-science/peer-review/assess-reproducibility/) · [`check-journal-legitimacy`](library/research-science/peer-review/check-journal-legitimacy/) · [`check-manuscript-reporting`](library/research-science/peer-review/check-manuscript-reporting/) |
+| Fact-checking | 23 | [`analyze-spin-in-article`](library/research-science/fact-checking/analyze-spin-in-article/) · [`audit-ai-answer-for-errors`](library/research-science/fact-checking/audit-ai-answer-for-errors/) · [`audit-argument-evidence`](library/research-science/fact-checking/audit-argument-evidence/) |
+| Literature review | 20 | [`appraise-study-quality`](library/research-science/literature-review/appraise-study-quality/) · [`build-literature-matrix`](library/research-science/literature-review/build-literature-matrix/) · [`build-search-string`](library/research-science/literature-review/build-search-string/) |
+| Peer review | 13 | [`assess-reproducibility`](library/research-science/peer-review/assess-reproducibility/) · [`check-journal-legitimacy`](library/research-science/peer-review/check-journal-legitimacy/) · [`check-manuscript-reporting`](library/research-science/peer-review/check-manuscript-reporting/) |
 
 </details>
 
-<details><summary><b>Design</b> · 82</summary>
+<details><summary><b>Design</b> · 107</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| UI design | 24 | [`adapt-design-for-mobile`](library/design/ui-design/adapt-design-for-mobile/) · [`create-wireframe-spec`](library/design/ui-design/create-wireframe-spec/) · [`critique-ui-screen`](library/design/ui-design/critique-ui-screen/) |
-| UX research | 20 | [`analyze-session-recordings`](library/design/ux-research/analyze-session-recordings/) · [`build-empathy-map`](library/design/ux-research/build-empathy-map/) · [`build-service-blueprint`](library/design/ux-research/build-service-blueprint/) |
-| Graphic design | 19 | [`create-color-palette`](library/design/graphic-design/create-color-palette/) · [`create-mood-board`](library/design/graphic-design/create-mood-board/) · [`critique-graphic-design`](library/design/graphic-design/critique-graphic-design/) |
-| Branding | 12 | [`build-brand-guidelines`](library/design/branding/build-brand-guidelines/) · [`build-brand-platform`](library/design/branding/build-brand-platform/) · [`build-personal-brand-identity`](library/design/branding/build-personal-brand-identity/) |
-| Design systems | 7 | [`audit-design-consistency`](library/design/design-systems/audit-design-consistency/) · [`define-design-tokens`](library/design/design-systems/define-design-tokens/) · [`define-iconography`](library/design/design-systems/define-iconography/) |
+| UI design | 31 | [`adapt-design-for-mobile`](library/design/ui-design/adapt-design-for-mobile/) · [`adapt-ui-for-older-adults`](library/design/ui-design/adapt-ui-for-older-adults/) · [`check-ui-against-platform-conventions`](library/design/ui-design/check-ui-against-platform-conventions/) |
+| UX research | 24 | [`analyze-session-recordings`](library/design/ux-research/analyze-session-recordings/) · [`build-empathy-map`](library/design/ux-research/build-empathy-map/) · [`build-research-repository`](library/design/ux-research/build-research-repository/) |
+| Graphic design | 23 | [`create-color-palette`](library/design/graphic-design/create-color-palette/) · [`create-mood-board`](library/design/graphic-design/create-mood-board/) · [`critique-graphic-design`](library/design/graphic-design/critique-graphic-design/) |
+| Branding | 16 | [`build-brand-guidelines`](library/design/branding/build-brand-guidelines/) · [`build-brand-platform`](library/design/branding/build-brand-platform/) · [`build-diy-brand-kit`](library/design/branding/build-diy-brand-kit/) |
+| Design systems | 13 | [`audit-component-duplication`](library/design/design-systems/audit-component-duplication/) · [`audit-design-consistency`](library/design/design-systems/audit-design-consistency/) · [`audit-hardcoded-styles-against-tokens`](library/design/design-systems/audit-hardcoded-styles-against-tokens/) |
 
 </details>
 
-<details><summary><b>Creative arts</b> · 121</summary>
+<details><summary><b>Creative arts</b> · 172</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Fiction | 31 | [`build-suspense-in-scene`](library/creative-arts/fiction/build-suspense-in-scene/) · [`check-story-continuity`](library/creative-arts/fiction/check-story-continuity/) · [`co-write-story-interactively`](library/creative-arts/fiction/co-write-story-interactively/) |
-| Music | 17 | [`analyze-song-structure`](library/creative-arts/music/analyze-song-structure/) · [`explain-music-theory-concept`](library/creative-arts/music/explain-music-theory-concept/) · [`pitch-music-to-curators`](library/creative-arts/music/pitch-music-to-curators/) |
+| Image generation | 33 | [`build-image-style-guide`](library/creative-arts/image-generation/build-image-style-guide/) · [`coach-image-prompting`](library/creative-arts/image-generation/coach-image-prompting/) · [`create-storyboard`](library/creative-arts/image-generation/create-storyboard/) |
+| Fiction | 32 | [`build-suspense-in-scene`](library/creative-arts/fiction/build-suspense-in-scene/) · [`check-story-continuity`](library/creative-arts/fiction/check-story-continuity/) · [`co-write-story-interactively`](library/creative-arts/fiction/co-write-story-interactively/) |
+| Music | 24 | [`analyze-song-structure`](library/creative-arts/music/analyze-song-structure/) · [`build-music-sound-kit`](library/creative-arts/music/build-music-sound-kit/) · [`explain-music-theory-concept`](library/creative-arts/music/explain-music-theory-concept/) |
+| Screenwriting | 15 | [`adapt-story-for-screen`](library/creative-arts/screenwriting/adapt-story-for-screen/) · [`develop-tv-series-concept`](library/creative-arts/screenwriting/develop-tv-series-concept/) · [`format-screenplay-scene`](library/creative-arts/screenwriting/format-screenplay-scene/) |
+| Life writing | 14 | [`draft-memoir-scene`](library/creative-arts/life-writing/draft-memoir-scene/) · [`interview-relative-for-oral-history`](library/creative-arts/life-writing/interview-relative-for-oral-history/) · [`mine-memories-for-life-story`](library/creative-arts/life-writing/mine-memories-for-life-story/) |
+| Photography | 14 | [`choose-camera-gear`](library/creative-arts/photography/choose-camera-gear/) · [`choose-camera-settings`](library/creative-arts/photography/choose-camera-settings/) · [`critique-photograph`](library/creative-arts/photography/critique-photograph/) |
+| Poetry | 14 | [`analyze-poem`](library/creative-arts/poetry/analyze-poem/) · [`critique-poem`](library/creative-arts/poetry/critique-poem/) · [`generate-poetry-prompts`](library/creative-arts/poetry/generate-poetry-prompts/) |
 | Visual art | 13 | [`choose-art-supplies`](library/creative-arts/visual-art/choose-art-supplies/) · [`critique-artwork`](library/creative-arts/visual-art/critique-artwork/) · [`generate-sketchbook-prompts`](library/creative-arts/visual-art/generate-sketchbook-prompts/) |
-| Screenwriting | 12 | [`adapt-story-for-screen`](library/creative-arts/screenwriting/adapt-story-for-screen/) · [`develop-tv-series-concept`](library/creative-arts/screenwriting/develop-tv-series-concept/) · [`format-screenplay-scene`](library/creative-arts/screenwriting/format-screenplay-scene/) |
-| Worldbuilding | 11 | [`build-magic-system`](library/creative-arts/worldbuilding/build-magic-system/) · [`build-series-bible`](library/creative-arts/worldbuilding/build-series-bible/) · [`build-world-timeline`](library/creative-arts/worldbuilding/build-world-timeline/) |
-| Life writing | 10 | [`draft-memoir-scene`](library/creative-arts/life-writing/draft-memoir-scene/) · [`interview-relative-for-oral-history`](library/creative-arts/life-writing/interview-relative-for-oral-history/) · [`plan-genealogy-research`](library/creative-arts/life-writing/plan-genealogy-research/) |
-| Photography | 10 | [`choose-camera-gear`](library/creative-arts/photography/choose-camera-gear/) · [`choose-camera-settings`](library/creative-arts/photography/choose-camera-settings/) · [`critique-photograph`](library/creative-arts/photography/critique-photograph/) |
-| Poetry | 9 | [`analyze-poem`](library/creative-arts/poetry/analyze-poem/) · [`critique-poem`](library/creative-arts/poetry/critique-poem/) · [`generate-poetry-prompts`](library/creative-arts/poetry/generate-poetry-prompts/) |
-| Image generation | 8 | [`build-image-style-guide`](library/creative-arts/image-generation/build-image-style-guide/) · [`create-storyboard`](library/creative-arts/image-generation/create-storyboard/) · [`plan-ai-art-series`](library/creative-arts/image-generation/plan-ai-art-series/) |
+| Worldbuilding | 13 | [`build-magic-system`](library/creative-arts/worldbuilding/build-magic-system/) · [`build-series-bible`](library/creative-arts/worldbuilding/build-series-bible/) · [`build-world-timeline`](library/creative-arts/worldbuilding/build-world-timeline/) |
 
 </details>
 
-<details><summary><b>Writing and communication</b> · 149</summary>
+<details><summary><b>Writing and communication</b> · 193</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Interpersonal communication | 33 | [`adapt-message-for-culture`](library/writing-communication/interpersonal-communication/adapt-message-for-culture/) · [`apologize-effectively`](library/writing-communication/interpersonal-communication/apologize-effectively/) · [`ask-for-a-favor`](library/writing-communication/interpersonal-communication/ask-for-a-favor/) |
-| Email | 31 | [`ask-for-feedback-by-email`](library/writing-communication/email/ask-for-feedback-by-email/) · [`build-email-templates`](library/writing-communication/email/build-email-templates/) · [`correct-email-mistake`](library/writing-communication/email/correct-email-mistake/) |
-| Business writing | 28 | [`ask-for-help-in-team-chat`](library/writing-communication/business-writing/ask-for-help-in-team-chat/) · [`plan-change-communications`](library/writing-communication/business-writing/plan-change-communications/) · [`write-annual-report-letter`](library/writing-communication/business-writing/write-annual-report-letter/) |
-| Editing | 28 | [`build-self-editing-checklist`](library/writing-communication/editing/build-self-editing-checklist/) · [`build-style-sheet`](library/writing-communication/editing/build-style-sheet/) · [`capture-writing-voice`](library/writing-communication/editing/capture-writing-voice/) |
-| Public speaking | 15 | [`craft-personal-story`](library/writing-communication/public-speaking/craft-personal-story/) · [`critique-speech-recording`](library/writing-communication/public-speaking/critique-speech-recording/) · [`develop-idea-talk`](library/writing-communication/public-speaking/develop-idea-talk/) |
-| Presentations | 14 | [`convert-slides-to-handout`](library/writing-communication/presentations/convert-slides-to-handout/) · [`critique-slide-deck`](library/writing-communication/presentations/critique-slide-deck/) · [`make-presentation-accessible`](library/writing-communication/presentations/make-presentation-accessible/) |
+| Interpersonal communication | 47 | [`adapt-message-for-culture`](library/writing-communication/interpersonal-communication/adapt-message-for-culture/) · [`apologize-effectively`](library/writing-communication/interpersonal-communication/apologize-effectively/) · [`ask-for-a-favor`](library/writing-communication/interpersonal-communication/ask-for-a-favor/) |
+| Email | 38 | [`ask-for-feedback-by-email`](library/writing-communication/email/ask-for-feedback-by-email/) · [`build-email-templates`](library/writing-communication/email/build-email-templates/) · [`correct-email-mistake`](library/writing-communication/email/correct-email-mistake/) |
+| Business writing | 37 | [`ask-for-help-in-team-chat`](library/writing-communication/business-writing/ask-for-help-in-team-chat/) · [`plan-change-communications`](library/writing-communication/business-writing/plan-change-communications/) · [`write-annual-report-letter`](library/writing-communication/business-writing/write-annual-report-letter/) |
+| Editing | 32 | [`build-self-editing-checklist`](library/writing-communication/editing/build-self-editing-checklist/) · [`build-style-sheet`](library/writing-communication/editing/build-style-sheet/) · [`capture-writing-voice`](library/writing-communication/editing/capture-writing-voice/) |
+| Public speaking | 24 | [`craft-personal-story`](library/writing-communication/public-speaking/craft-personal-story/) · [`critique-speech-recording`](library/writing-communication/public-speaking/critique-speech-recording/) · [`develop-idea-talk`](library/writing-communication/public-speaking/develop-idea-talk/) |
+| Presentations | 15 | [`convert-slides-to-handout`](library/writing-communication/presentations/convert-slides-to-handout/) · [`critique-slide-deck`](library/writing-communication/presentations/critique-slide-deck/) · [`drill-presentation-qa`](library/writing-communication/presentations/drill-presentation-qa/) |
 
 </details>
 
-<details><summary><b>Career and HR</b> · 126</summary>
+<details><summary><b>Career and HR</b> · 164</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Job search | 26 | [`accept-job-offer-in-writing`](library/career-hr/job-search/accept-job-offer-in-writing/) · [`address-selection-criteria`](library/career-hr/job-search/address-selection-criteria/) · [`analyze-job-posting`](library/career-hr/job-search/analyze-job-posting/) |
-| People management | 25 | [`address-underperformance-early`](library/career-hr/people-management/address-underperformance-early/) · [`allocate-merit-increases`](library/career-hr/people-management/allocate-merit-increases/) · [`build-career-ladder`](library/career-hr/people-management/build-career-ladder/) |
-| Career growth | 23 | [`ask-for-raise`](library/career-hr/career-growth/ask-for-raise/) · [`build-development-plan`](library/career-hr/career-growth/build-development-plan/) · [`find-mentor`](library/career-hr/career-growth/find-mentor/) |
-| Interview preparation | 19 | [`answer-salary-expectations`](library/career-hr/interview-prep/answer-salary-expectations/) · [`debrief-interview`](library/career-hr/interview-prep/debrief-interview/) · [`explain-job-loss-in-interview`](library/career-hr/interview-prep/explain-job-loss-in-interview/) |
-| Hiring | 18 | [`design-interview-loop`](library/career-hr/hiring/design-interview-loop/) · [`plan-first-hire`](library/career-hr/hiring/plan-first-hire/) · [`plan-internship-program`](library/career-hr/hiring/plan-internship-program/) |
-| Résumés | 15 | [`check-resume-ats-readiness`](library/career-hr/resumes/check-resume-ats-readiness/) · [`convert-cv-to-country-format`](library/career-hr/resumes/convert-cv-to-country-format/) · [`optimize-linkedin-profile`](library/career-hr/resumes/optimize-linkedin-profile/) |
+| Career growth | 36 | [`ask-for-raise`](library/career-hr/career-growth/ask-for-raise/) · [`assess-ai-impact-on-my-job`](library/career-hr/career-growth/assess-ai-impact-on-my-job/) · [`build-development-plan`](library/career-hr/career-growth/build-development-plan/) |
+| Job search | 36 | [`accept-job-offer-in-writing`](library/career-hr/job-search/accept-job-offer-in-writing/) · [`address-selection-criteria`](library/career-hr/job-search/address-selection-criteria/) · [`analyze-job-posting`](library/career-hr/job-search/analyze-job-posting/) |
+| People management | 30 | [`address-underperformance-early`](library/career-hr/people-management/address-underperformance-early/) · [`allocate-merit-increases`](library/career-hr/people-management/allocate-merit-increases/) · [`build-career-ladder`](library/career-hr/people-management/build-career-ladder/) |
+| Interview preparation | 26 | [`answer-salary-expectations`](library/career-hr/interview-prep/answer-salary-expectations/) · [`debrief-interview`](library/career-hr/interview-prep/debrief-interview/) · [`drill-star-answers`](library/career-hr/interview-prep/drill-star-answers/) |
+| Hiring | 20 | [`design-interview-loop`](library/career-hr/hiring/design-interview-loop/) · [`design-work-trial-shift`](library/career-hr/hiring/design-work-trial-shift/) · [`plan-first-hire`](library/career-hr/hiring/plan-first-hire/) |
+| Résumés | 16 | [`check-resume-ats-readiness`](library/career-hr/resumes/check-resume-ats-readiness/) · [`convert-cv-to-country-format`](library/career-hr/resumes/convert-cv-to-country-format/) · [`optimize-linkedin-profile`](library/career-hr/resumes/optimize-linkedin-profile/) |
 
 </details>
 
-<details><summary><b>Finance</b> · 115</summary>
+<details><summary><b>Finance</b> · 141</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Financial planning | 30 | [`build-net-worth-statement`](library/finance/financial-planning/build-net-worth-statement/) · [`compare-loan-offers`](library/finance/financial-planning/compare-loan-offers/) · [`compare-mortgage-options`](library/finance/financial-planning/compare-mortgage-options/) |
-| Accounting | 27 | [`analyze-customer-profitability`](library/finance/accounting/analyze-customer-profitability/) · [`analyze-working-capital`](library/finance/accounting/analyze-working-capital/) · [`build-small-business-budget`](library/finance/accounting/build-small-business-budget/) |
-| Taxes | 24 | [`check-sales-tax-obligations`](library/finance/taxes/check-sales-tax-obligations/) · [`check-tax-withholding`](library/finance/taxes/check-tax-withholding/) · [`estimate-annual-tax-bill`](library/finance/taxes/estimate-annual-tax-bill/) |
+| Taxes | 37 | [`check-730-precompilato`](library/finance/taxes/check-730-precompilato/) · [`check-sales-tax-obligations`](library/finance/taxes/check-sales-tax-obligations/) · [`check-tax-withholding`](library/finance/taxes/check-tax-withholding/) |
+| Financial planning | 36 | [`build-credit-history-from-zero`](library/finance/financial-planning/build-credit-history-from-zero/) · [`build-net-worth-statement`](library/finance/financial-planning/build-net-worth-statement/) · [`compare-loan-offers`](library/finance/financial-planning/compare-loan-offers/) |
+| Accounting | 30 | [`analyze-customer-profitability`](library/finance/accounting/analyze-customer-profitability/) · [`analyze-working-capital`](library/finance/accounting/analyze-working-capital/) · [`build-small-business-budget`](library/finance/accounting/build-small-business-budget/) |
+| Budgeting | 20 | [`budget-for-holidays-and-gifts`](library/finance/budgeting/budget-for-holidays-and-gifts/) · [`budget-for-university`](library/finance/budgeting/budget-for-university/) · [`budget-irregular-income`](library/finance/budgeting/budget-irregular-income/) |
 | Investing (education) | 18 | [`analyze-rental-property`](library/finance/investing/analyze-rental-property/) · [`check-portfolio-diversification`](library/finance/investing/check-portfolio-diversification/) · [`choose-financial-advisor`](library/finance/investing/choose-financial-advisor/) |
-| Budgeting | 16 | [`budget-for-holidays-and-gifts`](library/finance/budgeting/budget-for-holidays-and-gifts/) · [`budget-for-university`](library/finance/budgeting/budget-for-university/) · [`budget-irregular-income`](library/finance/budgeting/budget-irregular-income/) |
 
 </details>
 
-<details><summary><b>Legal and admin</b> · 110</summary>
+<details><summary><b>Legal and admin</b> · 142</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Legal correspondence | 23 | [`appeal-benefits-decision`](library/legal-admin/legal-correspondence/appeal-benefits-decision/) · [`appeal-insurance-denial`](library/legal-admin/legal-correspondence/appeal-insurance-denial/) · [`appeal-parking-ticket`](library/legal-admin/legal-correspondence/appeal-parking-ticket/) |
-| Contracts | 21 | [`build-contract-obligations-register`](library/legal-admin/contracts/build-contract-obligations-register/) · [`compare-contract-versions`](library/legal-admin/contracts/compare-contract-versions/) · [`draft-simple-agreement`](library/legal-admin/contracts/draft-simple-agreement/) |
-| Paperwork | 21 | [`apply-for-trademark`](library/legal-admin/paperwork/apply-for-trademark/) · [`check-business-licences`](library/legal-admin/paperwork/check-business-licences/) · [`check-landlord-obligations`](library/legal-admin/paperwork/check-landlord-obligations/) |
-| Legal practice | 19 | [`brief-court-case`](library/legal-admin/legal-practice/brief-court-case/) · [`build-damages-schedule`](library/legal-admin/legal-practice/build-damages-schedule/) · [`build-law-course-outline`](library/legal-admin/legal-practice/build-law-course-outline/) |
+| Paperwork | 38 | [`apply-for-housing-assistance`](library/legal-admin/paperwork/apply-for-housing-assistance/) · [`apply-for-trademark`](library/legal-admin/paperwork/apply-for-trademark/) · [`calculate-clt-severance`](library/legal-admin/paperwork/calculate-clt-severance/) |
+| Legal correspondence | 30 | [`appeal-benefits-decision`](library/legal-admin/legal-correspondence/appeal-benefits-decision/) · [`appeal-insurance-denial`](library/legal-admin/legal-correspondence/appeal-insurance-denial/) · [`appeal-parking-ticket`](library/legal-admin/legal-correspondence/appeal-parking-ticket/) |
+| Contracts | 23 | [`build-contract-obligations-register`](library/legal-admin/contracts/build-contract-obligations-register/) · [`check-jeonse-contract`](library/legal-admin/contracts/check-jeonse-contract/) · [`compare-contract-versions`](library/legal-admin/contracts/compare-contract-versions/) |
+| Legal practice | 23 | [`brief-court-case`](library/legal-admin/legal-practice/brief-court-case/) · [`build-damages-schedule`](library/legal-admin/legal-practice/build-damages-schedule/) · [`build-law-course-outline`](library/legal-admin/legal-practice/build-law-course-outline/) |
 | Compliance | 14 | [`answer-security-questionnaire`](library/legal-admin/compliance/answer-security-questionnaire/) · [`assess-ai-act-obligations`](library/legal-admin/compliance/assess-ai-act-obligations/) · [`audit-website-privacy-compliance`](library/legal-admin/compliance/audit-website-privacy-compliance/) |
-| Policies and terms | 12 | [`write-accessibility-statement`](library/legal-admin/policies/write-accessibility-statement/) · [`write-ai-use-policy`](library/legal-admin/policies/write-ai-use-policy/) · [`write-conflict-of-interest-policy`](library/legal-admin/policies/write-conflict-of-interest-policy/) |
+| Policies and terms | 14 | [`write-accessibility-statement`](library/legal-admin/policies/write-accessibility-statement/) · [`write-ai-use-policy`](library/legal-admin/policies/write-ai-use-policy/) · [`write-conflict-of-interest-policy`](library/legal-admin/policies/write-conflict-of-interest-policy/) |
 
 </details>
 
-<details><summary><b>Health and wellbeing</b> · 153</summary>
+<details><summary><b>Health and wellbeing</b> · 207</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Mental health | 39 | [`build-connection-plan`](library/health-wellbeing/mental-health/build-connection-plan/) · [`build-coping-plan`](library/health-wellbeing/mental-health/build-coping-plan/) · [`build-mood-tracker`](library/health-wellbeing/mental-health/build-mood-tracker/) |
-| Fitness | 34 | [`adapt-exercise-for-condition`](library/health-wellbeing/fitness/adapt-exercise-for-condition/) · [`assess-fitness-baseline`](library/health-wellbeing/fitness/assess-fitness-baseline/) · [`build-training-plan`](library/health-wellbeing/fitness/build-training-plan/) |
-| Medical visit preparation | 32 | [`access-healthcare-abroad`](library/health-wellbeing/medical-prep/access-healthcare-abroad/) · [`build-medication-list`](library/health-wellbeing/medical-prep/build-medication-list/) · [`build-symptom-log`](library/health-wellbeing/medical-prep/build-symptom-log/) |
-| Clinical practice | 29 | [`draft-discharge-summary`](library/health-wellbeing/clinical-practice/draft-discharge-summary/) · [`plan-breaking-bad-news`](library/health-wellbeing/clinical-practice/plan-breaking-bad-news/) · [`plan-clinical-audit`](library/health-wellbeing/clinical-practice/plan-clinical-audit/) |
-| Nutrition | 19 | [`analyze-diet-log`](library/health-wellbeing/nutrition/analyze-diet-log/) · [`compare-diet-approaches`](library/health-wellbeing/nutrition/compare-diet-approaches/) · [`evaluate-supplement`](library/health-wellbeing/nutrition/evaluate-supplement/) |
+| Mental health | 50 | [`bounce-back-from-rejection`](library/health-wellbeing/mental-health/bounce-back-from-rejection/) · [`build-connection-plan`](library/health-wellbeing/mental-health/build-connection-plan/) · [`build-coping-plan`](library/health-wellbeing/mental-health/build-coping-plan/) |
+| Clinical practice | 47 | [`draft-discharge-summary`](library/health-wellbeing/clinical-practice/draft-discharge-summary/) · [`plan-advance-care-planning-conversation`](library/health-wellbeing/clinical-practice/plan-advance-care-planning-conversation/) · [`plan-breaking-bad-news`](library/health-wellbeing/clinical-practice/plan-breaking-bad-news/) |
+| Medical visit preparation | 44 | [`access-healthcare-abroad`](library/health-wellbeing/medical-prep/access-healthcare-abroad/) · [`build-medication-list`](library/health-wellbeing/medical-prep/build-medication-list/) · [`build-symptom-log`](library/health-wellbeing/medical-prep/build-symptom-log/) |
+| Fitness | 43 | [`adapt-exercise-for-condition`](library/health-wellbeing/fitness/adapt-exercise-for-condition/) · [`assess-fitness-baseline`](library/health-wellbeing/fitness/assess-fitness-baseline/) · [`build-training-plan`](library/health-wellbeing/fitness/build-training-plan/) |
+| Nutrition | 23 | [`analyze-diet-log`](library/health-wellbeing/nutrition/analyze-diet-log/) · [`compare-diet-approaches`](library/health-wellbeing/nutrition/compare-diet-approaches/) · [`evaluate-supplement`](library/health-wellbeing/nutrition/evaluate-supplement/) |
 
 </details>
 
-<details><summary><b>Cooking and home</b> · 126</summary>
+<details><summary><b>Cooking and home</b> · 151</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Cooking | 30 | [`adapt-recipe`](library/home-cooking/cooking/adapt-recipe/) · [`adjust-recipe-for-altitude`](library/home-cooking/cooking/adjust-recipe-for-altitude/) · [`check-food-safety`](library/home-cooking/cooking/check-food-safety/) |
-| Home improvement | 29 | [`build-home-inventory`](library/home-cooking/home-improvement/build-home-inventory/) · [`build-house-viewing-checklist`](library/home-cooking/home-improvement/build-house-viewing-checklist/) · [`childproof-home`](library/home-cooking/home-improvement/childproof-home/) |
-| Meal planning | 19 | [`build-grocery-list-from-recipes`](library/home-cooking/meal-planning/build-grocery-list-from-recipes/) · [`organise-potluck`](library/home-cooking/meal-planning/organise-potluck/) · [`plan-budget-meals`](library/home-cooking/meal-planning/plan-budget-meals/) |
-| Pet care | 17 | [`build-pet-emergency-plan`](library/home-cooking/pet-care/build-pet-emergency-plan/) · [`care-for-senior-pet`](library/home-cooking/pet-care/care-for-senior-pet/) · [`choose-pet-for-lifestyle`](library/home-cooking/pet-care/choose-pet-for-lifestyle/) |
-| Gardening | 16 | [`build-garden-calendar`](library/home-cooking/gardening/build-garden-calendar/) · [`build-raised-bed-plan`](library/home-cooking/gardening/build-raised-bed-plan/) · [`design-garden-border`](library/home-cooking/gardening/design-garden-border/) |
-| Vehicles | 15 | [`check-car-before-road-trip`](library/home-cooking/vehicles/check-car-before-road-trip/) · [`choose-bike`](library/home-cooking/vehicles/choose-bike/) · [`compare-car-insurance`](library/home-cooking/vehicles/compare-car-insurance/) |
+| Home improvement | 36 | [`assemble-flat-pack-furniture`](library/home-cooking/home-improvement/assemble-flat-pack-furniture/) · [`build-home-inventory`](library/home-cooking/home-improvement/build-home-inventory/) · [`build-house-viewing-checklist`](library/home-cooking/home-improvement/build-house-viewing-checklist/) |
+| Cooking | 33 | [`adapt-recipe`](library/home-cooking/cooking/adapt-recipe/) · [`adjust-recipe-for-altitude`](library/home-cooking/cooking/adjust-recipe-for-altitude/) · [`brew-tea-properly`](library/home-cooking/cooking/brew-tea-properly/) |
+| Meal planning | 21 | [`build-grocery-list-from-recipes`](library/home-cooking/meal-planning/build-grocery-list-from-recipes/) · [`organise-potluck`](library/home-cooking/meal-planning/organise-potluck/) · [`plan-budget-meals`](library/home-cooking/meal-planning/plan-budget-meals/) |
+| Pet care | 21 | [`build-pet-emergency-plan`](library/home-cooking/pet-care/build-pet-emergency-plan/) · [`care-for-backyard-chickens`](library/home-cooking/pet-care/care-for-backyard-chickens/) · [`care-for-senior-pet`](library/home-cooking/pet-care/care-for-senior-pet/) |
+| Gardening | 20 | [`build-garden-calendar`](library/home-cooking/gardening/build-garden-calendar/) · [`build-raised-bed-plan`](library/home-cooking/gardening/build-raised-bed-plan/) · [`design-garden-border`](library/home-cooking/gardening/design-garden-border/) |
+| Vehicles | 20 | [`change-flat-tyre`](library/home-cooking/vehicles/change-flat-tyre/) · [`check-car-before-road-trip`](library/home-cooking/vehicles/check-car-before-road-trip/) · [`choose-bike`](library/home-cooking/vehicles/choose-bike/) |
 
 </details>
 
-<details><summary><b>Travel</b> · 54</summary>
+<details><summary><b>Travel</b> · 71</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Trip planning | 26 | [`choose-accommodation`](library/travel/trip-planning/choose-accommodation/) · [`choose-destination`](library/travel/trip-planning/choose-destination/) · [`choose-ethical-volunteer-trip`](library/travel/trip-planning/choose-ethical-volunteer-trip/) |
-| Travel logistics | 19 | [`beat-jet-lag`](library/travel/travel-logistics/beat-jet-lag/) · [`build-packing-list`](library/travel/travel-logistics/build-packing-list/) · [`check-destination-safety`](library/travel/travel-logistics/check-destination-safety/) |
-| Local culture | 9 | [`check-local-festivals-and-holidays`](library/travel/local-culture/check-local-festivals-and-holidays/) · [`decode-foreign-menu`](library/travel/local-culture/decode-foreign-menu/) · [`learn-destination-history`](library/travel/local-culture/learn-destination-history/) |
+| Trip planning | 32 | [`choose-accommodation`](library/travel/trip-planning/choose-accommodation/) · [`choose-destination`](library/travel/trip-planning/choose-destination/) · [`choose-ethical-volunteer-trip`](library/travel/trip-planning/choose-ethical-volunteer-trip/) |
+| Travel logistics | 26 | [`beat-jet-lag`](library/travel/travel-logistics/beat-jet-lag/) · [`build-packing-list`](library/travel/travel-logistics/build-packing-list/) · [`check-destination-safety`](library/travel/travel-logistics/check-destination-safety/) |
+| Local culture | 13 | [`check-local-festivals-and-holidays`](library/travel/local-culture/check-local-festivals-and-holidays/) · [`decode-foreign-menu`](library/travel/local-culture/decode-foreign-menu/) · [`guide-me-around-the-city`](library/travel/local-culture/guide-me-around-the-city/) |
 
 </details>
 
-<details><summary><b>Parenting and family</b> · 60</summary>
+<details><summary><b>Parenting and family</b> · 97</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Parenting | 26 | [`build-reading-routine-with-child`](library/parenting-family/parenting/build-reading-routine-with-child/) · [`choose-childcare`](library/parenting-family/parenting/choose-childcare/) · [`explain-hard-topic-to-child`](library/parenting-family/parenting/explain-hard-topic-to-child/) |
-| Family logistics | 13 | [`build-care-rota`](library/parenting-family/family-logistics/build-care-rota/) · [`coordinate-family-calendar`](library/parenting-family/family-logistics/coordinate-family-calendar/) · [`create-chore-chart`](library/parenting-family/family-logistics/create-chore-chart/) |
-| Relationships | 12 | [`choose-meaningful-gift`](library/parenting-family/relationships/choose-meaningful-gift/) · [`plan-anniversary`](library/parenting-family/relationships/plan-anniversary/) · [`plan-date-night`](library/parenting-family/relationships/plan-date-night/) |
-| Kids' activities | 9 | [`create-kids-craft`](library/parenting-family/kids-activities/create-kids-craft/) · [`design-kids-science-experiment`](library/parenting-family/kids-activities/design-kids-science-experiment/) · [`invent-learning-game`](library/parenting-family/kids-activities/invent-learning-game/) |
+| Parenting | 38 | [`build-reading-routine-with-child`](library/parenting-family/parenting/build-reading-routine-with-child/) · [`choose-childcare`](library/parenting-family/parenting/choose-childcare/) · [`choose-extracurricular-activities`](library/parenting-family/parenting/choose-extracurricular-activities/) |
+| Kids' activities | 21 | [`create-kids-craft`](library/parenting-family/kids-activities/create-kids-craft/) · [`create-puppet-show`](library/parenting-family/kids-activities/create-puppet-show/) · [`design-kids-science-experiment`](library/parenting-family/kids-activities/design-kids-science-experiment/) |
+| Family logistics | 19 | [`build-care-rota`](library/parenting-family/family-logistics/build-care-rota/) · [`coordinate-family-calendar`](library/parenting-family/family-logistics/coordinate-family-calendar/) · [`create-chore-chart`](library/parenting-family/family-logistics/create-chore-chart/) |
+| Relationships | 19 | [`assess-draining-friendship`](library/parenting-family/relationships/assess-draining-friendship/) · [`choose-meaningful-gift`](library/parenting-family/relationships/choose-meaningful-gift/) · [`create-family-tradition`](library/parenting-family/relationships/create-family-tradition/) |
 
 </details>
 
-<details><summary><b>Productivity and personal life</b> · 132</summary>
+<details><summary><b>Productivity and personal life</b> · 186</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Task management | 20 | [`audit-time-use`](library/productivity/task-management/audit-time-use/) · [`break-down-big-task`](library/productivity/task-management/break-down-big-task/) · [`build-reusable-checklist`](library/productivity/task-management/build-reusable-checklist/) |
-| Decision-making | 18 | [`build-decision-tree`](library/productivity/decision-making/build-decision-tree/) · [`check-decision-for-biases`](library/productivity/decision-making/check-decision-for-biases/) · [`choose-productivity-app`](library/productivity/decision-making/choose-productivity-app/) |
-| Meetings | 17 | [`design-meeting-cadence`](library/productivity/meetings/design-meeting-cadence/) · [`facilitate-tense-meeting`](library/productivity/meetings/facilitate-tense-meeting/) · [`find-meeting-time-across-time-zones`](library/productivity/meetings/find-meeting-time-across-time-zones/) |
-| Tech help | 16 | [`automate-personal-routine`](library/productivity/tech-help/automate-personal-routine/) · [`check-used-device`](library/productivity/tech-help/check-used-device/) · [`choose-computer-specs`](library/productivity/tech-help/choose-computer-specs/) |
-| Habits and goals | 15 | [`beat-procrastination`](library/productivity/habits/beat-procrastination/) · [`break-bad-habit`](library/productivity/habits/break-bad-habit/) · [`build-reading-habit`](library/productivity/habits/build-reading-habit/) |
-| Digital safety | 13 | [`check-online-shop-legitimacy`](library/productivity/digital-safety/check-online-shop-legitimacy/) · [`check-phone-for-stalkerware`](library/productivity/digital-safety/check-phone-for-stalkerware/) · [`check-suspicious-message`](library/productivity/digital-safety/check-suspicious-message/) |
-| Summarisation | 13 | [`build-news-digest`](library/productivity/summarization/build-news-digest/) · [`build-timeline-from-documents`](library/productivity/summarization/build-timeline-from-documents/) · [`catch-up-after-leave`](library/productivity/summarization/catch-up-after-leave/) |
-| Brainstorming | 10 | [`brainstorm-ideas`](library/productivity/brainstorming/brainstorm-ideas/) · [`cluster-ideas`](library/productivity/brainstorming/cluster-ideas/) · [`facilitate-group-brainstorm`](library/productivity/brainstorming/facilitate-group-brainstorm/) |
-| Note-taking | 10 | [`build-personal-crm`](library/productivity/note-taking/build-personal-crm/) · [`build-team-wiki-structure`](library/productivity/note-taking/build-team-wiki-structure/) · [`design-second-brain`](library/productivity/note-taking/design-second-brain/) |
+| Habits and goals | 29 | [`add-more-joy-to-week`](library/productivity/habits/add-more-joy-to-week/) · [`beat-procrastination`](library/productivity/habits/beat-procrastination/) · [`break-bad-habit`](library/productivity/habits/break-bad-habit/) |
+| Summarisation | 26 | [`brief-me-on-topic`](library/productivity/summarization/brief-me-on-topic/) · [`build-news-digest`](library/productivity/summarization/build-news-digest/) · [`build-timeline-from-documents`](library/productivity/summarization/build-timeline-from-documents/) |
+| Task management | 25 | [`audit-time-use`](library/productivity/task-management/audit-time-use/) · [`break-down-big-task`](library/productivity/task-management/break-down-big-task/) · [`build-reusable-checklist`](library/productivity/task-management/build-reusable-checklist/) |
+| Decision-making | 22 | [`build-decision-tree`](library/productivity/decision-making/build-decision-tree/) · [`check-decision-for-biases`](library/productivity/decision-making/check-decision-for-biases/) · [`choose-productivity-app`](library/productivity/decision-making/choose-productivity-app/) |
+| Tech help | 22 | [`automate-personal-routine`](library/productivity/tech-help/automate-personal-routine/) · [`check-used-device`](library/productivity/tech-help/check-used-device/) · [`choose-computer-specs`](library/productivity/tech-help/choose-computer-specs/) |
+| Digital safety | 19 | [`check-data-breach-exposure`](library/productivity/digital-safety/check-data-breach-exposure/) · [`check-online-shop-legitimacy`](library/productivity/digital-safety/check-online-shop-legitimacy/) · [`check-phone-for-stalkerware`](library/productivity/digital-safety/check-phone-for-stalkerware/) |
+| Meetings | 19 | [`design-meeting-cadence`](library/productivity/meetings/design-meeting-cadence/) · [`facilitate-tense-meeting`](library/productivity/meetings/facilitate-tense-meeting/) · [`find-meeting-time-across-time-zones`](library/productivity/meetings/find-meeting-time-across-time-zones/) |
+| Brainstorming | 13 | [`brainstorm-ideas`](library/productivity/brainstorming/brainstorm-ideas/) · [`brainstorm-names`](library/productivity/brainstorming/brainstorm-names/) · [`cluster-ideas`](library/productivity/brainstorming/cluster-ideas/) |
+| Note-taking | 11 | [`build-personal-crm`](library/productivity/note-taking/build-personal-crm/) · [`build-team-wiki-structure`](library/productivity/note-taking/build-team-wiki-structure/) · [`design-second-brain`](library/productivity/note-taking/design-second-brain/) |
 
 </details>
 
-<details><summary><b>Gaming and fun</b> · 54</summary>
+<details><summary><b>Gaming and fun</b> · 86</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Tabletop RPGs | 18 | [`balance-combat-encounter`](library/gaming-fun/tabletop-rpg/balance-combat-encounter/) · [`build-rpg-character`](library/gaming-fun/tabletop-rpg/build-rpg-character/) · [`convert-adventure-between-systems`](library/gaming-fun/tabletop-rpg/convert-adventure-between-systems/) |
-| Video games | 11 | [`design-game-economy`](library/gaming-fun/video-games/design-game-economy/) · [`design-game-level`](library/gaming-fun/video-games/design-game-level/) · [`design-game-mechanic`](library/gaming-fun/video-games/design-game-mechanic/) |
-| Puzzles | 10 | [`analyze-chess-game`](library/gaming-fun/puzzles/analyze-chess-game/) · [`create-escape-room-puzzles`](library/gaming-fun/puzzles/create-escape-room-puzzles/) · [`create-scavenger-hunt`](library/gaming-fun/puzzles/create-scavenger-hunt/) |
-| Humour | 8 | [`plan-improv-session`](library/gaming-fun/humor/plan-improv-session/) · [`punch-up-with-humor`](library/gaming-fun/humor/punch-up-with-humor/) · [`write-comedy-bit`](library/gaming-fun/humor/write-comedy-bit/) |
-| Trivia and quizzes | 7 | [`create-custom-bingo`](library/gaming-fun/trivia/create-custom-bingo/) · [`create-party-game-cards`](library/gaming-fun/trivia/create-party-game-cards/) · [`host-trivia-night`](library/gaming-fun/trivia/host-trivia-night/) |
+| Tabletop RPGs | 21 | [`adjudicate-rules-dispute`](library/gaming-fun/tabletop-rpg/adjudicate-rules-dispute/) · [`balance-combat-encounter`](library/gaming-fun/tabletop-rpg/balance-combat-encounter/) · [`build-rpg-character`](library/gaming-fun/tabletop-rpg/build-rpg-character/) |
+| Puzzles | 20 | [`analyze-chess-game`](library/gaming-fun/puzzles/analyze-chess-game/) · [`coach-cryptic-crossword`](library/gaming-fun/puzzles/coach-cryptic-crossword/) · [`coach-sudoku-solving`](library/gaming-fun/puzzles/coach-sudoku-solving/) |
+| Humour | 16 | [`explain-joke-or-meme`](library/gaming-fun/humor/explain-joke-or-meme/) · [`plan-improv-session`](library/gaming-fun/humor/plan-improv-session/) · [`plan-open-mic-debut`](library/gaming-fun/humor/plan-open-mic-debut/) |
+| Video games | 15 | [`design-game-economy`](library/gaming-fun/video-games/design-game-economy/) · [`design-game-level`](library/gaming-fun/video-games/design-game-level/) · [`design-game-mechanic`](library/gaming-fun/video-games/design-game-mechanic/) |
+| Trivia and quizzes | 14 | [`create-custom-bingo`](library/gaming-fun/trivia/create-custom-bingo/) · [`create-party-game-cards`](library/gaming-fun/trivia/create-party-game-cards/) · [`host-trivia-night`](library/gaming-fun/trivia/host-trivia-night/) |
 
 </details>
 
-<details><summary><b>Prompting and assistants</b> · 64</summary>
+<details><summary><b>Prompting and assistants</b> · 89</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Prompt engineering | 28 | [`adapt-prompt-for-reasoning-model`](library/prompting/prompt-engineering/adapt-prompt-for-reasoning-model/) · [`adapt-prompt-for-small-model`](library/prompting/prompt-engineering/adapt-prompt-for-small-model/) · [`build-ai-output-review-checklist`](library/prompting/prompt-engineering/build-ai-output-review-checklist/) |
-| Output styles | 23 | [`academic`](library/prompting/output-styles/academic/) · [`annotated`](library/prompting/output-styles/annotated/) · [`beginner-friendly`](library/prompting/output-styles/beginner-friendly/) |
-| Assistant setup | 13 | [`build-project-instructions`](library/prompting/assistant-setup/build-project-instructions/) · [`choose-ai-tool`](library/prompting/assistant-setup/choose-ai-tool/) · [`map-ai-use-cases`](library/prompting/assistant-setup/map-ai-use-cases/) |
+| Prompt engineering | 35 | [`adapt-prompt-for-reasoning-model`](library/prompting/prompt-engineering/adapt-prompt-for-reasoning-model/) · [`adapt-prompt-for-small-model`](library/prompting/prompt-engineering/adapt-prompt-for-small-model/) · [`audit-prompt-for-bias`](library/prompting/prompt-engineering/audit-prompt-for-bias/) |
+| Output styles | 33 | [`academic`](library/prompting/output-styles/academic/) · [`actionable`](library/prompting/output-styles/actionable/) · [`analogy-led`](library/prompting/output-styles/analogy-led/) |
+| Assistant setup | 21 | [`build-project-instructions`](library/prompting/assistant-setup/build-project-instructions/) · [`choose-ai-tool`](library/prompting/assistant-setup/choose-ai-tool/) · [`map-ai-use-cases`](library/prompting/assistant-setup/map-ai-use-cases/) |
 
 </details>
 
