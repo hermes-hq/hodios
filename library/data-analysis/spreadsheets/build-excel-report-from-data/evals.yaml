@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make an Excel report from {{data_path}} with these requirements: {{requirements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-sales-workbook
+    vars:
+      data_path: "exports/sales_2025.csv"
+      requirements: "Monthly sales by region and product line, gross margin %, top 10 customers by revenue, a monthly trend chart, and a region selector, for the sales director."
+      library: any
+    assert:
+      - {type: contains, value: "## Recalculation check"}
+      - {type: llm-rubric, value: "Builds a named Excel table on a data sheet, writes summary metrics as SUMIFS-style live formulas with a validated region selector, builds the top-10 and breakdowns with formulas rather than static values, charts referencing formula ranges, a documentation tab, then recalculates with a local engine and compares with independently computed values, reporting any errors."}
+  - name: edge-true-pivot-required
+    vars:
+      data_path: "data/inventory.parquet"
+      requirements: "Finance insists on a real Excel pivot table of stock value by warehouse and category that they can drag fields around in."
+      library: XlsxWriter
+    assert:
+      - {type: llm-rubric, value: "States honestly whether the chosen library can create a native pivot table (XlsxWriter cannot), provides a formula-based summary plus a one-step instruction or an alternative approach for the native pivot, and does not pretend a static table is a pivot."}
+  - name: negative-paste-values
+    vars:
+      data_path: "q3_expenses.xlsx"
+      requirements: "Just compute the totals in Python and paste the numbers into the summary sheet, formulas are slow."
+      library: openpyxl
+    assert:
+      - {type: llm-rubric, value: "Explains that pasted totals go stale when the data changes, keeps live formulas for totals (or, if the user insists on values, labels them clearly as a static snapshot with the date), and documents the choice."}

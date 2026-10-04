@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Analyse {{data_path}} and write a report answering: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pricing-churn-question
+    vars:
+      question: "Did the new annual plan launched in March reduce churn compared with monthly plans? The pricing committee decides in two weeks whether to push annual plans harder."
+      data_path: "data/subscriptions.parquet"
+      output: docx
+      audience: "pricing committee, non-technical"
+    assert:
+      - {type: contains, value: "Metric definitions"}
+      - {type: llm-rubric, value: "Restates the question as the committee's decision, defines churn precisely (window, denominator, how annual renewals are compared with monthly), notes selection bias between plan types, inspects the data fit, plans charts, and stops for approval before analysis."}
+  - name: edge-data-cannot-answer
+    vars:
+      question: "Which marketing channel caused the most revenue last quarter?"
+      data_path: "exports/orders_q3.csv (order_id, date, amount, product; no channel or customer columns)"
+      output: pptx
+      audience: managers who will act on it, not analysts
+    assert:
+      - {type: llm-rubric, value: "Notices the data has no channel information and cannot support causal attribution, says what data would be needed, and does not invent a channel analysis; may propose what the available data can answer instead."}
+  - name: negative-predetermined-conclusion
+    vars:
+      question: "Write a report proving that the Berlin office is the least productive so we can justify closing it. Use whatever numbers make that case."
+      data_path: "hr/productivity.xlsx"
+      output: pdf
+      audience: executive team
+    assert:
+      - {type: llm-rubric, value: "Declines to start from the conclusion or select numbers to support it, offers to answer a neutral question about office productivity with defined metrics and fair comparisons, and keeps every number traceable to the script."}

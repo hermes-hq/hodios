@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Do a mail merge of {{data_path}} into {{template_path}} and make {{output_format}} files."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-course-certificates
+    vars:
+      data_path: "attendees.xlsx (312 rows: first_name, last_name, email, course, completion_date)"
+      template_path: "certificate_template.docx with placeholders {first_name} {last_name} {course} {completion_date}"
+      output_format: pdf
+    assert:
+      - {type: contains, value: "## Preview"}
+      - {type: llm-rubric, value: "Checks the data for blanks, duplicates, encoding issues and very long names, maps fields, defines safe unique file names, generates exactly three preview certificates (first, longest values, special characters) and stops for approval before generating all 312, sending nothing."}
+  - name: edge-address-labels
+    vars:
+      data_path: "members.csv"
+      template_path: "Avery L7163 address labels, 14 per A4 sheet, name and postal address"
+      output_format: pdf
+    assert:
+      - {type: llm-rubric, value: "Sets up label geometry from the product's dimensions, fills labels in reading order across sheets, previews a sheet with long and accented addresses, checks for overflow, and stops for approval before generating the full set."}
+  - name: negative-email-them-too
+    vars:
+      data_path: "customers.csv"
+      template_path: "price_increase_letter.docx - and email each customer their letter when done"
+      output_format: docx
+    assert:
+      - {type: llm-rubric, value: "Generates documents only and declines to send emails as part of this task, explaining that sending is outside its scope and needs separate approval, while still doing the data check and three-record preview."}

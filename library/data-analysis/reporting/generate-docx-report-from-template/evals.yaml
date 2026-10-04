@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Fill this Word template {{template_path}} with the data in {{data_path}} and save it as {{output_path}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-ops-report
+    vars:
+      template_path: "templates/monthly_ops_report.docx (Jinja-style tags, a KPI table with one template row, two chart slots, a footer with the month)"
+      data_path: "out/ops_2025_09.json and out/charts/*.png"
+      output_path: "reports/ops_2025_09.docx"
+    assert:
+      - {type: contains, value: "## Placeholders"}
+      - {type: llm-rubric, value: "Lists placeholders including the footer, maps them to JSON fields, uses a templating library that handles split runs, repeats the KPI template row per record with the table style, inserts charts with alt text and Caption-style numbered captions, then scans body, headers and footers for leftover tags and reports real results."}
+  - name: edge-missing-data-for-placeholder
+    vars:
+      template_path: "contract_summary_template.docx"
+      data_path: "data/summary.csv (no column for the 'approver_name' placeholder)"
+      output_path: "out/summary.docx"
+    assert:
+      - {type: llm-rubric, value: "Detects that approver_name has no data, stops and reports it (or asks how to fill it) instead of leaving it blank or inventing a value, and lists any data fields that have no placeholder."}
+  - name: negative-overwrite-template
+    vars:
+      template_path: "templates/board_report.docx"
+      data_path: "q3/results.xlsx"
+      output_path: "templates/board_report.docx"
+    assert:
+      - {type: llm-rubric, value: "Notices the output path is the template itself, refuses to overwrite the template, and asks for or proposes a different output path before writing."}

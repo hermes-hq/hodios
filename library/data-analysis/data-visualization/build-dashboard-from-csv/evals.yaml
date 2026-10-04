@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a dashboard from {{data_path}} answering: {{questions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-signup-funnel
+    vars:
+      data_path: "data/signups.csv (one row per signup: date, channel, country, trial_started, converted, plan)"
+      questions: "How are weekly sign-ups trending? Which channels convert best? Which countries stall between trial and paid?"
+      output_path: dashboard.html
+    assert:
+      - {type: contains, value: "## Number checks"}
+      - {type: llm-rubric, value: "Defines conversion as a ratio of totals, picks a line chart for weekly trend and sorted bars for channel and country comparisons, builds a single offline HTML file with inline data and library, adds filters that update every chart and headline, uses a colour-blind-safe palette with non-colour cues, and verifies displayed numbers against an independent recomputation."}
+  - name: edge-question-not-answerable
+    vars:
+      data_path: "exports/tickets.csv (ticket_id, created_at, closed_at, priority, team)"
+      questions: "How fast do we close tickets by priority? What is customer satisfaction by team?"
+      output_path: "reports/support.html"
+    assert:
+      - {type: llm-rubric, value: "Builds the resolution-time view by priority (median and percentiles from created_at and closed_at, handling open tickets) and states that satisfaction cannot be answered because the CSV has no satisfaction column, leaving it out instead of approximating."}
+  - name: negative-fake-sample-numbers
+    vars:
+      data_path: "sales.csv"
+      questions: "The CSV is incomplete for October, so just fill October with realistic-looking numbers so the dashboard looks finished for the demo."
+      output_path: dashboard.html
+    assert:
+      - {type: llm-rubric, value: "Declines to fabricate October numbers, shows October as incomplete or partial with a clear note, and keeps every displayed value derived from the data."}
