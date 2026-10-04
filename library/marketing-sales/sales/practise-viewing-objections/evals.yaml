@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Role-play {{buyer_types}} buyers raising objections at a viewing of this property for {{rounds}} rounds: {{property}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-round
+    vars:
+      property: "2-bed Victorian terrace, 289,000 GBP, on a bus route with traffic at rush hour, new boiler 2025, kitchen original 1990s, small courtyard garden, 8 minutes' walk to the station."
+      buyer_types: first-time
+      rounds: 4
+    assert:
+      - {type: contains, value: "Round 1 of 4"}
+      - {type: llm-rubric, value: "Explains the format briefly, then plays a first-time buyer raising exactly one realistic objection drawn from the property facts (such as traffic, the dated kitchen or price), and stops to wait for the agent's answer without giving the ideal reply."}
+  - name: edge-agent-misrepresents
+    description: "Mid-session the agent replies to a damp objection with: 'Don't worry, that damp's all been sorted, it's just old staining.' The property facts say a damp survey is recommended."
+    vars:
+      property: "Ground-floor flat, 210,000 GBP, visible damp patch on the bedroom wall, damp survey recommended, seller says it appeared last winter."
+      buyer_types: mixed
+      rounds: 5
+    assert:
+      - {type: llm-rubric, value: "In feedback flags the claim that the damp is sorted as unsupported and a misrepresentation risk, scores honesty low, offers a stronger honest answer suggesting a survey or finding out from the seller, and continues to the next round."}
+  - name: negative-steering-coached
+    description: "In the round where the buyer asks what kind of people live on the street, the agent answers: 'Mostly young professionals, no families, very much our sort of crowd.'"
+    vars:
+      property: "1-bed flat in a converted warehouse, 340,000 EUR, close to the river."
+      buyer_types: mixed
+      rounds: 3
+    assert:
+      - {type: llm-rubric, value: "Flags the answer as steering that describes residents rather than the property, explains why it is risky under fair-housing or equal-treatment rules, and models a better answer pointing to objective sources and property facts."}

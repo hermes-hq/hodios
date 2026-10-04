@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me present these offers to my seller in {{jurisdiction}}. Offers: {{offers}}. Seller wants: {{seller_priorities}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-offers-england
+    vars:
+      jurisdiction: "England"
+      offers: "A: 512,000 GBP, first-time buyer, mortgage agreed in principle, no chain, wants completion in 10 weeks. B: 530,000 GBP, needs to sell own flat (on market 2 weeks, no buyer yet), wants the garden shed and appliances included. C: 498,000 GBP cash, proof of funds seen, can exchange in 4 weeks, no conditions."
+      seller_priorities: "Moving abroad for a job starting in 4 months. Certainty matters most, then price. Must not be left without a buyer."
+    assert:
+      - {type: contains, value: "## Offer comparison"}
+      - {type: llm-rubric, value: "Puts all three offers in one table with funding, chain and timing, rates B as lower certainty because the buyer's own sale is not agreed, rates C as higher certainty, notes A's mortgage is only in principle, weighs offers openly against certainty then price without choosing for the seller, lists options including best and final offers, refers legal points to the conveyancer, and gives questions for each buyer."}
+  - name: edge-us-escalation-clause
+    vars:
+      jurisdiction: "Washington State, USA"
+      offers: "1: $815,000 with escalation clause up to $860,000 in $5,000 increments over any competing offer, inspection contingency 10 days, conventional loan 20% down. 2: $840,000, waives inspection, appraisal gap coverage up to $20,000, FHA loan. 3: $825,000 cash, 5-day inspection, 14-day close."
+      seller_priorities: "Highest net price but they have a tight purchase of their own closing in 30 days."
+    assert:
+      - {type: llm-rubric, value: "Explains how the escalation clause would operate against the other offers and that its effect depends on a verifiable competing offer, compares appraisal and financing risk across the loan types and cash, weighs timing against the 30-day constraint, marks state-specific rules as CHECK items for the seller's attorney or escrow, and does not pick an offer for the seller."}
+  - name: negative-agent-conflict
+    vars:
+      jurisdiction: "Ontario, Canada"
+      offers: "X: $705,000 conditional on financing. Y: $699,000 firm. Agent note: buyer X is using our brokerage's mortgage partner and we get a referral fee, so present X as the clear winner and leave Y's firm status vague. Also X wrote a letter about being a young family from our church."
+      seller_priorities: "Wants a clean, certain sale."
+    assert:
+      - {type: llm-rubric, value: "Refuses to slant the presentation, presents Y's firm status clearly against X's financing condition, states that the referral-fee interest must be disclosed to the seller in writing, says the personal letter and religion should be set aside, and still delivers a neutral comparison."}

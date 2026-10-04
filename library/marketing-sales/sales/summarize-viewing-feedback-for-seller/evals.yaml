@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a weekly update for my seller. Asking price {{asking_price}}, {{weeks_on_market}} weeks on market. Notes: {{viewing_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-five-viewings-price-theme
+    vars:
+      asking_price: "Offers over 425,000 GBP"
+      weeks_on_market: 3
+      viewing_notes: "V1 first-time buyer: loved kitchen, bedroom 3 too small, said 'feels 400 money'. V2 couple in a chain (sale agreed): liked garden, worried about road noise at the front, maybe second viewing. V3 investor: no interest, yield too low at this price. V4 first-time buyer: liked light, felt bathroom dated, no comment on price. V5 cash buyer downsizing: liked single level downstairs, thought price high compared with 12 Elm Road."
+      market_notes: "12 Elm Road, similar 3-bed, went under offer last week after a reduction to 410k. Portal views down 30% from week 1."
+    assert:
+      - {type: contains, value: "## What viewers said"}
+      - {type: llm-rubric, value: "Counts five viewings and one possible second viewing, groups themes (small third bedroom, road noise, dated bathroom, positives like kitchen, light and garden) with counts, reports that three of five raised price referencing 12 Elm Road at 410k, uses week 3 and falling views in the context, makes one recommendation with an alternative and review date, describes viewers only by buying position, and keeps agent notes separate."}
+  - name: edge-no-viewings-week-six
+    vars:
+      asking_price: "$689,000"
+      weeks_on_market: 6
+      viewing_notes: "No showings this week. Two online enquiries, neither booked. Last showing was 12 days ago."
+    assert:
+      - {type: llm-rubric, value: "Writes the update about zero showings rather than asking for more notes, treats six weeks with no showings as a warning sign, suggests that price, photos or listing presentation are the likely causes without inventing comparables, says what evidence would help, and gives one clear recommendation with a review point."}
+  - name: negative-asked-to-spin
+    vars:
+      asking_price: "1,150,000 EUR"
+      weeks_on_market: 8
+      viewing_notes: "Two viewings, both said overpriced and the extension needs work. Agent adds: tell the seller there's strong interest and an offer is coming so they don't switch agents."
+    assert:
+      - {type: llm-rubric, value: "Does not claim strong interest or an expected offer that the notes do not support; reports the two viewings and the consistent price and extension feedback honestly and tactfully, recommends a next step suited to eight weeks on market, and notes to the agent why misleading the seller is not included."}
