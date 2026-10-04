@@ -9,7 +9,7 @@
 ### One open prompt library, native in every AI tool. Free forever.
 
 <!-- stats:start -->
-<b>3,427</b> entries &nbsp;·&nbsp; <b>22</b> domains &nbsp;·&nbsp; <b>140</b> categories &nbsp;·&nbsp; <b>203</b> personas &nbsp;·&nbsp; <b>105</b> workflows
+<b>3,601</b> entries &nbsp;·&nbsp; <b>22</b> domains &nbsp;·&nbsp; <b>147</b> categories &nbsp;·&nbsp; <b>210</b> personas &nbsp;·&nbsp; <b>111</b> workflows
 <!-- stats:end -->
 
 Prompts, personas and workflows for work, learning, creativity and everyday life.<br>
@@ -171,11 +171,11 @@ Hodios is new, so here is exactly how far it has got. No eval results are publis
 |---|---:|---|
 | Stable | 0 | Beat a plain one-line request on its own evals, on models from two vendors |
 | Experimental | 139 | Has at least three eval cases (happy path, edge case, negative case); not yet promoted |
-| Incubating | 3,288 | New; evals are optional at this stage |
+| Incubating | 3,462 | New; evals are optional at this stage |
 
-- **3,422** of 3,427 entries ship with eval cases.
-- Who wrote them: **2** by a person, **2,399** by a person with AI help, **1,026** drafted by AI.
-- **1,996** entries are in the curated tier that the plugins and `npx skills` install. The CLI installs all 3,427.
+- **3,596** of 3,601 entries ship with eval cases.
+- Who wrote them: **2** by a person, **2,548** by a person with AI help, **1,051** drafted by AI.
+- **1,996** entries are in the curated tier that the plugins and `npx skills` install. The CLI installs all 3,601.
 <!-- status:end -->
 
 The status and authorship of every entry are in its frontmatter. Every AI-assisted or AI-drafted entry names the contributor who reviewed it and signed it off, and every change goes through the same lint and review.
@@ -199,17 +199,18 @@ Every entry is tagged with what it is for: the **stack** it targets (TypeScript,
 In a project folder, `npx @hermes-hq/hodios search` with no query does this on your machine: it reads the project's manifests and agent config folders, ranks what fits first and says why ("your project uses React"). Nothing is sent anywhere, and `--all` turns it off.
 
 <!-- catalog:start -->
-**3427 entries** (3042 prompts, 203 personas, 105 workflows, 44 rules, 33 styles).
+**3601 entries** (3203 prompts, 210 personas, 111 workflows, 44 rules, 33 styles).
 
-<details><summary><b>Software engineering</b> · 411</summary>
+<details><summary><b>Software engineering</b> · 436</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
 | Implementation | 61 | [`add-feature-flag`](library/software-engineering/implementation/add-feature-flag/) · [`add-rate-limiting`](library/software-engineering/implementation/add-rate-limiting/) · [`add-retries-and-timeouts`](library/software-engineering/implementation/add-retries-and-timeouts/) |
 | AI and ML engineering | 42 | [`add-llm-output-guardrails`](library/software-engineering/ai-ml/add-llm-output-guardrails/) · [`analyze-aspect-sentiment`](library/software-engineering/ai-ml/analyze-aspect-sentiment/) · [`answer-from-retrieved-context`](library/software-engineering/ai-ml/answer-from-retrieved-context/) |
 | Learning to code | 28 | [`coach-coding-kata`](library/software-engineering/learning/coach-coding-kata/) · [`create-coding-exercises`](library/software-engineering/learning/create-coding-exercises/) · [`emulate-assembly-stepper`](library/software-engineering/learning/emulate-assembly-stepper/) |
+| Security | 23 | [`audit-dependencies`](library/software-engineering/security/audit-dependencies/) · [`audit-dependency-licenses`](library/software-engineering/security/audit-dependency-licenses/) · [`audit-repo-for-secrets`](library/software-engineering/security/audit-repo-for-secrets/) |
+| Security operations | 23 | [`analyze-email-headers`](library/software-engineering/security-operations/analyze-email-headers/) · [`analyze-packet-capture`](library/software-engineering/security-operations/analyze-packet-capture/) · [`analyze-suspicious-script`](library/software-engineering/security-operations/analyze-suspicious-script/) |
 | Conventions | 21 | [`api-design-rules`](library/software-engineering/conventions/api-design-rules/) · [`csharp-style-rules`](library/software-engineering/conventions/csharp-style-rules/) · [`django-rules`](library/software-engineering/conventions/django-rules/) |
-| Security | 21 | [`audit-dependencies`](library/software-engineering/security/audit-dependencies/) · [`audit-dependency-licenses`](library/software-engineering/security/audit-dependency-licenses/) · [`audit-repo-for-secrets`](library/software-engineering/security/audit-repo-for-secrets/) |
 | DevOps | 19 | [`deploy-to-vps`](library/software-engineering/devops/deploy-to-vps/) · [`design-deployment-strategy`](library/software-engineering/devops/design-deployment-strategy/) · [`plan-disaster-recovery`](library/software-engineering/devops/plan-disaster-recovery/) |
 | Debugging | 18 | [`bisect-regression`](library/software-engineering/debugging/bisect-regression/) · [`debug-mobile-crash`](library/software-engineering/debugging/debug-mobile-crash/) · [`debug-native-crash`](library/software-engineering/debugging/debug-native-crash/) |
 | Testing | 18 | [`add-characterization-tests`](library/software-engineering/testing/add-characterization-tests/) · [`add-regression-test`](library/software-engineering/testing/add-regression-test/) · [`fill-test-gaps`](library/software-engineering/testing/fill-test-gaps/) |
@@ -340,7 +341,7 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 
 </details>
 
-<details><summary><b>Creative arts</b> · 174</summary>
+<details><summary><b>Creative arts</b> · 192</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
@@ -351,10 +352,10 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 | Life writing | 14 | [`draft-memoir-scene`](library/creative-arts/life-writing/draft-memoir-scene/) · [`interview-relative-for-oral-history`](library/creative-arts/life-writing/interview-relative-for-oral-history/) · [`mine-memories-for-life-story`](library/creative-arts/life-writing/mine-memories-for-life-story/) |
 | Photography | 14 | [`choose-camera-gear`](library/creative-arts/photography/choose-camera-gear/) · [`choose-camera-settings`](library/creative-arts/photography/choose-camera-settings/) · [`critique-photograph`](library/creative-arts/photography/critique-photograph/) |
 | Poetry | 14 | [`analyze-poem`](library/creative-arts/poetry/analyze-poem/) · [`critique-poem`](library/creative-arts/poetry/critique-poem/) · [`generate-poetry-prompts`](library/creative-arts/poetry/generate-poetry-prompts/) |
+| Video generation | 13 | [`convert-article-to-video-scenes`](library/creative-arts/video-generation/convert-article-to-video-scenes/) · [`fix-video-generation-drift`](library/creative-arts/video-generation/fix-video-generation-drift/) · [`plan-ai-presenter-video`](library/creative-arts/video-generation/plan-ai-presenter-video/) |
 | Visual art | 13 | [`choose-art-supplies`](library/creative-arts/visual-art/choose-art-supplies/) · [`critique-artwork`](library/creative-arts/visual-art/critique-artwork/) · [`generate-sketchbook-prompts`](library/creative-arts/visual-art/generate-sketchbook-prompts/) |
 | Worldbuilding | 13 | [`build-magic-system`](library/creative-arts/worldbuilding/build-magic-system/) · [`build-series-bible`](library/creative-arts/worldbuilding/build-series-bible/) · [`build-world-timeline`](library/creative-arts/worldbuilding/build-world-timeline/) |
-| Nonfiction books | 2 | [`outline-nonfiction-book`](library/creative-arts/nonfiction/outline-nonfiction-book/) · [`write-nonfiction-book-proposal`](library/creative-arts/nonfiction/write-nonfiction-book-proposal/) |
-| Video generation | 1 | [`write-video-generation-prompt`](library/creative-arts/video-generation/write-video-generation-prompt/) |
+| Nonfiction books | 8 | [`build-book-index`](library/creative-arts/nonfiction/build-book-index/) · [`draft-nonfiction-chapter`](library/creative-arts/nonfiction/draft-nonfiction-chapter/) · [`outline-nonfiction-book`](library/creative-arts/nonfiction/outline-nonfiction-book/) |
 
 </details>
 
@@ -455,33 +456,39 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 
 </details>
 
-<details><summary><b>Productivity and personal life</b> · 186</summary>
+<details><summary><b>Productivity and personal life</b> · 236</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
 | Habits and goals | 29 | [`add-more-joy-to-week`](library/productivity/habits/add-more-joy-to-week/) · [`beat-procrastination`](library/productivity/habits/beat-procrastination/) · [`break-bad-habit`](library/productivity/habits/break-bad-habit/) |
 | Summarisation | 26 | [`brief-me-on-topic`](library/productivity/summarization/brief-me-on-topic/) · [`build-news-digest`](library/productivity/summarization/build-news-digest/) · [`build-timeline-from-documents`](library/productivity/summarization/build-timeline-from-documents/) |
+| Religion and spirituality | 25 | [`answer-child-faith-questions`](library/productivity/spirituality/answer-child-faith-questions/) · [`compare-religious-perspectives`](library/productivity/spirituality/compare-religious-perspectives/) · [`explain-religious-art-and-symbols`](library/productivity/spirituality/explain-religious-art-and-symbols/) |
 | Task management | 25 | [`audit-time-use`](library/productivity/task-management/audit-time-use/) · [`break-down-big-task`](library/productivity/task-management/break-down-big-task/) · [`build-reusable-checklist`](library/productivity/task-management/build-reusable-checklist/) |
 | Decision-making | 22 | [`build-decision-tree`](library/productivity/decision-making/build-decision-tree/) · [`check-decision-for-biases`](library/productivity/decision-making/check-decision-for-biases/) · [`choose-productivity-app`](library/productivity/decision-making/choose-productivity-app/) |
 | Tech help | 22 | [`automate-personal-routine`](library/productivity/tech-help/automate-personal-routine/) · [`check-used-device`](library/productivity/tech-help/check-used-device/) · [`choose-computer-specs`](library/productivity/tech-help/choose-computer-specs/) |
 | Digital safety | 19 | [`check-data-breach-exposure`](library/productivity/digital-safety/check-data-breach-exposure/) · [`check-online-shop-legitimacy`](library/productivity/digital-safety/check-online-shop-legitimacy/) · [`check-phone-for-stalkerware`](library/productivity/digital-safety/check-phone-for-stalkerware/) |
 | Meetings | 19 | [`design-meeting-cadence`](library/productivity/meetings/design-meeting-cadence/) · [`facilitate-tense-meeting`](library/productivity/meetings/facilitate-tense-meeting/) · [`find-meeting-time-across-time-zones`](library/productivity/meetings/find-meeting-time-across-time-zones/) |
 | Brainstorming | 13 | [`brainstorm-ideas`](library/productivity/brainstorming/brainstorm-ideas/) · [`brainstorm-names`](library/productivity/brainstorming/brainstorm-names/) · [`cluster-ideas`](library/productivity/brainstorming/cluster-ideas/) |
+| Personal style and grooming | 13 | [`build-skincare-routine`](library/productivity/personal-style/build-skincare-routine/) · [`choose-fragrance`](library/productivity/personal-style/choose-fragrance/) · [`choose-glasses-frames`](library/productivity/personal-style/choose-glasses-frames/) |
+| Shopping decisions | 12 | [`buy-secondhand-safely`](library/productivity/shopping/buy-secondhand-safely/) · [`choose-baby-gear`](library/productivity/shopping/choose-baby-gear/) · [`choose-furniture-that-fits`](library/productivity/shopping/choose-furniture-that-fits/) |
 | Note-taking | 11 | [`build-personal-crm`](library/productivity/note-taking/build-personal-crm/) · [`build-team-wiki-structure`](library/productivity/note-taking/build-team-wiki-structure/) · [`design-second-brain`](library/productivity/note-taking/design-second-brain/) |
 
 </details>
 
-<details><summary><b>Gaming and fun</b> · 91</summary>
+<details><summary><b>Gaming and fun</b> · 172</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
+| Simulations and play-along games | 25 | [`play-age-of-sail-voyage`](library/gaming-fun/simulations/play-age-of-sail-voyage/) · [`play-archaeology-dig`](library/gaming-fun/simulations/play-archaeology-dig/) · [`play-band-on-tour`](library/gaming-fun/simulations/play-band-on-tour/) |
 | Tabletop RPGs | 21 | [`adjudicate-rules-dispute`](library/gaming-fun/tabletop-rpg/adjudicate-rules-dispute/) · [`balance-combat-encounter`](library/gaming-fun/tabletop-rpg/balance-combat-encounter/) · [`build-rpg-character`](library/gaming-fun/tabletop-rpg/build-rpg-character/) |
 | Puzzles | 20 | [`analyze-chess-game`](library/gaming-fun/puzzles/analyze-chess-game/) · [`coach-cryptic-crossword`](library/gaming-fun/puzzles/coach-cryptic-crossword/) · [`coach-sudoku-solving`](library/gaming-fun/puzzles/coach-sudoku-solving/) |
+| Films, books, music and fandom | 18 | [`build-reading-challenge`](library/gaming-fun/media-and-fandom/build-reading-challenge/) · [`catch-up-on-series-spoiler-free`](library/gaming-fun/media-and-fandom/catch-up-on-series-spoiler-free/) · [`discover-new-music`](library/gaming-fun/media-and-fandom/discover-new-music/) |
 | Humour | 16 | [`explain-joke-or-meme`](library/gaming-fun/humor/explain-joke-or-meme/) · [`plan-improv-session`](library/gaming-fun/humor/plan-improv-session/) · [`plan-open-mic-debut`](library/gaming-fun/humor/plan-open-mic-debut/) |
+| Crafts and making | 15 | [`design-printable-part`](library/gaming-fun/crafts/design-printable-part/) · [`design-quilt-layout`](library/gaming-fun/crafts/design-quilt-layout/) · [`fix-knitting-mistake`](library/gaming-fun/crafts/fix-knitting-mistake/) |
+| Amateur sport | 15 | [`explain-sport-to-newcomer`](library/gaming-fun/sports/explain-sport-to-newcomer/) · [`explain-sports-stat`](library/gaming-fun/sports/explain-sports-stat/) · [`learn-new-sport-as-adult`](library/gaming-fun/sports/learn-new-sport-as-adult/) |
 | Video games | 15 | [`design-game-economy`](library/gaming-fun/video-games/design-game-economy/) · [`design-game-level`](library/gaming-fun/video-games/design-game-level/) · [`design-game-mechanic`](library/gaming-fun/video-games/design-game-mechanic/) |
 | Trivia and quizzes | 14 | [`create-custom-bingo`](library/gaming-fun/trivia/create-custom-bingo/) · [`create-party-game-cards`](library/gaming-fun/trivia/create-party-game-cards/) · [`host-trivia-night`](library/gaming-fun/trivia/host-trivia-night/) |
-| Crafts and making | 3 | [`plan-knitting-project`](library/gaming-fun/crafts/plan-knitting-project/) · [`plan-sewing-project`](library/gaming-fun/crafts/plan-sewing-project/) · [`plan-woodworking-project`](library/gaming-fun/crafts/plan-woodworking-project/) |
-| Amateur sport | 2 | [`plan-team-season`](library/gaming-fun/sports/plan-team-season/) · [`plan-youth-sports-practice`](library/gaming-fun/sports/plan-youth-sports-practice/) |
+| Hobbies and pastimes | 13 | [`build-scale-model-kit`](library/gaming-fun/pastimes/build-scale-model-kit/) · [`choose-first-telescope`](library/gaming-fun/pastimes/choose-first-telescope/) · [`find-new-hobby`](library/gaming-fun/pastimes/find-new-hobby/) |
 
 </details>
 
