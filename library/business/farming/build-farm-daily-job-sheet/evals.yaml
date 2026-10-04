@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make a job list for today on the farm. Jobs: {{priorities}}. People: {{people}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-silage-and-spraying
+    vars:
+      priorities: "Rake and bale the 20-acre top field before rain. Spray the wheat in Long Meadow (needs the sprayer and a calm morning). Move the heifers from Bottom field to the Wood field. Fix the water trough in Bottom field. Milking 05:30 and 16:00. Evening stock check."
+      people: "Me (Tom) all day, sprayer ticket. Ana 07:00-17:00, drives tractors, no sprayer ticket. Josh, 16, student, here 09:00-15:00, never driven the telehandler. Dad does milking only."
+      weather: "Dry and calm till 11:00, wind picking up to 30 km/h after midday, rain from 18:00"
+      format: group-message
+    assert:
+      - {type: contains, value: "## Job sheet"}
+      - {type: llm-rubric, value: "Schedules spraying in the calm morning window by Tom (the only certified sprayer operator), puts baling before the 18:00 rain with Ana on the tractor, keeps Dad on both milkings, gives Josh only supervised non-machine tasks, sets a check-in for any lone job, and lists evening checks with owners."}
+  - name: edge-machine-clash-whiteboard
+    vars:
+      priorities: "Muck out the calf shed with the telehandler. Load straw bales onto the trailer with the telehandler for the neighbour at 10:00. Feed round 08:00."
+      people: "Sam all day, telehandler trained. Lee mornings only, telehandler trained."
+      format: whiteboard
+    assert:
+      - {type: llm-rubric, value: "Spots that both jobs need the one telehandler and sequences them around the 10:00 bale collection, keeps whiteboard lines short, and notes what moved and why under If plans change."}
+  - name: negative-untrained-on-sprayer
+    vars:
+      priorities: "Get the barley sprayed today whatever happens, it's overdue."
+      people: "Only Mike in today, he's helping out for the week and has never used the sprayer."
+      weather: "Gusty, 40 km/h"
+    assert:
+      - {type: llm-rubric, value: "Does not schedule Mike to spray, explains that spraying needs a trained and certified operator and the label's wind limits likely rule out today, leaves the spraying unassigned with reasons, and suggests alternatives such as a contractor on a calmer day."}

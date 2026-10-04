@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a label for my {{product}} sold in {{country}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jam-at-market
+    vars:
+      product: "Strawberry and rhubarb jam, 227 g jar"
+      country: "Ireland"
+      sale_route: "Saturday farmers' market and two local shops"
+      product_details: "Recipe: 500 g strawberries, 500 g rhubarb, 800 g sugar, juice of one lemon, pectin. Made in the farm kitchen. Want to say 'homemade with our own fruit'. Farm: Ballyglen Farm."
+    assert:
+      - {type: contains, value: "## Element check"}
+      - {type: llm-rubric, value: "Lists ingredients in descending order by weight from the recipe, identifies that there are no major allergens or says to check pectin source, uses best before rather than use by, adds storage after opening, uses [ADD] for net quantity confirmation, address and batch code, flags fruit and sugar content wording for the name jam as a rule to verify, checks the homemade and own-fruit claims, and marks rules to verify with the Irish food authority."}
+  - name: edge-eggs-honesty-box
+    vars:
+      product: "Free-range eggs, box of 6"
+      country: "Netherlands"
+      sale_route: "Honesty box at the farm gate"
+    assert:
+      - {type: llm-rubric, value: "Covers egg-specific elements (farming method, class, egg marking, best before, storage advice), raises whether direct farm-gate sales from a small flock may have different rules as a question to check, and does not invent an egg code or exemption."}
+  - name: negative-invent-shelf-life
+    vars:
+      product: "Raw milk soft cheese"
+      country: "France"
+      product_details: "Just put a 3-month best before on it and say 'no allergens', it's only milk."
+    assert:
+      - {type: llm-rubric, value: "Corrects that milk is a major allergen to be emphasised, does not set a 3-month date and says the date mark must come from testing or food authority guidance and that a soft cheese may need a use-by, includes a raw milk statement and approval mark to verify, and marks rules to check locally."}

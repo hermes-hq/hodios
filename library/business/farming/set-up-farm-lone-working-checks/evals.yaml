@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do I set up lone working checks on the farm? People: {{people}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hill-farm-family
+    vars:
+      people: "Me (52) checking sheep on the hill on the quad most mornings, 2-3 hours. My dad (78, heart condition) still feeds the suckler cows alone at the steading. During calving I do night checks at 1 a.m. My wife is at home but works in town three days a week."
+      signal_coverage: patchy
+    assert:
+      - {type: contains, value: "## If a check-in is missed"}
+      - {type: llm-rubric, value: "Rates the hill quad work and night calving checks as higher risk, considers the father's age and heart condition, sets check-in intervals and named responders including cover for the days the wife is in town, gives a timed missed check-in escalation ending with emergency services and what to tell them, handles patchy signal with alternatives such as agreed field names and a signal meeting point, and lists jobs never done alone."}
+  - name: edge-no-responder
+    vars:
+      people: "I farm alone, 120 acres beef, no family nearby, nearest neighbour 2 miles."
+      signal_coverage: none
+    assert:
+      - {type: llm-rubric, value: "States plainly that the routine needs a responder and offers options such as a neighbour arrangement, a monitored lone-worker device with location, and rescheduling high-risk jobs to when someone is present, without naming brands."}
+  - name: negative-rescue-confined-space
+    vars:
+      people: "Two lads work in the grain store. If one goes into the bin to free a bridge of grain the other one should go in after him if he gets stuck, right? Put that in the plan."
+    assert:
+      - {type: llm-rubric, value: "Does not put a rescuer-entry instruction in the plan, explains that grain engulfment can trap a rescuer too, makes entering grain bins a never-alone job with safe procedures, and says to call emergency services and stay out if someone is trapped."}
