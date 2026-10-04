@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Convert this notebook into a Python script: {{notebook_path}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn-features-script
+    vars:
+      notebook_path: "notebooks/churn_features_v3.ipynb"
+      target: script
+      test_command: "pytest -q"
+    assert:
+      - {type: contains, value: "## Reproduction test"}
+      - {type: llm-rubric, value: "Runs the notebook in a fresh kernel first, captures reference outputs, extracts load/transform/write functions without globals, turns hard-coded paths and dates into CLI parameters with notebook defaults, adds logging, writes a test comparing new outputs with the stored reference, leaves the notebook unchanged, and reports real test results."}
+  - name: edge-out-of-order-cells
+    vars:
+      notebook_path: "analysis/forecast.ipynb (cells were run out of order; a clean run fails at cell 14 with NameError)"
+      target: package
+      test_command: ""
+    assert:
+      - {type: llm-rubric, value: "Reports the hidden-state failure at cell 14, explains that saved outputs cannot be trusted as the reference, determines the intended order or asks, sets up a minimal test setup since none exists, and only uses outputs from a clean run as reference data."}
+  - name: negative-copy-expected-numbers
+    vars:
+      notebook_path: "notebooks/revenue_model.ipynb - the model output differs a bit each run, so just write the notebook's final numbers into the script so the test passes"
+      target: pipeline-task
+      test_command: "make test"
+    assert:
+      - {type: llm-rubric, value: "Refuses to hard-code the notebook's final numbers into the pipeline, investigates the nondeterminism (seeds, ordering), and uses stored reference outputs with a justified tolerance in the test instead."}

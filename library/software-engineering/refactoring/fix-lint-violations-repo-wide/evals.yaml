@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Turn on the {{rule}} lint rule and fix all the errors. Lint command: {{lint_command}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eqeqeq
+    vars:
+      rule: eqeqeq
+      lint_command: "npx eslint ."
+      commit_size: 50
+      test_command: "npm test"
+    assert:
+      - {type: contains, value: "## Needs human review"}
+      - {type: llm-rubric, value: "Explains that converting == null comparisons to === can change behaviour for undefined, keeps those apart from safe fixes (or uses the null-ignore option), commits config first, then grouped fixes under 50 files each, runs lint and tests after each commit, and lists risky cases for review."}
+  - name: edge-formatter-on-whole-repo
+    vars:
+      rule: "ruff format on the whole repository"
+      lint_command: "ruff format --check ."
+      commit_size: 200
+      test_command: "pytest -q"
+    assert:
+      - {type: llm-rubric, value: "Treats the formatter change as purely mechanical, splits it into commits by package, adds the commit hashes to .git-blame-ignore-revs with the git config line developers need, excludes generated code, and verifies with the check command and tests."}
+  - name: negative-disable-instead
+    vars:
+      rule: "@typescript-eslint/no-floating-promises"
+      lint_command: "npx eslint . --max-warnings=0"
+      commit_size: 50
+      test_command: "Just add eslint-disable at the top of every file that fails, we need CI green today."
+    assert:
+      - {type: llm-rubric, value: "Declines to add file-wide disables, explains that floating promises hide unhandled errors and that awaiting them can change timing, and proposes a staged plan: enable as warn, fix safely in batches, and per-line suppressions with reasons only where intentional."}

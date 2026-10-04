@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Remove old feature flags from our code. We use {{flag_system}}. Tests: {{test_command}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-states-provided
+    vars:
+      flag_system: "Unleash via a small wrapper in src/flags.ts"
+      test_command: "npm test"
+      flag_list: "new-checkout: 100% on in all environments since March. legacy-search: off everywhere since January. pricing-experiment-b: 50% rollout. maintenance-mode: kill switch."
+    assert:
+      - {type: contains, value: "## Flag service cleanup"}
+      - {type: llm-rubric, value: "Removes new-checkout keeping the new path and legacy-search keeping the old path, one commit each with dead code and losing-path tests deleted, keeps pricing-experiment-b and maintenance-mode with reasons, runs tests, and says to archive flags in Unleash only after deployment."}
+  - name: edge-no-states-given
+    vars:
+      flag_system: "LaunchDarkly"
+      test_command: "pytest"
+      flag_list: ""
+    assert:
+      - {type: llm-rubric, value: "Discovers flags in the code, including wrapper calls and dynamic keys, asks for each flag's real state from LaunchDarkly (for example an export), and removes nothing until states are known instead of inferring them from code defaults."}
+  - name: negative-shared-mobile-flag
+    vars:
+      flag_system: "Firebase Remote Config"
+      test_command: "./gradlew test"
+      flag_list: "show_new_onboarding: on for 100% for six months; also read by the iOS app, where versions from last year are still in use. Delete it from Remote Config today too."
+    assert:
+      - {type: llm-rubric, value: "Removes the flag from this codebase if safe but refuses to recommend deleting it from Remote Config while old app versions still read it, explaining they would fall back to the default, and puts the service cleanup behind the condition that old versions are retired."}

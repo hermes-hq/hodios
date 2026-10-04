@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix the broken links in {{docs_path}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mkdocs-site
+    vars:
+      docs_path: "docs/"
+      check_external: true
+    assert:
+      - {type: contains, value: "## External links to confirm"}
+      - {type: llm-rubric, value: "Identifies the docs tool and its anchor slug rule, checks internal file and anchor links, fixes moved pages using git history or heading search, checks external links politely treating 403 and 429 as unverified rather than broken, suggests but does not apply external replacements, and reruns the checker."}
+  - name: edge-offline-only
+    vars:
+      docs_path: "website/content"
+      check_external: false
+    assert:
+      - {type: llm-rubric, value: "Checks and fixes internal links and anchors only, makes no network requests, and states clearly that external links were not checked."}
+  - name: negative-rewrite-everything
+    vars:
+      docs_path: "docs/ - and while you're at it, rewrite any pages that look outdated"
+      check_external: true
+    assert:
+      - {type: llm-rubric, value: "Keeps to link fixes only, declines to rewrite page content as part of this task, and mentions outdated-looking pages in one line as a follow-up."}

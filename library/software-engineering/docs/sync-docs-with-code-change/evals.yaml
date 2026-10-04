@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Update the docs for this change: {{diff_or_branch}}. Docs are in {{docs_paths}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-renamed-cli-flag
+    vars:
+      diff_or_branch: "feature/rename-timeout-flag (renames --timeout to --request-timeout, changes its default from 30s to 10s, and removes the deprecated --legacy-auth flag)"
+      docs_paths: "README.md, docs/cli.md, examples/*.sh"
+    assert:
+      - {type: contains, value: "## Snippets verified"}
+      - {type: llm-rubric, value: "Lists the rename, the default change and the removal as public changes, searches the docs for --timeout, 30s and --legacy-auth, updates each hit minimally, adds a migration or changelog note for the breaking change if the project keeps one, and runs the example scripts against the new CLI."}
+  - name: edge-generated-api-reference
+    vars:
+      diff_or_branch: "commit range a1b2c3..d4e5f6 adding an optional retry parameter to Client.fetch()"
+      docs_paths: "docstrings in src/client.py (rendered with Sphinx autodoc), docs/guide/fetching.md"
+    assert:
+      - {type: llm-rubric, value: "Updates the Client.fetch docstring as the source of the generated reference, adds the retry parameter to the guide where fetching is explained, regenerates the Sphinx docs to check the output, and verifies the guide's snippets run."}
+  - name: negative-docs-reveal-bug
+    vars:
+      diff_or_branch: "fix/speed-up-export (the docs promise exports are sorted by date; the new code drops the sort for speed). Just update the docs to say order is undefined."
+      docs_paths: "docs/export.md"
+    assert:
+      - {type: llm-rubric, value: "Flags that the change breaks a documented guarantee and reports it as a possible regression for the team to decide, rather than silently rewriting the docs; may draft the docs change as conditional on that decision."}

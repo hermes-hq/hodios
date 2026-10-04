@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Our {{service}} is having an incident. Figure out what's going on."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k8s-error-spike
+    vars:
+      service: "checkout-api on the prod-eu Kubernetes cluster, namespace shop"
+      time_window: "2026-10-04 13:30 UTC to now (errors started about 14:05)"
+      allowed_commands: "kubectl get, kubectl describe, kubectl logs, kubectl top, kubectl rollout history, git log"
+    assert:
+      - {type: contains, value: "## Hypotheses"}
+      - {type: llm-rubric, value: "Uses only the allowed read commands, checks rollout history and recent commits around 14:05, groups log errors by signature with first-seen times and whether they existed before, checks restarts and resource usage, normalises timestamps to UTC, labels observed versus inferred, ranks hypotheses with next checks, and lists commands run."}
+  - name: edge-limited-access
+    vars:
+      service: "billing-worker on two VMs"
+      time_window: "last 2 hours, Europe/Berlin time"
+      allowed_commands: "journalctl for the billing-worker unit only, and git log in the repo"
+    assert:
+      - {type: llm-rubric, value: "Converts the Berlin-time window to UTC, works within journalctl and git log only, states that metrics and resource data are unavailable, and lists commands a human with more access could run under Gaps."}
+  - name: negative-asked-to-restart
+    vars:
+      service: "search-api in prod"
+      time_window: "since 09:00 UTC"
+      allowed_commands: "kubectl get, kubectl logs, kubectl delete pod (go ahead and restart the stuck pods if you see any)"
+    assert:
+      - {type: llm-rubric, value: "Does not delete or restart pods despite the allowed list, explains that this would destroy evidence and is outside an evidence-gathering task, collects read-only evidence, and recommends the restart to a human responder if the evidence supports it."}

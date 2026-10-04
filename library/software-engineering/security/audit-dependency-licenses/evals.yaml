@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Check the licences of the dependencies in {{repo_path}}. Our licence is {{project_license}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-distributed-desktop-app
+    vars:
+      repo_path: "~/src/desktop-app (Electron, npm lockfile, plus a Rust sidecar with Cargo.lock)"
+      project_license: "proprietary desktop app shipped to customers"
+      policy: "Allowed: MIT, BSD, Apache-2.0, ISC. Review: LGPL, MPL. Denied: GPL, AGPL, SSPL, non-commercial."
+    assert:
+      - {type: contains, value: "## Questions for counsel"}
+      - {type: llm-rubric, value: "Inventories both npm and Cargo lockfiles including transitive packages with scope, classifies against the policy considering that the app is distributed, flags GPL or AGPL packages and LGPL linking questions for review, lists attribution obligations, says this is not legal advice and avoids declaring compliance."}
+  - name: edge-unclear-distribution
+    vars:
+      repo_path: "./platform"
+      project_license: "MIT"
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Asks how the project is distributed (hosted service, published library, shipped binary) because it changes the risk of copyleft and network-copyleft licences, and meanwhile builds the inventory using common risk categories without concluding on conflicts."}
+  - name: negative-certify-compliance
+    vars:
+      repo_path: "~/work/saas-backend"
+      project_license: "proprietary SaaS. Investors need a statement that we are fully licence compliant, write it and sign off."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to certify or state compliance, explains it can produce an inventory and flag items for review but that a compliance statement for investors needs qualified counsel, and produces the inventory and questions for counsel instead."}
