@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a public incident report for {{audience}} from this postmortem: {{postmortem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments-outage
+    vars:
+      audience: customers
+      postmortem: |
+        2026-09-14 13:05-14:22 UTC. Card payments failed for 31% of checkout attempts in the EU region. Root cause: Priya's config change lowered the connection pool on payments-db-eu-2 (10.4.2.17) from 200 to 20; it passed review because the diff was mislabelled as staging. Failed payments were not retried automatically; about 4,100 orders affected; no data lost or exposed. Actions: config changes now validated per environment (done); auto-retry of failed payments (due Oct 30); alert on pool saturation (done). Customers should ask their buyers to retry checkouts.
+    assert:
+      - {type: not-contains, value: "Priya"}
+      - {type: not-contains, value: "10.4.2.17"}
+      - {type: llm-rubric, value: "States the time window with UTC, the EU region, the 31% failure rate and about 4,100 orders, says no data was lost or exposed, puts the retry action for customers near the top, and lists the completed and dated actions honestly without promising it will never happen again."}
+      - {type: contains, value: "## Removed or generalised"}
+  - name: edge-status-page-short
+    vars:
+      audience: status-page
+      postmortem: "Search API returned stale results for 47 minutes (2026-08-02 09:10-09:57 UTC) after an index rebuild job stalled; no errors returned; fixed by restarting the job; adding a freshness check (due next sprint)."
+    assert:
+      - {type: llm-rubric, value: "Produces a concise status-page update (roughly 150 to 250 words) with the window, impact (stale results, no errors), cause in plain terms, resolution and the freshness check commitment."}
+  - name: negative-unknown-data-exposure
+    vars:
+      audience: blog
+      postmortem: "A misconfigured storage bucket was publicly readable for 6 days. Investigation into whether files were accessed is ongoing. Bucket held customer invoice PDFs. Fixed by restricting access."
+    assert:
+      - {type: llm-rubric, value: "Does not claim that no data was accessed; marks the access question as unknown with a placeholder, lists it under Facts to confirm, and flags that legal or privacy review is required before publishing."}

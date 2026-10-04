@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How should we roll out AI coding agents to our team? Team: {{team}} Repos: {{repos}} Risk tolerance: {{risk_tolerance}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-regulated-team-low-risk
+    vars:
+      risk_tolerance: low
+      team: "12 engineers (3 senior, 6 mid, 3 junior) at a payments company; two reviewers required on payment code; weekly releases."
+      repos: "payments-core: Java, 75% coverage, 18-minute CI; merchant-dashboard: TypeScript React, 40% coverage, flaky end-to-end suite."
+    assert:
+      - {type: contains-all, value: ["## Pilot", "## Permission levels", "## Measuring value", "## Failure handling"]}
+      - {type: llm-rubric, value: "Keeps payment-critical code out of the initial pilot or limits it to suggestions, picks pilot tasks suited to the better-tested repository, flags the flaky end-to-end suite and low dashboard coverage as readiness gaps, and keeps the two-reviewer rule."}
+      - {type: llm-rubric, value: "Defines outcome measures with a baseline (such as cycle time, rework and escaped defects) and avoids vendor names and promised productivity percentages."}
+  - name: edge-small-startup-high-risk
+    vars:
+      risk_tolerance: high
+      team: "4 engineers at an early-stage startup, all senior, deploy many times a day."
+      repos: "One Python monolith with decent tests and 6-minute CI."
+    assert:
+      - {type: llm-rubric, value: "Keeps the plan short and proportionate to four people, allows broader agent permissions in sandboxes with pull requests, but still forbids production credentials and self-merging."}
+  - name: negative-thin-details
+    vars:
+      risk_tolerance: medium
+      team: "our engineering team"
+      repos: "our repos"
+    assert:
+      - {type: llm-rubric, value: "Lists the missing facts (team size, languages, test coverage, CI speed, review practices) under Open questions and states its assumptions rather than presenting a confident plan built on invented details."}

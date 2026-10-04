@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should an AI agent handle this long task without losing track? {{task}} {{agent_limits}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-handler-migration
+    vars:
+      task: "Migrate 140 API handlers from Express to Fastify in a TypeScript monorepo without changing responses. Integration tests cover about half the handlers. Do not touch the legacy admin routes."
+      agent_limits: "Context gets unreliable after reading about 30 files; sessions end after about two hours; the agent can write files and run tests."
+    assert:
+      - {type: contains-all, value: ["## Ledger", "## Working loop", "## Context budget", "## Ledger template"]}
+      - {type: llm-rubric, value: "Splits the work into per-handler units with a per-session capacity estimate, keeps a ledger file with statuses and evidence updated after each unit, and quotes the constraint not to touch the legacy admin routes in the template."}
+      - {type: llm-rubric, value: "Addresses the half of handlers without tests by proposing a verification approach (for example recording responses before migrating) and defines checkpoints and handoff triggers tied to the stated limits."}
+  - name: edge-no-limits-known
+    vars:
+      task: "Add type annotations to every function in a 25,000-line untyped Python codebase so mypy passes in strict mode."
+      agent_limits: ""
+    assert:
+      - {type: llm-rubric, value: "Uses mypy as the per-unit check, orders work by module dependency (leaf modules first), and gives generic handoff triggers since no limits were provided."}
+  - name: negative-no-definition-of-done
+    vars:
+      task: "Clean up the codebase and make it better."
+      agent_limits: ""
+    assert:
+      - {type: llm-rubric, value: "Points out first that the task has no definition of done or verification method and asks for or proposes concrete scope and checks, rather than producing a full ledger plan for an undefined task."}

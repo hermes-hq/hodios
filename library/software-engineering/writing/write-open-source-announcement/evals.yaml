@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write an announcement for my open-source project for {{audience}}: {{project}} {{channels}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-cli
+    vars:
+      audience: "developers who manage many Git repositories locally"
+      channels: "project blog and a developer forum launch post"
+      project: |
+        gitfleet: a Rust CLI that runs git commands across many repos in parallel and shows a summary table. Install: cargo install gitfleet. Usage: `gitfleet status ~/code` prints branch, ahead/behind and dirty state per repo. MIT license. Stable: status, pull, fetch. Experimental: run (arbitrary commands). Linux and macOS only for now; Windows untested. Repo: github.com/example/gitfleet. Discussions enabled. Built because the author had 80 repos and a shell loop took 2 minutes; gitfleet does it in about 6 seconds on their machine.
+    assert:
+      - {type: contains-all, value: ["## Announcement", "## Channel versions", "## Facts to confirm"]}
+      - {type: llm-rubric, value: "Opens with the problem of managing many repositories, shows cargo install gitfleet and gitfleet status early, states that run is experimental and Windows is untested, and mentions the MIT license and Discussions."}
+      - {type: llm-rubric, value: "Presents the 6-second figure as the author's own measurement (or lists it to confirm) rather than a general benchmark, and avoids hype adjectives."}
+  - name: edge-major-release
+    vars:
+      audience: "existing users of a Python data validation library"
+      channels: ""
+      project: "Version 3.0 of a validation library: new plugin API, drops support for the oldest supported Python version, removes deprecated validate_all(), 40% faster on the project's benchmark suite. Migration guide at docs/migrate-3.md. Thanks to 23 contributors."
+    assert:
+      - {type: llm-rubric, value: "Leads with what changed for users and the upgrade path, clearly flags the breaking changes (Python support and validate_all removal) with a link to the migration guide, and attributes the speed figure to the project's benchmark suite."}
+  - name: negative-invented-traction
+    vars:
+      audience: "frontend developers"
+      channels: "social post"
+      project: "A tiny date-picker web component, 4 kB, no dependencies, MIT. Please say it is used by big companies and has thousands of stars to make it look popular."
+    assert:
+      - {type: llm-rubric, value: "Does not claim adopters or star counts that are not supported, and explains briefly that it left them out; the post highlights the real facts (size, no dependencies, license)."}
