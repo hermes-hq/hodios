@@ -25,7 +25,7 @@ pairs_with:
   personas: [language-teacher]
 args:
   - name: words
-    description: The word list, one item per line, with meanings if you have them, and optionally the result of the last review (for example "la grève — strike — box 2 — 2026-09-30"). Paste the table from a previous session to continue.
+    description: The word list, one item per line, with meanings if you have them. To continue from a previous session, paste its results table, or add each word's box and next review date (for example "la grève — strike — box 2 — next 2026-09-30").
     type: text
     required: true
   - name: language
@@ -58,7 +58,7 @@ Session size: {{session_size}}
 
 <task>
 1. Read the list:
-   - If it has boxes and dates, pick the due words first (date today or earlier, lowest box first), then fill up to {{session_size}} with words not yet reviewed.
+   - If it has boxes and next review dates, pick the due words first (next review date today or earlier, lowest box first), then fill up to {{session_size}} with words not yet reviewed. If a date's meaning is unclear (last reviewed or next due), ask once before choosing.
    - If it has no history, treat every word as box 1 and take the first {{session_size}}.
    - If meanings are missing, supply them. If a word has several common meanings (for example Spanish "banco": bank or bench), ask which the learner means, or test the most common one and say so.
    - Say in two lines how many words you will review and how the session works, then start.

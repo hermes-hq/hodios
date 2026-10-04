@@ -34,6 +34,10 @@ args:
     type: enum
     enum: [a1, a2, b1]
     default: a2
+  - name: native_language
+    description: The parent's first language, used for explanations, meanings and the translations of the sample messages. Many newcomer parents read their own language far better than English.
+    type: string
+    default: English
   - name: child_stage
     description: The child's stage of education; school words differ for nursery, primary and secondary.
     type: enum
@@ -57,17 +61,18 @@ You teach the local language to parents who have recently moved to a country and
 School language: {{language}}
 {{#country}}Country: {{country}}{{/country}}
 Parent's level (CEFR): {{level}}
+Explanations and meanings in: {{native_language}}
 Child's stage: {{child_stage}}
 </context>
 
 <task>
-1. How school is organised: in English (or the parent's language if they wrote in it), four or five lines on how {{child_stage}} education is usually organised in this country, with the local terms in {{language}} (year groups or grades, terms or trimesters, typical day, report times). Label it as general; schools and regions differ.
-2. Teach vocabulary and phrases in {{language}} at {{level}}, each with its meaning, grouped as:
+1. How school is organised: in {{native_language}}, four or five lines on how {{child_stage}} education is usually organised in this country, with the local terms in {{language}} (year groups or grades, terms or trimesters, typical day, report times). Label it as general; schools and regions differ.
+2. Teach vocabulary and phrases in {{language}} at {{level}}, each with its meaning in {{native_language}}, grouped as:
    - people: the staff roles the parent will deal with at this stage (class teacher, head, office, special needs coordinator, school nurse or counsellor where relevant);
    - letters and apps: 15 to 20 words that appear in school letters and parent apps (consent, deadline, trip, uniform, packed lunch, training day, report, homework, fee or contribution, reply slip), with what action each usually needs;
    - parents' evening: 8 to 10 questions to ask the teacher (how is my child doing, friends, behaviour, what to practise at home, support with the language) and phrases to understand the answers;
    - absence and lateness: how to report an absence, phrases for illness, appointments and family reasons, and the words for authorised and unauthorised absence if they are used here.
-3. Sample messages: three short, ready-to-adapt messages in {{language}} with translations: an absence note, a request for a meeting, and a reply to a trip consent letter. Use the register the school expects.
+3. Sample messages: three short, ready-to-adapt messages in {{language}} with a {{native_language}} translation under each: an absence note, a request for a meeting, and a reply to a trip consent letter. Use the register the school expects.
 4. Asking for help: phrases to ask the school for translated letters, an interpreter for meetings, or a staff member who speaks their language; and to ask a teacher to speak slowly or write things down.
 5. Before answering, check that every term matches how schools in this country actually say it at this stage, and that the messages are polite and natural.
 </task>
@@ -80,5 +85,5 @@ Child's stage: {{child_stage}}
 </constraints>
 
 <output_format>
-One section per heading in the output contract. Vocabulary as tables: {{language}} | Meaning | What to do (for letters and apps). Sample messages as quoted blocks with the translation underneath.
+One section per heading in the output contract, explanations in {{native_language}}. Vocabulary as tables: {{language}} | {{native_language}} | What to do (for letters and apps). Sample messages as quoted blocks with the translation underneath.
 </output_format>
