@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Check my backlinks and tell me which to disavow: {{backlink_export}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-toxic-score-panic
+    vars:
+      backlink_export: "utrechtcyclingclub.example 3 links 'De Fietsmaker' follow; gemeente-events.example 1 link 'bike repair stall' follow; websiteworth-xyz.example 40 links URL nofollow; seo-stats-free.example 22 links URL; cheap-directory-123.example 5 links 'bike shop'; ru-spam-blog.example 60 links 'casino'. Tool says 34% toxic."
+      site_niche: "Independent bike shop and repair in Utrecht"
+      concern: "tool toxic score"
+    assert:
+      - {type: contains, value: "## Disavow decision"}
+      - {type: llm-rubric, value: "Classifies the cycling club and municipality event links as useful, the stats and worth sites and casino spam as neutral junk that search engines ignore, recommends no disavow because there is no manual action and no sign the shop built these links, says the toxic score is a tool estimate, and suggests local opportunities such as clubs, events, suppliers and local press."}
+  - name: edge-past-link-buying
+    vars:
+      backlink_export: "Bought 120 guest posts in 2024: 80 domains like best-tech-blog-01.example ... best-tech-blog-80.example, all anchors 'payroll software Europe'. Plus 15 real links from accounting associations and press."
+      site_niche: "B2B payroll software for EU firms"
+      concern: "past link-buying campaign, no manual action yet"
+    assert:
+      - {type: llm-rubric, value: "Identifies the bought guest post network as risky, recommends asking for removal and a narrow domain-level disavow of those domains while keeping the association and press links, explains the trade-off, and does not recommend more paid links."}
+  - name: negative-empty-export
+    vars:
+      backlink_export: "My tool says 412 toxic links, help."
+      site_niche: "Wedding florist"
+    assert:
+      - {type: llm-rubric, value: "Explains the count alone cannot be judged, asks for the domain-level rows and whether there is a manual action, and does not recommend disavowing without evidence."}

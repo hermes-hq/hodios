@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Find SEO keywords in these customer messages for my {{business}}: {{customer_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-damp-company
+    vars:
+      customer_text: "1) 'Hi, we've got black mould on the bedroom ceiling every winter, is that damp or condensation? How much to sort?' - Mrs K, Partick. 2) 'Wallpaper peeling and a musty smell in the hall of our tenement flat, Shawlands.' 3) Call note: wants to know if an extractor fan would fix mould in bathroom, landlord won't pay. 4) Review: 'They explained the black spots were condensation not rising damp and fitted a fan, no more mould.' 5) 'Do you do damp surveys for mortgages? Need one before we buy in Dennistoun.' 6) 'mould on window frames every morning, kids room'."
+      business: "Damp and condensation specialist for homes in Glasgow"
+      existing_pages: "/rising-damp-treatment, /damp-surveys, /contact"
+    assert:
+      - {type: contains, value: "## Page mapping"}
+      - {type: llm-rubric, value: "Extracts customer phrases such as black mould on ceiling, condensation versus damp, musty smell, mould on window frames and damp survey for mortgage, groups them by stage, maps the mortgage survey phrases to /damp-surveys and proposes a new condensation or black mould page, notes 'rising damp' is a trade term customers do not use first, marks volumes unknown, and omits names like Mrs K."}
+  - name: edge-b2b-transcript
+    vars:
+      customer_text: "Sales call transcript excerpts: 'We're still doing rotas on a spreadsheet', 'nurses swap shifts on WhatsApp and nobody knows who's on', 'we need something that works with our payroll', 'is it GDPR compliant', 'how is this different from Deputy?'"
+      business: "Staff rota software for UK care homes"
+    assert:
+      - {type: llm-rubric, value: "Pulls phrases like care home rota spreadsheet, shift swap app, rota software that integrates with payroll and a competitor comparison, groups them by stage, suggests comparison and integration pages, and marks volumes unknown without inventing numbers."}
+  - name: negative-too-little-text
+    vars:
+      customer_text: "'How much?'"
+      business: "Wedding cakes in Seville"
+    assert:
+      - {type: llm-rubric, value: "Says one message is too little to find patterns, gives at most a minimal observation, and asks for more customer messages, calls or reviews, without inventing phrases."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Explain this page speed report: {{report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shopify-mobile
+    vars:
+      report: "Mobile, homepage. Field data (28 days): LCP 4.6 s, INP 180 ms, CLS 0.22. Lab performance score 31. Diagnostics: Properly size images (est. savings 2.1 s), Reduce unused JavaScript (1.2 s, from 5 app scripts: reviews widget, chat, upsell, wishlist, currency), Avoid large layout shifts (announcement bar and web font), Serve images in next-gen formats (0.9 s), Reduce initial server response time (0.2 s)."
+      site_platform: Shopify
+    assert:
+      - {type: contains, value: "## Fix list"}
+      - {type: llm-rubric, value: "Explains LCP is poor and CLS needs improvement while INP is good, using the 2.5 s/4 s and 0.1/0.25 thresholds, ranks resizing the hero images and removing unused apps first, marks the layout shift from the announcement bar and font as likely developer or theme work, puts the 0.2 s server item under ignore, and notes field data takes weeks to update."}
+  - name: edge-lab-only-green-field
+    vars:
+      report: "Lab score 42 mobile, red. Field data: not enough real-user data for this page; origin-level field data passes all three metrics."
+      site_platform: Squarespace
+    assert:
+      - {type: llm-rubric, value: "Explains the difference between the lab score and the passing origin field data, reassures that it is not urgent, and keeps any fixes small and within what a Squarespace owner can control."}
+  - name: negative-no-report
+    vars:
+      report: "My site is slow and Google hates it. Fix it."
+      site_platform: Wix
+    assert:
+      - {type: llm-rubric, value: "Asks for a report or numbers and explains how to get one, without inventing metrics or a fix list."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What should I do with my out of stock and discontinued product pages? {{products}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-catalogue
+    vars:
+      products: "/products/aeropress-go - out of stock, back in 3 weeks, 900 clicks/month. /products/christmas-blend - seasonal, returns November, 400 clicks in Dec, 10 rest of year. /products/grinder-x200 - discontinued, replaced by grinder-x300 (same size, 10 EUR more), 300 clicks, 12 external links. /products/espresso-machine-classic - discontinued, no replacement, 150 clicks/month for the model name, people ask for the manual. /products/blue-mug-2019 - discontinued, 0 clicks, no links."
+      platform: Shopify
+    assert:
+      - {type: contains, value: "## Redirect map"}
+      - {type: llm-rubric, value: "Keeps aeropress-go live with out-of-stock availability, date and signup; keeps the christmas-blend URL all year; 301s grinder-x200 to grinder-x300; keeps espresso-machine-classic as an information page with the manual and alternatives; returns 410 or 404 for blue-mug-2019 and removes it from sitemap and links; never redirects to the homepage."}
+  - name: edge-chain-and-missing-data
+    vars:
+      products: "/products/tent-a was already redirected to /products/tent-b last year; now tent-b is discontinued and replaced by /products/tent-c. /products/stove-z discontinued, no data on traffic."
+      platform: WooCommerce
+    assert:
+      - {type: llm-rubric, value: "Points both tent-a and tent-b straight to tent-c to avoid a chain, makes a provisional call on stove-z and asks for its traffic, links and any replacement."}
+  - name: negative-redirect-all-home
+    vars:
+      products: "We discontinued 300 products. Just tell me to redirect all of them to the homepage, it's easiest."
+      platform: Shopify
+    assert:
+      - {type: llm-rubric, value: "Advises against redirecting all to the homepage because it acts like a soft 404 and confuses shoppers, explains the per-product rules, and asks for the product data (traffic, links, replacements) or suggests a way to sort them in bulk."}

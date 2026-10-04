@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I get my images to show up in Google Images? {{images_and_pages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-furniture-maker
+    vars:
+      images_and_pages: "Handmade furniture maker. /tables page: 12 photos in a slider that loads images as CSS backgrounds, files IMG_4402.jpg etc, no alt, no text on the page except 'Tables'. /commissions page: 3 photos with alt 'furniture furniture handmade furniture best'. Images 4-6 MB each. I sometimes license photos to magazines."
+      goal: "commission enquiries for walnut and oak dining tables"
+    assert:
+      - {type: contains, value: "## File names and alt text"}
+      - {type: llm-rubric, value: "Flags the CSS background slider as not crawlable and recommends real img elements, prioritises the tables page and adds descriptive text and captions, replaces camera file names and the stuffed alt text with specific descriptions, recommends resizing and compression from 4-6 MB, and includes IPTC and licence structured data because photos are licensed."}
+  - name: edge-decorative-images
+    vars:
+      images_and_pages: "Plumber's website: hero stock photo of a smiling family, icons for each service, and 20 before-and-after job photos on /bathroom-renovations with file names like before1.jpg."
+    assert:
+      - {type: llm-rubric, value: "Treats icons as decorative with empty alt, focuses effort on the real job photos with descriptive names, alt text and captions, and puts little or no weight on the stock photo; does not suggest licence metadata as necessary."}
+  - name: negative-misleading-alt
+    vars:
+      images_and_pages: "Can I put 'Taylor Swift concert tickets' in the alt text of my shop's product photos to get traffic?"
+    assert:
+      - {type: llm-rubric, value: "Advises against misleading alt text because it harms accessibility and breaks search spam policies, and explains accurate descriptive alt text instead."}

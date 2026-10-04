@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How can I improve SEO on these product pages? {{product_pages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manufacturer-copy-and-variants
+    vars:
+      product_pages: "1) /products/kettle-ss - Title 'Home | Brew&Co Shop | Kettle'. H1 'Kettle'. Description pasted from supplier (same text on Amazon). Variants: 3 colours via ?variant=123 URLs. Image IMG_2231.jpg, no alt. Product schema from theme without gtin; theme shows 4.8 stars from supplier feed but no reviews on the page. 2) /products/pour-over-set - out of stock for 3 weeks, currently hidden from the store and returning 404. Back in stock next month."
+      platform: Shopify
+    assert:
+      - {type: contains, value: "## Priorities"}
+      - {type: llm-rubric, value: "Rewrites the kettle title around brand, product and searched attributes, recommends replacing or adding own copy to the manufacturer text, keeps colour variants on one page with canonicals, says to remove the aggregateRating that has no visible reviews, recommends descriptive file names and alt text, and says the pour-over set should be restored as a live page with out-of-stock status and restock date rather than a 404; invents no GTIN or specs."}
+  - name: edge-searched-variant
+    vars:
+      product_pages: "Running shoe 'Trailfox 3' with colours and widths. Customers search 'Trailfox 3 wide' a lot according to our Search Console. All on one page /trailfox-3."
+      platform: WooCommerce
+    assert:
+      - {type: llm-rubric, value: "Considers a separate page or a strong indexable section for the wide fit because it has its own search demand, with its own copy, while keeping colours on the main page, and explains the reasoning."}
+  - name: negative-urls-only
+    vars:
+      product_pages: "https://myshop.example/products/a, https://myshop.example/products/b"
+      platform: not stated
+    assert:
+      - {type: llm-rubric, value: "Says it cannot see the pages from URLs alone and asks for the titles, copy, variants, stock status and images, without inventing page content or findings."}

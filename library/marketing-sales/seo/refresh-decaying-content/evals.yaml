@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which of my blog posts should I update? Data: {{performance_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-causes
+    vars:
+      performance_data: "Jul-Sep 2026 vs Jul-Sep 2025, clicks / impressions / avg position. /blog/best-budget-dslr-2023: 120/9,000/8.1 vs 940/21,000/3.2. /blog/how-to-clean-camera-sensor: 610/40,000/2.4 vs 1,150/39,000/2.3. /blog/mirrorless-vs-dslr: 300/18,000/6.0 vs 330/17,500/5.8. /blog/camera-cleaning-guide: 210/15,000/7.5 vs 90/6,000/12 (it ranks for the same sensor-cleaning queries). /blog/photo-walk-ideas: 4/300/30 vs 6/280/29."
+      page_list: "Camera shop blog. Sensor cleaning posts link to our cleaning kit product, which sells well."
+    assert:
+      - {type: contains, value: "## Refresh briefs"}
+      - {type: llm-rubric, value: "Flags the DSLR 2023 post as outdated (year in title, position collapse) for a refresh or rewrite, notes the sensor cleaning post has steady impressions and position but falling CTR and checks the results page, identifies cannibalisation with camera-cleaning-guide and proposes a merge with a 301, leaves mirrorless-vs-dslr and photo-walk-ideas alone or low priority, and prioritises the sensor cleaning pages because they drive kit sales."}
+  - name: edge-site-wide-drop
+    vars:
+      performance_data: "Every page down 60-70% in clicks and impressions from 14 August 2026, same week as the site redesign. Before and after numbers for 30 pages attached in that pattern."
+    assert:
+      - {type: llm-rubric, value: "Recognises a site-wide drop tied to the redesign date, says this is not per-page content decay, and points to checking indexing, redirects, robots and tracking before any content refresh; does not write refresh briefs for every page."}
+  - name: negative-one-period-only
+    vars:
+      performance_data: "Last 28 days: /a 50 clicks, /b 12 clicks, /c 300 clicks."
+    assert:
+      - {type: llm-rubric, value: "Says decay cannot be measured from a single period and asks for a comparison period (ideally year on year), without inventing declines."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Check my business listings for consistency. My details: {{canonical_details}}. Listings: {{listings_found}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-moved-cafe
+    vars:
+      canonical_details: "Bluebird Cafe, 14 Market Street, Hebden Bridge HX7 6AA. Phone 01422 000111. bluebirdcafe.example. Mon-Sat 8-4, Sun 9-3. Category: cafe. We moved from 3 Bridge Gate in 2024; old phone 01422 999888."
+      listings_found: "Google: Bluebird Cafe, 14 Market St, 01422 000111, hours right. Apple Maps: Bluebird Cafe, 3 Bridge Gate, 01422 999888. Facebook page: right address, hours say Sun closed. Yelp: two listings, one at Bridge Gate (12 reviews), one at Market Street (2 reviews). Tripadvisor: Bluebird Cafe Hebden Bridge, 14 Market Street, phone missing. Small directory 'localbizlist': Blue Bird Café, 14 Market St., old phone."
+      country: United Kingdom
+    assert:
+      - {type: contains, value: "## Fix list"}
+      - {type: llm-rubric, value: "Puts the Apple Maps old address and phone and the Facebook Sunday hours near the top, handles the Yelp duplicate by keeping the listing with more reviews and moving or merging it to the new address rather than deleting it, treats 'St' versus 'Street' and the cafe spelling as format-only, gives the exact canonical values to enter, and does not claim to have checked sites live."}
+  - name: edge-call-tracking-and-two-names
+    vars:
+      canonical_details: "Plumbing business. Trading name 'Ace Plumbing' but the van says 'Ace Plumbing & Heating Ltd'. Main line 0161 000 2222; agency uses tracking number 0161 000 3333 on Google."
+      listings_found: "Google: Ace Plumbing & Heating Manchester Boiler Repair, tracking number. Bing: Ace Plumbing, main number. Checkatrade-style trade directory: Ace Plumbing & Heating Ltd, main number."
+      country: United Kingdom
+    assert:
+      - {type: llm-rubric, value: "Asks or flags which name is used in real life and recommends removing the added keywords from the Google name, recommends the main local number as primary with the tracking number as an additional number where allowed, and does not invent other listings."}
+  - name: negative-no-listings
+    vars:
+      canonical_details: "Hair salon in Lisbon, Rua Exemplo 10."
+      listings_found: ""
+      country: Portugal
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot audit without the listings found and asks for them (and the phone, hours and website), optionally describing where to look, without inventing listings or findings."}
