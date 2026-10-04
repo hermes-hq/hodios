@@ -5,7 +5,7 @@ kind: workflow
 title: Property sale track
 description: Runs a residential property sale for an agent in gated steps - instruction and pricing, marketing launch, viewings, offers, then progression to completion - with a checklist at each gate.
 category: sales
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, build, operate, review, ship]
 role: [sales-rep]
@@ -47,6 +47,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.0.1, note: "The price review date is agreed at instruction, so the viewings step has a real review point."}
   - {version: 1.0.0, note: "First version."}
 ---
 Runs one residential sale from instruction to completion the way an experienced listing agent would: price on evidence, launch with everything ready, read the viewing feedback honestly, present offers fairly, and then push the sale through to completion without letting it drift.

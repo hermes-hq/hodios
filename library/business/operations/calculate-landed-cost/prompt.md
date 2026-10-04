@@ -5,7 +5,7 @@ kind: prompt
 title: Calculate the landed cost of imported goods
 description: Calculates the per-unit landed cost of imported goods - product, freight, insurance, duty, import taxes and fees - for the chosen incoterm, then shows margin at the planned price and sensitivities.
 category: operations
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [founder, operations-manager]
@@ -38,7 +38,7 @@ args:
     type: string
     required: true
   - name: incoterm
-    description: The incoterm on the supplier's quote, for example EXW, FOB, CIF or DDP, which decides which costs are already in the price.
+    description: The incoterm on the supplier's quote, for example EXW, FCA, FOB, CIF or DDP, with the named place if you have it, which decides which costs are already in the price.
     type: string
     default: FOB
   - name: quotes
@@ -54,10 +54,11 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.0.1, note: "Names the customs value basis by country, the import VAT base, cargo insurance basis, and flags sea-only incoterms quoted for air or container freight."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-You help small importers work out what a product really costs once it is on their shelf. The supplier's unit price is often half the story: depending on the incoterm the buyer may also pay origin charges, export clearance, main freight, insurance, destination terminal charges, customs brokerage, import duty, import VAT or sales tax, inland delivery, bank and currency fees, and inspection or certification. Duty is a percentage of the customs value, and the customs value is calculated differently by country (some value goods including freight and insurance to the border, others on the transaction value without international freight), so the same rate can produce different amounts. Import VAT or GST is often recoverable for registered businesses, which affects cash flow more than cost.
+You help small importers work out what a product really costs once it is on their shelf. The supplier's unit price is often half the story: depending on the incoterm the buyer may also pay origin charges, export clearance, main freight, insurance, destination terminal charges, customs brokerage, import duty, import VAT or sales tax, inland delivery, bank and currency fees, and inspection or certification. Duty is a percentage of the customs value, and the customs value is calculated differently by country (the EU and UK include freight and insurance to the border; the US, Canada and Australia broadly use the value without international freight), so the same rate can produce different amounts. Import VAT or GST is usually charged on the customs value plus duty, and is often recoverable for registered businesses, which affects cash flow more than cost. Incoterms 2020 reserve FOB and CIF for cargo loaded on board a ship; for containers, air and courier the matching terms are FCA, CPT and CIP, and a supplier's "FOB" for air freight usually means something looser, so confirm what the price really includes.
 
 Goods: {{goods}}
 From: {{origin}}
@@ -76,8 +77,8 @@ Planned selling price: {{selling_price}}
 <task>
 1. If quantity or unit price is missing, ask for it and stop.
 2. List inputs and assumptions, including the exchange rate used. Any cost without a quote becomes a named estimate the user should replace, shown as a range where it varies a lot (freight in particular).
-3. Explain in a short table which costs are already in the supplier price under {{incoterm}} and which the buyer pays, and where risk passes.
-4. Build the cost from supplier price to the destination door, line by line: origin charges, main freight, insurance, destination charges, brokerage, duty, import VAT or sales tax, inland delivery, finance and currency fees, other. For duty, use the confirmed rate if given; otherwise write the formula with `[DUTY RATE]` and, if helpful, an illustrative rate clearly labelled as illustrative. State which customs value basis you assumed for {{destination}}.
+3. Explain in a short table which costs are already in the supplier price under {{incoterm}} and which the buyer pays, and where risk passes. If the term does not fit the transport mode, say so and say what to confirm with the supplier.
+4. Build the cost from supplier price to the destination door, line by line: origin charges, main freight, insurance (cargo cover is commonly placed on 110% of the CIF value), destination charges, brokerage, duty, import VAT or sales tax, inland delivery, finance and currency fees, other. For duty, use the confirmed rate if given; otherwise write the formula with `[DUTY RATE]` and, if helpful, an illustrative rate clearly labelled as illustrative. State which customs value basis you assumed for {{destination}}.
 5. Allocate to units: by quantity, or by weight or volume if the shipment mixes products, and say which.
 6. Show landed cost per unit with and without recoverable import VAT or GST.
 7. If a selling price is given, show gross margin and markup per unit, after removing sales tax or VAT from the price if it is included, and the break-even price.

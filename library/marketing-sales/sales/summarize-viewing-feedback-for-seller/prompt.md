@@ -5,7 +5,7 @@ kind: prompt
 title: Summarise viewing feedback for the seller
 description: Turns an estate agent's viewing notes into an honest weekly update for the seller, with activity figures, feedback themes, price reaction, market context and one recommended next step.
 category: sales
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [operate, review]
 role: [sales-rep]
@@ -48,6 +48,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.0.1, note: "Feedback themes say who can change each one and how unchangeable ones bear on price."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -71,7 +72,7 @@ Weeks on market: {{weeks_on_market}}
 <task>
 1. If the viewing notes are empty or say nothing about how viewings went, ask the agent for the notes and stop. Zero viewings is valid input: write the update about that.
 2. Count the activity: enquiries, viewings, second viewings, offers and feedback still outstanding. Count only what the notes support; write "not recorded" for anything missing.
-3. Group the feedback into themes (for example layout, condition, garden, noise, parking, light). For each theme give how many viewings raised it, a short paraphrase, and whether it is fixable by the seller, fixable by the buyer, or fixed (location, road noise).
+3. Group the feedback into themes (for example layout, condition, garden, noise, parking, light). For each theme give how many viewings raised it, a short paraphrase, and whether the seller can fix it (decluttering, a repair), a buyer could change it after moving in (decor, a dated bathroom), or nobody can change it (location, road noise, plot size). Unchangeable objections are usually priced in, so say how they bear on the price.
 4. Pull out every comment about price or value. Say what proportion of viewers mentioned price and what they compared it with. Do not turn a single comment into a verdict.
 5. Set the week against {{weeks_on_market}} weeks on the market and the market notes, if given. Use only the comparables supplied; if there are none, say what evidence would help.
 6. Recommend one next step with the reasoning and the alternative: for example keep going for another week with a defined review point, improve presentation (photos, decluttering, a fix), change the marketing, adjust the price, or invite best offers when there is competing interest. Say what would make you change the recommendation.
@@ -93,7 +94,7 @@ Start with a one-line subject for the email, then:
 ## This week in numbers
 A short table: Measure | This week | Since launch (if known).
 ## What viewers said
-Table: Theme | Raised by | What they said | Fixable?
+Table: Theme | Raised by | What they said | Who can change it.
 ## Price feedback
 Two to four sentences.
 ## Market context

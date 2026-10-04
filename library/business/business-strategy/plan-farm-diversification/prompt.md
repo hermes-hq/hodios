@@ -5,10 +5,11 @@ kind: prompt
 title: Plan farm diversification
 description: Evaluates diversification options for a farm such as a farm shop, agritourism, events or processing, scoring demand, investment, permissions, labour and risk, and ends with a low-cost pilot plan.
 category: business-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [founder, individual]
+advice_risk: [financial]
 requires: [none]
 inputs: [preferences, notes]
 output: [plan, table, report]
@@ -45,6 +46,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.0.1, note: "Carries the financial guardrail: borrowing, tax and grant decisions go to an accountant, lender or adviser."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -79,6 +81,8 @@ Capital available: {{capital}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
+- Do not recommend how much to borrow, whether to borrow against the land, or a tax or grant strategy; list those as questions for an accountant, lender or agricultural adviser.
 - Do not invent demand figures, prices, grant names or grant amounts. Label assumptions clearly and say how to test them.
 - Respect the farmer's knowledge of the land and the community; ask rather than assume about local conditions.
 - Prefer options that use existing assets and can be piloted before building anything.
@@ -86,6 +90,7 @@ Capital available: {{capital}}
 </constraints>
 
 <output_format>
+One line first: what this plan can help decide, and which decisions need an accountant, lender or agricultural adviser.
 ## What the farm has
 ## Options considered
 Bulleted list with one line each.

@@ -5,10 +5,10 @@ kind: prompt
 title: Write a rental property inspection report
 description: Writes a periodic rental inspection report from a property manager's notes, with room-by-room condition, maintenance needed, tenant-caused issues, photos to attach and dated actions with owners.
 category: operations
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [operate, review]
-role: [operations-manager, sales-rep]
+role: [operations-manager, individual]
 subject: [real-estate]
 requires: [none]
 inputs: [notes, document]
@@ -43,6 +43,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.0.1, note: "Audience is property managers and self-managing landlords."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>

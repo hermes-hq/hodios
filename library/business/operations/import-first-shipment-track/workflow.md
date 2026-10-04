@@ -5,7 +5,7 @@ kind: workflow
 title: First import track
 description: Guides a small business through its first import in gated steps - supplier vetting, samples, incoterms and quote, freight booking, customs clearance, then receiving and quality checks.
 category: operations
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan, operate, verify]
 role: [founder, operations-manager]
@@ -27,7 +27,7 @@ pairs_with:
 args:
   - name: product
     description: The product you want to import, with materials, specifications, target quantity and any certification or labelling it needs to be sold where you are.
-    type: string
+    type: text
     required: true
   - name: origin
     description: The country you plan to source from, and the supplier if you already have one.
@@ -52,6 +52,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.0.1, note: "Product takes a full description, incoterms include FCA for container and air freight, and inspections use an agreed AQL sampling level."}
   - {version: 1.0.0, note: "First version."}
 ---
 Takes a first-time importer from "I found a supplier" to "the goods are checked and on my shelf": prove the supplier is real, prove the product with samples, agree terms with no gaps, book freight, clear customs, and inspect before accepting.
