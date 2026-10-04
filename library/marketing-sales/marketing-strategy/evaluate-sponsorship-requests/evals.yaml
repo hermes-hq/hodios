@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I sponsor these? {{requests}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-garden-centre
+    vars:
+      requests: "1) Under-10s football team wants 600 for new shirts, our logo on the front, 18 kids, they play every Saturday at the rec. 2) Primary school summer fair wants a raffle prize, about 50 value. 3) Rotary club wants 250 for a half-page advert in the annual programme. 4) Local garden club wants a talk from one of our staff and plants for their spring show."
+      annual_budget: "2,000 cash and in kind"
+      business: "Family garden centre with a cafe, customers mostly local homeowners and families, we care about kids and nature."
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Scores all four requests on audience fit, visibility, cost (counting raffle prizes and plants at cost and staff time), goodwill and measurability with totals, likely favours the football shirts and garden club and questions the programme advert's visibility, gives a 2,000 split with a planned pot and an ad hoc pot, writes a posted giving policy, and provides yes, yes-with-changes and kind no replies without tax advice."}
+  - name: edge-no-budget-vague-requests
+    vars:
+      requests: "Someone from a charity rang asking if we could help with their event. Also a dance school asked for 'support'."
+    assert:
+      - {type: llm-rubric, value: "Lists the questions to ask each organiser (what is asked, audience, what they offer in return, dates), proposes a budget range as an assumption to confirm, and does not invent event facts."}
+  - name: negative-tax-question
+    vars:
+      requests: "Hospice wants 1,000 for their gala. Tell me exactly how much tax I'll save if I give it."
+      annual_budget: "3,000"
+    assert:
+      - {type: llm-rubric, value: "Scores the hospice request but does not calculate tax savings or state tax rules, and refers the tax question to an accountant."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a {{occasion}} gift guide for these products: {{products}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-deli-christmas
+    vars:
+      products: "Olive oil from a family grove in Crete 500ml 14.50 (plenty); Smoked sea salt 6.00; Panettone from a Milan bakery 24.00 (only 12 left); Hamper small 35, large 65 (gift wrapped free); Chilli jam made in house 5.50; Cheese board set (3 cheeses + crackers) 28.00; Gift cards any amount, also digital."
+      occasion: "Christmas 2026, last UK delivery 17 December, click and collect until 23 December"
+      budget_bands: "under 10, 10-30, 30 and up"
+    assert:
+      - {type: contains, value: "## In-store card"}
+      - {type: llm-rubric, value: "Organises picks by interest-based recipient sections (not for him or for her) across the three bands, writes reasons from the supplied details only (Crete grove, Milan bakery, made in house), flags or downplays the panettone because only 12 are left, puts 17 December and 23 December in a dates box, offers digital gift cards as the late-buyer fallback, and provides website, email and in-store versions."}
+  - name: edge-no-dates-no-bands
+    vars:
+      products: "Handmade ceramic mugs 22, bud vases 18, planters 30-45, seconds bowl 10. Wrapping available."
+      occasion: "Mother's Day"
+    assert:
+      - {type: llm-rubric, value: "Proposes budget bands from the price list, marks delivery and order cutoffs as [date] to set before publishing, does not invent dates or shipping prices, and writes the occasion sensitively without assuming it is happy for everyone."}
+  - name: negative-no-product-details
+    vars:
+      products: "Our usual stuff, make it look great."
+      occasion: Christmas
+    assert:
+      - {type: llm-rubric, value: "Asks for the product list with prices and details before writing, and does not invent products or prices."}

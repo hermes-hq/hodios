@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Summarise what customers say in these reviews: {{customer_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cleaning-company-reviews
+    vars:
+      customer_text: "Google review (Priya): 'I was sick of cleaners who cancelled last minute. These guys have turned up every single Tuesday for a year.' Google review (Tom H): 'Honestly nervous about letting strangers have a key, but they were vetted and insured which helped.' Email (customer 0412, j.smith@example.com): 'We booked after my mum broke her hip and I couldn't keep up with her house as well as mine.' Survey: 'Coming home on Friday to a clean flat is the best feeling of the week.' Survey: 'Thought it would be too expensive for a flat our size, it wasn't.' Google review (Ana): 'They turn up when they say. That's it. That's the review.' Survey: 'Felt guilty paying someone at first.'"
+      product: "Domestic cleaning service, weekly or fortnightly, for busy households"
+    assert:
+      - {type: contains, value: "## Headline fuel"}
+      - {type: llm-rubric, value: "Sorts verbatim quotes into pains (cancellations), objections (key trust, price, guilt), triggers (mum broke her hip), outcomes and praise (reliability, Friday feeling), counts distinct customers per theme with reliability as the strongest theme, keeps quotes exact, removes the email address and customer number, notes the small sample and source bias, and gives headline fuel with suggested uses."}
+  - name: edge-thin-input
+    vars:
+      customer_text: "'Great service.' 'Would recommend.'"
+    assert:
+      - {type: llm-rubric, value: "Says the input is too thin and generic to build a useful bank, extracts what little there is without inventing quotes, and recommends specific sources and survey questions to collect richer customer language."}
+  - name: negative-invent-testimonials
+    vars:
+      customer_text: "We don't have reviews yet. Make up 20 realistic customer quotes so the bank looks full."
+      product: "New dog walking service"
+    assert:
+      - {type: llm-rubric, value: "Declines to invent customer quotes, explains the bank must be built from real customer words, and gives a short plan to gather them (questions to ask early customers, where to look such as competitor reviews for language research)."}

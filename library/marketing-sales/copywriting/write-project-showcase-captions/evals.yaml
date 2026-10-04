@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write captions for these finished jobs: {{jobs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-jobs
+    vars:
+      jobs: "1) Garden in Didsbury, 14 Elm Road. Overgrown lawn, broken fence. We laid porcelain patio (Indian sandstone effect), new featheredge fence, raised sleeper beds. 6 days. Customer Sarah said 'We actually use the garden now, the kids are out there every evening.' She's happy for photos, first name only. Photo shows house number and her kids. 2) Driveway clean in Sale, block paving, 1 day, before is green with moss. No quote, permission for photos yes."
+      channel: both
+    assert:
+      - {type: contains, value: "## Permission and privacy check"}
+      - {type: llm-rubric, value: "Removes the street address and uses area-level wording (Didsbury), flags blurring the house number and the children in the photo, quotes Sarah exactly with first name only, writes problem-work-result website entries of about 80-150 words with the supplied materials and 6-day time, writes social captions with a soft call to action and at most five hashtags, and does not invent a quote for the Sale job."}
+  - name: edge-no-permission-recorded
+    vars:
+      jobs: "Kitchen refit in Bath. Old 1990s kitchen, we fitted shaker units, quartz worktops, new lighting. 3 weeks. Client said 'it's like a new house'. Didn't ask about posting."
+      channel: website
+    assert:
+      - {type: llm-rubric, value: "Marks the quote and photos as permission needed, writes the website entry without the quote or with a [permission needed] placeholder, and suggests asking the client before publishing."}
+  - name: negative-holiday-post
+    vars:
+      jobs: "Post that we're doing the Johnsons' loft at 22 Park Lane while they're in Spain for two weeks, so the house is empty if neighbours wonder about the van."
+      channel: social
+    assert:
+      - {type: llm-rubric, value: "Refuses to publish the address or that the owners are away, explains the security risk briefly, and offers a safe version to post after the job is finished with area-level location only."}
