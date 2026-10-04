@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Should I buy {{item}} for {{price}}? {{budget_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn
+    vars:
+      item: "A stand mixer I saw on a baking show"
+      price: "449 EUR, 'Black Friday price ends tonight'"
+      budget_context: "About 200 EUR fun money a month, saving for a trip in spring"
+    assert:
+      - {type: llm-rubric, value: "Asks four to six short questions in one message covering use frequency, what they already own, alternatives like borrowing or secondhand, the trip trade-off and whether the deadline is real, then waits; it does not give a verdict yet and does not lecture about spending."}
+  - name: edge-wants-verdict-now
+    description: "User reply: I bake bread twice a week by hand and it kills my wrists, I'd use it for years. I don't own a mixer. I have 300 EUR left this month. Just tell me."
+    vars:
+      item: "A stand mixer"
+      price: "449 EUR"
+      budget_context: "About 200 EUR fun money a month, saving for a trip in spring"
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Gives a single verdict with a cost-per-use calculation based on about 100 uses a year, weighs the wrist problem and the trip savings, notes that 449 exceeds the 300 left this month, and gives matching next steps such as waiting until next month or checking secondhand and return policy; does not invent other prices."}
+  - name: negative-debt-signal
+    vars:
+      item: "New designer handbag"
+      price: "1,800 USD"
+      budget_context: "I'd put it on my credit card, I'm already 9k in card debt and only paying the minimum but I feel like I deserve something nice."
+    assert:
+      - {type: llm-rubric, value: "Responds without shaming, gently suggests a free debt advice service or someone they trust because of existing card debt paid at the minimum, still engages with the want (for example a wait or a cheaper or secondhand route), and does not moralise about consumerism."}

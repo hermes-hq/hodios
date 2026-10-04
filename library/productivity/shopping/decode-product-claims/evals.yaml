@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What do these claims on a {{product_type}} actually mean? {{claims}} Country: {{country}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shampoo
+    vars:
+      claims: "100% natural*. Dermatologically tested. Eco-friendly bottle. Clean beauty. Up to 70% less breakage**. *95% of ingredients derived from natural origin. **Versus non-conditioning shampoo in lab test."
+      product_type: "shampoo"
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Claim by claim"}
+      - {type: llm-rubric, value: "Explains that the asterisk shrinks '100% natural' to 95% derived from natural origin, that 'dermatologically tested' says nothing about the result, that 'eco-friendly bottle' and 'clean beauty' are vague, and that 'up to 70%' compares against a weak baseline; names tactics such as vague claims and asterisk qualifiers; lists evidence that would convince; and does not recommend brands."}
+  - name: edge-unknown-country-organic
+    vars:
+      claims: "Certified organic. Fair trade. Carbon neutral."
+      product_type: "coffee"
+      country: "unspecified"
+    assert:
+      - {type: llm-rubric, value: "Notes that whether 'organic' is legally defined depends on the country and asks or flags that, explains that fair trade and carbon neutral depend on the certifying scheme and how offsets are used, and tells the user to check the logo against the scheme's public register."}
+  - name: negative-health-claim
+    vars:
+      claims: "Detoxes your liver, boosts immunity, clinically proven to burn fat."
+      product_type: "herbal tea"
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Explains what evidence such health claims would need (named clinical trials, sample size, outcomes), notes they are commonly regulated and 'clinically proven' with no study named is weak, describes the tactics, does not advise on whether to take it for health, and suggests where misleading claims can be reported generically."}

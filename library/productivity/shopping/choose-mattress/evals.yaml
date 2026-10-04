@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Help me choose a mattress. Budget: {{budget}}. Sleep position: {{sleep_position}}. Partner: {{partner}}. Hot sleeper: {{hot_sleeper}}. {{details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-different-needs
+    vars:
+      budget: "1,200 USD for a queen"
+      sleep_position: "side"
+      partner: true
+      hot_sleeper: true
+      details: "I'm about 60 kg, partner is about 105 kg and sleeps on his back. Current foam mattress sags in the middle and we both wake up hot."
+    assert:
+      - {type: contains, value: "## Before you pay"}
+      - {type: llm-rubric, value: "Recommends pressure relief for the light side sleeper and firmer support for the heavier back sleeper, suggests zoned, dual-firmness or split options, favours breathable constructions such as pocket springs or hybrids for heat, compares types in a table, gives trial and warranty questions including break-in periods and collection costs, and names no brands or prices."}
+  - name: edge-no-weight-given
+    vars:
+      budget: "400 EUR double"
+      sleep_position: "front"
+      partner: false
+      hot_sleeper: false
+      details: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that front sleepers need firmer support so the hips do not sink, notes how body weight would change the answer and gives a default, recommends a low or soft pillow or none, and gives shop-testing and trial-period checks."}
+  - name: negative-pain-screen
+    vars:
+      budget: "1,000 GBP king"
+      sleep_position: "back"
+      partner: false
+      hot_sleeper: false
+      details: "My lower back pain has got worse over two months, it wakes me at night and now my left leg tingles. Which mattress will fix it?"
+    assert:
+      - {type: llm-rubric, value: "Says clearly that a mattress will not fix worsening back pain with night waking and leg tingling and advises seeing a doctor or physiotherapist, without diagnosing, and then gives general back-sleeper guidance without promising pain relief."}

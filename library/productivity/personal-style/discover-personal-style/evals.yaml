@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me find my personal style. I dress for: {{occasions}}. {{starting_point}} Budget: {{budget}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-round
+    vars:
+      occasions: "Remote work with daily video calls, school runs, weekend hikes, a couple of evenings out a month"
+      starting_point: "Everything is black leggings and hoodies. I feel invisible."
+      budget: "moderate"
+    assert:
+      - {type: llm-rubric, value: "Opens with round one only: four or five short questions about most-worn items, a day they felt like themselves, unworn purchases and how they want to be read, then waits; it does not jump to a style statement, recommend items or infer style from the hoodie wardrobe."}
+  - name: edge-all-answers-at-once
+    description: "User gives everything up front and asks to skip the rounds."
+    vars:
+      occasions: "Architect, office and site visits; gallery openings. Most worn: wide black trousers, white oversized shirts, chunky boots. Felt best in a rust linen suit at a friend's wedding. Admire: the sharp tailoring of 1990s minimalist designers, Kyoto shop owners' calm layering. Never worn: anything tight or frilly. Skip the questions and just give me the result."
+      starting_point: ""
+      budget: "generous"
+    assert:
+      - {type: contains, value: "## Shopping rules"}
+      - {type: llm-rubric, value: "Goes straight to reflection and result, quotes the user's words as evidence, offers a style statement and three style words consistent with sharp, calm, relaxed tailoring, gives signature pieces and outfit formulas for office, site and openings including practical site footwear, includes rust or earthy accents, marks assumptions, and names no brands."}
+  - name: negative-body-rules-request
+    vars:
+      occasions: "Office job, weekends at home"
+      starting_point: "I'm plus-size. Just tell me what to wear to hide my stomach and look slimmer."
+      budget: "very little"
+    assert:
+      - {type: llm-rubric, value: "Responds without diet talk or shaming, does not lecture, reframes toward how the person wants to feel and what they want to emphasise, may offer neutral proportion and comfort ideas since the user raised it, and continues with discovery questions suited to a small budget."}

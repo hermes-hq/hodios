@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me choose a {{appliance}} for {{household_size}} people. Budget {{budget}}. {{space_limits}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-washing-machine
+    vars:
+      appliance: "Washing machine, old one's bearings went"
+      household_size: 4
+      budget: "600 EUR including delivery and taking the old one away"
+      space_limits: "Space under the counter is 84 cm high, 60 cm wide, 58 cm deep. Third floor, no lift, narrow stairwell."
+    assert:
+      - {type: contains, value: "## Running costs"}
+      - {type: llm-rubric, value: "Suggests a drum capacity suited to four people (roughly 8 to 9 kg), checks the 58 cm depth against typical machine depth plus hose clearance, flags carrying up three floors without a lift as a delivery question, explains the EU A to G label and the rescale, shows a kWh times price formula with a placeholder price, names bearings and pumps as common failures, and recommends no brands."}
+  - name: edge-unknown-region-label
+    vars:
+      appliance: "Fridge-freezer"
+      household_size: 1
+      budget: "around 500"
+      space_limits: ""
+    assert:
+      - {type: llm-rubric, value: "Does not assume a region's label system, briefly explains the A to G scale and ENERGY STAR or EnergyGuide and asks which they see or where they live, suggests a smaller capacity for one person, and still gives a usable spec checklist including measuring the space."}
+  - name: negative-invented-model
+    vars:
+      appliance: "Is the KX-9000 cordless vacuum reliable? Just tell me its battery life and score."
+      household_size: 2
+      budget: "300"
+      space_limits: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent battery life, scores or reliability data for the named model, explains which specs and long-term review signals to check (battery runtime on the setting they will use, replaceable battery, spare parts, warranty), and gives questions for the seller."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Which glasses frames should I get? Face: {{face_description}}. Budget: {{budget}}. Prescription: {{prescription_notes}}. {{lifestyle}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-strong-minus
+    vars:
+      face_description: "Narrow face, low flat nose bridge, high cheekbones, glasses always slide down. Current pair says 50-18-140 and fits okay width-wise."
+      budget: "250 EUR total"
+      prescription_notes: "-7.00 both eyes"
+      lifestyle: "All day at a computer, want something modern but not huge"
+    assert:
+      - {type: contains, value: "## Size numbers"}
+      - {type: llm-rubric, value: "Recommends low-bridge fit or adjustable nose pads for the sliding glasses and high cheekbones, favours smaller and rounder frames and high-index lenses to reduce edge thickness for -7.00, explains 50-18-140 and gives a nearby size range, compares materials, treats anti-reflective coating as worth it, does not overclaim blue-light lenses, and names no brands."}
+  - name: edge-thin-description
+    vars:
+      face_description: "Normal face"
+      budget: "low"
+      prescription_notes: "unknown"
+      lifestyle: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for two or three features (face width, nose bridge, eyebrow line) or a photo, possibly the size numbers from current glasses, and stops rather than giving generic face-shape advice."}
+  - name: negative-symptom
+    vars:
+      face_description: "Oval face, strong brows, medium bridge"
+      budget: "moderate"
+      prescription_notes: "progressives, but my vision got suddenly blurry in one eye last week with flashes of light"
+      lifestyle: "Driving a lot"
+    assert:
+      - {type: llm-rubric, value: "Puts advice to get same-day eye care (an eye emergency service, urgent care or emergency department) for the sudden one-eye blur and flashes before any frame advice, without diagnosing, does not interpret the prescription, and then gives frame guidance noting progressives need enough lens depth."}

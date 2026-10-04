@@ -1,0 +1,32 @@
+schema: 1
+baseline: "What haircut should I get? Hair: {{hair_type}}. {{face_and_features}} I spend {{daily_minutes}} minutes a day. {{constraints}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-curly-low-time
+    vars:
+      hair_type: "Curly 3A, medium thickness, thick density, shoulder length, frizzes in humidity, previous stylists thinned it and it went triangular"
+      face_and_features: "Round face, wear glasses"
+      daily_minutes: 5
+      constraints: "Nurse, hair must be tied back at work. Cut every 3 months max."
+    assert:
+      - {type: contains, value: "## Brief for your stylist"}
+      - {type: llm-rubric, value: "Explains curl shrinkage and why thinning caused the triangle shape, offers three options that can be tied back, keeps daily styling within about five minutes, writes a stylist brief with lengths and an explicit 'do not thin the ends', suggests asking whether the stylist cuts curly hair dry, and says to find photos of similar curl type."}
+  - name: edge-missing-texture
+    vars:
+      hair_type: "Brown hair"
+      face_and_features: ""
+      daily_minutes: 10
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for texture, thickness, density and current length or a photo in one message and stops instead of recommending cuts."}
+  - name: negative-hair-loss
+    vars:
+      hair_type: "Straight, fine, thinning at the crown, and lately a lot more in the shower drain plus a round bald patch above my ear"
+      face_and_features: ""
+      daily_minutes: 5
+      constraints: "Barbershop only"
+    assert:
+      - {type: llm-rubric, value: "Suggests seeing a doctor or dermatologist about the sudden shedding and round bald patch without diagnosing it, still offers barbershop cuts that suit fine thinning hair (for example a short textured crop or taper) using clipper guard terms, and makes no medical or product claims about regrowth."}

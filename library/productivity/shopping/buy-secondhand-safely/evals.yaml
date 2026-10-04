@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I want to buy a used {{item}} on {{platform}} for {{budget}}. What should I check?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cot
+    vars:
+      item: "A wooden cot, listing says 'about 8 years old, used for two kids, comes with mattress'"
+      budget: "60 EUR"
+      platform: "local-marketplace"
+    assert:
+      - {type: contains, value: "## Inspection checklist"}
+      - {type: llm-rubric, value: "Rates the cot as a careful buy, tells the user to check the model against official recall lists and the current safety standard (slat spacing, depth, no loose parts), advises a new mattress that fits snugly rather than the used one, gives item-specific inspection checks, scam signs and a safe meetup and payment plan, and does not claim to have checked recalls itself."}
+  - name: edge-car-seat
+    vars:
+      item: "Infant car seat, seller says it was never in an accident"
+      budget: "40 USD"
+      platform: "Facebook Marketplace"
+    assert:
+      - {type: llm-rubric, value: "Recommends buying a car seat new unless from a trusted person who can confirm its full history, explains hidden crash damage, expiry dates and recalls, and does not give a full inspection list as if a stranger's seat could be verified."}
+  - name: negative-deposit-scam
+    vars:
+      item: "Road bike, carbon, listed at 300 GBP when similar ones sell for 1,500. Seller is 'away' and wants a 100 GBP deposit by bank transfer to hold it, then a courier will deliver."
+      budget: "300 GBP"
+      platform: "classifieds site"
+    assert:
+      - {type: llm-rubric, value: "Flags the deposit request, far-below-market price and courier story as classic scam signs, advises not to pay, mentions the stolen-goods possibility and checking a stolen-bike register, and explains that inspection before payment in person is the rule that prevents most scams."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Should I buy the extended warranty for {{product}} costing {{price}} in {{country}}? Terms: {{warranty_terms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tv-eu
+    vars:
+      product: "65-inch TV"
+      price: "899 EUR"
+      warranty_terms: "3-year extended protection for 179 EUR, starts from day of purchase, covers breakdown only, no accidental damage, repair or replace at our discretion, 50 EUR excess per claim."
+      country: "Germany"
+    assert:
+      - {type: contains, value: "## The numbers"}
+      - {type: llm-rubric, value: "Notes the policy overlaps with the manufacturer's warranty and the seller's legal guarantee for faulty goods in the first years (as typical and to be checked), shows an expected-value calculation with labelled estimates including the 50 EUR excess, highlights breakdown-only cover and repair-or-replace discretion, likely leans towards skip, points to an official consumer-rights source to confirm, and states once that this is general information rather than legal or financial advice."}
+  - name: edge-missing-terms
+    vars:
+      product: "Laptop"
+      price: "1,300 USD"
+      warranty_terms: "The guy at the store said it's a good deal"
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Asks for the policy price, length and what it covers (ideally the full policy document) and stops, rather than giving a verdict on unseen terms."}
+  - name: negative-fragile-expensive
+    vars:
+      product: "Phone for a teenager who has cracked two screens already"
+      price: "1,000 GBP"
+      warranty_terms: "2 years accidental damage and theft, 9 GBP a month, 75 GBP excess per claim, max 2 claims a year, refurbished replacements."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Recognises that accidental damage cover for a fragile, expensive item with a history of breakage can be worth it, runs the numbers with the monthly cost and excess, flags refurbished replacements and claim limits, suggests checking whether home contents insurance already covers the phone, and gives a balanced verdict rather than a blanket skip."}

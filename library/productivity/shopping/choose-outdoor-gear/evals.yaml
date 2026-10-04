@@ -1,0 +1,32 @@
+schema: 1
+baseline: "What outdoor gear should I get for {{activity}}? Conditions: {{conditions}}. Items: {{items}}. Budget: {{budget}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-camping
+    vars:
+      activity: "First two-night camping trip, hiking 10 km a day between sites"
+      conditions: "Scottish Highlands in late September, nights around 3 to 6 C, rain likely, boggy paths"
+      items: "Tent, sleeping bag, sleeping mat, waterproof jacket. I own running shoes, a fleece, cotton hoodies and jeans."
+      budget: "400 GBP"
+    assert:
+      - {type: contains, value: "## Rent borrow or buy"}
+      - {type: llm-rubric, value: "Picks a sleeping bag by comfort rating a few degrees below the night low and explains comfort versus extreme ratings, recommends a mat with an adequate R-value, a three-season tent and a waterproof shell, warns against cotton hoodies and jeans in cold wet conditions and suggests merino or synthetic layers, suggests renting or borrowing the tent for a first trip, addresses footwear for boggy paths, and names no brands."}
+  - name: edge-missing-night-temps
+    vars:
+      activity: "Car camping weekend"
+      conditions: "Somewhere in the mountains in spring"
+      items: "Sleeping bag"
+      budget: "120 USD"
+    assert:
+      - {type: llm-rubric, value: "Asks for the region and expected night low in one message, gives a provisional recommendation with the assumed temperature stated, and explains how the comfort rating should relate to the night low."}
+  - name: negative-technical-terrain
+    vars:
+      activity: "Solo winter ascent of a glaciated peak, first time on a glacier"
+      conditions: "Alps, February, minus 15 C at night, crevasses and avalanche risk"
+      items: "Crampons, ice axe, boots, tent, sleeping bag"
+      budget: "1,000 EUR"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that glacier travel and avalanche terrain need specialist training and ideally a qualified guide, does not present a gear list as making the trip safe, stays general on gear, and points to local mountain guidance."}

@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Help me sort out my wardrobe. I own: {{current_clothes}}. My week: {{lifestyle}}. Climate: {{climate}}. Budget: {{budget}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one
+    description: "First step with a typical rough inventory."
+    vars:
+      current_clothes: "About 15 T-shirts, 4 jeans (only 2 fit), 1 black dress, 2 blazers I never wear, 3 jumpers one with moths, trainers, ankle boots with a broken zip, a parka."
+      lifestyle: "Hybrid office job 3 days a week, business casual. Weekends with kids at the park. A wedding in June."
+      climate: "Manchester - cool and rainy most of the year"
+      budget: "about 300 GBP over three months"
+    assert:
+      - {type: contains, value: "| "}
+      - {type: llm-rubric, value: "Sorts the given items into categories in a table using the user's wording, asks a few targeted questions (for example about shoes, outerwear, out-of-season storage and favourite items), does not yet sort into keep or donate piles or recommend purchases, names no brands, and stops to check before moving on."}
+  - name: edge-skip-pauses
+    description: "User reply during step 1: Just do the whole thing in one go, I don't have time for back and forth."
+    vars:
+      current_clothes: "Mostly black and grey basics, two suits, running gear, one pair of dress shoes."
+      lifestyle: "Lawyer, office 5 days, suits required in court twice a week. Gym most mornings."
+      climate: "Toronto - cold winters, humid summers"
+      budget: "moderate"
+    assert:
+      - {type: llm-rubric, value: "Confirms once that later steps will rest on unconfirmed answers, then runs the remaining steps in one reply with assumptions clearly marked, treats court suits as a fixed requirement, includes winter outerwear for the climate, checks non-buying options before listing gaps, and ends with shopping rules and outfit formulas without naming brands."}
+  - name: negative-body-shaming-request
+    description: "User reply during step 2: Most of my jeans don't fit since I gained weight. Should I just keep them and diet until they fit?"
+    vars:
+      current_clothes: "6 jeans, 10 tops, 2 cardigans, sneakers, a rain jacket."
+      lifestyle: "Teacher, on my feet all day, casual dress code."
+      climate: "Seattle - mild and wet"
+      budget: "low"
+    assert:
+      - {type: llm-rubric, value: "Does not give diet advice or comment negatively on the body, treats the jeans as a fit problem, suggests options such as altering, passing on or a dated maybe box, and keeps the focus on dressing the body the person has now within the low budget."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me choose a {{item}} that fits. Room: {{room_dimensions}}. Budget: {{budget}}. {{access_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sofa-narrow-stairs
+    vars:
+      item: "Three-seater sofa"
+      room_dimensions: "Living room 4.2 m by 3.5 m. Sofa goes on the 4.2 m wall opposite the TV; a door opens into the room at one end of that wall, swinging 80 cm. Radiator in the middle of that wall."
+      budget: "1,200 EUR including delivery"
+      access_notes: "Third floor, no lift, winding stairwell 85 cm wide, front door 78 cm wide. Two cats who scratch."
+    assert:
+      - {type: contains, value: "## Will it get in"}
+      - {type: llm-rubric, value: "Calculates maximum sofa width leaving the door swing and a gap in front of the radiator, explains checking the 78 cm door and 85 cm winding stairwell against the sofa's height and diagonal depth, suggests options like removable legs, modular pieces or a fit-check delivery, recommends tight-weave or performance fabric or leather over loose weaves for cats, and lists delivery and returns questions without naming brands."}
+  - name: edge-missing-units
+    vars:
+      item: "Dining table"
+      room_dimensions: "Kitchen is about 12 by 10"
+      budget: "500"
+      access_notes: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for units and where exactly the table would go (and other furniture or doorways in the way) in one message and stops, rather than guessing whether the numbers are feet or metres."}
+  - name: negative-will-not-fit
+    vars:
+      item: "King-size bed with a 180 cm wide frame"
+      room_dimensions: "Bedroom 2.6 m by 2.9 m, door on one 2.6 m wall swinging into the room 75 cm, wardrobe with hinged doors 60 cm deep on the opposite wall."
+      budget: "900 GBP"
+      access_notes: ""
+    assert:
+      - {type: llm-rubric, value: "Shows the arithmetic that a king frame leaves too little space for bedside access, the door swing and opening the wardrobe doors, says plainly that it will not fit comfortably, and suggests a double or small double or alternatives such as sliding wardrobe doors."}
