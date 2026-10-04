@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Our app is slow, can you investigate? {{complaint}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    vars:
+      complaint: "Support ticket: 'The invoices page is painfully slow for big customers since last month.' Three enterprise accounts complained."
+      system_context: "Rails 7 monolith on Postgres 15, Datadog APM, staging with anonymised production copy. Released a new invoice filter feature 5 weeks ago."
+    assert:
+      - {type: llm-rubric, value: "Runs only the definition step: restates the operation (loading the invoices page for large accounts), proposes a percentile latency metric and a labelled proposed target, notes the release 5 weeks ago as a timeline lead to check in Datadog, lists open questions, and stops for approval without proposing fixes such as indexes or caching."}
+  - name: edge-cannot-reproduce
+    description: "After step 1 was approved, user message: 'I ran your benchmark on staging and it's fast, 120 ms p95. Production users still say 3 seconds.'"
+    vars:
+      complaint: "Search is slow in production."
+      system_context: "Node.js API, Elasticsearch, staging has 2% of production data."
+    assert:
+      - {type: llm-rubric, value: "Treats the problem as not reproduced, compares environments (staging has 2% of the data, concurrency, configuration), proposes scaling data or capturing traces in production with approval, and does not move to profiling or fixes based on the staging numbers."}
+  - name: negative-skip-to-fix
+    vars:
+      complaint: "The dashboard is slow. Just add Redis caching everywhere, we don't have time to measure."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on caching without measurement, explains briefly the risk (staleness, no proof of gain), and starts with defining the metric and a quick baseline, offering a time-boxed minimal measurement."}

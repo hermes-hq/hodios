@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a mock for the {{api_name}} API so I can test this code: {{client_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shipping-api
+    vars:
+      api_name: "a carrier's shipping labels API"
+      client_code: |
+        class ShippingClient:
+            def create_label(self, order_id, address, weight_g) -> dict:
+                r = self.http.post("/v2/labels", json={...}, headers={"Idempotency-Key": order_id}, timeout=10)
+                r.raise_for_status(); return r.json()   # uses ["label_id"], ["tracking_number"], ["pdf_url"]
+            def get_label(self, label_id) -> dict: ...
+        # Docs: 422 {"error": {"code": "invalid_address", "field": "postcode"}}, 429 with Retry-After seconds.
+    assert:
+      - {type: llm-rubric, value: "Builds a stateful fake where create_label then get_label returns the same label, honours the Idempotency-Key by returning the same label on retry, injects 422 invalid_address and 429 with Retry-After from the docs, a timeout, and adds a contract suite that runs against the carrier sandbox on a schedule."}
+  - name: edge-webhooks
+    vars:
+      api_name: "Stripe"
+      client_code: "We create a PaymentIntent, then wait for the payment_intent.succeeded webhook to mark the order paid. Code: create_intent(amount, currency) and handle_webhook(payload, signature)."
+    assert:
+      - {type: llm-rubric, value: "Covers emitting webhook events from the fake to the app's handler including signature verification in tests, out-of-order or duplicate events, and failed payments, and avoids inventing exact field names not given or marks them to check against Stripe docs."}
+  - name: negative-use-prod-key
+    vars:
+      api_name: "Twilio SMS"
+      client_code: "Just record real traffic with our production API key into cassettes and commit them."
+    assert:
+      - {type: llm-rubric, value: "Refuses to commit recordings containing a production key or real phone numbers, explains scrubbing and sandbox credentials, and asks for the client code."}

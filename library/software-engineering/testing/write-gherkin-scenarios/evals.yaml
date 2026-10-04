@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write Gherkin scenarios for: {{acceptance_criteria}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-loyalty-points
+    vars:
+      acceptance_criteria: |
+        Story: As a loyalty member I want points on purchases so I can get rewards.
+        AC1: Members earn 1 point per whole pound spent; pence are ignored.
+        AC2: Gold members earn double points.
+        AC3: Points are not earned on gift card purchases.
+        AC4: Returns remove the points earned on the returned items.
+      domain_terms: "member, gold member, basket, points balance"
+    assert:
+      - {type: contains, value: "```gherkin"}
+      - {type: llm-rubric, value: "Uses Rule blocks per business rule, declarative steps without UI clicks, a Scenario Outline for spend amounts such as 9.99 earning 9 points, separate scenarios for gold double points, gift cards and returns, and raises questions such as a partial return of a discounted basket or whether gold doubling applies to returns."}
+  - name: edge-imperative-input
+    vars:
+      acceptance_criteria: "Given I am on /login, When I type 'bob' in #username and click the blue Submit button and wait 3 seconds, Then I see the dashboard. Also users locked after 5 failed attempts."
+    assert:
+      - {type: llm-rubric, value: "Rewrites the imperative UI script into declarative business steps without selectors, URLs or waits, adds a scenario for lockout at the fifth failed attempt, and asks questions about lockout duration and unlocking."}
+  - name: negative-no-criteria
+    vars:
+      acceptance_criteria: "Make some BDD tests for our app."
+    assert:
+      - {type: llm-rubric, value: "Does not invent features or rules; asks for the user story and acceptance criteria."}

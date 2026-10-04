@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Write UI tests for this {{platform}} screen covering: {{flow}}. Code: {{screen_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-swiftui-login
+    vars:
+      platform: ios
+      flow: "Open app logged out, type email and password, tap Sign in, land on Home showing 'Welcome, Ana'. Wrong password shows an inline error. Server down shows a retry banner."
+      screen_code: |
+        struct LoginView: View {
+          @StateObject var vm = LoginViewModel(api: APIClient.shared)
+          var body: some View {
+            VStack {
+              TextField("Email", text: $vm.email)
+              SecureField("Password", text: $vm.password)
+              if let e = vm.error { Text(e).foregroundColor(.red) }
+              Button("Sign in") { Task { await vm.signIn() } }
+              if vm.loading { ProgressView() }
+            }
+          }
+        }
+    assert:
+      - {type: llm-rubric, value: "Uses XCUITest, adds accessibilityIdentifier values to the fields, button and error text, uses waitForExistence or expectations rather than sleep, replaces APIClient.shared with a stub selected through launch arguments or environment, and writes separate tests for success, wrong password and server-down states through a screen object."}
+  - name: edge-flutter-permission-dialog
+    vars:
+      platform: flutter
+      flow: "Tap 'Find stores near me', grant location permission, see a list of 3 stores. If permission is denied, see a 'Enter a postcode' field."
+      screen_code: |
+        class StoreFinder extends StatelessWidget {
+          Widget build(BuildContext c) => ElevatedButton(
+            onPressed: () async { final p = await Geolocator.requestPermission(); ... },
+            child: Text('Find stores near me'));
+        }
+    assert:
+      - {type: llm-rubric, value: "Uses integration_test with Key-based finders, handles the system permission dialog explicitly (fake location or permission service injected for tests, or pre-granting), covers both granted and denied paths, and does not use fixed delays."}
+  - name: negative-asks-for-sleeps
+    vars:
+      platform: android
+      flow: "Add a Thread.sleep(5000) after login so the dashboard has time to load, then check the balance text."
+      screen_code: "class DashboardActivity : AppCompatActivity() { /* loads balance from BalanceRepository via Retrofit */ }"
+    assert:
+      - {type: llm-rubric, value: "Declines to add the fixed sleep, explains briefly why, and uses an idling resource or Compose/Espresso condition wait plus a stubbed BalanceRepository or network layer instead."}

@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Write API tests for this spec: {{spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-openapi-orders
+    vars:
+      test_stack: "pytest with httpx"
+      spec: |
+        openapi: 3.0.3
+        paths:
+          /orders/{id}:
+            get:
+              security: [{bearer: [orders:read]}]
+              parameters: [{name: id, in: path, required: true, schema: {type: string, format: uuid}}]
+              responses: {'200': {description: ok, content: {application/json: {schema: {$ref: '#/components/schemas/Order'}}}}, '404': {description: not found}}
+          /orders:
+            post:
+              security: [{bearer: [orders:write]}]
+              requestBody: {content: {application/json: {schema: {type: object, required: [sku, qty], properties: {sku: {type: string, maxLength: 20}, qty: {type: integer, minimum: 1, maximum: 99}}}}}}
+              responses: {'201': {description: created}, '422': {description: invalid}}
+    assert:
+      - {type: contains, value: "## Spec gaps"}
+      - {type: llm-rubric, value: "Includes qty boundary cases at 0, 1, 99 and 100 and sku length 20 and 21, a test that a second user cannot read another user's order, a missing-scope 403 case, response validation against the Order schema, and lists missing 401/403 responses in the spec as gaps."}
+  - name: edge-graphql-mutation
+    vars:
+      test_stack: "Jest with supertest"
+      spec: |
+        type Mutation { transferFunds(from: ID!, to: ID!, amountCents: Int!): Transfer! }
+        type Query { account(id: ID!): Account }
+        type Account { id: ID! owner: User! balanceCents: Int! }
+    assert:
+      - {type: llm-rubric, value: "Tests negative, zero and very large amountCents, transfer from an account the caller does not own, querying another user's account, and query depth or complexity abuse, and notes the schema lacks documented error and authorization rules."}
+  - name: negative-no-spec
+    vars:
+      spec: "Our user service API, you know the usual CRUD endpoints."
+    assert:
+      - {type: llm-rubric, value: "Does not invent endpoints, fields or status codes; asks for the OpenAPI document or GraphQL schema."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "How do I tune the garbage collector for my {{runtime}} service? {{gc_logs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jvm-g1-container
+    vars:
+      runtime: jvm
+      latency_goal: "p99 under 200 ms"
+      gc_logs: |
+        Java 17, G1, container limit 2 GiB, -Xmx1900m. Service p99 spikes to 1.4 s every few minutes.
+        [gc] GC(812) Pause Young (Normal) 1210M->980M(1900M) 85ms
+        [gc] GC(813) Pause Young (Concurrent Start) (G1 Humongous Allocation) 1350M->1100M 140ms
+        [gc] GC(815) Pause Full (G1 Compaction Pause) 1880M->1020M 1320ms
+        Allocation rate ~900 MB/s. Occasional OOMKilled by Kubernetes.
+    assert:
+      - {type: contains, value: "## Experiment plan"}
+      - {type: llm-rubric, value: "Links the 1.3 s full GC to the p99 spikes, notes humongous allocations (large arrays relative to region size) and the very high allocation rate as root causes to fix first, flags -Xmx1900m in a 2 GiB container as leaving no room for non-heap memory (explaining OOMKilled) and proposes a lower heap or MaxRAMPercentage, and plans one change at a time under load."}
+  - name: edge-go-memlimit
+    vars:
+      runtime: go
+      gc_logs: "Go 1.22, container 512 MiB, GOGC default, no GOMEMLIMIT. gctrace shows gc every 200 ms, 30% CPU in GC, live heap ~150 MB, pods occasionally OOMKilled during traffic bursts."
+    assert:
+      - {type: llm-rubric, value: "Recommends setting GOMEMLIMIT below 512 MiB with headroom and adjusting GOGC trade-off, investigating allocation hotspots with pprof alloc_space, and checks GOMAXPROCS against the CPU quota."}
+  - name: negative-flag-list
+    vars:
+      runtime: dotnet
+      gc_logs: "No logs. Just give me the best GC settings for a fast API."
+    assert:
+      - {type: llm-rubric, value: "Does not hand out a blanket list of settings; asks for evidence and explains how to collect it (dotnet-counters, GC events, latency correlation), possibly naming the main decision points such as Server GC and container limits."}

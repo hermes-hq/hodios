@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Write tests for this game code: {{game_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unity-crit-damage
+    vars:
+      engine: "Unity 2022 LTS, C#"
+      game_code: |
+        public class Attack : MonoBehaviour {
+          public float baseDamage = 20; public float critChance = 0.15f; public float critMult = 2f;
+          void OnTriggerEnter(Collider other) {
+            var hp = other.GetComponent<Health>();
+            float dmg = baseDamage - hp.armor;
+            if (Random.value < critChance) dmg *= critMult;
+            hp.current -= dmg;
+          }
+        }
+    assert:
+      - {type: llm-rubric, value: "Extracts the damage calculation into a plain C# function with an injected seedable random source, writes edit-mode or plain NUnit tests including armor greater than base damage (damage must not go negative or heal), a forced crit and non-crit, and a seeded large-sample crit rate check within a stated tolerance, and keeps the trigger collision as a separate play-mode concern."}
+  - name: edge-variable-delta-jump
+    vars:
+      engine: "Godot 4, GDScript"
+      game_code: |
+        func _process(delta):
+          velocity.y += gravity * delta
+          if Input.is_action_just_pressed("jump") and is_on_floor(): velocity.y = -jump_speed
+          position += velocity * delta
+    assert:
+      - {type: llm-rubric, value: "Identifies that physics in _process with variable delta makes jump height frame-rate dependent, proposes moving to _physics_process or a fixed-step accumulator with an input interface, and writes a test comparing jump apex at different step rates within a tolerance using GUT or GdUnit."}
+  - name: negative-test-fun
+    vars:
+      game_code: "I want an automated test that tells me if my boss fight is fun."
+    assert:
+      - {type: llm-rubric, value: "Explains that fun cannot be asserted by automated tests, asks for the boss fight code, and offers what can be tested (phase transitions, damage windows, seeded attack patterns) plus playtest metrics to gather instead, without inventing code."}

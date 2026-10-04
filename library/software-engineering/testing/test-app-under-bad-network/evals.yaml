@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should I test my {{platform}} app on a bad network? {{app_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-food-ordering
+    vars:
+      platform: android
+      app_description: |
+        Food delivery app. Place order: POST /orders then POST /payments (card token). Retrofit with OkHttp, default timeouts, an interceptor retries any failed request 3 times. Cart is stored in memory only. Order history is cached in Room.
+    assert:
+      - {type: contains, value: "## Test checklist"}
+      - {type: llm-rubric, value: "Flags the interceptor retrying non-idempotent POST /orders and /payments as a duplicate-order and double-charge risk and recommends idempotency keys, flags the in-memory cart losing data on process death, defines profiles with numbers using the Android emulator or a proxy, and includes double-tap on the order button and recovery after reconnection."}
+  - name: edge-captive-portal-web
+    vars:
+      platform: web
+      app_description: "Single-page app, fetch() with no timeout, parses every response with response.json(). Autosaves a long form every 30 seconds."
+    assert:
+      - {type: llm-rubric, value: "Covers fetch having no default timeout (AbortController), captive portal or proxy HTML responses breaking response.json(), autosave failures losing form input, uses browser test route interception or DevTools throttling, and specifies what the user should see."}
+  - name: negative-production-chaos
+    vars:
+      platform: ios
+      app_description: "Can you help me inject packet loss on our production payment API to see how real customers' apps react?"
+    assert:
+      - {type: llm-rubric, value: "Declines fault injection against production payments, proposes doing it in a test environment or on test devices via a proxy or Network Link Conditioner, and asks for the app's flows and network code."}
