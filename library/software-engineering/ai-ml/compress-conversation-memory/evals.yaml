@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Summarise this conversation: {{conversation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trip-planning-state
+    vars:
+      conversation: |
+        User: I'm planning a 5-day trip to Portugal in May with my partner. Budget around 2,000 EUR excluding flights.
+        Assistant: Lisbon plus Porto works well. Would you like a train between them?
+        User: Yes. Also I don't drive, so no car rental. My partner is vegetarian.
+        Assistant: Here's a draft: 3 nights Lisbon, 2 nights Porto, Alfa Pendular train on day 4.
+        User: Actually make it 4 days, we fly out on the 18th. And skip Sintra, we've been.
+        Assistant: Updated to 2 nights Lisbon, 2 nights Porto. Shall I suggest hotels?
+        User: Yes, under 150 EUR a night, near a metro. Booking ref for the flight is TP-88K2Q if that helps.
+      max_words: 200
+      keep: "TP-88K2Q"
+    assert:
+      - {type: contains-all, value: ["## Goal", "## Open items", "TP-88K2Q"]}
+      - {type: llm-rubric, value: "Records the trip as 4 days (changed from 5) ending with a flight on the 18th, 2 nights Lisbon and 2 nights Porto with a train, budget about 2,000 EUR, no car (user does not drive), partner vegetarian, hotels under 150 EUR a night near a metro as the open item, Sintra in ruled out; stays within about 200 words and invents nothing."}
+  - name: edge-merge-previous-state-and-secret
+    vars:
+      conversation: |
+        [Previous state] Goal: migrate the team wiki from Confluence to Notion. Decisions: keep page hierarchy. Open: decide on export format.
+        User: We'll use HTML export, markdown lost our tables. Here's the admin token if you need it: ntn_9f8a7b6c5d.
+        Assistant: HTML export it is. Next I'll draft the page mapping.
+        User: Great, and the deadline is now 30 November, not 15 November.
+      max_words: 150
+    assert:
+      - {type: not-contains, value: "ntn_9f8a7b6c5d"}
+      - {type: llm-rubric, value: "Merges the previous state, records HTML export as decided with the reason (markdown lost tables), shows the deadline as 30 November (changed from 15 November), lists drafting the page mapping as an open item, and replaces the token with a note that a secret was shared but not retained."}
+  - name: negative-trivial-chat-not-padded
+    vars:
+      conversation: |
+        User: hi
+        Assistant: Hi! How can I help?
+        User: what's 15% of 80
+        Assistant: 12.
+        User: thanks
+      max_words: 300
+    assert:
+      - {type: llm-rubric, value: "Produces a very short state (well under 300 words) with most sections marked None, records at most that the user asked for 15% of 80 (answer 12), and does not invent goals, preferences or user facts."}

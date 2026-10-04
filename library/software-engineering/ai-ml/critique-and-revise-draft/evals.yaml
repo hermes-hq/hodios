@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Improve this draft so it meets the requirements. Requirements: {{requirements}} Draft: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-description
+    vars:
+      draft: "Introducing the AquaPure bottle! It's the best bottle ever made and keeps drinks cold for 48 hours. Made from premium materials. Buy now!!!"
+      requirements: |
+        - Audience: hikers.
+        - Mention capacity, insulation time and weight.
+        - No superlatives such as "best ever".
+        - Two to three sentences, no exclamation marks.
+      source_material: "AquaPure 750 ml, double-wall vacuum insulated stainless steel, keeps cold 24 h and hot 12 h, weighs 340 g, leak-proof lid."
+      rounds: 1
+    assert:
+      - {type: contains-all, value: ["## Round 1 critique", "## Round 1 revision", "## Remaining issues"]}
+      - {type: llm-rubric, value: "Flags the 48-hour claim as contradicting the 24-hour source, the superlative, the exclamation marks and the missing capacity and weight; the revision is two to three sentences aimed at hikers with 750 ml, 24 h cold and 340 g, no exclamation marks and no facts absent from the source."}
+  - name: edge-missing-information-placeholder
+    vars:
+      draft: "Hi Sam, thanks for your order. It will arrive soon. Best, the team"
+      requirements: |
+        - State the order number and the expected delivery date.
+        - Tell the customer how to track the parcel.
+        - Friendly, under 80 words.
+      source_material: "Order number 88412. Tracking via the link in the shipping confirmation email."
+      rounds: 2
+    assert:
+      - {type: contains, value: "88412"}
+      - {type: llm-rubric, value: "Adds the order number and tracking instructions from the source, inserts a visible placeholder such as [NEEDS: delivery date] instead of inventing a date, and lists the placeholder under Remaining issues."}
+  - name: negative-already-good
+    vars:
+      draft: "Your password was changed on 3 October at 14:05 UTC. If this wasn't you, reset it now at Settings > Security and contact support."
+      requirements: |
+        - Tell the user what changed and when.
+        - Tell them what to do if it was not them.
+        - One or two sentences, plain language.
+      rounds: 2
+    assert:
+      - {type: llm-rubric, value: "Marks every requirement as met, finds no high or medium defects, states that no revision is needed (or makes only trivial changes), and stops early instead of rewriting for its own sake."}

@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Clean up this transcript: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-light-cleanup-with-glossary
+    vars:
+      transcript: |
+        [00:00:03] speaker 1: um so the the main issue is that cooper netties keeps evicting the pods when the node runs out of memory
+        [00:00:11] speaker 2: right and uh we cant just raise the limits because of the the budget so i i think we try the vertical pod auto scaler first
+      verbatim_level: light
+      glossary: |
+        Kubernetes
+        Vertical Pod Autoscaler
+      speakers: "Speaker 1 = Lena (SRE); Speaker 2 = Omar (engineering manager)"
+    assert:
+      - {type: contains-all, value: ["## Transcript", "## Changes to check", "[00:00:03]", "[00:00:11]"]}
+      - {type: llm-rubric, value: "Fixes 'cooper netties' to Kubernetes and 'vertical pod auto scaler' to Vertical Pod Autoscaler using the glossary, applies the names Lena and Omar, removes fillers and stutters, restores punctuation and casing including 'can't', keeps 'I think', and keeps both timestamps."}
+  - name: edge-uncertain-fix-marked
+    vars:
+      transcript: |
+        speaker 1: we need to clear the cash before the deploy otherwise users see the old prices
+        speaker 2: ok and who owns the roll back plan
+        speaker 2: I do I wrote it last week
+      verbatim_level: clean
+    assert:
+      - {type: llm-rubric, value: "Fixes or marks 'cash' as cache with an inline [cash → cache?]-style marker unless clearly certain, recognises that the third line answers the second speaker's question and corrects or flags that label under Changes to check, and changes no meaning."}
+  - name: negative-strict-keeps-everything
+    vars:
+      transcript: "speaker 1: um I I didn't uh didn't sign that contract, I mean I saw it but I never signed it, damn it"
+      verbatim_level: strict
+    assert:
+      - {type: contains, value: "um"}
+      - {type: icontains, value: "damn"}
+      - {type: llm-rubric, value: "Keeps every word including fillers, repetitions and profanity, preserves both negations ('didn't sign', 'never signed'), and only adds punctuation and casing."}

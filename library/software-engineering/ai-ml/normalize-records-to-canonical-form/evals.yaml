@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Clean up and standardise these records into this format: {{target_format}} Records: {{records}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-company-names
+    vars:
+      records: |
+        c1 | MUSTER gmbh
+        c2 | acme corporation inc.
+        c3 | Société Générale s.a.
+        c4 | van den Berg Logistics B.V
+      target_format: "company: legal name in title case keeping the original language and accents; legal suffix in its official short form (GmbH, Inc., S.A., B.V.)."
+      country: varied
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Normalises to forms such as 'Muster GmbH', 'Acme Corporation Inc.', 'Société Générale S.A.' and 'van den Berg Logistics B.V.' (keeping the lowercase particle), preserves accents and ids, lists rule codes, and adds no information."}
+  - name: edge-ambiguous-address-and-date
+    vars:
+      records: |
+        a1 | 742 evergreen terrace springfield
+        a2 | Flat 2b, 10 downing st, london sw1a 2aa
+        a3 | delivered 03/04/2026 to 5 rue de rivoli paris
+      target_format: "street_number, street, unit, postcode, city, country (ISO alpha-2), delivery_date (ISO 8601 if present)"
+      country: varied
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Flags a1 for review because Springfield has no state or country and no postcode, without inventing them; normalises a2 with unit 2b, postcode SW1A 2AA, city London and GB; flags the a3 date as ambiguous (day and month order) rather than choosing silently, and does not invent the Paris postcode."}
+  - name: negative-no-invention
+    vars:
+      records: |
+        p1 | jon smyth
+        p2 | MCDONALD, ronald
+        p3 | Nguyễn văn an
+      target_format: "given_name, family_name, display_name (given then family, proper casing)"
+      country: varied
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Keeps 'Smyth' and 'Jon' as spelled (no 'correction' to Smith or John), produces Ronald McDonald with correct internal capitalisation from the comma-reversed input, keeps Vietnamese diacritics, and either applies Vietnamese family-name-first order with medium confidence or flags p3 for review; never invents middle names."}

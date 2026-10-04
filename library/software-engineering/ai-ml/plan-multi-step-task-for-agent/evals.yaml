@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Make a step-by-step plan to achieve this goal with these tools. Goal: {{goal}} Tools: {{tools}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-reminders
+    vars:
+      goal: "Send a polite payment reminder to every customer with an invoice more than 30 days overdue, and give me a summary of who was contacted."
+      tools: |
+        list_invoices(status: string, min_days_overdue: number) -> invoices with customer_id, amount, due_date [read-only]
+        get_customer(customer_id: string) -> name, email, preferred_language [read-only]
+        draft_email(template: string, variables: object) -> draft text [read-only]
+        send_email(to: string, subject: string, body: string) -> message id [sends]
+      constraints: "No more than 50 emails per run."
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Plans list_invoices with min_days_overdue 30 first, then get_customer per invoice and draft_email, gates send_email with needs_approval true, references earlier outputs with $stepN notation, gives each step an observable success check, adds a replan trigger for more than 50 overdue invoices, and ends with a summary step."}
+  - name: edge-missing-capability
+    vars:
+      goal: "Find our three slowest API endpoints from last week and open a ticket for each in Jira."
+      tools: |
+        query_metrics(metric: string, range: string, group_by: string) -> time series [read-only]
+        post_slack_message(channel: string, text: string) -> message id [sends]
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Identifies that no tool can create Jira tickets, lists it in gaps, and either returns status infeasible or plans only the metrics part while clearly flagging the gap; it does not invent a create_ticket tool."}
+  - name: negative-vague-goal
+    vars:
+      goal: "Sort out the customer data."
+      tools: |
+        query_db(sql: string) -> rows [read-only]
+        update_records(table: string, filter: object, changes: object) -> rows changed [writes]
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Returns status needs_clarification with up to three specific questions (what is wrong with the data, which tables, what 'sorted' means) and no steps, rather than planning updates."}

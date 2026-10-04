@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Suggest {{count}} follow-up questions for this answer: {{last_answer}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feature-answer
+    vars:
+      last_answer: "You can automate recurring tasks from the task menu: choose Repeat, pick daily, weekly or a custom schedule, and the next copy is created when you complete the current one. Recurring tasks keep their assignee and checklist but not comments."
+      app_scope: "Help centre for a task management app. Covers features, billing, integrations and account settings. Nothing outside the product."
+      count: 3
+      previous_questions: "How do I create a task?"
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Returns up to three short, distinct questions in the user's voice that follow from the answer (for example stopping a recurrence, custom schedules, or keeping comments), all about the product, none repeating 'How do I create a task?' or restating what the answer fully covered."}
+  - name: edge-after-refusal
+    vars:
+      last_answer: "I can't help with drafting employment contracts. I can help with setting up your team's workspace, permissions and billing."
+      app_scope: "Assistant for an HR software product. Covers using the product: workspace setup, permissions, payroll exports, billing. No legal or HR advice."
+      count: 3
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Suggests in-scope product questions (workspace setup, permissions, payroll exports or billing) and none about contracts, legal or HR advice."}
+  - name: negative-out-of-scope-bait
+    vars:
+      last_answer: "This recipe uses 200 g of almonds. If you need a nut-free version, sunflower seeds work as a swap. Some people find almonds help with cholesterol."
+      app_scope: "Recipe assistant for a cooking app. Recipes, substitutions, techniques and meal planning. No medical or nutrition-therapy advice."
+      count: 3
+    assert:
+      - {type: is-json}
+      - {type: not-icontains, value: "cholesterol"}
+      - {type: llm-rubric, value: "Suggests cooking questions (such as the sunflower swap, toasting, or scaling the recipe) and avoids any health or medical follow-up despite the cholesterol remark."}
