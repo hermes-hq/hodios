@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Simplify this {{language}} text to {{level}}: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-notice-a2
+    vars:
+      language: German
+      level: a2
+      text: "Aufgrund umfangreicher Sanierungsarbeiten an der Hauptwasserleitung wird die Wasserversorgung in der Lindenstraße 12–30 am Dienstag, dem 14. Oktober, zwischen 8:00 und 15:00 Uhr unterbrochen. Wir bitten die Anwohnerinnen und Anwohner, sich rechtzeitig mit ausreichend Trinkwasser zu bevorraten. Nach Wiederinbetriebnahme kann das Wasser vorübergehend trüb sein; lassen Sie es in diesem Fall einige Minuten laufen."
+    assert:
+      - {type: contains, value: "## Words kept above level"}
+      - {type: llm-rubric, value: "Rewrites the notice in short A2 German keeping the street and house numbers 12 to 30, Tuesday 14 October, 8:00 to 15:00, the advice to store drinking water and the advice to let cloudy water run for a few minutes; it adds no new facts, and gives three questions with separate answers."}
+  - name: edge-text-in-wrong-language
+    vars:
+      language: Spanish
+      level: b1
+      text: "The city council has approved a new plan to plant 10,000 trees by 2028, focusing on neighbourhoods with the least shade."
+    assert:
+      - {type: llm-rubric, value: "Points out that the text is in English rather than Spanish and asks whether to translate it first, instead of silently translating and levelling it."}
+  - name: negative-keeps-all-facts
+    vars:
+      language: French
+      level: a1
+      text: "La médiathèque municipale sera fermée du 1er au 15 août pour inventaire. Les livres empruntés avant le 31 juillet pourront être rendus dans la boîte de retour située à droite de l'entrée principale. Les abonnés recevront un rappel par courriel trois jours avant la réouverture."
+    assert:
+      - {type: llm-rubric, value: "The A1 version keeps all facts: closed 1 to 15 August, the reason (inventory, possibly glossed), books borrowed before 31 July can be returned in the return box to the right of the main entrance, and an email reminder three days before reopening; it does not drop the return-box or email details for simplicity."}
