@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write architecture documentation for {{system}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-and-worker
+    vars:
+      system: "A repository with a Next.js web app, a Node API, a Redis-backed job worker that sends emails, a Postgres database, docker-compose and Terraform for AWS; one existing ADR chose Postgres over DynamoDB."
+      audience: new-engineers
+    assert:
+      - {type: contains, value: "## Overview document"}
+      - {type: llm-rubric, value: "Produces context and container diagrams in Mermaid, describes a request flow and the email job flow, links the existing Postgres ADR in the key decisions, and lists sources per section."}
+  - name: edge-missing-rationale
+    vars:
+      system: "A service that uses both MongoDB and Postgres with no documentation explaining why."
+    assert:
+      - {type: llm-rubric, value: "Describes what each store holds and the trade-off it implies, marks the reason for using both as to confirm, and asks the team rather than inventing a rationale."}
+  - name: negative-no-fiction
+    vars:
+      system: "Please write a full architecture document for our payments platform; I can't share the code."
+      audience: reviewers-and-auditors
+    assert:
+      - {type: llm-rubric, value: "Does not invent components or decisions; asks for the code, notes or diagrams needed, or offers a template marked as to confirm."}

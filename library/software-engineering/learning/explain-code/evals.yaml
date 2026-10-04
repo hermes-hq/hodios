@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Explain this code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-beginner-reduce
+    vars:
+      code: "const totals = orders.reduce((acc, o) => { acc[o.customerId] = (acc[o.customerId] ?? 0) + o.amount; return acc; }, {});"
+      reader: "Junior developer, comfortable with for loops, new to reduce."
+    assert:
+      - {type: contains, value: "## Worked example"}
+      - {type: llm-rubric, value: "States that the code totals order amounts per customer, explains reduce, the accumulator and the nullish coalescing operator in beginner terms, traces a small list of orders to the resulting object, and mentions a gotcha such as mutating the accumulator or floating-point sums."}
+  - name: edge-question-first
+    vars:
+      code: "SELECT user_id, COUNT(*) FROM events WHERE created_at > now() - interval '7 days' GROUP BY 1 HAVING COUNT(*) > 5;"
+      question: "Why is HAVING used instead of WHERE for the count?"
+    assert:
+      - {type: llm-rubric, value: "Answers the HAVING versus WHERE question directly first (WHERE filters rows before grouping, HAVING filters groups after aggregation), then explains the rest briefly, including GROUP BY 1."}
+  - name: negative-no-rewrite
+    vars:
+      code: "def f(xs):\n    r = []\n    for i in range(len(xs)):\n        if xs[i] % 2 == 0:\n            r.append(xs[i] * xs[i])\n    return r"
+      reader: "Experienced Python developer reviewing legacy code."
+    assert:
+      - {type: llm-rubric, value: "Explains concisely that it returns squares of the even numbers, pitched at an expert without explaining basic loops, and does not replace the explanation with a refactored version (a one-line note about a list comprehension is acceptable)."}

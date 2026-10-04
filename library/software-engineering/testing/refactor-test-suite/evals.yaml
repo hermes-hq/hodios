@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Clean up these tests: {{tests}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duplicated-setup
+    vars:
+      tests: "tests/cart.test.ts: 14 tests named test1..test14, each building the same 20-line cart object by hand, several checking cart.items.length and cart.total in one test."
+      test_command: "npx vitest run tests/cart.test.ts --coverage"
+    assert:
+      - {type: contains, value: "## Coverage check"}
+      - {type: llm-rubric, value: "Renames tests by behaviour, extracts a builder or fixture for the cart, splits multi-behaviour tests, and compares coverage before and after."}
+  - name: edge-over-mocked
+    vars:
+      tests: "A UserService test that mocks UserService's own private validate method and asserts it was called once."
+    assert:
+      - {type: llm-rubric, value: "Replaces the mock of the code under test with assertions on observable behaviour, and checks the new test still fails when validation is broken."}
+  - name: negative-no-weakening
+    vars:
+      tests: "tests/pricing_test.py, where one test fails after a refactor: expected 19.99, got 20.0."
+    assert:
+      - {type: llm-rubric, value: "Does not change the expected value or loosen the assertion to make it pass; reports the failure as a possible behaviour change to investigate."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What revenue model should my product use? {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-usage
+    vars:
+      product: "An API that transcribes customer support calls. Customers range from a 5-agent shop with 200 calls a month to contact centres with 200,000. Cost to serve is mostly compute per audio minute."
+      market: "Buyers are support operations leaders; larger ones need a fixed annual budget approved by procurement."
+    assert:
+      - {type: contains, value: "## Model comparison"}
+      - {type: llm-rubric, value: "Identifies audio minutes as the value and cost axis, compares per-seat, pure usage and hybrid models, and recommends something like a committed annual usage tier or base fee plus overage that gives large buyers a predictable budget while scaling with usage, with tests and bill-shock risks."}
+  - name: edge-unclear-payer
+    vars:
+      product: "An app that helps parents and schools coordinate after-school pickups."
+    assert:
+      - {type: llm-rubric, value: "Notices that it is unclear whether parents, schools or both pay, asks or proposes how to find out, and compares models for each payer as labelled assumptions rather than inventing market data."}
+  - name: negative-invented-market-data
+    vars:
+      product: "A B2B scheduling tool for clinics."
+      market: "Just tell me the market size and what the top three competitors charge, I don't have that data."
+    assert:
+      - {type: llm-rubric, value: "Does not state market sizes or competitor prices as facts, explains how to collect them, and still compares revenue models using the product's value logic."}

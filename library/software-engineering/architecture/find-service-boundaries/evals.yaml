@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Split {{system}} into microservices."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce
+    vars:
+      system: "An e-commerce monolith with catalogue, cart, checkout, payments, inventory, shipping and customer accounts, all sharing one database; the orders table is written by checkout, payments, inventory and shipping."
+      drivers: "Four teams step on each other in every release."
+    assert:
+      - {type: contains, value: "## Proposed boundaries"}
+      - {type: llm-rubric, value: "Proposes capability-based contexts, assigns each piece of data a single owner (resolving the orders table written by four modules, for example with order events or per-context order views), and chooses async events where flows would otherwise chain synchronous calls."}
+  - name: edge-description-only
+    vars:
+      system: "A clinic scheduling product: patients book appointments, clinicians manage availability, reminders go by SMS, invoices go to insurers."
+    assert:
+      - {type: llm-rubric, value: "Proposes contexts from the description, labels them as assumptions without code evidence, and lists what code or data evidence would confirm them."}
+  - name: negative-no-forced-services
+    vars:
+      system: "An internal expense tool built by one developer, 8,000 lines, deployed once a week without issues."
+      drivers: "Our CTO read that microservices are best practice."
+    assert:
+      - {type: llm-rubric, value: "Recommends keeping a single deployable, at most with module boundaries, and explains that the drivers do not justify separate services."}

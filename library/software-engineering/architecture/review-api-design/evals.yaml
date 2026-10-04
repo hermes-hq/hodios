@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Review this API design: {{api}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inconsistent-errors
+    vars:
+      api: |
+        GET /users?page=2 -> 200 {"users": [...], "page": 2}
+        GET /orders?cursor=abc -> 200 {"data": [...], "next": "def"}
+        POST /createOrder -> 200 {"error": "out of stock"}
+        GET /user/42 -> 200 {"userId": 42, "created": "03/10/2026"}
+        GET /orders/7 -> 200 {"order_id": 7, "created_at": "2026-10-03T10:00:00Z"}
+      status: in-use
+    assert:
+      - {type: contains, value: "## Endpoint review"}
+      - {type: llm-rubric, value: "Flags the mixed pagination styles, the error returned with status 200, the verb in /createOrder, the singular /user path, and the inconsistent field naming and date formats, and gives backward-compatible changes because the API is in use."}
+  - name: edge-proposed-freedom
+    vars:
+      api: "A proposed API with GET /v1/projects, POST /v1/projects, PATCH /v1/projects/{id}, all returning problem+json errors, but list endpoints have no pagination."
+      status: proposed
+    assert:
+      - {type: llm-rubric, value: "Recommends adding pagination before release and notes that, because the API is not yet in use, it can be changed directly without a migration path."}
+  - name: negative-no-breaking-rename
+    vars:
+      api: "A public API used by 300 integrations returns the field 'usr_nm'. The team wants it named 'username'."
+      status: in-use
+    assert:
+      - {type: llm-rubric, value: "Does not recommend simply renaming the field; proposes adding username alongside usr_nm with a deprecation period or a new version."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Review the architecture of {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-god-module
+    vars:
+      target: "A Django monolith where app 'core' has 40,000 lines, is imported by all 12 other apps, imports 9 of them back, and every feature PR touches core/models.py."
+      goals: "Let three teams ship independently."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Identifies the core app as a god module with cyclic dependencies, ties this to the co-change evidence and the goal of independent teams, and recommends incremental steps such as moving models to the apps that own them and enforcing dependency direction, rather than a rewrite."}
+  - name: edge-no-history
+    vars:
+      target: "A small Go service of 6 packages, provided as a source archive without git history."
+    assert:
+      - {type: llm-rubric, value: "Works from the import graph and code, notes that co-change evidence is unavailable, and does not invent findings that need history."}
+  - name: negative-no-microservices-push
+    vars:
+      target: "A 15,000-line Rails app maintained by two developers, with clear models and controllers and no performance problems."
+      goals: "Keep shipping features."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend splitting into microservices; says the current structure fits the team and goals and limits recommendations to small, evidence-backed improvements."}

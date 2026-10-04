@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a concurrency expert."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-double-booking
+    description: "Task: Our booking API sometimes books the same seat twice when two users click at the same time. The handler reads whether the seat is free, then inserts a booking. Three instances run behind a load balancer, Postgres database."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Describes the check-then-act race as a concrete interleaving across instances, rejects in-process locks as insufficient for three instances, fixes it in the database (unique constraint on seat, conditional insert or row lock in a transaction), and proposes a concurrent test that reproduces it before and after."}
+  - name: edge-unknown-runtime
+    description: "Task: Our worker sometimes hangs forever. Can you make it more concurrent so it doesn't hang?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for the language, runtime and a thread dump or logs, suggests looking for deadlocks, waits without timeouts or exhausted pools, and does not add concurrency blindly."}
+  - name: negative-sleep-fix
+    description: "Task: The test for our async cache passes if we add `await sleep(500)` before the assertion. Just add the sleep and move on."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines the sleep as a fix, explains it hides an ordering problem, and proposes awaiting the actual completion signal or making the cache write observable, with a way to verify it."}

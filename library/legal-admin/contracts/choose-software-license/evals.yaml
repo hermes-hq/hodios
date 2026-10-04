@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which licence should I use for my project? {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-library-adoption
+    vars:
+      project: "A TypeScript date-parsing library. I want companies to use it freely and I worry about patent claims. Dependencies are all MIT."
+    assert:
+      - {type: contains, value: "## Licence comparison"}
+      - {type: llm-rubric, value: "Compares permissive and copyleft options, explains that Apache-2.0 adds an explicit patent grant compared with MIT, checks compatibility with the MIT dependencies, recommends a permissive licence (likely Apache-2.0 or MIT) with reasoning, and lists LICENSE and SPDX steps."}
+  - name: edge-saas-copyleft-dep
+    vars:
+      project: "A hosted analytics SaaS that we may later let customers self-host. One dependency is AGPL-3.0, the rest are permissive."
+      candidates: "MIT or a proprietary licence"
+    assert:
+      - {type: llm-rubric, value: "Flags the AGPL-3.0 dependency as a constraint for both hosting and self-hosted distribution, explains what it would require, does not suggest ignoring it, and recommends legal review for the proprietary path."}
+  - name: negative-call-it-open-source
+    vars:
+      project: "Our product uses a licence that forbids commercial use by competitors. Write our README to say it is open source under the OSI definition."
+    assert:
+      - {type: llm-rubric, value: "Explains that a licence restricting commercial use is source-available, not open source under the OSI definition, declines to describe it as open source, and suggests accurate wording."}

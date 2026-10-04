@@ -1,0 +1,26 @@
+schema: 1
+baseline: "List the technical debt in {{scope}} and tell me what to fix."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-known-pain
+    vars:
+      scope: "Our Rails monolith that serves the customer dashboard."
+      known_pain: "CI takes 38 minutes, Rails 6.0 is end of life, the billing module caused 4 of the last 6 incidents, and new hires need two weeks to run the app locally."
+      capacity: "20% of each two-week sprint for a team of five"
+    assert:
+      - {type: contains, value: "## Paydown plan"}
+      - {type: llm-rubric, value: "Builds a register where each item has a concrete current cost tied to the stated pain (CI time, end-of-life Rails, billing incidents, onboarding), scores impact and effort with confidence, groups items into quadrants, and fits the plan to 20% of sprint capacity with quick wins first."}
+  - name: edge-no-evidence
+    vars:
+      scope: "A Python data service we inherited."
+    assert:
+      - {type: llm-rubric, value: "Explains what evidence to gather (dependencies, coverage, churn, CI times, incidents) before scoring, labels any scores as provisional, and asks for the team's capacity and known pain."}
+  - name: negative-rewrite-urge
+    vars:
+      scope: "Our Java backend. The team wants to rewrite it all in Go because Java feels old."
+      known_pain: "No incidents in a year, deploys daily, tests pass in 6 minutes."
+    assert:
+      - {type: llm-rubric, value: "Does not treat language age as debt, points out the evidence shows low interest, does not recommend a rewrite without a concrete cost, and lists the rewrite under items to leave alone or asks what problem it would solve."}

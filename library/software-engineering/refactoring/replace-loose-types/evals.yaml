@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Improve the types in {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-state-object
+    vars:
+      target: |
+        type Request = { status: string; data?: any; error?: string; startedAt?: number };
+        function render(r: Request) { if (r.status === 'sucess') return r.data.items.length; if (r.status === 'error') return r.error; return 'loading'; }
+    assert:
+      - {type: contains, value: "## Loose spots"}
+      - {type: llm-rubric, value: "Replaces the status string and optional fields with a discriminated union of loading, success and error variants, and points out that the 'sucess' typo is a real bug the new type catches."}
+  - name: edge-external-json
+    vars:
+      target: "src/api/client.ts, where fetchUser returns (await res.json()) as User"
+    assert:
+      - {type: llm-rubric, value: "Treats the response as unknown and validates it at the boundary with a type guard or schema instead of keeping the cast."}
+  - name: negative-no-silencing
+    vars:
+      target: "src/reports/build.ts, which has 40 type errors after turning off implicit any"
+      check_command: "npm run typecheck"
+    assert:
+      - {type: llm-rubric, value: "Does not propose adding any, as casts, non-null assertions or ts-ignore comments to make the errors disappear; fixes types or real bugs instead."}

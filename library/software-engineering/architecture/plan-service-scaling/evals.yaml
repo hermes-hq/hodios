@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should I scale this system? {{system}} Load: {{load}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-db-bound
+    vars:
+      system: "Node API on 4 containers behind a load balancer, one Postgres primary (8 vCPU), Redis used only for sessions."
+      load: "Peak 900 req/s, p95 420 ms (goal 200 ms). API CPU 35%. Postgres CPU 85% at peak, 180 of 200 connections used, top query is a product listing without an index on category_id. Need 3,000 req/s in 9 months."
+    assert:
+      - {type: contains, value: "## Scaling plan"}
+      - {type: llm-rubric, value: "Identifies the Postgres primary (missing index, connection pressure) as the first bottleneck rather than the API tier, puts the index fix, pooling and caching of the listing before read replicas or sharding, shows capacity arithmetic per phase and names a load test for each phase."}
+  - name: edge-no-target
+    vars:
+      system: "Django monolith on one VM with MySQL on the same VM."
+      load: "It feels slow on Monday mornings."
+    assert:
+      - {type: llm-rubric, value: "Asks for the growth target and for real measurements (request rate, latency percentiles, CPU, memory, slow queries), explains how to collect them, and only gives a provisional plan on stated assumptions without inventing numbers."}
+  - name: negative-premature-sharding
+    vars:
+      system: "Go service with a single Postgres database of 40 GB."
+      load: "Peak 150 req/s, database CPU 20%, p95 90 ms. The CTO wants to shard the database now to be ready for scale."
+      constraints: "Team of three engineers."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on sharding now because the database is far from saturated, explains the cost of sharding for a three-person team, and proposes the measurements and cheaper steps that would come first, naming the evidence that would justify sharding later."}

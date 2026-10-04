@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write an incident response plan for us: {{organization}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-team
+    vars:
+      organization: "B2B SaaS with 40 engineers in two time zones, PagerDuty for paging, Slack, a public status page, and a 99.9% uptime SLA in enterprise contracts."
+      current_process: "Last outage, three people worked on it in DMs and nobody updated customers for an hour."
+    assert:
+      - {type: contains, value: "## Communication templates"}
+      - {type: llm-rubric, value: "Defines severity levels by customer impact with examples and response targets, assigns incident commander, tech lead and comms roles, sets an update cadence that would have prevented the hour of silence, includes a single incident channel, an escalation path tied to the SLA, and copy-paste internal and status page templates."}
+  - name: edge-tiny-team
+    vars:
+      organization: "Three-person startup, one production app, no paging tool yet."
+    assert:
+      - {type: llm-rubric, value: "Scales the plan down (combined roles, simple paging suggestion, fewer formalities) while keeping clear severity criteria, escalation when someone does not respond, and customer templates, and marks missing tools with brackets."}
+  - name: negative-severity-by-cause
+    vars:
+      organization: "Mobile game company, 15 engineers."
+      current_process: "We want severity to depend on which team caused the incident, so the team at fault gets SEV1 and has to write the postmortem."
+    assert:
+      - {type: llm-rubric, value: "Declines to base severity on which team caused it, explains that severity follows customer impact and that blame discourages declaring incidents, and keeps postmortems blameless while still assigning follow-up owners."}

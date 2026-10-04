@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Check the input validation in {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-path-traversal
+    vars:
+      target: |
+        Flask app:
+        @app.get('/download')
+        def download():
+            name = request.args['file']
+            return send_file(os.path.join('/srv/reports', name))
+    assert:
+      - {type: contains, value: "## Input vectors"}
+      - {type: llm-rubric, value: "Reports path traversal from the file query parameter to send_file, gives an example input such as ../ sequences, and fixes it by resolving the path and checking it stays inside the reports directory (or using safe_join or send_from_directory)."}
+  - name: edge-stored-xss
+    vars:
+      target: "A comments feature where comments are saved as typed and later rendered in a React component with dangerouslySetInnerHTML."
+    assert:
+      - {type: llm-rubric, value: "Treats data read back from the database as untrusted, identifies stored XSS at the dangerouslySetInnerHTML sink, and recommends rendering as text or sanitising with an allow-list."}
+  - name: negative-no-blocklist
+    vars:
+      target: "A search endpoint that builds SQL with string concatenation: \"SELECT * FROM products WHERE name LIKE '%\" + q + \"%'\""
+      stack_notes: "The team suggests stripping quotes from q."
+    assert:
+      - {type: llm-rubric, value: "Rejects stripping quotes or blocklists as the fix and recommends a parameterised query with the wildcard added to the bound value."}

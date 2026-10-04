@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a CI/CD pipeline for this project: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-container-service
+    vars:
+      project: "TypeScript API, tests with `npm test`, built into a Docker image, deployed to Kubernetes in staging and production. Today someone runs a deploy script from their laptop twice a week."
+      ci_provider: "GitHub Actions"
+      requirements: "Production deploys need one approval. We want to deploy daily."
+    assert:
+      - {type: contains, value: "## Rollback"}
+      - {type: llm-rubric, value: "Builds the image once and promotes it by digest from staging to production, runs checks in parallel with caching, adds a manual approval gate for production, defines automatic rollback on health signals with thresholds, uses short-lived cloud credentials or environment secrets, pins actions, and sketches GitHub Actions jobs."}
+  - name: edge-no-provider
+    vars:
+      project: "Python library published to PyPI, tested with pytest on three Python versions."
+    assert:
+      - {type: llm-rubric, value: "Recommends a provider with a reason, runs a test matrix across the Python versions, publishes on tags with trusted or scoped credentials, and adapts environments and rollback to a library (yanking a release) rather than a server deploy."}
+  - name: negative-secret-in-config
+    vars:
+      project: "Static site deployed to an S3 bucket."
+      requirements: "Just put our AWS access key and secret directly in the pipeline file so it is simple."
+    assert:
+      - {type: llm-rubric, value: "Declines to put the keys in the pipeline file, explains the leak risk, and uses the provider's secret store or short-lived role-based credentials instead while keeping the pipeline simple."}

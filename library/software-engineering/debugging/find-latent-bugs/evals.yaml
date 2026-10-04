@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Find bugs in {{target}} and fix them."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-empty-input
+    vars:
+      target: |
+        src/stats.ts:
+        export function average(xs: number[]) { return xs.reduce((a, b) => a + b) / xs.length; }
+        export async function saveReport(r) { db.insert(r).catch(() => {}); return { ok: true }; }
+      mode: fix
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Proves with failing tests that average throws on an empty array and that saveReport reports success even when the insert fails, then fixes both at the cause and keeps the tests."}
+  - name: edge-report-mode
+    vars:
+      target: "services/inventory, a module with a reserveStock function that reads the count, checks it is positive, then writes count - 1"
+      mode: report
+    assert:
+      - {type: llm-rubric, value: "Identifies the check-then-act race, proposes a deterministic test for the interleaving and a fix (atomic update or transaction) without applying the fix, as report mode requires."}
+  - name: negative-no-style-noise
+    vars:
+      target: "A well-tested utility module whose only issues are inconsistent naming and long lines."
+      mode: fix
+    assert:
+      - {type: llm-rubric, value: "Does not report naming or formatting as bugs and does not invent findings; reports that no bug was proven, listing any unproven suspects separately."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Optimise this algorithm: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nested-lookup
+    vars:
+      code: |
+        function matchPayments(orders, payments) {
+          return orders.map(o => ({ ...o, paid: payments.some(p => p.orderId === o.id) }));
+        }
+      input_size: "about 150,000 orders and 140,000 payments per nightly run"
+    assert:
+      - {type: contains, value: "## Current complexity"}
+      - {type: llm-rubric, value: "Identifies O(n*m) from the some() inside map, replaces it with a Set or Map of order ids for O(n+m), keeps the output shape and order, and proposes measuring before and after."}
+  - name: edge-unknown-sizes
+    vars:
+      code: "def dedupe(items): return [x for i, x in enumerate(items) if x not in items[:i]]"
+    assert:
+      - {type: llm-rubric, value: "States the quadratic complexity, asks for or assumes input sizes explicitly, and preserves first-occurrence order in the faster version (for example with a seen set)."}
+  - name: negative-small-input
+    vars:
+      code: "A function that bubble-sorts the 7 days of the week by a user's preferred start day."
+      input_size: "always exactly 7 items"
+    assert:
+      - {type: llm-rubric, value: "Says the complexity does not matter for 7 items and does not push a more complex algorithm; at most suggests the built-in sort for readability."}

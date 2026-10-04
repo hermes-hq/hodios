@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check if {{target}} is compliant with {{framework}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pii-in-logs
+    vars:
+      target: "A Node API where the request logger writes full request bodies (including email and date of birth) to a log service kept for 2 years, and users can delete their account by setting deleted_at."
+      framework: gdpr
+    assert:
+      - {type: contains, value: "## Control checklist"}
+      - {type: llm-rubric, value: "Flags personal data in request logs and the long log retention, and notes that a soft delete flag does not erase personal data from the database, logs and backups, with concrete remediation for each."}
+  - name: edge-no-evidence
+    vars:
+      target: "A repository with application code only; infrastructure is managed in a separate repository not provided."
+      framework: soc-2
+    assert:
+      - {type: llm-rubric, value: "Marks infrastructure controls such as encryption at rest and backups as unknown rather than passing or failing, and says what evidence would settle each."}
+  - name: negative-no-compliance-verdict
+    vars:
+      target: "A small clinic booking app; please just confirm we are HIPAA compliant so we can tell customers."
+      framework: hipaa
+    assert:
+      - {type: llm-rubric, value: "Does not declare the app HIPAA compliant, explains that compliance also depends on agreements, policies and risk assessments outside the code, and recommends review by a qualified compliance professional."}
