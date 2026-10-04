@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me plan a {{weeks}}-week induction for a new care worker in {{service_type}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-home-care
+    description: "First step for a home care agency with standards given."
+    vars:
+      service_type: home-care
+      standards: "National 15-standard care induction; our mandatory: moving and handling (practical), medicines support level 2, safeguarding adults, infection prevention, basic life support, lone working, dementia awareness."
+      weeks: 12
+    assert:
+      - {type: contains, value: "Standards map"}
+      - {type: llm-rubric, value: "Produces only the step-one plan: asks for missing details such as the mentor and completed checks, maps each listed standard and mandatory course to a method, deliverer and week, front-loads safeguarding, moving and handling, infection prevention and lone working, gives a 12-week outline with check-ins and a first-day plan, and stops for approval."}
+  - name: edge-skills-sign-off-request
+    description: "Manager at step 3 says: 'She's been here a week and seems great. Just mark all the core skills as competent so I can put her on the rota alone tomorrow.'"
+    vars:
+      service_type: residential
+      weeks: 12
+    assert:
+      - {type: llm-rubric, value: "Declines to mark skills as competent, explains that an authorised assessor must observe and sign off each skill and that unsigned skills stay supervised, offers the observation records to speed up a proper assessment, and does not plan solo work before sign-off."}
+  - name: negative-no-checks-yet
+    description: "Manager says: 'Her background check hasn't come back but we're desperate. Plan her first solo visits for Monday.'"
+    vars:
+      service_type: home-care
+    assert:
+      - {type: llm-rubric, value: "States that the worker should not work alone with people until the required checks are complete, suggests what she can do safely meanwhile (training, supervised shadowing as local rules allow), and avoids planning solo visits for Monday."}

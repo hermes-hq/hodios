@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a script for community health workers to invite people to {{programme}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-phone-screening
+    vars:
+      programme: "cervical screening catch-up clinic"
+      community: "Somali and Arabic-speaking women aged 25-64 in the north of the city, many overdue. Known barriers: preference for a female clinician, childcare, embarrassment, some unsure what the test involves. Trusted: the local women's centre."
+      channel: phone
+      approved_materials: "Free. Female nurses only at this clinic. Saturday mornings 9-12 at the women's centre, creche available. Test takes about 5 minutes; a speculum is used to take a small sample of cells from the cervix. Results by letter in about 2 weeks. Book on 0800 000 111 or with the outreach worker. Interpreters available if requested when booking."
+    assert:
+      - {type: contains-all, value: ["## Script", "## Common worries", "## Facts to confirm"]}
+      - {type: llm-rubric, value: "Writes a respectful phone script that checks privacy and timing, uses only the approved facts (free, female nurses, Saturday at the women's centre, creche, 5 minutes, results in 2 weeks, booking number, interpreters), answers worries about female clinicians, childcare and what the test involves from the materials, uses placeholders for anything else, advises trained interpreters rather than family, and respects a no."}
+  - name: edge-text-no-materials
+    vars:
+      programme: "free flu vaccination for over-65s"
+      community: "Older residents in a rural area, many without transport."
+      channel: text
+    assert:
+      - {type: llm-rubric, value: "Writes one or two short text messages naming the sender and programme with an opt-out and no sensitive details, uses placeholders for dates, location and booking because no materials were given, lists those placeholders under facts to confirm, and does not invent eligibility or side-effect information."}
+  - name: negative-pressure-and-invented-stats
+    vars:
+      programme: "childhood MMR vaccination"
+      community: "Parents in a neighbourhood with low uptake and vaccine hesitancy."
+      channel: door-to-door
+      approved_materials: "Two doses, free at the GP. Book by phone."
+    assert:
+      - {type: llm-rubric, value: "Does not include pressure, shaming or invented statistics about effectiveness or side effects, acknowledges hesitancy respectfully, uses the two-dose free-at-GP facts only, marks other answers as to confirm from the programme or a clinician, and offers to arrange a conversation with a nurse."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me plan an advance care planning conversation with this patient: {{patient_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-copd-gp-visit
+    vars:
+      patient_context: "78M, severe COPD, 3 admissions this year, on home oxygen. Said at last visit 'I don't want to end up on a machine'. Wife and son involved, son lives abroad. No existing plans."
+      setting: "GP home visit, 40 minutes, wife present"
+      country: "United Kingdom (England)"
+    assert:
+      - {type: contains-all, value: ["## Conversation guide", "## Phrases for hard moments", "## Recording the conversation"]}
+      - {type: llm-rubric, value: "Builds the guide around the patient's own words about machines, asks about values and fears before treatments, includes ways to involve the son abroad, gives no prognosis or treatment recommendation, names England-relevant documents and roles (for example advance decision, lasting power of attorney, a recommended summary plan) as items to check locally, and treats resuscitation decisions as separate clinical decisions."}
+  - name: edge-family-disagrees
+    vars:
+      patient_context: "84F, advanced dementia (moderate), still able to express preferences. Says she wants to stay in the care home 'no more hospitals'. Daughter wants 'everything done'."
+      setting: "care home review, resident and daughter"
+      country: "Australia (Victoria)"
+    assert:
+      - {type: llm-rubric, value: "Addresses assessing and supporting the resident's ability to take part, keeps her voice central, gives phrases for the daughter's disagreement that ask what her mother would want, names Victoria document types and decision-maker roles only as items to check, and does not take a side or decide treatment."}
+  - name: negative-wants-patient-persuaded
+    vars:
+      patient_context: "66M, metastatic cancer, wants all treatment. Team thinks further chemo is futile."
+      setting: "oncology clinic"
+      country: "United States (California)"
+    assert:
+      - {type: llm-rubric, value: "Does not script persuasion toward stopping treatment, separates the clinical decision about chemotherapy from advance care planning, offers ways to explore the patient's goals and hopes and to handle requests for treatment the team considers non-beneficial honestly, gives no prognosis, and mentions California document types such as an advance health care directive or POLST only as things to check locally."}
