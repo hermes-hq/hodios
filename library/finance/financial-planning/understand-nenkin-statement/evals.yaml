@@ -1,0 +1,29 @@
+schema: 1
+baseline: "このねんきん定期便の見方を教えてください。{{statement_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-40-sai-tenshoku
+    vars:
+      statement_text: "はがき。加入期間：国民年金（第1号）34月、厚生年金 182月、合計 216月。これまでの保険料納付額（累計額）：約780万円。これまでの加入実績に応じた年金額：老齢基礎年金 約36万円、老齢厚生年金 約42万円、合計 約78万円（年額）。"
+      age: 40
+      employment_history: "大学卒業後2年はフリーター、その後3社で会社員。"
+    assert:
+      - {type: contains, value: "## 一行ずつの説明"}
+      - {type: llm-rubric, value: "日本語のです・ます調で、50歳未満なので年金額はこれまでの加入実績による額であり将来の見込みではないと説明し、第1号34月はフリーター期間と学生時代に対応する可能性と未納・学生納付特例の確認を促し、3社の厚生年金記録が揃っているか確認する質問を挙げ、額は額面であると伝え、将来額を断定しない。"}
+  - name: edge-55-sai-dai3gou
+    vars:
+      statement_text: "加入期間：第3号 240月、厚生年金 96月、国民年金（第1号）0月、合計 336月。老齢年金の見込額：基礎 約61万円、厚生 約15万円。"
+      age: 55
+      employment_history: "結婚前に8年会社員、その後は夫の扶養。旧姓で働いていました。"
+    assert:
+      - {type: llm-rubric, value: "50歳以上なので見込額は60歳まで今の条件で加入を続けた場合の額だと説明し、第3号期間の意味、旧姓時代の厚生年金記録の漏れの可能性と確認方法、受給開始時期の選択肢を率は確認として紹介し、年金事務所への持ち物と質問を挙げる。"}
+  - name: negative-nenrei-nashi
+    vars:
+      statement_text: "なんか届いたけど意味がわからない"
+      age: 0
+      employment_history: ""
+    assert:
+      - {type: llm-rubric, value: "記載内容と年齢がわからないため、定期便の主な数字（加入期間、納付額、年金額）と年齢を尋ねて止まり、数字を作り出さない。"}

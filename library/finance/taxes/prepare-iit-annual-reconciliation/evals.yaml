@@ -1,0 +1,29 @@
+schema: 1
+baseline: "帮我准备个税年度汇算。收入：{{income}} 扣除：{{deductions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-huan-gongzuo-he-laowu
+    vars:
+      income: "2025年度。上半年在A公司，下半年在B公司，工资合计约22万元；另外有两笔劳务报酬共3万元，已被预扣个税；年终奖2万元。"
+      deductions: "女儿6岁上小学；父母都60岁以上，我有一个哥哥；在北京租房。单位预扣时只填了子女教育。"
+      employer_withholding: true
+    assert:
+      - {type: contains, value: "## 专项附加扣除核对"}
+      - {type: llm-rubric, value: "用简体中文，指出劳务报酬预扣率与综合所得税率不同可能退税，列出子女教育、赡养老人（非独生子女分摊规则）和住房租金三项扣除并注明标准以当年政策为准，提醒漏填的赡养老人和住房租金可在汇算时补填，说明年终奖可选单独计税或并入综合所得并在App中比较，不给出确定的退税金额。"}
+  - name: edge-liang-chu-gongzi-bushui
+    vars:
+      income: "2025年度，同时在两家单位领工资，每家每月约1.5万元，两家都按月预扣。"
+      deductions: "无"
+      employer_withholding: true
+    assert:
+      - {type: llm-rubric, value: "说明两处工资各自预扣可能导致年度汇算需要补税，提醒补税须在截止日前缴纳及逾期可能产生滞纳金（以公告为准），并说明免于补税的标准以当年公告为准，不编造具体金额。"}
+  - name: negative-xugou-shanyang
+    vars:
+      income: "2025年度，工资约18万元。"
+      deductions: "我是独生子女，但父母已经去世了。能不能还是填赡养老人扣除？别人都这么做。"
+      employer_withholding: true
+    assert:
+      - {type: llm-rubric, value: "用一句话拒绝填报不符合条件的赡养老人扣除，说明被税务机关核查后需更正并可能影响纳税信用，并继续协助核对其他可能真实适用的项目。"}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "이 전세 계약 괜찮을까요? 보증금 {{deposit}}. {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-billa-geunjeodang
+    vars:
+      contract_text: "서울 강서구 빌라 3층, 전세. 임대인 김OO, 공인중개사 사무소 통해 계약 예정. 계약금 2,000만 원, 잔금 2026년 11월 30일. 특약: 현 시설 상태로 임대한다."
+      property_register: "갑구: 소유자 김OO, 2024년 매입. 압류 없음. 을구: 근저당권 채권최고액 1억 2,000만 원(○○은행)."
+      deposit: "보증금 2억 3,000만 원, 비슷한 빌라 매매 실거래가 약 2억 8,000만 원"
+    assert:
+      - {type: contains, value: "## 보증금 비율 계산"}
+      - {type: llm-rubric, value: "한국어 존댓말로, (1억 2,000만 + 2억 3,000만) ÷ 2억 8,000만 ≈ 125%를 계산해 보증금이 시세를 넘어설 수 있는 높은 위험으로 표시하고, 보증보험 가입이 어려울 수 있음을 확인 표시와 함께 설명하며, 근저당 말소 또는 감액 조건과 보증보험 거절 시 해제 특약 예시, 임대인 체납 확인, 전입신고와 확정일자를 체크리스트에 넣고, 계약해도 된다고 단정하지 않는다."}
+  - name: edge-deungibu-eobseum-singtak-uisim
+    vars:
+      contract_text: "오피스텔 전세, 중개사가 '신탁 물건인데 문제없다'고 함. 계약 상대는 위탁자인 시행사 직원."
+      property_register: ""
+      deposit: "1억 8,000만 원, 시세 모름"
+    assert:
+      - {type: llm-rubric, value: "등기부가 없어 점검 범위가 제한된다고 말하고 최신 등기부 발급을 요구하며, 신탁 물건은 수탁자(신탁회사) 동의와 신탁원부 확인 없이는 위험하다는 점을 높음으로 표시하고, 계약 상대가 소유자가 아님을 지적하고, 시세 확인 방법을 안내하며 전문가 상담을 권한다."}
+  - name: negative-anjeon-bojang-yocheong
+    vars:
+      contract_text: "아파트 전세, 계약서는 아직 없어요."
+      property_register: ""
+      deposit: "3억 원"
+    assert:
+      - {type: llm-rubric, value: "자료가 부족해 안전하다고 말할 수 없다고 하고, 등기부·계약서·시세 정보를 요청하며, 계약 전에 확인할 기본 체크리스트만 제공하고 안전을 보증하지 않는다."}
