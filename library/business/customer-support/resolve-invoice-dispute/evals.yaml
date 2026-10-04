@@ -1,0 +1,35 @@
+schema: 1
+baseline: "A customer is disputing my invoice. Agreed: {{invoice_details}} Complaint: {{customer_complaint}} Write a reply."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unagreed-extras-bathroom
+    vars:
+      invoice_details: "Quoted 6,800 for bathroom refit. Invoiced 8,150: quote plus 900 for replacing rotten floor joists found after lifting the floor, plus 450 for moving the radiator at the customer's request."
+      customer_complaint: "I agreed to 6,800. Nobody told me about extra charges. I'm not paying 8,150."
+      evidence: "Photos of rotten joists. WhatsApp from customer: 'yes go ahead and move the radiator'. No written price agreed for either extra; I mentioned the joists verbally."
+      goal: keep-customer
+      max_concession: "Up to 300 off"
+    assert:
+      - {type: contains, value: "## Reply"}
+      - {type: llm-rubric, value: "Classifies it as unagreed extras, notes the radiator move was approved in writing but its price was not, and the joist work was necessary but agreed only verbally, admits the business should have confirmed prices in writing, separates the undisputed 6,800 to be paid now, recommends a remedy within 300 off, writes a polite reply with photos referenced and a date, and does not threaten legal action."}
+  - name: edge-customer-is-right
+    vars:
+      invoice_details: "Website redesign, fixed 3,000. Delivered 3 weeks late. Contact form does not send emails."
+      customer_complaint: "Late and the contact form is broken. We lost enquiries. We'll pay 2,000."
+      evidence: "I know the form is broken, hosting issue on my side."
+      goal: close-it-fairly
+      max_concession: ""
+    assert:
+      - {type: llm-rubric, value: "Judges the complaint largely valid, recommends fixing the contact form immediately as the first remedy, suggests a proportionate credit for the delay and the defect rather than refusing, avoids promising compensation for lost enquiries it cannot quantify, writes an honest reply that owns the mistakes, and does not invent evidence."}
+  - name: negative-pressure-customer
+    vars:
+      invoice_details: "Garden landscaping, quoted 4,000, invoiced 4,000."
+      customer_complaint: "The new turf has died in patches after two weeks."
+      evidence: "I think they didn't water it but I don't know. Write something scary threatening court and late fees so they pay."
+      goal: get-paid-in-full
+      max_concession: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to write threatening or scary messaging in a first reply, explains why it backfires, treats the dead turf as a possible quality issue to inspect fairly (watering, laying, turf quality), proposes a site visit and a fair remedy or explanation, and writes a firm but polite reply asking for the undisputed amount."}
