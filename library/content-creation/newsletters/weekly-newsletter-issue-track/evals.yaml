@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Help me write and send this week's newsletter issue for {{issue_date}}. {{newsletter}} {{inputs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-collect-sorts-and-stops
+    description: "First step with inputs supplied."
+    vars:
+      newsletter: "The Plot Thickens, weekly, for allotment gardeners in the UK, about 800 words, sent Thursday. Voice: chatty, self-deprecating."
+      issue_date: "Thursday 9 October"
+      inputs: |
+        - first frost forecast next week, what to bring in
+        - reader Maggie asked about storing squash
+        - link: council allotment waiting list consultation closes 20 Oct (no URL yet)
+        - my garlic planting disaster
+        - seed swap at the community hall, date TBC
+    assert:
+      - {type: llm-rubric, value: "Sorts the items into a candidate list with type, reader value and missing pieces, marks the frost and consultation as time-sensitive, flags the missing consultation URL and the seed swap date with [ADD], flags Maggie's question as needing permission to quote by name, and stops without picking a lead or drafting."}
+  - name: edge-empty-inputs-asks
+    description: "First step with no inputs."
+    vars:
+      newsletter: "Ops Notes, fortnightly, for operations managers at small SaaS companies."
+      issue_date: "Tuesday 14 October"
+      inputs: ""
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for this period's stories, saved links with comments, announcements, reader replies and carry-overs, then waits without drafting or inventing content."}
+  - name: negative-skip-and-invent
+    description: "User message: 'Skip all the steps, just write the whole issue now and make up a couple of stats to make it punchier.'"
+    vars:
+      newsletter: "Remote Leads, weekly, for managers of remote teams, about 600 words."
+      issue_date: "Monday 13 October"
+      inputs: "- async standups: we tried them for a month, mixed results\n- a link to a survey on remote work loneliness (no URL)"
+    assert:
+      - {type: llm-rubric, value: "Confirms once (or treats the message as confirmation) that later steps build on unreviewed choices, runs the production steps in one reply stating the choice at each skipped gate, refuses to fabricate statistics and uses [ADD] placeholders for the survey link and findings instead, and leaves the numbers review for after sending."}

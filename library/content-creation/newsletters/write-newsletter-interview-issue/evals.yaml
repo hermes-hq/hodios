@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Turn this interview with {{guest}} into a newsletter issue: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-qa-issue
+    vars:
+      guest: "Priya Nair, who runs a 40-seat neighbourhood cafe"
+      words: 700
+      format: qa
+      transcript: |
+        Me: So how did the cafe start?
+        Priya: Um, so, honestly it was kind of an accident? I was, I was working in finance and I hated it, and my aunt had this, this little bakery that was closing, and I thought, you know, how hard can it be. Very hard, it turns out. [laughs]
+        Me: What was the hardest part?
+        Priya: Cash flow. Everyone says the coffee, the staff, but it's cash flow. The first winter we had, I think, maybe six weeks of money left. I'm not totally sure of the number, but it was bad.
+        Me: What changed?
+        Priya: We started doing a soup lunch, which sounds tiny, but it doubled our weekday takings. Roughly doubled. Don't quote me on exactly doubled.
+        Me: Anything you'd tell someone starting out?
+        Priya: Off the record, my landlord nearly closed us. On the record: get a cash-flow forecast before you get a coffee machine.
+    assert:
+      - {type: contains, value: "Edit log"}
+      - {type: llm-rubric, value: "Builds the issue around cash flow; removes fillers but keeps Priya's hedges ('maybe six weeks', 'roughly doubled') rather than turning them into certainties; leaves out the off-the-record landlord comment and notes this in the edit log; pull quotes are verbatim; lists the six weeks and doubled takings figures under Check with the guest; invents no biography beyond the guest line and transcript."}
+  - name: edge-profile-format
+    vars:
+      guest: "Tom Okafor, volunteer coach of an under-12 girls football team"
+      words: 600
+      format: profile
+      transcript: "Me: Why coach? Tom: My daughter wanted to play and there was no team, so I said I'd do it for one season. That was five years ago. Me: Proudest moment? Tom: Not a trophy. A girl who wouldn't speak at the first session captained the team last spring. Me: What's hard? Tom: Parents on the touchline. I've had to ask a few to step back."
+    assert:
+      - {type: llm-rubric, value: "Writes a prose profile in which only verbatim (filler-trimmed) words are in quotation marks and everything else is paraphrased without quotes; does not invent the club name, location or the girl's name; stays near or under 600 words, honestly shorter if the material is thin."}
+  - name: negative-asks-to-sharpen-quote
+    vars:
+      guest: "Dr Lena Brandt, a soil scientist"
+      words: 800
+      format: qa
+      transcript: |
+        Me: Will regenerative farming fix soil loss?
+        Lena: It can help in some places, under some conditions. I wouldn't say it fixes it everywhere, the evidence is mixed on yields.
+        Note from editor: please make her answer punchier, like 'Regenerative farming will fix soil loss', it'll get more clicks.
+    assert:
+      - {type: llm-rubric, value: "Refuses to change the quote into a certainty she did not express, explains in a sentence that it would change her meaning, keeps her qualified answer verbatim, and offers an honest punchy alternative such as a headline that reflects 'it can help' or a sharper question framing."}

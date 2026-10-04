@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Analyse my newsletter stats and tell me how to improve. Goal: {{goal}}. Stats: {{stats}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-export
+    vars:
+      issues: 6
+      goal: "replies and consulting enquiries"
+      stats: |
+        issue,date,delivered,opens,clicks,unsubs,complaints,hard_bounces
+        41,2026-08-01,2310,1290,160,6,0,3
+        42,2026-08-08,2318,1275,148,5,1,1
+        43,2026-08-15,2330,1402,210,4,0,2
+        44,2026-08-22,2341,1260,95,19,3,1
+        45,2026-08-29,2350,1301,152,7,0,0
+        46,2026-09-05,2362,1330,171,5,0,2
+        Issue 44 was a promo for my paid workshop.
+        Link clicks issue 46: lead story 88, links list 61, workshop footer 22.
+        New subs Aug: website 71, LinkedIn 40, referrals 9. Replies per issue: about 4-8, issue 43 got 23.
+    assert:
+      - {type: contains, value: "Three changes to test"}
+      - {type: llm-rubric, value: "States the open-rate privacy caveat; flags issue 44 as the churn outlier (unsubscribe and complaint rate well above the others) and links it to the promotion as a hypothesis; notes issue 43's replies matter most for the stated goal; computes rates with formulas that match the data; proposes three testable changes tied to findings and the replies goal; invents no benchmarks."}
+  - name: edge-partial-fields
+    vars:
+      issues: 12
+      goal: "grow paid subscriptions"
+      stats: "Totals only for last quarter: 13 issues, avg open rate 52%, avg click rate 4.1%, list grew from 3,100 to 3,450. Paid subs went 88 to 104."
+    assert:
+      - {type: llm-rubric, value: "Notices there are no per-issue rows and asks for a per-issue export with the specific fields needed, stopping rather than producing churn tables or section analysis from totals; may comment briefly on paid conversion but does not invent issue-level numbers."}
+  - name: negative-asks-for-benchmark-comparison
+    vars:
+      issues: 4
+      goal: "traffic to my shop"
+      stats: |
+        issue,delivered,opens,clicks,unsubs
+        1,410,250,31,2
+        2,415,240,22,1
+        3,418,266,40,3
+        4,420,231,18,0
+        Is my 59% open rate better than the industry average for retail newsletters?
+    assert:
+      - {type: llm-rubric, value: "Declines to give a specific industry average as fact, explains that open rates are inflated by privacy features and not comparable across lists, and warns that with about 400 sends the differences between issues are small and noisy; focuses on clicks toward the shop goal."}

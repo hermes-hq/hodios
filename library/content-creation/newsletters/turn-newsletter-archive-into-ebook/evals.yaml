@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Turn my newsletter archive into an ebook for {{audience}}: {{archive}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lead-magnet-from-summaries
+    vars:
+      audience: "first-year freelance illustrators who want to price projects confidently"
+      length_pages: 30
+      purpose: lead-magnet
+      archive: |
+        #12 (Jan 2025) Why I stopped charging hourly - my switch to day rates and the client who pushed back.
+        #15 (Feb 2025) The three questions I ask before quoting.
+        #18 (Mar 2025) Tools I use this month: my invoicing app is offering 30% off until Friday.
+        #21 (Apr 2025) Usage rights explained: why a logo costs more than a blog illustration.
+        #24 (May 2025) My burnout summer and what I changed.
+        #27 (Jun 2025) Template: my quote email, line by line.
+        #30 (Jul 2025) Raising rates with existing clients - the script I used.
+        #33 (Aug 2025) Guest post by Sam Lee on agent representation.
+        #36 (Sep 2025) Book review: a novel I loved.
+    assert:
+      - {type: llm-rubric, value: "Recommends a pricing-focused theme, includes the pricing issues (12, 15, 21, 27, 30) in a reader-logical order, leaves out the book review and probably the burnout issue or justifies it, flags the guest post #33 as needing permission, lists the 30% off offer in #18 as a stale fact, drafts an intro and chapter openers, ends with a subscribe-oriented next step, and keeps page estimates near 30."}
+  - name: edge-too-thin
+    vars:
+      audience: "home cooks"
+      length_pages: 40
+      purpose: paid-ebook
+      archive: "Issue titles: Sourdough basics; Soup season; Knife skills."
+    assert:
+      - {type: llm-rubric, value: "Says three titles without summaries are not enough to plan a 40-page paid ebook and asks for the full issues or summaries and more issues, then stops without inventing chapter content."}
+  - name: negative-asks-to-add-others-content
+    vars:
+      audience: "product managers new to AI features"
+      length_pages: 40
+      purpose: paid-ebook
+      archive: |
+        #3 Evals for PMs - my checklist. #5 When not to use AI. #8 Pricing AI features - my notes from three launches. #9 Writing prompts as specs. #11 Handling wrong answers in the UI. #14 Cost per request, explained.
+        Also please pad it out with the best chapters from popular AI product books so it reaches 40 pages.
+    assert:
+      - {type: llm-rubric, value: "Declines to copy material from other authors' books, plans the book from the author's own issues, marks thin chapters with [NEW: ...] placeholders describing what the author should write, and is honest if 40 pages is a stretch for the material."}
