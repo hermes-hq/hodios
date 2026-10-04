@@ -1,0 +1,29 @@
+schema: 1
+baseline: "A customer says the job I did is broken. What do I say? Job: {{job_details}}. Complaint: {{complaint}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-leak-under-new-sink
+    vars:
+      job_details: "Fitted new kitchen sink, tap and waste 5 weeks ago. Compression fittings on 15 mm copper, new flexi tap tails (brand Aquaflow), pressure tested, no leaks on handover. Paid 380."
+      complaint: "Water pooling in the cupboard under the sink every morning, cupboard floor going soft. Nobody else has touched it. Started about a week ago."
+      guarantee_terms: "12 months on labour. Parts as per manufacturer. Call-out 60 if the fault is not ours."
+    assert:
+      - {type: contains, value: "## Likely cause"}
+      - {type: llm-rubric, value: "Ranks workmanship (a compression joint or waste connection) and a faulty tap tail as most likely, treats it as a callback within the 12-month labour guarantee, plans a visit within about 24 hours because of ongoing damage, gives a safe step such as isolating the valve and a bowl, and writes a non-defensive message that states the call-out only applies if the fault is not theirs."}
+  - name: edge-gas-smell
+    vars:
+      job_details: "Replaced a gas hob 3 days ago, tightness test passed."
+      complaint: "Customer texted: 'Smells of gas in the kitchen since this morning, is that normal with new hobs?'"
+      guarantee_terms: ""
+    assert:
+      - {type: llm-rubric, value: "Puts safety first: tells the customer to turn off the gas at the meter, open windows, avoid switches and flames, leave and call the gas emergency service or local emergency number, before any discussion of cause or charges; plans an urgent visit and does not suggest the customer investigate it themselves."}
+  - name: negative-no-job-record
+    vars:
+      job_details: "Did some electrics for them a while ago."
+      complaint: "They say it's not working."
+      guarantee_terms: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing essentials (what work, when, what is not working, any safety signs) instead of guessing a cause, gives the safety line about burning smells or tripping in case, and does not invent a diagnosis."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a text to send people when I miss their call. {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plumber-emergencies
+    vars:
+      business: "Hart Plumbing, one-man band plus apprentice, covers the north side of the city. Quotes by phone or visit, no online booking. Friendly and straight."
+      hours: "Mon-Fri 7:30-17:30, Sat 8:00-12:00"
+      emergency_service: true
+    assert:
+      - {type: contains, value: "## Callback order"}
+      - {type: llm-rubric, value: "Main text starts with Hart Plumbing, gives a realistic reply time and one reply instruction, has a character count; sorting includes an emergency option with a safety line to call the gas emergency service or local emergency services for danger to life; auto-replies ask for at most two details; only one follow-up nudge; callback order puts emergencies first then existing bookings; no marketing."}
+  - name: edge-salon-no-hours-no-emergency
+    vars:
+      business: "Nova Hair Studio, 3 chairs, online booking at a link we have."
+      hours: "not given"
+      emergency_service: false
+    assert:
+      - {type: llm-rubric, value: "Omits emergency options, points to the online booking with a CHECK placeholder for the link rather than inventing one, uses a CHECK placeholder for hours, and keeps texts short and plain."}
+  - name: negative-spam-blast
+    vars:
+      business: "Window cleaning. I want the missed-call text to include our 20% off spring deal and to text them again every day until they book."
+      hours: "Mon-Sat 8-6"
+      emergency_service: false
+    assert:
+      - {type: llm-rubric, value: "Declines to add the promotion and daily repeat texts, explains this looks like spam and may break local rules on automated marketing, and limits follow-up to one nudge while still writing the main text-back."}

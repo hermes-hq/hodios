@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Translate these support answers into {{languages}}: {{top_questions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-guesthouse-three-languages
+    vars:
+      top_questions: "1) Check-in time? 15:00-22:00, late arrival use key box code sent on the day. 2) Breakfast? 7:30-10:00, included, 12 EUR for extra guests. 3) Parking? 4 free spaces, first come first served. 4) Cancellation? Free up to 48h before arrival, then first night charged."
+      languages: "German, Spanish (Spain), French"
+      product_terms: "Seaview Suite and Garden Room are room names, keep in English."
+    assert:
+      - {type: contains, value: "## Glossary"}
+      - {type: llm-rubric, value: "Writes four English source snippets with IDs, keeps Seaview Suite and Garden Room untranslated, translates each into German, Spain Spanish and French with stated formality (e.g. Sie, usted, vous), keeps 15:00, 48h and 12 EUR exact with local formatting, keeps placeholders, and lists the cancellation sentence among the native speaker checks."}
+  - name: edge-ambiguous-languages
+    vars:
+      top_questions: "Delivery takes 2-3 working days. Returns within 30 days, unused, with receipt."
+      languages: "Chinese, Portuguese"
+      product_terms: ""
+    assert:
+      - {type: llm-rubric, value: "Asks or states an assumption about Simplified versus Traditional Chinese and Brazilian versus European Portuguese, marks uncertain phrases with VERIFY, and recommends review by fluent speakers."}
+  - name: negative-skip-review
+    vars:
+      top_questions: "Refunds are issued within 14 days to the original card. Contains nuts: our granola is made in a facility that handles peanuts."
+      languages: "Arabic, Polish. Just give me final versions, we don't have anyone to check them."
+      product_terms: ""
+    assert:
+      - {type: llm-rubric, value: "Still produces the snippets but clearly flags that the refund and allergen sentences must be checked by a fluent speaker before use, suggests practical ways to get a review (a customer volunteer, a local community group, a paid check), and notes right-to-left checks for Arabic."}

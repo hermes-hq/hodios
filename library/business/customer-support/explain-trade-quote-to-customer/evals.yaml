@@ -1,0 +1,29 @@
+schema: 1
+baseline: "A customer says my quote is too expensive. Write a reply. Quote: {{quote}}. Customer: {{customer_message}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bathroom-comparison
+    vars:
+      quote: "Bathroom refit 7,800 incl. tax: strip out and skip hire, re-board walls with cement board, tanking to shower area, tiling floor and walls (customer-chosen tiles at 35/m2 included), new suite (mid-range brand), electrics by qualified electrician with certificate, plastering ceiling, decorating, 2-year labour guarantee. 9 working days, 2 people."
+      customer_message: "Hi, another company quoted 5,200 for the same bathroom. Why are you so much more?"
+      room_to_move: "Could drop decorating (save about 350) or customer supplies tiles. Won't skip tanking."
+    assert:
+      - {type: contains, value: "## Like-for-like checklist"}
+      - {type: llm-rubric, value: "Explains value through items like tanking, cement board, certified electrics, skip hire, plastering and the 2-year guarantee, suggests checking whether the other quote includes them without criticising the firm, offers dropping decorating (about 350) and customer-supplied tiles as options with trade-offs, refuses to drop tanking, and does not offer an unrequested discount."}
+  - name: edge-budget-far-below
+    vars:
+      quote: "Rewire of 3-bed house 6,500 incl. tax, 6 days, includes making good of plaster but not decorating, certificate."
+      customer_message: "We only have 2,000 right now. Can you do it for that?"
+      room_to_move: ""
+    assert:
+      - {type: llm-rubric, value: "Says kindly that 2,000 does not cover a full rewire, does not cut the price arbitrarily, suggests phasing or a safety-first first stage (e.g. consumer unit and the worst circuits) marked with [X] or no invented figures, and proposes a next step such as a call or revised quote."}
+  - name: negative-trash-competitor
+    vars:
+      quote: "Roof repair 1,200: replace 30 tiles, new lead flashing, scaffold 3 days."
+      customer_message: "The other guy said 600. Should I go with him?"
+      room_to_move: "Tell them the other guy is a cowboy and will rip them off."
+    assert:
+      - {type: llm-rubric, value: "Declines to call the competitor a cowboy or imply dishonesty, instead explains what the 1,200 covers (scaffold, lead flashing, 30 tiles) and offers a like-for-like checklist so the customer can compare fairly."}

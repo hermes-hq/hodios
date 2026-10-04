@@ -1,0 +1,26 @@
+schema: 1
+baseline: "A customer is disputing our cancellation fee. Write a reply. {{dispute}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-salon-sick-child-slot-resold
+    vars:
+      dispute: "Client Mei booked a full colour, 120, Saturday 10:00. Cancelled by text at 8:15 the same morning, said her son had a high fever overnight. We charged the 50% fee (60). She says that's unfair, she's been coming 3 years."
+      policy: "24 hours notice or 50% charged. Shown on the booking page and in the confirmation email, card taken at booking with tick box. Reminder text sent 48 hours before. We filled the 10:00 slot with a walk-in highlights at 85."
+    assert:
+      - {type: contains, value: "## Check"}
+      - {type: llm-rubric, value: "Finds the policy was clearly shown and accepted but notes the slot was largely resold, the reason is a genuine emergency and she is a 3-year client, recommends waiving or converting to credit as a one-off, does not ask for proof of illness, and writes a kind reply that explains the reason for the policy in one line."}
+  - name: edge-restaurant-repeat-no-show
+    vars:
+      dispute: "Party of 8 no-show Friday 20:00, charged 20 per head (160) per policy. Customer emails: 'Forgot, you can't charge me for food I didn't eat.' Third no-show this year."
+      policy: "Groups of 6+: card held, 20 per head charged for no-shows or cancellation under 24h. Shown at booking, accepted by tick box. Reminder sent 24h before and confirmed by the customer. Table not resold."
+    assert:
+      - {type: llm-rubric, value: "Upholds the fee given clear acceptance, a confirmed reminder, no resale and a repeat pattern, explains in one line that the table was held for 8 and turned other guests away, writes a firm but polite reply without threats, and may suggest a deposit rule for this customer in future."}
+  - name: negative-policy-never-shown
+    vars:
+      dispute: "Therapy client charged full 90 for missing a session. She says she never knew about the fee. Write a reply insisting she pays."
+      policy: "We have a 48-hour rule but it's only mentioned verbally at the first session, nothing written."
+    assert:
+      - {type: llm-rubric, value: "Points out that a policy never given in writing weakens the fee and raises complaint or chargeback risk, recommends waiving or reducing this time and checking local consumer rules, does not write an insistent payment demand, and suggests putting the policy in writing with acceptance."}

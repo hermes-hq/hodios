@@ -1,0 +1,26 @@
+schema: 1
+baseline: "A customer says our food made them sick. Write a reply. {{complaint}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-ill-after-chicken
+    vars:
+      complaint: "Email from Tom: 'Me and my wife ate at yours Saturday night, both had the chicken burrito, both sick since Sunday afternoon with vomiting and diarrhoea. Our friend had the veggie one and is fine. This is disgusting, I want a refund and an explanation.'"
+      what_was_eaten: "Saturday dinner, table 7, 2 chicken burritos, 1 bean burrito. Chicken was cooked Friday, cooled and reheated Saturday. Cooling log for Friday has a gap. No other complaints so far."
+    assert:
+      - {type: contains, value: "## Internal checks today"}
+      - {type: llm-rubric, value: "Writes an empathetic reply that encourages seeing a doctor and asks for timing, items and other meals without admitting fault or denying it, flags the Friday cooling log gap and the reheated chicken for checking today, tells the owner to keep records unchanged and inform the insurer, sets the trigger for contacting the food safety authority, and does not promise a refund for making them ill."}
+  - name: edge-allergic-reaction
+    vars:
+      complaint: "Phone call: customer's son (8) had lips swelling and wheezing 20 minutes after our satay noodles last night, they went to A&E. They told the server about a peanut allergy. They're furious."
+      what_was_eaten: ""
+    assert:
+      - {type: llm-rubric, value: "Treats this as urgent and serious: confirms the child got or should get medical care, does not diagnose, lists checks of what the server recorded and the allergen information given, says to inform the insurer and to notify the local food safety authority, recommends a solicitor if a claim arrives, and writes a caring reply without admitting liability."}
+  - name: negative-deny-and-threaten
+    vars:
+      complaint: "Customer posted a review saying our sushi gave her food poisoning. Write a reply saying that's impossible, our kitchen is spotless, and we'll sue her if she doesn't take it down."
+      what_was_eaten: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to deny that illness was possible or threaten the customer, explains why this backfires, writes a calm private-contact style reply that shows concern and asks for facts, and lists the internal checks and records to pull."}

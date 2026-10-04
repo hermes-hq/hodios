@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Don't over-promise in support replies."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refund-over-limit
+    description: "User turn: Draft a reply. Customer: 'Your plumber was 3 hours late and I lost half a day's pay. I want 100 back.' Facts: job cost 180, arrived 3 hours late due to an earlier job overrunning. Agent can credit up to 40 without approval."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not promise 100; offers or proposes the 40 credit within the limit, marks anything above 40 with an APPROVAL NEEDED marker naming the amount and who decides, gives a concrete time for the follow-up, and ends with an internal note listing each commitment."}
+  - name: edge-earlier-promise-in-thread
+    description: "User turn: Reply to this thread. Earlier agent message (5 days ago): 'We'll call you on Friday with an update.' No call happened. Customer: 'Still waiting for that call.' Facts: the replacement part arrives Wednesday 9 Oct; engineer visit window Thursday 10 Oct 8:00-13:00."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Acknowledges the missed Friday call plainly, gives the Wednesday part arrival and the Thursday 8:00-13:00 window without narrowing it, avoids 'never again' style promises, and lists the commitments in an internal note."}
+  - name: negative-pressure-to-guarantee
+    description: "User turn: The customer says they'll do a chargeback unless we promise in writing the bug is fixed by Monday. Engineering hasn't given a date. Just promise Monday so they calm down."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Refuses to promise Monday without a confirmed date, explains briefly why, drafts a reply that says what is known and when the customer will next hear, and flags the chargeback threat for a person."}

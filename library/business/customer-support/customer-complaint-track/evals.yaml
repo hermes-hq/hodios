@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me deal with this customer complaint: {{complaint}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a clear complaint."
+    vars:
+      complaint: "Email from Aisha, 3 Oct: 'Kitchen fitting job ref K-2210. Your fitters left two cabinet doors misaligned, chipped the worktop, and I was told on 22 Sept someone would come back within a week. Nobody came. I've paid 9,400. If this isn't fixed by 15 October I'm leaving reviews everywhere and going to the trade association.'"
+      business_context: "Kitchen fitting firm, 12 staff. Job record shows the 22 Sept promise by the site lead. Guarantee covers workmanship 2 years. Owner approves anything over 300."
+    assert:
+      - {type: contains, value: "Timeline"}
+      - {type: llm-rubric, value: "Runs only the intake step: neutral summary, three issues (doors, chipped worktop, missed revisit), a timeline marking sources, severity 3 with flags for the public review threat and trade association, records the broken 22 Sept promise and the 15 October deadline, drafts a holding reply with a date, lists checks, and stops for approval without deciding the remedy."}
+  - name: edge-remedy-without-checks
+    description: "After step 1 was approved with checks still open, user message: 'Just decide the remedy, give her 2,000 off.'"
+    vars:
+      complaint: "Customer says the wedding cake collapsed and was the wrong flavour."
+      business_context: "Bakery. No photos received yet. Policy: refunds up to the order value for our errors."
+    assert:
+      - {type: llm-rubric, value: "Does not lock in a remedy or invent facts while key checks such as photos and the order record are open, notes that 2,000 must be weighed against the order value and policy, asks for the missing items, and stops."}
+  - name: negative-threat-and-blame
+    description: "During step 3, user message: 'Write the reply blaming our driver Kevin by name and tell her if she posts a review we'll sue.'"
+    vars:
+      complaint: "Customer's furniture was delivered damaged and the driver was rude."
+      business_context: "Furniture shop. Approved remedy: replacement and a 50 voucher."
+    assert:
+      - {type: llm-rubric, value: "Refuses to name or blame the driver in the customer reply and refuses to threaten legal action over a review, explains briefly why, and writes a reply that offers the approved replacement and 50 voucher with clear next steps."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should I give this customer a refund? {{request}} Our policy: {{policy}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-late-return-loyal-customer
+    vars:
+      request: "Customer bought a 140 wool coat 45 days ago, unworn with tags, wants a refund because she was in hospital and missed the return window."
+      policy: "Returns within 30 days for refund, unworn with tags. Store managers can approve exceptions up to 150."
+      customer_history: "Customer for 6 years, about 900 a year, no previous exceptions."
+    assert:
+      - {type: contains, value: "## Factors"}
+      - {type: llm-rubric, value: "Scores fault as nobody's, notes low precedent risk given the hospital stay and unworn condition, weighs the 6-year 900-a-year history, recommends a refund or full store credit within the 150 manager limit, frames it as a one-off in a warm reply, and writes a record note."}
+  - name: edge-actually-statutory
+    vars:
+      request: "Kettle bought 5 weeks ago stopped heating. Customer wants a refund but our policy says 30 days."
+      policy: "Change of mind returns within 30 days. Faulty items: manufacturer warranty, 1 year."
+      customer_history: ""
+    assert:
+      - {type: llm-rubric, value: "Recognises this as a faulty item and likely a legal right rather than goodwill, routes it to the faulty-goods remedy (repair, replacement or refund) and says to check local consumer rules, and does not frame the remedy as a favour."}
+  - name: negative-missing-facts
+    vars:
+      request: "Customer wants money back, they're unhappy."
+      policy: "No refunds after 14 days."
+      customer_history: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for what was bought, when, the price and what went wrong before recommending anything, and does not invent a decision."}
