@@ -5,7 +5,7 @@ kind: prompt
 title: Tell a hero story series starring your child
 description: Tells an ongoing story series where your child is the hero, keeping a story bible of recurring characters and weaving in real milestones so episodes stay consistent across nights.
 category: kids-activities
-version: 1.0.0
+version: 2.0.0
 status: incubating
 stage: [build, operate]
 role: [parent]
@@ -33,13 +33,16 @@ args:
     type: number
     required: true
   - name: interests
-    description: What the child loves right now - animals, places, a toy, a favourite colour, a game - and anything to avoid (a fear, a sensitive topic). To continue a series, paste the story bible from the last episode here too.
+    description: What the child loves right now - animals, places, a toy, a favourite colour, a game - and anything to avoid (a fear, a sensitive topic).
     type: text
     required: true
   - name: theme_this_week
     description: A real-life theme or milestone to weave in, for example "first day at school", "learning to ride a bike", "new baby sister", "being brave at the dentist".
     type: string
     default: courage
+  - name: story_bible
+    description: To continue the series, paste the story bible from the end of the last episode. Leave empty to start a new series.
+    type: text
 output_contract:
   format: markdown
   sections: [Episode, Story bible]
@@ -48,6 +51,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 2.0.0, note: "Takes the story bible as its own optional argument instead of inside the interests, so a new series and a continued one are clearly told apart."}
 ---
 <context>
 You write an ongoing story series in which a child is the hero, for a parent or carer to read aloud or tell. Children love hearing themselves as the hero who is brave, kind and clever, and a series becomes powerful when familiar characters return and the stories mirror what is happening in the child's own life, so the child rehearses a real challenge safely through the hero. A series only works if it stays consistent: names, places, powers and past events must not drift between episodes, which is why you keep a story bible.
@@ -56,10 +60,14 @@ Hero: {{child_name}}, age {{age}}
 Interests and series notes:
 {{interests}}
 This week's theme: {{theme_this_week}}
+{{#story_bible}}
+Story bible so far:
+{{story_bible}}
+{{/story_bible}}
 </context>
 
 <task>
-1. If the input contains a story bible from a previous episode, continue from it: keep every established name, trait, place and rule, refer back to one past event, and advance one running thread. If it does not, start a new series: create a world built from the child's interests, two or three recurring companions (a loyal friend, a wise helper, a funny sidekick) and one gentle running thread that can span episodes.
+1. If a story bible is given, continue from it: keep every established name, trait, place and rule, refer back to one past event, and advance one running thread. If none is given, start a new series: create a world built from the child's interests, two or three recurring companions (a loyal friend, a wise helper, a funny sidekick) and one gentle running thread that can span episodes.
 2. Before writing, ask the grown-up at most two quick questions only if something important is unclear (for example whether the theme is a sensitive one such as a new sibling or a move, or whether to include a real pet or family member). If they say "go", proceed with stated assumptions.
 3. Write one episode sized to the age: about 300 to 500 words for ages 3 to 5, 500 to 800 for ages 6 to 8, and up to 1,200 for ages 9 to 11. Give it a title and a clear shape: a problem that matters to the hero, a try that does not quite work, a choice that shows courage, kindness or cleverness, and a warm resolution.
 4. Weave in the theme through the story, not as a lesson: the hero faces a version of the real challenge, feels the real feelings (nervous, cross, unsure), and finds a way through that the child could use in real life. Never lecture or end with a moral spelled out.

@@ -1,5 +1,5 @@
 schema: 1
-baseline: "Quiz my {{age}} year old on {{topics}}."
+baseline: "Run a quiz for my kids ({{players}}) on {{topics}}."
 providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
 judge: {family: gemini, tier: mid}
 pass_threshold: 0.8
@@ -7,25 +7,26 @@ min_lift_over_baseline: 0.15
 cases:
   - name: happy-single-child-dinosaurs
     vars:
-      age: 6
+      players: "Zara, 6"
       topics: "dinosaurs and space"
-      questions: 10
-      players: 1
+      questions_each: 8
+      scoring: no-scores
     assert:
       - {type: not-contains, value: "|"}
-      - {type: llm-rubric, value: "Welcomes the child, explains there are 10 questions, asks only the first question with two or three spoken choices suitable for a 6-year-old, keeps the reply short and voice-friendly with no table or markdown, and waits for the answer."}
-  - name: edge-two-players-different-ages
+      - {type: llm-rubric, value: "Welcomes Zara by name, says she gets 8 questions and that no score is kept, asks only the first question, on dinosaurs or space, with two or three spoken choices suited to a 6-year-old, keeps the reply to a few short spoken sentences with no list, table or markdown, and waits for her answer."}
+  - name: edge-two-ages-scores
     vars:
-      age: 5
-      topics: "animals. Players: Ella 5 and Omar 10."
-      questions: 5
-      players: 2
+      players: "Ella 5, Omar 10"
+      topics: "Ella: horses. Omar: football."
+      questions_each: 5
+      scoring: scores
     assert:
-      - {type: llm-rubric, value: "Sets fair turns between Ella and Omar, pitches Ella's questions with choices and Omar's harder, mentions or plans a team bonus round, and asks only one question before waiting."}
+      - {type: llm-rubric, value: "Welcomes both children by name, explains 5 questions each with a running score, asks the youngest (Ella) first with a simple spoken multiple-choice question about horses, does not ask Omar's question in the same reply, and does not state any current football champion, transfer or record as fact."}
   - name: negative-wrong-answer-feedback
-    description: "User turn after the host asked 'Which planet is closest to the Sun?': 'Earth!'"
+    description: "Context: the host asked Leo (7) 'Which planet is closest to the Sun: Earth, Mercury or Mars?' User message: 'Earth!'"
     vars:
-      age: 7
+      players: "Leo 7, Ana 9"
       topics: space
+      scoring: scores
     assert:
-      - {type: llm-rubric, value: "Responds warmly without shaming, gives the correct answer (Mercury) gently, adds a short accurate fun fact, and moves on to the next question."}
+      - {type: llm-rubric, value: "Responds warmly to Leo without shaming, gives the correct answer (Mercury) gently, adds a short accurate fun fact, does not award Leo a point, then names Ana and asks her a space question pitched for a 9-year-old."}
