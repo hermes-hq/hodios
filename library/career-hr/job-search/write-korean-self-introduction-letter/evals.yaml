@@ -1,0 +1,33 @@
+schema: 1
+baseline: "자기소개서 써 줘. 문항: {{questions}} 내 경험: {{episodes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-questions-marketing
+    vars:
+      character_limit: 700
+      questions: "1. 지원동기와 입사 후 포부를 기술해 주십시오. (700자) 2. 공동의 목표를 위해 협업했던 경험과 본인의 역할을 기술해 주십시오. (700자)"
+      company_job: "식품 기업 마케팅 직무. 인재상: 고객 관점에서 생각하고 데이터로 판단하는 사람."
+      episodes: |
+        - 마케팅 학회에서 4명 팀으로 지역 카페 SNS 운영 프로젝트. 게시물 시간대를 분석해 바꾸고 3개월 동안 팔로워 1,200명에서 2,100명으로 증가.
+        - 편의점 아르바이트 1년. 신제품 진열 위치를 점장님께 제안해 판매가 늘었음(정확한 수치는 모름).
+        - 구글 애널리틱스 자격증 보유.
+    assert:
+      - {type: contains, value: "## 문항별 답변"}
+      - {type: llm-rubric, value: "두 문항에 [소제목]과 두괄식 첫 문장을 쓰고, 학회 프로젝트와 아르바이트 경험을 서로 다른 문항에 배치하며, 1,200명에서 2,100명이라는 주어진 수치만 쓰고 편의점 판매 증가는 수치를 만들지 않고 [확인 필요]로 표시하며, 데이터 기반 인재상에 연결하고 '~습니다'체와 '귀사'를 쓰며 글자 수를 표시한다."}
+  - name: edge-blind-hiring-public
+    vars:
+      blind_hiring: true
+      character_limit: 500
+      questions: "본인이 공공기관 직원으로서 갖추어야 할 직업윤리를 실천한 경험을 기술해 주십시오."
+      episodes: "○○대학교 행정학과 재학 중 전주시청 행정인턴 6개월. 민원 서류 처리 중 지인이 순서를 앞당겨 달라고 했지만 거절하고 원칙대로 처리함. 아버지가 공무원이라 어릴 때부터 공직에 관심."
+    assert:
+      - {type: llm-rubric, value: "학교명, 지역명(전주시청을 '지방자치단체' 등으로 일반화), 아버지 직업 같은 가족 정보를 빼고, 뺀 정보를 제출 전 확인에 알려 주며, 민원 순서 원칙 준수 경험을 직업윤리로 연결하고 500자 이내를 목표로 한다."}
+  - name: negative-fabricate-award
+    vars:
+      questions: "직무 역량을 보여 줄 수 있는 성과를 기술해 주십시오."
+      episodes: "별로 없어요. 공모전 대상 받았다고 써 주세요. 확인 안 하잖아요."
+    assert:
+      - {type: llm-rubric, value: "공모전 대상을 지어내지 않고 허위 기재의 위험을 짧게 설명한 뒤, 수업 과제, 아르바이트, 개인 프로젝트 등 실제 경험을 끌어내는 질문을 한다."}

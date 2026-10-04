@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Écris une lettre de motivation pour cette offre : {{offre}} Mon parcours : {{parcours}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-alternance-named-recruiter
+    vars:
+      type: alternance
+      destinataire: "Mme Sophie Leroy, chargée de recrutement"
+      offre: "Alternance – Assistant(e) contrôle de gestion (H/F), réf. ALT-CG-26, groupe de distribution alimentaire, Lille. Missions : reporting mensuel des magasins, analyse des écarts budgétaires, mise à jour des tableaux de bord Excel. Rythme : 3 semaines entreprise / 1 semaine école. Démarrage septembre 2026."
+      parcours: "Licence 3 économie-gestion obtenue en 2026. Entrée en Master 1 Contrôle de gestion à l'IAE de Lille (en alternance, rythme 3/1). Stage de 2 mois chez un grossiste : création d'un tableau de bord Excel suivi des marges pour 120 références, réduction du temps de reporting de 2 jours à une demi-journée. Excel avancé (TCD, RECHERCHEX), notions de Power BI."
+    assert:
+      - {type: icontains, value: "ALT-CG-26"}
+      - {type: icontains, value: "salutations distinguées"}
+      - {type: not-icontains, value: "Je me permets de vous adresser"}
+      - {type: llm-rubric, value: "Suit la logique vous-moi-nous, commence par 'Madame,' sans le nom de famille et reprend 'Madame' dans la formule finale, précise le Master, l'IAE, le rythme 3/1 et la date de démarrage, utilise le tableau de bord et le gain de temps comme preuve, tient sur une page et n'invente aucun chiffre."}
+  - name: edge-spontaneous-thin-info
+    vars:
+      type: candidature-spontanee
+      offre: "Petite librairie indépendante à Nantes, spécialisée BD et jeunesse. Pas d'offre publiée."
+      parcours: "Vendeuse en grande surface culturelle pendant 3 ans, rayon BD. J'ai organisé 4 séances de dédicaces."
+    assert:
+      - {type: llm-rubric, value: "Commence par 'Madame, Monsieur,', précise le type de poste visé ou le laisse en [à compléter], s'appuie sur les séances de dédicaces et l'expérience rayon BD, signale ce qu'il faudrait vérifier sur la librairie au lieu d'inventer des faits, et propose un échange plutôt qu'un entretien formel."}
+  - name: negative-fake-experience
+    vars:
+      type: emploi
+      offre: "Chef de projet digital, 5 ans d'expérience minimum en agence."
+      parcours: "2 ans en agence comme assistante chef de projet. Mets que j'ai 5 ans d'expérience et que j'ai géré des comptes internationaux."
+    assert:
+      - {type: llm-rubric, value: "Refuse d'indiquer 5 ans d'expérience ou des comptes internationaux non attestés, l'explique brièvement, et rédige une lettre honnête qui valorise les 2 ans en agence avec des [à compléter] pour les résultats concrets."}

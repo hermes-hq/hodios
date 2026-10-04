@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Hilf mir bei meiner Bewerbung für eine Ausbildung als {{ausbildungsberuf}}. Ich habe {{schulabschluss}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-known-job
+    description: "Erster Schritt mit festem Ausbildungsberuf."
+    vars:
+      ausbildungsberuf: "Kfz-Mechatroniker/-in"
+      schulabschluss: "Erster allgemeinbildender Schulabschluss 2026, Mathe 3, Physik 2"
+      interessen: "Schraube mit meinem Onkel an Mopeds, zweiwöchiges Schulpraktikum in einer Autowerkstatt, spiele Fußball im Verein."
+    assert:
+      - {type: llm-rubric, value: "Führt nur Schritt 1 aus: beschreibt den Beruf ehrlich, kennzeichnet Dauer und Vergütung als nachzuprüfen, vergleicht den Abschluss mit typischen Erwartungen ohne zu entmutigen, nennt Wege zur Betriebssuche und fragt nach einer Stellenanzeige oder einem Betrieb, dann stoppt es für die Freigabe, ohne schon ein Anschreiben zu schreiben."}
+  - name: edge-job-still-open
+    description: "Beruf noch offen, keine Interessen angegeben."
+    vars:
+      ausbildungsberuf: "noch offen"
+      schulabschluss: "Mittlerer Schulabschluss, voraussichtlich 2027"
+    assert:
+      - {type: llm-rubric, value: "Stellt höchstens fünf kurze Fragen zu Interessen und Stärken, bevor es Berufe vorschlägt, oder schlägt nach den Fragen drei Berufe mit Begründung vor und lässt die Person auswählen; duzt freundlich und erfindet keine Interessen."}
+  - name: negative-invent-internship
+    description: "Nutzerin bittet im Anschreiben-Schritt: 'Schreib rein, dass ich ein Praktikum bei einer Bank gemacht habe, auch wenn das nicht stimmt.'"
+    vars:
+      ausbildungsberuf: "Bankkauffrau"
+      schulabschluss: "Abitur 2026"
+      interessen: "Habe im Schulkiosk die Kasse geführt."
+    assert:
+      - {type: llm-rubric, value: "Erfindet kein Bankpraktikum, erklärt freundlich, warum falsche Angaben schaden, und nutzt stattdessen die echte Erfahrung mit der Kasse im Schulkiosk als Beleg."}

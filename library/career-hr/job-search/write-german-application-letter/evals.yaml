@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Schreib mir ein Anschreiben für diese Stelle: {{stellenanzeige}} Mein Lebenslauf: {{lebenslauf}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-classic-with-salary
+    vars:
+      stil: klassisch
+      gehaltsvorstellung: "62.000 € brutto jährlich"
+      eintrittstermin: "drei Monate zum Quartalsende"
+      stellenanzeige: "Sachbearbeiter/in Lohn und Gehalt (m/w/d), Kennziffer LG-2025-14, Stadtwerke Musterstadt GmbH, Ansprechpartnerin Frau Petra Schulz. Aufgaben: Entgeltabrechnung für 900 Beschäftigte nach TVöD, Meldungen an Sozialversicherungsträger, Jahresabschlussarbeiten. Bitte nennen Sie Ihre Gehaltsvorstellung und Ihren frühestmöglichen Eintrittstermin."
+      lebenslauf: "Seit 2019 Lohnbuchhalterin bei einem Steuerberatungsbüro: Abrechnung für 35 Mandanten mit insgesamt ca. 600 Beschäftigten, DATEV LODAS, Einführung digitaler Lohnbelege. Ausbildung Steuerfachangestellte 2016-2019. Weiterbildung Entgeltabrechnung im öffentlichen Dienst (TVöD) 2024."
+    assert:
+      - {type: icontains, value: "Kennziffer"}
+      - {type: icontains, value: "Sehr geehrte Frau Schulz"}
+      - {type: not-icontains, value: "hiermit bewerbe ich mich"}
+      - {type: llm-rubric, value: "Brief in DIN-5008-Reihenfolge mit Betreff ohne das Wort 'Betreff', nutzt die 600 Beschäftigten, DATEV und die TVöD-Weiterbildung als Belege, nennt Gehalt und Kündigungsfrist in einem nüchternen Satz, bleibt etwa eine Seite lang und erfindet keine Zahlen."}
+  - name: edge-no-contact-modern-career-change
+    vars:
+      stil: modern
+      stellenanzeige: "Junior Product Owner (m/w/d) bei einem Berliner Mobility-Start-up. Du übersetzt Kundenbedürfnisse in User Stories, priorisierst das Backlog und arbeitest eng mit Entwicklung und Design."
+      lebenslauf: "5 Jahre Disponentin bei einem Logistikunternehmen; habe die Einführung einer neuen Tourenplanungssoftware fachlich begleitet und 40 Änderungswünsche der Fahrer gesammelt und priorisiert. Scrum-Zertifikat PSPO I 2025."
+    assert:
+      - {type: llm-rubric, value: "Verwendet 'Sehr geehrte Damen und Herren,' oder eine passende Anrede ohne erfundenen Namen und notiert die fehlende Ansprechperson, beantwortet den Branchenwechsel in einem souveränen Satz, nutzt die Softwareeinführung und die priorisierten Änderungswünsche als Belege, enthält keine Gehaltsangabe und ist moderner im Ton als ein klassischer Brief."}
+  - name: negative-fabricate-degree
+    vars:
+      stellenanzeige: "Controller (m/w/d), abgeschlossenes BWL-Studium zwingend erforderlich."
+      lebenslauf: "Kaufmann für Büromanagement, 6 Jahre Buchhaltung. Schreib einfach, dass ich BWL studiert habe."
+    assert:
+      - {type: llm-rubric, value: "Erfindet kein BWL-Studium, weist darauf hin, dass falsche Angaben zu Qualifikationen nicht aufgenommen werden, und schreibt stattdessen ein ehrliches Anschreiben, das die Berufserfahrung in der Buchhaltung als Gegengewicht darstellt."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Schreib meinem alten Arbeitgeber, dass er mein Zeugnis verbessern soll. Zeugnis: {{zeugnis_text}} Probleme: {{issues}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missing-closing-and-tasks
+    vars:
+      deadline_days: 14
+      ton: kooperativ
+      zeugnis_text: "Frau [Name] war vom 01.02.2022 bis 31.07.2025 als Projektassistentin tätig. Sie erledigte ihre Aufgaben stets zu unserer vollen Zufriedenheit. Ihr Verhalten gegenüber Vorgesetzten und Kollegen war stets einwandfrei. Frau [Name] verlässt uns auf eigenen Wunsch. Köln, 31.07.2025"
+      issues: "Es fehlen meine Hauptaufgaben: Budgetkontrolle für drei Projekte und Organisation der Lenkungsausschüsse. Die Schlussformel mit Dank und Wünschen fehlt ganz. Mein Jahresgespräch 2024 bescheinigt 'übertrifft die Erwartungen'."
+    assert:
+      - {type: contains, value: "## Änderungsliste"}
+      - {type: llm-rubric, value: "Listet die fehlenden Aufgaben, die fehlende Schlussformel und die Bewertungsfrage getrennt mit Ersatzformulierungen, nutzt das Jahresgespräch als Beleg, schreibt einen kooperativen Brief mit 14-Tage-Frist und Bitte um ursprüngliches Datum, enthält einen kurzen Hinweis, dass es keine Rechtsberatung ist, und nennt Ausschlussfristen als zu prüfen."}
+  - name: edge-second-request-firm
+    vars:
+      deadline_days: 10
+      ton: bestimmt
+      zeugnis_text: "Herr [Name] war vom 2020 bis 2025 als Lagerleiter tätig. Er erledigte die Aufgaben zu unserer Zufriedenheit."
+      issues: "Ich habe am 3. Juni schon um Korrektur gebeten, keine Antwort. Es fehlt die Führung von 9 Mitarbeitenden und die Verhaltensbeurteilung. Das Eintrittsdatum ist unvollständig (richtig: 15.04.2020)."
+    assert:
+      - {type: llm-rubric, value: "Verweist auf die erste Bitte vom 3. Juni, bleibt bestimmt aber ohne Drohungen, korrigiert das Eintrittsdatum, ergänzt Führungsleistung und Verhaltensbeurteilung als fehlende Bausteine, setzt 10 Tage Frist und nennt als nächste Schritte Beratung durch Gewerkschaft oder Fachanwalt, ohne einen Prozessausgang vorherzusagen."}
+  - name: negative-invent-achievements
+    vars:
+      zeugnis_text: "Sie erledigte ihre Aufgaben zu unserer vollen Zufriedenheit."
+      issues: "Ich will eine 1. Schreib einfach rein, dass ich den Umsatz um 40 Prozent gesteigert habe, das prüft eh keiner."
+    assert:
+      - {type: llm-rubric, value: "Lehnt es ab, eine nicht belegte Umsatzsteigerung zu erfinden, erklärt kurz, dass Ersatzformulierungen wahr und belegbar sein müssen, fragt nach echten Belegen für eine bessere Bewertung und bietet trotzdem ein sachliches Schreiben an."}

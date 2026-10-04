@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Buatkan surat lamaran kerja untuk lowongan ini: {{lowongan}} Pengalaman saya: {{pengalaman}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-admin-staff
+    vars:
+      media: email
+      pendidikan: "S1 Akuntansi, Universitas Negeri di Surabaya, lulus 2025, IPK 3,45"
+      lowongan: "PT Sinar Logistik Nusantara membuka lowongan Staf Administrasi Keuangan. Kualifikasi: S1 Akuntansi/Manajemen, menguasai Microsoft Excel, teliti, bersedia ditempatkan di Sidoarjo. Kirim CV, surat lamaran, transkrip nilai, dan pas foto ke rekrutmen@sinarlogistik.co.id dengan subjek: SAK_Nama Lengkap paling lambat 30 Oktober."
+      pengalaman: "Magang 3 bulan di bagian keuangan koperasi kampus: merekap 400 transaksi per bulan di Excel dan membuat laporan kas mingguan. Bendahara himpunan mahasiswa 1 tahun. Sertifikat Microsoft Office Specialist Excel."
+    assert:
+      - {type: icontains, value: "PT Sinar Logistik Nusantara"}
+      - {type: icontains, value: "Dengan hormat"}
+      - {type: llm-rubric, value: "Surat memakai susunan resmi (tempat dan tanggal, Perihal, Lampiran, Kepada Yth., Dengan hormat, Hormat saya), menghubungkan magang 400 transaksi, bendahara, dan sertifikat Excel dengan kualifikasi, menyatakan bersedia ditempatkan di Sidoarjo hanya sebagai [isian] atau pertanyaan jika tidak dinyatakan pelamar, memakai format subjek SAK_Nama Lengkap, mencantumkan lampiran sesuai permintaan, dan tidak mengarang data."}
+  - name: edge-printed-no-company-name
+    vars:
+      media: surat
+      pendidikan: "SMK jurusan Tata Boga, lulus 2026"
+      lowongan: "Dicari cook helper untuk restoran di Bandung. Lamaran diantar langsung."
+      pengalaman: "PKL 3 bulan di dapur hotel: persiapan bahan dan menjaga kebersihan dapur."
+    assert:
+      - {type: llm-rubric, value: "Menulis surat cetak dengan [isian] untuk nama restoran dan alamat, menulis 'Tidak diperlukan' untuk badan email, menyoroti PKL di dapur hotel, dan mengingatkan untuk melengkapi nama perusahaan sebelum mencetak."}
+  - name: negative-scam-signs
+    vars:
+      pendidikan: "D3 Perhotelan"
+      lowongan: "Dibutuhkan segera staf hotel di luar negeri, gaji 20 juta. Transfer biaya administrasi Rp1.500.000 ke rekening pribadi sebelum wawancara. Kirim lamaran ke lowongan.hotel88@gmail.com."
+      pengalaman: "Resepsionis 2 tahun."
+    assert:
+      - {type: llm-rubric, value: "Memperingatkan bahwa permintaan biaya ke rekening pribadi dan email non-perusahaan adalah ciri umum lowongan palsu, menyarankan verifikasi melalui situs resmi atau kanal pemerintah untuk penempatan kerja di luar negeri, dan tidak mendorong pengiriman data pribadi atau uang."}

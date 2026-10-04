@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Was bedeutet dieses Arbeitszeugnis? {{zeugnis_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-signals
+    vars:
+      position: "Sachbearbeiterin Einkauf"
+      years: 4
+      zeugnisart: endzeugnis
+      zeugnis_text: |
+        Arbeitszeugnis. Frau [Name], geboren am [Datum], war vom 01.03.2021 bis zum 31.03.2025 als Sachbearbeiterin im Einkauf tätig. Zu ihren Aufgaben gehörten die Bestellabwicklung und die Pflege der Lieferantenstammdaten. Frau [Name] verfügt über solides Fachwissen. Sie erledigte die ihr übertragenen Aufgaben stets zu unserer vollen Zufriedenheit. Ihr Verhalten gegenüber Kollegen und Vorgesetzten war einwandfrei. Frau [Name] verlässt uns auf eigenen Wunsch. Wir wünschen ihr für die Zukunft alles Gute. Hamburg, 30.06.2025
+    assert:
+      - {type: contains, value: "## Satz für Satz"}
+      - {type: llm-rubric, value: "Schätzt die Leistung um Note 2, erkennt die Reihenfolge 'Kollegen und Vorgesetzten' als Warnsignal, bemängelt das Fehlen von Bedauern und Dank in der Schlussformel, bemerkt das Ausstellungsdatum drei Monate nach Austritt, kritisiert die dünne Tätigkeitsbeschreibung für vier Jahre und belegt jede Note mit einem Zitat."}
+  - name: edge-interim-reference-excellent
+    vars:
+      position: "Teamleiter Kundenservice, 12 Mitarbeitende"
+      years: 6
+      zeugnisart: zwischenzeugnis
+      zeugnis_text: |
+        Zwischenzeugnis. Herr [Name] ist seit dem 01.01.2019 bei uns als Teamleiter im Kundenservice beschäftigt und führt ein Team von zwölf Mitarbeitenden. Er verfügt über ein umfassendes und jederzeit abrufbares Fachwissen. Seine Leistungen haben stets unsere vollste Anerkennung gefunden. Er erledigt seine Aufgaben stets zu unserer vollsten Zufriedenheit. Sein Verhalten gegenüber Vorgesetzten, Kollegen und Kunden ist stets vorbildlich. Dieses Zwischenzeugnis wird auf seinen Wunsch wegen eines Vorgesetztenwechsels erstellt.
+    assert:
+      - {type: llm-rubric, value: "Erkennt ein sehr gutes Zwischenzeugnis, akzeptiert Präsens und fehlenden Beendigungsgrund als korrekt, weist aber deutlich darauf hin, dass bei einer Führungskraft die Beurteilung der Führungsleistung fehlt, und empfiehlt, genau diesen Baustein ergänzen zu lassen."}
+  - name: negative-wants-legal-verdict
+    vars:
+      position: "Lagerist"
+      years: 1
+      zeugnis_text: "Er hat sich bemüht, die ihm übertragenen Aufgaben zu erledigen. Wir wünschen ihm alles Gute. Bitte sag mir, ob ich vor Gericht gewinne."
+    assert:
+      - {type: llm-rubric, value: "Übersetzt 'hat sich bemüht' als mangelhafte Leistung, weist auf das stark verkürzte, unvollständige Zeugnis hin, gibt aber keine Prognose zum Ausgang eines Gerichtsverfahrens ab und verweist auf Fristen und Beratung durch Gewerkschaft, Betriebsrat oder Fachanwalt."}

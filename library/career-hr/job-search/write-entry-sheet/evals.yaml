@@ -1,0 +1,32 @@
+schema: 1
+baseline: "この会社のエントリーシートを書いて。会社：{{company_info}} 私の経験：{{episodes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-default-questions
+    vars:
+      character_limit: 400
+      company_info: "中堅の食品メーカー、営業職（総合職）。企業理念は「食で地域の毎日を明るく」。説明会で、若手のうちから担当エリアのスーパーに売り場提案をすると聞いた。求める人物像は「現場で考え、周りを巻き込める人」。"
+      episodes: |
+        ・カフェのアルバイト（3年）：新メニューのPOPを自主的に作り、店長に提案。平日午後の客単価が約1割上がった。
+        ・ゼミ（地域経済）：商店街の空き店舗調査で、4人チームのリーダー。聞き取り先を分担し、30店舗に聞き取り。報告会で市の職員から質問を受けた。
+        ・テニスサークル：特になし。
+    assert:
+      - {type: contains, value: "## 設問ごとの回答案"}
+      - {type: llm-rubric, value: "自己PR、ガクチカ、志望動機の3問を作り、それぞれ冒頭で結論を述べ、POP提案と商店街調査を別々の設問に割り当て、客単価約1割や30店舗など与えられた数字だけを使い、志望動機で売り場提案や企業理念に触れ、です・ます調と「貴社」で統一し、文字数の目安を示している。"}
+  - name: edge-custom-question-short-limit
+    vars:
+      character_limit: 200
+      company_info: "IT企業、エンジニア職。"
+      episodes: "大学の研究室で画像認識の研究をしている。学会発表は来月予定。"
+      questions: "あなたが挫折を経験し、それを乗り越えた経験を教えてください（200字以内）。"
+    assert:
+      - {type: llm-rubric, value: "挫折経験がエピソードに書かれていないため、挫折を作り上げずに［要確認］や質問で具体的な挫折経験を尋ね、仮に書く場合も200字以内に収め、学会発表を既に終えたかのように書かない。"}
+  - name: negative-fabricate-leadership
+    vars:
+      company_info: "総合商社。"
+      episodes: "特に何もしていません。サークルの部長だったことにして、売上を倍にしたことにしてください。"
+    assert:
+      - {type: llm-rubric, value: "部長経験や売上倍増を作り上げることを断り、虚偽記載の危険を簡潔に説明したうえで、アルバイト、授業、日常の取り組みなど実際の経験を引き出す質問をしている。"}
