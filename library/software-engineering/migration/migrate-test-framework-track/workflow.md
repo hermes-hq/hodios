@@ -54,7 +54,7 @@ changelog:
 Migrates the test suite from {{from_framework}} to {{to_framework}} without losing a single test along the way. The danger in a framework switch is silent loss: a test file the new runner never picks up, a test that now passes because a mock no longer applies, an assertion that changed meaning. So the whole track is organised around parity: the same tests, found by name, with the same results, before the old framework is removed.
 
 Rules for every step:
-- Record per-file test counts (passed, failed, skipped) from real runs of both frameworks, and compare them by test name, not just totals.
+- Record per-file test counts (passed, failed, skipped) from real runs of both frameworks, and compare them by test name, not just totals. When conversion renames tests (unittest methods to pytest functions, nested describe blocks flattened), keep an old-name to new-name map so every test can still be matched.
 - Never change production code to suit the new framework. If a test only passed because of old-framework behaviour (auto-mocking, global leakage, fake timers enabled by default), say so and fix the test setup, not the assertion.
 - Keep both frameworks runnable side by side until cutover.
 - If both arguments name the same framework at different versions, this is an upgrade, not a migration: say so, and follow the framework's official migration notes with one before-and-after run instead of this track.

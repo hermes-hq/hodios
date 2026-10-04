@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [operate]
 role: [sre, devops-engineer, backend-engineer]
-requires: [repo-read, shell]
+requires: [repo-read, file-write, shell]
 inputs: [logs, config, text]
 output: [report, table]
 risk: runs-commands

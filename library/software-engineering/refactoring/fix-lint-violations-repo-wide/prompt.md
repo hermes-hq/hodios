@@ -63,11 +63,11 @@ Enable `{{rule}}` and fix its violations across the repository.
    - **Possibly behaviour-changing**: the fix can change what the program does in some input or timing. Explain the difference for each pattern.
 4. Commit in this order, each commit at most {{commit_size}} files, grouped by directory or package:
    a. The config change alone, with the rule set to warn if the tool allows, so the build does not break mid-way.
-   b. Auto-fixable violations, using the tool's fix command. If the commits are pure formatting, add their hashes to `.git-blame-ignore-revs` (create it if missing and mention the git config line developers need).
+   b. Auto-fixable violations, using the tool's fix command. If the commits are pure formatting, list them for `.git-blame-ignore-revs` (create it if missing and mention the `git config blame.ignoreRevsFile` line developers need). Hashes change on rebase or squash merge, so add them in a follow-up commit once the commits are on the main branch, and say so.
    c. Manual mechanical fixes.
    d. Behaviour-changing fixes, each pattern in its own commit, with a test where the behaviour is covered or reachable; skip any you cannot verify and list it for review instead.
    e. Raise the rule to error once the count is zero (or only reviewed, listed exceptions remain).
-5. After every commit run `{{lint_command}}` and `{{test_command}}`; a commit that breaks tests is reverted and its pattern moved to the review list.
+5. After every commit run `{{lint_command}}` and the tests ({{test_command}}); a commit that breaks tests is reverted and its pattern moved to the review list.
 6. Where a violation is intentional, add a per-line suppression naming the rule with a short reason. Never add file-wide or repo-wide suppressions, and never exclude directories from the linter to reduce the count.
 </task>
 
@@ -75,6 +75,7 @@ Enable `{{rule}}` and fix its violations across the repository.
 - Change only what the rule requires; no unrelated refactors, renames or formatting of untouched lines in the same commits.
 - Do not touch generated, vendored or third-party code; exclude it through the linter's existing ignore mechanism if it is not already excluded, and say so.
 - Commit messages say what rule and which kind of fix, for example "Apply eqeqeq auto-fixes in packages/api".
+- The commit split is the review aid: recommend merging without squashing, or splitting into one pull request per kind if the team always squashes.
 - If the violation count is so large that the commit plan exceeds about twenty commits, stop after the config and auto-fix commits and report the plan for the rest.
 {{> guardrails/scope-discipline}}
 {{> guardrails/verify-before-done}}

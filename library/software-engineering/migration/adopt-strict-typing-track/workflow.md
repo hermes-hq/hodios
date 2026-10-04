@@ -34,7 +34,7 @@ args:
     type: string
     required: true
   - name: first_module
-    description: The module or directory to convert first. Leave empty and step 1 picks a leaf module with few dependents and few errors.
+    description: The module or directory to convert first. Leave empty and step 1 picks one from the bottom of the import graph with few errors.
     type: string
   - name: test_command
     description: The command that runs the tests, so each module's changes are proven not to alter behaviour.
@@ -51,10 +51,10 @@ last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
 ---
-Adopts strict type checking in this {{language}} codebase without a big-bang change. Turning strict on for the whole project at once produces thousands of errors, and teams answer with blanket suppressions that hide the bugs strict mode exists to find. This track measures first, puts a ratchet in place so strict coverage can only grow, then converts one module at a time, stopping after each for review.
+Adopts strict type checking in this {{language}} codebase without a big-bang change. Turning strict on for the whole project at once produces thousands of errors, and teams answer with blanket suppressions that hide the bugs strict mode exists to find. This track measures first, installs a ratchet that fits the checker, so strict coverage can only grow, then converts one module at a time from the bottom of the import graph up, stopping after each for review.
 
 Rules for every step:
-- The type checker run with `{{type_check_command}}` and the tests are the only evidence. Report real error counts, never estimates.
+- The type checker run with `{{type_check_command}}` and the tests, run with {{test_command}}, are the only evidence. Report real error counts, never estimates.
 - A type change must not change runtime behaviour. When strict mode exposes a real bug (a possible None, a wrong argument, an unhandled union member), record it separately; fix it only when the fix is small and covered by a test, and list it either way.
 - Suppressions are a last resort: `any`, `as` casts, non-null assertions, `# type: ignore`, `cast()` and `@ts-ignore` each need a one-line reason next to them and are counted in every report. Prefer `@ts-expect-error` and error-code-specific `# type: ignore[code]` so they fail once they are no longer needed.
 - Do not edit generated code or vendored code; exclude it from the checker instead and say so.

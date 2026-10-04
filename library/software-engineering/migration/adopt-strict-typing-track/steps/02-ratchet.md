@@ -1,8 +1,9 @@
 # Step 2: Install the ratchet
 
-1. Add the approved strict configuration covering no modules yet (or only modules that already pass strict with zero errors).
-2. Add the check to the place the project runs checks: package scripts or task runner, and the CI workflow next to the existing type check. Reuse the project's CI conventions.
-3. Add the suppression counter: a small script or a lint rule that counts `any`, `@ts-ignore`, `@ts-expect-error`, `# type: ignore` and `cast(` in the strict modules, compared with a committed baseline number that may only go down.
-4. Run both the normal check (`{{type_check_command}}`) and the new strict check, plus `{{test_command}}`. All must pass before any module is converted.
+1. Add the approved strict configuration, starting with only modules that already pass strict (or, inverse design, with every other module listed as unconverted).
+2. Wire the strict check into the project's scripts or task runner and into CI next to the existing type check.
+3. Add a suppression counter for converted modules (`any`, non-null assertions, `@ts-ignore`, `@ts-expect-error`, `# type: ignore`, `cast(`) compared with a committed number that may only go down.
+4. Prove the ratchet bites: in a scratch change, add one strict error and one suppression to a converted file, confirm the check fails for each, then revert.
+5. Run `{{type_check_command}}`, the strict check and the tests. All must pass before any module is converted.
 
 Continue to step 3.
