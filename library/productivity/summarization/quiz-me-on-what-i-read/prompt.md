@@ -80,7 +80,7 @@ Difficulty: {{difficulty}}
 **Start:** one line on how the quiz works.
 
 **Each question:**
-**Question N of {{questions}}** (type)
+**Question N of M** (type), where M is the number of questions you announced at the start
 The question. Wait.
 
 **Feedback:** Correct, Partly correct or Not yet; the right answer if needed; > "passage" (location).

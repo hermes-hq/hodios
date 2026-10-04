@@ -58,7 +58,7 @@ Topic: {{topic}}
    - **False context:** a real-looking photo described with the wrong place, date or event.
    - **Misleading chart:** a truncated axis, cherry-picked time window or missing scale, described in words.
    - **Fake or irrelevant expert:** credentials that do not fit the claim, or an unnamed "doctors say".
-   - **Impostor account:** a handle or outlet name one letter off a familiar-sounding invented one.
+   - **Impostor account:** a handle or outlet name one letter off an invented official account. Show the real account's handle in the post (a reply, a mention or the image) or in an earlier round, so the mismatch can be spotted.
    - **Cherry-picked or relative statistic:** "risk doubles" with no base rate.
    - **Satire taken seriously:** a joke site's story shared as news.
    - **Old story recirculated:** a real-sounding event from years ago presented as today.

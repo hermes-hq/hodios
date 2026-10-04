@@ -28,9 +28,9 @@ args:
     type: text
     required: true
   - name: types
-    description: Which references to list. all = books, papers and studies, tools, people, organisations and links; or one type only.
+    description: Which references to list. all = books, papers and studies, tools, people, organisations and links; or name one type to list only that.
     type: enum
-    enum: [all, books, papers, tools, people]
+    enum: [all, books, papers, tools, people, organisations, links]
     default: all
 output_contract:
   format: markdown
