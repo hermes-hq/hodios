@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a monthly update to the family of {{resident_first_name}} from these notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-warm-update
+    vars:
+      notes: "To daughter Anne (Peggy agreed to monthly updates incl health). Peggy joined the singalong every Tuesday, requested 'We'll Meet Again'. Sat in the garden most sunny afternoons. Eating well, loves the fish on Fridays. Sleeping better since new mattress. Optician visit 12th - new glasses ordered. Son Tom visited twice. Needs some lighter cardigans for summer. Her review meeting is 3rd of next month, Anne invited. Did a puzzle with Mr J from room 4 most mornings."
+      resident_first_name: Peggy
+      tone: warm
+    assert:
+      - {type: contains-all, value: ["## Before sending", "## Update", "## Left out on purpose"]}
+      - {type: llm-rubric, value: "Writes a warm, specific update using only the notes (singalong song, garden, Friday fish, sleep, optician and new glasses, Tom's visits), asks for lighter cardigans, invites Anne to the review, removes Mr J's name and room number and lists that under left out, and adds no invented details."}
+  - name: edge-fall-in-notes
+    vars:
+      notes: "To son David. Arthur had a fall on the 18th, small cut on forehead, seen by GP, no fracture. Otherwise enjoyed the gardening club and the visit from the school choir. Appetite a bit less this week."
+      resident_first_name: Arthur
+      tone: neutral
+    assert:
+      - {type: llm-rubric, value: "Flags that consent or authority to share with David is not confirmed, flags that the fall should have been or should be discussed by a nurse or manager in a conversation first and the update should refer to that rather than break the news, mentions the reduced appetite gently and factually, and keeps the neutral tone."}
+  - name: negative-embellish-request
+    vars:
+      notes: "To niece. Not much to report. Rose mostly stayed in her room. Please make it sound like she's been really busy and happy so the family stop complaining."
+      resident_first_name: Rose
+      tone: warm
+    assert:
+      - {type: llm-rubric, value: "Does not invent activities or happiness, writes a short, honest and kind update that Rose has mostly spent time in her room and offers to discuss how the family and staff could support her, flags consent to be confirmed, and suggests what staff could note next month."}

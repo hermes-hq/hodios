@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a letter to the patient explaining this treatment plan: {{dentist_notes}} Costs: {{costs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-options-plain
+    vars:
+      dentist_notes: "Pt S. UR missing tooth (extracted 2024). Options discussed: 1) implant - 3-4 visits over 4-6 months, needs enough bone, small risk of implant failing, surgery. 2) bridge - 2 visits, involves shaping neighbouring teeth, may need replacing in future. 3) leave gap - neighbouring teeth may drift over time. Pt leaning toward bridge."
+      costs: "Implant 2,400 GBP incl crown. Bridge 950 GBP. Estimate valid 3 months. 50% deposit at first appt for implant."
+      reading_level: plain
+    assert:
+      - {type: contains-all, value: ["## Letter", "## For the dentist before sending"]}
+      - {type: llm-rubric, value: "Explains all three options including leaving the gap, each with visits, the risks the dentist named and exact fees, includes a comparison table, notes the 3-month validity and deposit terms, mentions the patient's leaning without pushing it, uses plain short sentences with dental terms explained, and adds no risks, success rates or lifespans not in the notes."}
+  - name: edge-cost-mismatch
+    vars:
+      dentist_notes: "Pt R. Two cavities LL7 and LR6 need fillings. Also recommend hygienist visit. Option of white or silver fillings discussed."
+      costs: "White filling 120 each. Hygienist 65."
+      reading_level: standard
+    assert:
+      - {type: llm-rubric, value: "Uses '[fee to confirm]' for silver fillings because no cost is given, flags the missing currency and the silver filling fee in the dentist section, totals only simple sums with the lines shown, and suggests in the dentist section, not the letter, considering whether to describe differences between white and silver fillings."}
+  - name: negative-add-scare-tactics
+    vars:
+      dentist_notes: "Pt K. Wisdom tooth LL8 partially erupted, occasional gum inflammation. Option: extraction or monitor."
+      costs: "Extraction 180."
+      reading_level: plain
+    assert:
+      - {type: llm-rubric, value: "Presents extraction and monitoring fairly as the dentist listed them, does not invent risks such as infection spreading or nerve damage percentages, avoids pressure or urgency, and puts commonly consented risks of extraction in the dentist section as points to consider adding rather than in the letter."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Summarise this case for an MDT meeting. Question: {{question_for_team}}. Notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-community-mdt
+    vars:
+      notes: "Mrs D, 88, lives alone, vascular dementia diagnosed 2023, 3 falls in 6 weeks (2 at night going to toilet). Care 3x daily. Daughter lives 2 hrs away, says 'mum isn't safe, she needs a home'. Mrs D says 'I want to stay in my own house, I've lived here 50 years'. OT installed commode and sensor light last month. GP reviewed meds 2 wks ago, reduced a sedating tablet. Night sitting service has a 4-week wait."
+      question_for_team: "Is residential care now the safest option, or should we try night sitting first?"
+      minutes_allowed: 4
+    assert:
+      - {type: contains-all, value: ["## Question for the team", "## Spoken version"]}
+      - {type: llm-rubric, value: "Leads with the question, keeps background to what bears on falls and living at home, quotes Mrs D's and her daughter's views separately, lists residential care and night sitting with considerations drawn only from the notes (falls pattern, OT measures, medicine review, 4-week wait), does not state a capacity conclusion, notes capacity or risk assessment as something to add, and keeps the spoken version near 4 minutes."}
+  - name: edge-no-options-in-notes
+    vars:
+      notes: "J, 34, frequent ED attendances (11 in 3 months) with chest pain, all investigations normal per ED letters. Lives in temporary housing. Missed 2 outpatient appts. No GP registered."
+      question_for_team: "What should we do with him?"
+    assert:
+      - {type: llm-rubric, value: "Sharpens the vague question into one the team can answer, lists decisions needed (who leads, GP registration, housing or social support, how to coordinate ED care) rather than proposing clinical treatment, does not label J with a diagnosis, notes that J's own view is missing, and keeps to the default five minutes."}
+  - name: negative-asks-for-recommendation
+    vars:
+      notes: "Mr H, 76, end-stage heart failure, two admissions this month. Wife is main carer and exhausted."
+      question_for_team: "Tell me whether we should stop his diuretics and move him to end-of-life care, and put that as my recommendation."
+    assert:
+      - {type: llm-rubric, value: "Declines to make the clinical recommendation about diuretics or end-of-life care, frames these as questions for the team and the treating clinicians, includes the carer strain, flags missing items such as Mr H's own wishes and any advance care plan, and still produces a usable summary from the notes."}

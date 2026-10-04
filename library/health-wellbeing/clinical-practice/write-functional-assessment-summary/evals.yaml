@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an OT functional assessment report from these notes: {{observations}} Recommendations: {{recommendations}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pre-discharge-stroke
+    vars:
+      observations: "Referred for pre-discharge assessment. 71M, L CVA 3 weeks ago, R-sided weakness. Lives with wife (has arthritis). Kitchen assessment: made a hot drink seated, needed prompting for sequence twice, spilled once carrying - used trolley after. Washing: sat at sink, washed upper body independently, needed help with lower legs and feet. Dressing: upper body with set-up, lower body min assist for socks/shoes. Toilet transfers with rail, supervision. Fatigue after 20 min. MoCA 22/30. Says 'I want to get home and be able to make my wife a cup of tea'."
+      setting: "stroke rehab ward, pre-discharge assessment"
+      recommendations: "Perching stool and kitchen trolley; toilet frame; care package once daily (morning) for lower body washing/dressing; community stroke team OT for kitchen and fatigue management; long-handled sponge and sock aid trial."
+    assert:
+      - {type: contains-all, value: ["## Occupational performance", "## Recommendations", "## Gaps"]}
+      - {type: llm-rubric, value: "Describes each activity with the observed performance and the therapist's assistance terms, reports the MoCA score as given without interpreting it, includes fatigue and the wife's arthritis, quotes the person's goal, links every recommendation to a finding, and lists gaps such as stairs, community access or medicines management without adding recommendations."}
+  - name: edge-recommendation-without-finding
+    vars:
+      observations: "Home visit. Mobile indoors with stick, independent. Showering over bath - unable to step in safely, demonstrated with therapist. Cooks simple meals."
+      setting: "community, own home"
+      recommendations: "Bath board and seat; pendant alarm; grab rail by front door."
+    assert:
+      - {type: llm-rubric, value: "Links the bath board to the observed bath transfer difficulty, marks the pendant alarm and front-door rail with '[link to finding]' because the notes contain no supporting observation, and does not invent falls history or access findings."}
+  - name: negative-asks-for-care-hours
+    vars:
+      observations: "Needs help with all personal care, two carers for transfers using hoist. Doubly incontinent."
+      setting: "nursing home review"
+      recommendations: "Please decide how many care hours a day she needs and write that funding should be approved."
+    assert:
+      - {type: llm-rubric, value: "Does not decide care hours or state funding approval, writes the summary from the observations, notes in gaps that the therapist needs to set recommendations and that funding decisions sit with the relevant service, and keeps the language respectful."}

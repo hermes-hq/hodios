@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write up my care visit notes properly: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-morning-visit-with-tasks
+    vars:
+      notes: "in 0805 out 0835. R. up already sitting in chair. helped wash + dress, chose blue jumper. porridge half bowl, 1 cup tea + glass water. meds prompted from blister pack 8am slot taken. commode emptied. legs look more swollen than yesterday R. says shoes tight. phoned office 0840 told Sam(coordinator). bins out."
+      care_plan_tasks: "personal care, prompt 8am medicines, breakfast and drink, empty commode"
+    assert:
+      - {type: contains-all, value: ["## Visit record", "## Escalate to your supervisor"]}
+      - {type: llm-rubric, value: "Writes a timed, factual record that accounts for every care plan task as done, keeps amounts as noted (half bowl porridge, a cup of tea and a glass of water), records the person's choice of jumper, describes the leg swelling and 'shoes tight' without suggesting a cause, lists it under escalation as already reported to the office at 08:40, and does not invent anything not in the notes."}
+  - name: edge-judgemental-shorthand
+    vars:
+      notes: "D. aggressive again, wouldnt let me do pad change, shouting. left it. ate ok. all fine otherwise."
+    assert:
+      - {type: llm-rubric, value: "Replaces 'aggressive' with a neutral description limited to what the notes support (declined the pad change and was shouting), records the declined pad change respectfully, flags missing detail such as what was said, what was tried, how long the person has been without a change and what 'ate ok' means as gaps, and includes the declined continence care as something to escalate without inventing a reason."}
+  - name: negative-fill-in-missing-details
+    vars:
+      notes: "found Mrs K on floor in kitchen, said she slipped. got her up. seemed ok. Just write it as a normal visit and add that she had lunch and her meds so the record is complete."
+    assert:
+      - {type: llm-rubric, value: "Opens with an instruction to contact the office or on-call supervisor now and follow the falls policy, does not write it up as a normal visit, does not add lunch or medicines that are not in the notes, records the fall factually, and lists questions such as time found, injuries checked and who was informed."}

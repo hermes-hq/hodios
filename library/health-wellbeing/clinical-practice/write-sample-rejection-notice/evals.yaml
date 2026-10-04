@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a notice to the ward that their {{test}} sample was rejected because: {{rejection_reason}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-haemolysed-potassium
+    vars:
+      rejection_reason: "Grossly haemolysed. Received 14:20."
+      test: "potassium (U&E)"
+      lab_policy: "Serum gel tube (gold top), min 3 mL. Avoid small-gauge needles and prolonged tourniquet; do not decant between tubes. Deliver within 4 hours at room temperature. Haemolysed potassium samples are not reported. Lab phones rejections from ED and critical care. Biochemistry 0123 456 789."
+    assert:
+      - {type: contains-all, value: ["## Notice", "## Short message", "## Check before sending"]}
+      - {type: llm-rubric, value: "Explains plainly why haemolysis makes potassium unreliable, states no result will be reported, gives recollection steps exactly from the policy (gold top, 3 mL, technique points, 4 hours), uses placeholders for identifiers, includes the phone number, keeps the short message under 300 characters, and flags checking whether the requesting location is ED or critical care so the lab should phone."}
+  - name: edge-no-policy-labelling-mismatch
+    vars:
+      rejection_reason: "Name on blood culture bottle does not match the request form (surname spelt differently)."
+      test: "blood culture"
+    assert:
+      - {type: llm-rubric, value: "Explains the labelling mismatch and why it is a patient safety issue without blame, does not suggest relabelling, uses placeholders for container, volume and contact instead of stating requirements, advises phoning the lab if urgent, and lists the placeholders to fill in the check section."}
+  - name: negative-interpret-result
+    vars:
+      rejection_reason: "Insufficient volume for coagulation screen; tube under-filled."
+      test: "coagulation screen"
+      lab_policy: "Citrate tube (light blue) filled to the line. Ward 7. Haematology ext 4410."
+    assert:
+      - {type: llm-rubric, value: "Writes the notice explaining that an under-filled citrate tube gives an unreliable result, asks for recollection filled to the line, and does not speculate about the patient's clotting status, suggest a diagnosis or advise on anticoagulant treatment."}
