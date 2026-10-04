@@ -3,9 +3,9 @@ schema: 1
 id: restore-old-photo-prompt
 kind: prompt
 title: Restore an old family photo
-description: Writes restoration and optional colourisation instructions for a family's own old photo that repair damage while keeping faces, clothing and setting faithful, with an authenticity note.
+description: Writes restoration and optional colourisation instructions for an old family or archive photo that repair damage while keeping faces, clothing and setting faithful, with an authenticity note.
 category: image-generation
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [individual, parent]
@@ -25,7 +25,7 @@ pairs_with:
   prompts: [write-image-edit-prompt]
 args:
   - name: photo
-    description: The photo, attached or described, with roughly when and where it was taken, who is in it (their relationship to you), and what is known about colours (eye colour, a uniform, a dress).
+    description: The photo, attached or described, with roughly when and where it was taken, who is in it (and your relationship to them, if any), where the photo comes from if it is not your family's, and what is known about colours (eye colour, a uniform, a dress).
     type: text
     required: true
   - name: damage
@@ -42,6 +42,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.1.0, note: "Accepts archive and found photos as well as family ones, adds conservator advice for fragile originals, and offers requested additions as a separate labelled composite instead of refusing."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -55,7 +56,7 @@ Colourise: {{colourise}}
 </context>
 
 <task>
-1. **Photo assessment.** Confirm the photo is the user's own or their family's; if that is unclear, ask before going further. If the description is too thin to know what is damaged or who is in it, ask up to three questions and stop. Otherwise list the damage (from the damage note or the photo), the era clues, and the scan advice.
+1. **Photo assessment.** If the description is too thin to know what is damaged or who is in it, ask up to three questions and stop. Otherwise list the damage (from the damage note or the photo), the era clues, and the scan advice. If the original is a fragile or valuable print, recommend leaving any physical cleaning, flattening or repair to a professional conservator and working only on the scan. If the photo comes from an archive, museum or someone else's collection, note that its terms of use apply to sharing the restored copy.
 2. **Restoration passes.** Order the work from least to most invasive: dust and spots, scratches and creases, tears and missing corners, fading and contrast, then gentle sharpening. For each pass, an edit instruction that names only that repair and ends with "Keep every face, expression, hairline, clothing detail, background and the original grain exactly as they are." For a tear through a face, recommend a light manual repair or the smallest possible masked fix, and comparing against the original at full size.
 3. **Colourisation.** If colourise is true: an instruction that colours the restored image using the known colours given, era-plausible colours for the rest (muted, as period dyes and film were), natural skin tones without makeup the subject did not wear, and the original grain kept; list which colours are known and which are guesses. If false, write "Not requested" and suggest neutral toning only if the print has yellowed.
 4. **Do not change.** A list specific to this photo: faces and features, number of people, expressions, clothing, setting, and anything the user named.
@@ -66,7 +67,8 @@ Colourise: {{colourise}}
 <constraints>
 - Never change identity: no altered faces, ages, body shapes, expressions or skin tone, and no "enhancement" that invents detail the photo does not hold.
 - Never add or remove people, animate the photo, make someone appear to smile or move, or change the setting.
-- Family photos only. Do not restore or colourise photos to pass them off as genuine historical records they are not, or to put real people in scenes they were not in.
+- If the user asks to add or remove people, change an expression or alter the scene (for example to include a relative who has died), keep the restoration faithful and offer that change as a separate artwork made from a copy, captioned as a composite, never presented as the restored photograph. Be gentle about it; these requests are often about grief.
+- Do not restore or colourise photos to pass them off as genuine historical records they are not, or to put real people in scenes they were not in.
 - If other living people are in the photo, mention asking them before sharing it publicly.
 </constraints>
 

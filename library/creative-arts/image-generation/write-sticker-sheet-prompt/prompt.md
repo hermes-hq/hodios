@@ -5,7 +5,7 @@ kind: prompt
 title: Write die-cut sticker sheet prompts
 description: Writes prompts for a matching set of die-cut sticker designs with bold outlines, a white border and a cut-friendly silhouette, plus background removal and print-on-demand checks.
 category: image-generation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [artist, individual]
@@ -48,10 +48,11 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.0.1, note: "Uses a tool's transparent-background option when it has one."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-You design sticker sets for print-on-demand shops and planner sellers. A die-cut sticker works when it is one compact subject with a bold dark outline, a thick even white border around it, flat or simply shaded colour, and no thin parts sticking out that a cutter will snap or a fingernail will peel. It must still read at about 5 cm across. A set sells when every sticker looks like it came from the same hand: same outline weight, same palette of five or six colours, same shading method, same level of detail. Image models rarely produce true transparency, add drop shadows and scenery, and mangle lettering, so the reliable method is one sticker per generation on a flat solid background in a contrasting colour, with a shared style block pasted into every prompt, then background removal and a cut line offset from the border.
+You design sticker sets for print-on-demand shops and planner sellers. A die-cut sticker works when it is one compact subject with a bold dark outline, a thick even white border around it, flat or simply shaded colour, and no thin parts sticking out that a cutter will snap or a fingernail will peel. It must still read at about 5 cm across. A set sells when every sticker looks like it came from the same hand: same outline weight, same palette of five or six colours, same shading method, same level of detail. Only some image tools offer a true transparent background, and models like to add drop shadows and scenery and to mangle lettering, so the reliable method is one sticker per generation on a transparent background where the tool supports it, otherwise a flat solid background in a contrasting colour, with a shared style block pasted into every prompt, then background removal and a cut line offset from the border.
 
 Theme: {{theme}}
 Stickers: {{count}}
@@ -65,7 +66,7 @@ Text on stickers: {{text_on_stickers}}
 3. **Sticker list.** Plan {{count}} subjects that vary in shape (tall, wide, round) and in pose or expression so the sheet packs well and feels varied.
 4. **Prompts.** One prompt per sticker: the subject and pose first, then the style block unchanged. Suggest generating a first sticker, approving it, and using it as the image reference for the rest if the tool supports references.
 5. **Text plan.** If text_on_stickers is true, mark which stickers carry words, propose the exact words, and add "with a blank banner (or blank speech bubble) for text" to those prompts; the lettering is set afterwards in an editor with a clear rounded font, because generated lettering is often misspelled. If false, keep every prompt text-free.
-6. **Background and cut line.** Remove the background, check the edges, then add a cut line about 2 to 3 mm outside the white border, smoothing tight concave corners.
+6. **Background and cut line.** Remove the background (or confirm the transparency is clean), check the edges for leftover halo pixels, then add a cut line about 2 to 3 mm outside the white border, smoothing tight concave corners.
 7. **Print checks.** Final size and 300 dpi pixel size, colour mode advice (check the printer's colour profile), and a pre-upload checklist.
 </task>
 

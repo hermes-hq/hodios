@@ -5,7 +5,7 @@ kind: prompt
 title: Practise image prompting with a coach
 description: Coaches someone through improving their own image prompts over several generations, comparing what they wanted with what they got and teaching one prompting principle per round.
 category: image-generation
-version: 1.0.0
+version: 2.0.0
 status: incubating
 stage: [learn]
 role: [individual, artist, content-creator]
@@ -28,10 +28,10 @@ args:
     description: The image you want to make and what it is for, in your own words, plus your first prompt if you already have one.
     type: text
     required: true
-  - name: tool_family
-    description: "How your tool takes prompts, if you know. diffusion: keyword prompts, negative prompts, weights, seeds. autoregressive: chat-style tools that read full sentences. unknown: not sure."
+  - name: tool
+    description: "How your tool takes prompts, if you know. midjourney: one prompt plus parameters (--ar, --no). stable-diffusion: positive and negative fields, weights and seeds (also FLUX and other open models). chat-based: plain sentences, as in ChatGPT images, Gemini or Firefly. unknown: not sure."
     type: enum
-    enum: [diffusion, autoregressive, unknown]
+    enum: [midjourney, stable-diffusion, chat-based, unknown]
     default: unknown
   - name: rounds
     description: How many practice rounds to plan for.
@@ -44,6 +44,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 2.0.0, note: "Replaces the tool_family argument with tool, named by how the tool takes prompts rather than by model architecture."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -60,7 +61,7 @@ Goal:
 <goal>
 {{goal}}
 </goal>
-Tool family: {{tool_family}}
+Tool: {{tool}}
 Rounds: {{rounds}}
 </context>
 
@@ -70,7 +71,7 @@ Rounds: {{rounds}}
    - **Wanted versus got:** ask, or read from their message, what they wanted and what they got; name the single biggest gap.
    - **Principle:** pick the one principle from the list that best closes that gap (not yet taught, unless the gap needs a repeat); explain it in three or four plain sentences with a short before-and-after example from their own prompt.
    - **Your rewrite:** ask them to rewrite their prompt applying it, generate again and report back. Give a hint, not a finished prompt. Only show a full model answer if they ask or are stuck after two tries.
-3. Adapt the syntax advice to {{tool_family}}: plain sentences for autoregressive tools; keywords, avoid fields and seeds for diffusion tools; ask which tool if unknown before mentioning syntax.
+3. Adapt the syntax advice to {{tool}}: plain sentences and no avoid field for chat-based tools; parameters such as --ar and --no at the end for midjourney; separate positive and negative fields, weights and seeds for stable-diffusion, noting that newer open models follow full sentences and may ignore negative prompts. If the tool is unknown, ask which tool before mentioning syntax.
 4. After {{rounds}} rounds, or earlier if they are happy, give a short summary: the principles they now use, their best prompt as a reusable template with slots, and one thing to practise next.
 </task>
 

@@ -5,7 +5,7 @@ kind: prompt
 title: Write greeting card artwork prompts
 description: Writes prompts for greeting card and invitation artwork for an occasion, with a front composition, an inside spot motif and a matching back, leaving clear space for the message.
 category: image-generation
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [individual, parent]
@@ -22,7 +22,7 @@ reasoning: optional
 level: beginner
 tags: [greeting-cards, invitations, printables, occasions, stationery]
 pairs_with:
-  prompts: [write-image-prompt, write-seamless-pattern-prompt]
+  prompts: [write-image-prompt, write-seamless-pattern-prompt, write-card-message]
 args:
   - name: occasion
     description: The occasion and any personal detail to work in, e.g. "70th birthday, she loves sailing", "baby shower invitation, woodland theme", "sympathy card".
@@ -44,6 +44,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.0.1, note: "Print notes give pixel sizes for the common card sizes instead of an unset chosen size; links the card message prompt."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -60,7 +61,7 @@ Style: {{style}}
 3. **Inside motif prompt.** A small spot illustration that echoes the front (one element from it), on plain white, for the corner or top of the inside page.
 4. **Back prompt.** A tiny matching emblem or a simple pattern strip, optional.
 5. **Message space.** Where the greeting goes on the front, and two or three short message suggestions for the inside that fit the occasion and recipient, for the user to adapt.
-6. **Print notes.** Common folded sizes, the pixel size at 300 dpi for the chosen size, about 3 mm bleed, and a reminder to print a test on plain paper first.
+6. **Print notes.** Common folded sizes (A6, A5, 5 x 7 in) with the front panel's pixel size at 300 dpi including about 3 mm bleed on each edge (A6: 1311 x 1819), the advice to generate at the card's aspect ratio and upscale, and a reminder to print a test on plain paper first.
 </task>
 
 <constraints>

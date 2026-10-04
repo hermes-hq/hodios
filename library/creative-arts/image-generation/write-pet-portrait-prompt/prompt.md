@@ -5,7 +5,7 @@ kind: prompt
 title: Write a pet portrait prompt
 description: Writes prompts for a stylised portrait of the user's own pet from photos, mapping markings and features so the animal stays recognisable in the chosen art style for gifts and prints.
 category: image-generation
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [individual]
@@ -44,6 +44,7 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
+  - {version: 1.1.0, note: "Honours requested changes to the pet's look after one note on likeness, keeping the markings that make the animal recognisable."}
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
@@ -66,7 +67,7 @@ Background: {{background}}
 </task>
 
 <constraints>
-- Keep the pet's real features; do not "improve" the animal, change its colours or make it look younger unless the user asks for a stylised cartoon, and even then keep markings.
+- Keep the pet's real features; do not "improve" the animal, change its colours or make it look younger on your own initiative. If the user asks for a change (a younger look, a different coat, a fanciful breed), say once what it costs in likeness, then do it while keeping the face, markings and quirks that make the animal recognisable.
 - The user's own pet, or one they have permission to portray. Do not place people in the portrait unless the user supplies their own photo and asks.
 - For a memorial portrait, keep the tone gentle and suggest the user's favourite photo as the reference.
 </constraints>
