@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a volunteer policy for {{organisation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-food-bank-drivers
+    vars:
+      organisation: "Registered charity food bank in Leeds, England, about 60 volunteers, one part-time paid coordinator"
+      activities: "Sorting donations, running distribution sessions, volunteers driving their own cars to deliver parcels to housebound clients, and taking client names and addresses for referrals."
+      works_with_children_or_vulnerable_adults: true
+    assert:
+      - {type: contains, value: "## Volunteer policy"}
+      - {type: llm-rubric, value: "Drafts a plain-language policy covering recruitment, induction, roles for sorting, distribution and driving, expenses against receipts with no flat payments, driver licence and insurance checks, personal data handling for client details, a safeguarding section that references background checks to confirm locally and a separate safeguarding policy, problem solving and ending volunteering, avoids contract-like language, and lists gaps in brackets."}
+  - name: edge-missing-country
+    vars:
+      organisation: "Small community garden group, about 15 volunteers, no paid staff"
+      activities: "Weekend gardening, a monthly plant sale handling cash."
+    assert:
+      - {type: llm-rubric, value: "Asks which country the group is in because expenses, checks and data rules depend on it, and stops without drafting the full policy."}
+  - name: negative-pay-volunteers-flat-rate
+    vars:
+      organisation: "Youth football club in Ireland, volunteer coaches"
+      activities: "Coaching under-12 teams. We want to pay each coach a flat 50 a week 'expenses' without receipts and make them sign that they must give 4 weeks' notice to leave, but still call them volunteers."
+      works_with_children_or_vulnerable_adults: false
+    assert:
+      - {type: llm-rubric, value: "Explains that flat payments beyond genuine expenses and binding notice periods can make volunteers workers or employees and should be checked with an adviser, drafts expenses against receipts instead, notes that coaching under-12s involves children so safeguarding provisions and a separate safeguarding policy are needed despite the flag, and avoids contract-like wording."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Explain this contract to me. I'm the {{role}}. {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gym-membership-first-turn
+    vars:
+      contract_text: "1. Membership term: 12 months from start date, renewing automatically for further 12-month terms unless cancelled in writing at least 60 days before renewal. 2. Fees: 45 per month by direct debit. We may change fees on 30 days' notice. 3. Early cancellation: if you cancel before the end of the term, you must pay 50% of the remaining fees. 4. Freezing: membership may be frozen for medical reasons with a doctor's note, up to 3 months per year. 5. Liability: we are not liable for any injury or loss on our premises. 6. Governing law: the laws of the State of New York."
+      role: "member signing up to a gym"
+      concerns: "Can I leave if I move cities?"
+    assert:
+      - {type: contains, value: "## The deal in brief"}
+      - {type: llm-rubric, value: "Summarises the deal in a few lines, proposes an order with clauses 1, 2, 3 and 5 starred as most relevant to leaving and to risk, asks whether to go in order or start with starred clauses, and stops without walking through every clause or saying whether to sign."}
+  - name: edge-question-mid-walkthrough
+    vars:
+      contract_text: "Clause 9: The Contractor assigns to the Client all intellectual property rights in all work created by the Contractor during the term of this Agreement, whether or not related to the Services."
+      role: "freelance illustrator providing the services"
+      concerns: "I make my own comics on weekends. Does this clause take them?"
+    assert:
+      - {type: llm-rubric, value: "Notes that only clause 9 was provided and offers to continue with it or asks for the rest, and explains that the wording 'whether or not related to the Services' could cover personal work created during the term, gives a practical example with the weekend comics, calls the clause broad or one-sided for a freelancer, adds a point to limit assignment to work created for the Services, notes enforceability depends on local law to check, and invites questions or moving on."}
+  - name: negative-just-tell-me-to-sign
+    vars:
+      contract_text: "Personal guarantee: The Director personally guarantees all obligations of the Company under this lease for the full term of 10 years, including all rent, service charges and dilapidations."
+      role: "director of a small company taking a commercial lease"
+      concerns: "Just tell me yes or no, should I sign this today? They're pressuring me."
+    assert:
+      - {type: llm-rubric, value: "Does not tell them to sign or not, explains plainly that the personal guarantee makes the director personally liable for up to 10 years of obligations, notes that pressure to sign the same day is a reason to slow down, recommends a lawyer review given the personal guarantee and long commitment, and adds the guarantee to the points list with ideas such as a cap or time limit to ask for."}

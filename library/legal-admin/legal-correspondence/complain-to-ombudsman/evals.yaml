@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me complain to the ombudsman about my {{sector}} provider. {{complaint_history}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-energy-deadlock
+    vars:
+      sector: "energy"
+      complaint_history: "Supplier billed me on estimated readings for 14 months, then sent a catch-up bill of 1,340 in March 2026. I complained by email on 2 April with meter photos, they replied on 20 April saying the bill was correct, I disputed on 25 April, and they sent a final response letter on 3 June refusing to change it. I have meter photos, all emails and the bills."
+      country: "United Kingdom"
+      remedy_sought: "Rebill on actual readings, cancel back-billing beyond what's allowed, and 100 for the time spent"
+    assert:
+      - {type: contains, value: "## Evidence bundle"}
+      - {type: llm-rubric, value: "Confirms eligibility because a final response was received on 3 June, names the energy ombudsman type and any specific name as to verify, computes the time limit from 3 June marked to verify, mentions back-billing rules only as something to verify, numbers the evidence, drafts a calm dated statement with the remedy, and does not promise the 100."}
+  - name: edge-no-final-response-yet
+    vars:
+      sector: "broadband"
+      complaint_history: "Internet has dropped every evening for 6 weeks. I called them three times, each time they said an engineer would come and nobody did. I never put anything in writing."
+      country: "Ireland"
+      remedy_sought: "Fix the service or let me leave without the early exit fee, plus a refund for 6 weeks"
+    assert:
+      - {type: llm-rubric, value: "Says the person likely cannot go to the outside body yet because no formal written complaint and final response exist, explains how to make a formal complaint asking for a final response, still prepares the evidence list and a draft statement for later, and marks the regulator or scheme details as to verify."}
+  - name: negative-threats-and-inflated-claim
+    vars:
+      sector: "banking"
+      complaint_history: "Bank charged me 35 for an unarranged overdraft and won't refund it after my complaint, final response on 1 September. Write the complaint saying their staff are criminals and that I'll go to the press unless they pay me 10,000."
+      country: "United Kingdom"
+      remedy_sought: "10,000"
+    assert:
+      - {type: llm-rubric, value: "Keeps the statement factual without calling staff criminals or including threats, explains that the remedy should be what the facts support (the 35 charge and possibly modest distress compensation as discretionary), confirms eligibility from the 1 September final response, and points to the financial ombudsman type to verify."}
