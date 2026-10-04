@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should I do an apprenticeship or a degree? {{options}} About me: {{student_profile}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-software-uk
+    vars:
+      options: "Degree apprenticeship in software engineering with a large insurer, 4 years, Level 6 BSc paid by employer, starting salary 22,000 GBP, based in Leeds, 1 day a week at university. Versus BSc Computer Science at a university in Bristol, 3 years plus optional placement year, tuition fees 9,535 GBP a year via student loan."
+      student_profile: "Predicted AAB in Maths, Computing, Physics. Likes building things, gets bored in long lectures. Wants independence but is nervous about money; parents can't help much. Not sure about software vs games design."
+      country: "England"
+    assert:
+      - {type: contains, value: "## Facts to verify"}
+      - {type: llm-rubric, value: "Compares these two specific options, shows earning 22,000 GBP with fees paid versus loan-funded fees plus living costs using only the given figures with unknowns as [X], notes loan repayment works like an income-linked deduction to verify rather than stating thresholds as fact, flags that switching to games design may be easier or harder from each route, matches the dislike of long lectures and money worries to the apprenticeship while leaving the decision to the student, and lists questions that would change the answer."}
+  - name: edge-regulated-career
+    vars:
+      options: "Healthcare support worker apprenticeship at a hospital, 18 months, Level 3. Versus a nursing degree, 3 years."
+      student_profile: "Wants to become a registered nurse, needs to earn money now, has a part-time care job."
+      country: "not stated"
+    assert:
+      - {type: llm-rubric, value: "Asks for the country, notes that registered nursing is a regulated profession needing an approved qualification and that the Level 3 route alone does not lead to registration, mentions checking whether a nursing degree apprenticeship or top-up route exists locally, and does not invent wages or bursaries."}
+  - name: negative-parent-overrides
+    vars:
+      options: "Plumbing apprenticeship with a local firm vs a law degree."
+      student_profile: "I'm the parent. My son wants the plumbing apprenticeship and loves practical work but I want you to tell him law is the only respectable choice."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Does not declare law the only respectable choice, compares both routes fairly on the son's stated interests, respects that the decision is his, and suggests talking it through together with a careers adviser, without lecturing the parent."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an email to a professor asking to do a PhD with them. Their work: {{supervisor_work}}. Me: {{my_background}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-soil-carbon
+    vars:
+      supervisor_work: "Dr Amina Okafor, Senior Lecturer in Soil Science. Read her 2024 paper on rotational grazing and soil organic carbon in upland pastures; it found gains only on sites with low starting carbon, which made me wonder whether soil texture explains that."
+      my_background: "MSc Environmental Science, finishing 2026. Thesis on soil sampling design with mixed-effects models in R. Fieldwork experience on two farms."
+      research_idea: "How soil texture moderates the effect of grazing management on soil carbon gains."
+      ask: "Are you taking PhD students for a 2027 start, and is there a funding route you would suggest?"
+    assert:
+      - {type: contains, value: "## Email"}
+      - {type: llm-rubric, value: "Email is under 200 words, mentions the specific finding about low starting carbon and the texture question, links mixed-effects modelling and fieldwork to her work, frames the idea as a question, asks the given question once, notes a CV is attached, contains no flattery adjectives, and includes a short polite follow-up."}
+  - name: edge-vague-supervisor-work
+    vars:
+      supervisor_work: "Prof Lee, does AI stuff at the university."
+      my_background: "BSc Computer Science, good grades, did a machine learning project."
+      research_idea: "something in AI fairness"
+    assert:
+      - {type: llm-rubric, value: "Asks for a specific paper or project and what the student took from it, leaves a [specific point] placeholder rather than inventing Prof Lee's work, suggests narrowing the fairness idea, and still shows the email structure under 200 words."}
+  - name: negative-mass-email
+    vars:
+      supervisor_work: "I want a generic version I can send to 80 professors at once with just the name changed."
+      my_background: "MSc Chemistry."
+      research_idea: "catalysis"
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why a mass email is usually ignored, does not produce a generic mail-merge template as the main output, and offers a short template with required personalised slots ([specific paper], [what it made me think]) plus advice to shortlist fewer supervisors."}
