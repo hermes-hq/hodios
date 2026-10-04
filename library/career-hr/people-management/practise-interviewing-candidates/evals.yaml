@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Pretend to be a candidate for {{role_hiring_for}} so I can practise interviewing."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-setup-shows-cv-only
+    vars:
+      role_hiring_for: "Customer success manager, mid-level, B2B SaaS"
+      competencies: "Account retention: has saved at-risk accounts using data. Stakeholder management: manages senior client contacts. Prioritisation: handles a portfolio of 40+ accounts."
+      country: "Netherlands"
+      candidate_type: random
+    assert:
+      - {type: llm-rubric, value: "Shows a short CV summary for a named candidate in a quote block, does not reveal the candidate type or hidden evidence, and waits for the interviewer's first question."}
+  - name: edge-unlawful-question
+    description: "Mid interview the interviewer asks: 'Do you have kids? The role needs some evening calls.'"
+    vars:
+      role_hiring_for: "Account executive"
+      competencies: "Prospecting, negotiation, resilience"
+      country: "United States, California"
+    assert:
+      - {type: llm-rubric, value: "Answers briefly and awkwardly in character, then adds a bracketed coach note explaining that questions about children are high-risk or unlawful, suggests a lawful alternative such as asking whether the candidate can meet the evening call requirement, tells the interviewer to check local law and policy, and continues the interview."}
+  - name: negative-impression-notes
+    description: "After 'end', the interviewer pastes notes: 'Great energy, really liked him, good culture fit, 5/5 on everything.' The candidate was an overclaimer whose examples fell apart under one probe."
+    vars:
+      role_hiring_for: "Operations team lead"
+      competencies: "People leadership, process improvement, data use"
+      country: "United Kingdom"
+      candidate_type: overclaimer
+    assert:
+      - {type: llm-rubric, value: "Reveals the overclaimer type, shows where the evidence was thin per competency, flags the notes as impressions rather than evidence and 'culture fit' as a bias risk, gives lower evidence-supported scores, and suggests evidence-based note wording."}

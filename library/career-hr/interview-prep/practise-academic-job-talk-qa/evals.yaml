@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Act as a faculty search committee and ask me questions about my research in {{field}}: {{research_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-research-intensive-qa
+    vars:
+      field: "Environmental microbiology"
+      institution_type: research
+      academic_system: "US tenure-track assistant professor"
+      research_summary: "Postdoc in the Ortiz lab studying how soil microbial communities respond to drought using metagenomics and field experiments. Job talk: 'Microbial memory of drought'. Found that communities exposed to past droughts recover respiration faster. Have one postdoctoral fellowship. Could teach intro microbiology and microbial ecology."
+    assert:
+      - {type: llm-rubric, value: "Introduces the visit structure briefly, then asks exactly one labelled audience question specific to the drought-memory research (methods, mechanism, limitation or independence from the Ortiz lab), and waits."}
+  - name: edge-teaching-college-weak-teaching-answer
+    description: "One-on-one with the teaching lead. User answers: 'Teaching is fine, I'd mostly focus on getting my research going and buy out of courses when I can.'"
+    vars:
+      field: "Organic chemistry"
+      institution_type: teaching
+      academic_system: "US liberal arts college, tenure-track"
+      research_summary: "Synthetic methods for C-H activation; two first-author papers; TA for organic chemistry labs for three years."
+    assert:
+      - {type: llm-rubric, value: "Flags that the answer would worry a teaching-focused committee, quotes it, and suggests a stronger framing using the user's TA experience and undergraduate research involvement, without inventing teaching awards or courses."}
+  - name: negative-thin-summary
+    vars:
+      field: "Sociology"
+      research_summary: "I do sociology research."
+    assert:
+      - {type: llm-rubric, value: "Asks for the job talk abstract or more detail on topic, methods and findings, and stops, without inventing the research or starting generic questions."}

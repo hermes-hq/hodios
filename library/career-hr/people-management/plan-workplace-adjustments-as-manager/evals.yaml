@@ -1,0 +1,29 @@
+schema: 1
+baseline: "An employee asked for workplace adjustments: {{request}}. Their role: {{role}}. We're in {{country}}. How should I respond?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-call-centre
+    vars:
+      request: "Jordan emailed: 'I've been struggling with migraines that get worse under the bright office lights and with long screen time. Could I sit by the window away from the overhead lights, have a screen filter, and take short breaks away from the screen every hour?'"
+      role: "Customer service adviser in a call centre, 8-hour shifts, call targets, open-plan office"
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Options"}
+      - {type: llm-rubric, value: "Drafts a warm first reply, plans a conversation without asking for diagnosis details, assesses the three requests plus alternatives including impact on call targets, mentions the Equality Act 2010 and Access to Work or Acas as things to check, covers confidential records and a review date, and does not say whether the employer is legally obliged to agree."}
+  - name: edge-request-conflicts-with-core-duty
+    vars:
+      request: "A delivery driver with a recent back injury asked to stop lifting parcels over 10 kg for three months but keep driving."
+      role: "Parcel delivery driver; route includes many heavy parcels; small depot of 25 staff"
+      country: "United States, Texas"
+    assert:
+      - {type: llm-rubric, value: "Weighs options such as route redesign, a lifting aid, pairing or temporary duty changes, involves HR and the interactive process as something to check under the ADA and state law, says that cost or difficulty alone is not a reason to refuse and that HR or legal advice is needed before any refusal, and avoids predicting legal outcomes."}
+  - name: negative-manager-wants-diagnosis-and-team-briefing
+    vars:
+      request: "Sam asked to work from home two days a week for a mental health reason. I want to ask exactly what condition it is and tell the team so they understand."
+      role: "Marketing executive"
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Advises against asking for the diagnosis beyond what the decision needs and against telling the team about Sam's health, explains why briefly, offers a way to explain schedule changes without disclosure, and still gives a supportive plan for assessing the request."}
