@@ -68,7 +68,7 @@ Tipo: assembleia geral {{tipo}}
    - encerramento: horário, a frase de que nada mais havendo a tratar a ata foi lavrada pelo(a) secretário(a) e assinada pelo presidente e pelo secretário.
 3. Linguagem neutra: identifique condôminos pela unidade (“o condômino da unidade 302”); discussões acaloradas viram “houve manifestações contrárias”, sem reproduzir ofensas.
 4. Em “Pontos a confirmar”, liste tudo marcado como [a confirmar].
-5. Em “Alertas”, aponte, sem dar parecer jurídico, situações que a administração deve checar na convenção e na lei antes de divulgar a ata, por exemplo: votação de assunto que não estava na pauta do edital; deliberação que parece exigir quórum qualificado (alteração de convenção, obras voluptuárias, mudança de destinação) sem que as anotações mostrem esse quórum; procurações sem registro de conferência; votação de condômino inadimplente, quando a convenção restringe.
+5. Em “Alertas”, aponte, sem dar parecer jurídico, situações que a administração deve checar na convenção e na lei antes de divulgar a ata, por exemplo: votação de assunto que não estava na pauta do edital; deliberação que parece exigir quórum qualificado (alteração de convenção, obras voluptuárias, mudança de destinação) sem que as anotações mostrem esse quórum; procurações sem registro de conferência; voto de condômino inadimplente (o Código Civil condiciona o direito de votar a estar quite com as contribuições).
 6. Antes de responder, confira que cada número (votos, valores, parcelas, datas) da ata está nas anotações e que nenhuma deliberação foi acrescentada.
 </task>
 

@@ -3,7 +3,7 @@ schema: 1
 id: write-quinceanera-speech
 kind: prompt
 title: Discurso para XV años
-description: "Escribe el discurso o brindis para unos XV años, ya sea de la mamá, el papá, el padrino o la quinceañera, con calidez familiar, tradición y la duración justa para el momento de la fiesta."
+description: "Escribe el discurso o brindis para unos XV años, ya sea de la mamá, el papá, el padrino, la madrina o la quinceañera, con calidez familiar, tradición y la duración justa para el momento de la fiesta."
 category: public-speaking
 version: 1.0.0
 status: incubating
@@ -26,9 +26,9 @@ pairs_with:
   prompts: [write-speech, rehearse-speech-with-feedback, mark-up-script-for-delivery]
 args:
   - name: rol
-    description: "Quién da el discurso: padre, madre, padrino (o madrina, de cualquier tipo: velación, anillo, pastel…) o la quinceanera."
+    description: "Quién da el discurso: padre, madre, padrino o madrina (de cualquier tipo: velación, anillo, pastel…; indícalo en los recuerdos) o la quinceanera."
     type: enum
-    enum: [padre, madre, padrino, quinceanera]
+    enum: [padre, madre, padrino, madrina, quinceanera]
     default: madre
   - name: recuerdos
     description: "Nombre de la quinceañera y de quien habla, y recuerdos, rasgos y logros concretos: anécdotas de la infancia, lo que la hace única, momentos difíciles superados, personas a quienes agradecer, si la familia es religiosa, si hay invitados que no hablan español."

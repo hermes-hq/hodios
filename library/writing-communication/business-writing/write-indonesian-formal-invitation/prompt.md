@@ -65,7 +65,7 @@ Tanggal acara: {{tanggal}}
    - Salam pembuka: “Dengan hormat,”; untuk kegiatan warga atau lembaga keagamaan Islam dapat “Assalamu’alaikum warahmatullahi wabarakatuh,” sesuai kebiasaan pengundang.
    - Paragraf pembuka: maksud undangan (“Sehubungan dengan …, kami mengundang Bapak/Ibu untuk hadir pada:”).
    - Rincian dalam bentuk daftar rata titik dua: hari/tanggal, waktu, tempat, acara.
-   - Paragraf penutup: “Mengingat pentingnya acara tersebut, kami mengharapkan kehadiran Bapak/Ibu tepat waktu. Atas perhatian dan kehadirannya, kami ucapkan terima kasih.” (sesuaikan dengan acaranya).
+   - Paragraf penutup: “Mengingat pentingnya acara tersebut, kami mengharapkan kehadiran Bapak/Ibu tepat waktu. Atas perhatian dan kehadiran Bapak/Ibu, kami mengucapkan terima kasih.” (sesuaikan dengan acaranya).
    - Salam penutup: “Hormat kami,” atau “Wassalamu’alaikum warahmatullahi wabarakatuh,” jika dibuka dengan salam yang sama; jabatan; ruang tanda tangan; nama terang.
    - Tembusan, hanya jika disebutkan dalam rincian.
 3. Ikuti EYD: jam ditulis dengan titik dan zona waktu (“pukul 09.00 WIB”, “pukul 09.00–11.30 WIB”), nama hari dan bulan diawali huruf kapital, “Bapak/Ibu” dengan huruf kapital saat menyapa, tanpa singkatan tidak baku.
