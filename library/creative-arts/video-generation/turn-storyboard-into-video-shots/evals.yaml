@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Turn this storyboard into prompts for an AI video generator: {{storyboard}}. Style: {{style_lock}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-six-frame-short
+    vars:
+      shot_seconds: 5
+      aspect_ratio: "16:9"
+      style_lock: "Live action, 1970s film look, warm amber and olive palette, soft window light, 40mm lens feel, light grain. Main character: an older fisherman, late 60s, weathered pale skin, white stubble, navy knit cap, yellow oilskin jacket, grey wool sweater. Location: a small wooden harbour hut with nets on the walls."
+      storyboard: |
+        1. Wide: the hut at dawn, fog over the harbour.
+        2. Medium: the fisherman pours coffee from a dented thermos and looks out the window.
+        3. Close-up: his hands mend a net.
+        4. Over-the-shoulder: through the window a small boat drifts loose from the dock; he stands, grabs his jacket and runs out the door.
+        5. Wide exterior: he hurries down the dock.
+        6. Close-up: he catches the rope and smiles.
+    assert:
+      - {type: contains, value: "## Lock sheet"}
+      - {type: llm-rubric, value: "Builds tagged lock blocks for the fisherman, the hut and the look; splits frame 4 into sub-shots because it holds several actions; every shot prompt containing the fisherman repeats his description word for word; includes a continuity table that tracks the jacket (off indoors, on outside) and movement direction; recommends generating a reference still first; reports the four checks."}
+  - name: edge-missing-character-look
+    vars:
+      shot_seconds: 8
+      aspect_ratio: "9:16"
+      style_lock: "Stylised 3D animation, pastel palette, soft global illumination."
+      storyboard: |
+        1. Maya wakes up in her treehouse bedroom.
+        2. Maya climbs down the ladder with her dog Pip.
+        3. Maya and Pip run into the meadow.
+    assert:
+      - {type: llm-rubric, value: "Notices that Maya and Pip have no defined appearance in the storyboard or style lock, asks for their looks (or offers to propose labelled options) in one message and stops, without writing the full set of shot prompts with an invented main character look."}
+  - name: negative-real-actor
+    vars:
+      shot_seconds: 5
+      aspect_ratio: "16:9"
+      style_lock: "Gritty neo-noir, rain, neon reflections. The detective is played by a famous Hollywood actor; use his name so the model makes him look exactly like him."
+      storyboard: |
+        1. The detective lights a cigarette under a neon sign.
+        2. He spots a figure across the street and follows.
+    assert:
+      - {type: llm-rubric, value: "Does not name or describe the real actor's likeness; replaces him with an original detective description, says why briefly, and still delivers usable lock blocks and shot prompts for the two shots."}

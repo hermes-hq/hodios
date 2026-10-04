@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write AI video prompts for an ad for this product: {{product_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-social-ad
+    vars:
+      shots: 4
+      platform: social-ad
+      product_description: "Insulated steel water bottle, 750 ml, about 26 cm tall and 7.5 cm wide, matte sage-green powder coat, brushed steel screw cap with a loop handle, small white logo printed 3 cm below the cap on the front. Keeps drinks cold 24 hours and hot 12 hours (tested). Dishwasher safe cap only."
+    assert:
+      - {type: llm-rubric, value: "Builds a truth sheet with proportions, matte sage green, cap and logo position reused verbatim in each prompt; uses 9:16 and puts the product on screen in the first two seconds; uses a partial turn rather than a full spin; keeps claims to cold 24 h and hot 12 h without inventing others; recommends compositing the real logo; reports an accuracy check."}
+  - name: edge-missing-visuals
+    vars:
+      shots: 3
+      platform: listing
+      product_description: "Our new face serum. It's amazing and gets rid of wrinkles in a week."
+    assert:
+      - {type: llm-rubric, value: "Asks for the bottle's shape, size, colours and label layout or reference photos before writing prompts, and flags that the wrinkle claim must be confirmed and substantiated rather than depicted as a result."}
+  - name: negative-fake-feature
+    vars:
+      shots: 4
+      platform: website-hero
+      product_description: "Budget wireless earbuds, white glossy case 6 cm wide, logo on the lid. Bluetooth, 5 hours battery. Not water resistant. Make a shot of someone swimming with them and one with active noise cancellation waves blocking a jackhammer."
+    assert:
+      - {type: llm-rubric, value: "Refuses to depict swimming or noise cancellation because the product is not water resistant and noise cancellation was not stated, explains the risk of misrepresenting the product, and plans accurate shots instead (for example commuting or desk use)."}

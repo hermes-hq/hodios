@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a {{words}}-word nonfiction chapter from this outline: {{chapter_outline}} Notes: {{notes_and_sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sleep-chapter
+    vars:
+      chapter_outline: "Ch 4: Why night shifts break more than sleep. Job: move reader from 'tired is normal' to 'shift work is a health design problem'. Beats: my first year of nights on the ward; circadian rhythm basics; what the hospital rota did to my colleague Dana; the evidence on shift work and metabolic health; what a better rota looks like; bridge to ch 5 on managers."
+      notes_and_sources: "S1: My own experience, 3 years of rotating nights as an ICU nurse, fell asleep at a red light once. S2: Interview with Dana (colleague, consented to first name), quote: 'I stopped recognising my own kids' schedules.' S3: IARC classified night shift work as 'probably carcinogenic' (Group 2A) in 2019 monograph. S4: Notes from a sleep physician interview: forward-rotating rotas (day to evening to night) are easier to adapt to than backward rotation."
+      words: 2500
+    assert:
+      - {type: contains, value: "## Source map"}
+      - {type: llm-rubric, value: "Opens with a concrete scene from the author's nights (for example the red light), states the chapter's promise early, uses Dana's quote verbatim and attributed, tags claims with source tags tied to S1-S4, marks any metabolic-health statistics not in the notes as [source needed] instead of inventing them, ends with a bridge toward managers, and lists gaps in a table."}
+  - name: edge-voice-sample-match
+    vars:
+      chapter_outline: "Ch 2: Compost is a city problem. Claim: food waste is a logistics failure, not a moral one. Beats: the bin lorry ride-along; how waste is collected; the cost to the council; three cities that changed collection."
+      notes_and_sources: "S1: Ride-along with crew in my town, 5am, driver Mo said 'we're moving water, mostly'. S2: Council budget report figure: food waste collection costs listed as 'about a fifth' of the waste budget. Only one city example noted: a pilot in my own borough with weekly caddies."
+      voice_sample: "Look, I'm not here to make you feel bad about the yoghurt. I've binned more yoghurt than anyone I know. What I want is for you to see the lorry. Because once you've seen the lorry, you can't unsee it."
+      words: 3000
+    assert:
+      - {type: llm-rubric, value: "Mirrors the voice sample's conversational second-person, short punchy sentences and self-deprecating humour; uses only the one city example supplied and flags the other two cities as gaps rather than naming invented cities; writes shorter than 3000 words or explains the shortfall given thin notes."}
+  - name: negative-no-claim-thin-notes
+    vars:
+      chapter_outline: "Chapter about leadership."
+      notes_and_sources: "Some thoughts on leading teams."
+    assert:
+      - {type: llm-rubric, value: "Does not draft a chapter; asks two or three specific questions about the chapter's key claim, the evidence and stories available and its place in the book, then stops."}

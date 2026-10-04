@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make an index for this book text: {{text_with_pages}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-synonyms-and-names
+    vars:
+      text_with_pages: "[p. 101] Artificial intelligence (AI) systems in hospitals began with simple alerts. Dr. Mary Okafor led the first sepsis alert trial at Lakeside General. [p. 102] The AI sepsis alert reduced response times, Okafor reported, but nurses described alert fatigue. [p. 103] Alert fatigue, the tendency to ignore frequent alarms, is a known hazard in intensive care. Machine learning models differ from rule-based alerts. [p. 104] Okafor later argued that nurses must help design alerts."
+      depth: standard
+      style: Chicago
+    assert:
+      - {type: contains, value: "## Editor decisions"}
+      - {type: llm-rubric, value: "Chooses one preferred term for artificial intelligence with a See reference from the variant (AI), indexes alert fatigue at 102-103, inverts the name as 'Okafor, Mary' with locators 101, 102, 104, includes Lakeside General and sepsis alerts, uses only pages 101-104, and lists at least one provisional choice under Editor decisions."}
+  - name: edge-light-depth
+    vars:
+      text_with_pages: "[p. 7] Bread needs flour, water, salt and yeast. Sourdough uses a starter instead of commercial yeast. [p. 8] A starter is fed daily. Hydration means the ratio of water to flour. [p. 9] The author first baked in Lyon with a baker named Marc."
+      depth: light
+    assert:
+      - {type: llm-rubric, value: "Produces a short index limited to main concepts and names (for example sourdough, starter, hydration, Lyon), does not index every ingredient mention, and the coverage check reflects a light rate."}
+  - name: negative-no-page-markers
+    vars:
+      text_with_pages: "Chapter 3. The history of the bicycle begins in 1817 with the draisine..."
+    assert:
+      - {type: llm-rubric, value: "Does not build an index with guessed page numbers; explains that page markers from the final proofs are needed, shows the expected marker format and stops."}

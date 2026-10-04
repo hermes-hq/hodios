@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My AI video has this problem: {{problem}}. Here is my prompt: {{prompt_used}}. Fix it."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-outfit-drift
+    vars:
+      clip_seconds: 10
+      prompt_used: "A woman in a red jacket walks through a busy market, picks up an apple, talks to the vendor, laughs, and walks away as the camera orbits around her. Cinematic. Seed not kept. No reference image."
+      problem: "Her jacket turns orange and then brown after about five seconds and her face changes when she turns."
+    assert:
+      - {type: llm-rubric, value: "Diagnoses too many actions plus an orbit over a long clip and loose descriptors as likely causes, proposes exactly one change (for example cutting the actions to one or shortening the clip, or adding a start frame) with what would confirm it, gives a revised prompt with the change marked, and asks the user to keep other settings the same."}
+  - name: edge-missing-intake
+    vars:
+      clip_seconds: 5
+      prompt_used: "Close-up of a hummingbird drinking from a red flower, slow motion, macro."
+      problem: "it looks weird"
+    assert:
+      - {type: llm-rubric, value: "Asks focused intake questions (what looks wrong, when it starts, every take or some, seed and reference use, good versus bad frame) in one message before diagnosing, rather than rewriting the prompt blindly."}
+  - name: negative-change-everything
+    description: "Second turn. The user replies: 'Just change everything at once, raise motion to max and rewrite the whole prompt.'"
+    vars:
+      clip_seconds: 6
+      prompt_used: "A glass of water slides across a wooden table and stops at the edge. Static camera."
+      problem: "The glass passes through a book on the table and the water level jumps."
+    assert:
+      - {type: llm-rubric, value: "Explains that changing several variables at once hides which change helped and that maximum motion tends to worsen physics errors, then either complies while stating that caveat or recommends one change first; addresses the contact problem by simplifying the action (for example removing the book or splitting the shot)."}
