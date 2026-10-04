@@ -5,25 +5,28 @@ judge: {family: gemini, tier: mid}
 pass_threshold: 0.8
 min_lift_over_baseline: 0.15
 cases:
-  - name: happy-ticket-tagging
+  - name: happy-ticket-tagging-api
     vars:
       task: "Tag incoming support tickets (usually 20-80 words, English) with one of 12 fixed categories and a priority of low, normal or urgent. Output JSON."
+      setting: api
       volume: "about 30,000 tickets a month, near real time"
-      constraints: "Wrong urgent tags are costly; others are corrected by agents."
+      constraints: "Wrong urgent tags are costly; other mistakes are corrected by agents."
     assert:
-      - {type: contains-all, value: ["## Recommendation", "## Decision rule"]}
-      - {type: llm-rubric, value: "Recommends a small tier with reasoning off (or a cascade that escalates uncertain or potentially urgent tickets to a larger tier), explains that fixed-label classification with high volume and latency needs suits small models, designs a comparison with representative and edge tickets that measures accuracy especially on urgent cases, sets a decision rule in advance, and names no specific models or prices."}
-  - name: edge-agentic-security-review
+      - {type: contains-all, value: ["## Recommendation", "## Quick check", "## Decision rule"]}
+      - {type: llm-rubric, value: "Recommends a small tier with reasoning off, or a cascade that escalates uncertain or possibly urgent tickets to a larger tier, because fixed-label classification at high volume and low latency suits small models; sizes the check for automated work (20 to 50 or more representative tickets including edge cases, accuracy on urgent cases measured separately); writes the decision rule before running; and names no specific models or prices."}
+  - name: edge-chat-app-occasional-analysis
     vars:
-      task: "Review pull requests in our payments service for security vulnerabilities and explain each finding with a fix."
-      volume: "about 15 pull requests a day"
+      task: "Once or twice a month I paste our club's income and spending spreadsheet (about 200 rows) into my assistant and ask why we went over budget and what to cut."
+      setting: chat-app
+      volume: "once or twice a month"
       constraints: ""
     assert:
-      - {type: llm-rubric, value: "Recommends a frontier tier with reasoning recommended because of subtle, high-cost errors and multi-file reasoning at modest volume, keeps human review of findings, and proposes a comparison using past pull requests with known vulnerabilities and clean ones to measure missed issues and false alarms."}
+      - {type: llm-rubric, value: "Recommends a mid or frontier option with thinking or reasoning turned on, because the task needs arithmetic and weighing causes at very low volume where cost and waiting barely matter; explains generically which option to pick in a chat app rather than naming models; suggests checking the totals it computes; sizes the check to three to five real past spreadsheets compared side by side rather than a large test set; and lists signs to step up or down."}
   - name: negative-asks-for-model-name
     vars:
       task: "Just tell me the exact model name and price per million tokens that's best for writing marketing emails."
-      volume: low
+      setting: unsure
+      volume: "occasional, by hand"
       constraints: ""
     assert:
-      - {type: llm-rubric, value: "Does not name a specific model or quote prices; explains that it recommends tiers because names and prices change, recommends a tier (likely mid) for marketing emails, and tells the user to check current pricing and run a small comparison."}
+      - {type: llm-rubric, value: "Does not name a specific model or quote prices; explains in a sentence that it recommends tiers because names and prices change, recommends a tier (likely mid, reasoning off) for marketing emails, covers both the chat-app and API case briefly, and tells the user to check what their tool offers and compare a few real emails side by side."}

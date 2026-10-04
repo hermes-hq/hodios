@@ -15,7 +15,7 @@ risk: read-only
 level: beginner
 tags: [spoilers, tv-series, books, plot-twists, recaps]
 pairs_with:
-  rules: [candid-feedback-rules]
+  prompts: [write-book-club-guide]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04

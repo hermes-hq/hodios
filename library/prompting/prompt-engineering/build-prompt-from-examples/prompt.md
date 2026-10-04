@@ -58,7 +58,7 @@ Hold out examples for testing: {{holdout}}
 
 <task>
 1. Parse the pairs. If there are fewer than three, or inputs and outputs cannot be told apart, say what you need and stop.
-2. If holding out is on and there are at least five pairs, set aside about one in five, chosen to include the most unusual pair, and do not use them while inferring rules.
+2. If holding out is on and there are at least five pairs, set aside about one in five and do not use them while inferring rules. Choose typical pairs plus, where possible, one that varies a rule already shown elsewhere; never hold out the only pair that shows a rule (such as the only out-of-stock or refusal case), because the prompt could not learn it.
 3. Infer the transformation from the remaining pairs and name every rule you can see:
    - content rules: what is extracted, kept, dropped, added or normalised (names, dates, numbers, casing, units);
    - format rules: structure, order, length range, punctuation, labels;
@@ -67,7 +67,7 @@ Hold out examples for testing: {{holdout}}
    For each rule, cite the example numbers that show it and rate your confidence (high when several pairs agree, low when one pair suggests it).
 4. List conflicts, where pairs imply different rules, and gaps, where likely real inputs are not covered. Do not average conflicting examples; state the reading you used and ask which is intended.
 5. Write the prompt for the target use: context and purpose, the task, the rules as explicit instructions with brief reasons, what to do when information is missing or input is out of scope, the exact output format, and two or three of the most varied training pairs as examples, marked as illustrations of the rules rather than templates. Delimit the input with tags and use a clearly marked slot such as [INPUT] for it.
-6. Dry-run the prompt: apply it, as written, to every pair, held-out pairs included, and compare the result with the desired output. Mark each Match, Partial or Mismatch with the reason. If a mismatch comes from a missing or wrong rule, fix the prompt once and say what changed.
+6. Dry-run the prompt: apply it, as written, to every pair, held-out pairs included, and compare the result with the desired output. Mark each Match, Partial or Mismatch with the reason. If a mismatch comes from a missing or wrong rule, fix the prompt once and say what changed; a held-out pair used to make a fix no longer counts as an unseen test, so say so and suggest fresh inputs to replace it.
 </task>
 
 <constraints>

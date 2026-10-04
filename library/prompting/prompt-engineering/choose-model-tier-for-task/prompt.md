@@ -3,7 +3,7 @@ schema: 1
 id: choose-model-tier-for-task
 kind: prompt
 title: Choose a model tier for a task
-description: "Recommends a model size tier and reasoning setting for a task from its difficulty, volume, latency, cost and risk, without naming specific models, and designs a quick comparison to confirm the choice."
+description: "Picks a first-choice model tier and reasoning setting for a task from its difficulty, volume, latency, cost and risk, with signs to step up or down and a check sized to the stakes. No model names."
 category: prompt-engineering
 version: 1.0.0
 status: incubating
@@ -19,24 +19,29 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: intermediate
-tags: [model-selection, cost-latency, reasoning-effort, llm-ops, cascading]
+tags: [model-selection, cost-latency, reasoning-effort, cascading, thinking-mode]
 pairs_with:
-  prompts: [adapt-prompt-for-small-model, adapt-prompt-for-reasoning-model, build-prompt-test-set, write-judge-prompt]
+  prompts: [choose-llm-for-feature, adapt-prompt-for-small-model, adapt-prompt-for-reasoning-model, build-prompt-test-set]
 args:
   - name: task
-    description: "What the model has to do, with a typical input and the output you need, for example 'tag 40-word support tickets with one of 12 categories' or 'review pull requests for security issues'."
+    description: "What the model has to do, with a typical input and the output you need, for example 'tag 40-word support tickets with one of 12 categories', 'draft replies to tenant emails' or 'review pull requests for security issues'."
     type: text
     required: true
+  - name: setting
+    description: "Where the choice is made. chat-app: picking a model or a thinking mode in an assistant you type into. api: a model and reasoning parameter in code or an automation. agent: a coding or task agent that works through many steps. unsure: the answer covers the likely cases."
+    type: enum
+    enum: [chat-app, api, agent, unsure]
+    default: unsure
   - name: volume
-    description: "Roughly how often it runs, for example 'a few times a day by hand', '5,000 documents a month' or 'every user message in a busy app'."
+    description: "Roughly how often it runs, for example 'a few times a week by hand', '5,000 documents a month' or 'every message in a busy app'."
     type: string
-    default: low
+    default: "occasional, by hand"
   - name: constraints
-    description: "Optional: latency limits, budget, privacy or hosting limits (for example 'must run on our own servers'), and how costly a wrong answer is."
+    description: "Optional: latency limits, budget or usage caps, privacy or hosting limits (for example 'must run on our own servers'), and how costly a wrong answer is."
     type: text
 output_contract:
   format: markdown
-  sections: [Task profile, Recommendation, Why not the other tiers, Cost and latency shape, Comparison plan, Decision rule]
+  sections: [Task profile, Recommendation, Step up or down when, Cost and latency, Quick check, Decision rule]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
@@ -44,12 +49,20 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Teams often default to the largest model for everything, paying in cost and latency for work a smaller model does as well, or pick the cheapest and accept errors that cost more than they saved. Model names and prices change every few months, so the durable decision is about tiers: small models (fast and cheap, good at classification, extraction against a clear schema, routing and short rewrites), mid-size models (most writing, summarising, question answering over provided documents and everyday code), and frontier models (multi-step reasoning, ambiguous or novel problems, long agentic tasks, subtle judgement and high-stakes output). Reasoning or extended-thinking settings add a second dial: they help on problems that need planning or checking and waste time on lookups and formatting. The only reliable answer comes from running the same inputs through two adjacent options.
+Most people use one model for everything: the largest, paying in waiting time, cost and usage caps for work a smaller model does as well, or the default, and then trust it on work it gets wrong. Model names and prices change every few months, so the durable decision is the tier:
+- small: fast and cheap; classification into fixed labels, extraction against a clear schema, routing, short rewrites and formatting;
+- mid: most writing and editing, summarising, answering from documents you provide, everyday code and spreadsheet formulas;
+- frontier: multi-step reasoning, ambiguous or novel problems, long agentic work, subtle judgement and output where a mistake is expensive.
+A reasoning or thinking setting is a second dial. It helps when the answer needs planning, maths, weighing evidence or checking its own work, and only adds delay to lookups, rewrites and formatting.
+
+This gives a reasoned first choice and a check sized to the stakes. A production feature that needs measured success criteria, latency percentiles and a test harness needs a full evaluation, not this shortcut.
+
+Setting: {{setting}}
+Volume: {{volume}}
 
 <task_description>
 {{task}}
 </task_description>
-Volume: {{volume}}
 {{#constraints}}
 <constraints_given>
 {{constraints}}
@@ -58,33 +71,37 @@ Volume: {{volume}}
 </context>
 
 <task>
-1. If the task is too vague to profile (no idea of the input or the output), ask up to two questions and stop.
-2. Profile the task on: reasoning depth, ambiguity, knowledge needed beyond the input, input length, output length and format strictness, tool use or number of steps, cost of an error, latency need, and volume.
-3. Recommend a tier (small, mid or frontier) and a reasoning setting (off, optional or recommended), with your confidence and the two or three factors that decided it.
-4. Consider whether a split beats a single choice: a cascade (smaller tier first, escalate to a larger one when confidence is low or a check fails), a pipeline (small tier for extraction or routing, larger tier for synthesis), or batching for non-urgent volume. Recommend one only if it fits.
-5. Explain the cost and latency shape in relative terms: how cost scales with volume and output length, and where latency comes from (output length, reasoning, tool calls).
-6. Design a comparison to confirm: a set of representative inputs including hard and edge cases, the two adjacent options to compare (for example mid with reasoning off versus frontier, or small versus mid), the checks to score each output, and the measurements to record (pass rate, latency, cost per run).
-7. Write a decision rule in advance, for example: choose the cheaper option if it passes nearly as many cases as the larger one and fails none of the high-risk cases.
+1. If you cannot tell what goes in and what must come out, ask up to two questions and stop.
+2. Profile the task on: reasoning depth, ambiguity, knowledge needed beyond the input, input length, output length and how strict its format is, number of steps or tool calls, cost of an error, latency need and volume. Rate each low, medium or high.
+3. Recommend one tier and one reasoning setting (off, on for hard cases only, or on), with your confidence (low, medium or high) and the two or three factors that decided it. Lean towards the smaller tier when volume or latency matters and errors are cheap or caught downstream; lean larger when one error costs more than many runs.
+4. Say how to apply it in the setting: in a chat app, which kind of option to pick (the fast everyday model or the most capable one, thinking on or off), described generically; in an API or automation, the tier and the reasoning parameter; for an agent, whether a larger tier should plan while a smaller one carries out routine steps. If the setting is unsure, cover the chat-app and API cases in one line each.
+5. Recommend a split only when it clearly pays: a cascade (small first, escalate when a check fails or the model is unsure), a pipeline (small for extraction or routing, larger for synthesis), or batching for work that is not urgent.
+6. List the signs during use that mean step up (repeated misreadings, invented details, broken format, skipped steps) or step down (the larger option gives the same answers, waiting time or usage limits hurt).
+7. Size a quick check to the volume and risk:
+   - occasional use by hand: run three to five real, recent examples through both options side by side, including one hard one, and compare against what you would have accepted;
+   - recurring or automated work: 20 to 50 representative inputs including edge cases, scored by a stated check, through the recommended option and the adjacent one, recording pass rate and rough time and cost per run; move to a full evaluation if it becomes a product feature.
+8. Write the decision rule before the check is run.
 </task>
 
 <constraints>
-- Name tiers only, never specific models, vendors or prices; tell the user to check current pricing and limits for the models available to them.
-- Do not overstate certainty: tier boundaries move as models improve, so the comparison is the real decision.
-- When errors could harm people (health, legal, financial, safety), recommend human review regardless of tier.
-- If a constraint rules out a tier (for example on-premises hosting limits the size available), say so and adjust.
+- Name tiers only, never specific models, vendors, prices or limits; tell the user to check what their tool or account currently offers.
+- Tier boundaries move as models improve. State your confidence honestly; the quick check, not this recommendation, makes the decision.
+- When errors could harm people (health, legal, financial or safety decisions, or decisions about individuals), recommend human review of the output whatever the tier.
+- If a constraint rules out a tier, such as self-hosting limiting model size or a usage cap, say so and adjust.
+- Keep the answer short enough to act on in a few minutes.
 </constraints>
 
 <output_format>
 ## Task profile
-Table: Factor | Rating (low, medium, high) | Note.
+Table: Factor | Rating | Note.
 ## Recommendation
-Tier, reasoning setting, confidence, deciding factors; any cascade or pipeline.
-## Why not the other tiers
-One line each.
-## Cost and latency shape
-Three to five bullets.
-## Comparison plan
-Number of inputs and mix, options compared, checks, measurements.
+Tier, reasoning setting, confidence and deciding factors in three or four lines, then how to apply it in the setting and any split.
+## Step up or down when
+Two short bullet lists: step up, step down.
+## Cost and latency
+Two to four bullets in relative terms: what scales the cost and where the waiting comes from.
+## Quick check
+Numbered steps sized to the volume.
 ## Decision rule
 One or two sentences, written before running.
 </output_format>
