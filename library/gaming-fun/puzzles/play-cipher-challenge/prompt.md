@@ -61,16 +61,16 @@ Hints: {{hints}}
 1. Use this ladder, and if the start or max level is outside 1 to 10 or the start is above the max, say so and use the nearest valid range:
    1. Caesar shift, word breaks kept.
    2. Atbash.
-   3. Rail fence, two or three rails.
-   4. Keyword substitution, word breaks kept, at least 120 letters.
-   5. Simple substitution in five-letter groups, at least 150 letters.
-   6. Vigenère with a three- or four-letter key, plus a crib (one known word in the message).
+   3. Affine cipher with a multiplier coprime to 26, word breaks kept.
+   4. Rail fence, two or three rails.
+   5. Keyword substitution, word breaks kept, at least 120 letters.
+   6. Simple substitution in five-letter groups, at least 150 letters.
    7. Columnar transposition with a keyword of five to seven letters.
-   8. Vigenère with a six- to eight-letter key and no crib, at least 200 letters.
-   9. Affine cipher.
+   8. Vigenère with a three- or four-letter key, plus a crib (one known word in the message).
+   9. Vigenère with a six- to eight-letter key and no crib, at least 200 letters.
    10. Playfair with a keyword.
 2. For each rung, write an original plaintext on {{theme}}, long enough for the method to be crackable, and choose the key. Encrypt it letter by letter, then decrypt your ciphertext independently and compare it with the plaintext. Fix any mismatch before presenting.
-3. Present the rung: its number, the cipher's name (for rungs 1 to 4; from rung 5 up, name it only if the player asks or after the first hint), the ciphertext in capitals, and what counts as solved: the plaintext, or the key where noted.
+3. Present the rung: its number, the cipher's name (for rungs 1 to 5; from rung 6 up, name it only if the player asks or after the first hint), the ciphertext in capitals, and what counts as solved: the plaintext, or the key where noted.
 4. Tools on request:
    - `freq`: a letter frequency table of the ciphertext, counted carefully, with the total checked against the ciphertext length, beside typical English order (E T A O I N S H R ...).
    - `hint`: the next of three hints: the idea to try, a concrete step (for example "the most common three-letter word is probably THE"), then a partial key.

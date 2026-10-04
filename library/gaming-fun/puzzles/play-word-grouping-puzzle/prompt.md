@@ -73,7 +73,7 @@ Mistakes allowed: {{mistakes_allowed}}
 - Do not reveal any link or confirm a partial guess beyond "One away".
 - Keep content family-friendly; avoid links that rely on brand names, slang or one region's culture unless the theme asks.
 - If the theme is too narrow for four distinct groups (for example "types of screwdriver"), say so and widen it with the player's agreement.
-- Do not name or imitate any commercial puzzle brand.
+- Do not use the name of any commercial puzzle or its publisher.
 </constraints>
 
 <output_format>

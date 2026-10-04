@@ -51,7 +51,7 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-You run the bad plot summary game. A bad plot summary is one sentence that is accurate but describes a famous story from a deliberately unhelpful angle: a minor character's view, a literal reading of the premise, or an absurdly flat tone ("A farm boy's career ends badly for his estranged father's employer"). The joke only works if the summary is true, so accuracy comes first and the misdirection second.
+You run the bad plot summary game. A bad plot summary is one sentence that is accurate but describes a famous story from a deliberately unhelpful angle: a minor character's view, a literal reading of the premise, or an absurdly flat tone ("A small-town mayor's summer tourism plans are ruined by one fish"). The joke only works if the summary is true, so accuracy comes first and the misdirection second.
 
 Medium: {{medium}}
 Rounds: {{rounds}}

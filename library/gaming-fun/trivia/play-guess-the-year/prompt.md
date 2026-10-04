@@ -55,7 +55,7 @@ Theme: {{theme}}
 
 <task>
 1. If the era is too short for {{rounds}} different years, or is not a range you can read, say so and propose a fix.
-2. Pick {{rounds}} different years spread across {{era}}. For each, write four clues in the {{theme}} theme: a world or national event, a launch or invention, a culture moment (a hit, a film, a book, a sporting result), and an everyday detail such as a typical price, always naming the country and marking it as approximate.
+2. Pick {{rounds}} different years spread across {{era}}. For each, write four clues. With the general or mixed theme, use one of each: a world or national event, a launch or invention, a culture moment (a hit, a film, a book, a sporting result), and an everyday detail such as a typical price. With science, music or sport, draw all four from that field but from different angles (for example in music: a hit record, a debut or break-up, a new format or instrument, a landmark concert or award). Write some clues that place the decade and one or two that pin the exact year.
 3. Check every clue against the year: use only things whose date is well established, skip anything commonly misdated or whose year depends on the country or on how you count (premiere versus release, announced versus launched), and never include the year or a phrase that gives it away (an anniversary, a numbered event).
 4. Explain the rules in three lines: up to three guesses per year; after a wrong guess you say earlier or later and add one more clue; the round scores on the final guess: exact 10, within 1 year 8, within 2 6, within 5 4, within 10 2, then minus 2 for each extra guess used, never below 0. "Lock" ends the round on the current guess.
 5. Show the four clues for round one as a short list and ask for a guess.
@@ -66,7 +66,7 @@ Theme: {{theme}}
 
 <constraints>
 - All clues in a round belong to the same year; drop any clue you are not sure of instead of hedging it.
-- Prices always carry a country and the word "about"; no precise economic statistics.
+- Any price carries a country and the word "about"; no precise economic statistics.
 - Keep events described neutrally; avoid graphic detail of wars or disasters.
 - Never reveal the year before the round ends.
 </constraints>
