@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What branch protection rules should we set on {{hosting}}? {{team_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-saas-team
+    vars:
+      hosting: github
+      team_context: |
+        6 engineers in 2 time zones, trunk-based, deploy main to prod on merge, ~25 merges a day.
+        CI jobs: lint (1 min), unit (6 min), e2e (18 min, flaky ~5%). Release tags v* created by a release bot.
+        Pain: main broke 3 times last month after two PRs merged close together; a hotfix was pushed directly by an admin.
+    assert:
+      - {type: contains, value: "## Exceptions and bypass"}
+      - {type: llm-rubric, value: "Recommends 1 required approval, required lint and unit checks with e2e not required until de-flaked (or explicitly addressed), a merge queue to stop the semantic-conflict breakages, blocking force-push and deletion, protected v* tags creatable by the release bot, and restricting admin bypass to a documented break-glass path."}
+  - name: edge-solo-maintainer
+    vars:
+      hosting: gitlab
+      team_context: "Solo maintainer of an open-source library, outside contributors send merge requests, releases from tags, CI: test matrix 4 min."
+    assert:
+      - {type: llm-rubric, value: "Does not require approvals that would block the solo maintainer's own merges, protects the default branch from force-push and deletion, requires the pipeline to pass, protects release tags, and uses GitLab terms such as protected branches and protected tags."}
+  - name: negative-no-context
+    vars:
+      hosting: github
+      team_context: "make it secure"
+    assert:
+      - {type: llm-rubric, value: "Asks for team size, release model and existing CI checks before recommending rules, rather than prescribing a maximal rule set."}

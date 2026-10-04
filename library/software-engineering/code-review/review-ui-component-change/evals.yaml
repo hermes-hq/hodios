@@ -1,0 +1,60 @@
+schema: 1
+baseline: "Review this UI component change: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-user-list
+    vars:
+      framework: react
+      diff: |
+        --- a/src/components/UserList.tsx
+        +++ b/src/components/UserList.tsx
+        @@ -0,0 +1,26 @@
+        +export function UserList({ teamId, initialFilter }: Props) {
+        +  const [filter, setFilter] = useState(initialFilter);
+        +  const [users, setUsers] = useState<User[]>([]);
+        +  const [loading, setLoading] = useState(true);
+        +  useEffect(() => {
+        +    fetch(`/api/teams/${teamId}/users?q=${filter}`)
+        +      .then(r => r.json())
+        +      .then(data => { setUsers(data); setLoading(false); });
+        +  });
+        +  if (loading) return <Spinner />;
+        +  return (
+        +    <div style={{ color: '#6b7280', padding: 12 }}>
+        +      <input value={filter} onChange={e => setFilter(e.target.value)} />
+        +      {users.map((u, i) => (
+        +        <div key={i} onClick={() => select(u)}>{u.name} <img src={u.avatar} /></div>
+        +      ))}
+        +    </div>
+        +  );
+        +}
+    assert:
+      - {type: contains, value: "## State coverage"}
+      - {type: llm-rubric, value: "Flags the effect with no dependency array (refetch on every render, loop risk), no error handling so the spinner never ends on failure, out-of-order responses while typing, no empty state, index keys, clickable div without keyboard or role, unlabeled input and img without alt, and hard-coded colour and spacing instead of tokens; lists concrete screenshot states."}
+  - name: edge-vue-presentational
+    vars:
+      framework: vue
+      diff: |
+        --- a/src/components/PriceTag.vue
+        +++ b/src/components/PriceTag.vue
+        @@ -1,8 +1,10 @@
+         <script setup lang="ts">
+        -const props = defineProps<{ amount: number }>()
+        +const props = defineProps<{ amount: number; currency: string }>()
+        +const formatted = computed(() => new Intl.NumberFormat(undefined, { style: 'currency', currency: props.currency }).format(props.amount))
+         </script>
+         <template>
+        -  <span class="price">${{ props.amount }}</span>
+        +  <span class="price">{{ formatted }}</span>
+         </template>
+    assert:
+      - {type: llm-rubric, value: "Treats this as a small presentational change: notes the computed value is correct Vue idiom, does not demand loading or error states that do not apply, at most raises minor points (such as invalid currency codes throwing, or locale choice), and approves or approves with nits."}
+  - name: negative-no-diff
+    vars:
+      framework: react
+      diff: "Can you check my new dropdown component? It feels slow."
+    assert:
+      - {type: llm-rubric, value: "Asks for the component code or diff (and optionally how it is used) instead of inventing findings about code it has not seen."}

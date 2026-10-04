@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Review this data pipeline change: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dbt-incremental
+    vars:
+      pipeline_context: "dbt on Snowflake, runs hourly. Orders can be updated up to 7 days after creation. Feeds the finance revenue dashboard."
+      diff: |
+        --- a/models/marts/fct_revenue.sql
+        +++ b/models/marts/fct_revenue.sql
+        @@ -1,12 +1,16 @@
+        -{{ config(materialized='table') }}
+        +{{ config(materialized='incremental') }}
+         select o.order_id, o.created_at::date as order_date, o.amount, s.carrier
+         from {{ ref('stg_orders') }} o
+        -left join {{ ref('stg_shipments') }} s on s.order_id = o.order_id
+        +join {{ ref('stg_shipments') }} s on s.order_id = o.order_id
+        +{% if is_incremental() %}
+        +where o.created_at > (select max(order_date) from {{ this }})
+        +{% endif %}
+    assert:
+      - {type: contains, value: "## Reconciliation checks"}
+      - {type: llm-rubric, value: "Flags that incremental without unique_key appends duplicates, the created_at filter misses orders updated within the 7-day window and compares a timestamp to a date boundary, the switch to inner join drops unshipped orders, and multiple shipments per order fan out revenue; proposes reconciliation such as comparing sum(amount) and distinct order counts per day old versus new."}
+  - name: edge-spark-overwrite
+    vars:
+      pipeline_context: ""
+      diff: |
+        --- a/jobs/daily_events.py
+        +++ b/jobs/daily_events.py
+        @@ -30,2 +30,3 @@
+        -df.write.mode("append").partitionBy("event_date").parquet(OUT)
+        +spark.conf.set("spark.sql.sources.partitionOverwriteMode", "static")
+        +df.write.mode("overwrite").partitionBy("event_date").parquet(OUT)
+    assert:
+      - {type: llm-rubric, value: "Explains that static partition overwrite replaces the whole output path, deleting every partition not in this run, recommends dynamic partition overwrite or a replaceWhere on the run date, and notes the change from append to overwrite improves idempotency once scoped correctly."}
+  - name: negative-missing-diff
+    vars:
+      pipeline_context: "Our nightly job lost about 3% of rows since last Tuesday."
+      diff: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the diff of the change made around last Tuesday (and possibly job logs), does not fabricate findings, and may list the likely silent-loss causes to check."}

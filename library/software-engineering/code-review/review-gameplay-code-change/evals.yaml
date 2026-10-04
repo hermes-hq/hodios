@@ -1,0 +1,50 @@
+schema: 1
+baseline: "Review this game code change: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unity-player
+    vars:
+      engine: "Unity 2022 LTS, C#"
+      multiplayer: false
+      diff: |
+        --- a/Assets/Scripts/Player.cs
+        +++ b/Assets/Scripts/Player.cs
+        @@ -12,9 +12,18 @@ public class Player : MonoBehaviour {
+         void Update() {
+        +    var rb = GetComponent<Rigidbody>();
+        +    if (Input.GetButtonDown("Jump")) rb.AddForce(Vector3.up * jumpForce);
+        +    rb.AddForce(transform.forward * Input.GetAxis("Vertical") * speed);
+        +    var enemies = FindObjectsOfType<Enemy>().Where(e => e.IsAlive).ToList();
+        +    hud.text = "Enemies: " + enemies.Count;
+        +    stamina -= 1;
+         }
+    assert:
+      - {type: contains, value: "## Frame budget"}
+      - {type: llm-rubric, value: "Flags continuous physics forces in Update instead of FixedUpdate, GetComponent and FindObjectsOfType plus LINQ ToList and string concatenation allocating every frame (GC spikes), and stamina decreasing per frame rather than scaled by Time.deltaTime (drains faster at higher frame rates), each with a player-visible impact and engine-idiomatic fix such as caching references."}
+  - name: edge-multiplayer-random
+    vars:
+      engine: "custom C++ engine, lockstep RTS at 20 Hz"
+      multiplayer: true
+      diff: |
+        --- a/src/sim/combat.cpp
+        +++ b/src/sim/combat.cpp
+        @@ -40,3 +40,5 @@
+        -int dmg = unit.attack - target.armor;
+        +float crit = (rand() % 100) < 15 ? 1.5f : 1.0f;
+        +int dmg = (int)((unit.attack - target.armor) * crit);
+    assert:
+      - {type: llm-rubric, value: "Identifies that rand() is not a seeded per-match simulation RNG and float math in lockstep simulation risks desync across clients, describes the desync scenario, and proposes a seeded deterministic RNG in sim state and integer or fixed-point math."}
+  - name: negative-not-game-code
+    vars:
+      engine: ""
+      multiplayer: false
+      diff: |
+        --- a/docs/README.md
+        +++ b/docs/README.md
+        -Run the game with ./run.sh
+        +Run the game with ./run.sh --windowed
+    assert:
+      - {type: llm-rubric, value: "Notes that the change is documentation only, raises no frame-budget or gameplay findings, and approves."}

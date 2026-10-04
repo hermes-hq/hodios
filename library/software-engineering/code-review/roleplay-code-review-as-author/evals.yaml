@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Pretend to review my code so I can practise responding: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-opening-turn
+    vars:
+      reviewer_style: strict
+      code: |
+        # Supposed to return the average order value for a customer
+        def avg_order(customer_id):
+            orders = db.query(f"SELECT total FROM orders WHERE customer_id = {customer_id}")
+            total = 0
+            for o in orders:
+                total += o[0]
+            return total / len(orders)
+    assert:
+      - {type: llm-rubric, value: "Explains the session rules in one line, then posts exactly one review comment (likely the SQL injection or the division by zero for customers with no orders) with a line reference, and stops to wait for the learner's reply without posting further comments or a debrief."}
+  - name: edge-terse-style
+    vars:
+      reviewer_style: terse
+      code: |
+        function isAdult(user) {
+          if (user.age >= 18) { return true } else { return false }
+        }
+        module.exports = { isAdult }
+    assert:
+      - {type: llm-rubric, value: "Runs a short session (about 3 or 4 comments) instead of refusing the small snippet; the first comment is terse (one short sentence, for example on the redundant if/else returning booleans or a missing null check on user) with the line quoted, then it waits for the reply; it does not post several comments or a debrief in the first turn."}
+  - name: negative-no-code
+    vars:
+      reviewer_style: friendly
+      code: ""
+    assert:
+      - {type: llm-rubric, value: "Asks the learner to paste their code and a line on what it should do, and does not invent code to review."}

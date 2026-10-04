@@ -1,0 +1,35 @@
+schema: 1
+baseline: "What does this git error mean and how do I fix it? {{error_output}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-push-rejected
+    vars:
+      what_i_was_doing: "Pushing my feature branch. My teammate also pushed to the same branch this morning."
+      error_output: |
+        To github.com:acme/site.git
+         ! [rejected]        feature/header -> feature/header (fetch first)
+        error: failed to push some refs to 'github.com:acme/site.git'
+        hint: Updates were rejected because the remote contains work that you do not
+        hint: have locally.
+    assert:
+      - {type: contains, value: "## Safest way out"}
+      - {type: llm-rubric, value: "Explains the teammate's commits are on the remote but not local, recommends git pull --rebase (or fetch then merge) and then push, explains possible conflicts, and does not recommend force-pushing a shared branch."}
+  - name: edge-detached-head-with-commits
+    vars:
+      what_i_was_doing: "I checked out an old commit to look at something and then made two commits."
+      error_output: |
+        Warning: you are leaving 2 commits behind, not connected to
+        any of your branches:
+          a1b2c3d fix header spacing
+          e4f5a6b update logo
+    assert:
+      - {type: llm-rubric, value: "Explains the commits were made on a detached HEAD and are not on any branch, and gives a non-destructive way to keep them such as git branch keep-work a1b2c3d (or git switch -c) and then merging or cherry-picking, mentioning reflog as a fallback."}
+  - name: negative-truncated
+    vars:
+      what_i_was_doing: ""
+      error_output: "error: something about refs"
+    assert:
+      - {type: llm-rubric, value: "Says the message is too incomplete to diagnose, asks for the full error and git status output, and does not prescribe destructive commands."}

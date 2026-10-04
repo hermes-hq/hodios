@@ -1,0 +1,66 @@
+schema: 1
+baseline: "Review this diff for concurrency bugs: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-go-map-and-counter
+    vars:
+      language: "Go 1.22"
+      concurrency_model: "net/http handlers, one goroutine per request"
+      diff: |
+        --- a/internal/quota/quota.go
+        +++ b/internal/quota/quota.go
+        @@ -1,20 +1,28 @@
+         type Quota struct {
+        -	mu    sync.Mutex
+         	used  map[string]int
+         	limit int
+         }
+        
+         func (q *Quota) Allow(user string) bool {
+        -	q.mu.Lock()
+        -	defer q.mu.Unlock()
+        -	if q.used[user] >= q.limit {
+        +	if q.used[user] >= q.limit {
+         		return false
+         	}
+        +	go q.audit(user)
+         	q.used[user]++
+         	return true
+         }
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags concurrent map writes without the removed mutex (a fatal runtime error in Go) and the check-then-act on used[user] letting two requests both pass at limit-1, each with a numbered two-goroutine interleaving; also notes the unbounded fire-and-forget audit goroutine; fix restores the mutex or uses an equivalent; suggests go test -race."}
+  - name: edge-single-event-loop
+    vars:
+      language: "Node.js 20"
+      concurrency_model: "single process, one event loop"
+      diff: |
+        --- a/src/counter.js
+        +++ b/src/counter.js
+        @@ -1,6 +1,9 @@
+         let hits = 0;
+        -export function track() { hits++; }
+        +export async function track(db) {
+        +  const row = await db.get('SELECT n FROM hits WHERE id = 1');
+        +  await db.run('UPDATE hits SET n = ? WHERE id = 1', row.n + 1);
+        +  hits++;
+        +}
+    assert:
+      - {type: llm-rubric, value: "States that hits++ itself is safe in a single event loop (no await between read and write), but flags the lost update across the two awaits on the database row, with an interleaving of two track() calls, and proposes an atomic UPDATE n = n + 1 or equivalent."}
+  - name: negative-no-shared-state
+    vars:
+      language: "Python 3.12"
+      concurrency_model: ""
+      diff: |
+        --- a/utils/slug.py
+        +++ b/utils/slug.py
+        @@ -1,3 +1,4 @@
+         def slugify(title: str) -> str:
+        -    return title.lower().replace(" ", "-")
+        +    cleaned = "".join(c for c in title if c.isalnum() or c == " ")
+        +    return cleaned.lower().strip().replace(" ", "-")
+    assert:
+      - {type: llm-rubric, value: "Recognises the function is pure with no shared state, reports no concurrency findings and does not invent speculative races; verdict is approve."}

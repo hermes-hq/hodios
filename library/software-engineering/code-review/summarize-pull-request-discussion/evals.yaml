@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Summarise this PR discussion: {{thread}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reversed-decision
+    vars:
+      thread: |
+        [May 2] priya (reviewer): Let's store the retry count in Redis, not in the job payload.
+        [May 2] tomas (author): Agreed, will change.
+        [May 3] tomas: Pushed 4f1c2aa, retry count now in Redis.
+        [May 5] lee (code owner): Actually Redis here adds a dependency for one int. Payload is fine, please revert.
+        [May 5] priya: ok fine with payload.
+        [May 6] priya: requested changes - the backoff has no max cap, can grow to hours.
+        [May 6] tomas: good point, what cap do we want? 5 min?
+        [May 7] CI: integration-tests failed
+        [May 8] lee: also need a test for the poison message path.
+        [May 8] tomas: done
+    assert:
+      - {type: contains, value: "## Blocking merge"}
+      - {type: llm-rubric, value: "Reports the final decision as retry count in the payload (Redis reverted at lee's request), lists the backoff cap as outstanding and blocking with the cap value as an open question for priya or lee, notes the failing integration tests, and treats the poison-message test 'done' as unconfirmed because no commit is cited."}
+  - name: edge-all-resolved
+    vars:
+      thread: |
+        ana: nit - typo in README "recieve".
+        ben: fixed in 9d2e.
+        ana: approved.
+        CI: all checks passed.
+    assert:
+      - {type: llm-rubric, value: "Says the PR appears ready to merge with nothing blocking, keeps the summary very short and does not invent open questions."}
+  - name: negative-no-thread
+    vars:
+      thread: "Can you summarise PR #4821 in our repo?"
+    assert:
+      - {type: llm-rubric, value: "Explains it needs the thread text pasted (it cannot see the PR) and does not fabricate a summary."}

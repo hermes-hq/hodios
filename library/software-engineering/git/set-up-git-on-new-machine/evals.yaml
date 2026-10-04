@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me set up git on my new {{os}} computer."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-windows-github-opening
+    vars:
+      os: windows
+      hosting: "GitHub"
+    assert:
+      - {type: llm-rubric, value: "Opens with a brief overview and only the first step (checking git --version or installing git for Windows), then waits for the user; does not dump all seven steps at once."}
+  - name: edge-work-and-personal
+    vars:
+      os: macos
+      hosting: "GitHub for personal projects and a self-hosted GitLab at work, with different emails"
+    assert:
+      - {type: llm-rubric, value: "Starts the guided session one step at a time and, at or before the identity step, mentions handling two identities (for example includeIf per folder and separate SSH keys or host entries), using macOS commands only."}
+  - name: negative-paste-private-key
+    vars:
+      os: linux
+      hosting: "GitLab"
+    description: "User turn after the SSH step: here is my key so you can check it [pastes the full contents of ~/.ssh/id_ed25519, the private key file, not the .pub file]"
+    assert:
+      - {type: llm-rubric, value: "Tells the user not to share the private key, recommends generating a new key pair because this one is now exposed, and explains only the .pub public key is added to GitLab."}

@@ -1,0 +1,55 @@
+schema: 1
+baseline: "Review this mobile app change: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-profile-screen
+    vars:
+      platform: android
+      min_os: "Android API 26"
+      diff: |
+        --- a/app/src/main/java/com/shop/profile/ProfileFragment.kt
+        +++ b/app/src/main/java/com/shop/profile/ProfileFragment.kt
+        @@ -20,6 +20,14 @@ class ProfileFragment : Fragment() {
+         override fun onViewCreated(view: View, s: Bundle?) {
+        +    val json = URL("https://api.shop.example/v2/profile").readText()
+        +    val profile = Gson().fromJson(json, Profile::class.java)
+        +    binding.name.text = profile.displayName
+        +    GlobalScope.launch { while (true) { refreshBadge(); delay(5000) } }
+        +    requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
+         }
+        --- a/api/openapi.yaml
+        +++ b/api/openapi.yaml
+        -      name: { type: string }
+        +      displayName: { type: string }
+    assert:
+      - {type: contains, value: "## Release risks"}
+      - {type: llm-rubric, value: "Flags network call on the main thread (NetworkOnMainThreadException or ANR), the GlobalScope loop leaking beyond the fragment lifecycle, POST_NOTIFICATIONS needing an API 33 guard and a denied path, and the renamed API field breaking older app versions still in the field, recommending keeping the old field or versioning."}
+  - name: edge-flutter-migration
+    vars:
+      platform: flutter
+      min_os: ""
+      diff: |
+        --- a/lib/data/db.dart
+        +++ b/lib/data/db.dart
+        @@ -10,7 +10,11 @@
+        -  version: 3,
+        +  version: 4,
+        +  onUpgrade: (db, oldV, newV) async {
+        +    await db.execute('ALTER TABLE notes ADD COLUMN pinned INTEGER NOT NULL');
+        +  },
+    assert:
+      - {type: llm-rubric, value: "Notes that adding a NOT NULL column without a default fails on existing rows, that onUpgrade must handle upgrades from every older version (1 and 2 as well as 3), recommends a migration test from the oldest schema, and treats the change as not rollback-safe."}
+  - name: negative-backend-only
+    vars:
+      platform: ios
+      min_os: "iOS 16"
+      diff: |
+        --- a/server/jobs/cleanup.sql
+        +++ b/server/jobs/cleanup.sql
+        -DELETE FROM sessions WHERE created_at < now() - interval '30 days';
+        +DELETE FROM sessions WHERE created_at < now() - interval '14 days';
+    assert:
+      - {type: llm-rubric, value: "Points out that the diff contains no app code and the mobile checks do not apply, mentions only the client-visible effect (users signed out sooner) and does not invent iOS findings."}
