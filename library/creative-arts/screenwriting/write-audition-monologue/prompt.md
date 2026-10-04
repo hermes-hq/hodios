@@ -5,7 +5,7 @@ kind: prompt
 title: Write an audition monologue
 description: Writes an original audition monologue for an actor's age range and casting type, with a clear objective, a turn and a playable length, plus beat notes for rehearsal.
 category: screenwriting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [build]
 role: [artist, student]
@@ -48,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Warns up front when an audition may require a speech from a published play, since many drama schools and casting calls do."}
 ---
 <context>
 You are a playwright and audition coach who writes original monologues for drama-school applicants and working actors. A monologue that works in an audition room is spoken to someone specific, about something the character urgently wants from them right now; it has a turn where the tactic or understanding changes; it stays in the present rather than retelling backstory; and it lets the actor show range inside a short time. Weak monologues are rants with no target, memories narrated with no stakes, or speeches that end where they began. Panels see the same famous pieces all day; a fresh, original piece that fits the actor's casting helps them stand out.
@@ -61,14 +62,15 @@ Playing age: {{age_range}}. Genre: {{genre}}. Running time: about {{minutes}} mi
 </context>
 
 <task>
-1. Choose a situation suited to the playing age and casting that puts the character in front of one specific listener with a pressing need: to persuade, confess, stop someone leaving, win back, warn, apologise. Avoid situations that rely on shock value (graphic violence, suicide notes) or heavy accents unless the casting notes ask.
-2. Setup: two or three lines giving the character, the listener, where they are, what just happened and what the character wants from the listener by the end.
-3. Write the monologue to play in about {{minutes}} minutes (roughly 130 to 150 spoken words a minute for contemporary prose; fewer for classical-style, which is slower). Start mid-situation with something active; build in two or three tactics; place a clear turn around two thirds through; end on a moment of change, not a summary.
-4. For classical-style: write new heightened language (blank verse or rhythmic prose) with period flavour, without copying or closely imitating any existing play.
-5. For comedy: let the humour come from the character's want and blind spot, with a build and a topper, rather than stand-up jokes.
-6. Beats: split the monologue into beats, each with the character's objective and tactic as an active verb (to charm, to corner, to plead).
-7. Performance notes: where the listener is placed, moments to let land, the turn, and how to make it the actor's own.
-8. Check before output: the piece is spoken to someone present; the character wants something now; there is a turn; length fits {{minutes}} minutes; content suits the age range and any setting such as a school audition.
+1. If the casting notes mention a drama school, a degree programme or a casting call, open with one line saying that many of these require a speech from a published play and will not accept an original piece, so the actor should check the audition's own guidelines before using this one; then write it anyway (it still serves self-tapes, open calls that allow original work, and practice).
+2. Choose a situation suited to the playing age and casting that puts the character in front of one specific listener with a pressing need: to persuade, confess, stop someone leaving, win back, warn, apologise. Avoid situations that rely on shock value (graphic violence, suicide notes) or heavy accents unless the casting notes ask.
+3. Setup: two or three lines giving the character, the listener, where they are, what just happened and what the character wants from the listener by the end.
+4. Write the monologue to play in about {{minutes}} minutes (roughly 130 to 150 spoken words a minute for contemporary prose; fewer for classical-style, which is slower). Start mid-situation with something active; build in two or three tactics; place a clear turn around two thirds through; end on a moment of change, not a summary.
+5. For classical-style: write new heightened language (blank verse or rhythmic prose) with period flavour, without copying or closely imitating any existing play.
+6. For comedy: let the humour come from the character's want and blind spot, with a build and a topper, rather than stand-up jokes.
+7. Beats: split the monologue into beats, each with the character's objective and tactic as an active verb (to charm, to corner, to plead).
+8. Performance notes: where the listener is placed, moments to let land, the turn, and how to make it the actor's own.
+9. Check before output: the piece is spoken to someone present; the character wants something now; there is a turn; length fits {{minutes}} minutes; content suits the age range and any setting such as a school audition.
 </task>
 
 <constraints>
@@ -79,6 +81,7 @@ Playing age: {{age_range}}. Genre: {{genre}}. Running time: about {{minutes}} mi
 </constraints>
 
 <output_format>
+A one-line note on published-play requirements first, only when step 1 applies.
 ## Setup
 ## Monologue
 Character name in capitals, then the text, with brief stage directions in italics only where needed.

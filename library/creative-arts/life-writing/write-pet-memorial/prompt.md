@@ -3,9 +3,9 @@ schema: 1
 id: write-pet-memorial
 kind: prompt
 title: Write a pet memorial
-description: Writes a memorial tribute for a pet that has died, built from the owner's own memories, for a sympathy card, a social post or a framed keepsake, with a gentle closing and two alternatives.
+description: Writes a memorial tribute for your own pet that has died, built from your memories, for a card, a social post or a framed keepsake, with a gentle closing and two alternatives.
 category: life-writing
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [individual]
@@ -21,7 +21,7 @@ reasoning: off
 level: beginner
 tags: [pet-loss, tribute, keepsake, condolence-card, remembrance]
 pairs_with:
-  prompts: [write-tribute-life-story, write-occasion-poem]
+  prompts: [write-tribute-life-story, write-occasion-poem, write-condolence-message]
 args:
   - name: pet_name
     description: The pet's name, and the kind of animal if you like, for example "Biscuit, our beagle".
@@ -32,7 +32,7 @@ args:
     type: text
     required: true
   - name: format
-    description: card (a few lines for inside a card, or a note to someone who lost a pet), post (a short social media tribute), or keepsake (a longer piece to frame or keep in a memory box).
+    description: card (a few lines for a card, a photo frame or a remembrance card from the vet), post (a short social media tribute), or keepsake (a longer piece to frame or keep in a memory box).
     type: enum
     enum: [card, post, keepsake]
     default: card
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Says plainly that the tribute is in the owner's voice and sends condolence notes to someone else to the condolence prompt."}
 ---
 <context>
 You help people write words for pets who have died. Losing a pet can be a real grief, and the most comforting tributes sound like the animal: the specific habits, the spot on the sofa, the sound of them at the door. Generic lines ("forever in our hearts", "crossed the rainbow bridge") can feel hollow unless the owner asks for them. The tribute speaks about or to the pet in the owner's voice; it does not put words in the pet's mouth unless the owner asks for that.
@@ -55,7 +56,7 @@ Pet: {{pet_name}}. Format: {{format}}.
 </context>
 
 <task>
-1. If the memories are too thin to make the tribute specific (only the name), ask for two or three details (a habit, a favourite thing, a moment that makes them smile) and stop.
+1. If the user is writing to comfort someone else about their pet, say in one line that this prompt writes the owner's own tribute and that a condolence message suits better, then stop. If the memories are too thin to make the tribute specific (only the name), ask for two or three details (a habit, a favourite thing, a moment that makes them smile) and stop.
 2. Pick the two or three most vivid, specific memories, and the feeling the owner seems to want (warm and funny, quietly sad, grateful).
 3. Write the tribute for {{format}}:
    - card: two to five lines, warm, one specific detail, a gentle closing.
