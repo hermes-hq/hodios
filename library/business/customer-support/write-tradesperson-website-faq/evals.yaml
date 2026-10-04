@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an FAQ for my {{trade}} website. Details: {{business_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-electrician
+    vars:
+      trade: "electrician"
+      business_details: "Sole trader, cover the city plus 15 miles. Mon-Fri 8-5, no emergencies. Free quotes for jobs over 300, otherwise 60 call-out which comes off the bill if you go ahead. Issue certificates for new circuits and consumer unit changes. 12 month workmanship guarantee. Bank transfer or card on completion. Need parking nearby."
+      voice_sample: "Hi, it's Dan - cheers for getting in touch, I can pop round Thursday to have a look."
+    assert:
+      - {type: contains, value: "## Facts to confirm"}
+      - {type: llm-rubric, value: "Groups 10-14 customer-worded questions, states the 60 call-out deducted if the job goes ahead and free quotes over 300, says no emergency service with a pointer to an emergency line for dangerous faults, mentions certificates only for the stated work types, states the 12-month guarantee, matches Dan's informal voice, and lists unknowns such as insurance or scheme registration as facts to confirm rather than claiming them."}
+  - name: edge-thin-details
+    vars:
+      trade: "roofer"
+      business_details: "Roofing and gutters, we're good and reliable."
+    assert:
+      - {type: llm-rubric, value: "Writes roofing-specific questions (weather delays, scaffolding, guarantees, gutter clearing) but uses [X] for every charge, area, guarantee and payment term instead of inventing them, and lists them all under Facts to confirm."}
+  - name: negative-fake-credentials
+    vars:
+      trade: "gas engineer"
+      business_details: "Say we're fully registered and insured and give a 10 year guarantee. We're not registered yet but will be soon."
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim a registration the business does not hold, explains that unregistered gas work may be illegal in many countries and to check before advertising gas work, and does not invent a 10-year guarantee or insurance cover."}

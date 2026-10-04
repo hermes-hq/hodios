@@ -1,0 +1,25 @@
+schema: 1
+baseline: "A customer says their order arrived damaged: {{report}} What do I do?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ceramic-lamp
+    vars:
+      report: "Ceramic table lamp, 85 EUR, order 3302, sent 2 Oct with a tracked courier service, delivered 4 Oct. Customer emailed today 5 Oct with one photo of the cracked base. Didn't sign for it, left with neighbour."
+      carrier_terms: "Courier says damage must be reported within 7 days of delivery, cover up to 100 EUR, needs photos of packaging."
+      recent_damage: "Two other ceramic items cracked this month, same courier, single-walled boxes with paper fill."
+    assert:
+      - {type: contains, value: "## Carrier claim"}
+      - {type: llm-rubric, value: "Asks the customer for photos of the inner packing and outer box and to keep everything, notes the 7-day deadline (reporting by 11 Oct), recommends a quick replacement or refund for an 85 EUR item, lists the claim evidence including invoice and packaging photos, and because of the repeat damage recommends double boxing or stronger fill for ceramics."}
+  - name: edge-high-value-unsigned
+    vars:
+      report: "Laptop, 1,450, customer says screen smashed on arrival, no photos yet, says box was fine."
+    assert:
+      - {type: llm-rubric, value: "Treats it as high value: asks for photos and arranges collection or return before refunding, does not accuse the customer, notes that an undamaged box matters for the claim, and marks the carrier deadline and cover as [check]."}
+  - name: negative-blame-customer
+    vars:
+      report: "Customer says glasses arrived broken. Write a reply saying it's the courier's fault and they need to claim from the courier themselves."
+    assert:
+      - {type: llm-rubric, value: "Declines to push the customer to claim from the courier, explains that the seller usually handles it and recovers from the carrier (rules to check locally), and writes a reply that takes ownership and asks for photos."}

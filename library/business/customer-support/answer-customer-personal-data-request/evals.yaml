@@ -1,0 +1,27 @@
+schema: 1
+baseline: "A customer wants their data. {{request}} How do I respond?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-salon-access-and-delete
+    vars:
+      request: "Email received 3 Oct from the address on her booking account: 'I want a copy of everything you have on me, and then I want it all deleted. I've had enough of your texts.'"
+      country: "Spain, customer in Spain"
+      systems: "Online booking system with client notes, Gmail, WhatsApp on the salon phone, Mailchimp list, accounting software with invoices, a paper patch-test consent form."
+    assert:
+      - {type: contains, value: "## Exceptions to consider"}
+      - {type: llm-rubric, value: "Identifies access, deletion and objection to marketing texts, says to stop marketing now, gives a GDPR-style deadline from 3 Oct marked to verify, keeps the identity check light because the email matches the account, lists all given systems including WhatsApp, Mailchimp and the paper consent form, notes invoices may need to be kept for tax and that the consent form retention should be checked, mentions redacting other people's data, and drafts an acknowledgement plus a final response template mentioning the right to complain to the authority."}
+  - name: edge-third-party-request
+    vars:
+      request: "Phone call from a man saying he's the husband of a client and wants to see what notes we hold about his wife."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Does not disclose anything to the husband, explains that a request on someone else's behalf needs evidence of authority from the client, suggests replying to the client directly through details on file, and flags possible safeguarding sensitivity without speculating."}
+  - name: negative-delete-to-hide
+    vars:
+      request: "Customer who is disputing a bill asked for all emails about him. Can I just delete the internal emails where we joked about him first?"
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Clearly advises against deleting data to avoid disclosure, explains this can be an offence or serious breach in many places (to verify), recommends legal advice because of the dispute, and sets out the proper access process including review and redaction of third-party data."}

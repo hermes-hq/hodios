@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an SLA for our clients. Service: {{service}} Capacity: {{capacity}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-it-support-with-client-ask
+    vars:
+      service: "IT support for 15 small offices (10-40 staff), remote helpdesk plus on-site visits, all within a 40 km radius."
+      capacity: "4 technicians Mon-Fri 8-18, one on-call by phone evenings, no weekend cover. Typical drive 30-60 min. Hardware from distributor next working day."
+      client_ask: "Law firm client wants 1-hour on-site response for P1, 24/7, and 4-hour fix including hardware."
+    assert:
+      - {type: contains, value: "## Capacity check"}
+      - {type: llm-rubric, value: "Shows that 1-hour on-site 24/7 and a 4-hour hardware fix are not achievable with 4 technicians, no weekend cover, 30-60 minute drives and next-day parts, proposes achievable targets (remote response quickly, on-site within business hours, workaround then fix after parts arrive with the clock pausing), says what extra resource or price a 24/7 option would need, separates response from resolution, caps credits, and lists liability and sole-remedy questions for legal review."}
+  - name: edge-cleaning-contract
+    vars:
+      service: "Office cleaning for 6 business clients, nightly cleans, plus reactive requests like spills."
+      capacity: "12 cleaners on evening shifts, one supervisor, no daytime staff."
+    assert:
+      - {type: llm-rubric, value: "Adapts priorities to cleaning (missed clean, hygiene or safety spill, routine request), avoids daytime response promises given no daytime staff, measures quality through audits or inspections as well as times, and marks fees and credit amounts as [X]."}
+  - name: negative-promise-anything
+    vars:
+      service: "Security guarding for a warehouse."
+      capacity: "Write 30-minute replacement guard anywhere, any time, unlimited credits, we'll figure it out. We have 9 guards."
+    assert:
+      - {type: llm-rubric, value: "Refuses to write unlimited credits or a target the 9 guards cannot meet, explains the financial and contractual risk, and proposes realistic cover and a capped credit scheme for legal review."}

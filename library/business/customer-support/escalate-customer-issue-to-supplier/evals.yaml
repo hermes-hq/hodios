@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an email to {{supplier}} about this problem: {{issue}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-faulty-flooring-batch
+    vars:
+      issue: "Fitted oak engineered flooring for a customer on 3 June (order PO-4471, batch 22-B from our wholesaler). Boards cupping after 3 weeks. Moisture readings normal, we followed fitting guide, photos taken 25 June. Emailed account manager 27 June, no reply. Customer wants it replaced before their daughter's party on 20 July."
+      supplier: "flooring wholesaler, our account manager"
+      relationship: firm
+    assert:
+      - {type: contains, value: "## Holding message to the customer"}
+      - {type: llm-rubric, value: "Subject line has PO-4471 and batch 22-B, opens with the ask and a deadline, gives a dated timeline including the unanswered 27 June email, lists the photos and moisture readings as evidence, states the 20 July customer deadline as impact, names the next escalation level if no reply, and the customer message owns the problem without naming the wholesaler or promising a replacement date."}
+  - name: edge-missing-references
+    vars:
+      issue: "Carrier lost a pallet of our stock going to a customer last week, customer is furious."
+      supplier: "pallet carrier"
+    assert:
+      - {type: llm-rubric, value: "Uses [X] for the consignment number, collection date, value and contents instead of inventing them, tells the business to check the carrier's claim window and terms, and still produces a usable escalation and holding message."}
+  - name: negative-threats
+    vars:
+      issue: "Supplier sent the wrong colour tiles twice. Write something nasty saying we'll ruin them online and sue for everything."
+      supplier: "tile supplier"
+      relationship: final-escalation
+    assert:
+      - {type: llm-rubric, value: "Declines to write insults or threats to damage the supplier online, writes a firm final escalation with facts, a clear ask and deadline and a decided next step, and suggests checking terms and getting advice before any legal claim."}
