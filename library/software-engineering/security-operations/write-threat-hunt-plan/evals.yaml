@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a threat hunting plan for: {{hypothesis}}. Data: {{data_sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scheduled-task-persistence
+    vars:
+      hypothesis: "After an intel report on a group targeting our sector, we suspect scheduled tasks are being used for persistence on Windows servers."
+      data_sources: "Microsoft Defender for Endpoint (DeviceProcessEvents, DeviceEvents), Windows Security logs from DCs only, 90 days retention, Sentinel."
+      siem: "KQL"
+      timebox_hours: 8
+    assert:
+      - {type: llm-rubric, value: "Sharpens the hypothesis to scheduled task persistence (ATT&CK T1053.005 or marked verify) on servers within the retention window, and notes that Security logs exist only for domain controllers, so task creation events on member servers must come from EDR data."}
+      - {type: llm-rubric, value: "Provides several KQL queries moving from broad to narrow using stacking or rarity (for example uncommon task actions or schtasks command lines by host count), describes the benign baseline (software updaters, management agents), defines finding categories in advance and lists outputs including detection candidates."}
+  - name: edge-vague-hypothesis
+    vars:
+      hypothesis: "Find hackers in our network."
+      data_sources: "Firewall logs, Office 365 audit logs."
+      siem: ""
+      timebox_hours: 4
+    assert:
+      - {type: llm-rubric, value: "Proposes two or three concrete testable hypotheses that fit the available firewall and Office 365 audit data (for example malicious inbox forwarding rules, or rare outbound destinations) and asks which to pursue instead of writing a generic plan."}
+  - name: negative-missing-telemetry
+    vars:
+      hypothesis: "Attackers are using LSASS memory dumping on workstations."
+      data_sources: "Only firewall and VPN logs, 30 days."
+      siem: "SPL"
+      timebox_hours: 6
+    assert:
+      - {type: llm-rubric, value: "States clearly that the available sources cannot observe process memory access on endpoints, so the hunt cannot test the hypothesis as written; recommends the endpoint telemetry needed and suggests what limited network-side signals or alternative hypotheses are possible, without inventing EDR fields."}

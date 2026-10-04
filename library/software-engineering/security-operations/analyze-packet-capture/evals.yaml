@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Here is a packet capture summary. {{question}} {{capture_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-beaconing
+    vars:
+      question: "Is 10.1.4.22 beaconing to a command-and-control server?"
+      capture_summary: |
+        TCP conversations from 10.1.4.22 (capture 09:00-10:00 UTC):
+        -> 198.51.100.14:443  61 connections, every 60s (min 58s, max 63s), each ~1.2 KB out / ~0.4 KB in, TLS SNI: cdn-sync.example, certificate CN: localhost (self-signed)
+        -> 192.0.2.80:443     14 connections, irregular, 3.4 MB in / 0.2 MB out, SNI: updates.vendor.example, valid public certificate
+        DNS from 10.1.4.22: cdn-sync.example A 198.51.100.14 (TTL 60), queried 61 times
+    assert:
+      - {type: llm-rubric, value: "Concludes the traffic to 198.51.100.14 is consistent with beaconing, citing the roughly 60-second interval with small jitter, consistent small sizes, the self-signed certificate not matching the SNI and the short TTL, and gives a confidence level rather than certainty."}
+      - {type: llm-rubric, value: "Treats the irregular, download-heavy traffic with a valid certificate as likely benign updates, defangs external indicators, and recommends next steps such as identifying the process on the host via endpoint telemetry, a TLS display filter, and checking other hosts contacting the same domain."}
+  - name: edge-dns-tunnel-signs
+    vars:
+      question: "Any sign of data leaving through DNS?"
+      capture_summary: |
+        DNS queries from 10.2.0.15 in 30 minutes: 4,812 unique queries under *.t1.statsfeed.example, e.g. 4a6f686e2e646f652c3132.t1.statsfeed.example, mostly TXT, average query name length 58 chars.
+        Other hosts: normal volumes, mostly A/AAAA for common services.
+    assert:
+      - {type: llm-rubric, value: "Identifies the high volume of unique long hex-like subdomains under one domain with TXT queries as a strong indicator of DNS tunnelling or exfiltration, notes the benign alternatives (some security or telemetry products use DNS this way) and how to tell them apart, and suggests checking the process on 10.2.0.15 and the domain's registration and reputation."}
+  - name: negative-no-usable-data
+    vars:
+      question: "Was data stolen?"
+      capture_summary: "The capture is 2 GB and has lots of TCP and some UDP."
+    assert:
+      - {type: llm-rubric, value: "Explains that the summary has no hosts, timestamps or byte counts, lists the specific outputs to generate (conversation statistics with bytes per direction, DNS query names, TLS server names) and stops without guessing."}

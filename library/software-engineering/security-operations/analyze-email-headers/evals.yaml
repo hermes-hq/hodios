@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Analyse these email headers and tell me if the email is legitimate: {{headers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lookalike-domain
+    vars:
+      headers: |
+        Received: from mx1.northwind-corp.example (10.1.1.5) by mbx3.northwind-corp.example; Tue, 30 Sep 2026 09:14:22 +0000
+        Authentication-Results: mx1.northwind-corp.example; spf=pass smtp.mailfrom=n0rthwind-corp.example; dkim=pass header.d=n0rthwind-corp.example; dmarc=pass header.from=n0rthwind-corp.example
+        Received: from mail.n0rthwind-corp.example (198.51.100.23) by mx1.northwind-corp.example; Tue, 30 Sep 2026 09:14:20 +0000
+        From: "Dana Whitfield, CFO" <dana.whitfield@n0rthwind-corp.example>
+        Reply-To: dana.w.cfo@freemail.example
+        Return-Path: <bounce@n0rthwind-corp.example>
+        Subject: Urgent wire before noon
+        Message-ID: <a81f@mail.n0rthwind-corp.example>
+      claimed_sender: "Our CFO, whose real address is at northwind-corp.example"
+      recipient_domain: "northwind-corp.example"
+    assert:
+      - {type: llm-rubric, value: "Identifies n0rthwind-corp.example (zero instead of o) as a lookalike of northwind-corp.example, explains that SPF, DKIM and DMARC pass only because the attacker controls the lookalike domain, and flags the Reply-To to a free mail address."}
+      - {type: llm-rubric, value: "Reads the Received path bottom to top, marks the mx1.northwind-corp.example hop as trusted, defangs domains and IPs outside quoted headers, and recommends verifying with the CFO through a known channel and searching mail logs for other recipients."}
+  - name: edge-forwarded-spf-fail
+    vars:
+      headers: |
+        ARC-Authentication-Results: i=1; lists.university.example; spf=pass smtp.mailfrom=partner.example; dkim=pass header.d=partner.example; dmarc=pass header.from=partner.example
+        ARC-Seal: i=1; a=rsa-sha256; d=lists.university.example; cv=none
+        Authentication-Results: mx.ourco.example; spf=fail smtp.mailfrom=partner.example; dkim=fail (body hash did not verify) header.d=partner.example; dmarc=fail header.from=partner.example; arc=pass
+        Received: from lists.university.example (192.0.2.44) by mx.ourco.example; Wed, 01 Oct 2026 16:02:10 +0000
+        From: Research Office <office@partner.example>
+        List-Id: <grants.lists.university.example>
+      claimed_sender: ""
+      recipient_domain: "ourco.example"
+    assert:
+      - {type: llm-rubric, value: "Explains that the message came through a mailing list that modified it, which commonly breaks SPF and DKIM, and that the ARC chain from the list claims the original authentication passed; rates this as a likely benign forwarding issue rather than definite spoofing, while noting the ARC claim is only as trustworthy as the list operator."}
+  - name: negative-body-only
+    vars:
+      headers: "From: Account Security Team\nSubject: Your account is limited\nDear customer, click here to verify your account within 24 hours..."
+      claimed_sender: ""
+      recipient_domain: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the input lacks Received and Authentication-Results headers, so a header analysis is not possible, tells the user how to get the original headers from their mail client, and stops without inventing a delivery path."}

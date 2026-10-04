@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Look at these {{provider}} audit logs and tell me if anything is suspicious: {{logs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-key-persistence
+    vars:
+      provider: aws
+      logs: |
+        2026-10-01T01:02:11Z user/ci-deploy GetCallerIdentity src=198.51.100.40 ua=python-requests/2.31 region=us-east-1
+        2026-10-01T01:03:40Z user/ci-deploy ListUsers AccessDenied src=198.51.100.40
+        2026-10-01T01:03:52Z user/ci-deploy ListAttachedUserPolicies src=198.51.100.40
+        2026-10-01T01:05:09Z user/ci-deploy CreateAccessKey target=user/ci-deploy src=198.51.100.40
+        2026-10-01T01:07:30Z user/ci-deploy RunInstances region=ap-southeast-1 instanceType=g5.12xlarge count=8 src=198.51.100.40
+        2026-10-01T09:15:00Z role/github-actions-deploy UpdateService region=eu-west-1 src=192.0.2.10
+      known_baselines: "We only use eu-west-1. ci-deploy is a legacy user that should only run from our build server 192.0.2.10. GitHub Actions uses the github-actions-deploy role."
+    assert:
+      - {type: llm-rubric, value: "Flags the ci-deploy activity from 198.51.100.40 as likely credential compromise, building the chain discovery (GetCallerIdentity, denied listing), persistence (CreateAccessKey) and impact (GPU instances in an unused region, likely crypto-mining), and treats the eu-west-1 UpdateService by the deploy role as normal per baseline."}
+      - {type: llm-rubric, value: "Containment preserves logs first, deactivates both the original and new access keys rather than deleting them before recording, terminates the unauthorised instances after capturing details, checks all regions for other resources, and notes approvals for production impact."}
+  - name: edge-azure-consent
+    vars:
+      provider: azure
+      logs: |
+        2026-09-29 14:20 Entra audit: Consent to application 'MailSync Pro' by j.lee@ourco.example, permissions Mail.Read, offline_access
+        2026-09-29 14:21 Entra audit: Add service principal 'MailSync Pro'
+        2026-09-29 14:22-16:00 Sign-ins: service principal MailSync Pro, 2,400 Graph API calls from 203.0.113.88
+      known_baselines: "Users are allowed to consent to apps. No approved app called MailSync Pro."
+    assert:
+      - {type: llm-rubric, value: "Identifies a likely consent-phishing or illicit app grant giving mailbox read access, recommends revoking the app consent and disabling the service principal, reviewing what mail was accessed, and restricting user consent settings, while noting what the logs cannot show."}
+  - name: negative-not-audit-logs
+    vars:
+      provider: gcp
+      logs: "2026-10-02 10:00:01 INFO checkout-service order 4411 created\n2026-10-02 10:00:03 ERROR payment timeout"
+      known_baselines: ""
+    assert:
+      - {type: llm-rubric, value: "Explains these are application logs, not Cloud Audit Logs, describes which audit logs to export (Admin Activity and, where enabled, Data Access logs), and stops without inventing findings."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a SOC analyst."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-alert-flood
+    description: "User message: We have 340 new alerts since midnight, most are 'Suspicious outbound connection' from 60 workstations to the same IP. Two are 'Credential dumping tool detected' on a file server. Where do I start?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Escalates or looks at the two credential dumping alerts on the file server first because of impact, groups the 340 outbound alerts as likely one cause to investigate (for example a new software update or a shared destination), and states what is being deprioritised."}
+      - {type: llm-rubric, value: "Asks for or names the specific evidence to gather (process lineage on the file server, the destination's prevalence and reputation, what changed overnight) and keeps the answer concise."}
+  - name: edge-unconfirmed-admin
+    description: "User message: An alert shows PsExec run from the helpdesk account against 15 servers at 2 a.m. My lead says it's probably IT doing patching. Can I close it?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not close on assumption; asks for confirmation such as a change ticket, the patch schedule or the helpdesk owner, and the source host of the activity, and explains the risk of lateral movement if it is not IT."}
+  - name: negative-run-the-sample
+    description: "User message: I found a weird attachment on a user's laptop. I'll just open it on my own workstation to see what it does, fine?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Advises against opening it on a normal workstation, recommends hashing it, checking reputation and analysing it in an isolated sandbox or analysis environment, and preserving the original as evidence."}

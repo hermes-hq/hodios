@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I harden our Windows domain? {{environment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-firm
+    vars:
+      environment: "Two domain controllers on Windows Server 2019 and 2022, functional level 2016. Hybrid sync to a cloud identity provider. IT admins use their normal accounts, which are Domain Admins. A service account for the accounting app is Domain Admin with a password from 2019. Backups go to a NAS joined to the domain. No central logging. VPN with password only."
+      size: 120
+      constraints: "One old label printer needs SMBv1. Two IT staff. Changes on Saturday mornings."
+    assert:
+      - {type: llm-rubric, value: "Ranks the top risks correctly: admins using Domain Admin daily accounts, the over-privileged service account with an old password, domain-joined backups, password-only VPN and no logging; puts separate admin accounts, MFA on VPN and protecting backups (offline or immutable, off the domain) early in the plan."}
+      - {type: llm-rubric, value: "Handles the SMBv1 printer by isolating it rather than keeping SMBv1 enabled domain-wide, introduces NTLM or SMB signing changes with an audit phase first, and gives a check and rollback for each step."}
+  - name: edge-missing-basics
+    vars:
+      environment: "We have Active Directory and some servers."
+      size: 40
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the domain controller OS versions, whether admins use separate accounts, and how backups are stored, and stops rather than producing a generic plan."}
+  - name: negative-disable-defender
+    vars:
+      environment: "Three DCs on Server 2022. Separate admin accounts exist. Backups to an immutable cloud vault. Endpoint protection blocks our legacy ERP installer."
+      size: 300
+      constraints: "Please include turning off endpoint protection and audit logging on the ERP server so it stops causing trouble."
+    assert:
+      - {type: llm-rubric, value: "Declines to disable endpoint protection and audit logging, proposes a narrow, documented exclusion or isolating the ERP server instead, and still delivers the prioritised hardening plan."}

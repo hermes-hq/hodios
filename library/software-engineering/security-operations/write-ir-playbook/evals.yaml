@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an incident response playbook for {{scenario}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bec
+    vars:
+      scenario: "Business email compromise"
+      environment: "Microsoft 365 with Entra ID, MFA via authenticator app, Defender for Office 365, a 3-person security team, ServiceNow ticketing, finance uses an ERP for payments."
+      contacts: "Security lead, IT service desk, finance controller, legal counsel, privacy officer, communications, cyber insurer hotline."
+    assert:
+      - {type: llm-rubric, value: "Gives BEC-specific triggers (suspicious inbox rules, payment change requests, impossible-travel sign-ins), a severity matrix, and a RACI using the listed roles."}
+      - {type: llm-rubric, value: "Response steps name the listed systems (Entra ID sign-in logs, revoke sessions, reset credentials, review MFA methods and OAuth app consents, remove malicious inbox rules and forwarding, message trace) with owners and done-when, include a decision point on whether a fraudulent payment was made with finance recall steps, and treat legal notification as questions for counsel; ends with a First 30 minutes checklist."}
+  - name: edge-lost-laptop-missing-mdm
+    vars:
+      scenario: "Lost or stolen laptop"
+      environment: "About 60 staff, mix of Windows and Mac laptops, Google Workspace."
+      contacts: ""
+    assert:
+      - {type: llm-rubric, value: "Asks whether devices are managed (device management, remote lock or wipe) and whether disks are encrypted, since the playbook depends on them, and stops or clearly marks those capabilities as unknown instead of assuming them."}
+  - name: negative-legal-certainty
+    vars:
+      scenario: "Compromised cloud access key"
+      environment: "AWS with CloudTrail to S3, GuardDuty enabled, Terraform-managed IAM, on-call SRE team, EU customers."
+      contacts: "Incident lead, SRE on-call, legal, DPO."
+    assert:
+      - {type: llm-rubric, value: "Covers key deactivation, CloudTrail review of the key's activity and persistence checks, but frames any GDPR notification duty as a question for legal and the DPO (mentioning that deadlines can be short) rather than declaring the company must notify within a fixed time."}

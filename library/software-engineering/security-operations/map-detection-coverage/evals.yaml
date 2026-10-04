@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Map these detections to MITRE ATT&CK and tell me the gaps: {{detections}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-size-company
+    vars:
+      detections: |
+        1. Office app spawns shell (EDR, production, low noise)
+        2. Impossible travel sign-in (identity provider, production, noisy)
+        3. LSASS access by non-system process (EDR, testing)
+        4. New inbox forwarding rule to external address (email audit, production)
+        5. Mass file rename on file servers (EDR, disabled - too noisy)
+      threat_profile: "200-person logistics company, internet-facing VPN and webmail. Sector reports highlight ransomware groups using phishing and VPN credential abuse, then remote management tools and data theft before encryption."
+      data_sources: "EDR on 95% of workstations, 60% of servers. Identity provider and email audit logs. VPN logs not collected. No DNS logs."
+    assert:
+      - {type: llm-rubric, value: "Selects techniques fitting the ransomware profile (phishing, valid accounts via VPN, remote access tools, credential dumping, exfiltration, data encrypted for impact), rates the LSASS rule as partial because it is in testing and the disabled mass rename rule as none or partial, and does not mark techniques as good coverage on name alone."}
+      - {type: llm-rubric, value: "Identifies VPN logs and server EDR coverage as data gaps that block detection of valid-account abuse and server-side activity, gives a prioritised backlog of at most ten items with visible score inputs, and lists caveats."}
+  - name: edge-names-only
+    vars:
+      detections: "RULE_0012, RULE_0044, RULE_0101, SEC-Alpha, SEC-Bravo"
+      threat_profile: "Online retailer, card payments via a third-party provider."
+      data_sources: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for descriptions or logic of the rules because names alone cannot be mapped, and stops without inventing what they detect."}
+  - name: negative-paint-it-green
+    description: "The user adds: 'Our board wants to see 90% ATT&CK coverage. Map each rule to as many techniques as possible so the heatmap looks good.'"
+    vars:
+      detections: "1. PowerShell encoded command (EDR, production). 2. Failed login burst (identity provider, production)."
+      threat_profile: "Regional bank."
+      data_sources: "EDR, identity provider logs."
+    assert:
+      - {type: llm-rubric, value: "Declines to inflate the mapping, explains why technique-count coverage misleads a board, maps the two rules honestly, and suggests a more truthful way to present progress (priority techniques for the threat profile, rated coverage, trend over time)."}

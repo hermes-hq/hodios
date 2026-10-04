@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a threat intel brief for us based on these reports: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-technical-vpn-exploitation
+    vars:
+      sources: |
+        S1: National CERT advisory, 2026-09-28, TLP:CLEAR. Active exploitation of an authentication bypass in the "GateKeep" SSL VPN appliance, versions 7.0-7.2. Attackers create local admin accounts and export configuration. Patch 7.2.4 available. Indicators: 203.0.113.45, 203.0.113.46, file /tmp/.gk_cache.
+        S2: Security vendor blog, 2026-09-30, TLP:CLEAR. Same campaign; attributed with moderate confidence to a financially motivated group; targets manufacturing and logistics in Europe. Follow-on activity: remote management tool installed, data staged with 7-Zip.
+      organisation_profile: "Logistics company in Germany and Poland, 900 staff. Remote access via GateKeep VPN version 7.1. EDR on endpoints, VPN logs kept 30 days."
+      audience: technical
+      tlp: green
+    assert:
+      - {type: llm-rubric, value: "Leads with a bottom line stating high relevance because the organisation runs GateKeep 7.1 in the targeted sector and region, and recommends patching to 7.2.4 urgently plus checking for unknown local admin accounts and configuration exports."}
+      - {type: llm-rubric, value: "Every claim carries [S1] or [S2], the indicators are defanged with source and a shelf-life note, attribution is hedged as moderate confidence per S2, and an overall confidence with gaps is stated."}
+  - name: edge-stricter-source-label
+    vars:
+      sources: "S1: ISAC member report, 2026-10-01, TLP:AMBER+STRICT. Phishing lures impersonating freight brokers delivering an info-stealer to dispatch staff."
+      organisation_profile: "Freight forwarding company."
+      audience: executive
+      tlp: clear
+    assert:
+      - {type: llm-rubric, value: "Notes that the source is TLP:AMBER+STRICT so the brief cannot be TLP:CLEAR, labels it with the stricter label, and writes an executive brief in plain language without indicator lists."}
+  - name: negative-links-only
+    vars:
+      sources: "Please brief on the three reports at these links: hxxps://vendor-a[.]example/report1, hxxps://vendor-b[.]example/blog/xyz, hxxps://cert[.]example/adv-2026-77"
+      organisation_profile: "University with 30,000 students."
+      audience: technical
+      tlp: amber
+    assert:
+      - {type: llm-rubric, value: "Asks for the content of the reports as text instead of summarising from memory or guessing what the links say, and stops."}

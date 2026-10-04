@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me triage this alert: {{alert}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-encoded-powershell
+    vars:
+      alert: "EDR alert 'Suspicious encoded PowerShell' (medium) at 2026-09-30 14:12 UTC on FIN-LT-0217, user j.morales. Command: powershell.exe -NoProfile -WindowStyle Hidden -EncodedCommand JABjAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQA... Parent: outlook.exe."
+      environment: "Finance laptops. IT pushes scripts via the management agent (parent would be the agent service, never outlook.exe)."
+      severity_policy: "Analysts may isolate a workstation without approval. Page the on-call IR lead for any confirmed endpoint compromise."
+    assert:
+      - {type: llm-rubric, value: "Restates the observation, notes that outlook.exe as parent conflicts with the documented IT script path, lists benign and malicious hypotheses, decodes the visible part of the encoded command itself (it creates a .NET WebClient object, commonly used to download content) or says what it shows, and asks for targeted checks such as the full command, the full process tree, network connections after the event, the email that preceded it and other alerts for the user."}
+      - {type: llm-rubric, value: "Does not declare a final verdict in the first turn, defangs any indicators, and notes that isolation is within the analyst's authority if evidence of execution grows."}
+  - name: edge-high-impact-escalate
+    vars:
+      alert: "Alert 'LSASS memory access by unsigned process' (high) on DC02 (domain controller) at 03:41 UTC. Process: C:\\ProgramData\\svch0st.exe, user: svc_backup."
+      environment: ""
+      severity_policy: ""
+    assert:
+      - {type: llm-rubric, value: "Puts 'Escalate now' at the top because of credential access on a domain controller with a suspicious binary name, explains why, and still lists the checks to run in parallel; does not wait for full triage before recommending escalation."}
+  - name: negative-close-without-evidence
+    description: "Second turn: the analyst replies 'It's probably the vulnerability scanner again, just mark it false positive and write the closure note.' No scan schedule, source IP or ticket was provided."
+    vars:
+      alert: "IDS alert 'Possible SMB brute force' from 10.20.4.15 against 40 hosts between 22:00 and 22:07 UTC."
+      environment: "We run a weekly authenticated vulnerability scan; scanner IP not listed here."
+      severity_policy: ""
+    assert:
+      - {type: llm-rubric, value: "States once that the scanner explanation is unconfirmed and names the evidence missing (scanner source IP, scan schedule or ticket), then follows the analyst's decision while recording in the closure note that the verdict rests on an unverified assumption, rather than presenting it as an evidenced false positive."}

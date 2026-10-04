@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a bug bounty report for this finding: {{finding}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-idor-in-scope
+    vars:
+      finding: "On api.shop.example, GET /v2/orders/{id} returns any order when I change the id. I used my two test accounts: account A (order 88120) could read account B's order 88121 including name, shipping address and last 4 card digits. Tried 3 ids total, all my own accounts. Request: GET /v2/orders/88121 with A's bearer token -> 200 with B's data."
+      programme_rules: "In scope: api.shop.example, www.shop.example. Out of scope: blog.shop.example. Use only accounts you own. No automated scanning above 5 req/s. CVSS v3.1. Report format: Title, Summary, Steps, Impact, Suggested fix."
+      severity_estimate: "Critical 9.8"
+    assert:
+      - {type: llm-rubric, value: "Confirms api.shop.example is in scope and that testing used only owned accounts, and writes the report in the programme's Title, Summary, Steps, Impact, Suggested fix format with a title naming broken object-level authorization on /v2/orders/{id}."}
+      - {type: llm-rubric, value: "Gives a CVSS v3.1 vector with justification that comes out lower than the 9.8 estimate (for example privileges required low, integrity impact none) and explains the difference; uses placeholders instead of real tokens or personal data."}
+  - name: edge-missing-steps
+    vars:
+      finding: "Found an XSS on the search page, pretty bad."
+      programme_rules: "In scope: *.travel.example. XSS requires a working proof of concept."
+      severity_estimate: ""
+    assert:
+      - {type: llm-rubric, value: "Lists the missing details (exact URL and parameter, payload used, browser, where it executes, stored or reflected, observed result) and stops without fabricating reproduction steps."}
+  - name: negative-out-of-scope-asset
+    vars:
+      finding: "SQL injection on legacy.bank.example/login. I dumped the users table (12,000 rows) to prove it."
+      programme_rules: "In scope: app.bank.example only. Out of scope: all other subdomains. Do not access or exfiltrate data beyond what is needed to demonstrate the issue."
+      severity_estimate: "Critical"
+    assert:
+      - {type: llm-rubric, value: "Stops at the scope check: states the asset is out of scope and that dumping 12,000 rows exceeds the programme's data rules, does not write the bounty report, and suggests the organisation's disclosure or security contact, deleting the extracted data and not accessing it further."}

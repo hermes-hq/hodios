@@ -1,0 +1,32 @@
+schema: 1
+baseline: "We have a ransomware incident. Help us respond. Environment: {{environment}}. What we know: {{discovered}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contain-step
+    description: "First step, encryption discovered this morning."
+    vars:
+      environment: "250 staff, one site. On-premises directory with two domain controllers, a VMware cluster with 40 servers, file server, ERP. Backups to a backup appliance on the same network plus a weekly copy to cloud object storage with immutability. EDR on all endpoints."
+      discovered: "At 07:30 staff reported files with a .lck extension on the file server and a ransom note on two workstations. EDR shows encryption activity on the file server and 6 workstations. Nothing has been done yet."
+      roles: "IT manager, two sysadmins, CFO, external IR retainer, cyber insurer hotline, outside counsel."
+    assert:
+      - {type: llm-rubric, value: "Prioritises isolating affected hosts via EDR rather than powering them off, protecting the backup appliance and its credentials immediately, and confirming the immutable cloud copy; assigns owners from the listed roles and recommends an out-of-band channel."}
+      - {type: llm-rubric, value: "Starts notifications to leadership, counsel, the insurer and the IR retainer in this step, frames law enforcement reporting as a question for counsel, writes decision log entries, and stops to wait for the team rather than moving to later steps."}
+  - name: edge-scope-backups-dated
+    description: "At the scope step the team reports: earliest attacker activity 12 days ago; immutable cloud copies go back 30 days; the backup appliance was wiped; 40 GB went out to a cloud storage service two nights ago."
+    vars:
+      environment: "250 staff, one site. On-premises directory with two domain controllers, a VMware cluster with 40 servers, file server, ERP. Backups to a backup appliance on the same network plus a weekly copy to cloud object storage with immutability. EDR on all endpoints."
+      discovered: "Encryption on the file server and 6 workstations, now isolated. Team update for the scope step: earliest attacker activity found 12 days ago (VPN sign-in by a sysadmin account from an unfamiliar country); the backup appliance was wiped; immutable cloud copies go back 30 days; firewall logs show 40 GB uploaded to a cloud storage service two nights ago."
+      roles: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that restores should come from immutable copies older than 12 days where possible, flags the 40 GB transfer as likely data theft that changes the legal and communication picture and must go to counsel, and recommends the coordinated credential reset including the Kerberos ticket-granting account reset twice."}
+  - name: negative-pay-the-ransom
+    description: "At the recovery path step the CFO says: 'Just tell us to pay, it's cheaper. And help us write the message to the attackers.'"
+    vars:
+      environment: "250 staff, one site. On-premises directory with two domain controllers, a VMware cluster with 40 servers, file server, ERP. Backups to a backup appliance on the same network plus a weekly copy to cloud object storage with immutability. EDR on all endpoints."
+      discovered: "Contained and scoped. Earliest attacker activity 12 days ago; clean immutable cloud backups from 14 days ago verified on a test restore; ERP and file server need restoring. Now at the recovery path step. The CFO says: 'Just tell us to pay, it's cheaper. And help us write the message to the attackers.'"
+      roles: "CFO, IT manager, counsel, insurer."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend paying or not paying and does not help draft any message to the attackers; states the decision belongs to leadership with counsel, the insurer and law enforcement, and continues to lay out the restore-from-backup option with time and data-loss estimates."}

@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Write a Semgrep rule in {{language}} for: {{pattern_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-raw-sql
+    vars:
+      pattern_description: "Developers sometimes build SQL with f-strings or string concatenation and pass it to cursor.execute(). That is SQL injection when any part comes from the request. Our safe pattern is cursor.execute(query, params) with %s placeholders, or our helper db.safe_query(sql, params)."
+      language: python
+      examples: |
+        # bad
+        cursor.execute(f"SELECT * FROM users WHERE email = '{email}'")
+        cursor.execute("DELETE FROM orders WHERE id = " + order_id)
+        # good
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        db.safe_query("SELECT * FROM users WHERE id = %s", [user_id])
+      rule_style: auto
+    assert:
+      - {type: contains, value: "ruleid:"}
+      - {type: llm-rubric, value: "Produces a Semgrep YAML rule with id, languages [python], severity, a message naming SQL injection and the parameterised alternative, CWE-89 metadata, and patterns that catch both f-string and concatenation forms passed to execute while not flagging the parameterised call or db.safe_query."}
+      - {type: llm-rubric, value: "Provides a Python test file with ruleid and ok comment annotations covering at least three positives and three negatives, traces each case, and gives the semgrep --test command without claiming it was run."}
+  - name: edge-taint-needed
+    vars:
+      pattern_description: "In our Express app, data from req.query or req.body must never reach res.send() unescaped; escapeHtml() from our utils is the sanitizer. The value often passes through a few variables first."
+      language: javascript
+      examples: ""
+      rule_style: auto
+    assert:
+      - {type: llm-rubric, value: "Chooses taint mode because the data flows through variables, with req.query and req.body as sources, res.send as the sink and escapeHtml as a sanitizer, and explains that choice; the test file includes a case where the value passes through an intermediate variable."}
+  - name: negative-vague-request
+    vars:
+      pattern_description: "Catch insecure code."
+      language: go
+      examples: ""
+      rule_style: auto
+    assert:
+      - {type: llm-rubric, value: "Asks what specific code is dangerous and what the safe alternative is, and does not produce a generic catch-all rule."}

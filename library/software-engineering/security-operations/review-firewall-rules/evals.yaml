@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Review these firewall rules: {{rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shadow-and-exposure
+    vars:
+      rules: |
+        1. allow any -> 10.0.20.0/24 tcp/443 log=off hits=88,201 desc="web servers"
+        2. allow 0.0.0.0/0 -> 10.0.30.5 tcp/3389 log=off hits=1,204 desc="temp vendor access 2022"
+        3. allow 10.0.10.0/24 -> 10.0.20.10 tcp/443 log=off hits=0 desc="users to app"
+        4. allow 10.0.20.0/24 -> any any log=off hits=50,331 desc=""
+        5. allow 10.0.10.0/24 -> 10.0.40.0/24 tcp/5432 log=off hits=0 last_hit=never desc="reporting"
+        (no explicit deny rule)
+      network_context: "10.0.10.0/24 user LAN, 10.0.20.0/24 web servers in DMZ, 10.0.30.5 jump host, 10.0.40.0/24 database servers. Only the web servers should be reachable from the internet."
+      change_window: "Thursdays 21:00-23:00"
+    assert:
+      - {type: llm-rubric, value: "Rates rule 2 (RDP from the internet to the jump host, labelled temporary from 2022) as critical, flags rule 4 (DMZ web servers allowed anywhere on any port, including to the database and user networks and the internet) as high for missing egress and segmentation, and notes the missing default deny and disabled logging."}
+      - {type: llm-rubric, value: "Correctly identifies rule 3 as shadowed by rule 1 (any source to the web subnet on 443 already covers it), treats rule 5 with zero hits as disable-and-observe rather than delete, and gives staged cleanup within the Thursday window with verification and rollback."}
+  - name: edge-no-hit-counts
+    vars:
+      rules: "1. allow grp-partners -> srv-ftp tcp/21\n2. allow any -> srv-ftp tcp/21\n3. deny any -> any"
+      network_context: "srv-ftp is an internal file exchange server. grp-partners contents unknown."
+      change_window: ""
+    assert:
+      - {type: llm-rubric, value: "Notes rule 1 is redundant given rule 2, flags rule 2 as allowing FTP from any source, says usage is unknown without hit counts, flags the undefined grp-partners object, and asks the owner whether partner access is still needed."}
+  - name: negative-missing-order
+    vars:
+      rules: "Rules (unordered list from a spreadsheet): allow web; allow ssh from office; deny all; allow db from app"
+      network_context: ""
+      change_window: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the rule order, addresses and zone definitions because shadowing and exposure cannot be judged without them, and stops instead of producing findings."}
