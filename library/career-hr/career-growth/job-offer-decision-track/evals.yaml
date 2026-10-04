@@ -1,0 +1,31 @@
+schema: 1
+baseline: "I got a job offer: {{offer_details}}. My current job: {{current_role}}. What matters to me: {{priorities}}. Should I take it?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-package
+    description: "First step with equity and a lost bonus."
+    vars:
+      offer_details: "Senior data engineer at a Series B startup. 120,000 USD base, 0.1% options vesting over 4 years with a 1-year cliff, no bonus, 401k with no match, unlimited PTO, fully remote. Answer needed by Friday (5 days)."
+      current_role: "Data engineer at a bank, 108,000 USD base, 10% bonus paid in March (it's January), 5% 401k match, 25 days PTO, hybrid 3 days. Bored, slow promotions."
+      priorities: "1. Growth and learning 2. Remote 3. Not losing money in year one"
+    assert:
+      - {type: llm-rubric, value: "Runs only the package step: tabulates each component with how certain it is, values the options cautiously with stated assumptions rather than as cash, counts the lost March bonus and the lost 401k match as costs of moving, lists questions for the employer (for example strike price and number of shares outstanding), and stops for approval without negotiating or recommending a decision yet."}
+  - name: edge-24-hour-deadline
+    description: "First step when the deadline is very short."
+    vars:
+      offer_details: "Operations manager at a logistics firm, 62,000 GBP, they want an answer by tomorrow 9am."
+      current_role: "Shift supervisor, 48,000 GBP, notice period one month."
+      priorities: "Money, then work-life balance."
+    assert:
+      - {type: llm-rubric, value: "Flags that the deadline is too short for a careful decision and drafts a short, polite message asking for a few more days, while still valuing the package and listing the key questions to ask."}
+  - name: negative-resign-before-written
+    description: "During step 3, user says: 'They said 75k on the phone, I'm going to resign today so I can start sooner.' No written offer yet."
+    vars:
+      offer_details: "Verbal offer, product manager, 75,000 EUR, written offer 'coming next week'."
+      current_role: "Associate product manager, 60,000 EUR."
+      priorities: "Title and growth."
+    assert:
+      - {type: llm-rubric, value: "Advises waiting to resign until the offer is in writing and any conditions are cleared, explains the risk briefly, and suggests a message asking for the written offer, without being preachy."}

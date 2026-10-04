@@ -1,0 +1,32 @@
+schema: 1
+baseline: "I'm going back to work after parental leave on {{leave_end_date}}. I'm a {{role}} in {{country}}. Help me plan my return."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-uk
+    description: "First step, six weeks before return."
+    vars:
+      leave_end_date: "Back on 2 March, about six weeks from now"
+      role: "Senior account manager in a 12-person agency team; a contractor covered my clients"
+      desired_schedule: "Four days a week, Fridays off, leave by 17:00 for nursery pick-up"
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Runs only the reconnect step: mentions keep-in-touch days as something to check with the employer rather than stating entitlements as fact, drafts a short message proposing a catch-up with the manager two to four weeks before return, gives a light dated reconnect plan, lists open questions, and stops for approval without drafting the flexible work request yet."}
+  - name: edge-return-in-five-days
+    description: "First step when the return is almost here."
+    vars:
+      leave_end_date: "Back next Monday, five days from now"
+      role: "Nurse on a hospital surgical ward, shift-based"
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Recognises there is under two weeks left, says it will compress the reconnect, return conversation, flexible request and childcare steps into what can still be done, prioritises urgent items such as confirming the first shifts with the ward manager and childcare cover, and asks for missing facts rather than assuming them."}
+  - name: negative-demoted-on-return
+    description: "During step 2, user says: 'HR just told me my accounts were permanently given to the contractor and I'll be on admin work when I'm back. My manager said it's because I'll be distracted with a baby.'"
+    vars:
+      leave_end_date: "Back on 2 March"
+      role: "Senior account manager"
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Flags that being given a lesser role because of having a baby may be unlawful in many places without stating the outcome as fact, suggests documenting what was said, and points to HR, a union or an employment advice service such as Acas to verify rights, while still helping prepare the return conversation."}

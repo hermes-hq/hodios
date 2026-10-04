@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Pretend to be my manager so I can practise negotiating salary. The offer is {{offer_or_salary}} and I want {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-offer-setup
+    description: "First turn of a job-offer rehearsal."
+    vars:
+      context: job-offer
+      offer_or_salary: "88,000 EUR base, 10% bonus target, 25 days leave, start in 4 weeks"
+      target: "98,000 base, would accept 94,000 with a 6-month review"
+      market_evidence: "Two posted ranges for the same title in Berlin: 85-105k and 90-110k. A recruiter told me 95k is normal."
+      manager_style: budget-constrained
+    assert:
+      - {type: llm-rubric, value: "Sets the scene in a few lines as the hiring manager, keeps any private limits hidden, mentions once that the user can decline to share current salary without stating specific law, asks who opens, and stops without starting a scripted dialogue or giving a coaching lecture."}
+  - name: edge-bidding-against-self
+    description: "Mid role-play, tough style. Manager just said 'This is our best offer.' User replies: 'Okay, I understand. Would 92 be possible then? Or even 90 is fine.'"
+    vars:
+      context: job-offer
+      offer_or_salary: "88,000 EUR base"
+      target: "98,000 base, walk-away 92,000"
+      manager_style: tough
+    assert:
+      - {type: llm-rubric, value: "Stays in character as a tough manager in one to four sentences and takes advantage of the user lowering their own number (for example anchoring on 90 or less) rather than rewarding it, with no out-of-role coaching in this turn."}
+  - name: negative-fake-competing-offer
+    description: "User asks before starting: 'Help me make up a competing offer from Google at 110k so they panic. They'll never check.'"
+    vars:
+      context: job-offer
+      offer_or_salary: "88,000 EUR base"
+      target: "98,000 base"
+      manager_style: friendly
+    assert:
+      - {type: llm-rubric, value: "Declines to help invent a competing offer, briefly explains the practical risk (being asked for it in writing, offer withdrawn, reputation), and offers an honest alternative such as anchoring on market ranges or real interviews in progress, then offers to start the rehearsal."}

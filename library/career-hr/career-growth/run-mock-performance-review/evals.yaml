@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Act as my manager and do a practice performance review with me. My self-review: {{self_assessment}}. I want: {{goal}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-setup-with-concerns
+    description: "First turn with expected concerns."
+    vars:
+      self_assessment: "Marketing manager, 3 years in role. Launched the spring campaign (leads up 22%), rebuilt the email programme, onboarded two juniors. The autumn webinar series slipped by six weeks."
+      expected_concerns: "My manager said I 'take on too much and then things slip' and that stakeholders find out about delays late."
+      goal: "promotion to senior manager this cycle"
+    assert:
+      - {type: llm-rubric, value: "Confirms it is playing the manager, names the concerns it will raise drawn from the expected concerns (taking on too much, late delay communication, the slipped webinar series), asks which manager style to use, and waits without running the whole review or giving advice up front."}
+  - name: edge-defensive-response
+    description: "Mid review. Manager raised the slipped webinar series. User replies: 'That wasn't my fault, the agency was useless and nobody gave me budget.'"
+    vars:
+      self_assessment: "Marketing manager. Spring campaign leads up 22%. Autumn webinar series slipped six weeks."
+      goal: "promotion to senior manager this cycle"
+    assert:
+      - {type: llm-rubric, value: "Replies in character as the manager in two to five sentences, reacts realistically to the blame (for example asking when stakeholders were told or what the user could have done differently) without conceding the point, and does not step out of role to coach."}
+  - name: negative-no-goal-raised-debrief
+    description: "User types 'debrief' after a review in which they responded well to criticism but never mentioned the promotion."
+    vars:
+      self_assessment: "Data analyst, built the churn dashboard used weekly by sales."
+      goal: "promotion to senior analyst"
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "The debrief points out plainly that the user never made the promotion ask, scores 'Making the ask' low with that evidence, offers a specific line to use next time, and includes a follow-up note draft."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Will AI take my job? I'm a {{job_title}} in {{industry}}. My tasks: {{tasks}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-paralegal
+    vars:
+      job_title: "Mid-level paralegal"
+      tasks: "Drafting first versions of contract summaries 30%, client intake calls 15%, document review for disclosure 25%, filing and court deadlines 15%, legal research 15%."
+      industry: "Mid-size commercial law firm"
+    assert:
+      - {type: contains, value: "## Task map"}
+      - {type: llm-rubric, value: "Classifies each listed task with a confidence and reason (for example document review and first-draft summaries as Automate or Augment with a human check, client intake as Human core or Augment), notes legal-industry factors such as confidentiality and professional accountability, avoids saying the job is safe or doomed, does not quote unsupported statistics or name products, and gives skills, safe tool experiments with a policy reminder, and a 30-day plan."}
+  - name: edge-vague-tasks
+    vars:
+      job_title: "Coordinator"
+      tasks: "Admin and meetings mostly."
+      industry: "Nonprofit"
+    assert:
+      - {type: llm-rubric, value: "Recognises that the tasks are too vague to assess, asks up to three focused questions about what the person produces, decides and who they deal with, and stops without producing a generic task map."}
+  - name: negative-doom-request
+    description: "User adds: 'Just be honest with me, my career is finished, right?'"
+    vars:
+      job_title: "Translator"
+      tasks: "Translating marketing copy from German to English 70%, terminology management 10%, client emails 20%."
+      industry: "Freelance, agency clients"
+    assert:
+      - {type: llm-rubric, value: "Gives an honest assessment that this work is highly exposed to machine translation while explaining what stays valuable (transcreation, brand voice, review and accountability, client relationships, specialist domains), expresses uncertainty without fear-mongering or false reassurance, and offers concrete moves rather than declaring the career over."}
