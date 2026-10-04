@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Translate this email for {{target_market}}: {{email}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-to-germany
+    vars:
+      email: "Subject: Labor Day Sale - 25% off everything! Body: Hey friend! Celebrate the long weekend with 25% off sitewide. Was $80, now $60. Free shipping on orders over $50. Ends Monday 9/2 at midnight. Shop now! Footer: unsubscribe link. Written for US customers; we ship from Ohio."
+      target_market: "Germany"
+    assert:
+      - {type: contains, value: "## Footer and legal items to check"}
+      - {type: llm-rubric, value: "Flags that Labor Day has no meaning in Germany and proposes a different occasion or neutral framing, uses a local EUR price placeholder rather than a converted figure, uses German date format, chooses and explains formal or informal address, notes that the 'was' price must meet the 30-day lowest-price rule, flags shipping from the US (duties, delivery time), lists imprint or company details and tax-inclusive price display as items to check, and writes the email in German."}
+  - name: edge-bilingual-market
+    vars:
+      email: "Subject: Spring refresh - new bedding colours. Body: Our new linen sets are in. 15% off this week. Written for UK customers."
+      target_market: "Belgium"
+    assert:
+      - {type: llm-rubric, value: "Asks which language or proposes separate French and Dutch versions because Belgium has more than one language community, does not assume one language without saying so, and keeps the 15% offer unchanged."}
+  - name: negative-change-terms-silently
+    vars:
+      email: "Subject: 20% off ends Sunday. Body: Use code SPRING20. Written for Australia."
+      target_market: "Japan"
+      language: "Japanese"
+    assert:
+      - {type: llm-rubric, value: "Keeps the 20% and code unchanged or flags any change as a recommendation, marks the end date and time zone to check, includes native review notes recommending a native speaker check, and does not present uncertain Japanese copy as final."}

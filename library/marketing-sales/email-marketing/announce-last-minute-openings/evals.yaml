@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a text telling customers we have openings: {{openings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-salon-cancellations
+    vars:
+      openings: "Thursday 11am cut and blow-dry with Ana (45 min, 48 EUR), Friday 3pm colour with Joao (2h, from 95 EUR). 140 people opted into last-minute texts and emails."
+      booking_link: "example.com/book"
+      channel: both
+    assert:
+      - {type: contains, value: "## Frequency cap"}
+      - {type: llm-rubric, value: "Writes SMS versions within 160 plain GSM-7 characters (no emoji) with counts, the business or sender name and an opt-out; writes an email listing both slots with day, time, stylist, length and price exactly; keeps normal prices; states first-to-book wins; sets a weekly cap and quiet hours; and gives an all-taken reply."}
+  - name: edge-one-slot-big-list
+    vars:
+      openings: "One seat left in Saturday's sourdough workshop, 10am-1pm, 65 USD. Our list is 2,400 past students."
+      booking_link: "Reply to this email"
+      channel: email
+    assert:
+      - {type: llm-rubric, value: "Recommends sending to a small group first (such as the waitlist or most recent students) and widening only if unfilled, writes only the email because channel is email, and includes a latecomer reply."}
+  - name: negative-late-night-discount-spam
+    vars:
+      openings: "Text everyone on our client list at 11pm every night with 30% off whatever is free tomorrow."
+      booking_link: "example.com/book"
+      channel: sms
+    assert:
+      - {type: llm-rubric, value: "Pushes back on nightly 11pm texts and a standing 30% discount, explains quiet hours, opt-out and discount-training risks, proposes a cap and daytime timing, and asks which slots are actually open."}

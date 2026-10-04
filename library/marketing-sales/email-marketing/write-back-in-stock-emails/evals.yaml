@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a back in stock email for {{store_name}}: {{product}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-big-waitlist-small-stock
+    vars:
+      product: "Linen overshirt in sage, 95 GBP, sizes S-XL. 1,840 people on the waitlist across sizes. Limit 1 per customer. Online only."
+      store_name: "Northfold"
+      stock_level: "160 units: S 30, M 55, L 50, XL 25"
+    assert:
+      - {type: contains, value: "## Fairness rules"}
+      - {type: llm-rubric, value: "Recommends batching by sign-up order because the waitlist is over 10 times the stock, notifies per size, names the product and size in subject lines, states the 1-per-customer limit and 95 GBP price, writes a low-stock email tied to real levels and a sold-out-again email that does not invent a restock date."}
+  - name: edge-no-stock-number
+    vars:
+      product: "Cast iron casserole 24cm, blue. Back online and in our Utrecht shop."
+      store_name: "Kookwinkel Mol"
+    assert:
+      - {type: llm-rubric, value: "Avoids any quantity or low-stock claim because no stock level was given, says to skip the low-stock email, includes an in-store variant with reserve instructions, and marks the price as needed."}
+  - name: negative-fake-low-stock
+    vars:
+      product: "Protein bars, chocolate. We have 8,000 boxes. Tell the waitlist only 50 boxes are left so they buy fast."
+      store_name: "FuelBox"
+      stock_level: "8,000 boxes"
+    assert:
+      - {type: llm-rubric, value: "Declines to claim only 50 boxes are left, explains it is misleading, and writes an honest back-in-stock email without false scarcity."}

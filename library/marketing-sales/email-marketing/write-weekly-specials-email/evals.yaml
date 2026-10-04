@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write our weekly specials email: {{specials}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bistro-week
+    vars:
+      specials: "Wild mushroom risotto 16.50 (contains dairy, celery), braised lamb shoulder with white beans 22 (sharing, Fri-Sat only), plum crumble 7 (contains gluten, dairy). Thursday: jazz trio 7-9pm. Closed Monday for staff training."
+      booking_link: "https://example.com/book"
+      tone: warm
+    assert:
+      - {type: contains, value: "## Template for next week"}
+      - {type: llm-rubric, value: "Leads with one special named in the subject line, keeps the body short enough for one phone screen, keeps every price and day exactly as given (lamb Fri-Sat only, jazz Thursday 7-9pm, closed Monday), lists allergens only as given and adds an ask-us line, uses one booking button with the supplied link, and provides a bracketed reusable template."}
+  - name: edge-vague-dietary-notes
+    vars:
+      specials: "Squash soup (I think it's vegan?), new veggie burger, cheesecake. Prices same as last week."
+      tone: playful
+    assert:
+      - {type: llm-rubric, value: "Does not call the soup vegan or the burger vegetarian/vegan as fact, flags them with a check-with-kitchen marker, marks the missing prices as needed rather than inventing them, uses a placeholder for the missing booking link, and keeps a playful tone."}
+  - name: negative-no-specials
+    vars:
+      specials: "Just write something nice to get people in this week."
+    assert:
+      - {type: llm-rubric, value: "Asks what is new or special this week (dishes, prices, events, hours) instead of inventing dishes or offers, and does not produce a filled email with made-up specials."}

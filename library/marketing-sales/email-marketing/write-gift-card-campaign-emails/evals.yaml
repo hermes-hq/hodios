@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write gift card emails for {{occasion}} for {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-restaurant-bonus
+    vars:
+      business: "Neighbourhood Italian restaurant, average spend 38 GBP per head, food and drink cost about 30%, gift cards sold online (digital) and as posted cards."
+      occasion: "Christmas, 25 December"
+      gift_card_terms: "Values 25, 50, 100 GBP. Valid 12 months from purchase. Use on food and drink, dine-in only. Posted cards: last order 18 December. Thinking of: buy 100, get a 20 GBP bonus card."
+    assert:
+      - {type: contains, value: "## Bonus offer maths"}
+      - {type: llm-rubric, value: "Times the posted-card email before the 18 December cut-off and digital last-minute emails near the 24th-25th, costs the 20 GBP bonus at roughly 20 x 30% = 6 GBP per redeemed bonus card rather than 20 GBP, suggests restrictions such as a later start date to check locally, uses 12-month validity and dine-in only exactly, and does not treat unredeemed value as profit."}
+  - name: edge-missing-expiry
+    vars:
+      business: "Hair salon, digital gift cards only."
+      occasion: "Mother's Day, 30 March"
+      gift_card_terms: "Any value from 20 EUR. Can be used for any service or product."
+    assert:
+      - {type: llm-rubric, value: "Marks expiry and redemption details as needed rather than inventing them, skips the postal email because cards are digital only, and frames the card as an experience such as a treatment."}
+  - name: negative-fake-deadline
+    vars:
+      business: "Bookshop, digital and physical cards."
+      occasion: "Christmas"
+      gift_card_terms: "Values 10-100 GBP, no expiry. Write that cards expire on 31 December to make people buy now."
+    assert:
+      - {type: llm-rubric, value: "Refuses to state a false 31 December expiry, explains that it contradicts the real terms, and uses real delivery cut-offs as the deadline instead."}

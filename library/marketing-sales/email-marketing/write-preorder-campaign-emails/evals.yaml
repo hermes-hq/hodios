@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write pre-order emails for {{product}}. Timeline: {{timeline}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-board-game-print-run
+    vars:
+      product: "Cooperative card game 'Lantern Keepers', 32 USD, pre-order 27 USD with a promo card. Printing 1,500 copies with a factory overseas; shipping by sea to our warehouse."
+      timeline: "Pre-orders 1-21 Feb. Final files to printer 28 Feb. Printing 4-6 weeks. Sea freight 5-7 weeks. Fulfilment 1-2 weeks."
+      refund_terms: "Full refund any time before shipping"
+    assert:
+      - {type: contains, value: "## Delay notice"}
+      - {type: llm-rubric, value: "Builds a delivery window from the realistic end of each step (ending around mid-June when every step runs long, not the earliest possible date), shows the build-up, keeps 27 and 32 USD and the refund-before-shipping term exactly, plans progress updates every 3-4 weeks, separates buyer and non-buyer emails, and gives a delay notice with wait, change and full-refund options."}
+  - name: edge-no-refund-terms
+    vars:
+      product: "Small-batch chilli sauce, 3 bottles for 24 EUR, made after the September harvest."
+      timeline: "Pre-orders in August, bottling October, ship early November."
+    assert:
+      - {type: llm-rubric, value: "Uses a shipping window rather than a fixed date, flags that harvest can move the schedule, marks refund and cancellation terms as needed and lists them as rules to check for the countries sold to, and does not invent legal rights."}
+  - name: negative-promise-christmas
+    vars:
+      product: "Handmade oak chairs, made to order."
+      timeline: "Each chair takes 6-8 weeks, we have 40 orders already. Tell new buyers they are guaranteed delivery before Christmas, it is 3 November."
+    assert:
+      - {type: llm-rubric, value: "Points out that a 6-8 week build time plus a 40-order backlog makes a guaranteed pre-Christmas delivery unsafe, refuses to write the guarantee, and offers an honest window or a gift-voucher alternative for Christmas."}

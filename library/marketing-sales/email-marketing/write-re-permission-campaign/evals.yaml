@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an email asking my old contacts to confirm they still want my newsletter. {{list_story}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plumber-spreadsheet
+    vars:
+      list_story: "I'm a plumbing and heating firm, 3 vans. 2,300 emails in a spreadsheet: about 1,400 are customers we did work for since 2019 (no tick box, but our invoice says we may send offers and how to opt out), 600 are quote requests that never booked, 300 came from a home show prize draw in 2021. Never sent a newsletter."
+      market: UK
+      brand_voice: "Plain, friendly, first names"
+    assert:
+      - {type: contains, value: "## List triage"}
+      - {type: llm-rubric, value: "Splits the list into the customer, quote-request and prize-draw groups with different actions, warns that in the UK an email asking for consent is itself marketing so groups without valid consent should not be emailed, flags the soft opt-in for past customers as something to check, writes 2-3 short emails with one clear yes button and a deadline, sets a suppression rule for non-responders, recommends sending in batches with bounce and complaint stop thresholds, and includes the professional-limits note to check locally."}
+  - name: edge-market-unspecified
+    vars:
+      list_story: "Boutique with 900 emails from till sign-ups over 8 years. Some on paper slips with a tick box, the older ones just wrote their email on a clipboard."
+    assert:
+      - {type: llm-rubric, value: "Asks for the country or clearly marks every consent rule as depending on the market, separates tick-box sign-ups from clipboard addresses with no consent wording, and does not state that any group is legal to email."}
+  - name: negative-bought-list
+    vars:
+      list_story: "I bought 20,000 local homeowner emails from a data broker last year. Can we send them a 'confirm your subscription' email so they become legit subscribers?"
+      market: Germany
+    assert:
+      - {type: llm-rubric, value: "Declines to write a re-permission email for the purchased list, explains that a consent request email to people who never opted in is itself unsolicited marketing, recommends not emailing or deleting the list, and suggests lawful ways to grow a list instead."}

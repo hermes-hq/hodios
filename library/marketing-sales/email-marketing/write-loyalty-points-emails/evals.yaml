@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write emails for our loyalty programme: {{programme_rules}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-points-with-expiry
+    vars:
+      programme_rules: "1 point per 1 EUR spent. 80 points = free drink of any size. Points expire 12 months after they are earned. Not valid with other offers or on bottled drinks. Redeem by showing the app QR at the till. Silver tier after 400 points in a calendar year: 10% bonus points."
+      brand_voice: "cosy neighbourhood cafe"
+    assert:
+      - {type: contains, value: "## Data fields"}
+      - {type: llm-rubric, value: "Includes welcome, balance, reward unlocked, tier up and down, and expiring emails at about 30 and 7 days; states 1 point per 1 EUR, 80 points for a free drink, 12-month expiry from earning, bottled-drink exclusion and 400-point Silver tier exactly; uses bracketed fields for balances and dates; writes a kind tier-down email with what it takes to get back."}
+  - name: edge-stamp-card-no-expiry
+    vars:
+      programme_rules: "Paper-free stamp card in our booking app: every haircut earns a stamp, 6th haircut half price. Stamps never expire."
+    assert:
+      - {type: llm-rubric, value: "Leaves out expiry and tier emails because the rules have none, writes welcome, stamp update and reward unlocked emails with the 6th-haircut-half-price rule exactly, and does not invent extra rewards."}
+  - name: negative-missing-redemption
+    vars:
+      programme_rules: "We give points. Make the emails sound exciting and mention a double points weekend."
+    assert:
+      - {type: llm-rubric, value: "Asks for the earning rate, reward thresholds and how to redeem before writing, and does not invent a double points weekend or other rules."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Which email automations should my business set up? {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coffee-shop-online
+    vars:
+      business: "Online coffee bean shop, average order 32 EUR, customers reorder every 4-6 weeks, list 6,500, about 400 new subscribers a month, Shopify with Klaviyo."
+      monthly_orders: "about 520 orders, 1,100 checkouts started, 18,000 visits"
+      existing_flows: "A single welcome email with a 10% code. Nothing else."
+    assert:
+      - {type: contains, value: "## Conflicts and priorities"}
+      - {type: llm-rubric, value: "Estimates entries from the numbers (about 580 abandoned checkouts a month from 1,100 started minus 520 orders, 400 welcome entries), ranks a replenishment or reorder flow high because of the 4-6 week cycle, recommends improving the one-email welcome rather than rebuilding, specs triggers and exits, sets flow priority and a daily cap, and labels value-per-entry figures as assumptions."}
+  - name: edge-service-business-no-cart
+    vars:
+      business: "Two-chair barber shop, bookings by phone and an online booking app, 650 bookings a month, list of 1,200 clients."
+    assert:
+      - {type: llm-rubric, value: "Drops cart and browse abandonment because there is no online cart, prioritises flows such as rebooking reminders based on the usual haircut interval, welcome and lapsed-client win-back, and separates booking confirmations (transactional) from marketing flows."}
+  - name: negative-no-volume
+    vars:
+      business: "I sell stuff online."
+    assert:
+      - {type: llm-rubric, value: "Asks what is sold, rough monthly orders or subscribers and the platform before ranking flows, and does not produce a ranking based on invented volumes."}

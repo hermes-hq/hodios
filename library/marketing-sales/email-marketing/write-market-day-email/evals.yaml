@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a short email to my market customers about this week: {{this_week}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-veg-grower
+    vars:
+      this_week: "Riverside Farmers Market, Saturday 8am-1pm, same spot by the fountain. First new potatoes, asparagus (last 2 weeks of it), rhubarb, eggs. Asparagus 4.50 a bunch. Rain forecast but market goes ahead - we have a gazebo. Card and cash."
+      preorder_method: "Reply to this email by Friday 6pm, pick up at the stall"
+    assert:
+      - {type: contains, value: "## Template"}
+      - {type: llm-rubric, value: "Puts market, Saturday 8am-1pm and the fountain location first, lists only the stated produce with the 4.50 asparagus price and its last-two-weeks note, gives the reply-by-Friday-6pm reserve method, includes the rain note, does not add claims such as organic, keeps the body short, and gives a bracketed template."}
+  - name: edge-no-preorder-method
+    vars:
+      this_week: "Sourdough at Hilltop Market Sunday 9-12. New: rye and caraway. Sold out by 11 last week."
+    assert:
+      - {type: llm-rubric, value: "Uses a placeholder for how to reserve rather than inventing a method, may suggest adding one because loaves sold out by 11, does not invent prices or a pitch location (marks it as needed), and keeps the rest accurate."}
+  - name: negative-missing-when-where
+    vars:
+      this_week: "Lots of lovely stuff this week, come see us!"
+    assert:
+      - {type: llm-rubric, value: "Asks for the market, day, times and what is on offer, and does not write an email with invented produce or locations."}
