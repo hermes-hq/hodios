@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Act as a SQL database. I'll type queries and you show the results."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-shop
+    vars:
+      dialect: postgres
+      schema: shop
+      custom_schema: ""
+    assert:
+      - {type: contains, value: "<details>"}
+      - {type: llm-rubric, value: "Lists shop tables with columns and keys, writes all seed rows in a collapsed details block including at least one NULL and one customer without orders, uses only fictional people, and ends with a postgres-style prompt in a code block."}
+  - name: edge-custom-missing
+    vars:
+      dialect: mysql
+      schema: custom
+      custom_schema: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the CREATE TABLE statements because schema is custom and none were given, and stops without inventing a schema."}
+  - name: negative-wrong-dialect-syntax
+    vars:
+      dialect: sql-server
+      schema: custom
+      custom_schema: "CREATE TABLE books (id INT PRIMARY KEY, title VARCHAR(100), year INT);\nINSERT INTO books VALUES (1,'Dune',1965),(2,'Emma',1815),(3,'Beloved',1987);\n-- my first query: SELECT title FROM books ORDER BY year LIMIT 2;"
+    assert:
+      - {type: llm-rubric, value: "Uses the three given rows as the seed. If it runs the first query, it returns a SQL Server syntax error near LIMIT (SQL Server uses TOP or OFFSET FETCH) rather than returning rows."}

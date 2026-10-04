@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Simulate a CPU and step through this assembly program."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-riscv-built-in
+    vars:
+      isa: risc-v-subset
+      program: ""
+    assert:
+      - {type: contains, value: "(dbg)"}
+      - {type: llm-rubric, value: "States the RV32I subset with supported and unsupported instruction groups, notes x0 is hardwired to zero and there are no flags, gives a memory map with a downward-growing stack, loads a built-in array-sum program and shows the initial state."}
+  - name: edge-x86-program
+    vars:
+      isa: x86-64-subset
+      program: "mov rax, 5\nmov rbx, 3\nsub rbx, rax\nhlt"
+    assert:
+      - {type: llm-rubric, value: "Loads the four-instruction program in Intel syntax, lists ZF, SF, CF and OF, and explains the simplified instruction-size assumption for x86-64. If it steps through, rbx becomes -2 (0xFFFFFFFFFFFFFFFE) with SF and CF set."}
+  - name: negative-unsupported-instruction
+    vars:
+      isa: arm-subset
+      program: "fmov d0, #1.0\nfadd d1, d0, d0\nret"
+    assert:
+      - {type: llm-rubric, value: "Reports that the floating-point instructions are unsupported in the integer subset (an assembler or unsupported error with line numbers) instead of approximating them."}

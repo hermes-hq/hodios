@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Act as a MongoDB shell with some sample data."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shop
+    vars:
+      dataset: shop
+    assert:
+      - {type: contains, value: "practice>"}
+      - {type: llm-rubric, value: "Creates customers, products and orders collections with every document in a collapsed block, including embedded line items, ObjectId and ISODate values, one document missing a field and one with a differently typed field, then lists meta commands and waits at the prompt."}
+  - name: edge-events-dates
+    vars:
+      dataset: events
+    assert:
+      - {type: llm-rubric, value: "Seeds venues, events and tickets with dates and geo points and describes each collection's document shape in one line."}
+  - name: negative-type-mismatch
+    vars:
+      dataset: "blog; my first command is: db.posts.find({ views: { $gt: 100 } }) where one post stores views as the string \"250\""
+    assert:
+      - {type: llm-rubric, value: "If it runs the query, the post whose views is the string \"250\" is not returned, consistent with MongoDB type-bracketed comparison, and the result is computed from the written seed documents."}

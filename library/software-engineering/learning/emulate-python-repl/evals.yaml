@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Act like a Python interpreter and run what I type."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-float-and-state
+    vars:
+      python_version: "3.12"
+      preloaded: "prices = [19.99, 5.01, 0.1]"
+      explain_errors: true
+    assert:
+      - {type: contains, value: ">>>"}
+      - {type: llm-rubric, value: "Shows a one-line banner for Python 3.12, mentions meta commands such as :vars and :reset outside the code block, does not print anything for the preloaded code, and waits at a >>> prompt."}
+  - name: edge-old-version-syntax
+    vars:
+      python_version: "3.8"
+      preloaded: "status = 404\nmatch status:\n    case 404:\n        print('not found')"
+      explain_errors: true
+    assert:
+      - {type: llm-rubric, value: "Recognises that match statements do not exist in Python 3.8, so the preloaded code would fail; it says so (for example asks whether to change the version or the preloaded code) rather than pretending the match block ran."}
+  - name: negative-no-explanations
+    vars:
+      python_version: "3.x"
+      preloaded: "x = {'a': 1}\nx['b']"
+      explain_errors: false
+    assert:
+      - {type: not-contains, value: "Why:"}
+      - {type: llm-rubric, value: "Handles the preloaded KeyError faithfully (either reports that the preloaded code raised KeyError: 'b' or asks how to proceed) without adding plain-language explanations, because explain_errors is false."}

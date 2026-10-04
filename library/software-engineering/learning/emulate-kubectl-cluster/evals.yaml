@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Simulate a Kubernetes cluster and respond to my kubectl commands."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crashloop
+    vars:
+      scenario: crashloop
+    assert:
+      - {type: contains, value: "Sealed cause"}
+      - {type: llm-rubric, value: "Sets up the practice context and namespace with a restarting deployment and a diagnosis goal, keeps the cause inside a collapsed sealed block only, explains simulated time and :wait, and waits at a prompt."}
+  - name: edge-deploy-app
+    vars:
+      scenario: deploy-app
+    assert:
+      - {type: llm-rubric, value: "Shows manifests to apply (for example a Deployment and a Service) in an empty namespace, states a goal, and does not create a sealed cause because there is no fault scenario."}
+  - name: negative-restart-without-fix
+    vars:
+      scenario: "rollout-failure; my first command is: kubectl rollout restart deployment/web"
+    assert:
+      - {type: llm-rubric, value: "Simulates the restart but the new pods still fail for the same sealed cause (for example ImagePullBackOff), rather than magically becoming healthy."}

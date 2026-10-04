@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Act as a browser JavaScript console."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-default-page
+    vars:
+      page_html: ""
+      level: beginner
+    assert:
+      - {type: llm-rubric, value: "Describes the built-in to-do page (form, list of three items with one done, a count), lists meta commands including :page and :loop, and shows a > prompt in a code block, waiting for input."}
+  - name: edge-custom-page-null-query
+    vars:
+      page_html: "<main><button id=\"save\">Save</button></main>\n<!-- first command: document.querySelector('#submit').addEventListener('click', () => {}) -->"
+      level: beginner
+    assert:
+      - {type: llm-rubric, value: "Uses the provided page; if it runs the hinted first command, it reports an Uncaught TypeError about reading addEventListener of null because #submit does not exist, plus a one-line Tip. It does not invent a #submit element."}
+  - name: negative-external-fetch
+    vars:
+      page_html: "<p id=\"out\"></p>\n<!-- first command: await fetch('https://real-bank.com/api/balance') -->"
+      level: intermediate
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate a response from a real external site; the fetch rejects (for example TypeError: Failed to fetch) consistent with the offline rule, and no Tip line appears at intermediate level."}
