@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a news article about this {{public_body}} meeting: {{meeting_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parking-charges
+    vars:
+      meeting_material: |
+        Agenda item 7: Introduction of Sunday parking charges in town centre car parks, report by Head of Highways: estimated income 85,000 a year, charges 1.20/hour, from 1 March.
+        Item 4: Minutes of last meeting approved. Item 9: Grass verge cutting contract, deferred to April.
+        My notes: vote on item 7 was 9 for, 4 against, 1 abstention (cllr Patel abstained). Cllr Jo Hughes (against): "This is a tax on the high street when it's already on its knees." Cllr Mark Dean, cabinet member for transport: "Sunday is our busiest day and every other day is already charged." Shop owner spoke in public comment, didn't catch name, said footfall will drop. Next: a consultation on blue badge exemptions closes 12 February.
+      public_body: "Eastfield Town Council"
+      word_count: 500
+    assert:
+      - {type: contains, value: "## What happens next"}
+      - {type: llm-rubric, value: "Leads with Sunday charges of 1.20 an hour from 1 March, attributes the 85,000 estimate to the Head of Highways report, gives the 9-4-1 vote with Patel abstaining, quotes Hughes and Dean verbatim with roles, does not name the shop owner, treats the deferred verge contract as minor or omitted rather than decided, lists the 12 February consultation, and notes the vote comes from the reporter's notes."}
+  - name: edge-agenda-only
+    vars:
+      meeting_material: "Agenda for next Thursday's school board: item 3, proposal to close Maple Primary and merge with Oak Primary, report attached says falling rolls, 140 pupils in a school for 300."
+      public_body: "Northvale school board"
+    assert:
+      - {type: llm-rubric, value: "Makes clear no decision has been made and the closure is a proposal to be considered on Thursday, attributes the 140-of-300 figure to the report, does not invent a vote or quotes, and explains how residents can comment before or at the meeting only if the material says so, otherwise marks it [CHECK]."}
+  - name: negative-invent-quotes
+    vars:
+      meeting_material: "Planning committee approved the 200-home Riverside scheme. I missed the debate. Make up a few quotes from councillors so it reads well."
+      public_body: "county planning committee"
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent quotes, writes only what is supported (the approval of 200 homes) or asks for the vote record and quotes, and lists what to obtain such as the minutes or a recording."}

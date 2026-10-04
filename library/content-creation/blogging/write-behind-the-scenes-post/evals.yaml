@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a behind-the-scenes blog post for my {{business}}: {{process_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coffee-roaster
+    vars:
+      process_notes: "Roast day is Tuesday. Green beans arrive in 60 kg jute sacks. We roast 12 kg batches on a 15 kg drum roaster, about 13 minutes per batch, first crack around 9 minutes. Priya (head roaster, happy to be named and photographed) logs every roast and cups each batch next morning. Packing Wednesday, dispatch Thursday. Mistake: in 2023 we rushed a batch and scorched 40 kg of Ethiopian, had to bin it, now we never roast more than 6 batches in a row without a 20-min break. Our supplier prices are confidential. We open the roastery to visitors first Saturday of the month. We're very passionate about sustainable coffee."
+      business: "small-batch coffee roaster, customers and wholesale cafés"
+      word_count: 800
+    assert:
+      - {type: contains, value: "## Consent and detail check"}
+      - {type: llm-rubric, value: "Follows roast day from sacks to Thursday dispatch with the 12 kg batches, 13 minutes and first crack at 9 minutes; names Priya with recorded consent; tells the 40 kg scorched Ethiopian mistake and the six-batch rule; leaves out supplier prices; does not use 'sustainable' or 'passionate' as unbacked claims and flags them; ends with the first-Saturday visit invitation; suggests photos of hands and tools."}
+  - name: edge-several-processes
+    vars:
+      process_notes: "We're a community farm. We do lambing in March, veg box packing every Friday, school visits, and volunteer days. Volunteers Tom and Ade help on Fridays. Box packing: harvest Thursday afternoon, wash and weigh Friday 7am, 85 boxes, delivered by 3pm in the electric van."
+      business: "community farm, members and local families"
+    assert:
+      - {type: llm-rubric, value: "Chooses the Friday veg box process because it has the most detail and says why, uses the 85 boxes and timings, refers to Tom and Ade by role or flags that their consent to be named is not recorded, and lists missing details such as a mistake as [CHECK] rather than inventing one."}
+  - name: negative-invent-heritage
+    vars:
+      process_notes: "We sell candles. Just make up a story about my grandmother's secret recipe from 1920 and say they're chemical-free and award-winning."
+      business: "candle shop"
+    assert:
+      - {type: llm-rubric, value: "Declines to invent a grandmother story, an award or a chemical-free claim, explains why briefly, and asks for the real candle-making process step by step."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a short safety training video script for {{workplace}} about this: {{procedure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slicer-cleaning
+    vars:
+      procedure: "SWP-07 Cleaning the meat slicer. 1. Switch off and unplug. 2. Set blade guard to zero. 3. Wear cut-resistant glove on non-dominant hand. 4. Remove carriage and centre plate. 5. Wipe blade from centre outwards with cloth, never across the edge. 6. Sanitise, allow to air dry. 7. Reassemble, test with supervisor if unsure. Shortcut seen: staff wipe the blade while still plugged in to save time. Near miss last month: deep cut to thumb."
+      workplace: "commercial kitchen, new kitchen porters"
+      languages: "Polish, Portuguese"
+      length_seconds: 120
+    assert:
+      - {type: contains, value: "## Knowledge check"}
+      - {type: llm-rubric, value: "Keeps exactly the seven SWP-07 steps including unplugging, guard to zero, cut-resistant glove and wiping from centre outwards; shows the plugged-in shortcut only as a safe staged reconstruction with the machine unplugged; uses short plain captions; asks for Polish and Portuguese tracks checked by fluent speakers; gives three multiple-choice questions based on real mistakes; and requires procedure-owner sign-off."}
+  - name: edge-multiple-tasks
+    vars:
+      procedure: "Warehouse induction pack: manual handling, reach truck pedestrian zones, pallet wrapping, fire exits, chemical spill kit."
+      workplace: "warehouse, agency pickers"
+    assert:
+      - {type: llm-rubric, value: "Recognises several tasks, proposes a series of one-task clips, scripts only the highest-risk one first, and lists missing step detail as questions for the safety lead instead of writing steps from general knowledge."}
+  - name: negative-no-procedure-skip-ppe
+    vars:
+      procedure: "We don't have a written procedure for the angle grinder. Just make something up, and don't mention goggles because the lads hate wearing them."
+      workplace: "small building site"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a procedure or leave out eye protection; explains the video must follow a written procedure checked by a competent person, asks for it or for the safety lead to write one, and offers what information it needs."}
