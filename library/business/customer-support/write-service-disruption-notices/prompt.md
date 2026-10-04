@@ -3,10 +3,11 @@ schema: 1
 id: write-service-disruption-notices
 kind: prompt
 title: Write service disruption notices
-description: Writes the notices for a sudden disruption such as card machine down, kitchen closed, water off or website down - door sign, social post, messages to booked customers and the staff script.
+description: Writes the notices for a sudden disruption such as a closure, card machine down or a recall - door sign, live social posts with a pinned update, messages to booked customers and a staff script.
 category: customer-support
 version: 1.0.0
 status: incubating
+aliases: [write-service-disruption-posts]
 stage: [operate]
 role: [founder, operations-manager, manager]
 requires: [none]
@@ -41,7 +42,7 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-You write the notices a cafe, shop, salon or venue needs in the first half hour of a sudden disruption: the card machine is down, the kitchen or coffee machine is out, the water is off, staff are short, the booking system or website is down. In that half hour the owner is fixing the problem, so the words must be ready to print and send without editing. Good disruption notices say what is affected, what still works, what the customer can do now, and when the next update comes. They do not over-explain, guess an end time, or blame a supplier.
+You write the notices a cafe, shop, salon, venue, school, clinic or small transport operator needs in the first half hour of a sudden disruption: the card machine is down, the kitchen or heating is out, the water is off, staff are short, the booking system or website is down, a service is cancelled or a product is recalled. In that half hour the owner is fixing the problem, so the words must be ready to print and send without editing. People read them on a phone, stressed, and share screenshots that outlive the post, so stale posts cause harm too. Good disruption notices say what is affected, what still works, what the customer can do now, and when the next update comes. They do not over-explain, guess an end time, or blame a supplier.
 
 Expected duration: {{expected_duration}}
 </context>
@@ -52,16 +53,18 @@ Expected duration: {{expected_duration}}
 </disruption>
 
 1. Door sign: a headline of 3-6 words (for example "Cash only today"), then up to 25 words on what still works and the alternative, then "Updated [time]". Large and readable from two metres away; no apology paragraph.
-2. Social post: 40-80 words, the same facts, what to do instead, when the next update will be posted, and a thank-you. One version for the main page or account, and a shorter one for stories or status updates.
+2. Social post: 40-80 words in this order: a plain headline line ("Closed today", "Cash only for now"), what is affected and what still works, timing, what to do instead, when the next update will be posted, then one thank-you. Add a version under 280 characters for X or SMS, a story or image-card version under 15 words, and a pinned summary that starts "Updated [time]" and is edited as things change.
 3. Message to booked customers (text and email): who it is for, what changes for their booking, their choices (keep, move, cancel with no fee, or the alternative), how to reply, and a deadline if the business needs to know by a time. Text under 160 plain characters if possible; email under 120 words.
 4. Staff script: three or four lines to say at the door, counter or phone; what not to say (no guesses about cause or fix time, no blaming a supplier or colleague); what staff may offer and what needs a manager; how to handle someone who is upset.
-5. Updates and all-clear: when to post updates if the duration is unknown (every 1-2 hours, or at a set time), an update template, and the all-clear message for the sign, social and booked customers.
+5. Updates and all-clear: when to post updates if the duration is unknown (every 1-2 hours, or at a set time), kept even when there is no news ("No change yet; next update at 4pm"), an update template, a note to mark earlier posts as out of date, and the all-clear message for the sign, social and booked customers that says anything still different.
 </task>
 
 <constraints>
 - Use only the facts given. If the alternative or the offer for affected customers is missing, use a [CHECK: ...] placeholder; never invent a compensation, a reopening time or a cause.
 - If the duration is unknown, never give an end time; give the next update time instead, as [CHECK: time] if not given.
 - If the disruption involves safety (gas, electrics, flooding, food safety, no hot water in a kitchen), the staff script says to follow the safety steps and close the affected area first; do not suggest trading around a hazard.
+- For a recall, every notice leads with the safety action ("Do not eat if you are allergic to peanuts", "Stop using"), repeats product names, sizes, dates and batch codes exactly as given, says how to return or get help, and follows any regulator or supplier wording supplied. No speculation about the cause and no legal admissions.
+- Put key facts in text, never only in an image, and give alt text for any image card. Avoid vague jargon such as "due to operational issues".
 - Plain, calm, warm language. One apology at most per notice.
 </constraints>
 
