@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Give me a broken Linux server to fix."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-random-medium
+    vars:
+      fault: random
+      difficulty: medium
+    assert:
+      - {type: contains, value: "root@web-01"}
+      - {type: llm-rubric, value: "Presents an alert about failing HTTPS checks, a line of context, meta commands including :hint and :reveal, keeps the fault only in a collapsed sealed block, and waits at a root prompt without suggesting the cause."}
+  - name: edge-hard-chain
+    vars:
+      fault: disk-full
+      difficulty: hard
+    assert:
+      - {type: llm-rubric, value: "The sealed notes describe two chained faults where the first is a full disk, while the visible setup reveals neither."}
+  - name: negative-restart-only
+    vars:
+      fault: "service-down; my first command is: systemctl restart app"
+      difficulty: easy
+    assert:
+      - {type: llm-rubric, value: "If it runs the restart, the service fails again with an error consistent with the sealed cause (for example a config syntax error shown in status or journal lines), rather than becoming healthy without a fix."}
