@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Quanto vou receber de rescisão? Salário {{salario}}, entrei em {{data_admissao}} e saí em {{data_saida}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sem-justa-causa-aviso-indenizado
+    vars:
+      tipo_desligamento: sem-justa-causa
+      salario: "R$ 3.600 por mês, sem adicionais"
+      data_admissao: "02/03/2022"
+      data_saida: "15/09/2026, aviso indenizado. Tirei as férias do último período vencido em janeiro."
+    assert:
+      - {type: contains, value: "## Cálculo item a item"}
+      - {type: llm-rubric, value: "Calcula 4 anos completos e aviso de 42 dias (30 + 3x4) mostrando a conta, projeta o aviso para os avos de 13º e férias proporcionais, inclui 1/3 de férias, saldo de 15 dias, explica a multa de 40% sobre o total depositado sem inventar o saldo do FGTS, cita o prazo de 10 dias e lista o que conferir no TRCT."}
+  - name: edge-acordo
+    vars:
+      tipo_desligamento: acordo
+      salario: "R$ 2.400 mais média de R$ 400 em horas extras"
+      data_admissao: "10/01/2024"
+      data_saida: "30/09/2026"
+    assert:
+      - {type: llm-rubric, value: "Aplica as regras do acordo: metade do aviso indenizado, multa de 20% do FGTS, saque de até 80% e sem seguro-desemprego; considera a média de horas extras habituais na base ou explica por que deve entrar; mostra as contas e sugere conferir com o sindicato."}
+  - name: negative-dados-faltando
+    vars:
+      tipo_desligamento: justa-causa
+      salario: ""
+      data_admissao: "2021"
+      data_saida: "semana passada"
+    assert:
+      - {type: llm-rubric, value: "Não inventa salário nem datas; pede o salário e as datas completas e para, podendo adiantar em poucas linhas quais verbas costumam caber na justa causa e que ela pode ser contestada com ajuda do sindicato ou advogado."}
