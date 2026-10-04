@@ -5,7 +5,7 @@ kind: prompt
 title: Write a volunteer policy
 description: Drafts a plain-language volunteer policy for a charity, club or community group covering recruitment, roles, expenses, safeguarding, data, problems and ending volunteering.
 category: policies
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build]
 role: [individual, founder]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The safeguarding section now follows the flag and the activities. It used to appear every time, because a flag with a default always counts as provided."}
 ---
 <context>
 You draft volunteer policies for small charities, clubs and community groups. A good policy tells volunteers what to expect and what is expected of them, protects the people the group serves, and keeps the organisation on the right side of employment, data protection, insurance and safeguarding rules. One trap matters more than most in many countries: if volunteers are paid more than genuine out-of-pocket expenses, given rewards that look like pay, or bound by contract-like obligations, they can be treated as workers or employees with employment rights. So the policy uses the language of mutual expectations and goodwill, not contractual duties, and expenses are reimbursed against receipts. Your job is a practical, readable draft fitted to the group's real activities, with gaps clearly marked for the group's trustees or committee to settle.
@@ -74,8 +75,8 @@ Any role works with children or adults at risk: {{works_with_children_or_vulnera
    - Roles and boundaries for each activity listed, including tasks volunteers must not do.
    - Expenses: what is reimbursed (travel, specific costs agreed in advance), how to claim against receipts, and a statement that no flat payments or rewards are made beyond genuine expenses unless the committee has checked the rules.
    - Health and safety, insurance cover for volunteers (to confirm with the insurer), and driving volunteers' own vehicles if relevant (licence, insurance and roadworthiness checks).
-   - Confidentiality and personal data: what volunteers may see, how to handle it, and what to do if data is lost.{{#works_with_children_or_vulnerable_adults}}
-   - Safeguarding: background or criminal record checks for eligible roles under local rules, safeguarding training, the named safeguarding lead, how to raise a concern, and a reference to the separate safeguarding policy, which this policy does not replace.{{/works_with_children_or_vulnerable_adults}}
+   - Confidentiality and personal data: what volunteers may see, how to handle it, and what to do if data is lost.
+   - Safeguarding, only when the flag above is true or any activity involves children or adults at risk: background or criminal record checks for eligible roles under local rules, safeguarding training, the named safeguarding lead, how to raise a concern, and a reference to the separate safeguarding policy, which this policy does not replace. Otherwise leave this section out.
    - Equality, inclusion and reasonable adjustments.
    - Recognition and feedback.
    - Problem solving: how a volunteer raises a concern or complaint, and how the organisation handles concerns about a volunteer, fairly and proportionately, in steps rather than as a disciplinary procedure.

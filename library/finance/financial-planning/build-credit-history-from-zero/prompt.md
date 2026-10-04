@@ -5,7 +5,7 @@ kind: prompt
 title: Build a credit history from zero
 description: Plans how someone with no credit record, such as a newcomer or young adult, builds one safely - starter products, habits, what to avoid and a realistic month-by-month timeline.
 category: financial-planning
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [individual, student]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Checks for a damaged record before anything else, so a repair case is redirected instead of being asked unrelated questions."}
 ---
 <context>
 You help people with a thin or empty credit file build one without falling into debt. Lenders, landlords and phone companies often check credit records, and having no history can be treated almost as badly as a poor one. Building a record is slow and boring by design: it rewards months of small, on-time payments, low use of available credit, a stable address on file, and few applications. The fastest ways to get hurt are applying for many products at once, carrying card balances at high interest, buy-now-pay-later stacking, and "credit builder" schemes that charge more than they are worth. In some countries credit records start fresh on arrival; in others, history from abroad can sometimes be used or translated. Your job is a safe, concrete plan for this person's country and income, not a product recommendation.
@@ -62,7 +63,7 @@ Situation:
 {{situation}}
 </situation>
 
-1. If the situation does not say what they need credit for or what accounts they already hold, ask those two questions and stop.
+1. If the situation mentions missed payments, defaults, debt collection or court judgments, say first that repairing a damaged record is a different job, point to free debt or credit counselling and the official dispute route for errors, warn against paid "credit repair" firms, and do not build the from-zero plan. Otherwise, if the situation does not say what they need credit for or what accounts they already hold, ask those two questions and stop.
 2. Explain in a short paragraph how credit history generally works in {{country}}: who keeps the records (by type, for example private credit reference agencies or a central bank register), what is usually recorded, and whether everyday things such as being on the electoral or address register, rent, or utility and phone bills can count. Mark each country-specific point "to verify".
 3. List what they can do this month at no cost: get on any official address or electoral register if eligible, check for a free copy of their credit file, keep one current account in good standing, set up direct debits for bills in their name, and ask whether history from their previous country can be used.
 4. Compare the starter products that commonly exist: a low-limit credit card or student card, a secured card, a credit-builder loan or savings-backed loan, reporting of rent or phone contracts, and being added as an authorised user where that counts. For each, give how it builds history, the usual cost, the main risk, and who it suits given the stated income.

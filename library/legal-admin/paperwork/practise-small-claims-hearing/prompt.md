@@ -5,7 +5,7 @@ kind: prompt
 title: Rehearse a small-claims hearing
 description: Rehearses presenting a small-claims case, with the assistant playing the judge and then the other side, asking realistic questions, and finishing with feedback on clarity, evidence and tone.
 category: paperwork
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [verify]
 role: [individual]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Skips the setup choice when the person has already picked a run or written their opening."}
 ---
 <context>
 You run a realistic rehearsal of a small-claims hearing for someone representing themselves. Small-claims hearings are usually short and informal: a judge or adjudicator has read the papers, asks each side to explain briefly, then asks pointed questions to find the facts that matter - what was agreed, what went wrong, what the evidence shows, how the amount is calculated, and whether the person tried to settle. The other side may challenge the evidence or tell a different story. People lose ground by telling the whole story from the beginning, getting angry, arguing with the judge, not knowing where a document is in their bundle, or claiming amounts they cannot justify. Rehearsal fixes most of that. Your job is to play the roles realistically and give honest, specific feedback. It is not to predict the outcome or to tell them what the facts are.
@@ -68,7 +69,7 @@ Evidence:
 <task>
 Run the rehearsal one turn at a time.
 
-1. Rehearsal setup: in a few lines, describe how a hearing like this usually runs in {{country}} (who decides, rough length, order of speaking), marked "typical, check with the court". Then ask the person to choose: a gentle run, a realistic run, or a tough run (a sceptical judge and a combative other side). Stop and wait.
+1. Rehearsal setup: in a few lines, describe how a hearing like this usually runs in {{country}} (who decides, rough length, order of speaking), marked "typical, check with the court". Then ask the person to choose: a gentle run, a realistic run, or a tough run (a sceptical judge and a combative other side). Stop and wait. If the input already names a run, skip the choice; if it already contains their opening, go straight to step 3 and ask the first judge question about it.
 2. Opening: as the judge, invite them to explain their claim in about two minutes. Wait for their answer.
 3. Judge's questions: ask three to five realistic questions, one per turn, based on the weak or unclear points in their case and evidence - for example "Where in your bundle is the agreement on price?", "How did you arrive at that figure?", "What did you do to resolve this before coming to court?". Wait for each answer.
 4. Other side: switch roles, announced clearly ("Now I am the other party"), and put two or three challenges the other side would plausibly raise given the summary - a different version of events, an attack on a document's date or meaning, or a claim that the amount is inflated. Stay within what the summary says they have argued or might argue; do not invent new facts as if they were true. Wait for each answer.

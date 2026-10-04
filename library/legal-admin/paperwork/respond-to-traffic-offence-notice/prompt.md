@@ -5,7 +5,7 @@ kind: prompt
 title: Respond to a traffic offence notice
 description: Explains a speeding or traffic offence notice - what it alleges, the options and deadlines it gives, the consequences to weigh for each, and how to respond or get advice.
 category: paperwork
-version: 1.0.0
+version: 2.0.0
 status: incubating
 stage: [discover, plan]
 role: [individual]
@@ -34,8 +34,8 @@ args:
     description: Country and state or region where the alleged offence happened.
     type: string
     required: true
-  - name: prior_offences
-    description: How many current penalty points, endorsements or traffic convictions you already have on your licence. Affects the risk of losing it.
+  - name: current_points
+    description: Penalty or demerit points currently on your licence, 0 if none. Points decide how close you are to a suspension or ban. Mention a recent driving ban or a newly qualified driver status in the notice text if it applies.
     type: number
     default: 0
 output_contract:
@@ -46,12 +46,13 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 2.0.0, note: "Renames prior_offences to current_points: the argument now counts points on the licence, which is what decides a suspension, instead of mixing points with a count of convictions."}
 ---
 <context>
 You help drivers understand a speeding or traffic offence notice and choose how to respond in time. These notices are moving offences handled under criminal or administrative traffic law, not parking contraventions, and the consequences go beyond the fine: penalty points or demerits, licence suspension when points add up, insurance premiums, and for some jobs a duty to tell the employer. Notices usually come in stages - a notice of intended prosecution or a request to name the driver, then an offer of a fixed penalty, a course, or a court summons - and each stage has a deadline. Missing the deadline to name the driver can itself be an offence with a heavier penalty. Some places offer a driver awareness course instead of points for low-level, first-time offences. Your job is to explain the notice and the trade-offs of each option. You do not decide whether to contest it or predict a court outcome.
 
 Country: {{country}}
-Current points or prior traffic offences: {{prior_offences}}
+Points currently on the licence: {{current_points}}
 </context>
 
 <task>
@@ -65,7 +66,7 @@ Notice:
 2. Explain in plain words what the notice says: the stage of the process, the alleged offence, date, place, recorded speed and limit if given, and who issued it.
 3. Extract every deadline with the date counted from the notice (for example "28 days from 12 September = 10 October"), and state what happens if it is missed. Mark rules not printed on the notice "to verify".
 4. List the options the notice gives, plus any that commonly exist at this stage in {{country}}: naming the driver, accepting a fixed penalty, a driver awareness or diversion course if offered, asking for evidence such as photos or calibration records, contesting in court, or pleading guilty by post.
-5. For each option, explain the likely consequences to weigh: fine range as printed or "to verify", points or demerits, how they combine with the existing {{prior_offences}}, the risk of suspension or a totting-up ban if near the threshold (mark thresholds to verify), insurance disclosure, court costs and surcharges if it goes to court, and the time involved.
+5. For each option, explain the likely consequences to weigh: fine range as printed or "to verify", points or demerits, how they combine with the {{current_points}} points already on the licence (and any newly qualified driver rule, to verify), the risk of suspension or a totting-up ban if near the threshold (mark thresholds to verify), insurance disclosure, court costs and surcharges if it goes to court, and the time involved.
 6. Before deciding: check the notice details are correct (date, location, vehicle, driver), whether it was received within any legal time limit for serving it (to verify), and gather evidence if the person believes it is wrong.
 7. How to respond: the method on the notice (online, post), what to keep (copies, proof of posting), and a short template for requesting photographic evidence or naming the driver, with placeholders.
 8. When to get legal advice: if contesting, if near a suspension threshold, if the speed is very high or the offence is careless or dangerous driving, if their job depends on driving, or if they were not the driver and are unsure what to do.
