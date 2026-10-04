@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me migrate this build to {{target_tool}}: {{current_config}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-webpack-to-vite
+    vars:
+      target_tool: "Vite"
+      current_config: "webpack 4 with babel-loader (preset-env, targets > 0.5%), DefinePlugin injecting process.env.API_URL and process.env.SENTRY_DSN, HtmlWebpackPlugin with public/index.html, svgr loader for SVG imports as React components, devServer proxy /api to localhost:8080, output publicPath /static/, contenthash file names, deployed to a CDN under /static/."
+    assert:
+      - {type: contains, value: "## Parity checks"}
+      - {type: llm-rubric, value: "Maps each responsibility: process.env usage must change to the target's environment variable convention with a prefix, index.html location changes, base path /static/ must be set, SVG-as-component needs an equivalent, proxy is configured, browser targets are carried over; proposes comparing bundle contents and env values on the same commit, and runs both builds in CI before switching."}
+  - name: edge-maven-to-gradle
+    vars:
+      target_tool: "Gradle with the Kotlin DSL"
+      current_config: "Multi-module Maven build with a parent POM, dependencyManagement BOM imports, maven-resources-plugin filtering ${project.version} into application.properties, surefire and failsafe split for unit and integration tests, and deploy to an internal repository."
+    assert:
+      - {type: llm-rubric, value: "Covers BOM import as platform dependencies, resource filtering equivalent, separating unit and integration tests, publishing configuration, and a dependency tree diff between Maven and Gradle as a parity check."}
+  - name: negative-no-config
+    vars:
+      target_tool: "CMake"
+      current_config: "We have a Makefile, convert it."
+    assert:
+      - {type: llm-rubric, value: "Asks for the Makefile contents and the targets, compilers and platforms, and does not invent targets, flags or sources."}

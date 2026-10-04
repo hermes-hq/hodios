@@ -1,0 +1,47 @@
+schema: 1
+baseline: "Convert this React class component to hooks: {{component_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fetch-and-timer
+    vars:
+      test_setup: "Jest with React Testing Library; no tests for this component yet"
+      component_code: |
+        class UserCard extends React.Component {
+          state = { user: null, loading: true, seconds: 0 };
+          componentDidMount() {
+            fetch(`/api/users/${this.props.userId}`).then(r => r.json()).then(user => this.setState({ user, loading: false }));
+            this.timer = setInterval(() => this.setState({ seconds: this.state.seconds + 1 }), 1000);
+          }
+          componentDidUpdate(prevProps) {
+            if (prevProps.userId !== this.props.userId) {
+              this.setState({ loading: true });
+              fetch(`/api/users/${this.props.userId}`).then(r => r.json()).then(user => this.setState({ user, loading: false }));
+            }
+          }
+          componentWillUnmount() { clearInterval(this.timer); }
+          render() { return this.state.loading ? <p>Loading</p> : <div>{this.state.user.name} ({this.state.seconds}s)</div>; }
+        }
+    assert:
+      - {type: contains, value: "## Behaviour inventory"}
+      - {type: llm-rubric, value: "Uses separate effects for the fetch (keyed on userId, with an ignore flag or AbortController against out-of-order responses) and the timer (with cleanup and a functional state update to avoid a stale closure), stores the interval id in a ref or effect scope rather than state, and writes React Testing Library tests that check visible output on userId change and unmount, valid for both versions."}
+  - name: edge-error-boundary
+    vars:
+      test_setup: "Vitest"
+      component_code: |
+        class PageBoundary extends React.Component {
+          state = { error: null };
+          static getDerivedStateFromError(error) { return { error }; }
+          componentDidCatch(error, info) { logError(error, info.componentStack); }
+          render() { return this.state.error ? <ErrorPage onRetry={() => this.setState({ error: null })} /> : this.props.children; }
+        }
+    assert:
+      - {type: llm-rubric, value: "States that error boundaries cannot be written with hooks and keeps it as a class (optionally extracting any non-boundary logic), rather than producing a broken function component that claims to catch render errors."}
+  - name: negative-missing-dependencies
+    vars:
+      test_setup: "Enzyme with shallow rendering"
+      component_code: "export default withRouter(connect(mapState)(class Checkout extends React.Component { /* 400 lines, uses this.props.history and a ref method submit() called by the parent */ }))"
+    assert:
+      - {type: llm-rubric, value: "Does not invent the 400 lines of component body; asks for the full component code and notes the HOCs (withRouter, connect) and the parent-called submit() ref method that the conversion must preserve via useImperativeHandle, and flags that Enzyme shallow tests on internals should be rewritten as behaviour tests."}

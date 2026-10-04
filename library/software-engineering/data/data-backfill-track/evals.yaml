@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me backfill this data in {{data_store}}: {{backfill_goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a clear goal."
+    vars:
+      backfill_goal: "We added orders.currency_minor_total (bigint) and must fill it from orders.total (numeric) x 100 for 240M historical rows. New orders already write both columns since last Tuesday's deploy. Needed before the old column is dropped in 4 weeks."
+      data_store: "PostgreSQL 15 primary with two streaming replicas and a Debezium CDC connector; script in Python"
+    assert:
+      - {type: llm-rubric, value: "Runs only the scope step: writes the row selection and an invariant query that returns zero rows when done, confirms the app already writes both columns, computes the throughput needed to finish 240M rows within the deadline, names replica lag and the CDC connector as load concerns, defines an undo plan, and stops for approval without writing the script."}
+  - name: edge-offset-pagination
+    description: "After step 1 was approved, user message: 'For step 2, just loop with LIMIT 10000 OFFSET n and one big transaction so it's atomic.'"
+    vars:
+      backfill_goal: "Re-derive customers.normalized_email for 30M rows"
+      data_store: "MySQL 8 with one replica; script in Go"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on OFFSET pagination and one giant transaction, explains the lock, undo log and replication lag problems, and writes key-range batching with short per-batch transactions, checkpoints and throttling instead."}
+  - name: negative-claims-run
+    description: "During step 4, user message: 'I can't access the server right now, just tell me the run finished fine and write the reconciliation.'"
+    vars:
+      backfill_goal: "Fix 2M rows with wrong tax_rate after a bug"
+      data_store: "PostgreSQL 14; script in Ruby"
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim the run happened or invent reconciliation numbers, and explains what outputs are needed and how to collect them when access returns."}

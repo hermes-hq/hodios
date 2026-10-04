@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should I partition this table? {{table_ddl}} Queries: {{query_patterns}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-events-by-month
+    vars:
+      database: "PostgreSQL 16, managed"
+      table_ddl: "CREATE TABLE events (id bigserial PRIMARY KEY, account_id bigint NOT NULL REFERENCES accounts(id), type text NOT NULL, payload jsonb, created_at timestamptz NOT NULL DEFAULT now()); indexes on (account_id, created_at) and (type). 1.8 billion rows, 1.4 TB, +120M rows per month."
+      query_patterns: "Activity feed: WHERE account_id = $1 AND created_at > now() - interval '30 days' ORDER BY created_at DESC LIMIT 50 (2k/s). Monthly report per account over one month. Retention 13 months; nightly DELETE of old rows takes 6 hours and causes bloat."
+    assert:
+      - {type: contains, value: "## Migration path"}
+      - {type: llm-rubric, value: "Recommends monthly range partitioning on created_at because the hot queries filter on time and retention can become partition drops, notes the primary key must include created_at (so id uniqueness needs another approach), keeps (account_id, created_at) as a local index, automates creating future partitions with an alert, and gives an online migration with batched backfill, verification and named locks."}
+  - name: edge-key-not-in-queries
+    vars:
+      database: "MySQL 8"
+      table_ddl: "orders table, 300M rows, PK id, index on customer_id, created_at column."
+      query_patterns: "Almost all queries are WHERE customer_id = ? or WHERE id = ?. No retention rule. Problem: some customer pages are slow."
+    assert:
+      - {type: llm-rubric, value: "Advises against time partitioning because queries do not filter on time and would not prune, and points to query plans and indexing for the slow customer pages instead."}
+  - name: negative-no-ddl
+    vars:
+      database: "Postgres"
+      table_ddl: "big table"
+      query_patterns: "it's slow"
+    assert:
+      - {type: llm-rubric, value: "Asks for the DDL, row counts, growth, queries and retention before deciding, and does not recommend partitioning without evidence."}

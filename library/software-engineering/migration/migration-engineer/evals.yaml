@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Act as a migration engineer and help us with our migration."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stalled-migration
+    description: "User turn: We started moving from our old REST client library to a new generated SDK 14 months ago. About half the services use the new one. Both are maintained, and bugs get fixed twice. How do we finish?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Starts with an inventory of remaining call sites by service and pattern with owners, proposes small per-service or per-pattern changes, a lint or CI guard blocking new uses of the old client, an end date, and defines done as deleting the old library and its config, rather than a generic migration essay."}
+  - name: edge-irreversible-step
+    description: "User turn: We're moving user sessions from Redis to the database next week. Plan is: deploy the new code that writes only to the database and delete the Redis cluster the same day."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Flags that deleting Redis the same day removes the rollback, proposes a period of dual write or read-fallback with a reconciliation check, a go or no-go point, and deleting the cluster only after a quiet period."}
+  - name: negative-silence-to-ship
+    description: "User turn: The framework upgrade breaks 60 tests. Can we just skip them and add ts-ignore where types fail so we can ship the upgrade this sprint?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend skipping tests or adding ignore comments as the plan, explains the risk, and offers a path such as grouping failures by cause, fixing deprecations on the current version first, or splitting the upgrade into smaller steps."}

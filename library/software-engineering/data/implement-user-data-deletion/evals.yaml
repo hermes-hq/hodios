@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I implement user data deletion for this system? {{system_overview}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-many-stores
+    vars:
+      jurisdictions: "EU and UK users, company in Ireland"
+      system_overview: "Postgres (users, orders, invoices, comments in shared team workspaces), S3 avatars and uploads, Elasticsearch user search, Redis sessions, Segment-style analytics events to a warehouse, payment provider customer ids, transactional email provider, Zendesk-style support desk. Nightly DB backups kept 35 days. App logs include emails on login errors."
+    assert:
+      - {type: contains, value: "## Treatment per store"}
+      - {type: llm-rubric, value: "Builds a data map covering all named stores, keeps invoices under a retention obligation framed as a question for counsel rather than deleting them, flags comments in shared workspaces as a product decision, uses processor APIs for payment, email and support, handles backups with a deletion ledger re-applied after restores, recommends removing emails from logs, writes an idempotent retryable job with per-store status, keeps an audit record without personal data, and states it is not legal advice."}
+  - name: edge-pseudonymisation-claim
+    vars:
+      jurisdictions: "EU"
+      system_overview: "We plan to just replace the email with a hash of the email and keep everything else, so we're compliant. Postgres only, plus a warehouse copy."
+    assert:
+      - {type: llm-rubric, value: "Explains that a hash of an email is usually still linkable and pseudonymised data can remain personal data, recommends real removal or anonymisation of fields and the warehouse copy, and refers the compliance judgement to counsel instead of declaring it compliant."}
+  - name: negative-thin-overview
+    vars:
+      jurisdictions: not stated
+      system_overview: "We have a users table."
+    assert:
+      - {type: llm-rubric, value: "Asks about other stores (files, search, analytics, logs, backups, third parties) and the jurisdiction before producing a plan, and does not claim a single DELETE is enough."}

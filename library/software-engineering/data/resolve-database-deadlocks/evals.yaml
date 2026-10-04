@@ -1,0 +1,33 @@
+schema: 1
+baseline: "We get deadlocks on {{database}}. How do I fix them? {{deadlock_log}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-transfer-order
+    vars:
+      database: "PostgreSQL 15, read committed"
+      deadlock_log: |
+        ERROR:  deadlock detected
+        DETAIL:  Process 4121 waits for ShareLock on transaction 99812; blocked by process 4180.
+        Process 4180 waits for ShareLock on transaction 99807; blocked by process 4121.
+        Process 4121: UPDATE accounts SET balance = balance - 50 WHERE id = 17
+        Process 4180: UPDATE accounts SET balance = balance - 20 WHERE id = 42
+        CONTEXT:  while updating tuple (12,7) in relation "accounts"
+      code: "transfer(from, to, amount): BEGIN; UPDATE accounts SET balance = balance - amount WHERE id = from; UPDATE accounts SET balance = balance + amount WHERE id = to; COMMIT. Two transfers ran at the same time: 42->17 and 17->42."
+    assert:
+      - {type: contains, value: "## Root cause"}
+      - {type: llm-rubric, value: "Identifies opposite-direction transfers locking the two account rows in different orders as the cycle, fixes it by locking or updating rows in a consistent order (for example lowest id first), adds a bounded retry of the whole transaction on the deadlock error, and gives a two-session reproduction."}
+  - name: edge-mysql-gap-locks
+    vars:
+      database: "MySQL 8 InnoDB, repeatable read"
+      deadlock_log: "LATEST DETECTED DEADLOCK: TRANSACTION 1 executing INSERT INTO reservations (room_id, night) VALUES (5, '2026-11-02'), waiting for lock_mode X locks gap before rec insert intention on index idx_room_night. TRANSACTION 2 holds lock_mode X locks gap before rec on the same index, executing INSERT INTO reservations (room_id, night) VALUES (5, '2026-11-03'). Both first ran SELECT ... FROM reservations WHERE room_id = 5 AND night BETWEEN ... FOR UPDATE."
+    assert:
+      - {type: llm-rubric, value: "Explains gap or next-key locks taken by the range SELECT ... FOR UPDATE under repeatable read conflicting with insert intention locks, and proposes fixes such as relying on a unique constraint with insert-and-handle-duplicate, locking a parent room row first, or a justified isolation change for that transaction, with trade-offs."}
+  - name: negative-no-log
+    vars:
+      database: "MySQL"
+      deadlock_log: "We get deadlocks sometimes."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a diagnosis; explains how to capture the deadlock report and lock details for this engine and asks for it with the transactions involved."}

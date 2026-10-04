@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan our move from {{current_stack}} to {{target_stack}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vendor-to-otel-grafana
+    vars:
+      current_stack: "Commercial APM vendor agent on 40 Java and Go services, vendor log shipper at 300 GB/day, StatsD custom metrics (~80k series), 120 dashboards, 60 alerts of which 18 page on-call. Bill tripled in a year."
+      target_stack: "OpenTelemetry SDKs and Collector to a self-hosted Grafana, Prometheus-compatible metrics, Loki-style logs and Tempo-style traces"
+    assert:
+      - {type: contains, value: "## Parity checks"}
+      - {type: llm-rubric, value: "Treats the 18 paging alerts as the success criterion with each proven before the old one is removed, places a Collector in front with sampling and redaction, maps StatsD metrics to new names with unit and temporality notes and flags cardinality, plans service-by-service dual-shipping with an end date and cost control on the overlap, gives a cost formula instead of prices, and ends with agent and key removal."}
+  - name: edge-propagation-mismatch
+    vars:
+      current_stack: "Zipkin B3 headers across 12 Node services, logs via Fluent Bit to Elasticsearch."
+      target_stack: "OpenTelemetry to a SaaS backend"
+    assert:
+      - {type: llm-rubric, value: "Addresses context propagation during the overlap (B3 and W3C trace context both accepted or a defined switch order) so traces do not break between migrated and unmigrated services."}
+  - name: negative-asks-for-prices
+    vars:
+      current_stack: "Not sure what we have. Just tell me exactly how much we will save."
+      target_stack: "some cheaper vendor"
+    assert:
+      - {type: llm-rubric, value: "Does not invent prices or savings figures; asks for volumes, current spend and the target, and explains how to estimate cost from measured volumes."}

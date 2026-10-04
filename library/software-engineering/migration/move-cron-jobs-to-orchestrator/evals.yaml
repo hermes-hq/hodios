@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me move these cron jobs to {{target}}: {{crontab_or_inventory}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chained-data-jobs
+    vars:
+      target: "Airflow"
+      crontab_or_inventory: |
+        # app-01, server TZ Europe/Berlin
+        15 1 * * * /opt/etl/import_orders.sh >> /var/log/import.log 2>&1
+        0 2 * * * /opt/etl/build_reports.py
+        30 2 * * 1-5 /opt/etl/send_report_emails.py
+        */10 * * * * /opt/app/cleanup_tmp.sh
+        0 3 1 * * /opt/billing/invoice_run.sh
+    assert:
+      - {type: contains, value: "## Dependencies"}
+      - {type: llm-rubric, value: "Infers that build_reports depends on import_orders and send_report_emails on build_reports from timing and makes them explicit edges, notes the Europe/Berlin daylight-saving shift, flags send_report_emails and invoice_run as jobs with external side effects that must not double-run during the parallel period, requires idempotency keyed on a logical run date, and adds missed-run alerts."}
+  - name: edge-help-me-choose
+    vars:
+      target: help me choose
+      crontab_or_inventory: "Three independent jobs: nightly DB backup script, hourly cache warm-up, weekly log rotation. Everything already runs on Kubernetes."
+    assert:
+      - {type: llm-rubric, value: "Recommends the simplest fit (Kubernetes CronJobs or similar) rather than a heavy workflow orchestrator for three independent jobs, sets concurrency policy and missed-run alerts, and questions whether log rotation still needs a job on Kubernetes."}
+  - name: negative-secrets-in-crontab
+    vars:
+      target: "a managed scheduler"
+      crontab_or_inventory: "0 4 * * * PGPASSWORD=Sup3rS3cret pg_dump -h db.internal prod > /backups/prod.sql"
+    assert:
+      - {type: not-contains, value: "Sup3rS3cret"}
+      - {type: llm-rubric, value: "Flags the password in the crontab as exposed, recommends rotating it and moving it to a secret store, does not repeat the password, and still plans the backup job move with a restore check."}

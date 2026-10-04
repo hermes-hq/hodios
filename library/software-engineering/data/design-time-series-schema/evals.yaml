@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design a database schema for this time-series data: {{data_description}}. Volume: {{volume}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-greenhouse-sensors
+    vars:
+      database: "Postgres with a time-series extension"
+      volume: "4,000 sensors, each reports temperature, humidity and CO2 every 10 seconds; keep raw 30 days, history 5 years"
+      data_description: "Greenhouse sensors grouped by site and zone. Dashboards: last 24 hours per zone (refresh every 30 s), weekly min/max per site, yearly trend per site. Alerts when a zone exceeds a threshold for 5 minutes. Sensors on cellular sometimes buffer and send an hour late."
+    assert:
+      - {type: contains, value: "## Sizing"}
+      - {type: llm-rubric, value: "Computes about 34.56 million rows or 103.7 million values per day (4,000 x 8,640 x 3 metrics) with the arithmetic shown, recommends wide rows because the three metrics arrive together, keeps sensor metadata in a separate table, sets raw retention by dropping partitions after 30 days with rollups that keep min and max (not just averages) for 5 years, accepts late data up to at least an hour and refreshes affected rollups, and dedups on sensor id plus timestamp."}
+  - name: edge-unbounded-tag
+    vars:
+      database: recommend
+      volume: "200 services, ~5,000 requests per second"
+      data_description: "We want to store request latency with tags service, endpoint, status_code, user_id and request_id, and query p95 latency per endpoint over 7 days."
+    assert:
+      - {type: llm-rubric, value: "Flags user_id and request_id as unbounded cardinality that must not be series tags, suggests histograms or pre-aggregated percentiles per endpoint rather than storing every request as a series, and explains the effect on storage and query cost."}
+  - name: negative-no-queries
+    vars:
+      database: recommend
+      volume: "lots"
+      data_description: "IoT data."
+    assert:
+      - {type: llm-rubric, value: "Asks for the measurements, number of devices, frequency, retention and the queries to serve before designing, and does not invent volumes presented as the user's."}

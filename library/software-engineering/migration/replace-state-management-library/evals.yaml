@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I migrate from my current state management to {{target}}? {{current_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-redux-to-query-cache
+    vars:
+      target: "TanStack Query plus component state"
+      current_setup: "React 18 SPA, Redux Toolkit with redux-saga. Slices: products {items, loading, error, filters, page}, cart {lines}, auth {user, token}, ui {sidebarOpen, modal}. Sagas fetch products on FILTERS_CHANGED and refetch the cart after ADD_TO_CART. redux-persist persists cart and auth. Pain: lots of boilerplate, stale product lists after admin edits."
+    assert:
+      - {type: contains, value: "## State classification"}
+      - {type: llm-rubric, value: "Classifies products items/loading/error as server state, filters and page as URL state, ui as local UI state and auth as shared client state; starts with products, shows a query with keys including filters and invalidation after mutations, handles the cart with care because of redux-persist and add-to-cart refetching, sets a one-owner-per-entity coexistence rule, and covers migrating persisted state when deleting slices."}
+  - name: edge-vue-vuex-to-pinia
+    vars:
+      target: "Pinia"
+      current_setup: "Vue 2.7 app with Vuex 3, 14 namespaced modules, mapState and mapActions in Options API components, actions call axios directly and store responses."
+    assert:
+      - {type: llm-rubric, value: "Notes that Pinia can run alongside Vuex so modules can move one at a time, still separates server data from client state (suggesting whether fetched data needs a cache layer rather than store copies), and checks Vue version compatibility instead of asserting it."}
+  - name: negative-no-code
+    vars:
+      target: "Zustand"
+      current_setup: "Our Redux is a mess, move it all."
+    assert:
+      - {type: llm-rubric, value: "Asks for the slice list, a representative slice and a component using it, and how data is fetched, before planning; may outline the classification method but does not invent slices."}
