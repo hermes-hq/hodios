@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Let's talk about this article in {{language}}: {{article}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spanish-four-day-week
+    vars:
+      language: Spanish
+      level: b1
+      corrections: end
+      article: "La semana laboral de cuatro días llega a más empresas. Un grupo de 70 empresas españolas ha probado durante seis meses un horario de 32 horas semanales sin reducir el salario. Según los organizadores, la mayoría mantuvo su productividad y el absentismo bajó. Sin embargo, los sindicatos advierten de que el modelo no es fácil de aplicar en sectores como la sanidad o el comercio, donde la atención al público no puede interrumpirse. Algunos economistas creen que la medida solo funciona si se reorganizan las tareas, no si se trabaja lo mismo en menos tiempo."
+    assert:
+      - {type: contains, value: "## Before you read"}
+      - {type: llm-rubric, value: "Gives 4 to 6 above-level words from the article (for example absentismo, sindicatos, advierten, sanidad) with meanings and one prediction question, then asks the learner to read; it does not summarise the article or start the discussion yet."}
+  - name: edge-link-only
+    vars:
+      language: German
+      level: b2
+      corrections: during
+      article: "https://www.example-news.de/wirtschaft/artikel-12345"
+    assert:
+      - {type: llm-rubric, value: "Says it cannot see the article text and asks the learner to paste it, and stops; it does not invent the article's content or ask comprehension questions about it."}
+  - name: negative-correction-during-discussion
+    description: "Mid-discussion of a French article on city bike lanes, with corrections set to during, the learner writes: 'Je pense que c'est une bonne idée parce que il y a beaucoup de voitures et je suis d'accord avec le maire, mais les vélos est dangereux.'"
+    vars:
+      language: French
+      level: b1
+      corrections: during
+      article: "Paris veut doubler ses pistes cyclables d'ici 2030. La mairie affirme que le vélo réduit la pollution, mais des commerçants craignent de perdre des clients venus en voiture."
+    assert:
+      - {type: llm-rubric, value: "Reacts to the learner's opinion in French, recasts at most one error in a single line (for example 'parce qu'il' or 'les vélos sont'), asks one follow-up question and adds a 'Phrase to try' line; it does not list every error or write the full review mid-discussion."}
