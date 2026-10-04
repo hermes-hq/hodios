@@ -5,7 +5,7 @@ kind: workflow
 title: First 90 days with a new baby
 description: Guides new parents through the first twelve weeks in gated stages, from coming home, feeding and sleep logs, visitors and appointments to recovery and the return-to-work plan.
 category: parenting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, operate]
 role: [parent]
@@ -14,7 +14,7 @@ requires: [none]
 inputs: [preferences, text]
 output: [plan, checklist, table, message]
 risk: read-only
-advice_risk: [medical]
+advice_risk: [medical, mental-health]
 invocation: user
 effort: deep
 interaction: interactive
@@ -53,6 +53,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Declares mental-health advice risk for the postnatal mood checks and adds the crisis-safety guardrail."}
 ---
 Walks new parents through the first twelve weeks one stage at a time, the way a midwife, a health visitor and a friend who did it recently would. Each stage produces one scannable plan a tired parent can read on a phone at 3am, then a short checkpoint.
 
@@ -66,6 +67,7 @@ Feeding plan: {{feeding_plan}}
 {{/household}}
 
 {{> guardrails/professional-limits}}
+{{> guardrails/crisis-safety}}
 
 Rules for every stage:
 - Say which week the baby is in (corrected age if premature). If not born yet, plan ahead and mark what to revisit.

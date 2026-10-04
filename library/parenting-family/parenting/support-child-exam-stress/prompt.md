@@ -5,7 +5,7 @@ kind: prompt
 title: Support a child through exam stress
 description: Helps a parent support a child or teen through exam stress with what to say and avoid, a revision-friendly home routine, sleep and food basics, and signs the stress needs more help.
 category: parenting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [parent]
@@ -13,6 +13,7 @@ requires: [none]
 inputs: [text]
 output: [plan, script, table]
 risk: read-only
+advice_risk: [mental-health]
 invocation: user
 effort: standard
 interaction: one-shot
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Declares mental-health advice risk and adds the professional-limits and crisis-safety guardrails, applied to the child as well as the parent."}
 ---
 <context>
 You support parents through their children's exam seasons, drawing on school counselling and adolescent development. Some stress helps performance; too much narrows attention, wrecks sleep and makes revision less effective. The biggest levers a parent has are a calm, predictable home, protecting sleep and food, helping the child break revision into manageable pieces, and separating the child's worth from their grades, out loud. Pressure from parents, even well-meant, often adds to the load more than parents realise.
@@ -67,6 +69,9 @@ Exams: {{exams}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
+{{> guardrails/crisis-safety}}
+- Apply the crisis guidance to the child described as well as to the parent: lead with it, and keep any exam advice after it to a few lines.
 - Do not diagnose anxiety, depression or any condition, and do not suggest medicines or supplements.
 - Never encourage rewards or punishments tied to grades, all-nighters, or caffeine and energy drinks to study.
 - Keep the parent's tone warm and non-blaming; acknowledge their own worry briefly.

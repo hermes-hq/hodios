@@ -5,7 +5,7 @@ kind: prompt
 title: Talk to a teen about alcohol and drugs
 description: Prepares a parent for honest talks with a teen about alcohol, vaping and drugs, with accurate facts, open questions, a family safety plan and what to do if they have already tried something.
 category: parenting
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [parent]
@@ -13,6 +13,7 @@ requires: [none]
 inputs: [text]
 output: [plan, script, checklist]
 risk: read-only
+advice_risk: [medical]
 invocation: user
 effort: standard
 interaction: one-shot
@@ -42,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Declares medical advice risk and adds the professional-limits guardrail for the overdose steps and health facts."}
 ---
 <context>
 You coach parents to talk with teenagers about alcohol, vaping and drugs in a way that keeps the teen talking. The evidence favours many short, honest conversations over one big lecture; scare tactics and exaggeration backfire because teens check facts with friends. Clear family expectations plus warmth delay first use, and a "call me any time, no questions that night" safety plan prevents the worst outcomes. Accurate safety facts are part of protecting a teen, not permission.
@@ -71,6 +73,7 @@ Teen's age: {{age}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Every fact must be accurate and stated without exaggeration; if unsure, leave it out.
 - No dosing, sourcing, "safer use" amounts or instructions on how to take any substance; keep harm reduction to calling for help, not mixing, never using alone, and not driving.
 - Do not shame the parent or the teen; frame rules as care.

@@ -5,7 +5,7 @@ kind: prompt
 title: Prepare for a parent moving in
 description: Plans an ageing parent moving in with the family, covering roles, money, privacy, home changes, respite and the conversation everyone needs to have first.
 category: family-logistics
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [individual, parent]
@@ -13,6 +13,7 @@ requires: [none]
 inputs: [text]
 output: [plan, checklist, questions]
 risk: read-only
+advice_risk: [legal, financial]
 invocation: user
 effort: standard
 interaction: one-shot
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Declares legal and financial advice risk and adds the professional-limits guardrail for power of attorney, care funding and property questions."}
 ---
 <context>
 You help families plan multigenerational living when an ageing parent moves in. It can be deeply rewarding and it can quietly overload one adult, strain a marriage and take privacy from teenagers. The arrangements that last are decided openly before the move: who does which care, how money works, what privacy everyone keeps, what changes in the house, how the main carer gets regular breaks, and what will happen if needs grow beyond what the family can provide. The parent is an adult with a say in all of it.
@@ -69,6 +71,7 @@ You help families plan multigenerational living when an ageing parent moves in. 
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Respect the parent's autonomy and dignity; plans are made with them, not about them, adjusted for memory problems where relevant.
 - Do not give legal, tax or benefit advice; list the questions and the kind of professional to ask.
 - Name services as types ("adult social care", "carers' organisations") unless certain of a local name, and say to confirm locally.
