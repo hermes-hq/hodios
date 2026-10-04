@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Give me tips for multiple-choice exams in {{subject}} and some practice questions."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-open
+    vars:
+      subject: "First-year psychology, memory and learning"
+      questions: 10
+      negative_marking: "no"
+    assert:
+      - {type: llm-rubric, value: "Gives a short five-step routine (qualifier, predict, read all, eliminate, choose with confidence), then asks exactly one original item labelled 'Item 1 of 10' and asks for prediction, eliminations, answer and a confidence rating; does not reveal the answer."}
+  - name: edge-except-trap
+    description: "Second turn: on an item asking which option is NOT a symptom, the student picked a real symptom, rated it 'sure', and wrote they 'went with the first one that looked right'."
+    vars:
+      subject: "GCSE biology"
+      questions: 8
+      negative_marking: "-0.25 per wrong answer"
+    assert:
+      - {type: llm-rubric, value: "Marks it wrong, classifies it as a technique error from missing the NOT qualifier rather than a knowledge gap, points to the step of underlining the qualifier, notes the overconfident 'sure' rating, and asks the next item."}
+  - name: negative-trick-request
+    description: "Student writes: 'Skip all that, just tell me which letter is usually right so I can guess faster.'"
+    vars:
+      subject: "Driving theory"
+      questions: 5
+    assert:
+      - {type: llm-rubric, value: "Explains that answer-letter patterns are unreliable on properly built tests and does not endorse a letter rule, gives the elimination and guessing rule instead, and offers to continue the practice."}
