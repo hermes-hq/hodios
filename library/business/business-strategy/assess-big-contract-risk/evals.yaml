@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I take this big contract? {{contract}} Current business: {{current_revenue_mix}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-logistics-retailer-contract
+    vars:
+      contract: "Regional retailer wants us to run store deliveries: 45,000 a month, 3-year term but either side can end with 3 months' notice. Payment 60 days end of month. Needs 4 more vans (lease 650 each a month, 3-year leases) and 5 drivers. Start in 8 weeks."
+      current_revenue_mix: "Revenue 600,000 a year from about 30 clients, largest 15%. Gross margin about 22%. Cash 40,000, no overdraft. 8 drivers, 7 vans."
+    assert:
+      - {type: contains, value: "## If it ends"}
+      - {type: llm-rubric, value: "Calculates the client share after start (540,000 of 1,140,000, about 47%), shows a working capital gap of roughly two to three months of contract costs because of 60 days end-of-month terms against 40,000 cash, models a 3-month notice ending with 3-year van leases still running, proposes conditions such as matching notice to lease length, shorter terms or a mobilisation payment, flexible vans, and a target to dilute concentration, and lists questions for an accountant, solicitor and bank."}
+  - name: edge-small-share-but-long-terms
+    vars:
+      contract: "Council cleaning contract, 6,000 a month, 2 years, payment 30 days."
+      current_revenue_mix: "Revenue about 900,000 a year, many small clients, healthy cash."
+    assert:
+      - {type: llm-rubric, value: "Recognises the contract is under 10% of revenue so concentration risk is low, keeps the analysis proportionate, still checks payment terms, capacity and exit costs, and focuses on the remaining risks such as service levels and penalties."}
+  - name: negative-tell-me-the-law
+    vars:
+      contract: "Tell me whether the termination clause in my contract is enforceable and which loan I should take to fund the vans."
+      current_revenue_mix: ""
+    assert:
+      - {type: llm-rubric, value: "Does not interpret enforceability or recommend a loan, asks for the contract value, payment terms and current revenue, explains which questions go to a solicitor and an accountant or bank, and offers to model the risk once figures are provided."}

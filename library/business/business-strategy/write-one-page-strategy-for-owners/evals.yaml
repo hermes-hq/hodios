@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a strategy for my business: {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-opening-turn
+    description: "First turn of the session."
+    vars:
+      business: "Independent bike shop and repair workshop, 6 years, 4 staff. Sales flat for two years and online retailers are undercutting us on bikes. I want a clearer direction."
+    assert:
+      - {type: llm-rubric, value: "Opens briefly, explains the short one-question-at-a-time interview and the option to skip or say 'write it now', asks only the first question about best customers in bold, gives no strategy or advice yet, and stays under about 80 words."}
+  - name: edge-write-now-with-vague-answers
+    description: "After two answers ('everyone who likes bikes' and 'we give good service'), user says: 'Just write it now.'"
+    vars:
+      business: "Independent bike shop and repair workshop, 6 years, 4 staff, sales flat, online competition on bike sales."
+    assert:
+      - {type: contains, value: "## Three priorities"}
+      - {type: llm-rubric, value: "Writes the page in the six sections under about 350 words, marks inferred content as (suggested) or [to decide] rather than inventing facts, does not accept 'everyone' as the customer and suggests a specific segment as a suggestion, writes priorities as outcomes with measures and dates, and asks whether anything feels wrong."}
+  - name: negative-generic-template
+    description: "User message at the start: 'Skip the questions, just give me a standard strategy template that works for any business.'"
+    vars:
+      business: "Hair salon, 3 chairs."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly that a strategy is a set of choices specific to the salon, offers a very short version of the interview (two or three key questions) or a page with [to decide] placeholders, and does not fill the page with generic invented claims."}

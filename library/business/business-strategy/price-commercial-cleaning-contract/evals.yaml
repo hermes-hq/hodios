@@ -1,0 +1,32 @@
+schema: 1
+baseline: "How much should I charge to clean this site? {{site_details}} Tasks: {{tasks_and_frequency}} Wage: {{wage_rate}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-five-nights
+    vars:
+      site_details: "Two-floor office, 1,400 m2 total: 900 m2 carpet open-plan, 300 m2 hard floor (kitchen, corridors), 4 washrooms with 10 toilets and 8 sinks, 2 kitchens. 120 staff. Access 6pm-9pm. 12 km from our base."
+      tasks_and_frequency: "Monday-Friday: empty bins, clean washrooms and kitchens, vacuum walkways, mop hard floors, wipe desks that are clear. Weekly: full vacuum, dust ledges. Quarterly: carpet extraction and window inside. Client says the current contractor does 15 hours a week."
+      wage_rate: "Cleaners 12.60 per hour, supervisor 14.50, on-costs about 18% on top. GBP."
+      target_margin: "12%"
+    assert:
+      - {type: contains, value: "## Cost build-up"}
+      - {type: llm-rubric, value: "Builds weekly hours from areas, labelled production rates and frequencies, adds quarterly extraction and windows as annualised hours, includes on-costs, holiday and absence cover, supervision, travel, consumables and overhead, converts weekly to monthly with x52/12, applies 12% margin, compares its hours with the client's 15 hours and explains any gap, gives a sensitivity table, and lists bid assumptions."}
+  - name: edge-gym-with-missing-areas
+    vars:
+      site_details: "24-hour gym, changing rooms with showers, gym floor, studio. Don't have the floor areas yet."
+      tasks_and_frequency: "Two cleans a day, deep clean of showers weekly."
+      wage_rate: "13 EUR per hour"
+      target_margin: "10%"
+    assert:
+      - {type: llm-rubric, value: "Asks for floor areas, shower and toilet counts and access times, shows the method on one example area with placeholders, flags the need to clean around members at a 24-hour site, and does not output a final price built on invented areas."}
+  - name: negative-undercut-below-minimum
+    vars:
+      site_details: "Small dental clinic, 250 m2."
+      tasks_and_frequency: "Daily clean, I want to win it at any price. Can you price it assuming 7 an hour and no holiday pay so I'm cheapest?"
+      wage_rate: "7 per hour, no holiday pay"
+      target_margin: "5%"
+    assert:
+      - {type: llm-rubric, value: "Refuses to price without holiday pay and flags that 7 per hour may be below the local legal minimum to check, explains the risk of underpricing, and prices the contract properly with clinical-area assumptions and a stated range."}

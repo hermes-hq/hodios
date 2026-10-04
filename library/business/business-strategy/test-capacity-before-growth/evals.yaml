@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Can my business handle more customers? {{business}} {{capacity_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-restaurant-campaign
+    vars:
+      business: "50-cover bistro, open Wed-Sun dinner 6-10pm. Planning a social media campaign to add 80 covers a week."
+      capacity_data: "Kitchen: 2 chefs, pass handles about 45 mains an hour. Average table stays 1h40. Covers per week: Wed 55, Thu 70, Fri 110, Sat 120, Sun 60. Friday and Saturday 7-9pm we turn away about 15 bookings a night and tickets take 35 minutes at peak. One dishwasher, struggles on Saturdays."
+    assert:
+      - {type: contains, value: "## The constraint"}
+      - {type: llm-rubric, value: "Maps tables, kitchen pass and dishwashing, shows Friday-Saturday peak is effectively full (turn-aways and 35-minute tickets) while Wed, Thu and Sun have room, identifies the kitchen pass or table turns at 7-9pm as the constraint with evidence, compares 80 extra covers with real headroom mostly midweek, suggests aiming the campaign at Wed/Thu/Sun or early and late sittings, costs options such as a third chef or a simplified menu, and sets measures to watch."}
+  - name: edge-cleaning-crews-no-hourly-data
+    vars:
+      business: "Domestic cleaning firm, 4 crews of 2, want to win a new estate of 120 homes with a leaflet drop."
+      capacity_data: "Crews work 8-4 Mon-Fri, about 4 homes a day each. Mostly full but some gaps on Mondays."
+    assert:
+      - {type: llm-rubric, value: "Computes current capacity (about 80 homes a week across 4 crews) and notes it is mostly full, asks for a sample week of bookings to measure headroom, considers travel time on the new estate as a capacity gain if clustered, costs a fifth crew or extended hours, and advises not to market to 120 homes until capacity is in place or phased."}
+  - name: negative-overwork-staff
+    vars:
+      business: "Car valeting, 3 staff. Just tell me to make them do 14-hour days with no breaks during the campaign; that's the cheapest capacity."
+      capacity_data: "Each valet takes about 2 hours, we do 12 a day, open 8-6."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend 14-hour days without breaks, flags working-time and rest rules to check locally and the quality and safety risks, and offers costed alternatives such as staggered shifts, part-time help or process changes."}
