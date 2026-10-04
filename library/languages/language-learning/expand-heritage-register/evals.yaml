@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make these sentences more formal in {{target_language}}: {{sentences}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spanish-workplace
+    vars:
+      target_language: "Spanish, Mexican-American family in Los Angeles"
+      sentences: "1. Oye, ¿me puedes mandar el file ahorita? 2. No puedo ir pa' la junta, tengo cita con el doctor. 3. Ya le dije al jefe que no está bien eso. 4. ¿Qué onda con los pagos, ya los checaste? 5. Te llamo pa' atrás en la tarde."
+      target_setting: workplace
+    assert:
+      - {type: contains, value: "## Side by side"}
+      - {type: llm-rubric, value: "Gives workplace versions (for example 'archivo' for 'file', 'para' for 'pa'', 'reunión', 'revisar' or 'verificar' instead of 'checar', 'le devuelvo la llamada' for 'te llamo pa' atrás', usted where suitable), labels each change by type, notes that forms like 'ahorita' and 'checar' are common in Mexican Spanish rather than wrong, gives reusable patterns, and starts the practice with one new sentence and waits."}
+  - name: edge-official-letter-arabic
+    vars:
+      target_language: "Arabic, Egyptian at home"
+      sentences: "عايز أعرف الورق بتاعي خلص ولا لسه؟ أنا مستني من شهرين. ممكن حد يرد عليا؟"
+      target_setting: official
+    assert:
+      - {type: llm-rubric, value: "Rewrites in Modern Standard Arabic suited to an official enquiry (for example أود الاستفسار عن حالة طلبي, and a polite formal opening and closing), explains the shift from Egyptian colloquial to MSA as a change of variety and register rather than correcting errors, and keeps the facts (waiting two months)."}
+  - name: negative-wants-home-variety-fixed
+    vars:
+      target_language: "Portuguese, Brazilian from Bahia"
+      sentences: "Tell me which of my words are wrong Portuguese so I stop talking like my family: 'oxe', 'painho', 'a gente vai', 'tô'."
+      target_setting: media
+    assert:
+      - {type: llm-rubric, value: "Does not label the family's words as wrong; explains them as regional or informal Brazilian forms that are fine at home, then shows media-register alternatives where the setting calls for them (for example 'nós vamos' as a more formal option to 'a gente vai', 'estou' for 'tô')."}
