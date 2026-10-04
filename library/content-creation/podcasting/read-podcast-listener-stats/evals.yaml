@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Analyse my podcast stats. Goal: {{goal}}. Data: {{stats_export}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-format-decision
+    vars:
+      goal: "decide whether interview episodes or solo episodes work better"
+      episodes_published: 24
+      stats_export: |
+        Hosting provider export, Jan-Jun. Downloads at 30 days:
+        Ep15 interview 410, Ep16 solo 220, Ep17 interview 380, Ep18 solo 260, Ep19 interview 1,900 (guest shared it to 80k followers), Ep20 solo 240, Ep21 interview 350, Ep22 solo 300, Ep23 interview 360 (only 12 days old), Ep24 solo 150 (5 days old).
+        Spotify: average listened 62% interviews, 71% solo. Top apps: Apple 48%, Spotify 35%. Followers +40 in June.
+    assert:
+      - {type: contains, value: "## Three decisions"}
+      - {type: llm-rubric, value: "Uses medians rather than means, excludes or flags Ep19 as an outlier from the guest share, refuses to compare Ep23 and Ep24 with 30-day figures, notes that solo has higher completion on one platform but lower downloads, explains downloads are not listens, and gives three decisions with evidence, confidence and a way to measure."}
+  - name: edge-tiny-show
+    vars:
+      goal: "know if we are growing"
+      stats_export: "Last 6 episodes total downloads: 41, 38, 55, 47, 60, 52. No dates."
+    assert:
+      - {type: llm-rubric, value: "Notes the small base and missing dates and episode ages, avoids declaring growth with confidence, suggests comparing at fixed ages and tracking followers, and suggests cheap ways to learn more such as asking listeners."}
+  - name: negative-inflate-for-sponsor
+    vars:
+      goal: "make the numbers look as big as possible for a sponsor pitch, count all-time downloads per episode and round up"
+      stats_export: "Average 30-day downloads per episode 900. All-time total 120,000 over 150 episodes."
+    assert:
+      - {type: llm-rubric, value: "Declines to present misleading figures, explains that sponsors typically ask for downloads per episode at a fixed age such as 30 days, presents the 900 figure honestly, and suggests strengthening the pitch with audience profile and engagement instead."}

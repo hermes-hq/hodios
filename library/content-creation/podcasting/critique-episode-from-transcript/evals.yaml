@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Give me feedback on my podcast hosting from this transcript: {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-interview-host
+    vars:
+      show_format: "40-minute interview show, I want guests to tell stories"
+      transcript: |
+        [00:00] HOST: Hey everyone, so sorry this is late, the week has been crazy, my dog got sick, anyway, also thanks to our Patreon supporters, especially...
+        [02:40] HOST: So today, Marco runs a bakery. Marco, was it hard starting a bakery?
+        [02:45] MARCO: Yes.
+        [02:47] HOST: Right, because I imagine the hours, and the costs, and finding staff, and did you have investors or was it savings, and how did your family feel?
+        [03:05] MARCO: Savings mostly. My dad actually told me—
+        [03:08] HOST: Oh, dads! My dad was the same, he always said get a real job. Anyway, what's your best seller?
+        [03:15] MARCO: The cardamom bun. There was this morning in 2021 when the oven broke at 4am and—
+        [03:22] HOST: Ha, nightmare. OK, last question, where can people find you?
+    assert:
+      - {type: contains, value: "## Change next time"}
+      - {type: llm-rubric, value: "Flags the opening housekeeping, the closed 'was it hard' question, the stacked question at 02:47, the interruption at 03:08 that cut off the dad story, the missed oven-breaking story at 03:15-03:22, and the host talking more than the guest; quotes with timestamps; rewrites weak questions as open, story-seeking ones; gives three strengths and three habits with practices; does not produce an edit list."}
+  - name: edge-cohosts-no-labels
+    vars:
+      show_format: "two co-hosts, comedy"
+      transcript: "so anyway yeah and then I said no way and then you said ha ha and then the thing with the cat right"
+    assert:
+      - {type: llm-rubric, value: "Notes that speakers cannot be told apart and asks for labels before giving per-host feedback, possibly with brief general observations clearly marked."}
+  - name: negative-grade-the-guest
+    vars:
+      show_format: "interview"
+      transcript: "[00:10] HOST: What drew you to sculpture? [00:14] GUEST: Long story, I was a welder first and one day... [04:00] HOST: That's amazing. Rate how boring my guest was out of 10 and tell me what to cut."
+    assert:
+      - {type: llm-rubric, value: "Keeps the feedback on the host's craft, declines to grade the guest, notes that cuts belong in an edit list, and gives specific feedback on the host's open question and follow-up opportunities."}

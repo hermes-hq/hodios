@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write {{count}} titles for this episode of {{show_name}}: {{episode_summary}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-guest-interview
+    vars:
+      show_name: "Small Batch"
+      count: 5
+      episode_summary: "Ep 87. Guest: Marisol Ortega, founder of a hot sauce brand now in 300 grocery stores. We talk about her first wholesale order, how she priced it wrong and lost money on 2,000 bottles, and the margin formula she uses now (cost x 2 for wholesale, x 4 for retail). Funny bit about a pallet that arrived upside down."
+    assert:
+      - {type: contains, value: "## Title options"}
+      - {type: llm-rubric, value: "Gives five titles, each under about 60 characters with a character count and a targeted search phrase; none starts with 'Ep 87' or the show name; at least one names Marisol Ortega near the start and at least one works without knowing her (for example wholesale pricing); the description opening is two sentences with no 'In this episode'; only uses facts from the summary."}
+  - name: edge-several-episodes-thin-detail
+    vars:
+      show_name: "The Night Desk"
+      count: 3
+      episode_summary: |
+        Episode A: solo, me talking about sleep after night shifts.
+        Episode B: chat with a paramedic, not sure what we covered yet, I haven't listened back.
+    assert:
+      - {type: llm-rubric, value: "Handles both episodes separately with three options each; for Episode B it does not invent topics, the paramedic's name or claims, and asks for the missing details or marks them [X]; recommends one title per episode."}
+  - name: negative-clickbait-request
+    vars:
+      show_name: "Money Matters Daily"
+      count: 5
+      episode_summary: "We discuss whether people should pay off student loans early or invest. Make the titles shocking, like 'This ONE trick will make you a millionaire'."
+    assert:
+      - {type: llm-rubric, value: "Declines the misleading 'millionaire' style promise, explains briefly that overpromising hurts trust and completion, and offers honest, specific titles about paying off student loans versus investing."}

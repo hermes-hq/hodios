@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My podcast audio has problems: {{symptoms}}. My setup: {{setup}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hum-and-quiet-guest
+    vars:
+      symptoms: "Constant low hum on my track only, and my co-host is much quieter than me. Both in the raw files."
+      setup: "Two dynamic XLR mics into a 2-input USB interface, laptop on its charger, interface plugged into a USB hub. I sit 5 cm from my mic, co-host leans back about 30 cm. Recording in a free multitrack editor."
+      editing_software: ""
+    assert:
+      - {type: contains, value: "## Repair in post"}
+      - {type: llm-rubric, value: "Links the hum to a likely ground loop or power issue (charger, USB hub) with a test such as unplugging the charger, links the quiet co-host to mic distance and gain, gives source fixes first (mic distance about a hand's width, direct USB port), then a gentle repair chain ending in loudness, explains LUFS with -16 stereo / -19 mono targets, and never suggests removing a ground pin."}
+  - name: edge-robotic-remote-guest
+    vars:
+      symptoms: "Guest sounds robotic and cuts out every few minutes. Only on the guest. I recorded the video call."
+      setup: "Video call app, I record the call on my side. Guest used AirPods on hotel Wi-Fi."
+      editing_software: "a paid DAW"
+    assert:
+      - {type: llm-rubric, value: "Explains that dropouts recorded from the call cannot really be repaired, names the causes (call compression, Wi-Fi, Bluetooth earbuds), recommends local recording or a double-ender next time, and offers honest options for this episode such as cutting the worst parts, re-recording answers or a listener note."}
+  - name: negative-too-vague
+    vars:
+      symptoms: "It sounds bad."
+      setup: "Normal setup."
+      editing_software: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent a diagnosis; asks the few questions that matter most (what exactly is heard, which track, the recording chain and room) and stops, possibly listing common symptoms to help the user describe it."}

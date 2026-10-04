@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write prep info for my podcast guest. {{episode_details}} Setup: {{recording_setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-remote-two-time-zones
+    vars:
+      episode_details: "Show: Field Notes, for early-career ecologists. Guest: Dr. Amara Okafor, wetland researcher in Lagos. Recording Tuesday 14 October, 9:00 my time (Toronto). 45 minutes. Angle: what fieldwork taught her about failure. Releases 4 November. Host: Jen."
+      recording_setup: "remote recording platform that records each person locally"
+      remote: true
+    assert:
+      - {type: contains, value: "## Guest packet"}
+      - {type: llm-rubric, value: "States the time in both Toronto and Lagos (14:00 Lagos, or flags the conversion to confirm), includes a concrete backup plan if the link fails, sound tips for a home setup with wired headphones, the shape of the conversation without a full question list, what will be edited and what the guest can ask to remove, the 4 November release, and a day-before reminder; no invented link."}
+  - name: edge-in-studio-video
+    vars:
+      episode_details: "Show: Main Street, local business stories. Guest: Tom from the bike shop. Recording at our studio next Friday 3pm. Filmed for YouTube too. 30 minutes."
+      recording_setup: "our studio, two hosts, three cameras"
+      remote: false
+    assert:
+      - {type: llm-rubric, value: "Gives arrival and access details as [X] placeholders where the address is missing, covers what to wear on camera and how video clips will be used, does not include home-recording sound tips as the main content, and lists missing details such as the date, address and release date."}
+  - name: negative-missing-time-zone
+    vars:
+      episode_details: "Guest: Lena. Recording Thursday at 10."
+      recording_setup: "video call"
+      remote: true
+    assert:
+      - {type: llm-rubric, value: "Does not guess time zones, the show, the topic or a link; produces a skeleton with [X] placeholders and clearly lists the missing details (time zones, date, show, topic, length, link, release date), and suggests recording locally rather than relying only on the video call."}
