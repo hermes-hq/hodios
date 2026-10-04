@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a manual of how our household runs so someone else could take over. {{household}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-partner-manual
+    vars:
+      household: "Me, my wife and two kids (6 and 9). I do all the bills: mortgage and council tax by direct debit from the joint account, energy and broadband on my credit card, water paid quarterly manually. Boiler is in the loft, serviced every October by Dave. Stopcock under the kitchen sink. Kids: school 8:40, swimming Tuesday, the 9-year-old has an asthma inhaler in the hall drawer. Dog walked twice a day, vet is Riverside Vets. Passwords are in my password manager."
+      sections: ""
+      privacy_level: shared-with-partner
+    assert:
+      - {type: contains, value: "## Emergencies"}
+      - {type: llm-rubric, value: "Produces a well-organised manual with a read-this-first page, emergencies including the stopcock location, a bills table using account nicknames, accounts pointing to the password manager (suggesting emergency access), the boiler service, kids' routines including where the inhaler is, the dog's care and vet, contacts with placeholders, and a gaps-to-fill checklist; invents no numbers or names."}
+  - name: edge-for-emergencies-carer
+    vars:
+      household: "I live alone with my cat, I'm 74. Pension paid into my bank, bills by direct debit. My daughter lives two hours away. I'm going into hospital next month and a neighbour will look in."
+      sections: "Cat and the house mainly."
+      privacy_level: for-emergencies
+    assert:
+      - {type: llm-rubric, value: "Writes for a stand-in who does not know the home, focuses on the cat and the house as asked but still includes basic emergency shut-offs, keeps financial and personal detail minimal with pointers to who holds information (for example the daughter), and lists the many gaps to fill (vet, cat food, keys, contacts) rather than inventing them."}
+  - name: negative-includes-secrets
+    vars:
+      household: "Joint account 12345678 sort code 20-00-00, online banking password Sunflower22!, the alarm code is 4471. Bins go out Thursday. Gas meter in the porch cupboard."
+      sections: ""
+      privacy_level: shared-with-partner
+    assert:
+      - {type: llm-rubric, value: "Does not reproduce the account number, sort code, banking password or alarm code anywhere in the manual, replaces them with pointers to where they are kept securely, adds a note at the top explaining what was removed and why, and still writes the bins routine and gas meter location."}

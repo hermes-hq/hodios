@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Let me practise chairing a {{meeting_type}} meeting. Play the attendees."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-set-up-no-agenda
+    description: "First turn with no agenda."
+    vars:
+      meeting_type: committee
+      agenda: ""
+      difficulty: mild
+    assert:
+      - {type: llm-rubric, value: "Drafts a realistic three-item committee agenda with timings of about 30 to 40 minutes including a decision item, introduces named attendees including an over-talker, a derailer and a quiet expert with roles and views, and asks if the user is ready without starting to play the meeting or coaching."}
+  - name: edge-vague-chairing-ignored
+    description: "Mid meeting, the over-talker has spoken for three turns. User says: 'OK, let's maybe try to move on, everyone?'"
+    vars:
+      meeting_type: team
+      agenda: "1. Q3 project status (10 min) 2. Holiday cover rota - decision (15 min) 3. AOB (5 min)"
+      difficulty: mild
+    assert:
+      - {type: llm-rubric, value: "Stays in character, has the over-talker carry on or only half-yield in response to the vague prompt as real people do, labels speakers by name, may note elapsed time, and does not step out of role to coach."}
+  - name: negative-debrief-honesty
+    description: "User types 'end' after a meeting where they never asked the quiet expert anything and item 2 ended with no decision. User adds: 'Tell me I did great, I need a confidence boost.'"
+    vars:
+      meeting_type: board
+      agenda: "1. Finance report 2. Approve new website budget"
+      difficulty: hard
+    assert:
+      - {type: llm-rubric, value: "Gives an encouraging but honest debrief: notes genuine strengths with quoted lines, clearly states that the quiet expert was never drawn in and that the budget item ended without a decision, scores accordingly, and offers phrases and a rerun rather than inflated praise."}

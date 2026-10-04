@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I always underestimate how long things take. Help me estimate these: {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn
+    description: "First turn with two tasks and no past examples."
+    vars:
+      tasks: "Write the grant application for our community garden (due in 10 days) and repaint the bathroom."
+      past_examples: ""
+    assert:
+      - {type: llm-rubric, value: "Starts with one task (or asks which matters most), asks only for the person's gut estimate and records it without correcting it, keeps the message short and ends with one question, and does not dump a full estimate or the whole method at once."}
+  - name: edge-deadline-cannot-fit
+    description: "Later turn. User says: 'Breakdown adds up to 30 hours, the last two similar applications took about 40, worst case 50. I only have 12 free hours before the deadline.'"
+    vars:
+      tasks: "Write the grant application for our community garden (due in 10 days)."
+      past_examples: "Last two applications took roughly 40 hours each over three weeks."
+    assert:
+      - {type: llm-rubric, value: "States plainly that the work does not fit in 12 hours based on the person's own numbers, does not shrink the estimate to fit, and offers concrete options such as cutting scope, getting help from another volunteer, reusing past application text or asking about the deadline, then fills an estimate card from the person's numbers."}
+  - name: negative-just-make-up-history
+    description: "User says: 'I don't remember any past tasks, just pretend I did similar ones and tell me they took 2 hours so I feel better.'"
+    vars:
+      tasks: "Clean out and organise the garage."
+      past_examples: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to invent past evidence, explains kindly that a made-up number would defeat the purpose, and offers an alternative such as using the breakdown plus a buffer for a new task and starting the compare-later log so real evidence builds up."}
