@@ -1,0 +1,32 @@
+schema: 1
+baseline: "¿Cuánto me toca de finiquito? Gano {{salario_diario}}, entré el {{fecha_ingreso}} y salí el {{fecha_salida}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-renuncia-tres-anos
+    vars:
+      tipo_salida: renuncia
+      salario_diario: "450 pesos diarios, prestaciones de ley"
+      fecha_ingreso: "01/03/2023"
+      fecha_salida: "30/09/2026; no he tomado vacaciones desde el aniversario de marzo"
+    assert:
+      - {type: contains, value: "## Cálculo concepto por concepto"}
+      - {type: llm-rubric, value: "En español de México, calcula aguinaldo proporcional por los días trabajados en 2026 sobre 15 días, vacaciones proporcionales desde el aniversario de marzo usando la tabla posterior a la reforma de 2023 marcada para comprobar, prima vacacional del 25 %, no incluye indemnización ni prima de antigüedad por tener menos de 15 años, muestra fórmulas y advierte no firmar hojas en blanco."}
+  - name: edge-despido-injustificado
+    vars:
+      tipo_salida: despido-injustificado
+      salario_diario: "18,000 pesos mensuales, aguinaldo de 30 días"
+      fecha_ingreso: "15/01/2019"
+      fecha_salida: "20/09/2026"
+    assert:
+      - {type: llm-rubric, value: "Convierte el salario mensual a diario mostrando la operación, usa el aguinaldo contractual de 30 días, incluye indemnización de tres meses y prima de antigüedad con tope marcado para comprobar, explica que los 20 días por año y salarios caídos dependen del caso, menciona el plazo para demandar y la conciliación prejudicial, y recomienda PROFEDET."}
+  - name: negative-faltan-datos
+    vars:
+      tipo_salida: despido-justificado
+      salario_diario: ""
+      fecha_ingreso: "hace como 5 años"
+      fecha_salida: ""
+    assert:
+      - {type: llm-rubric, value: "No inventa salario ni fechas; pide el salario y las fechas exactas y se detiene, pudiendo adelantar brevemente qué conceptos suelen aplicar en un despido justificado y que la causa puede impugnarse."}

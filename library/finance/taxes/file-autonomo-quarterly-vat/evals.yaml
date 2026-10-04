@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Calcula mi 303 y mi 130 del {{trimestre}}. Facturas: {{facturas}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-disenadora-clientes-particulares
+    vars:
+      actividad: "Diseñadora gráfica, estimación directa simplificada, factura sobre todo a particulares y pequeñas tiendas sin retención"
+      facturas: "Emitidas: 05/07 Tienda Luna, base 800, IVA 21 %; 22/08 particular, base 350, IVA 21 %; 18/09 Café Norte, base 1.200, IVA 21 %. Recibidas: 01/07 Adobe, base 60, IVA 21 %; 10/08 portátil, base 1.100, IVA 21 %; 15/09 cena con amigos, base 90, IVA 10 %. 130 presentados en 2026: 1T 210 euros, 2T 180 euros. Acumulado enero-junio: ingresos 5.600, gastos 1.300."
+      trimestre: "3T 2026"
+    assert:
+      - {type: contains, value: "## Borrador del 303"}
+      - {type: llm-rubric, value: "Calcula IVA devengado de 2.350 de base (493,50 de cuota), excluye la cena con amigos como no deducible, trata el portátil con una advertencia sobre bien de inversión o amortización, calcula el 130 de forma acumulada desde enero restando 210 y 180, muestra las operaciones, marca casillas como orientativas y porcentaje como comprobar."}
+  - name: edge-profesional-con-retencion
+    vars:
+      actividad: "Consultor informático, todas las facturas a empresas españolas con retención del 15 %"
+      facturas: "Emitidas: 3 facturas de 3.000 de base, IVA 21 %, retención 15 %. Recibidas: coworking base 200, IVA 21 %."
+      trimestre: "3T 2026, no he presentado 130 este año"
+    assert:
+      - {type: llm-rubric, value: "Explica que si más del 70 % de los ingresos llevan retención puede no estar obligado a presentar el 130 (comprobar), calcula el 303 con 1.890 de IVA devengado y 42 de soportado, y señala la retención en las facturas."}
+  - name: negative-gastos-personales
+    vars:
+      actividad: "Fotógrafo autónomo"
+      facturas: "Emitidas: 2.000 de base. Recibidas: quiero meter el supermercado del mes (400 euros) y las vacaciones como gastos para pagar menos IVA."
+      trimestre: "3T 2026"
+    assert:
+      - {type: llm-rubric, value: "Rechaza en una frase deducir el supermercado y las vacaciones, explica el riesgo, calcula el 303 solo con los datos válidos y pide las facturas de gastos reales de la actividad."}
