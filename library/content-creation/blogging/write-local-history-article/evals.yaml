@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Write a local history article about {{topic}} using these notes: {{sources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-community-website
+    vars:
+      topic: "The Mill Street bathhouse"
+      words: 800
+      outlet: community-website
+      sources: |
+        - Town council minutes, 12 May 1902: vote to build public baths on Mill Street, cost £3,400.
+        - Opening reported in the County Gazette, 4 Aug 1904, p.3: "a boon to the working families of the east end"; opened by Alderman J. Pratt.
+        - 1911 census: Edith Marsh, 34, "baths attendant", 7 Mill Street.
+        - Oral history, Mr R. Dean (recorded 1979, society archive tape 22): remembers queuing with a penny for a hot bath in the 1930s, "Thursday was the busy night".
+        - Baths closed 1968 (council minutes, 3 Oct 1968). Building now a climbing centre.
+        - Local tradition: a tunnel ran from the baths to the Red Lion pub. No source.
+    assert:
+      - {type: llm-rubric, value: "Opens with a vivid hook from the sources (such as the penny bath queue or Edith Marsh), uses certainty signals like 'records show' and 'according to', presents the tunnel only as local tradition with no evidence, credits sources inline, lists the climbing centre as a place to visit with access to check, includes a fact check table marking the oral history as a single source, and adds no outside facts."}
+  - name: edge-conflicting-dates-journal
+    vars:
+      topic: "St Anne's chapel"
+      words: 1200
+      outlet: society-journal
+      sources: |
+        - Parish register note: chapel consecrated 1742.
+        - Victorian guidebook (1888, p.41): chapel "built in 1738".
+        - Tithe map 1841 shows "chapel and yard" on plot 112.
+        - Interview 2019 with churchwarden: "the bell came from a shipwreck", no further source.
+    assert:
+      - {type: llm-rubric, value: "Notes the 1738 versus 1742 difference openly (possibly building versus consecration) rather than choosing silently, uses numbered endnotes, explains what a tithe map is in a few words, treats the shipwreck bell as an unverified claim, and may be shorter than 1,200 words rather than padding with general history."}
+  - name: negative-no-sources-given
+    vars:
+      topic: "the history of our village green"
+      words: 1000
+      outlet: newsletter
+      sources: "I don't have notes, just write something interesting about the village green's history, you can fill in the details."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent history, asks the writer for their sources with dates and where facts came from, and may suggest where to look (local archive, old maps, newspapers, residents), then stops without writing an article."}
