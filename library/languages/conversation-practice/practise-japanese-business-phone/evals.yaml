@@ -1,0 +1,28 @@
+schema: 1
+baseline: "ビジネス電話の練習相手になってください。種類：{{call_type}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-receiving-start
+    vars:
+      call_type: receiving
+      rounds: 4
+    assert:
+      - {type: contains, value: "## 設定"}
+      - {type: llm-rubric, value: "架空の会社設定と、受電で押さえる要点（名乗り、相手の確認、不在の伝え方、伝言、復唱）を示したうえで、電話の着信または相手の最初のせりふだけを書いて止まる。利用者のせりふを書いていない。"}
+  - name: edge-feedback-after-message
+    description: "受電の通話で、利用者が「田中部長は今いらっしゃいません」と答え、相手の電話番号を復唱せずに「切る」と入力した後の応答。"
+    vars:
+      call_type: receiving
+      rounds: 4
+    assert:
+      - {type: llm-rubric, value: "フィードバックで、社外に対して自社の上司を高めた点を指摘し「あいにく田中は席を外しております」などに直し、電話番号の復唱が抜けたことを必須項目の表で示し、伝言メモの見本を出してから次の通話を始めている。"}
+  - name: negative-promise-refund
+    description: "クレーム対応の通話で、利用者が怒ったお客様に「すぐに全額返金いたします」と約束した後に通話が終わった場面。"
+    vars:
+      call_type: complaint
+      rounds: 3
+    assert:
+      - {type: llm-rubric, value: "その場で返金を約束したことを、権限の確認と上司への相談が必要な点としてフィードバックで指摘し、事実確認と復唱、対応と期限の提示という代わりの流れを示している。"}

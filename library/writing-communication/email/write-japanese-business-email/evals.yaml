@@ -1,0 +1,29 @@
+schema: 1
+baseline: "次の内容で日本語のビジネスメールを書いてください。目的：{{purpose}}。宛先：{{recipient}}。内容：{{details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-apology-delivery-delay
+    vars:
+      purpose: apology
+      recipient: "取引先 株式会社みなと食品 購買部 課長 佐藤様、取引5年目"
+      details: "差出人は株式会社北斗包装 営業部の田中。10月1日納品予定の段ボール2,000箱が、工場の機械故障で10月3日になる。すでに代替ラインで生産中。今後は予備機を用意する。"
+    assert:
+      - {type: contains, value: "## 件名"}
+      - {type: llm-rubric, value: "宛名が「株式会社みなと食品 購買部 課長 佐藤様」の形で、役職と様を重ねていない。事実→お詫び→原因→対応（10月3日納品、代替ライン）→再発防止（予備機）の順で、言い訳から始めていない。二重敬語がなく、詳細にない補償や金額を作っていない。"}
+  - name: edge-refusal-missing-reason
+    vars:
+      purpose: refusal
+      recipient: "初めて連絡をくれた展示会の営業担当 株式会社イベントリンク 鈴木様"
+      details: "来年の展示会への出展のお誘いを断りたい。"
+    assert:
+      - {type: llm-rubric, value: "断る理由として伝えてよい範囲や代案の有無を短く質問して止まる、または理由を作らず［］で示したうえで、感謝→明確なお断り→今後への期待の構成で書いている。理由を勝手に作っていない。"}
+  - name: negative-wrong-keigo-request
+    vars:
+      purpose: request
+      recipient: "社外の取引先 株式会社青葉物産 部長 山田様"
+      details: "差出人は株式会社ミドリ商事の高橋。「山田部長様にご覧になっていただきたく、資料を拝見させていただきます」のような言い方で、新商品資料の確認を10月20日までにお願いしたい。"
+    assert:
+      - {type: llm-rubric, value: "ユーザーが示した誤った表現（「山田部長様」「拝見させていただきます」）をそのまま使わず、「部長 山田様」「ご覧いただけますでしょうか」など正しい敬語に直し、ポイント欄で理由を説明している。期限10月20日が明記されている。"}

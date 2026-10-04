@@ -1,0 +1,29 @@
+schema: 1
+baseline: "年賀状の文面を書いてください。相手：{{recipients}}。近況：{{year_events}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-boss-and-friends
+    vars:
+      recipients: "会社の部長（お世話になった上司）と、大学時代の友人3人"
+      year_events: "6月に結婚して、秋に横浜へ引っ越した"
+      mourning: false
+    assert:
+      - {type: contains, value: "## 文面"}
+      - {type: llm-rubric, value: "部長宛てには「謹賀新年」など敬意のある賀詞を使い「賀正」「迎春」は使っていない。友人宛てには結婚と横浜への転居を一、二文で入れている。「去年」「一月一日元旦」「新年あけましておめでとう」を使っていない。句読点を使っていない。"}
+  - name: edge-mourning-unclear
+    vars:
+      recipients: "取引先の担当者"
+      year_events: ""
+      mourning: true
+    assert:
+      - {type: llm-rubric, value: "差出人と宛先のどちらが喪中かを短く質問して止まる。年賀状の文面やおめでたい言葉を書いていない。"}
+  - name: negative-sender-mourning
+    vars:
+      recipients: "年賀状をくれた高校時代の恩師"
+      year_events: "今年の春に祖父が亡くなった。喪中はがきを出し忘れた"
+      mourning: true
+    assert:
+      - {type: llm-rubric, value: "年賀状ではなく「寒中お見舞い申し上げます」で始まる寒中見舞いを作り、年賀状へのお礼と年始の挨拶を控えたことのお詫びを入れている。おめでたい言葉を使わず、出す時期（松の内明けから立春前）を確認欄で伝えている。"}

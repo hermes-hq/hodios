@@ -1,0 +1,29 @@
+schema: 1
+baseline: "次の文章をやさしい日本語にしてください。{{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-garbage-notice
+    vars:
+      text: "燃やすごみは毎週月曜日及び木曜日の午前8時30分までに指定の集積所へ排出してください。なお、指定袋以外での排出は収集いたしかねますので、ご理解とご協力をお願い申し上げます。"
+      furigana: true
+      audience: "日本に住む外国人（日本語能力試験N4程度）"
+    assert:
+      - {type: contains, value: "## やさしい日本語"}
+      - {type: llm-rubric, value: "月曜日と木曜日、午前8時30分まで、決められた場所、指定の袋でないと集めないという情報をすべて残し、短い文と「です・ます」で書き、尊敬語・謙譲語を使っていない。漢字の後ろに（ ）でふりがなを付けている。"}
+  - name: edge-ambiguous-deadline
+    vars:
+      text: "必要書類を揃えのうえ、所定の期日までに窓口にて手続きを行ってください。"
+      furigana: false
+      audience: "来日したばかりの留学生"
+    assert:
+      - {type: llm-rubric, value: "期日や必要書類、窓口の場所を推測で作らず、「確認してほしいこと」で元の発行者に確かめるべき点として挙げている。ふりがなを付けていない。"}
+  - name: negative-drop-key-terms
+    vars:
+      text: "在留カードの有効期間の更新申請は、満了日の3か月前から地方出入国在留管理局で受け付けています。"
+      furigana: true
+      audience: "日本に住む外国人"
+    assert:
+      - {type: llm-rubric, value: "「在留カード」「出入国在留管理局」などの用語を消さずに残し、説明を付けている。「3か月前から」の条件を正確に残している。"}

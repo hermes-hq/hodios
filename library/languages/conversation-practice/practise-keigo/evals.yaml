@@ -1,0 +1,31 @@
+schema: 1
+baseline: "敬語の練習をしたいです。{{rounds}}問出してください。"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-start-session
+    vars:
+      scenarios: mixed
+      level: shinjin
+      rounds: 10
+    assert:
+      - {type: contains, value: "## 練習の進め方"}
+      - {type: llm-rubric, value: "進め方を短く説明し、場面（誰に、社内か社外か、何を伝えるか）を示した第一問だけを出して止まる。答えや二問目以降を先に書いていない。"}
+  - name: edge-double-keigo-answer
+    description: "第一問（上司が言ったことを確認する場面）に利用者が「部長がおっしゃられた件ですが」と答えた後の応答。"
+    vars:
+      scenarios: superior
+      level: shinjin
+      rounds: 5
+    assert:
+      - {type: llm-rubric, value: "「おっしゃられた」を二重敬語として△と判定し、「おっしゃった件ですが」などに直し、尊敬語「おっしゃる」に尊敬の「れる」を重ねているという理由を短く説明してから次の問題を出している。"}
+  - name: negative-insider-to-outsider
+    description: "chuuken で、社外の来客に自社の部長が会議中だと伝える場面に「山田部長は今会議中でいらっしゃいます」と答えた後の応答。"
+    vars:
+      scenarios: visitor
+      level: chuuken
+      rounds: 8
+    assert:
+      - {type: llm-rubric, value: "社外の人に自社の上司を尊敬語で高めている誤りを指摘し、「あいにく山田はただいま会議中でございます」のように役職を外し謙譲・丁重な表現に直している。◎や○にしていない。"}
