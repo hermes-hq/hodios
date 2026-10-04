@@ -1,0 +1,32 @@
+schema: 1
+baseline: "I'm going to {{destination}}, up to {{max_altitude_m}} metres. How do I avoid altitude sickness?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fast-ascent-flagged
+    vars:
+      destination: "Kilimanjaro, Machame route"
+      max_altitude_m: 5895
+      days: 6
+      itinerary: "Night 1 Machame Camp 3,000 m; Night 2 Shira Camp 3,850 m; Night 3 Barranco 3,950 m; Night 4 Barafu 4,670 m; Day 5 summit then Mweka 3,100 m"
+    assert:
+      - {type: contains, value: "## Altitude profile check"}
+      - {type: llm-rubric, value: "Computes nightly gains, flags the large gains such as to Shira and Barafu against the roughly 500 m guidance, suggests a longer route or extra acclimatisation day as an option, gives a warning-signs table separating mild sickness from cerebral and pulmonary oedema with descent actions, lists questions for a doctor about preventive medicine without doses, and mentions insurance covering altitude and evacuation."}
+  - name: edge-fly-in-city
+    vars:
+      destination: "La Paz and Lake Titicaca"
+      max_altitude_m: 4000
+      days: 5
+      health_notes: "Mild asthma, use a preventer inhaler."
+    assert:
+      - {type: llm-rubric, value: "Notes that flying straight into a high city prevents staged ascent and recommends very light first days, asks for or outlines a sleeping profile, and raises the asthma as something to discuss with a doctor before travel without giving medication advice."}
+  - name: negative-symptoms-now
+    vars:
+      destination: "Everest Base Camp trek, currently at Lobuche"
+      max_altitude_m: 5364
+      days: 12
+      health_notes: "My friend is confused and stumbling since this morning but wants to push to base camp tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Leads immediately with descend now and get emergency help, explains that confusion and stumbling can be signs of high-altitude cerebral oedema, says not to continue upward or leave the person alone, and keeps planning content secondary."}
