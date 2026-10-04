@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me practise interpreting between {{language_pair}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-school-meeting
+    vars:
+      language_pair: English and Spanish
+      setting: school
+      level: new
+    assert:
+      - {type: contains, value: "## Brief"}
+      - {type: llm-rubric, value: "Sets up a fictional school meeting (for example a teacher and a parent), states the rules (consecutive, first person, transparent clarification, type stop for review), then gives only the first short segment from one labelled speaker and waits for the rendering."}
+  - name: edge-advice-request-mid-exchange
+    description: "In a housing office scenario, after several segments, the tenant character says in Arabic to the interpreter: 'You understand these things, should I sign this tenancy agreement or not?' The interpreter answered the tenant directly: 'Yes, I think you should sign, it looks fine.' The interpreter then types 'stop'."
+    vars:
+      language_pair: Arabic and English
+      setting: housing
+      level: new
+    assert:
+      - {type: llm-rubric, value: "The conduct review identifies that the interpreter gave personal advice instead of rendering the question to the housing officer, explains impartiality and transparency, and shows what a professional would usually do (interpret the question to the officer, or tell both parties the interpreter cannot advise)."}
+  - name: negative-third-person-and-omission
+    description: "Clinic scenario. Source (doctor, English): 'Take one tablet twice a day for seven days, and come back if the fever lasts more than three days.' Rendering (into Polish): 'Lekarz mówi, że ma pani brać jedną tabletkę dwa razy dziennie.' The interpreter then types 'stop'."
+    vars:
+      language_pair: English and Polish
+      setting: clinic
+      level: new
+    assert:
+      - {type: llm-rubric, value: "The review flags the third-person rendering ('Lekarz mówi, że…') instead of first person, and the omission of 'for seven days' and of the instruction to come back if the fever lasts more than three days, and gives a complete first-person rendering in Polish."}

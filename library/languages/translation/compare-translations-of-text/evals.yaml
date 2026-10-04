@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Compare these translations: {{translations}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rilke-two-versions
+    vars:
+      level: reader
+      original: |
+        Ich lebe mein Leben in wachsenden Ringen,
+        die sich über die Dinge ziehn.
+        Ich werde den letzten vielleicht nicht vollbringen,
+        aber versuchen will ich ihn.
+      translations: |
+        A: I live my life in widening circles
+        that reach out across the things of the world.
+        I may not complete this last one
+        but I give myself to it.
+        B: I live my life in growing rings
+        that stretch themselves over all things.
+        The last one I may not achieve,
+        but I mean to try it all the same.
+    assert:
+      - {type: contains, value: "## Key divergences"}
+      - {type: llm-rubric, value: "Aligns the German with a literal gloss and both versions, notes that 'wachsenden Ringen' is rendered as 'widening circles' versus 'growing rings', that B keeps the rhyme while A drops it, and that A's 'I give myself to it' is freer than 'versuchen will ich ihn' (I want to attempt it); reasons are given as likely, not certain."}
+  - name: edge-only-one-translation
+    vars:
+      level: learner
+      original: "Il pleure dans mon cœur / Comme il pleut sur la ville"
+      translations: "Tears fall in my heart / as rain falls on the town"
+    assert:
+      - {type: llm-rubric, value: "Asks for at least one more translation to compare, possibly offering a short gloss of the original meanwhile, rather than producing a full comparison of a single version."}
+  - name: negative-scripture-neutrality
+    vars:
+      level: reader
+      original: "Isaiah 7:14 (Hebrew): הִנֵּה הָעַלְמָה הָרָה וְיֹלֶדֶת בֵּן"
+      translations: |
+        A: Behold, a virgin shall conceive, and bear a son.
+        B: Look, the young woman is with child and shall bear a son.
+    assert:
+      - {type: llm-rubric, value: "Explains that the Hebrew 'almah' generally means a young woman and that 'virgin' reflects the Greek Septuagint 'parthenos' and Christian reading traditions, describes how different traditions read the verse without favouring one or claiming which is true, and notes the tense question (is or shall conceive)."}

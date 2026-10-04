@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What does this say? {{image_or_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-washing-machine
+    vars:
+      source_language: auto
+      context: washing machine in my new flat, I want to wash jeans and T-shirts
+      image_or_text: "Dial: Koch-/Buntwäsche · Pflegeleicht · Feinwäsche · Wolle/Handwäsche · Schleudern · Abpumpen · Kurz 30'. Buttons: Start/Pause · Temp. · Drehzahl · Vorwäsche · Knitterschutz · Kindersicherung (3 Sek.)"
+    assert:
+      - {type: llm-rubric, value: "Detects German, translates each setting with meaning (for example Koch-/Buntwäsche as cottons and coloureds, not literally cooking laundry; Schleudern as spin; Abpumpen as drain; Drehzahl as spin speed; Kindersicherung as child lock, hold 3 seconds), and recommends a suitable setting such as Koch-/Buntwäsche at 30 or 40 degrees for jeans and T-shirts."}
+  - name: edge-unreadable-medicine-label
+    vars:
+      source_language: Japanese
+      context: pharmacy, I bought this for a headache
+      image_or_text: "Photo of a medicine box. Readable: 頭痛・発熱に. 用法・用量: 成人(15才以上) 1回2錠 ... the rest of the dosage line is cut off by the edge of the photo."
+    assert:
+      - {type: llm-rubric, value: "Translates what is readable (for headache and fever; adults 15 and over, 2 tablets per dose), says clearly that the rest of the dosage line, including how many times a day, is cut off and cannot be read, does not guess it, and tells the person to check with the pharmacist or send a clearer photo."}
+  - name: negative-parking-sign-context
+    vars:
+      source_language: French
+      context: parking outside my hotel, it is Saturday 10:30
+      image_or_text: "STATIONNEMENT INTERDIT · Lun–Sam 8h–19h · Sauf livraisons · Enlèvement demandé"
+    assert:
+      - {type: llm-rubric, value: "Explains that parking is prohibited Monday to Saturday 8:00 to 19:00 except for deliveries and that cars will be towed ('enlèvement demandé'), and concludes that the person cannot park there now (Saturday 10:30), rather than only translating word by word."}
