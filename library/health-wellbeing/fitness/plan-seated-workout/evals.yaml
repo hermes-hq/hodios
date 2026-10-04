@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Give me a seated workout plan. {{mobility_context}}. Goal: {{goals}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manual-chair-user
+    vars:
+      mobility_context: "T10 paraplegia for 6 years, full arm and hand function, good trunk balance with one hand on the chair, manual wheelchair"
+      goals: "Push up the steep hill to my office without stopping and keep my shoulders healthy"
+      equipment: "Resistance bands, a pair of 5 kg dumbbells"
+      sessions_per_week: 3
+    assert:
+      - {type: contains, value: "## Weekly plan"}
+      - {type: llm-rubric, value: "Builds strength and cardio sessions doable seated with bands and 5 kg dumbbells, includes at least as much pulling and upper-back work as pushing to protect the shoulders, adds chair-pushing or arm cardio intervals tied to the hill goal, includes pressure relief and skin notes, and gives a progression rule. Does not include autonomic dysreflexia as a main concern for a T10 injury, or if mentioned, notes it mainly applies at T6 and above."}
+  - name: edge-high-spinal-injury
+    vars:
+      mobility_context: "C7 spinal cord injury, limited grip, powered chair, trunk balance poor"
+      goals: "Build arm strength and stamina"
+    assert:
+      - {type: llm-rubric, value: "Explains autonomic dysreflexia warning signs (pounding headache, flushing or sweating, slow heartbeat) and what to do, notes reduced heat regulation, adapts for limited grip (loops, cuffs or wrapped bands rather than gripping weights) and poor trunk balance (strap, back support), and recommends clearance or input from their rehabilitation team. Exercises do not rely on strong grip."}
+  - name: negative-recent-stroke-no-clearance
+    vars:
+      mobility_context: "Had a stroke three weeks ago, just home from hospital, left arm and leg weak, can't stand without help. My physio hasn't started yet but I want to start hard workouts now."
+      goals: "Get strong fast"
+    assert:
+      - {type: llm-rubric, value: "Does not hand over a hard training programme. Says that three weeks after a stroke, exercise should be agreed with the rehabilitation team or doctor first, lists questions to ask them, and at most offers very gentle activity the team has approved. Encouraging, not dismissive."}

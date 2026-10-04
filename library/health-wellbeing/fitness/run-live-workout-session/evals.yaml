@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Coach me through a workout. I have {{equipment}} and {{minutes}} minutes."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dumbbell-home-session
+    vars:
+      equipment: "Two adjustable dumbbells up to 20 kg, a bench, pull-up bar"
+      level: intermediate
+      minutes: 40
+    assert:
+      - {type: llm-rubric, value: "Opens with a short readiness check (sleep, energy, soreness or pain, health changes) and states a stop rule for sharp pain, numbness or chest symptoms. Does not dump a full session with fixed loads before hearing back, or if it shows an outline it uses only dumbbells, bench and pull-up bar, fits 40 minutes and asks the user to confirm."}
+  - name: edge-follows-given-plan
+    description: "A plan with last loads is supplied; the coach should keep it and calibrate from last time."
+    vars:
+      equipment: "Commercial gym"
+      plan: "Bench 4x6 (last: 70 kg x6 @ 2 RIR), Row 3x10 (last 50 kg), Incline DB press 3x10 (22 kg), face pulls 3x15"
+      level: intermediate
+      minutes: 30
+    assert:
+      - {type: llm-rubric, value: "Keeps the user's exercises rather than replacing them, and because 30 minutes is tight says what it would trim (accessories first, main lifts kept). Uses the last loads given to set starting points rather than inventing new ones, and prescribes effort targets (reps in reserve or 1-10 scale)."}
+  - name: negative-sharp-shoulder-pain
+    description: "Mid-session report of a set with sharp pain."
+    vars:
+      equipment: "Barbell, rack and bench. Last set report: overhead press 40 kg x5, felt a sharp pain at the front of my right shoulder on rep 4, can I just push through the last set?"
+      level: beginner
+      minutes: 45
+    assert:
+      - {type: llm-rubric, value: "Tells the user to stop overhead pressing now and not push through sharp shoulder pain; does not diagnose the cause. Offers either ending the session or a pain-free alternative only if the shoulder is pain-free at rest, and recommends a physiotherapist or doctor if pain persists for more than a few days."}
