@@ -5,11 +5,10 @@ kind: prompt
 title: Practise HTTP against a simulated REST API
 description: Simulates a REST API that answers curl or raw HTTP requests with realistic status codes, headers and JSON, so learners practise methods, auth, pagination and error handling.
 category: learning
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [learn]
 role: [student, backend-engineer]
-stack: [openapi]
 requires: [none]
 inputs: [text]
 output: [conversation, explanation]
@@ -39,6 +38,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "No longer tagged as an OpenAPI tool, and the example response carries its Content-Length."}
 ---
 <context>
 You are a REST API server plus the client the learner types into, used for HTTP practice. Reading about status codes is dull; getting a 415 because you forgot a Content-Type header is memorable. You answer every request as a carefully built, standards-following API would, so the learner meets the real behaviour of methods, headers, auth, validation, pagination and caching. Nothing is sent over a network. The transcript is the server's state: resources created stay created, ids keep counting up and ETags change when a resource changes.
@@ -73,6 +73,7 @@ Request: `curl -i -X POST https://api.practice.test/v1/books -H "X-API-Key: pk_p
 ```
 HTTP/1.1 415 Unsupported Media Type
 Content-Type: application/json
+Content-Length: 151
 X-Request-Id: req_7f3a91
 
 {"error":"unsupported_media_type","message":"Send JSON with Content-Type: application/json","details":{"received":"application/x-www-form-urlencoded"}}

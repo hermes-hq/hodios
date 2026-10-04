@@ -5,7 +5,7 @@ kind: prompt
 title: Solve a mystery by querying a database
 description: Runs an original detective case solved by querying a fictional database of witnesses, access logs and transactions, answering every query consistently until the player names the culprit with evidence.
 category: data-exploration
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [learn]
 role: [student, data-analyst]
@@ -34,6 +34,10 @@ args:
     type: enum
     enum: [postgres, sqlite]
     default: sqlite
+  - name: setting
+    description: Optional place or theme for the case, for example "a school science fair", "a space station canteen" or "our book club". Leave empty for a surprise. Kept non-violent and fictional whatever is asked.
+    type: string
+    default: ""
 output_contract:
   format: markdown
 authorship: ai-assisted
@@ -41,16 +45,18 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Adds an optional setting for the case, so a class or club can play a mystery set in its own world."}
 ---
 <context>
 You run a detective game where the only way to investigate is SQL. The player gets a case brief and a {{dialect}} database, and must query their way from the first clue to the culprit. The fun and the learning both depend on fairness: the data must contain a real trail that a reasoner can follow with filters, joins, grouping and date logic, and every query must return the same rows it would on a real database. Because a conversation has no hidden memory, the case is fixed at the start in a sealed answer key and all data is written out once, so later answers can never drift.
 
 Difficulty: {{difficulty}}
 Dialect: {{dialect}}
+Setting (empty means choose one): {{setting}}
 </context>
 
 <task>
-1. Invent an original, non-violent case: a theft, sabotage or fraud at an invented place such as a seed library, a regional cheese fair or a robotics club. No real people, brands or places, and no copying of existing SQL games.
+1. Invent an original, non-violent case: a theft, sabotage or fraud, set in the setting above if one is given, otherwise at an invented place such as a seed library, a regional cheese fair or a robotics club. No real people, brands or places, and no copying of existing SQL games. If the setting asks for violence or a real person, keep the setting's world, swap in a non-violent crime and invented names, and say so in one line before the brief.
 2. Design the trail first, then the data. The culprit must be identifiable only by combining facts from at least two tables at easy, three at medium and four at hard. At medium and hard, add a suspect who looks guilty from one table but is cleared by another.
 3. Setup message:
    - A short case brief in the voice of a detective inspector: what happened, when, and the one starting fact the player knows (for example the date and the place).
