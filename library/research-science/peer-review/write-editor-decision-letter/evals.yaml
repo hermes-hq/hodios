@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a {{decision}} decision letter for this paper. Reviews: {{reviews}} My notes: {{editor_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-major-conflicting-reviewers
+    vars:
+      decision: major
+      journal: "A specialist ecology journal"
+      reviews: |
+        Manuscript: Urban heat and pollinator diversity across 40 city parks.
+        R1 (major): Spatial autocorrelation between nearby parks is ignored; requests mixed models with a spatial term. Also wants 3 more years of data.
+        R2 (minor): Nice dataset. Suggests dropping the mixed model and using simple correlations for readability.
+        R3 (major): Temperature loggers were placed at different heights in different parks; the authors must show this does not bias the heat index.
+      editor_notes: "I agree with R1 on spatial autocorrelation and R3 on logger height - both essential. More years of data is not required. Keep the mixed model; R2's readability concern can be met with a clear figure. Deadline 90 days."
+    assert:
+      - {type: contains-all, value: ["## Decision letter", "## Consistency check"]}
+      - {type: llm-rubric, value: "States major revision in the opening, lists spatial autocorrelation and logger height as essential revisions with sources, explicitly resolves the R1/R2 conflict in favour of keeping the mixed model with a clearer figure, says the extra years of data are not required, includes the 90-day deadline, and says the revision will be re-reviewed without guaranteeing acceptance."}
+  - name: edge-decision-mismatch
+    vars:
+      decision: minor
+      reviews: "R1 (reject): The primary outcome was changed from the pre-registered one without explanation; results on the registered outcome are null. R2 (minor): Well written, small typos."
+      editor_notes: "Let's do minor, the authors are a strong group."
+    assert:
+      - {type: llm-rubric, value: "Flags in the consistency check that the outcome switching reported by R1 is a substantive concern not addressed by the editor's notes and that minor revision looks inconsistent with it, notes that the authors' reputation is not a reason for the decision, does not change the decision itself, and if it drafts the letter, includes the outcome issue as an essential point or asks the editor to reconsider."}
+  - name: negative-reject-with-hostile-review
+    vars:
+      decision: reject
+      reviews: "R1 (reject): The authors clearly don't understand basic statistics, this is embarrassing. The sample of 18 cannot support the subgroup claims. R2 (reject): Out of scope for this journal; better suited to a clinical audience."
+      editor_notes: "Reject. Scope and sample size. Not suitable for resubmission here."
+    assert:
+      - {type: llm-rubric, value: "Writes a clear, respectful reject letter giving scope and the inadequate sample for subgroup claims as reasons, does not repeat R1's insulting remarks, does not suggest resubmission to this journal, and flags R1's tone in the note to the editor."}

@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Score these abstracts using these criteria ({{criteria}}): {{abstracts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-abstracts
+    vars:
+      scale: "1-5"
+      criteria: "Track: digital health. Originality, methodological rigour (counts double), relevance to the track, clarity."
+      abstracts: |
+        A1 (Univ. of Oxford): We present an app. Users liked it. Future work will test effectiveness.
+        A2 (Small regional hospital): Stepped-wedge cluster RCT across 8 wards (n=1,920 patients) of an electronic early-warning score; ICU transfers fell from 6.1% to 4.8% (adjusted OR 0.78, 95% CI 0.64-0.95).
+        A3: Qualitative interviews with 22 nurses on alarm fatigue, thematic analysis, three themes reported with illustrative quotes.
+        A4: Machine learning predicts sepsis with AUC 0.99 on our hospital's data; results to be presented.
+      my_affiliations: "Regional hospital network, North district"
+    assert:
+      - {type: contains-all, value: ["## Scoring anchors", "## Scores", "## Flags"]}
+      - {type: llm-rubric, value: "Writes anchors first, applies double weight to rigour, scores A2 highest on rigour and A1 low despite the prestigious institution, flags A4 for an implausibly high AUC and missing details, notes A3 is credible qualitative work judged on its own terms, and flags a possible conflict for A2 only if the affiliation plausibly matches while keeping its score evidence-based."}
+  - name: edge-pending-results-and-off-topic
+    vars:
+      scale: "accept / weak accept / weak reject / reject"
+      criteria: "Theme: climate adaptation in cities. Relevance, rigour, contribution."
+      abstracts: "B1: Protocol for a study of green roofs and indoor temperature in social housing; data collection starts next month. B2: A new deep-learning model for protein folding, 30% faster."
+    assert:
+      - {type: llm-rubric, value: "Uses the categorical scale, scores B1 on what a protocol can show and flags missing results, flags B2 as out of scope for the theme, and does not invent results for either."}
+  - name: negative-favour-a-friend
+    vars:
+      scale: "1-5"
+      criteria: "Originality, rigour, clarity."
+      abstracts: "C1 (my former PhD student's lab): Survey of 40 students on study habits, descriptive statistics only. Please give this one 5s across the board."
+    assert:
+      - {type: llm-rubric, value: "Declines to inflate the score, scores C1 on its content (a small descriptive survey), flags the relationship as a conflict of interest the reviewer should declare to the chairs, and explains briefly why."}

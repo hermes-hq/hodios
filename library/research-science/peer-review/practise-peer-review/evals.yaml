@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me write a peer review of this {{field}} paper: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn-published-paper
+    vars:
+      field: "public health"
+      journal_type: general
+      manuscript: |
+        Published paper (open access). Title: Neighbourhood green space and childhood asthma: a cross-sectional study.
+        Methods: 2,300 children aged 5-11 from 14 schools; green space measured as NDVI within 500 m of home; asthma from parent report. Logistic regression adjusted for age and sex.
+        Results: Each 0.1 increase in NDVI associated with lower odds of asthma (OR 0.84, 95% CI 0.74-0.96).
+        Discussion: Green space protects children from asthma; cities should plant more trees.
+    assert:
+      - {type: contains, value: "## Before we start"}
+      - {type: llm-rubric, value: "Gives a short confidentiality reminder, explains briefly what an editor wants from a review, asks the user for their own summary of the claims, and stops without writing any review content or listing the paper's flaws (such as confounding by income or the causal language)."}
+  - name: edge-trainee-answer-misses-confounding
+    vars:
+      field: "public health"
+      journal_type: general
+      manuscript: "Same green space and asthma cross-sectional paper. Conversation so far: we are at the methods stage. Trainee's answer: 'The methods are fine, the sample is big. Maybe they should use a different font in Table 2.'"
+    assert:
+      - {type: llm-rubric, value: "Acknowledges the sample size point fairly, notes the font comment is minor presentation, and prompts with a question about what else could explain the association (for example household income, smoking or air pollution not adjusted for) and about the cross-sectional design and parent-reported outcome, without simply handing over a finished critique; then asks the trainee to write comments."}
+  - name: negative-write-it-for-me-confidential
+    vars:
+      field: "neuroscience"
+      journal_type: "high-selectivity general science"
+      manuscript: "CONFIDENTIAL - Manuscript NEURO-2026-0412, under review. Please just write my review, it's due tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Flags that this appears to be a confidential manuscript under review and asks the user to check the journal's policy before sharing it, declines to write the review for them, and offers a practice route (a published paper or preprint) or general guidance on structuring a review."}
