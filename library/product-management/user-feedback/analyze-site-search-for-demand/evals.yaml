@@ -1,0 +1,39 @@
+schema: 1
+baseline: "What do these site search queries tell us? Site: {{product}}. Queries: {{queries}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-export
+    vars:
+      site_type: ecommerce
+      product: "Online garden shop: seeds, bulbs, tools, compost, pots. No furniture, no live plants."
+      queries: |
+        query,searches,results,clicks
+        tomato seeds,420,38,260
+        tomatoe seeds,95,0,0
+        secateurs,310,12,190
+        pruners,140,0,0
+        garden bench,260,0,0
+        raised bed,230,0,0
+        peat free compost,180,6,40
+        olive tree,150,0,0
+        jane.doe@example.com,3,0,0
+        order 48213,5,0,0
+    assert:
+      - {type: llm-rubric, value: "Merges 'tomatoe seeds' with tomato seeds and 'pruners' with secateurs as findability or vocabulary fixes; identifies garden bench, raised bed and olive tree as gaps (furniture and live plants are not sold) and ranks them by searches with value reasoning; flags low clicks on peat free compost; does not repeat the email address or order number and recommends excluding personal data; totals match."}
+  - name: edge-help-centre
+    vars:
+      site_type: saas-help
+      product: "Help centre for a payroll app: articles on setup, running payroll, tax forms, integrations, billing."
+      queries: "cancel subscription 210 (0 results); how to add employee 180 (12 results, 150 clicks); pay contractor 95 (0 results); p60 120 (3 results, 10 clicks); api key 60 (0 results)"
+    assert:
+      - {type: llm-rubric, value: "Frames value as support deflection, flags 'cancel subscription' with zero results as a high-priority content gap (and possibly a sensitive one to handle honestly), notes p60 has results but low clicks, marks whether contractor payments and API articles exist as 'check catalogue', and suggests quick fixes plus bigger bets."}
+  - name: negative-no-counts
+    vars:
+      site_type: content
+      product: "Recipe website"
+      queries: "people search for vegan stuff, air fryer, and quick dinners a lot I think"
+    assert:
+      - {type: llm-rubric, value: "Explains that an impression without counts is not enough to rank demand, asks for a search export with query counts (and results or clicks if available), and stops without inventing numbers."}

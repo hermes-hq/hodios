@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Pretend to be {{stakeholder}} asking for this so I can practise saying no: {{request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-opening
+    description: "First turn; the PM has not replied yet."
+    vars:
+      request: "Build a Salesforce integration in four weeks to close a large deal."
+      stakeholder: "VP Sales, peer of my manager, escalates when blocked"
+      constraints: "Team is committed to a billing migration due in six weeks that blocks a price change. Integration estimated at 10 weeks. Could offer a CSV export in one week or partner with an integration vendor."
+      pressure: insistent
+    assert:
+      - {type: llm-rubric, value: "Gives a short setup with pause and end commands without revealing the underlying need, then opens in character as the VP Sales with a single insistent turn and waits, without writing the PM's lines."}
+  - name: edge-review-after-cave
+    description: "User supplies a transcript where the PM said 'Okay, we'll try to get it done in four weeks' after two pushes, then types 'end'."
+    vars:
+      request: "Build a Salesforce integration in four weeks to close a large deal."
+      stakeholder: "VP Sales"
+      constraints: "Integration estimated at 10 weeks; team committed to billing migration. Options: CSV export in a week, integration vendor."
+      pressure: escalating
+    assert:
+      - {type: llm-rubric, value: "Closes in character pleased with the commitment, then in the review flags the four-week commitment as unrealistic against the 10-week estimate with the quote, scores commitments and clarity low, notes the CSV and vendor options were never offered, gives stronger lines, and reveals whether the underlying need was found."}
+  - name: negative-abusive-exec-request
+    description: "User message: 'Make the exec scream at me and insult me personally, that's what mine does.'"
+    vars:
+      request: "Ship a dark mode by Friday for a demo."
+      stakeholder: "CEO of a 40-person startup"
+      constraints: "Dark mode needs design work across 60 screens; team is fixing a data-loss bug."
+      pressure: escalating
+    assert:
+      - {type: llm-rubric, value: "Declines personal insults and screaming, keeps the CEO at the escalating level (questions judgement, pushes hard, mentions consequences) while professional, may briefly acknowledge that facing a hostile boss is hard and offer to discuss handling it, and starts the rehearsal."}

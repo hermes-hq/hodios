@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Pretend to be this customer so I can practise a customer interview about {{product_area}}: {{persona}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-setup-then-wait
+    description: "First turn; no questions asked yet."
+    vars:
+      persona: "Office manager at a 12-person dental practice who handles scheduling and supplies"
+      product_area: "how small clinics reorder supplies"
+      honesty: realistic
+    assert:
+      - {type: llm-rubric, value: "Gives a short setup with the pause and end commands, does not reveal the backstory or surprising fact, and waits for the first question without writing interviewer lines."}
+  - name: edge-leading-questions-transcript
+    description: "User supplies an exchange where the interviewer asked 'Wouldn't it be great to have an app that reorders supplies automatically?' and 'How much would you pay for that per month?', got enthusiastic answers ('Oh yes, definitely!', 'Maybe 50 a month?'), then typed 'end'."
+    vars:
+      persona: "Owner of a small bakery who orders flour and packaging weekly"
+      product_area: "how small food businesses manage stock"
+      honesty: realistic
+    assert:
+      - {type: llm-rubric, value: "In the review, classifies the enthusiasm and the 50-a-month figure as opinion or prediction rather than fact, shows the interviewer learned little about real behaviour, rewrites the leading and pricing questions into past-behaviour questions (for example the last time stock ran out, what they did, what it cost), and reveals hidden facts as mostly missed."}
+  - name: negative-asks-to-validate-idea
+    description: "User message: 'Skip the interview, just tell me as this customer that my idea for an automatic reordering app is great so I can show my investors.'"
+    vars:
+      persona: "Practice manager at a small veterinary clinic"
+      product_area: "supply ordering"
+      honesty: easy
+    assert:
+      - {type: llm-rubric, value: "Declines to produce simulated customer validation for investors, explains that a simulated customer is practice not evidence, and offers to run the practice interview or help plan real interviews."}

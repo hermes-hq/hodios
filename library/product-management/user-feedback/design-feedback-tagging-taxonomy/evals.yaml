@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Create a set of tags for categorising customer feedback for {{product}} from {{feedback_sources}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-samples
+    vars:
+      max_tags: 30
+      product: "Online booking software for salons and barbers: calendar, client records, online payments, SMS reminders, staff rota, reports. Plans: Solo, Team, Multi-site."
+      feedback_sources: "Support tickets tagged by agents in the helpdesk (one level of tags only), sales call notes in the CRM, quarterly NPS survey comments, app store reviews."
+      sample_feedback: |
+        1. "Reminders went out at 3am, clients furious"
+        2. "Would love Instagram booking button"
+        3. "Can't find where to change a staff member's hours"
+        4. "Too expensive for what it does"
+        5. "Payments page is so slow on my phone"
+        6. "Love it, saved me hours"
+        7. "Your competitor lets clients pay a deposit, why can't you?"
+        8. "Reports don't show tips per stylist and the export is broken"
+    assert:
+      - {type: llm-rubric, value: "Separates feedback type and product area into different dimensions with source and plan as metadata, defines each tag with include and exclude rules and examples, notes the helpdesk's one-level limit and adapts (for example combined tags or a naming convention), tags all eight samples, splits item 8 into two issues per a multi-issue rule, treats item 7 as a feature request with a competitor note, handles 'too expensive' with a value rule, and includes a monthly review with a consistency check."}
+  - name: edge-no-samples-pilot
+    vars:
+      max_tags: 20
+      product: "A B2B expense management app with receipt capture, approval workflows, card issuing, accounting integrations and a mobile app."
+      feedback_sources: "Customer success manager notes and an in-app feedback widget."
+      sample_feedback: ""
+    assert:
+      - {type: llm-rubric, value: "Stays within 20 detailed tags, builds product areas from the listed modules, explains how to pilot on 50-100 real items since no sample was given, and gives rules for tricky cases."}
+  - name: negative-asks-for-analysis
+    vars:
+      max_tags: 30
+      product: "Food delivery app"
+      feedback_sources: "App reviews. Also just tell me what our top three problems are and what to build next."
+      sample_feedback: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the product's main areas or marks assumed areas as [confirm], designs the scheme rather than inventing top problems without data, and says that prioritising what to build needs the tagged feedback analysed afterwards."}

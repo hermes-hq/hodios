@@ -1,0 +1,38 @@
+schema: 1
+baseline: "What do these sales notes from {{period}} tell us about what to build? {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-themes-with-values
+    vars:
+      period: "Q3 2026"
+      notes: |
+        D1 lost: "needed SSO, security team blocked us"
+        D2 lost: "went with RivalCo, they have SSO"
+        D3 won: "loved the reporting"
+        D4 lost: "too expensive"
+        D5 lost: "wanted Xero integration" (we already have it, rep didn't know)
+        D6 lost: "needed SSO for audit"
+        D7 lost: "price - they only have 3 users, our minimum is 10 seats"
+        D8 lost: "no budget this year"
+        D9 won: "Xero integration sealed it"
+        D10 lost: "wanted a mobile app"
+      deal_values: "D1 40k, D2 55k, D3 12k, D4 8k, D5 15k, D6 60k, D7 3k, D8 20k, D9 14k, D10 9k"
+    assert:
+      - {type: llm-rubric, value: "Identifies SSO as the strongest product-gap theme (3 lost deals, about 155k) with quotes; classifies D5 as positioning or awareness since the integration exists; treats D7 as packaging or fit around seat minimums rather than a price cut; treats 'too expensive' and 'no budget' cautiously; recommends discovery or validation rather than building directly; and counts and sums match the data."}
+  - name: edge-no-values
+    vars:
+      period: "last 60 days"
+      notes: "Lost: needs offline mode (x3, field teams). Lost: chose competitor, cheaper. Won: offline mode not needed, office team. Lost: procurement took too long. Lost: wanted Spanish UI. Lost: offline mode again, construction firm."
+      deal_values: ""
+    assert:
+      - {type: llm-rubric, value: "Counts offline mode across four lost deals and notes the field or construction segment pattern, writes 'no values' for value at stake, classifies procurement as a process theme, and suggests discovery questions about offline use."}
+  - name: negative-too-few-notes
+    vars:
+      period: "September"
+      notes: "Lost one deal, they said 'not right now'. Won one, no notes. Please tell me our top product gaps for the roadmap."
+      deal_values: ""
+    assert:
+      - {type: llm-rubric, value: "Says the sample is too small and too vague to identify product gaps, lists what is there, suggests what to capture in future notes or a win-loss interview approach, and does not invent themes."}

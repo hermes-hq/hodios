@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What guardrail metrics should we use for experiments on {{product}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-app
+    vars:
+      risk_appetite: balanced
+      product: "Subscription meal-planning app, web and mobile, monthly and annual plans. Key actions: plan meals, generate shopping list, order groceries via partner. Last year a paywall test raised trial starts but doubled refund requests, noticed six weeks later."
+      experiment_types: "Paywall and pricing page tests, onboarding flow changes, recommendation algorithm changes, a backend migration next quarter."
+    assert:
+      - {type: llm-rubric, value: "Gives six to ten guardrails covering revenue (including refunds and downgrades), performance (load time, error or crash rate), trust (cancellations, complaints) and support load, each with definition, relative threshold labelled as a starting suggestion, window, owner and action; adds refund guardrails for pricing tests and latency for the migration; explains non-inferiority power and lagging metrics like refunds with a longer window, referencing the past paywall incident."}
+  - name: edge-conservative-marketplace
+    vars:
+      risk_appetite: conservative
+      product: "Second-hand electronics marketplace; we earn a commission per sale. Buyers can file disputes."
+      experiment_types: ""
+    assert:
+      - {type: llm-rubric, value: "Sets stricter thresholds than balanced, includes dispute rate and seller-side harm (for example seller listings or cancellations), marks assumed data sources [confirm], and covers decision rules when the success metric wins but a guardrail breaches."}
+  - name: negative-industry-thresholds
+    vars:
+      risk_appetite: aggressive
+      product: "Just tell me the industry-standard guardrail thresholds everyone uses, I don't want to explain my product."
+      experiment_types: ""
+    assert:
+      - {type: llm-rubric, value: "Explains there are no universal thresholds and that guardrails depend on how the product makes money and what users do, asks for that information, and stops without inventing a product-specific set."}
