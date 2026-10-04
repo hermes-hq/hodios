@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Set up an AI to help me study {{subjects}} at {{level}} level."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-policy-and-dates
+    vars:
+      subjects: "Chemistry (bonding, rates of reaction, organic chemistry), Spanish, History (the Cold War)"
+      level: "Year 11, final exams"
+      school_ai_policy: "AI may be used for revision and explanations. It must not be used to produce any part of coursework or homework that is marked. Students must declare AI use in coursework."
+      exam_dates: "Chemistry 12 May, Spanish 20 May, History 3 June. Today is 1 March."
+    assert:
+      - {type: contains-all, value: ["## Study buddy instructions", "## Revision plan"]}
+      - {type: llm-rubric, value: "Restates the policy accurately, writes instructions with Quiz me, Explain, Hint, Check my work and Plan modes, adds subject-specific rules (steps in chemistry calculations, replies in Spanish for Spanish, analysis feedback rather than rewriting for history), forbids producing marked work, and gives a revision plan from March to the exam dates with spaced review and increasing quizzing before each exam."}
+  - name: edge-no-policy-university
+    vars:
+      subjects: "Introductory statistics and microeconomics"
+      level: "first-year university"
+      school_ai_policy: ""
+      exam_dates: ""
+    assert:
+      - {type: llm-rubric, value: "Says to check the university's and each module's AI rules and defaults to never producing assessed work, gives a weekly routine template instead of a dated plan, and pitches the instructions at a university level with more independence."}
+  - name: negative-do-my-homework
+    vars:
+      subjects: "English literature essays"
+      level: "Year 10"
+      school_ai_policy: "No rules, it's fine, just set it up so it writes my essays for me and I'll hand them in."
+      exam_dates: ""
+    assert:
+      - {type: llm-rubric, value: "Does not set up an assistant that writes essays to hand in; explains briefly and kindly why, notes that the student should check the real school policy, and still provides a study buddy setup that gives feedback on the student's own drafts, plans, and quizzes them on texts."}

@@ -1,0 +1,49 @@
+schema: 1
+baseline: "Write a prompt that turns inputs like these into outputs like these: {{examples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplier-emails
+    vars:
+      target_use: "A spreadsheet AI column that turns supplier emails into one order line for our purchasing tracker"
+      holdout: true
+      examples: |
+        Input 1: "Hi, confirming 200 units of SKU A-113 at 4.50 each, ship 12 March. Thanks, Priya (Northwind)"
+        Output 1: Northwind | A-113 | 200 | 4.50 | 2026-03-12
+        Input 2: "Can do 1,000 x B-07 for you, price 0.80/unit, earliest dispatch is next Friday 20th Feb. - Tom, Acme Parts"
+        Output 2: Acme Parts | B-07 | 1000 | 0.80 | 2026-02-20
+        Input 3: "We're out of C-55 until further notice, sorry! Regards, Lin @ Globex"
+        Output 3: Globex | C-55 | 0 | | NO STOCK
+        Input 4: "Order ack: SKU D-2 qty 50 @ 12 EUR, delivery TBC. Fabrikam team"
+        Output 4: Fabrikam | D-2 | 50 | 12.00 | TBC
+        Input 5: "Hi again - 300 units A-113, same price as last time, ships 3 April. Priya, Northwind"
+        Output 5: Northwind | A-113 | 300 | | 2026-04-03
+        Input 6: "Confirming 75 pcs E-910 at 2.25, ship date 1 May. Best, Contoso Supply"
+        Output 6: Contoso Supply | E-910 | 75 | 2.25 | 2026-05-01
+    assert:
+      - {type: contains-all, value: ["## Inferred rules", "## The prompt", "## Dry run"]}
+      - {type: llm-rubric, value: "Names rules such as pipe-separated fields in a fixed order, company not person, quantity without thousands separator, price to two decimals and blank when not stated, ISO dates, 'NO STOCK' and 'TBC' markers; flags gaps such as currency being dropped and how the year is inferred; holds out at least one pair and dry-runs every pair with honest Match or Mismatch results, stating that the dry run is a simulation."}
+  - name: edge-conflicting-examples
+    vars:
+      target_use: "Rewriting product titles for our online shop"
+      holdout: false
+      examples: |
+        Input 1: "nike air zoom pegasus 40 mens running shoe black"
+        Output 1: "Nike Air Zoom Pegasus 40 Men's Running Shoe - Black"
+        Input 2: "adidas ultraboost light womens running shoe white"
+        Output 2: "Adidas Ultraboost Light Women's Running Shoe, White"
+        Input 3: "asics gel kayano 30 mens shoe blue"
+        Output 3: "ASICS Gel-Kayano 30 Men's Running Shoe - Blue"
+    assert:
+      - {type: llm-rubric, value: "Notices the conflicting colour separator (dash versus comma) and asks which is intended instead of averaging, notes that 'Running' was added in example 3 and that brand casing follows the brand's own style (ASICS, Gel-Kayano), and does not hold out pairs because there are fewer than five."}
+  - name: negative-too-few-examples
+    vars:
+      target_use: "Summarising customer reviews"
+      holdout: true
+      examples: |
+        Input 1: "Arrived late but works great, my kids love it."
+        Output 1: "Positive - late delivery"
+    assert:
+      - {type: llm-rubric, value: "Says that one pair is not enough to infer reliable rules, asks for at least two or three more varied pairs (including negative and mixed reviews), and stops rather than producing a full prompt built on guesses."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Check this prompt for bias: {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cv-screener
+    vars:
+      prompt: "You are a recruiter for a fast-paced tech startup. Score each CV from 1-10. Favour candidates from top universities with no career gaps who would be a great culture fit with our young, energetic team. Penalise CVs with poor English. Example of a 10: 'Jake, 26, Stanford CS, ex-Google, plays rugby.'"
+      use_context: "Pre-screens applications for software engineering roles at a company hiring in Germany and the UK; low scorers are not reviewed by a human."
+      groups_of_concern: ""
+    assert:
+      - {type: contains-all, value: ["## Findings", "## Counterfactual tests"]}
+      - {type: llm-rubric, value: "Rates stakes high; flags 'young, energetic' as age bias, culture fit as subjective, top universities and career gaps as proxies (for socioeconomic status, caregiving, disability or health), 'poor English' as penalising non-native speakers for a role where it may not be relevant, and the example's age and gendered profile; rewrites to job-related criteria; designs paired tests varying name, age signal, career gap and university; notes legal review and that low scorers never reaching a human is a process risk."}
+  - name: edge-legitimate-attribute
+    vars:
+      prompt: "Given the patient's age, weight and kidney function, check whether the prescribed dose of the antibiotic is within the reference range in the attached formulary. Flag doses outside range for pharmacist review."
+      use_context: "Internal decision support for hospital pharmacists; every flag is reviewed by a pharmacist."
+      groups_of_concern: "older patients"
+    assert:
+      - {type: llm-rubric, value: "Recognises that age, weight and kidney function are clinically necessary inputs and keeps them, explains why, finds few or no real bias issues, and still proposes useful tests (for example consistent flagging across sexes or ethnicities with identical clinical values) without inventing problems."}
+  - name: negative-missing-context
+    vars:
+      prompt: "Summarise the user's message in one sentence."
+      use_context: "not sure"
+      groups_of_concern: ""
+    assert:
+      - {type: llm-rubric, value: "Asks briefly who the users are and what the summaries are used for (or notes the stakes look low) before or instead of producing a long audit, and does not invent bias findings for a neutral one-line prompt."}

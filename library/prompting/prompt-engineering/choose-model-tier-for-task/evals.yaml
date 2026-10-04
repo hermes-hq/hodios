@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Which AI model should I use for this: {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ticket-tagging
+    vars:
+      task: "Tag incoming support tickets (usually 20-80 words, English) with one of 12 fixed categories and a priority of low, normal or urgent. Output JSON."
+      volume: "about 30,000 tickets a month, near real time"
+      constraints: "Wrong urgent tags are costly; others are corrected by agents."
+    assert:
+      - {type: contains-all, value: ["## Recommendation", "## Decision rule"]}
+      - {type: llm-rubric, value: "Recommends a small tier with reasoning off (or a cascade that escalates uncertain or potentially urgent tickets to a larger tier), explains that fixed-label classification with high volume and latency needs suits small models, designs a comparison with representative and edge tickets that measures accuracy especially on urgent cases, sets a decision rule in advance, and names no specific models or prices."}
+  - name: edge-agentic-security-review
+    vars:
+      task: "Review pull requests in our payments service for security vulnerabilities and explain each finding with a fix."
+      volume: "about 15 pull requests a day"
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Recommends a frontier tier with reasoning recommended because of subtle, high-cost errors and multi-file reasoning at modest volume, keeps human review of findings, and proposes a comparison using past pull requests with known vulnerabilities and clean ones to measure missed issues and false alarms."}
+  - name: negative-asks-for-model-name
+    vars:
+      task: "Just tell me the exact model name and price per million tokens that's best for writing marketing emails."
+      volume: low
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Does not name a specific model or quote prices; explains that it recommends tiers because names and prices change, recommends a tier (likely mid) for marketing emails, and tells the user to check current pricing and run a small comparison."}

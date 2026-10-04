@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a system prompt for a voice assistant that does this: {{purpose}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dental-clinic
+    vars:
+      purpose: "Answer phone calls for Brightsmile Dental, a two-dentist clinic. Book, move and cancel check-ups and hygiene appointments; answer opening hours (Mon-Fri 8:00-18:00), address and parking questions. Callers are patients of all ages."
+      handoff_rules: "Transfer to reception during opening hours if the caller asks for a person, has dental pain or swelling, asks about prices or insurance, or after two failed attempts. Out of hours, take a callback request. Severe swelling with trouble breathing or swallowing means call the emergency number."
+      tools: "find_slots(date_range, appointment_type); book(slot_id, patient_name, date_of_birth, phone); cancel(booking_id)"
+      channel: phone
+      languages: "English only"
+    assert:
+      - {type: contains-all, value: ["## System prompt", "## Test calls"]}
+      - {type: llm-rubric, value: "The system prompt discloses it is automated, forbids visual formatting, asks one question at a time, reads back name, date of birth, phone number and slot before booking, asks for spelling of names, limits retries to two before handoff, covers silence and interruptions, says what to say while tools run, routes pain or swelling to reception and breathing or swallowing trouble to emergency services, passes a summary to the human, and does not invent prices; test calls include mishearing, silence, tool failure and an injection attempt."}
+  - name: edge-no-tools-smart-speaker
+    vars:
+      purpose: "A kitchen smart-speaker helper for a recipe website: answers questions about the recipe the user has open, timers are handled by the device."
+      handoff_rules: "No humans available. If the user needs help beyond the recipe, suggest the website's help page."
+      tools: ""
+      channel: smart-speaker
+      languages: "English and Spanish"
+    assert:
+      - {type: llm-rubric, value: "Adapts the handoff to the fact that no human exists (points to the help page instead), states that without tools the agent only answers from the open recipe, handles English and Spanish and says what to do with other languages, and keeps spoken style rules (quantities said aloud, short turns)."}
+  - name: negative-vague-purpose
+    vars:
+      purpose: "Customer service."
+      handoff_rules: "Transfer when needed."
+      tools: ""
+      channel: phone
+      languages: "English only"
+    assert:
+      - {type: llm-rubric, value: "Asks up to three focused questions (what organisation and tasks, when exactly to transfer and to whom, what happens out of hours) and stops instead of writing a generic prompt."}
