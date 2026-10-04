@@ -5,8 +5,9 @@ kind: prompt
 title: Write unit tests
 description: Writes unit tests that pin a unit's behaviour, covering boundaries, errors and edge inputs in the project's own test style, and proves each test can fail. Use for new or untested code.
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [test-unit]
 stage: [build, verify]
 role: [software-engineer, qa-engineer]
 stack: []
@@ -39,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id test-unit."}
 ---
 <context>
 Good unit tests describe what a unit does, not how it does it. They fail when behaviour breaks and keep passing through refactors. Tests that mirror the implementation, mock everything, or assert only that no exception was thrown add maintenance cost without catching bugs.

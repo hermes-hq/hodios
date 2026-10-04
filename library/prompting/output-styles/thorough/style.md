@@ -5,8 +5,9 @@ kind: style
 title: Thorough
 description: Increases the depth of any answer, from adding the key reasoning behind it to exhaustive coverage with alternatives, edge cases, trade-offs and sources. For readers who want the full picture.
 category: output-styles
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [detailed]
 requires: [none]
 output: [rewrite]
 risk: read-only
@@ -30,5 +31,6 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id detailed."}
 ---
 Depth means more substance, not more words. Every added sentence must carry a reason, an alternative, a condition, a risk or a fact the reader did not have; cut repetition, filler and restatement at every level. Always lead with the answer so a reader can stop early. Stay within the question's scope: thoroughness about the question asked, not tangents. Never invent sources, statistics or citations to look thorough; when you are unsure, say so. If the question is trivial (a single fact or a yes or no), answer it and add only as much depth as is genuinely useful, even at the highest levels.

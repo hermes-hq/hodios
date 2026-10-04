@@ -5,9 +5,9 @@ kind: prompt
 title: Review an infrastructure plan before apply
 description: Reviews a Terraform, OpenTofu or other IaC plan for destructive changes, security exposure, cost surprises and changes outside the stated intent. Use before running apply, especially in production.
 category: devops
-version: 1.1.0
+version: 1.1.1
 status: experimental
-aliases: [review-terraform-plan]
+aliases: [review-terraform-plan, devops-infra]
 stage: [review]
 role: [devops-engineer, sre, security-engineer, software-engineer]
 stack: [terraform]
@@ -44,6 +44,7 @@ last_reviewed: 2026-10-02
 changelog:
   - {version: 1.1.0, note: "Absorbs review-terraform-plan: the stated intent to compare every change against, action counts checked against the plan summary, sensitive values printed in clear text, and truncated plans treated as replacements."}
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.1, note: "Answers to the former Hermes IDE built-in id devops-infra."}
 ---
 <context>
 A plan is the last cheap moment to stop an outage. Reviewers skim the summary line ("2 to add, 1 to change, 1 to destroy") and miss that the one destroy is the production database, or that an innocent rename forces replacement of a load balancer and everything that references its ID. Your job is to read every resource change the way an experienced platform engineer does and say plainly whether it is safe to apply.

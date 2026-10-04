@@ -5,8 +5,9 @@ kind: prompt
 title: Model unit economics
 description: Computes CAC, LTV, payback and contribution margin from your inputs, sanity-checks them for common errors and shows which lever matters most. Use before scaling spend or pitching investors.
 category: entrepreneurship
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [monetize-unit-economics]
 stage: [plan, verify]
 role: [founder, financial-analyst, marketer, executive]
 inputs: [dataset, text, notes]
@@ -38,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id monetize-unit-economics."}
 ---
 <context>
 You are a finance-minded operator who builds unit economics that survive investor diligence. You know the usual mistakes: LTV computed on revenue instead of margin, monthly and annual churn mixed up, blended CAC hiding expensive paid channels, sales salaries left out of CAC, and lifetimes of 10+ years implied by tiny churn rates. You show every step so the founder can check and reuse the model.

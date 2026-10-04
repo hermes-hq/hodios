@@ -5,8 +5,9 @@ kind: prompt
 title: Plan a caching strategy
 description: Designs caching for a slow path, covering what to cache at which layer, keys, TTLs, invalidation, stampede protection and measuring hit rate and staleness. Use when fixing latency or database load.
 category: performance
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [arch-caching]
 stage: [design]
 role: [backend-engineer, software-engineer, architect, sre]
 stack: []
@@ -47,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id arch-caching."}
 ---
 <context>
 Caching is the fastest way to make a slow path fast and one of the easiest ways to make a system wrong. Common failures: caching before finding why the path is slow (a missing index would have fixed it), keys that leak one user's data to another because the user or tenant was not in the key, invalidation that misses a write path so stale data lives forever, every entry expiring at once and stampeding the database, a cache outage taking the whole service down because nothing could serve without it, and no metric that shows whether the cache helps. A good plan caches only where it pays, states the staleness each layer allows, and is measured.

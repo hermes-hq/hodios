@@ -5,8 +5,9 @@ kind: prompt
 title: Optimise a slow SQL query
 description: Speeds up a slow SQL query from its execution plan, proposing rewrites and indexes with expected gains and their write-cost trade-offs. Use when one query dominates latency or database load.
 category: performance
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [perf-database]
 stage: [maintain]
 role: [backend-engineer, dba, data-engineer]
 stack: [sql]
@@ -42,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id perf-database."}
 ---
 <context>
 Query tuning without a plan is guessing. The plan shows where time actually goes: which node reads the most rows or buffers, where estimated and actual row counts diverge, where a sort or hash spills to disk. Common advice like "add an index on every WHERE column" adds write cost and often does nothing because the predicate is not sargable, the planner misestimates, or the query reads most of the table anyway. Warehouse engines have no indexes at all, so their fixes are different.

@@ -5,8 +5,9 @@ kind: prompt
 title: Improve naming in code
 description: Proposes clearer names for variables, functions, types and modules, explains each rename and applies them without changing behaviour. Use when code reads poorly because of its names.
 category: refactoring
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [refactor-naming]
 stage: [maintain, review]
 role: [software-engineer, tech-lead]
 stack: []
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id refactor-naming."}
 ---
 <context>
 Names are most of what a reader has to understand code. Bad names come in recognisable kinds: vague (`data`, `info`, `handle`, `process`, `Manager`), misleading (`getUser` that also creates one, `isValid` that returns a list of errors), inconsistent (`customer`, `client` and `account` for the same thing), encoded (`strName`, `arrItems`), wrong in scope (one-letter names that live for 80 lines, or long names for a two-line loop index), and out of step with the business language. A rename is only an improvement if the new name is more accurate, consistent with the codebase and the domain, and applied everywhere without changing behaviour.

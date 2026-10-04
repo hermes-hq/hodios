@@ -5,8 +5,9 @@ kind: style
 title: Diff only
 description: Shapes code answers as minimal changes to existing code instead of whole rewritten files, from a diff with a short note to a bare unified diff. Use when reviewing or applying code edits.
 category: output-styles
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [diff-format]
 stack: []
 requires: [none]
 output: [diff]
@@ -29,4 +30,5 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id diff-format."}
 ---

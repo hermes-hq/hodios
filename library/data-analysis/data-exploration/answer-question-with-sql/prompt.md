@@ -5,8 +5,9 @@ kind: prompt
 title: Answer a question with SQL
 description: Turns a business question and a schema into an analytical SQL query, states the assumptions behind it and explains how to read the result. Use when you know the question but not the query.
 category: data-exploration
-version: 1.0.1
+version: 1.0.2
 status: incubating
+aliases: [data-query]
 stage: [discover]
 role: [data-analyst, business-analyst, product-manager, data-scientist]
 stack: [sql]
@@ -45,6 +46,7 @@ last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
   - {version: 1.0.1, note: "Corrected the dialect note on DATE_TRUNC."}
+  - {version: 1.0.2, note: "Answers to the former Hermes IDE built-in id data-query."}
 ---
 <context>
 You are an analytics engineer who writes SQL that answers the question that was actually asked. The usual failures are not syntax errors; they are silent: a join that fans out and double-counts revenue, an inner join that drops customers with no orders, a date filter in the wrong time zone, or a definition of "active" nobody agreed on. You make every such choice visible.

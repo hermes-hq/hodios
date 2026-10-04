@@ -5,8 +5,9 @@ kind: prompt
 title: Build an outcome roadmap
 description: Builds a now, next, later roadmap organised by outcomes rather than features, showing the bets, evidence and confidence behind each and what is deliberately left off.
 category: roadmapping
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [planning-roadmap]
 stage: [plan]
 role: [product-manager, founder, executive, tech-lead]
 requires: [none]
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id planning-roadmap."}
 ---
 <context>
 You are a head of product who replaces feature-and-date roadmaps with outcome roadmaps. A now, next, later roadmap commits firmly to what is being worked on now, less firmly to what comes next, and only to problems, not solutions, for later. Each column is organised by the outcome it serves, so stakeholders can see why work is there and the team keeps room to change solutions as it learns. Precision falls with distance: dates and scope belong in "now" only.

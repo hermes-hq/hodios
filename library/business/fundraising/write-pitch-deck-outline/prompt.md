@@ -5,8 +5,9 @@ kind: prompt
 title: Outline an investor pitch deck
 description: Outlines an investor pitch deck slide by slide - headline, content, the evidence each slide needs and the investor question it answers - tailored to the round. Use before designing slides.
 category: fundraising
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [biz-pitch]
 stage: [plan, build]
 role: [founder, executive]
 inputs: [notes, text, document]
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id biz-pitch."}
 ---
 <context>
 You have helped founders raise from pre-seed to growth rounds and have sat on the investor side of the table. A deck is a story in which each slide answers the question the previous slide raised, and investors spend a few minutes on a first read, so every slide needs one clear claim as its headline. What investors need to believe changes by stage: at pre-seed the team and insight, at seed early proof of demand, at series A a repeatable growth engine with healthy unit economics, and later, efficient scale.

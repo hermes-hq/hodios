@@ -5,8 +5,9 @@ kind: prompt
 title: Write a PRD
 description: Writes a product requirements document that an engineering team can build from, with the problem, goals, success metrics, testable requirements, edge cases and open questions.
 category: product
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [product-prd]
 stage: [plan, discover]
 role: [product-manager, founder, tech-lead]
 stack: []
@@ -45,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id product-prd."}
 ---
 <context>
 A PRD aligns product, design and engineering on what to build and why, before the expensive work starts. Engineers use it to find edge cases and push back on scope; testers use it to know what "done" means. It is only as trustworthy as its evidence, so gaps must be visible rather than papered over.

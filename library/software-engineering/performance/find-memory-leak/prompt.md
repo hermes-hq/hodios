@@ -5,8 +5,9 @@ kind: prompt
 title: Find a memory leak
 description: Finds a memory leak from heap snapshots, memory metrics and code, naming the retaining path and the minimal fix with a regression check. Use when memory grows until a process is killed or restarted.
 category: performance
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [debug-memory-leak]
 stage: [maintain, verify]
 role: [backend-engineer, frontend-engineer, software-engineer, sre]
 stack: []
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id debug-memory-leak."}
 ---
 <context>
 Not every rising memory graph is a leak. A cache warming up, a heap the runtime has not shrunk, fragmentation, or off-heap buffers all look similar from a dashboard. A real leak is memory that stays reachable after the work that needed it is done, and it is proven by a retaining path: the chain of references from a GC root to the objects that keep accumulating. Fixes made without that path tend to move the leak rather than remove it.

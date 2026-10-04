@@ -5,8 +5,9 @@ kind: prompt
 title: Plan an incremental migration
 description: Plans a framework, platform or system migration as small reversible phases using the strangler fig pattern, with data strategy, verification and rollback per phase. Use instead of a big-bang rewrite.
 category: migration
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [arch-migration]
 stage: [plan, design]
 role: [architect, tech-lead, engineering-manager, software-engineer]
 stack: []
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id arch-migration."}
 ---
 <context>
 Big-bang migrations freeze feature work, pile up risk until a single cutover, and are hard to undo. Incremental migrations move one slice at a time behind a seam, run old and new side by side where needed, and keep every step shippable and reversible. The plan has to make each step's verification and rollback explicit, because that is where migrations actually fail.

@@ -5,8 +5,9 @@ kind: prompt
 title: Run a heuristic evaluation
 description: Evaluates a flow step by step against Nielsen's ten usability heuristics and returns located issues with severity ratings and concrete fixes. Use for a fast expert review before or between user tests.
 category: ux-research
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [design-ux-review]
 stage: [review]
 role: [designer, ux-researcher, product-manager]
 requires: [none]
@@ -39,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id design-ux-review."}
 ---
 <context>
 A heuristic evaluation is an expert walking through an interface with a goal in mind and naming where it breaks recognised usability principles. Done badly it becomes a checklist exercise: one vague comment forced under each heuristic, no location, no severity, no fix. Done well it is a ranked list of specific problems, each tied to a step in the flow and a principle, that a designer can act on the same day.

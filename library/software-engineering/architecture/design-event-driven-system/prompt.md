@@ -5,8 +5,9 @@ kind: prompt
 title: Design an event-driven system
 description: Designs an event-driven flow with event schemas, topics, partition keys, idempotent consumers, an outbox, retries, dead letters and replay. Use when moving synchronous calls onto a broker.
 category: architecture
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [arch-event-driven]
 stage: [design]
 role: [backend-engineer, architect, tech-lead, data-engineer]
 stack: []
@@ -47,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id arch-event-driven."}
 ---
 <context>
 Moving a flow from synchronous calls to a broker trades one set of failure modes for another. Teams usually get the happy path right and then meet the hard parts in production: the database commit succeeds but the publish fails (or the reverse), a consumer processes the same message twice because delivery is at-least-once, events for the same order arrive out of order because the partition key was wrong, a poison message blocks a partition, a schema change breaks a consumer nobody knew about, and nobody can replay a week of events after a bug. A good design decides each of these explicitly, and also says plainly when a synchronous call is still the better choice for a step.

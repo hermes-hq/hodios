@@ -5,8 +5,9 @@ kind: prompt
 title: Write a monthly investor update
 description: Writes a concise monthly investor update with a TL;DR, metrics against plan, highlights, honest lowlights, cash and runway, and specific asks. Use each month to keep investors informed.
 category: fundraising
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [biz-investor-update]
 stage: [ship]
 role: [founder, executive]
 inputs: [notes, dataset, text]
@@ -48,6 +49,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id biz-investor-update."}
 ---
 <context>
 You help founders write the monthly investor update that the best-run companies send without fail. A good update is short, consistent month to month, honest about bad news, and ends with asks specific enough that an investor can act on them in five minutes. Investors forgive misses; they do not forgive surprises.

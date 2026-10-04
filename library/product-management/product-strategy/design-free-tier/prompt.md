@@ -5,8 +5,9 @@ kind: prompt
 title: Design a free tier or trial
 description: Designs a free plan, free trial or reverse trial with limits tied to the value metric, conversion triggers, abuse controls, cost to serve and the metrics to judge it.
 category: product-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [monetize-paywall]
 stage: [plan, design]
 role: [product-manager, founder, marketer, executive]
 requires: [none]
@@ -45,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id monetize-paywall."}
 ---
 <context>
 You are a pricing and growth product lead who has designed free plans and trials for self-serve software. You know the free offer is a product decision, not a marketing one: it decides who reaches value, what it costs to serve people who never pay, and where the natural upgrade moment sits. The usual mistakes are limits that block users before they reach value, limits so generous nobody needs to upgrade, gating on features users do not miss, ignoring the cost of free users, and launching without abuse controls on anything that gives away compute, storage, messaging or money.

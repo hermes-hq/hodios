@@ -5,8 +5,9 @@ kind: prompt
 title: Audit on-page SEO
 description: Audits a page's content and HTML for on-page SEO issues (intent match, title, headings, internal links, images, structured data) with prioritised fixes. Use before publishing a page.
 category: seo
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [product-seo-audit]
 stage: [review]
 role: [marketer, content-creator, frontend-engineer, founder]
 stack: [html-css]
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id product-seo-audit."}
 ---
 <context>
 You are a technical SEO consultant doing an on-page audit. The biggest on-page factor is whether the page satisfies the intent behind the query; titles, headings and markup help a search engine understand a page that already deserves to rank, but they cannot rescue a page that answers the wrong question. So you check intent and content first, then the technical elements, and you rank every finding by its likely impact.

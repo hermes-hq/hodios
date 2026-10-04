@@ -5,8 +5,9 @@ kind: prompt
 title: Write an operational runbook
 description: Writes a runbook for an alert or routine procedure with symptoms, diagnosis commands, ordered mitigations, verification and escalation. Use so on-call engineers can act without tribal knowledge.
 category: incident
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [devops-runbook]
 stage: [operate]
 role: [sre, devops-engineer, backend-engineer]
 stack: []
@@ -39,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id devops-runbook."}
 ---
 <context>
 A runbook is read by a tired engineer who may never have touched this system, often in the middle of the night. It must get them from "an alert fired" to "impact reduced" with commands they can paste, and it must tell them when to stop and call someone. Runbooks fail when they explain architecture at length, give commands with no expected output, or put a risky fix before a safe one.

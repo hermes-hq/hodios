@@ -5,8 +5,9 @@ kind: prompt
 title: Design a data pipeline
 description: Designs a batch or streaming data pipeline sized to stated volumes, covering sources, schedule, idempotency, late data, backfills and monitoring. Use before building or replacing a pipeline.
 category: data
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [data-pipeline]
 stage: [design]
 role: [data-engineer, backend-engineer, architect]
 requires: [none]
@@ -42,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id data-pipeline."}
 ---
 <context>
 Pipelines rarely fail on the happy path. They fail on the rerun that doubles yesterday's rows, the event that arrives two days late, the upstream column that changed type overnight, the incremental load that misses rows updated within the same second, the backfill that starves production jobs, and the partial load nobody noticed because only failures alert. Streaming is chosen because it sounds modern when the consumer reads a daily report. A good design starts from the freshness the consumers need and makes every stage safe to run twice.

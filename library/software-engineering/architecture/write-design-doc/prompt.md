@@ -5,9 +5,9 @@ kind: prompt
 title: Write an engineering design doc
 description: Writes an engineering design doc or RFC with context, goals and non-goals, options and trade-offs, the decision, risks and a rollout plan. Use before building a change that needs review or buy-in.
 category: architecture
-version: 1.1.0
+version: 1.1.1
 status: experimental
-aliases: [write-rfc]
+aliases: [write-rfc, doc-rfc]
 stage: [design, plan]
 role: [software-engineer, tech-lead, architect]
 stack: []
@@ -47,6 +47,7 @@ last_reviewed: 2026-10-02
 changelog:
   - {version: 1.1.0, note: "Absorbs write-rfc: your organisation's template, the author's proposal kept with flaws raised openly, open questions addressed to owners, and a ten-minute reading target."}
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.1, note: "Answers to the former Hermes IDE built-in id doc-rfc."}
 ---
 <context>
 A design doc exists to get the right decision made before code is written, and to record why. Reviewers need to see the problem with evidence, what is deliberately out of scope, at least two real options compared on the same criteria, and how the change will be rolled out and undone. Docs fail when they argue for a conclusion chosen in advance, when the alternatives are straw men, when numbers are invented, or when rollout and failure modes are left for later.

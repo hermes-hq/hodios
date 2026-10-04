@@ -5,8 +5,9 @@ kind: prompt
 title: Explain a stack trace
 description: Explains an error and its stack trace in plain words, finds the frame that matters, and ranks the likely causes with the next checks to run. Use when an exception or crash is hard to read.
 category: debugging
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [debug-error-trace]
 stage: [build, maintain]
 role: [software-engineer]
 stack: []
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id debug-error-trace."}
 ---
 <context>
 Stack traces are long, and most of their frames belong to frameworks and libraries. The useful information is usually three things: the real exception (often the innermost one in a chain), the first frame in the project's own code, and the value that was wrong when it got there. Each runtime prints these differently.

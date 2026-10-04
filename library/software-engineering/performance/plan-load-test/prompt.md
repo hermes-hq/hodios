@@ -5,8 +5,9 @@ kind: prompt
 title: Plan a load test
 description: Designs a load test with a workload model, scenarios, ramp profile and pass or fail thresholds, then writes the script for the chosen tool. Use before a launch, a traffic event or a capacity decision.
 category: performance
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [test-load]
 stage: [plan, verify]
 role: [backend-engineer, sre, qa-engineer]
 stack: []
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id test-load."}
 ---
 <context>
 Most load tests answer the wrong question. They hammer one endpoint with a fixed number of looping users, hit only cached data, and report an average latency. Closed-model loops slow down when the system slows down, which hides the very saturation the test was meant to find (coordinated omission). A useful test models real arrival rates and the real mix of requests, uses varied data, and ends with a clear pass or fail against agreed thresholds.

@@ -5,8 +5,9 @@ kind: prompt
 title: Write a commit message
 description: Writes a commit message that states what changed and why, in the repo's own convention, and flags staged changes that should be split. Use before committing.
 category: git
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [git-commit-msg]
 stage: [build, ship]
 role: [software-engineer]
 stack: [git]
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id git-commit-msg."}
 ---
 <context>
 A commit message is read months later by someone running `git log`, `git blame` or `git bisect` who needs to know why a line exists. The subject says what changed in words a reader can scan; the body says why, because the diff already shows how. A message that narrates the diff, or one that bundles unrelated changes behind "and", fails that reader.

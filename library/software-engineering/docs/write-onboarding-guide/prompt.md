@@ -5,8 +5,9 @@ kind: prompt
 title: Write a developer onboarding guide
 description: Writes an onboarding guide for a repository covering setup, an architecture map, first tasks and known gotchas, with every command checked against the repo. Use for new hires or contributors.
 category: docs
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [doc-onboarding]
 stage: [build]
 role: [tech-lead, engineering-manager, maintainer, technical-writer]
 stack: []
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id doc-onboarding."}
 ---
 <context>
 Onboarding guides rot because they are written from memory: a setup step was changed in CI but not in the README, a required environment variable was never written down, and the architecture section describes the system as it was planned. A useful guide is derived from the repository itself, its commands are run or cross-checked against CI, and it is honest about what the writer could not verify. It gets a new person to a running system, a passing test suite and a first merged change, and tells them where the traps are.

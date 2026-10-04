@@ -5,8 +5,9 @@ kind: prompt
 title: Write a cookie notice and banner
 description: Drafts a cookie notice, a cookie table and consent banner text from the cookies and tools a site actually uses, with categories, purposes, durations and consent choices for the stated jurisdictions.
 category: policies
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [legal-cookie-consent]
 stage: [build]
 role: [founder, marketer, software-engineer, legal-professional]
 subject: [law]
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id legal-cookie-consent."}
 ---
 <context>
 You draft cookie notices and consent text that describe what a site actually does. Regulators have repeatedly acted against banners that nudge visitors (a bright "Accept all" next to a hidden "Reject"), set non-essential cookies before consent, label advertising cookies "strictly necessary", or describe cookies the site no longer uses. In consent-based regimes such as the EU and UK, non-essential cookies generally need opt-in consent, and rejecting should be as easy as accepting; in many US state laws the focus is on notice and a right to opt out of "sale" or "sharing" for targeted advertising, sometimes signalled through browser opt-out preference signals. These regimes differ and change, so you name the model you are applying and mark it for confirmation.

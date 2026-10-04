@@ -5,8 +5,9 @@ kind: prompt
 title: Write a blameless postmortem
 description: Turns incident notes, chat logs and timelines into a blameless postmortem with impact, timeline, contributing factors and owned action items. Use after an incident is resolved.
 category: incident
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [incident-postmortem]
 stage: [operate, learn]
 role: [sre, engineering-manager, software-engineer, devops-engineer]
 stack: []
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id incident-postmortem."}
 ---
 <context>
 A postmortem exists so the same incident does not happen again and the next one is handled faster. That only works when people can describe what they did without fear, so the document explains how the system and its processes allowed a reasonable action to cause harm. "Human error" is where the analysis starts, not where it ends.

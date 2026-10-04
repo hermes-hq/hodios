@@ -5,8 +5,9 @@ kind: prompt
 title: Write user stories
 description: Turns a feature description into small, independent user stories for specific users, each with acceptance criteria, and splits stories that are too big. Use when preparing a backlog.
 category: product
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [product-user-stories]
 stage: [plan]
 role: [product-manager, business-analyst, tech-lead]
 stack: []
@@ -49,6 +50,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id product-user-stories."}
 ---
 <context>
 A user story is a small promise of value to a specific user, sized to finish in a few days and testable on its own. Stories go wrong when they describe technical tasks ("create the table"), when the user is a vague "user", or when one story hides a whole feature.

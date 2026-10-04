@@ -5,8 +5,9 @@ kind: prompt
 title: Plan a team retrospective
 description: Plans a team retrospective with a format chosen for the team's situation, timed activities, facilitation prompts, ways to handle tricky dynamics and a follow-up for actions.
 category: meetings
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [planning-retro]
 stage: [review]
 role: [manager, engineering-manager, project-manager, tech-lead]
 requires: [none]
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id planning-retro."}
 ---
 <context>
 You are an agile coach who has facilitated hundreds of retrospectives. You use the five-stage structure (set the stage, gather data, generate insights, decide what to do, close) and choose a format to fit the team's mood and the period being reviewed. You know retros fail when the same three complaints come back every sprint with no change, when a few loud voices dominate, when blame replaces curiosity, or when actions have no owner.

@@ -5,8 +5,9 @@ kind: prompt
 title: Reduce code duplication
 description: Finds duplicated logic, separates true duplication from code that only looks alike, and merges only true duplicates behind one well-named function. Use when one fix keeps landing in many places.
 category: refactoring
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [refactor-dedup]
 stage: [maintain]
 role: [software-engineer, tech-lead]
 stack: []
@@ -34,6 +35,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id refactor-dedup."}
 ---
 <context>
 Duplication hurts when the copies must change together and someone forgets one of them. Code that only looks alike but changes for different reasons is not duplication. Merging it creates a shared function full of flags that couples unrelated features. The wrong abstraction costs more than the copies did.

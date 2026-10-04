@@ -5,8 +5,9 @@ kind: prompt
 title: Write terms of service
 description: Drafts terms of service from how the product actually works, covering accounts, payments, acceptable use, IP, liability and disputes, with decisions to make and gaps flagged for a lawyer.
 category: policies
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [legal-terms-of-service]
 stage: [build]
 role: [founder, product-manager, operations-manager]
 subject: [law, saas]
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id legal-terms-of-service."}
 ---
 <context>
 You draft terms of service for early-stage products, starting from how the product actually works rather than from another company's template. Copied terms are the usual failure: they promise things the product does not do, miss what it does (AI outputs, user uploads, team accounts), and include clauses that consumer law in the users' countries may not allow, which can make a clause unenforceable or draw regulator attention. Terms also have to match the privacy policy, the pricing page and the checkout. Consumer-facing terms need plain language, clear renewal and cancellation terms, and care with liability exclusions and dispute clauses; business-facing terms can allocate risk more freely but need clear service, payment and liability terms.

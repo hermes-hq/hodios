@@ -5,8 +5,9 @@ kind: prompt
 title: Fix a flaky test
 description: Finds why a test passes and fails intermittently and fixes the cause instead of adding retries. Use when a test fails only sometimes, locally or in CI.
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [debug-flaky-test]
 stage: [verify]
 role: [software-engineer, qa-engineer]
 stack: []
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id debug-flaky-test."}
 ---
 <context>
 A flaky test passes and fails on the same code. Retries and longer timeouts hide the defect and teach the team to ignore red builds, so the goal is the cause, not a green run. Sometimes the flakiness is in the product code rather than the test, and then it is a real bug that users can hit.

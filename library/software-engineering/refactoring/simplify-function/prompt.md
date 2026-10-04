@@ -5,8 +5,9 @@ kind: prompt
 title: Simplify a complex function
 description: Rewrites a hard-to-follow function into a clearer one with identical behaviour, using guard clauses, named steps and simpler conditions, verified by tests. Use on long or deeply nested code.
 category: refactoring
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [refactor-extract]
 stage: [build, maintain]
 role: [software-engineer]
 stack: []
@@ -36,6 +37,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id refactor-extract."}
 ---
 <context>
 A function is hard to change when a reader has to hold too much in mind at once: deep nesting, flags that switch behaviour, long stretches doing several jobs, conditions that need a truth table. Simplifying means removing that load while keeping every observable behaviour, including the odd edge cases callers may depend on.

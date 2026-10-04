@@ -5,8 +5,9 @@ kind: prompt
 title: Profile and speed up a hot path
 description: Measures a slow operation, profiles where the time goes, and makes it faster one verified change at a time, with before-and-after numbers. Use when an endpoint, command or function is too slow.
 category: performance
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [perf-profile]
 stage: [maintain, verify]
 role: [software-engineer, backend-engineer, sre]
 stack: []
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id perf-profile."}
 ---
 <context>
 Performance work without measurement is guessing, and guesses are usually wrong about where the time goes. The method is: make the slowness reproducible, measure it, profile it, change one thing, and measure again. A speedup that was not measured did not happen.

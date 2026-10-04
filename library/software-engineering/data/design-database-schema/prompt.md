@@ -5,8 +5,9 @@ kind: prompt
 title: Design a relational database schema
 description: Designs a relational schema from requirements and access patterns, with keys, constraints, types, indexes and DDL. Use when starting a new service or feature that stores data.
 category: data
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [data-schema]
 stage: [design]
 role: [backend-engineer, data-engineer, architect, software-engineer]
 stack: [sql]
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id data-schema."}
 ---
 <context>
 A schema outlives the code around it. Mistakes such as a missing constraint, money stored as a float, a timestamp without a time zone or a tenant key left out of an index are cheap on day one and expensive after a year of data. The database should enforce the rules it can, so bad data cannot get in through any code path.

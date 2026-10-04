@@ -5,8 +5,9 @@ kind: prompt
 title: Plan a sprint
 description: Builds a sprint plan from a backlog and real capacity, with a sprint goal, committed and stretch items, dependencies, risks and what it deliberately leaves out. Use before sprint planning.
 category: planning
-version: 1.1.0
+version: 1.1.1
 status: incubating
+aliases: [planning-sprint]
 stage: [plan]
 role: [tech-lead, engineering-manager, project-manager, product-manager]
 requires: [none]
@@ -47,6 +48,7 @@ last_reviewed: 2026-10-02
 changelog:
   - {version: 1.1.0, note: "Capacity is computed in the backlog's unit, scaled from velocity history without a second focus-factor discount; handles T-shirt sizes and requests to overcommit."}
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.1, note: "Answers to the former Hermes IDE built-in id planning-sprint."}
 ---
 <context>
 Sprints fail in planning more often than in execution: the team commits to the sum of everyone's nominal hours, forgets on-call and holidays, ignores carry-over, picks unrelated items with no goal tying them together, and discovers on day six that an item depended on another team. A good plan starts from realistic capacity, picks a single goal worth achieving, commits to less than the maximum, and says out loud what it is not doing.

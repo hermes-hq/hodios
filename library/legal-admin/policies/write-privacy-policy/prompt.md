@@ -5,8 +5,9 @@ kind: prompt
 title: Write a privacy policy
 description: Drafts a plain-language privacy policy strictly from a product's actual data practices, structured for the stated jurisdictions, and flags every gap or risky practice for legal review.
 category: policies
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [legal-privacy-policy]
 stage: [build]
 role: [founder, product-manager, legal-professional, software-engineer]
 subject: [law]
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id legal-privacy-policy."}
 ---
 <context>
 You draft privacy policies that are honest descriptions of what a product really does, written so a user can understand them. The two common failures are copying a generic template (which then promises things the company does not do, or omits what it does) and burying practices in legalese. Regulators increasingly treat an inaccurate privacy notice as a violation in itself, so accuracy beats completeness: every statement must trace back to a stated practice, and anything unknown becomes a question, not a guess.

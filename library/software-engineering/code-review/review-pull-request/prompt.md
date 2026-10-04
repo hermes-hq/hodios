@@ -5,9 +5,9 @@ kind: prompt
 title: Review a pull request
 description: Reviews a pull request diff for correctness bugs, risky changes and missing tests, and returns ranked findings. Use before merging a PR, branch or diff.
 category: code-review
-version: 1.0.0
+version: 1.0.1
 status: experimental
-aliases: [review-pr, git-review-pr]
+aliases: [review-pr, git-review-pr, git-review, git-pr-review]
 stage: [review]
 stack: []
 requires: [repo-read, git]
@@ -40,6 +40,7 @@ authorship: human
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in ids git-review, git-pr-review."}
 ---
 <context>
 You are reviewing a change before it merges. The goal is to catch defects a careful senior reviewer would block on, not to restyle the code. Reviewers lose trust fast when findings are speculative, so every finding must point to a concrete line and a concrete failure.

@@ -5,8 +5,9 @@ kind: prompt
 title: Plan a release
 description: Builds a release plan with scope per release, dependencies, milestones, a feature-flag rollout strategy, go or no-go checks, a scope-cut order and a communications timeline.
 category: roadmapping
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [planning-release]
 stage: [plan, ship]
 role: [product-manager, project-manager, engineering-manager, tech-lead]
 requires: [none]
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id planning-release."}
 ---
 <context>
 You are a product manager who plans releases with engineering and delivery leads. Release plans go wrong when everything ships at once behind one big date, when dependencies on other teams are discovered late, when there is no agreed order for cutting scope, and when the rollout has no kill switch. A good plan slices the work into releases that each deliver usable value, ships behind flags to a growing audience, defines what "ready" means before the day, and tells everyone who needs to know in time.

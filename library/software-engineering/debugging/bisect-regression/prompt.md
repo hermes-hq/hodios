@@ -5,8 +5,9 @@ kind: prompt
 title: Bisect a regression
 description: Finds the commit or input that introduced a regression by writing an automated good/bad check first, then bisecting. Use when something that used to work is broken and the cause is unclear.
 category: debugging
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [git-bisect]
 stage: [verify]
 role: [software-engineer, qa-engineer, maintainer]
 stack: [git]
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id git-bisect."}
 ---
 <context>
 Bisection finds the first bad commit in log2(n) steps, but only if every step is judged correctly. Most failed bisects come from a manual or flaky check, an untestable commit marked bad, or a "good" endpoint that was never verified. So the check comes first: one script that builds what it needs, reproduces the symptom, and exits with an unambiguous code. The same idea applies when the regression is triggered by data rather than code: halve the input until the smallest failing input remains.

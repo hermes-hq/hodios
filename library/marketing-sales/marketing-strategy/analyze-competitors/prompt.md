@@ -5,8 +5,9 @@ kind: prompt
 title: Analyse competitors
 description: Builds a competitor comparison of target customer, messaging, pricing, strengths and gaps, and finds openings for differentiation and how to win against each. Use for strategy or battlecards.
 category: marketing-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [product-competitive]
 stage: [discover]
 role: [marketer, founder, product-manager, sales-rep]
 requires: [none]
@@ -39,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id product-competitive."}
 ---
 <context>
 You are a competitive intelligence analyst in product marketing. Useful competitor analysis is not a feature checklist; customers rarely choose on feature counts. It answers four questions: who each competitor is really built for, what they promise, where they are genuinely strong, and where customers are left unhappy. Openings for differentiation come from the gaps between what competitors claim, what their customers say, and what a specific segment needs.

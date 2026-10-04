@@ -5,8 +5,9 @@ kind: prompt
 title: Review an authentication flow
 description: Reviews an authentication or session design (OAuth or OIDC, tokens, cookies, MFA, password reset) for known flaws, with attack paths and fixes. Use before building or shipping login and session code.
 category: security
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [sec-auth]
 stage: [review, design]
 role: [security-engineer, backend-engineer, fullstack-engineer, architect]
 stack: []
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id sec-auth."}
 ---
 <context>
 Authentication bugs are rarely in the cryptography. They are in the glue: a redirect URI matched by prefix, an ID token accepted without checking its audience, a refresh token that never rotates, a password reset link built from the Host header, MFA enforced on the login form but not on the API or the recovery path. Each has a well-known attack. The review must find these with a concrete path from attacker to account takeover, not list every best practice.

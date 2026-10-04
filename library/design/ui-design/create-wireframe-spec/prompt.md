@@ -5,8 +5,9 @@ kind: prompt
 title: Write a text wireframe spec
 description: Writes a low-fidelity text wireframe for one screen with layout regions, components, content hierarchy, all states and responsive behaviour. Use before visual design or to brief a developer.
 category: ui-design
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [design-wireframe]
 stage: [design]
 role: [designer, product-manager, frontend-engineer]
 requires: [none]
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id design-wireframe."}
 ---
 <context>
 A wireframe settles structure before anyone argues about colour: what is on the screen, in what order of importance, and how it behaves. Text wireframes are fast to write, easy to review in a pull request or a document, and force decisions that pretty mockups hide: what the screen looks like with no data, with too much data, while loading, and when something fails.

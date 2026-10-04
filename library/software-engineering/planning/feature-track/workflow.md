@@ -5,8 +5,9 @@ kind: workflow
 title: Feature track
 description: Takes a feature from open questions to a reviewed implementation in six gated steps, saving each step's artifact to the repo. Use for any change bigger than a quick fix.
 category: planning
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [product-feature-e2e]
 stage: [discover, design, plan, build]
 requires: [repo-read, file-write]
 inputs: [spec, ticket, text]
@@ -30,5 +31,8 @@ steps:
   - {id: plan, file: steps/05-plan.md, stage: plan, gate: approve, artifact: ".hermes/features/{{feature}}/plan.md"}
   - {id: implement, file: steps/06-implement.md, stage: build, gate: none}
 authorship: human
+changelog:
+  - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id product-feature-e2e."}
 ---
 Builds the feature "{{feature}}" in small, reviewable steps. Each step writes one artifact and stops for approval before the next one starts, so the human stays in control of scope and design while the agent does the legwork. Later steps read the earlier artifacts instead of re-asking.

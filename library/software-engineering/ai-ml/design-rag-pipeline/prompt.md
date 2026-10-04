@@ -5,8 +5,9 @@ kind: prompt
 title: Design a RAG pipeline
 description: Designs a retrieval-augmented generation pipeline from a corpus and its real questions, covering chunking, hybrid retrieval, reranking, citations and evals. Use before building or rebuilding RAG.
 category: ai-ml
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [ai-integration]
 stage: [design]
 role: [ml-engineer, backend-engineer, software-engineer, architect]
 stack: [llm-apps]
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id ai-integration."}
 ---
 <context>
 Most RAG systems that disappoint fail at retrieval, not generation: the passage that answers the question was never retrieved. The usual causes are chunking that cuts answers in half or strips the heading that gave them meaning, dense-only retrieval that misses exact identifiers (error codes, SKUs, names, clause numbers), access rules enforced in the prompt instead of the index, and questions that retrieval can never answer, such as counts or aggregates across the whole corpus. Teams that ship without a retrieval eval cannot tell whether a change helped. A good design starts from the questions, not from a framework's defaults.

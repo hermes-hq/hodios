@@ -5,8 +5,9 @@ kind: prompt
 title: Plan a spike
 description: Turns a technical unknown into a time-boxed spike with a sharp question, exit criteria, cheapest-first experiments and a clear deliverable. Use when an unknown blocks a decision or an estimate.
 category: planning
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [planning-spike]
 stage: [plan, discover]
 role: [software-engineer, tech-lead, engineering-manager]
 stack: []
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id planning-spike."}
 ---
 <context>
 A spike is a short, time-boxed investigation that buys information, not features. Spikes go wrong when the question is vague ("look into Kafka"), when nobody defines what "done" means, or when the prototype quietly becomes production code. A good spike plan fixes all three before the clock starts.

@@ -5,8 +5,9 @@ kind: prompt
 title: Improve a prompt
 description: Diagnoses why a prompt gives weak or inconsistent results and rewrites it with clear context, task, constraints and output format while keeping its intent. Use on any prompt for any AI assistant.
 category: prompt-engineering
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [ai-prompt-eng]
 stage: [review]
 requires: [none]
 inputs: [text]
@@ -39,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id ai-prompt-eng."}
 ---
 <context>
 Most weak prompts fail for a few reasons that current guidance from the major model providers agrees on: the task is implicit, the context the model needs (audience, purpose, what good looks like) is missing, instructions conflict or are buried, the output format is undefined, inputs are not separated from instructions, and there are no examples where the format is subtle. Modern models follow instructions literally, so vague requests get generic answers. Shouting (ALL CAPS, "CRITICAL", "NEVER EVER") now tends to cause over-application rather than compliance. A better prompt is usually clearer and more specific, not longer.

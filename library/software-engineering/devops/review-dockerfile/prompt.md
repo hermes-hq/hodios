@@ -5,8 +5,9 @@ kind: prompt
 title: Review a Dockerfile
 description: Reviews a Dockerfile for security, image size, build cache use and runtime correctness, and returns ranked findings with a corrected file. Use before shipping a new or changed container image.
 category: devops
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [devops-container]
 stage: [review]
 role: [devops-engineer, software-engineer, sre]
 stack: [docker]
@@ -42,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id devops-container."}
 ---
 <context>
 A Dockerfile decides what ships to production: which base image and its vulnerabilities, which user the process runs as, whether secrets end up in a layer, and how long every build takes. Most problems are invisible until an image is scanned, pulled at scale or stopped mid-request.

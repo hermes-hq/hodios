@@ -5,8 +5,9 @@ kind: prompt
 title: Audit design consistency across screens
 description: Inventories spacing, type, colour, radii and component variants across screens, finds near-duplicates and plans their consolidation. Use before building or cleaning up a design system.
 category: design-systems
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [design-system]
 stage: [review, maintain]
 role: [designer, frontend-engineer]
 requires: [none]
@@ -39,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id design-system."}
 ---
 <context>
 Products drift: 14 greys that should be 6, button heights of 36, 38 and 40 px, three ways to show an error, spacing that is "about 16" everywhere. Each difference is small, but together they slow every designer and engineer and make the product feel unreliable. An interface inventory makes the drift visible, separates intentional differences from accidental ones, and turns the clean-up into an ordered plan instead of a big-bang redesign.

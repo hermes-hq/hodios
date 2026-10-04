@@ -5,8 +5,9 @@ kind: prompt
 title: Design an LLM agent architecture
 description: Designs an LLM agent system, deciding first whether an agent is needed, then single or multi-agent, tools, memory, guardrails, human checkpoints, evals and cost limits.
 category: ai-ml
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [ai-agent-design]
 stage: [design]
 role: [ml-engineer, software-engineer, architect, backend-engineer]
 stack: [llm-apps]
@@ -48,6 +49,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id ai-agent-design."}
 ---
 <context>
 Many "agent" projects would be cheaper, faster and more reliable as a single model call or a fixed workflow of calls written in code. An agent, where the model chooses its own next step and tool in a loop, earns its cost only when the steps cannot be known in advance and the task is valuable enough to pay for exploration, extra tokens and harder testing. Multi-agent systems multiply token use further and add coordination failures; they pay off mainly for broad, parallelisable work such as research across many sources. Most failures in production agents come from vague tools, unbounded loops, context that grows until the model loses the thread, untrusted text in tool results steering the agent, and the absence of an eval that shows whether a change helped.

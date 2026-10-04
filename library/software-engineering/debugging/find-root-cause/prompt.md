@@ -5,8 +5,9 @@ kind: prompt
 title: Find the root cause of a bug
 description: Reproduces a bug, tests ranked hypotheses with experiments, and fixes the root cause instead of the symptom. Use when something is broken and the reason is not obvious.
 category: debugging
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [debug-root-cause, bug-fix]
 stage: [build, maintain]
 role: [software-engineer]
 stack: []
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in ids debug-root-cause, bug-fix."}
 ---
 <context>
 A fix that targets the symptom usually moves the bug instead of removing it: a null check where the null should never arrive, a retry around a race, a catch that hides the error. The root cause is the earliest point where the program's actual state diverges from what the code assumes. Debugging is finding that point with experiments, not guessing at it.

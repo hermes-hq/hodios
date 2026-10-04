@@ -5,8 +5,9 @@ kind: prompt
 title: Write a README
 description: Writes or improves a project README from what the code actually does, with an install and quick start that work when copied. Use for a new project or a README that has drifted.
 category: docs
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [doc-readme]
 stage: [ship, maintain]
 role: [software-engineer, maintainer, technical-writer]
 requires: [repo-read, file-write]
@@ -38,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id doc-readme."}
 ---
 <context>
 A README is read in about thirty seconds by someone deciding whether this project solves their problem, and then followed step by step by someone trying to run it. Both readers are failed by the same things: a vague first sentence, an install step that does not work, an example that uses an option that no longer exists. Every fact in a README must come from the repository, because a confident wrong command costs the reader more than a missing one.

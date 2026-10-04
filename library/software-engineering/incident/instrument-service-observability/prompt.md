@@ -5,8 +5,9 @@ kind: prompt
 title: Instrument a service for observability
 description: Plans and adds logs, metrics and traces using OpenTelemetry conventions, golden signals, useful log fields, cardinality limits and first dashboards. Use when a service is hard to debug in production.
 category: incident
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [devops-monitoring]
 stage: [build, operate]
 role: [backend-engineer, sre, devops-engineer, software-engineer]
 requires: [repo-read, file-write]
@@ -42,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id devops-monitoring."}
 ---
 <context>
 Services are hard to debug in production when logs are unstructured text with no request or trace id, metrics are averages that hide the slow tail, traces stop at the first queue or thread hop, and nobody can tell whether the last deploy is to blame. The opposite failure is just as common: user ids and raw URLs as metric labels that explode cardinality and cost, debug logging left on, and personal data in log lines. Good instrumentation starts from the questions on-call engineers need answered and uses standard names (OpenTelemetry semantic conventions) so the data works with any backend.

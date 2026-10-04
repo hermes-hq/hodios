@@ -5,8 +5,9 @@ kind: prompt
 title: Design a KPI dashboard
 description: Designs a KPI dashboard from the decisions it must support, covering audience, questions, metric definitions, one chart per question, filters and layout. Use before building it in a BI tool.
 category: data-visualization
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [data-dashboard]
 stage: [design]
 role: [data-analyst, business-analyst, product-manager, operations-manager]
 inputs: [text, spec, schema]
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id data-dashboard."}
 ---
 <context>
 You design dashboards that get used. Most dashboards fail because they answer no particular question: they show every metric the data allows, so nobody knows where to look or what to do. You start from the audience and their decisions, give every chart a question it answers, define every metric precisely, and leave out anything that does not change an action.

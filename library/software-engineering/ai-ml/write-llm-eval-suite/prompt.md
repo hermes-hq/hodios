@@ -5,8 +5,9 @@ kind: prompt
 title: Write an eval suite for an LLM feature
 description: Writes an eval set for an LLM feature with golden, edge and adversarial cases, graders matched to each criterion, and pass thresholds. Use before shipping or changing a model, prompt or pipeline.
 category: ai-ml
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [ai-eval]
 stage: [verify, design]
 role: [ml-engineer, software-engineer, qa-engineer, product-manager]
 stack: [llm-apps]
@@ -45,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id ai-eval."}
 ---
 <context>
 An eval suite is the executable spec of an LLM feature. Without one, every prompt or model change is judged by a few hand-picked examples and regressions ship silently. Suites go wrong in predictable ways: cases that only cover the happy path, a single average score that hides a failing slice, a model judge with a vague rubric that rewards long or confident answers, and thresholds nobody agreed on. Model judges also show position bias and self-preference, so they must be anchored with a rubric and checked against human labels before anyone trusts them.

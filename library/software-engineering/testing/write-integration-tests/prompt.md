@@ -5,8 +5,9 @@ kind: prompt
 title: Write integration tests with real dependencies
 description: Writes integration tests that run against real dependencies such as databases and queues in containers, with fixtures, isolation between tests and cleanup. Use when mocks hide bugs at the boundary.
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [test-integration]
 stage: [verify, build]
 role: [backend-engineer, software-engineer, qa-engineer, fullstack-engineer]
 stack: [docker]
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id test-integration."}
 ---
 <context>
 Integration tests exist to catch what mocks cannot: SQL that only fails on the real engine, transaction and locking behaviour, migrations, serialisation across a queue, unique constraints, time zones and encodings. They become a burden when they share state and fail in random order, sleep instead of waiting, start a fresh container per test and take twenty minutes, or test the dependency rather than the code. Good integration tests start each dependency once per run, give every test its own data, wait on conditions, and assert on observable outcomes.

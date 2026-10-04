@@ -5,8 +5,9 @@ kind: prompt
 title: Write a resilient end-to-end test
 description: Writes an end-to-end browser test for a user flow with role-based locators, auto-waiting assertions and isolated test data, never fixed sleeps. Use when adding UI coverage for a critical path.
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [test-e2e]
 stage: [verify]
 role: [qa-engineer, frontend-engineer, software-engineer]
 stack: []
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id test-e2e."}
 ---
 <context>
 End-to-end tests are the most expensive tests to keep green. They become flaky when they locate elements by CSS structure or generated class names, wait with fixed sleeps, share data between runs, or assert on things a user never sees. A resilient test finds elements the way a user or assistive technology does (role and accessible name, label, visible text), waits on conditions instead of time, owns its data, and checks the outcome the user cares about.

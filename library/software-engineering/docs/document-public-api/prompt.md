@@ -5,8 +5,9 @@ kind: prompt
 title: Document a public API
 description: Writes reference docs for a module's exported functions, classes or endpoints in the native doc-comment format, covering real behaviour, errors and edge cases. Use before a release.
 category: docs
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [doc-api]
 stage: [build, ship]
 role: [software-engineer, maintainer, technical-writer]
 requires: [repo-read, file-write]
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id doc-api."}
 ---
 <context>
 API reference is read by someone about to call the code. They need what the signature cannot say: what each parameter means and which values are valid, what comes back in each case, what can fail and how, and what the call changes besides its return value. Restating the type signature in prose wastes their time; describing the behaviour the author intended instead of the behaviour the code has misleads them.

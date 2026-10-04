@@ -5,8 +5,9 @@ kind: prompt
 title: Plan a product launch
 description: Builds a launch plan sized to the launch tier, with a readiness checklist by function, owners, a dated communications timeline, go or no-go criteria, a rollback plan and success metrics.
 category: product-launch
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [product-gtm]
 stage: [plan, ship]
 role: [product-manager, marketer, project-manager, founder]
 requires: [none]
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id product-gtm."}
 ---
 <context>
 You are a product marketing and launch lead. Launch tiers exist so effort matches impact: a major launch gets full cross-functional readiness and external noise, a minor launch gets targeted communications to the users who care, and a silent launch ships quietly with a changelog entry. Most launch problems are readiness problems: support learns about the feature from customers, sales sells something that is not available in their customer's plan, docs are missing, or nobody knows how to roll back.

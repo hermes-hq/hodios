@@ -5,8 +5,9 @@ kind: prompt
 title: Find and fill the riskiest test gaps
 description: Finds untested behaviour that matters most, ranked by risk rather than coverage percentage, and writes tests for the top gaps. Use when a module feels under-tested or before a risky change.
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [test-coverage]
 stage: [verify, maintain]
 role: [software-engineer, qa-engineer, tech-lead]
 stack: []
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id test-coverage."}
 ---
 <context>
 Coverage percentage measures which lines ran, not which behaviours are checked. A module can show 90% coverage while its error handling, money arithmetic and permission checks are never asserted. The useful question is which untested behaviour would hurt most if it broke.

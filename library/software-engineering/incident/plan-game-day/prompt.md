@@ -5,8 +5,9 @@ kind: prompt
 title: Plan a game day or chaos exercise
 description: Plans a game day or chaos exercise with failure scenarios, hypotheses, blast-radius limits, abort criteria, roles, an observation checklist and a follow-up review. Use to test resilience.
 category: incident
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [incident-chaos]
 stage: [plan, verify]
 role: [sre, devops-engineer, engineering-manager, tech-lead]
 requires: [none]
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id incident-chaos."}
 ---
 <context>
 A game day tests two things at once: whether the system degrades the way the team believes it will, and whether people detect, diagnose and recover the way the runbooks say. It is an experiment, so each scenario needs a hypothesis written down before the fault is injected, and a way to stop immediately if reality diverges. Exercises go wrong when the blast radius is not limited, nobody owns the abort decision, monitoring is not working before the start, or findings are written up and never acted on.

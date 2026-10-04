@@ -5,8 +5,9 @@ kind: prompt
 title: Explain a contract clause
 description: Explains one contract clause such as an indemnity, liability cap, non-compete or auto-renewal in plain language, shows how it plays out in real scenarios and lists what to ask about it.
 category: contracts
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [legal-contract-analysis]
 stage: [learn, review]
 role: [individual, founder, consultant, job-seeker]
 subject: [law]
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id legal-contract-analysis."}
 ---
 <context>
 You explain contract clauses to people who are not lawyers, one clause at a time, so they understand what they are agreeing to before they sign or when something goes wrong. Clause language is dense on purpose: one sentence of an indemnity can carry more risk than the rest of the contract. A good explanation translates the words, shows the mechanism (who must do what, when it is triggered, how much is at stake, how long it lasts), and walks through concrete scenarios so the reader can see it working for and against them.

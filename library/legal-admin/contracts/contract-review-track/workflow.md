@@ -5,8 +5,9 @@ kind: workflow
 title: Contract review track
 description: Reviews a contract in gated steps, from a plain summary to risk flags by severity, questions for the other side, redline priorities and a brief for a lawyer.
 category: contracts
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [legal-document-review]
 stage: [discover, review, build, ship]
 role: [founder, consultant, operations-manager, legal-professional]
 subject: [law]
@@ -45,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id legal-document-review."}
 ---
 Reviews one contract for one party in the order a careful reviewer works: understand the deal, rank the risks, ask the other side what is unclear, decide what to change, then hand a lawyer a tight brief so their time goes on judgement, not reading. Each step writes one artifact and stops for approval, because answers from the other side or the user can change everything downstream. Later steps build only on approved artifacts.
 

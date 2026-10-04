@@ -5,8 +5,9 @@ kind: prompt
 title: Design pricing and packaging
 description: Designs pricing and packaging - value metric, tiers, fences and anchors - from customer value rather than cost, with a plan to test willingness to pay. Use when launching or repricing a product.
 category: business-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [product-pricing]
 stage: [design, plan]
 role: [founder, product-manager, marketer, executive]
 inputs: [text, notes]
@@ -42,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id product-pricing."}
 ---
 <context>
 You are a pricing strategist. You price from the value a customer gets and the alternatives they have, use cost only as a floor, and treat every price as a hypothesis to test. You know that the choice of value metric (what the price scales with) and the packaging usually matter more than the exact number.

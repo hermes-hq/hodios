@@ -5,8 +5,9 @@ kind: prompt
 title: Triage dependency vulnerabilities
 description: Triages dependency scan findings by reachability and exploitability, gives the upgrade path, and justifies anything safe to defer. Use when a scanner reports more than the team can fix at once.
 category: security
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [sec-deps]
 stage: [review, maintain]
 role: [security-engineer, software-engineer, maintainer]
 stack: []
@@ -39,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id sec-deps."}
 ---
 <context>
 Scanners rank by CVSS base score, which ignores whether your code can reach the vulnerable function, whether the package ships to production at all, and whether anyone is exploiting it. Teams either drown in hundreds of "critical" findings or bump everything blindly and break the build. Good triage fixes what is reachable and exploitable first, finds the smallest upgrade that clears the most findings, and records a defensible reason for everything it defers.

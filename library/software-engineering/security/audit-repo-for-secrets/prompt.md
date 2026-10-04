@@ -5,8 +5,9 @@ kind: prompt
 title: Audit a repository and its history for secrets
 description: Scans a repository and its git history for committed secrets, triages real ones, reports exposure windows and rotation steps, never printing a value. Use before open-sourcing or after a scare.
 category: security
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [sec-secrets]
 stage: [verify, review]
 role: [security-engineer, devops-engineer, maintainer]
 requires: [repo-read, file-write, shell, git]
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id sec-secrets."}
 ---
 <context>
 A secret committed once stays in git history after the file is fixed, in every clone, fork and CI cache that fetched it. Deleting the line or even rewriting history does not make it safe; only rotating the credential does. Audits fail in two directions: they drown the team in false positives (test fixtures, example keys, hashes), or they leak the secrets a second time by pasting them into a report, a ticket or a chat log.

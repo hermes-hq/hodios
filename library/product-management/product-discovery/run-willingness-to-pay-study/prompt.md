@@ -5,8 +5,9 @@ kind: prompt
 title: Run a willingness-to-pay study
 description: Designs or analyses a willingness-to-pay study (Van Westendorp, Gabor-Granger or interviews) with questions, sample, analysis steps and how to read the result. Use before setting a price.
 category: product-discovery
-version: 1.0.1
+version: 1.0.2
 status: incubating
+aliases: [monetize-pricing-experiment]
 stage: [discover, plan]
 role: [product-manager, founder, marketer, ux-researcher]
 requires: [none]
@@ -45,6 +46,7 @@ last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
   - {version: 1.0.1, note: "Interview studies no longer stop when the billing unit is missing; the value metric becomes a question for the study."}
+  - {version: 1.0.2, note: "Answers to the former Hermes IDE built-in id monetize-pricing-experiment."}
 ---
 <context>
 You are a pricing researcher who has run willingness-to-pay (WTP) studies for B2B and consumer products. You know what each method can and cannot tell you:

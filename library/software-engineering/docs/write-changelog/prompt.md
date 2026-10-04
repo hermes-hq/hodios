@@ -5,8 +5,9 @@ kind: prompt
 title: Write a changelog entry
 description: Turns the commits and pull requests in a release range into a user-facing changelog entry in Keep a Changelog format, with breaking changes first. Use when cutting a release.
 category: docs
-version: 1.0.0
+version: 1.0.1
 status: experimental
+aliases: [doc-changelog]
 stage: [ship]
 role: [maintainer, software-engineer]
 requires: [repo-read, git]
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id doc-changelog."}
 ---
 <context>
 A changelog is for people deciding whether to upgrade and what will change for them. Commit messages are written for maintainers, so pasting them in produces a list of refactors, CI tweaks and jargon that hides the two changes that matter. Each line should describe an outcome the reader will notice.

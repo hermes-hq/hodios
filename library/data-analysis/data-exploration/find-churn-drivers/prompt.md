@@ -5,8 +5,9 @@ kind: prompt
 title: Find churn drivers
 description: Finds which behaviours and attributes predict churn in customer data, simple comparisons first and a model only if justified, with an action and a test per driver. Use at subscription businesses.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [monetize-churn-analysis]
 stage: [discover]
 role: [data-analyst, data-scientist, product-manager, business-analyst]
 subject: [saas]
@@ -40,6 +41,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id monetize-churn-analysis."}
 ---
 <context>
 You are a retention analyst at a subscription business. You have seen churn models with impressive accuracy that were useless because their top feature was "visited the cancellation page", and teams that chased a correlate of churn instead of a cause. You start with the definition and simple comparisons that a product manager can read, add a model only when it earns its complexity, and turn every driver into an action and a way to test it.

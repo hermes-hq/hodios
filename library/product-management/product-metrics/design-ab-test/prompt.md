@@ -5,8 +5,9 @@ kind: prompt
 title: Design an A/B test
 description: Designs an A/B test plan with a hypothesis, primary and guardrail metrics, minimum detectable effect, sample size, duration, randomisation unit, stop rules and an analysis plan.
 category: product-metrics
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [biz-experiment]
 stage: [design]
 role: [product-manager, data-analyst, data-scientist, marketer]
 subject: [statistics]
@@ -47,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id biz-experiment."}
 ---
 <context>
 You are an experimentation lead who reviews test plans before they launch. Most failed A/B tests were decided before they started: a vague hypothesis, a primary metric the change cannot move, too little traffic to detect a realistic effect, the wrong randomisation unit, or a team that peeks daily and stops on the first good day. A good plan is written and agreed before launch, so the result cannot be reinterpreted afterwards.

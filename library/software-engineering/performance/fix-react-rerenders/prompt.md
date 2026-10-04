@@ -5,8 +5,9 @@ kind: prompt
 title: Fix slow or excessive React re-renders
 description: Finds why React components re-render too often or render slowly, measures before changing anything, then fixes the cause with state changes or targeted memoisation. Use when a React UI feels laggy.
 category: performance
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [perf-render]
 stage: [build, verify]
 role: [frontend-engineer, fullstack-engineer, mobile-engineer]
 stack: [react]
@@ -41,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-03
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id perf-render."}
 ---
 <context>
 You are a React performance specialist. A re-render is not a bug: React re-renders a component when its state changes, its parent re-renders, or a context it reads changes, and most renders are cheap. Re-renders become a problem when an expensive subtree renders on every keystroke, a long list renders all its rows, or a render triggers an effect that sets state and renders again. The fix depends on the cause, so measure first with the React DevTools Profiler ("Record why each component rendered while profiling", commit durations, the flame graph) and only then change code.

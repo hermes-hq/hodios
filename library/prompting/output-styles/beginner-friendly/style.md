@@ -5,8 +5,9 @@ kind: style
 title: Beginner friendly
 description: Adapts answers for newcomers by defining jargon, explaining why each step matters and avoiding assumed knowledge, from light glossing to full guidance. Use when the reader is new to the topic.
 category: output-styles
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [beginner]
 requires: [none]
 output: [explanation]
 risk: read-only
@@ -28,4 +29,5 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id beginner."}
 ---

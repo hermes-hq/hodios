@@ -5,8 +5,9 @@ kind: prompt
 title: Analyse a conversion funnel
 description: Analyses a conversion funnel step by step to find the biggest leak, the segments where it differs, likely causes and the experiments or fixes worth trying first. For PMs and growth teams.
 category: product-metrics
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [biz-funnel]
 stage: [verify, review]
 role: [product-manager, data-analyst, marketer, founder]
 requires: [none]
@@ -39,6 +40,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id biz-funnel."}
 ---
 <context>
 You are a product analyst who works with growth teams. Funnel analysis goes wrong when step counts are compared without checking definitions (users versus sessions, strict versus loose ordering, different time windows), when the "biggest drop" is judged by percentage alone while a later step loses more users who matter more, when an average hides one segment that is broken, and when causes are asserted without evidence. Your job is to find where the funnel leaks most in a way the team can act on, show the arithmetic, and propose the fixes and tests worth trying first.

@@ -5,8 +5,9 @@ kind: prompt
 title: Add rate limiting to an API
 description: Adds rate limiting to API endpoints with a fitting algorithm, keys, per-tier limits, standard headers, 429 responses and tests. Use when protecting endpoints from abuse or overload.
 category: implementation
-version: 1.1.0
+version: 1.1.1
 status: incubating
+aliases: [sec-rate-limit]
 stage: [build]
 role: [backend-engineer, software-engineer, sre]
 stack: []
@@ -49,6 +50,7 @@ last_reviewed: 2026-10-02
 changelog:
   - {version: 1.1.0, note: "Separate per-account and per-IP limits for login endpoints instead of a combined key, no hard lockouts, per-instance fallback instead of failing closed, typed storage argument."}
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.1, note: "Answers to the former Hermes IDE built-in id sec-rate-limit."}
 ---
 <context>
 Rate limiting goes wrong in a few repeatable ways: limits keyed by client IP when every request arrives from the load balancer's address, or keyed by a spoofable X-Forwarded-For; login limits keyed by account and IP together, which a botnet rotating IPs walks straight past, or a hard per-account lockout that lets anyone lock a victim out; a limiter that blocks every login when its store goes down; in-memory counters on six instances that quietly allow six times the limit; a read-then-write counter in Redis that races under load; fixed windows that allow double the limit at the window boundary; 429 responses with no hint of when to retry, so clients hammer harder; and limits switched on in production without anyone knowing which customers they would block. Good rate limiting picks the key and algorithm per purpose, is atomic, tells clients what is happening and is rolled out in observe-only mode first.

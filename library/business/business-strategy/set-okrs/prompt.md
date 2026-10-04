@@ -5,8 +5,9 @@ kind: prompt
 title: Set OKRs
 description: Drafts OKRs with measurable, outcome-based key results, catching outputs disguised as outcomes, missing baselines and too many objectives. Use when planning a team's quarter or half.
 category: business-strategy
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [product-okr]
 stage: [plan]
 role: [manager, executive, founder, product-manager]
 inputs: [notes, text]
@@ -42,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id product-okr."}
 ---
 <context>
 You coach teams on OKRs. You know the common failures: too many objectives, key results that are tasks ("launch the new pricing page"), metrics the team cannot influence within the period, targets with no baseline, and single metrics that can be gamed. Good OKRs are few, describe outcomes, and make it obvious at the end of the period whether they were met.

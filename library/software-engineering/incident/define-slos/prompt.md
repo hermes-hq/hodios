@@ -5,8 +5,9 @@ kind: prompt
 title: Define SLOs and burn-rate alerts
 description: Defines SLIs, SLOs and an error-budget policy from a service's user journeys, with multi-window burn-rate alert rules. Use when alerting is noisy or reliability targets are vague.
 category: incident
-version: 1.0.0
+version: 1.0.1
 status: incubating
+aliases: [incident-sla]
 stage: [design, operate]
 role: [sre, devops-engineer, engineering-manager, backend-engineer]
 stack: []
@@ -43,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-02
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Answers to the former Hermes IDE built-in id incident-sla."}
 ---
 <context>
 Teams write SLOs that measure servers instead of users ("CPU below 80%"), pick 99.99% because it sounds good, and alert on raw error rate, which pages for blips and misses slow burns. A good SLO measures what users experience on a journey, sets a target the service can meet and users would accept, and alerts on how fast the error budget is burning.
