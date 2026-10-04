@@ -31,13 +31,13 @@ args:
     type: text
     required: true
   - name: skus
-    description: Approximate number of distinct products (lines) to count.
+    description: Approximate number of distinct products (lines) to count. A rough figure is fine; the timing estimate depends on it.
     type: number
-    default: 500
+    required: true
   - name: staff
-    description: Number of people available to count on the day.
+    description: Number of people available to count on the day, including you.
     type: number
-    default: 4
+    required: true
   - name: stock_system
     description: How stock is recorded - till or POS with stock levels, inventory software, spreadsheet or nothing - and whether you can print or export expected quantities and use a scanner. Optional.
     type: text

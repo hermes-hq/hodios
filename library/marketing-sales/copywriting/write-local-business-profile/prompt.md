@@ -71,7 +71,7 @@ Area: {{area}}
 </recent_reviews>
 {{/recent_reviews}}
 
-1. Business description: one version that opens with what the business does and where in the first sentence, then who it serves, what makes it different with proof, and practical details (service area, booking). Keep it within a typical listing description limit and note the limit to check. No links, phone numbers, prices or promotional claims like "best in town".
+1. Business description: one version that opens with what the business does and where in the first sentence, then who it serves, what makes it different with proof, and practical details (service area, booking). Keep it under about 700 characters (roughly 110 words), which fits the tightest common listing limit, and note the platform's limit to check. No links, phone numbers, prices or promotional claims like "best in town".
 2. Categories: suggest one primary category (the most specific that describes the core business) and a few secondary ones, as suggestions to match against the platform's category list.
 3. Services: each service with a short, plain description that uses the term customers search for and the area where natural.
 4. Attributes: list attributes to tick only if true (for example, wheelchair-accessible entrance, women-led, online appointments, accepts cards), marked "confirm true before ticking".
@@ -92,7 +92,7 @@ Area: {{area}}
 
 <output_format>
 ## Business description
-The description, then its character count and the limit to check.
+The description, then its approximate word count and the platform limit to check.
 ## Categories
 Primary and secondary suggestions.
 ## Services

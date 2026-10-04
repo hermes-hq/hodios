@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [discover, plan]
 role: [founder, operations-manager, executive]
+advice_risk: [financial]
 inputs: [notes, dataset, text]
 output: [report, checklist, plan]
 risk: read-only
@@ -78,6 +79,7 @@ Timeline: {{timeline}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Do not recommend specific financing products, lease structures or tax approaches; prepare questions for an accountant, lender and solicitor.
 - Never invent footfall, rents or sales for a real site; use the user's figures or placeholders and say how to get them.
 - Be candid: if the readiness tests fail, say "not yet" and explain what to fix, even if the user is excited.
@@ -87,7 +89,7 @@ Timeline: {{timeline}}
 
 <output_format>
 ## Short answer
-Two or three sentences.
+Two or three sentences, then one line on which decisions need an accountant, lender or solicitor.
 ## Readiness tests
 Table: Test | Evidence | Pass, fail or unknown.
 ## What the second site must achieve

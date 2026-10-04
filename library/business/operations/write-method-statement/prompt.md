@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan, operate]
 role: [operations-manager, founder, manager]
+advice_risk: [legal]
 inputs: [notes, spec, text]
 output: [docs, checklist, table]
 risk: read-only
@@ -82,16 +83,17 @@ Crew size: {{crew}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Never state a legal limit, regulation number, inspection interval or training standard as fact unless the user supplied it; write `[CHECK: …]` and name the kind of source (the national safety regulator, the manufacturer's instructions, the main contractor's rules).
 - Write site-specific `[SITE: …]` placeholders for facts you do not have (hospital, first aider, assembly point, permit issuer) rather than inventing them.
-- The method statement does not replace the risk assessment or the competent person's judgment. Say once, at the sign-off, that a competent person must review and approve it before work starts.
+- The method statement does not replace the risk assessment or the competent person's judgment. Say so once, in one line under Stop and check first, and keep the competent person's approval line at the sign-off: it must be reviewed and approved before work starts.
 - Plain, direct language a crew can follow on site. Short steps, active voice.
 - If the job description is too thin to sequence (no idea of access method or materials), write the sequence with clear gaps marked and list the questions at the end.
 </constraints>
 
 <output_format>
 ## Stop and check first
-Only if something applies; otherwise one line saying no specialist hold points were identified from the information given.
+One line saying a competent person must review and approve this statement before work starts. Then any hold points; if none apply, one line saying no specialist hold points were identified from the information given.
 ## Job details
 A short table.
 ## Scope

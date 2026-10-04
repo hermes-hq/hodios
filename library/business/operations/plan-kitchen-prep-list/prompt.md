@@ -8,7 +8,7 @@ category: operations
 version: 1.0.0
 status: incubating
 stage: [plan, operate]
-role: [operations-manager, home-cook, manager]
+role: [operations-manager, manager, founder]
 subject: [hospitality]
 inputs: [notes, dataset]
 output: [table, plan, checklist]

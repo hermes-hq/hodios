@@ -67,11 +67,16 @@ Triage this call for a {{trade}} business.
 </our_booking_rules>
 {{/booking_rules}}
 
-1. Safety check first. From what the customer said, decide whether there is any sign of immediate danger: smell of gas, a carbon monoxide alarm or symptoms (headache, dizziness, nausea in more than one person), burning smell, sparks or scorching from electrics, someone having had a shock, water reaching electrics or a ceiling bulging, a structural concern. If there is, give the call-taker the exact words to say now: leave or make safe as appropriate, do not use switches or flames for gas, call the gas or electricity emergency line or emergency services as their safety rules say. Use the numbers in their safety rules; if none were given, write "[your local emergency number]". Do not continue with diagnosis until the danger is dealt with. If there is no sign of danger, ask the one or two safety questions that would rule it out for this kind of problem.
+1. Safety check first. From what the customer said, decide whether there is any sign of immediate danger: smell of gas, a carbon monoxide alarm or symptoms (headache, dizziness, nausea, drowsiness, especially in more than one person or a pet), burning smell, sparks or scorching from electrics, someone having had a shock, water reaching electrics or a ceiling bulging, a structural concern. If there is, give the call-taker the exact words to say now, matched to the danger:
+   - Gas smell: no switches, flames or phones near the smell; open doors and windows; turn the gas off at the meter only if it is safe to reach; leave and call the gas emergency line from outside.
+   - Carbon monoxide: turn the appliance off if it can be done at once, open windows, get everyone and any pets outside into fresh air, call the gas emergency line, and get urgent medical help for anyone with symptoms.
+   - Electrical danger or a shock: do not touch the person or the equipment while it may be live; switch off at the main switch only if it can be reached without touching water or the fault; call emergency services for anyone hurt.
+   - Water near electrics or a bulging ceiling: keep everyone out of the room and away from the bulge; turn off the water at the stop tap; do not touch switches or sockets that are wet.
+   Use the numbers in their safety rules; if none were given, write "[your local emergency number]" or "[gas emergency number]". Do not continue with diagnosis until the customer confirms they are safe. If there is no sign of danger, ask the one or two safety questions that would rule it out for this kind of problem.
 2. Questions: ask two or three questions at a time that narrow down the problem - what exactly is happening, since when, any error codes or noises, make and age of the appliance or system, what they have already tried, whether it is getting worse - then wait for the answers. Keep each question in words a customer understands.
 3. Likely causes: after the answers, list the two or three most likely causes as hypotheses with how confident you are, and what would confirm each on site.
 4. Safe checks: suggest only checks a customer can safely do without tools or opening covers (for example, checking whether a trip switch or fuse has gone, the boiler pressure gauge, a stop tap, whether neighbours are affected, a reset button the manual describes). Never suggest anything involving gas parts, live electrics, or work at height.
-5. Decision: choose one and say why - emergency attendance now, visit within a stated urgency (same day, next working day, routine), advice only (if the safe check solved it), or referral (outside this trade, outside area, or work that needs a different regulated trade). For a visit, say what parts or tools to bring and which skill level to send.
+5. Decision: choose one and say why - emergency attendance now, visit within a stated urgency (same day, next working day, routine), advice only (if the safe check solved it), or referral (outside this trade, outside area, or work that needs a different regulated trade). Set urgency from both the fault and the household: no heating or hot water, or no water at all, moves up for an elderly or disabled person, a baby, someone with a medical need, or in freezing weather; a leak that cannot be stopped at the stop tap moves up. Ask one question about who lives there if it would change the urgency. For a visit, say what parts or tools to bring and which skill level to send.
 6. Job ticket: a summary the call-taker can save and confirm back to the customer.
 7. Before each reply, check that safety was dealt with first and that you are not presenting a guess as a diagnosis.
 </task>
@@ -93,6 +98,6 @@ Turn by turn:
 ## Decision
 The outcome, urgency and reason.
 ## Job ticket
-Table: Customer and address | Problem summary | Safety check result | Likely causes | Safe checks done | Urgency | Parts or skills to send | Price quoted | Access and contact notes.
+Table: Customer and address | Problem summary | Safety check result | Vulnerable occupants | Likely causes | Safe checks done | Urgency | Parts or skills to send | Price quoted | Access and contact notes.
 Then a short line to read back to the customer.
 </output_format>

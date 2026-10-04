@@ -10,6 +10,7 @@ status: incubating
 stage: [plan, operate]
 role: [founder, operations-manager, manager]
 subject: [hospitality]
+advice_risk: [legal]
 inputs: [notes, document, text]
 output: [table, checklist, script]
 risk: read-only
@@ -77,6 +78,7 @@ Food packaged on site before ordering: {{prepacked_on_site}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Never call a dish "allergen-free", "nut-free" or "gluten-free" unless the user describes validated controls to support it. Describe what is in the recipe and what the cross-contact risk is.
 - Never invent an ingredient list for a bought-in product. Unknown is `?`, never blank.
 - The staff process must say: never guess, check the matrix and the recipe, tell the guest honestly when a risk cannot be ruled out, and for any guest who describes a severe or life-threatening allergy, bring the manager or chef to the table before the order is taken.
@@ -87,7 +89,7 @@ Food packaged on site before ordering: {{prepacked_on_site}}
 
 <output_format>
 ## Allergen list used
-The list, its source and a confirm tag, in one short paragraph or bullet list.
+One sentence first: this is a working tool for the kitchen, and the food authority or a food safety adviser confirms the rules that apply. Then the list, its source and a confirm tag, in one short paragraph or bullet list.
 ## Allergen matrix
 Table: Dish | one column per allergen | Notes (which grain or nut, which component carries it). Then a one-line key for C, X, ? and blank.
 ## Bought-in items to verify

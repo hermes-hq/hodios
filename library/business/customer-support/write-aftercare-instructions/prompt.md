@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [operate]
 role: [founder, operations-manager]
+advice_risk: [medical]
 inputs: [notes, topic]
 output: [docs, message]
 risk: read-only
@@ -77,6 +78,8 @@ Service: {{service}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
+- In the client-facing text, that statement is one short line near the top, for example: this is general aftercare from the studio, and a doctor or pharmacist should check anything that looks infected or like a reaction.
 - Do not recommend medicines, antibiotics or prescription creams; infection and reactions go to a doctor or pharmacist.
 - Do not invent product-specific instructions. If no manufacturer guidance is given, use general good practice for this service and say in Sources and checks that it should be checked against the products actually used.
 - Avoid scare language. Calm, clear and specific.

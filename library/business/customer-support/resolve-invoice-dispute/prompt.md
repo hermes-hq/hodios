@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [operate, review]
 role: [founder, individual, consultant]
+advice_risk: [legal]
 inputs: [message, document, notes]
 output: [message, report, script]
 risk: read-only
@@ -84,6 +85,7 @@ Most I will offer: {{max_concession}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Be fair to both sides. If the customer is right, say so and recommend fixing it. Do not help the business keep money for work that was not done or was defective.
 - No threats, legal jargon or pressure in the first reply. Firm and polite.
 - Do not state consumer rights, interest, fees or court rules as fact; say they vary by country and whether the customer is a consumer or a business, and to check locally.
@@ -92,6 +94,7 @@ Most I will offer: {{max_concession}}
 </constraints>
 
 <output_format>
+One opening sentence: this helps you settle the dispute fairly and is not legal advice; get legal advice before any formal claim or if the customer threatens one.
 ## Facts
 Table: Point | What happened | Status (supported, disputed, unknown).
 ## Assessment
