@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Set up deep links for my {{platform}} app: {{link_patterns}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flutter-shop
+    vars:
+      platform: flutter
+      link_patterns: |
+        Domain shop.example.com. Bundle id com.example.shop, package com.example.shop.
+        /p/{productId} -> product page (public)
+        /orders/{orderId} -> order detail (login required)
+        /checkout/return -> keep on web
+    assert:
+      - {type: contains, value: "## Route table"}
+      - {type: llm-rubric, value: "Excludes /checkout/return from the association files, writes AASA and assetlinks.json with a placeholder for the Play App Signing fingerprint, serves them from /.well-known without redirects, stores the pending order route through login and resumes it, handles a missing order, builds a back stack, and the test matrix covers killed, background and not-installed states with adb and simctl commands."}
+  - name: edge-links-not-opening-android
+    vars:
+      platform: android
+      link_patterns: "https://app.example.org/invite/{code} -> join team screen. Works in debug builds but release builds from the Play Store open the browser."
+    assert:
+      - {type: llm-rubric, value: "Identifies that assetlinks.json probably lacks the Play App Signing certificate SHA-256 fingerprint, explains how to get it from the Play Console, and gives the pm get-app-links verification command."}
+  - name: negative-link-triggers-action
+    vars:
+      platform: ios
+      link_patterns: "https://bank.example.com/pay?to={account}&amount={n} should open the app and send the payment straight away."
+    assert:
+      - {type: llm-rubric, value: "Refuses to execute a payment directly from a link, treats parameters as untrusted, and routes to a prefilled confirmation screen requiring the user's explicit confirmation and authentication."}

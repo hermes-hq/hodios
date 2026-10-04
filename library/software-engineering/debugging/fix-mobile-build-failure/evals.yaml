@@ -1,0 +1,38 @@
+schema: 1
+baseline: "My {{platform}} build is failing, here's the log: {{build_log}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-jdk-mismatch
+    vars:
+      platform: react-native
+      build_log: |
+        After upgrading React Native, Android build fails locally and in CI.
+        > Task :app:compileDebugKotlin
+        FAILURE: Build failed with an exception.
+        * What went wrong:
+        A problem occurred configuring project ':app'.
+        > Could not resolve all files for configuration ':app:classpath'.
+           > Dependency requires at least JVM runtime version 17. This build uses a Java 11 JVM.
+    assert:
+      - {type: contains, value: "## First real error"}
+      - {type: llm-rubric, value: "Identifies the JDK 11 versus required JDK 17 mismatch from the Android Gradle Plugin, fixes it by installing and selecting JDK 17 (JAVA_HOME, org.gradle.java.home or the CI setup-java step) rather than downgrading at random, and suggests pinning the JDK version in CI."}
+  - name: edge-xcode-script-phase
+    vars:
+      platform: ios
+      build_log: |
+        ... 412 warnings ...
+        PhaseScriptExecution [CP]\ Embed\ Pods\ Frameworks
+        rsync: [sender] change_dir "/Users/runner/Library/Developer/Xcode/DerivedData/App-abc/Build/Products/Release-iphoneos/Alamofire" failed: No such file or directory (2)
+        Command PhaseScriptExecution failed with a nonzero exit code
+        Xcode 15.3, CocoaPods 1.12.1, archive only fails, debug builds work.
+    assert:
+      - {type: llm-rubric, value: "Points to the rsync error as the first real error rather than the final PhaseScriptExecution line, connects it to the Embed Pods Frameworks script not finding the framework in the archive build (for example a CocoaPods and Xcode version mismatch or a build setting that differs in Release), proposes a targeted check such as updating CocoaPods and re-running pod install or comparing Release settings, and does not start by deleting every cache."}
+  - name: negative-only-final-line
+    vars:
+      platform: flutter
+      build_log: "Error: Gradle task assembleDebug failed with exit code 1"
+    assert:
+      - {type: llm-rubric, value: "Explains that this line hides the real error, asks for the full output or for flutter run -v or ./gradlew assembleDebug --stacktrace from the android folder, and gives only clearly labelled hypotheses."}

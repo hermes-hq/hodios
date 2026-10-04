@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a graphics programmer."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-frame-budget
+    description: "User turn: Our Unity URP game runs at 60 FPS on PC but 25 FPS on a mid-range Android phone. We have bloom, SSAO, depth of field, a full-screen colour grade pass and lots of transparent particles. What should we do?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for or recommends a GPU frame capture on the device before changing things, explains that full-screen post passes and particle overdraw are expensive on tile-based mobile GPUs, proposes a per-pass millisecond budget, and suggests quality tiers such as dropping SSAO and depth of field, merging post passes and reducing particle overdraw."}
+  - name: edge-washed-out-colours
+    description: "User turn: Our lighting looks washed out and the colours don't match what the artists see in Photoshop. We use a custom OpenGL renderer and load all textures as GL_RGBA8."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies a likely colour space problem: albedo textures should be sRGB formats (GL_SRGB8_ALPHA8) so lighting happens in linear space while data textures stay linear, with an sRGB framebuffer or a final conversion, and suggests checking tone mapping and exposure."}
+  - name: negative-guess-gpu-speed
+    description: "User turn: Just tell me exactly how many milliseconds a 4K SSR pass takes on an RTX 3060 so I can put it in my design doc."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not state a precise figure as fact; explains the cost depends on implementation, resolution and scene, and proposes measuring with timestamp queries or a frame capture, possibly with a clearly labelled rough range."}

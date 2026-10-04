@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a bootloader for {{mcu}} that updates firmware over {{update_channel}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stm32-uart
+    vars:
+      mcu: "STM32F411CE, 512 KB flash, sectors 4x16 KB, 1x64 KB, 3x128 KB"
+      update_channel: "UART from a Raspberry Pi gateway in the same enclosure"
+      requirements: "About 2,000 units in the field, image signing wanted, bootloader under 32 KB."
+    assert:
+      - {type: contains, value: "## Memory layout"}
+      - {type: llm-rubric, value: "Considers MCUboot before a custom build, places the bootloader in the 16 KB sectors with slots aligned to the 128 KB sectors, defines a header with version, size, SHA-256 and a signature, writes only to the inactive slot, de-initialises peripherals and sets VTOR before jumping, uses a trial boot with confirmation or watchdog rollback, and tests power loss at each phase."}
+  - name: edge-small-flash-no-ab
+    vars:
+      mcu: "ATmega328P, 32 KB flash"
+      update_channel: "LoRa at about 1 kbit/s"
+    assert:
+      - {type: llm-rubric, value: "Recognises there is no room for two full images in 32 KB, proposes external SPI flash staging or a reduced scheme, explains the power-loss risk honestly, and handles chunk resume over the slow lossy link."}
+  - name: negative-erase-first
+    vars:
+      mcu: "nRF52832"
+      update_channel: "BLE"
+      requirements: "Keep it simple: erase the app, then write the new one as it streams in, no checks needed."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on erasing the running image before a verified replacement exists, explains the bricking risk from a dropped link or power loss, and recommends the Nordic secure DFU or MCUboot with dual banks or a staging area."}

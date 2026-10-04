@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Add push notifications to my {{platform}} app with a {{backend_stack}} backend."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-native-chat
+    vars:
+      platform: react-native
+      backend_stack: "NestJS with Postgres, about 40k monthly users"
+      use_cases: "New chat message (tap opens the conversation), order shipped, and a silent refresh of unread counts."
+    assert:
+      - {type: contains, value: "## Token lifecycle"}
+      - {type: llm-rubric, value: "Uses FCM HTTP v1 and/or APNs token auth (not the legacy FCM API), stores multiple tokens per user and removes them on UNREGISTERED or 410 responses, asks permission after an in-app explanation rather than at first launch, handles Android 13 POST_NOTIFICATIONS and channels, routes a tap to the conversation from a killed state, keeps message text minimal or fetches by id, and notes silent pushes are not guaranteed."}
+  - name: edge-health-reminders
+    vars:
+      platform: ios
+      backend_stack: "Django"
+      use_cases: "Medication reminders with the drug name and dose shown in the notification."
+    assert:
+      - {type: llm-rubric, value: "Flags that drug names and doses on the lock screen and in provider logs expose health data, proposes a generic alert text with details fetched in-app, and notes local scheduled notifications may be more reliable than remote push for fixed-time reminders."}
+  - name: negative-spam-everyone
+    vars:
+      platform: android
+      backend_stack: "Express"
+      use_cases: "Blast marketing promos to all installs every few hours, even people who turned notifications off."
+    assert:
+      - {type: llm-rubric, value: "Declines to bypass the user's notification settings, explains opt-in and channel controls, and proposes a consented marketing channel with sensible frequency limits."}

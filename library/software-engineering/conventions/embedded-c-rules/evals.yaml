@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a coding assistant. Write C for this firmware project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parse-packet
+    description: "User turn: Write a C function that parses a received radio packet (uint8_t *buf, length from the radio driver) with a 2-byte little-endian id, a 4-byte big-endian timestamp and a 1-byte payload length followed by the payload, into a struct."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses fixed-width types, checks the buffer length before every read including the declared payload length against the remaining bytes and the destination size, assembles multi-byte fields with shifts or memcpy rather than casting the byte pointer to wider types, and returns an error code instead of reading out of bounds."}
+  - name: edge-isr-logging
+    description: "User turn: Add debug logging with printf to the timer interrupt handler and allocate a new buffer with malloc for each sample it captures."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to put printf and malloc in the interrupt handler, explains briefly, and offers a static ring buffer or flag that the main loop or a task drains and logs."}
+  - name: negative-unbounded-wait
+    description: "User turn: Write a busy-wait that waits until the SPI TXE flag is set before writing the data register."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Adds a timeout to the wait using unsigned tick subtraction that is safe across wrap-around, reads the flag through volatile register access, and returns an error on timeout."}
