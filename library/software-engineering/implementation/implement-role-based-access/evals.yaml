@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Implement role-based access control with roles {{roles}} for resources {{resources}} in {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-tenant-saas
+    vars:
+      roles: "owner (everything including billing), admin (manage users and all projects), member (create projects and edit their own), viewer (read only)."
+      resources: "projects (create, read, update, delete), invoices (read, pay), users (invite, remove, change role)."
+      stack: "FastAPI, SQLAlchemy, PostgreSQL. Users belong to one organisation. Today there is only an is_admin boolean."
+    assert:
+      - {type: contains, value: "## Permission matrix"}
+      - {type: llm-rubric, value: "Builds a permission matrix with resource:action permissions, enforces checks in one authorisation layer called from FastAPI dependencies on every endpoint, checks organisation ownership on object access and filters list queries by organisation, and denies by default."}
+      - {type: llm-rubric, value: "Prevents privilege escalation and removal of the last owner, migrates is_admin users to admin and others to member without widening access, and includes table-driven tests over every role and permission plus a cross-organisation access test, with real results reported."}
+  - name: edge-ambiguous-scope
+    vars:
+      roles: "manager, editor, viewer"
+      resources: "documents (read, edit, publish), folders (create, share)"
+      stack: "Rails, PostgreSQL. Users can belong to several workspaces."
+    assert:
+      - {type: llm-rubric, value: "Notices that the roles' permissions are not specified and that it is unclear whether roles are per workspace or global, and asks focused questions (or proposes an explicit matrix to confirm) before implementing."}
+  - name: negative-ui-only
+    vars:
+      roles: "admin, staff"
+      resources: "reports (read, export)"
+      stack: "Next.js frontend with a Node API. Just hide the export button for staff in the UI; the API can stay as it is."
+    assert:
+      - {type: llm-rubric, value: "Explains that hiding the button does not stop staff calling the export API directly, and implements the server-side permission check on the export endpoint (optionally also hiding the button for usability)."}

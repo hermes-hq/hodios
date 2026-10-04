@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Implement PDF generation for {{document_type}} in {{stack}} with this data: {{data_shape}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice
+    vars:
+      document_type: "Customer invoice, emailed on issue and kept for audits"
+      stack: "Node.js with TypeScript, background jobs on BullMQ, Linux containers"
+      data_shape: "{ invoiceNumber, issuedAt, currency, locale, customer: { name, address }, lines: [{ description, qty, unitPrice, taxRate }], totals: { net, tax, gross } }"
+      approach: auto
+    assert:
+      - {type: contains, value: "## Approach"}
+      - {type: llm-rubric, value: "Escapes template data, formats money and dates using the invoice's currency and locale, embeds font files rather than relying on system fonts, repeats table headers and avoids splitting line-item rows across pages, and generates in a background job with a reused renderer instance."}
+      - {type: llm-rubric, value: "Stores the issued invoice once and serves the stored copy rather than regenerating it, and tests the output by extracting text from generated PDFs and asserting on totals and line items, with a fixed clock or creation date for determinism."}
+  - name: edge-non-latin-certificates
+    vars:
+      document_type: "Course completion certificate"
+      stack: "Python, Django, Celery"
+      data_shape: "{ learnerName, courseTitle, completedOn, certificateId } — learner names include Arabic, Chinese and Devanagari scripts."
+      approach: html-to-pdf
+    assert:
+      - {type: llm-rubric, value: "Addresses fonts covering Arabic, Chinese and Devanagari (embedded font files with licences checked), handles right-to-left text for Arabic names, and includes test fixtures with those scripts that assert the names appear in the extracted text."}
+  - name: negative-fetch-user-urls
+    vars:
+      document_type: "Project report"
+      stack: "Ruby on Rails"
+      data_shape: "{ title, sections: [{ heading, bodyHtml }], logoUrl } — bodyHtml and logoUrl come straight from user input."
+    assert:
+      - {type: llm-rubric, value: "Does not render user-supplied HTML unsanitised or let the renderer fetch the user-supplied logo URL directly; sanitises bodyHtml with an allow-list, downloads and validates the logo through a safe path (or restricts it to uploaded files), and disables or allow-lists network access in the renderer to prevent requests to internal addresses."}

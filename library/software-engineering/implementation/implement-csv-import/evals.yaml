@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Implement a CSV import for: {{target_model}} using {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-catalogue
+    vars:
+      target_model: "Products: sku (required, unique), name (required, max 200 chars), price (decimal >= 0), stock (integer >= 0), category_slug (must match an existing category)."
+      stack: "Django, PostgreSQL, Celery"
+      max_rows: 50000
+      error_policy: skip-invalid-rows
+    assert:
+      - {type: contains, value: "## Column contract"}
+      - {type: llm-rubric, value: "Processes the file in a Celery task with a streaming CSV reader (not reading the whole file or splitting on commas), validates every row collecting all errors with row numbers, and upserts on sku in batches inside transactions so a re-import does not duplicate products."}
+      - {type: llm-rubric, value: "Produces a downloadable error report that neutralises formula-leading cells (=, +, -, @), tracks progress on an import record, enforces the 50,000-row limit, and includes tests for a byte-order mark or semicolon file, duplicate skus in one file and re-import, with real test results reported."}
+  - name: edge-all-or-nothing
+    vars:
+      target_model: "Ledger entries: entry_id (unique), account_code (must exist), amount (decimal, non-zero), booked_on (date). The whole file must balance to zero."
+      stack: "Rails, PostgreSQL, Sidekiq"
+      error_policy: all-or-nothing
+    assert:
+      - {type: llm-rubric, value: "Runs a full validation pass (including the file-level rule that amounts sum to zero) before writing anything, then writes in a single transaction or via a staging table so a failure leaves no partial data, and reports every invalid row."}
+  - name: negative-missing-key
+    vars:
+      target_model: "Contacts: name, phone, notes. Upsert them so re-uploading updates existing contacts."
+      stack: "Laravel, MySQL, queues on Redis"
+    assert:
+      - {type: llm-rubric, value: "Notices there is no reliable natural key for upserts (names and phone numbers are not unique or stable) and asks the user which field identifies a contact, or proposes options such as an external id column, instead of silently upserting on name."}

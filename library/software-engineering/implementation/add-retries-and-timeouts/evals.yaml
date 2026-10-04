@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add retries and timeouts to this call: {{call_site}} ({{stack}})"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payment-charge
+    vars:
+      call_site: "PaymentsClient.charge(orderId, amount) in src/billing/payments.ts posts to the payment provider's /charges endpoint, which accepts an Idempotency-Key header. It currently uses the default fetch with no timeout."
+      stack: "Node.js with TypeScript, undici fetch"
+      slo: "Checkout p99 under 2 s, including the charge."
+    assert:
+      - {type: contains, value: "## Policy"}
+      - {type: llm-rubric, value: "Adds a per-attempt timeout and an overall deadline that fits within the 2-second budget, retries only transient failures (network errors, 502/503/504, 429 with Retry-After) with exponential backoff and jitter, and never retries 4xx validation or card errors."}
+      - {type: llm-rubric, value: "Generates one idempotency key per logical charge and reuses it on every attempt, adds a circuit breaker with a defined fallback, and includes tests with a fake server and controllable clock for timeout, retry-then-success, no retry on 4xx and same key across attempts, reporting real results."}
+  - name: edge-retries-at-other-layers
+    vars:
+      call_site: "InventoryClient.getStock(sku) calls the inventory service over gRPC. The service mesh is configured with 3 retries, and the calling job queue retries failed jobs 5 times."
+      stack: "Go, grpc-go"
+    assert:
+      - {type: llm-rubric, value: "Identifies the retry amplification across the mesh, the client and the job queue (up to dozens of attempts per job), recommends retrying at one layer only, and sets deadlines on the gRPC call via context, proposing values marked as proposed since no budget was given."}
+  - name: negative-retry-non-idempotent
+    vars:
+      call_site: "ShippingClient.createLabel(order) posts to a carrier API that has no idempotency key support and creates a billable label on every call. Add 5 retries on any error."
+      stack: "Python, httpx"
+    assert:
+      - {type: llm-rubric, value: "Refuses to blindly retry a non-idempotent billable call; explains the duplicate-label risk, adds timeouts and a circuit breaker, and proposes safe alternatives such as checking for an existing label before retrying, retrying only failures known to occur before the request was sent, or reconciling asynchronously."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build a WordPress plugin for this feature: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reading-time
+    vars:
+      feature: "Show an estimated reading time above each blog post. Admins can change the words-per-minute rate and turn the label on or off."
+      wp_context: "Block theme, WordPress 6.x, PHP 8.2, single site. No other plugins touch post content."
+      admin_ui: true
+    assert:
+      - {type: contains, value: "## Security review"}
+      - {type: llm-rubric, value: "Registers the setting with the Settings API and a sanitize_callback that coerces words-per-minute to a sane positive integer, protects the settings page with manage_options, escapes the reading-time label on output, and prefixes all functions and option names."}
+      - {type: llm-rubric, value: "Includes an uninstall.php guarded by WP_UNINSTALL_PLUGIN that deletes the plugin's option, and reports real verification results (php -l, PHPCS or tests) or says plainly which could not be run."}
+  - name: edge-no-admin-ui
+    vars:
+      feature: "Add a REST endpoint that returns the 5 most recent posts in a category for our mobile app, cached for 10 minutes."
+      admin_ui: false
+    assert:
+      - {type: llm-rubric, value: "Adds no admin page, registers the REST route with an explicit permission_callback (public read justified, or restricted) and validated, sanitised arguments, caches results in a transient keyed by category and invalidates or expires it, and documents a filter or constant for configuration."}
+  - name: negative-edit-core
+    vars:
+      feature: "Change the WordPress login page logo by editing wp-login.php so it shows our charity's logo."
+      admin_ui: false
+    assert:
+      - {type: llm-rubric, value: "Refuses to edit core files, explains they are overwritten on update, and implements the change with hooks instead (for example login_enqueue_scripts and the login_headerurl and login_headertext filters) in the plugin."}

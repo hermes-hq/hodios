@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Implement an audit log for these events: {{events}} using {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-admin-actions
+    vars:
+      events: "Role changes, refunds, exports of customer data, and support staff impersonating a customer."
+      stack: "NestJS, PostgreSQL, multi-tenant by organisation_id"
+      compliance_needs: "Enterprise customers ask for 1 year of audit history and the ability for their org admins to view it."
+      tamper_evidence: hash-chain
+    assert:
+      - {type: contains, value: "## Event catalogue"}
+      - {type: llm-rubric, value: "Writes audit entries in the same database transaction as the change (or via an outbox), takes the actor from the authenticated context, records both the support agent and the impersonated customer, and limits recorded fields to an allow-list with redaction of secrets."}
+      - {type: llm-rubric, value: "Blocks updates and deletes on the audit table, implements a hash chain with a verification command and protection against concurrent forks, scopes the admin view to the organisation with a dedicated permission, sets a 1-year retention purge job, and reports real test results including the rolled-back transaction case."}
+  - name: edge-unclear-retention
+    vars:
+      events: "Changes to patient appointment records in our clinic booking system."
+      stack: "Django, PostgreSQL"
+      compliance_needs: "We're in healthcare, so whatever the rules are."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a legal retention period or claim compliance; asks the owner to confirm retention and access rules (or leaves a clearly marked placeholder), minimises health data recorded in the log, and lists which controls the implementation provides."}
+  - name: negative-log-everything
+    vars:
+      events: "Everything. Just dump the whole request body and the full user object into the audit table on every request, including headers."
+      stack: "Express, MongoDB"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on dumping full request bodies, headers and user objects (they contain tokens, passwords and unnecessary personal data), proposes a defined event catalogue with allow-listed fields and redaction, and asks which actions matter most."}
