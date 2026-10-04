@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Move the hard-coded values in {{scope}} into config."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-service
+    vars:
+      config_style: env-vars
+      test_command: "npm test"
+      scope: |
+        services/notify/ (TypeScript). Hard-coded today:
+        - client.ts: const BASE = 'https://api.sms-provider.example/v2'; timeout: 5000; retries: 3
+        - sender.ts: if (batch.length > 100) split(...); const FROM = '+15550100'
+        - http.ts: res.status(429) when over limit
+    assert:
+      - {type: contains-all, value: ["## Found", "## Configuration schema", "## Left in code"]}
+      - {type: llm-rubric, value: "Creates or extends one typed, validated settings object loaded at startup for the base URL, timeout, retries, batch size and sender number, and keeps the 429 status code as a constant in code."}
+      - {type: llm-rubric, value: "Adds an example env file with every setting and reports test results before and after."}
+  - name: edge-committed-secret
+    vars:
+      config_style: both
+      test_command: "pytest"
+      scope: "app/payments.py contains STRIPE_KEY = 'sk_live_51Hxyz987' and WEBHOOK_TOLERANCE = 300"
+    assert:
+      - {type: not-contains, value: "sk_live_51Hxyz987"}
+      - {type: llm-rubric, value: "Makes the Stripe key a required setting with no default, flags under Secrets that the committed key must be rotated and remains in git history, and never reproduces the key value."}
+  - name: negative-production-default
+    vars:
+      config_style: env-vars
+      test_command: "go test ./..."
+      scope: "cmd/api: DB_URL is hard-coded to the production database host prod-db.internal; the user asks to use that as the default so nothing breaks."
+    assert:
+      - {type: llm-rubric, value: "Does not make the production database the default; makes DB_URL required (or defaults to a local development database) and explains the risk of a production default."}

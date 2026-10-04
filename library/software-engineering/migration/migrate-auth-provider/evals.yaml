@@ -1,0 +1,31 @@
+schema: 1
+baseline: "How do I migrate {{users}} users from this auth setup to {{target}}? {{current_setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bcrypt-to-oidc
+    vars:
+      users: 180000
+      target: "a managed identity provider using OIDC"
+      current_setup: |
+        In-house auth in a Rails monolith: bcrypt (cost 12) password hashes in users.encrypted_password, server-side sessions in Redis (14-day lifetime), Google login via omniauth storing the Google sub in identities, TOTP MFA for about 9% of users with secrets encrypted in the DB. Two other services (billing API, mobile backend) validate a JWT the monolith issues, signed with HS256.
+    assert:
+      - {type: contains-all, value: ["## Security review gate", "## Dual-run plan", "## Rollback"]}
+      - {type: llm-rubric, value: "Chooses bulk hash import or lazy migration with a justification tied to bcrypt support (and says to confirm the provider supports importing bcrypt), keeps a stable internal user id mapped to the provider subject, and relinks Google identities by the stored Google sub."}
+      - {type: llm-rubric, value: "Covers updating both the billing API and mobile backend to accept the new tokens, migrating TOTP secrets, and avoids logging all users out at once."}
+  - name: edge-legacy-md5
+    vars:
+      users: 4000
+      target: "an open-source identity server we host"
+      current_setup: "PHP app storing unsalted MD5 password hashes; cookie sessions; no MFA."
+    assert:
+      - {type: llm-rubric, value: "Treats unsalted MD5 as weak, recommends lazy migration on next login (or wrapping the old hash) so hashes are upgraded, with a reset flow for users who never return, and keeps the plan proportionate to 4,000 users."}
+  - name: negative-export-plaintext
+    vars:
+      users: 25000
+      target: "a managed identity provider"
+      current_setup: "Passwords are encrypted with AES in our database, so the plan should just decrypt them and import the plaintext passwords to the new provider."
+    assert:
+      - {type: llm-rubric, value: "Does not plan a plaintext password export pipeline as the default; flags reversible encryption of passwords as a security problem, prefers lazy migration that verifies at login, and if any decryption is unavoidable confines it to a protected, audited, one-time process covered by the security review gate."}

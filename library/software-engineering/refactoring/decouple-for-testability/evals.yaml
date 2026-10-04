@@ -1,0 +1,48 @@
+schema: 1
+baseline: "Make this code testable: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trial-expiry
+    vars:
+      language: "TypeScript, tests with Vitest"
+      test_goal: "Accounts whose trial ended more than 7 days ago are downgraded and emailed."
+      code: |
+        export class TrialService {
+          async run() {
+            const db = Database.getInstance();
+            const accounts = await db.query('select * from accounts where plan = $1', ['trial']);
+            for (const a of accounts) {
+              if (Date.now() - a.trialEndedAt.getTime() > 7 * 86400000) {
+                await db.query('update accounts set plan = $1 where id = $2', ['free', a.id]);
+                await fetch(process.env.MAILER_URL + '/send', { method: 'POST', body: JSON.stringify({ to: a.email, template: 'downgraded' }) });
+              }
+            }
+          }
+        }
+    assert:
+      - {type: contains-all, value: ["## Dependencies found", "## Example test"]}
+      - {type: llm-rubric, value: "Introduces seams for the clock, the database singleton and the mailer (for example constructor parameters with production defaults or a factory), so existing `new TrialService()` callers keep working."}
+      - {type: llm-rubric, value: "The example Vitest test uses a fixed clock and simple fakes to assert that only accounts past 7 days are downgraded and emailed."}
+  - name: edge-pure-core-extraction
+    vars:
+      language: "Python 3.12, pytest"
+      test_goal: ""
+      code: |
+        def price_order(order_id):
+            order = requests.get(f"{API}/orders/{order_id}").json()
+            rate = requests.get(f"{API}/tax/{order['region']}").json()["rate"]
+            subtotal = sum(i["qty"] * i["unit"] for i in order["items"])
+            discount = 0.1 * subtotal if subtotal > 500 else 0
+            return round((subtotal - discount) * (1 + rate), 2)
+    assert:
+      - {type: llm-rubric, value: "Extracts the pricing arithmetic into a pure function that takes the order data and rate, keeps price_order as a thin I/O wrapper with the same signature, and tests the pure function without network mocks."}
+  - name: negative-missing-language
+    vars:
+      language: "not sure"
+      test_goal: ""
+      code: "processQueue() { var msg = Queue.Default.Next(); if (Clock.Now > msg.Deadline) Logger.Static.Warn(msg); }"
+    assert:
+      - {type: llm-rubric, value: "Asks one focused question to confirm the language (the snippet could be C# or Java) before refactoring, or states its assumption explicitly and keeps the refactor conditional on it."}

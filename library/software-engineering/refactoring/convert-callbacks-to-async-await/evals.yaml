@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Convert this code to async/await: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parallel-reads
+    vars:
+      language: javascript
+      test_command: "npm test -- test/config"
+      scope: |
+        lib/config.js:
+        function loadAll(names, cb) {
+          let pending = names.length, out = {}, failed = false;
+          names.forEach(n => fs.readFile(path.join(DIR, n), 'utf8', (err, data) => {
+            if (failed) return;
+            if (err) { failed = true; return cb(err); }
+            out[n] = JSON.parse(data);
+            if (--pending === 0) cb(null, out);
+          }));
+        }
+        module.exports = { loadAll };  // used by bin/cli.js with a callback
+    assert:
+      - {type: contains, value: "## Behaviour notes"}
+      - {type: llm-rubric, value: "Keeps the file reads concurrent with Promise.all (not an awaited loop), uses fs.promises or promisify, and preserves the callback-style export for bin/cli.js through a wrapper or lists it under Not converted."}
+      - {type: llm-rubric, value: "Runs or instructs running the test command before and after the change and reports the results."}
+  - name: edge-swallowed-error
+    vars:
+      language: typescript
+      test_command: "npm test"
+      scope: "src/cache.ts: `refresh().then(update).catch(() => {});` inside a timer callback, where refresh failures are intentionally ignored."
+    assert:
+      - {type: llm-rubric, value: "Keeps the intentional error swallowing explicit with a try/catch and a comment, and handles the promise inside the timer callback so there is no unhandled rejection."}
+  - name: negative-red-baseline
+    vars:
+      language: python
+      test_command: "pytest tests/jobs"
+      scope: "jobs/ (the user notes that pytest tests/jobs currently has 3 failing tests)"
+    assert:
+      - {type: llm-rubric, value: "Stops before refactoring because the baseline test run fails, reports the failures, and asks how to proceed instead of converting the code anyway."}

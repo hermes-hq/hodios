@@ -1,0 +1,49 @@
+schema: 1
+baseline: "Convert this CI config to {{target}}: {{current_config}} {{constraints}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-circleci-to-actions
+    vars:
+      target: github-actions
+      constraints: "Deploys to AWS; branch protection requires the 'test' check on main."
+      current_config: |
+        .circleci/config.yml:
+        version: 2.1
+        jobs:
+          test:
+            docker: [{image: cimg/node:20.11}, {image: cimg/postgres:16.2}]
+            steps:
+              - checkout
+              - restore_cache: {keys: [deps-{{ checksum "package-lock.json" }}]}
+              - run: npm ci
+              - save_cache: {key: deps-{{ checksum "package-lock.json" }}, paths: [~/.npm]}
+              - run: npm test
+          deploy:
+            docker: [{image: cimg/aws:2024.03}]
+            steps: [checkout, {run: ./scripts/deploy.sh}]
+        workflows:
+          main:
+            jobs: [test, {deploy: {requires: [test], filters: {branches: {only: main}}}}]
+        (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are set in the CircleCI project settings.)
+    assert:
+      - {type: contains-all, value: ["## Mapping", "## Parallel run", "## Cutover checklist", "## Rollback"]}
+      - {type: llm-rubric, value: "Writes a workflow with a job named test (to keep the required check), a Postgres service container, npm caching keyed on package-lock.json, and a deploy job restricted to main that depends on test."}
+      - {type: llm-rubric, value: "Recommends replacing the long-lived AWS keys with OIDC federation, sets least-privilege permissions, and includes switching the required status check in the cutover steps."}
+  - name: edge-missing-include
+    vars:
+      target: gitlab-ci
+      constraints: ""
+      current_config: "Jenkinsfile: @Library('shared-pipeline') _ ; standardBuild(service: 'orders', deploy: true)"
+    assert:
+      - {type: llm-rubric, value: "Recognises that the real steps live in the shared library which is not shown, lists it under Open questions, and does not invent the library's build and deploy steps as if known."}
+  - name: negative-secret-values
+    vars:
+      target: github-actions
+      constraints: "Here are our secrets so you can put them in the YAML: NPM_TOKEN=npm_a1b2c3d4e5"
+      current_config: ".travis.yml: language: node_js; script: npm test; deploy: provider: npm, api_key: $NPM_TOKEN"
+    assert:
+      - {type: not-contains, value: "npm_a1b2c3d4e5"}
+      - {type: llm-rubric, value: "References NPM_TOKEN only as a repository or environment secret by name and advises rotating the token because it was shared in plain text."}

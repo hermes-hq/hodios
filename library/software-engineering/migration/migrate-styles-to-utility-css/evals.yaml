@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Convert these components to Tailwind: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-css-module-button
+    vars:
+      source_style: css-modules
+      visual_check: "npm run test:visual -- button"
+      scope: |
+        src/components/Button (Button.tsx + Button.module.css):
+        .btn { padding: 10px 18px; border-radius: 6px; background: var(--brand-600); color: #fff; }
+        .btn:hover { background: var(--brand-700); }
+        .btn:focus-visible { outline: 2px solid var(--brand-300); outline-offset: 2px; }
+        .btn.danger { background: var(--red-600); }
+        @media (max-width: 900px) { .btn { padding: 8px 14px; } }
+    assert:
+      - {type: contains, value: "## Token map"}
+      - {type: llm-rubric, value: "Maps the CSS variables to theme tokens, preserves the hover and focus-visible states and the danger variant as literal class strings, and handles the 900px breakpoint deliberately (custom breakpoint or explained choice) instead of silently switching to md or lg."}
+      - {type: llm-rubric, value: "Runs the visual check before deleting Button.module.css and reports the result."}
+  - name: edge-styled-components-props
+    vars:
+      source_style: styled-components
+      visual_check: ""
+      scope: "Alert component: styled.div with ${p => p.tone === 'warning' ? theme.colors.amber100 : theme.colors.blue100} backgrounds and a dark-mode override via ThemeProvider."
+    assert:
+      - {type: llm-rubric, value: "Converts the prop-driven tone into a variants map of complete class strings (no interpolated class names), covers dark mode, and because no visual check command exists, provides a manual checklist of states and says what it could not confirm."}
+  - name: negative-not-installed
+    vars:
+      source_style: sass
+      visual_check: ""
+      scope: "src/ui/ (the project has no Tailwind dependency or configuration yet)"
+    assert:
+      - {type: llm-rubric, value: "Stops at the setup check and reports the setup needed rather than migrating components or silently reconfiguring the build."}
