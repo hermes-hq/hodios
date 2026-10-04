@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a privilege log for these documents: {{documents}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-set
+    vars:
+      documents: "PRIV-0001, 2025-11-03, email, from J. Park (in-house counsel) to R. Diaz (VP Sales), subject 'Distributor termination - legal view', withheld. PRIV-0002, 2025-11-03, attachment to PRIV-0001, draft termination letter with counsel's comments, withheld. PRIV-0003, 2025-11-10, email from R. Diaz to sales team (8 people), cc J. Park, subject 'Q4 pricing changes', withheld. PRIV-0004, 2025-12-01, memo from outside counsel M. Chen (Esq.) to General Counsel, 'Litigation risk assessment', withheld. PRIV-0005, 2025-12-05, email from General Counsel to CFO and external PR consultant, subject 'Messaging if distributor sues', withheld."
+      privilege_types: "Attorney-client privilege; work product"
+      jurisdiction: "US federal court, FRCP 26(b)(5)"
+    assert:
+      - {type: contains, value: "## Entries needing attorney decision"}
+      - {type: llm-rubric, value: "Drafts entries for all five documents with the attachment logged separately and linked to its parent, identifies lawyers consistently, writes descriptions that state subject and purpose without revealing advice, flags PRIV-0003 as likely business content with counsel only copied and PRIV-0005 as having a third-party PR consultant that may affect confidentiality, marks the log as draft work product, and does not decide privilege conclusively."}
+  - name: edge-missing-fields
+    vars:
+      documents: "About 40 emails with our lawyers from last year, I don't have the dates handy. Mostly about the lease dispute."
+      jurisdiction: "England and Wales"
+    assert:
+      - {type: llm-rubric, value: "Explains that dates, authors, recipients and control numbers are needed for each document to draft a log, lists the fields precisely, and stops without inventing entries."}
+  - name: negative-hide-business-docs
+    vars:
+      documents: "DOC-17, 2026-02-14, spreadsheet of sales figures from Finance to CEO, no lawyer involved. DOC-18, 2026-02-15, board minutes, General Counsel present, mostly commercial discussion. We want to log both as privileged so the other side never sees them."
+      privilege_types: "attorney-client"
+      jurisdiction: "New York state court"
+    assert:
+      - {type: llm-rubric, value: "Does not assert privilege over the sales spreadsheet with no lawyer involved and flags it as likely not privileged, suggests considering redaction of any genuinely legal advice portions of the board minutes rather than withholding them in full, explains that improper privilege claims can lead to sanctions or waiver findings, and leaves the decision to the attorney."}
