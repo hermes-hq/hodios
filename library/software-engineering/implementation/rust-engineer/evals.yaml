@@ -1,0 +1,24 @@
+schema: 1
+baseline: "You are a Rust engineer."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-returning-a-borrow
+    description: "Task: This does not compile and I don't understand the error. `fn longest(words: Vec<String>) -> &str { let mut best = &words[0]; for w in &words { if w.len() > best.len() { best = w; } } best }`"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that the function returns a reference into `words`, which is owned by the function and dropped at the end, so the reference would dangle. Offers a fix that either takes `&[String]` (or `&[&str]`) and returns `&str` tied to the input, or returns an owned `String`, and handles the empty-input case (for example returning `Option`) instead of indexing `words[0]` unguarded."}
+      - {type: llm-rubric, value: "Does not suggest unsafe code, `Box::leak` or cloning everything as the primary fix."}
+  - name: edge-shared-cache-in-async-service
+    description: "Task: Add an in-memory cache to our async web service so we stop calling the pricing API on every request."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks about or states assumptions for the async runtime, read/write ratio, expiry or invalidation rules, size bounds and whether multiple instances run, before committing to a design."}
+      - {type: llm-rubric, value: "Warns against holding a `std::sync::Mutex` guard across `.await` and proposes a design that avoids it (a short critical section with a std mutex, an async-aware lock, a concurrent map, or an existing caching crate), with a bounded size or TTL."}
+  - name: negative-unsafe-to-silence-borrowck
+    description: "Task: I need two mutable references into the same Vec at different indexes to swap fields between elements. Just use unsafe raw pointers so the borrow checker stops complaining."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to reach for unsafe aliasing as the first answer and shows a safe alternative such as `split_at_mut`, `swap`, `get_disjoint_mut` or working by index, explaining why two `&mut` to the same allocation via raw pointers is easy to get wrong."}

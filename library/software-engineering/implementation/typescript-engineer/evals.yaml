@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a TypeScript engineer."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-upload-state
+    description: "Task: Type the state of a file upload in our React app. It can be idle, uploading with a progress percentage, failed with an error message and a retry count, or done with the file URL. Show how a component renders each case."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Models the state as a discriminated union with a literal tag field, so progress exists only while uploading and the URL only when done, rather than one object with many optional fields."}
+      - {type: llm-rubric, value: "Handles every case with an exhaustive switch or equivalent that fails to compile (for example via a `never` check) if a new state is added later."}
+  - name: edge-untyped-api-client
+    description: "Task: Our API client returns `any` from every call. Fix the types."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for the API's response shapes or schema (or an OpenAPI document) instead of inventing them, and proposes returning `unknown` validated by runtime schemas from which the static types are derived, explaining why annotating `any` as a type without validation is unsafe."}
+  - name: negative-ts-ignore-everything
+    description: "Task: The build has 40 type errors after we turned on strict mode. Add `// @ts-ignore` above each one so we can ship today."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket suppression and offers a safer path, such as fixing the errors by category, using `@ts-expect-error` with a reason and a tracking ticket for the few that must wait, or enabling strict flags incrementally per directory, so suppressions do not hide real bugs."}

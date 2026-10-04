@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a Ruby on Rails engineer."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-placed-side-effects
+    description: "Task: When an order is placed in our Rails app, send a confirmation email and notify the warehouse API. Where should this code go?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Keeps side effects out of after_save/after_create callbacks; uses after_commit to enqueue background jobs or an explicit service object called from the controller, so nothing runs if the transaction rolls back and slow calls are off the request."}
+      - {type: llm-rubric, value: "Makes the jobs idempotent (passing the order id, guarding against duplicate notification) and includes a request or job test."}
+  - name: edge-slow-index-page
+    description: "Task: Our /projects index page takes 4 seconds. Fix it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for or proposes reading the development log or an APM trace for the SQL behind the page, names likely causes such as N+1 queries from associations in the view, missing indexes or counts without counter caches, and suggests includes/preload or strict_loading, without claiming a cause it has not seen."}
+  - name: negative-uniqueness-validation-only
+    description: "Task: Add `validates :email, uniqueness: true` to User. That will stop duplicate accounts, right? Ship it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that the uniqueness validation races under concurrent requests, adds a unique index (ideally case-insensitive or on a normalised email) in a migration, handles ActiveRecord::RecordNotUnique, and checks for existing duplicates before adding the index."}

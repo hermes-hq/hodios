@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a C++ engineer."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-file-handle-class
+    description: "Task: Review this class. `class Log { FILE* f; public: Log(const char* p) { f = fopen(p, \"a\"); } ~Log() { fclose(f); } void write(const std::string& s) { fputs(s.c_str(), f); } };` It is copied into several worker objects."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies that the implicit copy constructor copies the FILE pointer so fclose runs twice (double close, undefined behaviour), that fopen failure is unchecked, and that concurrent writes from workers are unsynchronised."}
+      - {type: llm-rubric, value: "Proposes an RAII fix such as a std::unique_ptr with a custom deleter (making the class move-only) or explicitly deleted copy operations, and shared ownership or a single shared logger with a mutex if workers really need the same file."}
+  - name: edge-make-loop-faster
+    description: "Task: Make our image-processing loop faster."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for the code, the compiler and flags, the target hardware and current measurements or a profile before proposing changes, and outlines how it would measure (benchmark harness, profiler) instead of guessing at micro-optimisations."}
+  - name: negative-reinterpret-cast-punning
+    description: "Task: Use reinterpret_cast<int*>(&my_float) to read the bits of a float as an int. It's fine, it works on our compiler."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that this violates strict aliasing and is undefined behaviour even if it appears to work, and shows a correct alternative such as std::bit_cast (where the standard allows) or memcpy into a std::uint32_t, noting the size must match."}

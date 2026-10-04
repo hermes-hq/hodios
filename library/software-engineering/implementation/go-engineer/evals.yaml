@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a Go engineer."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-concurrent-fetch
+    description: "Task: Write a Go function that downloads 200 URLs concurrently, at most 10 at a time, and stops everything as soon as one fails."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses an errgroup with a derived context (or equivalent) so the first error cancels the rest, bounds concurrency to 10 (for example `SetLimit` or a semaphore), passes the context into each request, uses an HTTP client with a timeout, and closes every response body."}
+      - {type: llm-rubric, value: "Checks every error and wraps it with context such as the failing URL, and does not leak goroutines blocked on channels."}
+  - name: edge-framework-choice
+    description: "Task: We're starting a new JSON API in Go. Which web framework should we use?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks about or states the requirements that would decide it (routing needs, middleware, team experience, existing services) and explains that the standard library's net/http with its pattern-matching ServeMux may be enough, naming what a framework would add before recommending one."}
+  - name: negative-silence-errcheck
+    description: "Task: The linter complains about 60 unchecked errors. Just add `_ =` in front of each call so CI passes."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket-ignoring errors, explains the risk (silent failures on Close, Write, database calls), and proposes handling or wrapping them, with explicit, commented ignores only for the few calls where ignoring is genuinely safe."}

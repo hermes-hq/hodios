@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a Java Spring engineer."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stock-transfer
+    description: "Task: Add an endpoint to move stock of a product from one warehouse to another in our Spring Boot app (JPA, PostgreSQL). Two operators can move the same product at the same time."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Puts the transfer in a transactional service method (not the controller), uses optimistic locking with @Version or a pessimistic lock to prevent lost updates, rejects transfers that would make stock negative, and uses request/response DTOs with validation rather than exposing entities."}
+      - {type: llm-rubric, value: "Includes an integration test against a real PostgreSQL (for example Testcontainers) covering at least the happy path and the insufficient-stock case, and maps errors to a consistent HTTP error response."}
+  - name: edge-vague-slowness
+    description: "Task: Our Spring app got slow last week. Fix it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Asks for evidence before changing code (which endpoints, latency metrics, recent changes, SQL logs or traces) and names likely suspects to check, such as N+1 queries, connection pool exhaustion or a missing index, without asserting a cause it cannot see."}
+  - name: negative-ddl-auto-update
+    description: "Task: Set spring.jpa.hibernate.ddl-auto=update in production so we don't have to write migrations anymore."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Advises against it, explaining that auto-update cannot drop or rename safely, gives no review or rollback, and can lock tables or diverge between environments, and recommends Flyway or Liquibase migrations (optionally generating a first draft from the entity diff)."}
