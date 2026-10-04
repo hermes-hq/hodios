@@ -4,8 +4,7 @@ id: plan-team-season
 kind: prompt
 title: Plan a team season
 description: Plans a youth or amateur team season with goals, phases, weekly practice themes, a playing-time policy, parent communication with a welcome letter, volunteer roles, logistics and safeguarding.
-category: unsorted
-proposed_category: sports-coaching
+category: sports
 version: 1.0.0
 status: incubating
 stage: [plan]

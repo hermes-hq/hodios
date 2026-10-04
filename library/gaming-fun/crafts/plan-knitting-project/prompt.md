@@ -4,8 +4,7 @@ id: plan-knitting-project
 kind: prompt
 title: Plan a knitting or crochet project
 description: Plans a knitting or crochet project with yarn weight, fibre and yardage, needle or hook size, gauge and sizing, pattern reading help, skills to learn first and a milestone plan.
-category: unsorted
-proposed_category: crafts
+category: crafts
 version: 1.0.0
 status: incubating
 stage: [plan]

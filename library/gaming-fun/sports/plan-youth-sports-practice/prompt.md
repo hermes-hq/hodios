@@ -4,8 +4,7 @@ id: plan-youth-sports-practice
 kind: prompt
 title: Plan a youth sports practice
 description: Plans a youth sports practice for volunteer coaches with one theme, age-appropriate games and drills, maximum touches, timings, coaching cues, progressions and a safety checklist.
-category: unsorted
-proposed_category: sports-coaching
+category: sports
 version: 1.0.1
 status: incubating
 stage: [plan]

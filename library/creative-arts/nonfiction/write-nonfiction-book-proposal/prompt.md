@@ -4,8 +4,7 @@ id: write-nonfiction-book-proposal
 kind: prompt
 title: Write a nonfiction book proposal
 description: Writes a nonfiction book proposal with an overview hook, target readers, comparable titles to verify, author platform, a marketing plan, chapter summaries and specs, marking every gap to fill.
-category: unsorted
-proposed_category: nonfiction-books
+category: nonfiction
 version: 1.1.0
 status: incubating
 stage: [build]

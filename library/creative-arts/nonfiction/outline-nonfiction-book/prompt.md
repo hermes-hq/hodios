@@ -4,8 +4,7 @@ id: outline-nonfiction-book
 kind: prompt
 title: Outline a nonfiction book
 description: Outlines a nonfiction book with a reader promise, a thesis, a chosen structure, chapter-by-chapter summaries with claims, evidence and stories, an overlap check and a list of research gaps.
-category: unsorted
-proposed_category: nonfiction-books
+category: nonfiction
 version: 1.0.0
 status: incubating
 stage: [plan]

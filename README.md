@@ -9,7 +9,7 @@
 ### One open prompt library, native in every AI tool. Free forever.
 
 <!-- stats:start -->
-<b>3,427</b> entries &nbsp;·&nbsp; <b>22</b> domains &nbsp;·&nbsp; <b>136</b> categories &nbsp;·&nbsp; <b>203</b> personas &nbsp;·&nbsp; <b>105</b> workflows
+<b>3,427</b> entries &nbsp;·&nbsp; <b>22</b> domains &nbsp;·&nbsp; <b>140</b> categories &nbsp;·&nbsp; <b>203</b> personas &nbsp;·&nbsp; <b>105</b> workflows
 <!-- stats:end -->
 
 Prompts, personas and workflows for work, learning, creativity and everyday life.<br>
@@ -340,12 +340,12 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 
 </details>
 
-<details><summary><b>Creative arts</b> · 172</summary>
+<details><summary><b>Creative arts</b> · 174</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
-| Image generation | 33 | [`build-image-style-guide`](library/creative-arts/image-generation/build-image-style-guide/) · [`coach-image-prompting`](library/creative-arts/image-generation/coach-image-prompting/) · [`create-storyboard`](library/creative-arts/image-generation/create-storyboard/) |
 | Fiction | 32 | [`build-suspense-in-scene`](library/creative-arts/fiction/build-suspense-in-scene/) · [`check-story-continuity`](library/creative-arts/fiction/check-story-continuity/) · [`co-write-story-interactively`](library/creative-arts/fiction/co-write-story-interactively/) |
+| Image generation | 32 | [`build-image-style-guide`](library/creative-arts/image-generation/build-image-style-guide/) · [`coach-image-prompting`](library/creative-arts/image-generation/coach-image-prompting/) · [`create-storyboard`](library/creative-arts/image-generation/create-storyboard/) |
 | Music | 24 | [`analyze-song-structure`](library/creative-arts/music/analyze-song-structure/) · [`build-music-sound-kit`](library/creative-arts/music/build-music-sound-kit/) · [`explain-music-theory-concept`](library/creative-arts/music/explain-music-theory-concept/) |
 | Screenwriting | 15 | [`adapt-story-for-screen`](library/creative-arts/screenwriting/adapt-story-for-screen/) · [`develop-tv-series-concept`](library/creative-arts/screenwriting/develop-tv-series-concept/) · [`format-screenplay-scene`](library/creative-arts/screenwriting/format-screenplay-scene/) |
 | Life writing | 14 | [`draft-memoir-scene`](library/creative-arts/life-writing/draft-memoir-scene/) · [`interview-relative-for-oral-history`](library/creative-arts/life-writing/interview-relative-for-oral-history/) · [`mine-memories-for-life-story`](library/creative-arts/life-writing/mine-memories-for-life-story/) |
@@ -353,6 +353,8 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 | Poetry | 14 | [`analyze-poem`](library/creative-arts/poetry/analyze-poem/) · [`critique-poem`](library/creative-arts/poetry/critique-poem/) · [`generate-poetry-prompts`](library/creative-arts/poetry/generate-poetry-prompts/) |
 | Visual art | 13 | [`choose-art-supplies`](library/creative-arts/visual-art/choose-art-supplies/) · [`critique-artwork`](library/creative-arts/visual-art/critique-artwork/) · [`generate-sketchbook-prompts`](library/creative-arts/visual-art/generate-sketchbook-prompts/) |
 | Worldbuilding | 13 | [`build-magic-system`](library/creative-arts/worldbuilding/build-magic-system/) · [`build-series-bible`](library/creative-arts/worldbuilding/build-series-bible/) · [`build-world-timeline`](library/creative-arts/worldbuilding/build-world-timeline/) |
+| Nonfiction books | 2 | [`outline-nonfiction-book`](library/creative-arts/nonfiction/outline-nonfiction-book/) · [`write-nonfiction-book-proposal`](library/creative-arts/nonfiction/write-nonfiction-book-proposal/) |
+| Video generation | 1 | [`write-video-generation-prompt`](library/creative-arts/video-generation/write-video-generation-prompt/) |
 
 </details>
 
@@ -469,7 +471,7 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 
 </details>
 
-<details><summary><b>Gaming and fun</b> · 86</summary>
+<details><summary><b>Gaming and fun</b> · 91</summary>
 
 | Category | Entries | Try |
 |---|---:|---|
@@ -478,6 +480,8 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 | Humour | 16 | [`explain-joke-or-meme`](library/gaming-fun/humor/explain-joke-or-meme/) · [`plan-improv-session`](library/gaming-fun/humor/plan-improv-session/) · [`plan-open-mic-debut`](library/gaming-fun/humor/plan-open-mic-debut/) |
 | Video games | 15 | [`design-game-economy`](library/gaming-fun/video-games/design-game-economy/) · [`design-game-level`](library/gaming-fun/video-games/design-game-level/) · [`design-game-mechanic`](library/gaming-fun/video-games/design-game-mechanic/) |
 | Trivia and quizzes | 14 | [`create-custom-bingo`](library/gaming-fun/trivia/create-custom-bingo/) · [`create-party-game-cards`](library/gaming-fun/trivia/create-party-game-cards/) · [`host-trivia-night`](library/gaming-fun/trivia/host-trivia-night/) |
+| Crafts and making | 3 | [`plan-knitting-project`](library/gaming-fun/crafts/plan-knitting-project/) · [`plan-sewing-project`](library/gaming-fun/crafts/plan-sewing-project/) · [`plan-woodworking-project`](library/gaming-fun/crafts/plan-woodworking-project/) |
+| Amateur sport | 2 | [`plan-team-season`](library/gaming-fun/sports/plan-team-season/) · [`plan-youth-sports-practice`](library/gaming-fun/sports/plan-youth-sports-practice/) |
 
 </details>
 
@@ -488,14 +492,6 @@ In a project folder, `npx @hermes-hq/hodios search` with no query does this on y
 | Prompt engineering | 35 | [`adapt-prompt-for-reasoning-model`](library/prompting/prompt-engineering/adapt-prompt-for-reasoning-model/) · [`adapt-prompt-for-small-model`](library/prompting/prompt-engineering/adapt-prompt-for-small-model/) · [`audit-prompt-for-bias`](library/prompting/prompt-engineering/audit-prompt-for-bias/) |
 | Output styles | 33 | [`academic`](library/prompting/output-styles/academic/) · [`actionable`](library/prompting/output-styles/actionable/) · [`analogy-led`](library/prompting/output-styles/analogy-led/) |
 | Assistant setup | 21 | [`build-project-instructions`](library/prompting/assistant-setup/build-project-instructions/) · [`choose-ai-tool`](library/prompting/assistant-setup/choose-ai-tool/) · [`map-ai-use-cases`](library/prompting/assistant-setup/map-ai-use-cases/) |
-
-</details>
-
-<details><summary><b>Other (holding area)</b> · 7</summary>
-
-| Category | Entries | Try |
-|---|---:|---|
-| Unsorted (holding area) | 7 | [`outline-nonfiction-book`](library/other/unsorted/outline-nonfiction-book/) · [`plan-knitting-project`](library/other/unsorted/plan-knitting-project/) · [`plan-sewing-project`](library/other/unsorted/plan-sewing-project/) |
 
 </details>
 <!-- catalog:end -->

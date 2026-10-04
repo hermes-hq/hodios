@@ -4,8 +4,7 @@ id: plan-sewing-project
 kind: prompt
 title: Plan a sewing project
 description: Plans a sewing project with pattern and size choice, fabric and notions, yardage, prep, a cutting layout, construction order with checkpoints and skills to practise, matched to the sewer's level.
-category: unsorted
-proposed_category: crafts
+category: crafts
 version: 1.0.0
 status: incubating
 stage: [plan]

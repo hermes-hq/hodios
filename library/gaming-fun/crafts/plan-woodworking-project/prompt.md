@@ -4,8 +4,7 @@ id: plan-woodworking-project
 kind: prompt
 title: Plan a woodworking project
 description: Plans a woodworking project with dimensions, wood choice, a cut list, joinery suited to the tools and load, wood movement, build order, safety per step and a finishing schedule.
-category: unsorted
-proposed_category: crafts
+category: crafts
 version: 1.0.0
 status: incubating
 stage: [plan]

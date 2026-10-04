@@ -4,7 +4,7 @@ id: write-video-generation-prompt
 kind: prompt
 title: Write a video-generation prompt
 description: Writes prompts for AI video generators covering subject, action, camera movement, lighting, style, audio and consistency, with a shot-by-shot version for longer clips. Use with text-to-video tools.
-category: image-generation
+category: video-generation
 version: 1.0.0
 status: incubating
 stage: [build]
@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [text-to-video, ai-video, camera-movement, shot-list]
+tags: [camera-movement, shot-list]
 pairs_with:
   prompts: [write-image-prompt, create-storyboard, build-image-style-guide]
 args:
