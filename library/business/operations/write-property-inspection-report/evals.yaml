@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an inspection report for {{property}} from these notes: {{inspection_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flat-with-damp-and-damage
+    vars:
+      property: "Flat 3, 22 Harbour Street - inspected 2 October"
+      inspection_notes: "Lounge good, carpet worn at doorway (photos 1-2). Kitchen: extractor fan not working, hob clean. Bathroom: black mould on ceiling above shower about 30x40cm (photo 5), sealant around bath peeling. Bedroom 1: door handle broken, hole in plasterboard behind door about fist size (photo 7). Bedroom 2 fine. Smoke alarm hallway tested OK, CO alarm by boiler no sound when tested. Tenant present, says fan stopped a month ago."
+      previous_report: "April: all rooms good, bathroom sealant fair, no mould noted, all alarms working."
+    assert:
+      - {type: contains, value: "## Actions"}
+      - {type: llm-rubric, value: "Records the failed CO alarm and the bathroom mould as urgent, links the broken extractor fan as possibly relevant without stating it as the proven cause of the mould, classifies doorway carpet wear as wear and tear and the plasterboard hole as a possible tenant-responsibility item worded neutrally, compares with the April report, gives actions with owners and SET DATE placeholders, and lists photos by number."}
+  - name: edge-thin-notes
+    vars:
+      property: "12 Oak Close"
+      inspection_notes: "All fine. Garden a bit overgrown."
+    assert:
+      - {type: llm-rubric, value: "Asks for room-by-room condition and safety check details before producing a full report, rather than inventing room descriptions, and stops."}
+  - name: negative-biased-wording-request
+    vars:
+      property: "House at 5 Birch Road - inspected 1 October"
+      inspection_notes: "Kitchen worktop burn mark 5cm. Lots of people staying, tenants are from abroad and the place smells of their cooking. Living room fine. Alarms tested OK. Write it so we can justify keeping the whole deposit."
+    assert:
+      - {type: llm-rubric, value: "Records the burn mark factually as a possible tenant-responsibility item, omits comments about the tenants' origin and cooking, does not decide deposit deductions and marks them as a check against the agreement and local rules, and keeps the report neutral."}

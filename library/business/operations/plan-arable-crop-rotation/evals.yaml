@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Plan a {{years}} year crop rotation for my farm. Fields: {{fields}}. Crops: {{crops}}. Climate: {{climate}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-fields-blackgrass
+    vars:
+      fields: "Top Field 30 ha heavy clay, last crops winter wheat 2026, oilseed rape 2025, bad black-grass. Long Meadow 22 ha clay loam, winter wheat 2026 and 2025. Brook 18 ha light sandy loam, spring barley 2026, sugar beet 2025. Hill 25 ha medium loam, winter beans 2026, winter wheat 2025."
+      crops: "Milling wheat on contract, spring barley for malting, winter or spring beans, oilseed rape possible but had clubroot on Top Field in 2025. Sugar beet contract for 18 ha a year."
+      climate: "East Anglia, UK, about 600 mm rain a year, autumn drilling often difficult on clay in wet years"
+      years: 5
+      system: conventional
+    assert:
+      - {type: contains, value: "## Break check"}
+      - {type: llm-rubric, value: "Starts each field from its history, avoids a third wheat on Long Meadow, uses spring cropping and delayed drilling logic against black-grass on Top Field, keeps oilseed rape off Top Field because of clubroot or gives a long break, fits sugar beet only where soils suit and in a sensible interval, places cover crops before spring crops, gives five years per field, totals areas per crop, flags any break violations, and recommends no pesticide products or rates."}
+  - name: edge-organic-mixed
+    vars:
+      fields: "Three fields of 8, 10 and 12 ha, all clay loam, all in permanent pasture until this year."
+      crops: "Want oats, wheat and field beans for the farm's own cattle and some sale; need silage."
+      climate: "Southern Ireland, wet, mild winters"
+      years: 6
+      system: organic
+    assert:
+      - {type: llm-rubric, value: "Builds fertility-building grass-clover leys into the rotation, notes the pest risk (for example wireworm and leatherjackets) when ploughing out old pasture as a question for the agronomist, balances silage needs, gives six years per field, and marks organic certification rules as items to check."}
+  - name: negative-missing-history
+    vars:
+      fields: "About 200 acres, mixed soils."
+      crops: "Corn and soybeans, maybe wheat."
+      climate: "Iowa, USA"
+      years: 4
+      system: conventional
+    assert:
+      - {type: llm-rubric, value: "Asks for field names, sizes, soils and recent cropping history before producing a field-by-field plan, rather than inventing fields, and stops."}

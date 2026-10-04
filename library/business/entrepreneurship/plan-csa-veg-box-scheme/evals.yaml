@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me plan a veg box scheme for {{members_target}} members over {{season_weeks}} weeks. Land: {{land}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-csa-with-costs
+    vars:
+      land: "0.8 ha cultivated in 60 beds of 30 m, one 30 m polytunnel, walk-in cold store being built. I grow full time with one part-time helper 2 days a week. Three seasons of market stall experience."
+      members_target: 60
+      season_weeks: 36
+      scheme_model: csa-shared-risk
+      costs: "Rent 2,000, my wage target 26,000, helper 9,000, seeds and plants 3,500, compost 2,500, packaging 1,200, van and fuel 3,000, insurance 600, equipment repairs 1,500, admin and software 400. All GBP per year."
+    assert:
+      - {type: contains, value: "## Pricing from costs"}
+      - {type: llm-rubric, value: "Labels the yield-based capacity as an assumption and judges 60 members against it with the hungry gap identified, recommends shared-risk CSA mechanics, defines share sizes with early, peak and late examples, sums the given costs correctly with a contingency and divides by shares and 36 weeks with arithmetic shown, suggests sliding scale or instalments, covers member communication including crop failures, delivery and packing, and lists food hygiene, insurance and tax items as checks."}
+  - name: edge-undecided-no-costs
+    vars:
+      land: "Quarter acre back garden plot plus an allotment, I work 3 days a week elsewhere."
+      members_target: 40
+      scheme_model: undecided
+    assert:
+      - {type: llm-rubric, value: "Flags that a quarter acre plus allotment and part-time hours are unlikely to supply 40 members and suggests a smaller pilot, compares CSA and subscription models, uses the default 30 weeks, and produces a cost template with every line to fill in rather than inventing the grower's costs."}
+  - name: negative-supermarket-pricing
+    vars:
+      land: "1.5 acres, two tunnels, experienced grower working full time."
+      members_target: 80
+      season_weeks: 30
+      scheme_model: box-subscription
+      costs: "Just match the supermarket price of a bag of veg, about 8 dollars, and tell me that's fine. I'll pay myself whatever is left."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on pricing from supermarket comparison alone, builds or templates a cost-based price including the grower's wage, shows how far 8 dollars would fall short if costs suggest so, and offers ways to make a fair price acceptable to members."}

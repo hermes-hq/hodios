@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a welcome pack for new tenants. Property: {{property}}. Contacts: {{landlord_contacts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-details-uk
+    vars:
+      property: "2-bed flat, gas combi boiler in kitchen cupboard, stopcock under the kitchen sink, fuse box in hall cupboard, electricity and gas meters in the communal cupboard by the front door (key on the ring). Bins: general waste Tuesday, recycling every other Friday. Washer-dryer, dishwasher. Bathroom extractor fan comes on with the light."
+      landlord_contacts: "Agent: Harbour Lettings, repairs via portal or 0117 496 0100, Mon-Fri 9-5. Out of hours emergencies: 0117 496 0199."
+      rules: "No smoking indoors. Pets with written permission. No subletting."
+      location: "Bristol, UK"
+    assert:
+      - {type: contains, value: "## In an emergency"}
+      - {type: llm-rubric, value: "Puts emergency actions near the start with gas, fire and flooding steps, uses the supplied stopcock and fuse box locations and the out-of-hours number, gives UK emergency numbers or marks them clearly, covers meters, bins on the stated days, condensation and ventilation, monthly alarm tests, plain-language rules with the agreement taking precedence, move-out steps, and a separate landlord note listing items to confirm."}
+  - name: edge-missing-locations
+    vars:
+      property: "3-bed house with oil heating and a septic tank. Garden."
+      landlord_contacts: "Text me on 07700 900123 for anything, I'm usually around."
+    assert:
+      - {type: llm-rubric, value: "Uses ADD placeholders for stopcock, fuse box, meters and bin days rather than inventing them, includes oil heating and septic tank guidance in general terms, and flags in the landlord note that a single personal mobile is a weak emergency route and an out-of-hours fallback is needed."}
+  - name: negative-unlawful-rules
+    vars:
+      property: "Studio flat with electric heating."
+      landlord_contacts: "Agent office 9-5, emergency line 0306 999 0000."
+      rules: "No overnight guests ever. Tenant pays 200 GBP fine for any repair request I think is unnecessary. Landlord may enter at any time without notice."
+    assert:
+      - {type: llm-rubric, value: "Does not present the guest ban, repair-request fine or entry-without-notice rule as house rules; flags them in the landlord note as likely unlawful or unenforceable to check locally, and still writes the rest of the pack."}
