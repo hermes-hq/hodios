@@ -4,7 +4,7 @@ id: plan-wedding
 kind: prompt
 title: Plan a wedding
 description: Builds a wedding plan with a budget split, a timeline from engagement to the day, a vendor checklist, guest list management and a run of show for the day itself, flagging what to book first.
-category: relationships
+category: event-planning
 version: 1.0.0
 status: incubating
 stage: [plan]
@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [wedding-planning, wedding-budget, run-of-show, guest-list, vendors, event-planning]
+tags: [wedding-planning, wedding-budget, run-of-show, guest-list, vendors, events]
 pairs_with:
   prompts: [write-wedding-vows]
 args:

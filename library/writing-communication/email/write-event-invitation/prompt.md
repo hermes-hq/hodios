@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [invitation, rsvp, event-planning, inclusive-events, offsite, workshop]
+tags: [invitation, rsvp, inclusive-events, offsite, workshop, events]
 pairs_with:
   prompts: [invite-speaker, write-internal-announcement, write-emcee-script]
 args:

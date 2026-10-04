@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: optional
 level: beginner
-tags: [family-reunion, event-planning, cost-sharing, multigenerational, group-travel, family-history]
+tags: [family-reunion, cost-sharing, multigenerational, group-travel, family-history, events]
 pairs_with:
   prompts: [plan-family-meeting, coordinate-family-calendar, plan-kids-party]
 args:

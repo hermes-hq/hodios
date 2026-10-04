@@ -9,7 +9,7 @@ version: 1.0.1
 status: incubating
 stage: [build, ship]
 role: [product-manager, designer, frontend-engineer, legal-professional]
-subject: [law]
+subject: [law, public-sector]
 requires: [none]
 inputs: [text, notes]
 output: [docs, questions]
@@ -21,7 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [accessibility-statement, wcag, conformance, digital-inclusion, public-sector]
+tags: [accessibility-statement, wcag, conformance, digital-inclusion]
 pairs_with:
   prompts: [audit-web-accessibility, audit-mobile-accessibility, write-accessibility-conformance-report]
   personas: [accessibility-specialist]

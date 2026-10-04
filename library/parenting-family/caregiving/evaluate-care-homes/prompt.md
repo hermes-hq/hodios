@@ -4,7 +4,7 @@ id: evaluate-care-homes
 kind: prompt
 title: Evaluate care homes
 description: Builds a checklist and questions for choosing a care home or assisted living, covering inspection reports, staffing, a visit checklist, true costs, funding to check and contract terms.
-category: family-logistics
+category: caregiving
 version: 1.0.0
 status: incubating
 stage: [discover, review]

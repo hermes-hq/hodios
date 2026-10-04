@@ -4,11 +4,12 @@ id: write-farm-safety-induction
 kind: prompt
 title: Write a farm safety induction
 description: Writes a safety induction for farm workers, volunteers, school groups or visitors covering vehicles and machinery, livestock, chemicals, slurry, children and emergencies, with a sign-off record.
-category: operations
+category: farming
 version: 1.0.0
 status: incubating
 stage: [build, operate]
 role: [founder, individual, operations-manager]
+subject: [agriculture]
 requires: [none]
 inputs: [notes, text]
 output: [docs, checklist, script]
@@ -19,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [farm-safety, safety-induction, livestock-handling, machinery-safety, farm-visits, farming]
+tags: [farm-safety, safety-induction, livestock-handling, machinery-safety, farm-visits]
 pairs_with:
   prompts: [write-toolbox-talk, write-emergency-procedures-for-staff, write-workplace-risk-assessment, plan-livestock-record-keeping]
   personas: [farm-business-advisor]

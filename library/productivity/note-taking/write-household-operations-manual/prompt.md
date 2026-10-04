@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: beginner
-tags: [household-manual, emergency-planning, bus-factor, caregiving, home-admin, contingency]
+tags: [household-manual, emergency-planning, bus-factor, home-admin, contingency, carers]
 pairs_with:
   prompts: [set-up-life-admin-calendar, plan-digital-legacy, build-reusable-checklist, secure-personal-accounts]
 args:

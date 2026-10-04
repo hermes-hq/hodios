@@ -9,6 +9,7 @@ version: 1.0.0
 status: experimental
 stage: [build, ship]
 role: [devops-engineer, software-engineer]
+subject: [supply-chain]
 stack: [github-actions]
 requires: [repo-read, file-write]
 inputs: [spec, repo]
@@ -20,7 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [ci, least-privilege, supply-chain]
+tags: [ci, least-privilege]
 pairs_with:
   prompts: [speed-up-ci-pipeline]
 args:

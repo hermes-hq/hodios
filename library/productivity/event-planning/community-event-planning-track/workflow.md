@@ -4,7 +4,7 @@ id: community-event-planning-track
 kind: workflow
 title: Community event planning track
 description: Plans a volunteer-run community event such as a street party, school fair or fun run in gated steps - permissions, volunteers, publicity, safety, the day itself and a wrap-up with thanks and accounts.
-category: task-management
+category: event-planning
 version: 1.0.0
 status: incubating
 stage: [plan, operate]

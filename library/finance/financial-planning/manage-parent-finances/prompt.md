@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [ageing-parents, power-of-attorney, caregiving, scam-protection, record-keeping]
+tags: [ageing-parents, power-of-attorney, scam-protection, record-keeping, carers]
 pairs_with:
   prompts: [spot-investment-scam, review-insurance-coverage, build-monthly-budget, organize-tax-documents, prepare-power-of-attorney-questions]
   personas: [personal-finance-coach, eldercare-advisor]

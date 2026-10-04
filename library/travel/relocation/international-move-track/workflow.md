@@ -4,7 +4,7 @@ id: international-move-track
 kind: workflow
 title: International move track
 description: Takes a household through an international move in gated steps, from visa and timeline to shipping and housing, admin and money, arrival setup and settling in. Use months before moving abroad.
-category: travel-logistics
+category: relocation
 version: 1.0.0
 status: incubating
 stage: [plan, build, operate]
@@ -20,7 +20,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [relocation, moving-abroad, expat, residence-permit, international-shipping]
+tags: [moving-abroad, expat, residence-permit, international-shipping]
 pairs_with:
   prompts: [plan-relocation-finances, plan-tax-move-abroad, prepare-for-culture-shock, plan-travel-with-pet, check-travel-requirements]
   personas: [travel-planner]

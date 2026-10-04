@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [build, review]
 role: [operations-manager, founder]
-subject: [engineering]
+subject: [engineering, construction]
 requires: [none]
 inputs: [notes, document, dataset]
 output: [docs, table]
@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [construction, change-order, contract-variation, cost-impact, extension-of-time, contractors]
+tags: [change-order, contract-variation, cost-impact, extension-of-time, contractors]
 pairs_with:
   prompts: [write-construction-rfi, plan-construction-lookahead, write-customer-quote]
 args:

@@ -4,11 +4,12 @@ id: plan-arable-crop-rotation
 kind: prompt
 title: Plan an arable crop rotation
 description: Plans a multi-year crop rotation for an arable or mixed farm with disease and pest breaks, soil health, cover crops, workload and a field-by-field plan, for the farmer to check with an agronomist.
-category: operations
+category: farming
 version: 1.0.0
 status: incubating
 stage: [plan]
 role: [individual, founder]
+subject: [agriculture]
 requires: [none]
 inputs: [notes, dataset, preferences]
 output: [plan, table]
@@ -19,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [crop-rotation, arable-farming, cover-crops, soil-health, break-crops, farming]
+tags: [crop-rotation, arable-farming, cover-crops, soil-health, break-crops]
 pairs_with:
   prompts: [plan-farm-diversification, plan-equipment-maintenance]
   personas: [farm-business-advisor]

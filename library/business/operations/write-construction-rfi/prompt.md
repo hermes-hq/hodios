@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [build]
 role: [operations-manager]
-subject: [engineering]
+subject: [engineering, construction]
 requires: [none]
 inputs: [notes, document, image]
 output: [docs, message]
@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [construction, rfi, request-for-information, design-coordination, drawings, contractors]
+tags: [rfi, request-for-information, design-coordination, drawings, contractors]
 pairs_with:
   prompts: [write-construction-change-order, plan-construction-lookahead]
 args:

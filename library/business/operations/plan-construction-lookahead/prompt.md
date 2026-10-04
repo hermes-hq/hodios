@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan, operate]
 role: [operations-manager]
-subject: [engineering]
+subject: [engineering, construction]
 requires: [none]
 inputs: [notes, dataset, document]
 output: [plan, table]
@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [construction, lookahead-schedule, site-coordination, last-planner, constraint-log, trade-sequencing]
+tags: [lookahead-schedule, site-coordination, last-planner, constraint-log, trade-sequencing]
 pairs_with:
   prompts: [write-construction-rfi, write-construction-change-order, write-toolbox-talk]
 args:

@@ -9,6 +9,7 @@ version: 1.0.1
 status: incubating
 stage: [build]
 role: [manager, consultant, business-analyst, executive]
+subject: [public-sector]
 requires: [none]
 inputs: [text, notes, document]
 output: [docs]
@@ -19,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [briefing-note, public-sector, civil-service, ministerial-briefing, board-paper, policy-options]
+tags: [briefing-note, civil-service, ministerial-briefing, board-paper, policy-options]
 pairs_with:
   prompts: [write-decision-memo, write-executive-summary, write-public-consultation-response, write-policy-brief]
 args:

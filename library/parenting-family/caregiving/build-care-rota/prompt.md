@@ -4,7 +4,7 @@ id: build-care-rota
 kind: prompt
 title: Build a family care rota
 description: Builds a shared care rota for an ill or ageing relative across family members and helpers, with a task list, weekly schedule, coverage gaps, handover notes and a fair split of the load.
-category: family-logistics
+category: caregiving
 version: 1.0.0
 status: incubating
 stage: [plan, operate]
@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [care-rota, caregiving, ageing-parents, siblings, shared-care, carers]
+tags: [care-rota, ageing-parents, siblings, shared-care, carers]
 pairs_with:
   prompts: [manage-caregiver-stress, coordinate-family-calendar, prepare-emergency-medical-summary]
   personas: [eldercare-advisor]

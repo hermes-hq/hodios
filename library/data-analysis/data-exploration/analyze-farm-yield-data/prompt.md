@@ -9,6 +9,7 @@ version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [individual, founder]
+subject: [agriculture]
 requires: [none]
 inputs: [dataset, notes]
 output: [report, table, plan]
@@ -19,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [farm-records, crop-yield, on-farm-trials, agriculture, orchard, variety-comparison]
+tags: [farm-records, crop-yield, on-farm-trials, orchard, variety-comparison]
 pairs_with:
   prompts: [explore-dataset, run-regression-analysis, decompose-seasonality]
   personas: [data-analyst, statistician]

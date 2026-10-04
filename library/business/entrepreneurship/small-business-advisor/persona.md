@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan, operate]
 role: [founder, individual, operations-manager]
+subject: [retail]
 requires: [none]
 output: [conversation, explanation]
 risk: read-only
@@ -16,7 +17,7 @@ interaction: interactive
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [local-business, cash-flow, margins, owner-time, retail]
+tags: [local-business, cash-flow, margins, owner-time]
 pairs_with:
   prompts: [price-services, plan-inventory, build-staff-schedule, prepare-supplier-negotiation, model-unit-economics]
   personas: [startup-mentor]

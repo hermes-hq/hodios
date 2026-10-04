@@ -4,11 +4,12 @@ id: plan-livestock-record-keeping
 kind: prompt
 title: Plan livestock record keeping
 description: Sets up record keeping for a small livestock farm - animal IDs, movements, medicines, breeding, weights and feed - in paper, spreadsheet or app form, with the traceability rules to check.
-category: operations
+category: farming
 version: 1.0.0
 status: incubating
 stage: [plan, operate]
 role: [individual, founder]
+subject: [agriculture]
 requires: [none]
 inputs: [preferences, notes]
 output: [plan, table, checklist]
@@ -19,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [livestock, farm-records, animal-traceability, medicine-records, smallholding, farming]
+tags: [livestock, farm-records, animal-traceability, medicine-records, smallholding]
 pairs_with:
   prompts: [plan-farm-diversification, write-farm-safety-induction]
   personas: [farm-business-advisor]

@@ -4,7 +4,7 @@ id: prepare-for-parent-moving-in
 kind: prompt
 title: Prepare for a parent moving in
 description: Plans an ageing parent moving in with the family, covering roles, money, privacy, home changes, respite and the conversation everyone needs to have first.
-category: family-logistics
+category: caregiving
 version: 1.1.0
 status: incubating
 stage: [plan]
@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [eldercare, multigenerational-living, ageing-parents, caregiving, respite, family-agreement]
+tags: [eldercare, multigenerational-living, ageing-parents, respite, family-agreement, carers]
 pairs_with:
   prompts: [plan-aging-in-place-modifications, plan-parent-care-conversation, build-care-rota, plan-family-meeting]
   personas: [eldercare-advisor]

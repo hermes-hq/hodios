@@ -4,7 +4,7 @@ id: plan-parent-care-conversation
 kind: prompt
 title: Plan a care conversation with an ageing parent
 description: Prepares a conversation with an ageing parent about care needs, driving or moving, respecting their autonomy, with openings, options to offer, responses to pushback and when it cannot wait.
-category: family-logistics
+category: caregiving
 version: 1.0.0
 status: incubating
 stage: [plan]
@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [ageing-parents, eldercare, older-drivers, moving-house, autonomy, caregiving]
+tags: [ageing-parents, eldercare, older-drivers, moving-house, autonomy, carers]
 pairs_with:
   prompts: [plan-family-meeting, evaluate-care-homes, prepare-advance-care-plan-questions]
   personas: [eldercare-advisor]

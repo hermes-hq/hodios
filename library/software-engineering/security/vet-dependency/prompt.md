@@ -9,6 +9,7 @@ version: 1.0.0
 status: experimental
 stage: [review]
 role: [software-engineer, security-engineer, tech-lead]
+subject: [supply-chain]
 stack: []
 requires: [repo-read, web]
 inputs: [text, diff]
@@ -20,7 +21,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [supply-chain, dependencies, licensing]
+tags: [dependencies, licensing]
 pairs_with:
   personas: [security-auditor]
   prompts: [review-pr-for-security]
