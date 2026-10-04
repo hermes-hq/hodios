@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Find the workarounds in these notes about {{tool_or_process}}: {{observation_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-claims-system
+    vars:
+      tool_or_process: "Insurance claims handling system used by 40 handlers to log and progress home claims."
+      observation_notes: "P1: keeps an Excel of 'live claims to chase' with policyholder names and phone numbers on her desktop, updates it every morning. P2 and P4: copy the claim reference from the system into Outlook and back, 'about 30 times a day'. P3: sticky notes on screen with the 6 status codes that actually mean something. Everyone asks Sam (team lead) when a claim needs reopening because the reopen button is hidden. P5: uses a Teams chat with the loss adjusters instead of the system notes field because adjusters never read the notes."
+      output_style: table
+    assert:
+      - {type: contains, value: "## Workaround register"}
+      - {type: llm-rubric, value: "Lists the Excel tracker, copy-paste between systems, sticky-note codes, the team lead as informal role and the Teams side channel; flags the spreadsheet of personal data as a data protection risk and the team lead as key-person dependency; replaces 'Sam' with a role label; shows frequency x people x risk scores; groups by needs such as follow-up tracking."}
+  - name: edge-json-output
+    vars:
+      tool_or_process: "Stock reorder screen in a pharmacy chain's back-office system."
+      observation_notes: "Two store managers keep a paper list of fast-moving items to check manually. One said she reorders from memory on Mondays. Unclear how often."
+      output_style: json
+    assert:
+      - {type: llm-rubric, value: "Returns the register as a JSON array with the named keys, marks frequency as unknown or uncertain rather than inventing it, and lists frequency as an evidence gap."}
+  - name: negative-no-workarounds
+    vars:
+      tool_or_process: "Timesheet tool."
+      observation_notes: "P1 said the tool is fine. P2 said she submits on Fridays."
+      output_style: table
+    assert:
+      - {type: llm-rubric, value: "Says no workarounds are evident in the notes, does not invent any, and suggests what to observe or ask next."}

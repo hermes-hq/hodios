@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me plan user testing for this prototype: {{product_and_prototype}}. We want to learn: {{questions_to_answer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kitchen-gadget-in-home
+    vars:
+      product_and_prototype: "A one-handed pour-over coffee stand with a built-in scale. We have 4 looks-like units (resin 3D prints, about 40% lighter than the planned aluminium) and 2 works-like rigs (scale works, laptop shows the weight, no housing)."
+      questions_to_answer: "Can people set it up without instructions? Is the dial reachable with one hand while pouring? Would they pay 129 EUR? Does the base feel stable?"
+      setting: in-home
+    assert:
+      - {type: contains, value: "## Fidelity check"}
+      - {type: llm-rubric, value: "Marks the 129 EUR question as not answerable by this prototype and points to a separate money-at-stake test; flags that stability and weight cannot be judged from resin prints 40% lighter than aluminium; uses realistic in-home tasks such as making the participant's usual coffee rather than opinion questions; covers hot water and electronics safety; sets decision rules in advance."}
+  - name: edge-wearable-outdoors-small-sample
+    vars:
+      product_and_prototype: "Clip-on running light, works-like only: bare PCB with LiPo battery in a taped foam case. 3 units."
+      questions_to_answer: "Does it stay on during a run? Is the button findable with gloves?"
+      setting: outdoors
+    assert:
+      - {type: llm-rubric, value: "Addresses LiPo battery and exposed-board hazards with mitigations and a stop rule, plans for weather and the fact that only 3 units exist (scheduling, spares), includes a glove condition in tasks, and notes that the foam case cannot answer appearance or final-attachment questions."}
+  - name: negative-too-vague
+    vars:
+      product_and_prototype: "A new kind of chair."
+      questions_to_answer: "Is it good?"
+      setting: in-home
+    assert:
+      - {type: llm-rubric, value: "Does not invent the prototype's materials or features; asks for what the prototype is (fidelity, materials, units) and what decision the test must inform, and stops or gives only a clearly placeholder outline."}

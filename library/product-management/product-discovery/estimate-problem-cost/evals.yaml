@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How much does this problem cost us per year? {{problem_description}} Numbers: {{known_numbers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-failed-deliveries
+    vars:
+      problem_description: "Customers give wrong or incomplete addresses at checkout, so parcels fail delivery and come back. Support handles the complaints and we reship."
+      known_numbers: "About 1,800 orders a week. Failed delivery rate roughly 2.5%. Return-to-sender fee 6 per parcel, reshipping cost 8. Each case takes support about 12 minutes. Support agent fully loaded cost 32 an hour. Some customers cancel instead, maybe 1 in 5, average order 70."
+      currency: EUR
+    assert:
+      - {type: contains, value: "## Cost model"}
+      - {type: llm-rubric, value: "Computes about 45 failed parcels a week (about 2,340 a year at 52 weeks), shows return and reship costs as cash, support time (about 468 hours a year) as capacity, treats lost revenue from cancellations carefully (margin or revenue stated, not double counted with reship costs for the same cancelled orders), gives low-base-high ranges and names the most sensitive assumption."}
+  - name: edge-only-time-numbers
+    vars:
+      problem_description: "Nurses re-enter observations from paper charts into the electronic record at the end of each shift."
+      known_numbers: "About 25 minutes per nurse per shift. 60 nurses across shifts. No overtime is paid for it, they just stay late sometimes."
+      currency: GBP
+    assert:
+      - {type: llm-rubric, value: "Classifies the time as capacity not cash, notes that unpaid staying late is a hidden cost to staff and a retention or wellbeing risk rather than a cash saving, asks for or assumes a loaded hourly cost with a range, and does not sum capacity into a single cash headline."}
+  - name: negative-no-numbers
+    vars:
+      problem_description: "Our onboarding is confusing."
+      known_numbers: "None really."
+      currency: USD
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate a cost estimate; asks for the specific two or three numbers needed (how many people onboard, how many get stuck or drop out, what each drop-out or support contact costs) and stops or gives only a labelled template."}

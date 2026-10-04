@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Give me feedback on my customer interview. Goal: {{research_goal}} Transcript: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-leading-and-pitching
+    vars:
+      research_goal: "Learn how small accounting firms collect documents from clients at tax time, to decide whether to build a client document portal."
+      transcript: "I: Thanks for joining! So we're building a portal that makes collecting client documents super easy, it auto-reminds clients and sorts files. Collecting documents is a real pain, right?\nP: Yeah, it can be.\nI: How do you do it now and would a portal help?\nP: Mostly email. Some clients bring a shoebox, honestly. Last March I spent a whole Saturday chasing one guy.\nI: Right. And would you pay maybe 40 a month for something like ours?\nP: Probably, if it works.\nI: Great. What features would you want?\nP: Reminders I guess. And maybe e-signing.\nI: Awesome, we have both. Anything else?\nP: Not really.\nI: Cool, thanks so much!"
+    assert:
+      - {type: contains, value: "## Mistakes with rewrites"}
+      - {type: llm-rubric, value: "Flags the opening pitch, the leading 'real pain, right?', the double question, the willingness-to-pay hypothetical and the feature wish-list question, with turn references and rewrites; identifies the shoebox and the Saturday chasing one client as missed follow-ups; estimates a high interviewer talk ratio; and says 'would pay 40 a month' and demand for the portal are not proven."}
+  - name: edge-good-interview
+    vars:
+      research_goal: "Understand how warehouse supervisors plan overtime."
+      transcript: "I1: Tell me about the last time you had to arrange overtime.\nP1: Tuesday. Two trucks came in late and I had 900 cartons to put away.\nI2: What did you do first?\nP2: Checked who'd already done 48 hours, it's in my notebook, the system doesn't show it.\nI3: Can you show me the notebook?\nP3: Here. I cross people off.\nI4: What happened next?\nP4: I texted five people. Two said yes.\nI5: How did that work out?\nP5: We finished at 1am. My manager complained about the cost.\nI6: Tell me more about that conversation.\nP6: She asked why I didn't plan ahead, but we never know when trucks are late."
+    assert:
+      - {type: llm-rubric, value: "Recognises this as strong technique with a low interviewer talk ratio, credits the specific-time anchor and the show-me request, lists few or no serious mistakes rather than inventing some, and lists supported findings such as the notebook workaround and unpredictable truck arrivals."}
+  - name: negative-too-short
+    vars:
+      research_goal: "Learn about meal planning."
+      transcript: "We talked for a bit and she said she likes cooking."
+    assert:
+      - {type: llm-rubric, value: "Says this is not a transcript with speaker turns and asks for the actual transcript, without inventing feedback."}

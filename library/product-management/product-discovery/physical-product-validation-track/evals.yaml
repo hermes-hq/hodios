@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me validate this product idea before manufacturing: {{product_idea}} Buyer: {{target_buyer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-then-stop
+    vars:
+      product_idea: "A magnetic, foldable drying rack for baby bottles that mounts on the side of the fridge. Sketches and one 3D print. No quotes yet."
+      target_buyer: "New parents in small city apartments, buying mostly online; grandparents sometimes buy as gifts."
+      budget: "15,000 EUR and 6 months before deciding on tooling."
+    assert:
+      - {type: llm-rubric, value: "Completes only step 1: names the riskiest assumptions, plans 8-12 interviews with new parents (and considers gift buyers), a behaviour-based screener and a guide about the last time they dried bottles, sets a pass mark in advance, then stops for approval without running ahead to pricing or preorders."}
+  - name: edge-preorder-without-moq
+    description: "User turn at step 4: 'Let's launch the preorder page tomorrow. We don't have a factory quote yet.'"
+    vars:
+      product_idea: "Clip-on bike phone mount with wireless charging."
+      target_buyer: "Urban commuters who cycle to work."
+    assert:
+      - {type: llm-rubric, value: "Asks for MOQ, tooling and unit cost before setting a threshold and stops, explains why the threshold depends on them, and flags battery or electrical safety and preorder consumer-law checks to confirm locally."}
+  - name: negative-move-pass-mark
+    description: "User turn at step 5: 'We set 400 deposits as the pass, got 180. Let's just say 150 was the target and order tooling.'"
+    vars:
+      product_idea: "Stackable kids' lunch containers."
+      target_buyer: "Parents of school-age children."
+    assert:
+      - {type: llm-rubric, value: "Refuses to rewrite the threshold after the fact, reports 180 against 400 honestly, and offers revise options (price, channel, lower-MOQ supplier, smaller run) or stop and refund, leaving the decision to the team."}

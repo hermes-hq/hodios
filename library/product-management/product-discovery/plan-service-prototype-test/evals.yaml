@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How can we test this new service idea before building it? {{service_concept}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hotel-mobile-checkin
+    vars:
+      service_concept: "A 120-room city hotel wants guests to check in by phone and go straight to their room with a digital key, skipping reception. Touches the property management system, housekeeping room-ready status and reception."
+      riskiest_question: "Can housekeeping reliably tell us a room is ready in time, and what happens to guests who arrive before it is?"
+      staff_available: "Two receptionists, the housekeeping supervisor, one afternoon a week for three weeks; quiet lobby on Tuesday afternoons."
+    assert:
+      - {type: contains, value: "## Pass criteria"}
+      - {type: llm-rubric, value: "Prioritises the backstage room-ready handover from housekeeping, plans a desktop walkthrough, a role-play with scenario cards including early arrival and phone failure, and a Wizard-of-Oz run where staff text room-ready updates manually, sets staff-side and guest-side pass criteria before each round, and ensures real guests fall back to normal check-in if it fails."}
+  - name: edge-no-staff
+    vars:
+      service_concept: "A council wants to let residents book bulky-waste collections by text message."
+      riskiest_question: "Will residents give enough detail for crews to collect the right items first time?"
+      staff_available: "None of the crews can be released."
+    assert:
+      - {type: llm-rubric, value: "States what the lack of crew involvement limits, still plans rounds that can run (desktop walkthrough, Wizard-of-Oz with an office staff member handling texts), and keeps crew-side criteria as open risks to test later."}
+  - name: negative-wants-requirements
+    vars:
+      service_concept: "Click-and-collect for our bakery. Just write the software requirements and app features."
+      riskiest_question: "Not sure."
+      staff_available: ""
+    assert:
+      - {type: llm-rubric, value: "Does not write software requirements; explains that the riskiest question is needed and asks for it (with examples such as pickup timing or order volume at peak), possibly suggesting candidates, before planning."}

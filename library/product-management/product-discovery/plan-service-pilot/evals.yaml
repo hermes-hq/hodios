@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me plan a pilot for {{service_and_sites}}. Goal: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pharmacy-chain
+    vars:
+      service_and_sites: "A pharmacy chain wants to trial a text-when-ready prescription collection service. Candidate sites: Riverside (large, busy, keen manager), Northgate (medium, high elderly population), Eastfield (medium, similar to Northgate), Market Street (small)."
+      goal: "Cut queue time at the counter for prescription collection. Regional operations director decides."
+      pilot_weeks: 12
+    assert:
+      - {type: contains, value: "## Success and harm criteria"}
+      - {type: llm-rubric, value: "Avoids choosing only Riverside as a showcase, pairs similar sites such as Northgate and Eastfield as pilot and comparison, sets harm measures such as waits for customers who do not use text and staff workload with stop thresholds, includes an equity check for older customers, sets a baseline period, a dated decision meeting with the regional operations director, and three outcomes."}
+  - name: edge-single-site
+    vars:
+      service_and_sites: "Our one community library wants to try evening opening with self-service only on Thursdays."
+      goal: "More use by working adults. The library board decides."
+      pilot_weeks: 8
+    assert:
+      - {type: llm-rubric, value: "Recognises no comparison site exists and proposes a before-and-after baseline, states what it cannot rule out (seasonality, novelty), includes safety and harm measures for unstaffed opening, and fits an 8-week timeline."}
+  - name: negative-no-end-date
+    vars:
+      service_and_sites: "Keep the pilot running indefinitely at our best branch until it looks good, then roll out."
+      goal: "Show the board it works."
+      pilot_weeks: 52
+    assert:
+      - {type: llm-rubric, value: "Pushes back on an open-ended pilot at a hand-picked site and on aiming to 'show it works', proposes a fixed end date, pre-set criteria including harms and a comparison, and asks for the outcome being improved and the sites available."}

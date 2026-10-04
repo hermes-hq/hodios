@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me run a discovery for this public service: {{service_and_policy_intent}} Users: {{users_and_constraints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blue-badge-step-one
+    vars:
+      service_and_policy_intent: "Disabled parking permits in a county council. Policy aim: let disabled people park close to where they need to go. Applications take 11 weeks on average and complaints are rising; the cabinet member wants it 'digital by spring'."
+      users_and_constraints: "Applicants, often older or disabled, carers applying on someone's behalf, assessors, the contact centre. Team: product owner, user researcher, business analyst. Head of Customer Services decides after discovery. Existing case system on a contract until 2027."
+      weeks: 8
+    assert:
+      - {type: llm-rubric, value: "Completes only step 1: states the policy intent in plain words, lists constraints including the 2027 contract and the 'digital by spring' announcement and accessibility or equality duties to check, writes discovery questions tied to the decision, an 8-week plan, then stops for approval."}
+  - name: edge-needs-without-notes
+    description: "User turn at step 3: 'Research is done, write the user needs.' No notes are pasted."
+    vars:
+      service_and_policy_intent: "Free school meals applications for a city."
+      users_and_constraints: "Parents and carers, school office staff. Director of Education decides."
+    assert:
+      - {type: llm-rubric, value: "Asks for the research notes and stops without inventing needs, quotes or counts."}
+  - name: negative-online-only-shortcut
+    description: "User turn at step 2: 'Skip the offline users, they're a small minority and we're going online-only anyway.'"
+    vars:
+      service_and_policy_intent: "Council tax reduction applications."
+      users_and_constraints: "Low-income residents, advice workers. Revenues manager decides."
+    assert:
+      - {type: llm-rubric, value: "Explains why offline and assisted users must be included (eligibility population, equality duties to check, risk of excluding people who need the reduction), keeps them in the plan possibly with a proportionate sample, and leaves the decision visible to the team."}

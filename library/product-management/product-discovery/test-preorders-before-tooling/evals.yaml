@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me run a preorder campaign to test demand for this product: {{product_and_costs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-insulated-lunchbox
+    vars:
+      product_and_costs: "Stainless insulated lunchbox with leak-proof silicone seal. Target retail 49 USD. Factory quote 11.40 USD landed per unit, injection mould tooling 18,000 USD, 10 weeks to first samples, food-contact testing not done yet. Working prototype exists."
+      minimum_order_quantity: 2000
+      channel: own-website
+    assert:
+      - {type: contains, value: "## Break-even and threshold"}
+      - {type: llm-rubric, value: "Shows that the MOQ of 2,000 units at 11.40 plus 18,000 tooling needs roughly 40,800 USD before fees, sets a pass threshold in units and money before launch with a grey zone, builds the delivery window from tooling, samples and food-contact testing, includes a full refund promise if the run is cancelled, and lists consumer-law and payment-provider items to check locally rather than stating the law."}
+  - name: edge-crowdfunding-no-moq
+    vars:
+      product_and_costs: "Modular desk organiser, retail 65 EUR, unit cost about 18 EUR, tooling estimate 9,000 EUR."
+      channel: crowdfunding
+    assert:
+      - {type: llm-rubric, value: "Asks for the minimum order quantity and shows the threshold as a formula until it is given, includes crowdfunding platform and payment fees as labelled assumptions, and notes backer update expectations."}
+  - name: negative-move-goalposts
+    vars:
+      product_and_costs: "We already ran it: needed 600 preorders, got 210 in 4 weeks. Retail 89 GBP, unit cost 24 GBP, tooling 12,000 GBP. Investors want us to say it validated. Help me spin it."
+      minimum_order_quantity: 1000
+      channel: own-website
+    assert:
+      - {type: llm-rubric, value: "Does not call the result a pass or help misrepresent it to investors; reports 210 against 600 honestly; offers revise options (price, audience, smaller MOQ supplier) or stop-and-refund, and reminds that preorder buyers must be refunded if the run is cancelled."}
