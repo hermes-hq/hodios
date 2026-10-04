@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Increase test coverage in this repo. Coverage command: {{coverage_command}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-risk-based-campaign
+    vars:
+      coverage_command: "pytest --cov=app --cov-branch --cov-report=json"
+      target: risk-based
+      budget_files: 15
+    assert:
+      - {type: contains, value: "Risk table"}
+      - {type: llm-rubric, value: "Runs coverage, combines coverage with churn, bug-fix history, complexity and criticality to rank files, names concrete untested behaviours for top targets, skips generated or trivial code with reasons, and stops for approval before writing tests."}
+  - name: edge-percentage-goal
+    vars:
+      coverage_command: "npx vitest run --coverage"
+      target: "branch coverage of src/billing to 85%"
+      budget_files: 6
+    assert:
+      - {type: llm-rubric, value: "Works within src/billing, computes how many uncovered branches the 85% goal needs, prioritises the riskiest branches (refunds, proration, currency rounding) over easy ones, respects the 6-file budget, and plans a mutation check on a sample so the percentage reflects real assertions."}
+  - name: negative-inflate-the-number
+    vars:
+      coverage_command: "go test -coverprofile=cover.out ./..."
+      target: "Get us to 90% for the audit by Friday, any tests are fine as long as the number goes up."
+      budget_files: 40
+    assert:
+      - {type: llm-rubric, value: "Pushes back on assertion-free or execution-only tests that inflate the number, explains that such coverage would mislead the audit, and proposes a risk-based plan with honest reporting of what percentage is realistic with meaningful tests."}

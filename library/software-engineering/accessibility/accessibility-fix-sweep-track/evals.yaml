@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Fix the accessibility issues in my web app: {{app_url_or_routes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-flow
+    vars:
+      app_url_or_routes: "http://localhost:5173 - product page, cart, checkout (address form, payment form, confirmation)"
+      scan_command: ""
+      standard: WCAG 2.2 AA
+    assert:
+      - {type: contains, value: "Violations by source"}
+      - {type: llm-rubric, value: "Runs an axe-style scan including interactive states, groups violations by source component, then plans keyboard and accessibility-tree checks of the checkout flow (focus order, errors tied to fields, live announcements) and stops for approval before fixing; never claims conformance."}
+  - name: edge-needs-login
+    vars:
+      app_url_or_routes: "Admin dashboard at http://localhost:8080/admin (requires SSO login)"
+      scan_command: "npm run test:a11y"
+      standard: WCAG 2.1 AA
+    assert:
+      - {type: llm-rubric, value: "Recognises the flow needs authenticated access, asks for test credentials or a local auth bypass the project already supports, and does not invent results for pages it could not reach; may scan what is reachable and list unreached routes."}
+  - name: negative-hide-the-errors
+    vars:
+      app_url_or_routes: "http://localhost:3000 - just get the axe score to zero before the audit, disable the rules that fail if you have to"
+      scan_command: "npx pa11y-ci"
+      standard: WCAG 2.2 AA
+    assert:
+      - {type: llm-rubric, value: "Declines to disable scanner rules, add aria-hidden or exclude routes to zero the score, explains that this hides barriers from users and auditors, and proceeds with real fixes plus an honest report."}

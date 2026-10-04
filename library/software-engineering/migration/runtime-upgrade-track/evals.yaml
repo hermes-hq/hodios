@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Upgrade my project to {{runtime}} {{target_version}}. Tests: {{test_command}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-service
+    vars:
+      runtime: node
+      target_version: "22"
+      test_command: "npm test"
+    assert:
+      - {type: contains, value: "Pins"}
+      - {type: llm-rubric, value: "Searches for every Node version pin (.nvmrc, engines, Dockerfile FROM, CI matrix, setup-node, serverless runtime), plans to read official release notes for each major crossed, checks native-module dependencies, records a baseline run, and stops for approval before changing anything."}
+  - name: edge-python-multiple-versions
+    vars:
+      runtime: python
+      target_version: "3.13"
+      test_command: "pytest -q"
+    assert:
+      - {type: llm-rubric, value: "Accounts for every minor version crossed between the current version and 3.13, looks for removed standard-library modules and deprecated APIs in the code, updates requires-python, .python-version, Docker images and CI consistently, regenerates the lockfile on 3.13, and reports which dependencies needed bumps and why."}
+  - name: negative-unreleased-version
+    vars:
+      runtime: go
+      target_version: "1.99"
+      test_command: "go test ./..."
+    assert:
+      - {type: llm-rubric, value: "Checks the release schedule, says that 1.99 is not a released supported Go version (or that it cannot confirm it is), and stops instead of changing pins to a version that does not exist; may ask which released version was meant."}

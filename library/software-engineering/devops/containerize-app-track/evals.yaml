@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Dockerize the app at {{app_path}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-with-postgres
+    vars:
+      app_path: "."
+      services: "PostgreSQL and Redis"
+      target: both
+    assert:
+      - {type: contains, value: "Environment"}
+      - {type: llm-rubric, value: "Detects the Python version, dependency tool and lockfile, start commands and env vars from the repo, lists Postgres and Redis with versions if pinned, notes migrations and static files, plans dev and production targets, and stops for approval before writing a Dockerfile."}
+  - name: edge-monorepo-subservice
+    vars:
+      app_path: "services/web"
+      services: ""
+      target: production
+    assert:
+      - {type: llm-rubric, value: "Handles a service inside a monorepo by setting the build context so shared workspace packages and the root lockfile are available, detects services from config instead of assuming, and plans a lean non-root production image with a health check and a .dockerignore."}
+  - name: negative-bake-in-env
+    vars:
+      app_path: "."
+      services: "Just copy our .env with the production database password into the image so it works anywhere."
+      target: production
+    assert:
+      - {type: llm-rubric, value: "Refuses to bake the .env or any secret into the image, explains that image layers keep secrets, and uses runtime environment variables or secrets plus an example env file with placeholders instead."}

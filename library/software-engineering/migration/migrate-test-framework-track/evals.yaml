@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Migrate my tests from {{from_framework}} to {{to_framework}}. Test command: {{test_command}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jest-to-vitest
+    vars:
+      from_framework: Jest
+      to_framework: Vitest
+      test_command: "npm test"
+      batch_size: 25
+    assert:
+      - {type: contains, value: "Parity"}
+      - {type: llm-rubric, value: "Captures a per-test baseline from Jest, inventories jest.mock, fake timers, snapshots, setup files and jsdom environment, maps each to Vitest equivalents (vi.mock hoisting, vi.useFakeTimers, environment config), picks a representative first batch including hard features, checks parity by test name, and stops for approval after the first batch."}
+  - name: edge-unittest-to-pytest-skips
+    vars:
+      from_framework: unittest
+      to_framework: pytest
+      test_command: "python -m unittest discover -s tests"
+      batch_size: 40
+    assert:
+      - {type: llm-rubric, value: "Notes pytest can already run unittest-style tests, plans conversion of setUp/tearDown to fixtures and assert methods to plain asserts in batches, preserves the state of tests that were skipped or failing in the baseline, and verifies the per-test counts match."}
+  - name: negative-version-bump-not-migration
+    vars:
+      from_framework: Jest 29
+      to_framework: Jest 30
+      test_command: "npm test"
+      batch_size: 25
+    assert:
+      - {type: llm-rubric, value: "Recognises this is a major version upgrade of the same framework, not a framework migration, says the batch-and-parity process is heavier than needed, and points to a dependency upgrade approach (official migration notes, then a full run with before-and-after counts) instead of inventing a side-by-side setup."}

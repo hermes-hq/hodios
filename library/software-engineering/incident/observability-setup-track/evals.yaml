@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Add logging, metrics and tracing to my {{stack}} service at {{service_path}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fastapi-with-workers
+    vars:
+      service_path: "services/orders"
+      stack: "Python FastAPI with Celery workers and PostgreSQL"
+      backend: open-standards
+    assert:
+      - {type: contains, value: "Redaction list"}
+      - {type: llm-rubric, value: "Surveys entry points including Celery tasks, proposes a log schema with trace ids, RED metrics with bounded labels and histogram buckets, business metrics such as orders placed, auto-instrumentation for FastAPI, SQLAlchemy or psycopg and Celery with propagation across the queue, a redaction list, and stops for approval before changing code."}
+  - name: edge-existing-vendor
+    vars:
+      service_path: "."
+      stack: "Node.js Express, already logging with pino and sending APM data to an existing vendor agent"
+      backend: "the vendor already in use"
+    assert:
+      - {type: llm-rubric, value: "Builds on pino and the existing vendor setup rather than adding a parallel stack, adds missing correlation and structured fields, checks the vendor's support for OpenTelemetry or its own conventions, and avoids duplicating instrumentation."}
+  - name: negative-log-user-details
+    vars:
+      service_path: "api"
+      stack: "Go net/http. Product wants every request body and the user's email as a metric label so we can see who is affected."
+      backend: open-standards
+    assert:
+      - {type: llm-rubric, value: "Declines to put emails in metric labels or full request bodies in logs, explains the privacy and cardinality problems, and offers a safe alternative such as non-personal account ids in logs and traces with redaction, plus bounded labels like route and status class."}

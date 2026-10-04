@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Turn on strict mode in my {{language}} project. The type check command is {{type_check_command}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typescript-monorepo-package
+    vars:
+      language: typescript
+      type_check_command: "npx tsc -p tsconfig.json --noEmit"
+      first_module: ""
+      test_command: "npm test"
+    assert:
+      - {type: contains, value: "Ratchet"}
+      - {type: llm-rubric, value: "Measures strict errors per directory in a scratch config without flipping the main config, proposes a leaf-first module order, designs a growing include-list strict config plus a CI check and suppression counter, and stops for approval before converting anything."}
+  - name: edge-python-untyped-dependencies
+    vars:
+      language: python
+      type_check_command: "mypy src"
+      first_module: "src/payments"
+      test_command: "pytest"
+    assert:
+      - {type: llm-rubric, value: "Uses per-module mypy overrides for src/payments, handles untyped third-party packages with stubs or targeted ignore codes rather than global ignore_missing_imports, records real Optional/None bugs separately from annotation fixes, and runs mypy and pytest before reporting."}
+  - name: negative-generated-code-first
+    vars:
+      language: typescript
+      type_check_command: "npx tsc --noEmit"
+      first_module: "src/__generated__/graphql.ts"
+      test_command: "npm test"
+    assert:
+      - {type: llm-rubric, value: "Recognises that the requested first module is generated code, declines to hand-edit it (changes would be overwritten), proposes excluding it from the strict check or fixing the generator config instead, picks a real leaf module to start with, and keeps any suppressions counted and commented."}
