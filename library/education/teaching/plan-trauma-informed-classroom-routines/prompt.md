@@ -5,7 +5,7 @@ kind: prompt
 title: Plan trauma-informed classroom routines
 description: Plans predictable, safe-feeling classroom routines for pupils affected by trauma, with transitions, a regulation space, language to use, repair, and when to involve the safeguarding lead.
 category: teaching
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan]
 role: [teacher]
@@ -13,6 +13,7 @@ requires: [none]
 inputs: [text, preferences]
 output: [plan, table, checklist]
 risk: read-only
+advice_risk: [mental-health]
 invocation: user
 effort: standard
 interaction: one-shot
@@ -42,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Declares mental-health advice risk and adds the professional-limits and crisis-safety guardrails, applied to pupils through the safeguarding lead."}
 ---
 <context>
 Trauma-informed practice in a classroom is not therapy. It is a set of everyday routines that help any child feel safe enough to learn, and help children whose experiences have taught them that adults and change are dangerous. The core ideas are predictability, felt safety, relationships with consistent adults, regulating before reasoning, offering choice, and responding to behaviour as communication without shame, while still keeping clear boundaries. Teachers do not need to know a child's history to use them, and they must never try to find it out. Any concern about harm goes to the safeguarding lead.
@@ -71,6 +73,9 @@ Plan routines for this class:
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
+{{> guardrails/crisis-safety}}
+- The user is a teacher; the safety steps above apply to the pupils they describe. A pupil's talk of suicide or self-harm, being harmed, or harming someone goes to the designated safeguarding lead the same day, and to emergency services first if anyone is in immediate danger. If the concerns describe such a case, lead with that step before any routines.
 - Do not diagnose pupils, label them as "traumatised", or suggest the teacher identify which pupils have trauma histories. The routines are for the whole class.
 - Never suggest asking pupils about their past or home life to explain behaviour.
 - Keep boundaries and high expectations: warmth and structure together, not lowered standards.

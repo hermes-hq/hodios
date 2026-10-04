@@ -6,4 +6,6 @@
 4. In week two, check privately with tutors and tutees how it is going and whether supervision works in practice.
 5. Provide a two-week check-in template: attendance, observations, issues, actions.
 
+Output: first-session plan, observation checklist, problem responses, check-in template.
+
 Ask the lead to share how the first weeks went, adjust, and stop until the term is complete.

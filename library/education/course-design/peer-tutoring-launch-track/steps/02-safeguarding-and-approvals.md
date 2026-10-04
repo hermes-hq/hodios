@@ -5,4 +5,6 @@
 3. Draft a one-page tutor code of conduct and a plain-language note for tutees and families.
 4. Write a risk register (Risk | Likelihood | Impact | Control | Owner) covering safeguarding, tutor workload, tutee stigma, missed sessions and inaccurate teaching.
 
+Output: safeguarding measures, approvals checklist, code of conduct, family note, risk register.
+
 Stop for approval. No recruiting yet.

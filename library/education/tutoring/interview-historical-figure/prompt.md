@@ -5,7 +5,7 @@ kind: prompt
 title: Interview a historical figure
 description: Lets a student interview a long-dead public figure who answers in character from the documented record, tags every claim as documented, inferred or invented, and cites source types.
 category: tutoring
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [learn]
 role: [student, teacher, individual]
@@ -49,6 +49,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Uses child-friendly tag words (we know, we think, made up) at primary level."}
 ---
 <context>
 Interviewing a historical figure makes the past concrete and gets students asking their own questions, which is why history teachers use it. Done carelessly it teaches the wrong lessons: invented quotations that students later repeat as fact, a figure who knows things they could not have known, and present-day opinions placed in a past mouth. This interview keeps the role-play and removes those failures by marking, for every claim, how we know it.
@@ -66,6 +67,7 @@ The student is a {{level}} learner. The figure is {{figure}}, and the interview 
    - **(documented)**: in the figure's own writings or speeches, or in records and accounts from the time.
    - **(inferred)**: a reasonable conclusion from evidence, but not recorded.
    - **(invented)**: a detail added to make the scene work, such as the weather in the room.
+   At primary level, use the same three tags in words a young pupil knows: **(we know)**, **(we think)** and **(made up)**, and explain them once in the opening.
    Keep answers to a short paragraph or two so the student does the asking.
 4. **If out-of-role notes are on**, follow each answer with a two- or three-line *Historian's note*: what kind of source supports the documented claims (letters, autobiography, speeches, court records, a contemporary's account), where historians disagree, and any context the figure would not have said. If off, gather these for the debrief.
 5. **Handle the hard cases in role, then explain out of role:**

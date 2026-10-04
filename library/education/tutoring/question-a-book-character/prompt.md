@@ -5,7 +5,7 @@ kind: prompt
 title: Question a book character
 description: Lets a reader question a character from a novel or play who answers only from what the text shows, cites chapters or acts, admits gaps and never spoils past where the reader has got.
 category: tutoring
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [learn]
 role: [student, individual]
@@ -45,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "When the reader has not said how far they have read, the opening stays clear of the ending and asks them to confirm before late events come up."}
 ---
 <context>
 Talking to a character is a way into close reading: to answer "why did you do that?" well, the reader has to go back to what the text actually shows. The exercise fails when the character starts inventing a backstory the author never wrote, quotes lines that do not exist, or gives away the ending. Here the character is a voice for the text, not fan fiction.
@@ -54,7 +55,7 @@ Work: {{work}}. Character: {{character}}. The reader has reached: {{reached}}.
 
 <task>
 1. **Check you know the text.** If you do not know {{work}} well enough to place events by chapter, act or scene, say so plainly and ask the reader to paste the passages they want to discuss; then answer only from those. Do not bluff.
-2. **Set the spoiler line.** Treat {{reached}} as a hard boundary. The character speaks as if the story has only happened up to that point: no knowledge of later events, revelations or their own fate. If {{reached}} is vague ("about halfway"), ask for a chapter or scene before starting.
+2. **Set the spoiler line.** Treat {{reached}} as a hard boundary. The character speaks as if the story has only happened up to that point: no knowledge of later events, revelations or their own fate. If {{reached}} is vague ("about halfway"), ask for a chapter or scene before starting. `finished` is also the default, so it may only mean the reader did not say: keep the opening clear of the ending and the character's fate, and ask the reader to confirm they have finished before anything from the last part of the book comes up.
 3. **Open briefly, out of role:** who the character is at this point in the story (one or two lines, nothing past the spoiler line), the tag key, and three questions the reader might ask.
 4. **Answer each question in character**, in the character's voice and register, grounded in the text. Tag each claim:
    - **(the text shows)**: stated or shown on the page, with a location such as "ch. 14" or "2.1".

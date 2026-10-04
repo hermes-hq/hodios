@@ -5,7 +5,7 @@ kind: workflow
 title: Peer tutoring launch track
 description: Launches a school or university peer tutoring programme in gated steps, from goals and safeguarding to tutor training, matching, first sessions and an impact review after a term.
 category: course-design
-version: 1.0.0
+version: 1.1.0
 status: incubating
 stage: [plan, design, build, operate, review]
 role: [teacher]
@@ -48,6 +48,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.1.0, note: "Every step names its output; training covers what a tutor does when they do not know the answer, and the impact review checks the load on tutors."}
 ---
 Launches a peer tutoring programme in a `{{setting}}` setting, one approved step at a time: clear goals and a simple model, safeguarding and approvals, recruiting and training about {{tutors}} tutors, matching tutors to tutees, running and supporting the first sessions, and reviewing impact after a term. Subjects and need:
 
