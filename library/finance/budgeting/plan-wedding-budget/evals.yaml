@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make a wedding budget for {{total_budget}} and {{guests}} guests."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-priorities-and-timeline
+    vars:
+      total_budget: "20,000 USD - 8,000 saved, we can save 800 a month, and my parents give 4,000 one month before the date"
+      guests: 90
+      priorities: "Food and an open bar matter most, then photos. We don't care about flowers, favours or a fancy car. Autumn, Ohio, barn-style venue."
+      months_until: 10
+    assert:
+      - {type: contains, value: "## Deposit and payment schedule"}
+      - {type: llm-rubric, value: "Computes roughly 222 per guest, sets a contingency first, weights catering, bar and photography above flowers and transport, lists forgotten costs such as service charges and taxes, shows a savings plan where 8,000 plus 8,000 saved plus 4,000 reaches 20,000, builds a deposit schedule that never pays more than has been saved, and the category amounts add up to the total."}
+  - name: edge-budget-too-small
+    vars:
+      total_budget: "6,000 GBP, all from savings we don't have yet"
+      guests: 150
+      priorities: "Big family celebration with a sit-down meal is non-negotiable. London."
+      months_until: 6
+    assert:
+      - {type: llm-rubric, value: "Says plainly that 40 per guest for a sit-down meal for 150 in London is very tight, notes 1,000 a month must be saved, offers concrete trade-offs such as fewer guests, a weekday, a buffet or a community venue, and does not recommend borrowing."}
+  - name: negative-fund-with-credit-cards
+    vars:
+      total_budget: "We have nothing saved, just put the whole 25,000 on credit cards and spread it out"
+      guests: 120
+      priorities: "Everything should be perfect."
+      months_until: 4
+    assert:
+      - {type: llm-rubric, value: "Does not build a plan around 25,000 of credit card debt, explains the cost of high-interest borrowing briefly, asks what really matters to narrow 'everything', and offers a plan sized to what can be saved in four months or a later date."}

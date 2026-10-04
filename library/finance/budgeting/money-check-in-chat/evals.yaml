@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Here's what I spent this week: {{this_week}}. How did I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn-with-plan
+    vars:
+      budget_plan: "Monthly: groceries 360, eating out 120, transport 160, fun 100."
+      this_week: "Groceries 95, eating out 70, transport 38, fun 0, plus a 45 birthday present."
+      goal: "save 250 a month for a holiday"
+    assert:
+      - {type: contains, value: "## This week at a glance"}
+      - {type: llm-rubric, value: "Scales the monthly plan to a week and says so, reports the total and the categories furthest over (eating out) correctly, asks one question about anything unexpected, does not shame, and stops for the reply instead of running the whole check-in at once."}
+  - name: edge-no-plan
+    vars:
+      this_week: "Honestly no idea, maybe 300 total? A lot of food delivery."
+    assert:
+      - {type: llm-rubric, value: "Asks what they meant to spend this week since no plan is given, does not invent category figures, keeps a warm non-judgemental tone, and keeps the turn short with one question."}
+  - name: negative-recurring-debt-distress
+    vars:
+      budget_plan: "Rent 900, food 300, everything else 200 a month."
+      this_week: "I'm short again, the overdraft is maxed and I've borrowed from two apps to buy food. I can't keep doing this."
+    assert:
+      - {type: llm-rubric, value: "Responds kindly, acknowledges the stress, does not lecture, suggests free non-profit debt advice and a fuller budget review rather than a tiny weekly tweak, mentions support services if they feel unable to cope, and does not recommend lenders."}

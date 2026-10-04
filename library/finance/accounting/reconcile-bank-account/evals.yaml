@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Reconcile my bank statement with my books for {{period}}. Bank: {{bank_statement}} Books: {{ledger}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fee-transposition-and-timing
+    vars:
+      period: "September 2026"
+      bank_statement: "Opening 2,000.00. 03 Sep Client A payment +1,200.00. 10 Sep Office rent -800.00. 15 Sep Software sub -45.00. 30 Sep Bank fee -12.00. Closing 2,343.00."
+      ledger: "Opening 2,000.00. 02 Sep Invoice 101 Client A +1,200.00. 09 Sep Rent -800.00. 15 Sep Software -54.00. 29 Sep Cheque 0042 to supplier -150.00. Closing 2,196.00."
+    assert:
+      - {type: contains, value: "## Reconciliation statement"}
+      - {type: llm-rubric, value: "Identifies the 12.00 bank fee as a bank-only item, the 150.00 cheque as an outstanding payment, and the software entry keyed as 54.00 instead of 45.00 as a transposition (difference 9.00), builds a statement where the adjusted bank balance of 2,193.00 equals the adjusted book balance of 2,193.00, and suggests corrections for review."}
+  - name: edge-unmatched-on-both-sides
+    vars:
+      period: "August 2026"
+      bank_statement: "Opening 500.00. 05 Aug Card refund +30.00. 12 Aug Supermarket -120.00. 20 Aug Transfer to savings -200.00. Closing 210.00."
+      ledger: "Opening 500.00. 12 Aug Groceries -120.00. 20 Aug Savings -200.00. 25 Aug Electricity -65.00. Closing 115.00."
+    assert:
+      - {type: llm-rubric, value: "Classifies the 30.00 refund as a bank-only item to record and the 65.00 electricity as a book-only item that is either an outstanding payment or was never paid, shows that treating it as outstanding gives adjusted balances of 145.00 on both sides, and says to confirm with the supplier or next statement that the electricity payment actually left the account."}
+  - name: negative-missing-balances
+    vars:
+      period: "Q3 2026"
+      bank_statement: "Some payments in and out, I'll send the rest later. 4 July +300, 9 July -50."
+      ledger: "Sales 300, expenses 50."
+    assert:
+      - {type: llm-rubric, value: "Says the opening and closing balances and full statement lines for the quarter are needed, lists exactly what to provide, and does not produce a reconciliation that pretends to balance."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I have a debt advice appointment. My debts: {{debts}}. Income {{income}}. Help me prepare."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-debts
+    vars:
+      debts: "Council tax arrears about 700 with a final notice. Energy 400 behind. Two credit cards, 3,200 and 1,800, both minimum payments missed last month. Overdraft 900 at the limit. Catalogue account 450."
+      income: "1,650 GBP a month wages plus 340 child benefit"
+      country: "England"
+    assert:
+      - {type: contains, value: "## Your debts in one table"}
+      - {type: llm-rubric, value: "Lists all six debts in a table with a correct total of 7,450, marks council tax and energy as priority to confirm and explains why, builds an income and spending sheet with income 1,990 and blanks to fill, lists documents to bring, writes questions about options without recommending any formal solution, warns about fee-charging debt firms, and keeps a shame-free tone."}
+  - name: edge-court-date-soon
+    vars:
+      debts: "Rent arrears 2,400 and I got court papers for a possession hearing on the 18th, that's next week. Personal loan 5,000."
+      income: "1,900 USD"
+      country: "Ohio, USA"
+    assert:
+      - {type: llm-rubric, value: "Puts the possession hearing at the very top as urgent, says to tell the advice service or seek legal aid or tenant help immediately and not to ignore the hearing, prioritises the rent over the personal loan, and still produces the preparation sections."}
+  - name: negative-pick-bankruptcy
+    vars:
+      debts: "Cards 18,000 across four providers. Just tell me whether to go bankrupt so I can skip the appointment."
+      income: "2,100 EUR"
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Does not tell the person to go bankrupt, explains that a free debt adviser can compare all options including insolvency routes for their situation and why the appointment matters, and prepares the table, sheet and questions."}

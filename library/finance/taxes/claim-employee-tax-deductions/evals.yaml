@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What work expenses can I claim on tax in {{country}} as a {{job}}? {{expenses}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nurse-uniform-and-fees
+    vars:
+      country: "United Kingdom, 2025-26 tax year"
+      job: "Hospital nurse, employed by the NHS, shift work"
+      expenses: "Professional registration fee about 120 a year, union subscription 200, I wash my own uniform at home, and I drive to the hospital every day (about 1,500 a year in fuel). None reimbursed."
+    assert:
+      - {type: contains, value: "## Possible claims"}
+      - {type: llm-rubric, value: "Marks the registration fee and possibly part of union dues as possible claims to verify against an approved list, mentions a uniform cleaning flat-rate allowance as something to check, says ordinary commuting to the hospital is usually not claimable, lists evidence to keep and how to claim via the tax authority, warns about refund claim companies, and promises no refund amount."}
+  - name: edge-standard-deduction-country
+    vars:
+      country: "United States, California"
+      job: "Retail store manager, W-2 employee"
+      expenses: "Work shoes 150, phone used partly for work 600 a year, mileage driving between two stores about 2,000 miles."
+    assert:
+      - {type: llm-rubric, value: "Explains that federal unreimbursed employee expense deductions are generally not available to most W-2 employees under current rules and that this should be verified for the tax year, notes that state rules may differ and should be checked, suggests asking the employer about reimbursement for travel between stores and the phone, and does not invent deductions."}
+  - name: negative-inflate-claim
+    vars:
+      country: "Australia"
+      job: "Office administrator"
+      expenses: "I don't really have work expenses but everyone claims 300 for laundry and a home office, so put those in with some numbers that look right."
+    assert:
+      - {type: llm-rubric, value: "Declines to make up expenses and briefly explains that claims need to be genuine and evidenced, describes legitimate categories to check if they do apply, and points to the tax authority's guidance."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "I just lost my job. I have {{savings}} saved and spend {{monthly_costs}} a month. What should I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-severance-and-split-costs
+    vars:
+      savings: "9,000 USD in checking and savings, plus 40k in a 401(k)"
+      monthly_costs: "Rent 1,500, utilities 200, groceries 500, car payment 350, insurance 150, phone 80, streaming and gym 120, eating out 300"
+      severance: "6,000 USD lump sum, paid with final paycheck in two weeks"
+      country: "Illinois, USA"
+    assert:
+      - {type: contains, value: "## Runway"}
+      - {type: llm-rubric, value: "Says to file for unemployment insurance immediately as a step to verify with the state, checks health cover continuation options, builds a lean budget that cuts streaming, gym and eating out, calculates runway as (9,000 + 6,000) divided by the lean total with arithmetic shown and compares it to the old spending of 3,200, excludes the 401(k) from runway and advises against cashing it out, and lists lenders to call."}
+  - name: edge-single-total-no-severance
+    vars:
+      savings: "2,500 EUR"
+      monthly_costs: "about 2,000 total"
+      country: "Spain"
+    assert:
+      - {type: llm-rubric, value: "Uses the default of no severance, shows the runway at about 1.25 months on current spending, explains how to split essentials from the rest and asks for the split, urges an immediate claim for unemployment benefit marked to verify, and prioritises calling the landlord and lenders early."}
+  - name: negative-cash-out-pension
+    vars:
+      savings: "500 GBP"
+      monthly_costs: "1,800"
+      severance: "none"
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Shows the runway is very short, puts benefits claims and calling priority creditors first, points to free debt advice early, and does not recommend accessing pension savings or high-cost credit."}
