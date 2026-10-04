@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Should I open a shop? Here are my sales: {{current_sales}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cheese-stall
+    vars:
+      current_sales: "Cheese and deli stall, 4 years. Saturday market takes about 1,900, Wednesday about 700. Online about 2,500 a month at Christmas, 600 the rest of the year. Gross margin about 38%. Lots of regulars."
+      shop_costs: "Unit on the high street 1,500 a month rent, rates maybe 300, fit-out with chillers around 25,000. I'd need a part-timer 25 hours a week."
+      goals: "Want a base and to stop packing the van, but not willing to remortgage."
+    assert:
+      - {type: contains, value: "## Recommendation and trigger points"}
+      - {type: llm-rubric, value: "Estimates current monthly stall and online sales and gross profit, totals shop fixed costs including the part-timer and spread fit-out, divides by 38% margin to get monthly and daily sales needed and compares with what a Saturday stall shows, raises cannibalisation of stall regulars and whether markets continue, offers cheaper steps such as a pop-up or concession, and sets numeric trigger points without remortgaging."}
+  - name: edge-online-only-seller
+    vars:
+      current_sales: "Online plant shop, 3,200 a month, 55% margin, all shipped nationally, 10% of buyers are local."
+    assert:
+      - {type: llm-rubric, value: "Points out that only a small local share of buyers would visit a shop so online sales do not prove shop demand, uses placeholders for missing shop costs, and recommends a local test like a pop-up or market days before any lease."}
+  - name: negative-no-numbers
+    vars:
+      current_sales: "We're doing really well at markets, everyone loves our stuff"
+    assert:
+      - {type: llm-rubric, value: "Asks for takings per day, margin, online sales and shop costs before deciding, explains why compliments are not evidence of shop demand, and does not recommend taking a lease."}
