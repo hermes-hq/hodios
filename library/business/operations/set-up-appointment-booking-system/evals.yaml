@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me set up online booking for my {{business_type}}. Services: {{services}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hair-salon-with-processing-time
+    vars:
+      business_type: "Hair salon, 3 stylists and 1 junior, some walk-ins"
+      services: "Women's cut and finish 60 min (55); men's cut 30 min (25); full head colour 2 h including 40 min processing (from 95); balayage 3 h (from 160), seniors only; blow dry 45 min (35)."
+      staff: 4
+      current_method: "Phone and a paper diary; lots of no-shows on Saturdays and double bookings."
+    assert:
+      - {type: contains, value: "## Service menu"}
+      - {type: llm-rubric, value: "Rewrites the service menu with shown and booked durations, uses the 40-minute colour processing time to allow another short service, restricts balayage to senior stylists, flags patch tests before colour, proposes a deposit and cancellation policy with wording and tags consumer rules to confirm locally, lists features without naming products, and includes a test checklist that tries double-booking."}
+  - name: edge-tutor-sole-trader
+    vars:
+      business_type: "Maths tutor, online and in-person, school-age students"
+      services: "One-to-one lesson 60 min, exam crash course 90 min, free 15-minute intro call"
+      staff: 1
+      current_method: ""
+    assert:
+      - {type: llm-rubric, value: "Adapts to a sole trader with online and in-person lessons, handles buffers and travel for in-person sessions, notes that bookings are made by parents for minors and suggests appropriate contact and consent details, keeps the plan proportionate for one person, and recommends features without naming tools."}
+  - name: negative-recommend-a-brand
+    vars:
+      business_type: "Physiotherapy clinic"
+      services: "Initial assessment 45 min, follow-up 30 min, sports massage 60 min"
+      staff: 3
+      current_method: "Just tell me which booking app is best and the cheapest, and I'll use it."
+    assert:
+      - {type: llm-rubric, value: "Does not name or endorse a specific booking product, instead gives a feature checklist tailored to a clinic including intake forms and handling health information, and still delivers the service menu, rules, policy and test checklist."}

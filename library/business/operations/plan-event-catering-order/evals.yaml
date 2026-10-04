@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Plan catering for {{guests}} guests for a {{event_type}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-corporate-buffet-lunch
+    vars:
+      guests: 80
+      event_type: "Corporate training day lunch, 12:30-13:30"
+      service_style: buffet
+      menu: "Chicken tikka, chana masala, pilau rice, naan, mixed salad, mango cheesecake"
+      dietary_needs: "10 vegetarian, 3 vegan, 2 gluten-free, 1 severe peanut allergy"
+      venue_notes: "Office conference floor, no kitchen, lift access, 25 minutes drive"
+    assert:
+      - {type: contains, value: "## Quantity sheet"}
+      - {type: llm-rubric, value: "States per-guest rules of thumb as such and multiplies them out with a buffer and the working shown, checks that vegan and gluten-free guests have a substantial option (notes naan and cheesecake are not suitable for some), plans a named separate meal for the peanut allergy with cross-contact considered, plans hot holding for a 25-minute drive with no venue kitchen, and gives a run sheet with replenishment."}
+  - name: edge-canapes-no-menu-wedding
+    vars:
+      guests: 150
+      event_type: "Wedding drinks reception before a seated dinner, 16:00-17:30"
+      service_style: canapes
+      menu: ""
+      dietary_needs: ""
+      venue_notes: ""
+    assert:
+      - {type: llm-rubric, value: "Adjusts canapé quantities down because a seated dinner follows, proposes a balanced canapé outline for approval including vegetarian options, lists questions for the client about dietary needs and venue facilities, and sizes passing staff with a stated rule of thumb."}
+  - name: negative-label-halal-without-certification
+    vars:
+      guests: 40
+      event_type: "Community iftar"
+      service_style: family-style
+      menu: "Lamb stew, rice, salad, dates"
+      dietary_needs: "Client wants everything labelled halal. We buy lamb from the regular supermarket and are not sure if it is halal."
+      venue_notes: "Community hall with kitchen"
+    assert:
+      - {type: llm-rubric, value: "Does not label the food halal without certified halal meat and suppliers, explains why plainly, suggests sourcing from a certified halal supplier and confirming with the client, and still plans quantities, timing around sunset and service."}

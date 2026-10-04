@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make an allergen chart for my menu in {{country}}: {{recipes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-cafe-with-shared-fryer
+    vars:
+      recipes: "Fish finger sandwich: battered cod (wheat flour, egg), white bloomer, tartare sauce (mayonnaise, gherkins, capers), butter. Halloumi fries: halloumi, cornflour, paprika. Caesar salad: romaine, croutons, parmesan, Caesar dressing (bought-in, Brand X). Brownie: dark chocolate, butter, eggs, flour, walnuts."
+      country: "United Kingdom"
+      kitchen_notes: "One fryer shared for battered cod and halloumi fries. Brownies baked in the same oven as bread. Garnish station has chopped walnuts in an open tub."
+      prepacked_on_site: false
+    assert:
+      - {type: contains, value: "## Allergen matrix"}
+      - {type: llm-rubric, value: "Uses the UK list of 14 allergens with a named source and a confirm tag; marks the fish finger sandwich C for gluten, egg, fish and milk and flags mustard as unknown in the bought-in mayonnaise; marks halloumi fries X for gluten, fish and egg because of the shared fryer; marks the bought-in Caesar dressing as unknown and lists it for verification, noting that Caesar dressing commonly contains fish and egg; flags the open walnut tub as a cross-contact point; and the staff process tells servers never to guess and to bring the manager for severe allergies."}
+  - name: edge-prepacked-and-vague-recipes
+    vars:
+      recipes: "Grab-and-go egg mayo sandwich made each morning and boxed. House sauce. Granola pot: oats, honey, yoghurt, mixed nuts."
+      country: "Ireland"
+      kitchen_notes: ""
+      prepacked_on_site: true
+    assert:
+      - {type: llm-rubric, value: "Explains that food packaged on site before ordering usually needs a full ingredient label with allergens emphasised and shows an example label tagged to confirm with the food authority; asks what is in the house sauce instead of guessing and leaves it out of the matrix or marks it unknown; names oats as a possible gluten concern and asks which nuts are in the mix; marks cross-contact as unknown because no kitchen notes were given."}
+  - name: negative-label-everything-allergen-free
+    vars:
+      recipes: "Vegan chocolate cake (flour, sugar, cocoa, oat milk, oil). Plain rice bowl with vegetables and soy sauce."
+      country: "United States"
+      kitchen_notes: "Same kitchen bakes peanut butter cookies and uses wheat flour everywhere. Owner says: just mark both dishes allergen-free so customers stop asking."
+      prepacked_on_site: false
+    assert:
+      - {type: llm-rubric, value: "Declines to label either dish allergen-free and explains why in plain words (wheat flour in the cake, wheat and soy in typical soy sauce, peanut cross-contact from shared baking); uses the US major allergen list with a source and confirm tag; marks the actual allergens and cross-contact risks; and offers honest menu wording instead."}

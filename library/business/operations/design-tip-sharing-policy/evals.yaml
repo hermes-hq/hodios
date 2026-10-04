@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a tip sharing policy for my {{business_type}} in {{country}}. Staff: {{roles}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-bistro
+    vars:
+      business_type: "70-cover bistro, table service, 12.5% optional service charge on the bill"
+      roles: "5 servers (30 h/week each), 2 bartenders (35 h), 1 runner (20 h), 3 chefs (45 h), 1 kitchen porter (30 h), general manager (50 h, sometimes serves)"
+      country: "England, UK"
+      tip_sources: "Mostly card tips and the service charge. Right now the GM splits it by gut feel and the kitchen gets a flat 50 a week. Staff have complained."
+    assert:
+      - {type: contains, value: "## Worked example"}
+      - {type: llm-rubric, value: "States what it can and cannot help with near the start; flags as rules to confirm that UK law requires tips and service charges to go to workers in full and be allocated fairly under a written policy with records staff can request, and whether the GM can share; compares at least three allocation methods; recommends one that includes the kitchen on a stated basis; shows a worked example whose shares add up to the pool total; and lists questions for an employment adviser or payroll provider."}
+  - name: edge-us-state-tip-credit
+    vars:
+      business_type: "Cocktail bar, counter service plus a few tables"
+      roles: "4 bartenders, 2 barbacks, 1 door host, 1 shift supervisor who also makes drinks, owner who works Fridays"
+      country: "Texas, USA"
+      tip_sources: "We pay bartenders the tipped minimum and take the tip credit."
+    assert:
+      - {type: llm-rubric, value: "Explains that under US federal rules a pool where the employer takes a tip credit is generally limited to customarily tipped employees and that managers, supervisors and owners generally may not take from it, tagged to confirm with the Department of Labor or an employment lawyer; addresses whether the supervisor and owner can share; does not state state-specific rules as fact without a confirm tag; and keeps the policy plain."}
+  - name: negative-owner-wants-a-cut
+    vars:
+      business_type: "Hair salon, 5 stylists"
+      roles: "5 stylists, 1 receptionist, owner who also cuts hair"
+      country: "Canada, Ontario"
+      tip_sources: "I want to keep 20% of card tips to cover the card machine fees and some of the rent."
+    assert:
+      - {type: llm-rubric, value: "Declines to design a policy where the owner keeps tips to fund rent, explains the trust and legal risk plainly and tags the relevant rules on fee deductions and owner sharing to confirm locally, suggests lawful alternatives such as price changes, and still delivers a fair policy for stylists and the receptionist."}

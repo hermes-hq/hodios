@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Make a prep list for {{covers_forecast}} covers. Menu: {{menu}} Stations: {{stations}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bistro-with-mix-and-on-hand
+    vars:
+      menu: "Steak frites 30%: 220 g sirloin, 180 g fries, 40 ml peppercorn sauce. Fish of the day 25%: 160 g hake, 120 g crushed potatoes, 50 ml beurre blanc. Risotto 20%: 90 g arborio par-cooked, 30 g parmesan. Burger 25%: 180 g patty, 1 brioche bun, 180 g fries, 30 g onion jam."
+      covers_forecast: 120
+      stations: "Grill (1 chef), fish and sauce (1 chef), larder and fryer (1 commis)"
+      shelf_life_notes: "Sauces 2 days, par-cooked risotto 1 day, onion jam 5 days, patties made fresh daily."
+      on_hand: "Peppercorn sauce 1 litre (made yesterday), onion jam 800 g."
+    assert:
+      - {type: contains, value: "## Par and prep table"}
+      - {type: llm-rubric, value: "Calculates forecast use for each component from 120 covers, the given menu mix and portions with the working shown, combines fries across steak frites and burger, applies a stated buffer, subtracts the peppercorn sauce and onion jam on hand, makes patties fresh, orders the timeline by lead time, splits work into the three stations, and includes a waste log template."}
+  - name: edge-no-menu-mix-or-portions
+    vars:
+      menu: "Breakfast cafe: full breakfast, avocado toast, pancakes, granola bowl, bacon roll."
+      covers_forecast: 90
+      stations: "One cook on the hob and griddle, one person on cold prep and coffee."
+      shelf_life_notes: ""
+      on_hand: ""
+    assert:
+      - {type: llm-rubric, value: "Labels the estimated menu mix and portions as estimates to replace with sales data, asks for portion sizes for the main proteins, marks shelf lives as house rules to set rather than inventing them, and still produces a usable par table and station sheets for two people."}
+  - name: negative-prep-a-week-ahead
+    vars:
+      menu: "Sushi bar: salmon nigiri 40%, tuna roll 30%, prawn tempura roll 30%. Sushi rice 120 g per portion."
+      covers_forecast: 60
+      stations: "Two sushi chefs"
+      shelf_life_notes: "Owner wants to prep all fish and rice for the whole week on Monday to save labour."
+      on_hand: ""
+    assert:
+      - {type: llm-rubric, value: "Does not schedule raw fish and sushi rice to be prepped a week ahead, explains the food safety and quality reason without inventing exact limits, points to the kitchen's food safety system for shelf lives, and gives a daily prep plan with a labour-saving alternative such as batching non-perishable components."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me plan my routes. I work in {{area}}. My jobs: {{appointments}}. I work {{working_days}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-dog-groomer
+    vars:
+      area: "North Leeds and nearby villages (Otley, Wetherby, Harrogate edge), home in Headingley"
+      appointments: "Full groom 90 min, bath and tidy 60 min, puppy intro 45 min. Clean and refill van 15 min between dogs. Most clients rebook every 6 weeks."
+      working_days: "Monday to Friday, 8:30 to 3:00 because of school pick-up, 30 min lunch."
+      client_locations: "Headingley 14, Roundhay 10, Horsforth 9, Otley 8, Wetherby 6, Harrogate edge 5, one-offs all over."
+    assert:
+      - {type: contains, value: "## Weekly template"}
+      - {type: llm-rubric, value: "Groups the client areas into zones assigned to days, respects the 3:00 finish for school pick-up as a hard constraint, includes the 15-minute clean between dogs, fits the 6-week rebooking cycle, labels drive times as estimates to check, gives booking rules that offer zone days first, offers options for one-offs, and includes a message to clients about the new booking days."}
+  - name: edge-new-business-no-clients
+    vars:
+      area: "Whole of Dublin county, starting out, base in Tallaght"
+      appointments: "Mobile hairdressing: cuts 45 min, colour 2 h, elderly clients at home"
+      working_days: "Tuesday to Saturday, flexible hours"
+      client_locations: ""
+    assert:
+      - {type: llm-rubric, value: "Notes there are no clients yet and proposes starter zones from the geography as a starting point to check on a map, suggests limiting the initial area to reduce driving, uses arrival windows suited to elderly clients at home, and lists the facts that would change the plan."}
+  - name: negative-promise-exact-times
+    vars:
+      area: "Central Phoenix"
+      appointments: "AC repair calls, 1-3 hours each, unpredictable"
+      working_days: "Mon-Sat 7-6"
+      client_locations: "Tell customers an exact arrival time to the minute for every job, and give me exact drive minutes between all my stops."
+    assert:
+      - {type: llm-rubric, value: "Explains that exact arrival times are unreliable for variable-length repair jobs and recommends arrival windows with delay messages, declines to invent exact drive minutes and explains how to get them from a mapping app, and still produces zones and booking rules with buffers for variable job lengths."}

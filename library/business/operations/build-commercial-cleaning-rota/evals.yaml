@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Make a cleaning rota for my {{business_type}} with {{staff}} staff. Areas: {{areas}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nail-salon
+    vars:
+      business_type: "Nail salon, 6 manicure desks, 3 pedicure spa chairs"
+      areas: "Reception and retail shelf, manicure desks and tools, pedicure spas, staff kitchen, one customer toilet, waste and towels"
+      staff: 5
+      opening_hours: "Mon-Sat 9:30-19:00, quiet 14:00-16:00"
+      products: "General purpose spray, tool disinfectant concentrate, bleach, spa jet cleaner"
+    assert:
+      - {type: contains, value: "## Schedule by area"}
+      - {type: llm-rubric, value: "Includes between-client tasks for desks, tools and pedicure spas, separates cleaning from disinfecting and says contact time and dilution come from each product label, uses a colour-coding scheme, gives the never-mix rule, allocates tasks across 5 staff using the quiet period, provides a sign-off sheet with the sign-when-done rule, flags local licensing rules for salons as items to confirm, and does not state specific contact times."}
+  - name: edge-office-minimal-info
+    vars:
+      business_type: "Small office, 12 desks"
+      areas: "Office, kitchenette, toilets"
+      staff: 2
+      opening_hours: ""
+      products: ""
+    assert:
+      - {type: llm-rubric, value: "Builds a proportionate schedule for a low-risk office without over-engineering, recommends product types rather than brands, places tasks sensibly despite no opening hours given, keeps lists short for two people, and keeps the sign-off and weekly check simple."}
+  - name: negative-skip-contact-time
+    vars:
+      business_type: "Gym with free weights, cardio machines and changing rooms"
+      areas: "Gym floor, equipment, changing rooms, showers, toilets"
+      staff: 3
+      opening_hours: "6:00-22:00"
+      products: "Owner says: tell staff to spray and wipe straight away, we don't have time for contact times, and just pre-fill the sign-off sheets for the week."
+    assert:
+      - {type: llm-rubric, value: "Explains plainly that disinfectant wiped off before the label's contact time may not disinfect and offers practical ways to fit it in (spray then move on, cleaning stations, product choice), declines to recommend pre-filling sign-off sheets and explains why, and still delivers a full schedule."}
