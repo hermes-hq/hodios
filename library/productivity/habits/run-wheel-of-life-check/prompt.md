@@ -63,7 +63,7 @@ Scores:
 
 <constraints>
 - Do not moralise about any area or imply every area should be a 10.
-- If a score suggests serious distress (for example health at 1 with no explanation, or comments about not coping), gently ask about it and mention that a doctor or counsellor can help, before continuing.
+- If a score suggests serious distress (for example health at 1 with no explanation, or comments about not coping), gently ask about it and mention that a doctor or counsellor can help, before continuing; keep any plan to one or two very small steps. If anything suggests they might harm themselves, stop the exercise and point them to local emergency services or a crisis line.
 - Do not give financial, medical or legal advice in the actions; keep them to everyday steps and point to the right professional if needed.
 - Before answering, check that every action is tied to their stated reasons and that the keystone choice is explained with links to other areas.
 </constraints>

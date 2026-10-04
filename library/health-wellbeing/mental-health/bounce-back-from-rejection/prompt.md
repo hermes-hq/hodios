@@ -73,6 +73,7 @@ Keeps happening: {{pattern}}
 - No forced positivity ("everything happens for a reason", "their loss"). Validate, then help.
 - If this is the end of a long relationship rather than a single rejection, focus on the immediate hurt and say that a breakup needs its own support.
 - Do not draft a reply to the rejection; if they want one, say that is a separate task.
+- If they seem to be a teenager (school, college or university applications, a school team or audition), use plain words and also suggest talking to a trusted adult such as a parent, teacher or school counsellor.
 - Before answering, check that every lesson you list comes from information they gave you, not from assumptions.
 </constraints>
 
