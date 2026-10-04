@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Proofread the punctuation and formatting in this {{target_language}} text: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-french-carry-overs
+    vars:
+      target_language: "French"
+      locale: "fr-FR"
+      text: "Réunion du Comité : Lundi, 3 Mars 2025\nLe budget est de 1,250.50 € pour l'année.\nLe directeur a dit: \"Nous devons agir vite!\"\nLa hausse est de 12% par rapport à 2024 - un record."
+    assert:
+      - {type: contains, value: "## Fixes"}
+      - {type: llm-rubric, value: "Fixes line by line: lower-case 'lundi' and 'mars', '1 250,50 €' with the space as thousands separator and a decimal comma, a non-breaking space before the colon after 'dit' and before '!', guillemets « » with non-breaking spaces instead of straight double quotes, '12 %' with a non-breaking space, and an en or em dash instead of a hyphen; shows non-breaking spaces visibly; does not change the wording."}
+  - name: edge-swiss-german
+    vars:
+      target_language: "German"
+      locale: "de-CH"
+      text: "Der Preis beträgt CHF 1.200,00.\n„Das ist zu teuer\", sagte sie.\nDie Strasse ist am 03.04.2025 gesperrt."
+    assert:
+      - {type: llm-rubric, value: "Recognises Swiss conventions: notes that de-CH commonly uses guillemets « » rather than the German „…“ style and that 'Strasse' with ss is correct in Switzerland (not an error), and treats the thousands separator according to Swiss practice (often an apostrophe, as in 1'200.00) as a choice to confirm with the house style rather than a definite error; does not 'correct' Strasse to Straße."}
+  - name: negative-asks-to-retranslate
+    vars:
+      target_language: "Spanish"
+      text: "Por favor traduce esto otra vez y hazlo más bonito: El producto es bueno."
+    assert:
+      - {type: llm-rubric, value: "Stays within typography: explains it only checks typographic and formatting conventions, reports any typographic issue (or none), and does not rewrite or retranslate the sentence; may point to a translation or editing prompt for that."}

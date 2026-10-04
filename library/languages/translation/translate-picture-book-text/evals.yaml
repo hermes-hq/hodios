@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Translate this children's book into {{target_language}}: {{book_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rhyming-refrain
+    vars:
+      target_language: "Spanish (Latin America)"
+      age_range: "3-5"
+      book_text: "Spread 1: Little Fox is looking for his hat. Is it here? Is it there? Where is it at? (picture: fox looking under a bed)\nSpread 2: Not under the bed, just a sleepy old cat! (picture: grey cat asleep)\nSpread 3: Little Fox is looking for his hat. Is it here? Is it there? Where is it at? (picture: fox looking in a red box)\nSpread 4: Not in the box, just a squeaky toy bat! (picture: toy bat)"
+    assert:
+      - {type: contains, value: "## Read-aloud check"}
+      - {type: llm-rubric, value: "Identifies the repeated rhyming refrain and keeps it identical in spreads 1 and 3, keeps the question-and-answer page-turn structure, matches the pictures (under the bed, grey cat, red box, toy bat), uses simple words for ages 3-5, and offers alternatives for the rhyme on spreads 2 and 4 with reasons rather than a forced or meaning-changing rhyme."}
+  - name: edge-picture-dependent-count
+    vars:
+      target_language: "German"
+      book_text: "Spread 5: One, two, three... five ducks in a row! Wait, where did number four go? (picture: five ducks, the fourth is hiding behind a reed)"
+    assert:
+      - {type: llm-rubric, value: "Keeps the counting and the hidden fourth duck joke so it still matches the picture, notes this as a picture-dependent spread, and flags the age range as missing or makes a stated assumption."}
+  - name: negative-no-spreads-long-novel
+    vars:
+      target_language: "French"
+      book_text: "Here is chapter 1 of my 200-page fantasy novel for adults..."
+    assert:
+      - {type: llm-rubric, value: "Notes that the text is not a picture book and that this prompt is for picture books; suggests a literary translation approach instead or asks to confirm, rather than applying spread-by-spread picture book conventions."}

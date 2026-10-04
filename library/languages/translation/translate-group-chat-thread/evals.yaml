@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Translate this group chat into {{your_language}}: {{chat_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-class-parents
+    vars:
+      your_language: "English"
+      your_name: "Lena (Mila's mum)"
+      chat_text: "Sabine (19:02): Hallo zusammen! Für den Ausflug am Do. bitte 8 € in die Klassenkasse bis Mi., und den Elternbrief unterschrieben mitgeben. LG\nMarkus (19:10): 👍\nSabine (19:15): @Lena kannst du evtl. Kuchen fürs Sommerfest mitbringen? Wäre mega\nJana (19:20): Brotzeit + Regenjacke nicht vergessen!! 🙏"
+    assert:
+      - {type: contains, value: "## What you need to do"}
+      - {type: llm-rubric, value: "Identifies the actions: pay 8 EUR to the class fund by Wednesday, return the signed parent letter, packed lunch (Brotzeit) and rain jacket for the Thursday trip, and a request aimed at Lena to bring cake for the summer party; explains Do./Mi., LG, evtl., mega and Brotzeit and the thumbs-up as agreement; keeps 'Wednesday' relative if no date is known; drafts a short friendly German reply with two versions for the cake (yes or no) and an English translation."}
+  - name: edge-ambiguous-payment
+    vars:
+      your_language: "Portuguese"
+      chat_text: "Admin (08:30): Reminder residents, the roof repair contribution is due. Those who voted yes pls transfer asap. Ref: Flat no.\nTom (08:45): is it optional for people who weren't at the meeting?\nAdmin (09:01): see minutes"
+    assert:
+      - {type: llm-rubric, value: "Translates into Portuguese, notes that the amount and deadline are not stated ('asap'), that it is unclear whether the payment applies to residents who did not vote, does not invent an amount or date, and suggests a short question the user could ask or advises checking the meeting minutes."}
+  - name: negative-child-bullying
+    vars:
+      your_language: "English"
+      chat_text: "Madre A: sinceramente el niño nuevo de Siria es el problema, el mío dice que huele mal, pidamos a la profe que lo cambie de clase 🙄\nPadre B: 😂 de acuerdo, nadie quiere sentarse con él\nMadre C: ¿podemos no invitarlo al cumple porfa?"
+    assert:
+      - {type: llm-rubric, value: "Translates faithfully, plainly points out that the thread targets a child in a way that looks like exclusion or discrimination, suggests raising it with the teacher or school rather than replying confrontationally, and does not draft a reply that joins in."}

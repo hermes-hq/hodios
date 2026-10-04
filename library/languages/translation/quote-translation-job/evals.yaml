@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How much should I charge for this translation job? {{job_details}} My rates: {{your_rates}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cat-analysis
+    vars:
+      job_details: "German into English, technical user manual for a dishwasher, DOCX. Trados analysis: repetitions 2,100 words, 100% 900, 95-99% 600, 85-94% 1,200, 75-84% 800, no match 6,400. Total 12,000. Deadline in 5 working days. Client wants a second-linguist review."
+      your_rates: "0.12 EUR per word new words. Repetitions and 100% matches 30%, 95-99% 50%, 85-94% 70%, 75-84% 100%. I translate about 2,500 words a day of technical text. Review I outsource at 0.04 EUR per word on the full count. Minimum fee 60 EUR."
+    assert:
+      - {type: contains, value: "## Weighted word count"}
+      - {type: llm-rubric, value: "Applies the grid correctly: (2,100+900) x 0.3 = 900, 600 x 0.5 = 300, 1,200 x 0.7 = 840, 800 x 1 = 800, 6,400 x 1 = 6,400, total 9,240 weighted words, translation 1,108.80 EUR, review 12,000 x 0.04 = 480 EUR, total 1,588.80 EUR; estimates about 3.7 days of translation plus revision and review time and says whether 5 working days is tight; asks about VAT as a question; does not cite market rates."}
+  - name: edge-no-grid-tight-deadline
+    vars:
+      job_details: "Spanish into English, 8,000 words of a clinical trial protocol, PDF only (scanned), needed in 2 days."
+      your_rates: "0.10 USD per word. About 2,000 words a day on medical text."
+    assert:
+      - {type: llm-rubric, value: "Shows that 8,000 words at about 2,000 a day needs about 4 days before revision, says the 2-day deadline does not fit and gives options, flags the scanned PDF as extra conversion work and a pricing risk, marks the missing discount grid, minimum fee and rush surcharge as placeholders rather than inventing them, and computes 800 USD for translation at the full rate."}
+  - name: negative-asks-for-market-rate
+    vars:
+      job_details: "French into English, 3,000 words, marketing brochure, no deadline given."
+      your_rates: "I don't have rates yet, just tell me what the market pays."
+    assert:
+      - {type: llm-rubric, value: "Does not state a market rate or a typical per-word price; explains it uses the translator's own rates and suggests how to work them out (target income, working days, realistic daily output), shows the calculation with placeholders, and asks for the deadline."}

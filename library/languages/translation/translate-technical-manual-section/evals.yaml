@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Translate this manual section into {{target_language}}: {{manual_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pump-maintenance
+    vars:
+      target_language: "German"
+      manual_text: "4.2 Replacing the impeller\nWARNING: Rotating parts. Can cause serious injury. Lock out the power supply before opening the pump housing.\n1. Set the MAIN switch to OFF and attach a lockout tag.\n2. Close the inlet valve and the outlet valve.\n3. Remove the 6 M8 housing bolts (see Fig. 7, item 3).\n4. Pull the impeller off the shaft. If the impeller is stuck, use puller P/N 40-118.\n5. Fit the new impeller and tighten the bolts to 25 Nm in a cross pattern."
+      glossary: "impeller = Laufrad\nhousing = Gehäuse"
+    assert:
+      - {type: contains, value: "## Term list"}
+      - {type: llm-rubric, value: "Uses Laufrad and Gehäuse consistently as given, translates the warning with the standard German signal word WARNUNG keeping hazard, consequence and avoidance, keeps the MAIN and OFF labels as printed with translation in brackets or asks about localised labels, keeps 6 M8 bolts, Fig. 7 item 3, P/N 40-118 and 25 Nm exactly, keeps five steps in order with imperative mood, and includes a term list."}
+  - name: edge-ambiguous-step
+    vars:
+      target_language: "Polish"
+      manual_text: "3. Disconnect it from the unit and then turn it clockwise until it clicks, unless the indicator is red, in which case don't."
+    assert:
+      - {type: llm-rubric, value: "Flags 'it' and 'don't' as ambiguous with a [QUERY] marker, translates the most likely reading while making it visible, suggests splitting the step for clarity as a query rather than silently restructuring, and does not invent what 'it' refers to."}
+  - name: negative-shorten-warnings
+    vars:
+      target_language: "Spanish"
+      manual_text: "DANGER: High voltage inside. Contact will cause death or serious injury. Only qualified electricians may open this cover. Please make the warnings shorter in Spanish, nobody reads them."
+    assert:
+      - {type: llm-rubric, value: "Translates the danger message completely with the PELIGRO signal word, hazard, consequence and avoidance, declines to shorten or soften it, and briefly explains why safety messages must stay complete."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Translate this notice into {{languages}}: {{notice}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bin-collection-change
+    vars:
+      notice: "Further to the Council's decision of 12/02 regarding the rationalisation of waste services, residents are advised that with effect from 07/04 refuse collections in the Northfield ward will transition to a fortnightly schedule, with recycling (blue lid) on alternate weeks. Residents who require an assisted collection should contact the WCS team via the usual channels."
+      languages: "Polish, Romanian, Urdu"
+      audience: "Residents of a mixed estate, many older people; notice goes on a printed leaflet through every door."
+    assert:
+      - {type: contains, value: "## Plain-language source"}
+      - {type: llm-rubric, value: "Rewrites the notice with the action first and plain words (every two weeks rather than fortnightly schedule, blue bin explained), writes the date with the month as a word and flags that 07/04 is ambiguous between 7 April and 4 July, expands or questions WCS, flags 'the usual channels' as a missing contact route, gives translations into Polish, Romanian and Urdu marked as drafts for fluent review, and includes reviewer notes with confidence per language."}
+  - name: edge-low-resource-language
+    vars:
+      notice: "Measles cases have been confirmed at Riverside Primary School. Children who are not fully vaccinated should stay at home until 21 May. Free MMR vaccination is available at the health centre on Tuesdays 9-12."
+      languages: "Somali, Tigrinya, Pashto"
+      audience: "Parents, some with limited literacy; shared on WhatsApp."
+    assert:
+      - {type: llm-rubric, value: "Keeps every fact (dates, times, free MMR, who should stay home), says health notices must be signed off by the health service, suggests an audio or voice-note version for low literacy, gives reviewer notes with confidence for each language, and for any language where reliable translation is doubtful says so and recommends a professional translator rather than presenting it as final."}
+  - name: negative-no-action-or-date
+    vars:
+      notice: "There will be changes to the library soon. More info to follow."
+      languages: "Spanish, Arabic"
+    assert:
+      - {type: llm-rubric, value: "Points out the notice lacks what is changing, when and what people should do, lists these as issues with [X] placeholders or questions, and does not invent dates or details to fill the gaps."}
