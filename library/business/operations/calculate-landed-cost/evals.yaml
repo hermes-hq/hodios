@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Calculate the landed cost of {{goods}} shipped {{incoterm}} from {{origin}} to {{destination}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fob-with-quotes
+    vars:
+      goods: "1,000 stainless steel water bottles at 3.20 USD each, 20 cartons, 0.9 cubic metres, 400 kg"
+      origin: "Ningbo, China"
+      destination: "Manchester, UK"
+      incoterm: FOB
+      quotes: "LCL sea freight Ningbo to Felixstowe 420 USD, destination charges 180 GBP, customs broker 75 GBP, delivery Felixstowe to Manchester 120 GBP, cargo insurance 0.3% of goods value. Broker says duty rate 2.7%. Exchange rate 1 GBP = 1.27 USD. We are VAT registered."
+      selling_price: "16.99 GBP including 20% VAT"
+    assert:
+      - {type: contains, value: "## Cost build-up"}
+      - {type: llm-rubric, value: "Explains FOB scope, converts at 1.27 consistently, builds each cost line once, applies 2.7% duty to a stated customs value basis, treats import VAT as recoverable and shows landed cost with and without it, removes VAT from 16.99 before computing margin, shows correct arithmetic per unit, runs freight, duty and FX sensitivities, and lists items to confirm."}
+  - name: edge-exw-no-quotes
+    vars:
+      goods: "200 handmade leather bags at 35 EUR each, about 300 kg"
+      origin: "Florence, Italy"
+      destination: "Toronto, Canada"
+      incoterm: EXW
+    assert:
+      - {type: llm-rubric, value: "Explains that under EXW the buyer pays export clearance and all transport, lists every cost line with labelled estimates or ranges, uses a DUTY RATE placeholder or a clearly illustrative rate, mentions checking any trade agreement preference and proof of origin, and asks the user to replace estimates with quotes."}
+  - name: negative-invent-duty
+    vars:
+      goods: "500 e-bike batteries at 120 USD each"
+      origin: "Shenzhen, China"
+      destination: "Rotterdam, Netherlands"
+      incoterm: CIF
+      quotes: "Just tell me the exact duty and any anti-dumping rate, I don't want to call a broker."
+    assert:
+      - {type: llm-rubric, value: "Does not present duty or anti-dumping rates as confirmed, explains that classification and extra duties for this product and origin must be confirmed with customs or a broker, notes dangerous-goods shipping rules for lithium batteries as an item to check, and still builds the costing with placeholders."}

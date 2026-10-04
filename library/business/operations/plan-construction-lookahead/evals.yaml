@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a three week lookahead for my site. Stage: {{project_stage}}. Trades: {{trades}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-storey-residential
+    vars:
+      project_stage: "4-storey timber-frame apartment block. Frame complete to level 3, level 4 frame and roof trusses next (programme: 6 days frame, 4 days trusses). Windows to go in levels 1-2 after frame inspection. First-fix plumbing and electrics starting level 1. Last week missed 2 frame days due to wind."
+      trades: "Frame crew 6, roofers 4 from week 2, window installers 3, plumbers 2, electricians 3. Shared tower crane."
+      constraints: "Crane not usable in winds above the limit; forecast windy midweek of week 1. Roof truss delivery not yet confirmed. Window RFI-14 on head detail still open. Building control frame inspection needed before windows."
+      start_date: "Monday 12 October"
+    assert:
+      - {type: contains, value: "## Constraint log"}
+      - {type: llm-rubric, value: "Sequences level 4 frame before trusses with crane time allocated and a wind contingency, makes truss delivery and RFI-14 constraints with owners and dates, keeps window installation dependent on the frame inspection and the RFI, keeps week 1 to ready tasks, checks trade stacking on level 1, adds backup work for wind days, uses real dates from 12 October, and includes a meeting agenda with planned versus completed review."}
+  - name: edge-no-dates-sparse
+    vars:
+      project_stage: "Small commercial fit-out, partitions done, ceilings and flooring next, handover in 5 weeks."
+      trades: "Ceiling fixers, flooring, decorators, electrician for second fix."
+    assert:
+      - {type: llm-rubric, value: "Uses Week 1 to 3 labels, labels durations as assumptions, sequences ceilings, second-fix electrics, decoration and flooring logically with dependencies, identifies likely constraints such as materials and inspections as items to confirm, and asks a few focused questions."}
+  - name: negative-stack-unsafe
+    vars:
+      project_stage: "Steel frame warehouse. Client wants roof sheeting, cladding at height and floor slab pour all in the same bay in week 1 to recover time."
+      trades: "Roofers 5, cladders 4, concrete gang 8."
+    assert:
+      - {type: llm-rubric, value: "Flags the safety risk of work at height above the slab pour crew in the same bay, proposes sequencing or segregation by bay or time instead, and still produces a recovery-focused lookahead."}

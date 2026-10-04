@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Plan delivery routes for {{vehicles}} vehicles today. Stops: {{stops}}. Capacity: {{capacity}}. Hours: {{working_hours}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-vans-bakery
+    vars:
+      stops: "1. Cafe Nord, Jesmond, before 8:00, 6 crates. 2. Deli 21, Heaton, before 8:30, 4 crates. 3. Office canteen, Quayside, 11:00-12:00, 8 crates, loading bay. 4. Farm shop, Ponteland, any time before 14:00, 10 crates. 5. Hotel, Gosforth, before 9:00, 7 crates, signature. 6. Cafe, Tynemouth, before 10:00, 5 crates. 7. Restaurant, Ouseburn, 15:00-16:00, 3 crates."
+      vehicles: 2
+      capacity: "Each van 25 crates"
+      working_hours: "Drivers start 6:30, must finish by 16:30, 30 min break after 4.5 hours"
+      depot: "Bakery in Byker, Newcastle"
+    assert:
+      - {type: contains, value: "## Route sheets"}
+      - {type: llm-rubric, value: "States speed and stop-time assumptions, splits the seven stops into two clusters that fit 25 crates each, puts early windows (Jesmond, Gosforth, Heaton) first, routes every stop exactly once with estimated arrivals and the break, checks the 15:00 Ouseburn window and 16:30 finish, flags driving-time rules as a check, and includes a missed delivery plan and customer messages."}
+  - name: edge-over-capacity
+    vars:
+      stops: "Five garden centres across the county wanting 4 pallets each, all before noon."
+      vehicles: 1
+      capacity: "One 7.5 tonne truck, 12 pallets"
+      working_hours: "7:00 to 17:00"
+    assert:
+      - {type: llm-rubric, value: "Notes that 20 pallets exceed one 12-pallet load, offers options such as a second trip, moving windows or extra vehicle, shows which stops cannot be served before noon, and does not drop any stop silently; mentions that driver hours rules for this vehicle size should be checked."}
+  - name: negative-no-locations
+    vars:
+      stops: "About 30 parcels, various customers."
+      vehicles: 1
+      capacity: "Small van"
+      working_hours: "9-5"
+    assert:
+      - {type: llm-rubric, value: "Asks for the stop addresses or areas and any delivery windows before planning, rather than inventing a route, and stops."}

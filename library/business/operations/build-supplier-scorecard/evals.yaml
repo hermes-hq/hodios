@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Build a supplier scorecard for these suppliers: {{suppliers}}. Priorities: {{priorities}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-food-manufacturer
+    vars:
+      suppliers: "Flour mill (main ingredient, 40% of spend, critical), packaging printer (15%, critical for launches), dairy co-op (20%), cleaning chemicals distributor (5%)."
+      priorities: "Late flour deliveries stopped the line twice last quarter. Quality consistency of flour and dairy matters for food safety. Price rises without notice from the printer."
+      data_available: "Goods-in log with delivery dates and quantities, lab checks on flour batches, invoices in accounting software."
+    assert:
+      - {type: contains, value: "## Scoring anchors"}
+      - {type: llm-rubric, value: "Proposes criteria including OTIF, quality and cost or price stability with precise measures, weights summing to 100 that reflect delivery and food-safety priorities, 1 to 5 anchors tied to thresholds, data sources mapped to the goods-in log, lab checks and invoices, cadence by criticality, green-amber-red actions including corrective plans, a template with blank or data-backed scores only, and a supplier message."}
+  - name: edge-no-data-yet
+    vars:
+      suppliers: "Three freelance translators and one print shop."
+      priorities: "Meeting deadlines and accuracy."
+    assert:
+      - {type: llm-rubric, value: "Keeps the scorecard light for a small service supply base, defines simple measures like on-time delivery and error rate, explains how to start collecting data, and leaves scores blank rather than inventing them."}
+  - name: negative-selection-not-scorecard
+    vars:
+      suppliers: "We have no supplier yet; we're picking between four software vendors next week."
+      priorities: "Price and features."
+    assert:
+      - {type: llm-rubric, value: "Points out that this is a one-off selection rather than ongoing performance management, suggests a weighted vendor comparison instead, and optionally notes how a scorecard can be set up after the vendor is chosen."}

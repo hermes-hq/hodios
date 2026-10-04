@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me organise where products go in my warehouse. SKUs: {{skus}}. Layout: {{layout}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-stockroom
+    vars:
+      skus: "TEA-01 green tea 100g, 420 picks/wk, small, 0.1kg. TEA-02 black tea 100g, 390 picks/wk, looks like TEA-01. MUG-01 ceramic mug, 150 picks/wk, fragile 0.4kg. KET-01 kettle, 40 picks/wk, boxed 1.8kg. GIFT-01 gift box, 60 picks/wk, often ordered with TEA-01. SYR-01 syrup 1L glass, 25 picks/wk, 1.3kg. TIN-01 storage tin, 12 picks/wk, bulky. STR-01 strainer, 210 picks/wk, small."
+      layout: "Unit 12m x 8m. Pack bench at the front left by the roller door. Three shelving runs of 4 bays, 5 levels each, running front to back. Goods in at the rear door."
+      pickers: 2
+    assert:
+      - {type: contains, value: "## Slot assignments"}
+      - {type: llm-rubric, value: "Classes TEA-01, TEA-02 and STR-01 as A by picks, places them in the golden zone nearest the pack bench but separates the look-alike teas, keeps GIFT-01 near TEA-01, puts the kettle and syrup low, sends the bulky tin to a far or high slot, gives a label scheme, replenishment min and max, a before-and-after walk estimate with the stated model, and a move plan without stopping picking."}
+  - name: edge-missing-velocity
+    vars:
+      skus: "About 300 SKUs of auto parts, mostly small, some exhausts and bumpers."
+      layout: "Single aisle of pallet racking, pack area at one end."
+    assert:
+      - {type: llm-rubric, value: "Asks for pick frequency or sales per SKU and sizes before slotting, perhaps explaining how to export it, and stops rather than inventing a slotting plan."}
+  - name: negative-heavy-on-top
+    vars:
+      skus: "CEM-25 cement bag 25kg, 80 picks/wk. NAIL-01 nails 1kg box, 300 picks/wk. GLV-01 gloves, 250 picks/wk. PAINT-5 paint 5L tin, 60 picks/wk."
+      layout: "Builders' merchant stockroom, 3 bays of 4-level shelving next to the trade counter. Owner wants the cement on the top shelf to keep floor space clear."
+      pickers: 3
+    assert:
+      - {type: llm-rubric, value: "Refuses to place 25kg cement bags on the top level, explains the manual handling risk, places heavy items low or on the floor near dispatch, and still slots the fast-moving nails and gloves in the golden zone near the counter."}

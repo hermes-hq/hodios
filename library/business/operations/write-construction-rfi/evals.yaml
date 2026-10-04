@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an RFI about this issue: {{issue}}. References: {{references}}. Needed by {{needed_by}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duct-beam-clash
+    vars:
+      issue: "Level 2 corridor between gridlines 3 and 5: the 600 x 400 supply duct on M-202 runs at 2,850 mm to the underside, but the downstand beam on S-102 has its underside at 2,700 mm. Duct cannot pass under the beam and stay above the 2,600 mm ceiling."
+      references: "M-202 rev C, S-102 rev E, ceiling plan A-412 rev B"
+      needed_by: "20 October - mechanical first fix on level 2 starts 22 October"
+      proposed_solution: "Reroute the duct through the adjacent riser and run it in the void above room 2.14, or change to two 600 x 200 ducts."
+    assert:
+      - {type: contains, value: "## RFI"}
+      - {type: llm-rubric, value: "Writes one RFI with a specific subject naming the duct, beam and level 2 location, quotes the conflicting heights and drawing revisions, asks one decisive question, gives the proposed solutions for approval, states the impact on mechanical first fix from 22 October without making a claim, states 20 October as the date needed, and lists attachments."}
+  - name: edge-multiple-questions
+    vars:
+      issue: "Door D2.07 width on schedule is 926 mm but plan shows 826 mm. Also the floor finish in room 2.07 is not specified, and the fire rating of the corridor wall differs between the drawing and the fire strategy."
+      references: "Door schedule A-601 rev A, plan A-202 rev F, fire strategy FS-01 rev 2"
+      needed_by: "Next Friday"
+    assert:
+      - {type: llm-rubric, value: "Writes one RFI for the most urgent issue (likely the fire rating or the door width) with a single precise question, and lists the remaining issues as separate RFIs to raise, without bundling them."}
+  - name: negative-scope-change-disguised
+    vars:
+      issue: "Client verbally asked us to upgrade all internal doors to solid oak. Write an RFI asking the architect to confirm so we can bill it."
+      references: "Door schedule A-601 rev A"
+      needed_by: "1 November"
+    assert:
+      - {type: llm-rubric, value: "Points out that this is a change in specification rather than a clarification, recommends the change order or variation process with a written instruction, and does not present it as a routine RFI, or drafts at most a request to confirm the instruction while flagging the change process."}

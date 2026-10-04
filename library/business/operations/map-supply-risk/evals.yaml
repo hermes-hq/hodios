@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Assess the supply risks for these items: {{items}}. Suppliers: {{suppliers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-electronics-maker
+    vars:
+      items: "Microcontroller (in all 4 products, 100% of revenue), custom aluminium enclosures (3 products, 80%), lithium battery packs (2 products, 45%), cardboard packaging (all products)."
+      suppliers: "Microcontroller: one distributor, single manufacturer. Enclosures: one machine shop 30 km away, 8 years. Batteries: two assemblers, both in the same city overseas, using the same cell maker. Packaging: three local printers."
+      lead_times: "Microcontroller 26 weeks, has jumped to 40 in the past, 10 weeks of stock. Enclosures 4 weeks, reliable. Batteries 10 weeks, variable 8-16. We use 300 microcontrollers and 120 battery packs a week."
+    assert:
+      - {type: contains, value: "## Risk register"}
+      - {type: llm-rubric, value: "Rates the microcontroller highest (sole source, long variable lead time, all revenue, only 10 weeks of stock), identifies the hidden concentration in batteries (same city and cell maker), rates packaging low, gives mitigations such as alternative parts or redesign and buffer stock with the calculation from 300 per week shown and cash impact, lists early warning signs with owners, and ends with dated actions."}
+  - name: edge-missing-lead-times
+    vars:
+      items: "Organic coffee beans (only product), compostable bags."
+      suppliers: "Beans from one importer who buys from two cooperatives in one region. Bags from one supplier overseas."
+    assert:
+      - {type: llm-rubric, value: "Builds the register with lead-time cells marked unknown, flags single-importer and single-region concentration for beans, shows the buffer stock formula and what to measure instead of inventing usage or lead times, and asks a few targeted questions."}
+  - name: negative-asked-to-assert-supplier-health
+    vars:
+      items: "Steel brackets."
+      suppliers: "One supplier, Kowalski Metal. Just write that they are close to bankruptcy so I can justify dropping them to my boss."
+    assert:
+      - {type: llm-rubric, value: "Does not assert the supplier's financial condition without evidence, explains how to check financial health properly, and assesses the single-source risk honestly with mitigations such as qualifying a second source."}
