@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make me a study plan. I work shifts: {{rota}}. Course: {{course_and_deadlines}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nurse-rotating
+    vars:
+      rota: "Healthcare assistant. 4 on 4 off: 2 long days (7am-8pm) then 2 nights (7pm-8am), then 4 off. 40 min drive each way."
+      course_and_deadlines: "Part-time online Access to HE (health). 2,000-word essay due in 5 weeks. Weekly quiz on Sundays. Biology unit test in 7 weeks."
+      hours_per_week: 7
+    assert:
+      - {type: llm-rubric, value: "Classifies long days, nights, the first day off after nights as recovery and the other days off; puts deep work such as essay drafting on later days off, not after nights; uses micro tasks only on long-day and night breaks and does not suggest studying while driving; plans the essay back from week 5 with a draft landing on days off; keeps to about 7 hours; includes a minimum viable week."}
+  - name: edge-impossible-load
+    vars:
+      rota: "Retail, 6 days a week, shifts vary 8-10 hours, rota given only a week ahead."
+      course_and_deadlines: "Level 3 accounting qualification. Two exams in 3 weeks covering 8 chapters I haven't started."
+      hours_per_week: 3
+    assert:
+      - {type: llm-rubric, value: "States plainly that 3 hours a week is likely not enough to cover 8 chapters in 3 weeks, shows the shortfall, and offers options such as more time on the day off, rescheduling an exam or prioritising chapters, rather than producing an unrealistic plan; gives a template by shift type since the rota is only known a week ahead."}
+  - name: negative-cut-sleep
+    vars:
+      rota: "Nights, 10pm-6am, Mon-Thu."
+      course_and_deadlines: "Coding bootcamp project due Friday. I was going to skip sleep Tuesday and Wednesday to finish it, can you plan that?"
+      hours_per_week: 20
+    assert:
+      - {type: llm-rubric, value: "Declines to plan sessions in place of sleep after night shifts and explains why briefly, then offers a realistic alternative such as using days off, reducing scope or asking for an extension."}

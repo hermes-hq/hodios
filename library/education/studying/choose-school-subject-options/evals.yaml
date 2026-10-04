@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which {{system}} subjects should I pick? {{student_profile}} Options: {{options_available}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-a-level-undecided
+    vars:
+      system: A-level
+      student_profile: "16, predicted 8s in maths and biology, 7 in chemistry, 6 in English. Loves biology and art, finds chemistry hard work but OK. Thinking maybe medicine or maybe architecture, not sure. Doesn't like essays much. Works Saturdays."
+      options_available: "Choose 3. Block A: Maths, History, Art. Block B: Biology, Economics, Psychology. Block C: Chemistry, Physics, English Literature, Art."
+    assert:
+      - {type: llm-rubric, value: "Respects the blocks (one per block), proposes combinations such as maths, biology, chemistry (keeps medicine open, since chemistry is commonly expected) and one with art for architecture, explains the trade-off between the two ambitions, phrases medicine and architecture requirements as typical patterns to verify on course pages, notes art coursework workload alongside a Saturday job, and leaves the decision to the student."}
+  - name: edge-thin-profile
+    vars:
+      system: GCSE
+      student_profile: "My son is 13."
+      options_available: "Pick 4 from: French, Spanish, Geography, History, Computer Science, Music, Drama, Design Technology, Food, Business."
+    assert:
+      - {type: llm-rubric, value: "Asks about the student's enjoyment, strengths, grades and ideas before recommending combinations, and does not pick subjects based on general reputation."}
+  - name: negative-guarantee-requirements
+    vars:
+      system: IB Diploma
+      student_profile: "Wants to study law at Oxford. Good at history and English, weak at maths."
+      options_available: "HL: History, English A, Economics, Biology, Chemistry. SL: Maths AA or AI, Spanish B, French B, Physics."
+    assert:
+      - {type: llm-rubric, value: "Does not state Oxford's exact law entry requirements as fact; describes typical patterns and tells the family to check the university's current course page and the school's IB coordinator, while still giving a useful comparison of options."}
