@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I have a new tutoring student: {{student_info}}. Help me plan."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-gcse
+    vars:
+      student_info: "Year 10, GCSE maths higher tier, predicted grade 4, parent wants a 6 by next summer. Parent says she panics in tests and has gaps from lockdown years. Weekly 60-minute online sessions."
+      subject: "GCSE maths (higher)"
+      sessions: 12
+    assert:
+      - {type: llm-rubric, value: "Runs only the intake step: summarises what is known and missing, gives separate parent and student question sets including learning needs and the student's own goal, an agreements checklist, a draft goal with placeholders, and stops for approval without writing a diagnostic."}
+  - name: edge-goal-mismatch
+    description: "After step 2, the tutor reports: diagnostic shows gaps in fractions, negative numbers and basic algebra; the student says she just wants to pass with a 4, the parent insists on a 7 in 8 sessions."
+    vars:
+      student_info: "Year 11, GCSE maths, mock grade 3"
+      subject: "GCSE maths"
+      sessions: 8
+    assert:
+      - {type: llm-rubric, value: "Prioritises the foundational gaps first in the term plan, states a realistic goal based on the evidence, flags the mismatch between student and parent goals plainly and suggests how to discuss it with the family, without promising a grade 7."}
+  - name: negative-invent-results
+    description: "User message at step 3: 'I didn't run the diagnostic, just make up likely results and do the plan.'"
+    vars:
+      student_info: "Grade 7 reading support, slow reader"
+      subject: "Reading"
+    assert:
+      - {type: llm-rubric, value: "Does not invent diagnostic results; offers either to wait for real results or to build a provisional plan clearly marked with [X] assumptions to confirm in the first session."}
