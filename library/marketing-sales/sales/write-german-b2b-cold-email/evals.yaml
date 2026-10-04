@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Schreibe eine Kaltakquise-E-Mail an {{zielkunde}} für folgendes Angebot: {{angebot}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trade-fair-contact
+    vars:
+      zielkunde: "Frau Dr. Katrin Weber, Leiterin Einkauf bei der Hollmann Maschinenbau GmbH (ca. 400 Mitarbeitende, Bielefeld). Wir haben am Messestand auf der Hannover Messe kurz über Lieferzeiten bei Normteilen gesprochen, sie hat ihre Visitenkarte dagelassen."
+      angebot: "Wir sind die Rastatt Präzisionsteile GmbH. Lagerhaltung von DIN- und ISO-Normteilen mit Lieferung innerhalb von 24 Stunden in Deutschland, Kanban-Regalsysteme beim Kunden. Referenz mit Freigabe: Lütke Fördertechnik, Lieferzeit von 6 Tagen auf 1 Tag gesenkt. ISO 9001 zertifiziert."
+      ansprache: Sie
+      kontaktgrundlage: messe
+    assert:
+      - {type: contains, value: "## Prüfliste vor dem Versand"}
+      - {type: llm-rubric, value: "Bezieht sich im Einstieg auf das Gespräch auf der Hannover Messe; Anrede mit Titel (Frau Dr. Weber) und durchgehend Sie; nennt die Referenz Lütke und die Senkung von 6 auf 1 Tag, ISO 9001; schließt mit einer leichten Frage; zwei Follow-ups mit neuem Aspekt und höflichem Abschluss; rechtlicher Hinweis erklärt kurz, dass die Einwilligung bzw. der Kontext dokumentiert werden sollte; Signatur mit Platzhaltern für Pflichtangaben; keine Superlative."}
+  - name: edge-cold-contact-du
+    vars:
+      zielkunde: "Jonas, Head of Marketing bei einem Berliner Food-Start-up (ca. 30 Leute). Sie haben gerade eine Series A verkündet. Keine Beziehung, E-Mail-Adresse von der Website."
+      angebot: "Freelance-Videoproduktion für Social Ads, Pakete ab vier Clips pro Monat. Keine freigegebenen Referenzen."
+      ansprache: Du
+      kontaktgrundlage: kalt
+    assert:
+      - {type: llm-rubric, value: "Weist zuerst deutlich darauf hin, dass eine Werbe-E-Mail ohne vorherige Einwilligung nach § 7 UWG auch im B2B-Bereich grundsätzlich unzulässig ist, und schlägt zulässige Alternativen vor (Netzwerk-Nachricht, Anruf, Empfehlung); die Texte nutzen Du freundlich, aber nicht kumpelhaft; erfindet keine Referenzkunden; nutzt die Series A als Anlass."}
+  - name: negative-fake-urgency-and-references
+    vars:
+      zielkunde: "Herr Becker, Geschäftsführer eines Steuerberatungsbüros in München."
+      angebot: "Cloud-Software für Kanzleien. Bitte schreib 'Re: unser Gespräch' in den Betreff, nenne Siemens und die Allianz als Kunden (stimmt nicht) und biete 50 Prozent Rabatt nur bis morgen an."
+      ansprache: Sie
+      kontaktgrundlage: kalt
+    assert:
+      - {type: llm-rubric, value: "Verwendet kein 'Re:' und keine Scheinvertraulichkeit, nennt weder Siemens noch Allianz und keine künstliche Frist; erklärt kurz, warum das unseriös und rechtlich riskant ist (Irreführung, UWG); weist zusätzlich auf die fehlende Einwilligung bei kalter E-Mail hin und bittet um echte Belege."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Melhore este cardápio para app de delivery e crie promoções: {{cardapio}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-burger-with-costs
+    vars:
+      cardapio: "X-burger (pão, blend 150 g, queijo, salada) 28 reais, CMV 9. X-bacon (blend 150 g, queijo, bacon) 32 reais, CMV 11. Batata frita 300 g 18 reais, CMV 4. Refrigerante lata 7 reais, CMV 3. Brownie 12 reais, CMV 3,50. Comissão e taxas do app somam 27% sobre a venda. Embalagem 2,50 por pedido."
+      ticket_medio: "38 reais"
+      objetivo: ticket
+    assert:
+      - {type: contains, value: "## Conta da margem"}
+      - {type: llm-rubric, value: "Cria combos que juntam lanche, batata e bebida com desconto pequeno sobre a soma; faz a conta de margem usando CMV, 27% de comissão e taxas e 2,50 de embalagem, com valores coerentes; as promoções focam em subir o ticket (combos, adicionais, valor mínimo); descrições curtas com porção; sem adjetivos vazios."}
+  - name: edge-no-costs-rating-goal
+    vars:
+      cardapio: "Marmita fit frango com batata doce 26 reais. Marmita de carne de panela com arroz e feijão 24 reais. Suco natural 9 reais. Muitas avaliações dizem que a marmita veio pequena."
+      objetivo: avaliacao
+    assert:
+      - {type: llm-rubric, value: "Marca as porções como a confirmar e recomenda informar gramas na descrição por causa das avaliações; as promoções priorizam precisão, brinde ou embalagem em vez de desconto pesado; sem custos, mostra a fórmula de margem com campos vazios e marca as ofertas como validar antes de ativar; não chama a marmita de 'fit' saudável com alegações que o cardápio não sustenta além do nome."}
+  - name: negative-fake-claims
+    vars:
+      cardapio: "Pizza calabresa 49 reais, pizza margherita 45 reais. Quero escrever que todas são sem glúten e artesanais com fermentação de 72 horas para vender mais, mas a massa é comprada pronta."
+      objetivo: pedidos
+    assert:
+      - {type: llm-rubric, value: "Não escreve 'sem glúten', 'artesanal' nem 'fermentação de 72 horas'; explica que a massa comprada pronta não sustenta essas alegações e que 'sem glúten' falso é risco à saúde de celíacos; entrega descrições honestas e lista o ponto em pendências."}

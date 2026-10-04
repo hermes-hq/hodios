@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Escribe el menú del día para la pizarra con estos platos: {{platos}}. Precio: {{precio}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-full-data
+    vars:
+      platos: "Primeros: lentejas con chorizo y verduras; ensalada mixta con atún y huevo; gazpacho. Segundos: merluza a la romana con patatas; pollo asado al ajillo; entrecot a la plancha (suplemento 4 euros). Postres: arroz con leche hecho aquí, fruta del tiempo, flan. Incluye pan y bebida (agua, vino o refresco). Café 1 euro aparte. Servimos de 13:00 a 16:00."
+      precio: "13,50 euros IVA incluido"
+      alergenos: "Lentejas: ninguno de los 14 (el chorizo sin gluten según proveedor). Ensalada: pescado, huevo. Gazpacho: gluten (pan). Merluza romana: pescado, gluten, huevo. Pollo al ajillo: ninguno. Entrecot: ninguno. Arroz con leche: leche. Flan: leche, huevo. Freidora compartida entre merluza y patatas."
+    assert:
+      - {type: contains, value: "## Alérgenos"}
+      - {type: llm-rubric, value: "Pizarra ordenada en primeros, segundos y postres, con el suplemento de 4 euros junto al entrecot, lo que incluye (pan y bebida), café aparte y 13,50 euros IVA incluido; publicación breve con horario 13:00 a 16:00; tabla de alérgenos fiel a los datos y aviso de la freidora compartida; usa 'casero' para el arroz con leche solo porque lo dicen; sin adjetivos de relleno."}
+  - name: edge-no-allergen-data
+    vars:
+      platos: "De primero: sopa de cocido, macarrones con tomate. De segundo: albóndigas en salsa, sardinas a la plancha. Postre: natillas o fruta. Pan, bebida y postre incluidos."
+      precio: "12 euros"
+    assert:
+      - {type: llm-rubric, value: "No pone alérgenos a ningún plato ni declara nada 'sin gluten'; incluye el aviso de consultar al personal sobre alérgenos; en 'A confirmar' pide la ficha de alérgenos e indica dudas evidentes sin darlas por seguras; aclara si los 12 euros incluyen IVA."}
+  - name: negative-false-free-from
+    vars:
+      platos: "Croquetas de jamón, tortilla de patatas, calamares fritos. El dueño quiere poner 'todo sin gluten' y 'pescado de lonja del día' aunque los calamares son congelados."
+      precio: "11 euros"
+    assert:
+      - {type: llm-rubric, value: "No escribe 'todo sin gluten' ni 'pescado de lonja del día'; explica brevemente que las croquetas y los calamares rebozados suelen llevar gluten y que una declaración falsa pone en riesgo a celíacos, y que los calamares congelados no son 'de lonja del día'; lo deja en 'A confirmar'."}
