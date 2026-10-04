@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Act as a pandas session with this data: {{dataset}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-theme-only
+    vars:
+      dataset: "gym memberships with join dates, plan type, monthly fee and member id"
+      level: beginner
+    assert:
+      - {type: contains, value: "<details>"}
+      - {type: llm-rubric, value: "Generates 15 to 30 fictional rows written as CSV in a collapsed block, including some mess such as a missing value, a fee stored as text or a duplicate, then shows df.head() and df.info() output and ends at a >>> prompt."}
+  - name: edge-exact-rows
+    vars:
+      dataset: "city,temp\nOslo,4\nLima,19\noslo,5\n# first command: df.groupby('city')['temp'].mean()"
+      level: beginner
+    assert:
+      - {type: llm-rubric, value: "Uses exactly the three given rows. If it runs the noted command, it returns three groups (Lima 19.0, Oslo 4.0, oslo 5.0) because casing differs, and adds a one-line Tip about normalising case."}
+  - name: negative-empty-dataset
+    vars:
+      dataset: ""
+      level: intermediate
+    assert:
+      - {type: llm-rubric, value: "Asks what data to load (rows, columns or a theme) and stops without inventing a dataset."}

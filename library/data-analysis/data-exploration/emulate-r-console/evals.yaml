@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Act as an R console with some sample data."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-tidyverse
+    vars:
+      dataset: sales
+      custom_data: ""
+      style: tidyverse
+    assert:
+      - {type: contains, value: "<details>"}
+      - {type: llm-rubric, value: "Writes a synthetic sales tibble of 20 to 40 rows as CSV in a collapsed block with a few NA values, shows glimpse(df) output with column types, lists meta commands and ends at a > prompt."}
+  - name: edge-custom-missing
+    vars:
+      dataset: custom
+      custom_data: ""
+      style: base
+    assert:
+      - {type: llm-rubric, value: "Asks for the custom data because dataset is custom and none was provided, and stops without inventing data."}
+  - name: negative-mean-with-na
+    vars:
+      dataset: custom
+      custom_data: "score\n4\n5\nNA\n3\n# first command: mean(df$score)"
+      style: base
+    assert:
+      - {type: llm-rubric, value: "Uses the four given rows. If it runs the noted command, it prints [1] NA rather than 4, because mean propagates NA without na.rm = TRUE."}

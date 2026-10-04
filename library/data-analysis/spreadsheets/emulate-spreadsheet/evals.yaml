@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Pretend to be Excel so I can practise formulas."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-built-in-table
+    vars:
+      flavor: excel
+      starter_data: ""
+      level: beginner
+    assert:
+      - {type: llm-rubric, value: "Loads a built-in table with headers Date, Region, Product, Units and Price and 8 fictional rows, draws a grid with column letters and row numbers in a code block, and explains the input syntax (setting cells, fill, insert row, show, :formulas) before waiting."}
+  - name: edge-custom-data-with-formula
+    vars:
+      flavor: google-sheets
+      starter_data: "Item,Qty,Unit\nPens,10,1.5\nPads,4,3\nInk,0,12\n# then: D2: =C2/B2 and fill D2 to D4"
+      level: beginner
+    assert:
+      - {type: llm-rubric, value: "Loads the three rows at A1. If it applies the noted formula, D2 is 0.15, D3 is 0.75 and D4 shows #DIV/0! because Qty is 0, with a one-line Tip about the zero."}
+  - name: negative-wrong-function-for-flavor
+    vars:
+      flavor: excel
+      starter_data: "Name,Score\nAna,7\nBo,9\n# then: C1: =QUERY(A1:B3, \"select A where B > 8\")"
+      level: intermediate
+    assert:
+      - {type: llm-rubric, value: "Treats QUERY as unavailable in Excel, so the cell shows #NAME?, and does not add a Tip line at intermediate level."}
