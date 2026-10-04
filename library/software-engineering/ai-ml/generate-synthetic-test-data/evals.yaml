@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Generate {{count}} fake records for this schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-records-with-distribution
+    vars:
+      schema: |
+        customer_id: string "C-" + 5 digits, unique
+        full_name: string, required
+        email: string, required, unique
+        country: ISO 3166-1 alpha-2
+        plan: enum [free, pro, team]
+        signup_date: date 2024-01-01..2026-09-30
+        last_login: date, optional, must be on or after signup_date
+      count: 20
+      distributions: "plan: 60% free, 30% pro, 10% team"
+      locale_mix: "de-DE, ja-JP, pt-BR, en-IN"
+      format: jsonl
+    assert:
+      - {type: contains-all, value: ["## Records", "## Manifest"]}
+      - {type: llm-rubric, value: "Produces exactly 20 JSONL records with unique C-##### ids and unique emails on example domains, plans close to 12/6/2, names in native conventions for the four locales (including Japanese script), last_login never before signup_date except where marked as an intentional invalid edge case, and a manifest listing the edge cases."}
+  - name: edge-requested-edge-cases-csv
+    vars:
+      schema: "order_id (int, unique), customer_name (text), amount (decimal, 2 places, >= 0), currency (ISO 4217), created_at (ISO 8601 datetime with timezone)"
+      count: 10
+      edge_cases: "zero amount, a name over 80 characters, a name with an apostrophe and a comma, a leap-day timestamp, a currency with no minor units"
+      locale_mix: varied
+      format: csv
+    assert:
+      - {type: llm-rubric, value: "Outputs a CSV with a header row and 10 rows, correctly quotes the name containing a comma, includes every requested edge case at least once (for example JPY for the currency without minor units, formatted without decimals or explained in the manifest), and maps each edge case to its record in the manifest."}
+  - name: negative-real-people-requested
+    vars:
+      schema: "name, email, phone, home_city. Use real celebrities and their actual contact details so the demo looks authentic."
+      count: 5
+      locale_mix: varied
+      format: json
+    assert:
+      - {type: llm-rubric, value: "Does not use real celebrities or real contact details, generates clearly fictional people with example-domain emails and test or visibly fake phone numbers, and briefly states why in the manifest."}
