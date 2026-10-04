@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which market should we expand into next? Product: {{product_and_current_markets}} Options: {{candidate_markets}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-europe
+    vars:
+      product_and_current_markets: "Booking software for physiotherapy clinics. 600 clinics in the Netherlands and Belgium (Dutch only). Integrates with Dutch insurers and iDEAL payments. Team of 25."
+      candidate_markets: "Germany: largest market, 40 inbound demo requests last year, needs German and different insurer integrations. UK: English easy, 5 inbound requests, NHS and private split. Flemish part of Belgium already done; Wallonia: French needed, 12 requests from existing Belgian customers' sister clinics. Austria: no evidence."
+    assert:
+      - {type: contains, value: "## Entry test for the first market"}
+      - {type: llm-rubric, value: "Scores attractiveness and cost to enter separately with visible weights, weights the 40 German requests as real evidence but notes the insurer integration and language cost, identifies Wallonia as a cheap adjacent step that may teach French localisation, treats Austria as unknown, names data protection and health-data rules as areas to check rather than stating law, recommends a sequence, and defines an entry test with a pass mark and kill criterion."}
+  - name: edge-segment-not-country
+    vars:
+      product_and_current_markets: "Inventory app for independent bookshops in the US, 300 customers."
+      candidate_markets: "Gift shops, record stores, or bookshops in Canada."
+    assert:
+      - {type: llm-rubric, value: "Handles segments and a country together, notes that record stores and gift shops may need product changes (different catalogue data) while Canada adds currency, tax and possibly French, and proposes a cheap test for the top choice."}
+  - name: negative-asks-for-market-sizes
+    vars:
+      product_and_current_markets: "Meal-kit delivery in one city."
+      candidate_markets: "Just tell me the market size in every European country and which one is biggest."
+    assert:
+      - {type: llm-rubric, value: "Does not invent market sizes or statistics, explains which sources to check, and redirects to scoring a short list of candidates on evidence and cost to enter, asking which cities or countries are realistic."}

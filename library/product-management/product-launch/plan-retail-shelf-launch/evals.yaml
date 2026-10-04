@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me launch my product in shops. {{product_and_retailers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-granola-regional-grocer
+    vars:
+      product_and_retailers: "High-protein granola, 400g, RRP 4.99 GBP. Selling 1,200 bags a month online and through 30 delis. Regional grocery chain offered a listing in 60 stores, wants 35% margin, a 2-for-1 promotion in month two funded by us, and 60-day payment terms. Production lead time 3 weeks."
+      launch_date: "2027-03-01"
+      budget: "15,000 GBP for the launch."
+    assert:
+      - {type: contains, value: "## First 12 weeks"}
+      - {type: llm-rubric, value: "Writes a sell-in pitch using the online and deli evidence, lists terms to check including listing fees, deductions and the cost of the funded 2-for-1, works out stock for 60 stores with weeks of cover and a reorder point based on the 3-week lead time, notes the 60-day payment terms as a cash flow risk, sets rate-of-sale review points at weeks 4, 8 and 12 with actions, asks the buyer for the target rate of sale rather than inventing one, and keeps spend within 15,000 GBP."}
+  - name: edge-unprofitable-terms
+    vars:
+      product_and_retailers: "Handmade soap, RRP 6 EUR, cost 2.80 EUR. National chain wants 50% margin, a 5,000 EUR listing fee for 200 stores, and sale-or-return."
+    assert:
+      - {type: llm-rubric, value: "Shows that after a 50% retailer margin (and VAT, if the RRP includes it) the brand receives about 2.50-3 EUR against a 2.80 EUR cost, leaving almost no margin before the listing fee and returns risk, says plainly that the listing looks unprofitable as offered, and suggests a smaller trial or renegotiation."}
+  - name: negative-no-product
+    vars:
+      product_and_retailers: "I want to get into supermarkets."
+    assert:
+      - {type: llm-rubric, value: "Asks what the product is, its price and current sales, and which retailers are targeted before planning, and does not invent terms or rates of sale."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me plan my startup's roadmap. Cash: {{runway_and_burn}} Goal: {{next_milestone}} Plan: {{current_plan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pre-seed-to-seed
+    vars:
+      runway_and_burn: "420,000 EUR in the bank. Net burn 30,000 EUR/month. Hiring a third engineer next month adds 7,000/month."
+      next_milestone: "Seed round. Two angels told us they'd want to see around 20k MRR and good retention."
+      current_plan: "Restaurant inventory app. 18 paying restaurants, 6k MRR, 2 churned in 3 months. Plan: POS integrations (3 of them), mobile app, supplier marketplace, AI forecasting, multi-location support."
+    assert:
+      - {type: contains, value: "## Cut list"}
+      - {type: llm-rubric, value: "Computes 14 months runway now and about 11.4 months after the hire, sets an evidence deadline months before zero cash allowing for a 3-6 month raise, labels the 20k MRR target as coming from two angels and to be tested, keeps bets that move MRR and retention (for example the most-used POS integration, multi-location for larger customers), cuts or defers the marketplace and AI forecasting with return triggers, sets checkpoints with thresholds and actions, and avoids recommending investors or instruments."}
+  - name: edge-break-even-path
+    vars:
+      runway_and_burn: "60,000 GBP cash, burn 8,000 GBP/month, revenue 5,000/month growing about 10% a month."
+      next_milestone: "Break-even without raising."
+      current_plan: "Two founders, a B2B scheduling tool for driving schools. Plan includes a rebuild of the booking engine."
+    assert:
+      - {type: llm-rubric, value: "Computes the revenue needed to break even and roughly when 10% growth would get there versus when cash runs out, shows that the rebuild must justify itself against that gap, and sets a checkpoint with a cost-cutting action if growth slows."}
+  - name: negative-no-numbers
+    vars:
+      runway_and_burn: "Not sure, our accountant handles it."
+      next_milestone: "Raise money."
+      current_plan: "Build the full platform."
+    assert:
+      - {type: llm-rubric, value: "Asks for cash in the bank and monthly net burn before planning and stops, explains briefly why they are needed, and does not invent finances or recommend specific investors."}

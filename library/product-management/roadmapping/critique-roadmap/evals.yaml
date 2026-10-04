@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Review my roadmap and tell me what's wrong with it: {{roadmap}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overloaded-saas-roadmap
+    vars:
+      roadmap: |
+        Q1: SSO (Feb 14), new dashboard (Mar 3), Salesforce integration (Mar 21), mobile app v1 (Mar 31)
+        Q2: AI assistant (Apr 30), usage-based billing (May 15), dashboard v2 (Jun 12), HIPAA compliance (Jun 30)
+        Q3: Marketplace launch (Aug 8), white-labelling (Sep 19)
+        Q4: Enterprise admin console (Nov 7), offline mode (Dec 12)
+      team_capacity: "Two squads of 5 engineers. On-call and support take about a day a week per engineer."
+      goals: "Win mid-market healthcare customers; reduce churn from 4% to 2.5% monthly."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags overcommitment with arithmetic based on two squads minus about 20% support time, flags exact day dates in Q3 and Q4 as false precision, notes that no item is tied to the churn goal and that items lack outcomes and evidence, raises hidden dependencies (Salesforce, billing, HIPAA work with legal or security), notes no maintenance allocation, rates findings by severity, and gives specific fixes."}
+  - name: edge-no-capacity-given
+    vars:
+      roadmap: "Now: onboarding checklist, faster search. Next: team workspaces. Later: integrations marketplace."
+    assert:
+      - {type: llm-rubric, value: "Says the capacity check could not be done and asks for capacity, does not invent team size, notes the roadmap's healthy now-next-later shape, and still flags missing outcomes and evidence."}
+  - name: negative-not-a-roadmap
+    vars:
+      roadmap: "As a user I want to export reports to PDF so that I can share them with my manager. Acceptance criteria: button on report page, A4 layout, logo in header."
+    assert:
+      - {type: llm-rubric, value: "Recognises this is a single user story, not a roadmap, says so, and asks for the roadmap instead of producing a roadmap critique of a story."}

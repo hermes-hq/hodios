@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me create service packages. {{service_and_customers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-it-support-firm
+    vars:
+      service_and_customers: "Two-person IT support business for small offices (5-25 staff): dental practices, accountants, estate agents. Today we bill 75 EUR/hour ad hoc. Clients call for everything from printer jams to new laptops; dental practices need fast response because their booking system going down stops patients. Scope creep: 'can you just look at my home Wi-Fi too'."
+      delivery_costs: "Our cost is about 35 EUR/hour all-in. A typical 10-person office takes 4-6 hours a month of support. Remote monitoring tool costs 3 EUR per device per month."
+    assert:
+      - {type: contains, value: "## Boundaries and exclusions"}
+      - {type: llm-rubric, value: "Segments by need (for example practices needing fast response versus price-sensitive offices), picks a per-user or per-device monthly value metric that tracks the monitoring cost, designs two to four tiers with response times and inclusions, excludes home networks and project work with a change-request route, prices hardware set-up as an add-on, gives each tier a monthly hour budget with an overage or upgrade rule, checks each tier's margin from the 35 EUR/hour and 3 EUR/device costs, checks how many clients two people can carry, plans moving current hourly clients onto packages with notice, and recommends a middle anchor tier."}
+  - name: edge-no-cost-data
+    vars:
+      service_and_customers: "Mobile dog grooming van in a medium town. Customers range from monthly regulars to once-a-year clips. Prices 45-90 depending on size."
+    assert:
+      - {type: llm-rubric, value: "Designs tiers around frequency and dog size, marks the margin and capacity check incomplete because costs and times were not given, plans how monthly regulars move onto a package, and lists what to measure (time per groom by size, travel, products)."}
+  - name: negative-too-vague
+    vars:
+      service_and_customers: "I do consulting."
+    assert:
+      - {type: llm-rubric, value: "Asks up to three focused questions about what is delivered, to whom and how it is priced today, and does not invent tiers or prices."}

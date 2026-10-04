@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Help me decide which department requests my team should work on. Requests: {{requests_and_departments}} Capacity: {{team_capacity}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-business-systems-quarter
+    vars:
+      requests_and_departments: |
+        Finance: automate month-end accrual upload from spreadsheet into ERP, saves ~3 days per month for 4 people, about 4 weeks of work.
+        Sales: new CRM dashboard for regional managers, VP wants it "ASAP", 2 weeks.
+        HR: replace paper onboarding checklist with workflow tool, 30 hires per quarter, 5 weeks.
+        Operations: barcode scanning in warehouse app, cuts picking errors (currently ~2% of orders), 8 weeks.
+        Legal: contract repository with renewal alerts, two missed renewals last year cost money, 6 weeks.
+      team_capacity: "3 developers and me. One developer is out 3 weeks in August. About a third of our time last quarter went on fixes and licence upgrades."
+      period: quarter
+    assert:
+      - {type: contains, value: "## Published version"}
+      - {type: llm-rubric, value: "Converts capacity to about 33-36 person-weeks net, reserves roughly a third for run-the-business work using the user's history plus a buffer, scores each request with visible arithmetic, does not let 25 weeks of requests exceed what remains, treats the Sales 'ASAP' as no fixed external date, lists what does not fit, and gives a short note for department heads that explains how to challenge a score."}
+  - name: edge-everything-urgent
+    vars:
+      requests_and_departments: "Every department head has marked their request as priority 1 and urgent: marketing website forms, finance approval workflow, customer support macro tool, sales quote generator. No sizes or values given."
+      team_capacity: "2 engineers for the half."
+      period: half
+    assert:
+      - {type: llm-rubric, value: "Does not rank by the claimed urgency, asks for value and size or proposes labelled assumptions, defines urgency as a fixed external date, and proposes a published rule plus questions to send to each department."}
+  - name: negative-no-capacity
+    vars:
+      requests_and_departments: "Lots of requests from everyone."
+      team_capacity: "Not sure."
+      period: quarter
+    assert:
+      - {type: llm-rubric, value: "Asks for the request list and the team's size and availability before allocating, and does not invent requests, departments or capacity numbers."}

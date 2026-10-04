@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Which of these products should I discontinue? {{product_list_and_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hot-sauce-range
+    vars:
+      product_list_and_data: |
+        12-month figures. Price / unit cost / units:
+        Classic Red 150ml: 6.00 / 2.10 / 14,000
+        Smoky Chipotle 150ml: 6.00 / 2.30 / 9,500
+        Ghost Pepper 100ml: 8.50 / 3.60 / 1,200 (gets lots of social media attention)
+        Mango Habanero 150ml: 6.00 / 2.40 / 3,100
+        Garlic Lime 150ml: 6.00 / 2.70 / 900, needs its own label run and bottle shape, MOQ 5,000 bottles, 3,800 in stock
+        Gift box of 3 minis: 18.00 / 7.50 / 2,000 (contains Classic, Chipotle, Ghost)
+        Classic Red 500ml catering: 14.00 / 5.20 / 700, bought by 3 restaurant customers
+      strategic_goals: "Free up cash and cut production complexity before we pitch to a supermarket."
+    assert:
+      - {type: contains, value: "## Range scorecard"}
+      - {type: llm-rubric, value: "Computes revenue and gross profit per item with arithmetic, shows the long-tail concentration in Classic Red and Chipotle, flags Garlic Lime as a cut candidate with high complexity and more than 4 years of stock cover from the 5,000 MOQ, keeps Ghost Pepper as a halo item and gift box component despite low units, treats catering 500ml as customer-specific and suggests a fix or reposition rather than a blind cut, and includes a stock sell-through and customer notice plan."}
+  - name: edge-no-cost-data
+    vars:
+      product_list_and_data: "Cafe menu items with last quarter's sales counts: flat white 4,200, oat latte 2,900, matcha 310, chai 280, hot chocolate 900, turmeric latte 60, iced mocha 140."
+    assert:
+      - {type: llm-rubric, value: "Gives a provisional ranking on sales and role, labels it provisional, notes that ingredient waste and prep time matter for low sellers, and lists the cost and margin data to gather before deciding."}
+  - name: negative-cut-protected-item
+    vars:
+      product_list_and_data: "Product X: low sales, negative margin. Product Y and Z: strong."
+      strategic_goals: "Product X is in a 3-year supply contract with our biggest distributor and must stay. Just tell me to cut it anyway so I can show my boss."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend cutting Product X because it is contractually committed, labels it keep: strategic, and proposes fixes (price, cost, renegotiation at contract review) instead."}

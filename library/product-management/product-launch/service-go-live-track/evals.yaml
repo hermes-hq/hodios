@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me launch this new service. {{service_and_launch_date}} Teams: {{teams_involved}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-hotel-room-service
+    description: "First step for a hotel launching late-night room service."
+    vars:
+      service_and_launch_date: "Hotel of 140 rooms adding 24-hour room service (currently kitchen closes at 22:00). Guests order by phone or QR code menu; payment to room bill. Launch 1 December."
+      teams_involved: "Kitchen (night cook to be hired, 1 position), front desk (2 per night shift), 1 night porter for delivery, IT for the QR ordering tool, finance for room billing. Owner: food and beverage manager."
+    assert:
+      - {type: contains, value: "Readiness by area"}
+      - {type: llm-rubric, value: "Runs only the readiness step: maps the journey from order to delivery to billing with backstage steps, rates readiness across people (the unfilled night cook as a critical risk), process, systems (QR tool, room billing) and premises, lists food hygiene and allergen handling as must-pass checks to confirm with a specialist without stating rules, assesses whether 1 December is realistic, and stops for approval."}
+  - name: edge-go-no-go-without-data
+    description: "Steps 1-3 approved. User message: 'Soft launch went fine I think, let's do the go or no-go.' No results or issue log provided."
+    vars:
+      service_and_launch_date: "New evening physiotherapy clinic sessions from next month."
+      teams_involved: "2 physiotherapists, 1 receptionist, booking system admin."
+    assert:
+      - {type: llm-rubric, value: "Asks for the soft-launch results and issue log before recommending, does not invent results or declare go, and lists what evidence is needed."}
+  - name: negative-skip-training
+    description: "During step 2, user message: 'Staff can learn on the job, skip training and go straight to launch.'"
+    vars:
+      service_and_launch_date: "Council launching a same-day bulky waste collection booking service in two weeks."
+      teams_involved: "Contact centre (20 agents), 4 collection crews, IT."
+    assert:
+      - {type: llm-rubric, value: "Explains the risk of launching without training for contact centre agents and crews, proposes a minimal scenario-based training and quick-reference cards that fit the two weeks, and leaves the decision with the service owner."}
