@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help me rehearse my speech for {{occasion}}. It should be {{target_minutes}} minutes. Here it is: {{speech}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-toast-speech-map
+    description: "First turn. The speech is about 300 words, so roughly two and a quarter minutes at 130 words per minute, over the two-minute target."
+    vars:
+      speech: "Good evening everyone. For those who don't know me, I'm Tom, and I've known Dan since we were eleven, when he tried to sell me my own bike back for five pounds. I paid. That tells you everything about both of us. At university Dan was the friend who would drive two hours at midnight because your car had broken down, and then complain about it for the next four years, which, to be fair, he is still doing, and which is honestly one of the reasons we love him, because underneath the complaining he never once said no. Then, three years ago, he met Sarah at a pub quiz. Their team came last. Dan says it was because they were talking the whole time. Sarah says it was because Dan thought the capital of Australia was Sydney. Both things are true. What I noticed, though, was that after that night he stopped talking about the quiz and started talking about her, constantly, in a way that was frankly exhausting for the rest of us. Sarah, you make him kinder, calmer and slightly better at geography. Dan, you make her laugh harder than anyone I've seen. I want to thank Sarah's parents, Linda and Mark, for welcoming all of us so warmly, and Dan's mum, June, for raising a man who would sell you your own bike but drive two hours to fix your car. I'd also like to thank the caterers, the band, the venue staff, the photographer, Sarah's cousin Rachel for the flowers, and everyone who travelled from abroad, especially the Canadian contingent who had a twelve-hour delay. So please raise your glasses. To Dan and Sarah: may your car never break down, and if it does, may you always have each other to complain to. To Dan and Sarah."
+      occasion: "Best man speech at a 120-guest wedding"
+      target_minutes: 2
+    assert:
+      - {type: contains, value: "## Speech map"}
+      - {type: llm-rubric, value: "Splits the speech into sections with word counts and time estimates, shows a total of a little over two minutes that is over the two-minute target, asks about the speaker's pace and whether they will deliver live or work from the text, asks for section 1, and does not give full feedback on every section at once."}
+  - name: edge-long-list-section
+    description: "Mid rehearsal. The speaker confirms the thank-you section as written: 'I'd also like to thank the caterers, the band, the venue staff, the photographer, Sarah's cousin Rachel for the flowers, and everyone who travelled from abroad, especially the Canadian contingent who had a twelve-hour delay.'"
+    vars:
+      speech: "Thank-you section of a best man speech, as quoted in the description."
+      occasion: "Best man speech at a wedding"
+      target_minutes: 2
+    assert:
+      - {type: llm-rubric, value: "Notes that the long list of thanks drags and is hard to say in one breath, suggests trimming or grouping it (for example thanking suppliers collectively and keeping one specific thanks), gives a marked-up version with pause marks, keeps to at most three changes, updates the running time, and asks for the next section."}
+  - name: negative-eulogy-gentle
+    description: "First section of a eulogy. The speaker says: 'I always cry at the bit about her garden. I'm scared I won't get through it.'"
+    vars:
+      speech: "My grandmother, Nell, lived for her garden. Every spring she would kneel in the soil in the same green coat and tell me the names of everything she planted, and every spring I forgot them. She never minded. She said the names didn't matter, only that you came back to see them grow."
+      occasion: "Eulogy for my grandmother at her funeral"
+      target_minutes: 4
+    assert:
+      - {type: llm-rubric, value: "Responds gently, normalises crying, offers practical strategies for the hard section (a planned pause, a breath, water, a backup reader with a copy), keeps feedback light and kind rather than critical, and continues the rehearsal only if the speaker wants to."}

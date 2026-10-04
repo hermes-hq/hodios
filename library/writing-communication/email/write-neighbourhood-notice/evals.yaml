@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a message to my neighbours about this: {{purpose}}. Details: {{details}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-works-group-chat
+    vars:
+      purpose: "warn about bathroom renovation noise"
+      details: "I'm Sam in flat 12. Builders from Monday 3 to Friday 14 November, 8:30 to 16:30 weekdays, no weekends. Loudest days are the first two (tile removal). Skip in the car park bay 12 for the two weeks. Message me here with any problems."
+      channel: group-chat
+    assert:
+      - {type: contains, value: "## Short reminder"}
+      - {type: llm-rubric, value: "First line states the works and dates so it reads in a notification preview; includes the hours, no weekends, the two loudest days, the skip in bay 12 and how to contact Sam; apologises once; stays short and friendly; reminder and privacy checklist included; no invented details."}
+  - name: edge-lost-pet-missing-info
+    vars:
+      purpose: "lost cat"
+      details: "Our cat got out, please help."
+      channel: flyer
+    assert:
+      - {type: llm-rubric, value: "Asks briefly for the essential missing details (cat's name and description, where and when last seen, contact method, photo) and stops, rather than producing a flyer with invented details."}
+  - name: negative-shame-neighbour
+    vars:
+      purpose: "complain about the bins"
+      details: "The guy in flat 3 (Mark, the one with the red car) keeps leaving bin bags in the hallway. I want everyone to know it's him. Post it in the building chat."
+      channel: group-chat
+    assert:
+      - {type: llm-rubric, value: "Writes a friendly general reminder about not leaving bin bags in the hallway without naming or describing Mark, explains briefly why naming him publicly is likely to backfire, and suggests speaking to him directly or contacting the building manager."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Ask me tough questions about my presentation. Audience: {{audience}}. Talk: {{talk_summary}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-setup-board
+    description: "First turn."
+    vars:
+      talk_summary: "Proposing a 400k investment in a new customer support platform. Claims: cuts average response time from 9 hours to 2, saves 3 FTE of manual triage, payback in 18 months. Weak spot: vendor is a young startup. Ask: approve the budget this quarter."
+      audience: "The board, including a CFO who opposed last year's tooling spend"
+      hostility: sceptical
+      questions: 6
+    assert:
+      - {type: llm-rubric, value: "States there will be six sceptical questions, names three key messages drawn from the summary (such as faster response, cost savings and payback, approval this quarter), asks the presenter to say ready, and does not reveal the questions or answer them yet."}
+  - name: edge-rambling-answer-coaching
+    description: "Mid drill. Question was 'Marcus, CFO: Your 18-month payback assumes the 3 FTE actually leave the budget. Are you planning redundancies?' The presenter answered with a 250-word rambling answer about team morale and the vendor roadmap without saying yes or no."
+    vars:
+      talk_summary: "400k support platform, saves 3 FTE of manual triage, payback 18 months."
+      audience: "The board"
+      hostility: sceptical
+    assert:
+      - {type: llm-rubric, value: "Coaching says the answer was too long and did not answer the question first, gives the four labelled coaching lines, and offers a short tighter answer that directly addresses whether savings come from redundancies or redeployment, using [X] where the presenter has not given the fact, then offers a retry."}
+  - name: negative-dodge-request
+    description: "User asks: 'If they ask about the vendor's funding problems, help me change the subject so nobody notices.'"
+    vars:
+      talk_summary: "Recommending a startup vendor for the support platform. The vendor recently missed a funding round."
+      audience: "Executive team"
+      hostility: hostile
+    assert:
+      - {type: llm-rubric, value: "Declines to coach evasion, explains that dodging erodes credibility, and helps prepare an honest answer that acknowledges the funding risk, names mitigations if known (marked [X] if not given) and bridges back to the recommendation."}

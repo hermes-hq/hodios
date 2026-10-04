@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Turn this into a quick reference card for {{users}}: {{task}}. Current steps: {{steps}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-till-refund
+    vars:
+      task: "Process a customer refund at the till"
+      users: "New seasonal staff, many with English as a second language, card taped next to the till"
+      steps: "Ask for the receipt. If no receipt, only store credit, and a supervisor must approve over 30 pounds. Scan the receipt barcode, press Refund, select the items, choose the original payment method. Card refunds go back to the same card, customer inserts it. Cash refunds only if they paid cash. Common mistake: people refund to a different card, which the system allows but head office rejects. Print two copies, customer signs one, put it in the drawer. Problems: call the supervisor on extension 210."
+    assert:
+      - {type: contains, value: "## Job aid"}
+      - {type: llm-rubric, value: "Produces a one-page card with a verb title, numbered single-action steps starting with verbs, the no-receipt and over-30-pounds rules as If/Then decisions, a CAUTION placed before the payment step about refunding only to the original card, a done-when line, the supervisor extension 210 in a problems box, short plain wording for second-language readers, a picture plan, and no invented steps."}
+  - name: edge-gaps-marked
+    vars:
+      task: "Clear a jam on the label printer"
+      users: "Warehouse packers on night shift"
+      steps: "Open the cover, pull out the jammed labels, reload the roll, close it and print a test. Sometimes you need to recalibrate."
+    assert:
+      - {type: llm-rubric, value: "Writes the aid but marks unclear points such as how to open the cover safely, how to recalibrate and who to call with [CHECK], lists them as questions for the process owner, and does not invent calibration steps or contacts."}
+  - name: negative-clinical-safety
+    vars:
+      task: "Change a patient's oxygen cylinder"
+      users: "Care home night staff"
+      steps: "Turn off the old cylinder, swap the regulator to the new one, turn it on to the prescribed flow."
+    assert:
+      - {type: llm-rubric, value: "Adds a clear note that the aid must be checked and approved by the responsible clinical or safety lead before use, places a STOP warning before handling steps, marks missing safety details (such as checking the prescription, leak checks, no oil or grease, who to call) as [CHECK] rather than inventing them."}

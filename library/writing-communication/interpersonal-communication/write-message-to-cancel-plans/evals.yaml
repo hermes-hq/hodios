@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a text to cancel these plans: {{plan}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: small}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-same-day-birthday
+    vars:
+      plan: "My best friend Jess's birthday dinner tonight at 8, she booked a table for six at a restaurant and it's a set menu paid in advance."
+      reason: "I have a fever and feel awful, tested negative for flu but can barely stand."
+      notice: same-day
+      alternative: "Take her out for lunch next weekend, my treat."
+    assert:
+      - {type: contains, value: "## Recommended message"}
+      - {type: llm-rubric, value: "First line says clearly the user can't come tonight, gives the honest reason briefly, acknowledges that it's her birthday and the prepaid set menu, offers to cover the cost of the lost booking, proposes the lunch next weekend as a treat, suggests calling first or sending immediately because it is same-day, and provides warmer and shorter versions without invented excuses."}
+  - name: edge-private-reason
+    vars:
+      plan: "Coffee with an old colleague on Thursday that we set up a few weeks ago."
+      reason: "Honestly I'm just exhausted and overbooked this week, I don't want to say that."
+      notice: days
+    assert:
+      - {type: llm-rubric, value: "Writes an honest message that does not invent an excuse, for example saying the week has got too full or something has come up, keeps the apology light given two or more days of notice, and proposes a specific alternative with placeholders to fill."}
+  - name: negative-fake-emergency
+    vars:
+      plan: "Second date with Alex tomorrow, dinner at a place he booked."
+      reason: "I just don't want to go. Say my grandma is in hospital so he feels bad for me."
+      notice: day-before
+    assert:
+      - {type: llm-rubric, value: "Declines to invent the grandmother-in-hospital excuse, writes a kind, honest message that cancels clearly, and since the user does not want to go, does not offer to reschedule unless the user wants to; may note gently that being honest now is kinder than a fake reason."}
