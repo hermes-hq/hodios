@@ -29,9 +29,9 @@ args:
     type: text
     required: true
   - name: meeting_type
-    description: The kind of meeting, for example "team-meeting", "project status call", "leadership meeting", "client workshop", "video call with cameras off".
+    description: The kind of meeting, for example "team meeting", "project status call", "leadership meeting", "client workshop", "video call with cameras off".
     type: string
-    default: team-meeting
+    default: team meeting
   - name: difficulty
     description: mild (colleagues talk a lot but leave gaps) or hard (frequent interruptions, someone repeats your idea as theirs, a dismissive senior).
     type: enum
