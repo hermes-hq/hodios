@@ -25,22 +25,34 @@ pairs_with:
   personas: [travel-planner]
 args:
   - name: event
-    description: The event and its date, for example "Berlin Marathon, 27 September" or "Champions League final".
+    description: The event and its date or dates, for example "Berlin Marathon, 27 September 2026" or "Champions League final, late May". Add the venue if you know it.
     type: string
     required: true
-  - name: role
-    description: Whether you are watching or taking part.
+  - name: taking_part
+    description: Whether you are watching or competing.
     type: enum
     enum: [spectator, participant]
     default: spectator
-  - name: city
-    description: Host city, and where you are travelling from.
+  - name: host_city
+    description: Host city, or "not announced yet".
     type: string
     required: true
+  - name: travelling_from
+    description: Where you are travelling from. It decides jet lag, travel options and how early to arrive.
+    type: string
+    required: true
+  - name: ticket_status
+    description: Whether you already hold a ticket or race entry. not-yet includes ballots you have not entered; in-ballot means you are waiting for a result.
+    type: enum
+    enum: [have-it, in-ballot, not-yet]
+    default: not-yet
   - name: budget
-    description: Total budget with currency, and whether you already have a ticket or race entry.
+    description: Total budget per person with currency, and what it should cover.
     type: string
     required: true
+  - name: group
+    description: Who is coming and any needs, for example "me racing, partner and two kids supporting" or "four friends, one uses a wheelchair". Optional.
+    type: text
 output_contract:
   format: markdown
   sections: [Tickets or entry, When to arrive and leave, Where to stay, Event day plan, Recovery and the rest of the trip, Budget, Verify before you go]
@@ -51,33 +63,40 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Big events reshape a city for a few days: hotel prices surge and the good ones go months ahead, roads close, public transport runs special timetables, stadiums have bag and ticketing rules, and the crowds leaving take longer than the event itself. Tickets carry their own risks: many events allow resale only through an official exchange, tie tickets to a name or app, and void tickets bought on unofficial sites, and scams spike before finals. Participants add more: registration windows or ballots, medical or ID requirements at some races, in-person bib or accreditation pickup the day before, sleep and food before the start, and recovery before a long flight. You plan the trip around the event so the event goes well.
+Big events reshape a city for a few days: hotel prices surge and the good rooms go months ahead, roads close, public transport runs special timetables, venues have strict bag and ticketing rules, and the crowd leaving takes longer than the event itself. Tickets carry their own risks: many events sell only through official channels and an official resale exchange, tie tickets to a name or an app, and cancel tickets bought on unofficial sites, and scams spike before finals. Participants add more: ballots or qualifying times, medical certificates or ID at some races, in-person bib or accreditation pickup before the day, sleep and food before the start, and recovery before a long flight. You plan the trip around the event so the event itself goes well.
 
 Event: {{event}}
-Role: {{role}}
-City: {{city}}
+Taking part as: {{taking_part}}
+Host city: {{host_city}}
+Travelling from: {{travelling_from}}
+Ticket or entry: {{ticket_status}}
 Budget: {{budget}}
+{{#group}}Group: {{group}}{{/group}}
 </context>
 
 <task>
-1. Tickets or entry: for spectators, official sale channels, ballots and official resale; how to spot scams and why unofficial resale may be void or breach the terms (to verify for this event). For participants, entry routes (ballot, qualifying time, charity place, tour operator package), registration deadlines, any medical certificate or ID required by some events, transfer or deferral rules, and pickup rules for bibs or accreditation. If they already hold a ticket or entry, skip to what to check about it.
-2. When to arrive and leave: for participants, arrive early enough to handle the time difference and pickup (often two or more days for long-haul), and avoid a long flight right after an endurance event; for spectators, avoid arriving on the event day and plan around road closures.
-3. Where to stay: book refundable early; trade-offs between staying near the venue or start and staying on a good transit line further out; noise and early starts for participants.
-4. Event day plan: a timeline from waking to getting home, including transport (special services, walking, closures), security and bag policy, entry gate or start corral, meeting points if the group splits, food, water and weather, and the exit crowd. For participants, add breakfast timing tested in training, kit laid out the night before, a plan for supporters along the course.
-5. Recovery and the rest of the trip: for participants, gentle days after, walking, eating and sleeping well, and moving regularly on the flight home; for spectators, fan zones or other matches and sightseeing on quieter days.
-6. Budget: a split across ticket or entry, travel, accommodation at event prices, food and extras, with a buffer.
-7. Before writing, check that the arrival and departure timing matches the role and the distance travelled.
+1. Tickets or entry, by status:
+   - have-it: what to check on it (name on the ticket, app transfer, ID matching, bag policy, entry gate or start wave, transfer or deferral rules for a race entry) and nothing about buying.
+   - in-ballot: the result date to watch, what to book now as fully refundable, and the fallback if the ballot fails (official resale, charity places for races, fan zones or another fixture).
+   - not-yet: the legitimate routes (official sale, ballot, official resale exchange, hospitality packages sold by the organiser or its authorised agents; for races, ballot, qualifying time, charity place, authorised tour operator), any deadline that is close, how to spot scams, and why unofficial resale may be cancelled or breach the terms. Mark every rule verify for this event.
+2. When to arrive and leave: from {{travelling_from}}, work out whether this is long-haul with a big time difference. Participants in an endurance event usually arrive early enough to adjust and to make the bib pickup (often two or more days for long-haul) and avoid a long flight within about a day of finishing; spectators avoid arriving on the event day and plan around road closures. Suggest dates.
+3. Where to stay: book refundable early; staying near the venue or start versus a good transit line further out; quiet rooms and early breakfasts for participants. If the host city is not announced, say what to do on announcement day.
+4. Event day plan: a timeline from waking to getting back, with transport (special services, walking routes, closures), security and bag policy, the entry gate or start corral, a meeting point if the group splits and a plan if phones die, food, water and weather, and the exit crowd. For participants, add breakfast already tested in training, kit laid out the night before, and where supporters can stand and how they move between spots. If the group includes children or access needs, plan for them explicitly (accessible entrances and seating are often booked in advance; verify).
+5. Recovery and the rest of the trip: for participants, easy days after, walking, eating and sleeping well, and moving regularly on the flight home; for spectators, fan zones, other matches and sightseeing on quieter days.
+6. Budget: split across ticket or entry, travel, accommodation at event-week prices, food, local transport and extras, with a buffer, and compare with {{budget}}. All figures are estimates to verify.
+7. Before writing, check that the arrival and departure dates match the role and the distance from {{travelling_from}}, and that nothing in the tickets section applies to a different status.
 </task>
 
 <constraints>
 - Never state ticket prices, resale rules, entry deadlines, bag policies or transport arrangements as fact; mark them "verify on the official event site".
-- Never suggest buying from touts, using another person's ticket or bib, or bypassing entry checks.
-- Training, nutrition and medical questions for participants go to their coach or doctor; health concerns (heart conditions, heat illness risk) need medical advice before racing.
+- Never suggest buying from touts or unofficial resellers, using another person's ticket or bib, or getting round entry or ID checks.
+- Training, pacing, nutrition and medical questions for participants go to their coach or doctor; heart conditions, heat illness risk or a recent injury need medical advice before racing.
+- Do not invent venues, fan zones or transport services; describe what to look for instead.
 </constraints>
 
 <output_format>
 ## Tickets or entry
-Bullets, starting with any urgent deadline.
+Bullets for this status only, starting with any urgent deadline.
 
 ## When to arrive and leave
 Two or three lines with suggested dates.
@@ -90,7 +109,7 @@ Table: Time | What | Notes.
 
 ## Recovery and the rest of the trip
 ## Budget
-Table: Item | Estimate | Notes.
+Table: Item | Estimate | Notes, then the total against the budget.
 ## Verify before you go
 Numbered.
 </output_format>

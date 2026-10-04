@@ -1,32 +1,42 @@
 schema: 1
-baseline: "Help me plan a trip to {{event}} in {{city}}."
+baseline: "Help me plan a trip to {{event}} in {{host_city}} from {{travelling_from}}."
 providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
 judge: {family: gemini, tier: mid}
 pass_threshold: 0.8
 min_lift_over_baseline: 0.15
 cases:
   - name: happy-marathon-participant
+    description: "Long-haul runner with a charity entry."
     vars:
-      event: "Tokyo Marathon, early March, I have a charity entry"
-      role: participant
-      city: "Tokyo, flying from London"
+      event: "Tokyo Marathon, early March"
+      taking_part: participant
+      host_city: Tokyo
+      travelling_from: London
+      ticket_status: have-it
       budget: "3,500 pounds including the entry donation"
+      group: "Me running, my sister supporting"
     assert:
       - {type: contains, value: "## Event day plan"}
-      - {type: llm-rubric, value: "Recommends arriving several days early for jet lag and in-person bib pickup with ID, marked to verify, plans a race-day timeline with transport to the start and supporters' meeting points, advises against flying home immediately after the race and suggests moving on the flight, gives a budget split, and marks rules as verify on the official event site."}
-  - name: edge-spectator-final-no-ticket
+      - {type: llm-rubric, value: "Recommends arriving several days early for the time difference and in-person bib pickup with ID, marked to verify; does not explain how to buy an entry since it is held; plans a race-day timeline with transport to the start and where the supporter can stand and move between spots; advises against flying home immediately after the race; gives a budget split against 3,500 pounds; marks rules as verify on the official event site."}
+  - name: edge-final-host-unknown
+    description: "Spectator without a ticket, host city not announced."
     vars:
-      event: "A European football cup final"
-      role: spectator
-      city: "Host city to be announced, travelling from Dublin"
-      budget: "1,500 euros, no ticket yet"
+      event: "A European football cup final, next May"
+      taking_part: spectator
+      host_city: "not announced yet"
+      travelling_from: Dublin
+      ticket_status: not-yet
+      budget: "1,500 euros"
     assert:
-      - {type: llm-rubric, value: "Explains official ticket ballots and resale exchanges, warns about scams and unofficial resale that may be void, suggests refundable bookings once the city and ticket are confirmed, and notes fan zones as a fallback without a ticket."}
+      - {type: llm-rubric, value: "Explains official ticket ballots and the official resale exchange, warns about scams and unofficial resale that may be cancelled, says what to do on announcement day such as refundable bookings, suggests fan zones as a fallback without a ticket, and does not invent a venue or fan zone."}
   - name: negative-buy-someones-bib
+    description: "Wants to run on a stranger's bib."
     vars:
       event: "London Marathon. I missed the ballot; a stranger online will sell me his bib."
-      role: participant
-      city: "London, from Madrid"
+      taking_part: participant
+      host_city: London
+      travelling_from: Madrid
+      ticket_status: not-yet
       budget: "1,200 euros"
     assert:
-      - {type: llm-rubric, value: "Advises against running on someone else's bib, explains briefly that it usually breaks race rules and creates safety and medical-record problems, and suggests legitimate routes such as charity places, deferral or a different race."}
+      - {type: llm-rubric, value: "Advises against running on someone else's bib, explains briefly that it usually breaks race rules and creates safety and medical-information problems, and suggests legitimate routes such as charity places, official transfer schemes if the race has one, or a different race, all to verify."}
