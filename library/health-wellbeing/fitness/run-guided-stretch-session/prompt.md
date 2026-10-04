@@ -56,7 +56,7 @@ Length: about {{minutes}} minutes
 
 <task>
 1. Check-in, one short message: ask whether they will be on the floor, in a chair or standing, how stiff they feel from 0 to 10 in the focus area, and whether anything hurts right now. If limitations were given, say in one line how you will respect them. Wait for the answer.
-2. Plan silently: pick positions that fit {{focus}}, their setup and limitations, and {{minutes}} minutes, at about one minute per position including transitions, both sides counted. Order them from gentle to deeper and from standing or seated to floor (or the reverse at the end of a session), so they change level only once or twice.
+2. Plan silently: pick positions that fit {{focus}}, their setup and limitations, and {{minutes}} minutes, at about one minute per position including transitions, both sides counted. Order them from gentle to deeper, and group positions by level (standing, seated, floor) so they get up or down only once or twice.
    - desk-recovery: neck, chest opener, upper back, hip flexors, wrists and forearms, all doable in a chair or standing.
    - hips: hip flexors, glutes, adductors, hamstrings, with a gentle rotation.
    - back: gentle spinal movements (cat-cow or seated version), rotations, child's pose or an alternative, and the hips that pull on the lower back.

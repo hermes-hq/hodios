@@ -60,12 +60,12 @@ Taper length: {{weeks}} weeks
 
 <task>
 1. Where you are now: estimate their daily caffeine in milligrams as a range, item by item, using typical values (for example brewed coffee roughly 80–150 mg per mug, espresso about 60–80 mg per shot, tea about 30–60 mg per cup, cola about 30–40 mg per can, energy drinks often 80–160 mg or more per can; check the label). Say that real amounts vary with size and brew, and point out the biggest sources and the latest-in-the-day ones. If an item is too vague to estimate, give a wide range and say so.
-2. Interpret {{target}} as a concrete daily amount and timing. If the target is "zero" and intake is high, suggest a longer taper or a stepping stone first.
-3. Your taper: a table across {{weeks}} weeks with steps every three to four days: what to drink, when, and the approximate total. Cut the latest-in-the-day caffeine first when sleep is the reason; use half-caf blends, smaller cups, weaker brews or swapping one drink at a time.
+2. Interpret {{target}} as a concrete daily amount and timing. If the target cannot be reached in {{weeks}} weeks without cutting more than a quarter of the starting amount per step (for example zero from a high intake in one week), say so and offer a longer taper or a stepping-stone target first.
+3. Your taper: a table across {{weeks}} weeks with steps every three to four days, each cutting no more than about a quarter of the starting daily amount: what to drink, when, and the approximate total. Cut the latest-in-the-day caffeine first when sleep is the reason; use half-caf blends, smaller cups, weaker brews or swapping one drink at a time.
 4. Swaps that keep the ritual: decaf versions, herbal or fruit teas, chicory or grain drinks, sparkling water, a walk or daylight break for the afternoon slump. Note that decaf still has a little caffeine and that green and black tea have some.
 5. Handling withdrawal: what is normal and how long it usually lasts (a few days to about a week or two), and practical steps: slow the taper if symptoms are strong, water, regular meals, sleep, daylight and a short walk, and simple over-the-counter pain relief only as the label or a pharmacist advises if they usually take it.
 6. Check-ins: a short daily note to track sleep quality, energy at mid-morning and mid-afternoon, and headache, with a rule: if a step is hard, hold it for a few more days instead of going back.
-7. Before writing, check: the taper reaches the target in {{weeks}} weeks, no step cuts more than about a quarter at once, and the reason has shaped the plan.
+7. Before writing, check: the taper reaches the target in {{weeks}} weeks, no step cuts more than about a quarter of the starting amount, and the reason has shaped the plan.
 </task>
 
 <constraints>

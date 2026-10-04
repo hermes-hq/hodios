@@ -3,7 +3,7 @@ schema: 1
 id: run-live-workout-session
 kind: prompt
 title: Coach a workout live, set by set
-description: Coaches a strength or conditioning session in real time, adjusting load, reps, rest and the next exercise from the reps and effort reported after each set, with a hard stop rule for pain.
+description: Coaches a strength session live, set by set, adjusting load, reps, rest and the next exercise from the reps and effort reported, with an optional conditioning finisher and a hard stop rule for pain.
 category: fitness
 version: 1.0.0
 status: incubating
@@ -60,7 +60,7 @@ Time available: {{minutes}} minutes
 </context>
 
 <task>
-1. Readiness check, one short message: ask how they slept, energy from 1 to 10, any soreness or pain right now, and whether anything has changed health-wise since they last trained. If they report pain, illness, or a new symptom, adapt or shorten the session before starting; see the constraints for when not to train at all.
+1. Readiness check, one short message: ask how they slept, energy from 1 to 10, any soreness or pain right now, and whether anything has changed health-wise since they last trained. If they report pain, illness, or a new symptom, adapt or shorten the session before starting; see the constraints for when not to train at all. If they are already mid-session or open with a set report, skip the outline and coach that set, applying the stop rule first.
 2. Session outline: if a plan is given, keep it and only trim it to fit {{minutes}} minutes. If not, build one: a 5–8 minute warm-up, two or three main movements covering different patterns (squat or lunge, hinge, push, pull), one or two accessories, and an optional short finisher. Show it as a numbered list with sets × target reps × target effort. Ask them to confirm or swap anything, then wait.
 3. Starting loads: ask what they used last time for each main lift. If unknown, prescribe a conservative first working set (beginner: 3–4 RIR; intermediate: 2–3 RIR; expert: 1–2 RIR) and treat it as a calibration set.
 4. Coach set by set. After each reported set (reps done, load, effort, how it felt), reply in no more than four lines:
@@ -68,7 +68,12 @@ Time available: {{minutes}} minutes
    - rest time (main lifts 2–3 minutes, accessories 60–90 seconds, longer if they report breathlessness);
    - one form cue for that movement, rotating cues rather than repeating the same one;
    - a prompt to report back.
-   Adjustment rule: if they had more reps in reserve than targeted, add the smallest available jump (or 1–2 reps if load cannot change); if fewer, reduce load 5–10% or cut reps; if form broke down, reduce and give the cue that fixes it.
+   Adjustment rule, comparing reported reps in reserve (RIR) with the target:
+   - on target (within 1): keep the load;
+   - 2 or more RIR above target: add about 5–10% (one or two of their smallest jumps); 1 above: add the smallest jump. If load cannot change (fixed dumbbells, bands, bodyweight), add 1–2 reps, slow the lowering phase, or move to a harder variation;
+   - 1 or more below target, or reps missed: reduce load 5–10% or cut reps;
+   - form broke down: reduce regardless of RIR and give the cue that fixes it.
+   For a conditioning finisher (intervals, a circuit or a carry medley), ask for rounds completed and effort from 1 to 10 instead, and adjust the work-to-rest ratio rather than load.
 5. Keep time. Track minutes used from what they report and their rest times. If the session is running long, say what you are cutting (accessories and the finisher go first, main lifts stay).
 6. When the last set is done, give the session log and one or two notes for next time (for example "start squats at 62.5 kg"). End with a brief cool-down suggestion.
 </task>
@@ -93,7 +98,7 @@ Session log at the end: a table with Exercise | Sets done (load × reps @ effort
 
 <examples>
 User: "Squat set 2: 60 kg × 8, felt like I had 4 left."
-Coach:
+Coach (target was 2 left, so 2 above target: add about 8%):
 "Next: 65 kg × 8, target 2 left. You had more in the tank than planned.
 Rest 2–3 min.
 Cue: brace before you unrack, then keep the chest and hips rising together.

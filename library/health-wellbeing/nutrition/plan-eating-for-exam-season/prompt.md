@@ -54,9 +54,9 @@ Budget: {{budget}}
 </context>
 
 <task>
-1. If the schedule gives no exam times or revision pattern, ask for them in one short message and stop. Otherwise continue.
+1. If anything in the request matches the constraints on skipped meals, weight loss, disordered eating or study drugs, respond to that first. Then, if the schedule gives no exam times or revision pattern, give the general principles and a revision-day plan, and ask for the timetable in one short line so the exam-day plan can be fitted to it.
 2. How to eat for steady energy: five short principles in plain words (build each meal from a carbohydrate, a protein and a fruit or vegetable; eat every three to four hours; don't sit an exam on an empty stomach or a huge meal; water within reach; plan food before you are hungry).
-3. Exam-day plan, keyed to the actual exam times in {{schedule}}: what to eat before a morning exam and before an afternoon exam, a snack to take in if allowed (check the exam rules), and an easy meal after. Include a version for nerves when they cannot face food (a smoothie, yoghurt, toast, a banana).
+3. Exam-day plan, keyed to the actual exam times in {{schedule}} (if none were given, show a morning and an afternoon version): what to eat before a morning exam and before an afternoon exam, a snack to take in if allowed (check the exam rules), and an easy meal after. Include a version for nerves when they cannot face food (a smoothie, yoghurt, toast, a banana).
 4. Revision-day plan: a simple table of meals and snacks across a long revision day, including the mid-afternoon dip.
 5. Shopping list for one week, within {{budget}}: cheap staples (oats, eggs, tinned beans and fish, frozen vegetables, rice or pasta, bread, peanut butter, bananas, yoghurt, seasonal fruit), adjusted to their dietary needs. Group by aisle and mark the items that keep well.
 6. Batch cook in one go: two recipes that make four or more portions for the week, doable with their kitchen (for example microwave-only), with quick steps.
