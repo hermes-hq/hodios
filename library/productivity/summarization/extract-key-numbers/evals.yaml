@@ -1,0 +1,26 @@
+schema: 1
+baseline: "List all the statistics in this report: {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-housing-report
+    vars:
+      content: "Housing Report 2026. Section 1: Average rents rose 8.4% in 2025 (National Statistics Office), the fastest rise in a decade. Section 2: In our survey of 1,200 tenants, nearly half said they spend more than 40% of income on rent. Section 3: The council targets 5,000 new affordable homes by 2030. Section 4: Since 2015, the number of households on the waiting list has doubled to 14,300. Rents rose 8.1% last year according to Table 2."
+      focus: all
+    assert:
+      - {type: contains, value: "## Numbers"}
+      - {type: llm-rubric, value: "Extracts 8.4%, 1,200 tenants, nearly half, more than 40% of income, 5,000 homes by 2030, doubled and 14,300 with exact wording. Notes the survey as self-reported, the 5,000 as a target not a result, and the doubling as needing a 2015 baseline. Flags the 8.4% versus 8.1% conflict for the same year. Does not round or recompute."}
+  - name: edge-focus-filter
+    vars:
+      content: "The programme cost EUR 2.3 million in its first year and served 640 families. Staff turnover was 18%. Running costs are expected to fall to EUR 1.9 million next year. Satisfaction among families was 4.2 out of 5."
+      focus: costs only
+    assert:
+      - {type: llm-rubric, value: "Keeps only the EUR 2.3 million first-year cost and the EUR 1.9 million expected next year, noting the second is a projection. Leaves out turnover, families served and satisfaction."}
+  - name: negative-no-numbers
+    vars:
+      content: "Our values are curiosity, kindness and courage. We believe every child deserves a great teacher, and we work with schools to make that happen."
+      focus: all
+    assert:
+      - {type: llm-rubric, value: "Says in one line that the text contains no numbers. Does not invent statistics or produce an empty table with made-up rows."}

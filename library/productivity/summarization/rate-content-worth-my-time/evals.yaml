@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Is this worth reading? I'm interested in {{interests}}. {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recycled-advice
+    vars:
+      content: "10 Habits of Highly Productive People. 1. Wake up early. Successful people get up before 6. 2. Make a to-do list. 3. Eat the frog: do your hardest task first. 4. Turn off notifications. 5. Exercise every day. 6. Drink water. 7. Say no more often. 8. Batch your email. 9. Take breaks. 10. Review your week on Sunday. Following these habits will transform your life!"
+      interests: "Personal productivity. I've read Deep Work and Getting Things Done and use time blocking already."
+      time_available_minutes: 15
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Verdict is Skip. Novelty scores low because the advice overlaps what the reader already knows; evidence scores low because claims like 'successful people get up before 6' are asserted without support. Gives a one-sentence gist and does not pad with a summary."}
+  - name: edge-valuable-but-too-long
+    vars:
+      content: "Transcript, 9,000 words. [00:00-12:00] Hosts chat about their week and a sponsor. [12:00-41:00] The guest, a hospital operations lead, explains how they cut emergency department wait times by 22% over 18 months: queue measurement every 15 minutes, a dedicated triage nurse at the door, and moving discharge paperwork to the morning. She shows the before and after data and two things that failed. [41:00-60:00] Listener questions, mostly about the guest's career."
+      interests: "Operations and queueing in service businesses; I run a busy clinic."
+      time_available_minutes: 20
+    assert:
+      - {type: llm-rubric, value: "Verdict is Skim. Points to the 12:00-41:00 segment as the valuable part, notes it is about 29 minutes and exceeds the 20-minute budget, and proposes the highest-value sub-parts or says plainly that the best part does not fit, keeping the plan within budget. Skips the chat, sponsor and career questions."}
+  - name: negative-title-only
+    vars:
+      content: "Why Everything You Know About Sleep Is Wrong (YouTube, 48 min)"
+      interests: "Sleep and recovery for endurance athletes"
+    assert:
+      - {type: llm-rubric, value: "Says a title is not enough to judge and asks for the transcript or text. Does not score or guess the video's contents."}

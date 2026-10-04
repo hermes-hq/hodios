@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Read these sources and answer: {{question}} {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pricing-question
+    vars:
+      sources: "--- Source: Vendor blog, 2024 --- Usage-based pricing grew revenue 38% for our customers on average. Companies should switch now. --- Source: Analyst survey, 2025, 300 SaaS firms --- Firms with usage-based pricing reported 12% higher net revenue retention, but 41% said revenue became harder to forecast. --- Source: Finance team memo, 2026 --- Our biggest 20 customers want predictable invoices; three said they would resist variable bills. Billing system would need 4 months of work."
+      question: "Should we move to usage-based pricing next year?"
+      words: 400
+    assert:
+      - {type: contains, value: "## Where they disagree"}
+      - {type: llm-rubric, value: "Labels S1-S3 and cites each claim. Keeps 38% and 12% separate and attributed, notes the vendor blog has an interest and gives no method, and sets the forecasting difficulty and big customers' resistance against the revenue upside. Bottom line is conditional rather than a confident yes. Gaps note there is no data on this company's own usage patterns. Length is near 400 words."}
+  - name: edge-sources-agree-but-not-independent
+    vars:
+      sources: "--- Source A: City news, May --- A council report found bus ridership fell 15% after the fare rise. --- Source B: Opinion column, June --- As the council's report showed, ridership dropped 15% because fares went up; the rise was a mistake. --- Source C: Transport union letter --- Drivers report routes cut by a fifth this spring."
+      question: "Did the fare rise reduce bus ridership?"
+    assert:
+      - {type: llm-rubric, value: "Notes that A and B rely on the same council report, so their agreement is not independent. Notes B adds a causal claim and opinion. Raises route cuts in C as a competing explanation and does not claim causation is established."}
+  - name: negative-single-source
+    vars:
+      sources: "--- Source: Internal survey --- 62% of staff prefer hybrid work."
+      question: "What do staff want from the office policy?"
+    assert:
+      - {type: llm-rubric, value: "Says a synthesis needs at least two sources and offers a summary of the one source instead, without inventing other sources or outside data."}

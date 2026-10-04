@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Turn this voice note into a message for {{recipient}}: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-landlord-email
+    vars:
+      transcript: "Hi, um, so yeah, it's about the boiler again, it's, it stopped working on Sunday, no wait, Saturday night actually, and we've had no hot water since. I know you said last time someone would come, but, yeah, nobody did. So can you get someone out by Thursday? We're both working from home so any time after 10 works. Oh and also the kitchen tap is dripping, not urgent. And, um, I paid the rent on the 1st as usual, just so you know. Thanks."
+      recipient: "my landlord"
+      tone: formal
+    assert:
+      - {type: icontains, value: "Thursday"}
+      - {type: icontains, value: "Saturday"}
+      - {type: llm-rubric, value: "Leads with the broken boiler and the request for a repair visit by Thursday. Uses Saturday night, not Sunday, and lists that correction. Keeps the after-10 availability, the non-urgent dripping tap and the rent paid on the 1st. Includes a subject line. Adds no threats, apologies or new deadlines."}
+  - name: edge-casual-two-topics
+    vars:
+      transcript: "Hey sis! So mum's birthday, I was thinking we do dinner on the 14th, that's a Saturday I think? Can you book the Italian place, the one near the station, for six people, 7pm. Oh, totally different thing, can I borrow your car next weekend, mine's in the garage."
+      recipient: "my sister"
+      tone: casual
+    assert:
+      - {type: llm-rubric, value: "Keeps casual tone with no subject line. Handles the two unrelated requests clearly, either as separate messages or clearly separated parts. Keeps the 14th, six people and 7pm, marks 'that's a Saturday I think' with a check note, and keeps the car request for next weekend."}
+  - name: negative-no-added-promises
+    vars:
+      transcript: "Uh, hi team, the client call moved to 3pm tomorrow. I can't make it, so, um, Leo can you lead it? Slides are in the shared folder."
+      recipient: "the project team"
+      tone: neutral
+    assert:
+      - {type: llm-rubric, value: "States the call moved to 3pm tomorrow, asks Leo to lead it, and points to the slides in the shared folder. Does not add apologies, offers to catch up later, or any commitment the speaker did not make."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What questions does this document leave unanswered? {{content}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pilot-proposal
+    vars:
+      content: "Proposal: extend the four-day-week pilot to all 400 staff. Results from the 3 pilot teams (41 people): wellbeing up 18% on our survey; customer complaints flat. Finance notes overtime costs in the support team rose but has not quantified them. The Head of Sales says client meetings were harder to schedule; the pilot lead says this was minor. Which day is the day off will be decided later. Legal review of contracts is out of scope for this paper."
+      purpose: "decide at the board whether to approve the extension"
+    assert:
+      - {type: contains, value: "## Top three"}
+      - {type: llm-rubric, value: "Top questions include the unquantified overtime cost, whether three self-selected teams represent all 400 staff, and the effect on sales scheduling. Lists the Sales versus pilot lead disagreement in its own section, the undecided day off and the legal contract review as explicit open items. Each question is specific and rated for impact and effort. Notes that complaint levels are already reported."}
+  - name: edge-meeting-notes-default-purpose
+    vars:
+      content: "Notes, migration sync. Agreed to move billing to the new database in Q3. Priya worried about downtime; no estimate yet. Data retention rules for EU customers TBD. Tom to check vendor pricing. Rollback plan not discussed."
+    assert:
+      - {type: llm-rubric, value: "Uses the default research purpose without asking. Lists the downtime estimate, EU retention rules, the missing rollback plan and vendor pricing as specific questions, flags the rollback plan as an implicit gap inferred by the reader, and does not invent answers."}
+  - name: negative-generic-questions
+    vars:
+      content: "Our new onboarding flow cut time-to-first-project from 9 days to 4 days across 300 sign-ups in March, compared with 280 sign-ups in February under the old flow."
+      purpose: "decide whether to roll the flow out to enterprise customers"
+    assert:
+      - {type: not-icontains, value: "more research is needed"}
+      - {type: llm-rubric, value: "Asks specific questions grounded in the text, such as whether enterprise users resemble March sign-ups, whether anything else changed between February and March, and how time-to-first-project is defined. Avoids generic questions like 'what are the risks'."}

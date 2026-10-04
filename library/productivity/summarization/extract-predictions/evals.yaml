@@ -1,0 +1,26 @@
+schema: 1
+baseline: "List the predictions in this text: {{content}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-earnings-call
+    vars:
+      content: "CEO: We will open our Lisbon office in the first half of next year. CFO: We expect revenue growth of 15 to 18% for the full year, assuming no further currency swings. Analyst: I think the whole sector is in for a rough ride. CEO: Honestly, I'd bet electric delivery vans will be cheaper than diesel ones by 2028."
+      include_implied: false
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Lists the Lisbon office as a commitment, the 15-18% growth as a forecast with its currency condition kept, the analyst's 'rough ride' as low checkability, and the 2028 van cost claim as a forecast with high or medium checkability. Quotes are verbatim and each scorable item has right-if and wrong-if criteria with an empty outcome column. Does not judge likelihood."}
+  - name: edge-implied-predictions
+    vars:
+      content: "Buy now before prices go up again in spring. Smart buyers are locking in today's mortgage rates while they still can."
+      include_implied: true
+    assert:
+      - {type: llm-rubric, value: "Lists the explicit claim that prices will go up in spring and marks as implied the expectation that mortgage rates will rise, with brief reasoning. Notes that 'go up' is vague on how much and suggests a labelled sharpened version without presenting it as the speaker's words."}
+  - name: negative-no-predictions
+    vars:
+      content: "Last year the town opened two libraries and repaired 40 km of roads. Residents rated services 3.9 out of 5 in the annual survey."
+      include_implied: false
+    assert:
+      - {type: llm-rubric, value: "Says the text contains no predictions. Does not turn past facts into predictions."}
