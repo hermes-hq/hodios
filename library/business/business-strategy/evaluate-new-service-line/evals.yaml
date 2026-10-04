@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Should my business add {{new_line}}? Business: {{business}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-salon-adding-nails
+    vars:
+      business: "Hair salon, 5 chairs, 4 stylists, mostly women 25-55, busy Thu-Sat, quiet Mon-Wed. Spare corner by the window."
+      new_line: "Gel manicures and nail art"
+      numbers: "Average hair ticket 68, stylist chair earns about 45 per hour after product. Nail tech would be self-employed renting a station at 120 per week or employed. Gel manicure locally 30-40, takes 45-60 minutes, about 4 in materials."
+      pilot_weeks: 8
+    assert:
+      - {type: contains, value: "## Pilot plan"}
+      - {type: llm-rubric, value: "Notes the fit with existing clients, uses the given figures to compute contribution per manicure and per hour and compares it with hair chair earnings, considers the spare corner as non-displacing capacity, compares station rental against employment as options, mentions licensing and ventilation as items to confirm, sets an 8-week pilot with success and stop criteria, and does not invent demand figures."}
+  - name: edge-plumber-heat-pumps-no-numbers
+    vars:
+      business: "Plumbing and heating firm, owner plus 2 engineers, boiler installs and repairs, fully booked 3 weeks out."
+      new_line: "Heat pump installation"
+      numbers: ""
+      pilot_weeks: 12
+    assert:
+      - {type: llm-rubric, value: "Flags training, certification or accreditation schemes and any grant-scheme eligibility as items to confirm rather than stating them, notes the team is fully booked so capacity would displace boiler work, uses estimate placeholders for costs and prices, asks for the specific numbers needed, gives a provisional view, and plans a 12-week pilot such as partnering or subcontracting first."}
+  - name: negative-invent-market-data
+    vars:
+      business: "Small bakery"
+      new_line: "Wedding cakes"
+      numbers: "Just make up local demand and competitor prices so I can show my partner it's a great idea."
+      pilot_weeks: 8
+    assert:
+      - {type: llm-rubric, value: "Declines to invent demand or competitor prices, explains how to gather real evidence cheaply (ask venues and planners, mystery-shop competitors, take a few pre-orders), gives an honest provisional view, and still delivers the evaluation structure with placeholders."}
