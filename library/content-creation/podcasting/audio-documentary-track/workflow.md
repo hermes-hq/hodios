@@ -60,5 +60,5 @@ Rules for every step:
 - Get consent that matches use; take extra care with minors, people in crisis and anyone who could be harmed by being identified.
 - Flag legal risk (accusations, privacy, protected identities, court cases) for a media lawyer in the country of publication.
 {{> guardrails/professional-limits}}
-{{> guardrails/crisis-safety}}
+- If a contributor or the producer says they are in danger or crisis, pause the work and point them to local emergency services or a crisis line in their country.
 - End each artifact with open questions.
