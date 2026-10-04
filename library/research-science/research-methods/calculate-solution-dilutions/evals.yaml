@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I make {{target}} from {{stock}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tris-nacl-buffer
+    vars:
+      target: "500 ml of 50 mM Tris-HCl pH 7.5 with 150 mM NaCl"
+      stock: "Tris base solid, FW 121.14 g/mol. 5 M NaCl stock. Concentrated HCl. Balance reads to 0.01 g. 1 L and 500 ml volumetric flasks."
+      units: metric
+    assert:
+      - {type: contains-all, value: ["## Recipe", "## Checks"]}
+      - {type: llm-rubric, value: "Computes about 3.03 g Tris base (0.05 mol/L x 0.5 L x 121.14 g/mol) and 15 ml of 5 M NaCl, dissolves in about 400 ml before adjusting pH with HCl, notes Tris pH is temperature dependent, brings to 500 ml afterwards, shows units on every line, and back-calculates both concentrations."}
+  - name: edge-volume-below-pipette-range
+    vars:
+      target: "1 ml of 1 uM working solution of a drug"
+      stock: "10 mM drug stock in DMSO. Pipettes: P20 (2-20 ul), P200, P1000."
+      units: metric
+    assert:
+      - {type: llm-rubric, value: "Recognises that a direct dilution needs 0.1 ul, which is below the P20's range, proposes an intermediate dilution (for example 1:100 to 100 uM, then 1:100 to 1 uM), recalculates with pipettable volumes, and mentions the final DMSO percentage."}
+  - name: negative-ambiguous-percent
+    vars:
+      target: "a 10% solution of glycerol"
+      stock: "Glycerol bottle."
+      units: metric
+    assert:
+      - {type: llm-rubric, value: "Asks whether 10% means v/v or w/v and the final volume needed before calculating, or gives both clearly labelled; does not silently pick one."}
