@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Escreva a ata desta assembleia do {{condominio}}: {{anotacoes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-annual-meeting
+    vars:
+      anotacoes: "12/03/2026, 2ª chamada às 20h, salão de festas. 28 de 48 unidades presentes, 4 por procuração. Presidente: Ana (ap. 101). Secretário: Jorge (ap. 504). Pauta: 1) contas de 2025: aprovadas por unanimidade; 2) orçamento 2026, taxa sobe de R$ 650 para R$ 710: 24 a favor, 3 contra, 1 abstenção; 3) eleição de síndico: reeleito Marcos (ap. 203), sem outros candidatos. Assuntos gerais: reclamação de barulho na garagem. Encerrada às 21h40."
+      condominio: "Condomínio Edifício Jacarandá"
+      tipo: ordinaria
+    assert:
+      - {type: contains, value: "## Pontos a confirmar"}
+      - {type: llm-rubric, value: "Registra corretamente 12/03/2026, segunda chamada às 20h, 28 de 48 unidades com 4 procurações, mesa (aps. 101 e 504), contas aprovadas por unanimidade, orçamento com taxa de R$ 650 para R$ 710 com 24/3/1, reeleição do síndico do ap. 203 e encerramento às 21h40; trata a reclamação de barulho como assunto geral sem deliberação; não inventa dados."}
+  - name: edge-vote-outside-agenda
+    vars:
+      anotacoes: "AGE em 05/08/2026, 19h30, online pelo Zoom. Pauta do edital: troca do portão da garagem. Aprovada troca por R$ 32.000 em 4 parcelas, 18 votos a favor, 2 contra. Depois, alguém propôs proibir aluguel por temporada e foi aprovado por 15 votos a 5."
+      condominio: "Residencial Vila Verde"
+      tipo: extraordinaria
+    assert:
+      - {type: llm-rubric, value: "Registra a troca do portão com R$ 32.000, 4 parcelas e 18 a 2, e em Alertas aponta que a proibição de aluguel por temporada não constava do edital e pode exigir quórum qualificado ou alteração de convenção, recomendando checar com a administradora ou advogado, sem emitir parecer definitivo."}
+  - name: negative-missing-results
+    vars:
+      anotacoes: "Teve assembleia ontem, falamos de várias coisas."
+      condominio: "Edifício Solar"
+      tipo: ordinaria
+    assert:
+      - {type: llm-rubric, value: "Pede a data, a pauta e os resultados das votações em uma mensagem curta e para, sem inventar uma ata."}

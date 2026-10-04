@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Bitte korrigiere die Rechtschreibung und Kommas in diesem Text: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-application-letter
+    vars:
+      text: "Sehr geehrte Frau Becker, hiermit bewerbe ich mich um die Stelle als Bürokauffrau, die sie auf ihrer Webseite ausgeschrieben haben. Ich denke das ich gut ins Team passe da ich gerne im team arbeite. Beim organisieren von Terminen bin ich sehr zuverlässig."
+      register: formal
+    assert:
+      - {type: contains, value: "## Korrekturen"}
+      - {type: llm-rubric, value: "Korrigiert „sie“/„ihrer“ zu „Sie“/„Ihrer“, „das ich“ zu „dass ich“, setzt die Kommas („Ich denke, dass …“, „…, da ich …“), korrigiert „im team“ zu „im Team“ und „Beim organisieren“ zu „Beim Organisieren“, jeweils mit kurzer Regel, und ändert die Wortwahl nicht."}
+  - name: edge-swiss-text
+    vars:
+      text: "Wir treffen uns am Freitag um 18 Uhr an der Strasse vor dem Bahnhof, falls es regnet gehen wir ins Café."
+      register: informal
+    assert:
+      - {type: llm-rubric, value: "Lässt „Strasse“ als Schweizer Schreibung stehen (oder weist darauf hin, dass ss in der Schweiz korrekt ist), setzt das Komma nach „regnet“ und ändert sonst nichts unnötig."}
+  - name: negative-optional-comma
+    vars:
+      text: "Er versprach pünktlich zu kommen und sie freute sich darauf."
+      register: formal
+    assert:
+      - {type: llm-rubric, value: "Markiert das fehlende Komma vor der Infinitivgruppe „pünktlich zu kommen“ und vor „und sie“ nicht als Fehler, sondern nennt beide als freigestellte Kann-Kommas."}

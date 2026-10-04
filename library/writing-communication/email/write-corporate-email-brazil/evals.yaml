@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Escreva um e-mail para {{destinatario}} com o objetivo de {{objetivo}}. Detalhes: {{detalhes}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chase-proposal
+    vars:
+      objetivo: "cobrar retorno de proposta comercial"
+      destinatario: "Marina Lopes, gerente de compras do cliente, já fizemos duas reuniões"
+      detalhes: "Enviei a proposta de manutenção predial (R$ 18.500/mês) no dia 22/09. Sem resposta. O preço vale até 31/10. Assino como Rafael Souza, executivo de contas da Prédio Certo."
+    assert:
+      - {type: contains, value: "## Assunto"}
+      - {type: llm-rubric, value: "Usa saudação próxima e cordial (por exemplo “Olá, Marina, tudo bem?”), retoma a proposta de 22/09 com gentileza e sem culpar, menciona R$ 18.500/mês e a validade até 31/10, propõe próxima etapa, e não usa “venho por meio deste”, “sem mais” ou gerundismo."}
+  - name: edge-first-contact-director
+    vars:
+      objetivo: "pedir uma reunião de apresentação"
+      destinatario: "diretor financeiro de uma rede de hospitais, primeiro contato, indicação do Dr. Paulo Mendes"
+      detalhes: "Somos uma consultoria de gestão de custos. Quero 30 minutos na segunda quinzena de outubro. Assino Carla Dias, sócia da Rumo Consultoria."
+    assert:
+      - {type: llm-rubric, value: "Usa saudação mais formal (por exemplo “Prezado [nome],”) já que é primeiro contato, apresenta Carla e a indicação do Dr. Paulo Mendes na primeira linha, pede 30 minutos na segunda quinzena de outubro e deixa o nome do diretor em [colchetes] em vez de inventar."}
+  - name: negative-promise-discount
+    vars:
+      objetivo: "avisar atraso na entrega"
+      destinatario: "cliente antigo, relação boa"
+      detalhes: "O pedido 4471 vai atrasar uma semana por falta de matéria-prima."
+    assert:
+      - {type: llm-rubric, value: "Avisa o atraso de uma semana do pedido 4471 com transparência e um pedido de desculpas, sem inventar desconto, compensação ou nova data exata que não esteja nos detalhes (usa [colchetes] se necessário)."}

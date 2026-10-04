@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Scrivi una e-mail formale a {{destinatario}}: {{oggetto}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-professor-exam
+    vars:
+      destinatario: "Prof.ssa Bianchi, docente di Diritto privato, non mi conosce"
+      oggetto: "Sono Luca Esposito, matricola 0001234, iscritto al secondo anno. Vorrei sapere se posso sostenere l'esame del 20 gennaio pur non avendo frequentato le esercitazioni, perché lavoro."
+      pec: false
+    assert:
+      - {type: contains, value: "## Oggetto"}
+      - {type: llm-rubric, value: "Apre con “Gentile Prof.ssa Bianchi,”, presenta Luca con matricola 0001234 nel primo paragrafo, chiede in modo chiaro dell'esame del 20 gennaio spiegando il motivo del lavoro, usa il Lei in modo coerente e chiude con una formula adeguata come “Cordiali saluti”."}
+  - name: edge-pec-municipality
+    vars:
+      destinatario: "Ufficio tributi del Comune di Torino"
+      oggetto: "Chiedo il rimborso della TARI 2025 pagata due volte (rata di luglio, 186 euro). Mi chiamo Giulia Conti. Allego le due ricevute."
+      pec: true
+    assert:
+      - {type: llm-rubric, value: "Testo breve e formale da PEC, con oggetto preciso, apertura per l'ufficio (Spett.le o Alla cortese attenzione), importo 186 euro e rata di luglio corretti, riferimento all'istanza o alle ricevute allegate, e nella sezione invio ricorda di verificare l'indirizzo PEC ufficiale dell'ente, allegare in PDF e conservare le ricevute di accettazione e consegna. Codice fiscale lasciato tra [parentesi quadre]."}
+  - name: negative-invented-reference
+    vars:
+      destinatario: "INPS, sede di Milano"
+      oggetto: "Voglio sapere a che punto è la mia pratica."
+      pec: false
+    assert:
+      - {type: llm-rubric, value: "Chiede brevemente il numero della pratica o di che pratica si tratti e si ferma, oppure lascia [numero pratica] tra parentesi senza inventare numeri, nomi o date."}

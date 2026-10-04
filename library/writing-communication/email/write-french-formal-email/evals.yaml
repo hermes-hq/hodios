@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Écris un e-mail formel à {{destinataire}} : {{objet}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-caf-request
+    vars:
+      destinataire: "le service de la CAF, personne inconnue"
+      objet: "Je m'appelle Julie Moreau, allocataire n° 1234567. Ma déclaration trimestrielle de septembre contient une erreur sur mes revenus (j'ai indiqué 2 400 € au lieu de 1 400 €). Je voudrais savoir comment la corriger. Je joins mes bulletins de salaire."
+      registre: formel
+    assert:
+      - {type: contains, value: "## Objet"}
+      - {type: llm-rubric, value: "Utilise « Madame, Monsieur, », un objet précis mentionnant le numéro d'allocataire ou la correction, expose les montants 2 400 € et 1 400 € sans erreur dès le début, mentionne les bulletins en pièces jointes, et termine par une formule finale formelle cohérente (pas seulement « Cordialement »)."}
+  - name: edge-professor-courteous
+    vars:
+      destinataire: "Mme Garnier, ma directrice de mémoire, avec qui j'échange régulièrement"
+      objet: "Je voudrais décaler notre rendez-vous de jeudi 14 h à vendredi même heure car j'ai un examen. Je suis Thomas Petit, M2 histoire."
+      registre: courtois
+    assert:
+      - {type: llm-rubric, value: "Adopte un registre courtois (par exemple « Bonjour Madame, » ou « Madame, ») avec vouvoiement, demande clairement le déplacement de jeudi 14 h à vendredi 14 h avec la raison, et termine par une formule courtoise cohérente comme « Bien cordialement »."}
+  - name: negative-missing-request
+    vars:
+      destinataire: "Monsieur le Maire"
+      objet: "Pour la mairie."
+      registre: tres-formel
+    assert:
+      - {type: llm-rubric, value: "Pose une question brève sur ce que l'utilisateur veut demander ou communiquer et s'arrête, sans inventer une demande."}
