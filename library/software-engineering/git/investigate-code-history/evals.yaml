@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Why was this code changed? {{file_or_symbol}} {{question}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retry-limit-change
+    vars:
+      file_or_symbol: "MAX_RETRIES in worker/queue.go"
+      question: "When did the retry limit drop from 5 to 2, and was it intentional?"
+      repo_access: local
+    assert:
+      - {type: contains-all, value: ["## Timeline", "## Evidence", "## Confidence"]}
+      - {type: llm-rubric, value: "Uses pickaxe (git log -S or -G) or git log -L rather than relying only on plain git blame, reads the full commit message and looks for a linked pull request or issue."}
+      - {type: llm-rubric, value: "Stays read-only (no checkout, reset or commits) and labels any reason not found in the record as inference."}
+  - name: edge-blame-hits-reformat
+    vars:
+      file_or_symbol: "src/billing/proration.ts:40-58"
+      question: "Why do we round proration down?"
+      repo_access: pasted-log
+    assert:
+      - {type: llm-rubric, value: "Notes that the pasted blame may point at a formatting or move commit and asks the user to run specific commands such as git blame -w -C -C -M, git log -L for the line range, or git log -S for the rounding call, then stops rather than guessing the reason."}
+  - name: negative-no-recorded-reason
+    vars:
+      file_or_symbol: "config/limits.yml upload_max_mb"
+      question: "Why is the upload limit 37 MB? The only commit says 'tweak limits' with no PR or issue linked."
+      repo_access: pasted-log
+    assert:
+      - {type: llm-rubric, value: "States that the history does not record a reason, does not invent a justification, and points to the commit author and current owners as the people to ask."}

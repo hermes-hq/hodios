@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a CODEOWNERS file. Layout: {{layout}} Teams: {{teams}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monorepo-github
+    vars:
+      platform: github
+      layout: "services/billing, services/search, services/accounts, packages/ui, packages/shared, infra/terraform, .github/workflows, docs/"
+      teams: "@acme/payments owns billing; @acme/discovery owns search; @acme/identity owns accounts; @acme/frontend owns packages/ui; @acme/platform owns infra, CI and packages/shared; @acme/docs owns docs."
+    assert:
+      - {type: contains, value: ".github/CODEOWNERS"}
+      - {type: llm-rubric, value: "Puts a catch-all default rule at the top and more specific rules below it (so the last match wins correctly), uses the team handles, and assigns owners for .github/workflows, infra and the CODEOWNERS file itself."}
+      - {type: llm-rubric, value: "Includes an unowned-paths check and recommends enabling 'require review from code owners' without changing settings itself."}
+  - name: edge-gitlab-sections
+    vars:
+      platform: gitlab
+      layout: "app/, db/migrate/, config/, .gitlab-ci.yml"
+      teams: "@backend owns app and config; @dba must approve every migration (2 approvals); @devops owns CI."
+    assert:
+      - {type: llm-rubric, value: "Uses GitLab CODEOWNERS syntax with sections, including a section for db/migrate requiring two approvals from @dba, and places the file in a location GitLab reads."}
+  - name: negative-unknown-owner
+    vars:
+      platform: github
+      layout: "web/, api/, ml/ (no team mentioned), scripts/"
+      teams: "@org/web owns web; @org/api owns api and scripts."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a team for ml/; leaves it under the catch-all owner and lists it under Open questions."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I set up Git LFS for these files? {{file_types}} {{repo_size}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-game-assets-no-rewrite
+    vars:
+      file_types: "Unity project: PSD and PNG textures (5-300 MB), FBX models, WAV audio; artists often edit the same PSDs."
+      repo_size: "3.8 GB .git, 4 years of history, 25 contributors, GitHub"
+      history_rewrite_ok: false
+    assert:
+      - {type: contains-all, value: ["## Tracking patterns", "## Existing files", "## Quotas and cost"]}
+      - {type: llm-rubric, value: "Provides .gitattributes patterns for psd, png, fbx and wav with LFS filters, marks PSDs lockable and explains locking, and does not rewrite history because the rewrite was not agreed."}
+      - {type: llm-rubric, value: "Explains how CI can skip or limit LFS downloads and tells the user to check the host's current storage and bandwidth limits instead of quoting figures."}
+  - name: edge-rewrite-agreed
+    vars:
+      file_types: "*.mp4 demo videos in docs/media (up to 400 MB each)"
+      repo_size: "GitLab, 12 contributors, 30 open merge requests"
+      history_rewrite_ok: true
+    assert:
+      - {type: llm-rubric, value: "Gives a git lfs migrate import plan with an include pattern for the videos, a mirror backup first, a merge freeze, force-pushing branches and tags, everyone re-cloning, and handling the 30 open merge requests."}
+  - name: negative-dataset-not-for-git
+    vars:
+      file_types: "A 60 GB training dataset of Parquet files that is regenerated weekly."
+      repo_size: ""
+      history_rewrite_ok: false
+    assert:
+      - {type: llm-rubric, value: "Advises against storing a 60 GB weekly-regenerated dataset in Git LFS, suggesting object storage or a data versioning tool, and explains the storage and bandwidth cost of putting it in LFS."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add pseudo-localization to this app: {{i18n_setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-i18next-web
+    vars:
+      expansion_percent: 35
+      i18n_setup: "React app with i18next; catalogs at public/locales/en/*.json using {{name}} interpolation and _one/_other plural keys; Vite dev server via npm run dev; Playwright tests exist."
+    assert:
+      - {type: contains-all, value: ["## How to run", "## Issues found", "## Verification"]}
+      - {type: llm-rubric, value: "Generates a pseudo locale from the English catalogs (via an existing post-processor or a small script) that accents, pads and brackets strings while preserving the interpolation placeholders and plural keys, and limits it to development and test builds."}
+      - {type: llm-rubric, value: "Explains how unbracketed text reveals hard-coded or concatenated strings and reports issues in a table by screen."}
+  - name: edge-android-builtin
+    vars:
+      expansion_percent: 40
+      i18n_setup: "Android app, res/values/strings.xml with plurals and %1$s format args, Gradle build."
+    assert:
+      - {type: llm-rubric, value: "Uses Android's built-in pseudolocales (en-XA and ar-XB) enabled for debug builds only, rather than writing a custom transformer, and checks that format arguments survive."}
+  - name: negative-no-catalog
+    vars:
+      expansion_percent: 35
+      i18n_setup: "Vue app; I think we use vue-i18n (the repository has no locale files and no vue-i18n dependency)."
+    assert:
+      - {type: llm-rubric, value: "Stops and reports that there is no catalog to pseudo-localise, suggesting extracting strings first, instead of inventing a catalog or i18n setup."}

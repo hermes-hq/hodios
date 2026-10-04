@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Make the date and number formatting in {{scope}} work for these locales: {{locales}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-history-web
+    vars:
+      platform: web
+      locales: "en-US, de-DE, ja-JP, hi-IN"
+      scope: |
+        src/orders/OrderRow.tsx:
+          const date = `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
+          const total = '$' + (order.totalCents / 100).toFixed(2);
+          const items = order.items.map(i => i.name).join(', ');
+    assert:
+      - {type: contains-all, value: ["## Inventory", "## Formatting layer", "## Tests"]}
+      - {type: llm-rubric, value: "Replaces the date with Intl.DateTimeFormat using an explicit time zone, the total with Intl.NumberFormat style currency driven by the order's currency code rather than a hard-coded dollar sign, and the join with Intl.ListFormat, all through one formatting module that takes the locale."}
+      - {type: llm-rubric, value: "Adds tests across the four locales including hi-IN digit grouping and a zero-decimal currency, without asserting on guessed strings."}
+  - name: edge-float-money
+    vars:
+      platform: backend
+      locales: "en-GB, fr-FR"
+      scope: "invoice_pdf.py: total = sum(line.price * line.qty for line in lines); text = f'£{total:.2f}'"
+    assert:
+      - {type: llm-rubric, value: "Flags summing floating-point prices, recommends integer minor units or Decimal, and formats with a locale-aware currency formatter (for example Babel) using the invoice's currency code and locale."}
+  - name: negative-no-locale-source
+    vars:
+      platform: android
+      locales: "en-US, es-MX"
+      scope: "app/src/main (the app has no user language setting and no per-user locale stored anywhere)"
+    assert:
+      - {type: llm-rubric, value: "Uses the device locale through the platform APIs and lists the missing locale source under Needs a decision, instead of building a new locale-selection feature."}
