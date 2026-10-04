@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a blog post for this recipe: {{recipe}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brown-butter-cookies
+    vars:
+      recipe: "Brown butter choc chip cookies, makes 14. 170g butter browned and cooled 15 min, 150g light brown sugar, 50g caster sugar, 1 egg + 1 yolk, 1 tsp vanilla, 225g plain flour, 1/2 tsp bicarb, 3/4 tsp flaky salt, 170g dark chocolate chopped. Chill dough at least 2 hours. 60g balls, 180C fan 11-12 min, edges golden, centre soft. Common problem: cookies spread flat if butter still warm. Keep 4 days in a tin. Dough freezes 3 months."
+      story_notes: "My go-to for the bake sale every year."
+      units: both
+    assert:
+      - {type: contains, value: "## Recipe card"}
+      - {type: llm-rubric, value: "Keeps every amount, the 180C fan temperature, 11-12 minutes and the 2-hour chill unchanged; intro is short with a jump-to-recipe line; troubleshooting covers flat spreading from warm butter; storage gives 4 days and 3 months frozen; cup conversions are marked as converted with the grams noted as tested; allergens (milk, egg, wheat) listed; no invented nutrition data."}
+  - name: edge-suspicious-temperature
+    vars:
+      recipe: "Banana bread, 1 loaf. 3 ripe bananas, 250g flour, 100g sugar, 2 eggs, 80ml oil, 1 tsp baking soda. 2lb loaf tin. Bake 250C for 55 minutes."
+      story_notes: ""
+      units: metric
+    assert:
+      - {type: llm-rubric, value: "Does not silently change 250C or the time but flags it in Check before publishing as likely too hot for a loaf, notes there is no salt listed as a check, and marks substitutions as [test first] rather than inventing them."}
+  - name: negative-no-recipe
+    vars:
+      recipe: "my nan's lasagne, you know how it goes"
+      story_notes: "Nan was Italian and made it every Sunday."
+      units: both
+    assert:
+      - {type: llm-rubric, value: "Asks for the ingredients with amounts, the method, dish size, oven temperature and servings instead of inventing a lasagne recipe."}

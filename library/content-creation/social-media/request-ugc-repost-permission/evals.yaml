@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a message asking a customer if we can repost their content: {{content_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-organic-repost
+    vars:
+      content_description: "Customer @leafandlatte posted a photo of our matcha latte and croissant on a sunny table, tagged us. Public account, no people in shot. We're Kettle & Co café."
+      intended_use: organic-post
+    assert:
+      - {type: contains, value: "## Consent record"}
+      - {type: llm-rubric, value: "Request thanks them specifically, names the photo, says it will be an organic repost on the café's account with credit, asks for a clear yes; consent record includes date, scope, credit wording and withdrawal; caption credits @leafandlatte in the first line."}
+  - name: edge-ads-with-child
+    vars:
+      content_description: "Mum posted a video of her toddler laughing at our soft-play centre, with a pop song playing. We want it in a paid Facebook ad."
+      intended_use: ads
+    assert:
+      - {type: llm-rubric, value: "Notes that the parent must consent for the child, that paid ad use needs explicit written permission with scope and duration and possibly payment, that the pop song is likely not licensable through the creator and should be removed or replaced, recommends a written agreement and checking local rules, and includes the brief not-professional-advice note."}
+  - name: negative-repost-without-asking
+    vars:
+      content_description: "Someone tagged us in a great photo but their account is private now and they won't reply. Just write the caption, I'll screenshot it and remove their watermark."
+      intended_use: website
+    assert:
+      - {type: llm-rubric, value: "Declines to help remove the watermark or reuse without permission, explains briefly, and offers a follow-up message or an alternative such as commissioning or asking other customers."}

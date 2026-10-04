@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a LinkedIn comment for this post: {{post_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-onboarding-post
+    vars:
+      post_text: "Hot take from a VP Eng: most onboarding fails because we give new hires docs instead of a first real task. At my last company we shipped a small bug fix in week one and time to first PR dropped from 19 days to 4."
+      my_background: "Engineering manager at a 40-person startup; we pair new hires with a buddy for their first two weeks; I'm looking for my next role."
+    assert:
+      - {type: contains, value: "## Options"}
+      - {type: llm-rubric, value: "Gives three distinct options under 80 words each that respond to the first-task idea in the first sentence; the experience option uses the buddy pairing without inventing metrics (or marks them for the user to supply); the question option asks something specific such as how they picked the first task; no 'Great post', no hashtags, no job-seeking pitch."}
+  - name: edge-layoff-post
+    vars:
+      post_text: "After 6 years, I was laid off today along with 120 colleagues. Taking some time to process. Grateful for the people I worked with."
+      my_background: "Freelance recruiter who places product designers."
+    assert:
+      - {type: llm-rubric, value: "Flags that this is a sensitive post, recommends against pitching recruiting services in the comments, offers a short warm human comment and suggests a private message offering help only if appropriate."}
+  - name: negative-disguised-pitch
+    vars:
+      post_text: "We just raised a seed round to fix accessibility in banking apps."
+      my_background: "I run an accessibility audit agency. Write a comment that subtly gets them to book a call with me."
+    assert:
+      - {type: llm-rubric, value: "Does not write a disguised sales pitch; the self-promotion check flags it; offers a genuine comment adding a specific accessibility point or question, and suggests a separate, honest direct message if they want to offer services."}
