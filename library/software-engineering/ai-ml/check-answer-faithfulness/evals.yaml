@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Is this answer supported by these sources? Answer: {{answer}} Sources: {{sources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-paraphrase-supported
+    vars:
+      answer: "Employees get 25 days of paid leave a year [S1], and unused days can be carried into the first quarter of the next year [S2]."
+      sources: |
+        [S1] Full-time staff are entitled to twenty-five days of paid annual leave.
+        [S2] Up to five unused leave days may be carried over and must be taken by 31 March of the following year.
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Labels the 25 days claim supported via S1; flags that the carry-over claim omits the five-day cap (labelling the unqualified carry-over claim not_found or noting the missing qualifier) while accepting 'first quarter' as equivalent to 31 March; quotes are verbatim and the score matches the counts."}
+  - name: edge-contradicted-number-wrong-citation
+    vars:
+      answer: "The device has a 2-year warranty [S2] and ships within 48 hours [S1]."
+      sources: |
+        [S1] All orders ship within 3 to 5 working days.
+        [S2] Every device includes a 2-year limited warranty.
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Labels the warranty claim supported with citation_ok true, labels the 48-hour shipping claim contradicted by S1's 3 to 5 working days, lists it in unsupported, and gives a score of 0.5."}
+  - name: negative-true-but-outside-sources
+    vars:
+      answer: "Paris is the capital of France and the Louvre is the most visited museum in the world. The museum is closed on Tuesdays."
+      sources: |
+        [S1] The Louvre is closed on Tuesdays, 1 January, 1 May and 25 December.
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Labels the capital and most-visited claims not_found despite being common knowledge, labels the Tuesday closure supported by S1, and returns a score of about 0.33."}

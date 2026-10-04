@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Rewrite the last message of this conversation as a search query: {{conversation}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-resolve-references
+    vars:
+      conversation: |
+        User: We're comparing the Team and Business plans for a 40-person company in Germany.
+        Assistant: Team costs 8 EUR per user per month; Business costs 15 EUR and adds SSO and audit logs.
+        User: does the cheaper one let us keep data in the EU?
+      variants: 2
+      output: json
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "standalone_query asks whether the Team plan offers EU data residency (or data storage in the EU); 'the cheaper one' is resolved to the Team plan in 'resolved'; there is one keyword and one semantic variant targeting the same need; no facts not in the conversation are added."}
+  - name: edge-topic-switch
+    vars:
+      conversation: |
+        User: How do I reset my password?
+        Assistant: Use "Forgot password" on the sign-in page and follow the email link.
+        User: thanks. separately, can I export all my invoices as CSV for 2025?
+      variants: 1
+      output: query-only
+    assert:
+      - {type: not-icontains, value: "password"}
+      - {type: llm-rubric, value: "Outputs a single line that is a standalone query about exporting 2025 invoices as CSV, with no JSON and no reference to the earlier password topic."}
+  - name: negative-no-retrieval-needed
+    vars:
+      conversation: |
+        User: What's the battery life of the K3 headphones?
+        Assistant: About 30 hours with noise cancelling off and 22 hours with it on.
+        User: great, thanks! can you make that a bit shorter
+      variants: 2
+      output: json
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Sets needs_retrieval to false with an empty standalone_query and no variants, because the turn is thanks plus a formatting request."}

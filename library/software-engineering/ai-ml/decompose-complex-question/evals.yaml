@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Break this question into smaller questions: {{question}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-comparison-with-sources
+    vars:
+      question: "Which of our two biggest enterprise customers by contract value filed more P1 support tickets in Q2 2026, and did either of them renew early?"
+      max_subquestions: 5
+      sources: "crm: accounts and contracts; support: ticket database; docs: help centre search"
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "First finds the two biggest enterprise customers by contract value (source crm), then counts P1 tickets in Q2 2026 for each with depends_on referencing the first step (source support), and checks early renewal for each (crm); the composition compares ticket counts and reports renewals; no sub-question is answered."}
+  - name: edge-single-hop-not-split
+    vars:
+      question: "What is the maximum file size for uploads on the free plan?"
+      max_subquestions: 5
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Classifies the question as single-hop and returns exactly one sub-question equivalent to the original, without padding."}
+  - name: negative-ambiguous-reference
+    vars:
+      question: "Is it cheaper than the one we had last year?"
+      max_subquestions: 4
+    assert:
+      - {type: is-json}
+      - {type: llm-rubric, value: "Sets needs_clarification to one short question asking what 'it' and 'the one we had last year' refer to, and returns no sub-questions instead of guessing."}

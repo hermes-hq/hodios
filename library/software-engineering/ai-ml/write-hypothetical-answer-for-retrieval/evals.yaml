@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an answer to this question: {{question}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-ticket-style
+    vars:
+      question: "customer says the mobile app logs them out every time they switch to another app"
+      corpus_style: "support-tickets: resolved helpdesk tickets with a problem summary, troubleshooting steps and resolution"
+      count: 1
+    assert:
+      - {type: not-icontains, value: "here is"}
+      - {type: llm-rubric, value: "Writes one passage that reads like a resolved support ticket (problem, steps tried, resolution), using helpdesk vocabulary such as session, token, background refresh or battery optimisation, with no meta text and no hedging."}
+  - name: edge-ambiguous-multiple-passages
+    vars:
+      question: "How do I rotate keys?"
+      corpus_style: technical-docs
+      count: 3
+    assert:
+      - {type: contains, value: "---"}
+      - {type: llm-rubric, value: "Writes three passages separated by --- lines, each a different reading (for example API keys, encryption keys in a key management service, SSH keys), each styled as documentation, with no numbering or commentary."}
+  - name: negative-no-information-need
+    vars:
+      question: "thanks, that's all for now!"
+      corpus_style: internal-wiki
+      count: 1
+    assert:
+      - {type: llm-rubric, value: "Outputs only NO_RETRIEVAL and nothing else."}
