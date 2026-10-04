@@ -31,7 +31,6 @@ args:
   - name: what_i_was_doing
     description: The command you ran and what you were trying to do, for example "pushing my branch after my colleague merged theirs". Optional.
     type: text
-    default: ""
 output_contract:
   format: markdown
   sections: [What it means, Why it happened, Safest way out, Check it worked]

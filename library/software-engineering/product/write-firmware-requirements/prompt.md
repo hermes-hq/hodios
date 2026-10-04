@@ -30,9 +30,8 @@ args:
     type: text
     required: true
   - name: safety_relevant
-    description: true if a firmware failure could cause injury, fire or harm (medical, heating, motor control, vehicles), so safety requirements and a functional-safety process check are included.
+    description: Set to true if a firmware failure could cause injury, fire or harm (medical, heating, motor control, vehicles), so safety requirements and a functional-safety process check are included. Leave it out otherwise.
     type: boolean
-    default: false
 output_contract:
   format: markdown
   sections: [Scope and assumptions, Requirements, Verification matrix, Open questions]

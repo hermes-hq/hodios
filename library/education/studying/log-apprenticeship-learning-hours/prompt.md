@@ -31,9 +31,8 @@ args:
     description: Optional list of the knowledge, skills and behaviours (KSBs) or learning outcomes from your apprenticeship standard or framework, with their codes (K1, S3, B2).
     type: text
   - name: hours_target
-    description: Off-the-job hours you aim to log per week. Leave 0 if you do not know; mention any running total in your notes.
+    description: Off-the-job hours you aim to log per week. Leave it out if you do not know; mention any running total in your notes.
     type: number
-    default: 0
 output_contract:
   format: markdown
   sections: [Log entries, Check whether these count, KSB coverage this week, Hours progress, For your next review]

@@ -32,7 +32,7 @@ args:
   - name: hosting
     description: Where your repositories live, for example "GitHub", "GitLab self-hosted at work", "Bitbucket", or "none yet". Optional.
     type: string
-    default: ""
+    default: "not stated; ask before the authentication step"
 output_contract:
   format: markdown
   sections: [Setup summary, Your config, Next steps]

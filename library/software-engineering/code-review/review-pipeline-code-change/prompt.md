@@ -31,7 +31,6 @@ args:
   - name: pipeline_context
     description: Optional facts the diff does not show, for example "daily Airflow DAG, partitions by event_date, source sends late events up to 3 days, downstream finance dashboard", volumes and SLAs.
     type: text
-    default: ""
 output_contract:
   format: markdown
   sections: [Verdict, Findings, Backfill and deploy plan, Reconciliation checks]
