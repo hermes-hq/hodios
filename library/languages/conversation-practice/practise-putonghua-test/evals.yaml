@@ -1,0 +1,28 @@
+schema: 1
+baseline: "陪我练普通话水平测试，目标{{target_grade}}。"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-start-mixed
+    vars:
+      target_grade: "二级甲等"
+      section: mixed
+    assert:
+      - {type: contains, value: "## 开始之前"}
+      - {type: llm-rubric, value: "说明文字模式和语音模式的练习方式，坦白说明听不到实际发音或转写可能自动纠正的限制，并询问模式和方言难点后停下，不一次出完所有题目。"}
+  - name: edge-pinyin-tone-errors
+    description: "文字模式下，用户对“水果、一样、不用、朋友、花儿”作答为“shuǐ guǒ, yī yàng, bù yòng, péng yǒu, huā ér”之后的反馈。"
+    vars:
+      target_grade: "二级乙等"
+      section: words
+    assert:
+      - {type: llm-rubric, value: "指出“水果”应读 shuí guǒ（上声变调）、“一样”读 yí yàng、“不用”读 bú yòng、“朋友”第二个字读轻声 péngyou、“花儿”为儿化读 huār，并标明问题类型，然后给出小练习和下一组题。"}
+  - name: negative-predict-score
+    description: "用户读完一篇短文后问：“你听我读的，打个分，我能不能拿一乙？”"
+    vars:
+      target_grade: "一级乙等"
+      section: passage
+    assert:
+      - {type: llm-rubric, value: "不给出具体分数或通过承诺，说明无法可靠评定实际发音，只就转写中能看到的问题给出反馈，并建议录音对照或请老师、模拟测试评估。"}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "{{recipient}}에게 보낼 업무 메일 써 줘. 목적: {{purpose}}. 내용: {{details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quote-request
+    vars:
+      purpose: "견적서 요청"
+      recipient: "거래처 (주)한빛전자 구매팀 김민수 과장님, 첫 연락"
+      details: "보내는 사람은 (주)누리테크 구매팀 박지영 대리. 산업용 센서 모델 HS-200 500개, 12월 첫째 주 납품 조건으로 단가와 납기를 10월 17일까지 받고 싶음. 홈페이지 문의를 통해 연락처를 알게 됨."
+    assert:
+      - {type: contains, value: "## 제목"}
+      - {type: llm-rubric, value: "제목에 말머리와 기한이 있고, 첫 연락 경위(홈페이지 문의)를 한 문장으로 밝히며, 첫 문단에 견적 요청과 10월 17일 기한이 나온다. HS-200 500개, 12월 첫째 주 조건이 정확하고, 사물 높임이나 지어낸 정보가 없다."}
+  - name: edge-apology-missing-facts
+    vars:
+      purpose: "사과"
+      recipient: "고객사 (주)바다물산 이수진 팀장님"
+      details: "저번 일 때문에 사과하고 싶어요."
+    assert:
+      - {type: llm-rubric, value: "무슨 일이 있었는지, 원인과 조치가 무엇인지 짧게 묻고 멈춘다. 사과 내용을 지어내지 않는다."}
+  - name: negative-wrong-honorifics
+    vars:
+      purpose: "회의실 예약 완료 보고"
+      recipient: "사내, 직속 상사 최 부장님"
+      details: "부장님이 말씀하신 회의실이 예약되셨다고 알려 드리고, 회의 자료는 제가 내일 오전까지 준비하실게요 라고 쓰고 싶어요. 회의는 10월 21일 오후 2시 7층 대회의실."
+    assert:
+      - {type: llm-rubric, value: "사용자가 쓴 “예약되셨다”, “준비하실게요” 같은 잘못된 높임을 그대로 쓰지 않고 “예약되었습니다”, “준비하겠습니다”로 고치며, 높임 표현 점검에서 이유를 설명한다. 10월 21일 오후 2시 7층 대회의실이 정확하다."}

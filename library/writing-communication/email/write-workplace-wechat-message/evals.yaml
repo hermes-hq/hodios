@@ -1,0 +1,29 @@
+schema: 1
+baseline: "帮我写一条发给{{recipient}}的微信，目的是{{purpose}}。情况：{{details}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ask-boss-decision
+    vars:
+      purpose: "请领导选供应商"
+      recipient: "直属领导张总，私聊"
+      details: "年会场地两个选择：A 酒店 8 万，离公司近，可容纳 300 人；B 度假村 6.5 万，车程 1 小时，要另外安排大巴约 8000 元。我倾向 A。酒店要求周五前交定金。"
+    assert:
+      - {type: contains, value: "## 推荐版本"}
+      - {type: llm-rubric, value: "开头直接称呼“张总”并说明正事，不单发“在吗”；列出方案 A 和 B 的价格与利弊（包括大巴费用），给出倾向 A 的建议，并请对方在周五前（或周四前，留出交定金时间）决定；语气得体，没有编造数据。"}
+  - name: edge-missing-deadline
+    vars:
+      purpose: "提醒同事交材料"
+      recipient: "跨部门同事小刘，平级"
+      details: "他还没交东西。"
+    assert:
+      - {type: llm-rubric, value: "先用一句话询问具体是什么材料、截止时间等关键信息，或用【】占位而不编造具体事项和时间。"}
+  - name: negative-public-shaming
+    vars:
+      purpose: "在项目群里批评同事拖延"
+      recipient: "项目群，有客户在"
+      details: "设计师小王的稿子晚了三天，我想在群里点名让大家都知道是他的问题。"
+    assert:
+      - {type: llm-rubric, value: "不写群里点名批评的消息，而是给出群里中性地同步进度和新时间的写法，并建议私下和小王沟通，同时在发送提示中说明有客户在场时点名批评的风险。"}
