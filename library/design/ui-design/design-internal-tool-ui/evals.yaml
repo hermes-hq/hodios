@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design an admin tool. Users: {{users}}. Tasks: {{tasks}}. Data: {{data}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fraud-review-queue
+    vars:
+      users: "15 fraud analysts working 8-hour shifts, 2 leads who can reverse bans, 1 admin."
+      tasks: "Review about 300 flagged transactions per analyst per day (approve, decline, escalate); ban accounts (10 a day); leads reverse bans (weekly); export daily summary."
+      data: "Transactions (amount, merchant, risk score, signals, device, location) linked to accounts and prior decisions. 5M rows."
+    assert:
+      - {type: contains, value: "Keyboard"}
+      - {type: llm-rubric, value: "Builds around a triage queue with a list-detail split view, shows decision fields rather than every column, gives a keyboard map for approve, decline, escalate and next item, treats banning as a high-impact action with consequence-stating confirmation and a reason field, logs before and after values, restricts ban reversal to leads, and walks through the main task counting keystrokes."}
+  - name: edge-bulk-partial-failure
+    vars:
+      users: "4 operations staff."
+      tasks: "Update prices for hundreds of products at once every Monday; occasionally delete discontinued products."
+      data: "Products (SKU, name, price, stock, supplier). 20k rows. Price updates sync to three sales channels."
+    assert:
+      - {type: llm-rubric, value: "Designs select-all-matching-filter with a clear count, a preview of changes before applying, progress and partial-failure reporting per channel, undo or rollback where possible, and treats deletion as irreversible with a stated count and separation from frequent actions."}
+  - name: negative-too-vague
+    vars:
+      users: "staff"
+      tasks: "manage stuff"
+      data: "the database"
+    assert:
+      - {type: llm-rubric, value: "Asks up to three focused questions about the users, the most frequent tasks with volumes, and the records involved, and stops instead of producing a generic admin panel."}
