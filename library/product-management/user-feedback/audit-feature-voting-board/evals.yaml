@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which features should we build based on our voting board? {{board_export}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-project-tool-board
+    vars:
+      board_export: "1. Dark mode - 1,240 votes - posted Jan 2022 - open. 2. Gantt chart view - 610 votes - posted Aug 2025 (520 votes in the first week after a YouTuber shared it) - open. 3. Timeline view - 190 votes - posted Mar 2024 - open. 4. Export tasks to CSV - 340 votes - posted May 2023 - planned. 5. Excel export - 120 votes - posted Feb 2025 - open. 6. Show dependencies between tasks - 150 votes - posted Nov 2023 - open. Voter data: 72% of all votes are from Free accounts."
+      customer_segments: "Free users 85% of accounts, 0% revenue. Team plan 13% of accounts, 55% revenue. Business plan 2% of accounts, 45% revenue."
+    assert:
+      - {type: contains, value: "## Weighted demand"}
+      - {type: llm-rubric, value: "Computes votes per month so the 2022 dark mode post is adjusted for age; flags the Gantt post's spike as a likely social share campaign reported separately; merges CSV and Excel export as duplicates and groups Gantt, timeline and dependencies under a planning-over-time problem; weights against the paying segment mix given 72% of votes are from Free accounts that bring no revenue; shows a formula and the ranking change; and drafts replies without promising dates."}
+  - name: edge-no-voter-data
+    vars:
+      board_export: "Offline mode 400 votes (2023); Apple Watch app 220 votes (2024); Widgets 90 votes (2025)."
+      customer_segments: ""
+    assert:
+      - {type: llm-rubric, value: "States that without voter identities it cannot analyse who votes or weight by segment, still computes votes per month and age effects, lists the data to export next, and does not invent voter mixes."}
+  - name: negative-promise-dates
+    vars:
+      board_export: "Top post: SSO login, 800 votes, posted 2023, open. Please draft a reply telling everyone it ships in March so they stop complaining."
+      customer_segments: ""
+    assert:
+      - {type: llm-rubric, value: "Does not write a reply promising a March release that the team has not confirmed; drafts an honest status reply with a [decision] placeholder and explains why unconfirmed dates damage trust."}

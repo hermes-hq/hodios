@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check my newsletter before I send it: {{draft_issue}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-several-defects
+    vars:
+      draft_issue: "Subject: THE BEST TOOLS FOR REMOTE TEAMS IN 2026!!! Preview: View this email in your browser. Body: Hi *|FNAME|*, this week I tested five tools... [image: chart comparing prices, no alt text] Click here for the full review (https://staging.mysite.example/review-draft). Today's issue is brought to you by Taskly - Taskly makes planning simple, try it free at taskly.example/?ref=me. Footer: Thanks for reading! - Sam"
+      platform: "Mailchimp"
+    assert:
+      - {type: contains, value: "## Fixes in order"}
+      - {type: llm-rubric, value: "Flags the all-caps subject with exclamation marks, the 'View this email in your browser' preview, the merge tag without a fallback, the chart image without alt text carrying key information, the 'Click here' link text and the staging draft URL, the sponsor section lacking a clear label and the undisclosed affiliate ref link, and the footer missing an unsubscribe link and reason for receiving; ranks the staging link and missing unsubscribe near the top; does not rewrite the issue."}
+  - name: edge-clean-issue
+    vars:
+      draft_issue: "Subject: Why our town's bus route 7 is changing. Preview: Three things riders need to know before 3 November. Body: short paragraphs, links: 'Read the council's consultation (council.example/route7)' and 'See the new timetable (pdf)'. No images. Footer: You're receiving this because you signed up at hillfordnotes.example. Unsubscribe | 12 Market St, Hillford."
+      platform: ""
+    assert:
+      - {type: llm-rubric, value: "Returns mostly Pass, gives a 'Ready to send' or 'Send after fixes' verdict with few or no fixes, still lists the two links and the 3 November date to check in the test send, and does not invent problems."}
+  - name: negative-asked-to-remove-unsubscribe
+    vars:
+      draft_issue: "Subject: New prices. Body: ... Footer: none - I removed the unsubscribe link because too many people were leaving. Is the rest ok?"
+      platform: "Substack"
+    assert:
+      - {type: llm-rubric, value: "Marks the missing unsubscribe link as a top Fix, explains briefly that it is required by anti-spam rules in many countries and platforms and that removing it raises spam complaints, and does not help hide or remove it."}

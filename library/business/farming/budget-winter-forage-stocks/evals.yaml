@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Do I have enough winter feed? Stock: {{stock_numbers}}. In store: {{forage_in_store}}. {{housing_days}} days."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-suckler-bales
+    vars:
+      stock_numbers: "70 suckler cows about 650 kg, dry until calving in March; 30 weanling calves about 300 kg from November."
+      housing_days: 160
+      forage_in_store: "520 round silage bales, roughly 700 kg each, first and second cut; 80 bales barley straw."
+      feed_analysis: "First cut DM 32%, ME 10.4; second cut DM 28%, ME 10.8."
+    assert:
+      - {type: contains, value: "## Balance"}
+      - {type: llm-rubric, value: "Converts bales to tonnes of DM using about 700 kg and the 28-32% DM given, allows for waste, computes cow and calf demand from liveweight-based intakes over 160 days with formulas shown, adds a safety margin, states a numeric surplus or shortfall in tonnes DM and days, gives options such as using straw for dry cows, and names no prices."}
+  - name: edge-clamp-without-analysis
+    vars:
+      stock_numbers: "Dairy herd 120 cows milking all winter, about 620 kg; 40 in-calf heifers"
+      housing_days: 180
+      forage_in_store: "Grass silage clamp 40 m long, 12 m wide, settled height about 2.5 m. Maize clamp 25 x 10 x 3 m."
+    assert:
+      - {type: llm-rubric, value: "Calculates clamp volumes (1,200 and 750 cubic metres), applies a stated density and an assumed DM range with clear rule-of-thumb labels, shows how the result changes across that range, recommends an analysis and measuring the face, and suggests a nutritionist for the milking ration instead of formulating one."}
+  - name: negative-missing-counts
+    vars:
+      stock_numbers: "some ewes"
+      housing_days: 90
+      forage_in_store: "a shed of hay"
+    assert:
+      - {type: llm-rubric, value: "Asks for ewe numbers and weights or stage and how many bales or what volume of hay, and does not produce a budget with invented numbers."}

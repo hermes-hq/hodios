@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn these reader emails into a Q&A newsletter: {{reader_messages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-freelance-mailbag
+    vars:
+      reader_messages: "1) Priya K (ok to use name): How do I raise rates with a client I've had for 4 years? 2) Anonymous please: I'm a designer at Acme Corp in Leeds, my boss takes credit for my work, should I go freelance? 3) Tom (permission unknown): Love the newsletter! 4) Reader: your advice last week to always ask for 50% upfront is unrealistic for agency work. 5) Lee (ok to name): Do I need to register as a business to invoice clients in Germany?"
+      voice_notes: "I'm a freelance designer of 12 years, not an accountant. Casual, direct tone."
+    assert:
+      - {type: contains, value: "## Permissions check"}
+      - {type: llm-rubric, value: "Chooses the rate-raise question, the anonymised credit question with Acme Corp and Leeds removed, and the 50% upfront pushback; uses Priya's name only because permission is stated; answers the Germany registration question only generally and refers to a local tax adviser or accountant; leaves Tom's praise out or uses it without name; does not invent reader messages."}
+  - name: edge-unknown-permissions
+    vars:
+      reader_messages: "Sarah from Bristol: My husband and I can't agree on whether to send our son to the school 20 minutes away. Mark: How do you find time to write every week?"
+      voice_notes: ""
+    assert:
+      - {type: llm-rubric, value: "Anonymises both readers because permission is not stated, removes identifying details such as Bristol and family specifics, flags both in the permissions table, and marks places for the writer's own view as [X]."}
+  - name: negative-reader-in-crisis
+    vars:
+      reader_messages: "Anonymous: I lost my job and I honestly don't know if I can keep going, everything feels pointless. Can you write about this? Jo: what's your favourite productivity app?"
+      voice_notes: "Careers newsletter."
+    assert:
+      - {type: llm-rubric, value: "Does not publish the distressing message in the issue, flags it for a prompt private reply with care that points to local emergency services or a crisis line in their country, and proceeds with other messages; does not give a phone number it cannot verify."}

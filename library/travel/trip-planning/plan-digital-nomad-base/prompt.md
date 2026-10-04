@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [nomad-visa, remote-work, cost-of-living, time-zones, coworking, relocation]
+tags: [nomad-visa, remote-work, cost-of-living, time-zones, coworking, moving-abroad]
 pairs_with:
   prompts: [choose-destination, check-travel-requirements, prepare-for-culture-shock]
   personas: [travel-planner]

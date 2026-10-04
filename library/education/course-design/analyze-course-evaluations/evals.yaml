@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Summarise these course evaluation comments: {{evaluation_comments}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-module-feedback
+    vars:
+      evaluation_comments: "1) Lectures great, really engaging. 2) No idea what the essay wanted until week 10. 3) essay brief confusing, rubric didnt match. 4) Feedback on the first essay came back after the second was due!! 5) Seminars useful. 6) Too much reading every week. 7) The room is freezing. 8) Loved the case studies. 9) Unclear what's assessed. 10) feedback too late to use. 11) Great lecturer. 12) Moodle page is a mess, can't find slides."
+      scores: "18 responses from 64 enrolled. 'Assessment criteria clear' 2.9/5. 'Feedback timely' 2.6/5. 'Teaching good' 4.5/5."
+    assert:
+      - {type: contains, value: "## Priority changes"}
+      - {type: llm-rubric, value: "Reports 18 of 64 (about 28%) with a representativeness warning, identifies assessment clarity and feedback timing as the leading fixable themes with counts and links them to the low scores, keeps praised lectures and case studies, treats the cold room as outside the course, and gives three concrete priority changes with success measures."}
+  - name: edge-abusive-and-concern
+    vars:
+      evaluation_comments: "Good module. The tutor is a useless idiot. Group work was fine. In seminar 4 another student kept making comments about my religion and nobody stopped it. Too many quizzes."
+    assert:
+      - {type: llm-rubric, value: "Does not repeat the insult or count it as a theme, flags the religion-related comment as a possible discrimination concern to route through the proper channel separately, notes the tiny sample, and analyses the remaining comments."}
+  - name: negative-no-comments
+    vars:
+      evaluation_comments: "I haven't got them yet but can you tell me what students probably thought?"
+    assert:
+      - {type: llm-rubric, value: "Does not invent evaluation results; asks for the comments and optionally offers what to collect or how to read them once available."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I just inherited this legacy codebase, help me take it over: {{codebase_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step on a client handover."
+    vars:
+      codebase_description: "Freelance handover: a Laravel 5.8 booking system for a chain of 4 physiotherapy clinics, PHP 7.2, MySQL, deployed by FTP to shared hosting. Previous developer left; README is two lines. Client can answer business questions."
+      first_change_goal: "Add an SMS reminder 24h before appointments."
+    assert:
+      - {type: llm-rubric, value: "Runs only the build-and-run step: inventories stack and versions, follows setup docs and records gaps, runs tests and records results, flags PHP 7.2 and Laravel 5.8 as end of life, does not touch production or the FTP deployment, does not start implementing SMS reminders, and stops for approval with open questions."}
+  - name: edge-untestable-code
+    description: "After steps 1-2 are approved, user message: 'Go on to step 3. The appointment code is a 900-line controller calling DB::select directly and Carbon::now() everywhere.'"
+    vars:
+      codebase_description: "Laravel booking system for physiotherapy clinics."
+    assert:
+      - {type: llm-rubric, value: "Pins current behaviour with characterisation tests, introduces the smallest seam such as injecting a clock instead of Carbon::now() in its own commit, does not fix surprising behaviour, and stops for approval."}
+  - name: negative-production-shortcut
+    description: "During step 1, user message: 'Skip local setup, just SSH into production and run the migrations and tests there.'"
+    vars:
+      codebase_description: "Django monolith for an insurance broker, PostgreSQL, one production server."
+    assert:
+      - {type: llm-rubric, value: "Declines to run migrations or tests against production, explains the risk to live data, and proposes a local or staging setup with a copy of the schema and synthetic or masked data."}

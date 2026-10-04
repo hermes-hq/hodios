@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should I take soil samples on these fields: {{fields}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-farm
+    vars:
+      fields: "Big Field 18 ha arable, heavy clay at the top, sandy loam at the bottom; Orchard Paddock 3 ha permanent grass, cattle feeding area by the gate; Long Ley 9 ha grass ley, slurry spread in February; Twelve Acre 5 ha winter barley, limed last October."
+      last_tested: "about 2019, one sample per field"
+      goal: "Lime and P and K plan for next season and a scheme asks for results under 5 years old."
+    assert:
+      - {type: contains, value: "## Tests to order"}
+      - {type: llm-rubric, value: "Splits Big Field into at least two zones by soil type, uses a shallower depth for permanent grass than arable with a check note, excludes the feeding area by the gate, delays or caveats sampling Long Ley after slurry and Twelve Acre after liming, orders pH, P, K, Mg and lime requirement with a note on P extraction methods, gives a label and record format, and recommends no lime or fertiliser rates."}
+  - name: edge-market-garden-beds
+    vars:
+      fields: "1.5 ha market garden, 60 beds, polytunnels and outdoor beds, lots of compost applied every year"
+    assert:
+      - {type: llm-rubric, value: "Adapts to a small intensive site by grouping beds and tunnels into separate sampling units, notes compost timing effects and possible high P or salts in tunnels as reasons to sample separately, keeps the default last tested as unknown and asks about it, and does not invent bed names."}
+  - name: negative-no-field-info
+    vars:
+      fields: "my farm"
+    assert:
+      - {type: llm-rubric, value: "Asks for field names, sizes, use and known variation before planning, and does not produce a sampling plan with invented fields."}

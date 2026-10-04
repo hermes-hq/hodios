@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Summarise these reviews for my {{business_type}}: {{reviews}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-garage
+    vars:
+      business_type: "Independent car garage doing servicing, MOT tests and repairs; customers book online or by phone and drop the car off in the morning."
+      reviews: "5* (Sep) Booked online in 2 minutes, Dave on reception was lovely, car ready by 4. 2* (Sep) Good work but nobody called when it was ready, I rang three times. 1* (Aug) Quote was 280, bill was 410, the extra wasn't explained until I paid. 4* (Aug) Fair price, clean waiting area, but parking out front is a nightmare. 5* (Jul) Mechanic showed me the worn brake pads, really honest. 2* (Sep) Car fine but they didn't call me before doing extra work. 3* (Jun) Hard to find, sat nav takes you to the back lane. 5* (Sep) Quick MOT, good coffee. 1* (Sep) Waited 40 min at drop-off, only one person on the desk."
+      journey_stages: ""
+    assert:
+      - {type: contains, value: "## Journey map"}
+      - {type: llm-rubric, value: "Splits reviews into stage mentions (booking, finding and parking, drop-off, repair work, approval of extra work, collection notification, payment); identifies the hand-off between repair and payment or approval as a breaking point because of unexplained extra charges and no call before extra work; flags no-call on completion; replaces 'Dave' with a role such as reception; marks causes as hypotheses; and calls findings directional because there are fewer than 30 reviews."}
+  - name: edge-custom-stages-clinic
+    vars:
+      business_type: "Dental practice, NHS and private patients."
+      journey_stages: "Booking, reminders, reception and waiting, treatment room, explaining costs, follow-up"
+      reviews: "5* The hygienist explained everything. 1* Reminder text said 10:30, they had me down for 9:30. 2* Waited 35 minutes past my slot. 4* Treatment painless but I only learned the private price at the desk. 5* Lovely reception staff."
+    assert:
+      - {type: llm-rubric, value: "Uses exactly the six stages given rather than the default list, places the reminder time mismatch under reminders and the price surprise under explaining costs, and treats the small sample as directional."}
+  - name: negative-no-reviews
+    vars:
+      business_type: "Boutique gym with classes."
+      reviews: "I don't have the reviews to hand, just tell me what gyms usually get criticised for and make a map."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate reviews, counts or quotes; asks for the reviews to be pasted in, may describe the default journey stages it will use, and stops."}

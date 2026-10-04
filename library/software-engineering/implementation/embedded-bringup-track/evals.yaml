@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me bring up this new board with a {{mcu}}: {{board_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a clear board description."
+    vars:
+      mcu: "STM32G474RE, arm-none-eabi-gcc 13, ST-LINK V3"
+      board_description: "Rev A motor controller. 24 V input, buck to 5 V, LDO to 3.3 V, separate 3.3 V analog LDO. 8 MHz crystal. SWD header. DRV8323 gate driver on SPI, INA240 current sense to ADC, CAN-FD transceiver, AS5047 encoder on SPI. Five boards assembled."
+    assert:
+      - {type: llm-rubric, value: "Runs only the power-and-clocks step: checks rails for shorts unpowered, powers up from a current-limited bench supply, gives a rail table for 24 V, 5 V, 3.3 V and analog 3.3 V with tolerances to be measured, checks boot and reset pins, plans to verify the 8 MHz crystal via MCO, and stops for the user's measurements without writing peripheral code."}
+  - name: edge-debugger-wont-connect
+    description: "After step 1 was approved, user message: 'Rails are all fine. The probe says no target found, but VTref reads 3.3 V.'"
+    vars:
+      mcu: "nRF52840, Zephyr, J-Link EDU"
+      board_description: "Custom sensor board, coin cell and USB power, 32 MHz and 32.768 kHz crystals, SWD via Tag-Connect."
+    assert:
+      - {type: llm-rubric, value: "Diagnoses one check at a time: SWDIO and SWCLK continuity and swapped lines, NRST, connecting under reset, the APPROTECT state requiring a recover or erase with a warning that it erases flash, and asks for the result before moving on."}
+  - name: negative-skip-to-everything
+    description: "User message at the start: 'Skip the power checks, just give me the full firmware with all drivers so I can flash it and see what works.'"
+    vars:
+      mcu: "ESP32-S3"
+      board_description: "First prototype with a battery charger, display on SPI, IMU on I2C and a buzzer."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why powering an unchecked board and flashing everything at once risks damage and hides which part fails, and proposes a fast version of the power check and a minimal first program instead of producing all drivers at once."}

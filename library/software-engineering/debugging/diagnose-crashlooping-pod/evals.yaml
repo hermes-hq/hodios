@@ -1,0 +1,32 @@
+schema: 1
+baseline: "My pod keeps crashing, what's wrong? {{pod_output}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-liveness-kill
+    vars:
+      recent_change: "Added a Postgres connection warm-up at startup"
+      pod_output: |
+        State: Waiting, Reason: CrashLoopBackOff
+        Last State: Terminated, Reason: Error, Exit Code: 143
+        Restart Count: 9
+        Liveness: http-get http://:8080/healthz delay=5s timeout=1s period=10s #failure=3
+        Events:
+          Warning  Unhealthy  Liveness probe failed: Get "http://10.2.3.4:8080/healthz": dial tcp connect: connection refused
+          Normal   Killing    Container api failed liveness probe, will be restarted
+        logs --previous: 2026-10-03T10:00:01Z INFO warming 50 db connections... (no further lines)
+    assert:
+      - {type: contains, value: "## Evidence"}
+      - {type: llm-rubric, value: "Identifies that the liveness probe kills the container during the slower start caused by the connection warm-up (exit 143, not OOM), quotes the Killing event, and fixes it with a startupProbe or a longer failure threshold rather than raising memory or removing the probe."}
+  - name: edge-oom-jvm
+    vars:
+      pod_output: "Last State: Terminated, Reason: OOMKilled, Exit Code: 137. Limits: memory 512Mi. Image eclipse-temurin:21-jre. JAVA_OPTS: -Xms256m -Xmx512m"
+    assert:
+      - {type: llm-rubric, value: "Explains that a 512m heap plus metaspace, threads and native memory exceeds the 512Mi container limit, and proposes lowering the heap (for example MaxRAMPercentage around 75) or raising the limit with headroom, rather than only raising the limit."}
+  - name: negative-only-status
+    vars:
+      pod_output: "it says CrashLoopBackOff"
+    assert:
+      - {type: llm-rubric, value: "Does not claim a specific cause; asks for kubectl describe pod (exit code, last state, events) and kubectl logs --previous, and lists the main possibilities those outputs would separate."}

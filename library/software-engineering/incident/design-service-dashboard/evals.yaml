@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design a monitoring dashboard for this service: {{service_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-prometheus
+    vars:
+      metrics_backend: "Prometheus and Grafana"
+      service_description: |
+        checkout-api (Go) on Kubernetes, deployed by Argo CD several times a day. Calls payments-service over gRPC, Postgres via pgx pool (max 50 conns), Redis cache, and publishes to Kafka topic orders.
+        SLO: 99.9% non-5xx, 95% of requests under 400 ms over 30 days.
+        Metrics: http_requests_total{route,code,version}, http_request_duration_seconds_bucket{route,le}, grpc_client_handled_total{grpc_service,grpc_code}, pgxpool_acquired_conns, pgxpool_max_conns, redis_hits_total, redis_misses_total, kafka_producer_errors_total.
+    assert:
+      - {type: contains, value: "## Drill-down path"}
+      - {type: llm-rubric, value: "Top row shows error ratio and p95/p99 latency against the 99.9% and 400 ms targets using rate() over http_requests_total and histogram_quantile over the duration buckets, splits by version to spot bad deploys, and adds deploy annotations from Argo CD."}
+      - {type: llm-rubric, value: "Includes a dependency row for payments gRPC, Postgres pool saturation as acquired over max (50), Redis hit ratio and Kafka producer errors, and every panel says what on-call does when it is red."}
+  - name: edge-batch-worker
+    vars:
+      service_description: "Nightly invoice generator: a cron job on a VM that reads from MySQL and writes PDFs to object storage. Only metrics: job_duration_seconds and job_last_success_timestamp."
+    assert:
+      - {type: llm-rubric, value: "Adapts the layout to a batch job (freshness via time since last success, duration trend, failures) instead of request-rate panels, and lists the missing metrics such as items processed and error counts under Gaps."}
+  - name: negative-no-metrics-invented
+    vars:
+      service_description: "Our user service. Make a dashboard."
+    assert:
+      - {type: llm-rubric, value: "Does not present invented metric names as real; asks for endpoints, dependencies, deploy method and available metrics, and gives at most a placeholder layout clearly marked as such."}

@@ -1,0 +1,53 @@
+schema: 1
+baseline: "Does this PR meet the acceptance criteria? Criteria: {{acceptance_criteria}} Diff: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discount-codes
+    vars:
+      acceptance_criteria: |
+        Ticket SHOP-212: Discount codes at checkout
+        - Given a valid code, the order total is reduced by the code's percentage.
+        - Expired codes are rejected with the message "This code has expired".
+        - A code can be used once per customer.
+        - Codes are case-insensitive.
+      diff: |
+        --- a/src/checkout/discount.ts
+        +++ b/src/checkout/discount.ts
+        @@ -0,0 +1,14 @@
+        +export function applyCode(order: Order, code: string, codes: Code[]) {
+        +  const c = codes.find(x => x.code === code);
+        +  if (!c) throw new UserError("Invalid code");
+        +  if (c.expiresAt < new Date()) throw new UserError("This code has expired");
+        +  order.total = order.total * (1 - c.percent / 100);
+        +  return order;
+        +}
+        --- a/test/discount.test.ts
+        +++ b/test/discount.test.ts
+        +it("reduces total by percent", () => { expect(applyCode(order100, "SAVE10", codes).total).toBe(90); });
+    assert:
+      - {type: contains, value: "## Criteria"}
+      - {type: llm-rubric, value: "Marks percentage reduction as met (tested), expiry as met but untested, once-per-customer as not met (no usage tracking), and case-insensitivity as not met (strict === comparison); proposes concrete test cases such as 'save10' and an expired code."}
+  - name: edge-vague-criterion
+    vars:
+      acceptance_criteria: |
+        - The search page should load fast.
+        - Results show the product name and price.
+      diff: |
+        --- a/web/SearchResults.tsx
+        +++ b/web/SearchResults.tsx
+        +{results.map(r => <li key={r.id}>{r.name} - {formatPrice(r.price)}</li>)}
+    assert:
+      - {type: llm-rubric, value: "Marks 'load fast' as can't tell from the diff or ambiguous and asks for a measurable target in Scope notes; marks name and price as met but untested and suggests a test."}
+  - name: negative-no-criteria
+    vars:
+      acceptance_criteria: ""
+      diff: |
+        --- a/app.py
+        +++ b/app.py
+        +@app.get("/health")
+        +def health(): return {"ok": True}
+    assert:
+      - {type: llm-rubric, value: "Asks for the ticket's acceptance criteria instead of inventing them or doing a general code review."}

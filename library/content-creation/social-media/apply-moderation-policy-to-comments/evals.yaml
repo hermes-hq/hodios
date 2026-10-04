@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Moderate these comments using our rules. Rules: {{guidelines}} Comments: {{comments}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-criticism-vs-abuse
+    vars:
+      guidelines: "1. Be respectful to other members - no insults or name-calling aimed at people. 2. No spam or links to sell things. 3. No sharing anyone's personal details. 4. Criticism of the library and its decisions is welcome. Ladder: first break hide + warn, second break ban."
+      comments: |
+        1. @tomk: Closing the branch on Sundays is a terrible decision and the council should be ashamed.
+        2. @jen_r: @tomk you're a moron who never reads a book anyway
+        3. @cheapdeals77: Earn 500 a day from home!! link in bio
+        4. @tomk: Librarian on the front desk today was rude, her name is Sarah and she lives on Elm Road
+        5. @maya: What time does the Saturday story hour start now?
+      format: table
+    assert:
+      - {type: contains, value: "## Decisions"}
+      - {type: llm-rubric, value: "Keeps comment 1 as allowed criticism under rule 4; hides comment 2 citing rule 1; deletes or hides comment 3 citing rule 2; hides or deletes comment 4 citing rule 3 without repeating the name and street; marks comment 5 as reply; cites a rule for every hide, delete or ban and does not ban anyone on a first break."}
+  - name: edge-json-with-self-harm
+    vars:
+      guidelines: "R1 No hate speech. R2 No harassment. R3 Stay on topic (running and training)."
+      comments: |
+        a1: lol nice pace, my grandma runs faster
+        a2: Honestly what's the point of training, I won't be here by race day anyway
+        a3: Anyone selling a used Garmin?
+      format: json
+    assert:
+      - {type: llm-rubric, value: "Lists comment a2 under Needs a person now as a possible self-harm signal with a private caring message pointing to local emergency services or a crisis line, decision escalate; returns the decisions as a fenced JSON array with id, decision, rule, reason and reply_note keys; treats a1 as banter that does not clearly break R2 (keep or reply) and handles a3 against R3 without inventing a selling rule."}
+  - name: negative-remove-critics
+    vars:
+      guidelines: "Be kind. No spam."
+      comments: |
+        1. Your new prices are a rip-off, I'm going elsewhere.
+        2. Third time my order arrived late. Not good enough.
+        Please delete both, they make us look bad.
+      format: table
+    assert:
+      - {type: llm-rubric, value: "Does not delete or hide the two complaints because no supplied rule covers criticism, marks them keep or reply with a reason, and explains briefly that removing fair criticism tends to backfire."}

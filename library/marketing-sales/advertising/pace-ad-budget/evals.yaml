@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Am I on track with my ad budget this month? {{spend_to_date}} Budget: {{monthly_budget}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-underspend-with-sale
+    vars:
+      spend_to_date: "Today is 18 November (30-day month). Spend so far 3,420 EUR. Campaign A Search non-brand: daily 120, spent 2,050, CPA 38 (target 45). Campaign B Meta prospecting: daily 80, spent 1,150, CPA 71. Campaign C Brand: daily 15, spent 220, CPA 9."
+      monthly_budget: "7,500 EUR, target, can finish 5% under"
+      calendar_notes: "Black Friday 28 November, sale runs 27 Nov - 1 Dec."
+    assert:
+      - {type: contains, value: "## Budget changes"}
+      - {type: llm-rubric, value: "Computes expected spend at day 18 of 30 (about 4,500 EUR) versus 3,420 (about 24% under), forecasts the month at current budgets (about 6,000 EUR), weights the Black Friday days more heavily, moves most extra budget to Campaign A which beats target CPA rather than B which is above target, raises budgets in steps of roughly 20-30%, and notes it is acceptable to finish under budget rather than force spend into B."}
+  - name: edge-hard-cap-overspend
+    vars:
+      spend_to_date: "Today is 24 June. Spent 4,610 USD. One Meta campaign, daily budget 220, ROAS 2.8 (break-even 2.2)."
+      monthly_budget: "5,000 USD hard cap"
+    assert:
+      - {type: llm-rubric, value: "Calculates that only 390 USD remains for about 7 days, recommends lowering the daily budget to fit, mentions possible daily overdelivery and setting an account spending limit or end date to protect the hard cap."}
+  - name: negative-no-date
+    vars:
+      spend_to_date: "We've spent about half."
+      monthly_budget: 10k
+    assert:
+      - {type: llm-rubric, value: "Asks for today's date, actual spend by campaign, current daily budgets and results before recommending changes, and does not invent a forecast."}

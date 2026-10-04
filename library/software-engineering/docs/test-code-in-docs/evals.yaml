@@ -1,0 +1,43 @@
+schema: 1
+baseline: "How do I test the code samples in my docs? Stack: {{stack}}. Docs: {{docs_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-sdk
+    vars:
+      stack: "Python 3.10-3.13 SDK, uv, MkDocs Material, GitHub Actions"
+      docs_sample: |
+        README.md:
+        ```python
+        from weatherly import Client
+        c = Client(api_key="YOUR_KEY")
+        print(c.forecast("Lisbon").temp_c)
+        ```
+        docs/batching.md:
+        ```python
+        results = c.forecast_many(["Oslo", "Lima"])  # returns list
+        >>> len(results)
+        2
+        ```
+        docs/cli.md:
+        ```bash
+        weatherly forecast Lisbon --json
+        ```
+      constraints: "The forecast API is paid and rate limited."
+    assert:
+      - {type: contains, value: "## CI job"}
+      - {type: llm-rubric, value: "Picks an approach suited to Python (doctest/pytest doctest-glob or snippet extraction or included example files) with reasons, handles the fragment that relies on a previously created client via hidden setup, fakes the paid HTTP API instead of calling it, normalises or avoids non-deterministic output like temperatures, includes a CI matrix for 3.10-3.13, and plans a ratcheted rollout for existing broken samples."}
+  - name: edge-pseudo-code
+    vars:
+      stack: "Go service, Hugo docs site, GitLab CI"
+      docs_sample: "docs/architecture.md has a pseudo-code block showing the retry loop ('for attempt in 1..N: call(); if ok break'), and docs/quickstart.md has a full Go main package that calls our HTTP API."
+    assert:
+      - {type: llm-rubric, value: "Marks the pseudo-code as illustrative and skipped with a reason rather than forcing it to run, and handles the Go quickstart with Example functions or a compiled examples folder included into the page, with the HTTP API faked."}
+  - name: negative-missing-stack
+    vars:
+      stack: "not sure"
+      docs_sample: "Our README has some code."
+    assert:
+      - {type: llm-rubric, value: "Asks for the language, docs tool, CI system and the actual code blocks before writing configuration, instead of producing a generic CI file for an assumed stack."}

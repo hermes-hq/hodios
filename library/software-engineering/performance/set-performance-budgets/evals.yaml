@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Set performance budgets for my {{app_type}} app. Current numbers: {{baseline_metrics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nextjs-store
+    vars:
+      app_type: web
+      baseline_metrics: |
+        Next.js store, GitHub Actions. CrUX p75 mobile: LCP 3.1 s, INP 180 ms, CLS 0.04.
+        JS per route (gzip): home 210 KB, product 245 KB, checkout 310 KB. Lighthouse mobile median of 3: 62.
+    assert:
+      - {type: contains, value: "## CI wiring"}
+      - {type: llm-rubric, value: "Gates pull requests on deterministic per-route JS sizes near current values (for example checkout around 310 KB with small tolerance), treats CrUX LCP, INP and CLS as monitors with LCP given a target toward 2.5 s and a date rather than a PR gate, uses medians of multiple Lighthouse runs, provides GitHub Actions config, and includes a failure message showing base, new value and delta."}
+  - name: edge-api-budgets
+    vars:
+      app_type: api
+      baseline_metrics: "GET /search p95 420 ms, p99 1.1 s at 300 rps in staging load test; POST /checkout p95 600 ms. 14 SQL queries per /search request. GitLab CI."
+    assert:
+      - {type: llm-rubric, value: "Sets latency budgets per endpoint with the load level stated, adds a deterministic query-count budget for /search checked in tests, runs latency checks in a scheduled or pre-release load-test job rather than on every merge request, and gives GitLab CI configuration."}
+  - name: negative-no-baseline
+    vars:
+      app_type: mobile
+      baseline_metrics: "We don't measure anything yet. Just give us industry-standard budgets."
+    assert:
+      - {type: llm-rubric, value: "Explains how to collect baselines first (startup benchmark on a reference device, size reports, vitals), marks budgets as to be set after baseline, and does not present invented numbers as the app's budgets."}

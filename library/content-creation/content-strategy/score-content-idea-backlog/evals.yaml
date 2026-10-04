@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which of these content ideas should I do first? {{ideas}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hiking-newsletter
+    vars:
+      ideas: "1. Beginner guide to layering for winter hikes (3 readers asked this month)\n2. Review of my new boots\n3. Trip report: Lake District last weekend\n4. Interview with a mountain rescue volunteer (need to find one)\n5. Best hikes near train stations (my most-clicked issue last year was on this)\n6. Why I hate hiking poles\n7. Packing list for winter hikes\n8. Christmas gift guide for hikers\n9. History of the Pennine Way\n10. Layering explained with a video"
+      goals: "Grow the newsletter from 2,000 to 3,000 by March. Pillars - beginner guides, car-free hiking, trip reports."
+    assert:
+      - {type: contains, value: "## Ranked backlog"}
+      - {type: llm-rubric, value: "Merges ideas 1, 7 and 10 as overlapping, scores demand high for the layering guide and car-free hikes using the stated reader requests and past clicks, treats the gift guide as timely with a date, puts the off-pillar 'why I hate hiking poles' or history piece low or parked, shows weighted arithmetic for the top three and picks three to make next across at least two pillars."}
+  - name: edge-custom-weights
+    vars:
+      ideas: "Video on fixing a dripping tap; series on renovating my 1970s bathroom; reel on cheap tool storage; collab with a local tiler"
+      goals: "DIY channel, goal is brand sponsorships from tool companies. Pillars - beginner fixes, renovation diaries."
+      weights: "demand 50, fit 50, effort 50, timeliness 0"
+    assert:
+      - {type: llm-rubric, value: "Notices the weights sum to 150, normalises them (about 33 each, timeliness 0) and says so, flags the bathroom renovation as a series rather than a single piece, and gives demand scores of 2-3 with a note that no evidence was provided."}
+  - name: negative-no-goals
+    vars:
+      ideas: "cat video, recipe, travel vlog"
+      goals: "not sure"
+    assert:
+      - {type: llm-rubric, value: "Asks for a goal and pillars or marks fit as [X] with an explanation, and does not invent audience demand data."}

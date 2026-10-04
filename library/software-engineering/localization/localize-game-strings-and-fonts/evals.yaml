@@ -1,0 +1,31 @@
+schema: 1
+baseline: "How do I translate my game into {{target_languages}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unity-pixel-rpg
+    vars:
+      engine: "Unity 2022 LTS"
+      target_languages: "German, Russian, Japanese, Simplified Chinese"
+      game_description: |
+        Pixel-art RPG, ~40,000 words of dialogue in a custom JSON format, item names in ScriptableObjects, some UI labels baked into sprites.
+        Lines like: player.name + " found " + count + " " + item.name + (count > 1 ? "s" : "").
+        One bitmap pixel font (Latin only). Fixed 160x48 dialogue boxes. No voice acting. Shipping on Steam and Switch.
+    assert:
+      - {type: contains, value: "## Fonts and rendering"}
+      - {type: llm-rubric, value: "Moves dialogue, item names and sprite-baked labels into string tables with context, replaces the concatenated plural with full messages and plural/gender handling for Russian and German, proposes a per-script font strategy (pixel-style CJK and Cyrillic fonts or dynamic fallback, atlases built from used characters) with licence checks, addresses CJK line breaking and fixed dialogue box overflow with wrapping or auto-size and a pseudo-localisation build, and says to verify Switch language requirements rather than stating them."}
+  - name: edge-voiced-with-subtitles
+    vars:
+      engine: "Godot 4"
+      target_languages: "French, Spanish"
+      game_description: "Narrative adventure, fully voiced in English (2,000 lines), subtitles burned into cutscene videos."
+    assert:
+      - {type: llm-rubric, value: "Flags burned-in subtitles as untranslatable and recommends separate subtitle tracks with timing data, decides between dubbing and subtitles-only, sets reading-speed limits, and keeps speaker names."}
+  - name: negative-missing-basics
+    vars:
+      target_languages: "every language"
+      game_description: "My game."
+    assert:
+      - {type: llm-rubric, value: "Asks for the engine, text volume, storage method and a concrete language list before planning, and does not produce effort estimates without them."}

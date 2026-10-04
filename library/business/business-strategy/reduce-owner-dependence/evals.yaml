@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How can my business run without me? {{business}} What I do: {{owner_tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-joinery-workshop
+    vars:
+      business: "Bespoke kitchen and joinery workshop, 6 staff (4 joiners, 1 fitter, 1 part-time admin). I want to take a month off next summer and maybe sell in 5 years."
+      owner_tasks: "All home visits and quotes (10 h/week), pricing every job, ordering timber and hardware, design drawings (8 h), sorting problems on site (staff ring me all day), invoicing and chasing payment, our two biggest builder clients only talk to me, payroll, the bank and supplier logins are mine."
+      horizon: 12-months
+    assert:
+      - {type: contains, value: "## Owner-away tests"}
+      - {type: llm-rubric, value: "Classifies tasks into relationship, decision, know-how and problem-solving with hours and risk, ranks quoting and pricing, builder client relationships and on-site problem-solving among the biggest risks, proposes a pricing sheet with decision rules and joint client visits, assigns tasks to roles such as a lead joiner or a developed admin role, plans shared access through separate accounts rather than shared logins, and builds a ladder of absences ending before the month off, linking reduced dependence to future sale value."}
+  - name: edge-solo-with-no-staff
+    vars:
+      business: "Solo bookkeeper with 25 small business clients. I'm the only person."
+      owner_tasks: "Everything: client work, onboarding, invoicing, tax deadlines."
+      horizon: 6-months
+    assert:
+      - {type: llm-rubric, value: "Recognises there is no team to delegate to, focuses on documentation, a trusted cover arrangement or associate with proper client consent and confidentiality, deadline calendars and systems, and proposes proportionate absence tests."}
+  - name: negative-no-task-list
+    vars:
+      business: "Florist shop."
+      owner_tasks: "Not sure, I just do everything."
+      horizon: 6-months
+    assert:
+      - {type: llm-rubric, value: "Asks the owner to list a typical week (or offers a short prompt list of commonly forgotten owner tasks as questions) before producing a full plan, and does not invent the owner's tasks as facts."}

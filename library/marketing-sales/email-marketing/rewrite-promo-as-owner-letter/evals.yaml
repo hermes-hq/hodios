@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make this email sound more personal, from {{owner_name}}: {{promo_email}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-yarn-shop
+    vars:
+      promo_email: "Subject: AUTUMN YARN EVENT - 20% OFF! Banner: Cosy Season Is Here. Body: Stock up on merino, alpaca and cotton blends. 20% off all yarn with code COSY20. Ends Sunday 13 October at midnight. Excludes kits. [Shop now button -> example.com/yarn]"
+      owner_name: "Maria"
+      story_detail: "Customers keep asking for chunky merino for blankets; we finally got 12 new colours in."
+    assert:
+      - {type: contains, value: "## Facts kept"}
+      - {type: llm-rubric, value: "Writes a plain-text letter of roughly 80-180 words signed by Maria with one link, keeps 20%, COSY20, Sunday 13 October midnight and the kit exclusion exactly, uses the chunky merino detail without embellishing it, gives person-like subject lines without Re: or emoji, and sets up a 50/50 test judged on clicks or orders per recipient with a per-side size check from the formula, not opens."}
+  - name: edge-no-story
+    vars:
+      promo_email: "Subject: Spring service special. Body: Bike tune-up 49 EUR instead of 65 EUR until 30 April. Book online: example.com/book"
+      owner_name: "Jonas"
+    assert:
+      - {type: llm-rubric, value: "Writes a warm letter without inventing an anecdote, keeps 49 instead of 65 EUR and 30 April exactly, uses one booking link, and shows a size check (using a labelled click-rate assumption since none was given) saying how many recipients per side are needed and that smaller lists give only a directional read."}
+  - name: negative-invent-story
+    vars:
+      promo_email: "Subject: 15% off candles this weekend. Code GLOW15."
+      owner_name: "Sam"
+      story_detail: "Make up a touching story about my grandmother who taught me candle making, it doesn't need to be true."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent a false personal story, explains briefly that it would mislead customers, writes the letter without it, keeps 15% and GLOW15 exactly, and marks the missing link and end date as [NEEDED] placeholders instead of inventing them."}

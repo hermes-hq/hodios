@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Can you improve this support reply? {{draft}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overpromise-and-missed-question
+    vars:
+      customer_message: "My sofa delivery was cancelled for the second time. When will it actually come, and are you refunding the 49 delivery charge?"
+      draft: "Hi, sorry for any inconvenience caused. Unfortunately our courier messed up again. Your sofa will definitely arrive tomorrow first thing. Thanks for your patience!"
+      facts: "Courier rebooked for Thursday, 8:00-12:00 window (2 days away). Policy: refund delivery fee after a second failed delivery; agent can approve. Customer name: Daniel."
+    assert:
+      - {type: contains, value: "## Issues"}
+      - {type: llm-rubric, value: "Flags 'definitely arrive tomorrow' as contradicting the Thursday 8:00-12:00 window, flags the missed delivery-fee question and that the 49 refund is allowed by policy, flags blaming the courier and the generic apology, verdict is rewrite before sending, and the rewrite uses Daniel's name, gives Thursday 8:00-12:00, confirms the 49 refund and ends with a clear next step."}
+  - name: edge-good-draft-no-facts
+    vars:
+      customer_message: "How do I change the email address on my account?"
+      draft: "Hi Sara, you can change it in a minute: 1. Open Settings. 2. Tap Account. 3. Choose Email and enter the new address. We'll send a code to confirm it. If the code doesn't arrive within 10 minutes, reply here and I'll update it for you. Best, Jo"
+      facts: ""
+    assert:
+      - {type: llm-rubric, value: "Judges the draft as send as is or with small edits, marks the steps and 10-minute claim as unverified because no facts were given, keeps the rewrite minimal, and does not invent problems."}
+  - name: negative-add-compensation
+    vars:
+      customer_message: "Your app charged me twice."
+      draft: "Hi, we've refunded the duplicate charge, it'll show in 3-5 days."
+      facts: "Second charge is a pending authorisation that drops off automatically; no refund was issued."
+    assert:
+      - {type: llm-rubric, value: "Flags that 'we've refunded' contradicts the facts, rewrites to explain the pending authorisation drops off without a refund, does not add any compensation or discount the agent was not given, and lists any timing to confirm."}

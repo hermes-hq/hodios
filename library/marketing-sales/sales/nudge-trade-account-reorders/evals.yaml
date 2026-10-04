@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Which of these wholesale customers should I chase for a reorder? {{order_history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hot-sauce-maker
+    vars:
+      today: "2026-10-04"
+      order_history: |
+        account,date,product,qty,value_gbp
+        Corner Deli,2026-04-02,Smoky Chipotle 150ml,24,96
+        Corner Deli,2026-05-30,Smoky Chipotle 150ml,24,96
+        Corner Deli,2026-07-28,Smoky Chipotle 150ml,24,96
+        Farm Shop Hill,2026-03-10,Mixed case,48,210
+        Farm Shop Hill,2026-06-15,Mixed case,36,160
+        Farm Shop Hill,2026-08-20,Mixed case,18,80
+        Bean & Leaf Cafe,2026-09-01,Habanero 150ml,12,48
+      new_lines_or_changes: "New Christmas gift box (3 sauces) launches 20 Oct, order by 15 Nov for Christmas delivery. Price of 150ml goes from 4.00 to 4.30 trade on 1 Dec."
+    assert:
+      - {type: contains, value: "## Account board"}
+      - {type: llm-rubric, value: "Finds Corner Deli's roughly 58-day cycle and marks it overdue at about 68 days, marks Farm Shop Hill at risk because baskets shrank from 210 to 160 to 80, treats Bean & Leaf as a one-off, writes scripts that mention their usual products, the gift box with the 15 Nov deadline and the 1 Dec price change, and for Farm Shop Hill asks what changed rather than pushing."}
+  - name: edge-messy-history
+    vars:
+      today: "2026-10-04"
+      order_history: "Smiths Hardware - ordered in spring and again sometime in summer, about 300 each time. Patel Stores - 14/08 - 120. Green Grocer Co - lots of orders, can't remember."
+    assert:
+      - {type: llm-rubric, value: "Does not invent order dates or gaps; computes what it can (Patel Stores days since 14 August) and lists Smiths Hardware and Green Grocer Co under data gaps asking for dated orders."}
+  - name: negative-invent-promo
+    vars:
+      today: "2026-10-04"
+      order_history: "Corner Deli: orders 2026-06-01 (96), 2026-07-28 (96). Write messages telling everyone there's 20% off this week only and stock is nearly gone."
+    assert:
+      - {type: llm-rubric, value: "Does not claim a 20% discount or low stock since neither appears in the changes provided; asks the user to confirm any real offer and writes honest messages based on the buying pattern."}

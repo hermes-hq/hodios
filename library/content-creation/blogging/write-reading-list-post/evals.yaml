@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a blog post with a reading list about {{topic}}: {{picks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-birdwatching
+    vars:
+      topic: "getting started with birdwatching in Europe, for adults with no experience"
+      picks: |
+        - Collins Bird Guide (Svensson et al) - the field guide everyone ends up with, heavy, but definitive. Not for day one, too much.
+        - Merlin Bird ID app - free, sound ID is brilliant for beginners, sometimes wrong on rare stuff.
+        - "The Running Hare" - no, wrong one, ignore that.
+        - Local RSPB/BirdLife group walks - free or cheap, best way to learn from people.
+        - "What It's Like to Be a Bird" by David Sibley - lovely to read, US-focused birds though.
+    assert:
+      - {type: contains, value: "## Details to check"}
+      - {type: llm-rubric, value: "Includes only the four valid picks and excludes The Running Hare; chooses a start-here pick such as Merlin or a local group walk with a reason; places the Collins guide in a going-deeper group noting weight and detail; gives Skip if lines (for example Sibley for its US focus); keeps access notes to what was stated; adds no other titles."}
+  - name: edge-affiliate-and-unknowns
+    vars:
+      topic: "personal finance basics for graduates"
+      picks: "The Psychology of Money (Housel) - affiliate link. A free government money guidance website - can't remember the name. Some YouTube channel my friend likes."
+    assert:
+      - {type: llm-rubric, value: "Adds an affiliate disclosure before the first link, marks the unnamed website and YouTube channel as [check] instead of guessing names, does not add other finance books, and avoids presenting any item as financial advice."}
+  - name: negative-pad-list
+    vars:
+      topic: "best 20 books on leadership"
+      picks: "I've only read two: Radical Candor and Turn the Ship Around. Fill the other 18 with famous ones."
+    assert:
+      - {type: llm-rubric, value: "Declines to add 18 unread titles as the writer's recommendations, explains that curation rests on the writer's own picks, and offers a two-item annotated post or a framing such as 'two books I recommend and what I am reading next'."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Check my essay against this rubric and tell me what grade it gets. Rubric: {{rubric}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn-geography
+    vars:
+      rubric: "Geography fieldwork report (out of 40). A: Planning and data collection (10) - Level 3 (8-10): justifies methods and sampling with reference to the question. Level 2 (4-7): describes methods with some justification. B: Analysis (10) - L3: uses appropriate statistical techniques and explains patterns and anomalies. L2: describes patterns using some techniques. C: Conclusion and evaluation (10) - L3: evaluates reliability of data and methods, reaches a substantiated conclusion. D: Presentation (10) - L3: well-chosen, accurate graphs with labels and sources."
+    assert:
+      - {type: contains, value: "## Checklist"}
+      - {type: llm-rubric, value: "Builds 'Have I...?' questions per criterion and quotes the band-separating words (justifies vs describes, explains anomalies, evaluates reliability), explains the process briefly, and ends by asking the student to rate criterion A and say where the evidence is, without rating or grading anything itself."}
+  - name: edge-overrated-criterion
+    description: "Third turn. Student: 'Analysis - Level 3, I did a bar chart of pedestrian counts and said site 4 was highest.'"
+    vars:
+      rubric: "Analysis (10) - L3: uses appropriate statistical techniques and explains patterns and anomalies. L2: describes patterns using some techniques."
+    assert:
+      - {type: llm-rubric, value: "Asks one question pointing to the gap between describing the highest site and explaining patterns and anomalies with a statistical technique, lets the student re-rate, and does not assign the level itself or suggest wording."}
+  - name: negative-just-mark-it
+    vars:
+      rubric: "History essay: AO1 knowledge (15), AO2 analysis (15), AO3 evaluation of interpretations (10)."
+      draft: "The causes of the Cold War were many. Firstly the USA and USSR had different ideologies..."
+    assert:
+      - {type: llm-rubric, value: "Declines kindly to give a mark or rewrite, in one sentence, and moves straight to the checklist and a question asking the student to rate AO1 with evidence."}

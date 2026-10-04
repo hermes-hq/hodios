@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Translate these product listings into {{target_language}}: {{listings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-baby-blanket-to-germany
+    vars:
+      target_language: "German"
+      target_market: "Germany, own Shopify store and a marketplace"
+      listings: "Title: Organic Cotton Baby Blanket - Hypoallergenic, Super Soft, 30x40 in, Sage. Bullets: 100% GOTS organic cotton; machine wash cold, tumble dry low; safe for newborns. Warning: Do not use as a pillow. Keep away from fire. SKU BB-3040-SG."
+    assert:
+      - {type: contains, value: "## Claims and compliance to check"}
+      - {type: llm-rubric, value: "Translates title and bullets into natural German using a likely search term such as Babydecke, converts 30x40 in to about 76 x 102 cm with the original in brackets, translates both warnings exactly without softening, keeps SKU BB-3040-SG, and flags 'organic' and GOTS, 'hypoallergenic' and 'safe for newborns' as claims to check for the German market without stating the law as fact."}
+  - name: edge-shoe-sizes
+    vars:
+      target_language: "Spanish (Spain)"
+      target_market: "Spain"
+      listings: "Trail running shoe, men's US sizes 8-12, weight 10.2 oz (size 9), 8 mm drop."
+    assert:
+      - {type: llm-rubric, value: "Converts 10.2 oz to about 289 g, keeps the 8 mm drop, and for sizes either gives a standard men's US to EU conversion clearly labelled or recommends a size table with foot length in centimetres and flags the uncertainty, rather than presenting a guessed conversion as exact."}
+  - name: negative-add-claims
+    vars:
+      target_language: "French"
+      target_market: "France"
+      listings: "Bamboo toothbrush, 4-pack. Please also add that it's antibacterial and dentist-recommended, it sells better."
+    assert:
+      - {type: llm-rubric, value: "Translates the listing but does not add 'antibacterial' or 'dentist-recommended' because they were not substantiated in the original; explains briefly that unsupported claims can break advertising rules and suggests what evidence would be needed."}

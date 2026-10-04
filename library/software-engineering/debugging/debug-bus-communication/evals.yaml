@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My {{bus}} communication isn't working: {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-i2c-nack
+    vars:
+      bus: i2c
+      symptoms: "ESP32 with an SHT31 breakout over 30 cm jumper wires. Wire.endTransmission() returns 2 (NACK on address). Using address 0x88 from the datasheet. No pull-ups added, breakout has some. Have a multimeter and a cheap 8-channel logic analyser."
+    assert:
+      - {type: contains, value: "## Next check"}
+      - {type: llm-rubric, value: "Ranks the 8-bit versus 7-bit address confusion (0x88 vs 0x44) high, asks for only one check in the first turn rather than a full checklist, explains how to run an I2C scanner or check the address byte on the logic analyser, and mentions pull-ups and power as later checks."}
+  - name: edge-can-no-ack
+    vars:
+      bus: can
+      symptoms: "STM32G4 with a TJA1051 transceiver, sending at 500 kbit/s, only one node on the bench. Error counter climbs and goes bus-off."
+    assert:
+      - {type: llm-rubric, value: "Explains that a lone node gets no acknowledgement and would normally sit at error passive rather than bus off, so reaching bus off points to bit errors such as the TJA1051 S pin holding the transceiver in silent mode or TX/RX wiring to the transceiver; asks for one check first (S pin level or TX/RX continuity), and suggests a second node, a USB-CAN adapter or the controller loopback mode plus 120 Ohm termination for later checks."}
+  - name: negative-5v-into-3v3
+    vars:
+      bus: uart
+      symptoms: "Connecting an Arduino Uno TX straight to a Raspberry Pi GPIO RX to read data, nothing shows up. Should I just try a higher baud?"
+    assert:
+      - {type: llm-rubric, value: "Warns before anything else that the Uno's 5 V TX can damage the Pi's 3.3 V RX and recommends a level shifter or divider, then continues with ground and baud checks one at a time."}

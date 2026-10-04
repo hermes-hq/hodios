@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I reduce where is my order emails for my shop? {{shop}} Delivery: {{delivery_options}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-handmade-candles
+    vars:
+      shop: "Hand-poured candles, Shopify, ship UK and EU. Product page says 'Fast delivery 2-3 days'. Confirmation email is Shopify default, then nothing until the tracking email."
+      delivery_options: "We pour to order: 3-5 working days before dispatch. UK tracked 48h with Royal Mail (sometimes 4 days). EU tracked 5-10 working days, customs can add a week. Cut-off 1pm."
+      contact_volume: "about 25 a week, most on day 3-5 after ordering, EU customers worst"
+    assert:
+      - {type: contains, value: "## Customer timeline"}
+      - {type: llm-rubric, value: "Identifies that '2-3 days' hides the 3-5 day make time and that silence before dispatch explains day 3-5 contacts, rewrites the promise as make time plus transit with worst case (UK roughly up to 9 working days, EU up to 15 plus possible customs delay), writes a confirmation section that sets the make time, a dispatch message, a tracking explanation, a proactive delay message, and a deflection reply, and does not invent other carriers."}
+  - name: edge-no-tracking
+    vars:
+      shop: "Second-hand books, sold on our own site, mostly cheap orders."
+      delivery_options: "Untracked standard post 2-5 working days, dispatch within 2 working days, we post twice a week (Tue and Fri)."
+    assert:
+      - {type: llm-rubric, value: "Adapts to untracked post: no tracking explanation pretending a link exists, makes the Tuesday and Friday dispatch days visible in the promise, sends a dispatch notice as the main reassurance, sets a 'write to us after day X' threshold in the deflection reply, and asks about the shop's policy on lost untracked items rather than inventing one."}
+  - name: negative-wants-faster-lie
+    vars:
+      shop: "Phone cases, ship worldwide. I want to say 'next day delivery' everywhere because competitors do."
+      delivery_options: "Ships from our supplier in 7-12 days, then 5-15 days transit."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a next-day promise that contradicts the stated 12-27 day reality, explains that an untrue promise increases contacts, complaints and possible consumer-law trouble, and writes honest promise wording instead."}

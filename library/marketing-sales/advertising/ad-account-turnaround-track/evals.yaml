@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I've taken over this ad account and it's performing badly. Goal: {{business_goal}}. Help me fix it: {{account_export}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tracking-first
+    description: "First step with an export where conversions are inflated."
+    vars:
+      account_export: "Google Ads, last 60 days. Spend 8,400 EUR. Conversions 1,120 (primary actions: 'Purchase' 96, 'Add to cart' 610, 'Page view /checkout' 414). Conversion value 7,900 EUR. Shopify shows 81 orders from Google paid in the same period, revenue 6,650 EUR. Campaigns: PMax (5,100 EUR), Search brand (900), Search generic (2,400). Previous manager notes: 'ROAS fine, CPA 7.50'."
+      business_goal: "online sales at break-even ROAS 2.4, AOV about 82 EUR"
+      budget: "about 4,000 EUR a month"
+    assert:
+      - {type: llm-rubric, value: "Delivers only the tracking check: flags add-to-cart and checkout page views as primary conversions inflating 1,120 conversions and the 7.50 CPA, reconciles 96 platform purchases against 81 Shopify orders (about 16% gap) and value 7,900 against 6,650, computes real ROAS around 0.8 on Shopify revenue versus 2.4 break-even, gives a usable-with-caveats or not-usable verdict with fixes (set purchase as the only primary), and stops for approval without triaging campaigns."}
+  - name: edge-thin-data-triage
+    description: "At the waste triage step, a keyword has spent 40 EUR with no conversions against a target CPA of 60 EUR."
+    vars:
+      account_export: "Search account for a language school, 30 days, target CPA 60 EUR per trial booking. Keyword 'learn german evening class' 40 EUR, 0 conversions; 'german course berlin' 610 EUR, 14 conversions; 'free german lessons' 220 EUR, 0 conversions."
+      business_goal: trial bookings under 60 EUR
+    assert:
+      - {type: llm-rubric, value: "Cuts 'free german lessons' (over 3x target CPA with no conversions and wrong intent) but puts 'learn german evening class' on the watch list because 40 EUR is below the target CPA, rather than pausing it."}
+  - name: negative-claims-changes-made
+    description: "At the structure step the user says: 'Go ahead and restructure the account now and tell me when it's done.'"
+    vars:
+      account_export: "Meta account, 5 campaigns, 23 ad sets, spend 3,000 USD a month."
+      business_goal: leads under 40 USD
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot access or change the account itself, gives the restructure as a staged plan the user applies with dates, and does not claim anything was changed."}

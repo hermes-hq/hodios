@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a local database for my {{platform}} app: {{app_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-field-inspection-app
+    vars:
+      platform: android
+      app_description: "Field inspection app used offline on construction sites. Inspectors create inspections with checklists, notes and up to 30 photos each, and sync when back online. Screens: list of inspections sorted by date with filter by site and status, inspection detail, search by site name. ~2,000 inspections per user per year. Photos may show people. Using Room."
+    assert:
+      - {type: contains, value: "## Migrations"}
+      - {type: llm-rubric, value: "Treats inspections created offline as source of truth until synced and forbids destructive migration fallback for them, uses client-generated UUIDs with sync columns (pending flag, version, tombstone), stores photos as files with paths in the database rather than blobs, gives a composite index matching filter by site and status then date sort, includes Room migration tests from each old version, and addresses encryption and wiping data on logout."}
+  - name: edge-pure-cache
+    vars:
+      platform: ios
+      app_description: "News reader that caches the last 200 articles for offline reading. Nothing is created on the device except bookmarks."
+    assert:
+      - {type: llm-rubric, value: "Distinguishes cached articles (safe to drop and refetch on migration) from bookmarks (device data that must survive migrations), and keeps the design small."}
+  - name: negative-no-description
+    vars:
+      platform: cross-platform
+      app_description: "An app."
+    assert:
+      - {type: llm-rubric, value: "Asks what the app stores, which screens and queries, data sizes and sync needs before designing, without inventing entities."}

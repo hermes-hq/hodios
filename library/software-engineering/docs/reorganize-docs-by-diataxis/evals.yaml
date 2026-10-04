@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Reorganise these docs using Diátaxis: {{docs_tree}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sdk-docs
+    vars:
+      audience: "Python developers integrating our queue SDK"
+      docs_tree: |
+        /getting-started - Install with pip, create a client, send your first message, then a full table of all 34 client options.
+        /concepts/queues - What a queue is, delivery guarantees, why we chose at-least-once.
+        /guides/retries - How to configure retries with backoff; also explains the history of the old retry API (v1) at length.
+        /api/client - Every method of Client with params and return types. Includes a "Tutorial: build a worker" section at the bottom.
+        /faq - Mixed questions: how to batch, what is a DLQ, pricing.
+        /old/v1-migration - Migration from v1 (last updated 2022).
+    assert:
+      - {type: contains, value: "## Change list"}
+      - {type: llm-rubric, value: "Flags /getting-started as a tutorial mixed with reference (options table should move to reference), /api/client as reference mixed with a tutorial, and /guides/retries as how-to mixed with explanation; proposes splits or moves with redirects for every moved path; treats /faq as content to redistribute by mode rather than keeping it as-is."}
+  - name: edge-titles-only
+    vars:
+      docs_tree: "Overview, Setup, Advanced, Misc, API, Tips and tricks, Deep dive"
+    assert:
+      - {type: llm-rubric, value: "Classifies with low confidence because only vague titles are given, says so, and asks for headings or first paragraphs instead of confidently assigning modes or proposing a detailed rewrite."}
+  - name: negative-accuracy-audit
+    vars:
+      docs_tree: "Please check whether the code examples in our docs still work with version 3.2 and fix any wrong parameter names. Pages: /quickstart, /reference/auth, /how-to/rotate-keys."
+    assert:
+      - {type: llm-rubric, value: "Explains that checking code accuracy is out of scope for a structural reorganisation, does not invent which parameters are wrong, and either classifies the three pages structurally or points to an accuracy audit instead."}

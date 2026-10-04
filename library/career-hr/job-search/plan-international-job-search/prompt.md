@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [relocation, work-visa, international-careers, credential-recognition, expat]
+tags: [work-visa, international-careers, credential-recognition, expat, moving-abroad]
 pairs_with:
   prompts: [convert-cv-to-country-format, plan-job-search, research-company]
   personas: [career-coach]

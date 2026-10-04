@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan, operate]
 role: [operations-manager, founder, manager]
+subject: [retail]
 inputs: [notes, dataset, text]
 output: [plan, checklist, table]
 risk: read-only
@@ -18,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [loss-prevention, shrinkage, shoplifting, cash-controls, stock-counts, retail]
+tags: [loss-prevention, shrinkage, shoplifting, cash-controls, stock-counts]
 pairs_with:
   prompts: [plan-inventory, write-opening-closing-checklist, plan-visual-merchandising]
 args:

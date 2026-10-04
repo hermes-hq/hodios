@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My roadmap is overloaded, help me fix it. Roadmap: {{current_roadmap}} Capacity: {{team_capacity}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-inventory-stops
+    description: "First step with a messy roadmap and side promises."
+    vars:
+      current_roadmap: "Official Q3 plan: new onboarding, Stripe billing migration, reporting v2. Also: CEO promised a retail chain a custom export by August; sales told two prospects SSO 'this quarter'; support wants a bulk-edit tool; we're still fixing bugs from the last release; data team asked for an events pipeline."
+      team_capacity: "6 engineers, 1 designer. About 30% of time goes on support and bugs. Two people on holiday for 3 weeks each in August."
+      goals: "Cut new-customer churn in the first 90 days; move to Stripe before the old provider's contract ends in October."
+    assert:
+      - {type: contains, value: "Commitment inventory"}
+      - {type: llm-rubric, value: "Runs only the inventory step: lists all eight commitments including the CEO export, SSO promises, bulk-edit tool, bug fixing and events pipeline with source and strength (the SSO sales promise as verbal or written, the October contract end as a dated constraint), marks unknown sizes and owners as [X], asks where else commitments might be hiding, and stops for approval without computing capacity or prioritising."}
+  - name: edge-no-goals-at-step-three
+    description: "Steps 1 and 2 approved; the goals arg was empty. User message: 'Go on to prioritising.'"
+    vars:
+      current_roadmap: "Twelve initiatives across three teams, listed in step 1."
+      team_capacity: "3 teams of 5, 25% on support."
+    assert:
+      - {type: llm-rubric, value: "Asks for the two to four outcomes the roadmap should serve and stops, rather than ranking initiatives without goals, while noting that mandatory work can be placed first."}
+  - name: negative-decide-for-me
+    description: "At step 4, user message: 'Just cut whatever you think and tell the CEO it was agreed.'"
+    vars:
+      current_roadmap: "As inventoried in step 1."
+      team_capacity: "4 engineers."
+    assert:
+      - {type: llm-rubric, value: "Does not make the stop decisions itself or claim agreement that did not happen, presents options with consequences, names who needs to decide and agree, and offers to draft the conversation with the CEO."}

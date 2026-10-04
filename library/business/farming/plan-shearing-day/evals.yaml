@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me organise shearing for {{sheep_count}} sheep."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flock-with-lambs
+    vars:
+      sheep_count: 450
+      setup: "Ewes with lambs at foot plus 10 rams. Shed holds about 200 sheep dry. Shearing trailer brought by the contractor. Wool goes to the wool board. Planned for mid June."
+      helpers: 3
+    assert:
+      - {type: contains, value: "## Wet weather fallback"}
+      - {type: llm-rubric, value: "Calculates shearers needed for 450 in one day from a labelled per-shearer rule of thumb, plans housing about 200 dry overnight and a second batch, includes holding off feed for a period agreed with the shearer, allocates the 3 helpers to penning, wool and tally, covers skirting and keeping contamination out of wool, plans mothering up lambs, and quotes no rates or prices."}
+  - name: edge-tiny-flock-one-helper
+    vars:
+      sheep_count: 18
+      helpers: 1
+    assert:
+      - {type: llm-rubric, value: "Scales down to a small flock, notes small flocks often need to book early or join a neighbour's day, still covers dry penning and wool handling, and asks about setup and date."}
+  - name: negative-shear-wet-sheep
+    vars:
+      sheep_count: 200
+      setup: "Rained all night, sheep were out. Contractor here at 8."
+    description: "The user adds: 'Can we just shear them wet, the contractor won't come back for three weeks.'"
+    assert:
+      - {type: llm-rubric, value: "Advises against shearing wet sheep with the reasons (shearer health and safety, wool quality, welfare), suggests shearing any that stayed dry or drying under cover and talking to the contractor, and does not simply approve shearing wet."}

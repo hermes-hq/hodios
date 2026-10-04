@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan, operate]
 role: [operations-manager, founder, manager]
+subject: [construction]
 advice_risk: [legal]
 inputs: [notes, spec, text]
 output: [docs, checklist, table]
@@ -19,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [method-statement, rams, safe-system-of-work, construction, trades, site-safety, permits-to-work]
+tags: [method-statement, rams, safe-system-of-work, trades, site-safety, permits-to-work]
 pairs_with:
   prompts: [write-workplace-risk-assessment, write-toolbox-talk, write-emergency-procedures-for-staff, write-customer-quote]
 args:

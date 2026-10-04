@@ -10,6 +10,7 @@ status: incubating
 aliases: [sec-deps]
 stage: [review, maintain]
 role: [security-engineer, software-engineer, maintainer]
+subject: [supply-chain]
 stack: []
 requires: [none]
 inputs: [logs, config]
@@ -21,7 +22,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [cve, supply-chain, sca, vex]
+tags: [cve, sca, vex]
 pairs_with:
   personas: [security-auditor]
 args:

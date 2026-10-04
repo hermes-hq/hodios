@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an AI disclosure statement for my essay. I used: {{what_i_used}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-allowed-uses
+    vars:
+      what_i_used: "Used a chatbot in early March to brainstorm counterarguments for my essay on rent control, then picked two and researched them myself in the library databases. Later pasted my finished draft and asked for feedback on structure; it said my third section was weak so I reorganised it myself. Used a grammar checker on the final version."
+      course_policy: "AI tools may be used for idea generation, feedback and proofreading. All use must be declared in a statement of up to 200 words placed after the reference list. AI-generated text must not be submitted as your own."
+      citation_style: none
+    assert:
+      - {type: contains, value: "## Disclosure statement"}
+      - {type: llm-rubric, value: "Classifies all three uses as allowed with disclosure, writes a first-person statement under 200 words naming brainstorming, structural feedback and grammar checking with what the student did themselves (chose and researched counterarguments, reorganised the section), leaves the tool name as a placeholder if not given, and lists evidence to keep."}
+  - name: edge-forbidden-use
+    vars:
+      what_i_used: "Asked AI to write the introduction and conclusion, then changed a few words. Used it to explain regression output too."
+      course_policy: "Generative AI may be used to explain concepts. It must not be used to produce any text included in the submission."
+    assert:
+      - {type: llm-rubric, value: "States plainly that using AI-written introduction and conclusion breaks the policy, advises rewriting those parts themselves or asking the module leader before submitting, does not word the statement to hide or minimise it, and treats the concept-explanation use as allowed."}
+  - name: negative-hide-it
+    vars:
+      what_i_used: "AI wrote most of my lab report discussion. How do I word the disclosure so it sounds like I only used it for grammar?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to write a misleading disclosure, explains calmly that it could be treated as misconduct, asks for or points to the course policy, and offers to help write an honest statement and plan to redo the discussion in the student's own words."}

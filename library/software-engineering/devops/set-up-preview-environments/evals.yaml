@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I set up preview environments for each pull request? Stack: {{stack}}. Hosting: {{hosting}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kubernetes-previews
+    vars:
+      stack: "Next.js frontend, Django API, Postgres, Redis, Stripe payments, Auth0 login"
+      hosting: "EKS cluster managed by Argo CD, GitHub Actions for CI"
+      constraints: "About 15 open PRs at a time, budget 400 USD a month for previews, customer data is personal data."
+    assert:
+      - {type: contains, value: "## Cost controls"}
+      - {type: llm-rubric, value: "Creates a namespace per PR (for example via an Argo CD ApplicationSet pull request generator or a CI deploy job) with its own Postgres seeded from migrations and synthetic data, uses Stripe test mode and a separate Auth0 tenant or test users, posts a single updating PR comment with the URL, and destroys on PR close plus a scheduled cleanup job."}
+      - {type: llm-rubric, value: "Refuses to copy production personal data into previews, gates previews behind authentication, caps concurrency, and gives a cost formula using 15 PRs against the 400 USD budget with placeholder unit prices rather than invented prices."}
+  - name: edge-single-vm
+    vars:
+      stack: "Laravel monolith with MySQL"
+      hosting: "One 8 GB VM with Docker Compose and Caddy"
+    assert:
+      - {type: llm-rubric, value: "Uses a compose project per PR with a Caddy route per subdomain, limits concurrent previews to what the VM's memory allows, and includes teardown with docker compose down -v and a cleanup cron."}
+  - name: negative-production-db
+    vars:
+      stack: "Rails app and Postgres"
+      hosting: "Render"
+      constraints: "Simplest would be to point every preview at the production database so reviewers see real data."
+    assert:
+      - {type: llm-rubric, value: "Advises against pointing previews at the production database because migrations and test actions could corrupt or expose real data, and proposes per-preview databases with seed data or anonymised snapshots instead."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "My game is lagging on {{target_platform}}. Here is my profiler data: {{profiler_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unity-mobile
+    vars:
+      target_platform: "mid-range Android (Adreno 610) at 30 fps"
+      engine: "Unity 2022 URP"
+      profiler_data: |
+        Battle scene, device capture. Frame avg 41 ms, worst 95 ms every ~4 s.
+        Main thread 38 ms: EnemyAI.Update 11 ms (300 enemies, Physics.Raycast each), UI Canvas.SendWillRenderCanvases 6 ms (health bars), Physics 7 ms.
+        GC.Alloc 180 KB per frame (string formatting for damage numbers); GC.Collect spike 50 ms.
+        Render thread 12 ms. GPU 19 ms. Draw calls 820, SetPass 140.
+    assert:
+      - {type: contains, value: "## Ranked fixes"}
+      - {type: llm-rubric, value: "Concludes the frame is main-thread bound (38 ms vs a 33.3 ms budget, GPU 19 ms), treats the GC spike from damage-number string allocation as a spike fix (pooling, no per-frame allocation), proposes time-slicing or batching enemy raycasts and splitting or caching health-bar canvases, ranks fixes by ms saved with ranges, and does not lead with GPU or draw-call work."}
+  - name: edge-gpu-bound-switch
+    vars:
+      target_platform: "Nintendo Switch docked at 60 fps"
+      engine: "Unreal 5.1"
+      profiler_data: "stat unit: Frame 22.1 ms, Game 9.0, Draw 8.5, GPU 21.8. Dropping r.ScreenPercentage to 70 gives 15.9 ms. Heavy volumetric fog and 4 shadow cascades."
+    assert:
+      - {type: llm-rubric, value: "Concludes it is GPU and resolution bound from the screen percentage test, proposes dynamic resolution, fewer shadow cascades, and cheaper fog with estimated ms savings, and keeps headroom below 16.67 ms."}
+  - name: negative-no-data
+    vars:
+      target_platform: "PC"
+      profiler_data: "It stutters sometimes."
+    assert:
+      - {type: llm-rubric, value: "Does not guess a cause; asks for the target frame rate and hardware and explains which capture to take (frame-time graph, main thread, render thread and GPU timings, the moment of the stutter)."}

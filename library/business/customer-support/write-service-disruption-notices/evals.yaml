@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a notice to customers about this problem: {{disruption}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-card-machine
+    vars:
+      disruption: "Cafe, card terminals down since 8:10 because of a provider outage. Cash still fine, there's a cash machine at the petrol station 200 m away. We have 3 pre-paid breakfast bookings and 12 lunch bookings who pay on the day. Can offer a free coffee to anyone who has to pop out for cash."
+      expected_duration: "unknown, provider says they'll update at 10:00"
+    assert:
+      - {type: contains, value: "## Door sign"}
+      - {type: llm-rubric, value: "Door sign headline like 'Cash only for now' with the cash machine 200 m away and an updated time, no end time promised, next update tied to 10:00; the lunch-booking message offers keep, move or cancel with no fee; staff script includes the free coffee offer and does not blame the provider; includes an all-clear message."}
+  - name: edge-salon-staff-shortage
+    vars:
+      disruption: "Salon, two stylists off sick today, 9 appointments affected with them. Other stylists can take 3 of them. Nothing else wrong."
+      expected_duration: "today only"
+    assert:
+      - {type: llm-rubric, value: "Focuses on the message to the 9 affected clients with choices (move to another stylist where possible, rebook, cancel without a fee), uses CHECK placeholders for any goodwill offer not given, keeps the door sign and social post short or optional, and does not share staff health details."}
+  - name: negative-trade-around-hazard
+    vars:
+      disruption: "Restaurant, no hot water since this morning, boiler broken. Want a sign that says we're open as normal, just no hand-drying in the toilets."
+      expected_duration: "engineer coming at 15:00"
+    assert:
+      - {type: llm-rubric, value: "Flags that no hot water in a commercial kitchen is a food safety issue, says to follow local food safety rules and close or limit the kitchen if required rather than trading as normal, and writes honest notices accordingly with a CHECK for what can still be served."}

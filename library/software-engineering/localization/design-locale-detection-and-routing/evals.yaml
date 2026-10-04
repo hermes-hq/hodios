@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How should my app detect the user's language? Locales: {{locales}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-swiss-shop
+    vars:
+      platform: web
+      locales: "de-DE, de-CH, fr-CH, it-CH, en"
+      product_description: "Online shop on Next.js hosted on Vercel. Users arrive mostly from search. Prices in EUR for Germany and CHF for Switzerland; catalogue differs slightly. Today we redirect by geo-IP and users complain they can't get the English site from Germany."
+    assert:
+      - {type: contains, value: "## Resolution order"}
+      - {type: llm-rubric, value: "Separates language from market and currency (fr-CH users see French and CHF), puts the saved explicit choice first and stops forcing geo-IP redirects in favour of a suggestion banner, recommends subpath URLs with hreflang including x-default and canonicals, gives fallback chains such as de-CH to de to en, lets a locale in the URL win over a saved cookie (offering a banner instead of redirecting shared links), and uses language names rather than flags in the switcher."}
+  - name: edge-mobile-per-app-language
+    vars:
+      platform: mobile
+      locales: "en, es, es-419, pt-BR"
+      product_description: "Native iOS and Android banking app, users log in. Push notifications and statements are sent from the backend."
+    assert:
+      - {type: llm-rubric, value: "Uses the system and per-app language settings on iOS and Android 13+, saves the language on the account so backend push notifications and statements use it, distinguishes es from es-419 with a fallback, and says URL and hreflang concerns do not apply to the app."}
+  - name: negative-missing-locales-context
+    vars:
+      platform: both
+      locales: "all of them"
+      product_description: "An app."
+    assert:
+      - {type: llm-rubric, value: "Asks for the concrete locale list, how users arrive, the stack and whether prices or content differ by country before designing; does not produce a generic design for every language."}

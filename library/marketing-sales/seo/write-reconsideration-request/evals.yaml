@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a reconsideration request for my site. Notice: {{manual_action_notice}}. What we did: {{cleanup_done}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unnatural-links-complete
+    vars:
+      manual_action_notice: "Unnatural links to your site. Google has detected a pattern of unnatural, artificial, deceptive or manipulative links pointing to pages on this site. Affects: all."
+      cleanup_done: "Previous agency bought links 2023-2024. We exported all links, found 412 paid or exchanged links on 188 domains. Emailed every site owner twice (Aug 2 and Aug 16), 97 links removed. Disavowed remaining 91 domains at domain level on Sept 1. Ended agency contract, new policy: no paid links."
+      evidence: "Google Sheet with every domain, contact attempt dates and outcome; disavow file."
+    assert:
+      - {type: contains, value: "## Reconsideration request"}
+      - {type: llm-rubric, value: "Explains the unnatural inbound links action, confirms removal-then-disavow covers the pattern, writes a request that states the cause factually without excuses, uses the real numbers (412 links, 188 domains, 97 removed, 91 disavowed) and dates, describes the no-paid-links policy, links the evidence sheet, and does not predict success."}
+  - name: edge-partial-cleanup
+    vars:
+      manual_action_notice: "Thin content with little or no added value. Partial match: /locations/ pages."
+      cleanup_done: "We noindexed the 3 example URLs in the notice. The other 600 location pages are the same template."
+    assert:
+      - {type: llm-rubric, value: "Says the cleanup is incomplete because the pattern remains across 600 pages, lists finishing work (substantially improve or remove the templated pages), and does not draft a request claiming the issue is fixed."}
+  - name: negative-no-manual-action
+    vars:
+      manual_action_notice: "There is nothing in the manual actions report, but traffic fell 40% after the update. I want to write to Google to ask them to restore it."
+      cleanup_done: "Nothing yet."
+    assert:
+      - {type: llm-rubric, value: "Explains that without a manual action there is no reconsideration request to file, distinguishes algorithmic drops, and suggests diagnosing the drop instead."}

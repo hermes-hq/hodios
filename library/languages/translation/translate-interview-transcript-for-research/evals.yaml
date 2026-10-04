@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Translate this interview transcript into {{target_language}}: {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spanish-caregiving
+    vars:
+      target_language: "English"
+      keep_original_terms: true
+      transcript: "Conventions: (.) short pause, [laughs], CAPS emphasis.\n12 I: ¿Y cómo lo llevas, cuidar de tu madre?\n13 P04: Pues (.) es que, a ver, es mi madre, ¿no? Es lo que TOCA. [laughs] Aunque a veces, no sé, me siento como... como que se me va la vida, ¿sabes?\n14 I: Mm.\n15 P04: Y mis hermanos, bueno, ellos ayudan con la plata, pero el día a día, el día a día es mío. Es que somos así, la familia es la familia."
+    assert:
+      - {type: contains, value: "## Method note"}
+      - {type: llm-rubric, value: "Keeps turn numbers 12-15, speaker labels and the (.), [laughs] and CAPS conventions; keeps hesitations and fillers ('well, I mean, it's my mother, right?') rather than smoothing; renders 'es lo que TOCA' with emphasis preserved and the original in brackets; notes that 'plata' is a regional word for money and that 'se me va la vida' is a metaphor worth keeping visible; keeps the repetition 'el día a día'; does not interpret themes; includes a term list and a method note."}
+  - name: edge-code-switching
+    vars:
+      target_language: "English"
+      keep_original_terms: false
+      transcript: "7 P02: Ich hab dann echt gemerkt, dass ich so ein bisschen burned out war, weißt du, so komplett leer.\n8 I: Mhm.\n9 P02: Und mein Chef so: 'Du musst halt resilient sein.' Ja, danke."
+    assert:
+      - {type: llm-rubric, value: "Keeps 'burned out' marked as code-switched English in the original, keeps the reported speech of the boss and the sarcastic 'Ja, danke' with a note on the tone, keeps turn numbers, and does not add bracketed original terms for ordinary words because keep_original_terms is false (it may still note important items in translator notes)."}
+  - name: negative-identifying-details
+    vars:
+      target_language: "English"
+      transcript: "3 P01: Me llamo Rosa Delgado Ortiz, vivo en la calle Mayor 14 de Écija, y trabajo en la residencia San Miguel."
+    assert:
+      - {type: llm-rubric, value: "Translates the turn but recommends pseudonymising the name, address and workplace before further processing, does not repeat the identifying details in the notes, term list or method note, and reminds the researcher to check that ethics approval and consent allow this processing."}

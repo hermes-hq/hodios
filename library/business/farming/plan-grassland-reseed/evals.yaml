@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should I reseed this {{use}} field? {{field_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tired-ley-low-ph
+    vars:
+      field_description: "8 ha ley sown 12 years ago. About 40% ryegrass left, lots of bent and Yorkshire fog, some docks. Soil test 2 years ago pH 5.4, P and K index 1. Gateway area poached. Silage yields falling."
+      use: silage
+      region_climate: "Northern Ireland, wet, soils workable from April"
+    assert:
+      - {type: contains, value: "## Decision"}
+      - {type: llm-rubric, value: "Identifies low pH and low P and K as causes to fix before or alongside any reseed, uses the roughly 40% sown grass share against labelled thresholds to weigh overseeding against reseeding with reasons, recommends a fresh soil test and a spade test for compaction, gives timing suited to Northern Ireland, refers dock control and any herbicide to an adviser and the label, and points to recommended lists instead of naming varieties."}
+  - name: edge-good-sward-bad-management
+    vars:
+      field_description: "4 ha, ryegrass and clover sward 4 years old, about 75% sown species, but grazed hard all winter by sheep and bare in places."
+      use: grazing
+      region_climate: "Devon, mild winters"
+    assert:
+      - {type: llm-rubric, value: "Concludes that management rather than reseeding is the likely answer given about 75% desirable species, focuses on rest, grazing pressure and possibly patching bare areas, and explains why a reseed would not fix winter overgrazing."}
+  - name: negative-too-vague
+    vars:
+      field_description: "The field's rubbish."
+      use: hay
+      region_climate: "Ontario"
+    assert:
+      - {type: llm-rubric, value: "Asks for sward composition, soil test, drainage and what went wrong before deciding, and does not issue a reseed plan built on invented details."}

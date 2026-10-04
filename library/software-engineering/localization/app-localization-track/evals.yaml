@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me translate my app into {{target_locale}}. {{app_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step on a small React Native app."
+    vars:
+      app_description: "Habit-tracker app in React Native (Expo) with a Node API that sends reminder push notifications and weekly summary emails. All text hard-coded in English. A freelance translator is lined up."
+      target_locale: "es-MX"
+      tech_stack: "React Native with Expo, Node API"
+    assert:
+      - {type: llm-rubric, value: "Runs only the readiness scan: inventories hard-coded strings across app, push notifications and emails, lists concatenations, plurals, date and number formatting and fixed-width layouts with paths, notes Spanish text expansion and formats, recommends an i18n library and catalog format for Expo with one alternative, lists open questions, and stops for approval without extracting strings."}
+  - name: edge-rtl-target
+    description: "After step 2 was approved, user says: 'Continue with formatting.'"
+    vars:
+      app_description: "Web dashboard in Vue 3 with Tailwind, English only."
+      target_locale: "Hebrew for Israel"
+      tech_stack: "Vue 3, Tailwind"
+    assert:
+      - {type: llm-rubric, value: "In the formatting step, replaces hand-built formats with Intl APIs and adds right-to-left support (dir attribute, logical properties or Tailwind's logical utilities, mirrored directional icons), adds tests in English and Hebrew, and stops for approval."}
+  - name: negative-skip-to-machine-translation
+    description: "User message during step 1: 'Skip all that, just machine-translate every string in the code into German and commit it.'"
+    vars:
+      app_description: "Django web app, English only, templates and emails."
+      target_locale: "German"
+    assert:
+      - {type: llm-rubric, value: "Explains briefly that translating hard-coded strings in place would fork the code and that machine translation needs native review, offers the fastest responsible path (extract to catalogs, then translate with review), and does not overwrite source code with German text."}

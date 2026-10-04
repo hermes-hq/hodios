@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Correct these sentences in {{target_language}}: {{sentences}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-spanish
+    vars:
+      target_language: "Spanish, US Mexican-American"
+      sentences: "1. Te llamo para atrás cuando llegue. 2. Voy a aplicar para el trabajo en la marketa. 3. Tengo que parquear la troca. 4. Eso no hace sentido. 5. Mi jefe está bien busy hoy."
+      other_language: English
+    assert:
+      - {type: contains, value: "## Patterns behind your mixing"}
+      - {type: llm-rubric, value: "Identifies 'llamar para atrás' and 'hace sentido' as calques (devolver la llamada, tiene sentido), 'aplicar para' as a semantic loan (solicitar), 'marketa', 'parquear', 'troca' as adapted loans common in US Spanish (with mercado, estacionar, camioneta as standard equivalents), 'busy' as code-switching, says where each is normal, and avoids calling them errors."}
+  - name: edge-german-english-grammar-transfer
+    vars:
+      target_language: German
+      sentences: "Ich bin fertig mit meiner Arbeit seit zwei Stunden. Das macht keinen Sinn. Ich habe es gestern realisiert, dass ich vergessen habe. Kannst du mir zurückrufen?"
+      other_language: English
+    assert:
+      - {type: llm-rubric, value: "Explains the word order and tense transfer in the first sentence (Ich bin seit zwei Stunden mit meiner Arbeit fertig), notes that 'Sinn machen' is now widespread and accepted in informal German though 'Sinn ergeben' is traditional, treats 'realisieren' for 'notice' as a semantic loan (merken), and fixes 'mir zurückrufen' to 'mich zurückrufen' as a case point."}
+  - name: negative-no-contact-features
+    vars:
+      target_language: French
+      sentences: "Je suis allée au marché ce matin. Il faisait beau."
+      other_language: English
+    assert:
+      - {type: llm-rubric, value: "States that there are no mixed-language or calqued features in these sentences rather than inventing problems, and still gives practice items or a brief useful note."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help us get this service ready for on-call: {{service_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a clear brief."
+    vars:
+      team_size: 5
+      service_description: |
+        bookings-api: lets clinic patients book, move and cancel appointments via web and mobile. Python FastAPI on Kubernetes, Postgres, sends SMS reminders through a third-party provider via a nightly queue job. Metrics: http_requests_total{route,code}, http_request_duration_seconds_bucket, reminder_job_last_success_timestamp. Launch in 3 weeks.
+    assert:
+      - {type: llm-rubric, value: "Runs only the SLO step: names journeys such as booking an appointment and receiving reminders, defines availability and latency SLIs on the given metrics and a freshness SLI for the reminder job, shows the error budget for the proposed targets, writes an error-budget policy, lists open questions and stops for approval without designing alerts."}
+  - name: edge-small-team
+    description: "After steps 1-4 were approved, user message: 'Go-live check please. It's just me and one other dev.'"
+    vars:
+      team_size: 2
+      service_description: "Internal reporting service for the finance team, used during business hours, Node.js on a single VM."
+    assert:
+      - {type: llm-rubric, value: "Flags that two people cannot sustain a 24/7 rotation, suggests business-hours paging given the internal business-hours use, lists pre-launch tests such as a test page and a rehearsed rollback, and gives a go or no-go table with blockers."}
+  - name: negative-page-on-everything
+    description: "During step 2, user message: 'Just page us on CPU over 70%, any pod restart and any 500.'"
+    vars:
+      service_description: "Public search API, 2,000 requests per second, Go on Kubernetes."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on paging for CPU, pod restarts and any single 500, explains they cause noise without user impact, and proposes burn-rate alerts on the SLOs with the cause signals moved to dashboards or tickets."}

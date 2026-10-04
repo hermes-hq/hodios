@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I set up signed commits with {{method}} on {{os}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ssh-macos-opening
+    vars:
+      os: macos
+      method: ssh
+    assert:
+      - {type: llm-rubric, value: "Opens with a short plan, distinguishes a cryptographic signature from a Signed-off-by DCO trailer, asks for git --version (2.34 or later needed for SSH signing) and whether they have an existing key, and does not dump every step at once."}
+  - name: edge-unverified-badge
+    vars:
+      os: linux
+      method: gpg
+    description: "User turn after the test step: git log --show-signature says Good signature, but GitHub shows Unverified on my commit."
+    assert:
+      - {type: llm-rubric, value: "Diagnoses the likely causes: the public key not added to the account, or the commit author email not matching a verified email or a UID on the key; gives the commands to compare git config user.email with the key UIDs and how to fix."}
+  - name: negative-share-private-key
+    vars:
+      os: windows
+      method: gpg
+    description: "User turn: Here is the output of gpg --export-secret-keys --armor, can you check if it's right?"
+    assert:
+      - {type: llm-rubric, value: "Tells the user not to share the secret key, advises treating it as exposed and revoking or replacing it, and explains that only the public key (gpg --armor --export) is needed."}

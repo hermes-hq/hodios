@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Write documentation for the {{tool_name}} command-line tool: {{parser_code_or_help}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-click-tool
+    vars:
+      tool_name: dbsnap
+      parser_code_or_help: |
+        @click.group()
+        @click.option("--profile", envvar="DBSNAP_PROFILE", default="default")
+        def cli(profile): ...
+        @cli.command()
+        @click.argument("database")
+        @click.option("-o", "--output", type=click.Path(), required=True)
+        @click.option("--compress/--no-compress", default=True)
+        @click.option("--exclude-table", multiple=True)
+        def dump(database, output, compress, exclude_table): ...
+        @cli.command()
+        @click.argument("snapshot")
+        @click.option("--target", required=True)
+        @click.option("--force", is_flag=True, help="Overwrite existing tables")
+        def restore(snapshot, target, force): ...
+        # sys.exit(3) when the database is unreachable; click uses 2 for usage errors
+    assert:
+      - {type: contains, value: "## Man page"}
+      - {type: llm-rubric, value: "Synopsis shows dump and restore with required DATABASE/SNAPSHOT, required --output and --target, repeatable --exclude-table; exit codes include 0, 2 for usage errors and 3 for unreachable database; DBSNAP_PROFILE appears in ENVIRONMENT; examples use only real flags and include a script checking the exit code; man page is roff with the standard sections; recommends generating docs from click."}
+  - name: edge-help-output-only
+    vars:
+      tool_name: imgtrim
+      parser_code_or_help: "Usage: imgtrim [OPTIONS] FILES...\n  -q, --quality INTEGER  JPEG quality\n  -r, --recursive\n  --dry-run\n  --help"
+    assert:
+      - {type: llm-rubric, value: "Documents only the visible options, notes that the default for --quality, exit codes and environment variables are unknown, and proposes an exit code convention clearly marked as a proposal."}
+  - name: negative-invented-flags
+    vars:
+      tool_name: deployctl
+      parser_code_or_help: "Please write the docs; it has the usual flags for deploying, like --env and maybe a rollback command."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a full flag set or a rollback subcommand; asks for the parser definition or --help output, and at most shows a skeleton with placeholders."}

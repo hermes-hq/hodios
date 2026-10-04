@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My firmware is too big, how do I make it smaller? {{map_or_size_report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stm32-printf-float
+    vars:
+      mcu: "STM32G030, 64 KB flash, 8 KB RAM, bare metal with ST HAL"
+      map_or_size_report: |
+        text 61,820  data 412  bss 6,980  (flash 62,232 / 65,536)
+        Largest: _vfprintf_r 6,104 (libc.a), _dtoa_r 3,420 (libc.a), __aeabi_dadd 1,780 (libgcc), __aeabi_ddiv 1,620, HAL_RCC* 2,900, font_8x16 4,096 (.data), uart_rx_buf 2,048 (.bss), log_strings 3,200 (.rodata)
+        Flags: -O0 -g, no --gc-sections, specs default newlib.
+    assert:
+      - {type: contains, value: "## Quick wins"}
+      - {type: llm-rubric, value: "Identifies full newlib printf with float support and double-precision soft-float routines, the font table in .data (copied into RAM, should be const in flash), -O0 and missing section garbage collection as the main wins; proposes -Os, -ffunction-sections -fdata-sections with --gc-sections, nano.specs, f suffixes or single precision, and making font_8x16 const, with byte estimates as ranges and timing risks."}
+  - name: edge-rtos-stacks
+    vars:
+      mcu: "nRF52832 with FreeRTOS, 64 KB RAM"
+      map_or_size_report: "RAM full. .bss: ucHeap 32,768 (configTOTAL_HEAP_SIZE). Tasks created dynamically: ble 4096 words, sensor 2048 words, ui 2048 words, logger 1024 words. Flash fine."
+    assert:
+      - {type: llm-rubric, value: "Notes stack sizes are in words (4 bytes each) so the tasks need 36 KB, recommends measuring high-water marks with uxTaskGetStackHighWaterMark before reducing, sizing the FreeRTOS heap from xPortGetMinimumEverFreeHeapSize, and keeping a margin."}
+  - name: negative-no-symbols
+    vars:
+      map_or_size_report: "Build fails: region FLASH overflowed by 1,204 bytes."
+    assert:
+      - {type: llm-rubric, value: "Asks for or gives the commands to produce the map file and symbol sizes (for example -Wl,-Map and nm --size-sort or size -A), may list common quick checks, but does not invent which symbols are large."}

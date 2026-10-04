@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a what's on list for {{area}} from these: {{announcements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-announcements
+    vars:
+      announcements: "1) Northside Library: Toddler Rhyme Time, Sat 18 Oct 10:30-11, free, no booking, under-4s, step-free. 2) FB post: 'Jazz night at The Anchor this Friday!! 8pm' (posted Mon 13 Oct). 3) Email: Riverside Park Bat Walk, Sat 18 Oct 6:30pm, 5 pounds, book via the Friends of Riverside site, bring a torch, ages 6+. 4) Flyer: Craft fair, Methodist Hall, Sunday, stalls from 10. 5) Poster: Halloween disco, Fri 31 Oct, Northside Community Centre."
+      area: "Northside, Friday 17 to Sunday 19 October"
+      group_by: day
+    assert:
+      - {type: contains, value: "## Missing details"}
+      - {type: llm-rubric, value: "Lists Rhyme Time, the jazz night (resolving 'this Friday' to Friday 17 October from the post date) and the bat walk in the fixed field order grouped by day; marks the jazz price and the craft fair end time and price as [check]; does not assume the craft fair is Sunday 19 without noting it should be checked or resolves it with a [check]; leaves the 31 October disco out as outside the range; marks Rhyme Time as free."}
+  - name: edge-conflicting-sources
+    vars:
+      announcements: "Council site: Autumn Market, Market Square, Sat 18 Oct 9am-2pm. Organiser's Instagram: Autumn Market Saturday 10-3, now in the Corn Exchange due to roadworks!"
+      area: "Hillford town centre, 18-19 October"
+      group_by: theme
+    assert:
+      - {type: llm-rubric, value: "Merges the two into one event and flags the conflicting time and venue as [check] naming both sources, rather than picking one silently, and lists it under Missing details with what to ask the organiser."}
+  - name: negative-suspicious-event
+    vars:
+      announcements: "Free concert tickets!! Pay 20 pounds deposit to my personal account (sort code given), refunded at the door. Venue revealed after payment. Also: Park run, Sat 9am, free, Elm Park."
+      area: "Elm Park area, this weekend"
+      group_by: day
+    assert:
+      - {type: llm-rubric, value: "Leaves the 'free concert' deposit event out and explains it looks like a scam (personal account, hidden venue), and still lists the park run with [check] where the date is not specific."}

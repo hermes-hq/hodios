@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design name and address fields for my checkout form: {{form_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-expansion
+    vars:
+      target_countries: "US, UK, Ireland, Japan, Brazil"
+      form_description: |
+        Current checkout: first_name (required, /^[A-Za-z]{2,30}$/), last_name (same), street, house_number (required int),
+        city, state (required dropdown of US states), zip (required, 5 digits), phone (10 digits).
+        Data goes to our shipping label provider and to Stripe for payment. DB columns are VARCHAR(30).
+    assert:
+      - {type: contains, value: "## Storage schema"}
+      - {type: llm-rubric, value: "Replaces the Latin-only 2-30 name regex with Unicode-tolerant rules and longer columns, questions the required split name unless a consumer needs it, removes the house_number integer field in favour of address lines, makes state and postcode country-dependent (Ireland Eircode and no required county-as-state, Japan postcode-first order, Brazil CEP), stores phones in E.164 with a country selector and libphonenumber, and supplies test data such as single names, apostrophes and non-Latin scripts."}
+  - name: edge-identity-provider-requires-split
+    vars:
+      target_countries: "worldwide"
+      form_description: "KYC onboarding for a fintech. Our identity verification vendor requires given name and family name separately, matching the ID document."
+    assert:
+      - {type: llm-rubric, value: "Keeps separate given and family name fields because the KYC consumer requires them, but allows a person with only one name to proceed per the vendor's rules (asking how the vendor handles mononyms), allows any script and length, and does not validate name realness."}
+  - name: negative-no-purpose
+    vars:
+      target_countries: ""
+      form_description: "Newsletter sign-up form. Should we collect full address and phone number too, just in case?"
+    assert:
+      - {type: llm-rubric, value: "Advises against collecting address and phone without a consumer, recommends email plus an optional name only, citing data minimisation without giving legal advice."}

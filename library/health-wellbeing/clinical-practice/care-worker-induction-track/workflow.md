@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan, operate, review]
 role: [operations-manager, individual]
-subject: [healthcare]
+subject: [healthcare, social-care]
 requires: [none]
 inputs: [text, notes, spec]
 output: [plan, checklist, table]
@@ -21,7 +21,7 @@ interaction: interactive
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [care-workers, staff-induction, new-starters, competency-assessment, shadowing, social-care]
+tags: [care-workers, staff-induction, new-starters, competency-assessment, shadowing]
 pairs_with:
   prompts: [write-care-visit-notes, write-clinical-skills-checklist, write-safeguarding-concern-record]
   personas: [clinical-documentation-coach]

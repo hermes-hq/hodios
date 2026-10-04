@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What should my product cost to make? Price and channels: {{target_price_and_channels}} Costs: {{current_cost_estimate}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kitchen-scale-uk
+    vars:
+      target_price_and_channels: "Smart kitchen scale at 59.99 GBP including 20% VAT. 40% of volume on our web store, 60% through a department store that wants a 45% margin on their ex-VAT price. Target gross margin 50%."
+      current_cost_estimate: "BOM 11.40, assembly 2.10, packaging 1.60, freight and duty 2.20 per unit at 5,000 units. Web fulfilment 4.50 per order. Expected returns 6% on web, retailer handles their own. Warranty claims expected 2%, about 25 to replace a unit."
+      currency: GBP
+    assert:
+      - {type: contains, value: "## Price waterfall by channel"}
+      - {type: llm-rubric, value: "Removes VAT to get about 49.99 ex-VAT, applies the retailer's 45% as margin (brand receives about 27.49), deducts web fulfilment, returns and warranty reserve on the web channel, applies a 50% gross margin to get target landed costs per channel and a 40/60 blended target, compares with the current landed cost of about 17.30, shows arithmetic, and gives a verdict on whether the retail channel works."}
+  - name: edge-markup-confusion
+    vars:
+      target_price_and_channels: "Retail 30 USD in the US (no tax included). Retailer says they need 'keystone' pricing. I sell only through them."
+      current_cost_estimate: "Landed cost 9 USD. I thought 50% markup on my cost would be fine."
+      currency: USD
+    assert:
+      - {type: llm-rubric, value: "Explains that keystone means the retailer buys at about half of retail (15 USD), shows the brand's margin at a 9 USD landed cost is 40% rather than the assumed figure, corrects the margin versus markup confusion with the formula, and lists the costs still missing (freight to retailer, returns, allowances)."}
+  - name: negative-no-price
+    vars:
+      target_price_and_channels: "Not sure yet, whatever the market will pay."
+      current_cost_estimate: "BOM around 20."
+      currency: EUR
+    assert:
+      - {type: llm-rubric, value: "Asks for a target price (or a price range to test) and the channels before calculating, and does not invent a market price or retailer margins as fact."}

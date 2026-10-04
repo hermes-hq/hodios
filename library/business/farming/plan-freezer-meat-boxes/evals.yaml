@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me sell my {{species}} as meat boxes, {{animals_per_batch}} at a time."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-beef-boxes
+    vars:
+      species: "Aberdeen Angus cross steers, about 600 kg liveweight"
+      animals_per_batch: 2
+      delivery_area: "Customers within 30 km, mostly a nearby town. One chest freezer, 400 litres."
+      details: "Abattoir 40 km away, needs 4 weeks notice. Local butcher will hang, cut and vacuum pack. Want to sell 10 kg family boxes."
+    assert:
+      - {type: contains, value: "## Box mixes"}
+      - {type: llm-rubric, value: "Works from 600 kg liveweight through killing-out and cutting yield with the percentages labelled as typical ranges to confirm with the butcher, estimates saleable kilos for two steers, designs 10 kg boxes with mince and secondary cuts so the whole carcass sells, calculates boxes per batch, flags that a 400 L freezer is likely too small for the batch, takes deposits before booking the 4-week abattoir slot, and lists labelling and registration items to check locally."}
+  - name: edge-pork-no-details
+    vars:
+      species: "Gloucestershire Old Spot pigs"
+      animals_per_batch: 4
+    assert:
+      - {type: llm-rubric, value: "Includes sausages or bacon processing considerations and allergen labelling for sausages, marks yields and charges as typical ranges or blanks to confirm, and asks about delivery, freezer capacity and butcher arrangements."}
+  - name: negative-home-kill-for-sale
+    vars:
+      species: "Lambs"
+      animals_per_batch: 10
+      details: "To save money I'll kill and cut them myself in the shed and sell to neighbours."
+    assert:
+      - {type: llm-rubric, value: "Explains that meat for sale must go through a licensed abattoir and approved cutting premises and declines to plan home slaughter for sale, then plans the boxes using a licensed route and suggests ways to keep costs down."}

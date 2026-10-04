@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a spec for this reporting feature: {{feature_request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-timesheet-export
+    vars:
+      feature_request: "Agency customers want to export approved timesheets per client per month to send to their accounting. Today they copy numbers from the Timesheets screen into Excel. They also asked for it to be emailed automatically on the 1st."
+      users: "Roles: admin, project manager (sees only their projects), member. 900 accounts; largest has 450 people logging ~9,000 entries a month. Accounts set a time zone; users can set their own."
+    assert:
+      - {type: contains, value: "## Reconciliation"}
+      - {type: llm-rubric, value: "Defines grain (one row per time entry or per person-client-day) and columns with units (hours, decimal or h:mm); scopes project managers to their projects; picks the account time zone for month boundaries and says the totals must match the Timesheets screen; sizes async export around the 9,000-entries/month largest account with proposed thresholds; covers CSV formula injection and encoding; scheduled email limited to users with access and handling recipients who lose access; marks unknowns as open questions."}
+  - name: edge-existing-api
+    vars:
+      feature_request: "One enterprise customer wants all invoices as JSON nightly to load into their data warehouse."
+    assert:
+      - {type: llm-rubric, value: "Considers whether an API or webhook-based integration fits the job better than a UI export, scopes the spec to that need, and keeps a UI report builder out of scope."}
+  - name: negative-export-everything
+    vars:
+      feature_request: "Sales promised a customer an 'export everything' button that dumps all user data including other tenants' benchmarks for comparison."
+    assert:
+      - {type: llm-rubric, value: "Flags that exporting other tenants' data breaks tenant isolation and must not be built as described, proposes an aggregated, anonymised benchmark alternative to check with privacy or legal, and asks what job 'export everything' is meant to serve."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My {{platform}} app starts slowly, how do I fix it? {{startup_trace}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-sdks
+    vars:
+      platform: android
+      startup_trace: |
+        Release build, Moto E13 (low-end), am start -W cold TotalTime median 3,900 ms over 10 runs.
+        Perfetto: Application.onCreate 1,850 ms: Firebase init 210, AppsFlyer 380, our Dagger graph 420, Room migration check 520 (main thread), RemoteConfig fetch awaited 300.
+        MainActivity onCreate inflates a ViewPager with 4 fragments 700 ms. First frame at 3,300 ms.
+    assert:
+      - {type: contains, value: "## Ranked fixes"}
+      - {type: llm-rubric, value: "Assigns time to phases, ranks fixes such as moving the Room check off the main thread, not awaiting RemoteConfig before first frame (use cached values), deferring AppsFlyer and lazily building parts of the Dagger graph, inflating only the first fragment, and adding Baseline Profiles, with ms estimates and trade-offs, plus a Macrobenchmark guard on the low-end device."}
+  - name: edge-debug-build-numbers
+    vars:
+      platform: react-native
+      startup_trace: "Takes 6 seconds to open in the simulator in debug mode with Metro running. Using JSC."
+    assert:
+      - {type: llm-rubric, value: "Explains that debug builds with Metro and a simulator do not reflect real startup, gives the method to measure a release build on a real low-end device, and mentions Hermes and bundle loading as likely areas without claiming specific savings."}
+  - name: negative-hide-with-splash
+    vars:
+      platform: ios
+      startup_trace: "Can we just show a 3-second animated splash screen so users don't notice the app is loading everything?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a longer splash to hide slowness, explains it lengthens perceived startup, and asks for an Instruments App Launch trace or the AppDelegate startup code to find the real work to defer."}

@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Make this chart accessible: {{chart_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chartjs-line
+    vars:
+      chart_library: "Chart.js 4"
+      chart_code: |
+        <canvas id="rev"></canvas>
+        new Chart(document.getElementById('rev'), { type: 'line',
+          data: { labels: ['Jan','Feb','Mar','Apr'], datasets: [
+            { label: 'EU', data: [120, 132, 128, 151], borderColor: '#e74c3c' },
+            { label: 'US', data: [98, 101, 140, 162], borderColor: '#27ae60' } ] },
+          options: { plugins: { tooltip: { enabled: true } } } });
+        // Purpose: monthly revenue (k€) by region on the sales dashboard
+    assert:
+      - {type: contains, value: "## Text alternative"}
+      - {type: llm-rubric, value: "Wraps the canvas in a figure with a figcaption summary generated from the data (for example US overtaking EU in March), gives the canvas role=img with a label or hides it in favour of the summary, adds an accessible data table with units, replaces red/green-only distinction with direct labels or distinct markers or dash patterns, and makes tooltips available on keyboard focus or provides values another way."}
+  - name: edge-live-updating-svg
+    vars:
+      chart_library: "D3"
+      chart_code: "A D3 SVG area chart of server CPU % that appends a point every second and has 600 <circle> points with <title> tooltips."
+    assert:
+      - {type: llm-rubric, value: "Warns against exposing 600 points or announcing each update, hides the point noise from assistive technology, provides a summary such as current, min and max over the window updated at a calm interval, and offers a paused data table or keyboard exploration only if users need individual values."}
+  - name: negative-design-critique-request
+    vars:
+      chart_library: ""
+      chart_code: "Is a pie chart or a bar chart better for showing our market share? No code yet."
+    assert:
+      - {type: llm-rubric, value: "Notes this is a chart design question rather than code to fix, answers briefly or points to chart design guidance, and asks for the chart code if the user wants accessibility fixes; does not produce invented code fixes."}

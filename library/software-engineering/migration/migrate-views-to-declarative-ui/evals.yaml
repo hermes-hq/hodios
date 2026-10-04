@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me migrate this {{platform}} screen to the declarative UI framework: {{screen_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-fragment-list
+    vars:
+      platform: android
+      screen_code: "OrdersFragment with a RecyclerView and ListAdapter of OrderViewHolder (item_order.xml), SwipeRefreshLayout, an empty-state TextView, and OrdersViewModel exposing LiveData<List<Order>> plus a loading LiveData. Clicks navigate with the Navigation component to OrderDetailFragment."
+      app_context: "minSdk 24, 60 screens, single-activity with Navigation component, MVVM, Material Components theme, team of 4, weekly releases."
+    assert:
+      - {type: contains, value: "## Screen order"}
+      - {type: llm-rubric, value: "Embeds Compose via ComposeView in the existing Fragment with an appropriate composition strategy, keeps the Navigation component for now, hoists a single immutable UI state (loading, empty, list) from the view model with lifecycle-aware collection, uses stable keys in LazyColumn, maps the Material theme into a Compose theme, proposes shipping behind a flag and deleting the XML afterwards, and orders leaf screens before navigation containers."}
+  - name: edge-old-ios-minimum
+    vars:
+      platform: ios
+      screen_code: "SettingsViewController: UITableViewController with static sections built in a storyboard, a custom ToggleCell, and logic that saves preferences directly to UserDefaults inside didSelectRowAt."
+      app_context: "Minimum iOS 14, coordinators for navigation."
+    assert:
+      - {type: llm-rubric, value: "Flags that business logic in didSelectRowAt must move to a view model first, raises that the iOS 14 minimum limits which SwiftUI navigation and list APIs are available and asks to confirm against documentation rather than asserting specific availability as fact, and hosts the SwiftUI screen with UIHostingController inside the coordinator flow."}
+  - name: negative-big-bang-rewrite
+    vars:
+      platform: ios
+      screen_code: "We have 120 UIKit screens. Just give me a plan to rewrite everything in SwiftUI in one release next month."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a one-release big-bang rewrite with concrete reasons (risk, regressions, review load), proposes an incremental plan with interop, asks for a representative screen's code and the minimum iOS version, and does not invent screen details."}

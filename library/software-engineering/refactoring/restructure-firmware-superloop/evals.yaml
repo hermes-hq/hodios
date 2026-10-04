@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Refactor this Arduino code to be cleaner: {{firmware_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-delay-tangle
+    vars:
+      board: "Arduino Uno"
+      firmware_code: |
+        // fridge door alarm
+        int doorOpen=0; int alarmOn=0; int muted=0; unsigned long openedAt=0;
+        int pulses=0;
+        void countPulse(){ pulses++; }
+        void setup(){ pinMode(2,INPUT_PULLUP); pinMode(3,INPUT_PULLUP); pinMode(8,OUTPUT); pinMode(13,OUTPUT); attachInterrupt(digitalPinToInterrupt(3),countPulse,FALLING); Serial.begin(9600);}
+        void loop(){
+          if(digitalRead(2)==HIGH && doorOpen==0){ doorOpen=1; openedAt=millis(); }
+          if(digitalRead(2)==LOW){ doorOpen=0; alarmOn=0; muted=0; }
+          if(doorOpen && millis()>openedAt+30000 && !muted) alarmOn=1;
+          if(alarmOn){ digitalWrite(8,HIGH); delay(500); digitalWrite(8,LOW); delay(500); }
+          if(pulses>5){ muted=1; alarmOn=0; pulses=0; }
+          digitalWrite(13,doorOpen); Serial.println(pulses); delay(100);
+        }
+    assert:
+      - {type: contains, value: "## Behaviour inventory"}
+      - {type: llm-rubric, value: "Inventories the 30 s open threshold, 500/500 ms buzzer pattern, mute after more than 5 pulses and the 100 ms loop delay; flags pulses as interrupt-shared without volatile and the millis() > openedAt + 30000 overflow pattern; replaces delays with non-blocking timers one at a time; introduces an explicit door or alarm state enum; keeps timings identical; and gives a per-step verification."}
+  - name: edge-preserve-bug
+    vars:
+      board: "ESP32 Arduino core"
+      firmware_code: "void loop(){ if(digitalRead(BTN)==LOW){ delay(50); if(digitalRead(BTN)==LOW){ toggleRelay(); } } readSensor(); delay(2000); } // toggles twice if held"
+    assert:
+      - {type: llm-rubric, value: "Notes that toggleRelay and readSensor are not shown and marks them as gaps, preserves the toggle-on-hold behaviour (listing it as a bug with a separate proposed fix), and replaces the 50 ms and 2000 ms delays with non-blocking timing while keeping the same intervals."}
+  - name: negative-asks-for-rtos-rewrite
+    vars:
+      firmware_code: "Rewrite my whole sketch from scratch on FreeRTOS with 8 tasks, I'll send the code later."
+    assert:
+      - {type: llm-rubric, value: "Explains it needs the actual code to restructure, notes that moving to an RTOS is a separate design decision rather than a behaviour-preserving refactor, and does not invent a sketch."}

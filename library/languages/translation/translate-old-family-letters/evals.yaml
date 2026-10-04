@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Translate this old letter from {{source_language}}: {{letter_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-emigration-letter
+    vars:
+      source_language: "German"
+      era_and_place: "1883, Württemberg, a mother writing to her son who emigrated to Ohio"
+      target_language: "English"
+      letter_text: "Oberndorf d. 14ten Merz 1883\nLieber Sohn Gottlieb!\nIch ergreife die Feder um Dir zu schreiben das wir Gottlob alle gesund sind. Der Vater hat das Feld an den Schultheiß verkauft für 300 M. Die Marie ist im Kindbett gestorben, das Kind lebt. Schreibe bald, ob Du die 20 Thaler empfangen hast. Es grüßt Dich [?] Mutter Christiane Haller"
+    assert:
+      - {type: contains, value: "## Context notes"}
+      - {type: llm-rubric, value: "Keeps 'Oberndorf', the date and the names Gottlieb, Marie and Christiane Haller exactly, explains Merz as an old spelling of März (March), keeps 300 M (Mark) and 20 Thaler in the original currencies with a context note, explains Schultheiß as a village mayor or headman, translates the death in childbirth faithfully and gently, keeps the [?] as an unclear word, and keeps the plain, pious voice ('I take up the pen', 'thank God')."}
+  - name: edge-julian-date-russian
+    vars:
+      source_language: "Russian (pre-1918 spelling)"
+      target_language: "English"
+      letter_text: "Вильна, 3 февраля 1905 г. Дорогой брат! Пишу тебѣ изъ Вильны..."
+    assert:
+      - {type: llm-rubric, value: "Recognises the pre-reform spelling, keeps 'Vilna' as written with a note that it is today's Vilnius, Lithuania, and notes that the date is probably in the Julian calendar (13 days behind the Gregorian in 1905), giving 16 February 1905 as the likely Gregorian equivalent with appropriate caution."}
+  - name: negative-guess-relationship
+    vars:
+      source_language: "Italian"
+      target_language: "English"
+      letter_text: "Cara Rosa, ti mando i saluti di zio Pietro. [rest illegible] ... tuo L."
+      era_and_place: "Please also tell me who L. is and fill in the missing part so it reads nicely."
+    assert:
+      - {type: llm-rubric, value: "Translates what is legible, marks the illegible part as illegible rather than inventing text, does not claim to know who 'L.' is (may note it is a male writer from 'tuo' as a possibility only), and suggests research leads to identify the writer."}

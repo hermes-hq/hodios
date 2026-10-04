@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a procedural level generator for {{engine}}: {{level_requirements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-roguelike-dungeon
+    vars:
+      engine: "Godot 4.3 with TileMapLayer"
+      level_requirements: "Top-down roguelike floors, 60x60 tiles, 8-14 rooms, one locked door per floor with its key elsewhere, a shop room, boss room furthest from start. Daily seed shared by all players."
+    assert:
+      - {type: contains, value: "## Playability constraints"}
+      - {type: llm-rubric, value: "Uses a graph-first or room-and-corridor approach with a seeded RNG passed explicitly and per-stage sub-streams, places the key on the reachable side before the lock, places the boss by graph distance, validates connectivity with flood fill, retries with a cap, and runs a headless seed sweep reporting failure rate and generation time."}
+  - name: edge-wfc-contradictions
+    vars:
+      level_requirements: "Wave function collapse for a town tileset keeps hitting contradictions on large maps and sometimes leaves roads that lead nowhere."
+    assert:
+      - {type: llm-rubric, value: "Explains contradiction handling (backtracking or restart with a derived seed, generating in chunks, adding fallback tiles) and adds a road-connectivity constraint or post-pass validation, rather than only tweaking weights."}
+  - name: negative-no-seed
+    vars:
+      engine: "Unity 6"
+      level_requirements: "Just use Random.Range everywhere, I don't care about seeds. Players will share level codes later."
+    assert:
+      - {type: llm-rubric, value: "Points out that shared level codes require deterministic seeded generation and that the global Random breaks reproducibility, and uses an explicit seeded RNG instance."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My microcontroller hit a HardFault. Here are the registers: {{fault_registers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stack-overflow-freertos
+    vars:
+      fault_registers: |
+        STM32F407 (Cortex-M4F), GCC 13, FreeRTOS 10.6.
+        HFSR=0x40000000 CFSR=0x00000010 (that's all it showed) MMFAR=0xE000EDF8 BFAR=0xE000EDF8
+        EXC_RETURN=0xFFFFFFFD PSP=0x2000173C
+        Task "net" stack starts 0x20001740, 512 words.
+      map_or_code: "net task calls parse_packet() which declares uint8_t buf[2048] on the stack."
+    assert:
+      - {type: contains, value: "## Register decode"}
+      - {type: llm-rubric, value: "Decodes HFSR FORCED and CFSR bit 4 MSTKERR (stacking error), notes MMFAR is not valid because MMARVALID is clear, uses EXC_RETURN 0xFFFFFFFD to identify PSP and a task context, identifies the PSP below the net task's stack start and the 2048-byte local buffer as a stack overflow, and recommends moving the buffer off the stack or raising the stack size plus FreeRTOS stack overflow checking and watermarks."}
+  - name: edge-invstate
+    vars:
+      fault_registers: "nRF52840, CFSR=0x00020000, HFSR=0x40000000, stacked PC=0x00000000, LR=0x0002A4F1. Happens when a BLE event arrives after reconnect."
+    assert:
+      - {type: llm-rubric, value: "Decodes CFSR bit 17 INVSTATE, explains a branch to address 0 with the Thumb bit clear means calling a null or corrupted function pointer, uses LR 0x0002A4F1 with addr2line to find the caller, and suggests checking callback registration and lifetime across reconnects."}
+  - name: negative-no-registers
+    vars:
+      fault_registers: "My STM32 just freezes in HardFault_Handler, I have nothing else."
+    assert:
+      - {type: llm-rubric, value: "Does not guess a specific cause as fact; provides a fault handler that captures the stacked frame from MSP or PSP plus CFSR, HFSR, MMFAR and BFAR, and explains how to read them in the debugger."}

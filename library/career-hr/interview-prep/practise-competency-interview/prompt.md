@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [verify, learn]
 role: [job-seeker]
+subject: [public-sector]
 requires: [none]
 inputs: [job-posting, document, text]
 output: [conversation, report]
@@ -19,7 +20,7 @@ interaction: interactive
 model_tier: mid
 reasoning: optional
 level: intermediate
-tags: [competency-interview, behaviour-indicators, public-sector, civil-service, scoring-scale]
+tags: [competency-interview, behaviour-indicators, civil-service, scoring-scale]
 pairs_with:
   prompts: [drill-star-answers, prepare-star-stories, prepare-assessment-center, run-mock-interview]
   personas: [interview-coach]

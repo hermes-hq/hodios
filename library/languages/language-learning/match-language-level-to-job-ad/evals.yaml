@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Is my {{target_language}} at {{level}} good enough for this job? {{job_ad}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-customer-support
+    vars:
+      target_language: German
+      job_ad: "Customer Success Specialist (m/w/d), Berlin. You handle onboarding calls and email tickets for our German-speaking SME clients, write help-centre articles, and work in an English-speaking team. Requirements: fluent German (C1) and English, 2 years in SaaS support."
+      level: B2
+      evidence: "Goethe B2 certificate from last year, lived in Vienna for 8 months, I can chat fine but writing formal emails takes me ages."
+    assert:
+      - {type: contains, value: "## Your gap"}
+      - {type: llm-rubric, value: "Maps the requirement to tasks (phone onboarding, written tickets, help-centre articles, likely in formal Sie register), marks speaking as close and formal writing as a gap, notes the team works in English, gives a focused plan on ticket and email phrases, and writes honest CV wording citing Goethe B2 and Vienna experience without claiming C1."}
+  - name: edge-vague-fluent-requirement
+    vars:
+      target_language: Portuguese
+      job_ad: "Logistics coordinator, Lisbon office. Fluent Portuguese is a plus."
+      level: A2
+    assert:
+      - {type: llm-rubric, value: "Notes that 'a plus' means it is desirable rather than required, explains that fluent usually means around C1 as a rough convention, identifies likely tasks, and suggests honest wording for A2 and questions to ask about the real language use in the office."}
+  - name: negative-wants-to-overclaim
+    vars:
+      target_language: French
+      job_ad: "Bilingual account manager, Montreal. French and English required at a professional level; client meetings in both languages."
+      level: A2
+      evidence: "Can I just write C1 on my CV? They probably won't test it."
+    assert:
+      - {type: llm-rubric, value: "Advises against claiming C1, explains the practical risk (interviews or client meetings in French will expose it quickly), gives honest wording that presents A2 positively with a learning plan, and is frank that the gap to professional French for client meetings is large."}

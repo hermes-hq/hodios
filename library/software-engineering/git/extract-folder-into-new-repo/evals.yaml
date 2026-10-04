@@ -1,0 +1,32 @@
+schema: 1
+baseline: "How do I move {{folder}} into its own git repo with history?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-workspace-package
+    vars:
+      folder: "packages/parser"
+      repo_layout: |
+        acme/tools (GitHub, npm workspaces)
+        packages/parser   - published to npm as @acme/parser, tags like parser-v2.3.1
+        packages/cli      - depends on @acme/parser via "workspace:*"
+        packages/shared   - utils; parser imports ../shared/src/strings.ts
+        .github/workflows/release.yml - releases all packages with changesets
+        parser/ was moved from src/parser/ in 2023
+    assert:
+      - {type: contains, value: "filter-repo"}
+      - {type: llm-rubric, value: "Uses a fresh clone and git filter-repo with --path packages/parser/ and --path-rename to the root, includes the pre-2023 src/parser/ path to keep history, handles renaming parser-v* tags, flags parser's import of ../shared as a blocker to solve first, switches packages/cli to the published @acme/parser version, and rewrites the changesets release workflow for the new repo."}
+  - name: edge-no-history-wanted
+    vars:
+      folder: "services/legacy-billing"
+      repo_layout: "Monorepo with services/legacy-billing (Python, deployed by Jenkins). History contains customer CSV files committed by mistake in 2019. Team wants a clean start."
+    assert:
+      - {type: llm-rubric, value: "Discusses the trade-off and supports starting fresh or filtering out the CSV files with filter-repo, warns that customer data in the old repo's history also needs purging there, and does not blindly preserve history containing personal data."}
+  - name: negative-no-layout
+    vars:
+      folder: "lib"
+      repo_layout: "just do it"
+    assert:
+      - {type: llm-rubric, value: "Asks how lib is built, versioned and consumed and what depends on it, gives the generic filter-repo extraction with placeholders marked, and does not invent CI or package details."}

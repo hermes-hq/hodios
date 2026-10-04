@@ -9,13 +9,14 @@ version: 1.0.0
 status: incubating
 stage: [build, maintain]
 role: [software-engineer, tech-lead, security-engineer]
+subject: [supply-chain]
 requires: [none]
 output: [code]
 risk: read-only
 invocation: user
 model_tier: small
 level: intermediate
-tags: [dependencies, supply-chain, licences, typosquatting, lockfiles]
+tags: [dependencies, licences, typosquatting, lockfiles]
 pairs_with:
   prompts: [vet-dependency, audit-dependencies]
   rules: [secure-coding-rules]

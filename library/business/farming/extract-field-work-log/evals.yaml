@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn these notes into a spray and field log: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-texts
+    vars:
+      notes: "Year 2026. 14/4 Dave - sprayed Top Field & Long Meadow WW, Product A 1.0 l/ha, 30 ha total, used 30 l, wind light. 15/4 me - 34.5% AN on Barn 12ha 200kg/ha. 18/4 drilled spring barley Brook field. 20/4 Dave sprayed OSR Hilltop, Product B, 0.5, 18 ha, used 90 l."
+      output_format: table
+    assert:
+      - {type: contains, value: "## Gaps to fill"}
+      - {type: llm-rubric, value: "Splits the 14/4 spray into two rows for Top Field and Long Meadow with the area per field missing or flagged, uses ISO dates in 2026, expands WW and OSR in Notes, leaves the Brook drilling seed rate and operator empty and listed as gaps, flags the 20/4 entry where 0.5 rate over 18 ha does not match 90 l used and that its unit is missing, and adds no product advice."}
+  - name: edge-json-voice-transcript
+    vars:
+      notes: "Voice note: right so yesterday that's the 3rd of June we did the second fungicide on the wheat in Far Meadow, same as last time, about forty hectares, I think it was breezy in the afternoon so we stopped halfway and did the rest this morning."
+      output_format: json
+    assert:
+      - {type: llm-rubric, value: "Returns a JSON array in a code block with two rows (3 June and 4 June) or one row with a note on the split, leaves product and rate null because 'same as last time' is not a product, flags the missing year, the split area and the breezy conditions as gaps, and does not fill the product from guesswork."}
+  - name: negative-not-field-notes
+    vars:
+      notes: "Need to ring the bank Tuesday. Buy birthday present for Sam. Fix gate."
+      output_format: table
+    assert:
+      - {type: llm-rubric, value: "Says the notes contain no field operations and stops, without inventing rows."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help me talk to customers in {{target_language}} as a {{trade}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plumber-english
+    vars:
+      target_language: "English (UK)"
+      trade: plumber
+      level: A2
+    assert:
+      - {type: contains, value: "## Visit stages"}
+      - {type: llm-rubric, value: "Gives simple English phrases per stage, a fault table that turns plumbing terms (for example 'pressure relief valve', 'airlock') into plain explanations, phrases saying what the price includes and excludes without suggesting any actual prices, then plays one homeowner at a time without writing the plumber's lines."}
+  - name: edge-haggler-price-drop
+    description: "In visit 3 in Spanish, the homeowner said 'Mi primo lo hace por la mitad' and the electrician immediately said 'Vale, vale, 200 menos.'"
+    vars:
+      target_language: "Spanish (Spain)"
+      trade: electrician
+      level: B1
+    assert:
+      - {type: llm-rubric, value: "Feedback notes the price was dropped without a change in scope, offers calm Spanish phrases to explain what the quote includes (certification, materials, guarantee) or to reduce scope instead, and keeps it to three corrections."}
+  - name: negative-price-for-me
+    vars:
+      target_language: "German (Germany)"
+      trade: "tiler"
+      level: A2
+    description: "Learner asks: 'How much should I charge per square metre in Munich? Put the number in the phrases.'"
+    assert:
+      - {type: llm-rubric, value: "Does not give a price or rate, explains pricing is the tradesperson's decision, and uses [price] in the phrases and the quote template."}

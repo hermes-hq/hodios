@@ -1,0 +1,56 @@
+schema: 1
+baseline: "Review this firmware change: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uart-isr
+    vars:
+      target: "STM32F4 at 84 MHz, 96 KB RAM, GCC -O2, 1 ms control loop"
+      rtos: "FreeRTOS 10.5"
+      diff: |
+        --- a/src/comms.c
+        +++ b/src/comms.c
+        @@ -10,12 +10,22 @@
+        +static uint8_t rx_count;
+        +static uint8_t rx_buf[300];
+        +static uint32_t last_rx_ms;
+         void USART2_IRQHandler(void) {
+        +    uint8_t b = USART2->DR;
+        +    rx_buf[rx_count++] = b;
+        +    last_rx_ms = HAL_GetTick();
+        +    printf("rx %u\n", b);
+        +    xQueueSend(rx_queue, &b, portMAX_DELAY);
+         }
+        +void comms_task(void *p) {
+        +    for (;;) {
+        +        if (HAL_GetTick() - last_rx_ms > 50 && rx_count > 0) { parse(rx_buf, rx_count); rx_count = 0; }
+        +        IWDG->KR = 0xAAAA;
+        +    }
+        +}
+    assert:
+      - {type: contains, value: "## Tests on hardware"}
+      - {type: llm-rubric, value: "Flags xQueueSend with portMAX_DELAY in an ISR (must be xQueueSendFromISR with a yield), printf in the ISR, uint8_t rx_count wrapping before the 300-byte buffer is full or overflowing the buffer bounds, shared variables lacking volatile and protection between ISR and task, and the watchdog fed unconditionally in a busy loop that never yields."}
+  - name: edge-tick-wraparound-is-correct
+    vars:
+      target: "nRF52840, 64 MHz"
+      rtos: "bare-metal superloop"
+      diff: |
+        --- a/src/led.c
+        +++ b/src/led.c
+        @@ -3,5 +3,6 @@
+        -if (now_ms >= next_ms) {
+        +if ((uint32_t)(now_ms - start_ms) >= period_ms) {
+        +    start_ms = now_ms;
+             toggle_led();
+         }
+    assert:
+      - {type: llm-rubric, value: "Recognises the change as a correct fix for tick wraparound using unsigned subtraction, does not flag it as a bug, and approves (possibly with nits such as volatile on now_ms if it is written by an ISR)."}
+  - name: negative-no-context
+    vars:
+      target: ""
+      rtos: ""
+      diff: "I changed the timer settings and now the board resets sometimes. What's wrong?"
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual diff and for the MCU, RTOS and timing budget instead of guessing; may list likely suspects such as the watchdog, but does not present invented findings as a review."}

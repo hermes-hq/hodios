@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Can you improve these flashcards? {{cards}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-history-deck
+    vars:
+      cards: "1. Causes of WW1 | Militarism, alliances, imperialism, nationalism, assassination of Franz Ferdinand\n2. When? | 1914\n3. Was the Schlieffen Plan successful? | No\n4. The Treaty of Versailles was signed in ___ | 1919\n5. Who was assassinated in Sarajevo in June 1914? | Archduke Franz Ferdinand\n6. Treaty of Versailles | 1919, Germany lost territory, army limited to 100,000, war guilt clause 231, reparations 132 billion gold marks, no air force"
+      card_types: basic-and-cloze
+    assert:
+      - {type: contains, value: "## Import block"}
+      - {type: llm-rubric, value: "Splits card 1 into separate cause cards or overlapping clozes, adds context to the ambiguous 'When?' card, turns the yes/no Schlieffen card into an open question, splits card 6 into several single-fact cards, keeps card 5 unchanged, flags card 4 and 6 overlap, gives counts of cards in and out, and provides a tab-separated import block with any cloze cards in a separate block from the basic cards."}
+  - name: edge-basic-only-language
+    vars:
+      cards: "der Tisch | the table\ndie Lampe, das Fenster, der Stuhl | lamp, window, chair\nlaufen | to run, ran, has run (lief, ist gelaufen)"
+      card_types: basic
+    assert:
+      - {type: llm-rubric, value: "Does not use cloze since only basic cards are allowed, splits the three-noun card into three cards keeping articles, splits the verb forms into separate cards for past and perfect, and keeps the first card unchanged."}
+  - name: negative-wrong-fact
+    vars:
+      cards: "Speed of light | 300,000 km per hour\nPowerhouse of the cell | mitochondria\nNewton's 2nd law | F=ma, also explains action and reaction"
+    assert:
+      - {type: llm-rubric, value: "Flags the speed of light unit as doubtful (it is about 300,000 km per second) with [check] rather than silently keeping it, notes the second-law card wrongly bundles the third law and splits or corrects with a check note, and rewrites the mitochondria card to require recall of what mitochondria do."}

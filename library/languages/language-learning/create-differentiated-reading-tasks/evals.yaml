@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make reading questions at {{levels}} for this {{target_language}} text: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-english-article
+    vars:
+      target_language: English
+      levels: A2, B1, B2
+      text: "Why more cities are giving streets back to children. (1) Every Friday afternoon, the street outside Oakfield Primary School closes to cars. Parents put out cones, and for two hours the road becomes a playground. (2) The idea, called a 'play street', started in Bristol in 2009 when two mothers asked the council for permission to close their road. Today hundreds of streets across the country do the same. (3) Supporters say children get more exercise and neighbours who never spoke now know each other. 'I've lived here twenty years and only met half my street last summer,' says retired teacher Mary Holt. (4) Not everyone agrees. Some drivers complain that they have to take longer routes, and a few residents worry about noise. (5) Researchers at the University of Bristol found that children on play streets were more active on those afternoons, although they say more long-term studies are needed."
+    assert:
+      - {type: contains, value: "## Shared discussion"}
+      - {type: llm-rubric, value: "Support tier gets a glossary and literal questions in text order with paragraph numbers; core mixes literal, vocabulary and one inference question; stretch asks about the writer's attitude or the effect of language (for example 'although' in paragraph 5) and a transformation task; the original text is not rewritten for core and stretch."}
+      - {type: llm-rubric, value: "Shared discussion brings mixed-level groups together with roles per tier; tiers are named neutrally rather than easy or weak; answer keys cite paragraph numbers and do not rely on facts outside the text."}
+  - name: edge-text-too-hard-for-support
+    vars:
+      target_language: French
+      levels: A1, A2, B1
+      text: "L'inflation persistante des denrées alimentaires, conjuguée à la stagnation des salaires réels, contraint un nombre croissant de ménages à arbitrer entre des dépenses autrefois incompressibles, selon une étude publiée mardi par l'Insee, qui souligne par ailleurs le recours accru aux banques alimentaires dans les zones périurbaines."
+    assert:
+      - {type: llm-rubric, value: "Flags that the text is far above A1 and proposes a glossed or shortened version for the lowest tier only, keeping the same facts, rather than giving A1 learners questions on the unmodified text."}
+  - name: negative-no-text
+    vars:
+      target_language: Spanish
+      levels: A2, B1, B2
+      text: "something about climate change"
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual text and stops, without writing its own article and questions as if the teacher had supplied one."}

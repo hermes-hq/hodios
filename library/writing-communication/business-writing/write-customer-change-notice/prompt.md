@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [customer-notice, service-change, opening-hours, relocation, discontinued-product, local-business]
+tags: [customer-notice, service-change, opening-hours, discontinued-product, local-business, moving-abroad]
 pairs_with:
   prompts: [plan-price-change-communication, write-internal-announcement, plan-change-communications]
 args:

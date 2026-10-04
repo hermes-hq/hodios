@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which database should I use? {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-booking-saas
+    vars:
+      workload: "Booking SaaS for clinics: clinics, practitioners, patients, appointments, payments. Must never double-book a slot. ~500 clinics, ~40k appointments/day at peak, reports per clinic per month, patient search by name. 50 GB in two years."
+      constraints: "Team of 5 knows Python and some Postgres. Cloud, EU data residency, no dedicated ops person. CTO's friend says to use a document database for flexibility."
+    assert:
+      - {type: contains, value: "## What would change the answer"}
+      - {type: llm-rubric, value: "Recommends a managed relational database because double-booking prevention needs transactions and constraints (for example an exclusion or unique constraint), shows the workload is modest (about 40k writes per day), evaluates the document database suggestion fairly and explains why it does not fit, treats name search as possible in the relational store before adding a search engine, names EU residency as a check, and gives thresholds for change without quoting prices."}
+  - name: edge-specialised-fit
+    vars:
+      workload: "Ingest 2 million events per second of clickstream, keep 13 months, analysts run ad hoc aggregations over billions of rows; no updates."
+    assert:
+      - {type: llm-rubric, value: "Recognises that this is an append-only analytical workload where a columnar analytical store or warehouse fits better than a transactional relational database, and explains the threshold reasoning rather than defaulting blindly."}
+  - name: negative-no-workload
+    vars:
+      workload: "What's the best database?"
+    assert:
+      - {type: llm-rubric, value: "Explains that the answer depends on access patterns, consistency, size and team, asks for those details, and does not name a single universal best product."}

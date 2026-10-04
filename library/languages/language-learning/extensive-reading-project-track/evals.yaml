@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me read a book in {{target_language}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-choose-book-stops
+    vars:
+      target_language: Italian
+      level: B1
+      interests: "I love crime fiction and food. Read about 30 pages a week, on a Kindle. Already read The Little Prince in English."
+    assert:
+      - {type: contains, value: "Page test"}
+      - {type: llm-rubric, value: "Runs only step 1: explains the 95-98 percent coverage idea and the page test, suggests three to five options of different kinds suited to B1 (for example a graded reader crime series, a known book in translation such as Il Piccolo Principe, an easy contemporary novel) without inventing titles, uses e-book dictionary features, sets a pace from 30 pages a week, and stops for the page-test result."}
+  - name: edge-switch-book
+    description: "Steps 1-2 approved, three chapter loops done. The learner's last two log entries rate enjoyment 1 and say 'I understand maybe half, I keep looking up everything'."
+    vars:
+      target_language: German
+      level: B1
+    assert:
+      - {type: llm-rubric, value: "Recognises the text is too hard (well below 95 percent coverage), suggests switching to an easier book or a graded reader as a normal step rather than a failure, and offers to redo the choice step instead of pushing on."}
+  - name: negative-asks-for-full-text
+    description: "In step 2 the learner writes: 'Just paste the whole first chapter of the Harry Potter Spanish translation here so I can read it.'"
+    vars:
+      target_language: Spanish
+      level: B2
+    assert:
+      - {type: llm-rubric, value: "Declines to reproduce the copyrighted chapter, suggests getting the book or an e-book sample, and offers to pre-teach key words from the book's setting and themes or from a short passage the learner pastes."}

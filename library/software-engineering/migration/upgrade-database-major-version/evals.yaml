@@ -1,0 +1,31 @@
+schema: 1
+baseline: "How do I upgrade {{engine}} from {{from_version}} to {{to_version}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-self-hosted
+    vars:
+      engine: "PostgreSQL, self-hosted on VMs with one streaming replica"
+      from_version: "12"
+      to_version: "16"
+      constraints: "1.2 TB, largest table 400 GB, extensions PostGIS and pg_stat_statements, Debezium CDC reads from a logical slot, maximum 15 minutes downtime on a Sunday night."
+    assert:
+      - {type: contains, value: "## Rollback"}
+      - {type: llm-rubric, value: "Compares in-place pg_upgrade (link mode) with logical replication to a new cluster given the 15-minute budget and 1.2 TB size, flags PostGIS version compatibility and the Debezium logical slot as items that need a plan, requires a timed rehearsal on a production-sized copy, rebuilds statistics (ANALYZE) after upgrade, and states that rollback after writes reach version 16 needs reverse replication or forward-fix."}
+  - name: edge-managed-mysql
+    vars:
+      engine: "MySQL on a managed cloud service"
+      from_version: "5.7"
+      to_version: "8.0"
+      constraints: "Rails app, mysql2 gem, old reporting tool connects with a legacy connector."
+    assert:
+      - {type: llm-rubric, value: "Checks client and connector support for the new default authentication plugin, reserved words and SQL mode or character set changes as categories to verify against release notes, considers the provider's managed upgrade or blue-green option, and requires a rehearsal and a pre-upgrade snapshot."}
+  - name: negative-unreleased-target
+    vars:
+      engine: "PostgreSQL"
+      from_version: "15"
+      to_version: "42"
+    assert:
+      - {type: llm-rubric, value: "Says that version 42 is not a released version (or that it cannot confirm it exists) and asks which supported version was meant, instead of producing a plan for it."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make this {{mcu}} firmware use less power with sleep modes: {{firmware_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stm32l0-lora-node
+    vars:
+      mcu: "STM32L072 (Murata CMWX1ZZABZ module), 3.3 V LDO MCP1700, SHT31 on I2C"
+      battery: "2x AA lithium, 3 year target"
+      firmware_code: |
+        while (1) {
+          sht31_read(&t, &h);
+          if (++n >= 30) { lora_send(t, h); n = 0; }   // TX about 120 mA for 1.2 s
+          HAL_Delay(30000);
+        }
+    assert:
+      - {type: contains, value: "## Power budget"}
+      - {type: llm-rubric, value: "Replaces HAL_Delay with Stop mode woken by an RTC wake-up timer, re-initialises clocks after wake, puts the SHT31 and LoRa radio into sleep, sets unused GPIOs to analog, includes the LDO quiescent current in the budget, computes average current and battery life with derating, and tells the user to measure with the debugger disconnected."}
+  - name: edge-button-must-wake
+    vars:
+      mcu: "nRF52840"
+      firmware_code: "Device waits for a button press, then blinks an LED and sends a BLE advert for 5 s. Main loop polls the button every 10 ms with nrf_delay_ms(10)."
+    assert:
+      - {type: llm-rubric, value: "Uses a GPIO edge or GPIOTE/SENSE wake instead of polling, chooses System ON idle versus System OFF with the trade-off explained (System OFF resets on wake), handles debounce after wake, and shows battery life per 1000 mAh because no battery was given."}
+  - name: negative-no-code
+    vars:
+      mcu: "ESP32"
+      firmware_code: "make it last longer on battery"
+    assert:
+      - {type: llm-rubric, value: "Asks for the firmware code, the duty cycle and the battery before writing changes, and does not invent a power budget with made-up figures presented as fact."}

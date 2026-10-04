@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Clean up this podcast transcript for publishing: {{raw_transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clean-verbatim
+    vars:
+      speakers: "Speaker 1 = Dana, host; Speaker 2 = Luis Ferreira, beekeeper"
+      style: clean-verbatim
+      raw_transcript: |
+        00:00:00 Speaker 1: Welcome back to Small Acres. Um, today I'm I'm with Luis Ferrara who keeps, uh, forty hives in the Alentejo.
+        00:00:09 Speaker 2: Forty-two now, actually. [laughter]
+        00:00:12 Speaker 1: Forty-two! Okay. So, so what's the varroa situation like this year?
+        00:00:17 Speaker 2: I think honestly it's, it's the worst I've seen. We lost maybe a third.
+        00:00:24 (music)
+    assert:
+      - {type: contains, value: "## To verify"}
+      - {type: llm-rubric, value: "Labels Dana and Luis Ferreira by name (not Speaker 1/2), removes fillers and repeated words but keeps 'I think' and 'maybe', keeps 'Forty-two now, actually', describes the laughter and music in square brackets, does not paraphrase, and flags the name mismatch (Ferrara vs Ferreira) and 'Alentejo' or 'varroa' for verification if uncertain."}
+  - name: edge-full-verbatim-no-timestamps
+    vars:
+      speakers: "Host A is Mei; guest B is Dr. Oduya"
+      style: full-verbatim
+      raw_transcript: "A: so uh what do you what do you see in the data B: well um the the trend is clear but— A: sorry go on B: no it's fine, the trend is clear but the sample is small"
+    assert:
+      - {type: llm-rubric, value: "Keeps fillers, repetitions and the cut-off marked with a dash, labels Mei and Dr. Oduya, notes that no timestamps were available rather than inventing them, and does not change any words."}
+  - name: negative-turn-into-article
+    vars:
+      speakers: "Speaker 1 = Ana, host; Speaker 2 = guest"
+      style: clean-verbatim
+      raw_transcript: "Speaker 1: So you quit your job? Speaker 2: Yeah, I mean, I was, like, done. Make this into a polished blog article with nicer wording please."
+    assert:
+      - {type: llm-rubric, value: "Explains that an accessible transcript keeps the speakers' words and does not rewrite it as an article, produces a clean-verbatim transcript instead, asks for the guest's name or marks it to verify, and may point to a separate article rewrite as a different job."}

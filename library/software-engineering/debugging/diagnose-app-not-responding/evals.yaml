@@ -1,0 +1,37 @@
+schema: 1
+baseline: "My {{platform}} app freezes. Here is the report: {{trace_or_report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-lock-held
+    vars:
+      platform: android
+      trace_or_report: |
+        ANR in com.example.notes, Input dispatching timed out (5001 ms)
+        "main" prio=5 tid=1 Blocked
+          at com.example.notes.data.NoteCache.get(NoteCache.kt:42)
+          - waiting to lock <0x0a1b2c3d> (a java.lang.Object) held by thread 23
+          at com.example.notes.ui.NoteListAdapter.onBindViewHolder(NoteListAdapter.kt:61)
+        "SyncWorker" prio=5 tid=23 Native
+          at java.net.SocketInputStream.socketRead0(Native method)
+          ...
+          at com.example.notes.sync.SyncClient.pull(SyncClient.kt:88)
+          at com.example.notes.data.NoteCache.refresh(NoteCache.kt:70)
+          - locked <0x0a1b2c3d> (a java.lang.Object)
+    assert:
+      - {type: contains, value: "## Root cause"}
+      - {type: llm-rubric, value: "Identifies that the main thread is blocked on a lock held by the SyncWorker thread doing network I/O inside NoteCache.refresh, fixes it by not holding the lock during the network call (fetch first, then swap under a short lock or use an immutable snapshot) and keeping the adapter read non-blocking, and suggests StrictMode or a regression check."}
+  - name: edge-ios-watchdog-launch
+    vars:
+      platform: ios
+      trace_or_report: "Exception Type: EXC_CRASH (SIGKILL), Termination Reason: FRONTBOARD 0x8badf00d, scene-create watchdog transgression. Thread 0: ... sqlite3_step ... AppDatabase.migrate() ... AppDelegate.application(_:didFinishLaunchingWithOptions:)"
+    assert:
+      - {type: llm-rubric, value: "Explains 0x8badf00d as a watchdog kill during launch caused by a synchronous database migration on the main thread in didFinishLaunching, and moves the migration off the main thread with a lightweight launch UI until it completes."}
+  - name: negative-raise-timeout
+    vars:
+      platform: android
+      trace_or_report: "Can I just increase the ANR timeout or catch it so it stops showing the dialog?"
+    assert:
+      - {type: llm-rubric, value: "Explains the ANR timeout cannot and should not be raised or caught by the app, and asks for the trace while describing how to get one from Play Console or adb bugreport."}

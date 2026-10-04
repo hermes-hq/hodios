@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Review these postmortem action items: {{action_items}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarter-of-incidents
+    vars:
+      review_date: "2026-10-01"
+      action_items: |
+        INC-301 (2026-05-12, config push took down API): "Improve monitoring" - owner Platform, due 2026-06-01, open
+        INC-301: "Add schema validation for config pushes" - owner Dana, due 2026-06-15, open
+        INC-318 (2026-06-30, bad config in feature flag service): "Engineers to double-check configs before pushing" - owner Sam, due 2026-07-10, open
+        INC-318: "Rollback button for flag service" - owner Lee, due 2026-07-31, done (PR 4471)
+        INC-322 (2026-08-19, cert expired on internal gateway): "Add cert expiry alert" - owner Dana, due 2026-08-30, done
+        INC-330 (2026-09-14, config typo disabled rate limiting): "Look into config safety" - owner TBD, no due date, open
+    assert:
+      - {type: contains, value: "## Themes"}
+      - {type: llm-rubric, value: "Identifies unvalidated config changes as a theme across INC-301, INC-318 and INC-330, notes that the schema validation item that would address it has been open for months past due, and recommends prioritising it."}
+      - {type: llm-rubric, value: "Flags 'Improve monitoring' and 'Look into config safety' as vague, flags 'Engineers to double-check configs' as blame-shaped, and rewrites each with a concrete change, owner placeholder, due date and a verification step; computes 2 of 6 items done."}
+  - name: edge-all-done
+    vars:
+      action_items: "INC-90: add retry with backoff to billing client - done. INC-91: add disk-full alert - done. INC-92: runbook for queue backlog - done."
+    assert:
+      - {type: llm-rubric, value: "Reports full completion but questions whether 'done' has evidence for each item, checks whether the items would prevent repeats, and does not invent problems or extra items."}
+  - name: negative-blame-request
+    vars:
+      action_items: "INC-77: Tom pushed the wrong migration. Action item: Tom to be put on a performance plan. Please make the action items stronger."
+    assert:
+      - {type: llm-rubric, value: "Declines to strengthen a blame or disciplinary action item, explains blameless follow-up briefly, and proposes system changes such as migration review gates, dry runs or automated checks with owners and verification."}

@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [build, operate]
 role: [operations-manager, manager, founder]
+subject: [retail]
 inputs: [notes, text]
 output: [checklist]
 risk: read-only
@@ -18,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [opening-checklist, closing-checklist, cash-up, shift-handover, retail, end-of-day]
+tags: [opening-checklist, closing-checklist, cash-up, shift-handover, end-of-day]
 pairs_with:
   prompts: [write-sop, write-emergency-procedures-for-staff, plan-loss-prevention]
 args:

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me start an email list for my business: {{business}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with clear context."
+    vars:
+      business: "Family bike repair shop in Ghent, Belgium. Customers come in for repairs and seasonal servicing; we also sell some used bikes. Want email for spring service bookings and used-bike arrivals."
+      existing_contacts: "About 1,100 email addresses in our repair booking system (customers give them for 'your bike is ready' messages, no marketing tick box). 60 people signed a paper list at a cycling fair asking for news."
+      hours_per_week: 2
+    assert:
+      - {type: llm-rubric, value: "Runs only the consent and sources step: separates booking-system addresses given for service messages (flag as not clearly marketing consent in Belgium/EU, check locally, consider asking at next visit) from the fair sign-ups who asked for news, proposes sign-up sources such as the counter and booking confirmation with draft consent wording, writes a one-line subscriber promise, includes a professional-limits note, and stops for approval without choosing a platform."}
+  - name: edge-missing-country
+    description: "First step without a country."
+    vars:
+      business: "I'm a freelance dog groomer, I work from a van."
+    assert:
+      - {type: llm-rubric, value: "Asks for the country because consent rules differ, and does not produce consent rules or import advice before knowing it."}
+  - name: negative-review-without-data
+    description: "After steps 1-4 were approved, user says: 'Do the 30-day review, I think it went well.' No numbers given."
+    vars:
+      business: "Small bakery in Leeds, UK."
+      hours_per_week: 1
+    assert:
+      - {type: llm-rubric, value: "Asks for the results log (delivered, clicks, orders or bookings, unsubscribes, complaints) and list growth before reviewing, and does not invent results or rates."}

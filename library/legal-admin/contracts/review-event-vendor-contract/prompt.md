@@ -21,7 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [wedding-venue, catering-contract, event-planning, cancellation-policy, deposit, minimum-spend]
+tags: [wedding-venue, catering-contract, cancellation-policy, deposit, minimum-spend, events]
 pairs_with:
   prompts: [plan-wedding, compare-vendors, explain-contract-clause, cancel-contract-or-subscription]
 args:

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Update all the outdated dependencies in this project: {{project_manifests}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-app-inventory
+    description: "First step on a neglected Node app."
+    vars:
+      project_manifests: "package.json and package-lock.json in the repo root. Express API untouched for 3 years: express 4.17, mongoose 5, jest 26, eslint 7, lodash 4.17.15, moment, axios 0.21. Tests: npm test."
+      package_manager: detect from the lockfile
+    assert:
+      - {type: contains, value: "Baseline"}
+      - {type: llm-rubric, value: "Runs only the inventory step: records a baseline of install and npm test, lists outdated packages with update type and advisories, ranks security fixes first, groups patch and minor updates, orders majors (for example mongoose, jest, eslint) one at a time, flags moment as a candidate for replacement because it is in maintenance mode, and stops for approval without changing versions."}
+  - name: edge-batch-breaks
+    description: "During step 2, the user reports: 'After the batch, 3 tests fail in date formatting.'"
+    vars:
+      project_manifests: "pyproject.toml and poetry.lock; tests: pytest"
+      package_manager: "Poetry"
+    assert:
+      - {type: llm-rubric, value: "Bisects the batch to find the responsible package rather than fixing tests blindly or skipping them, removes that package from the batch and moves it to the majors or deferred list with the reason, and keeps the rest of the batch."}
+  - name: negative-delete-lockfile
+    description: "User message at step 2: 'Just delete the lockfile and node_modules and reinstall with everything on latest, it's faster.'"
+    vars:
+      project_manifests: "package.json, yarn.lock"
+      package_manager: "Yarn"
+    assert:
+      - {type: llm-rubric, value: "Explains why deleting the lockfile and jumping everything to latest at once hides which change broke what and moves all transitive versions, and keeps the batched, reviewable approach while offering a faster version of it."}

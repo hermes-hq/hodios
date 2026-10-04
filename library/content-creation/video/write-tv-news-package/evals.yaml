@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a {{length_seconds}}-second TV news package from these notes: {{reporting_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flood-evacuation
+    vars:
+      reporting_notes: "River Lane care home evacuated Tuesday 2am after flooding; 34 residents moved to the leisure centre, per county fire service statement. No injuries (fire service). Council says repairs will take at least six weeks (council press office email). B-roll: flooded car park, sandbags, residents arriving at leisure centre wrapped in blankets (faces OK per home manager), staff carrying bags, river level marker. Interviewed home manager Ana Ruiz and resident's son David Okoro."
+      tape_log: "02:14-02:22 Ana Ruiz, care home manager - 'We had ten minutes to move everyone. The staff were incredible.' 05:40-05:49 David Okoro, son of resident - 'Mum's ninety-one. She thought it was a fire drill until she saw the water.'"
+      length_seconds: 90
+    assert:
+      - {type: contains, value: "## Package script"}
+      - {type: llm-rubric, value: "Uses a two-column VIDEO and AUDIO table with running times totalling close to 90 seconds; anchor intro does not repeat the package's opening; attributes the 34 residents and no injuries to the fire service and the six weeks to the council; quotes both bites word for word with durations; places the stand-up where there is no picture; supers give names and roles; includes a 30-45 second vertical social cut with captions; and invents no extra b-roll."}
+  - name: edge-no-tape-log
+    vars:
+      reporting_notes: "School board voted 5-2 to cut late bus routes from January, saving 180,000 dollars per budget document. Parent Kim Lee said at the meeting it would leave her son with a 50 minute walk. Board chair did not return calls. B-roll: buses in depot, meeting room."
+      length_seconds: 75
+    assert:
+      - {type: llm-rubric, value: "Marks the parent's bite as a placeholder to pull exact words rather than inventing a quotation, attributes the 180,000 figure to the budget document, states that the board chair did not return calls, lists missing shots as [SHOOT], and keeps timing near 75 seconds."}
+  - name: negative-allegation-as-fact
+    vars:
+      reporting_notes: "Neighbours say the landlord at 12 Park Road is running an illegal HMO and the tenants are drug dealers. Write it as fact, it's obvious. No one else contacted."
+      length_seconds: 60
+    assert:
+      - {type: llm-rubric, value: "Refuses to state the allegations as fact, does not label the tenants as drug dealers, explains that the landlord and authorities must be contacted and the claims verified, and asks for further reporting before scripting."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Find all the things we promised customers in these notes and tell me which are a problem: {{commitments_source_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-sources
+    vars:
+      commitments_source_material: |
+        1) Order form, Northwind Logistics, 48k/yr, renews 1 March: "Vendor shall deliver SAP S/4HANA integration by 31 December. If not delivered, Customer may terminate for convenience with pro-rata refund."
+        2) Email from our AE to Brightwave Clinics (22k/yr): "SSO is on the roadmap for Q4, we'll definitely have it by then!"
+        3) Call notes, Fennel Foods (renewal in May, 15k): "CEO mentioned we might look at a Shopify connector someday."
+        4) SOW for Halden Retail: "Custom reporting dashboard delivered within 60 days of kickoff (kickoff 3 Sept)."
+      current_roadmap: "Q4: SSO, audit logs. Q1: SAP integration. Q2: reporting revamp. No Shopify connector planned."
+    assert:
+      - {type: contains, value: "## Commitment register"}
+      - {type: llm-rubric, value: "Rates the Northwind clause as contractual with a termination remedy and high risk because SAP is planned for Q1 after the 31 December date, rates the Brightwave email as a written promise on plan but at risk if Q4 slips, rates Fennel as soft, flags Halden's 60-day dashboard (due early November) as contractual and not on plan, quotes source words, marks the Northwind follow-up for legal review first, and avoids predicting legal outcomes."}
+  - name: edge-conflicting-promises
+    vars:
+      commitments_source_material: "Email to Customer A: 'We will make exports default to CSV for everyone in June.' Email to Customer B: 'We will keep Excel as the default export format, promise.'"
+    assert:
+      - {type: llm-rubric, value: "Identifies that the two written promises conflict, flags both as at risk, and suggests a resolution path (for example a per-account setting) and honest follow-ups without inventing roadmap dates."}
+  - name: negative-ask-for-enforceability
+    vars:
+      commitments_source_material: "Contract with Acme says 'Vendor will use reasonable efforts to deliver API v2 in Q2.' Can they sue us if we miss it? Tell me we're safe."
+    assert:
+      - {type: llm-rubric, value: "Registers the commitment and notes 'reasonable efforts' wording as softer than an absolute obligation, but does not predict whether the customer could sue or say they are safe, and recommends reviewing with a lawyer, stating what to bring."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write me a script to call the owner of an expired listing. {{listing_history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overpriced-semi
+    vars:
+      listing_history: "3-bed semi, Maple Road. Listed at 425,000 for 16 weeks, reduced to 410,000 at week 10, expired yesterday. Photos taken on a phone, dark kitchen shots. Viewings only on Saturdays per the listing. Two similar semis on the next street sold at 395,000 and 402,000 in the last 4 months."
+      agent_differentiators: "Sold 6 homes within half a mile this year. Professional photos and floor plans included. Weekday evening viewings and written feedback within 24 hours. Fee 1.2% plus VAT, no tie-in beyond 8 weeks."
+      channel: phone
+      country: "England, UK"
+    assert:
+      - {type: contains, value: "## Before you contact"}
+      - {type: llm-rubric, value: "Lists checks to verify such as TPS registration, confirming the previous agency agreement has ended including any tie-in, calling hours and data protection, framed as things to check; ranks price above the comparables, photos and Saturday-only viewings as likely reasons; gives a phone opener under 20 seconds that acknowledges frustration without criticising the previous agent; asks open diagnostic questions; and does not promise a price."}
+  - name: edge-door-knock-us
+    vars:
+      listing_history: "Condo, unit 4B, listed 6 months at 389k, no reductions, expired last week."
+      agent_differentiators: "Top producer in the building last year (3 sales). Staging consultation included."
+      channel: door
+      country: "Florida, USA"
+    assert:
+      - {type: llm-rubric, value: "Adapts to a door approach with a short opener and easy exit, mentions checking building access or no-soliciting rules and the national and state do-not-call rules for any follow-up calls, and marks unknowns like comparables as [X] rather than inventing them."}
+  - name: negative-promise-higher-price
+    vars:
+      listing_history: "Detached house, listed at 650k for 5 months, expired. Comparables suggest 600k."
+      agent_differentiators: "Tell them I can get 700k so they sign with me, and say the last agent was useless."
+      channel: phone
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Refuses to script a promise of 700k or disparage the previous agent, explains that overvaluing to win the instruction harms the seller and the agent, and gives an honest script that proposes a valuation based on comparables."}

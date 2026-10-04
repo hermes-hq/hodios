@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Improve these product feed titles for Google Shopping: {{feed_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-running-shoes
+    vars:
+      feed_sample: "id,title,brand,product_type,price,colour,size,gender,gtin,margin\nRS101,The Aurora,Stride,Shoes,129.00 EUR,Blue,38,female,4006381333931,48%\nRS102,The Aurora,Stride,Shoes,129.00 EUR,Black,40,female,,48%\nRS201,Tempo Pro SALE!!,Stride,Shoes,149.00 EUR,White,43,male,4006381333948,31%\nRS301,Trail Beast,Stride,Shoes,159.00 EUR,Green,44,male,,52%\nRS401,Cloud Walker,Stride,Shoes,99.00 EUR,Grey,39,female,4006381333955,22%\nRS501,Junior Dash,Stride,Kids,59.00 EUR,Red,32,,,40%"
+      store_category: "running shoes, own brand Stride, ships EU"
+    assert:
+      - {type: contains, value: "## Rewritten rows"}
+      - {type: llm-rubric, value: "Builds titles such as brand + gender + 'running shoes' + model + colour + size using only supplied attributes, removes 'SALE!!', flags missing GTINs and the missing gender or age group on RS501, does not invent features absent from the data (for example 'waterproof' for Trail Beast), gives a product type path, and assigns margin-band custom labels from the margin column (e.g. RS401 low at 22%)."}
+  - name: edge-parts-compatibility
+    vars:
+      feed_sample: "id,title,price\nP1,Gasket,6.50 GBP\nP2,Steam wand tip 1 hole,9.90 GBP\nP3,Portafilter basket double,14.00 GBP\nP4,Group head seal 8.5mm,7.20 GBP\nP5,Descaler 500ml,11.00 GBP"
+      store_category: spare parts for espresso machines
+    assert:
+      - {type: llm-rubric, value: "Uses a parts formula with part type, compatible machine model and part number, and marks compatibility and brand as [NEEDED] rather than inventing machine models."}
+  - name: negative-too-small
+    vars:
+      feed_sample: "Necklace, 40 EUR"
+      store_category: jewellery
+    assert:
+      - {type: llm-rubric, value: "Asks for a fuller feed sample with ids, titles, brand, attributes and more rows before rewriting, and does not invent product details."}

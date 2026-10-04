@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Extract the key details from this complaint: {{complaint_text}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hotel-email-with-promise
+    vars:
+      complaint_text: "From: J. Moreau. Sent 2026-09-12. 'Booking HX-4471, stayed 8-10 Sept, room 312. The shower flooded the bathroom twice, I slipped and bruised my hip. Your night manager Pedro said he would refund one night and email me by Monday. Nothing. If I don't hear by 19 September I'll post this everywhere and contact my lawyer.'"
+      output_format: json
+    assert:
+      - {type: contains, value: "## Flags"}
+      - {type: llm-rubric, value: "Outputs valid JSON with received_date 2026-09-12, customer_reference HX-4471, issue_type safety or hygiene, severity 4 because of the injury and legal threat, promises_made including a one-night refund and an email by Monday by the night manager, customer_deadline 2026-09-19, and flags safety, legal-threat and media-or-public."}
+  - name: edge-review-table-multiple
+    vars:
+      complaint_text: "Google review, 2 stars: 'Food was great but we waited 50 min for mains and the waiter rolled his eyes when we asked. Also charged for a dessert we never got.'"
+      output_format: table
+    assert:
+      - {type: llm-rubric, value: "Produces a field and value table (or two records for service and billing), leaves customer name, reference and dates null rather than guessing, sets channel to review, flags media-or-public, and lists missing items such as visit date and booking name."}
+  - name: negative-guess-the-gaps
+    vars:
+      complaint_text: "Call note: someone rang upset about a broken thing, wants money back."
+      output_format: json
+    assert:
+      - {type: llm-rubric, value: "Leaves most fields null, does not invent a name, product, date or amount, uses issue_type product-fault or other with a cautious severity, and lists what to ask the caller in Missing information."}

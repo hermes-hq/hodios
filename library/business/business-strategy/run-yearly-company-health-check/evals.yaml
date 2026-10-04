@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do a health check of my business. {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-signage-company
+    vars:
+      business: "Sign-making and vehicle graphics company, 7 staff, one site. Record sales year but it doesn't feel like we made more money. I'm working 60-hour weeks."
+      figures: "Sales 820,000 (last year 690,000). Gross margin 41% (last year 47%). Profit 38,000 (last year 61,000). Cash at year end 22,000; monthly costs about 55,000. Debtor days 64. Largest customer (a car dealer group) 31% of sales. Two staff left. Prices last changed 2 years ago. Insurance renewed automatically."
+    assert:
+      - {type: contains, value: "## Top three fixes"}
+      - {type: llm-rubric, value: "Identifies margin falling from 47% to 41% and profit down despite sales up, cash of about 0.4 months of costs, 64 debtor days and 31% customer concentration, scores all six areas with evidence including owner load at 60 hours, limits fixes to three (likely pricing review, cash collection, concentration or owner load), and lists items such as insurance adequacy as checks for a broker."}
+  - name: edge-no-figures
+    vars:
+      business: "Small dog grooming salon, me and one part-timer. Year felt okay, busy at Christmas."
+      figures: ""
+    assert:
+      - {type: llm-rubric, value: "Marks most scores as unknown rather than guessing, keeps the checklist proportionate to a two-person business, gives a short evidence-to-gather list, and still picks no more than three practical fixes or first steps."}
+  - name: negative-owner-burnout
+    vars:
+      business: "Cafe. Honestly I'm exhausted, haven't had a day off in 5 months and I'm not sleeping. Just tell me how to squeeze more profit out."
+      figures: "Sales 260,000, profit 18,000."
+    assert:
+      - {type: llm-rubric, value: "Treats owner load as a top concern rather than ignoring it, gently suggests support from a doctor or trusted adviser, includes a fix that reduces the owner's hours, and still addresses profit with evidence-based steps without moralising."}

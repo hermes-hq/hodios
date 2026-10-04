@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Translate this bill: {{bill_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-energy-bill
+    vars:
+      target_language: "English (UK)"
+      bill_text: "Your energy bill. Billing period 1 Aug - 31 Aug. Electricity: Previous reading 14520 (A), Current reading 14795 (E). Units used 275 kWh at 24.50p = £67.38. Standing charge 31 days at 60.10p = £18.63. Subtotal £86.01. VAT at 5% £4.30. Total charges this period £90.31. Balance brought forward £22.40 CR. Amount due £67.91. This will be collected by Direct Debit on or after 15 Sept."
+      native_language: Polish
+    assert:
+      - {type: contains, value: "## Line by line"}
+      - {type: llm-rubric, value: "Explains in Polish that (A) means actual and (E) estimated reading, standing charge as a daily fixed charge, CR as a credit carried forward reducing the amount due, and Direct Debit collection on or after 15 September; quotes figures exactly without recalculating; suggests checking the estimated reading against the meter; gives questions in English with Polish translations."}
+  - name: edge-final-notice-german
+    vars:
+      target_language: "German (Germany)"
+      bill_text: "Mahnung. Zahlungserinnerung zur Rechnung vom 03.07. Offener Betrag: 186,40 EUR zzgl. Mahngebühr 5,00 EUR. Bitte überweisen Sie den Betrag bis 20.09. Andernfalls behalten wir uns eine Sperrung der Versorgung vor."
+      native_language: English
+    assert:
+      - {type: llm-rubric, value: "Puts first that this is a payment reminder with a possible supply cut-off (Sperrung) and needs attention before 20.09, points to the provider and free debt or consumer advice services, then explains Mahnung, offener Betrag, zzgl., Mahngebühr and überweisen, without advising whether to pay or dispute."}
+  - name: negative-not-a-bill
+    vars:
+      target_language: Spanish
+      bill_text: "Hola vecinos, el ascensor no funciona."
+      native_language: English
+    assert:
+      - {type: llm-rubric, value: "Says this is a short neighbour notice rather than a bill, briefly translates it, and asks for the bill text if they wanted bill vocabulary, without inventing bill lines."}

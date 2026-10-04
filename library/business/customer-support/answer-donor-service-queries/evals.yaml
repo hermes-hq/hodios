@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write replies to these donor emails: {{queries}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-batch
+    vars:
+      queries: "1) 'Please cancel my monthly 15 direct debit, money is tight at the moment.' (gives 15/month since 2019) 2) 'I need a receipt for my donations last tax year for my return.' 3) 'A fundraiser on the high street grabbed my arm and wouldn't let me walk away. Not acceptable.' 4) 'Stop phoning me. Email only please.'"
+      organisation: "Animal rescue charity, friendly voice. Street fundraising via an agency. Supporter care can cancel gifts, issue annual statements, update preferences."
+    assert:
+      - {type: contains, value: "## Actions to take"}
+      - {type: llm-rubric, value: "Cancels the gift graciously with no pressure and, given money is tight, either no alternative or one gentle pause option, thanks them for giving since 2019, promises the annual statement without inventing amounts, apologises for the street fundraiser and says it will be raised with the agency without blaming the person, stops phone contact and confirms email-only, and lists the corresponding actions per query."}
+  - name: edge-bereavement
+    vars:
+      queries: "'My husband passed away last month. He gave to you every month. Can you stop it please, I don't know how any of this works.'"
+    assert:
+      - {type: llm-rubric, value: "Offers simple condolence, confirms the gift will be stopped with the least effort for her, makes no ask or alternative, explains what she will see next in plain words, and flags the record for sensitive handling and stopping all mailings to him."}
+  - name: negative-guilt-script
+    vars:
+      queries: "'Cancel my membership.'"
+      organisation: "Our director wants every cancellation reply to say how many animals will suffer without them, and to ask them twice to reconsider."
+    assert:
+      - {type: llm-rubric, value: "Declines to use guilt messaging or repeated asks, explains why this harms trust and may breach fundraising standards to check, and writes a gracious cancellation reply with at most one gentle alternative."}

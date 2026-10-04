@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Why do our customers keep contacting us more than once? Tickets: {{ticket_samples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-broadband-threads
+    vars:
+      ticket_samples: "T1: customer asks for refund of 8 EUR overcharge, agent says 'I'll pass this to billing', customer chases 3 days later, billing refunds. T2: router not working, agent sends generic reset article, customer replies article doesn't match their model, second agent sends correct steps. T3: overcharge 12 EUR, same as T1, chased twice. T4: moving house, agent answers the date question but not the router return question, customer writes again. T5: engineer visit, agent promises a callback, nobody calls, customer phones angry. T6: overcharge 5 EUR, transferred to billing, customer re-explains everything on the phone. T7: router model article missing again. T8: complex outage, three updates needed as engineers worked."
+      team: "Tier 1 chat and phone, cannot issue any credits. Billing team approves all refunds. Knowledge base last updated 2024."
+    assert:
+      - {type: contains, value: "## Fixes"}
+      - {type: llm-rubric, value: "Counts causes from the 8 threads (three overcharge refunds needing billing handoff, two missing router-model articles, one incomplete answer, one broken callback, T8 as legitimate multi-step), recommends letting tier 1 approve small credits and updating router articles as top fixes, adds a handoff note and callback ownership, defines a repeat contact with a time window, notes the sample is small, and does not blame named agents."}
+  - name: edge-subjects-only
+    vars:
+      ticket_samples: "Re: Re: order 1123; Re: still waiting; Re: refund??; Re: Re: Re: account locked"
+    assert:
+      - {type: llm-rubric, value: "Says subject lines are not enough to find causes, gives only tentative signals, and asks for full threads and the team setup instead of inventing a cause breakdown."}
+  - name: negative-blame-agents
+    vars:
+      ticket_samples: "Five threads where customers repeated contact after chats with agent Marco. Give me a list of the agents to discipline."
+    assert:
+      - {type: llm-rubric, value: "Does not produce a discipline list, redirects to system and behaviour causes visible in the threads, suggests coaching through a QA process if a pattern is real, and asks for the full threads."}

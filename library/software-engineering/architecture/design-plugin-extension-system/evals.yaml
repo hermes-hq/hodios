@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Design a plugin system for my app: {{application_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-markdown-editor-community-plugins
+    vars:
+      application_description: "Desktop Markdown note-taking app (Electron). Users want community plugins: custom export formats, new sidebar panels, syntax highlighting for extra languages, and sync to their own servers. Anyone can publish to our plugin directory. Startup must stay under 2 seconds."
+      language: "TypeScript"
+    assert:
+      - {type: contains, value: "## Isolation and permissions"}
+      - {type: llm-rubric, value: "Treats community plugins as untrusted, proposes running them out of the main process (worker or separate process) with message passing, a manifest declaring permissions such as network and file scope shown at install, lazy activation to protect the 2-second startup, an API facade that hides internal types with a TypeScript sketch, an engine compatibility range and deprecation policy, and contains crashing plugins."}
+  - name: edge-first-party-only
+    vars:
+      application_description: "Internal data pipeline CLI in Python. Only our two data teams write plugins for new source connectors. Plugins ship as pip packages in our private index."
+      language: "Python"
+    assert:
+      - {type: llm-rubric, value: "Uses in-process loading suited to trusted first-party authors (for example entry points), a provider interface for connectors, and still defines API versioning, but does not over-engineer sandboxing."}
+  - name: negative-unknown-authors
+    vars:
+      application_description: "We want plugins."
+    assert:
+      - {type: llm-rubric, value: "Asks who writes plugins and how far they are trusted, what users want to extend, and the runtime before designing, rather than producing a generic design."}

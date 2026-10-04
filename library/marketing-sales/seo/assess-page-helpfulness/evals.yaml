@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is this page good for SEO? Target keyword {{target_query}}. {{page_content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-padded-how-to
+    vars:
+      page_content: "# How to Descale a Combi Boiler\nIn today's fast-paced world, boilers are an essential part of every home. It is important to note that limescale can be a problem. In this comprehensive guide we will explore everything you need to know.\n## What is limescale?\nLimescale is a hard deposit...(200 words of general chemistry)\n## Steps\n1. Turn off the boiler. 2. Use a descaler. 3. Turn it back on.\n## Conclusion\nDescaling is important. Contact a professional.\nBy Admin"
+      target_query: "how to descale a combi boiler"
+      author_info: "Written by our Gas Safe engineer Tom, 15 years installing boilers in a hard-water area; we have photos of scaled heat exchangers."
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Notes the answer is buried under a filler introduction and the steps are too thin to finish the task, flags stock phrases and the 'By Admin' byline, rewrites with the answer first and safety-relevant specifics, uses Tom's credentials and suggests the heat exchanger photos via placeholders, and does not invent test results or quotes."}
+  - name: edge-strong-page
+    vars:
+      page_content: "Detailed review of a trail shoe after 600 km, with photos of sole wear at 100 km intervals, weights measured on a kitchen scale, comparison table with two rivals the author also ran in, and a 'who should not buy this' section. Author bio with race history."
+      target_query: "Trailfox 3 review"
+    assert:
+      - {type: llm-rubric, value: "Recognises the page as strong on experience and originality, scores it high with evidence, and limits suggestions to small, specific improvements rather than inventing problems."}
+  - name: negative-missing-page
+    vars:
+      page_content: ""
+      target_query: "best dog food for puppies"
+    assert:
+      - {type: llm-rubric, value: "Asks for the page content and does not produce a scorecard or rewrites from nothing."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "A customer has a warranty claim: {{claim}} What should I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kettle-after-warranty
+    vars:
+      claim: "Customer bought a 140 EUR kettle from our shop 14 months ago. Says the base stopped heating. Has the receipt. Wants a refund."
+      warranty_terms: "12 month manufacturer warranty, we offer repair or replacement within it."
+      country: "Germany, consumer"
+    assert:
+      - {type: contains, value: "## Reply"}
+      - {type: llm-rubric, value: "Notes the 12-month warranty has ended but statutory seller liability may still apply in Germany and lists what to verify (the period, burden of proof after the first months, repair or replacement before refund), does not send the customer only to the manufacturer, asks for proportionate evidence, recommends repair or replacement rather than outright refusal, and writes a reply with a next step and date, without stating legal periods as fact."}
+  - name: edge-likely-misuse
+    vars:
+      claim: "Handmade ceramic mug, 25 GBP, 3 months old, cracked. Customer says it cracked in the dishwasher. Our care card says hand wash only."
+      country: "UK, consumer"
+    assert:
+      - {type: llm-rubric, value: "Classifies as likely misuse or unclear, weighs a low-value goodwill gesture against the cost of disputing, asks for a photo, writes a kind reply that explains hand-wash care without blame and offers a reasonable option, and lists the consumer-rule question about durability as something to check."}
+  - name: negative-refuse-all
+    vars:
+      claim: "Customer says the hair dryer we sold 2 months ago sparked and smelled of burning. Write a reply saying all claims go to the manufacturer and we can't help."
+      country: "Australia, consumer"
+    assert:
+      - {type: llm-rubric, value: "Declines to write a blanket manufacturer-only refusal, tells the business to advise the customer to stop using it immediately because of fire risk, notes that the seller may have obligations under consumer law to check, recommends a refund or replacement and a check on reporting the safety issue, and writes a safe, responsible reply."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Which devices and browsers should we test our {{app_type}} app on?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-analytics
+    vars:
+      app_type: web
+      usage_data: |
+        Sessions last 90 days: Chrome Android 38%, Safari iOS 27%, Chrome Windows 18%, Edge Windows 7%, Safari macOS 5%, Samsung Internet 3%, Firefox 2%.
+        Viewports: 360-414 wide 61%, 1366-1920 wide 33%, tablet 6%. Top countries UK, India, Nigeria.
+      budget: "1 QA, 6 hours per fortnightly release, 1,000 cloud browser minutes a month"
+    assert:
+      - {type: contains, value: "## Matrix"}
+      - {type: llm-rubric, value: "Builds tiers whose tier 1 covers roughly 80-90% of sessions with Chrome Android, Safari iOS and Chrome Windows, deliberately adds a low-end Android device given India and Nigeria traffic, places Samsung Internet and Firefox in a sampled or automated tier, sizes hours within 6 per release and farm minutes within 1,000 a month, and lists review triggers."}
+  - name: edge-no-data-android
+    vars:
+      app_type: android
+      usage_data: "none yet, pre-launch"
+    assert:
+      - {type: llm-rubric, value: "Builds a provisional matrix labelled to verify with real data, includes a row for the minimum supported API level marked [X] with a question asking for it (no budget or release frequency was given, so it sizes a minimal and a recommended option), a low-RAM device and a large screen or foldable, says which Play Console reports to use after launch, and does not present specific market shares as fact."}
+  - name: negative-everything
+    vars:
+      app_type: ios
+      usage_data: "We want to test on every iPhone and iPad ever made, every release, manually."
+      budget: "one tester, 4 hours per weekly release"
+    assert:
+      - {type: llm-rubric, value: "Explains that testing every device is not possible within 4 hours, proposes a small tier 1 plus simulator and sampling tiers, and shows the arithmetic of time per configuration."}

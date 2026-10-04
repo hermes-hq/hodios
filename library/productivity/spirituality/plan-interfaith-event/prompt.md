@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [interfaith-dialogue, community-event, shared-meal, ground-rules, event-planning]
+tags: [interfaith-dialogue, community-event, shared-meal, ground-rules, events]
 pairs_with:
   prompts: [explain-religious-tradition, plan-religious-education-lesson]
   personas: [interfaith-chaplain]

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I port my firmware from {{current_mcu}} to {{target_mcu}}? {{firmware_overview}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stm32-to-other-vendor
+    vars:
+      current_mcu: "STM32F411 (Cortex-M4F, 100 MHz, 512 KB flash, 128 KB RAM), STM32 HAL, FreeRTOS, GCC"
+      target_mcu: "A Cortex-M4F part from another vendor with similar memory, chosen because of a 40-week lead time; vendor SDK"
+      firmware_overview: "Industrial sensor node. SPI1 with DMA to an external ADC at 2 kHz, USART2 Modbus RTU at 115200, I2C EEPROM for calibration, IWDG, custom UART bootloader in the first 32 KB with settings in the last flash sector. HAL calls are spread through the application tasks."
+    assert:
+      - {type: contains, value: "## Bring-up order"}
+      - {type: llm-rubric, value: "Proposes a board support layer to remove HAL calls from application tasks, maps each peripheral including DMA and IRQ with differences to verify, checks the bootloader and settings storage against the target's flash page size and layout, addresses FreeRTOS port and interrupt priority limits, gives a step-by-step bring-up with pass criteria, and points to datasheets and errata instead of asserting register details."}
+  - name: edge-baud-and-usb-clock
+    vars:
+      current_mcu: "ATmega328P at 16 MHz, Arduino core"
+      target_mcu: "RP2040, Pico SDK"
+      firmware_overview: "Reads 6 analog inputs, drives WS2812 LEDs with bit-banged timing, talks to a PC over USB serial at 250000 baud. Timing uses delayMicroseconds and Timer1 interrupts."
+    assert:
+      - {type: llm-rubric, value: "Flags that bit-banged WS2812 timing and Timer1 code will not port directly and suggests a hardware approach on the target (such as PIO) to verify, notes 3.3 V logic and ADC differences versus the 5 V AVR, and covers the analog input count and reference voltage."}
+  - name: negative-no-details
+    vars:
+      current_mcu: "the old chip"
+      target_mcu: "a cheaper one"
+      firmware_overview: "It's our main product firmware."
+    assert:
+      - {type: llm-rubric, value: "Asks for the part numbers, peripherals in use, memory use and the update mechanism before planning, and does not invent part numbers, registers or a peripheral map."}

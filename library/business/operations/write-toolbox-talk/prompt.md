@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [operate]
 role: [manager, operations-manager, founder]
+subject: [construction]
 inputs: [topic, notes]
 output: [script, checklist]
 risk: read-only
@@ -18,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: optional
 level: beginner
-tags: [toolbox-talk, site-safety, construction, trades, hazard-awareness, safety-briefing]
+tags: [toolbox-talk, site-safety, trades, hazard-awareness, safety-briefing]
 pairs_with:
   prompts: [write-emergency-procedures-for-staff, plan-equipment-maintenance]
 args:

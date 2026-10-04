@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Here is my email campaign report, how did it do? {{report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clicks-good-conversion-weak
+    vars:
+      report: "Autumn bundle promo. Sent 18,400, delivered 18,150, opens 9,870 (54%), unique clicks 610, orders 22, revenue 1,320 EUR, unsubscribes 41, spam complaints 6, hard bounces 120."
+      goal: "Sell the autumn bundle"
+      previous_benchmarks: "Last 3 promos: unique click rate 2.1-2.4%, about 0.35% orders per delivered, revenue per recipient 0.12-0.15 EUR, unsubscribes 0.2%."
+    assert:
+      - {type: contains, value: "## One thing to test next"}
+      - {type: llm-rubric, value: "Computes click rate about 3.4% (above baseline), orders per delivered about 0.12% and revenue per recipient about 0.07 EUR (below baseline), unsubscribes about 0.23% and complaints about 0.03%; concludes the email drove clicks but the page, offer or price lost them; treats the 54% open rate as unreliable; and proposes one landing or offer test."}
+  - name: edge-no-baseline-small-list
+    vars:
+      report: "Sent 820, opens 61%, clicks 37, bookings 5, unsubscribed 3, complaints 0."
+      goal: "Fill next week's yoga classes"
+    assert:
+      - {type: llm-rubric, value: "Computes rates from 820 recipients, says there is no baseline so it gives no good or bad verdict beyond health checks, warns that 5 bookings and 37 clicks are too few to draw strong conclusions, and lists which past sends to compare."}
+  - name: negative-missing-recipients
+    vars:
+      report: "Open rate 38%, revenue 2,400 USD, some unsubscribes."
+      goal: "Black Friday sales"
+    assert:
+      - {type: llm-rubric, value: "Asks for the recipient or delivered count and click and order numbers before judging, does not invent rates or benchmarks, and notes that open rate alone cannot show whether the email worked."}

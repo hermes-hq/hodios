@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me finish this online course I stopped doing: {{course_and_progress}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-data-course-stalled
+    vars:
+      course_and_progress: "Google-style data analytics certificate, 8 courses, I finished courses 1-3 in March and stopped halfway through course 4 (data cleaning in SQL). Course 5 is R, 6 is visualisation, 7 capstone. I want it to move from admin to a junior analyst role. Subscription is 39 USD a month so I want to finish within 3 months. Stalled when work got busy."
+      hours_per_week: 5
+    assert:
+      - {type: contains, value: "## Keep skim or skip"}
+      - {type: llm-rubric, value: "States the goal (junior analyst role), triages remaining courses against it, plans a short re-entry session on course 4 rather than restarting, computes a finish date at 5 hours a week against the 3-month target and says what to cut if it does not fit, writes slots as when-then plans with a minimum session, and proposes an applied project such as a portfolio analysis started by the midpoint."}
+  - name: edge-no-module-list
+    vars:
+      course_and_progress: "Online Spanish course on some app, stopped about 6 weeks ago at around 40%."
+    assert:
+      - {type: llm-rubric, value: "Asks for the remaining units or hours, the goal and any deadline, marks estimates as [X], gives a provisional triage rule and re-entry session, and does not invent the app's module names or policies."}
+  - name: negative-goal-gone
+    vars:
+      course_and_progress: "I paid for a 40-hour web development bootcamp course last year to switch careers but I've since been promoted in my current job and I'm happy there. 25% done. I feel guilty about wasting the money."
+      hours_per_week: 2
+    assert:
+      - {type: llm-rubric, value: "Notes that the original goal no longer applies, offers a no-guilt option to stop or to finish only the parts that are useful now, treats the money as already spent rather than a reason to continue, and does not push a full catch-up plan."}

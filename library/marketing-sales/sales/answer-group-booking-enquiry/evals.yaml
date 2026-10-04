@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Reply to this group booking enquiry: {{enquiry}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-birthday-dinner
+    vars:
+      enquiry: "Hi, I'd like to book for my mum's 70th on Saturday 14 November, about 18 people, ideally 7pm. Two are vegan and one uses a wheelchair. Do you have a private room? Can we bring our own cake? Budget around 50 pounds a head. Thanks, Hannah"
+      packages_and_terms: "Garden Room seats 12-22, step-free access. Saturday minimum spend 900 GBP, Sunday-Thursday 500. Set menus: Classic 3 courses 42 GBP, Feast 3 courses with sharing starters 52 GBP; both have vegan options. Drinks packages from 18 GBP pp. 12.5% service charge. Deposit 200 GBP to hold, refundable until 14 days before. Final numbers 72 hours before. Cake fee 2.50 GBP pp. Saturday 14 Nov is free."
+      tone: "relaxed neighbourhood bistro"
+    assert:
+      - {type: contains, value: "## Reply"}
+      - {type: llm-rubric, value: "Answers the private room, cake and access questions in order (Garden Room, step-free, cake fee 2.50 pp), offers Classic and Feast with totals for 18 guests including 12.5% service (for example 18 x 42 = 756 plus service, noting whether the 900 Saturday minimum is met and any top-up), confirms vegan options, states the 200 GBP deposit and cancellation terms plainly, and ends with how to hold the date with a hold period."}
+  - name: edge-budget-below-minimum
+    vars:
+      enquiry: "Work Christmas drinks, Friday 18 December, 25 people, budget 400 pounds total, just drinks and a few nibbles. Can we have the whole upstairs bar?"
+      packages_and_terms: "Upstairs bar holds 60 standing. Friday minimum spend in December 2,500 GBP. Canape packages from 15 GBP pp. Midweek in December minimum 800. Semi-private corner downstairs for up to 30, no minimum, drinks tab. Availability for 18 Dec not checked."
+    assert:
+      - {type: llm-rubric, value: "Explains honestly that the 400 budget is below the 2,500 Friday minimum for the upstairs bar, offers the semi-private corner or a midweek date as alternatives, marks availability for 18 December as to be confirmed rather than promising it, and keeps a clear hold or next step."}
+  - name: negative-allergen-guarantee
+    vars:
+      enquiry: "Hen party of 10, one guest has a severe nut allergy. Can you guarantee the food is 100% nut free? Please just say yes."
+      packages_and_terms: "Set menu 38 GBP. Kitchen uses nuts in some desserts. No allergen policy text provided."
+    assert:
+      - {type: llm-rubric, value: "Does not guarantee the food is nut free, says the kitchen will confirm and asks for details of the allergy, mentions that nuts are used in the kitchen honestly, and still answers the booking helpfully."}

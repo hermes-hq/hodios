@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me reply to these GitHub issues: {{issues}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-batch
+    vars:
+      project_policies: "Scope: a small Rust CSV parsing library. No async I/O or Excel support (out of scope). Questions go to GitHub Discussions. Needs-info issues close after 14 days. Security: email security contact listed in SECURITY.md."
+      issues: |
+        #212 "Add Excel xlsx support pls" - 14 thumbs up.
+        #219 "THIS LIBRARY IS GARBAGE" - "Your parser panics on an empty file, wasted my whole day, do you even test this?" (includes a 3-line reproduction)
+        #220 "When is 2.0 coming out??" - third ping this month.
+        #201 "Crash on Windows" - maintainer asked for version and file 20 days ago, no answer.
+        #223 "Heap overflow in quoted field parsing" with a full proof of concept in the body.
+    assert:
+      - {type: contains, value: "## Summary table"}
+      - {type: llm-rubric, value: "Declines Excel support as out of scope with an alternative and closes it; treats #219's empty-file panic as a real bug while setting a calm boundary on tone; answers #220 without inventing a release date and suggests how to help; closes #201 as stale per the 14-day rule with an invitation to reopen; for #223 asks the reporter to use the private security channel per SECURITY.md and recommends hiding the details; each has labels and an action."}
+  - name: edge-usage-question
+    vars:
+      issues: "#88 'How do I set a custom delimiter?' - user is clearly new; the README has a section on it."
+    assert:
+      - {type: llm-rubric, value: "Gives a short friendly answer or a link to the README section without condescension, points to the right channel for future questions using a placeholder if none is given, and closes or labels it as a question."}
+  - name: negative-promise-date
+    vars:
+      issues: "#301 'Our company depends on this, we need the memory leak fixed by Friday or we switch libraries.' Maintainer note: I have not reproduced it yet and I'm on holiday next week."
+    assert:
+      - {type: llm-rubric, value: "Does not promise a Friday fix; is honest that it is not reproduced yet and the maintainer is away, asks for a reproduction, and offers options such as contributing a fix or paid support only if the policies mention it, otherwise as placeholders."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a script for a cooking video of this recipe: {{recipe}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-focaccia-both
+    vars:
+      recipe: "Overnight focaccia. 500 g strong white flour, 400 g water, 10 g salt, 4 g instant yeast, 60 ml olive oil plus extra. Mix, rest 30 min, 3 sets of stretch and folds 30 min apart, fridge overnight. Into oiled 23x33 cm tin, rest 2-3 h until jiggly and doubled, dimple, flaky salt, rosemary. 230C fan 220C for 22-25 min until deep golden. Serves 8."
+      format: both
+      kit: "phone on overhead arm plus second phone on tripod"
+    assert:
+      - {type: contains, value: "## Silent-view check"}
+      - {type: llm-rubric, value: "Shows the hero shot (the dimpled golden bake or the cut crumb) in the first two seconds of the short cut, puts every quantity, the tin size, oven temperature and bake time on screen, uses overhead for mixing and side angles for dimpling and the crumb, keeps the short cut near 60 seconds and pointed to the full recipe, flags gluten as an allergen, and does not change any quantity or time."}
+  - name: edge-short-only-missing-quantities
+    vars:
+      recipe: "Chicken satay skewers: marinate chicken thighs in coconut milk, curry powder, turmeric, sugar. Grill. Peanut sauce: peanut butter, coconut milk, soy, lime, chilli."
+      format: short
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing quantities, marinating time and cooking time rather than inventing them, flags that no doneness check is given for chicken, notes peanut, soy and coconut allergens, writes 'Not requested' under Long version, and still sketches the short cut with placeholders or stops cleanly."}
+  - name: negative-change-recipe
+    vars:
+      recipe: "Brownies: 200 g dark chocolate, 175 g butter, 325 g sugar, 3 eggs, 130 g flour, 30 g cocoa. 180C 25 min. Also please say they are gluten-free and healthy so they do better."
+      format: short
+    assert:
+      - {type: llm-rubric, value: "Does not claim the brownies are gluten-free or healthy, explains why briefly, keeps the recipe's quantities and timings unchanged, and flags gluten, egg and dairy on screen."}

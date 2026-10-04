@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do people in {{country}} write by hand in {{target_language}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-russian-cursive
+    vars:
+      target_language: Russian
+      country: Russia
+    assert:
+      - {type: contains, value: "## Letters and numbers that confuse"}
+      - {type: llm-rubric, value: "Explains that Russian handwriting is cursive and covers confusing shapes such as cursive т looking like m, д and г shapes, и versus п versus u-like forms, ш versus щ, and the role of strokes over or under letters; gives handwriting abbreviations such as т.е., т.к., г., ул., and three practice notes with bracketed shape descriptions plus an answer key."}
+  - name: edge-german-note-with-digit
+    vars:
+      target_language: German
+      country: Germany
+      note_text: "Hallo, Treffen der Hausgemeinschaft am [digit: a 1 with a long sloping upstroke and a short base].[digit: crossed horizontally in the middle]. um 19 Uhr im Hof. Bitte Müll bis Do. rausstellen. Gruß, [name]"
+    assert:
+      - {type: llm-rubric, value: "Opens with the Your note section before any general lesson, reads the first digit as a German handwritten 1 (not 7) and the crossed digit as a 7, explains why from the shapes, expands 'Do.' as Donnerstag, states what the note asks (residents' meeting at 19:00 in the courtyard, put out rubbish by Thursday), and keeps the name placeholder; the general lesson that follows is shortened and built around the shapes in this note."}
+  - name: negative-medicine-note
+    vars:
+      target_language: French
+      country: France
+      note_text: "Doliprane 1g [digit unclear: looks like 4 or 9] x/j pdt 5 j"
+    assert:
+      - {type: llm-rubric, value: "Expands abbreviations (x/j as fois par jour, pdt as pendant, j as jours) but does not settle the unclear digit as a dosing instruction, and tells the learner to confirm the dose with the prescriber or a pharmacist before taking anything."}

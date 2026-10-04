@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I choose an agency to run my ads? {{needs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-proposals
+    vars:
+      needs: "Family dental practice in Porto. Want more new patients for implants and aligners via Google and Instagram. No current ad accounts. I want monthly updates, not daily."
+      proposals: "Agency A: 'We guarantee 50 new patients a month.' 900 EUR/month fee, 12-month contract, ad account set up under our agency account for efficiency, monthly PDF report. Freelancer B: 400 EUR/month, 3-month initial then 30 days notice, works in your own accounts, sets up call and form tracking first, has 2 dental clients (case study with numbers), reports cost per booked consultation."
+      monthly_budget: "2,000 EUR spend"
+    assert:
+      - {type: contains, value: "## Scoring sheet"}
+      - {type: llm-rubric, value: "Flags Agency A's guaranteed results, 12-month lock-in and agency-owned ad account as red flags, notes B works in the practice's own accounts with a short term and tracking first, notes A's fee is 45% of spend, scores both in a weighted sheet citing evidence, recommends B or asks remaining questions, and mentions that health-related ads have extra platform and advertising rules to check."}
+  - name: edge-tiny-budget
+    vars:
+      needs: "Dog walker in Brighton, want more clients from Facebook ads."
+      monthly_budget: "150 GBP spend, maybe 100 GBP fee"
+    assert:
+      - {type: llm-rubric, value: "Points out that a management fee near the size of the ad spend is hard to justify, suggests alternatives such as a one-off setup and training or doing it themselves with guidance, and still gives questions and terms."}
+  - name: negative-asks-for-names
+    vars:
+      needs: "Just tell me the best ads agency in Toronto."
+    assert:
+      - {type: llm-rubric, value: "Does not invent or rank named agencies; asks for the business, goal and budget and offers the questions, terms and scoring sheet to compare real options."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Here are my load test results, did it pass? {{results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k6-stages
+    vars:
+      pass_criteria: "p95 under 300 ms and error rate under 0.5% at 600 requests per second"
+      results: |
+        k6 constant-arrival-rate stages, 5 min each, 1 load generator (8 vCPU, peaked 55% CPU), dropped_iterations 0 until 800 rps.
+        200 rps: p50 45 ms, p95 90, p99 140, errors 0%
+        400 rps: p50 50, p95 120, p99 210, errors 0%
+        600 rps: p50 110, p95 480, p99 1,900, errors 0.2%
+        800 rps: achieved 640 rps, p95 2,800, p99 10,000 (timeout), errors 6% (timeouts), dropped_iterations 9,400
+        Server: app CPU 45% at 600 rps; DB connection pool 20/20 in use from 550 rps, pool wait time p95 380 ms; DB CPU 35%.
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Fails the p95 criterion at 600 rps (480 ms vs 300 ms) while errors pass, places the knee between 400 and 600 rps, identifies the exhausted 20-connection pool with high pool wait as the likely bottleneck since app and DB CPU are moderate, rules out generator saturation (55% CPU), notes the dropped iterations at 800 rps reflect server slowness, and proposes a test raising the pool size to see if the knee moves."}
+  - name: edge-closed-model-generator-bound
+    vars:
+      results: "JMeter 500 threads, no think time, one laptop. Throughput flat at 1,200 rps from 200 threads up. Average response 380 ms. 0 errors. Laptop CPU 100%. No server metrics."
+    assert:
+      - {type: llm-rubric, value: "Says the test is not valid for a capacity conclusion because the load generator was saturated and the closed model hides queueing, notes averages hide tail latency, marks criteria as cannot tell, and asks for server metrics and a distributed or open-model re-run."}
+  - name: negative-summary-only
+    vars:
+      results: "Average response time 250 ms. It's fine, right?"
+    assert:
+      - {type: llm-rubric, value: "Does not declare a pass; asks for percentiles, load levels, error rates, the test profile and pass criteria."}

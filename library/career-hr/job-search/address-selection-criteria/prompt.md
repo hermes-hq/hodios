@@ -9,6 +9,7 @@ version: 1.1.0
 status: incubating
 stage: [build]
 role: [job-seeker]
+subject: [public-sector]
 requires: [none]
 inputs: [job-posting, resume, notes]
 output: [copy, table, questions]
@@ -19,7 +20,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [selection-criteria, ksa, public-sector, civil-service, star-method, job-application]
+tags: [selection-criteria, ksa, civil-service, star-method, job-application]
 pairs_with:
   prompts: [prepare-star-stories, answer-application-questions, analyze-job-posting]
 args:

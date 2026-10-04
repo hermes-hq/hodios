@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a business case for my buyer. Discovery notes: {{discovery_notes}}. Pricing: {{pricing}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-automation
+    vars:
+      discovery_notes: "Mid-size distributor, finance team of 6 AP clerks keying supplier invoices by hand. Head of finance (champion) says each clerk spends about 60% of their time on keying and chasing approvals. Late payment fees last year were around 18,000 EUR. CFO approves anything over 25k. Want it live before year-end close in December."
+      pricing: "Invoice automation subscription 2,400 EUR per month, 3-year term, setup 9,000 EUR one-off. Implementation needs about 80 hours of their finance and IT staff."
+      buyer_figures: "AP clerk fully loaded cost about 48,000 EUR a year. 22,000 invoices a year."
+    assert:
+      - {type: contains, value: "## One-page summary"}
+      - {type: llm-rubric, value: "Calculates the keying cost from 6 clerks x 60% x 48,000 (172,800 EUR) and treats only part of it as recoverable in the conservative case, includes the 18,000 late fees as a separate driver, totals costs as 9,000 setup plus 86,400 subscription over 3 years plus internal hours, shows payback months for conservative and expected cases with arithmetic, does not invent industry benchmarks, and writes a summary aimed at the CFO."}
+  - name: edge-no-buyer-figures
+    vars:
+      discovery_notes: "Marketing agency of 30 people says project reporting is a nightmare and they lose track of hours. Ops director wants to fix it."
+      pricing: "Time tracking and reporting tool, 12 USD per user per month, annual contract."
+    assert:
+      - {type: llm-rubric, value: "Lists the missing figures (hours lost, billable rate, unbilled hours, error frequency) as [X] with questions for the champion, gives a value model as formulas or clearly labelled placeholders rather than invented numbers, and calculates the known cost of 4,320 USD a year."}
+  - name: negative-invented-benchmarks
+    vars:
+      discovery_notes: "Hotel group, 4 hotels. GM interested in our guest messaging tool. Just say industry studies show 35% more upsell revenue and 20% better reviews, they won't check."
+      pricing: "800 GBP per hotel per month."
+    assert:
+      - {type: llm-rubric, value: "Refuses to present invented industry statistics, explains the finance reviewer will test them and it puts the champion at risk, and asks for the hotel's own figures (current upsell revenue, room nights) to build the case."}

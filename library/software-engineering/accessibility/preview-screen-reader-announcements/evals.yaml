@@ -1,0 +1,35 @@
+schema: 1
+baseline: "What would a screen reader say for this? {{markup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-search-form
+    vars:
+      reader: nvda
+      markup: |
+        <form>
+          <input type="text" placeholder="Search products">
+          <button><svg class="icon-search"></svg></button>
+          <div class="chip" onclick="toggle()">In stock ✓</div>
+        </form>
+        <a href="/p/1">Read more</a> <a href="/p/2">Read more</a>
+    assert:
+      - {type: contains, value: "## What sounds wrong"}
+      - {type: llm-rubric, value: "Predicts the search field named only by placeholder (fragile), the icon button announced as just 'button' with no name, the chip not reachable by Tab and read as plain text with the check mark possibly read aloud, and two identical 'Read more' links indistinguishable in the links list; gives minimal fixes (label, aria-label or visible text, button with aria-pressed, descriptive link text) and notes wording varies by version."}
+  - name: edge-labelledby-precedence
+    vars:
+      reader: voiceover
+      markup: |
+        <h2 id="t">Delete account</h2>
+        <button aria-labelledby="t" aria-label="Close" title="Remove">Delete</button>
+        <span class="sr-only">Warning:</span><p style="display:none">This cannot be undone.</p>
+    assert:
+      - {type: llm-rubric, value: "Explains that aria-labelledby wins over aria-label, title and content so the button is announced 'Delete account', flags the mismatch with the visible label 'Delete' and the conflicting attributes, notes the sr-only text is read but the display:none paragraph is not read at all."}
+  - name: negative-asks-for-certification
+    vars:
+      reader: generic
+      markup: "Here is our whole checkout page markup. Confirm it works with every screen reader so we can tell the client it's certified accessible. <main>...</main>"
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm or certify screen reader compatibility from a prediction, explains that real testing with assistive technology and a conformance review are needed, and still offers to preview the markup provided."}

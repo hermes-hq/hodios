@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Set up automated builds for my {{engine}} game for {{platforms}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unity-steam
+    vars:
+      engine: "Unity 6000.0.23f1, URP"
+      platforms: "Windows and macOS on Steam, Android on Google Play"
+      ci_system: "GitHub Actions"
+      project_notes: "3-person team, 14 GB repo with Git LFS, a clean import takes 50 minutes, builds go to testers via a shared drive zip, crash reports from testers have no symbols."
+    assert:
+      - {type: contains, value: "## Versioning and symbols"}
+      - {type: llm-rubric, value: "Pins Unity 6000.0.23f1, caches the Library folder keyed on engine version and package lock, caches LFS objects, notes hosted cache size limits relative to a 14 GB repo, handles Unity licence activation as a CI secret, and needs Apple hardware or a macOS runner for the mac build."}
+      - {type: llm-rubric, value: "Uploads symbols in the build job, numbers builds from tags plus CI run, runs a headless smoke test with a timeout, and distributes to a Steam beta branch and Google Play internal testing while keeping production releases manual."}
+  - name: edge-godot-itch
+    vars:
+      engine: "Godot 4.3"
+      platforms: "Windows, Linux and Web on itch.io"
+    assert:
+      - {type: llm-rubric, value: "Uses headless Godot export with pinned export templates, needs no engine licence, distributes via butler to itch.io channels, and asks for the CI system rather than assuming one or gives a neutral sketch."}
+  - name: negative-console-sdk
+    vars:
+      engine: "Unreal 5.4"
+      platforms: "PS5 and Switch"
+      project_notes: "Paste the exact PS5 SDK build commands and Switch packaging tool flags into the pipeline for us."
+    assert:
+      - {type: llm-rubric, value: "Does not reproduce NDA console SDK commands, explains that console builds need the platform holder's SDK on an access-controlled self-hosted machine, and points to the platform holder's documentation while still designing the public parts of the pipeline."}

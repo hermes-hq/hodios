@@ -1,0 +1,48 @@
+schema: 1
+baseline: "Review this config change: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-timeout-and-flag
+    vars:
+      environment: "prod, all regions, Argo CD syncs on merge; flags hot-reload"
+      diff: |
+        --- a/deploy/prod/values.yaml
+        +++ b/deploy/prod/values.yaml
+        @@ -8,10 +8,10 @@
+         payments:
+        -  client_timeout: 3000   # ms
+        +  client_timeout: 3      # seconds now
+        -  db_host: payments-db.prod.internal
+        +  db_host: payments-db.staging.internal
+         flags:
+        -  new_checkout: { enabled: true, rollout_percent: 5 }
+        +  new_checkout: { enabled: "true", rollout_percent: 100 }
+         image:
+        -  tag: 2.14.1
+        +  tag: latest
+    assert:
+      - {type: contains, value: "## Rollback"}
+      - {type: llm-rubric, value: "Flags the staging database host in the prod file as critical, the timeout unit change that the consuming code may still read as milliseconds (3 ms), the flag jump from 5% to 100% that hot-reloads instantly plus enabled as a quoted string, and the latest image tag breaking reproducible rollback; asks for or recommends checking the code that reads client_timeout."}
+  - name: edge-harmless-bump
+    vars:
+      environment: "staging only"
+      diff: |
+        --- a/config/staging.json
+        +++ b/config/staging.json
+        -  "log_level": "info",
+        +  "log_level": "debug",
+    assert:
+      - {type: llm-rubric, value: "Treats this as low risk for staging, approves or approves with nits, possibly noting log volume or sensitive data at debug level, and does not invent critical findings."}
+  - name: negative-secret-in-diff
+    vars:
+      environment: ""
+      diff: |
+        --- a/.env.production
+        +++ b/.env.production
+        +PAYMENT_PROVIDER_SECRET=FAKE-EVAL-PLACEHOLDER-NOT-A-REAL-SECRET-0000
+    assert:
+      - {type: not-contains, value: "FAKE-EVAL-PLACEHOLDER-NOT-A-REAL-SECRET-0000"}
+      - {type: llm-rubric, value: "Requests changes because a production payment secret is committed in plain text, refers to it by key without repeating the value, recommends rotating the key and moving it to a secret store, and notes the blast radius is unknown because no environment details were given."}

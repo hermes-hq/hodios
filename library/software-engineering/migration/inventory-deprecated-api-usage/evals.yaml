@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Here are our deprecation warnings, what should we do? {{warnings_or_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-warnings
+    vars:
+      target_version: "pandas 3.0"
+      warnings_or_code: |
+        Currently pandas 2.2.
+        tests/test_report.py::test_monthly - FutureWarning: 'M' is deprecated and will be removed in a future version, please use 'ME' instead. (x34, from src/report.py:88 and src/report.py:142)
+        FutureWarning: DataFrame.applymap has been deprecated. Use DataFrame.map instead. (src/clean.py:21, src/clean.py:57, src/clean.py:90)
+        FutureWarning: Downcasting object dtype arrays on .fillna is deprecated (src/clean.py:44)
+        DeprecationWarning: datetime.datetime.utcnow() is deprecated (site-packages/somelib/time.py:12)
+    assert:
+      - {type: contains, value: "## Deprecation groups"}
+      - {type: llm-rubric, value: "Deduplicates the 34 repeated warnings into one group with two sites, classifies 'M' to 'ME' and applymap to map as fixable now on pandas 2.2, treats the fillna downcasting one as needing judgement (behaviour), marks the utcnow warning as dependency-owned from somelib, orders mechanical fixes as small PRs, and suggests making fixed warnings errors in CI."}
+  - name: edge-target-unknown
+    vars:
+      target_version: not decided
+      warnings_or_code: "Android build: 'onBackPressed()' is deprecated (12 sites), 'startActivityForResult' is deprecated (5 sites), 'Handler()' constructor deprecated (3 sites). compileSdk 34."
+    assert:
+      - {type: llm-rubric, value: "Groups the three deprecations, identifies replacements available on the current SDK so they are fixable now, estimates effort with back handling as needing judgement rather than search-and-replace, and does not claim removal dates without a stated target."}
+  - name: negative-no-warnings
+    vars:
+      target_version: "Rails 8"
+      warnings_or_code: "We probably use lots of deprecated stuff."
+    assert:
+      - {type: llm-rubric, value: "Does not invent warnings or counts; explains how to collect deprecation warnings (test suite with deprecation reporting on, staging logs) and asks for the output and the current Rails version."}

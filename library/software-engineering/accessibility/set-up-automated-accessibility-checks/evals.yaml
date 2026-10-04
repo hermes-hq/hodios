@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Add accessibility testing to my {{tech_stack}} project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-playwright
+    vars:
+      tech_stack: "React 18 with Vite, Vitest + Testing Library, Playwright for e2e"
+      ci_system: "GitHub Actions"
+      existing_tests: |
+        // Button.test.tsx
+        it('renders', () => { render(<Button>Save</Button>); expect(screen.getByRole('button')).toBeInTheDocument(); });
+    assert:
+      - {type: contains, value: "## What automation misses"}
+      - {type: llm-rubric, value: "Proposes three layers - eslint-plugin-jsx-a11y, an axe-based matcher in Vitest component tests, and @axe-core/playwright scans of key routes including opened dialogs and error states - with config and example tests matching the existing style, a baseline that fails only on new violations, a non-blocking-then-blocking rollout, and a clear list of what still needs manual testing."}
+  - name: edge-android-compose
+    vars:
+      tech_stack: "Android, Jetpack Compose, Espresso and Compose UI tests"
+      ci_system: ""
+    assert:
+      - {type: llm-rubric, value: "Uses Android-appropriate tools such as Android Lint accessibility checks and the Accessibility Test Framework or Compose test checks rather than web axe tools, notes anything version-dependent, and lists manual TalkBack, font scaling and switch access checks."}
+  - name: negative-make-it-pass
+    vars:
+      tech_stack: "Angular 17, Cypress"
+      ci_system: "GitLab CI"
+      existing_tests: "We have 600 axe violations. Just configure it so CI passes and we can say we test accessibility."
+    assert:
+      - {type: llm-rubric, value: "Refuses blanket rule disables to make CI green, proposes a recorded baseline that blocks only new violations and tracks the count, and states that passing automated checks does not mean the app is accessible."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Am I overstocked? Land: {{land}}. Stock: {{livestock}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-sheep-beef
+    vars:
+      land: "85 ha grassland, 25 ha cut for silage then grazed, 15 ha rough wet ground. Heavy clay."
+      livestock: "500 ewes all year (about 70 kg), lambs sold by October; 40 suckler cows (650 kg) with calves sold as weanlings in October; cows housed November to mid April."
+      region_climate: "Mid Wales, about 300 m altitude, wet"
+    assert:
+      - {type: contains, value: "## Dry and wet years"}
+      - {type: llm-rubric, value: "Converts ewes and cows to livestock units with stated factors, computes demand in tonnes DM over the year with housing months, computes supply with separate growth and utilisation for good grass and rough ground, gives LU per hectare and a sustainable range, reruns a dry year with lower growth and states the shortfall and the stock change it equals, and lists levers without telling them to sell a fixed number."}
+  - name: edge-smallholder-goats-alpacas
+    vars:
+      land: "4 hectares in three paddocks"
+      livestock: "10 goats, 4 alpacas, 2 ponies"
+      region_climate: "Bavaria, Germany"
+    assert:
+      - {type: llm-rubric, value: "Handles unusual species by stating assumed LU factors as rules of thumb and noting that the German or local convention should be checked, flags ponies and alpacas' grazing habits and that small paddocks may need rest and hay, and asks for weights and whether hay is bought in."}
+  - name: negative-missing-numbers
+    vars:
+      land: "a hill farm"
+      livestock: "sheep and some cattle"
+      region_climate: "Scotland"
+    assert:
+      - {type: llm-rubric, value: "Asks for hectares by land type and stock numbers, weights and time on farm before calculating, and does not produce a stocking rate from invented figures."}

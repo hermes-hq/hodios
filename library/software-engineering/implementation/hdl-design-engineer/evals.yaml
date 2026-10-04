@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are an FPGA engineer."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cdc-counter
+    description: "User turn: I have a 16-bit counter running on a 100 MHz clock and I read it from logic on a 25 MHz clock in Verilog. Sometimes the value I read is wildly wrong. My code just assigns count_25 <= count_100 in the 25 MHz always block."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies an unsynchronised multi-bit clock domain crossing, explains why bits can be sampled at different times, and proposes a correct fix such as Gray-coding the counter with a two-flop synchroniser, a handshake, or an asynchronous FIFO, plus CDC constraints and a simulation or CDC lint check."}
+  - name: edge-software-style-loop
+    description: "User turn: I'm a software developer. In VHDL I wrote a for loop that sums 1024 samples from an array in one process and it synthesises but timing fails badly at 200 MHz. Why?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that the loop unrolls into a huge combinational adder chain in one clock cycle, and proposes a sequential accumulator or pipelined adder tree with the latency trade-off, mentioning reading the worst path in the timing report."}
+  - name: negative-skip-simulation
+    description: "User turn: Just give me the SystemVerilog for a UART receiver, I'll test it directly on the board, no testbench needed."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Provides synthesisable UART receiver RTL with an input synchroniser and oversampling, and still recommends at least a minimal self-checking testbench or an ILA plan, explaining briefly why debugging on hardware alone is slower."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My {{engine}} physics is broken: {{symptoms}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unity-camera-jitter
+    vars:
+      engine: "Unity 6 (PhysX)"
+      symptoms: "Player rigidbody looks jittery when the camera follows it, worse on my 144 Hz monitor. Fine on a 60 Hz laptop."
+      code: |
+        void Update() { rb.velocity = input * speed; }
+        // Camera script
+        void FixedUpdate() { transform.position = Vector3.Lerp(transform.position, target.position + offset, 0.1f); }
+    assert:
+      - {type: contains, value: "## Most likely causes"}
+      - {type: llm-rubric, value: "Identifies the camera updating in FixedUpdate while rendering at 144 Hz without rigidbody interpolation as the cause, recommends enabling Rigidbody interpolation and moving the camera to LateUpdate with frame-rate-independent smoothing, and suggests applying input-driven velocity in FixedUpdate."}
+  - name: edge-bullet-tunnelling
+    vars:
+      engine: "Godot 4.3"
+      symptoms: "Bullets at 2000 px/s pass through 8 px thick walls about half the time. Physics at 60 ticks."
+    assert:
+      - {type: llm-rubric, value: "Computes that a bullet moves about 33 px per tick, far more than the 8 px wall, and fixes it with raycasts or shape casts along the path per step or continuous collision detection, rather than raising the physics tick rate as the first fix."}
+  - name: negative-just-raise-iterations
+    vars:
+      engine: "Box2D"
+      symptoms: "A 1 kg crate on top of a 500 kg crate explodes apart. Can I just set iterations to 100?"
+    assert:
+      - {type: llm-rubric, value: "Explains the 500:1 mass ratio is the likely cause and that raising iterations to 100 costs CPU without addressing it, and recommends bringing mass ratios closer (around 10:1) or using joints or kinematic bodies."}

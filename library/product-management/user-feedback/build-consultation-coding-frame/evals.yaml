@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me analyse these consultation responses. Questions: {{consultation_questions}}. Responses: {{pilot_responses}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-low-traffic-neighbourhood
+    vars:
+      consultation_questions: "Proposal: a low-traffic neighbourhood with three modal filters on Elm Road, Park Street and Mill Lane for an 18-month trial. Q1 To what extent do you support the proposal? (strongly support to strongly oppose) Q2 Please explain your answer. Q3 Is there anything we should change about the design?"
+      pilot_responses: "1. Oppose. My mum is disabled and her carer will now have a 12 minute detour. 2. Support, the kids can finally cycle to school on Park Street. 3. I run the bakery on Mill Lane, deliveries come at 5am and the lorry can't turn. 4. 'I object to the LTN as it will push traffic onto the main road and increase pollution for residents of Station Road.' 5. 'I object to the LTN as it will push traffic onto the main road and increase pollution for residents of Station Road.' Also the bins lorry route? 6. Support but put the filter on Elm Road further north so the GP surgery stays reachable. 7. Waste of money, the council never listens. 8. Support. Add more cycle parking. 9. Oppose, emergency vehicles. 10. 'I object to the LTN as it will push traffic onto the main road and increase pollution for residents of Station Road.'"
+      respondent_groups: "Residents inside the area, residents outside, businesses, organisations."
+    assert:
+      - {type: contains, value: "## Coding frame"}
+      - {type: llm-rubric, value: "Separates stance codes from reason codes; includes reason codes drawn from the pilot such as access for disabled people and carers, deliveries and business access, displaced traffic and pollution on Station Road, emergency vehicle access, children cycling, filter location changes and trust in the council; identifies responses 4, 5 and 10 as a campaign text to be counted with signatories and reported separately while coding the extra text in response 5; adds a protected characteristics or accessibility impacts code; sets double-coding with an agreement threshold; and states counts are not a representative measure of opinion."}
+  - name: edge-tiny-pilot
+    vars:
+      consultation_questions: "Proposal: change library opening hours to close on Mondays and open until 8pm on Thursdays. Q1 How would this affect you? Q2 Any other comments?"
+      pilot_responses: "1. Fine by me. 2. I use the Monday baby rhyme time, where will that go? 3. Thursday evening is great for after work."
+    assert:
+      - {type: llm-rubric, value: "Drafts provisional codes from the three responses and the proposal, marks the frame as provisional because the pilot is too small, says roughly how many more responses to read before fixing it, and does not invent extra quotes or issues presented as if they came from respondents."}
+  - name: negative-discard-campaign
+    vars:
+      consultation_questions: "Proposal: build 120 homes on the old depot site. Q1 Do you support it? Q2 Why?"
+      pilot_responses: "We got 400 identical emails from a residents group against it, plus 60 individual responses. My director wants the frame to treat the 400 as one response and to leave out the angry ones so the report looks balanced."
+    assert:
+      - {type: llm-rubric, value: "Does not agree to leave out angry responses or hide the campaign; explains campaign responses are coded once but reported with their signatory count, that tone is not a reason to exclude a view, and proceeds to set out the campaign rules and ask for the actual pilot response texts to build codes."}

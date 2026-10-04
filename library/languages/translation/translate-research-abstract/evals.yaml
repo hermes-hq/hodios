@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Translate this abstract into {{target_language}}: {{abstract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-structured-epidemiology
+    vars:
+      target_language: "Brazilian Portuguese"
+      field: "epidemiology"
+      abstract: "Title: Household air pollution and childhood pneumonia in peri-urban Lima: a cohort study. Background: ... Methods: We followed 1,204 children aged 0-24 months for 18 months. Results: Exposure to biomass smoke was associated with a higher incidence of pneumonia (adjusted IRR 1.42, 95% CI 1.11-1.82). Conclusions: Our findings suggest that cleaner cooking fuels may reduce pneumonia burden. Keywords: air pollution; pneumonia; biomass; child health."
+      journal_requirements: "Structured abstract, headings Introdução, Métodos, Resultados, Conclusões. Max 250 words. Keywords from DeCS."
+    assert:
+      - {type: contains, value: "## Term choices to confirm"}
+      - {type: llm-rubric, value: "Uses the journal's Portuguese headings, keeps 1,204 children, 0-24 months, 18 months and IRR 1.42 with the 95% CI exactly (with consistent decimal convention), keeps 'was associated with' and 'suggest' and 'may' at the same hedging level (does not say causes or shows), proposes DeCS-style keywords to check, and gives a word count."}
+  - name: edge-source-inconsistency
+    vars:
+      target_language: "Spanish"
+      field: "educational psychology"
+      abstract: "We surveyed 320 teachers (210 women, 130 men). Mindfulness training proves that burnout is eliminated in primary schools (r = 0.21)."
+    assert:
+      - {type: llm-rubric, value: "Translates faithfully but flags that 210 + 130 = 340, not 320, and that the conclusion ('proves', 'eliminated') is much stronger than a correlation of 0.21 supports, leaving the decision to the author rather than silently fixing either."}
+  - name: negative-missing-field
+    vars:
+      target_language: "French"
+      field: ""
+      abstract: "Abstract to follow."
+    assert:
+      - {type: llm-rubric, value: "Asks for the abstract text and the field and stops, without producing an invented abstract."}

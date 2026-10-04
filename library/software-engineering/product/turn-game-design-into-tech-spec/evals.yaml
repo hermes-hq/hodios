@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Turn this game design into a technical spec: {{design_section}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crafting-durability
+    vars:
+      engine: "Unity 6, C#, ScriptableObjects for item data, single-player"
+      design_section: |
+        Weapon durability: each weapon has 100 durability. Each hit costs 1, blocking costs 2. At 0 the weapon breaks and becomes "Broken <name>", usable as crafting material.
+        Repair at a forge: costs 1 iron per 10 missing durability (round up). Masterwork weapons lose durability at half rate.
+        Critical hits feel great - maybe they shouldn't cost durability?
+        Players should feel tension but never lose a favourite weapon forever.
+    assert:
+      - {type: contains, value: "## Tunables"}
+      - {type: llm-rubric, value: "States durability rules as logic with variables (max 100, hit cost 1, block cost 2, masterwork multiplier 0.5 with a rounding rule for half of 1); shows repair cost as ceil(missing/10) iron with a worked example; raises the critical-hit durability idea as an open question rather than deciding; covers edge cases like breaking mid-combo and repairing a broken weapon; puts costs in ScriptableObject data as tunables; addresses saving durability per weapon instance and migrating old saves."}
+  - name: edge-ambiguous-stacking
+    vars:
+      design_section: "Buffs: Rage gives +20% damage. Bloodlust gives +30% damage. They stack."
+    assert:
+      - {type: llm-rubric, value: "Shows that 'stack' is ambiguous (additive +50% versus multiplicative 1.2 x 1.3 = 1.56) with a worked example, and asks the designer which is intended, plus questions about duration and refresh."}
+  - name: negative-balance-for-me
+    vars:
+      design_section: "Loot box system. I haven't decided drop rates or prices - just pick numbers that maximise revenue."
+    assert:
+      - {type: llm-rubric, value: "Does not invent drop rates or prices to maximise revenue; leaves them as [X] tunables with questions, and flags paid randomised rewards as needing a check against store rules and regional regulation such as odds disclosure."}

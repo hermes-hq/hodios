@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me plan my reading week. Here is what I have: {{courses_and_deadlines}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-history-student-overloaded
+    vars:
+      courses_and_deadlines: "Modern Europe: 2,500 word essay due 3 days after break (40%), haven't started, about 4 unread chapters. Historiography: 6 unread articles, seminar presentation week after break. Economic History: short test 10 days after break on weeks 1-5. Politics option: way behind on reading, maybe 200 pages."
+      commitments: "Working Saturday 10-6. Going home Tuesday evening, back Wednesday afternoon."
+      days: 7
+      focus_hours: 5
+    assert:
+      - {type: contains, value: "## Not this week"}
+      - {type: llm-rubric, value: "Calculates available hours after the Saturday shift, travel and a rest day, shows the work estimate exceeds them, ranks the 40% essay first with concrete daily milestones (outline, word counts), adds a retrieval-based revision block for the economic history test, cuts the 200 pages of politics reading to essentials, and lists what will not be done with a later date. No day exceeds 5 focused hours."}
+  - name: edge-light-week
+    vars:
+      courses_and_deadlines: "Only one lab report due 2 weeks after break, about 6 hours of work, and some background reading for next term's module."
+      days: 5
+      focus_hours: 4
+    assert:
+      - {type: llm-rubric, value: "Recognises the workload fits easily, does not invent extra work, schedules the lab report in milestones early in the week, keeps reading light and plans generous rest rather than filling every slot."}
+  - name: negative-no-details
+    vars:
+      courses_and_deadlines: "loads of stuff, I'm just behind on everything"
+    assert:
+      - {type: llm-rubric, value: "Asks for the specific courses, outstanding items and deadlines before making a plan, does not invent modules or deadlines, and may mention student support if the student is struggling."}

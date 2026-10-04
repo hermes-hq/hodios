@@ -1,0 +1,27 @@
+schema: 1
+baseline: "List the states I need to design for this mobile screen: {{screen_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-history
+    vars:
+      platform: both
+      screen_description: |
+        Order history screen in a food delivery app. Shows past orders (restaurant name, date, total, status) from GET /orders, paged 20 at a time. Tap an order to see details, "Reorder" button on each row. Reached from the profile tab and from the "Your order was delivered" push notification, which deep links to the order detail. Cached for offline viewing.
+    assert:
+      - {type: contains, value: "## State matrix"}
+      - {type: llm-rubric, value: "Distinguishes first-use empty (no orders yet) from other empty cases; covers paging end and page-load failure; offline shows cached orders with age and disables or queues Reorder; covers the notification deep link from cold start with back behaviour to a sensible parent and an order that no longer exists; mentions long restaurant names and large font sizes; analytics events include reorder and error states without personal data; marks assumed decisions as Proposed with open questions."}
+  - name: edge-permission-screen
+    vars:
+      platform: ios
+      screen_description: "Profile photo picker: user picks a photo from the library or takes one with the camera, crops it, and uploads it."
+    assert:
+      - {type: llm-rubric, value: "Covers camera and photo library permissions not yet asked, denied and limited photo library access on iOS with a route to Settings, plus upload failure that keeps the cropped image, without describing Android-specific behaviour."}
+  - name: negative-no-description
+    vars:
+      platform: both
+      screen_description: "The home screen."
+    assert:
+      - {type: llm-rubric, value: "Asks what the home screen shows, its data sources and actions before producing a detailed matrix, or produces only a clearly generic skeleton marked as assumptions, without inventing specific content."}

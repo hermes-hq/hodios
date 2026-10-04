@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Make this pandas code faster: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-iterrows-loop
+    vars:
+      data_size: "8 million rows, 12 columns, 1.5 GB CSV, 16 GB laptop"
+      code: |
+        df = pd.read_csv("orders.csv")
+        out = pd.DataFrame()
+        for i, r in df.iterrows():
+            if r["status"] == "refunded": amt = -r["amount"]
+            elif r["country"] in EU: amt = r["amount"] * 1.2
+            else: amt = r["amount"]
+            out = pd.concat([out, pd.DataFrame({"id": [r["id"]], "net": [amt]})])
+        # takes over an hour
+    assert:
+      - {type: contains, value: "## Equivalence check"}
+      - {type: llm-rubric, value: "Identifies iterrows and the repeated pd.concat in the loop (quadratic) as the causes, rewrites with np.select or np.where on whole columns and isin(EU), suggests usecols and dtypes such as category for status and country on read, provides an assert_frame_equal comparison on a sample, and labels speedups as estimates to measure."}
+  - name: edge-groupby-apply-larger-than-memory
+    vars:
+      data_size: "60 GB of Parquet files, 32 GB RAM"
+      code: "df = pd.concat([pd.read_parquet(f) for f in files]); res = df.groupby('user_id').apply(lambda g: g.sort_values('ts')['value'].diff().mean())"
+    assert:
+      - {type: llm-rubric, value: "Notes the data does not fit in memory, proposes a Polars lazy scan or DuckDB over Parquet with a vectorised diff over user_id ordered by ts instead of groupby.apply, and preserves NaN semantics of the mean of diffs."}
+  - name: negative-no-code
+    vars:
+      code: "My pandas is slow, any tips?"
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual code, data size and dtypes, and at most lists a few general causes briefly without inventing a rewrite."}

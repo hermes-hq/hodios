@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I backport this fix to my release branches? {{fix_description}} Branches: {{release_branches}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-lines
+    vars:
+      release_branches: "release/3.x (current), release/2.8 (LTS until 2027), release/2.6 (security fixes only, EOL in 3 months)"
+      fix_description: |
+        PR 1842 on main: fix path traversal in static file handler (security, high). Commits:
+        a1c2e3f fix: normalise and reject ".." in static paths
+        b4d5f6a test: regression tests for traversal
+        In 3.0 the handler moved from lib/static.js to lib/http/static.js and was refactored to async.
+    assert:
+      - {type: contains, value: "cherry-pick -x"}
+      - {type: llm-rubric, value: "Backports to all three lines since it is a security fix, includes the test commit, orders newest to oldest, warns that 2.x has the old lib/static.js so the fix likely needs hand-porting rather than a clean cherry-pick, advises neutral commit wording before disclosure, and gives patch version bumps and changelog steps per branch."}
+  - name: edge-bug-not-in-old-branch
+    vars:
+      release_branches: "release/5.2, release/5.1"
+      fix_description: "Commit 9e8d7c6 fixes a crash in the new CSV exporter that was added in 5.2."
+    assert:
+      - {type: llm-rubric, value: "Backports to release/5.2 only and skips release/5.1 because the CSV exporter does not exist there, suggesting how to confirm with git log or by checking the code on 5.1."}
+  - name: negative-missing-commits
+    vars:
+      release_branches: "the old ones"
+      fix_description: "the bug fix from last week"
+    assert:
+      - {type: llm-rubric, value: "Asks for the commit hashes or PR and the exact release branches and their support status, and does not invent hashes or branch names."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Turn this feedback on my video into edit notes: {{reactions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-recruitment-film
+    vars:
+      reactions: "Head of nursing (Grace): loved the night-shift handover at 1:05, very real. Felt slow from 1:40 to 2:30, too many people saying the same thing. Who is the woman at 0:40? Font on the titles looks cheap. HR (Tom): needs the pay and training info earlier, people leave. Also make it pop more. Comms (Lena): the music at the start is too loud, can't hear Priya. Grace again: please keep it under 3 minutes."
+      video_purpose: "recruitment film for newly qualified nurses, social and careers site"
+      cut_length: "3:40, target under 3:00"
+      stage: rough
+    assert:
+      - {type: contains, value: "## Notes"}
+      - {type: llm-rubric, value: "Keeps the 1:05 handover; turns 'who is the woman at 0:40' into a clarity note about an unidentified person; makes the 1:40-2:30 repetition a must or should pacing note that helps reach 3:00; treats the loud music over Priya as a sound note that blocks understanding; moves the font comment to Held for later because this is a rough cut; lists 'make it pop' as a question to clarify; attributes each note to Grace, Tom or Lena."}
+  - name: edge-conflicting-and-no-timecodes
+    vars:
+      reactions: "Client A: the ending is too long, cut the testimonial. Client B: the testimonial is the best bit, make it longer. Someone said the middle drags."
+      video_purpose: "90-second product video for a bike repair shop"
+      stage: fine
+    assert:
+      - {type: llm-rubric, value: "Shows the testimonial disagreement as a conflict with both views and a deciding question tied to the video's purpose, marks missing timecodes as [timecode?], and records 'the middle drags' with an unknown source and a request for specifics rather than inventing details."}
+  - name: negative-no-reactions
+    vars:
+      reactions: ""
+      video_purpose: "wedding highlights film"
+    assert:
+      - {type: llm-rubric, value: "Asks for the reactions and stops without inventing notes or timecodes."}

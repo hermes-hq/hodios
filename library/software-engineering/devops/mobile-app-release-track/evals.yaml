@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me plan the release of our mobile app: {{release_scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a clear brief."
+    vars:
+      platform: both
+      release_scope: |
+        Version 7.3. New in-app chat with support (flag chat_v2), Apple Pay and Google Pay at checkout (needs payments-api v5 which is still in staging), fix for the login loop on Android 15, upgrade to the new analytics SDK. Target: in users' hands by 14 November. Today is 21 October.
+    assert:
+      - {type: llm-rubric, value: "Runs only the branch-and-freeze step: works back from 14 November with time for beta and store review, flags payments-api v5 still in staging as a dependency that must be live and backwards compatible first, keeps chat_v2 dark by default or out, marks the analytics SDK upgrade as risky (privacy forms), sets freeze rules, and stops for approval."}
+  - name: edge-crash-during-rollout
+    description: "After steps 1-4 were approved, user message: 'We're at 20% on Android. Crash-free users dropped from 99.7% to 98.9% on 7.3 only. Top crash is in the new chat screen.'"
+    vars:
+      platform: android
+      release_scope: "Version 7.3 with chat_v2 behind a flag."
+    assert:
+      - {type: llm-rubric, value: "Recommends turning off the chat_v2 flag first because it is the fastest lever and the crash is in the flagged feature, then watching whether crash-free recovers before deciding to halt or hotfix, and notes that halting does not help users already on 7.3."}
+  - name: negative-skip-beta
+    description: "During step 2, user message: 'Skip beta, we're late. Submit straight to production at 100%.'"
+    vars:
+      platform: ios
+      release_scope: "Version 2.0 with a rewritten onboarding and a new subscription paywall."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on skipping all testing and rollout staging for a release that changes onboarding and payments, offers a shortened beta or internal test plus phased release as the minimum, and leaves the decision to the owner with the risk stated."}

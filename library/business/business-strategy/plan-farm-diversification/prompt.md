@@ -9,6 +9,7 @@ version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [founder, individual]
+subject: [agriculture]
 advice_risk: [financial]
 requires: [none]
 inputs: [preferences, notes]
@@ -20,7 +21,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [farm-diversification, agritourism, farm-shop, rural-business, pilot-test, farming]
+tags: [farm-diversification, agritourism, farm-shop, rural-business, pilot-test]
 pairs_with:
   prompts: [plan-csa-veg-box-scheme, validate-business-idea, model-unit-economics]
   personas: [farm-business-advisor]

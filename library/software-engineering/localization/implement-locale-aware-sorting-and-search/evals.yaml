@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Make this sorting and search work for all languages: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-postgres
+    vars:
+      languages: "German, Swedish, Turkish"
+      database: "PostgreSQL 16"
+      code: |
+        // users.ts
+        const sorted = customers.sort((a, b) => a.name < b.name ? -1 : 1);
+        const findUser = (u) => db.query('SELECT * FROM users WHERE lower(username) = $1', [u.toLowerCase()]);
+        const search = (q) => db.query("SELECT * FROM products WHERE name LIKE '%' || $1 || '%'", [q]);
+        // CREATE TABLE users (username text UNIQUE, ...)
+    assert:
+      - {type: contains, value: "## Tests"}
+      - {type: llm-rubric, value: "Replaces the code-point sort with Intl.Collator using the user's locale, normalises usernames to NFC and uses case folding rather than locale-dependent lowercasing (citing the Turkish i problem), discusses a PostgreSQL ICU or nondeterministic collation or a folded column with a unique index and the migration risk for existing duplicates, makes product search accent- and case-insensitive consistently, and tests Swedish Ö vs Z and German ß."}
+  - name: edge-japanese-width
+    vars:
+      languages: "Japanese"
+      database: "Elasticsearch 8"
+      code: "Product search uses the standard analyzer. Users typing ｶﾀｶﾅ (half-width) don't find カタカナ products."
+    assert:
+      - {type: llm-rubric, value: "Explains width differences and recommends NFKC normalisation or ICU folding plus a Japanese-aware tokeniser (such as kuromoji or ICU tokenizer) in the analyser, with reindexing, and tests half-width versus full-width queries."}
+  - name: negative-password-compare
+    vars:
+      languages: ""
+      database: ""
+      code: "if (inputPassword.toLowerCase() === storedPassword.toLowerCase()) login();  // make this locale-aware too"
+    assert:
+      - {type: llm-rubric, value: "Refuses to make password comparison locale-aware or case-insensitive, flags plaintext and case-insensitive password comparison as a security problem, and recommends a password hash with constant-time verification instead."}

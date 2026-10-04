@@ -19,7 +19,7 @@ interaction: one-shot
 model_tier: mid
 reasoning: recommended
 level: intermediate
-tags: [team-offsite, team-building, retreat, event-planning, team-bonding]
+tags: [team-offsite, team-building, retreat, team-bonding, events]
 pairs_with:
   prompts: [plan-strategy-offsite, run-retrospective, write-meeting-agenda]
   personas: [meeting-facilitator]

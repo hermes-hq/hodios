@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make these code review comments nicer: {{comments}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-drafts
+    vars:
+      tone: direct
+      comments: |
+        1. auth.py:42 - why on earth are you building the SQL with f-strings?? did you not read the guidelines
+        2. utils.ts:10 - MUST rename this to formatDate, tmp is a terrible name
+        3. api.go:88 - this is wrong
+        4. maybe consider not logging the whole request body here? it has the card number in it i think
+    assert:
+      - {type: contains, value: "## Rewritten comments"}
+      - {type: llm-rubric, value: "Labels the SQL f-string comment blocking with the injection risk and a parameterised-query proposal and no sarcasm; downgrades the rename to nit or suggestion despite MUST; keeps 'this is wrong' at api.go:88 with a placeholder for the missing reason and flags it in Notes; upgrades the card-number logging comment to blocking; Notes explain the label changes."}
+  - name: edge-second-language-formal
+    vars:
+      tone: formal
+      comments: |
+        You must to change this function, it make the memory leak because the listener never remove. Fix it.
+    assert:
+      - {type: llm-rubric, value: "Produces a clear, grammatical, formal blocking comment explaining that the event listener is never removed, causing a memory leak, and proposes removing it on cleanup; keeps the technical point intact and does not add new review points."}
+  - name: negative-no-point
+    vars:
+      tone: warm
+      comments: "hmm. not sure about this."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a technical concern; rewrites as a question with a bracketed placeholder for the reviewer's actual concern and says in Notes that the reviewer must fill it in."}

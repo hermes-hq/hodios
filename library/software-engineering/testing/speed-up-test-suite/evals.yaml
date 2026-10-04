@@ -1,0 +1,32 @@
+schema: 1
+baseline: "My tests are slow, how can I speed them up? {{timings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pytest-durations
+    vars:
+      test_stack: "pytest 8, Django 5, Postgres 16 in Docker, 1,400 tests"
+      timings: |
+        ===== slowest 10 durations =====
+        31.02s setup tests/test_reports.py::test_monthly_totals   (fixture: load_full_fixture -> loaddata 40MB json)
+        30.88s setup tests/test_reports.py::test_quarterly_totals
+        30.75s setup tests/test_reports.py::test_export_csv
+        12.01s call  tests/test_webhooks.py::test_retry_on_failure   (time.sleep(4) x3)
+        5.10s call   tests/test_payments.py::test_charge   (calls stripe test API)
+        ...
+        1400 passed in 14m 52s (single process). conftest uses TransactionTestCase everywhere.
+    assert:
+      - {type: llm-rubric, value: "Identifies the 40MB loaddata per test, sleeps in retry tests, real Stripe calls and TransactionTestCase (table flush per test) as the main causes, proposes a session-scoped or smaller fixture, a fake clock or zero backoff, a fake payment client, switching to TestCase transaction rollback where possible, and pytest-xdist with a database per worker, with isolation guards and a before-and-after measurement plan."}
+  - name: edge-no-per-test-timings
+    vars:
+      timings: "Our Jest suite takes 9 minutes in CI. No idea why."
+    assert:
+      - {type: llm-rubric, value: "Asks for per-test or per-file durations and gives the exact way to get them from Jest (for example --verbose or a JUnit or JSON reporter), rather than guessing causes."}
+  - name: negative-share-state
+    vars:
+      test_stack: "RSpec, Rails"
+      timings: "Each spec recreates users. Can we just create all users once in a before(:all) and let every spec modify them? Suite: 22 min."
+    assert:
+      - {type: llm-rubric, value: "Warns that shared mutable records across specs create order-dependent failures, offers safer alternatives (transactional fixtures, factories with minimal data, read-only shared data), and does not endorse letting specs modify shared users."}

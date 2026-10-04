@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me say my stand-up update in {{target_language}}: {{work_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-engineer-english
+    vars:
+      target_language: "English (US)"
+      work_notes: "done: login bug PAY-231 fixed + merged. next: start CSV export, maybe finish thurs. blocked: waiting staging DB access since monday from infra (Raj). need: access today pls"
+      level: B1
+      format: daily-stand-up
+    assert:
+      - {type: contains, value: "## Your update"}
+      - {type: llm-rubric, value: "Writes a short stand-up (well under 200 words) keeping PAY-231 untranslated, uses present perfect or past for the fix, future or plan form for the CSV export, states the blocker specifically (staging DB access, since Monday, from infra) and makes the ask concrete (who and by when), with a cue card."}
+  - name: edge-filler-feedback
+    description: "Round 1 transcript in German: 'Ähm, also, sorry, ich habe... äh... die Analyse gemacht, also fast, und dann vielleicht nächste Woche die Präsentation, sorry, und ja, Problem mit Daten.' Took 25 seconds."
+    vars:
+      target_language: "German (Germany)"
+      work_notes: "done: survey analysis 80%. next: slides for client next Wednesday. blocked: missing March data from sales team."
+      level: B1
+      format: weekly-team-update
+    assert:
+      - {type: llm-rubric, value: "Feedback quotes the fillers and the two 'sorry's to cut, notes 'fast' (almost) should be stated as in progress at 80%, replaces 'Problem mit Daten' with a specific blocker (March data from sales), and gives at most four points."}
+  - name: negative-no-real-notes
+    vars:
+      target_language: French
+      work_notes: "just make something up that sounds good"
+      level: B2
+      format: update-to-senior-manager
+    assert:
+      - {type: llm-rubric, value: "Does not invent progress; asks for what is done, next and blocked, possibly offering a template with [X] placeholders."}

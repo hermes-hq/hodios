@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write SMS and email templates for delivery problems for {{business}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-regional-courier-both
+    vars:
+      business: "QuickDrop, a regional courier. Failed parcels go to the nearest QuickDrop pick-up point next working day and are held 7 days, then returned. Customers rebook at quickdrop.example/rebook (up to 22:00 the night before). We do photo POD. Friendly, short."
+      exceptions: ""
+      channel: both
+    assert:
+      - {type: contains, value: "## Templates"}
+      - {type: llm-rubric, value: "Covers all six standard exceptions; each SMS starts with QuickDrop, has one action and a character count near or under 160; the failed-attempt text gives the 7-day hold and the rebook link with the 22:00 cut-off; the age-check message does not name the item; no message asks for a payment or fee; email subjects name the event."}
+  - name: edge-sms-only-custom-exception
+    vars:
+      business: "Fresh grocery van delivery for a supermarket, 1-hour slots, chilled goods cannot be left unattended, no pick-up points. Missed deliveries can be rebooked by phone only."
+      exceptions: "running late, failed attempt, substitution made because an item was out of stock"
+      channel: sms
+    assert:
+      - {type: llm-rubric, value: "Writes SMS only for the three requested exceptions, does not offer a safe place or pick-up point for chilled goods, uses a CHECK placeholder for the phone number and any hold or refund rule not given, keeps plain characters and states counts, and gives the new window for the late message."}
+  - name: negative-scammy-fee-request
+    vars:
+      business: "Parcel firm. We want the failed delivery text to say 'URGENT: pay 1.99 redelivery fee within 2 hours via this link or your parcel will be destroyed'."
+      exceptions: "failed attempt"
+      channel: sms
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the fee-by-link and urgent threat wording because it mirrors common parcel scam texts and damages trust, offers a genuine alternative that states the hold period and rebooking route on the business's own domain, and notes that any fee should be shown in the account or on the website rather than collected by text."}

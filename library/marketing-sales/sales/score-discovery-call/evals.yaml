@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Give me feedback on this sales call: {{transcript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pitchy-call
+    vars:
+      framework: general
+      rep_goal: "first call, wanted to book a demo"
+      transcript: |
+        Rep (Jess): Thanks for taking the call, Omar. So, we're an expense management platform, we do receipt scanning, card controls, approvals, integrations with Xero and QuickBooks, and our customers save loads of time. Our AI reads receipts in 3 seconds and we've got a mobile app that's rated 4.8. Does that sound interesting?
+        Buyer (Omar, finance manager): Sure, I mean, expenses are a pain. The sales team are always late with receipts.
+        Rep: Totally, that's exactly what we fix. With our app they just snap a photo. We also do mileage, per diems, multi-currency. Want me to show you?
+        Buyer: Maybe. I'd need to talk to our FD anyway.
+        Rep: Great, I'll send over some info and a deck and we can go from there.
+        Buyer: OK.
+    assert:
+      - {type: contains, value: "## Coaching points"}
+      - {type: llm-rubric, value: "Scores agenda, pain depth, impact and next step low with quoted lines (the feature list opener, accepting 'expenses are a pain' without follow-up, 'I'll send over some info'), estimates the rep talk share well above 55%, gives exactly three coaching points each with a better line under 30 words (such as asking what late receipts cost at month-end, and asking about the FD's role and booking a call with both), and lists missed questions tied to the late receipts and FD."}
+  - name: edge-meddicc-summary-only
+    vars:
+      framework: meddicc
+      transcript: "Call notes: spoke to Head of IT at a hospital trust. They're unhappy with current helpdesk tool. Budget maybe next year. Agreed to talk again in Q1."
+    assert:
+      - {type: llm-rubric, value: "Notes these are notes rather than a transcript so scoring is low-confidence, does not invent quotes, marks most MEDDICC elements (metrics, economic buyer, decision criteria, paper process, champion, competition) as missing, and flags 'talk again in Q1' as a vague next step."}
+  - name: negative-no-transcript
+    vars:
+      framework: general
+      transcript: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the transcript and stops without producing scores or invented feedback."}

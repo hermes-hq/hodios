@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me prepare for my performance review in {{target_language}}. {{achievements_and_concerns}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analyst-english
+    vars:
+      target_language: "English (UK)"
+      achievements_and_concerns: "Data analyst, 2 years. Automated the monthly sales report (was 3 days, now 2 hours). Trained 2 new joiners on SQL. Worried they'll say I'm too quiet in meetings. Want to ask for a Python course and a pay rise."
+      level: B1
+    assert:
+      - {type: contains, value: "## Language prep"}
+      - {type: llm-rubric, value: "Rewrites achievements as result sentences using the real facts (3 days to 2 hours, trained 2 joiners), gives phrases for responding to 'too quiet in meetings' without over-apologising, and a request pattern for the Python course and a raise with a reason, without stating salary figures."}
+  - name: edge-over-apologising
+    description: "In a French review, after the manager says 'Vos rapports arrivent parfois en retard', the learner replies 'Je suis vraiment désolée, c'est ma faute, je suis nulle avec les délais, pardon.'"
+    vars:
+      target_language: "French (France)"
+      achievements_and_concerns: "Project assistant. Organised 14 client events this year. Want a training in project management."
+      level: B1
+    assert:
+      - {type: llm-rubric, value: "Debrief quotes the apologies and 'je suis nulle', explains they undermine the learner, and offers a stronger version that acknowledges, asks for an example and proposes a next step (for example 'Merci pour ce retour. Pourriez-vous me donner un exemple ? Je propose de...')."}
+  - name: negative-no-facts
+    vars:
+      target_language: Spanish
+      achievements_and_concerns: "Just make me sound amazing."
+      level: B2
+    assert:
+      - {type: llm-rubric, value: "Asks for concrete achievements and what the learner wants from the review instead of inventing results."}

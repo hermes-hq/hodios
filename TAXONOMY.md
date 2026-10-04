@@ -1,4 +1,4 @@
-# Hodios taxonomy (vocab 1.2.0)
+# Hodios taxonomy (vocab 1.3.0)
 
 How Hodios organises entries so the library can grow from dozens to millions without breaking a link, an install or a contributor's mental model. This file explains the rules. The data lives in [`vocab/`](vocab/), and the validator enforces it (rules PS050–PS060, §5.4).
 
@@ -56,7 +56,7 @@ A new kind is a schema MAJOR change (§5.3), because every adapter and UI branch
 
 ### 2.1 What it is
 
-**Domain** is the field of human activity: `software-engineering`, `education`, `content-creation`, `finance`, … There are 23 in v1 (§7.1). **Category** is the job to be done inside that field: `debugging`, `exam-prep`, `video`, `budgeting`, … There are 148 live categories in vocab 1.2 (§7.1).
+**Domain** is the field of human activity: `software-engineering`, `education`, `content-creation`, `finance`, … There are 23 in v1 (§7.1). **Category** is the job to be done inside that field: `debugging`, `exam-prep`, `video`, `budgeting`, … There are 152 live categories in vocab 1.3 (§7.1).
 
 - Every entry has exactly one category. The domain follows from the category. An entry never declares a domain.
 - Category ids are **globally unique across domains**, so `cat:testing` never needs a domain prefix.
@@ -94,7 +94,7 @@ GitHub documents a cap of 3,000 entries per directory and truncates its web view
 | Domains | 30 | 50 | GOVERNANCE vote only |
 | `other/unsorted` (holding area) | 40 | 50 | Graduate entries (§2.5) |
 
-The core repo is capped at 20k entries overall (design §12.2). At 148 categories that is about 135 entries per category on average, so the 1,000 cap bites only on genuinely hot categories. The community registry has no folders, so these limits do not apply there. Category is only a facet there, and splits are still reflected through `subcategory`.
+The core repo is capped at 20k entries overall (design §12.2). At 152 categories that is about 132 entries per category on average, so the 1,000 cap bites only on genuinely hot categories. The community registry has no folders, so these limits do not apply there. Category is only a facet there, and splits are still reflected through `subcategory`.
 
 ### 2.4 When a category outgrows its folder: split, sub-categorise, redirect
 
@@ -388,7 +388,7 @@ The YAML files in `vocab/` are authoritative; this section is the readable index
 | `content-creation` | video, podcasting, social-media, newsletters, blogging, content-strategy |
 | `marketing-sales` | copywriting, seo, advertising, email-marketing, sales, marketing-strategy |
 | `product-management` | product-discovery, product-strategy, roadmapping, product-metrics, user-feedback, product-launch |
-| `business` | business-strategy, entrepreneurship, operations, customer-support, fundraising |
+| `business` | business-strategy, entrepreneurship, operations, customer-support, fundraising, farming |
 | `data-analysis` | spreadsheets, data-exploration, statistics, data-visualization, reporting |
 | `research-science` | literature-review, research-methods, scientific-writing, fact-checking, peer-review |
 | `design` | ux-research, ui-design, design-systems, graphic-design, branding |
@@ -399,9 +399,9 @@ The YAML files in `vocab/` are authoritative; this section is the readable index
 | `legal-admin` ⚠ | contracts, legal-correspondence, compliance, policies, paperwork, legal-practice |
 | `health-wellbeing` ⚠ | fitness, nutrition, mental-health, medical-prep, clinical-practice |
 | `home-cooking` | cooking, meal-planning, home-improvement, gardening, pet-care, vehicles |
-| `travel` | trip-planning, travel-logistics, local-culture |
-| `parenting-family` | parenting, kids-activities, relationships, family-logistics |
-| `productivity` | task-management, note-taking, meetings, summarization, decision-making, brainstorming, habits, tech-help, digital-safety, personal-style, shopping, spirituality |
+| `travel` | trip-planning, travel-logistics, local-culture, relocation |
+| `parenting-family` | parenting, kids-activities, relationships, family-logistics, caregiving |
+| `productivity` | task-management, note-taking, meetings, summarization, decision-making, brainstorming, habits, tech-help, digital-safety, personal-style, shopping, spirituality, event-planning |
 | `gaming-fun` | tabletop-rpg, video-games, trivia, puzzles, humor, simulations, media-and-fandom, pastimes, crafts, sports |
 | `prompting` | prompt-engineering, assistant-setup, output-styles |
 | `other` | unsorted (holding area, §2.5) |
@@ -417,7 +417,7 @@ Every category that content PRs already use (code-review, debugging, testing, re
 - **stage (10):** discover, plan, design, build, verify, review, ship, operate, maintain, learn
 - **role (54):** see `vocab/role.yml`. The groups are engineering (software-engineer … maintainer), data and research (data-analyst, data-scientist, business-analyst, financial-analyst, researcher), product and design (product-manager, project-manager, designer, ux-researcher, graphic-designer), content and marketing (content-creator, writer, editor, marketer, copywriter, artist), business (founder, executive, manager, sales-rep, support-agent, operations-manager, recruiter, consultant, legal-professional), learning (student, teacher, language-learner) and everyday (job-seeker, parent, home-cook, traveler, gamer, individual)
 - **stack (116):** languages, runtimes, frameworks, databases, cloud, AI platforms, and apps and platforms (excel, google-sheets, figma, notion, youtube, linkedin, midjourney, anki, dnd-5e, …)
-- **subject (43):** academic subjects, fields, and 16 human languages
+- **subject (49):** academic subjects, fields, and 16 human languages
 - **inputs (22):** diff, file, repo, stack-trace, logs, config, schema, ticket, spec, dataset, document, notes, transcript, message, resume, job-posting, image, audio, url, topic, preferences, text
 - **output (26):** diff, code, tests, config, commit-message, adr, diagram, report, checklist, plan, summary, table, questions, explanation, docs, article, outline, script, post, message, copy, quiz, ideas, prompt, rewrite, conversation
 - **requires:** none, repo-read, file-write, shell, web, git, `mcp:<server>`

@@ -18,7 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [office-move, relocation, it-cutover, change-of-address, move-timeline, facilities]
+tags: [office-move, it-cutover, change-of-address, move-timeline, facilities, moving-abroad]
 pairs_with:
   prompts: [plan-business-continuity, compare-vendors, write-sop]
 args:

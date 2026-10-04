@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me price my salon menu. Services: {{services}} Costs: {{costs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-chair-salon
+    vars:
+      services: "Ladies cut and finish 45 (60 min), men's cut 25 (30 min), full head colour 85 (2 h incl processing), balayage 120 (3.5 h), blow-dry 28 (40 min), toner 15 (20 min), kids cut 15 (30 min)."
+      costs: "Rent 2,800 a month, utilities 450, software 90, insurance 120, receptionist 1,600. 4 chairs, open 48 hours a week, book is about 70% full. Colour product about 14 per full head, 22 per balayage. Card fees 1.5%."
+      stylist_levels: "Junior on 12 per hour, senior on 40% commission."
+    assert:
+      - {type: contains, value: "## Service profitability"}
+      - {type: llm-rubric, value: "Computes fixed cost per productive chair hour from 4 chairs x 48 h x 52/12 x 70% with arithmetic and a lower-utilisation case, costs each service including chair time, stylist cost and product, compares margin per chair hour across services, flags balayage or full colour if its margin per chair hour falls below a cut, proposes a shorter menu with level pricing and add-ons such as toner and long-hair supplements."}
+  - name: edge-solo-chair-renter
+    vars:
+      services: "Self-employed barber renting a chair. Skin fade 22 (40 min), beard trim 10 (15 min), cut and beard 30 (50 min)."
+      costs: "Chair rent 180 a week, products about 1.50 per client, card fees 1.75%, booking app 30 a month. Work 40 hours a week, about 80% booked."
+      stylist_levels: ""
+    assert:
+      - {type: llm-rubric, value: "Treats the barber as the only stylist with chair rent as the main fixed cost, computes cost per booked hour and margin per hour for each service, shows which service earns most per hour, and suggests pricing or menu changes without inventing local competitor prices."}
+  - name: negative-copy-competitor
+    vars:
+      services: "Just tell me what salons in my city charge for balayage and I'll match it."
+      costs: ""
+      stylist_levels: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent local market prices, explains briefly why matching competitors without knowing chair time and costs is risky, asks for service times and monthly costs, and shows the chair-hour method on balayage with placeholders."}

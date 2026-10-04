@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Clean up these captions and give me an {{format}} file: {{transcript_or_captions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-auto-captions
+    vars:
+      transcript_or_captions: |
+        1
+        00:00:00,500 --> 00:00:02,100
+        so um today were going to look at how to repot a monstera deliciosa without killing it because honestly
+        2
+        00:00:02,100 --> 00:00:03,000
+        most people get this wrong
+        3
+        00:00:03,000 --> 00:00:05,800
+        [Music] okay first thing you need is a pot thats about 5 cm wider
+        4
+        00:00:05,800 --> 00:00:07,200
+        than the old one says Priya from green thumb studio
+      format: srt
+      viewers: general
+      glossary: "Monstera deliciosa; Priya Shah (host); Green Thumb Studio"
+    assert:
+      - {type: contains, value: "## Caption file"}
+      - {type: regex, value: "00:00:0\\d,\\d{3} --> 00:00:0\\d,\\d{3}"}
+      - {type: llm-rubric, value: "Returns a valid SRT with comma milliseconds and sequential numbers, no line over 42 characters and no more than two lines per cue, removes the filler 'um', fixes 'were' and 'thats', capitalises Green Thumb Studio and Priya per the glossary, does not split 'Monstera deliciosa' across lines, keeps original timings rather than inventing new speech, and reports cues that remain too fast."}
+  - name: edge-plain-transcript-vtt-children
+    vars:
+      transcript_or_captions: "Hello everyone! Today we are making a volcano. You need baking soda, vinegar and some red food colouring. Ready? Three, two, one... whoosh!"
+      format: vtt
+      viewers: children
+    assert:
+      - {type: llm-rubric, value: "Starts the file with WEBVTT, keeps lines at or under 32 characters, does not invent timestamps but marks timings as needed and says the file must be synced, and does not add sound tags it cannot know about (or marks any as needing checking)."}
+  - name: negative-change-the-meaning
+    vars:
+      transcript_or_captions: "1\n00:00:01,000 --> 00:00:03,000\nthis update is a total disaster and the CEO knew\n"
+      format: srt
+      viewers: general
+      glossary: "Please soften this to 'this update had some issues' so it looks better for the brand."
+    assert:
+      - {type: llm-rubric, value: "Keeps the speaker's actual words rather than rewriting them to 'had some issues', explains briefly that captions must match what is said, and still returns a valid SRT cue."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How many pickers do I need to harvest {{crop}}? Yield: {{expected_yield}}. Window: {{harvest_window}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-strawberry-profile
+    vars:
+      crop: "Strawberries, table-top, picked straight into 400 g punnets in the field"
+      expected_yield: "5 ha. Last year weekly kg: wk1 4,000; wk2 9,000; wk3 15,000; wk4 16,000; wk5 11,000; wk6 6,000. Expect similar."
+      harvest_window: "Six weeks from early June, picking 6 days a week"
+      pick_rate: "Experienced pickers about 12 kg per hour, new ones half that for the first week. 8 paid hours a day. Roughly half the crew will be new. Packing is done in the field, 2 people in the shed doing labels and pallets."
+    assert:
+      - {type: contains, value: "## Crew by week"}
+      - {type: llm-rubric, value: "Sizes the crew for the 16,000 kg peak week using a productive-hours factor below 8 hours, accounts for half the crew being new at a lower rate, shows the arithmetic, adds supervisors and shed staff and an absence buffer, rounds up to whole people, and gives a poor-week sensitivity with rain days lost."}
+  - name: edge-total-only-no-rates
+    vars:
+      crop: "Cut sunflowers, bunched in tens in the shed"
+      expected_yield: "About 120,000 stems over the season from 1.5 acres"
+      harvest_window: "Mid July to end of September, 5 days a week"
+    assert:
+      - {type: llm-rubric, value: "Spreads the total over a weekly profile and labels it as an assumption, does not present a cut or bunching rate as fact, asks for the grower's own rates while showing a table with labelled placeholder assumptions, and includes bunching or packing staff not just cutters."}
+  - name: negative-missing-window
+    vars:
+      crop: "Apples"
+      expected_yield: "Not sure yet"
+      harvest_window: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the expected yield (area and tonnage or bins) and the harvest window before calculating, and does not produce invented crew numbers."}

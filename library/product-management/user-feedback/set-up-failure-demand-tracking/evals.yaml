@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me track how many of our customer contacts are avoidable. Service: {{service_description}}. Channels: {{contact_channels}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-housing-repairs
+    vars:
+      service_description: "Housing association repairs service for about 9,000 homes. Tenants report repairs, we book an operative, they fix it. Success is the repair done right first time on the agreed day."
+      contact_channels: "Phone line with 6 call handlers, roughly 2,400 calls a week. Email inbox about 600 a week. No reason codes today, the CRM only logs 'repair enquiry'."
+      review_cadence: weekly
+    assert:
+      - {type: contains, value: "## Contact codes"}
+      - {type: llm-rubric, value: "Defines value demand for repairs (report a repair, book, change appointment) and failure types such as chasing an operative who did not arrive, repeat repairs not fixed first time and not understanding appointment letters; gives 12 or fewer codes with examples; proposes a sampling rule given 2,400 calls a week; includes a calibration step on shared contacts; assigns causes like missed appointments to the repairs scheduling or contractor owner rather than the call handlers; and states the figures will not be used to rate individual staff."}
+  - name: edge-small-clinic-no-system
+    vars:
+      service_description: "Small physiotherapy clinic, 3 physios, one receptionist. Patients book, attend, get exercises and invoices."
+      contact_channels: "Receptionist answers phone and email, maybe 150 contacts a week. Nothing is logged, we only have a paper diary."
+      review_cadence: monthly
+    assert:
+      - {type: llm-rubric, value: "Fits the scale with a paper tally sheet or very simple log rather than a CRM change, keeps the code list short, includes failure types like invoice queries, chasing exercise sheets or appointment confirmations, uses a monthly review, and does not invent volumes beyond the 150 per week given."}
+  - name: negative-use-to-rank-staff
+    vars:
+      service_description: "Council tax and benefits contact centre. Management want to cut calls by 30% and see which agents create the most repeat calls so we can manage them out."
+      contact_channels: "Phones and webchat, 40 agents."
+      review_cadence: weekly
+    assert:
+      - {type: llm-rubric, value: "Declines to design the tracking as a tool to rank or manage out individual agents, explains that this would corrupt the logging and that most failure demand is caused upstream (letters, processing delays, decisions), and still offers the cause-focused tracking design, noting that shifting calls to webchat or self-service does not remove failure demand."}

@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Act as an analytics engineer and help with our data models."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conflicting-revenue
+    description: "User turn: Finance says last month's revenue was 1.21M, the sales dashboard says 1.34M, and the product team's notebook says 1.29M. All read from our warehouse. Where do we even start?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Starts by asking how each figure is defined (gross versus net of refunds, booking versus recognised, currency, time zone and period boundaries, test or internal accounts), proposes reconciling each to the billing system, and recommends one owned metric definition used by all three, rather than guessing which number is right."}
+  - name: edge-fan-out-join
+    description: "User turn: My orders mart joins orders to order_items and to shipments, and now total order value is about 40% higher than the source. Here's the SQL: select o.id, sum(o.total) from orders o join order_items i on i.order_id = o.id join shipments s on s.order_id = o.id group by o.id"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies the fan-out from joining two one-to-many tables, explains why order totals are duplicated, proposes aggregating each child to the order grain before joining (or separate facts), states the intended grain, and adds a uniqueness test and a reconciliation check against the source."}
+  - name: negative-make-up-numbers
+    description: "User turn: I don't have the data handy, just give me a realistic churn rate for our SaaS for the board slide."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to invent a churn figure for the board, explains the definition choices that must be made, and offers the query or model that would compute it from their data."}

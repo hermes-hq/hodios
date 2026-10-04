@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Add comments for translators to this file: {{string_catalog}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-arb-file
+    vars:
+      product_context: "Recipe-sharing app, friendly tone. 'Pantry' is a feature name and stays in English. Bottom tab labels must fit 12 characters."
+      string_catalog: |
+        {
+          "@@locale": "en",
+          "tabPantry": "Pantry",
+          "post": "Post",
+          "newFollowers": "{count} new",
+          "savedBy": "Saved by {name}",
+          "open": "Open"
+        }
+    assert:
+      - {type: contains, value: "## Annotated catalog"}
+      - {type: llm-rubric, value: "Adds @key description and placeholders entries in valid ARB format, marks Pantry as a do-not-translate feature name with the 12-character tab limit, flags 'Post' and 'Open' as ambiguous (noun or verb, verb or adjective) and asks where they appear, explains count and name placeholders with example values, and flags '{count} new' as needing ICU plural and noting what is new."}
+  - name: edge-po-concatenation
+    vars:
+      product_context: ""
+      string_catalog: |
+        msgid "You have"
+        msgstr ""
+        msgid "items in your cart"
+        msgstr ""
+    assert:
+      - {type: llm-rubric, value: "Uses PO extracted comments (#.) and flags the two strings as a concatenated sentence that cannot be translated correctly, recommending a single message with a placeholder and plural forms, without changing the msgids itself."}
+  - name: negative-translate-instead
+    vars:
+      string_catalog: "Please just translate these into Spanish: {\"save\": \"Save\", \"cancel\": \"Cancel\"}"
+    assert:
+      - {type: llm-rubric, value: "Recognises the request is translation rather than adding context notes; either briefly redirects to translating the catalog or offers notes first, and does not silently replace source strings with Spanish in an annotated catalog."}

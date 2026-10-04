@@ -1,0 +1,37 @@
+schema: 1
+baseline: "My single-page app isn't accessible when changing pages. Fix it: {{router_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-router
+    vars:
+      framework: react
+      router_code: |
+        // App.tsx (react-router v6)
+        export default function App() {
+          return (<BrowserRouter><Header /><Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/:id" element={<OrderDetail />} />
+          </Routes><Toaster position="top-right" duration={2000} /></BrowserRouter>);
+        }
+        // index.html: <title>Shop</title>
+    assert:
+      - {type: contains, value: "## Test checklist"}
+      - {type: llm-rubric, value: "Adds a single route-change handler using useLocation in the shell that sets a per-route document.title, moves focus to the new page's h1 with tabindex=-1 (or announces via one persistent polite live region), skips focus moves on first load and query-only changes, and raises the 2-second toast duration to at least 5 seconds with a polite region."}
+  - name: edge-filter-query-changes
+    vars:
+      framework: vue
+      router_code: |
+        router.afterEach(() => { document.querySelector('h1')?.focus(); });
+        // Product list updates ?color=red&sort=price via router.replace on every filter click
+    assert:
+      - {type: llm-rubric, value: "Points out that focusing the h1 on every afterEach yanks focus away from the filter controls on query-only changes, limits the focus move to path changes, and announces the updated result count politely instead."}
+  - name: negative-server-rendered
+    vars:
+      framework: other
+      router_code: "Our site is a classic multi-page Django app with full page loads, no client-side router. Can you add route announcements?"
+    assert:
+      - {type: llm-rubric, value: "Explains that full page loads already reset focus and announce the new title, so a route announcer is not needed, and suggests checking unique page titles and a skip link instead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I rebase my stacked branches after this? {{what_changed}} Stack: {{branch_stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-squash-merged-bottom
+    vars:
+      branch_stack: "main <- feat/api (PR 101) <- feat/client (PR 102) <- feat/ui (PR 103)"
+      what_changed: "PR 101 was squash-merged into main and feat/api was deleted on the remote. Local feat/api still points at its old tip 3b9c1e0."
+    assert:
+      - {type: contains, value: "--onto"}
+      - {type: llm-rubric, value: "Explains that the squash created new commits so feat/api's old commits would be replayed, creates backups, uses git rebase --onto origin/main 3b9c1e0 feat/client (or --update-refs equivalent) and then moves feat/ui onto the new feat/client using its old tip, pushes with --force-with-lease and retargets PR 102 to main."}
+  - name: edge-base-moved-modern-git
+    vars:
+      branch_stack: "main <- a/schema <- a/service <- a/endpoint, git 2.43"
+      what_changed: "main moved forward 25 commits; nothing in the stack was merged."
+    assert:
+      - {type: llm-rubric, value: "Recommends checking out a/endpoint and running git rebase --update-refs origin/main (or equivalent) to move all three branches in one go, after backups, and pushes all three with --force-with-lease."}
+  - name: negative-no-stack-info
+    vars:
+      branch_stack: "some branches"
+      what_changed: "something got merged and now everything conflicts"
+    assert:
+      - {type: llm-rubric, value: "Asks for the branch names in order and what was merged and how (squash or merge commit), gives the read-only commands to find this out, and does not issue rebase commands with invented branch names."}

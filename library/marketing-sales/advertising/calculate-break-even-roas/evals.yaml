@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What ROAS do I need to break even? {{unit_economics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candles-vat
+    vars:
+      unit_economics: "Average order 48 EUR including 21% VAT (Netherlands). Product cost 11 EUR per order, shipping I pay 5.50, packaging 1.20, payment fees 1.9% + 0.25. Returns 6% and a returned candle can't be resold (lose product + shipping). Ads use a 10% first-order code."
+      repeat_purchase: "about 25% buy again within a year, usually once"
+    assert:
+      - {type: contains, value: "## Working"}
+      - {type: llm-rubric, value: "Removes VAT from 48 EUR (about 39.67 net) and the 10% discount, subtracts product, shipping, packaging, fees and expected return cost line by line, gives break-even CPA as the contribution and break-even ROAS as net revenue over contribution with each formula shown, adds target CPA and ROAS at chosen profit levels, computes a 12-month figure using the 25% repeat rate (discounted as a guess), and includes a sensitivity table and a note that platform ROAS may include VAT."}
+  - name: edge-high-margin-digital
+    vars:
+      unit_economics: "Digital sewing patterns, average order 14 USD, no shipping, fees about 5%, refunds under 1%."
+    assert:
+      - {type: llm-rubric, value: "Shows a break-even ROAS close to 1.1 because contribution is almost all of revenue, explains that low break-even ROAS still needs a profit target, and labels any assumed figures."}
+  - name: negative-no-cost
+    vars:
+      unit_economics: "We sell skincare, ROAS is 2.3 on Meta. Is that good?"
+    assert:
+      - {type: llm-rubric, value: "Asks for average order value and product cost per order (and fees, shipping, returns) before judging 2.3x, and does not declare it good or bad without the numbers."}

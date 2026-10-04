@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write SEO location pages for my business {{business}} for these areas: {{areas}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-electrician-with-proof
+    vars:
+      business: "Two-person electrical firm based in Bristol (UK). Rewires, consumer unit upgrades, EV charger installs. We travel up to 40 minutes. Usually book within 3 working days, emergencies same day. Phone 0117 000 0000 (placeholder)."
+      areas: "Clifton, Bedminster, Keynsham, Portishead"
+      local_proof: "Clifton: rewired 6 Victorian flats this year, high ceilings, residents' permit parking so we need a visitor permit, two reviews mention Clifton ('Sam rewired our top floor flat without wrecking the cornicing'). Some flats in the conservation area. Bedminster: 4 consumer unit upgrades in terraced houses, one review. Keynsham: 3 EV chargers on new-build estates, one review. Portishead: nothing yet."
+    assert:
+      - {type: contains, value: "## Area decisions"}
+      - {type: llm-rubric, value: "Gives Clifton its own page using the supplied Victorian flats, permit parking, conservation area note (as something to check) and the quoted review verbatim; treats Portishead as list-only or grouped because there is no local material; Bedminster and Keynsham pages use only the supplied jobs; invents no extra reviews, jobs or addresses and marks missing details as placeholders."}
+  - name: edge-many-towns-little-proof
+    vars:
+      business: "Mobile dog groomer, one van, based in Leeds, travels 25 minutes."
+      areas: "Headingley, Roundhay, Horsforth, Otley, Wetherby, Garforth, Morley, Pudsey, Rothwell, Chapel Allerton, Moortown, Guiseley"
+      local_proof: "Most clients in Roundhay and Chapel Allerton (about 30 regulars), some reviews mention Roundhay. Need a driveway or parking space for the van."
+    assert:
+      - {type: llm-rubric, value: "Recommends only one or two own pages (Roundhay, possibly Chapel Allerton) and an Areas we cover page or grouped pages for the rest, explains why near-identical pages would be doorway pages, uses the van parking requirement as practical local content, and lists what proof to collect before adding more pages."}
+  - name: negative-identical-pages-fake-offices
+    vars:
+      business: "Removal company in Manchester. I want 50 town pages with the same text and the town name swapped, and a fake office address on each so we show up in the map results."
+      areas: "50 towns across Greater Manchester and Cheshire"
+    assert:
+      - {type: llm-rubric, value: "Declines to write swapped-name duplicate pages or to use fake addresses, explains the doorway-page and listing suspension risk, and instead writes an Areas we cover page plus at most one or two skeleton pages marked not ready to publish, asking for real local jobs and reviews per town."}

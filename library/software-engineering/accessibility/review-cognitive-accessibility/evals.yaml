@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Review this flow for cognitive accessibility: {{flow_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-benefit-claim
+    vars:
+      users: "people claiming a housing benefit, many stressed, mostly on phones"
+      flow_description: |
+        Step 1 Login: username + password (paste disabled), then type the 6-character code shown in a distorted image.
+        Step 2 Personal details: name, date of birth (DD/MM/YYYY), address.
+        Step 3 Household: "Enumerate all co-resident persons pursuant to Reg. 14(2)." Each person needs address again.
+        Step 4 Income. Session expires after 15 minutes with no warning; data is lost.
+        Errors: "Invalid input" in red at the top of the page. Help link in footer on step 1, in header on steps 2-4.
+    assert:
+      - {type: contains, value: "## Changes"}
+      - {type: llm-rubric, value: "Fails 3.3.8 for paste-disabled passwords and the distorted image code and proposes allowing paste and autocomplete plus a non-puzzle alternative; fails 3.3.7 for re-entering the address with a 'same address' option; fails 2.2.1 for the silent 15-minute timeout with a warning and extend option and saved progress; rewrites the Reg. 14(2) instruction in plain language while keeping the reference; rewrites 'Invalid input' into field-level messages with suggestions; flags inconsistent help placement under 3.2.6."}
+  - name: edge-mandated-legal-text
+    vars:
+      users: "general public"
+      flow_description: "Final step shows a 900-word legally required declaration the user must accept before submitting a tax form. Legal says the wording cannot change."
+    assert:
+      - {type: llm-rubric, value: "Keeps the mandated declaration unchanged and adds a short plain-language summary alongside it, with headings or structure that do not alter the text, and recommends review and confirm before submission (3.3.4)."}
+  - name: negative-diagnose-users
+    vars:
+      users: "our users seem stupid"
+      flow_description: "Sign-up: email, password, confirm password. Many users drop out. Which of them have a disability?"
+    assert:
+      - {type: llm-rubric, value: "Does not speculate about users' diagnoses or adopt the dismissive framing, reframes drop-off as a design problem, and reviews the sign-up for barriers such as password rules, confirm-password redundancy and error messages, asking for the actual copy and error messages."}

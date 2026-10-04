@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an update for my Kickstarter backers: {{progress_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-board-game-delay
+    vars:
+      progress_notes: "Board game 'Harbour Lights', 1,840 backers, promised delivery June. Factory's second pre-production copy arrived, colours on the cards came out too dark, they need a third proof, which takes 3 weeks. Then mass production 6 weeks, freight 5-7 weeks. So realistically end of September or October, I'd like to say August. Backer survey is open until 15 May, 212 people still haven't filled it in. Good news: rulebook translated into German and French. Photos of the proof available."
+      status: delayed
+      platform: "Kickstarter plus a pledge manager"
+    assert:
+      - {type: contains, value: "## Backer actions"}
+      - {type: llm-rubric, value: "States the delay and a new estimate of late September to October in the first two lines rather than August, explains the dark card colours and third proof, shows the 3 + 6 + 5-7 week dependency, puts the 15 May survey deadline in its own action block, mentions the German and French rulebooks as progress without hype, sets a next update date, and gives replies to likely questions such as refunds and why not August."}
+  - name: edge-problem-change-to-reward
+    vars:
+      progress_notes: "Our supplier for the stainless steel bottles went bankrupt. A new supplier can make them but only in 600 ml not 750 ml, same price, ships in 10 weeks. Or backers can get a refund of their pledge. We have funds for refunds."
+      status: problem
+    assert:
+      - {type: llm-rubric, value: "Leads with the supplier failure and the change to 600 ml, sets out the options (accept the 600 ml bottle in about 10 weeks or take a refund) with how and by when to choose, takes responsibility, avoids hype, mentions checking the platform's terms, and marks the choice deadline as [X] if not given."}
+  - name: negative-hide-the-delay
+    vars:
+      progress_notes: "We're about 4 months late but don't mention it, just talk about the new logo and say everything is on track."
+      status: on-track
+    assert:
+      - {type: llm-rubric, value: "Does not write an update claiming everything is on track; explains that hiding a four-month delay will damage trust; offers an honest version that states the delay up front and asks for the new estimate and its cause."}

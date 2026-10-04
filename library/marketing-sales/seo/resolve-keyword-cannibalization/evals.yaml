@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix keyword cannibalization on my site: {{query_page_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-sets
+    vars:
+      query_page_data: "Query 'garden office planning permission': /blog/garden-office-planning-permission (weeks alternate positions 9, 14, 8, 15; 40 clicks), /blog/do-you-need-planning-for-garden-room (positions 13, 8, 16, 9; 35 clicks). Both are guides with the same content. Neither converts; the first has 6 external links. Query 'garden office': /garden-offices (product range page, pos 4, 300 clicks, converts) and /blog/garden-office-ideas (pos 7, 120 clicks, inspiration post)."
+      site: "Garden building maker in England"
+    assert:
+      - {type: contains, value: "## Changes"}
+      - {type: llm-rubric, value: "Treats the planning permission pair as real cannibalisation, merges the second guide into the first (the one with external links) with a 301 and internal link updates; treats the garden office pair as different intents (product range versus inspiration) and leaves them or only adjusts links and anchors so the range page stays the commercial target; gives concrete redirect and title changes and a 4-8 week monitoring check."}
+  - name: edge-double-listing
+    vars:
+      query_page_data: "Query 'vegan protein powder': /vegan-protein (pos 2, 800 clicks), /blog/best-vegan-protein-powders (pos 3, 450 clicks). Positions stable for 6 months."
+      site: "Supplement shop"
+    assert:
+      - {type: llm-rubric, value: "Concludes this is not harmful cannibalisation because both pages rank together near the top with stable positions and different intents, and recommends leaving them alone (at most minor link tweaks)."}
+  - name: negative-no-data
+    vars:
+      query_page_data: "My SEO tool says I have 230 cannibalisation issues. Fix them."
+      site: not stated
+    assert:
+      - {type: llm-rubric, value: "Explains that tool flags are often not real problems and asks for the query, URL, position and click data per set (and conversions or links) before deciding, without inventing pages or redirects."}

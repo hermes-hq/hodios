@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Every file shows as changed in git on my Windows colleague's machine. How do I fix it? {{symptoms}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crlf-churn
+    vars:
+      stack: "Node.js service with Bash deploy scripts and a Dockerfile; two Windows devs, three on macOS"
+      symptoms: |
+        PRs from the Windows devs show every line changed in files they barely touched.
+        $ git diff --ignore-cr-at-eol --stat
+        (no output)
+        $ git config --show-origin --get-regexp 'core\.autocrlf'
+        file:C:/Users/dev/.gitconfig core.autocrlf false
+        Also deploy.sh fails in the container with "/bin/bash^M: bad interpreter".
+    assert:
+      - {type: contains, value: "## .gitattributes"}
+      - {type: llm-rubric, value: "Diagnoses CRLF line endings from the ignore-cr-at-eol result and the ^M error, writes a .gitattributes with text=auto and eol=lf for *.sh and Dockerfile, gives git add --renormalize . in a separate commit with .git-blame-ignore-revs, and explains handling open branches with -X renormalize."}
+  - name: edge-file-mode
+    vars:
+      stack: "Python"
+      symptoms: |
+        git diff shows only:
+        diff --git a/scripts/run.py b/scripts/run.py
+        old mode 100755
+        new mode 100644
+    assert:
+      - {type: llm-rubric, value: "Identifies file mode (executable bit) changes rather than line endings, recommends core.fileMode false on the affected machines and git update-index --chmod=+x to set the bit deliberately, and does not prescribe a line-ending renormalisation."}
+  - name: negative-real-changes
+    vars:
+      stack: ""
+      symptoms: "My diff shows 3 lines changed in config.js and I don't know why, I didn't edit it."
+    assert:
+      - {type: llm-rubric, value: "Notes that a 3-line change does not look like whole-file line-ending churn, asks for the diff output or suggests git diff --ignore-cr-at-eol and git log to find what changed, and does not jump to a renormalisation plan."}

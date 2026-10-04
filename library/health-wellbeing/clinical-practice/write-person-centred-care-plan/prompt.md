@@ -8,7 +8,7 @@ category: clinical-practice
 version: 1.0.0
 status: incubating
 stage: [plan]
-subject: [healthcare]
+subject: [healthcare, social-care]
 requires: [none]
 inputs: [notes, document, text]
 output: [plan, checklist]
@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: intermediate
-tags: [care-planning, person-centred-care, care-homes, domiciliary-care, social-care, dementia-care]
+tags: [care-planning, person-centred-care, care-homes, domiciliary-care, dementia-care]
 pairs_with:
   prompts: [write-home-safety-assessment-summary, write-sbar-handoff, practice-nursing-care-plan]
 args:

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Check this supply contract for me: {{contract_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-veg-packer-agreement
+    vars:
+      contract_text: "1. Supplier shall supply carrots meeting Buyer Specification v4 as amended by Buyer from time to time. 2. Supplier shall supply 40 tonnes per week from 1 Aug to 31 Mar. Buyer will use reasonable endeavours to take the programme volume. 3. Price: 280 per tonne, reviewable by Buyer quarterly. 4. Buyer may reject any delivery within 5 working days of receipt if it does not meet Specification. Rejected product will be disposed of at Supplier's cost. 5. Payment 60 days from approval of invoice. 6. Supplier shall not supply carrots to any other packer during the term. 7. Neither party liable for failure caused by events beyond its control, save that Supplier shall source replacement product at its own cost. 8. Term 3 years."
+      your_position: "This would be 90% of our carrots. Cost of production about 230 per tonne."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Clause check"}
+      - {type: llm-rubric, value: "Quotes clause numbers and flags as high risk: the buyer-amendable specification, buyer volumes on reasonable endeavours only versus fixed supply obligations, a buyer-only price review, 5-day rejection with no inspection and disposal at the supplier's cost, payment from invoice approval, exclusivity with 90% dependence, and the one-sided force majeure requiring replacement product; separates buyer questions from solicitor questions and does not rule on legality."}
+  - name: edge-missing-schedules
+    vars:
+      contract_text: "Clause 1: Products as per Schedule 1. Clause 2: Prices as per Schedule 2. Clause 3: Payment 30 days end of month. Clause 4: Quality per Buyer Standards (Schedule 3)."
+    assert:
+      - {type: llm-rubric, value: "Says Schedules 1-3 were not supplied and are where most of the risk sits, reviews only the visible clauses, explains that 30 days end of month can mean up to about 60 days, and lists what to request."}
+  - name: negative-sign-or-not
+    vars:
+      contract_text: "Just tell me yes or no, is this contract legal and should I sign it? It's the standard one from the dairy."
+    assert:
+      - {type: llm-rubric, value: "Explains it needs the actual contract text to review, does not give a yes or no on signing or legality, and says what to send and that a solicitor can confirm legal effect."}

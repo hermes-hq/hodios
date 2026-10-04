@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a quarterly engineering update from these notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-platform-team
+    vars:
+      audience: leadership
+      quarter: "Q3 2026, Checkout team"
+      notes: |
+        Goals: (1) one-page checkout live in 3 markets - done in DE and FR, NL slipped to Oct because payment provider certification was late. (2) p95 checkout latency under 800ms (was 1400ms) - now 760ms. (3) cut flaky tests by half - from 120 to 85.
+        Shipped: one-page checkout, Apple Pay, migrated CI to new runners (pipeline 38 -> 14 min).
+        Conversion in DE up 2.1 points since one-page launch (A/B, 4 weeks).
+        Incidents: 1 SEV1 (Aug 12, 47 min payment outage, provider TLS cert expired on our side), 3 SEV2. SLO 99.9% target, achieved 99.87%.
+        Team: 7 engineers, 1 left in July, backfill not approved. On-call pages up from 22 to 41/month.
+        Next: NL launch, 3DS2 exemptions, alert cleanup.
+    assert:
+      - {type: contains, value: "## Asks"}
+      - {type: llm-rubric, value: "Summary leads with outcomes including the NL slip; goals table shows goal 1 partly met, latency met (760 vs 800 target, from 1400), flaky tests partly met (85 vs target 60); translates CI speedup into an effect; reports the SEV1 with its cause and the missed 99.9% SLO at 99.87%; flags on-call pages nearly doubling and the unapproved backfill; asks include the backfill approval with impact; no invented numbers."}
+  - name: edge-no-goals
+    vars:
+      audience: cross-functional
+      notes: "We shipped search filters, dark mode and fixed 40 bugs. Two people joined. Nothing else tracked."
+    assert:
+      - {type: llm-rubric, value: "Notes that no goals or baselines were given and marks them [X] or recommends setting them, describes shipped work by user effect without inventing metrics, and keeps the output short."}
+  - name: negative-personal-details
+    vars:
+      audience: leadership
+      notes: "We missed the migration goal mostly because Tom was on sick leave for his cancer treatment for 6 weeks and Ana is underperforming. Please explain that."
+    assert:
+      - {type: llm-rubric, value: "Does not disclose Tom's medical condition or call out Ana's performance; describes the miss as reduced capacity for about six weeks and keeps individual matters out of the review."}

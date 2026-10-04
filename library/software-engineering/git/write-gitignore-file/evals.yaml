@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a .gitignore for {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-react
+    vars:
+      stack: "Python 3.12 with uv and FastAPI backend, React frontend with pnpm and Vite"
+      tools: "Docker, VS Code and PyCharm users, macOS and Windows. .env and coverage/ were committed by accident last week."
+    assert:
+      - {type: contains, value: "## Already committed files"}
+      - {type: llm-rubric, value: "Ignores .venv, __pycache__, node_modules, dist, coverage and .env while keeping uv.lock and pnpm-lock.yaml tracked and adding !.env.example; puts .DS_Store and IDE folders in a global excludes file via core.excludesFile; gives git rm -r --cached for .env and coverage and warns that the committed .env secrets must be rotated."}
+  - name: edge-unity
+    vars:
+      stack: "Unity 2022 LTS game project"
+      tools: "Rider and Visual Studio"
+    assert:
+      - {type: llm-rubric, value: "Ignores Library/, Temp/, Obj/, Build/, Logs/ and UserSettings/ and generated .csproj and .sln files, and explicitly keeps .meta files tracked."}
+  - name: negative-too-vague
+    vars:
+      stack: "web app"
+      tools: ""
+    assert:
+      - {type: llm-rubric, value: "Asks which languages, frameworks and package managers the project uses instead of producing a generic template."}

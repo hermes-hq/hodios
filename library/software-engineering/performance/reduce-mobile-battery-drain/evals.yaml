@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Users say my app drains their battery on {{platform}}. Help. {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-delivery-tracker
+    vars:
+      platform: android
+      evidence: |
+        Play vitals: excessive wakeups 4.1% of sessions, stuck partial wake locks 2.3%. Users: "phone hot, 20% battery overnight".
+        Code: a foreground service polls GET /orders/status every 15 s while any order is active, acquires a PARTIAL_WAKE_LOCK in onStartCommand and releases it in onDestroy. Location: PRIORITY_HIGH_ACCURACY every 5 s while the app is open. Analytics SDK sends each event immediately.
+    assert:
+      - {type: contains, value: "## Verify on device"}
+      - {type: llm-rubric, value: "Links the stuck wake lock to release only in onDestroy and fixes it with release in finally and a timeout, replaces 15 s polling with push (FCM) or WorkManager or much longer intervals and stopping when no order is active, lowers location priority or interval when the user only views status, batches analytics, and gives a Battery Historian or Energy Profiler before-and-after plan."}
+  - name: edge-needs-precise-location
+    vars:
+      platform: ios
+      evidence: "Running-tracker app. Needs accurate GPS during a run. Users complain battery drops 30% per hour during runs; also the app keeps location updates on after the run ends sometimes."
+    assert:
+      - {type: llm-rubric, value: "Keeps precise location during runs, fixes updates not stopping after the run as the main bug, suggests activityType fitness, distanceFilter, deferring UI updates when the screen is off, and measuring with Instruments or MetricKit, without promising specific percentages."}
+  - name: negative-no-evidence
+    vars:
+      platform: both
+      evidence: "Battery is bad."
+    assert:
+      - {type: llm-rubric, value: "Does not guess fixes; gives the steps to measure on each platform and asks for the reports and the code for background work, location and network."}

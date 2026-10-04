@@ -1,0 +1,52 @@
+schema: 1
+baseline: "Here's a diff and my review comments. How did I do? {{diff}} {{my_comments}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missed-defect
+    vars:
+      diff: |
+        --- a/src/transfer.ts
+        +++ b/src/transfer.ts
+        @@ -1,8 +1,14 @@
+        +export async function transfer(from: Account, to: Account, amt: number) {
+        +  if (from.balance < amt) throw new Error("insufficient");
+        +  from.balance -= amt;
+        +  await save(from);
+        +  to.balance += amt;
+        +  await save(to);
+        +  log.info(`transfer ${amt} from ${from.iban} to ${to.iban}`);
+        +}
+      my_comments: |
+        1. transfer.ts:1 - BLOCKING: rename amt to amount, abbreviations are bad.
+        2. transfer.ts:7 - nit: use a structured logger field instead of template string.
+        3. transfer.ts:2 - should be a custom error class maybe?
+    assert:
+      - {type: contains, value: "## What you missed"}
+      - {type: llm-rubric, value: "Marks the rename as a nit overstated as blocking; lists as missed blocking issues the non-atomic two saves (money lost if the second save fails), the lack of a transaction or concurrency guard on balance, negative or zero amounts not validated, and possibly IBANs in logs; scorecard shows 0 of the real blocking issues found."}
+  - name: edge-strong-review
+    vars:
+      diff: |
+        --- a/lib/paginate.py
+        +++ b/lib/paginate.py
+        @@ -1,3 +1,4 @@
+         def page(items, n, size):
+        -    return items[n*size:(n+1)*size]
+        +    start = (n - 1) * size
+        +    return items[start:start + size]
+      my_comments: |
+        paginate.py:3 - blocking: this changes pages from 0-based to 1-based, so every existing caller passing n=0 now gets an empty list... wait, items[-size:0] is empty, yes. Need to update callers or keep 0-based. Is there a test?
+    assert:
+      - {type: llm-rubric, value: "Credits the comment as valid, correctly blocking and actionable, gives a high level (solid or strong), and suggests at most small phrasing improvements without inventing additional missed issues."}
+  - name: negative-no-comments
+    vars:
+      diff: |
+        --- a/a.js
+        +++ b/a.js
+        -const x = 1
+        +const x = 2
+      my_comments: ""
+    assert:
+      - {type: llm-rubric, value: "Asks the user to paste the review comments they wrote, since the task is to grade them, instead of reviewing the diff itself."}

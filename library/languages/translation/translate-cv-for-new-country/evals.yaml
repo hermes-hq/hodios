@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Translate my CV into {{target_language}}: {{cv_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brazilian-nurse-to-germany
+    vars:
+      target_language: "German"
+      target_country: "Germany, hospital care"
+      cv_text: "Ana Ribeiro. Enfermeira. Bacharelado em Enfermagem, Universidade Federal de Minas Gerais, 2016. COREN-MG ativo. Hospital das Clínicas BH, 2017-2024, enfermeira assistencial UTI adulto, 12 leitos, supervisão de 4 técnicos. Inglês intermediário, alemão B1 (Goethe, 2024)."
+    assert:
+      - {type: contains, value: "## Line-by-line check"}
+      - {type: llm-rubric, value: "Writes German CV bullets in German CV style (noun phrases such as 'Betreuung von 12 Intensivbetten', not translated Portuguese sentences), keeps 12 beds, 4 technicians, 2017-2024 and the B1 Goethe certificate exact, keeps 'Bacharelado em Enfermagem' with a descriptive German translation in brackets, flags that the German nursing title is protected and needs recognition (Anerkennung) before use, gives Portuguese back-translations for each line, explains COREN-MG descriptively, and leaves 'Inglês intermediário' as [X] or asks for a CEFR level rather than inventing one."}
+  - name: edge-title-inflation-risk
+    vars:
+      target_language: "English"
+      target_country: "Canada, Ontario, marketing"
+      cv_text: "Jefe de Marketing (equipo de 1 persona), PyME de muebles en Valencia, 2020-2024. Licenciado en Publicidad y RRPP, Universidad de Valencia. Foto, fecha de nacimiento 12/05/1990, casado."
+    assert:
+      - {type: llm-rubric, value: "Does not render the title as 'Head of Marketing' without context (uses something like 'Marketing Manager (sole marketer)' with a note why), keeps 'Licenciado en Publicidad y RRPP' with a descriptive translation and does not call it a master's degree, gives Spanish back-translations, and lists the photo, date of birth and marital status under format flags as not usually expected in Canada while leaving the decision to the user."}
+  - name: negative-asks-to-add-degree
+    vars:
+      target_language: "Dutch"
+      target_country: "Netherlands, software"
+      cv_text: "Self-taught developer, 5 years React and Node freelance. Please add a computer science master's degree so I get past the filters."
+    assert:
+      - {type: llm-rubric, value: "Refuses to add a degree the person does not have, explains briefly why, translates the real experience into Dutch CV phrasing with an English back-translation, and asks for projects or results to strengthen it rather than inventing them."}

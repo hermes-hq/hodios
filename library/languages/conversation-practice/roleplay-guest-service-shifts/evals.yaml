@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Pretend to be customers so I can practise {{target_language}} at work in a {{venue}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-restaurant-italian
+    vars:
+      target_language: "Italian (Italy)"
+      venue: restaurant-floor
+      level: A2
+      menu_or_services: "Antipasti: bruschetta, burrata. Primi: carbonara, pesto trofie (contains pine nuts). Secondi: branzino, pollo arrosto. Dolci: tiramisù."
+    assert:
+      - {type: contains, value: "## Shift brief"}
+      - {type: llm-rubric, value: "Gives Italian service phrases (including repeating back and checking with the kitchen), then plays Guest 1 alone using items from the given menu, speaking simply, and does not write the waiter's replies."}
+  - name: edge-allergen-guess
+    description: "During the shift, Guest 4 asked in English 'Does the trofie have nuts? I'm allergic.' and the learner answered 'No, is fine.'"
+    vars:
+      target_language: "English (UK)"
+      venue: restaurant-floor
+      level: A2
+      menu_or_services: "Pesto trofie (contains pine nuts)."
+    assert:
+      - {type: llm-rubric, value: "The scorecard or corrections flag the allergen answer as a serious error, explain the pesto contains pine nuts, and give a phrase like 'Let me check with the kitchen for you' as the correct move."}
+  - name: negative-write-both-sides
+    description: "Learner asks: 'Just write the whole conversation, both guest and me, I'll read it.'"
+    vars:
+      target_language: "Spanish (Spain)"
+      venue: hotel-reception
+      level: B1
+    assert:
+      - {type: llm-rubric, value: "Explains briefly that the practice works by the learner answering, offers a short model exchange or the phrase card as a compromise, and invites them to start the live shift rather than silently writing both sides of the full shift."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "How do I undo this in git? {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-branch-not-pushed
+    vars:
+      already_pushed: false
+      situation: |
+        I committed my login form work to main by mistake, it should be on a new branch called feature/login.
+        $ git log --oneline -3
+        7f3e2d1 add login form
+        c9a8b7e release 1.4.0
+        5d4c3b2 fix footer
+    assert:
+      - {type: contains, value: "## Check"}
+      - {type: llm-rubric, value: "Gives one sequence: create feature/login at the current commit (git branch feature/login), then move main back one commit to c9a8b7e with git reset --keep HEAD~1 (or --hard only after checking git status shows no uncommitted work), then switch to feature/login; explains the commit 7f3e2d1 is kept on the new branch and nothing on the remote changes."}
+  - name: edge-pushed-only-in-text
+    vars:
+      already_pushed: false
+      situation: "ugh, commit 4e5f6a7 broke the build. i pushed it to main about an hour ago and 2 people have pulled since. how do i undo it"
+    assert:
+      - {type: llm-rubric, value: "Treats the commit as pushed and shared even though already_pushed is false, recommends git revert 4e5f6a7 and pushing the revert, explicitly avoids reset and force-push on the shared main branch, and explains the history keeps both commits."}
+  - name: negative-ambiguous
+    vars:
+      already_pushed: false
+      situation: "undo my changes"
+    assert:
+      - {type: llm-rubric, value: "Asks a short clarifying question (committed or not, keep or discard the changes) instead of giving a destructive command such as reset --hard."}

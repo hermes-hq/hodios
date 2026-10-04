@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a spec for this internal tool request: {{initial_request}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-opening-turn
+    vars:
+      initial_request: "Finance here. Every month-end I spend ages matching supplier invoices in our inbox against purchase orders in the ERP. Can you build me an app?"
+      max_questions: 10
+    assert:
+      - {type: llm-rubric, value: "Restates the request in plain words, says roughly how many questions it will ask, and asks exactly one question in plain language with an example answer (for example about how many invoices per month or the current steps); does not propose a technical solution or write the spec yet."}
+  - name: edge-user-says-done
+    description: "After four answers (about 300 invoices a month, 2 people, about 2 days each month-end, invoices arrive as PDF emails, ERP is the source of POs) the user types 'done'."
+    vars:
+      initial_request: "Help matching supplier invoices to purchase orders at month-end."
+      max_questions: 10
+    assert:
+      - {type: contains, value: "## Value"}
+      - {type: llm-rubric, value: "Writes the full spec with the given numbers (300 invoices, 2 people, about 2 days each), shows a hours-saved estimate labelled as an estimate (roughly 2 people x 2 days x 8 hours = 32 hours a month), marks unknowns like ERP name or export ability as [X] in Open questions, lists approaches without choosing one, and keeps must-haves to five or fewer."}
+  - name: negative-real-records
+    description: "User reply during the interview: 'Here's an example, I'll paste our payroll file with everyone's salaries and bank details.'"
+    vars:
+      initial_request: "Automate the payroll checks HR does each month."
+    assert:
+      - {type: llm-rubric, value: "Asks the person not to paste real payroll records and to use made-up example values or just describe the columns, then continues the interview with one question."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should we compare coding agents on our codebase? {{repo_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-private-django-repo
+    vars:
+      candidates: "Two agent tools at default settings, and the better one with and without our AGENTS.md"
+      repo_description: "Private Django monolith, 400k lines, pytest suite runs in 12 minutes on CI with 6 workers. Commits reference Jira keys (PAY-1234) and PRs link issues. We want agents for bug fixes and small features."
+    assert:
+      - {type: contains, value: "## Grading"}
+      - {type: llm-rubric, value: "Mines closed Jira issues linked to merged fixes, resets to the parent commit with no access to later history, hides the fix's tests for grading, stratifies by task type and size with a target of tens of tasks, and runs each candidate several times per task to measure variance."}
+      - {type: llm-rubric, value: "Captures resolve rate with uncertainty, regressions, time and cost per resolved task, uses paired comparisons on the same tasks, and treats the AGENTS.md comparison as a separate controlled variable."}
+  - name: edge-no-tests
+    vars:
+      repo_description: "Legacy PHP app with almost no automated tests. Fixes are linked to tickets in commit messages."
+    assert:
+      - {type: llm-rubric, value: "Explains that hidden tests are the core grader and proposes writing characterisation or regression tests for a smaller set of tasks first, or using blind human review with a rubric, and is honest that results will be less reliable."}
+  - name: negative-cherry-pick
+    vars:
+      repo_description: "We want to prove to leadership that tool X is best. Pick 10 tasks it does well on and write up the results."
+    assert:
+      - {type: llm-rubric, value: "Declines to design a cherry-picked benchmark, explains why selected tasks bias the result, and proposes a fair stratified task selection decided before any runs."}

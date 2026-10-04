@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a driver for this sensor on {{mcu}}: {{sensor_and_datasheet_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bme280-stm32
+    vars:
+      mcu: "STM32L432KC, I2C1 on PB6/PB7"
+      framework: "STM32 HAL"
+      sensor_and_datasheet_notes: |
+        Bosch BME280, I2C address 0x76 (SDO to GND). chip_id reg 0xD0 = 0x60. reset reg 0xE0 write 0xB6, startup 2 ms.
+        Calibration: 0x88-0xA1 (dig_T1..dig_H1) and 0xE1-0xE7. ctrl_hum 0xF2, ctrl_meas 0xF4, config 0xF5, status 0xF3 bit 3 measuring.
+        Data 0xF7-0xFE: press msb lsb xlsb, temp msb lsb xlsb, hum msb lsb. 20-bit temp/press. Use datasheet compensation formulas (int32 for temp, int64 for pressure).
+        I want forced mode, one reading every 10 s.
+    assert:
+      - {type: contains, value: "## Register map"}
+      - {type: llm-rubric, value: "Verifies chip ID 0x60, performs soft reset with the 2 ms delay, reads calibration once, uses forced mode with a non-blocking start and poll of the status measuring bit, burst-reads 0xF7-0xFE in one transfer, uses 64-bit intermediates for pressure compensation, puts timeouts on every HAL I2C call with bus recovery, and abstracts the bus behind an interface."}
+  - name: edge-spi-accelerometer-missing-formula
+    vars:
+      mcu: "nRF52840"
+      framework: "Zephyr"
+      sensor_and_datasheet_notes: "ADXL345 accelerometer on SPI. WHO_AM_I 0x00 = 0xE5. Data 0x32-0x37 little endian. I don't have the scale table handy."
+    assert:
+      - {type: llm-rubric, value: "Uses SPI mode 3 or states the CPOL/CPHA assumption as something to confirm, sets the multi-byte and read bits correctly or marks them to check, sign-extends little-endian 16-bit values, and marks the scale factor as a placeholder [X] to fill from the datasheet rather than presenting an invented value as fact."}
+  - name: negative-no-datasheet
+    vars:
+      mcu: "ESP32-C3"
+      sensor_and_datasheet_notes: "Some cheap Chinese humidity sensor, 4 pins, not sure of the model."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a register map or address; asks for the part number marking and datasheet details (bus, address, chip ID, data registers, conversion formula), and may suggest an I2C address scan as a first step."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Translate these social media captions into {{target_language}}: {{captions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pun-bakery
+    vars:
+      target_language: "Mexican Spanish"
+      platform: instagram
+      captions: "Post 1: We knead to talk about these cinnamon rolls 🥐 Fresh every Saturday from 8am. #KneadToKnow #BakedByBea\nPost 2: Rolling into the weekend like... 🙃 Use code SUNDAY10 for 10% off online orders.\nVoice: punny, warm, a bit self-deprecating."
+    assert:
+      - {type: contains, value: "## Hashtags to check"}
+      - {type: llm-rubric, value: "Gives two options per post in Mexican Spanish with informal address, where option B replaces the 'knead' pun with a Spanish wordplay or hook that works rather than translating it literally, keeps 'Saturday from 8am', the code SUNDAY10 and 10% exactly, keeps #BakedByBea as a brand hashtag, proposes topic hashtags marked as to check, and gives character counts."}
+  - name: edge-char-limit-x
+    vars:
+      target_language: "German"
+      platform: x
+      char_limit: 200
+      captions: "Post 1: Shipped our biggest update yet: offline mode, dark mode and a brand-new editor that finally doesn't fight you. Try it free for 14 days → example.com/try"
+    assert:
+      - {type: llm-rubric, value: "Notes that German typically runs longer than English, gives two German options each within 200 characters with counts shown, keeps the link and '14 days' exact, and keeps the hook in the first words."}
+  - name: negative-supplement-claim
+    vars:
+      target_language: "French"
+      platform: tiktok
+      captions: "Post 1: This gummy cured my anxiety in 3 days, no joke 😍 #ad? nah just love it. Link in bio for 20% off."
+    assert:
+      - {type: llm-rubric, value: "Localises without strengthening or adding claims and flags that the health claim ('cured my anxiety') and the unclear paid-partnership disclosure may break advertising and platform rules in France, recommending the creator check them; does not present the claim as acceptable."}

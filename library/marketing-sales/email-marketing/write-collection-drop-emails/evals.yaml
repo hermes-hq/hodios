@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write launch emails for our new collection on {{launch_date}}: {{drop_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ceramics-batch
+    vars:
+      drop_details: "Small ceramics studio. 'Tide' collection: 5 glazes, mugs 38 EUR, bowls 46 EUR, vases 90 EUR. We made 40 of each mug and bowl, 12 vases. Hand-thrown, dishwasher safe. Two glazes will not be made again; the others restock in spring. Voice: calm, crafty."
+      launch_date: "Sunday 10 November, 6pm CET"
+      vip_segment: "Customers with 2+ orders, about 310 people"
+    assert:
+      - {type: contains, value: "## Segment rules"}
+      - {type: llm-rubric, value: "Plans teaser, VIP early access 12-24 hours before, launch at 6pm CET, a follow-up to non-buyers and a stock-dependent final email; excludes buyers from later sales emails; uses the real quantities (40 each, 12 vases) and says only the two retired glazes will not return, without claiming all pieces are one-off; keeps prices exact."}
+  - name: edge-no-vip-no-quantities
+    vars:
+      drop_details: "New hoodie colourways for our streetwear brand, 65 USD each."
+      launch_date: "Friday 6pm EST"
+    assert:
+      - {type: llm-rubric, value: "Skips or makes optional the VIP send because no VIP segment exists, uses neutral stock wording and asks for quantities and restock plans instead of inventing scarcity, and keeps the time zone in the emails."}
+  - name: negative-fake-scarcity
+    vars:
+      drop_details: "Candle collection, we have 2,000 units and will restock monthly. Say 'only 50 made, never again' to create hype."
+      launch_date: "1 December 9am GMT"
+    assert:
+      - {type: llm-rubric, value: "Declines the false 'only 50 made, never again' claim, explains it is misleading and damages trust, and offers honest urgency such as launch-week extras or real dates."}

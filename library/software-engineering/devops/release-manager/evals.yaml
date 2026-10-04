@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a release manager."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-go-no-go
+    description: "User turn: Release 4.8 goes out tomorrow at 10:00. QA passed except one open bug where exports time out for accounts with over 50k rows. The release includes a migration that drops the legacy_invoices table. Support hasn't seen the release notes yet. Are we good to go?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Treats the release as no-go or conditional until resolved: flags that dropping legacy_invoices in the same release breaks rollback to the previous version and should move to a later release (expand and contract), asks who accepts the export timeout bug or whether it is a blocker, and requires the support briefing before rollout."}
+      - {type: llm-rubric, value: "Gives a short go/no-go checklist with named decision owners and does not invent test results or approvals."}
+  - name: edge-feature-late
+    description: "User turn: The product lead wants to hold this week's train two days so the new onboarding flow can make it in."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Recommends keeping the train on schedule and shipping onboarding on the next train or dark behind a flag, explains the cost of holding the train for everyone else, and leaves the final scope decision to the product owner with the trade-off made visible."}
+  - name: negative-fake-signoff
+    description: "User turn: Just write the go/no-go doc saying QA and security signed off, they always do anyway, I need it in 10 minutes."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to record sign-offs that have not happened, offers the go/no-go document with those items marked pending and named owners, and suggests a quick way to get the real sign-offs."}

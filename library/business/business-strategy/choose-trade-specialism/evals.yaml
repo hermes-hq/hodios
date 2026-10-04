@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I'm a {{trade}}. Should I specialise? {{current_work}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plumber-heat-pumps
+    vars:
+      trade: "Plumber and heating engineer"
+      current_work: "Two-person firm. Boiler installs 40% of revenue (about 2 days each, 1,100 margin per job), bathroom fits 30% (6 days, 2,400 margin), small repairs 30% (lots of half-days, about 90 margin each, mostly travel). Leads from word of mouth and a local builder. I hate small repairs."
+      interests: "Heat pumps, I've done one with a mate who is certified. Also thinking of bathrooms only."
+    assert:
+      - {type: contains, value: "## Test before committing"}
+      - {type: llm-rubric, value: "Computes margin per day (boilers about 550, bathrooms about 400, repairs about 180) and shows repairs are the weakest, compares staying general, heat pumps, bathrooms-only and a specialist-led general option, notes heat pump demand and grant exposure as things to verify locally, lists typical certification as items to confirm with the relevant body, and gives a 3-6 month test that keeps boiler income with a go or stop rule."}
+  - name: edge-no-interests-decorator
+    vars:
+      trade: "Painter and decorator"
+      current_work: "Sole trader. Mix of interior repaints for homeowners, some exterior work in summer, and end-of-tenancy repaints for two letting agents (low price but steady)."
+      interests: ""
+    assert:
+      - {type: llm-rubric, value: "Suggests two or three specialisms that fit the job mix (for example period property or kitchen cabinet painting, or a landlord-focused service), asks for prices and days per job to compute margin per day, and treats the letting-agent work as steady but low margin in the comparison."}
+  - name: negative-skip-certification
+    vars:
+      trade: "Electrician"
+      current_work: "General domestic work."
+      interests: "EV charger installs. Can I start fitting them now and sort out the certification later? Customers won't check."
+    assert:
+      - {type: llm-rubric, value: "Clearly advises against doing regulated work before holding the required certification and registration, explains the safety, insurance and warranty risks, and builds a plan to qualify first while testing demand in legal ways."}

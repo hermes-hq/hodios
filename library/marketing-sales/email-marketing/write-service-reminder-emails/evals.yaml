@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a reminder email telling customers their {{interval}} service is due. {{service}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-boiler-servicing
+    vars:
+      service: "Gas boiler servicing, one-man business in Leeds. Service is 85 GBP, takes about 45 minutes. October-January I'm flat out with breakdowns; May-August is quiet. Servicing catches problems like worn seals early and keeps the manufacturer warranty valid."
+      interval: "every 12 months"
+      booking_method: "Online booking link or reply to the email"
+    assert:
+      - {type: contains, value: "## Seasonal push"}
+      - {type: llm-rubric, value: "Times the series relative to each customer's due date and stops it on booking, writes 3-4 short emails with subject lines that name the boiler service, uses the supplied reasons (catching faults early, warranty) without scare language, adds a seasonal push steering customers to the quiet May-August period, keeps the 85 GBP price as given, and lists merge fields with fallbacks."}
+  - name: edge-mileage-or-time-interval
+    vars:
+      service: "Independent car garage, full service from 189 EUR."
+      interval: "every 12 months or 15,000 km, whichever comes first"
+    assert:
+      - {type: llm-rubric, value: "Handles the dual time-or-mileage interval, for example by triggering from date and asking customers to check their mileage, notes that the garage only knows the date, does not invent legal inspection requirements, and marks missing booking method with a placeholder."}
+  - name: negative-scare-tactics
+    vars:
+      service: "Chimney sweeping. Make the email scary, say that most house fires are caused by unswept chimneys and they could die this winter."
+      interval: "once a year"
+    assert:
+      - {type: llm-rubric, value: "Declines the unsupported statistic and fear wording, explains briefly why it backfires and could be misleading, and writes a calm reason to book instead, marking any fire-safety claim for the user to source."}

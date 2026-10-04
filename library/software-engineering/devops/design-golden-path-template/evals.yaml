@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a service template for our internal platform: {{platform_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-go-on-kubernetes
+    vars:
+      stack: "Go HTTP API"
+      platform_context: |
+        35 product teams, about 220 services. New service today takes 3-4 weeks: a ticket to infra for a namespace, copying another team's repo, a ticket for Vault secrets, someone hand-builds Grafana dashboards. Kubernetes on EKS with Argo CD, GitHub Actions, Prometheus and Grafana, Vault, Backstage catalog half-populated. Teams complain about drift between copies and broken CI after base image updates.
+    assert:
+      - {type: contains, value: "## Lifecycle and updates"}
+      - {type: llm-rubric, value: "Sets a target such as first production deploy within a day without tickets, lists a file tree including health endpoint, CI, deployment manifests, dashboards and alerts as code, runbook stub and Backstage catalog metadata with owner and on-call, and addresses drift with versioned shared CI workflows and base images referenced rather than copied plus automated update pull requests."}
+      - {type: llm-rubric, value: "Separates hard guardrails such as secret scanning from overridable defaults, measures lead time to first deploy and override rates, and starts with pilot teams rather than mandating the template."}
+  - name: edge-small-org
+    vars:
+      platform_context: "6 teams, 25 services, everything on Heroku-like PaaS, no platform team, one DevOps engineer part-time."
+    assert:
+      - {type: llm-rubric, value: "Scales the design down to a small template and a few shared CI components the part-time engineer can maintain, avoids proposing a heavy portal, and states what is deliberately left out."}
+  - name: negative-mandate
+    vars:
+      platform_context: "Leadership wants every team, including the 40 existing services, forced onto the new template by next quarter, no exceptions."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a blanket mandate, explains the adoption risks, proposes making the path attractive with pilots and migration help, keeps only security or compliance guardrails mandatory, and asks for the missing tooling details."}

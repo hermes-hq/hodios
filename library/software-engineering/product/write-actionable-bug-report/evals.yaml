@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Turn this into a bug report: {{raw_report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chat-transcript
+    vars:
+      product_context: "Grocery delivery web app and iOS app. Release 5.12 went out Tuesday."
+      raw_report: |
+        Customer Maria Lopez (maria.l@example.com) via chat, Thursday 14:20 CET:
+        "Your app is broken!!! I add my gift card at checkout and the pay button just does nothing. Tried 3 times. My card is 4111 1111 1111 1111 if you need it. Without the gift card it works. iPhone, newest app I think. I think your payment provider is down."
+        Agent note: could not reproduce on web.
+    assert:
+      - {type: contains, value: "## Bug report"}
+      - {type: not-contains, value: "4111 1111 1111 1111"}
+      - {type: not-contains, value: "maria.l@example.com"}
+      - {type: llm-rubric, value: "Title names checkout, the Pay button and the gift card condition; steps include adding a gift card; expected and actual are separate; notes it happens every time for this user (3 tries) and not on web; the payment provider guess and the 5.12 release appear only as hypotheses in triage notes; asks for app version and iOS version; suggests a severity with a reason and mentions the workaround of paying without the gift card."}
+  - name: edge-multiple-problems
+    vars:
+      raw_report: "Tester notes: login is slow (8 seconds) on Android 14, and separately the profile photo upload fails with 'Error 413' for photos over 5 MB. Also dark mode text is unreadable on the settings page."
+    assert:
+      - {type: llm-rubric, value: "Splits the notes into three separate bug reports (slow login, 413 on large photo upload, unreadable dark-mode text), each with its own title, steps, expected and actual, and suggested severity."}
+  - name: negative-feature-request
+    vars:
+      raw_report: "Customer says: it's a bug that I can't export my invoices to Excel, every other app lets me do that."
+    assert:
+      - {type: llm-rubric, value: "Identifies this as a feature request rather than a bug, says so, and suggests routing it to the product feedback process, rather than writing fake reproduction steps."}

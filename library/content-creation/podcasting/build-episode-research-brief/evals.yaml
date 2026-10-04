@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Summarise these sources for my podcast episode on {{episode_topic}}: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bike-lanes
+    vars:
+      episode_topic: "why city bike lanes get ripped out, with transport planner Dr. Siobhán Ní Bhriain"
+      sources: |
+        [1] City newspaper, March 2024: The council removed the Elm Road lane after 14 months. Councillor Patel said "shops lost 30% of trade". No data cited.
+        [2] Council traffic report, Feb 2024: cycle trips on Elm Road rose from 210 to 640 per day; car journeys fell 12%; no retail data collected.
+        [3] Opinion piece by a local business group, 2023: "bike lanes kill high streets".
+        [4] Guest bio from her website: 15 years in transport planning, led two lane projects.
+    assert:
+      - {type: contains, value: "## Do not repeat unchecked"}
+      - {type: llm-rubric, value: "Tags sources S1-S4 with types and flags S3 as opinion and S4 as the guest's own material; lists the trip and car figures from S2 as sourced; places the '30% of trade' claim under Do not repeat unchecked because no data was cited and S2 collected none; states counterpoints fairly; gives a pronunciation for Siobhán Ní Bhriain or says to confirm with the guest; open questions include retail impact data."}
+  - name: edge-conflicting-dates
+    vars:
+      episode_topic: "the history of a local football club"
+      sources: "Club website says founded 1889. A 2010 local history book says 1891. A fan forum says the 1889 date was invented for a centenary."
+    assert:
+      - {type: llm-rubric, value: "Marks the founding date as disputed between sources, does not pick one as fact, adds it to open questions and to Do not repeat unchecked, and notes the forum is a weak source."}
+  - name: negative-no-sources
+    vars:
+      episode_topic: "the economics of AI chips"
+      sources: "I don't have any yet, just write the brief from what you know."
+    assert:
+      - {type: llm-rubric, value: "Explains that the brief needs supplied sources, suggests three to five source types to gather, and either stops or gives a clearly labelled outline of questions and background to check, without presenting unsourced facts or figures as established."}

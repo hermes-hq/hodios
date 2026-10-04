@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Should I buy a machine for {{operation}} or keep using a contractor? Area {{area}}. Machine: {{machine_cost}}. Contractor: {{contractor_rate}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drill-break-even
+    vars:
+      operation: "Drilling winter and spring cereals"
+      area: 180
+      machine_cost: "Second-hand 4 m combination drill 48,000 EUR, keep 8 years, resale about 12,000. Our 150 hp tractor can pull it. Would pay cash from the overdraft."
+      contractor_rate: "Contractor charges 75 EUR/ha including tractor, driver and fuel. Last two autumns he came 10 days later than we wanted."
+      farm_costs: "Overdraft 6%. My own time I value at 25 EUR/hour, about 0.6 h/ha. Fuel 12 L/ha at 1.20. Repairs guess 1,500 a year. Insurance 300. Late drilling probably costs us 0.1 t/ha on wheat worth 200 EUR/t."
+    assert:
+      - {type: contains, value: "## Break-even area"}
+      - {type: llm-rubric, value: "Calculates depreciation of 4,500 per year and interest on average capital of about 1,800, adds insurance and repairs, works out owning cost per hectare at 180 ha and compares with 75 EUR/ha, computes a break-even area with the formula shown, costs the 10-day delay scenario using the 0.1 t/ha at 200 EUR/t figure, and refers tax treatment to an accountant."}
+  - name: edge-small-area-sharing
+    vars:
+      operation: "Round baling hay"
+      area: 25
+      machine_cost: "New baler 38,000 GBP, 10 years, resale unknown."
+      contractor_rate: "About 4.50 GBP per bale, roughly 18 bales per hectare."
+    assert:
+      - {type: llm-rubric, value: "Converts the per-bale rate to per hectare, shows that 25 ha is far below the break-even area, labels the missing resale and repair assumptions, and raises in-between options such as sharing, a second-hand baler or doing contract baling for neighbours."}
+  - name: negative-missing-rates
+    vars:
+      operation: "Combining"
+      area: 0
+      machine_cost: "Thinking about a combine"
+      contractor_rate: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the area, the machine price and life, and the contractor rate before calculating, and does not invent prices or a recommendation."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Role-play a cold call with me. I sell {{offer_and_target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-session-opens
+    vars:
+      offer_and_target: "Fleet telematics for UK van fleets of 20-100 vehicles; cuts fuel and insurance costs. Calling operations managers at plumbing, electrical and courier firms who mostly use paper logs or a basic tracker."
+      difficulty: realistic
+      calls: 4
+    assert:
+      - {type: contains, value: "## Call 1 of 4"}
+      - {type: llm-rubric, value: "Explains the format in about two lines, gives an italic setup line for the first prospect (for example a gatekeeper at a plumbing firm), answers the phone in one short in-character line and stops to wait for the rep, without coaching or scoring yet."}
+  - name: edge-pitch-dump-mid-call
+    description: "Mid-session turn on tough difficulty. The prospect has just said 'Yes?'. Rep turn: 'Hi, I'm Sam from TrackWise, we're the leading telematics platform with GPS tracking, fuel cards, driver scoring, dashcams and an API, and we save fleets 20% so I'd love to book 30 minutes to show you a demo.'"
+    vars:
+      offer_and_target: "Fleet telematics for UK van fleets of 20-100 vehicles."
+      difficulty: tough
+      calls: 3
+    assert:
+      - {type: llm-rubric, value: "Stays in character as an impatient prospect with a short reply (or a hang-up), does not coach mid-call, and when the call ends the scorecard quotes the pitch-dump line, scores the opener low and offers a better permission-based opener."}
+  - name: negative-pretext-opener
+    description: "Rep turn to a gatekeeper: 'Hi, I'm returning Mark's call from yesterday, can you put me through?' (no such call happened)."
+    vars:
+      offer_and_target: "Payroll software for restaurants."
+      difficulty: realistic
+      calls: 2
+    assert:
+      - {type: llm-rubric, value: "In the scorecard after the call, marks the false 'returning your call' pretext as a fail on the opener, explains it destroys trust, and gives an honest gatekeeper line instead."}

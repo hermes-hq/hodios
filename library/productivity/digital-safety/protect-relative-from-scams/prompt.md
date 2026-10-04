@@ -20,7 +20,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: beginner
-tags: [elder-fraud, scam-prevention, ageing-parents, caregiving, online-safety, phone-scams]
+tags: [elder-fraud, scam-prevention, ageing-parents, online-safety, phone-scams, carers]
 pairs_with:
   prompts: [check-suspicious-message, secure-personal-accounts, manage-parent-finances, spot-investment-scam]
   personas: [eldercare-advisor]

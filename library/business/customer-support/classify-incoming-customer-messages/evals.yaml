@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Categorise these customer messages: {{messages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-batch
+    vars:
+      messages: "#501 'Hi, where's my order 7781? Placed last Monday.' #502 'YOU CHARGED ME TWICE!!! 49.99 x2 fix it now' #503 'The heater I bought from you started smoking last night, my kid was in the room.' #504 'Love the new range, any plans for larger sizes?' #505 'third time asking - my return label never arrived' #506 'ok' #507 'Hola, ¿dónde está mi pedido 7790? Lo pedí hace 10 días.'"
+    assert:
+      - {type: regex, value: "\"items\"\\s*:"}
+      - {type: llm-rubric, value: "Returns only JSON; marks #503 critical with a safety flag, #502 high billing-payments with negative sentiment, #505 high with a repeat-contact flag, #501 normal orders-delivery, #504 low with positive sentiment, #506 as unclear with a reason, and #507 (Spanish) classified as orders-delivery rather than unclear; each item has a short reason, and the summary counts match the items."}
+  - name: edge-custom-categories
+    vars:
+      messages: "1. 'Can I book the meeting room for 12 people on Friday?' 2. 'Your app logs me out every 5 minutes.' 3. 'I'm a journalist writing about your data leak, can you comment?'"
+      categories: "Topics: bookings, app-issues, press, other. Teams: front desk, product, founders."
+    assert:
+      - {type: llm-rubric, value: "Uses only the given topics and teams, routes the journalist message to press and founders with critical or high urgency and data-protection and media flags, and does not invent extra labels."}
+  - name: negative-empty
+    vars:
+      messages: " "
+    assert:
+      - {type: contains, value: "no messages provided"}

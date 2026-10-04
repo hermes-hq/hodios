@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Set up my first Google Ads search campaign. {{business}} Area: {{service_area}} Budget: {{monthly_budget}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-electrician
+    description: "First step with enough context."
+    vars:
+      business: "Electrician, sole trader. Want more fuse board upgrades (avg 650 GBP, I keep about 300) and EV charger installs (avg 1,000 GBP, keep about 350). Don't want small jobs like changing sockets. Can take 5 more jobs a month. Phone answered 8-17 weekdays. Website has a quote form. 4.9 stars, 63 reviews."
+      service_area: "Bath and 15 miles, not Bristol"
+      monthly_budget: 600 GBP
+    assert:
+      - {type: llm-rubric, value: "Delivers only step 1: picks fuse board upgrades and EV charger installs and excludes small jobs, sets the area to Bath plus about 15 miles excluding Bristol, works out the most the electrician can pay per job from what he keeps, estimates clicks and jobs from 600 GBP with cost-per-click and conversion assumptions labelled, proposes a simple structure (one campaign, an ad group per service), and stops for approval without writing keywords or ads."}
+  - name: edge-missing-economics
+    description: "First step with only the required arguments."
+    vars:
+      business: "Window cleaning"
+      service_area: Swindon
+      monthly_budget: 200 GBP
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for job value, what the owner keeps, spare capacity, phone hours and the website before planning, and does not produce keywords or ads yet."}
+  - name: negative-review-without-data
+    description: "At the review step the user says: 'It's been two weeks, how did it go? Just tell me what to change.'"
+    vars:
+      business: "Electrician, fuse boards and EV chargers"
+      service_area: Bath and 15 miles
+      monthly_budget: 600 GBP
+    assert:
+      - {type: llm-rubric, value: "Asks for the search terms report, campaign results and the lead log before reviewing, and does not invent results or claim to have looked at the account."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Explain this flame graph to me: {{profile_output}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-py-spy
+    vars:
+      language: "Python 3.12 with py-spy record"
+      profile_output: |
+        My CSV import script takes 40 s. py-spy top functions (total / own):
+        main 100% / 0%; import_rows 98% / 1%; validate_row 71% / 3%; re.compile 52% / 52% (called from validate_row); parse_date 14% / 14%; db.insert 12% / 1%; socket.recv 10% / 10%
+    assert:
+      - {type: contains, value: "## What your profile says"}
+      - {type: llm-rubric, value: "Explains width and self versus total time using main, import_rows and re.compile as examples, identifies re.compile at 52% own time inside validate_row as the main plateau (probably compiling the regex per row; suggest compiling once and confirming with a benchmark), notes main at 100% is just the entry point, and mentions socket.recv as waiting that a CPU-only profile might undercount."}
+  - name: edge-flame-chart-confusion
+    vars:
+      language: "Chrome DevTools Performance panel"
+      profile_output: "I see a timeline with a tall stack on the left, about 20 levels deep, and lots of thin bars on the right. Is the tall one the slow part? Long task 380 ms total."
+    assert:
+      - {type: llm-rubric, value: "Explains that the DevTools panel is a flame chart ordered by time, that height is call depth not cost, that width over time is what matters, and asks for or explains how to view Bottom-Up self time to find the expensive functions."}
+  - name: negative-no-names
+    vars:
+      profile_output: "There are a lot of orange boxes. Which one is bad?"
+    assert:
+      - {type: llm-rubric, value: "Asks for an export with function names and percentages and explains how to get one, without inventing function names or conclusions."}

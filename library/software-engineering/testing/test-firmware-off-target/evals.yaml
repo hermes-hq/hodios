@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Write unit tests for this firmware: {{firmware_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stm32-uart-parser
+    vars:
+      toolchain: "arm-none-eabi-gcc 12 with CMake"
+      framework: "Unity"
+      firmware_code: |
+        // STM32F4, HAL. Parses framed commands from UART2: 0x7E len cmd payload crc8
+        static uint8_t buf[64]; static uint8_t idx;
+        void HAL_UART_RxCpltCallback(UART_HandleTypeDef *h) {
+          uint8_t b = rx_byte;
+          if (idx == 0 && b != 0x7E) { HAL_UART_Receive_IT(h, &rx_byte, 1); return; }
+          buf[idx++] = b;
+          if (idx > 2 && idx == buf[1] + 4) {
+            if (crc8(buf + 1, buf[1] + 2) == buf[idx-1]) handle_cmd(buf[2], buf + 3, buf[1]);
+            else GPIOA->ODR |= (1 << 5);
+            idx = 0;
+          }
+          HAL_UART_Receive_IT(h, &rx_byte, 1);
+        }
+    assert:
+      - {type: contains, value: "## Needs real hardware"}
+      - {type: llm-rubric, value: "Separates the frame parsing logic from the HAL callback and the direct GPIOA->ODR write behind a seam, provides a fake for the error LED or GPIO, writes host tests that include a bad CRC, a length byte larger than the 64-byte buffer (overflow), and a non-0x7E start byte, and lists interrupt timing or UART reception as needing on-target tests."}
+  - name: edge-arduino-millis-timeout
+    vars:
+      firmware_code: |
+        // Arduino Uno. Debounce and long-press detection
+        void loop() {
+          bool pressed = digitalRead(2) == LOW;
+          if (pressed && !wasPressed) pressStart = millis();
+          if (pressed && millis() - pressStart > 2000) enterSetupMode();
+          wasPressed = pressed;
+        }
+    assert:
+      - {type: llm-rubric, value: "Introduces a fake clock replacing millis() and a fake digital input, writes a test for the long-press threshold at exactly 2000 ms and one for millis() wraparound at 2^32, and notes host int width differs from the 8-bit AVR (int is 16-bit on the Uno)."}
+  - name: negative-only-a-description
+    vars:
+      firmware_code: "Our motor controller firmware, about 20k lines, needs tests."
+    assert:
+      - {type: llm-rubric, value: "Does not invent code, registers or tests for unseen firmware; asks for a specific module and its headers or HAL wrapper, possibly giving a brief outline of the approach."}

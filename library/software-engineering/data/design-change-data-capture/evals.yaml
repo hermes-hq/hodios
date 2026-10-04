@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do I set up CDC from {{source}} to {{destinations}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-to-warehouse-and-search
+    vars:
+      source: "Postgres 15 on a managed service; orders (80M rows, 300 writes/s), customers (2M), products (50k)"
+      destinations: "cloud warehouse and a search index for products"
+      requirements: "Warehouse within 5 minutes, search within 10 seconds, deletes must reach both, customers table has emails and phone numbers. Team already runs Kafka."
+    assert:
+      - {type: contains, value: "## Operations"}
+      - {type: llm-rubric, value: "Uses log-based CDC with a consistent snapshot aligned to the stream start, partitions by primary key and makes consumers idempotent with a position or version check, propagates deletes as tombstones to both sinks, masks or drops email and phone columns, alerts on replication slot lag and inactive slots filling the disk, includes reconciliation counts, and marks connector settings to verify rather than asserting them."}
+  - name: edge-cache-invalidation-service
+    vars:
+      source: "MySQL 8 self-hosted"
+      destinations: "cache invalidation and a notifications service"
+      requirements: "The notifications service needs 'order shipped' events, not table rows."
+    assert:
+      - {type: llm-rubric, value: "Recommends a transactional outbox for the notifications service so it receives business events with a stable contract, while raw capture or simple invalidation can serve the cache, and notes row-based binary logging with full images as a prerequisite to verify."}
+  - name: negative-daily-report-only
+    vars:
+      source: "Postgres, 5 tables, 20k rows total"
+      destinations: "a spreadsheet report the finance team reads every Monday"
+    assert:
+      - {type: llm-rubric, value: "Says CDC is overkill for a weekly report on 20k rows and recommends a scheduled batch export or query instead."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "When will this be done? Throughput: {{throughput_history}} Remaining: {{remaining_work}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-milestones
+    vars:
+      throughput_history: "Stories finished per week, last 12 weeks: 6, 4, 7, 5, 0 (Christmas week, office closed), 5, 8, 3, 6, 5, 7, 4. Same 5-person team throughout."
+      remaining_work: "Milestone A (billing rework): 24 stories, already broken down. Milestone B (partner API): 15 stories, rough, not broken down yet. A must finish before B."
+      start_date: "2026-10-05"
+    assert:
+      - {type: contains, value: "## Forecast"}
+      - {type: llm-rubric, value: "Excludes the Christmas week with a reason, uses a mean of about 5.5 items per week with a standard deviation of about 1.4-1.5, applies a labelled growth range of about 1.2-1.5x only to Milestone B (middle of the range for the 50% date, top for the 85% date), lands the combined A-then-B 50% date around 8-9 weeks and the 85% date around 10 weeks rather than using the slowest week for every week, forecasts A then B cumulatively with distinct 50% and 85% calendar dates from 5 October 2026, shows the arithmetic, never gives a single date, and includes a Monte Carlo spreadsheet recipe and a short stakeholder message."}
+  - name: edge-points-only
+    vars:
+      throughput_history: "Velocity per 2-week sprint: 34, 41, 28, 39, 36, 30, 44, 33 points."
+      remaining_work: "Roughly 180 points left for the release."
+    assert:
+      - {type: llm-rubric, value: "Forecasts in sprints using points per sprint with 50% and 85% ranges, does not invent a points-to-days conversion, notes the absence of a start date and uses sprint labels while asking for it."}
+  - name: negative-too-little-history
+    vars:
+      throughput_history: "We finished 3 things last week. New team."
+      remaining_work: "The whole v2 roadmap, maybe 50 tickets."
+    assert:
+      - {type: llm-rubric, value: "Says one week of history is not enough for a reliable throughput forecast, avoids giving confident dates, explains what data to collect for how long, and at most gives a heavily caveated rough range."}

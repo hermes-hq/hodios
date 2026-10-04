@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do I test {{question}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-carousel-vs-single
+    vars:
+      question: "Do carousels get more saves than single-image posts for my plant-care account?"
+      current_baseline: "Last 14 single-image posts: saves from 12 to 140, median 35. I post 4 times a week. Never done carousels."
+      platform: "Instagram"
+    assert:
+      - {type: contains, value: "## Decision rule"}
+      - {type: llm-rubric, value: "Uses saves as the primary metric with a guardrail, alternates carousel and single posts over the same weeks with matched topics, proposes at least about 8 posts per variant given the wide 12-140 spread and converts that to weeks at 4 posts a week, compares medians with a threshold set in advance, and calls the result directional rather than statistically significant."}
+  - name: edge-bundled-changes
+    vars:
+      question: "Will shorter videos posted in the morning with trending audio do better?"
+      current_baseline: "YouTube Shorts, 20 recent: views 300 to 40,000, median 1,100. Post daily in the evening."
+      platform: "YouTube Shorts"
+    assert:
+      - {type: llm-rubric, value: "Splits the question into separate tests (length, time, audio), picks one to run first with reasons, notes the 40,000 outlier makes averages misleading and calls for more posts per variant, and keeps the daily cadence."}
+  - name: negative-no-baseline
+    vars:
+      question: "Is my podcast better at 30 or 60 minutes?"
+      current_baseline: "Just started, 3 episodes."
+    assert:
+      - {type: llm-rubric, value: "Explains that 3 episodes cannot support a comparison, proposes gathering a baseline or a longer trial with honest caveats, and does not invent download numbers or declare a winner."}

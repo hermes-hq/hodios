@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Should I merge this dependency update PR? {{pr_summary}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-http-client-minor
+    vars:
+      pr_summary: |
+        chore(deps): bump http-kit from 4.2.0 to 4.5.1 (runtime). Used for all calls to the payment provider.
+        Lockfile: http-kit 4.2.0 -> 4.5.1; url-parse-lite 1.9.0 -> 2.1.0; new dependency: proxy-agent-x 0.3.0.
+        CI: all 412 tests pass.
+      changelog: |
+        4.5.1 - Fix memory leak in keep-alive agent.
+        4.5.0 - Default request timeout changed from none to 10s. Retries now apply to POST when idempotency key header present.
+        4.4.0 - Adds proxy support via proxy-agent-x.
+        4.3.0 - Drops support for Node 16.
+    assert:
+      - {type: contains, value: "## Checks before merge"}
+      - {type: llm-rubric, value: "Recommends merge with checks or hold, not plain merge; flags the new 10s default timeout and the POST retry behaviour as changes tests may miss for payment calls, the Node 16 drop as breaking depending on the runtime, the transitive url-parse-lite major jump and the new proxy-agent-x dependency; lists concrete checks such as the payment client timeout setting and the Node version in CI and production."}
+  - name: edge-no-changelog
+    vars:
+      pr_summary: "Bump left-pad-utils from 0.8.3 to 0.9.0 (dev dependency, used in build scripts only). CI green."
+      changelog: ""
+    assert:
+      - {type: llm-rubric, value: "States no changelog was provided and does not invent one, notes 0.x minor bumps may break, observes it is dev-only so runtime risk is low, and recommends merge or merge with checks with the release notes to read."}
+  - name: negative-not-a-pr
+    vars:
+      pr_summary: "Not a PR - just tell me which JavaScript framework will still be popular in five years so I can stop updating."
+      changelog: ""
+    assert:
+      - {type: llm-rubric, value: "Does not predict framework popularity as if certain; says this prompt reviews a specific dependency update PR and asks for one, possibly suggesting grouping or scheduling updates to reduce the queue."}

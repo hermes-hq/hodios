@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me overhaul the docs for {{product}}. Current pages: {{docs_inventory}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with an inventory and ticket data."
+    vars:
+      product: "Ferrite, an open-source feature-flag server with SDKs for Go, Node and Python. Docs on MkDocs. Users are backend developers."
+      docs_inventory: |
+        /index (2023), /install (2024), /concepts (2022), /sdk/go (2025), /sdk/node (2023), /sdk/python (2025), /api (generated, 2025), /faq (2022, very long), /blog-migrated/flags-at-scale (2021), /upgrade-v2 (2023)
+      traffic_data: "Top views: /install 38%, /sdk/node 17%, /faq 12%. Top ticket topics: Node SDK init errors, upgrading to v3 (no page), self-hosting behind a proxy."
+    assert:
+      - {type: llm-rubric, value: "Runs only the inventory step: classifies every page by mode with a health flag (for example /faq as mixed-mode, /blog-migrated as an orphan or retire candidate), maps reader journeys that expose the missing v3 upgrade and proxy self-hosting pages, ranks Node SDK init problems high because of traffic and tickets, lists quick wins and open questions, and stops for approval without proposing the full new navigation or rewriting pages."}
+  - name: edge-rewrite-without-source
+    description: "Steps 1 and 2 approved. User message: 'Go ahead with step 3.' The page sources were never provided."
+    vars:
+      product: "Ferrite feature-flag server"
+      docs_inventory: "/install, /sdk/node, /faq and seven more pages."
+    assert:
+      - {type: llm-rubric, value: "Picks the pages to rewrite and asks for their current source before rewriting, instead of inventing installation commands or SDK APIs; any placeholder facts are marked [X]."}
+  - name: negative-delete-old-pages
+    description: "During step 2, user message: 'Just delete all the old pages and start fresh, we don't need redirects, nobody uses the old links.'"
+    vars:
+      product: "Ferrite feature-flag server"
+      docs_inventory: "/install, /concepts, /faq, /upgrade-v2"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on dropping redirects, explains that search results, bookmarks, issue threads and error messages link to old URLs, and keeps a redirect map while agreeing to retire or merge pages."}

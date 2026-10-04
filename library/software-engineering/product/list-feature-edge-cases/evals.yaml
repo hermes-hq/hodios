@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What edge cases should we think about for this feature? {{feature_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-pause
+    vars:
+      feature_description: "As a subscriber, I can pause my monthly meal-kit subscription for 1 to 8 weeks. During the pause no boxes are sent and I am not charged. Paused subscriptions resume automatically."
+      context: "Markets: UK, Germany, Australia. Billing on the 1st of each month in local currency. Boxes ship weekly on Mondays. Customer support can also pause on behalf of users."
+    assert:
+      - {type: contains, value: "## Decisions needed"}
+      - {type: llm-rubric, value: "Raises specific decisions such as whether the monthly charge is prorated when a pause starts mid-month, the cut-off before a Monday shipment already being packed, which time zone defines the pause start for Australia vs UK, pausing again right after resuming or extending a pause beyond 8 weeks, support pausing on behalf of users, and a failed payment on resume; each with concrete values, a recommended default marked as a proposal, and likelihood/impact; at most about 12 decisions."}
+  - name: edge-already-specified
+    vars:
+      feature_description: "Users can upload a profile photo. JPEG or PNG only, max 5 MB, min 200x200 px, cropped to square in the browser before upload. Old photo is deleted on replace."
+    assert:
+      - {type: llm-rubric, value: "Lists the given rules (formats, 5 MB, 200x200, square crop, old photo deletion) under Already covered, and focuses new cases on things not specified such as exactly 5 MB, EXIF orientation and location data, HEIC from phones, animated or corrupt files, and upload failure after the old photo is deleted."}
+  - name: negative-too-thin
+    vars:
+      feature_description: "Add notifications."
+    assert:
+      - {type: llm-rubric, value: "Says the description is too thin to find real edge cases and asks a few targeted questions (which events, channels, who receives them, frequency limits) instead of producing a long generic checklist."}

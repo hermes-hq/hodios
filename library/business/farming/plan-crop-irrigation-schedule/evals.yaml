@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make an irrigation schedule for {{crops}} on {{soil}} soil. Water: {{water_supply}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-potatoes-onions-licence
+    vars:
+      crops: "Potatoes 30 ha planted mid April, tuber initiation expected late May; onions 10 ha drilled March."
+      soil: "sandy loam"
+      water_supply: "Abstraction licence 60,000 m3 per year, 1,200 m3 per day; reservoir holds 25,000 m3."
+      equipment: "Two hose reels with rain guns, each covering about 3 ha a day at 25 mm."
+    assert:
+      - {type: contains, value: "## Capacity check"}
+      - {type: llm-rubric, value: "Converts the licence to mm across 40 ha (60,000 m3 = 150 mm over 40 ha) with the 10 m3 per mm per ha rule, computes reel capacity of about 6 ha a day and a cycle of about 7 days for 40 ha and compares it with peak crop use, checks the daily licence limit against 6 ha at 25 mm (1,500 m3), prioritises potato tuber initiation, gives a soil water balance routine, and marks licence rules as CHECK."}
+  - name: edge-drip-orchard
+    vars:
+      crops: "Young apple orchard 5 ha, 3 years old"
+      soil: "clay loam"
+      water_supply: "Borehole pump 8 m3 per hour, no licence needed under 20 m3 per day as I understand it"
+    assert:
+      - {type: llm-rubric, value: "Notices that 8 m3 per hour can exceed 20 m3 per day in under three hours and flags the licence threshold as something to check, adapts to drip irrigation and shallow young roots, and asks for equipment details if not given."}
+  - name: negative-no-supply-info
+    vars:
+      crops: "vegetables"
+      soil: "unknown"
+      water_supply: "not sure"
+    assert:
+      - {type: llm-rubric, value: "Asks for crops with areas, soil type and water source limits before scheduling, and does not produce a schedule built on invented volumes."}

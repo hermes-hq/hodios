@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is my content accessible? {{content_samples}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-charity-instagram
+    vars:
+      content_samples: "1) Reel of our volunteer day, auto-captions on, they say 'food bank' as 'foot bank'. 2) Graphic with event details as text on a photo of a park, white text, no alt text. Caption: 'Join us!! 🎉🎉🎉🌳🌳 #volunteerday #communityspirit #givingback'. 3) Carousel of stats, each slide only an image of text. 4) Email newsletter that is one big designed image with a 'click here' button. 5) Post: '𝓣𝓱𝓪𝓷𝓴 𝔂𝓸𝓾 to our donors 💛'."
+      channels: "Instagram, email newsletter"
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the inaccurate auto-captions, the missing alt text and event details only in the image, lowercase hashtags (rewritten as #VolunteerDay etc.), the emoji string, the image-only carousel and email, 'click here' link text and the fancy Unicode font that screen readers cannot read; ranks by impact and gives rewritten caption text, and does not claim legal compliance."}
+  - name: edge-no-visuals-provided
+    vars:
+      content_samples: "Podcast episodes posted to Spotify and YouTube as audio with a static image. Show notes are 2 lines. We have about 40 episodes."
+      channels: "podcast platforms, YouTube"
+    assert:
+      - {type: llm-rubric, value: "Identifies transcripts and captions on the YouTube versions as the main gap, proposes a feasible approach for the back catalogue (most popular episodes first), suggests fuller show notes with descriptive links, and lists the cover image contrast as something it could not check."}
+  - name: negative-no-samples
+    vars:
+      content_samples: "our stuff"
+      channels: "TikTok"
+    assert:
+      - {type: llm-rubric, value: "Asks for 5 to 15 actual recent pieces (text, image details, caption status) and stops, instead of producing a generic audit with invented findings."}

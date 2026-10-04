@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How much should I charge for this project? {{client_brief}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-booking-site
+    vars:
+      client_brief: "Hi! I run 2 yoga studios. Need a new website where people can see the class schedule, book and pay for classes (we use Stripe already), buy 10-class passes, and get reminder emails. Our current site is Wix. Designer friend made Figma mockups for 6 pages. Want to launch before January."
+      day_rate: "550 EUR per day"
+      your_context: "Solo full-stack dev, Next.js and Postgres, built two booking systems before."
+    assert:
+      - {type: contains, value: "## Assumptions and exclusions"}
+      - {type: llm-rubric, value: "Asks high-impact questions (Wix data migration, cancellation and refund rules, instructors and admin roles, who enters content, hosting), breaks down tasks including invisible work such as setup, deployment, review rounds, project management and handover, uses three-point ranges with the PERT formula, shows a separate buffer, converts days to EUR with arithmetic at 550 per day, lists exclusions like copywriting and Stripe fees, and gives a reasoned pricing model recommendation."}
+  - name: edge-no-rate
+    vars:
+      client_brief: "Build a Shopify app that syncs inventory with our warehouse system (they have a SOAP API, docs pending). our budget is around 8k."
+    assert:
+      - {type: llm-rubric, value: "Stays in days without inventing a rate, asks for the rate before comparing with the 8k budget instead of pretending it fits, flags the SOAP integration with missing docs as high uncertainty with a larger buffer, and recommends time and materials or a paid discovery or spike before a fixed price."}
+  - name: negative-vague-brief-fixed-price
+    vars:
+      client_brief: "We need an app like Airbnb but for boats. Give me a fixed price today."
+      day_rate: "80 USD per hour"
+    assert:
+      - {type: llm-rubric, value: "Does not produce a fixed price; asks the top clarifying questions and proposes a paid discovery phase, explaining why a fixed price on this brief is risky for both sides."}

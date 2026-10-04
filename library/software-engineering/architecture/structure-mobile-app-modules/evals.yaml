@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I structure my {{platform}} app into modules? {{app_overview}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-monolith
+    vars:
+      platform: android
+      app_overview: "Grocery delivery app, 70 screens, single :app module with 180k lines of Kotlin, mix of XML and Compose. 14 Android devs in 3 squads (discovery, checkout, account). Clean build 9 minutes, incremental after a one-line change ~3 minutes. Lots of merge conflicts in a shared Navigation.kt and a 4,000-line Utils.kt. Hilt for DI."
+    assert:
+      - {type: contains, value: "## Migration path"}
+      - {type: llm-rubric, value: "Proposes feature modules split by feature (not by layer) with api and impl separation, a design system module and a tightly scoped core, shows a dependency graph, solves the shared Navigation.kt with route contracts or app-level wiring, says how rules are enforced in Gradle or CI, does not promise specific build-time numbers, and gives an incremental extraction order starting with leaf features or design system."}
+  - name: edge-tiny-team
+    vars:
+      platform: flutter
+      app_overview: "Habit tracker, 12 screens, 2 developers, one Dart package, builds in under a minute. We read that modularization is best practice, should we split it into 10 packages?"
+    assert:
+      - {type: llm-rubric, value: "Recommends little or no modularisation for now (perhaps folder-by-feature with one state management approach), explains the cost of many packages for two developers, and names the signals that would justify splitting later."}
+  - name: negative-missing-context
+    vars:
+      platform: ios
+      app_overview: "Our app is big and messy, fix the architecture."
+    assert:
+      - {type: llm-rubric, value: "Asks for team size, current structure and the main pain points before proposing a structure, and does not invent a module graph."}

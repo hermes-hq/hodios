@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write BLE peripheral firmware for this device using {{stack_or_sdk}}: {{device_purpose}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plant-sensor
+    vars:
+      stack_or_sdk: "Zephyr 3.6 on nRF52832"
+      device_purpose: "Plant soil moisture and temperature sensor on a CR2032. Reports every 10 minutes, app shows history and can set a dry-soil alert threshold. Should last a year. iOS and Android app."
+    assert:
+      - {type: contains, value: "## GATT design"}
+      - {type: llm-rubric, value: "Uses the SIG Battery Service and Environmental Sensing (or justifies custom UUIDs derived from one base), uses notifications gated on the CCCD, chooses long advertising and connection intervals suited to a coin cell with a current estimate, validates the threshold write and returns an ATT error on bad input, and the test plan covers both iOS and Android MTU and reconnection."}
+  - name: edge-smart-lock
+    vars:
+      stack_or_sdk: "ESP-IDF NimBLE on ESP32-C3"
+      device_purpose: "Door lock for a shed, app sends unlock command, lock reports state."
+    assert:
+      - {type: llm-rubric, value: "Rejects Just Works for the unlock command, requires LE Secure Connections with authenticated pairing and encrypted, authenticated write permissions, mentions replay protection or an application-level challenge, and recommends a security review before shipping."}
+  - name: negative-missing-data
+    vars:
+      device_purpose: "A BLE thing for my project."
+    assert:
+      - {type: llm-rubric, value: "Asks what data moves each way, the update rate and the power source before designing the GATT table, and does not produce full firmware for an invented device."}

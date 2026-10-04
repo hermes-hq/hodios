@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design an internal developer platform for us. Pain points: {{pain_points}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-midsize-org
+    vars:
+      pain_points: "Survey of 120 devs: 'new service takes 2-3 weeks before first prod deploy' (top complaint), 'nobody knows who owns service X', 'staging is always broken and shared'. 340 Jira tickets to the infra team last quarter, 60% are access and DNS requests. Kubernetes on AWS, GitHub Actions, Terraform, Datadog. No catalogue."
+      org_size: "150 engineers, 22 teams, about 90 services, platform team of 5"
+    assert:
+      - {type: contains, value: "## Thinnest viable platform"}
+      - {type: llm-rubric, value: "Groups pains into themes with the evidence, prioritises a new-service golden path, a service catalogue with ownership and self-service access as 'now', treats preview environments as next, compares build versus buy without prices, defines a one-quarter thin platform with pilot teams, uses voluntary adoption, and proposes measures including time to first deploy and DORA metrics with baselines."}
+  - name: edge-small-org
+    vars:
+      pain_points: "Deploys are manual scripts, onboarding takes a week."
+      org_size: "18 engineers, 3 teams, 10 services, no platform team"
+    assert:
+      - {type: llm-rubric, value: "Questions whether a dedicated platform team or portal is justified at 18 engineers and recommends lightweight shared conventions, a deploy pipeline and an onboarding doc or script instead, while still giving measures."}
+  - name: negative-tool-first
+    vars:
+      pain_points: "Leadership already bought a developer portal licence. Make every team use it by next month. We don't know what devs complain about."
+      org_size: "400 engineers"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a mandate and on starting from the tool, recommends collecting evidence of pain first (survey, ticket analysis, shadowing) and starting with one golden path and pilot teams, and does not invent pain points."}

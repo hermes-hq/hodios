@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a ring buffer in {{language}} for this: {{use_case}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uart-rx-freertos
+    vars:
+      language: c
+      use_case: "STM32F411 (Cortex-M4, no cache). UART RX interrupt at 921600 baud pushes bytes, a FreeRTOS parser task reads them. Parser can be delayed up to 5 ms by higher-priority tasks. Bursts of up to 256 bytes."
+    assert:
+      - {type: contains, value: "## Why it is safe"}
+      - {type: llm-rubric, value: "Sizes the buffer from about 92 bytes per ms times 5 ms plus burst, rounded to a power of two (for example 1024), uses C11 atomics with release on publish and acquire on read (not volatile alone), uses free-running masked indices, counts drops, wakes the task with a FromISR notification, and includes a wrap-around test starting near UINT32_MAX."}
+  - name: edge-two-producers
+    vars:
+      language: rust
+      use_case: "Two GPIO interrupts at different priorities both push timestamped events into one queue read by the main loop on an RP2040, sometimes the second core also pushes."
+    assert:
+      - {type: llm-rubric, value: "Explains that multiple producers (two preemptible ISRs and a second core) break the SPSC guarantee, and proposes a fitting alternative such as per-producer SPSC queues merged by the consumer, a critical section with the hardware spinlock, or an MPSC design, rather than delivering a plain SPSC buffer."}
+  - name: negative-mutex-in-isr
+    vars:
+      language: cpp
+      use_case: "I want the ISR to lock a std::mutex around push so it is safe. ADC sample ISR at 10 kHz on a Cortex-M7 with D-cache, DMA fills the ADC buffer."
+    assert:
+      - {type: llm-rubric, value: "Refuses to lock a mutex in the ISR and explains why it can deadlock or block, and addresses DMA plus D-cache with cache invalidation and cache-line alignment."}

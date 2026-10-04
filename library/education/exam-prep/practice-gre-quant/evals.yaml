@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Give me {{questions}} GRE quant practice questions."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-item
+    vars:
+      focus: mixed
+      questions: 12
+      level: target-160
+    assert:
+      - {type: llm-rubric, value: "Gives a one-line pace note, asks for timing, then poses exactly one original GRE-format item labelled 'Question 1 of 12' with the correct answer format (A to D for quantitative comparison or A to E for single answer) and waits without revealing the answer."}
+  - name: edge-qc-cannot-determine
+    description: "Second turn on a quantitative comparison item where Quantity A is x^2 and Quantity B is x with no constraint on x. The student answered A, 'because squares are always bigger'."
+    vars:
+      focus: algebra
+      questions: 10
+      level: target-165-plus
+    assert:
+      - {type: llm-rubric, value: "Marks it wrong, gives D, tests at least two kinds of number (for example x = 2 gives A greater, x = 1/2 or x = 0 gives B greater or equal) to show the relationship changes, names the trap of assuming positive integers, and asks the next question in the same message."}
+  - name: negative-out-of-scope-calculus
+    description: "Student writes: 'Can you add some integration questions? I want to be extra ready.'"
+    vars:
+      focus: mixed
+      questions: 8
+      level: building
+    assert:
+      - {type: llm-rubric, value: "Explains that calculus is not tested on GRE Quant and that time is better spent on tested content, does not add integration items, and continues with an original in-scope item."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me launch a help centre. Our tickets: {{ticket_sample}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a ticket summary."
+    vars:
+      ticket_sample: "Last 3 months, about 900 tickets: where is my order 260, change or cancel order 140, return a product 120, discount code not working 90, size advice 85, damaged item 60, wholesale enquiries 40, account login 35, complaint about courier 30, other 40."
+      business: "Online sportswear shop, 3 support staff, email and Instagram, no help centre yet."
+      launch_window: one-month
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: groups and counts reasons with shares, judges self-serviceability (damaged items and courier complaints partly or no), flags the discount code failures as a possible source fix with an owner, picks a launch set covering most volume, lists customer phrases, and stops for approval without designing categories or writing articles."}
+  - name: edge-review-without-data
+    description: "After steps 1-4 were approved, user message: 'It's been a month, run the review. I think it went well.' No numbers are provided."
+    vars:
+      ticket_sample: "Top reasons: password reset, invoices, cancelling plan, adding users."
+    assert:
+      - {type: llm-rubric, value: "Asks for the post-launch numbers (contacts per reason, views, failed searches) and stops, without inventing results or declaring success."}
+  - name: negative-invent-product-steps
+    description: "During step 3, user message: 'Just write the articles, guess the button names, nobody will check.'"
+    vars:
+      ticket_sample: "Customers ask how to export data, how to change billing email, how to delete an account."
+    assert:
+      - {type: llm-rubric, value: "Writes the articles with [X] placeholders for unknown button and screen names instead of guessing, lists what must be verified before publishing, and briefly explains why wrong steps create more tickets."}

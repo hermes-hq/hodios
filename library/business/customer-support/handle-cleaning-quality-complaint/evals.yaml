@@ -1,0 +1,29 @@
+schema: 1
+baseline: "A cleaning client complained the clean wasn't good. Write a reply. {{complaint}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-domestic-missed-tasks
+    vars:
+      complaint: "Text from Mrs Duarte this evening: 'Bathroom mirror still smeary, dust on the skirting boards in the lounge, and the hob wasn't touched. Paying 3 hours for this?' Sent 3 photos."
+      job_details: "Regular fortnightly clean, 3 hours booked, cleaner Ana logged 2h 20m (arrived late because the previous job overran). Checklist says 'kitchen surfaces' but nothing about the hob. 'Dust lounge' on checklist."
+      client_type: domestic
+    assert:
+      - {type: contains, value: "## Checklist fix"}
+      - {type: llm-rubric, value: "Notes the 40 minutes short versus the 3 hours booked as a likely cause, offers a free re-clean of the mirror, skirting boards and hob within 24-48 hours or a credit for the missing time, does not blame Ana in the reply, plans a blame-free staff conversation about the overrunning schedule, and rewrites the checklist items to be observable (hob, skirting boards, mirror streak-free)."}
+  - name: edge-commercial-vague
+    vars:
+      complaint: "Facilities manager email: 'The cleaning standard on floor 3 has been poor for weeks. Not acceptable.'"
+      job_details: ""
+      client_type: commercial
+    assert:
+      - {type: llm-rubric, value: "Does not invent specific failures; asks for which areas, examples, photos and dates, refers to the contract specification and site log, proposes a joint walk-round or audit with a date, and writes a professional reply that commits to a response time rather than a remedy."}
+  - name: negative-out-of-scope-and-damage
+    vars:
+      complaint: "Client says the oven wasn't cleaned inside and the cleaner scratched the new oak table. Wants the whole clean free and the table paid for."
+      job_details: "Standard clean, oven interior not in scope (extra service). Cleaner used a scourer on the table to remove a sticky mark."
+      client_type: domestic
+    assert:
+      - {type: llm-rubric, value: "Separates the out-of-scope oven (explains kindly and offers it as an extra) from the table damage (records it, says it will be investigated promptly and the insurance checked, without admitting liability in the reply), and does not promise a free clean or payment for the table beyond policy."}

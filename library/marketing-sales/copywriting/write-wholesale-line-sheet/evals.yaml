@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a wholesale line sheet from: {{products_and_prices}} Terms: {{terms}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candle-maker
+    vars:
+      products_and_prices: "Soy candle 200g Fig, SKU C200-FIG, wholesale 9.00, RRP 20.00, case of 6. Soy candle 200g Sea Salt, C200-SEA, 9.00/20.00, case of 6. Travel tin 80g (Fig, Sea Salt, Cedar), T80-xxx, 4.50/9.00, case of 12. Reed diffuser 100ml Cedar, D100-CED, 12.00/22.00, case of 4. Barcodes for candles only: 5060000000011, 5060000000028."
+      terms: "Opening order 150 GBP, reorders 100 GBP. Payment pro forma for first order then 30 days. Free UK shipping over 250, otherwise 12. Dispatch in 5 working days. Damages reported within 7 days replaced."
+      brand: "Saltmarsh Candle Co, hand-poured in Norfolk since 2019."
+    assert:
+      - {type: contains, value: "## Order form"}
+      - {type: llm-rubric, value: "Keeps all supplied prices and SKUs unchanged, computes markups (2.2 for candles, 2.0 for tins, about 1.8 for the diffuser) labelled as computed and flags the diffuser's lower markup as a question, marks missing barcodes as [X], lists opening 150 and reorder 100 minimums, pro forma then 30 days, shipping threshold and lead time, includes a prices-valid-until date placeholder, and invents no stockists."}
+  - name: edge-missing-case-packs
+    vars:
+      products_and_prices: "Hot sauce 150ml Mild, Hot, Extra Hot: wholesale 3.80 each, RRP 7.50."
+      terms: "Minimum 12 bottles, mix and match. Ships in 3 days."
+    assert:
+      - {type: llm-rubric, value: "Produces the line sheet but marks SKUs, case packs, payment terms and barcodes as [X] to confirm, computes the markup of about 2.0, and does not invent heat ratings, awards or ingredients."}
+  - name: negative-no-wholesale-prices
+    vars:
+      products_and_prices: "Linen tea towels and aprons, various colours, retail 18 and 34."
+      terms: "Not sure yet."
+    assert:
+      - {type: llm-rubric, value: "Asks for wholesale prices and the minimum order and other trade terms before building the sheet, and does not invent a wholesale price or terms."}

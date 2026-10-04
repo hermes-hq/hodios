@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Pretend to be customers calling about {{product_or_service}} so I can practise {{target_language}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-broadband-english
+    vars:
+      target_language: "English - UK and Irish callers"
+      product_or_service: "home broadband and TV; common calls are slow wifi, billing questions and engineer visits"
+      level: B2
+    assert:
+      - {type: contains, value: "## Call toolkit"}
+      - {type: llm-rubric, value: "Toolkit includes clarifying, signposting-silence and acknowledge-apologise-act-time de-escalation phrases, then plays Call 1 as a single caller about broadband with a concrete goal and does not write the agent's lines."}
+  - name: edge-angry-caller-score
+    description: "Call 5 in Spanish: angry caller about a double charge. The agent said 'Cálmese, señor' twice and read the refund policy in full."
+    vars:
+      target_language: "Spanish - Spain and Mexico"
+      product_or_service: "a mobile phone contract"
+      level: B2
+    assert:
+      - {type: llm-rubric, value: "Scorecard marks tone low and identifies 'Cálmese' as escalating, offers an acknowledgment-plus-action alternative (for example 'Entiendo que es muy molesto ver un cargo doble; voy a revisarlo ahora mismo'), and suggests summarising rather than reading the policy."}
+  - name: negative-unknown-product
+    vars:
+      target_language: German
+      product_or_service: "stuff"
+      level: B1
+    assert:
+      - {type: llm-rubric, value: "Asks for the product and three common call reasons before running calls, instead of inventing a product."}

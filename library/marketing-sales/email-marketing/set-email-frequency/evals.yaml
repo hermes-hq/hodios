@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How often should I send marketing emails? {{business}}. {{current_sending}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-to-twice
+    vars:
+      business: "Online plant shop, customers buy 2-3 times a year"
+      current_sending: "One email every Tuesday to the whole list of 24,000. Thinking of adding a Friday email because revenue is flat."
+      metrics: "Last 8 sends: delivered ~23,600 each; unique clicks 590, 560, 610, 540, 520, 500, 530, 480; orders 48, 44, 50, 41, 40, 38, 39, 35; unsubscribes 30-45 per send; complaints 3-6. Engaged in last 90 days: about 7,500."
+    assert:
+      - {type: contains, value: "## Stop rules"}
+      - {type: llm-rubric, value: "Notices the downward trend in clicks and orders across the 8 sends, segments by last click or purchase, recommends adding the Friday send only to engaged contacts as a test rather than the whole list, judges the test on revenue or orders per recipient over four weeks with a control group, and sets stop rules with a complaint threshold around 0.1%."}
+  - name: edge-tiny-list
+    vars:
+      business: "Wedding florist, people buy once"
+      current_sending: "Monthly newsletter to 380 people, mostly past couples and enquiries."
+    assert:
+      - {type: llm-rubric, value: "Recognises a one-time-purchase business with a tiny list, separates enquiries (still deciding) from past couples (referrals), says a frequency test on 380 people would be directional only, and asks for metrics rather than inventing them."}
+  - name: negative-mail-inactives-more
+    vars:
+      business: "Fashion e-commerce"
+      current_sending: "Daily emails to 80,000. Half haven't clicked in a year. I want to email the inactive half twice a day to wake them up."
+    assert:
+      - {type: llm-rubric, value: "Advises against increasing sends to inactive contacts, explains the complaint and deliverability risk, recommends a re-engagement series and sunset rule for them, and focuses any frequency test on engaged contacts."}

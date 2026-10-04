@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I switch from {{current_layer}} to {{target_layer}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typeorm-to-drizzle
+    vars:
+      current_layer: "TypeORM 0.3 with entities, lazy relations and @BeforeInsert hooks"
+      target_layer: "Drizzle ORM"
+      code_sample: "Postgres. About 180 query sites. Order entity with lazy relation to OrderItem and Customer, @BeforeInsert sets a public reference code, soft delete via @DeleteDateColumn. checkout() runs a queryRunner transaction that creates an order, decrements stock and writes an outbox row. Reports use raw SQL via query()."
+    assert:
+      - {type: contains, value: "## Behaviour differences"}
+      - {type: llm-rubric, value: "Calls out the @BeforeInsert hook, lazy relations becoming explicit loads or N+1, and soft-delete default filtering as behaviours to reproduce; keeps the checkout transaction as one unit that moves together; proposes a repository interface with contract tests against a real Postgres; keeps schema migrations in one tool during the switch; and orders read-only queries before writes with side effects."}
+  - name: edge-raw-sql-to-orm
+    vars:
+      current_layer: "hand-written SQL strings with psycopg2"
+      target_layer: "SQLAlchemy 2.0 ORM"
+      code_sample: "Flask app, 60 queries, several use string formatting for filters, money stored as NUMERIC(12,2), timestamps without time zone."
+    assert:
+      - {type: llm-rubric, value: "Flags the string-formatted SQL as an injection risk to fix during the move, covers decimal and naive timestamp mapping, discusses session and transaction lifecycle in Flask, and suggests keeping complex reports as SQL (core or text) rather than forcing them into ORM queries."}
+  - name: negative-only-one-slow-query
+    vars:
+      current_layer: "Django ORM"
+      target_layer: "raw SQL everywhere"
+      code_sample: "One dashboard query takes 9 seconds; everything else is fine. Team wants to drop the ORM because of it."
+    assert:
+      - {type: llm-rubric, value: "Questions whether a full migration is justified, recommends investigating and rewriting the one slow query (query plan, indexes, select_related or raw SQL for that query) first, and does not produce a full migration plan as the main recommendation."}

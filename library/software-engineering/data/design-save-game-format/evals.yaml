@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I design save games for my game? {{game_state}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-procedural-survival
+    vars:
+      platforms: "PC on Steam with cloud saves, later Switch"
+      game_state: "Survival crafting game in Godot with GDScript. Procedurally generated world from a seed; players chop trees, build bases, have inventories of ~300 item types, quests and day count. Autosave every 5 minutes plus manual saves. Content updates will add items."
+    assert:
+      - {type: contains, value: "## Versioning and migration"}
+      - {type: llm-rubric, value: "Saves the world seed plus player-made deltas instead of the whole world, references items by stable string ids, includes a versioned header with checksum, writes via temp file and atomic rename with a backup, resolves cloud conflicts using playtime and a player choice rather than overwriting, and tells the user to check Switch save size and write rules rather than stating numbers."}
+  - name: edge-mobile-background
+    vars:
+      platforms: "iOS and Android"
+      game_state: "Casual puzzle game, 500 levels with stars per level, coins and boosters bought with real money."
+    assert:
+      - {type: llm-rubric, value: "Saves on pause or backgrounding because the app can be killed, and treats purchased currency as something that should be validated or restorable via a server or store receipts rather than trusted only from the local save."}
+  - name: negative-no-state
+    vars:
+      platforms: PC
+      game_state: "Make me a save system."
+    assert:
+      - {type: llm-rubric, value: "Asks what state the game has, the engine and how saving is triggered before designing, and does not invent game systems."}

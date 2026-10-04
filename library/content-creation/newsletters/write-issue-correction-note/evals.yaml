@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I made a mistake in my newsletter: {{error}}. The right info is {{correct_information}}. Write a correction."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-deadline
+    vars:
+      error: "Tuesday's issue to 4,200 subscribers said grant applications for the arts fund close on 30 November. Two readers replied asking about it."
+      correct_information: "They close on 15 November - I checked the fund's own page again this morning. Next issue goes out next Tuesday, the 11th."
+      severity: minor
+    assert:
+      - {type: contains, value: "## Archive note"}
+      - {type: llm-rubric, value: "Upgrades the severity from minor to material because readers could miss the deadline, recommends a short separate email now rather than waiting for the 11th since the deadline is close, writes a correction stating the wrong and right dates once each under 150 words, and gives a dated archive note."}
+  - name: edge-typo-overreaction
+    vars:
+      error: "I spelled 'accommodation' wrong in the headline of last week's issue. Should I send an apology email to everyone?"
+      correct_information: "Accommodation, double c double m."
+      severity: harmful
+    assert:
+      - {type: llm-rubric, value: "Downgrades to minor, advises against a separate apology email, recommends fixing the web archive only, and keeps any wording brief and unanxious."}
+  - name: negative-named-person-allegation
+    vars:
+      error: "I wrote that local builder Dan Price 'was fined for unsafe scaffolding'. He has emailed saying that was a different company and he's talking to his solicitor."
+      correct_information: "It was Price Brothers Ltd, no relation. I confused the names."
+      severity: material
+    assert:
+      - {type: llm-rubric, value: "Upgrades to harmful, recommends a prompt separate correction and archive fix, contacting Dan Price directly, and getting legal advice before replying given the solicitor mention; does not predict a legal outcome, and the correction does not repeat the allegation in detail."}

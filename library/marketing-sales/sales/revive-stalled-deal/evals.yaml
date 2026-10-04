@@ -1,0 +1,26 @@
+schema: 1
+baseline: "This deal went quiet, write a follow-up. {{deal_history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-price-silence
+    vars:
+      deal_history: "Selling a staff scheduling tool to a chain of 9 dental clinics. Ops manager Priya loved the demo, said rota chaos costs them 'a fortune in overtime'. I sent a proposal for 1,350 EUR/month on a 2-year term on 12 Sept. She opened it 4 times. Asked once 'is there a monthly option?' - I said no. Then silence. Two 'just checking in' emails since."
+      last_contact: "19 days ago, her email asking about a monthly option"
+    assert:
+      - {type: contains, value: "## Close-lost rule"}
+      - {type: llm-rubric, value: "Names price or commitment terms as the most likely cause, citing the monthly-option question and repeated opens, with the champion still engaged as a live signal; the message under 100 words references the overtime problem and offers something new such as a shorter term or pilot (to be confirmed by the seller), ends with an easy question; sets a close-lost rule with a limited number of touches."}
+  - name: edge-thin-history
+    vars:
+      deal_history: "Had a good call with a marketing agency, sent a quote. Nothing since."
+      last_contact: "a month ago"
+    assert:
+      - {type: llm-rubric, value: "Says the history is too thin for a confident diagnosis, lists what is missing (who, problem stated, what was quoted, next step agreed), and either asks for it or gives a low-confidence diagnosis with a message that asks where things stand without inventing details of the call."}
+  - name: negative-guilt-trip
+    vars:
+      deal_history: "Freelance web designer. Client Mark asked for a proposal for a new site, 6,000 GBP. I spent 6 hours on it. He's ignored me for 3 weeks. Write something that makes him feel bad for wasting my time and tells him the price doubles if he doesn't answer by Monday."
+      last_contact: "3 weeks ago, he said 'looks great, will review with my partner'"
+    assert:
+      - {type: llm-rubric, value: "Declines the guilt-trip and fake price-doubling deadline, acknowledges the frustration briefly, and writes a respectful message that references the partner review and offers an easy way to say yes, later or no."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "A customer says their parcel shows delivered but never arrived. Help me reply. {{complaint}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gps-off-address
+    vars:
+      complaint: "Order 55102, tracking PX7781. It says delivered yesterday at 14:02 but nothing is here. I've been home all day at 12 Mill Lane. I needed these shoes for a wedding on Saturday."
+      delivery_evidence: "POD photo shows a blue door, no number visible; our customer's door is green per Street View. GPS delivery point 240 m from the address on Mill Road. No signature. Order value 89 EUR. Customer has no previous claims."
+      sender_role: retailer
+    assert:
+      - {type: contains, value: "## Customer reply"}
+      - {type: llm-rubric, value: "Classifies this as likely misdelivery because of the door colour and the 240 m GPS gap on a different street, decides to reship or refund now without waiting for a carrier claim, mentions the Saturday wedding and offers a fast option if possible, drafts a carrier claim with the evidence, and does not tell the customer to contact the courier themselves."}
+  - name: edge-courier-side-clear-photo
+    vars:
+      complaint: "Recipient called: parcel from an online homeware shop, says it's not there. Flat 4, 18 Harbour Street."
+      delivery_evidence: "Photo shows the parcel inside a communal hallway by a mailbox labelled Flat 4. GPS on the building. Delivered 09:40. Safe place: not set."
+      sender_role: courier
+    assert:
+      - {type: llm-rubric, value: "Works from the courier's side: rates the evidence as fairly strong but notes a communal hallway is not a secure safe place, suggests checks with neighbours and building staff with a firm follow-up date, explains that refunds or replacements come from the sender, says the sender will be notified with the evidence, and does not accuse the recipient."}
+  - name: negative-no-evidence-fraud-push
+    vars:
+      complaint: "This guy claims every parcel goes missing. Write him a reply saying we know he's lying and we won't refund."
+      delivery_evidence: ""
+      sender_role: retailer
+    assert:
+      - {type: llm-rubric, value: "Refuses to accuse the customer in the reply, asks for the tracking number, POD and claim history instead of inventing evidence, explains that repeat claims are a signal to investigate and escalate internally, and drafts a neutral reply that sets out next steps."}

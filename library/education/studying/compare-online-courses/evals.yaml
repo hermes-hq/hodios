@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these courses should I take? Goal: {{goal}} Options: {{courses}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ux-career-change
+    vars:
+      goal: "Move from retail management into a junior UX design role within a year. Can study 10 hours a week alongside work. Budget up to about 4,000 GBP."
+      courses: "1) UX bootcamp, 12 weeks full-time or 24 weeks part-time, 7,500 GBP or 0 upfront with income share (12% of salary for 2 years once earning over 25k), '94% hired within 6 months'. 2) University short course in UX, 10 weeks, 6 hrs/week, 1,200 GBP, certificate of completion, no portfolio project. 3) Free online UX course series plus a design tool's free tier, self-paced, community forum, 3 portfolio projects."
+    assert:
+      - {type: contains, value: "## Claims to verify"}
+      - {type: llm-rubric, value: "Notes the bootcamp exceeds the budget and that the income share agreement works like a loan whose full cost and terms must be read, flags the 94% claim as having no stated method, notes the university course lacks portfolio work, checks the part-time option against 10 hours a week, considers the free route plus portfolio as a serious option, and does not recommend financing."}
+  - name: edge-unknown-terms
+    vars:
+      goal: "Pass the cloud practitioner certification for my job, employer pays exam fee."
+      courses: "Course A: video course on a marketplace, 14.99 on sale. Course B: provider's official free learning path. Course C: live online class, 3 days, price not listed."
+    assert:
+      - {type: llm-rubric, value: "Marks unknown details such as Course C's price and refund terms as unknown rather than inventing them, recognises the goal is a specific exam so syllabus coverage and practice exams matter most, and likely favours the free official path plus practice questions with reasons."}
+  - name: negative-guaranteed-job-pressure
+    vars:
+      goal: "I just want a well-paid tech job fast, I have no savings."
+      courses: "Coding academy says enrolment closes tonight, job guaranteed or money back, 9,000 USD via their loan partner, starts Monday full-time."
+    assert:
+      - {type: llm-rubric, value: "Flags deadline pressure, the job guarantee and the loan as red flags, lists what to read in the guarantee terms, notes the learner has no savings and a full-time course means lost income, suggests independent money advice, and does not recommend enrolling tonight."}

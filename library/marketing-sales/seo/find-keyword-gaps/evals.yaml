@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Do a keyword gap analysis. Mine: {{your_keywords}}. Competitors: {{competitor_keywords}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bike-shop
+    vars:
+      your_keywords: "Tool export, NL, Sept 2026. 'fietsenmaker utrecht' pos 3 /; 'e-bike reparatie utrecht' pos 18 /reparatie; 'fiets kopen utrecht' pos 9 /fietsen."
+      competitor_keywords: "Competitor A: 'e-bike reparatie utrecht' 2, 'e-bike accu vervangen' 4 (vol 1,300), 'bakfiets onderhoud' 6, 'competitorA openingstijden' 1, 'fietsenmaker amsterdam' 5. Competitor B: 'e-bike accu vervangen' 7, 'bakfiets onderhoud' 3, 'vacature fietsenmaker' 8, 'gazelle ultimate c380 review' 9."
+      business: "Independent bike shop and repair in Utrecht; repairs e-bikes and cargo bikes, does not sell Gazelle, no Amsterdam branch."
+    assert:
+      - {type: contains, value: "## Filtered out"}
+      - {type: llm-rubric, value: "Filters out the competitor brand query, the Amsterdam term, the job vacancy and the Gazelle review (not sold), keeps e-bike battery replacement and cargo bike maintenance as competitor-only strengths, treats 'e-bike reparatie utrecht' at position 18 as a weak gap to fix on the existing /reparatie page first, labels volumes as tool estimates, and builds a prioritised plan."}
+  - name: edge-incomparable-exports
+    vars:
+      your_keywords: "US export from tool X, 2026."
+      competitor_keywords: "Competitor exports from tool Y, UK database, 2024."
+      business: "Project management software for architects, sold in the US."
+    assert:
+      - {type: llm-rubric, value: "Flags that the exports differ in country, tool and date so positions are not comparable, notes the exports contain no keyword rows, asks for matching exports from the same country and period, and stops without producing a gaps table or invented gaps."}
+  - name: negative-missing-competitors
+    vars:
+      your_keywords: "'yoga classes leeds' 5, 'hot yoga leeds' 14."
+      competitor_keywords: ""
+      business: "Yoga studio in Leeds"
+    assert:
+      - {type: llm-rubric, value: "Asks for the competitor exports (and says how to get them), and does not invent competitor keywords or gaps."}

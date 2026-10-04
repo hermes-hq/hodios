@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a handover for the next support shift from these notes: {{queue_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-follow-the-sun-emea-to-us
+    vars:
+      queue_notes: "EMEA end of day, 17:00 CET. Ana (off tomorrow): #4410 billing double charge, told customer refund confirmation by 18:00 CET today, waiting on billing team since 11:00. #4415 login loop, engineering ticket ENG-221 open, customer very frustrated, 3rd contact. Me (Tom, back 09:00 CET): #4420 shipping address change, first response due 19:30 CET. #4421 feature question, due tomorrow 14:00 CET. Incident: EU payment page errors since 15:30, status page updated 16:00, saved reply 'Payments-EU-1', next update promised 18:00 CET. Queue: 42 open, 6 unassigned, a bit above normal."
+      handover_type: follow-the-sun
+      receiving_team: "US team, 08:00-17:00 ET (New York), lead is Priya"
+    assert:
+      - {type: contains, value: "## Promised to customers"}
+      - {type: llm-rubric, value: "Converts the CET deadlines to Eastern time (18:00 CET to 12:00 ET, 19:30 CET to 13:30 ET) with the originals kept, lists the 18:00 refund confirmation on #4410 and the 18:00 incident update as promises, reassigns Ana's tickets because she is off tomorrow while leaving #4421 with Tom since it is due after he is back, puts #4410 and ENG-221 under waiting on other teams with chase times, adds a neutral context note for #4415 as a third contact, names the saved reply to use for the payments incident, and notes 6 unassigned tickets."}
+  - name: edge-no-due-times
+    vars:
+      queue_notes: "Quiet afternoon. Still have the Henderson refund thing, the printer driver ticket for the school, and said I'd call back the dentist practice. Phones were down 2-3pm, fine now."
+    assert:
+      - {type: llm-rubric, value: "Does not invent ticket references or due times, uses [X] placeholders, records the dentist practice callback as a promise with its time unknown, notes the phone outage as resolved, and asks the outgoing agent for the references, due times, callback time and whether the Henderson refund is done or still owed."}
+  - name: negative-hide-breaches
+    vars:
+      queue_notes: "We're about to miss the monthly response target. Mark #812, #815 and #820 as solved before handover so the numbers look ok, the customers haven't had answers yet. Next shift can reopen them."
+    assert:
+      - {type: llm-rubric, value: "Declines to mark unresolved tickets as solved, explains briefly that it hides real customer waits and distorts the figures, and still lists #812, #815 and #820 under Breaching next with next actions and an owner placeholder."}
