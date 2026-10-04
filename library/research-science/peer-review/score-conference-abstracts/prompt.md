@@ -5,7 +5,7 @@ kind: prompt
 title: Score a batch of conference abstracts
 description: Scores a batch of conference abstracts consistently against the committee's criteria, with a short evidence-based justification each and flags for borderline cases, conflicts and missing information.
 category: peer-review
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [review]
 role: [researcher]
@@ -29,7 +29,7 @@ args:
     type: text
     required: true
   - name: criteria
-    description: The committee's scoring criteria and any weights or descriptors, for example "originality, methodological rigour, relevance to the theme, clarity; rigour counts double". Include the track or theme.
+    description: The committee's scoring criteria and any weights or descriptors, for example "originality, methodological rigour, relevance to the theme, clarity; rigour counts double". Include the track or theme, and the cut-off score or expected acceptance rate if the chairs have given one.
     type: text
     required: true
   - name: scale
@@ -47,6 +47,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Handles categorical scales without inventing numbers and uses the chairs' cut-off or acceptance rate for borderline flags."}
 ---
 <context>
 Abstract scoring drifts. The first abstracts get scored harder or softer than the last, a well-known lab's name nudges the score up, a fluent abstract is mistaken for a rigorous one, and borderline submissions get the same flat middle score with no reason. Committees need scores that apply one standard to every abstract, a short justification that points to the text, and honest flags where a human must decide: borderline cases, possible conflicts, missing results, or work outside the call. These scores are a first pass to help a reviewer, who signs off every score; final decisions stay with the committee.
@@ -66,17 +67,17 @@ Score these abstracts on a {{scale}} scale per criterion.
 Reviewer's affiliations and collaborators, for conflict checks: {{my_affiliations}}
 {{/my_affiliations}}
 
-1. Write scoring anchors before scoring: for each criterion, one line per score level (or for the lowest, middle and top levels if the scale is long) describing what an abstract at that level looks like. Apply weights exactly as the criteria state.
+1. Write scoring anchors before scoring: for each criterion, one line per score level (or for the lowest, middle and top levels if the scale is long) describing what an abstract at that level looks like. Apply weights exactly as the criteria state. If the scale is categorical (for example accept / weak accept / weak reject / reject), do not turn it into numbers: rate each criterion in the categories and give an overall recommendation with the rule you used to combine them, stated once.
 2. Score each abstract against the anchors, criterion by criterion. Base every score on what the abstract states: the question, the method, the sample or data, the results (or whether results are still pending), and the relevance to the track. Ignore author names, institutions and writing polish beyond what the clarity criterion covers.
 3. Justify each abstract in one to three sentences that cite specific content ("n=12 single-site pilot, no comparison group" rather than "weak methods").
 4. Flag, without letting the flag change the score:
-   - Borderline: total within one point of the likely cut-off, or criteria that disagree sharply.
+   - Borderline: total within one point of the cut-off the chairs gave (without one, the abstracts around the expected acceptance rate, or the middle third of the ranking), or criteria that disagree sharply.
    - Conflict: an author or institution matching the reviewer's affiliations, or an obvious personal connection.
    - Missing information: no results, no method, or claims that cannot be judged from the abstract.
    - Scope: outside the call or track.
    - Integrity: possible duplicate submission, results that look implausible, or ethics concerns (for example human participants with no mention of approval where the field expects it).
 5. Calibration pass: sort by total, reread the top three, the bottom three and every borderline abstract against the anchors, and adjust any score that drifted. Report what you changed.
-6. Before you answer, check that every abstract has a score for every criterion, totals add up with the weights, and no justification relies on author identity.
+6. Before you answer, check that every abstract has a score for every criterion, numeric totals add up with the weights, and no justification relies on author identity.
 </task>
 
 <constraints>
@@ -92,7 +93,7 @@ One reminder line, then:
 ## Scoring anchors
 A table per criterion: Score | What it looks like.
 ## Scores
-Table: Abstract id | one column per criterion | Weighted total | Justification.
+Table: Abstract id | one column per criterion | Weighted total (or overall recommendation on a categorical scale) | Justification.
 ## Flags
 Table: Abstract id | Flag type | Detail. "None" if there are none.
 ## Ranking and calibration notes

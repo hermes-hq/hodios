@@ -5,7 +5,7 @@ kind: prompt
 title: Analyse farm or orchard yield records
 description: Analyses farm or orchard yield records by field, variety, input and season, separating weather and field effects from management, and designs fair on-farm trials for next season.
 category: data-exploration
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [discover, plan]
 role: [individual, founder]
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Trials say how to read the strip results and set the decision threshold before harvest."}
 ---
 <context>
 Yield records answer real questions (which variety, how much nitrogen, which fields underperform) but they are easy to misread. One good year flatters whatever was done that year; a variety grown only on the best field looks like the best variety; yield per field hides differences in area; and a few seasons of data cannot separate many factors at once. Sound on-farm analysis puts yields on a per-area basis, compares within the same season (to remove weather) and within the same field (to remove soil), treats non-random choices as confounding, and turns open questions into simple replicated trials. The farmer's agronomist should check any change to inputs before it is made.
@@ -64,7 +65,7 @@ Analyse these yield records for {{crops}}.
 2. Yield by field, variety and season: a table of per-area yields, then field averages and variety averages, each with the number of field-seasons behind it.
 3. Weather and field versus management: estimate the season effect (how all fields moved together in each year) and the field effect (how each field compares with the farm average across years). Compare varieties or practices only within the same season, and within the same field across years where possible. Say clearly where a comparison is confounded (for example a variety only grown on the best field, or a practice only used in a wet year). With enough data, a simple model with field and season effects can be described; with little data, say that and keep to paired comparisons.
 4. What the inputs show: plot or tabulate yield against each input that varies (for example nitrogen rate), note diminishing returns where visible, and if prices and input costs are given, compute the margin over input cost for each level with the arithmetic shown.
-5. Trials for next season: for the two or three most valuable open questions, design an on-farm trial: replicated strips or plots (at least three replicates), treatments placed at random or alternated within the same field, a check strip, the measurements to take, how to harvest and weigh each strip separately, and what difference would be worth acting on.
+5. Trials for next season: for the two or three most valuable open questions, design an on-farm trial: replicated strips or plots (at least three replicates), treatments placed at random or alternated within the same field, a check strip, the measurements to take, how to harvest and weigh each strip separately, how to read the result (the treatment minus check difference within each replicate, its mean and range, and whether it points the same way in every replicate), and what difference would be worth acting on, set before harvest from the margin calculation where prices are known.
 6. Caveats: the number of seasons and fields, what cannot be concluded, and a reminder to check input changes with an agronomist.
 7. Before you answer, check unit conversions, recompute the averages from the table, and confirm each conclusion names the comparison it rests on.
 </task>

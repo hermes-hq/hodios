@@ -5,7 +5,7 @@ kind: prompt
 title: Plan acceptance sampling for incoming goods or batches
 description: Plans acceptance sampling for incoming goods or production batches with sample size, acceptance number, producer and consumer risks from the operating characteristic curve, and a results record.
 category: statistics
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan, verify]
 role: [operations-manager, researcher]
@@ -49,6 +49,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The operating characteristic section gives the average outgoing quality limit."}
 ---
 <context>
 Acceptance sampling decides whether to accept a lot from a sample, so it always carries two risks: rejecting a good lot (the producer's risk, usually set at the acceptable quality level) and accepting a bad one (the consumer's risk, at the rejectable or limiting quality level). Common mistakes: believing an AQL guarantees lots are that good, choosing a sample size by habit ("inspect 10%"), which gives very different protection for small and large lots, sampling only from the top of the pallet, never looking at the operating characteristic curve, and ignoring the switching rules that published sampling standards depend on. Published standards (ISO 2859-1 or ANSI/ASQ Z1.4 for attributes, ISO 3951 or ANSI/ASQ Z1.9 for variables) give tabulated plans, and their current editions must be consulted directly.
@@ -64,7 +65,7 @@ Plan acceptance sampling for lots of {{lot_size}} units, {{inspection_type}} ins
 
 1. Quality targets: state the acceptable quality level and the producer's risk (default 5% unless given), and the rejectable quality level and consumer's risk (default 10% unless given). If no rejectable level is given, propose one from the context, mark it as proposed, and explain the trade-off.
 2. Proposed plan: for attribute inspection, find a single sampling plan (sample size n and acceptance number c) that meets both risk points, using the hypergeometric distribution when the sample is a large share of the lot and the binomial otherwise; show the calculation of the acceptance probability at both quality levels. For variable inspection, give the known-sigma or unknown-sigma plan structure (sample size and acceptability constant k), the formula for the decision, and the assumption of normality to check.
-3. Operating characteristic: a table of the probability of acceptance at five to eight quality levels from 0 to beyond the rejectable level, and the average outgoing quality if rejected lots are fully inspected and defectives replaced.
+3. Operating characteristic: a table of the probability of acceptance at five to eight quality levels from 0 to beyond the rejectable level, and the average outgoing quality if rejected lots are fully inspected and defectives replaced, with its worst value (the average outgoing quality limit).
 4. Alternatives: compare with a zero-acceptance-number plan (c = 0), and with the standard's tabulated plan if one applies: name the lot-size range, inspection level and how to look up the code letter, and tell the user to read n and the acceptance number from the current edition rather than trusting a quoted value. Mention double or sequential sampling if inspection is costly or destructive.
 5. Procedure: how to draw a random sample across the whole lot (positions, layers, time of production), what counts as a defect (critical, major, minor classes if relevant), what happens to a rejected lot (return, rework, 100% screening, concession), and switching between normal, tightened and reduced inspection if a standard is used.
 6. Results record: a template for each lot: lot id, supplier, date, lot size, sample size, defects found by class, decision, inspector, and the running record that drives switching rules.

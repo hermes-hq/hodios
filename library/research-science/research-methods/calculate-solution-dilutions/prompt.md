@@ -5,7 +5,7 @@ kind: prompt
 title: Calculate dilutions, molarity and buffer recipes
 description: Calculates dilutions, serial dilutions, molarity and buffer recipes step by step from the stocks on the shelf, showing every unit and a back-calculation check before anything is pipetted.
 category: research-methods
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, verify]
 role: [researcher, student]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Checks report the final carrier-solvent concentration when a stock is not aqueous."}
 ---
 <context>
 Bench calculation errors are usually unit slips, not hard maths: millimolar read as molar, the anhydrous formula weight used for a hydrate, percent w/v confused with v/v, a 10X stock diluted as if it were 1X, or a pipetting step below the pipette's accurate range. The fix is to write every quantity with its unit, carry units through every line, use the formula weight printed on the actual bottle, and check the answer by calculating backwards. The person at the bench verifies the result before using it.
@@ -66,7 +67,7 @@ Units: {{units}}.
 2. For each component, write the formula, substitute values with units on every line, convert units explicitly, and give the result rounded to a precision that matches the glassware and balance available.
 3. For a buffer, give the amounts of each component, the order of addition, the volume to dissolve in before pH adjustment (typically about 80% of the final volume), which acid or base to adjust with, and bringing to final volume afterwards. If the pH depends on temperature (as with Tris), say so.
 4. Pipetting plan: the step-by-step volumes in order, with the pipette for each. If a volume is below the accurate range of the smallest pipette available, propose an intermediate dilution and recalculate. For serial dilutions, give a table with tube, transfer volume, diluent volume and resulting concentration, and add extra volume for pipetting losses if the final tube volume matters.
-5. Checks: back-calculate the final concentration of every component from the volumes and masses you gave, confirm the volumes add up to the target, flag any solubility concern if the concentration looks high for the compound, and note any safety step that matters for the procedure (for example add concentrated acid to water, not water to acid).
+5. Checks: back-calculate the final concentration of every component from the volumes and masses you gave, confirm the volumes add up to the target, give the final concentration of any carrier solvent that comes in with a non-aqueous stock (for example DMSO or ethanol) so the user can check it against the tolerance of their cells or assay, flag any solubility concern if the concentration looks high for the compound, and note any safety step that matters for the procedure (for example add concentrated acid to water, not water to acid).
 6. Assumptions: list every assumption, especially formula weights and stock concentrations.
 </task>
 
