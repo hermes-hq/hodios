@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Our NPS changed. Why? {{scores_and_counts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drop-within-noise
+    vars:
+      scores_and_counts: "Q2: 180 promoters, 120 passives, 100 detractors (400 responses, 5,000 sent). Q3: 150 promoters, 110 passives, 110 detractors (370 responses, 6,200 sent)."
+      context_notes: "CEO wants to know why NPS crashed. We launched the new pricing page in August."
+    assert:
+      - {type: contains, value: "## Is it real"}
+      - {type: llm-rubric, value: "Recomputes Q2 NPS as 20 and Q3 as about 10.8 (a fall of about 9 points), computes margins of error of roughly plus or minus 8-9 points per period and a difference margin of roughly 12 points, concludes the fall is not clearly beyond noise, notes the response rate fell from 8% to about 6%, treats the pricing page as a hypothesis not a cause, and gives a safe sentence to report."}
+  - name: edge-mix-shift
+    vars:
+      scores_and_counts: "Jan: SMB 300 responses NPS 40; Enterprise 100 responses NPS 10. Overall NPS 32.5. Feb: SMB 150 responses NPS 40; Enterprise 250 responses NPS 12. Overall 22.5."
+      context_notes: "In February we started surveying enterprise admins too."
+    assert:
+      - {type: llm-rubric, value: "Shows that both segment scores were flat or slightly up and the overall drop comes from the shift toward enterprise respondents, reweights February to January's mix to show roughly no change, flags the sampling change as breaking comparability, and concludes the change is not a real fall in sentiment."}
+  - name: negative-headline-only
+    vars:
+      scores_and_counts: "NPS went from 42 to 31 last month."
+    assert:
+      - {type: llm-rubric, value: "Explains that without response counts or the distribution the change cannot be tested, asks for counts of promoters, passives and detractors per period and surveys sent, does not invent sample sizes or declare the drop real, and stops."}

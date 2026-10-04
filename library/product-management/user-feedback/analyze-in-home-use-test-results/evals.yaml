@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Summarise the results of our home use test. {{test_design}} {{test_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-granola-recipe
+    vars:
+      test_design: "Two cells, 40 households each, 3 weeks: new lower-sugar granola vs current recipe. 9-point hedonic overall liking at day 3 and day 21; sweetness and crunch on 5-point just-about-right scales at day 21; daily usage diary."
+      test_data: "New recipe: 38 completed. Overall liking day 3 mean 7.4, day 21 mean 6.5. Sweetness JAR: too little 35%, about right 60%, too much 5%. Liking among 'about right' 7.1, among 'too little' 5.6. Crunch JAR: too little 8%, about right 85%, too much 7%. Diary: average 5.1 bowls/week in week 1, 2.9 in week 3. Current recipe: 39 completed, liking day 3 7.0, day 21 6.9. Notes: two households said the bag doesn't reseal. One participant (H17) reported an itchy mouth after eating, product contains hazelnuts per label."
+      action_standard: "New recipe overall liking at day 21 not below current recipe minus 0.3."
+    assert:
+      - {type: contains, value: "## Safety and adverse reactions"}
+      - {type: llm-rubric, value: "Lists H17's itchy mouth as a possible allergic reaction to escalate, separately from scores and without calling the product safe; shows the new recipe falling from 7.4 to 6.5 (novelty decay) while current stays around 6.9-7.0, so day 21 is 0.4 below current and fails the action standard; flags sweetness with 35% 'too little' and a penalty of 1.5 points as the main fix; notes falling diary usage; mentions the resealable bag theme; and recommends fix and retest rather than launch."}
+  - name: edge-averages-only
+    vars:
+      test_design: "One cell, 25 people, 2 weeks, new face serum, 5-point scales."
+      test_data: "Average liking 4.1. Average 'would buy' 3.6. Most said it felt nice."
+      action_standard: ""
+    assert:
+      - {type: llm-rubric, value: "Explains which analyses cannot be done with averages only (top-two-box, penalty analysis, drop-outs, change over time), treats findings as directional given 25 participants and no comparison cell, notes no action standard was agreed, asks whether any skin reactions were recorded, and does not invent per-participant data."}
+  - name: negative-no-design
+    vars:
+      test_design: ""
+      test_data: "People liked it, score was 8."
+    assert:
+      - {type: llm-rubric, value: "Asks for the test design (product, cells, number of participants, scales and timing) before analysing, and does not declare the test passed."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Set a {{period}} target for this metric: {{metric_and_history}}. Planned work: {{planned_work}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-activation-quarter
+    vars:
+      metric_and_history: "Activation rate (new signups who create a first project within 7 days), monthly: Jan 31%, Feb 33%, Mar 32%, Apr 30%, May 32%, Jun 34%, Jul 31%, Aug 33%. Last year Q4 was about the same as the rest of the year."
+      planned_work: "Q4: new onboarding checklist for all new signups (an A/B test on 20% of traffic showed +3 points); template gallery reaching about 40% of signups, no test yet."
+      period: quarter
+    assert:
+      - {type: contains, value: "## Targets"}
+      - {type: llm-rubric, value: "Computes a baseline around 32%, an average moving range of about 2 points and a noise band of roughly plus or minus 5 points around the mean; notes no seasonal adjustment is needed given the stated Q4 pattern; estimates the checklist effect from the +3 point test and labels the template gallery effect as a guess scaled by 40% reach; discounts the total; gives a commit target near 33-34% and a stretch target near 35-36%; states whether the target is a quarterly average or the last month; and points out the commit target sits inside the noise band (about plus or minus 3 points even for a three-month average), suggesting a leading metric or a longer period."}
+  - name: edge-seasonal-shop
+    vars:
+      metric_and_history: "Weekly orders for an online garden shop: last 10 weeks (Aug-Oct) 820, 790, 760, 700, 650, 610, 590, 560, 540, 520. Last year Nov-Dec averaged 45% of the yearly weekly average, Oct was 70%."
+      planned_work: "Gift card launch and a Black Friday email campaign."
+      period: month
+    assert:
+      - {type: llm-rubric, value: "Recognises the falling trend and strong seasonality, applies the seasonal ratio from last year rather than projecting the recent average, treats the planned work as a modest discounted effect, and explains that a flat-to-last-month target would be unrealistic."}
+  - name: negative-no-history
+    vars:
+      metric_and_history: "Retention. Leadership wants +20%."
+      planned_work: "Lots of stuff."
+      period: half
+    assert:
+      - {type: llm-rubric, value: "Asks for the exact retention definition, past values and the specific planned work, explains why a target cannot be set credibly without them, does not endorse +20% or invent a baseline, and stops."}

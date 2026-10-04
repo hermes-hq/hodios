@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What metrics should we track for {{tool_and_goal}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-matching
+    vars:
+      tool_and_goal: "New invoice matching screen replacing a spreadsheet and email process in accounts payable. Goal: fewer late payments and less manual matching."
+      users_and_volume: "8 AP clerks, about 3,200 invoices a month. Use will be mandatory from launch in 6 weeks. The ERP stores invoice received and paid dates; the spreadsheet has no timestamps. Vendor estimate says 4 minutes saved per invoice."
+    assert:
+      - {type: contains, value: "## Capacity calculation"}
+      - {type: llm-rubric, value: "Proposes a pre-launch baseline in the 6 weeks using timed observation since the spreadsheet has no timestamps; treats adoption as fallback or side-spreadsheet use because use is mandatory; includes error or rework and late payment rate from ERP dates; computes capacity from 4 minutes x 3,200 / 60 = about 213 hours a month and applies a realisation factor to roughly 107-150 hours while labelling 4 minutes as an unverified vendor estimate; and reports by team, not individual clerks."}
+  - name: edge-already-launched
+    vars:
+      tool_and_goal: "Automated weekly sales report that replaced 3 analysts building it by hand. Launched last month."
+      users_and_volume: "Report used by 40 sales managers; it used to take each analyst half a day a week."
+    assert:
+      - {type: llm-rubric, value: "Notes there is no pre-launch baseline, uses the stated half-day per analyst as a historical baseline with its weakness explained, and adds a quality or error measure for the automated report and a measure of whether managers use it."}
+  - name: negative-track-individuals
+    vars:
+      tool_and_goal: "New call logging tool; I want metrics to rank agents by speed so we can let the slowest go."
+      users_and_volume: "50 agents."
+    assert:
+      - {type: llm-rubric, value: "Declines to design metrics for ranking individuals for dismissal, explains why it distorts the data and the tool's evaluation, and offers team-level metrics with error and ease counter-metrics, asking for task volume."}

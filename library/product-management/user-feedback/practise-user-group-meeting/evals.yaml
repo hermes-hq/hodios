@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Pretend to be angry users at a meeting about this: {{product_and_situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-setup-heated
+    vars:
+      product_and_situation: "I'm product owner for a council's online parking permit service. We removed paper permits and phone applications; residents must apply online. I'm meeting the residents' association of an area with many older residents. I can promise an assisted-digital phone line pilot but no return to paper."
+      tension_level: heated
+    assert:
+      - {type: llm-rubric, value: "Sets up three or four distinct attendees with names, roles, wants and behaviours (including at least one older resident or carer who cannot use the online service and one quieter attendee), explains 'time out' and 'end meeting', stays under about 120 words, and stops to let the user open without writing the user's lines or giving coaching."}
+  - name: edge-debrief-after-promise
+    description: "After setup and several turns where the user said 'I promise we'll bring paper permits back by spring', the user types 'end meeting'."
+    vars:
+      product_and_situation: "Council online parking permits; I can promise a phone line pilot but not paper permits."
+      tension_level: heated
+    assert:
+      - {type: contains, value: "## Debrief"}
+      - {type: llm-rubric, value: "The debrief includes a skills scorecard with evidence, lists the promise to bring paper permits back by spring as a commitment outside the user's control, and offers a better line that acknowledges the need and commits only to the phone line pilot and a follow-up."}
+  - name: negative-no-situation
+    vars:
+      product_and_situation: "just do a meeting"
+      tension_level: hostile
+    assert:
+      - {type: llm-rubric, value: "Asks for the product or service and what has upset the attendees before starting, and does not launch into a generic roleplay."}

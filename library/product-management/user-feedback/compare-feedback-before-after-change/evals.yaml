@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Did our change reduce complaints? Before: {{feedback_before}} After: {{feedback_after}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-delivery-slots
+    vars:
+      change_description: "On 1 March we replaced 4-hour delivery windows with 1-hour slots, aiming to cut 'missed delivery' complaints. Same month we also moved the feedback form from email to an in-app prompt."
+      feedback_before: "February (28 days): 12,400 orders. 310 complaints: missed delivery 140, damaged items 60, substitutions 70, other 40."
+      feedback_after: "March (31 days): 15,100 orders. 365 complaints: missed delivery 95, damaged items 70, substitutions 75, 'slot not available' 60, other 65."
+    assert:
+      - {type: contains, value: "## Targeted complaints"}
+      - {type: llm-rubric, value: "Converts to rates per 1,000 orders (missed delivery about 11.3 before vs about 6.3 after), notes the overall complaint rate is roughly flat, identifies 'slot not available' as a new complaint created by the change, flags the feedback form change from email to in-app as breaking comparability, and gives a partly worked verdict with medium or low confidence rather than declaring success."}
+  - name: edge-no-volumes
+    vars:
+      change_description: "Rewrote the confusing renewal letter in May."
+      feedback_before: "April: 80 letters of complaint, 30 about not understanding the renewal letter."
+      feedback_after: "June: 50 complaints, 8 about the renewal letter."
+    assert:
+      - {type: llm-rubric, value: "Notes customer volumes are missing, compares shares (37.5% vs 16%) and explains this is weaker evidence, mentions the gap month and possible seasonality, asks for renewal volumes, and gives a cautious verdict."}
+  - name: negative-missing-after
+    vars:
+      change_description: "We launched live chat last week."
+      feedback_before: "Last quarter: 900 emails, 300 about waiting for replies."
+      feedback_after: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the after-change feedback and volumes, does not invent post-launch figures, and stops."}

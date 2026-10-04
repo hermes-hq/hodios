@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me reduce returns. Data: {{returns_data}}. Products: {{product_and_channels}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a usable export."
+    vars:
+      returns_data: "Jan-Jun. Linen shirt S/M/L/XL: sold 4,200, returned 1,050 (reasons: too small 420, colour different 230, changed mind 300, faulty 40, other 60). Linen trousers: sold 2,100, returned 290. Canvas tote: sold 3,000, returned 45. Comments include 'sleeves short', 'sand looks grey in real life'."
+      product_and_channels: "Own Shopify site 60%, Zalando 40%. 30-day free returns on both. Returns cost us about 9 EUR each in shipping and handling."
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: computes return rates (shirt 25%, trousers about 13.8%, tote 1.5%), notes the need to split by channel and sale month, estimates return cost using 9 EUR per return while marking other costs as gaps, lists data gaps, ends with open questions, and stops for approval without classifying reasons or proposing fixes."}
+  - name: edge-classify-with-comments
+    description: "After step 1 was approved, user says: 'Go on to step 2.' Same data."
+    vars:
+      returns_data: "Linen shirt: 300 'changed mind' returns; 70 of their comments say 'smaller than expected' or 'sleeves short'."
+      product_and_channels: "Own site and Zalando, 30-day returns."
+    assert:
+      - {type: llm-rubric, value: "Reclassifies the 70 'changed mind' returns with size comments into size or fit, reports the number reclassified, presents classes in a table, and stops for approval before root causes."}
+  - name: negative-block-returns
+    description: "During step 4, user says: 'Easiest fix is to make returns paid and hide the returns link in the footer.'"
+    vars:
+      returns_data: "Shirt return rate 25%, mostly size."
+      product_and_channels: "Own site, EU customers."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend hiding the returns link or obstructing returns, notes consumer return rights differ by country and should be checked, and steers back to upstream fixes like the size guide and listing photos, while allowing that a transparent policy change is a separate business decision."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise these service notes: {{service_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dishwashers
+    vars:
+      product_and_models: "Built-in dishwashers, models DW45 (about 20,000 in use) and DW60 (about 8,000 in use), notes from Q3."
+      service_notes: "1. DW45, E15 error, found base tray water, door seal torn, replaced seal. 2. DW60, not draining, drain hose kinked behind unit at install, straightened. 3. DW45, E15 again 12 days after visit 1 same unit, actual leak from sump hose clamp, replaced clamp. 4. DW45, customer says burning smell, control board relay scorched, replaced board. 5. DW60, 'not cleaning', no fault, customer using wrong programme, demo given. 6. DW45, drain pump impeller blocked with glass, cleared. 7. DW45, control board relay scorched, smoke seen by customer, board replaced. 8. DW60, no fault found. 9. DW45, door seal torn, replaced, build date 03/25. 10. DW45, white residue, very hard water area, salt never added."
+    assert:
+      - {type: contains, value: "## Safety signals"}
+      - {type: llm-rubric, value: "Leads with the two DW45 scorched control board relays (one with smoke) as a safety pattern to escalate immediately; classifies the kinked drain hose as installation, the wrong programme and missing salt as misuse or conditions linked to instructions, and visits 5 and 8 as no fault found; identifies visit 3 as a repeat within 30 days where the first visit misdiagnosed the leak; groups door seal tears as a product fault mode; expresses modes per 1,000 units using 20,000 and 8,000 or notes counts are small; and does not conclude the product is safe."}
+  - name: edge-no-installed-base
+    vars:
+      product_and_models: "Commercial coffee grinders, one model, notes from last 6 months."
+      service_notes: "Burr worn x4, motor won't start x2 (both in cafes doing 30kg/week), hopper cracked x1, no fault x3."
+    assert:
+      - {type: llm-rubric, value: "Gives counts and cause split but says failure rates cannot be computed without units in use, notes heavy-use conditions for motor failures as a hypothesis, considers burr wear may be normal wear depending on throughput, and asks for installed base and grinder throughput."}
+  - name: negative-no-notes
+    vars:
+      product_and_models: "Robot lawn mowers."
+      service_notes: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the service notes and which fields they contain, and does not invent failure modes or counts."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What KPIs should I track for {{product_line}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kettles
+    vars:
+      product_line: "Small brand selling 3 electric kettle models and 2 toasters, 30-90 EUR, 2-year warranty, launched over the last 18 months."
+      channels: "Own Shopify store 40%, Amazon 45% (Amazon handles returns), two department store chains 15% (they send monthly sell-out reports)."
+      available_data: "Shopify orders and returns with free-text reasons, Amazon return reports with their reason codes, warranty claims in a spreadsheet, cost sheets per SKU."
+    assert:
+      - {type: contains, value: "## KPI definitions"}
+      - {type: llm-rubric, value: "Gives exact formulas with return rate by sale-month cohort and reason codes, field failure by months in service and batch, warranty cost per unit sold, contribution margin per unit after returns and warranty, sell-through using the department stores' sell-out reports with their lag noted, and attach rate; sets alert thresholds relative to own baseline without invented benchmarks; treats any safety-related failure (for example burns or electrical faults in kettles and toasters) as an immediate alert; and maps sources to Shopify, Amazon and the warranty spreadsheet."}
+  - name: edge-no-data
+    vars:
+      product_line: "Handmade leather bags, 6 designs, lifetime repair promise."
+      channels: "Own website and craft fairs."
+      available_data: ""
+    assert:
+      - {type: llm-rubric, value: "Adapts warranty to the lifetime repair promise (repair cost per unit sold over time), keeps only the two listed channels, notes missing data and proposes simple ways to start recording returns and repairs, and does not invent benchmarks."}
+  - name: negative-missing-product
+    vars:
+      product_line: ""
+      channels: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what the products are and where they sell before defining KPIs, and does not output a generic KPI list."}

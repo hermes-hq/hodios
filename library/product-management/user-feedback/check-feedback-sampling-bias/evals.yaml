@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Is this feedback reliable? {{feedback_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-community-forum
+    vars:
+      feedback_summary: "Our users overwhelmingly want an offline mode: it's the top request with 312 posts. Draft conclusion: 'most users need offline mode, make it Q1 priority'."
+      how_collected: "Posts on our community forum over 12 months. 312 posts came from 58 distinct accounts; 9 accounts wrote half of them. Forum members are mostly on the Pro plan and have used us for 2+ years."
+      user_base: "48,000 monthly active users: 80% Free, 15% Pro, 5% Teams. 60% joined in the last year. Mostly desktop web."
+    assert:
+      - {type: contains, value: "## Conclusions it cannot support"}
+      - {type: llm-rubric, value: "Identifies the loud-minority pattern (9 accounts writing half the posts and 58 accounts in total out of 48,000), power-user and tenure bias (Pro, 2+ years versus 80% Free and 60% under a year), and channel bias; concludes the data shows offline mode matters to some engaged Pro users but cannot show 'most users' need it; and proposes a sampled survey or behavioural check across Free and newer users."}
+  - name: edge-no-user-base
+    vars:
+      feedback_summary: "App store reviews show people hate the new onboarding; 70% of reviews in October mention it."
+      how_collected: "App store reviews, October, 140 reviews. The app prompts for a review after a user completes their third workout."
+      user_base: ""
+    assert:
+      - {type: llm-rubric, value: "Notes the review prompt fires only after a third workout so users who quit during onboarding are missing (survivorship) and reviewers are self-selected, marks user base comparisons as [X] with what data to fetch, and does not invent user-base numbers."}
+  - name: negative-no-method
+    vars:
+      feedback_summary: "Customers love the new pricing."
+      how_collected: ""
+    assert:
+      - {type: llm-rubric, value: "Asks how the feedback was collected (channels, who was asked, how many) before judging, and does not declare the conclusion valid or invalid."}
