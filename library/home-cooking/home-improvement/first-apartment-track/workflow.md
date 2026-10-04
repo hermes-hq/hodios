@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [first-apartment, renting, flat-hunting, rental-application, move-in, first-time-renter]
 pairs_with:
-  prompts: [build-house-viewing-checklist, review-lease, document-rental-move-in, furnish-first-apartment]
+  prompts: [build-house-viewing-checklist, prepare-rental-application, review-lease, document-rental-move-in, furnish-first-apartment]
 args:
   - name: city
     description: The city or area you want to live in, and the country.

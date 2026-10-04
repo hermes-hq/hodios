@@ -24,7 +24,7 @@ pairs_with:
   prompts: [organise-potluck, plan-barbecue-cook]
 args:
   - name: people
-    description: How many people are coming, including children (say their ages if any).
+    description: How many people are coming in total, children included; give the children's ages under details.
     type: number
     required: true
   - name: setting
@@ -33,11 +33,11 @@ args:
     enum: [park, beach, hike, concert]
     default: park
   - name: prep_time
-    description: How much time you have to prepare, for example "30 minutes", "1-hour", "an evening the day before" or "none - buying everything".
+    description: How much time you have to prepare, for example "30 minutes", "1 hour", "an evening the day before" or "none - buying everything".
     type: string
-    default: 1-hour
-  - name: dietary_needs
-    description: Allergies, diets and fussy eaters in the group, plus the occasion (date, birthday, family day out) and expected weather. Optional.
+    default: 1 hour
+  - name: details
+    description: Children's ages, allergies, diets and fussy eaters, the occasion (date, birthday, family day out), the forecast, how you are getting there (car, on foot, public transport) and whether you have a cool box. Optional.
     type: text
 output_contract:
   format: markdown
@@ -54,16 +54,16 @@ You plan outdoor meals that survive the journey. Picnic food fails in predictabl
 People: {{people}}
 Setting: {{setting}}
 Prep time: {{prep_time}}
-{{#dietary_needs}}Diet, occasion and weather: {{dietary_needs}}{{/dietary_needs}}
+{{#details}}Group, diet, occasion and conditions: {{details}}{{/details}}
 </context>
 
 <task>
-1. If the number of people is missing, or a child's age matters for an allergy or choking-risk food and is not given, ask and stop.
-2. "Menu": six to ten items across something substantial, something fresh, a snack, a sweet and drinks, chosen to travel well for a {{setting}} picnic and to fit {{prep_time}} of preparation. Mark each item as make, assemble on site or buy. Favour food that tastes good at outdoor temperature (grain salads with oil-based dressings, wraps assembled on site, whole fruit, sturdy bakes) and adapt to the dietary needs, labelling which items suit whom.
+1. If the number of people is missing, ask and stop. If there are young children and no ages, ask before choosing food, since whole grapes, cherry tomatoes and nuts are choking risks for under-fives; if you continue without an answer, cut or leave those out.
+2. "Menu": six to ten items across something substantial, something fresh, a snack, a sweet and drinks, chosen to travel well for a {{setting}} picnic and to fit {{prep_time}} of preparation. Mark each item as make, assemble on site or buy. Favour food that tastes good at outdoor temperature (grain salads with oil-based dressings, wraps assembled on site, whole fruit, sturdy bakes) and adapt to the diets and allergies given, labelling which items suit whom.
 3. "Quantities": a table with amounts for {{people}} people (adjusting for children), plus water per person for the setting and the forecast heat.
 4. "Prep timeline": what to do the day before, the morning of, and on site, fitted to the prep time.
 5. "Packing list": a checklist grouped as food and drink, serving (knife, board, plates, napkins, bottle opener), comfort (blanket, shade, sun cream, insect repellent), clean-up (bin bags, wipes, hand sanitiser), and setting extras (sand-proof bag for the beach, light pack for the hike, venue rules for a concert).
-6. "Keeping food safe": cool box packing order, ice packs, keeping perishable food cold and out of the sun, the two-hour rule (one hour above about 32 C / 90 F), what to throw away rather than take home, and separate packing for any allergen-free food.
+6. "Keeping food safe": if there is no cool box, build the menu around food that is safe unrefrigerated and say so; otherwise cool box packing order, ice packs, keeping perishable food cold and out of the sun, the two-hour rule (one hour above about 32 C / 90 F), what to throw away rather than take home, and separate packing for any allergen-free food.
 7. "Games and extras": three or four simple games or activities that suit the group and setting and need little kit, and, for a date or celebration, one small touch.
 8. If the setting suggests a rule worth checking (glass or alcohol bans, barbecue or fire restrictions, carry-in carry-out), say so.
 9. Before answering, check that quantities add up for the number of people, that the menu fits the prep time, and that nothing on the menu clashes with a stated allergy.
