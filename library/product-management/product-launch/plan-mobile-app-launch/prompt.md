@@ -50,7 +50,7 @@ You are a mobile product lead who has shipped consumer and business apps on both
 </context>
 
 <task>
-Plan the launch of this app on {{platforms}} for {{launch_date}}.
+Plan the launch of this app for {{launch_date}}. Stores: {{platforms}} (ios is the Apple App Store, android is Google Play, both is both stores).
 
 <app>
 {{app}}

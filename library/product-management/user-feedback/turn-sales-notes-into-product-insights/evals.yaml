@@ -1,38 +1,42 @@
 schema: 1
-baseline: "What do these sales notes from {{period}} tell us about what to build? {{notes}}"
+baseline: "What do these sales notes from {{period}} tell us about what to build? Our product: {{product}} Notes: {{notes}}"
 providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
 judge: {family: gemini, tier: frontier}
 pass_threshold: 0.8
 min_lift_over_baseline: 0.15
 cases:
-  - name: happy-mixed-themes-with-values
+  - name: happy-pipeline-notes-with-values
     vars:
       period: "Q3 2026"
+      product: "Scheduling software for field service companies: job scheduling, timesheets, reporting, Xero and QuickBooks integrations, email and password login with two-factor. Plans start at 10 seats. A mobile app is on the roadmap for Q1. No single sign-on."
       notes: |
-        D1 lost: "needed SSO, security team blocked us"
+        D1 lost, security review: "needed SSO, security team blocked us"
         D2 lost: "went with RivalCo, they have SSO"
         D3 won: "loved the reporting"
         D4 lost: "too expensive"
-        D5 lost: "wanted Xero integration" (we already have it, rep didn't know)
-        D6 lost: "needed SSO for audit"
+        D5 lost: "wanted Xero integration"
+        D6 open, security review: buyer said "we can't sign without SSO, our auditor requires it"
         D7 lost: "price - they only have 3 users, our minimum is 10 seats"
         D8 lost: "no budget this year"
-        D9 won: "Xero integration sealed it"
-        D10 lost: "wanted a mobile app"
+        D9 renewal: asked for an audit log export, not a blocker
+        D10 open, first call: would like a mobile app, nice to have
       deal_values: "D1 40k, D2 55k, D3 12k, D4 8k, D5 15k, D6 60k, D7 3k, D8 20k, D9 14k, D10 9k"
     assert:
-      - {type: llm-rubric, value: "Identifies SSO as the strongest product-gap theme (3 lost deals, about 155k) with quotes; classifies D5 as positioning or awareness since the integration exists; treats D7 as packaging or fit around seat minimums rather than a price cut; treats 'too expensive' and 'no budget' cautiously; recommends discovery or validation rather than building directly; and counts and sums match the data."}
-  - name: edge-no-values
+      - {type: contains, value: "Gap register"}
+      - {type: llm-rubric, value: "Restates SSO as a need for central login control to pass security or audit reviews; counts it as three accounts with about 95k lost and 60k open, and flags D6 as a late-stage blocker in the open pipeline with the buyer's own words; puts the Xero request under Already in the product with a fix for sales; treats D7 as a partial or packaging issue around the 10-seat minimum; lists 'too expensive' and 'no budget' under Not product issues and points to win-loss analysis for them; notes the mobile app is already on the roadmap and was a nice-to-have; recommends discovery (for example joining D6's next call) rather than building directly; and gives the five-field notes template."}
+  - name: edge-no-values-and-unknown-feature
     vars:
       period: "last 60 days"
-      notes: "Lost: needs offline mode (x3, field teams). Lost: chose competitor, cheaper. Won: offline mode not needed, office team. Lost: procurement took too long. Lost: wanted Spanish UI. Lost: offline mode again, construction firm."
+      product: "Inspection app for construction firms: checklists, photo capture, PDF reports, web dashboard. English only."
+      notes: "Lost: needs offline mode (x3 deals, all field teams). Lost: chose competitor, cheaper. Won: offline mode not needed, office team. Lost: procurement took too long. Lost: wanted Spanish UI. Lost: offline mode again, construction firm. Open: asked about signing reports with a stylus."
       deal_values: ""
     assert:
-      - {type: llm-rubric, value: "Counts offline mode across four lost deals and notes the field or construction segment pattern, writes 'no values' for value at stake, classifies procurement as a process theme, and suggests discovery questions about offline use."}
+      - {type: llm-rubric, value: "Counts offline use across four lost accounts and notes the field-team pattern, writes 'no values' for value, classifies Spanish as a gap given the product is English only, marks stylus signing as 'check with the team' because the description does not say, puts procurement and the cheaper competitor under Not product issues, and suggests discovery questions about where and how often field teams lose signal."}
   - name: negative-too-few-notes
     vars:
       period: "September"
+      product: "Online booking tool for yoga studios."
       notes: "Lost one deal, they said 'not right now'. Won one, no notes. Please tell me our top product gaps for the roadmap."
       deal_values: ""
     assert:
-      - {type: llm-rubric, value: "Says the sample is too small and too vague to identify product gaps, lists what is there, suggests what to capture in future notes or a win-loss interview approach, and does not invent themes."}
+      - {type: llm-rubric, value: "Says the notes contain no product signal to build a register from, lists what is there, does not invent gaps or themes, and gives the five-field template so reps capture product feedback in future."}

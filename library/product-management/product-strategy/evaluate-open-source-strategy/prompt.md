@@ -18,6 +18,7 @@ interaction: one-shot
 model_tier: frontier
 reasoning: recommended
 level: expert
+advice_risk: [legal]
 tags: [open-source, open-core, licensing-models, community, business-model]
 pairs_with:
   prompts: [plan-open-source-launch, choose-oss-funding-model, evaluate-build-vs-buy, plan-platform-strategy]
@@ -78,6 +79,7 @@ People available to maintain it: {{team_size}}.
 - This is strategic analysis, not legal advice. Licence obligations, patent clauses, contributor agreements, trademark and third-party licence compatibility must be confirmed with a qualified lawyer; say so wherever they come up.
 - Do not invent market data, competitor plans or community sizes; mark assumptions.
 - Be honest when open-sourcing does not serve the goals.
+{{> guardrails/professional-limits}}
 </constraints>
 
 <output_format>
