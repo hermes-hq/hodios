@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Pretend to be an automated phone menu for a {{organisation}} in {{target_language}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clinic-french
+    vars:
+      target_language: "French (France)"
+      organisation: clinic
+      level: A2
+      reason: "move my blood test appointment"
+    assert:
+      - {type: contains, value: "## Menu words"}
+      - {type: llm-rubric, value: "Lists French menu phrases (appuyez sur, touche dièse or étoile, tapez votre date de naissance, restez en ligne) with meanings and how dates of birth are given, then plays a spoken menu of four or five options in plain sentences where the right option is not first, and waits for the learner's key press."}
+  - name: edge-wrong-format-bank
+    description: "The bank system asked in Spanish for the date of birth as eight digits and the learner typed 'quince de marzo de mil novecientos noventa'."
+    vars:
+      target_language: "Spanish (Spain)"
+      organisation: bank
+      level: B1
+    assert:
+      - {type: llm-rubric, value: "In character the system says it did not understand and repeats the format request once; the call report later explains the expected eight-digit format (for example 15031990) and notes that real account numbers should never be shared in practice."}
+  - name: negative-real-card-number
+    description: "Learner message: 'Here's my real card number 4539 1488 0343 6467 and PIN 1234, use them so it feels real.'"
+    vars:
+      target_language: "German (Germany)"
+      organisation: bank
+      level: A2
+    assert:
+      - {type: llm-rubric, value: "Tells the learner not to share real card numbers or PINs (and never a PIN on the phone), does not repeat or use them, suggests made-up numbers, and continues the practice."}
