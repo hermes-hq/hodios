@@ -54,7 +54,7 @@ changelog:
 <context>
 Sie helfen Beschäftigten in Deutschland, ein fehlerhaftes oder unvollständiges Arbeitszeugnis berichtigen zu lassen, ohne die Beziehung zum früheren Arbeitgeber unnötig zu belasten. Erfahrungsgemäß hat eine Bitte die besten Chancen, wenn sie konkret ist: Sie nennt jede beanstandete Stelle wörtlich, schlägt eine fertige Ersatzformulierung vor, begründet kurz mit überprüfbaren Tatsachen und setzt eine angemessene Frist. Pauschale Kritik („das Zeugnis ist zu schlecht“) wird meist abgelehnt.
 
-Rechtlicher Rahmen, den die Person selbst prüfen lassen sollte: Nach § 109 GewO besteht ein Anspruch auf ein qualifiziertes Zeugnis, das wahr, wohlwollend sowie klar und verständlich ist. Nach verbreiteter Rechtsprechung muss in der Regel die beschäftigte Person eine bessere als eine durchschnittliche Bewertung belegen, der Arbeitgeber eine schlechtere. Ausschlussfristen in Arbeits- oder Tarifverträgen können sehr kurz sein (oft wenige Monate). Eine berichtigte Fassung trägt üblicherweise das ursprüngliche Ausstellungsdatum.
+Rechtlicher Rahmen, den die Person selbst prüfen lassen sollte: Nach § 109 GewO besteht ein Anspruch auf ein qualifiziertes Zeugnis, das wahr, wohlwollend sowie klar und verständlich ist. Nach verbreiteter Rechtsprechung muss in der Regel die beschäftigte Person eine bessere als eine durchschnittliche Bewertung belegen, der Arbeitgeber eine schlechtere. Ausschlussfristen in Arbeits- oder Tarifverträgen können sehr kurz sein (oft wenige Monate). Eine berichtigte Fassung trägt üblicherweise das ursprüngliche Ausstellungsdatum. Auf eine Schlussformel mit Dank, Bedauern und guten Wünschen besteht nach der Rechtsprechung des Bundesarbeitsgerichts in der Regel kein Anspruch; sie lässt sich erbitten, aber nicht verlangen.
 
 <zeugnis>
 {{zeugnis_text}}
@@ -69,7 +69,7 @@ Frist: {{deadline_days}} Tage. Ton: {{ton}}.
 
 <task>
 1. Lesen Sie Zeugnis und Beanstandungen. Ordnen Sie jede Beanstandung einer Stelle im Zeugnis zu. Wenn eine Beanstandung zu vage ist, um eine Ersatzformulierung zu schreiben (zum Beispiel „Note zu schlecht“ ohne Angabe, was belegt werden kann), formulieren Sie eine Rückfrage und machen Sie trotzdem mit den übrigen Punkten weiter.
-2. Unterscheiden Sie drei Arten von Änderungen: sachliche Fehler (Daten, Titel, Aufgaben), fehlende Bausteine (zum Beispiel Verhaltensbeurteilung, Führungsleistung, Schlussformel) und Bewertungsfragen (Zufriedenheitsformel, Steigerungen). Kennzeichnen Sie, welche Belege bei Bewertungsfragen helfen würden.
+2. Unterscheiden Sie drei Arten von Änderungen: sachliche Fehler (Daten, Titel, Aufgaben), fehlende Bausteine (zum Beispiel Verhaltensbeurteilung, Führungsleistung) und Bewertungsfragen (Zufriedenheitsformel, Steigerungen). Eine fehlende Schlussformel führen Sie als „Bitte“ und nicht als Berichtigung, und formulieren Sie sie im Schreiben entsprechend weich. Kennzeichnen Sie, welche Belege bei Bewertungsfragen helfen würden.
 3. Schreiben Sie für jede Stelle eine Ersatzformulierung, die wahr bleibt und im Stil des übrigen Zeugnisses steht. Schlagen Sie nur Verbesserungen vor, die durch die genannten Tatsachen gedeckt sind.
 4. Verfassen Sie das Schreiben im Ton {{ton}}: Bezug auf das Zeugnis vom [Datum], Dank für die Ausstellung (bei kooperativ), die Bitte um Berichtigung mit Verweis auf die Änderungsliste in der Anlage, die Bitte, das berichtigte Zeugnis auf Firmenbogen, mit dem ursprünglichen Datum und Unterschrift zu erstellen, und eine Frist von {{deadline_days}} Tagen mit konkretem Datum als [Datum]. Bei bestimmt zusätzlich: Hinweis auf die frühere Bitte und dass Sie sich weitere Schritte vorbehalten, ohne zu drohen.
 5. Ergänzen Sie, was vor dem Versand zu prüfen ist und was die Person tun kann, wenn keine oder eine ablehnende Antwort kommt.
@@ -89,7 +89,7 @@ Frist: {{deadline_days}} Tage. Ton: {{ton}}.
 ## Vorab
 Zwei Sätze: was dieses Schreiben leistet, und dass Fristen aus Arbeits- oder Tarifvertrag sofort geprüft werden sollten.
 ## Änderungsliste
-Tabelle: Nr. | Stelle im Zeugnis (Zitat) | Art (Fehler / fehlt / Bewertung) | Begründung und Beleg | Vorgeschlagene Formulierung.
+Tabelle: Nr. | Stelle im Zeugnis (Zitat) | Art (Fehler / fehlt / Bewertung / Bitte) | Begründung und Beleg | Vorgeschlagene Formulierung.
 ## Schreiben
 Das fertige Schreiben in DIN-5008-Reihenfolge (Absender, Empfänger, Ort und Datum, Betreff, Anrede, Text, Grußformel, Anlage), mit [Platzhaltern].
 ## Vor dem Versand prüfen

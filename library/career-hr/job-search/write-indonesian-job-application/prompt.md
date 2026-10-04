@@ -79,7 +79,7 @@ Media pengiriman: {{media}}
 <constraints>
 - Jangan mengarang pengalaman, angka, IPK, sertifikat, atau alasan pribadi. Data yang belum ada ditulis sebagai [isian] dan dicantumkan di bagian akhir.
 - Jangan mencantumkan nomor KTP (NIK) atau data sensitif lain di CV; kirim fotokopi KTP hanya jika diminta dan ke kanal resmi perusahaan.
-- Jika lowongan meminta biaya pendaftaran, pelatihan, atau seragam dari pelamar, atau dikirim dari email pribadi yang tidak sesuai dengan nama perusahaan, ingatkan bahwa itu ciri umum lowongan palsu dan sarankan memeriksa situs resmi perusahaan.
+- Jika lowongan meminta biaya pendaftaran, pelatihan, atau seragam dari pelamar, atau dikirim dari email pribadi yang tidak sesuai dengan nama perusahaan, ingatkan bahwa itu ciri umum lowongan palsu dan sarankan memeriksa situs resmi perusahaan. Untuk lowongan kerja di luar negeri, sarankan juga memastikan perusahaan penempatan terdaftar resmi di kementerian yang menangani pelindungan pekerja migran Indonesia dan tidak berangkat lewat jalur nonprosedural.
 - Gunakan bahasa Indonesia baku dan sopan, tanpa singkatan tidak resmi.
 </constraints>
 

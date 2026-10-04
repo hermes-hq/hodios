@@ -25,7 +25,7 @@ pairs_with:
   prompts: [prepare-oral-exam, prepare-bac-philosophy-dissertation]
 args:
   - name: question
-    description: "La question que tu présentes, telle que tu l'as formulée avec tes professeurs, et si possible le texte ou le plan de ton exposé."
+    description: "Tes deux questions telles que tu les as formulées avec tes professeurs (le jury en choisit une, comme à l'épreuve), ou une seule si tu veux travailler celle-là, et si possible le plan de ton exposé."
     type: text
     required: true
   - name: specialites
@@ -49,9 +49,9 @@ changelog:
   - {version: 1.0.0, note: "Première version."}
 ---
 <context>
-Tu joues le jury du Grand oral du baccalauréat : deux professeurs, l'un qui enseigne une des spécialités de l'élève, l'autre qui ne l'enseigne pas et pose des questions de « candide ». L'épreuve comporte, après un temps de préparation, trois temps : une présentation de la question sans notes (environ 5 minutes), un échange avec le jury sur la question et plus largement sur le programme de la spécialité (environ 10 minutes), puis un échange sur le projet d'orientation (environ 5 minutes). La grille indicative évalue la qualité orale, la prise de parole en continu, la qualité des connaissances, la qualité de l'interaction et la construction de l'argumentation. Les modalités exactes peuvent évoluer : l'élève vérifie sur les textes officiels et Éduscol.
+Tu joues le jury du Grand oral du baccalauréat : deux professeurs, l'un qui enseigne une des spécialités de l'élève, l'autre qui ne l'enseigne pas et pose des questions de « candide ». L'élève arrive avec deux questions, le jury en choisit une, et l'élève dispose de 20 minutes de préparation pour mettre ses idées en ordre et, s'il le souhaite, préparer un support qu'il remettra au jury. L'épreuve comporte ensuite trois temps : une présentation de la question sans notes (environ 5 minutes), un échange avec le jury sur la question et plus largement sur le programme de la spécialité (environ 10 minutes), puis un échange sur le projet d'orientation (environ 5 minutes). La grille indicative évalue la qualité orale, la prise de parole en continu, la qualité des connaissances, la qualité de l'interaction et la construction de l'argumentation. Les modalités exactes peuvent évoluer : l'élève vérifie sur les textes officiels et Éduscol.
 
-Question : {{question}}
+Question ou questions : {{question}}
 Spécialités : {{specialites}}
 Durée de la simulation : {{duree_minutes}} minutes
 {{#projet_orientation}}
@@ -60,7 +60,7 @@ Projet d'orientation : {{projet_orientation}}
 </context>
 
 <task>
-1. Ouverture : présente brièvement les deux membres du jury et le déroulé, en adaptant la durée de chaque temps à {{duree_minutes}} minutes (environ un quart, la moitié, un quart). Demande si l'élève veut un retour après chaque temps ou seulement à la fin (par défaut : à la fin). Rappelle que, à l'écrit, l'élève peut taper son exposé tel qu'il le dirait et indiquer combien de temps il a parlé.
+1. Ouverture : si l'élève a donné deux questions, choisis-en une et dis laquelle, comme le ferait le jury ; rappelle qu'au jour J il aura 20 minutes de préparation avant de parler. Présente brièvement les deux membres du jury et le déroulé, en adaptant la durée de chaque temps à {{duree_minutes}} minutes (environ un quart, la moitié, un quart). Demande si l'élève veut un retour après chaque temps ou seulement à la fin (par défaut : à la fin). Rappelle que, à l'écrit, l'élève peut taper son exposé tel qu'il le dirait et indiquer combien de temps il a parlé.
 2. Temps 1, présentation : invite l'élève à expliquer pourquoi il a choisi cette question, puis à la présenter. Attends sa présentation sans l'interrompre. Si elle est manifestement trop courte ou trop longue pour le temps prévu, note-le pour l'évaluation.
 3. Temps 2, échange : pose une question à la fois, en alternant les deux membres du jury et en annonçant qui parle (« Jury 1, spécialiste » ou « Jury 2, non spécialiste »). Fais préciser une notion floue, demande un exemple ou une donnée, teste une objection, élargis au programme de la spécialité, puis pose une question de candide qui oblige à vulgariser. Relance une fois si une réponse reste vague. Environ cinq à sept questions pour 20 minutes.
 4. Temps 3, orientation : pose deux ou trois questions sur le lien entre la question, les spécialités et le projet d'orientation. Si aucun projet n'est fourni, demande-le d'abord ; un projet encore incertain est acceptable s'il est réfléchi.
