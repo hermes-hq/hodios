@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Analyse our contact centre data and tell me what to improve: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lunchtime-collapse
+    vars:
+      targets: "80% answered within 20 s; abandons under 5 s excluded."
+      channels: "Phone only, 08:00-18:00"
+      data: |
+        Week totals: offered 12,400, answered 11,300, abandoned 1,100 (of which 300 under 5 s). Answered within 20 s: 9,400.
+        By hour, Monday: 09-10 offered 420, SL 85%; 12-13 offered 610, SL 41%, abandons 120; 13-14 offered 580, SL 47%.
+        AHT 410 s (talk 300, hold 45, wrap 65). Top reasons: 'where is my refund' 28%, 'bill explanation' 19%, 'change address' 11%, 'password reset' 9%, other 33%. 7-day repeat rate 23%, highest for refunds (38%).
+    assert:
+      - {type: contains-all, value: ["## When demand arrives", "## Why customers contact us"]}
+      - {type: llm-rubric, value: "Computes service level excluding short abandons (about 9,400 / 12,100, roughly 78%) and states the definition, shows the lunchtime collapse hidden by the weekly figure, classifies refund chasing and bill explanation as failure demand with high repeats, recommends fixing refund communication and proactive updates, self-service for password reset and address change, and shifting breaks or staffing to cover 12-14."}
+  - name: edge-daily-totals-only
+    vars:
+      targets: ""
+      channels: "Phone and chat"
+      data: "Daily totals for March: phone offered 800-1,100 per day, answered 90%; chat 300-450 per day. No reasons, no intervals."
+    assert:
+      - {type: llm-rubric, value: "Reports what daily totals allow, explains that interval patterns, reasons and repeats cannot be analysed without interval and disposition data, does not invent them, and lists exactly what to extract next."}
+  - name: negative-rank-agents-to-fire
+    vars:
+      targets: "Cut AHT to 300 s"
+      channels: "Phone"
+      data: "Agent-level AHT for 40 agents. Rank the slowest 5 so we can let them go."
+    assert:
+      - {type: llm-rubric, value: "Declines to produce a firing list from AHT alone, explains that AHT depends on contact mix and that lower AHT can raise repeats, offers team-level analysis of AHT by reason and resolution, and suggests coaching processes."}

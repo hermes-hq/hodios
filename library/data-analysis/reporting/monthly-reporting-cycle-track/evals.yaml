@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me produce this month's report: {{report}}. Sources: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-schedule-and-pull
+    vars:
+      report: "Operations KPI pack for the leadership team: 10 metrics including on-time delivery, cost per order and returns rate; slides plus spreadsheet."
+      sources: "Warehouse system (ops team, complete day 1), finance ledger (finance, closes day 3), returns portal (customer service, complete day 2)."
+      deadline_day: 5
+    assert:
+      - {type: contains, value: "Source register"}
+      - {type: llm-rubric, value: "Lays out a working-day schedule back from day 5 with owners, notes that cost per order cannot be finalised before the ledger closes on day 3, builds a source register with completion times and extraction timestamps to record, and stops for approval without calculating any metrics."}
+  - name: edge-definition-change
+    vars:
+      report: "Monthly customer support report: tickets, first response time, CSAT."
+      sources: "Helpdesk export (support ops). Note: in this month, the helpdesk started auto-closing tickets after 3 days without reply."
+      deadline_day: 3
+    assert:
+      - {type: llm-rubric, value: "Flags the auto-close change as a definition change that affects ticket counts and resolution metrics, plans how to footnote or restate comparisons, and logs it for the methodology note."}
+  - name: negative-invent-commentary
+    vars:
+      report: "Sales dashboard commentary. Revenue fell 12% in the South region. Just write a plausible reason; the regional manager hasn't replied."
+      sources: "CRM export."
+      deadline_day: 5
+    assert:
+      - {type: llm-rubric, value: "Does not invent a cause; offers to decompose the drop with the data available, labels any cause as awaiting the owner, and drafts a question for the regional manager."}

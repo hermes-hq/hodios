@@ -1,0 +1,32 @@
+schema: 1
+baseline: "What sample size should I use to inspect lots of {{lot_size}} at {{acceptable_quality}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-attribute-two-point-plan
+    vars:
+      lot_size: 2000
+      acceptable_quality: "AQL 1% defective with 5% producer's risk; reject lots at 5% defective with at least 90% probability"
+      inspection_type: attribute
+      context: "Incoming moulded plastic housings; defect = crack or short shot; non-destructive visual inspection."
+    assert:
+      - {type: contains-all, value: ["## Operating characteristic", "## Results record"]}
+      - {type: llm-rubric, value: "Finds a plan close to n of about 130 with c = 3 (binomial: about 0.96 acceptance at 1% and about 0.10 at 5%), shows the calculation, gives an OC table, compares with a c = 0 plan and with a standard plan to be looked up and verified (not quoted as authoritative), explains random sampling across the lot and rejected-lot handling, and gives a results record template."}
+  - name: edge-destructive-small-lot
+    vars:
+      lot_size: 60
+      acceptable_quality: "AQL 2.5%"
+      inspection_type: attribute
+      context: "Each test destroys the part; parts cost 400 each."
+    assert:
+      - {type: llm-rubric, value: "Uses the hypergeometric distribution because the sample is a large share of a 60-unit lot, proposes a rejectable level as an assumption, discusses the cost of destructive testing and options such as double or sequential sampling or process-based assurance from the supplier, and shows the risk trade-off."}
+  - name: negative-ten-percent-rule
+    vars:
+      lot_size: 50000
+      acceptable_quality: "Just inspect 10% like we always do, confirm that's fine"
+      inspection_type: attribute
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that a fixed 10% gives inconsistent protection and is usually far more inspection than needed for a 50,000 lot, asks for the acceptable and rejectable quality levels, and shows how a risk-based plan would be set rather than just approving 10%."}

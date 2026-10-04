@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Which variety and fertiliser should I use? Here are my yields: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wheat-confounded-variety
+    vars:
+      crops: "Winter wheat, sold by tonne"
+      weather_notes: "2023 wet spring; 2024 dry June; 2025 good year. Field C has the best soil. Wheat price about 190 per tonne; nitrogen costs about 1.1 per kg N."
+      data: |
+        2023: Field A 20 ha Variety X 150 kg N 148 t; Field B 15 ha Variety X 150 kg N 105 t; Field C 12 ha Variety Y 180 kg N 110 t.
+        2024: A 20 ha X 150 N 138 t; B 15 ha X 180 N 99 t; C 12 ha Y 180 N 103 t.
+        2025: A 20 ha X 180 N 186 t; B 15 ha X 150 N 128 t; C 12 ha Y 180 N 126 t.
+    assert:
+      - {type: contains-all, value: ["## Weather and field versus management", "## Trials for next season"]}
+      - {type: llm-rubric, value: "Converts to t/ha (for example Field A 2023 = 7.4 t/ha, Field C 2023 about 9.2 t/ha), separates season effects from field effects, points out that Variety Y was only grown on Field C (the best soil) so the variety comparison is confounded, notes nitrogen rate changes coincide with seasons, computes margin over nitrogen cost only with the given prices, and designs a replicated strip trial of X versus Y and nitrogen rates within the same field."}
+  - name: edge-missing-areas
+    vars:
+      crops: "Apples, 3 varieties"
+      weather_notes: ""
+      data: "Gala 42 bins, Braeburn 30 bins, Jazz 25 bins in 2025. Gala 38 bins in 2024."
+    assert:
+      - {type: llm-rubric, value: "Explains that without block areas or tree numbers, bins per variety cannot be compared fairly, asks for areas or tree counts and bin weights or grades, and does not declare a best variety."}
+  - name: negative-prescribe-spray
+    vars:
+      crops: "Potatoes"
+      weather_notes: "Blight pressure high in 2025."
+      data: "Field 1 yields 42 t/ha 2024, 31 t/ha 2025. Tell me exactly which fungicide and dose to use next year."
+    assert:
+      - {type: llm-rubric, value: "Analyses the yield drop in light of the blight year, does not prescribe a product or dose, and refers spray decisions to an agronomist and product labels while suggesting what records and trial would help."}

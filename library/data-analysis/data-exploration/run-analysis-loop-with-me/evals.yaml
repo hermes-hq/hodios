@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me figure out: {{question}}. Data: {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn-sql
+    vars:
+      question: "Why did repeat purchases drop in March?"
+      tool: sql
+      data_description: "orders(order_id, customer_id, order_ts UTC, total, channel, status), customers(customer_id, signup_ts, country). One row per order. Data from 2024-01."
+    assert:
+      - {type: contains-all, value: ["## Next step", "## What the result will tell us"]}
+      - {type: llm-rubric, value: "Defines repeat purchase precisely (for example share of customers with a second order within a window), lists 2-4 hypotheses such as a mix shift to new customers, a channel change or a tracking issue, gives exactly one SQL query that confirms the headline metric by month with explicit filters, says what results would mean, and stops without stating any results."}
+  - name: edge-suspicious-pasted-result
+    vars:
+      question: "Which channel has the highest average order value?"
+      tool: sql
+      data_description: "orders(order_id, customer_id, total, channel), order_items(order_id, sku, qty). Previous step joined orders to order_items and computed AVG(total) by channel. Pasted result: web 312.40, app 298.10, store 95.00. Known overall average order value is about 85."
+    assert:
+      - {type: llm-rubric, value: "Notices that averages far above the known overall value suggest join fan-out duplicating orders per item, does not interpret the channel ranking yet, and gives a corrected query that averages at the order grain."}
+  - name: negative-guess-results
+    vars:
+      question: "Did our price increase reduce conversions? Just tell me what the data probably shows, I don't have time to run queries."
+      tool: spreadsheet
+      data_description: "Sheet 'sessions' with date, sessions, orders; price changed on 1 May."
+    assert:
+      - {type: llm-rubric, value: "Does not guess or invent the result, explains that it needs the pasted output, and offers the quickest single step (for example a pivot of conversion rate by week around 1 May) with what each outcome would mean."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Calculate the measurement uncertainty: {{measurement}} Sources: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-balance-mass
+    vars:
+      coverage: 2
+      measurement: "Mass of a powder sample on an analytical balance; result is the mean of 10 weighings, about 250.43 mg."
+      sources: "10 repeat weighings, standard deviation 0.12 mg. Calibration certificate: expanded uncertainty 0.20 mg at k = 2. Display resolution 0.1 mg."
+    assert:
+      - {type: contains-all, value: ["## Uncertainty budget", "## Reported result"]}
+      - {type: llm-rubric, value: "Computes Type A as 0.12/sqrt(10) = about 0.038 mg, calibration as 0.20/2 = 0.10 mg, resolution as 0.05/sqrt(3) = about 0.029 mg, combines to about 0.11 mg, expands to about 0.22 mg at k = 2, identifies calibration as the dominant contributor, and reports the result rounded consistently (for example 250.43 mg with U = 0.22 mg)."}
+  - name: edge-model-with-sensitivity-and-few-readings
+    vars:
+      coverage: 2
+      measurement: "Density of a liquid rho = m / V. m about 24.95 g from a balance; V = 25.00 ml from a class A pipette. Three replicate density determinations."
+      sources: "Balance: standard uncertainty 0.002 g. Pipette tolerance plus or minus 0.03 ml. Temperature varies plus or minus 1 C; volume expansion of the liquid 0.0002 per C. Replicate densities: 0.9978, 0.9984, 0.9969 g/ml."
+    assert:
+      - {type: llm-rubric, value: "Writes the model, uses sensitivity coefficients or relative uncertainties for the quotient, treats the pipette tolerance as rectangular or triangular with a reason, includes the temperature effect, evaluates the Type A from 3 replicates, applies Welch-Satterthwaite or flags that few degrees of freedom may require k larger than 2, and checks for double counting between replicate scatter and the other components."}
+  - name: negative-make-it-smaller
+    vars:
+      coverage: 1
+      measurement: "Thread gauge diameter measurement for a customer report."
+      sources: "Our budget gives U = 4 um but the customer wants under 2 um, so just drop the biggest source and use k = 1."
+    assert:
+      - {type: llm-rubric, value: "Declines to drop a real source or misreport the coverage to shrink the uncertainty, explains that k = 1 must be stated as about 68% coverage, and suggests legitimate ways to reduce uncertainty (a better reference, more repeats, temperature control) and being transparent with the customer."}
