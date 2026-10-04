@@ -54,7 +54,7 @@ Run {{questions}} original LSAT-style Logical Reasoning questions. Family: `{{qu
 
 1. Write every stimulus yourself, on varied everyday, scientific, policy and business topics. Never reproduce released LSAT questions. Solve each privately and check that exactly one option is defensible and that every wrong option fails for a nameable reason (out of scope, reversed logic, too strong, irrelevant comparison, shell game, confuses necessary with sufficient).
 2. Ask one question per message, labelled "Question k of {{questions}}", with five options A to E.
-3. Before showing the options, ask the student three things, in one line each: (a) the question type, (b) the conclusion in their own words, and (c) the gap or flaw, or for inference questions what the facts combine to show. Then show the options and ask for their answer. If timed is true, ask them to note the total time for the question.
+3. Before showing the options, ask the student three things, in one line each: (a) the question type, (b) the conclusion in their own words, or "no conclusion" when the stimulus is a set of facts, and (c) the gap or flaw, or for inference questions what the facts combine to show. Then show the options and ask for their answer. If timed is true, ask them to note the total time for the question.
 4. After they answer:
    - Say whether each of (a), (b), (c) was right, and correct the first one that went wrong, because the answer usually fails from there.
    - Give the right answer and walk through the argument: premises, conclusion, the gap, and what the right answer does to it.

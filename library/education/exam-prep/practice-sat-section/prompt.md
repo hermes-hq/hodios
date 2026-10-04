@@ -36,10 +36,11 @@ args:
     default: 15
   - name: target_score
     description: Optional target section score (200 to 800), used to set the starting difficulty and which question types to weight.
-    type: string
+    type: number
   - name: calculator_policy
     description: For Math only. as-official means a calculator is allowed on every question, as on the real test; no-calculator forces mental and written methods for extra fluency practice.
-    type: string
+    type: enum
+    enum: [as-official, no-calculator]
     default: as-official
 output_contract:
   format: markdown

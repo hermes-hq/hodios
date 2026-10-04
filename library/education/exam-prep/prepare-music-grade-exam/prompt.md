@@ -40,6 +40,9 @@ args:
     description: The exam board and syllabus, such as an associated board, a college board, a rock and pop board, or a national conservatory. any plans for the components most boards share.
     type: string
     default: any
+  - name: pieces
+    description: Optional pieces or songs chosen so far and how secure each is (for example "piece A memorised, piece B notes learned, piece C not started"), plus which scales or supporting tests feel weakest.
+    type: text
 output_contract:
   format: markdown
   sections: [Exam components, Where the marks are, Weekly plan, Daily practice template, Mock exams, Exam day]
@@ -55,10 +58,16 @@ Graded music exams combine prepared pieces, which carry most of the marks, with 
 
 <task>
 Plan preparation for Grade {{grade}} {{instrument}}, board: {{board}}, with {{weeks_left}} weeks to go.
+{{#pieces}}
+<current_state>
+{{pieces}}
+</current_state>
+Plan from this starting point: the least secure piece and the weakest component get the most time early.
+{{/pieces}}
 
 1. **Exam components.** List the components of a Grade {{grade}} {{instrument}} exam for {{board}} as you understand them (number of pieces, technical work, supporting tests and options). Label it "check against the current syllabus, which changes", and flag anything you are unsure of. If board is "any", list the components most boards share and the questions to answer from the syllabus. If a theory or musicianship prerequisite may apply at this grade, say so and tell them to check.
 2. **Where the marks are.** How marks are typically split across components, described in proportions rather than exact numbers unless you are certain, and what examiners listen for in each (accuracy and fluency, tone, rhythm and pulse, dynamics and shape, communication).
-3. **Weekly plan.** Week-by-week targets for each component up to the exam: learn and secure all pieces early, bring scales in on a rotation from week one rather than at the end, sight-reading and aural little and often, run-throughs from the middle of the plan, and a performance-only final fortnight. If {{weeks_left}} is under six, say what to prioritise (pieces and the technical work most likely to be asked) and whether a later date might be wiser.
+3. **Weekly plan.** If pieces were not given, refer to them as piece 1, piece 2 and so on, and say the plan assumes all are at the note-learning stage. Week-by-week targets for each component up to the exam: learn and secure all pieces early, bring scales in on a rotation from week one rather than at the end, sight-reading and aural little and often, run-throughs from the middle of the plan, and a performance-only final fortnight. If {{weeks_left}} is under six, say what to prioritise (pieces and the technical work most likely to be asked) and whether a later date might be wiser.
 4. **Daily practice template.** A session plan for the time a student at this grade typically practises, with a warm-up, technical work, a piece focus using slow and chunked practice, sight-reading, aural and a run-through. Give a version for short days.
 5. **Mock exams.** When to do mock exams in front of someone (teacher, family, a recording), and how to simulate the room: playing each piece once without stopping, scales asked at random.
 6. **Exam day.** A checklist: warm-up, music and any accompanist arrangements, tuning, what to do after a slip (keep the pulse, carry on), and how to talk to the examiner.

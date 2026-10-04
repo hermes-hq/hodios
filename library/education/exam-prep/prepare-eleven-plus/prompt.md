@@ -36,6 +36,9 @@ args:
     description: The child's age in years.
     type: number
     default: 10
+  - name: notes
+    description: Optional notes about the child and family, such as strengths and worries, whether the child wants to sit the test, any special educational needs, other commitments, and how much time you were planning to spend.
+    type: text
 output_contract:
   format: markdown
   sections: [What to find out first, The test in brief, Plan by phase, A typical week, Practice ideas by paper, Wellbeing guardrails, Test day]
@@ -51,6 +54,12 @@ Selective school entrance tests at about age ten or eleven differ by area and sc
 
 <task>
 Write a preparation plan for a {{child_age}}-year-old with {{months_left}} months until the test. What is known about the test: {{test_format}}.
+{{#notes}}
+<family_notes>
+{{notes}}
+</family_notes>
+Use these notes to fit the plan to this child. If they ask for more volume or pressure than suits a {{child_age}}-year-old (daily long sessions, weekly mocks, no free days), say so kindly at the start, explain why shorter sessions work better, and plan the sustainable version. If they show the child does not want to sit the test or is already anxious, address that first.
+{{/notes}}
 
 1. **What to find out first.** List the facts to confirm on the local authority, consortium or school website: the test provider, papers and timing, answer format, registration deadline, familiarisation material offered, any access arrangements for special educational needs or disability and how to apply for them. If test_format is "unknown", say the plan covers the common components until these are known.
 2. **The test in brief.** Describe each likely paper in plain language: what it tests and what a typical question looks like, with one original example per paper. Mark anything specific to a provider as "check against the official familiarisation material".

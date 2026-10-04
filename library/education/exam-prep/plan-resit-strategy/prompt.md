@@ -27,16 +27,19 @@ args:
     description: The exam or module being resat, with the level and the format (written, practical, oral; length; question types) if known.
     type: string
     required: true
-  - name: result_feedback
-    description: Optional result, marks by section or question, examiner comments, and the student's own sense of what went wrong (preparation, the day, illness, anxiety, time).
-    type: text
   - name: weeks_until_resit
     description: Weeks until the resit.
     type: number
     required: true
+  - name: result_feedback
+    description: Optional result, marks by section or question, examiner comments, and the student's own sense of what went wrong (preparation, the day, illness, anxiety, time).
+    type: text
+  - name: hours_per_week
+    description: Optional realistic study hours per week for this resit, after work, other modules and caring duties. Without it the plan states the hours it assumed.
+    type: number
 output_contract:
   format: markdown
-  sections: [First, what the result tells you, What went wrong, What to change, Schedule, Support to ask for, Message to your tutor]
+  sections: [What the result tells you, What went wrong, What to change, Schedule, Support to ask for, Message to your tutor]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
@@ -44,33 +47,42 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-A failed or disappointing exam feels like a verdict, but it is data. Most resit failures happen because the student repeats the same method harder: rereading notes, more hours, the same timing mistakes. Resits go well when the student finds the specific cause (gaps in content, exam technique, timing, misreading questions, a bad day, illness or a personal crisis, anxiety) and changes the method to match, using active recall, past papers under timed conditions and feedback. Institutions often have processes that help: viewing the marked script, examiner reports, extenuating or mitigating circumstances, study skills and disability support, and rules about how resit marks are capped or recorded.
+A failed or disappointing exam feels like a verdict, but it is evidence about method and conditions. Most second failures come from repeating the first attempt harder: rereading the same notes for more hours, then making the same timing and technique mistakes on the day. Resits go well when the student names the specific cause and changes the method to match it. The usual causes are content gaps in particular topics; technique, such as ignoring the command word, not showing working or writing description where analysis was asked; timing, such as running out before the high-mark questions; misreading questions; and the conditions of the day, such as illness, a personal crisis or anxiety. The methods that work are active recall, spaced review, past papers under timed conditions, and marking one's own answers against mark schemes.
+
+Institutions usually have processes that change the plan: viewing the marked script, examiner or module reports, extenuating or mitigating circumstances claims (often with a short deadline), study-skills and disability support, and rules on resit format, number of attempts and whether the resit mark is capped. A student who has just failed rarely knows these exist.
 </context>
 
 <task>
 Plan a resit for {{exam}} with {{weeks_until_resit}} weeks to go.
+{{#hours_per_week}}Study time available: about {{hours_per_week}} hours a week.{{/hours_per_week}}
 {{#result_feedback}}
 <result_and_feedback>
 {{result_feedback}}
 </result_and_feedback>
 {{/result_feedback}}
 
-1. **First, what the result tells you.** Two or three calm, plain sentences: the result is information about method and conditions, not ability, and the plan below fixes the method. No platitudes.
-2. **What went wrong.** If feedback or marks were given, read them closely and classify the likely causes (content gaps by topic, technique such as not answering the command word or showing working, timing, misreading, the day itself, circumstances outside the student's control). Quote the evidence for each. If no feedback was given, list the questions the student should answer and the documents to request (marked script, examiner report, mark breakdown), and give a provisional diagnosis with the assumption stated.
-3. **What to change.** For each cause, a concrete method change: for content, active recall and spaced review of the specific topics; for technique, mark schemes and model answers studied against their own answers; for timing, timed sections with a per-question budget; for anxiety, practice under exam conditions and a routine for the first five minutes. Explain why each change addresses the cause.
-4. **Schedule.** A week-by-week plan for {{weeks_until_resit}} weeks: first diagnose and fill gaps, then mixed practice, then full timed papers with review, then light revision before the day. Include rest. If the time is very short, prioritise the highest-mark topics and technique.
-5. **Support to ask for.** What to check with the institution: resit rules (whether the mark is capped, number of attempts, format), whether extenuating or mitigating circumstances apply if illness or personal events affected the first attempt and the deadline for claiming them, access arrangements if a disability or condition may be involved, study-skills and tutoring support.
-6. **Message to your tutor.** A short, honest draft email the student can adapt, asking for feedback on the script and advice on the resit, written in the student's voice and leaving brackets for details only they know.
+Before planning, read what the student wrote for signs of distress.
+- Hopelessness or danger signals ("I don't see the point of anything", not sleeping or eating for days, giving up on everything, any mention of self-harm): do not start with the plan. Reply first in a few warm, plain sentences: reflect what they said, ask directly and kindly whether they are having thoughts of harming themselves, point to emergency services or a crisis line now if they are or might be, and in any case to their institution's wellbeing service, a doctor or someone they trust. Say the resit can wait a day. Give only a small first step: one message to send (to the tutor or the wellbeing service) and the two most useful actions for the coming week. Offer the full plan when they feel ready.
+- Ordinary upset (disappointment, embarrassment, worry): acknowledge it in one sentence and write the full plan.
+
+The full plan:
+
+1. **What the result tells you.** Two or three plain sentences: what the result does and does not show, and that the plan changes the method rather than adding hours. No platitudes.
+2. **What went wrong.** If marks or feedback were given, classify the likely causes and quote the evidence for each (a section score, an examiner comment, blank questions). Read score patterns: "70% on short answers, 10% on long questions, two left blank" points to long-answer technique and timing, not general weakness. If no feedback was given, give a provisional diagnosis with the assumption stated, the questions the student should answer about the first attempt, and the documents to request: the marked script, the mark breakdown and the examiner or module report.
+3. **What to change.** For each cause, one concrete method change and why it fixes that cause: content gaps, active recall and spaced review on the named topics; technique, their own answers marked against the mark scheme and a model answer; timing, timed sections with a per-question budget set from the marks available; misreading, a routine of marking the command word and the limits of each question; anxiety, practice under exam conditions and a plan for the first five minutes of the paper.
+4. **Schedule.** Week by week across {{weeks_until_resit}} weeks: get the script and feedback and fill the top gaps first, then mixed practice on weak areas, then full timed papers with self-marking, then light review before the day, with one rest day a week. Fit it to the hours available; if no weekly hours were given, state the hours you assumed. If the time is very short, put the highest-mark topics and technique first and say what is being left out.
+5. **Support to ask for.** Questions to put to the institution: the resit format and date, whether the mark is capped, the number of attempts left, whether extenuating or mitigating circumstances apply to the first attempt and the deadline for claiming them, access arrangements if a disability or health condition may be involved, and study-skills or tutoring support.
+6. **Message to your tutor.** A short, honest email in the student's voice asking to go through the script and for advice on the resit, with brackets for details only they know.
 </task>
 
 <constraints>
-- Tone: calm, direct, encouraging without false cheer. Do not blame the student, and do not dismiss real setbacks.
-- Do not invent the institution's rules; say "check your institution's regulations" for anything procedural.
-- If the student describes distress (panic, persistent low mood, not eating or sleeping), put a short, warm note first pointing to their institution's wellbeing or counselling service or a doctor, before the study plan.
+- Tone: calm, direct and respectful. No blame, no false cheer, and no dismissing real setbacks such as illness or bereavement.
+- Never invent the institution's rules, deadlines or caps; phrase them as things to check in the regulations or with the tutor.
+- Never imply the resit outcome is guaranteed.
+- Base the diagnosis on the evidence given, and label guesses provisional.
 {{> guardrails/crisis-safety}}
-- Never imply a resit outcome is guaranteed.
 </constraints>
 
 <output_format>
-Use the section headings from the output contract. What went wrong as a table: Cause | Evidence | Confidence. What to change as a table: Cause | New method | Why it works. Schedule as a table: Week | Focus | Activities | Checkpoint. The email in a quote block.
+Use the section headings from the output contract. When the distress branch applies, give only the short caring reply and the first step, with no headings. What went wrong as a table: Cause | Evidence | Confidence (high / medium / provisional). What to change as a table: Cause | New method | Why it works. Schedule as a table: Week | Focus | Activities | Checkpoint. The email in a quote block.
 </output_format>

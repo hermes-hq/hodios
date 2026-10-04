@@ -3,7 +3,7 @@ schema: 1
 id: write-college-activities-list
 kind: prompt
 title: Write a college activities list
-description: Turns a student's extracurriculars into a strong, truthful college activities list within character limits, using action verbs, numbers and an order that tells a coherent story.
+description: Turns a student's extracurriculars into a strong, truthful college activities list within each field's character limits, using action verbs, numbers and an order that tells a coherent story.
 category: studying
 version: 1.0.0
 status: incubating
@@ -28,13 +28,13 @@ args:
     type: text
     required: true
   - name: platform
-    description: The application platform, such as "Common-App", "UC application" or another portal, which sets the fields and the number of activities allowed.
+    description: The application platform. common-app and uc set the fields, entry count and limits as the assistant understands them; other uses the limits you give in field_limits.
+    type: enum
+    enum: [common-app, uc, other]
+    default: common-app
+  - name: field_limits
+    description: Optional character limits to use instead of the platform's, such as "position 50, organisation 100, description 150", and the maximum number of entries. Needed when platform is other.
     type: string
-    default: Common-App
-  - name: character_limit
-    description: Character limit for each activity description, including spaces.
-    type: number
-    default: 150
 output_contract:
   format: markdown
   sections: [Order and story, Activities, What I need from you, Checks]
@@ -45,29 +45,34 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Admissions readers spend seconds on each activity. An entry works when the position line says who you were, and the description leads with what you did and what changed because of it, with concrete numbers (people, hours, money, results) and no filler. Strong lists use telegraphic style: action verbs, no "I", minimal articles, semicolons to pack two achievements in. They put the most significant activities first, so the first few entries show a coherent picture. Inflation backfires: counselors, teachers and recommenders describe the same activities, and readers spot vague grandiosity. Character counts include spaces and are hard to estimate by eye.
+Admissions readers spend seconds on each activity, and the first entries shape their picture of the applicant. An entry works when the position line says who the student was, and the description leads with what they did and what changed because of it, with concrete numbers (people, hours, money, results) and no filler. Strong lists use a telegraphic style: action verbs, no "I", few articles, and semicolons to fit two achievements into one line. Inflation backfires: counselors and recommenders describe the same activities, and readers recognise vague grandiosity. Work, family responsibilities and caring for siblings are real activities and often say more than a club membership.
+
+Platform fields, as commonly understood (the student must confirm in the portal): the Common App allows 10 activities, each with an activity type, a position or leadership line of up to 50 characters, an organisation name of up to 100, a description of up to 150, grade levels, timing, hours per week and weeks per year. The UC application allows up to 20 entries in its own categories, with longer descriptions of up to 350 characters. Character counts include spaces and punctuation. Language models miscount characters, so the safe method is to write well inside the limit and have the student check in the portal.
 </context>
 
 <task>
-Write an activities list for {{platform}} with descriptions of at most {{character_limit}} characters each.
+Write an activities list for the `{{platform}}` platform.
+{{#field_limits}}Use these limits and entry count instead of the platform's: {{field_limits}}.{{/field_limits}}
 
 <activities>
 {{activities}}
 </activities>
 
-1. **Order and story.** Rank the activities by significance (depth of commitment, leadership, impact, relevance to the student's likely interests), and explain the order in three or four lines, including what picture the first three entries give. If there are more activities than {{platform}} allows, say which to cut or combine and why.
-2. **Activities.** For each, write: the position or leadership line, the organisation name, and the description. Keep to the student's facts. Use action verbs, numbers the student gave, and the result or impact; cut words that add nothing ("responsible for", "various", "helped to"). After each description, write its exact character count including spaces, counted carefully; if over {{character_limit}}, shorten it.
-3. **What I need from you.** List missing facts that would strengthen specific entries (a number, a result, the scale of something), phrased as questions. Never fill a gap with an invented figure; use a placeholder in brackets instead, such as "[number] students".
-4. **Checks.** Flag anything that reads as exaggerated relative to the facts given, any duplicates with what the personal statement might cover (if the student mentions it), and remind the student to re-check character counts in the portal itself, since portals count characters slightly differently.
+If platform is `other` and no limits were given, ask for the field limits and the number of entries allowed, and stop.
+
+1. **Order and story.** Rank the activities by significance: depth and length of commitment, hours, leadership, impact, and relevance to what the student seems to care about. Explain the order in three or four lines, including what picture the first three entries give together. If there are more activities than the platform allows, say which to cut or combine and why.
+2. **Activities.** For each, write the position line, the organisation name and the description, each inside its field's limit, plus the grade levels and hours as the student gave them. Keep strictly to the student's facts. Lead with the strongest verb and the result; cut words that add nothing ("responsible for", "various", "helped to", "participated in"). Write each description to about 90% of its limit, then count its characters including spaces and give the count, marked approximate. If a draft is over the limit, cut it before showing it.
+3. **What I need from you.** For each entry that would be stronger with a missing fact (a number, a result, the scale of something, what changed), ask for it as a specific question. In the draft, use a bracketed placeholder such as "[number] students" instead of inventing a figure.
+4. **Checks.** Flag anything that could read as exaggerated relative to the facts given, any entry that duplicates what the student says their personal statement covers, and remind them to paste each line into the portal and check the counter there.
 </task>
 
 <constraints>
-- Truthful only. Never upgrade a role (member to leader), invent numbers, results or awards, or imply responsibilities the notes do not support.
-- Keep the student's voice and facts; you are editing for compression and clarity.
-- Respect {{platform}} fields as you understand them; if you are unsure of its fields or limits, say so and ask.
-- Do not advise on whether to report hours dishonestly or pad activities.
+- Truthful only. Never upgrade a role (member to leader), invent numbers, results or awards, or imply responsibilities the notes do not support. If the student asks for inflation, decline in one sentence and write the strongest honest version.
+- Keep the student's facts and voice; you are editing for compression and clarity.
+- If you are unsure of a platform's fields or limits, say so and use the limits the student gives.
+- Do not advise padding hours or listing activities the student did not do.
 </constraints>
 
 <output_format>
-Use the section headings from the output contract. Activities as a table: Rank | Position | Organisation | Description | Characters. What I need from you as a numbered list of questions. Checks as bullets.
+Use the section headings from the output contract. Activities as a table: Rank | Position | Organisation | Grades and hours | Description | Characters (approx.). What I need from you as a numbered list of questions, each naming the entry. Checks as bullets.
 </output_format>
