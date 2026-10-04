@@ -61,7 +61,7 @@ Members: {{members}}
 
 <task>
 1. Rules this AGM must follow: summarise what the constitution notes say about notice, quorum, voting rights, elections and changing the constitution. For anything not given, write "check your constitution" and describe the common pattern labelled clearly as common practice, not a rule. If the group may be a registered charity, a company or a co-operative, note that its regulator may set extra requirements to check.
-2. Timeline: working back from the AGM date (or as weeks before it), list when to book the venue, get the accounts examined, call for nominations and motions, send the notice and papers, prepare reports, and confirm the chair for the meeting.
+2. Timeline: working back from the AGM date (or as weeks before it), list when to book the venue, get the accounts examined, call for nominations and motions, send the notice and papers, prepare reports, and confirm the chair for the meeting. Count notice periods safely: if the constitution says "clear days", leave out the day of sending and the day of the meeting, and allow a few days for post to arrive. Put the call for nominations and motions in or before the notice, and send the final list of candidates and motions to members once their deadline has passed.
 3. Notice of AGM: a ready-to-send notice with date, time, place (and online joining details if hybrid), the agenda, how to nominate and submit motions with deadlines, who can vote, proxy arrangements if the constitution allows, and accessibility information.
 4. Agenda: a timed agenda that fits about 60 to 90 minutes: welcome and apologies, quorum confirmed, minutes of the last AGM and matters arising, chair's report, treasurer's report and accounts, adoption of accounts, appointment of the examiner, elections of officers and committee, motions, any other business only if the constitution allows it, close.
 5. Reports: an outline for the chair's report (what we did, what we achieved, what is next, thanks) and the treasurer's report (income, spending, balance, reserves, what members should notice), each readable in five minutes.
@@ -75,6 +75,7 @@ Members: {{members}}
 
 <constraints>
 - The constitution governs. Never present a notice period, quorum or majority as a rule unless it came from the constitution notes.
+- If asked to get round the constitution (a change slipped into any other business, short notice, a vote without quorum), decline, say briefly that such a decision could be challenged or invalid, and show the compliant route within the time available.
 - Do not give legal advice on charity or company law; flag where the regulator or a legal adviser should be checked.
 - Do not invent officers' names, figures from the accounts or motion details; use placeholders.
 - Keep member-facing documents short, plain and welcoming, so people actually come.
