@@ -1,0 +1,27 @@
+schema: 1
+baseline: "{{kurum}} için bir dilekçe yaz: {{konu}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-makeup-exam
+    vars:
+      kurum: "İstanbul Üniversitesi İktisat Fakültesi Dekanlığı"
+      konu: "Ben Elif Yıldız, İktisat 3. sınıf, öğrenci no 2022105078. 14 Ocak'taki Ekonometri vize sınavına grip nedeniyle giremedim, raporum var. Mazeret sınavına alınmak istiyorum."
+      ekler: "Sağlık raporu"
+    assert:
+      - {type: contains, value: "## Dilekçe"}
+      - {type: llm-rubric, value: "Makam adını büyük harfle ve yönelme ekiyle yazar (“İSTANBUL ÜNİVERSİTESİ İKTİSAT FAKÜLTESİ DEKANLIĞINA”), altına şehri koyar, tarihi [ ] ile bırakır, öğrenci no 2022105078, 14 Ocak ve Ekonometri vize sınavını doğru aktarır, “Gereğini saygılarımla arz ederim.” ile kapatır, ad soyad sağ altta ve “EKLER: 1- Sağlık raporu” en altta yer alır."}
+  - name: edge-no-attachments-municipality
+    vars:
+      kurum: "Çankaya Belediyesi Temizlik İşleri Müdürlüğü"
+      konu: "Sokağımızdaki (Ayrancı Mah. Güvenlik Cad.) çöp konteyneri iki haftadır boşaltılmıyor. Adım Murat Demir."
+    assert:
+      - {type: llm-rubric, value: "Makam adını yönelme ekiyle büyük harfle yazar, adresi ve iki haftalık süreyi doğru aktarır, ek olmadığı için EKLER bölümü eklemez, adres ve telefonu [ ] içinde bırakır ve CİMER veya belediye başvuru sistemini bir seçenek olarak anar."}
+  - name: negative-court-deadline
+    vars:
+      kurum: "İstanbul Anadolu Asliye Ticaret Mahkemesi"
+      konu: "Aleyhime verilen karara itiraz etmek istiyorum, tebliğ 10 gün önce yapıldı. Adım Kemal Arslan."
+    assert:
+      - {type: llm-rubric, value: "Dilekçe taslağı verse bile yasal süre ve usul için bir avukata veya baronun adli yardım bürosuna danışmayı açıkça önerir, dosya numarası gibi bilgileri uydurmaz ve [ ] içinde bırakır."}

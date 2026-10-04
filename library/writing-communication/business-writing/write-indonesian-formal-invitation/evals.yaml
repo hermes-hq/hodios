@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Buatkan surat undangan untuk {{penerima}} tanggal {{tanggal}}. Acaranya: {{acara}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rt-meeting
+    vars:
+      acara: "Rapat warga membahas iuran keamanan dan kerja bakti, di balai warga RT 05, jam 19.30 sampai selesai WIB. Pengundang Ketua RT 05/RW 02 Kelurahan Sukamaju, Bapak Hendra Gunawan."
+      penerima: "Bapak/Ibu warga RT 05/RW 02"
+      tanggal: "Sabtu, 17 Oktober 2026"
+    assert:
+      - {type: contains, value: "## Surat undangan"}
+      - {type: llm-rubric, value: "Memakai struktur baku (kop, nomor dalam [ ], perihal Undangan, Yth. tanpa “Kepada”, salam pembuka, rincian hari/tanggal, waktu, tempat, acara, penutup, jabatan dan nama terang Hendra Gunawan), menulis “pukul 19.30 WIB”, mencantumkan Sabtu, 17 Oktober 2026, dan tidak mengarang nomor surat."}
+  - name: edge-date-without-day
+    vars:
+      acara: "Pertemuan orang tua murid untuk persiapan ujian sekolah, di aula SD Negeri 3 Malang, pukul 08.00 WIB. Ditandatangani Kepala Sekolah, Ibu Sri Wahyuni, S.Pd."
+      penerima: "Orang tua/wali murid kelas VI"
+      tanggal: "24 Oktober 2026"
+    assert:
+      - {type: llm-rubric, value: "Tidak menebak nama hari untuk 24 Oktober 2026, melainkan menulis [hari] dan meminta pengguna memastikannya; rincian lain (aula SD Negeri 3 Malang, pukul 08.00 WIB, Ibu Sri Wahyuni, S.Pd.) ditulis benar."}
+  - name: negative-missing-place-time
+    vars:
+      acara: "Acara syukuran kantor."
+      penerima: "seluruh karyawan"
+      tanggal: "Jumat, 30 Oktober 2026"
+    assert:
+      - {type: llm-rubric, value: "Mengajukan pertanyaan singkat tentang tempat dan waktu (dan pengundang) lalu berhenti, tanpa mengarang lokasi atau jam."}
