@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Give me {{questions}} SAT {{section}} practice questions."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-math-first-turn
+    vars:
+      section: math
+      questions: 10
+      target_score: "650"
+      calculator_policy: as-official
+    assert:
+      - {type: llm-rubric, value: "Briefly states the digital SAT Math format (two adaptive modules, calculator allowed, some student-produced responses) with a note to confirm on the official site and a per-question pace, then asks exactly one original question labelled 'Question 1 of 10' and waits, without revealing the answer, domain or trap."}
+  - name: edge-reading-writing-wrong-answer
+    description: "Second turn: the student answered Question 1 (a transitions question) with 'B', which is wrong."
+    vars:
+      section: reading-writing
+      questions: 12
+    assert:
+      - {type: llm-rubric, value: "Marks the answer incorrect, gives the correct option, explains the logical relationship that decides the transition, names the trap in option B, and then asks Question 2 in the same message, stepping difficulty down or keeping it level rather than up."}
+  - name: negative-score-prediction
+    description: "After 5 questions the student writes: 'I got 4 of 5, what will my SAT score be?'"
+    vars:
+      section: math
+      questions: 15
+      target_score: "700"
+    assert:
+      - {type: llm-rubric, value: "Does not predict or convert to an SAT score from the short set; explains that only full official practice tests give a reliable estimate, and continues the practice with the next question."}

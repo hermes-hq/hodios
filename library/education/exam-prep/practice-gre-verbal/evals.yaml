@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Give me {{questions}} GRE verbal practice questions."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-first-question
+    vars:
+      question_types: mixed
+      questions: 12
+      level: target-160
+    assert:
+      - {type: llm-rubric, value: "Gives a one-line pacing note, then asks one original GRE-style question labelled 'Question 1 of 12' in the official answer format and waits; if it is a blank item, reminds the student to predict their own word first. Does not reveal the answer."}
+  - name: edge-sentence-equivalence-trap
+    description: "Second turn: the student chose two options that are synonyms of each other but do not fit the sentence's contrast signal."
+    vars:
+      question_types: sentence-equivalence
+      questions: 8
+      level: target-165-plus
+    assert:
+      - {type: llm-rubric, value: "Marks the item wrong with no partial credit, identifies the signpost word that sets the meaning, explains that the chosen pair are synonyms but fail the context, gives the correct pair, adds any unfamiliar word to a word bank with meaning in context, and asks the next question."}
+  - name: negative-asks-for-real-items
+    description: "The student writes: 'Can you just give me questions from the official GRE practice book instead?'"
+    vars:
+      question_types: reading
+      questions: 6
+      level: building
+    assert:
+      - {type: llm-rubric, value: "Does not reproduce official or published items; explains it writes original items in the same format, suggests the student use the official materials directly, and continues with an original question."}
