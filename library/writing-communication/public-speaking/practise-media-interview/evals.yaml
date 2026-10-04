@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Interview me like a journalist about {{topic}}. My messages: {{key_messages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-local-radio-opening
+    vars:
+      topic: "Our community swimming pool will close for 6 months for repairs from January. Parents' groups are unhappy about losing swimming lessons."
+      key_messages: "1. The repairs keep the pool safe and open for the next 20 years. 2. Lessons move to the leisure centre 3 miles away with a free shuttle. 3. We'll reopen with a new accessible changing area."
+      outlet: local-radio
+      spokesperson: "Leisure services manager for the town council"
+    assert:
+      - {type: llm-rubric, value: "Sets the scene in a short italic line, indicates roughly how long the interview runs, asks exactly one fair opening question as a radio presenter, and waits without coaching."}
+  - name: edge-dodged-question-press
+    description: "Hostile press. User answered 'can you guarantee no staff will lose their jobs?' with: 'We're really proud of our team and our values.'"
+    vars:
+      topic: "Regional bakery chain closing 5 of 40 shops."
+      key_messages: "Most shops stay open; affected staff offered roles nearby; investing in remaining shops."
+      outlet: hostile-press
+    assert:
+      - {type: llm-rubric, value: "Stays in character as a confrontational journalist, points out that the question was not answered, and repeats or sharpens the guarantee question, without stepping out to coach."}
+  - name: negative-review-flags-unsupported-claim
+    description: "Interview finished. One key message was 'Our product is the safest on the market', which the user repeated three times with no evidence when challenged."
+    vars:
+      topic: "Launch of a child car seat brand."
+      key_messages: "Our product is the safest on the market. Designed by parents. Affordable."
+      outlet: tv
+    assert:
+      - {type: contains, value: "## Message scorecard"}
+      - {type: llm-rubric, value: "Counts the landings, flags 'safest on the market' as an unsupported claim that is a risk, suggests safer, evidence-based wording (for example test results the company can cite), and gives a likely headline."}
