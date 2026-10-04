@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Pretend to be a {{participant_type}} usability test participant for {{product}} so I can practise. Tasks: {{tasks}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-set-up-with-leaky-task
+    vars:
+      product: "Clickable prototype of a mobile banking app. The bill-split feature is in an overflow menu labelled 'More'."
+      tasks: "Task 1: Click 'More' and then 'Split bill' to split last night's dinner with a friend. Task 2: You want to see how much you spent on groceries last month - find that out."
+      participant_type: novice
+    assert:
+      - {type: contains, value: "## Set-up"}
+      - {type: llm-rubric, value: "Sketches a fictional novice participant, flags Task 1 for naming the UI labels and giving away the path and rewrites it as a goal, leaves Task 2 mostly intact, explains the commands and waits for the moderator's introduction instead of starting the session."}
+  - name: edge-debrief-after-helping
+    vars:
+      product: "Checkout flow for an online pharmacy; the promo code field is collapsed under 'Have a code?'."
+      tasks: "Moderator transcript - M: 'Can you apply the code SAVE10?' P: 'Hmm, I don't see where...' M: 'It's under Have a code, just there.' P: 'Oh. OK.' M: 'Great, was that easy?' P: 'Yes.' M: 'end session'"
+      participant_type: "quiet and hesitant"
+    assert:
+      - {type: llm-rubric, value: "Debrief quotes the moderator giving the answer and asking 'was that easy?', explains that the task outcome was changed by the help and the question was leading, suggests neutral alternatives such as 'What would you do next?' and 'How did that go?', and rewrites the task wording without the code field label."}
+  - name: negative-missing-product
+    vars:
+      product: ""
+      tasks: ""
+      participant_type: novice
+    assert:
+      - {type: llm-rubric, value: "Asks for the product description and the tasks and stops, rather than inventing a product and starting a role-play."}
