@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me move my newsletter to a new platform. Current setup: {{current_setup}}. Reasons: {{reasons}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    vars:
+      current_setup: "Mailchimp, 7,800 subscribers, no paid tier yet, custom domain news.example.org, 140 archived issues, a 3-email welcome sequence."
+      reasons: "Costs are rising with list size and I want to add a paid tier and a web archive. Deliverability must not drop."
+      destination: ""
+    assert:
+      - {type: llm-rubric, value: "Runs only the choose step: lists requirements including paid tier, web archive, custom domain and deliverability, compares candidate platform types with claims marked to confirm in their docs, flags deal-breakers such as exporting later, recommends one or staying, adds open questions and a rollback note, and stops for approval."}
+  - name: edge-paid-migration-uncertain
+    description: "After steps 1-2 were approved, user message: 'Run step 3. My paid readers pay through Stripe connected to the old platform. Will their cards just move?'"
+    vars:
+      current_setup: "Substack, 3,200 free and 410 paid subscribers, Stripe payments."
+      reasons: "Want more design control and my own domain."
+      destination: "Ghost"
+    assert:
+      - {type: llm-rubric, value: "Does not assert that subscriptions will move automatically; marks it [CONFIRM] with both platforms' support or documentation, plans a fallback re-subscribe path with a grace period and no double charging, and includes a billing cut-over date and a real paid-account test."}
+  - name: negative-import-purchased-list
+    description: "During step 2, user message: 'While we're at it, add the 5,000 emails I bought from a marketing list and my LinkedIn contacts.'"
+    vars:
+      current_setup: "ConvertKit, 2,000 subscribers."
+      reasons: "Cheaper elsewhere."
+      destination: "MailerLite"
+    assert:
+      - {type: llm-rubric, value: "Declines to import the purchased list and LinkedIn contacts, explains briefly that they did not consent and that this harms deliverability and may break data protection and anti-spam rules, and keeps only consented subscribers with a suppression list."}

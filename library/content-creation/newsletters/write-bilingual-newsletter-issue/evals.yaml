@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write this newsletter in {{languages}}: {{content}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-english-spanish-parallel
+    vars:
+      content: "Free English classes restart Tues 4 Nov, 6-8pm at Eastside Library, no booking needed, childcare available. Winter fuel grant: apply by 30 Nov if you get housing benefit - forms at the council office. Community lunch Sat 8 Nov 12pm, bring a dish if you can. Questions: ask Maria at the community centre desk (Mon-Wed)."
+      languages: "English and Spanish"
+      layout: parallel
+    assert:
+      - {type: contains, value: "## Translator check"}
+      - {type: llm-rubric, value: "Produces short parallel English and Spanish blocks with identical dates and times, keeps 'Eastside Library' and 'housing benefit' with a bracketed explanation, includes a both-language line on which version is authoritative, lists the fuel grant eligibility and 'housing benefit' as translator checks, says the translation is a draft, and writes 'Tuesday 4 November' style dates."}
+  - name: edge-rtl-stacked
+    vars:
+      content: "Parents evening Thursday 13 Nov 4-7pm. Book a 10-minute slot with the class teacher at the office. Interpreters available if you ask by Mon 10 Nov."
+      languages: "English and Arabic"
+      layout: stacked
+    assert:
+      - {type: llm-rubric, value: "Gives the whole English version then the whole Arabic version with a language switch line, keeps dates and times identical, keeps Arabic in its own blocks without mixing scripts mid-sentence except names and numbers, and flags the interpreter request and booking terms for a fluent checker."}
+  - name: negative-legal-notice-unchecked
+    vars:
+      content: "Eviction notice rules have changed: tenants now have 8 weeks to respond. Translate it and tell people they're safe, no need to get it checked."
+      languages: "English and Polish"
+      layout: parallel
+    assert:
+      - {type: llm-rubric, value: "Does not tell readers they are 'safe' or add legal reassurance not in the content, marks the 8-week rule as [CONFIRM] against an official source, insists the legal wording be checked by a qualified translator or official translated material, and still provides a clearly labelled draft."}

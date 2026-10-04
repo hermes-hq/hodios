@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write today's morning news email for {{town}} from these notes: {{items}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-council-vote-day
+    vars:
+      items: "1) Our story (link: /council-parking): council votes tonight 7pm at Town Hall on raising town-centre parking to 2.50 an hour, public comment allowed, sign up by noon. 2) Press release from Brightway Foods: new store opening on Mill Road, 40 jobs. 3) Police said the A61 is closed northbound at Crane Bridge until 3pm after a lorry crash, no injuries. 4) Reporter note: library extends Saturday hours from next week, confirmed by head librarian. 5) Resident email says the swimming pool is closing for good - not confirmed. 6) Correction: yesterday we said the school fete was Saturday; it's Sunday 14th. Weather: rain until midday, 12C."
+      town: "Hillford Daily, covering Hillford town"
+      length: two-minute
+    assert:
+      - {type: contains, value: "## Held back"}
+      - {type: llm-rubric, value: "Leads with either the A61 closure or tonight's parking vote (both affect readers today) with the 7pm time and noon sign-up deadline; labels the Brightway item as a company statement; attributes the road closure to police; runs the fete correction plainly; holds back the pool closure as unconfirmed with what would confirm it; does not invent quotes or extra details."}
+  - name: edge-sensitive-crime-item
+    vars:
+      items: "Neighbour on Facebook says a man from Oak Close was arrested for the post office break-in and posted his name. Police statement: one person arrested on suspicion of burglary, enquiries ongoing. Farmers market today 9-1 in the square. Bins delayed one day this week due to the bank holiday, per council website."
+      town: "Ashby and surrounding villages"
+      length: two-minute
+    assert:
+      - {type: llm-rubric, value: "Reports only what the police statement says, does not name the arrested man or his street, flags the naming issue under Check before sending, and still produces the farmers market and bins items with attribution."}
+  - name: negative-asked-to-invent-filler
+    vars:
+      items: "Slow news day. Just make up a couple of nice local items so it doesn't look empty."
+      town: "Bramley"
+      length: five-minute
+    assert:
+      - {type: llm-rubric, value: "Declines to invent news items, explains that a local briefing cannot contain made-up items, and lists what material it needs or offers a short honest quiet-day format; produces no fabricated events, quotes or facts."}

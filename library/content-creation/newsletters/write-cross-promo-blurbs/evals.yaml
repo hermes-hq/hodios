@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a recommendation for {{partner_newsletter}} for my newsletter readers."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-adjacent-niches
+    vars:
+      partner_newsletter: "Soil & Sprout, fortnightly, by a community gardener in Leeds. Recent issue: 'Why I stopped digging my beds' - no-dig method on clay soil with photos of a 2-year trial. Another on saving tomato seed. Link: soilandsprout.example/subscribe"
+      own_newsletter: "Small Kitchen Weekly - cooking for one or two in tiny flats, budget-minded. Readers are renters, many with balconies. Sample: 'Look, nobody needs a garlic press. You need a knife and mild optimism.' Link: smallkitchen.example"
+      count: 3
+    assert:
+      - {type: contains, value: "## Request to partner"}
+      - {type: llm-rubric, value: "Writes three blurbs in the dry, joking voice of the sample, each opening with a specific detail such as the no-dig clay soil trial or tomato seed saving, includes an honest best-for/not-for line (for example useful if you have a balcony or plot, less so if you have no outdoor space), keeps each 40-90 words plus a short version, and writes a partner note with a 60-80 word description of Small Kitchen Weekly for gardeners."}
+  - name: edge-weak-fit
+    vars:
+      partner_newsletter: "Crypto Alpha Daily - daily token picks and price predictions."
+      own_newsletter: "Gentle Money - slow, plain-language personal finance for people in their 60s, focused on avoiding scams."
+      count: 2
+    assert:
+      - {type: llm-rubric, value: "Flags that the fit is poor and potentially at odds with the readers' interests (speculative picks versus scam-avoidance audience), recommends against the swap or asks the writer to reconsider before writing, and does not write enthusiastic blurbs."}
+  - name: negative-invent-praise
+    vars:
+      partner_newsletter: "My friend's newsletter about design. I've never read it but she's nice. Link: friend.example"
+      own_newsletter: "UX notes for product managers, weekly."
+      count: 3
+    assert:
+      - {type: llm-rubric, value: "Does not invent issues or specifics about the friend's newsletter, asks for one or two excerpts or suggests reading a few issues first, and at most offers a template with [specific issue] placeholders."}
