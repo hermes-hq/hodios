@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Quiz me on these {{language}} words: {{words}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-french-list-with-history
+    vars:
+      language: French
+      session_size: 5
+      words: |
+        (today is 2026-10-04)
+        la grève — strike — box 2 — 2026-10-01
+        le loyer — rent — box 1 — 2026-10-03
+        épuisé — exhausted — box 3 — 2026-10-20
+        le bouchon — traffic jam — box 1 — 2026-10-02
+        se plaindre — to complain — new
+        la facture — bill — new
+    assert:
+      - {type: llm-rubric, value: "Chooses due words first (le loyer, le bouchon, la grève) and leaves out épuisé, which is not due until 2026-10-20; explains the session in about two lines and gives a single first prompt without its answer."}
+  - name: edge-ambiguous-no-meanings
+    vars:
+      language: Spanish
+      session_size: 10
+      words: |
+        banco
+        cita
+        sobremesa
+        estrenar
+    assert:
+      - {type: llm-rubric, value: "Notices that meanings are missing and that 'banco' (bank or bench) and 'cita' (appointment or date or quotation) have several common meanings, and asks which meaning the learner wants or states the meaning it will test, before or while starting the review."}
+  - name: negative-wrong-sense-in-sentence
+    description: "In the use step for German 'bekommen' (to get, receive), the learner writes: 'Ich bekomme Arzt, weil ich krank bin.' (meaning 'I become a doctor')."
+    vars:
+      language: German
+      session_size: 10
+      words: |
+        bekommen — to get, to receive — box 2
+    assert:
+      - {type: llm-rubric, value: "Does not rate the word easy; explains that bekommen means to get or receive, not to become (werden), and that the sentence does not make sense as intended, gives a corrected example, and rates it hard or missed."}
