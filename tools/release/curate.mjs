@@ -39,7 +39,7 @@ export const HEADER = `# curated.txt: the curated tier, one id per line, sorted.
  *   aliases: string[], evalCases: number, examples: boolean}} Candidate
  * @param {Candidate[]} entries every live entry
  * @param {{listed: Iterable<string>, excluded?: Iterable<string>, target?: number, max?: number}} opts
- * @returns {{ids: string[], added: string[], dropped: string[], waiting: string[]}} `waiting`: eligible new entries
+ * @returns {{ids: string[], added: string[], dropped: string[], waiting: string[]}} `waiting`: eligible entries not listed,
  *   left out because the list reached min(target, max); they stay in the verified tier.
  */
 export function selectCurated(entries, { listed, excluded = [], target = TARGET, max = MAX }) {
@@ -171,7 +171,7 @@ async function main() {
   const waitingOther = result.waiting.filter((id) => kinds.get(id) !== 'prompt');
   if (result.waiting.length > 0)
     console.log(
-      `Full at ${Math.min(target, MAX)}: ${result.waiting.length} new entries stay verified` +
+      `Full at ${Math.min(target, MAX)}: ${result.waiting.length} entries not listed stay verified` +
         (waitingOther.length > 0 ? `, including ${waitingOther.length} non-prompt: ${waitingOther.join(', ')}` : '.'),
     );
 }
