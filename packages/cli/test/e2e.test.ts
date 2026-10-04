@@ -210,6 +210,29 @@ describe('hodios search, show, use', () => {
     expect(json.profile.works).toEqual(['claude-code']);
   });
 
+  it('lists stack entries first in an empty search inside a Next.js project', async () => {
+    const dir = project('nextjs-app');
+    writeFileSync(
+      join(dir, 'package.json'),
+      '{"dependencies":{"next":"15.0.0","react":"19.0.0","react-dom":"19.0.0"},"devDependencies":{"typescript":"5"}}',
+    );
+    writeFileSync(join(dir, 'next.config.js'), 'module.exports = {};\n');
+    mkdirSync(join(dir, 'app'));
+    writeFileSync(join(dir, 'app', 'page.tsx'), 'export default function Page() { return null; }\n');
+    const json = JSON.parse((await cli(['search', '--json', '--limit', '5'], { cwd: dir })).out) as {
+      profile: { stack: string[] };
+      hits: { id: string; stack: string[]; why: string[] }[];
+    };
+    expect(json.profile.stack).toEqual(expect.arrayContaining(['nextjs', 'react']));
+    expect(json.hits).toHaveLength(5);
+    for (const hit of json.hits) expect(hit.why.join(' ')).toMatch(/your project uses/);
+    expect(json.hits[0]?.why).toEqual(['your project uses Next.js']);
+    expect(json.hits.some((h) => h.id.startsWith('academic'))).toBe(false);
+    const text = (await cli(['search', '--limit', '3'], { cwd: dir })).out;
+    expect(text).toMatch(/^For this project \(stack [^)]*nextjs/);
+    expect(text).not.toMatch(/\nacademic/);
+  });
+
   it('shows an entry and its compiled file for a target, by id or alias', async () => {
     expect((await cli(['show', 'review-pr'])).out).toContain('Review a pull request (review-pull-request)');
     const copilot = await cli(['show', 'review-pull-request', '--target', 'copilot']);

@@ -170,18 +170,28 @@ function textScore(row: CatalogRow, terms: readonly string[]): number | undefine
   return total;
 }
 
-function boost(
-  row: CatalogRow,
-  profile: Profile | undefined,
-  vocab: VocabObject | undefined,
-): { score: number; reasons: string[] } {
-  if (!profile) return { score: 0, reasons: [] };
+/** Personal boost: score, the reasons shown, and `fit` (how specific the stack match is) to break ties. */
+interface Boost {
+  score: number;
+  reasons: string[];
+  fit: number;
+}
+
+function boost(row: CatalogRow, profile: Profile | undefined, vocab: VocabObject | undefined): Boost {
+  if (!profile) return { score: 0, reasons: [], fit: 0 };
   let score = 0;
+  let fit = 0;
   const reasons: string[] = [];
   const label = (facet: string, v: string) => vocab?.facets[facet]?.labels[v] ?? v;
   if (profile.stack?.length && row.stack.length) {
     const expanded = new Set(profile.stack.flatMap((s) => [...impliesOf(vocab, 'stack', s)]));
-    const hit = row.stack.find((s) => expanded.has(s));
+    // The most specific stack value wins (nextjs over react over javascript): it names the reason and breaks ties.
+    let hit: string | undefined;
+    for (const s of row.stack) {
+      if (!expanded.has(s)) continue;
+      const depth = impliesOf(vocab, 'stack', s).size;
+      if (depth > fit) [hit, fit] = [s, depth];
+    }
     if (hit) {
       score += WEIGHTS.stack;
       reasons.push(`your project uses ${label('stack', hit)}`);
@@ -206,12 +216,12 @@ function boost(
       reasons.push(`you chose ${label(facet, hit)}`);
     }
   }
-  return { score, reasons };
+  return { score, reasons, fit };
 }
 
 /**
- * In-memory search backend (MVP, offline and curated-shard search). Rows are filtered by facets, taken in static
- * rank order up to `candidates`, then reranked by text relevance plus personal boosts. Cost is bounded by the cap,
+ * In-memory search backend (MVP, offline and curated-shard search). Rows are filtered by facets, taken in personal-fit
+ * then static rank order up to `candidates`, then reranked by text relevance plus personal boosts. Cost is bounded by the cap,
  * not the catalog size; the SQL backend (Hermes, registry) runs the same plan over FTS5.
  */
 export function search(
@@ -233,8 +243,18 @@ export function search(
     return { field: spec.field, accepted };
   });
 
+  // With a profile, candidates are taken in order of personal fit first, so the cap never cuts off the entries that
+  // fit the project (in static order alone, an empty search only reached the alphabetically first `cap` rows).
+  const boosts = new Map<CatalogRow, Boost>();
+  const boostOf = (row: CatalogRow) => {
+    let b = boosts.get(row);
+    if (!b) boosts.set(row, (b = boost(row, profile, vocab)));
+    return b;
+  };
+  const personal = (a: CatalogRow, b: CatalogRow) =>
+    profile ? boostOf(b).score - boostOf(a).score || boostOf(b).fit - boostOf(a).fit : 0;
+  const ordered = [...rows].sort((a, b) => personal(a, b) || compareStatic(a, b));
   const matched: { row: CatalogRow; text: number }[] = [];
-  const ordered = [...rows].sort(compareStatic);
   for (const row of ordered) {
     if (!filters.every((f) => asList(row[f.field]).some((v) => f.accepted.has(v)))) continue;
     const text = textScore(row, q.terms);
@@ -243,10 +263,10 @@ export function search(
     if (matched.length >= cap) break;
   }
   const hits = matched.map(({ row, text }) => {
-    const b = boost(row, profile, vocab);
+    const b = boostOf(row);
     return { row, score: text + b.score, reasons: b.reasons };
   });
-  hits.sort((a, b) => b.score - a.score || compareStatic(a.row, b.row));
+  hits.sort((a, b) => b.score - a.score || personal(a.row, b.row) || compareStatic(a.row, b.row));
   const offset = opts.offset ?? 0;
   const limit = opts.limit ?? 20;
   return { hits: hits.slice(offset, offset + limit), total: hits.length, capped: matched.length >= cap };

@@ -58,6 +58,18 @@ curl https://purge.jsdelivr.net/gh/hermes-hq/hodios-dist@latest/catalog/v1/manif
 curl https://purge.jsdelivr.net/gh/hermes-hq/hodios-dist@latest/catalog/v1/manifest.json.minisig
 ```
 
+## npm packages
+
+The CLI (`@hermes-hq/hodios`) and its libraries are published to npm by the maintainer, whose account needs a passkey, so no release script publishes them. Publish in dependency order (`packages/schema`, `packages/core`, `packages/cli`) after `npm run build`, and only the packages whose version changed.
+
+**Pending publish:** `@hermes-hq/hodios-core` 0.1.1 and `@hermes-hq/hodios` 0.1.1 (npm has 0.1.0). In a project folder, `hodios search` with no query now lists entries for the project's stack first; 0.1.0 listed the alphabetically first entries (`academic`, …) because the candidate cap ran before the project boost. Until they are published, `npx -y @hermes-hq/hodios` runs 0.1.0 with that bug. `@hermes-hq/hodios-schema` is unchanged at 0.1.0.
+
+```sh
+npm run build && (cd packages/core && npm publish) && (cd packages/cli && npm publish)
+```
+
+Remove this note once both are on npm.
+
 ## Signing key
 
 Hermes IDE applies a runtime catalog update only when `catalog/v1/manifest.json.minisig` verifies with a public key compiled into the app. Every other catalog file is named by its sha256 and reached from the manifest, so this one signature covers the whole catalog.

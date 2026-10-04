@@ -150,6 +150,13 @@ describe('search', () => {
     expect(result.hits[0]?.reasons[0]).toMatch(/your project uses (Next\.js|React)/);
   });
 
+  it('takes profile matches into the candidate cap first, most specific stack first', () => {
+    // In static order fix-flaky-test sorts first, so a cap of 2 used to drop test-nextjs-pages or test-react-hooks.
+    const result = search(rows, '', { vocab: vocabObject, profile: { stack: ['nextjs'] }, candidates: 2 });
+    expect(result.hits.map((h) => h.row.id)).toEqual(['test-nextjs-pages', 'test-react-hooks']);
+    expect(result.hits[0]?.reasons).toEqual(['your project uses Next.js']);
+  });
+
   it('pages and caps candidates', () => {
     expect(search(rows, '', { limit: 2, offset: 2 }).hits).toHaveLength(2);
     expect(search(rows, '', { candidates: 3 }).capped).toBe(true);
