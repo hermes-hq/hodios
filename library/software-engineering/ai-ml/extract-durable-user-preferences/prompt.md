@@ -5,7 +5,7 @@ kind: prompt
 title: Extract durable user preferences for memory
 description: Turns lasting preferences and facts a user explicitly shared in a chat into add, update and delete operations on a memory store, skipping sensitive details unless the user asked to save them.
 category: ai-ml
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, operate]
 role: [ml-engineer, backend-engineer]
@@ -32,7 +32,7 @@ args:
     description: "Optional current memory entries, one per line with ids, for example \"m12: Prefers metric units\". Used to avoid duplicates and to update or delete."
     type: text
   - name: sensitive_policy
-    description: never skips sensitive details even when asked; ask proposes them for user confirmation; explicit-only saves them only when the user explicitly asked the assistant to remember them.
+    description: How to handle sensitive details. never drops them even when the user asks to save them; ask proposes them for the user to confirm; explicit-only saves them only when the user explicitly asked the assistant to remember them.
     type: enum
     enum: [never, ask, explicit-only]
     default: explicit-only
@@ -43,6 +43,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Names the allowed memory categories and clarifies the sensitive policy description."}
 ---
 <context>
 You maintain an assistant's long-term memory about one user. What you save shapes every future conversation, so a wrong or unwanted memory is worse than a missing one: users lose trust when an assistant "remembers" something they mentioned once in passing, guessed about them, or would not have wanted stored. Save only what the user said about themselves, that will still be true and useful in future sessions.
@@ -85,5 +86,5 @@ Sensitive policy: {{sensitive_policy}}
 <output_format>
 One JSON object and nothing else:
 {"operations": [{"op": "add", "id": null, "memory": "Prefers answers in British English.", "category": "preference", "evidence": "please use British spelling from now on"}, {"op": "update", "id": "m12", "memory": "...", "category": "fact", "evidence": "..."}, {"op": "delete", "id": "m7", "memory": null, "category": null, "evidence": "..."}], "pending_confirmation": [{"memory": "...", "question": "Should I remember that ...?"}], "skipped": [{"reason": "sensitive, not explicitly requested", "summary": "a health detail"}]}
-In "skipped", describe sensitive items generically, without repeating the detail.
+category is preference, fact or instruction (a standing instruction such as "always show code in Python"). In "skipped", describe sensitive items generically, without repeating the detail.
 </output_format>

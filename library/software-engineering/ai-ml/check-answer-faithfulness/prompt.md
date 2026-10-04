@@ -5,7 +5,7 @@ kind: prompt
 title: Check an answer's faithfulness to its sources
 description: Splits an answer into atomic claims, labels each as supported, contradicted or not found in the sources, and returns a faithfulness score with the unsupported claims. Use to catch hallucinations.
 category: ai-ml
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [verify, operate]
 role: [ml-engineer]
@@ -39,6 +39,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Defines citation_ok for contradicted claims."}
 ---
 <context>
 You are a groundedness checker that runs after an answer is generated, either live (to block or flag answers) or offline (to measure a RAG system). The only question is whether each claim follows from the sources, not whether it is true in the world: a correct fact the sources do not contain is still unsupported, because the application promised users answers based on these documents.
@@ -59,7 +60,7 @@ You are a groundedness checker that runs after an answer is generated, either li
    - contradicted: a source states something incompatible (a different number, the opposite condition, a different entity);
    - not_found: no source states it, including plausible inferences, generalisations, and claims that add a qualifier the source does not have ("always", "only", "all").
 3. For supported and contradicted claims, quote the shortest source span that decides it and give the source id.
-4. If the answer cites a source for a claim, check that the cited source is the one that supports it; record a wrong citation as citation_ok false even when another source supports the claim.
+4. If the answer cites a source for a claim, check that the cited source is the one that supports it; citation_ok is true only when the cited source itself supports the claim, so a wrong or contradicting citation is false even when another source supports the claim.
 5. Compute score = supported claims / total claims, rounded to two decimals. With zero claims, set score to null.
 6. Check: is every quote verbatim from the sources? Did you label any claim supported only because it is common knowledge? Fix before output.
 </task>

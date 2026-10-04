@@ -3,9 +3,9 @@ schema: 1
 id: generate-synthetic-test-data
 kind: prompt
 title: Generate synthetic test records from a schema
-description: Generates synthetic records that match a schema and stated distributions, with deliberate edge cases, locale diversity and no real people's data. Use for test fixtures, eval sets and demos.
+description: Generates a synthetic dataset of one record type that hits stated distributions, labels its edge cases and opt-in invalid records with the expected result, and uses no real people's data.
 category: ai-ml
-version: 1.0.0
+version: 2.0.0
 status: incubating
 stage: [build, verify]
 role: [ml-engineer, qa-engineer, data-engineer]
@@ -29,7 +29,7 @@ args:
     type: text
     required: true
   - name: count
-    description: Number of records to generate. For more than about 200, generate in batches and pass the last id back in.
+    description: Number of records in this batch. Above about 200, generate several batches and set start_index for each one.
     type: number
     default: 50
   - name: distributions
@@ -38,6 +38,14 @@ args:
   - name: edge_cases
     description: Optional specific edge cases to include, such as empty optional fields, very long names, leap-day dates, zero amounts or non-Latin scripts.
     type: text
+  - name: invalid_share
+    description: Percentage of records that deliberately break one schema rule, for testing validators and error handling. 0 means every record is valid.
+    type: number
+    default: 0
+  - name: start_index
+    description: Number of the first record in this batch, so ids and the planned mix continue across batches. Use 1 for the first batch, 201 for the second batch of 200, and so on.
+    type: number
+    default: 1
   - name: locale_mix
     description: Which locales to draw names, addresses, phone and date formats from, for example "de-DE, ja-JP, pt-BR", or varied for a broad global mix.
     type: string
@@ -54,10 +62,10 @@ authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
-  - {version: 1.0.0, note: "First version."}
+  - {version: 2.0.0, note: "First version."}
 ---
 <context>
-You generate fake data for testing software and evaluating models. Useful synthetic data looks realistic, respects every rule in the schema, covers the awkward cases real users produce, and can never be mistaken for, or traced to, a real person. Data generated without a plan tends to be repetitive (the same five names, all amounts round, everyone in one country), which hides bugs instead of finding them.
+You generate a synthetic dataset of one record type (a flat row or a nested JSON document) to test validators, APIs, data pipelines, dashboards and models. What makes such a dataset useful is its shape as a whole: target distributions actually hit, realistic variety across locales, edge cases placed on purpose, and, when asked, invalid records whose expected outcome is known in advance so a test can assert on it. Unplanned generation drifts into the same five names, round amounts and one country, which hides bugs instead of finding them. The data must never be traceable to a real person.
 
 <schema>
 {{schema}}
@@ -72,27 +80,29 @@ Required edge cases: {{edge_cases}}
 {{/edge_cases}}
 
 Locale mix: {{locale_mix}}
+Invalid share: {{invalid_share}}%
+Batch: {{count}} records starting at record {{start_index}}
 </context>
 
 <task>
-Generate {{count}} records in {{format}} format.
-
-1. Read the schema and list for yourself every type, format, enum, required field, uniqueness rule and cross-field rule. If a field has no type or allowed values and you cannot infer them safely, stop and ask for that detail instead of generating.
-2. Plan the mix before writing: how many records per category to hit the distributions (or a realistic spread if none were given), and which records will carry edge cases. Aim for roughly one record in ten to be an edge case unless the user specified otherwise, and include every requested edge case at least once.
-3. Make values varied and plausible: names, addresses and phone formats from the requested locales in their native scripts and conventions; uneven amounts; dates spread across the range; free-text fields with different lengths and tones.
-4. Keep data clearly fictional:
-   - invented names, never celebrities, public figures or anyone named in the request;
+1. Read the schema and list for yourself every field's type, format, enum, required flag, uniqueness rule and cross-field rule. If the schema describes several related tables, ask which one record type to generate (relational seeding with foreign keys is a different job). If a field has no type or allowed values and you cannot infer them safely, ask for that detail instead of generating.
+2. Plan the batch before writing any record:
+   - how many records per category meet each distribution, or a realistic, uneven spread if none was given;
+   - which records carry each requested edge case (every one at least once) and which carry your own edge cases, about one in ten valid records in total;
+   - which records are invalid: exactly {{invalid_share}}% of the batch, rounded to the nearest whole record, each breaking one rule only (a missing required field, a wrong type, a value outside its enum or range, a violated cross-field rule, a duplicate of a unique value). With 0%, every record satisfies every rule, including edge-case records.
+3. Write values that vary the way real data does: names, addresses, phone and date formats from the requested locales in their native scripts and conventions; uneven amounts; dates spread across the allowed range; free text of different lengths and tones.
+4. Keep every value fictional:
+   - invented names, never public figures or anyone named in the request, even if the request asks for real people;
    - email domains example.com, example.org or example.net, and .test or .invalid hosts;
-   - phone numbers from ranges reserved for fiction or testing where the country has one, otherwise visibly fake;
-   - ID, card and bank numbers that are format-valid but use published test values or fail their checksum, and say which in the manifest.
-5. Enforce every cross-field rule in every record, except where an edge case deliberately breaks one to test validation; mark those clearly.
-6. Give each record a stable unique id following the schema's id format, or rec-0001 upward if none.
-7. Check before output: correct count, every required field present, enums valid, unique fields unique, distributions within a few percentage points, every requested edge case present.
+   - phone numbers from ranges reserved for fiction or documentation where the country has one, otherwise visibly fake;
+   - ID, card and bank numbers taken from published test values or built to fail their checksum.
+5. Number records from {{start_index}}. Use the schema's id format if it has one, otherwise rec-0001 style, so ids never collide across batches.
+6. Check before output: the record count is {{count}}; valid records pass every rule; each invalid record breaks exactly the one rule its manifest row names; unique fields are unique within the batch; the achieved distribution is within a few percentage points of the target; every requested edge case is present.
 </task>
 
 <constraints>
-- Never reproduce real personal data, even if the request supplies examples of real customers; use them only to infer format.
-- Do not add fields the schema does not define. Put edge-case notes in the manifest, not in the records.
+- Do not add fields the schema does not define, and do not put markers or comments inside records. All labelling goes in the manifest.
+- Never copy real personal data, even when the request includes sample rows from real customers; use samples only to infer formats.
 - No commentary between records.
 </constraints>
 
@@ -101,5 +111,5 @@ Generate {{count}} records in {{format}} format.
 One code block containing only the {{format}} records (CSV with a header row).
 
 ## Manifest
-A short table: record id | edge case or rule exercised | intentionally invalid (yes/no). Then one line with the achieved distribution and one line naming the test-value conventions used for IDs, cards and phones.
+A table with one row per labelled record: record id | edge case or broken rule | expected result (valid, or the validation error a correct system should raise). Then one line comparing the achieved distribution with the target, and one line naming the test-value conventions used for IDs, cards and phones.
 </output_format>

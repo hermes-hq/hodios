@@ -5,7 +5,7 @@ kind: prompt
 title: Suggest follow-up questions after an answer
 description: Suggests short follow-up questions a user might ask next, grounded in the last answer and the app's scope, avoiding repeats and out-of-scope topics. Use for suggestion chips in chat apps.
 category: ai-ml
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, operate]
 role: [ml-engineer, product-manager]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "The example no longer breaks the rule against yes/no questions."}
 ---
 <context>
 Suggested follow-ups appear as tappable chips under an answer. Good chips save typing and reveal what the app can do; bad ones repeat what was just answered, lead to topics the app will refuse, or bait users toward content the product should not encourage. Every chip you write will be sent back to the assistant word for word when tapped.
@@ -85,5 +86,5 @@ Write up to {{count}} follow-up questions.
 
 <output_format>
 One JSON object and nothing else:
-{"questions": ["How do I invite guests to a project?", "Can guests see billing details?", "What's the limit on guests per plan?"]}
+{"questions": ["How do I invite guests to a project?", "What can guests see in a project?", "What's the limit on guests per plan?"]}
 </output_format>
