@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Make a schedule for a tournament with {{teams}} teams on {{courts}} courts, {{game_minutes}} minute games."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-school-groups
+    vars:
+      teams: 8
+      courts: 2
+      game_minutes: 10
+      format: groups-then-knockout
+      details: "School netball tournament, 9:30 to 13:00, 15-minute break at 11:00."
+    assert:
+      - {type: contains, value: "## Checks"}
+      - {type: llm-rubric, value: "Shows the arithmetic (two groups of four give 12 group games, plus semi-finals and a final), places every game in a timed table across 2 courts with the break, avoids back-to-back games for any team, gives ordered tie-breakers and drawn-knockout rules, provides results templates, and confirms the final ends by 13:00."}
+  - name: edge-odd-knockout
+    vars:
+      teams: 11
+      courts: 3
+      game_minutes: 20
+      format: knockout
+    assert:
+      - {type: llm-rubric, value: "Handles 11 teams in a knockout using 5 byes and 3 first-round games to reduce the field to 8, explains the bye allocation, suggests a plate competition for early losers, and gives a correct timed schedule on 3 courts."}
+  - name: negative-does-not-fit
+    vars:
+      teams: 16
+      courts: 1
+      game_minutes: 20
+      format: round-robin
+      details: "Must finish within 3 hours."
+    assert:
+      - {type: llm-rubric, value: "Calculates that a 16-team round robin needs 120 games, far beyond 3 hours on one court, says it does not fit, and offers concrete alternatives such as groups, shorter games or knockout, with their arithmetic."}

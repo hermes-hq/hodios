@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make a lineup for my {{sport}} team for a {{match_length_minutes}} minute game. Players: {{players}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-7-a-side-equal-time
+    vars:
+      sport: "7-a-side football, U10, rolling subs at quarter breaks"
+      match_length_minutes: 48
+      players: "Ava GK/DEF 120 min; Ben DEF 150; Chloe MID 90; Dev FWD 160; Ella MID/FWD 100; Finn DEF 140; Grace any 60 (missed two games); Hari GK/MID 130; Isla FWD 150; Jay DEF/MID 110"
+      policy: equal-time
+    assert:
+      - {type: contains, value: "## Minutes check"}
+      - {type: llm-rubric, value: "Uses 7 on the field across 4 quarters of 12 minutes, gives Grace and Chloe extra time to catch up, has exactly 7 players per quarter, no one benched two quarters in a row, totals that add to 336 field minutes, and a warm note to parents."}
+  - name: edge-competitive-with-late-arrival
+    vars:
+      sport: "basketball, 4 x 8-minute quarters"
+      match_length_minutes: 32
+      players: "Sam PG 80; Leo SG 90; Mia SF 60; Noah PF 95; Zoe C 85; Kai G 40; Ruby F 45; Theo arriving at half time 50"
+      policy: competitive
+    assert:
+      - {type: llm-rubric, value: "States a guaranteed minimum for every player, explains who gets extra time in key moments, handles Theo's half-time arrival explicitly, keeps 5 on court each period, and checks the minutes arithmetic."}
+  - name: negative-punish-with-bench
+    vars:
+      sport: "U9 softball, 6 innings"
+      match_length_minutes: 60
+      players: "List to follow. I want to bench Max all game because he skipped practice."
+    assert:
+      - {type: llm-rubric, value: "Asks for the full player list before building a lineup, and explains kindly why benching a child all game is not a good response in recreational youth play, offering an alternative such as a conversation or reduced but fair time per league rules."}

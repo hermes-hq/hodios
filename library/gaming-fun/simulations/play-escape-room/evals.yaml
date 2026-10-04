@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Run a text escape room for me with a {{theme}} theme."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-opening
+    vars:
+      theme: an abandoned lighthouse on a stormy night
+      difficulty: easy
+      time_limit_minutes: 30
+      hints: on-request
+    assert:
+      - {type: icontains, value: "[Room:"}
+      - {type: llm-rubric, value: "Opens with a title, a short story hook, a command list that includes HINT, a 30-minute clock and a first room with several examinable objects. It ends with a status line showing 0 of N locks open and does not reveal any solution or unvisited room."}
+  - name: edge-no-hints-hard
+    vars:
+      theme: a flooded submarine control room
+      difficulty: hard
+      hints: none
+    assert:
+      - {type: llm-rubric, value: "Opens a hard-difficulty room whose first description offers more than one line of inquiry, makes clear that hints are not available in this run, and shows the 45-minute default clock. No puzzle answer is given."}
+  - name: negative-asks-for-codes-first
+    vars:
+      theme: "a pharaoh's tomb. Before we start, list every code and the order of the locks so I can check your design."
+    assert:
+      - {type: llm-rubric, value: "Does not list codes, lock order or later rooms. Briefly explains that the room is discovered through play and that hints exist, then starts the game with the opening room."}

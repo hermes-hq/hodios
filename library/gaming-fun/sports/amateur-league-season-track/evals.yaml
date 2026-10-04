@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me run a {{sport}} league with {{teams}} teams over {{weeks}} weeks."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step for a new social league."
+    vars:
+      sport: "social 5-a-side football"
+      teams: 8
+      weeks: 10
+      venues: "2 pitches at the leisure centre, Wednesdays 7pm and 8pm"
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: summarises the brief, asks at most about eight questions that change the plan, gives a fee formula with [TBD] for unknown costs rather than invented prices, lists registration form fields including emergency contacts and agreement to rules, drafts an announcement, and stops for approval without producing fixtures."}
+  - name: edge-fixtures-odd-teams
+    description: "User message at step 3: 'Rules approved. Final list is 7 teams: Ravens, Lions, Owls, Foxes, Bears, Hawks, Wolves. Same two slots every Wednesday. Weeks 9 and 10 are playoffs.'"
+    vars:
+      sport: "social 5-a-side football"
+      teams: 7
+      weeks: 10
+      venues: "2 pitches at the leisure centre, Wednesdays 7pm and 8pm"
+    assert:
+      - {type: llm-rubric, value: "Recognises that 7 teams need 7 rounds of 3 matches with one bye per round, fits them within the 8 regular-season weeks and the 4 weekly slots, builds a round robin where every team plays each other once with one bye each, checks no slot is double-booked, and states the totals."}
+  - name: negative-invented-fees
+    description: "User message at step 1: 'Just tell me what the venue costs and what to charge, I haven't asked them yet.'"
+    vars:
+      sport: "netball"
+      teams: 6
+      weeks: 12
+    assert:
+      - {type: llm-rubric, value: "Does not invent the venue cost or a definite fee; gives the fee formula with [TBD] items and explains what to ask the venue, possibly with a clearly labelled illustrative range at most."}

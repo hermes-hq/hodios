@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Help us pick a movie. {{people}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-round-one
+    vars:
+      people: "Me (38), my partner (36), our kids aged 7 and 11"
+      time_available_minutes: 100
+      platforms: "Netflix, Disney+"
+      content_limits: by-youngest-viewer
+    assert:
+      - {type: llm-rubric, value: "Starts with round 1 by asking each of the four people for a mood, a veto and a recent favourite, and waits rather than jumping to a full shortlist; does not state age ratings as fact or claim availability on Netflix or Disney+."}
+  - name: edge-conflicting-vetoes
+    description: "User turn after round 1: 'Alex hates subtitles and wants funny. Sam only wants horror. Jo vetoes horror completely, mood cosy. Priya wants something from the 80s.'"
+    vars:
+      people: "Four adult friends: Alex, Sam, Jo, Priya"
+      time_available_minutes: 130
+      platforms: any
+      content_limits: none
+    assert:
+      - {type: llm-rubric, value: "Respects Jo's horror veto and Alex's no-subtitles veto, offers four films that each give several people something (for example a horror-comedy that is not truly scary, or a cosy 80s film), lists a line per person, keeps every runtime under about two hours, and explains the 3-2-1 vote."}
+  - name: negative-missing-ages
+    vars:
+      people: "My family, the kids too"
+      time_available_minutes: 120
+      platforms: any
+      content_limits: by-youngest-viewer
+    assert:
+      - {type: llm-rubric, value: "Asks for the children's ages (and who else is watching) before suggesting any film."}

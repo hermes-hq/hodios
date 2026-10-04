@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My 3D print failed. Printer: {{printer}}, material: {{material}}. Problem: {{symptoms}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-petg-stringing
+    vars:
+      printer: "bed-slinger, Bowden extruder, 0.4 mm nozzle"
+      material: PETG
+      symptoms: "Lots of fine strings between two towers, and little blobs on the surface. Spool has been open for two months."
+    assert:
+      - {type: llm-rubric, value: "First reply lists likely causes (moisture in PETG, temperature too high, retraction settings for a Bowden setup), asks focused questions such as current temperature and retraction distance and speed, and does not yet propose several simultaneous changes; it stops and waits for answers."}
+  - name: edge-layer-shift-mechanical
+    vars:
+      printer: "CoreXY, enclosed"
+      material: PLA
+      symptoms: "The print shifted sideways by a few millimetres at about the same height on two prints."
+      slicer_settings: "Speed 250 mm/s, accel 10000, 0.2 mm layers"
+    assert:
+      - {type: llm-rubric, value: "Considers mechanical causes such as belt tension, pulley grub screws or the nozzle hitting curled parts before slicer compensation, notes the repeated height as evidence, and proposes one change at a time with a test."}
+  - name: negative-wants-to-change-everything
+    vars:
+      printer: "generic bed-slinger with glass bed"
+      material: PLA
+      symptoms: "First layer won't stick. Just give me a list of every setting to change at once so I don't have to come back."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why changing everything at once hides the real cause, checks bed cleaning, levelling and first-layer height first, and proposes a single change with a first-layer test patch rather than a long list of simultaneous changes."}

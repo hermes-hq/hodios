@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Give me a fantasy {{sport}} draft strategy. Draft type: {{draft_type}}. I pick {{draft_position}} in a {{league_size}} team league. Rules: {{league_rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ppr-snake
+    vars:
+      sport: "NFL fantasy football"
+      league_rules: "Full PPR, 4 pt passing TD. Roster: QB, 2 RB, 3 WR, TE, FLEX (RB/WR/TE), K, DST, 6 bench. No keepers."
+      draft_type: snake
+      draft_position: 3
+      league_size: 12
+    assert:
+      - {type: contains, value: "## Data to verify"}
+      - {type: llm-rubric, value: "Explains how full PPR and three receiver slots raise receiver and pass-catching back value, lists correct pick numbers for slot 3 in a 12-team snake (3, 22, 27, 46, ...), gives tier and scarcity guidance, a round plan with fallbacks and switch triggers, delays kicker and defence, and marks any player-specific claims as unverified."}
+  - name: edge-auction-categories
+    vars:
+      sport: "NBA fantasy basketball"
+      league_rules: "9-category head-to-head, 200 budget per team, 13 roster spots."
+      draft_type: auction
+      league_size: 12
+    assert:
+      - {type: llm-rubric, value: "Treats it as an auction: gives a budget split by role that sums to 200 with an end-game reserve and maximum bids by tier, explains how 9-category scoring rewards balanced or punt strategies, gives a nomination and bidding plan, does not ask for a pick slot and does not list snake pick numbers."}
+  - name: negative-betting-and-missing-rules
+    vars:
+      sport: "Premier League fantasy"
+      league_rules: "Not sure of the settings. Also which players should I bet on to score this weekend?"
+      draft_type: salary-cap
+    assert:
+      - {type: llm-rubric, value: "Asks for the scoring and squad rules before building a plan, declines betting advice in a sentence without naming players as tips, and does not invent scoring settings."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Let's play the beer game. I'm the {{role}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retailer-step
+    vars:
+      role: retailer
+      weeks: 20
+      demand_pattern: step
+      debrief_depth: full
+    assert:
+      - {type: icontains, value: "Week 1"}
+      - {type: llm-rubric, value: "Explains the rules with two-week order and shipping delays and holding and backlog costs, starts in balance with inventory 12, shows week 1 from the retailer's view only, including that week's incoming customer order of 4, and asks for an order. It does not announce the demand pattern or any future week's demand."}
+  - name: edge-factory-random-short
+    vars:
+      role: factory
+      weeks: 12
+      demand_pattern: random
+      debrief_depth: short
+    assert:
+      - {type: llm-rubric, value: "Adapts the view to the factory, mentioning the production delay instead of an upstream supplier, shows week 1 of 12 with the factory's own numbers, and keeps customer demand hidden."}
+  - name: negative-asks-for-demand
+    vars:
+      role: "wholesaler. Show me the customer demand for all weeks first so I can plan."
+    assert:
+      - {type: llm-rubric, value: "Does not reveal customer demand. Explains that hidden information is the point of the game and that demand is revealed in the debrief, then starts week 1 for the wholesaler."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What bird is this? {{sighting}} Seen in {{location}} in {{season}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vague-asks-first
+    vars:
+      sighting: "A small brown bird in my garden."
+      location: "Manchester, England"
+      season: "February"
+    assert:
+      - {type: llm-rubric, value: "Asks a short set of neutral questions about size relative to familiar birds, shape and bill, behaviour, markings on specific body parts and call, and stops to wait instead of naming a bird from 'small brown bird'."}
+  - name: edge-detailed-enough-to-rank
+    vars:
+      sighting: "Sparrow-sized, black cap on the head only down to the eye, grey body, sang a rich warbling song from inside a bramble bush. The other one had a reddish-brown cap."
+      location: "a woodland edge in southern Germany"
+      season: "May"
+    assert:
+      - {type: llm-rubric, value: "Ranks Eurasian blackcap (Sylvia atricapilla) first, explains that the male has a black cap and the female a reddish-brown cap, mentions an alternative such as marsh or willow tit with what rules it out, uses confidence language rather than certainty, and suggests confirming by song recording or a field guide."}
+  - name: negative-out-of-range-claim
+    vars:
+      sighting: "It was definitely a bald eagle, huge, white head, over the river."
+      location: "the River Thames, London"
+      season: "October"
+    assert:
+      - {type: llm-rubric, value: "Explains that a bald eagle would be an extreme vagrant in London, does not confirm it, suggests more likely candidates (such as a white-tailed eagle, an escaped captive bird, or an osprey or buzzard depending on details), asks for size, shape or a photo, and says rarities are normally confirmed with a photo."}

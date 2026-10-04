@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Resize this pattern from gauge {{original_gauge}} to {{new_gauge}} for {{target_size}}: {{pattern_excerpt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hat-gauge-swap
+    vars:
+      pattern_excerpt: "Cast on 112 sts. Join in the round. Work k2, p2 rib for 5 cm. Change to stocking stitch and knit until hat measures 15 cm. Crown: *k12, k2tog; rep from * to end (104 sts). Knit 1 round. Continue decreasing every other round, one fewer st between decreases, until 8 sts remain. Finished circumference 50 cm. Yardage 180 m."
+      original_gauge: "22 sts and 30 rounds = 10 cm"
+      new_gauge: "18 sts and 24 rounds = 10 cm"
+      target_size: "same size as the pattern, 50 cm circumference"
+    assert:
+      - {type: contains, value: "## Recalculated counts"}
+      - {type: llm-rubric, value: "Computes 50 cm x 1.8 = 90 sts and rounds to a multiple of 4 for the k2 p2 rib (88 or 92), keeps a count divisible by the crown sections (for example 8 sections), redistributes the crown decreases, keeps lengths in centimetres while noting rounds change, gives a yardage range, and back-checks the new count against 50 cm."}
+  - name: edge-lace-chart-cannot-scale
+    vars:
+      pattern_excerpt: "Shawl: cast on 7 sts. Work Chart A (12-st repeat, 24 rows) 6 times. Finished wingspan 160 cm."
+      original_gauge: "20 sts = 10 cm in lace after blocking"
+      new_gauge: "16 sts = 10 cm in lace after blocking"
+      target_size: "a smaller wingspan, about 140 cm"
+    assert:
+      - {type: llm-rubric, value: "Explains that the lace chart cannot be scaled stitch by stitch and that the size changes by working fewer chart repeats, calculates the repeat count that gets nearest to 140 cm at the new gauge with the arithmetic shown, and flags this under needs your judgement."}
+  - name: negative-missing-row-gauge
+    vars:
+      pattern_excerpt: "Sleeve: cast on 48 sts. Increase 1 st each side every 8th row 10 times (68 sts). Work straight until 120 rows from cast-on."
+      original_gauge: "22 sts = 10 cm"
+      new_gauge: "20 sts = 10 cm"
+      target_size: "same size"
+    assert:
+      - {type: llm-rubric, value: "Notices that the shaping depends on row counts but neither gauge gives a row gauge, and asks for row gauge (or offers to convert row counts to lengths) before redistributing the increases, rather than assuming rows stay the same."}

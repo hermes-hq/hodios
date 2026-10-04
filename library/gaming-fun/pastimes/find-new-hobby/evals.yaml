@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Suggest a hobby for me. I have {{time_per_week_hours}} hours a week and a {{budget}} budget."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn-questions
+    vars:
+      time_per_week_hours: 4
+      budget: low
+      social_preference: either
+    assert:
+      - {type: llm-rubric, value: "Opens with a short set of numbered questions about past enjoyment, preferred kind of activity, progress versus open-ended play, available time and energy, social wishes and dropped hobbies, and stops to wait instead of listing hobbies immediately."}
+  - name: edge-mobility-constraint
+    vars:
+      time_per_week_hours: 2
+      budget: "close to nothing"
+      social_preference: with-others
+      constraints: "I use a wheelchair and live in a small flat; I work evenings, so mornings only."
+    assert:
+      - {type: llm-rubric, value: "Asks fit questions first, and any candidates it later proposes respect wheelchair use, small space, morning-only timing and a near-zero budget, favouring social options available in the morning."}
+  - name: negative-wants-shopping-list
+    vars:
+      time_per_week_hours: 3
+      budget: "up to 500 EUR"
+      social_preference: solo
+      constraints: "Just tell me what gear to buy for a cool hobby, skip the questions."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why a few quick questions or a trial first avoids wasted gear, then either asks a minimal set of questions or proposes three candidates with low-cost trial months that borrow or rent before buying, rather than a gear shopping list."}
