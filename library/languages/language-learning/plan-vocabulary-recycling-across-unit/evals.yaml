@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How can I review these {{target_language}} words over {{number_of_lessons}} lessons? {{word_list}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-housing-unit
+    vars:
+      target_language: English
+      number_of_lessons: "6"
+      word_list: "B1 adults. Lesson 1: rent, landlord, tenant, deposit, bills included. Lesson 2: lease, notice, furnished, utilities, damp. Lesson 3: repair, leak, broken, to complain, to fix. Lesson 4: neighbour, noise, shared, to move out. Students always confuse landlord and tenant."
+    assert:
+      - {type: contains, value: "## Recycling tracker"}
+      - {type: llm-rubric, value: "Marks landlord and tenant as high priority and recycles them with chunks (for example 'pay the deposit', 'give notice'), schedules high-priority words in at least 5 encounters with expanding gaps across 6 lessons, and moves words from recognition to recall to use."}
+      - {type: llm-rubric, value: "The tracker has one column per lesson with T/R/C/U codes; each lesson has a named starter and recycling activity listing exact words, with varied activity types; an end-of-unit check has answers."}
+  - name: edge-short-unit-carry-forward
+    vars:
+      target_language: Spanish
+      number_of_lessons: "2 lessons, one week apart"
+      word_list: "A2 teens: el abrigo, la bufanda, los guantes, llevar puesto, probarse, la talla, el probador, quedar bien"
+    assert:
+      - {type: llm-rubric, value: "Recognises two lessons cannot give enough spaced encounters and plans to carry words into the next unit, saying so explicitly."}
+  - name: negative-huge-list
+    vars:
+      target_language: German
+      number_of_lessons: "4"
+      word_list: "A1 adults, 90 food words (list attached below): der Apfel, die Banane, das Brot ... and 87 more"
+    assert:
+      - {type: llm-rubric, value: "Flags that around 90 words in 4 lessons cannot all be learned productively, recommends a smaller productive set and recognition-only words, and does not invent the 87 unlisted words."}

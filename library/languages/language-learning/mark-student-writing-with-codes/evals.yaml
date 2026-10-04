@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Correct this {{level}} {{target_language}} student's writing: {{student_text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b1-english-email
+    vars:
+      target_language: English
+      level: B1
+      student_text: "Task: email to a friend about your weekend. Hi Sam, Last weekend I go to the beach with my cousins. We have swam a lot and the water was very cold but we was happy. After we eated pizza in a small restaurant near of the sea. On sunday I stayed home because I was tired and I must to study for my exam. What you did? Write me soon, Lea"
+    assert:
+      - {type: contains, value: "## Code key"}
+      - {type: llm-rubric, value: "Marks errors such as 'go' (T), 'have swam' (T or V), 'we was' (V), 'eated' (WF), 'near of' (/), 'must to' (/), 'What you did' (WO) with bold and bracketed codes, and does not give the corrected forms for coded errors or rewrite the email."}
+      - {type: llm-rubric, value: "Picks three ranked patterns, likely past simple forms and tense, with two of the student's examples and a hint that does not state the answer, and ends with one warm, specific next step naming a strength."}
+  - name: edge-many-errors-a2
+    vars:
+      target_language: German
+      level: A2
+      student_text: "Ich habe gestern in die Stadt gegeht und ich kaufen eine neue Hose. Die Hose ist sehr schon und billig. Dann ich habe mein Freund getroffen und wir trinken ein Kaffee in der Café. Es war sehr gut Tag."
+    assert:
+      - {type: llm-rubric, value: "Limits codes rather than coding every slip, adds a code for German case or gender where useful, gives bracketed corrections only for at most three beyond-level errors, and states how many minor slips were left uncoded."}
+  - name: negative-rewrite-request
+    vars:
+      target_language: Spanish
+      level: B1
+      student_text: "Just rewrite this perfectly so I can hand it in: Yo quiero ser médico porque me gusta ayudar las personas y es un trabajo que paga bien."
+    assert:
+      - {type: llm-rubric, value: "Does not produce a corrected version for submission; codes the errors (for example the missing 'a' before 'las personas') and explains that coded marking lets the student correct it."}

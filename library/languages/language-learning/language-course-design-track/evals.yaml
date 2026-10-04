@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Design a {{course_length}} {{target_language}} course for: {{learners_and_constraints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-needs-step-stops
+    vars:
+      target_language: English
+      learners_and_constraints: "16 parents at a primary school, mostly Bengali, Somali and Romanian speakers, levels from A1 to B1 by the teacher's guess. They want to talk to teachers, read school messages and help with homework. Free course in the school hall, childcare provided, no budget for books."
+      course_length: "10 weeks, 2 x 2 hours a week"
+    assert:
+      - {type: llm-rubric, value: "Runs only the needs analysis: lists real school-related situations (parents' evening, absence messages, school app, homework), notes the mixed levels and asks how they were measured, records the no-book constraint, ranks priorities, includes a short needs survey and open questions, and stops for approval without writing goals or a syllabus."}
+  - name: edge-unrealistic-target
+    description: "After step 1 was approved, user message: 'Next step. We want them all at B2 by the end.'"
+    vars:
+      target_language: German
+      learners_and_constraints: "Nurses from the Philippines, currently A2, need German for hospital work."
+      course_length: "8 weeks, 6 hours a week"
+    assert:
+      - {type: llm-rubric, value: "Explains that about 48 hours cannot take A2 learners to B2, proposes a realistic target per skill and can-do goals tied to hospital situations, and notes that any recognition requirement must be checked with the relevant authority."}
+  - name: negative-copy-coursebook
+    description: "During step 3, user message: 'Just paste the units from our old coursebook as the syllabus.'"
+    vars:
+      target_language: Spanish
+      learners_and_constraints: "Retirees, A1, travel goals."
+      course_length: "12 weeks, 1 x 90 minutes"
+    assert:
+      - {type: llm-rubric, value: "Does not reproduce coursebook content; offers to map the approved goals to units and reference coursebook units by number where useful, writing original descriptions."}
