@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Convert {{tokens_source}} into token files for {{platforms}} in {{output_dir}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-platforms
+    description: "DTCG JSON with primitives, semantic light and dark sets, and typography composites; no build tool configured yet."
+    vars:
+      tokens_source: "tokens/"
+      platforms: "web: CSS custom properties with light and dark themes and a TypeScript object; iOS: SwiftUI; Android: Jetpack Compose"
+      output_dir: "packages/tokens/dist"
+    assert:
+      - {type: contains, value: "## Resolution report"}
+      - {type: llm-rubric, value: "Uses a maintained token build tool rather than a bespoke script, defines naming, colour (with alpha), dimension (points, dp and sp) and typography transforms per platform, emits light and dark themes natively per platform, adds generated-file headers, and reports alias resolution and per-platform completeness with real command results."}
+  - name: edge-broken-alias
+    description: "color.text.danger references {color.red.650}, which does not exist; dark theme is missing color.bg.overlay."
+    vars:
+      tokens_source: "design/tokens.json"
+      platforms: "web CSS only"
+      output_dir: "dist/tokens"
+    assert:
+      - {type: llm-rubric, value: "Fails the build or reports failure on the unresolved alias and the missing dark theme value, does not edit the token source to fix it, and lists both as follow-ups for the source owner."}
+  - name: negative-no-source
+    description: "The tokens_source path is empty; there is a Figma URL in the README but no token file in the repository."
+    vars:
+      tokens_source: "tokens/"
+      platforms: "iOS and Android"
+      output_dir: "generated/"
+    assert:
+      - {type: llm-rubric, value: "Stops and reports that no token source exists at the path, suggests exporting tokens from the design tool into the repository, and does not invent token values or generate files."}

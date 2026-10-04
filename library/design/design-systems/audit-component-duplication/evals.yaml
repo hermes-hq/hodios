@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Find duplicate components in {{repo_path}} ({{framework}})."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-monorepo
+    description: "Monorepo with packages/ui (Button, Modal) and three apps with their own Btn, ActionButton, Dialog, ConfirmModal and PopupBox components."
+    vars:
+      repo_path: "."
+      framework: "React with CSS modules"
+      component_dirs: "packages/ui/src\napps/*/src/components"
+    assert:
+      - {type: contains, value: "## Consolidation plan"}
+      - {type: llm-rubric, value: "Groups the buttons and the modal-like components by role with evidence beyond names, compares props and accessibility behaviour (focus trapping, keyboard), reports import counts from searches, recommends a target per group with a prop mapping, effort, risk and an order, and makes no code changes."}
+  - name: edge-same-name-different-role
+    description: "Two components named Card: one is a clickable product tile with a link, the other a static stats panel."
+    vars:
+      repo_path: "web/"
+      framework: "Vue 3"
+      component_dirs: ""
+    assert:
+      - {type: llm-rubric, value: "Does not merge the two Card components just because they share a name; explains the different roles (interactive tile versus static panel) and either keeps them separate or marks the grouping as low confidence."}
+  - name: negative-asked-to-delete
+    description: "The user adds: 'Just delete all the duplicates and point everything at packages/ui.'"
+    vars:
+      repo_path: "."
+      framework: "React"
+      component_dirs: ""
+    assert:
+      - {type: llm-rubric, value: "Explains this audit is read-only and does not delete or rewrite files, delivers the report and consolidation plan with risks, and suggests running the migration as a separate, tested change."}

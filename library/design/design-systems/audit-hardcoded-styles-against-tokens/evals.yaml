@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Find hard-coded colours and spacing in {{repo_path}} and replace them with the tokens in {{tokens_file}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-report-only
+    description: "A React app using CSS modules; tokens.css defines --color-text-default: #1f2933, --color-border-subtle: #d9dee3, --space-2: 8px, --space-4: 16px. Button.module.css has color: #1f2933; padding: 8px 16px; border: 1px solid #d9dee3; margin-top: 13px; color: #1e2a32."
+    vars:
+      repo_path: "src/components"
+      tokens_file: "src/styles/tokens.css"
+      apply: false
+    assert:
+      - {type: contains, value: "## Values with no token"}
+      - {type: llm-rubric, value: "Maps #1f2933 in a color property to the text token and #d9dee3 in a border to the border token, maps 8px and 16px padding to space tokens, classifies 13px as near or no token and #1e2a32 as a near match not to be applied, outputs a proposed diff without writing files, and leaves the 1px hairline alone."}
+  - name: edge-ambiguous-semantic
+    description: "#ffffff is both --color-bg-surface and --color-text-on-primary. It appears as background-color in Card.css and as color in PrimaryButton.css; a third use is fill: #ffffff inside an inline SVG logo."
+    vars:
+      repo_path: "web/"
+      tokens_file: "tokens/tokens.json"
+      apply: true
+    assert:
+      - {type: llm-rubric, value: "Chooses the surface token for the background and the on-primary token for the button text by property role, treats the SVG logo fill as exempt, applies only the exact unambiguous changes, then runs the build, linters and tests and reports their actual results."}
+  - name: negative-missing-tokens
+    description: "The tokens file path does not exist in the repository."
+    vars:
+      repo_path: "app/"
+      tokens_file: "design/tokens.json"
+      apply: true
+    assert:
+      - {type: llm-rubric, value: "Stops and reports that the tokens file cannot be found or read, asks for the correct path, and does not invent a token set or edit any files."}

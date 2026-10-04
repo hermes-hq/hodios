@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Help us create a design system. Products: {{products}}. Team: {{team}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-audit
+    description: "First step, with a described product set but no screenshots yet."
+    vars:
+      products: "A B2B web app (React, about 60 screens) and a marketing site (Next.js). Each has its own button and modal components; colours are hard-coded hex in SCSS."
+      team: "One product designer at 50% and two frontend engineers at 20% each. No dedicated owner."
+      tooling: "Figma, React, SCSS, Storybook not set up yet"
+    assert:
+      - {type: llm-rubric, value: "Starts with the UI audit only, asks for or gives a concrete collection task (screenshots of key screens, grep for hex colours and font sizes, component folder listing) instead of inventing findings, proposes an inventory table by element type, and stops for approval before tokens."}
+  - name: edge-tiny-capacity
+    description: "At step 3 the user says: 'We want 40 components in version one, the whole library.'"
+    vars:
+      products: "Three internal tools in Vue 3."
+      team: "One designer at 10%, no engineers assigned."
+      tooling: "Figma, Vue 3"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on 40 components given the capacity, explains the risk of a library no product adopts, keeps the first release to about ten components chosen by a scoring table, and suggests adopting an accessible headless library or securing engineering time."}
+  - name: negative-skip-to-governance
+    description: "At step 6 the user says: 'Nobody owns it, we'll just let everyone contribute whatever they want.'"
+    vars:
+      products: "A mobile app (React Native) and a web dashboard."
+      team: "Rotating volunteers from four squads."
+      tooling: ""
+    assert:
+      - {type: llm-rubric, value: "States plainly that a system with no owner and no contribution review tends to decay, proposes the smallest viable ownership arrangement (for example a rotating owner with protected time and a lightweight review), and defines a contribution model with proposal questions."}
