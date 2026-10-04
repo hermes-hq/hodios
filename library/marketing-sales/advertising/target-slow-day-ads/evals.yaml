@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me run ads to get more customers on my slow days. {{business}} Slow: {{slow_periods}} Budget {{budget}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ramen-tuesday
+    vars:
+      business: "Ramen bar in Lisbon (Arroios), 28 seats, average spend 16 EUR per person, food and drink margin about 68%. Most customers live or work within 1.5 km. Regulars love the spicy miso."
+      slow_periods: "Monday and Tuesday dinner 18:30-21:00: about 20 covers vs 70 on Fridays."
+      budget: 200 EUR over 4 weeks
+    assert:
+      - {type: contains, value: "## Offer and its cost"}
+      - {type: llm-rubric, value: "Proposes a non-discount reason to visit on Monday and Tuesday evenings that busy-night regulars cannot easily switch to, costs it against 16 EUR spend and 68% margin, computes how many extra covers cover 200 EUR plus offer cost, schedules ads only on Monday and Tuesday afternoons and evenings within about 1.5 km with a daily budget that fits 200 EUR over 4 weeks, and compares against the previous 4-6 weeks of Monday-Tuesday covers with a code word."}
+  - name: edge-salon-advance-booking
+    vars:
+      business: "Hair salon in Leicester, 4 chairs, average ticket 48 GBP, margin about 55%."
+      slow_periods: "Monday and Tuesday mornings, about 40% of chairs filled."
+      budget: 120 GBP for a month
+    assert:
+      - {type: llm-rubric, value: "Recognises that salon customers book ahead, so ads run one to three days before the slow mornings rather than during them, measures bookings in the slot, and uses an offer tied to the slot."}
+  - name: negative-missing-numbers
+    vars:
+      business: "My shop"
+      slow_periods: "Some weekdays are quiet."
+      budget: not much
+    assert:
+      - {type: llm-rubric, value: "Asks for the kind of shop, average spend and margin, the specific quiet days and hours with rough numbers, and a budget amount, and does not produce a schedule with invented figures."}

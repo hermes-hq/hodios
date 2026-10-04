@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Set an ad schedule for my business. Opening hours: {{opening_hours}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plumber-with-data
+    vars:
+      hourly_data: "Last 60 days, Google Ads. Mon-Fri 07-09: 210 clicks, 640 GBP, 31 calls. 09-12: 380 clicks, 1,150 GBP, 52 calls. 12-14: 190 clicks, 590 GBP, 9 calls. 14-17: 340 clicks, 1,020 GBP, 41 calls. 17-21: 260 clicks, 760 GBP, 12 calls, 14 forms. 21-07: 120 clicks, 330 GBP, 2 calls, 8 forms. Weekend: 180 clicks, 520 GBP, 7 calls. Call log shows 38% of calls 12-14 missed."
+      opening_hours: "Mon-Fri 7:30-17:30, I'm on jobs 12-14 most days, no weekend calls"
+      call_handling: "Just me and my wife answers mornings; voicemail, I call back in the evening"
+    assert:
+      - {type: contains, value: "## After-hours plan"}
+      - {type: llm-rubric, value: "Computes cost per call by block (e.g. 12-14 at about 66 GBP per call versus about 21-25 GBP in the morning), reduces or pauses call ads 12-14 given 38% missed, runs call ads only in answered hours with a buffer, keeps evening text ads to forms given 14 forms, removes or cuts weekend call ads, sets an answer-rate target with a two-week missed-call tally, and mentions checking the account time zone."}
+  - name: edge-no-data
+    vars:
+      opening_hours: "Clinic reception Mon-Fri 8:30-18:00, Sat 9:00-13:00"
+    assert:
+      - {type: llm-rubric, value: "Gives a starting schedule based on reception hours with buffers and an after-hours booking plan, explains what hourly data to export and when to revisit, and does not invent performance numbers."}
+  - name: negative-vague-hours
+    vars:
+      opening_hours: "normal hours"
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual days and times someone can answer the phone before building a schedule."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Do my ads match my landing page? Ads: {{ads}} Page: {{landing_page}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dog-grooming
+    vars:
+      ads: "1) Search, keyword 'mobile dog grooming': 'Mobile Dog Grooming | We Come To You | From 45 GBP'. CTA Book now. URL: homepage. 2) Meta ad: photo of a cockapoo in our van, 'Spring offer: 20% off first groom, book by 30 April'. CTA Book now. URL: /book"
+      landing_page: "Homepage above the fold (mobile): headline 'Pampered Paws - Surrey's favourite grooming salon', photo of salon interior, button 'Our services'. Prices on a separate page, small dogs from 52 GBP. /book page: booking calendar, no mention of the spring offer, no photo."
+    assert:
+      - {type: contains, value: "## Match scores"}
+      - {type: llm-rubric, value: "Scores both ads on promise, offer, keyword, visual, CTA and price; flags for ad 1 that the page says salon not mobile, has no 'from 45 GBP' (page shows 52 GBP, a high-severity price contradiction) and the CTA leads to services not booking; flags for ad 2 that the 20% offer and the van photo are missing on /book; proposes concrete fixes (dedicated mobile grooming page or headline change, fixing the price in the ad, showing the offer on the booking page) and ranks what to test first."}
+  - name: edge-good-match
+    vars:
+      ads: "Search ad 'Waterproof Hiking Boots Women | Free Returns | Shop Trailmark' to /women/hiking-boots"
+      landing_page: "Category page headline 'Women's waterproof hiking boots', 24 products with prices, banner 'Free returns within 60 days', filters."
+    assert:
+      - {type: llm-rubric, value: "Recognises strong match with high scores, does not invent problems or recommend a redesign, and suggests at most minor improvements."}
+  - name: negative-no-page
+    vars:
+      ads: "Ad: 'Learn Spanish in 30 days, first lesson free'"
+      landing_page: "it's our website"
+    assert:
+      - {type: llm-rubric, value: "Asks for the landing page content above the fold (headline, offer, CTA, price) and the destination URL before scoring, rather than guessing what the site says."}

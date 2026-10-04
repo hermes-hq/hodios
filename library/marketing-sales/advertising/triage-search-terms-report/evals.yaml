@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which of these search terms should I add as negatives? Business: {{business}}. {{search_terms}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-locksmith
+    vars:
+      search_terms: "Date range 1-30 Sept. term,ad group,clicks,cost,conv\nlocksmith near me,Emergency,48,302.40,9\nemergency locksmith derby,Emergency,22,151.80,6\nlocksmith jobs derby,Emergency,7,41.30,0\nhow to pick a lock,Lock change,11,38.50,0\nlocksmith course,Lock change,6,29.40,0\nupvc door lock replacement,Lock change,9,57.60,2\nlocksmith nottingham,Emergency,13,96.20,0\nfree locksmith quote,Lock change,4,22.00,1\ncar key replacement,Lock change,15,88.50,0\nsafe opening,Emergency,3,19.80,0"
+      business: "Locksmith in Derby, homes and businesses, no car keys, do not cover Nottingham"
+      target_cpa: 45 GBP per job
+    assert:
+      - {type: contains, value: "## Add as negatives"}
+      - {type: llm-rubric, value: "Proposes negatives such as jobs, course, how to and car key and nottingham with sensible match types and levels and the cost blocked for each, does NOT negative the word 'free' because 'free locksmith quote' converted, treats safe opening as watch because of low data, suggests upvc door lock replacement as a keyword, and reports total cost blocked against total spend."}
+  - name: edge-thin-data
+    vars:
+      search_terms: "Last 7 days. bakery courses online 2 clicks 1.80 0 conv; sourdough class bristol 3 clicks 2.70 1 conv; bread making kit 1 click 0.90 0 conv"
+      business: "In-person bread-making classes in Bristol"
+    assert:
+      - {type: llm-rubric, value: "Notes that 7 days and a few clicks are too little data, puts most terms in Watch, negatives only clearly wrong intent such as online courses or kits with care, and recommends a review date."}
+  - name: negative-no-cost-column
+    vars:
+      search_terms: "plumber leeds, boiler repair, plumber salary, plumbing apprenticeship"
+      business: "Plumber in Leeds"
+    assert:
+      - {type: llm-rubric, value: "Notes that cost, clicks and conversions are missing and asks for the full export, while possibly pointing out clearly wrong-intent terms (salary, apprenticeship); does not invent cost figures."}

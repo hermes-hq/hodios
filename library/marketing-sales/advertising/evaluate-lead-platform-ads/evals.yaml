@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which of these lead platforms should I use for my business? {{trade_and_area}} Offers: {{platform_offers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-electrician-three-platforms
+    vars:
+      trade_and_area: "Electrician, two of us, Bristol and 15 miles around. Could take 6 more jobs a month. Most work is word of mouth."
+      platform_offers: "A) Local service ads on search: about 25 GBP per lead, pay only for leads, can dispute bad ones within 30 days. B) Trade directory: 89 GBP a month, 12-month contract, says members get 'around 8 enquiries a month'. C) Quote marketplace: 12 GBP per contact, the job goes to up to 4 traders."
+      job_economics: "Average job 380 GBP, we keep about 150 after materials and wages. We win about 5 in 10 quotes from referrals. Quote visit takes an hour."
+    assert:
+      - {type: contains, value: "## Cost per won job"}
+      - {type: llm-rubric, value: "Calculates cost per won job for each platform with shown arithmetic (e.g. A at 25 GBP per lead with an adjusted win rate, C at 12 GBP but a much lower win rate on a lead shared with up to 4 traders), compares each with the 150 GBP kept per job, flags the 12-month contract on B as a lock-in risk before results are known, includes quote-visit time, and recommends a time-boxed trial of at most two platforms with a stop rule and a lead log."}
+  - name: edge-no-capacity
+    vars:
+      trade_and_area: "Plasterer working alone in Lyon, booked solid for 9 weeks."
+      platform_offers: "A quote site wants 49 EUR a month plus 8 EUR per lead."
+    assert:
+      - {type: llm-rubric, value: "Points out that a full diary means more leads will not help now, suggests raising prices or waiting, and asks for job economics before any platform maths rather than recommending the quote site."}
+  - name: negative-missing-economics
+    vars:
+      trade_and_area: "Cleaning company"
+      platform_offers: "Thinking of signing up to some lead sites."
+    assert:
+      - {type: llm-rubric, value: "Asks for the area, average job value, win rate and the platforms' actual prices and terms in one message, and does not invent fees or recommend a named platform."}
