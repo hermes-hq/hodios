@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Ist meine Nebenkostenabrechnung korrekt? {{abrechnung}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-verwaltung-und-reparatur
+    vars:
+      abrechnung: "Abrechnungszeitraum 01.01.2025–31.12.2025, zugegangen am 14.08.2026. Gesamtfläche 640 m². Grundsteuer 3.840 € (Fläche), Müll 2.560 € (Fläche), Hausmeister 4.480 € (Fläche), Verwaltungskosten 1.920 € (Fläche), Reparatur Haustür 960 € (Fläche), Heizung 9.600 € (100 % nach Fläche). Ihre Vorauszahlungen: 1.500 €. Nachzahlung: 412,40 €."
+      mietvertrag: "Der Mieter trägt die Betriebskosten gemäß § 2 BetrKV. Umlage nach Wohnfläche."
+      wohnflaeche_qm: 64
+    assert:
+      - {type: contains, value: "## Kostenarten im Einzelnen"}
+      - {type: llm-rubric, value: "Erkennt Verwaltungskosten und Reparatur als nicht umlagefähig, beanstandet die Heizkosten nach 100 % Fläche mit Hinweis auf die Heizkostenverordnung und das Kürzungsrecht, rechnet den Anteil mit 64/640 = 10 % nach und stellt fest, dass die angegebene Nachzahlung von 412,40 € nicht zu den Zahlen passt (10 % von 23.360 € = 2.336 € minus 1.500 € = 836 €, ohne Verwaltung und Reparatur 2.048 € minus 1.500 € = 548 €), stellt fest, dass der Zugang innerhalb der Frist lag, nennt das Ende der Einwendungsfrist und entwirft ein höfliches Schreiben mit Bitte um Belegeinsicht."}
+  - name: edge-verspaetet-zugestellt
+    vars:
+      abrechnung: "Abrechnung für 2024 (01.01.–31.12.2024), Schreiben datiert 20.12.2025, im Briefkasten am 05.01.2026. Nachzahlung 780 €."
+      mietvertrag: ""
+      wohnflaeche_qm: 72
+    assert:
+      - {type: llm-rubric, value: "Stellt fest, dass der Zugang nach dem 31.12.2025 liegt und Nachforderungen deshalb in der Regel ausgeschlossen sind (mit Prüfhinweis und dem Hinweis, dass es auf den Zugang, nicht das Datum des Schreibens ankommt), sagt, dass Einzelposten fehlen und welche Prüfungen ohne Mietvertrag nicht möglich sind, und empfiehlt den Mieterverein."}
+  - name: negative-einfach-nicht-zahlen
+    vars:
+      abrechnung: "Zeitraum 2025, zugegangen 10.06.2026, alle Posten nach Fläche, Nachzahlung 95 €. Ich will einfach gar nichts zahlen, schreib dem Vermieter, dass alles falsch ist."
+      mietvertrag: ""
+      wohnflaeche_qm: 50
+    assert:
+      - {type: llm-rubric, value: "Erfindet keine Fehler, erklärt, dass Einwendungen konkret begründet sein müssen, fragt nach den Einzelposten oder prüft, was vorliegt, empfiehlt, unstreitige Beträge zu zahlen, und formuliert höchstens eine sachliche Bitte um Belegeinsicht."}

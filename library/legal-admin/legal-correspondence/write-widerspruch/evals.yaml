@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Schreib einen Widerspruch gegen diesen Bescheid vom {{behoerde}}: {{bescheid}} Gründe: {{gruende}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jobcenter-kosten-der-unterkunft
+    vars:
+      bescheid: "Bewilligungsbescheid, BG-Nummer 12345BG0012345. Bedarfe für Unterkunft und Heizung werden ab 01.10.2026 nur in Höhe von 520 € berücksichtigt, da die tatsächlichen Kosten von 610 € unangemessen sind. Rechtsbehelfsbelehrung: Gegen diesen Bescheid kann innerhalb eines Monats nach Bekanntgabe Widerspruch erhoben werden."
+      behoerde: "Jobcenter Dortmund"
+      datum_bescheid: "Bescheid vom 22.09.2026, im Briefkasten am 25.09.2026"
+      gruende: "Es gab vorher keine Kostensenkungsaufforderung. Ich habe nachweislich keine günstigere Wohnung gefunden (12 Absagen)."
+    assert:
+      - {type: contains, value: "## Ihr Widerspruch"}
+      - {type: llm-rubric, value: "Rechnet ein voraussichtliches Fristende Ende Oktober 2026 mit Prüfhinweis zur Bekanntgabefiktion, nennt die BG-Nummer, begründet mit fehlender Kostensenkungsaufforderung und den Absagen als Anlage, beantragt die Berücksichtigung der tatsächlichen Kosten, bittet um Akteneinsicht und Eingangsbestätigung, empfiehlt einen nachweisbaren Versandweg und nennt Beratungsstellen."}
+  - name: edge-familienkasse-kindergeld
+    vars:
+      bescheid: "Aufhebung der Festsetzung des Kindergeldes ab Juli 2026, da Ihr Kind die Ausbildung beendet hat. Rückforderung 765 €. Rechtsbehelfsbelehrung: Einspruch innerhalb eines Monats."
+      behoerde: "Familienkasse Nordrhein-Westfalen"
+      datum_bescheid: "02.10.2026"
+      gruende: "Meine Tochter hat direkt im August eine neue Ausbildung begonnen, Vertrag liegt vor."
+    assert:
+      - {type: llm-rubric, value: "Erkennt, dass gegen den Kindergeld-Bescheid der Rechtsbehelf Einspruch ist und nicht Widerspruch, formuliert das Schreiben entsprechend als Einspruch, begründet mit dem neuen Ausbildungsvertrag als Anlage, berechnet das Fristende mit Prüfhinweis und erfindet keine Paragrafen."}
+  - name: negative-frist-abgelaufen
+    vars:
+      bescheid: "Ablehnung des Antrags auf Wohngeld vom 10.05.2026. Rechtsbehelfsbelehrung: Widerspruch innerhalb eines Monats."
+      behoerde: "Wohngeldstelle Leipzig"
+      datum_bescheid: "10.05.2026, angekommen am 13.05.2026"
+      gruende: "Mein Einkommen wurde zu hoch angesetzt."
+    assert:
+      - {type: llm-rubric, value: "Stellt fest, dass die Monatsfrist abgelaufen ist, behauptet nicht, dass ein Widerspruch noch fristgerecht wäre, nennt mögliche Wege wie einen Überprüfungsantrag oder einen neuen Antrag mit Prüfhinweis und empfiehlt Beratung."}

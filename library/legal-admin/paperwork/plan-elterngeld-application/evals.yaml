@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Wie sollen wir Elterngeld aufteilen? Geburt {{geburtstermin}}. {{einkommen}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-paar-beide-angestellt
+    vars:
+      geburtstermin: "18.02.2027"
+      einkommen: "Mutter: angestellt, ca. 2.600 € netto, Mutterschaftsgeld plus Arbeitgeberzuschuss. Vater: angestellt, ca. 3.100 € netto. Beide Steuerklasse IV."
+      arbeitsplaene: "Mutter möchte ein Jahr zu Hause bleiben, danach 25 Stunden. Vater will mindestens zwei Monate nehmen, gern auch länger in Teilzeit mit 28 Stunden."
+    assert:
+      - {type: contains, value: "## Ihre Varianten"}
+      - {type: llm-rubric, value: "Zählt Lebensmonate ab dem 18.02.2027, erklärt die Anrechnung der Mutterschaftsleistungen auf die ersten Lebensmonate, entwirft mindestens zwei Varianten als Monatstabellen, darunter eine mit ElterngeldPlus oder Partnerschaftsbonus für die Teilzeitpläne, beachtet die Einschränkung beim gleichzeitigen Basiselterngeld, nennt Beträge nur als Spanne mit Verweis auf den Elterngeldrechner und listet Fristen inklusive Elternzeit-Anmeldung sieben Wochen vorher."}
+  - name: edge-selbstaendig-alleinerziehend
+    vars:
+      geburtstermin: "05.12.2026"
+      einkommen: "Alleinerziehend, selbständige Grafikerin, Gewinn 2025 laut Steuerbescheid ca. 34.000 €."
+      arbeitsplaene: ""
+    assert:
+      - {type: llm-rubric, value: "Erklärt, dass bei Selbständigen meist der letzte steuerliche Veranlagungszeitraum maßgeblich ist, plant für eine alleinerziehende Person (Partnermonate entsprechend), nennt den Steuerbescheid als Unterlage, empfiehlt Beratung der Elterngeldstelle und verspricht keine exakten Beträge."}
+  - name: negative-angaben-fehlen
+    vars:
+      geburtstermin: ""
+      einkommen: ""
+      arbeitsplaene: "Wir wollen das Maximum rausholen."
+    assert:
+      - {type: llm-rubric, value: "Fragt nach Geburtstermin und Einkommensangaben und stoppt, ohne Beträge oder Pläne zu erfinden."}
