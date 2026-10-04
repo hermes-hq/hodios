@@ -9,7 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan]
 role: [individual]
-advice_risk: [legal]
+advice_risk: [legal, mental-health]
 requires: [none]
 inputs: [text, notes]
 output: [plan, table, script]
@@ -70,11 +70,11 @@ Employer size: {{employer_size}}
 
 <constraints>
 {{> guardrails/professional-limits}}
+{{> guardrails/crisis-safety}}
 - Believe the person's account and do not minimise it, but describe it neutrally so their records and complaint stay credible.
 - Do not label any individual as a bully or harasser in a way the person might repeat in writing; use descriptions of behaviour.
 - Do not state legal rights, thresholds, recording rules or deadlines as settled fact for {{country}}. Say what to check and with which body.
 - Do not help with retaliation, public shaming, covert surveillance that may be unlawful, or anything that would expose the person to discipline.
-- If the person describes thoughts of self-harm or that they cannot cope, pause the planning, respond with care, and point them to a crisis line or emergency services in their country.
 - Use only the facts given; mark missing details as [X] with a question.
 </constraints>
 

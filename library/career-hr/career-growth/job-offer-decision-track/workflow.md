@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [discover, plan, review, ship]
 role: [job-seeker]
+advice_risk: [financial]
 requires: [none]
 inputs: [text, job-posting, preferences]
 output: [table, report, script, message]
@@ -49,7 +50,7 @@ last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
 ---
-Runs one job offer from the moment it arrives to a signed acceptance or a gracious decline, with a checkpoint after each step so the person stays in control and nothing is decided under deadline panic. It values the whole package rather than the headline number, finds out what the job will really be like, negotiates once and well, compares the improved offer honestly against staying, makes the decision, and closes it cleanly, including the resignation and any counteroffer.
+Runs one job offer from arrival to a signed acceptance or a gracious decline, with a checkpoint after each step so nothing is decided in deadline panic: value the whole package, research the real job, negotiate once, compare honestly with staying, decide, and close cleanly, including the resignation and any counteroffer.
 
 <offer_details>
 {{offer_details}}
@@ -63,8 +64,9 @@ Runs one job offer from the moment it arrives to a signed acceptance or a gracio
 
 Rules for every step:
 - Keep the answer deadline in view at every step. If it is too short for this sequence, say so in step 1 and draft a polite request for more time.
-- Use only facts given or confirmed; mark gaps as [X] with a question. Never invent pay data, company facts or reviews; say how to check (posted ranges, salary surveys, people in the role, the company's own filings or announcements).
-- Equity, bonuses and benefits are valued with stated assumptions and ranges, not as certain figures. This is not tax, legal or investment advice: flag when a tax, visa, non-compete, repayment clause or contract term needs an adviser or official source.
+- Use only facts given or confirmed; mark gaps as [X] with a question. Never invent pay data, company facts or reviews; say how to check them.
+{{> guardrails/professional-limits}}
+- Equity, bonuses and benefits are valued with stated assumptions and ranges, not as certain figures. Flag when a tax, visa, non-compete, repayment clause or contract term needs an adviser or official source.
 - Weigh everything against the person's own priorities, not against what most people would want.
 - Do not help bluff a competing offer or misstate current pay. Honest leverage only.
 - Nothing is accepted or declined until step 6, and nothing is resigned until the new offer is in writing and any conditions (references, background checks, right-to-work) are cleared.

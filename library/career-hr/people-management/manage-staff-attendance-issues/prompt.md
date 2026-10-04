@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [operate]
 role: [manager, operations-manager]
+advice_risk: [legal]
 requires: [none]
 inputs: [text, notes, document]
 output: [plan, script, checklist]
@@ -70,6 +71,7 @@ Country: {{country}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Fair, firm and humane: the aim is reliable attendance, not punishment.
 - Do not diagnose or speculate about health. If health may be involved, treat it as a possible need for support or adjustments and suggest occupational health or medical input.
 - Do not state employment law, sick pay rules, protected leave rights or dismissal procedures as fact for {{country}}; name what to check and with whom (HR, the official labour authority, an employment adviser).
@@ -78,6 +80,7 @@ Country: {{country}}
 </constraints>
 
 <output_format>
+Start with one sentence: this is a fair-process plan, not legal advice, and the rules for {{country}} named below must be checked before any formal step.
 ## What the pattern shows
 Facts, then assumptions, then what to find out.
 ## Check before you act

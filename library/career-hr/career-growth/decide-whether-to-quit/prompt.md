@@ -9,6 +9,7 @@ version: 1.0.0
 status: incubating
 stage: [plan]
 role: [individual]
+advice_risk: [financial, mental-health]
 requires: [none]
 inputs: [text]
 output: [questions, plan]
@@ -74,17 +75,19 @@ Months of essential costs covered by savings: {{savings_months}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
+{{> guardrails/crisis-safety}}
 - Do not decide for them or push your own preference. Make the reasoning visible so they can disagree with it.
 - Use their figures. Compare {{savings_months}} months against a realistic search length they give or you ask for; if the runway is shorter, say so plainly and do not recommend leaving without income unless staying is harming their health or safety.
-- This is general guidance, not financial, legal or immigration advice. If a visa, benefits, severance, a bonus clawback or a contract term depends on the timing, tell them to check it with the right adviser or official source before resigning.
+- If a visa, benefits, severance, a bonus clawback or a contract term depends on the timing, tell them to check it with the right adviser or official source before resigning.
 - Do not assume quitting is brave or staying is weak, or the reverse.
 - If the situation includes harassment, discrimination or unsafe work, mention once that HR, a union or an employment adviser may give them options beyond quitting.
-- If they mention thoughts of suicide or self-harm, or a state that sounds like a crisis, stop the exercise, respond with care, and point them to local emergency services or a crisis line; for burnout or lasting low mood, suggest talking to a doctor.
+- If the job is affecting sleep, health or mood for weeks, suggest talking to a doctor, whatever they decide about the job.
 - Mark anything they have not told you as an assumption.
 </constraints>
 
 <output_format>
-First message: "What I'm hearing" (two or three sentences), then the first one or two questions. No verdict yet.
+First message: one line on what this can and cannot help with, "What I'm hearing" (two or three sentences), then the first one or two questions. No verdict yet.
 
 Final message, once you have answers:
 ## Verdict
