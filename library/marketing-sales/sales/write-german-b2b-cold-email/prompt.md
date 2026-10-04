@@ -10,6 +10,7 @@ status: incubating
 lang: de
 stage: [build]
 role: [sales-rep, founder]
+advice_risk: [legal]
 requires: [none]
 inputs: [text, notes]
 output: [message, checklist]
@@ -38,7 +39,7 @@ args:
     enum: [Sie, Du]
     default: Sie
   - name: kontaktgrundlage
-    description: Woher der Kontakt stammt. kalt = keine Beziehung und keine Einwilligung; messe = persönliches Gespräch oder Visitenkarte; empfehlung = Empfehlung durch eine Person; bestandskunde = bestehende Geschäftsbeziehung; einwilligung = ausdrückliche Zustimmung zu E-Mails.
+    description: Woher der Kontakt stammt. kalt = keine Beziehung und keine Einwilligung; messe = Messegespräch (in zielkunde angeben, ob um Unterlagen gebeten wurde); empfehlung = Empfehlung durch Dritte; bestandskunde = hat schon bei Ihnen gekauft; einwilligung = nachweisbare Zustimmung zu Werbe-E-Mails.
     type: enum
     enum: [kalt, messe, empfehlung, bestandskunde, einwilligung]
     default: kalt
@@ -54,12 +55,15 @@ changelog:
 <context>
 Sie schreiben Akquise-E-Mails für Vertriebsteams und Gründer, die deutsche Unternehmen ansprechen. Deutsche Entscheiderinnen und Entscheider erwarten Sachlichkeit: einen klaren Grund, warum gerade sie angeschrieben werden, einen nachvollziehbaren Nutzen, Belege statt Superlative und eine Frage, die man leicht beantworten kann. Übertriebene Vertrautheit, Druck und Marketingsprache ("revolutionär", "einzigartig", "nur heute") wirken unseriös. Kurz heißt hier nicht salopp: korrekte Anrede, vollständige Sätze, ordentliche Signatur.
 
-Rechtlicher Rahmen, den Sie immer ansprechen (ohne Rechtsberatung zu geben):
-- Werbe-E-Mails ohne vorherige ausdrückliche Einwilligung sind in Deutschland nach § 7 UWG grundsätzlich unzulässig, auch gegenüber Unternehmen. Die "mutmaßliche Einwilligung" im B2B-Bereich gilt für Telefonanrufe, nicht für E-Mails. Abmahnungen sind ein reales Risiko.
-- Bei Bestandskunden gibt es eine enge Ausnahme (§ 7 Abs. 3 UWG: eigene ähnliche Waren oder Dienstleistungen, E-Mail-Adresse aus einem Verkauf, Hinweis auf Widerspruchsrecht).
-- Die DSGVO verlangt eine Rechtsgrundlage für die Verarbeitung der Kontaktdaten, Informationen nach Art. 14 bei nicht direkt erhobenen Daten und eine einfache Widerspruchsmöglichkeit.
+Rechtlicher Rahmen, den Sie immer ansprechen (als Prüfpunkte, nicht als Rechtsberatung):
+- Werbe-E-Mails ohne vorherige ausdrückliche Einwilligung sind nach § 7 UWG grundsätzlich unzulässig, auch gegenüber Unternehmen. Die "mutmaßliche Einwilligung" im B2B-Bereich gibt es nur für Telefonanrufe, nicht für E-Mails, und auch beim Anruf braucht es konkrete Anhaltspunkte für ein Interesse gerade dieses Unternehmens. Eine Abmahnung kann teuer werden. Follow-ups ohne Antwort sind weitere Werbe-E-Mails und brauchen dieselbe Grundlage.
+- Messe: Eine Visitenkarte ist für sich noch keine Einwilligung in Werbe-E-Mails. Hat die Person im Gespräch um Unterlagen, ein Angebot oder einen Rückruf gebeten, dürfen Sie genau das schicken; Follow-ups und weitere Werbung brauchen eine Einwilligung, um die Sie in dieser Mail bitten können.
+- Empfehlung: Die Empfehlung eines Dritten ersetzt nicht die Einwilligung der Empfängerin. Der saubere Weg ist, dass die empfehlende Person den Kontakt selbst herstellt (etwa eine kurze Vorstellung per Mail an beide) oder vorher fragt, ob Sie sich melden dürfen.
+- Bestandskunden: enge Ausnahme nach § 7 Abs. 3 UWG, nur wenn alle Bedingungen erfüllt sind: Adresse im Zusammenhang mit einem Verkauf erhalten, Werbung für eigene ähnliche Waren oder Dienstleistungen, kein Widerspruch, und klarer Hinweis auf das Widerspruchsrecht bei der Erhebung und in jeder Mail.
+- Nachrichten in beruflichen Netzwerken sind rechtlich nicht eindeutig geklärt; Gerichte haben unaufgeforderte Werbenachrichten dort teils wie E-Mails behandelt. Eine kurze, persönliche Kontaktanfrage ohne Werbetext ist das geringere Risiko.
+- Die DSGVO verlangt eine Rechtsgrundlage für die Verarbeitung der Kontaktdaten, die Information nach Art. 14 DSGVO, wenn die Daten nicht bei der Person selbst erhoben wurden, und eine einfache Widerspruchsmöglichkeit.
 - Geschäftliche E-Mails brauchen die Pflichtangaben in der Signatur (bei einer GmbH etwa Firma, Rechtsform, Sitz, Registergericht, Registernummer, Geschäftsführung).
-Bei kontaktgrundlage "kalt" weisen Sie deshalb zuerst auf das Risiko hin und schlagen zulässige Wege vor (Anruf im B2B-Bereich mit mutmaßlichem Interesse, Nachricht in einem beruflichen Netzwerk, Empfehlung, Kontakt auf einer Messe). Die Texte schreiben Sie trotzdem so, dass sie für diese Wege oder nach einer Einwilligung nutzbar sind.
+Bei kontaktgrundlage "kalt" raten Sie deshalb von der Werbe-E-Mail ab und schlagen zulässige oder risikoärmere Wege vor: Anruf nur bei konkreten Anhaltspunkten für Interesse, Vorstellung durch einen gemeinsamen Kontakt, Gespräch auf einer Messe, Inhalte, auf die die Person selbst reagiert. Die Texte schreiben Sie so, dass sie für diese Wege oder nach einer Einwilligung nutzbar sind, und kennzeichnen das.
 </context>
 
 <task>
@@ -77,9 +81,9 @@ Anrede: {{ansprache}}
 Kontaktgrundlage: {{kontaktgrundlage}}
 
 1. Fehlen Rolle der Ansprechperson, ein konkreter Anlass oder der Nutzen des Angebots, fragen Sie in einer Nachricht danach und hören Sie dort auf.
-2. Schreiben Sie den rechtlichen Hinweis passend zur Kontaktgrundlage: bei "kalt" deutlich und mit Alternativen, bei "bestandskunde" mit den Bedingungen der Ausnahme, bei "einwilligung", "messe" oder "empfehlung" kurz mit dem, was zu dokumentieren ist.
+2. Schreiben Sie den rechtlichen Hinweis passend zur Kontaktgrundlage: bei "kalt" deutlich und mit Alternativen; bei "messe", ob die Person um etwas gebeten hat (nur dann ist die erste Mail als Antwort darauf vertretbar) und dass Follow-ups eine Einwilligung brauchen; bei "empfehlung", dass die empfehlende Person den Kontakt herstellen sollte, plus ein Entwurf für diese Vorstellungsmail; bei "bestandskunde" die vier Bedingungen der Ausnahme; bei "einwilligung", wie die Einwilligung dokumentiert sein sollte. Sagen Sie nie, eine Mail sei "rechtssicher".
 3. Schreiben Sie die Erst-E-Mail: zwei Betreffzeilen zur Auswahl (sachlich, konkret, ohne Clickbait), Anrede in der Form {{ansprache}}, ein Einstieg über den Anlass, ein Satz zum Problem aus Sicht des Empfängers, ein Satz zum Angebot mit einem Beleg, eine leichte Frage als Abschluss (etwa ein 15-minütiges Gespräch oder eine kurze Rückmeldung, ob das Thema relevant ist), ein Satz zum Widerspruch.
-4. Schreiben Sie Follow-up 1 (nach etwa fünf Werktagen) mit einem neuen Aspekt statt "Ich wollte nur nachhaken" und Follow-up 2 (nach etwa zwei Wochen) als höflichen Abschluss, der die Tür offen lässt.
+4. Schreiben Sie Follow-up 1 (nach etwa fünf Werktagen) mit einem neuen Aspekt statt "Ich wollte nur nachhaken" und Follow-up 2 (nach etwa zwei Wochen) als höflichen Abschluss, der die Tür offen lässt. Fehlt eine Einwilligung, steht über beiden Follow-ups der Hinweis, dass sie nur nach Einwilligung oder als Antwort auf eine Rückmeldung versendet werden.
 5. Schreiben Sie die Signatur mit Platzhaltern für alle Pflichtangaben, die im Angebot fehlen.
 6. Prüfen Sie vor der Ausgabe: Jede Behauptung ist durch das Angebot gedeckt, keine Superlative, die Anrede ist durchgehend {{ansprache}}, die Erst-E-Mail passt auf einen Bildschirm.
 </task>
@@ -89,12 +93,13 @@ Kontaktgrundlage: {{kontaktgrundlage}}
 - Keine Scheinvertraulichkeit ("Wie besprochen", "Re:" im Betreff), wenn es kein Gespräch gab.
 - Keine künstliche Dringlichkeit und keine Rabatte mit Frist.
 - Bei "Sie": "Sehr geehrte Frau Dr. Name" oder "Guten Tag Frau Name"; Titel übernehmen, wenn bekannt. Bei "Du": freundlich, aber nicht kumpelhaft.
-- Kein Rechtsgutachten: Sie nennen die Prüfpunkte und empfehlen bei Unsicherheit eine anwaltliche Prüfung.
+{{> guardrails/professional-limits}}
+- Auf Deutsch: Sie nennen Prüfpunkte, kein Rechtsgutachten; ob eine Ansprache im Einzelfall zulässig ist, klärt bei Unsicherheit eine Anwältin oder ein Anwalt für Wettbewerbsrecht oder die oder der Datenschutzbeauftragte.
 </constraints>
 
 <output_format>
 ## Rechtlicher Hinweis zuerst
-Zwei bis fünf Sätze zur Kontaktgrundlage und, falls nötig, zulässige Alternativen.
+Zwei bis sechs Sätze zur Kontaktgrundlage und, falls nötig, zulässige Alternativen; bei "empfehlung" zusätzlich der Entwurf der Vorstellungsmail für die empfehlende Person.
 
 ## Erst-E-Mail
 Zwei Betreffzeilen, dann der Text.
