@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Set up a content workflow for our team: {{team}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-charity-team
+    vars:
+      team: "Comms officer (full-time), fundraising manager (approves everything that mentions money), CEO (signs off anything public, usually takes a week), 3 volunteers who write and design about 4 hours a week each."
+      content_types: "Weekly blog post, 4 social posts a week, monthly supporter email, quarterly impact report."
+      tools: "Google Drive, a shared spreadsheet, WhatsApp group"
+    assert:
+      - {type: contains, value: "## Approval rules"}
+      - {type: llm-rubric, value: "Removes the CEO as approver for routine posts with risk tiers, names deputies and a time limit after which the deputy decides, gives one owner per stage per content type sized to volunteer hours, defines statuses with maximum days, sets a folder and naming pattern in the existing Drive, and a 20-minute stand-up with an async option for volunteers."}
+  - name: edge-agency-pod
+    vars:
+      team: "Small agency pod: account lead, two writers, one designer, all full-time. Each client has its own approver who often goes silent."
+      content_types: "For 5 clients: 3 LinkedIn posts a week each, 2 blogs a month each."
+    assert:
+      - {type: llm-rubric, value: "Handles client approvals with a stated turnaround in the agreement and a rule for what happens on silence (for example scheduled with notice), separates internal review from client approval, keeps statuses consistent across clients, and flags the designer as a likely bottleneck given the volume."}
+  - name: negative-missing-team
+    vars:
+      team: "us"
+      content_types: "lots of stuff"
+    assert:
+      - {type: llm-rubric, value: "Asks who is on the team with roles and hours, and what is published and how often, before designing; does not invent a team."}
