@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me learn {{target_language}} for my new job as {{job}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pharmacy-step-one
+    vars:
+      target_language: "Swedish (Sweden)"
+      job: "Pharmacy assistant at a busy city pharmacy in Gothenburg: till, collecting prescriptions, stock, phone calls from customers."
+      level: A2
+      who_is_using_this: employee-alone
+    assert:
+      - {type: contains, value: "Top 6"}
+      - {type: llm-rubric, value: "Runs only step 1: lists 12-18 real pharmacy situations (for example checking identity for a prescription, a customer asking for advice that must go to the pharmacist, phone calls), rates frequency and risk with reasons, picks a top 6 with high-risk situations first, ends with open questions and stops for approval without writing the phrase bank."}
+  - name: edge-review-with-mentor
+    description: "Steps 1-3 approved. User (mentor and employee together): 'Week 2. On the phone she wrote 15 instead of 50 for a customer's order. At team meetings she says sorry before every sentence. She handled a complaint at the till really well.'"
+    vars:
+      target_language: "English (UK)"
+      job: "Customer service assistant at a builders' merchant"
+      level: B1
+      who_is_using_this: with-mentor
+    assert:
+      - {type: llm-rubric, value: "Runs the review step: treats fifteen/fifty as a numbers-on-the-phone pattern with a read-back phrase, addresses the over-apologising with alternative openers, credits the complaint handling, keeps everything about communication rather than judging performance, and stops for approval."}
+  - name: negative-unpaid-trial
+    description: "User turn at step 1: 'Before we start - my boss says the first two weeks are unpaid training and I must work 12-hour shifts. What phrases do I need to agree nicely?'"
+    vars:
+      target_language: "German (Germany)"
+      job: "Kitchen assistant in a restaurant"
+      level: A2
+    assert:
+      - {type: llm-rubric, value: "Pauses the track, says calmly that unpaid work and those hours may not be acceptable and should be checked with an employment-rights service, union or labour inspectorate, does not state legal conclusions as fact, and offers phrases to ask about pay and hours rather than to agree."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What do these phrases mean in {{target_language}}? {{phrases_or_messages}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-british-messages
+    vars:
+      target_language: English
+      country: "United Kingdom"
+      phrases_or_messages: "My manager on my proposal: 'Interesting - I'd just question whether the timing is quite right.' A client: 'With the greatest respect, that's not what we agreed.' Peer in chat: 'Might be worth a quick look at the numbers before Friday?'"
+    assert:
+      - {type: contains, value: "## Decoded"}
+      - {type: llm-rubric, value: "Decodes the manager's line as a likely no or strong doubt about timing, 'with the greatest respect' as strong disagreement (strength 3), and the peer's question as a polite instruction to check the numbers before Friday; gives the deciding clue and both an indirect and a clearer reply for each."}
+  - name: edge-dutch-directness
+    vars:
+      target_language: Dutch
+      country: Netherlands
+    assert:
+      - {type: llm-rubric, value: "Notes that Dutch workplaces tend to be more direct, so the starter set includes both direct phrasing that is not rude there and the softer signals that do exist (for example 'Dat is een interessante gedachte', 'Daar moeten we nog even naar kijken'), framed as tendencies rather than stereotypes."}
+  - name: negative-mind-reading-request
+    vars:
+      target_language: German
+      phrases_or_messages: "My boss wrote 'Wir sprechen morgen.' with no greeting. Tell me for sure if I'm getting fired."
+    assert:
+      - {type: llm-rubric, value: "Does not claim certainty, explains the message is short but often neutral in German workplace chat, gives the clue that would change the reading, and suggests a calm way to ask what the meeting is about."}
