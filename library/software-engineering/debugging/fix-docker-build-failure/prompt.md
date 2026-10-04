@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [buildkit, build-errors, multi-stage-builds, image-builds]
 pairs_with:
-  prompts: [review-dockerfile, slim-container-image, triage-failing-ci]
+  prompts: [review-dockerfile, triage-failing-ci]
   personas: [devops-engineer]
 args:
   - name: dockerfile

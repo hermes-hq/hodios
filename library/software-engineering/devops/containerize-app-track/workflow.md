@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [multi-stage-build, health-checks, non-root, containerization]
 pairs_with:
-  prompts: [review-dockerfile, write-docker-compose, slim-container-image]
+  prompts: [review-dockerfile, write-docker-compose]
   personas: [devops-engineer]
 args:
   - name: app_path

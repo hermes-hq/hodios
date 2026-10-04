@@ -21,6 +21,9 @@ model_tier: frontier
 reasoning: recommended
 level: expert
 tags: [strangler-fig, microservices, service-extraction, data-ownership]
+pairs_with:
+  prompts: [plan-incremental-migration]
+  personas: [software-architect]
 args:
   - name: monolith
     description: The monolith - stack, size, deployment, database, teams that work in it, and the pain that motivates the extraction.

@@ -71,6 +71,7 @@ System context:
 </constraints>
 
 <output_format>
+For an alert, use these headings in this order:
 ## Summary
 ## Triage
 ## Diagnosis
@@ -79,4 +80,6 @@ System context:
 ## Escalation
 ## Fill before publishing
 A checklist of every placeholder and unconfirmed assumption.
+
+For a routine procedure, use: `## Summary`, `## Preconditions`, `## Steps` (numbered, each ending with a checkpoint that says what you should see before continuing), `## Rollback`, `## Verification`, `## Escalation`, `## Fill before publishing`.
 </output_format>
