@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Answer my questions about this document: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tenancy-opening
+    vars:
+      document: "TENANCY AGREEMENT. 1. Term: 12 months from 1 March 2026. 2. Rent: EUR 1,150 per month, due on the 1st. 3. Deposit: two months' rent, returned within 30 days of the end of the tenancy, less deductions for damage beyond fair wear and tear. 4. Pets: not permitted without the landlord's written consent. 5. Break clause: either party may end the tenancy after month 6 with two months' written notice. 6. Repairs: the landlord is responsible for structural repairs and heating."
+      role: tenant
+      answer_length: short
+    assert:
+      - {type: llm-rubric, value: "Opens with one line describing the tenancy agreement and offers three tenant-relevant questions (for example ending early, the deposit, pets), then waits for the user's question instead of answering everything at once."}
+  - name: edge-silent-on-subletting
+    vars:
+      document: "TENANCY AGREEMENT. 1. Term: 12 months. 2. Rent: EUR 1,150 per month. 3. Occupants: the property is let to the named tenant only. 4. Pets: not permitted without written consent."
+      role: tenant
+      first_question: "Can I sublet a room to a friend?"
+      answer_length: short
+    assert:
+      - {type: llm-rubric, value: "Says the document does not explicitly address subletting, quotes clause 3 that the property is let to the named tenant only as the nearest relevant passage, marks any reading of it as inference, and does not state general subletting law as if the document said it."}
+  - name: negative-no-outside-facts
+    vars:
+      document: "EMPLOYEE HANDBOOK. Section 4 Holidays: 25 days per year plus public holidays. Section 5 Sick leave: notify your manager before 10am on the first day."
+      role: new hire
+      first_question: "What notice period do I need to give if I resign?"
+      answer_length: detailed
+    assert:
+      - {type: llm-rubric, value: "States that the handbook does not cover resignation notice, suggests the employment contract as the likely source, and does not supply a typical notice period from general knowledge unless clearly labelled as outside the document."}

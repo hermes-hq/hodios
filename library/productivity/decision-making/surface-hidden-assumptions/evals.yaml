@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What assumptions does this plan make? {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-expansion
+    vars:
+      text: "Plan: open a second cafe in the business district by September. Our current cafe makes EUR 9,000 profit a month, so the second will too. We'll move our best barista, Ana, to run it. Office workers will come for lunch, so we'll add a lunch menu. Funding: a bank loan of EUR 80,000 repaid over 3 years from the new cafe's profits."
+      context: "Current cafe is in a residential area, busiest on weekends."
+    assert:
+      - {type: contains, value: "## Test the riskiest three"}
+      - {type: llm-rubric, value: "Identifies specific hidden assumptions: that a weekday business-district location will match a weekend residential cafe's profit, that Ana wants to and can manage a site, that the first cafe survives losing her, that office workers will choose this cafe for lunch, that the cafe can open by September, and that profits start early enough to repay the loan. Each is tied to a quoted line, rated, and the top three get cheap, concrete tests with a falsifying result."}
+  - name: edge-argument-not-plan
+    vars:
+      text: "Schools should switch to a four-day week. Teachers would be less burned out, so they would stay longer, so students would get more experienced teachers and do better."
+    assert:
+      - {type: llm-rubric, value: "Lays out the causal chain and surfaces assumptions at each link, such as that burnout is driven by days rather than workload, that retention depends mainly on burnout, that experience improves results, and that the lost day's learning is made up. Proposes cheap ways to test, such as reviewing existing four-day-week school evaluations or surveying leaving teachers."}
+  - name: negative-slogan-only
+    vars:
+      text: "We are going to become the market leader."
+    assert:
+      - {type: llm-rubric, value: "Says there is not enough of a plan to analyse and asks what the plan is and how it is meant to work, instead of inventing assumptions."}
