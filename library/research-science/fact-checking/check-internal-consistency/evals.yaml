@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check this document for inconsistencies: {{document}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-grant-application
+    vars:
+      document: "1. Summary: We will train 240 community health workers over 18 months, starting 1 March 2027, at a total cost of EUR 412,000. 2. Plan: Cohort 1 (90 workers) starts March 2027; Cohort 2 (90 workers) starts September 2027; Cohort 3 (80 workers) starts March 2028. The project ends 31 August 2028, 24 months after it begins. 3. Budget: Training EUR 260,000; Materials EUR 64,000; Staff EUR 98,000. Total EUR 412,000. 4. Team: Dr Amara Osei leads the project. Dr Amara Osie will manage evaluation."
+      focus: all
+    assert:
+      - {type: contains, value: "## Arithmetic checks"}
+      - {type: llm-rubric, value: "Finds that cohorts sum to 260 not 240; that 1 March 2027 to 31 August 2028 is 18 months, conflicting with '24 months'; that budget lines sum to EUR 422,000, not 412,000, showing the arithmetic; and flags Osei versus Osie as a possible name inconsistency. Each conflict cites both locations and asks the author which is correct rather than choosing."}
+  - name: edge-terms-focus-contract
+    vars:
+      document: "1. Definitions. 'Business Day' means a day other than a Saturday, Sunday or public holiday in Ireland. 'Supplier' means Northwind Ltd. 4. Payment. The Customer shall pay within 30 working days of invoice. 7. Notices. Notices take effect on the next Business Day. The Vendor shall maintain insurance. 9. See clause 12 for liability caps."
+      focus: terms
+    assert:
+      - {type: llm-rubric, value: "Flags 'working days' in clause 4 as inconsistent with the defined term 'Business Day', and 'Vendor' in clause 7 as an undefined term when 'Supplier' is defined. Notes the reference to clause 12 cannot be checked or may not exist in the text supplied. Does not decide which term was intended."}
+  - name: negative-no-false-positives
+    vars:
+      document: "Section 1: In 2024 the charity served 3,100 families. Section 3: In 2025 the charity served 3,450 families, up from 3,100 the year before, an increase of about 11%."
+      focus: numbers
+    assert:
+      - {type: llm-rubric, value: "Finds no conflict: the 2024 and 2025 figures refer to different years and 350/3,100 is about 11.3%, shown as a passing arithmetic check. Does not invent a contradiction."}

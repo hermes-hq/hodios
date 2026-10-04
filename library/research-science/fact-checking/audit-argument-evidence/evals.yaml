@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this argument well supported? {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-op-ed
+    vars:
+      text: "Our city must ban phones in schools. Since Riverside High banned phones last year, its test scores rose 9%. Teachers everywhere agree phones destroy concentration. Children today are more anxious than ever, and phones are clearly the cause. A ban costs nothing and would transform our schools."
+      claim_scope: main-claims
+    assert:
+      - {type: contains, value: "## Reasoning gaps"}
+      - {type: llm-rubric, value: "Rates the 9% rise as weakly supporting the thesis (one school, no comparison, other causes possible), 'teachers everywhere agree' as unsupported generalisation, the anxiety causation claim as unsupported, and 'costs nothing' as unsupported. Names gaps such as generalising from one school and correlation read as cause. States that unsupported in the text does not mean false, and uses no outside research."}
+  - name: edge-all-claims-with-contradiction
+    vars:
+      text: "Remote work boosts productivity. In our company survey of 300 staff, 70% said they get more done at home. Output per employee, as measured by tickets closed, fell 5% in the year after we went remote, but that was due to a new ticket system. Therefore remote work should be permanent."
+      claim_scope: all-claims
+    assert:
+      - {type: llm-rubric, value: "Notes the self-reported survey as weak support for productivity and flags that the text's own output measure points the other way (contradicted or in tension), with the new-system explanation offered without evidence. Covers every claim including the side point about the ticket system."}
+  - name: negative-no-arguments
+    vars:
+      text: "To reset your router, unplug it, wait 30 seconds, plug it back in, then wait two minutes for the lights to turn green."
+      claim_scope: main-claims
+    assert:
+      - {type: llm-rubric, value: "Says the text is instructions with no argument to audit and stops, without inventing claims."}

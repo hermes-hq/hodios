@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Are these quotes accurate? Article: {{article}} Source: {{source}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-council-meeting
+    vars:
+      article: "Councillor Reyes said the plan was 'a waste of public money'. She added, 'We should scrap the whole thing.' Councillor Park called the opposition 'hysterical'."
+      source: "[14:02] Reyes: Some residents have told me this plan is a waste of public money. I don't agree with them, but we need to answer their concerns. [14:05] Reyes: If costs double again, we should scrap the whole thing. [14:09] Park: I think some of the reaction has been a bit overheated."
+      strictness: verbatim
+    assert:
+      - {type: contains, value: "## Corrected quotes"}
+      - {type: llm-rubric, value: "Classifies 'a waste of public money' as out of context because Reyes was reporting residents' view and disagreed; 'We should scrap the whole thing' as out of context or altered because the condition 'if costs double again' was dropped; and 'hysterical' as paraphrase-as-quote or not found because Park said 'a bit overheated'. Gives timestamps and corrected versions."}
+  - name: edge-meaning-strictness
+    vars:
+      article: "The CEO said, 'We are confident the merger will close by June.'"
+      source: "CEO: Um, we're, we're confident that the merger will close, uh, by June."
+      strictness: meaning
+    assert:
+      - {type: llm-rubric, value: "Classifies the quote as minor variance (filler words and contraction removed) and acceptable under meaning strictness, without flagging it as a problem."}
+  - name: negative-not-found-not-fabricated
+    vars:
+      article: "Dr Hale told the conference, 'This is the most important trial of the decade.' She also said early results were 'encouraging but preliminary'."
+      source: "Extract from Dr Hale's talk, minutes 10-15: The early results are encouraging but preliminary, and we will know more in a year."
+      strictness: verbatim
+    assert:
+      - {type: llm-rubric, value: "Marks 'encouraging but preliminary' as exact. Marks the 'most important trial of the decade' quote as not found in the supplied source and notes the source is only minutes 10-15, without asserting the quote was fabricated."}

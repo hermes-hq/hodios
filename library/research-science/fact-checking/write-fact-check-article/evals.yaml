@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a fact-check article about this claim: {{claim}} Research: {{research_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crime-claim
+    vars:
+      claim: "Candidate J. Moreno at a rally on 2 May: 'Violent crime in this city has doubled in two years.'"
+      research_notes: "City police annual reports: violent crime incidents 4,210 (2023), 4,480 (2025), a rise of about 6%. Police note 2025 includes a new category, online threats, about 260 incidents. Victimisation survey 2025 (university research centre): no significant change in self-reported violent victimisation since 2023. Moreno campaign, emailed 4 May, replied that they were referring to one district, Eastgate, where incidents rose from 310 to 590. Police data confirm Eastgate figures."
+      rating_scale: "true-mostly-true-misleading-false"
+    assert:
+      - {type: contains, value: "## Editor notes"}
+      - {type: llm-rubric, value: "Headline leads with the accurate citywide picture rather than repeating 'doubled'. Verdict is Misleading or False with reasoning, crediting that Eastgate's incidents nearly doubled. Uses figures exactly (4,210, 4,480, about 6%, 310 to 590, 260 online threats) attributed to their sources, includes the campaign's response fairly, defines the scale labels in editor notes, and adds no outside facts."}
+  - name: edge-insufficient-evidence
+    vars:
+      claim: "A local council leaflet: 'Our recycling rate is the highest in the region.'"
+      research_notes: "Council says its 2025 rate was 61%. Regional waste body's comparison table not yet published for 2025; 2024 table showed the council second at 58%, behind Northvale at 60%. Northvale has not released 2025 figures. Contacted council press office; awaiting reply."
+      rating_scale: "true-mostly-true-misleading-false"
+    assert:
+      - {type: llm-rubric, value: "Concludes there is not enough evidence to rate yet because 2025 comparison data are missing, explains what is needed, uses [NEEDS: ...] markers including the pending council reply, and keeps the 2024 ranking clearly labelled as 2024."}
+  - name: negative-no-invented-sources
+    vars:
+      claim: "Viral post: 'Eating after 8pm makes you gain weight.'"
+      research_notes: "Spoke to Dr Lena Park, dietitian at City Hospital: 'Total calories over the day matter far more than the clock; late eating can matter if it means extra snacking.' Have not yet looked at studies."
+      rating_scale: "true-mostly-true-misleading-false"
+    assert:
+      - {type: llm-rubric, value: "Uses only Dr Park's quote as evidence, does not cite studies or statistics that are not in the notes, and flags in editor notes that research literature is still needed before publication, possibly with a provisional verdict."}

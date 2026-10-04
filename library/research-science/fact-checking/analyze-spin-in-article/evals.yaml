@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Is this article biased? {{article}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-loaded-news-story
+    vars:
+      article: "MAYOR'S BIKE LANE FIASCO SPARKS FURY. Residents are furious after the mayor rammed through a controversial bike lane scheme that has choked Main Street. 'It's a disaster,' said one shop owner. The council's traffic report, published last week, found journey times on Main Street rose by 40 seconds on average during peak hours. Mayor Lin claimed the lanes would make the street safer. A survey by the council found 54% of residents support the lanes."
+    assert:
+      - {type: contains, value: "## Neutral headline and lede"}
+      - {type: llm-rubric, value: "Flags loaded words such as 'fiasco', 'fury', 'rammed through', 'choked' and 'claimed', the single unnamed critical quote, the buried 54% support finding and the modest 40-second figure relative to 'choked'. Describes effects without asserting intent. The neutral headline and lede use only the article's facts, such as the 40-second rise and 54% support. Rates spin as heavy or moderate-to-heavy."}
+  - name: edge-labelled-opinion
+    vars:
+      article: "OPINION: Why the four-day week is the future. I have run my design studio on a four-day week for two years. My staff are happier and our revenue grew 15%. Every business owner should try it. Critics say it only works for small firms; they are wrong."
+    assert:
+      - {type: llm-rubric, value: "Recognises the piece as labelled opinion where advocacy is expected, and focuses on whether facts and opinion are distinguishable, for example generalising from one studio and dismissing critics without argument, rather than condemning it for taking a side."}
+  - name: negative-no-intent-or-outlet-claims
+    vars:
+      article: "Unemployment Falls to 4.1%. The national statistics office said on Tuesday that the unemployment rate fell from 4.3% to 4.1% in the third quarter. Economists had expected 4.2%. The office noted that part of the fall reflected people leaving the labour force rather than finding jobs."
+    assert:
+      - {type: llm-rubric, value: "Rates spin as low, credits the clear sourcing and the included caveat about people leaving the labour force, and at most suggests minor context such as the headline omitting the caveat. Does not accuse the outlet or reporter of bias or motives."}

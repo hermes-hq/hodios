@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this paraphrase accurate to the source? Paraphrase: {{paraphrase}} Source: {{source}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-study-summary
+    vars:
+      paraphrase: "The study proves that drinking coffee prevents dementia. People who drank coffee had a 25% lower rate of dementia. The researchers recommend that everyone drink three cups a day."
+      source: "In this observational cohort of 8,000 adults aged 65 and over, those who reported drinking two to three cups of coffee daily had a 25% lower incidence of dementia over ten years. Because the study is observational, we cannot conclude that coffee causes this difference; healthier lifestyles among coffee drinkers may explain part of it. Further trials are needed."
+    assert:
+      - {type: contains, value: "## Corrected paraphrase"}
+      - {type: llm-rubric, value: "Verdict is Misleading. Flags 'proves' and 'prevents' as overstated causation, the 25% sentence as dropping the population (65 and over) and the two-to-three-cups condition, and the recommendation as not in the source. Lists the observational limitation as an important omission. The corrected paraphrase keeps the hedges."}
+  - name: edge-faithful-compression
+    vars:
+      paraphrase: "Remote workers in the survey reported slightly higher job satisfaction, though the authors note the sample was small."
+      source: "Among the 120 respondents, those working remotely reported job satisfaction scores averaging 7.4 out of 10, compared with 7.0 for office-based staff. Given the small sample, the authors caution against generalising these results."
+    assert:
+      - {type: llm-rubric, value: "Verdict is Faithful or Mostly faithful. Treats the omission of exact scores as acceptable compression and recognises that 'slightly higher' and the small-sample caveat are kept. Does not invent problems."}
+  - name: negative-misattribution
+    vars:
+      paraphrase: "The author argues that minimum wage increases destroy jobs."
+      source: "Critics often claim that minimum wage increases destroy jobs. The evidence reviewed here does not support that claim for moderate increases, though effects of very large increases remain uncertain."
+    assert:
+      - {type: llm-rubric, value: "Classifies the paraphrase as misattributed: the source reports critics' view and argues against it for moderate increases. Verdict is Misleading and the corrected paraphrase reflects the author's actual position and its limit on very large increases."}
