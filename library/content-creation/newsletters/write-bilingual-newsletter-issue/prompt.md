@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [two-languages, newcomers, plain-language, translation-review, community-update]
 pairs_with:
-  prompts: [write-community-digest, write-classroom-family-newsletter, make-parallel-bilingual-text]
+  prompts: [write-community-digest, write-classroom-newsletter, make-parallel-bilingual-text]
 args:
   - name: content
     description: What the issue must say - updates, dates, services, events, deadlines, contacts - in whichever language you wrote it. Note anything legal, medical or about money that must be exact.
