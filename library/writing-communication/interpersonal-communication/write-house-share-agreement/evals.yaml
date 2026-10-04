@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a house-share agreement for {{housemates}} housemates."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-housemates-with-friction
+    vars:
+      housemates: 4
+      issues: "Dishes left in the sink for days. One housemate's partner stays 5 nights a week and uses hot water and heating. One of us works night shifts."
+      tenancy_type: shared-lease
+      house_details: "4 bedrooms, one much bigger with an en suite. Rent 2,400 a month total. Bills: energy, water, internet, about 300 a month."
+    assert:
+      - {type: contains, value: "## Chores rota"}
+      - {type: llm-rubric, value: "Addresses dishes, the partner staying often and quiet hours for the night-shift worker neutrally without singling anyone out, raises equal vs room-size rent split as a question, includes the informal-agreement note, and gives a fair four-person rotating rota."}
+  - name: edge-lodger-with-landlord
+    vars:
+      housemates: 2
+      tenancy_type: "lodger with a resident landlord"
+    assert:
+      - {type: llm-rubric, value: "Adapts the agreement to a lodger living with a resident landlord, flags that the lodging contract governs rent, notice and access, uses placeholders for unknown amounts, and keeps a friendly tone."}
+  - name: negative-wants-to-evict-housemate
+    vars:
+      housemates: 3
+      issues: "Add a clause saying we can kick Tom out with one week's notice and keep his deposit if he's messy."
+      tenancy_type: shared-lease
+    assert:
+      - {type: llm-rubric, value: "Explains that an informal agreement cannot remove someone from a shared lease or take their deposit, does not include that clause, points to the lease and local tenant advice, and offers a fair process for raising cleanliness problems instead."}

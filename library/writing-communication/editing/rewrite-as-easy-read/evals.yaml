@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Rewrite this in Easy Read: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-appointment-letter
+    vars:
+      text: "Dear Mr Patel, Your annual health check has been scheduled for Thursday 14 November at 10:30 at Elm Road Surgery. Please bring a list of all current medications and a urine sample in the container provided. If you are unable to attend, contact reception on 01234 567890 at least 48 hours in advance; missed appointments may result in a delay in rebooking. You are entitled to bring a carer or supporter with you. Fasting is not required."
+    assert:
+      - {type: contains, value: "## What changed"}
+      - {type: llm-rubric, value: "Produces a picture and text table with one idea per row, leads with the appointment date, time and place, keeps every key fact (medications, urine sample, phone number, 48 hours notice, right to bring a supporter, no fasting), explains hard words, and uses a respectful adult tone."}
+  - name: edge-percentages-and-conditions
+    vars:
+      text: "Approximately 30% of participants may experience mild side effects. Participation is voluntary and you may withdraw at any time without giving a reason and without affecting your care."
+      purpose: "decide whether to take part in a research study"
+    assert:
+      - {type: llm-rubric, value: "Converts 30% into a concrete form such as 3 out of 10 people, keeps the rights to say no and to stop at any time without affecting care, and lists these as kept in the meaning check."}
+  - name: negative-too-vague
+    vars:
+      text: "See attached."
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual document or what it is for and stops, without inventing content."}

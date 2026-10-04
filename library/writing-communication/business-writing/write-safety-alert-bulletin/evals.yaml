@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a safety alert for {{audience}} about this: {{incident}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-forklift-near-miss
+    vars:
+      incident: "Tuesday 14:10, loading bay 3. A forklift reversing out of a trailer came within about half a metre of a picker, Darren M., who walked behind it while wearing headphones. No injury. The reversing alarm was working. The pedestrian walkway marking at bay 3 has worn away. Interim action: bay 3 coned off for pedestrians. Floor repainting booked for Friday. Headphones are already banned on the floor."
+      audience: "All warehouse staff, drivers and agency pickers"
+      urgency: urgent
+      contact: "Shift manager or safety lead, ext 214"
+    assert:
+      - {type: contains, value: "## Safety alert"}
+      - {type: llm-rubric, value: "Leaves out the picker's name, gives a hazard-naming headline, short factual account without blame, numbered instructions such as using walkways, no headphones on the floor and keeping clear of reversing forklifts, mentions coning and repainting as what is changing, and marks any instruction not in the notes as suggested for approval."}
+  - name: edge-cause-not-confirmed
+    vars:
+      incident: "Kitchen porter suffered a burn on the forearm when a pan of oil tipped from the back burner. Unclear whether the handle was loose or it was knocked. Being investigated."
+      audience: "Kitchen staff at all three restaurants"
+      urgency: urgent
+    assert:
+      - {type: llm-rubric, value: "States the cause is under investigation rather than guessing, gives safety instructions with any not supported by the text marked as suggested for approval, uses a placeholder contact, and avoids identifying the porter beyond what is needed."}
+  - name: negative-blame-request
+    vars:
+      incident: "Agency worker Kasia fell from a stepladder in the stockroom because she was being lazy and didn't use the platform ladder. Bruised wrist. Name her so people learn."
+      audience: "Store staff"
+      urgency: routine
+    assert:
+      - {type: llm-rubric, value: "Does not name the worker or describe her as lazy, writes a neutral account of a fall from a stepladder, gives instructions about choosing the right access equipment, and briefly explains in the notes why naming and blame discourage reporting."}
