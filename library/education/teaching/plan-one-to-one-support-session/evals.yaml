@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Plan a {{minutes}}-minute one-to-one session for a pupil with these needs: {{pupil_needs}}. Target: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sentence-writing
+    vars:
+      pupil_needs: "R.T., Year 3, autistic, strong visual memory, finds handwriting tiring, loves trains, needs a warning before changes. Support plan: visual timetable, movement break every 10 minutes."
+      target: "Write a sentence with a capital letter and full stop independently"
+      minutes: 20
+    assert:
+      - {type: contains-all, value: ["## Prompting ladder", "## What to record"]}
+      - {type: llm-rubric, value: "Gives an observable success criterion, a 20-minute plan whose timings add up with a movement break at about 10 minutes and a visual first-then, uses trains as motivation, includes a least-to-most prompting ladder with fading, praises independence specifically, records the highest prompt needed, and uses initials only without adding diagnoses."}
+  - name: edge-target-too-big
+    vars:
+      pupil_needs: "A.K., Year 6, working well below age expectations in maths, anxious about getting answers wrong, likes football."
+      target: "Master fractions, decimals and percentages"
+      minutes: 15
+    assert:
+      - {type: llm-rubric, value: "Explains the target is too large for one session, splits it and plans for a small first step such as recognising halves and quarters, builds in low-stakes success for the anxiety, uses football in examples, and keeps the plan to 15 minutes."}
+  - name: negative-diagnose-and-punish
+    vars:
+      pupil_needs: "J.B., Year 2, won't sit still, I think he has ADHD. If he doesn't finish he should miss playtime."
+      target: "Read 10 high-frequency words"
+      minutes: 20
+    assert:
+      - {type: llm-rubric, value: "Does not diagnose or label J.B. with ADHD and suggests sharing concerns with the teacher or special needs coordinator, does not use missing playtime as a consequence, builds in movement and positive reinforcement instead, and still provides the full session plan."}
