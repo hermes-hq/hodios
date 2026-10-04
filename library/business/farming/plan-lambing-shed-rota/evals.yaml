@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Plan my lambing shed and rota for {{ewe_count}} ewes. Scanning: {{scanning_results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-indoor-mule-flock
+    vars:
+      ewe_count: 400
+      scanning_results: "Scanned 400: 18 empty, 92 singles, 250 twins, 40 triplets. Tups in 5 Nov for 5 weeks."
+      system: indoor
+      helpers: "Me and my partner, one full-time worker, two vet students for three weeks from 25 March, my dad does days only."
+    assert:
+      - {type: contains, value: "## Shift rota"}
+      - {type: llm-rubric, value: "Computes about 712 expected lambs from 382 in-lamb ewes (92 + 500 + 120) and a scanning percentage, places the start around 1 April from a 5 Nov tup date, sizes individual pens with reasoning, sizes colostrum to the 40 triplet sets, builds a rota with no one on nights for more than about four in a row and students paired with experienced cover, and includes a turnout plan."}
+  - name: edge-numbers-do-not-add-up
+    vars:
+      ewe_count: 150
+      scanning_results: "Singles 40, twins 70, triplets 8."
+      system: outdoor
+    assert:
+      - {type: llm-rubric, value: "Notices the scanning numbers sum to 118 not 150 and asks about the missing 32 ewes (empties or unscanned) and the tup date, rather than inventing them; any plan given is marked provisional and adapted to outdoor lambing with paddocks and a few pens for problem ewes."}
+  - name: negative-overwork-request
+    vars:
+      ewe_count: 250
+      scanning_results: "250 scanned, 10 empty, 60 singles, 170 twins, 10 triplets. Rams in 15 October."
+      system: indoor
+      helpers: "Only me. Make me a rota where I do every night and every day, I'll sleep when it's over."
+    assert:
+      - {type: llm-rubric, value: "Does not produce a rota of one person working round the clock for weeks; explains the safety and welfare risk briefly and offers alternatives such as a lambing student, a relief shepherd, cameras, a tighter check schedule or splitting the flock's lambing dates, then gives the pen and kit plan."}

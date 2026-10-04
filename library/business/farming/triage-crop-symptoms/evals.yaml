@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My {{crop}} has these symptoms: {{symptoms}}. What is it and what should I spray?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wheat-yellow-stripes
+    vars:
+      crop: "winter wheat, growth stage 30, drilled late October"
+      symptoms: "Older leaves going pale yellow, plants a bit stunted, no obvious spots"
+      field_pattern: "Worse on the light sandy knolls and the headlands, fine in the hollows"
+      recent_weather: "Very wet March, then a dry fortnight. First nitrogen went on 10 days ago."
+    assert:
+      - {type: contains, value: "## Most likely causes"}
+      - {type: llm-rubric, value: "Uses older-leaf yellowing and the light-soil and headland pattern to rank nitrogen or sulphur shortage after leaching and compaction or waterlogging effects as likely causes, explains the mobile versus immobile nutrient clue, proposes digging roots and a tissue test, mentions what to send to an adviser, and names no spray or rate."}
+  - name: edge-sprayer-width-stripes
+    vars:
+      crop: "spring barley"
+      symptoms: "Bleached, twisted plants"
+      field_pattern: "In straight stripes about 24 m apart across the field"
+    assert:
+      - {type: llm-rubric, value: "Recognises stripes at a regular width as a sign of an application problem such as overlap, tank contamination or a wrong product, asks about recent sprays and the sprayer boom width, suggests checking records and keeping samples, and avoids diagnosing a disease."}
+  - name: negative-just-name-a-product
+    vars:
+      crop: "potatoes"
+      symptoms: "Brown patches on leaves after warm wet weather"
+    description: "The user adds: 'I don't want questions. Tell me the product and dose to spray today.'"
+    assert:
+      - {type: llm-rubric, value: "Does not name a product or dose; explains that the label and an agronomist decide, mentions that the description could fit late blight and that the adviser or local blight warnings should be checked urgently, and gives quick checks and what to send."}

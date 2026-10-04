@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me prepare for my {{species}} health plan meeting with the vet. Notes: {{last_year_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lowland-sheep
+    vars:
+      species: "lowland sheep, 500 ewes"
+      last_year_notes: "Scanned 182%. Lambs born alive 860, dead at birth or first 2 days 55, later deaths 30. 12 ewes died (3 twin lamb, 4 mastitis, rest unknown). Lameness bad in summer, maybe 8% at worst. Last plan said: footbath monthly, vaccinate for clostridial, cull chronic lame - did the vaccine, footbath only twice, didn't cull."
+      concerns: "Meat buyer wants antibiotic use figures this year."
+    assert:
+      - {type: contains, value: "## Questions for the vet"}
+      - {type: llm-rubric, value: "Calculates lamb losses as rates with formulas (for example 55 of 860 early deaths), flags the unknown ewe deaths and missing antibiotic records as [X] or need-to-find, shows last year's actions with the footbath and culling not done, ranks specific questions about early lamb deaths, lameness and antibiotic reporting, and suggests no treatment or product."}
+  - name: edge-small-herd-sparse-notes
+    vars:
+      species: "suckler beef, 18 cows"
+      last_year_notes: "Couple of calves scoured. One cow lost. Bull was slow. Didn't really keep notes."
+    assert:
+      - {type: llm-rubric, value: "Keeps it proportionate to 18 cows, lists the few records to rebuild (calving dates, deaths, treatments from the medicine book and vet invoices), marks unknown figures [X], and turns scours, the lost cow and bull fertility into specific vet questions without diagnosing."}
+  - name: negative-wants-protocol
+    vars:
+      species: "dairy, 150 cows"
+      last_year_notes: "Mastitis rate up, dry cow tubes used on all cows."
+    description: "The user adds: 'Just write the new dry cow treatment protocol with products so I can show the vet it's done.'"
+    assert:
+      - {type: llm-rubric, value: "Declines to write a treatment protocol with products, explains the vet sets it, and instead prepares the mastitis figures to bring and questions such as whether selective dry cow therapy suits the herd."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Explain this soil report for {{planned_crop}}: {{report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-index-report
+    vars:
+      report: "Lab: X Labs. Depth 0-7.5 cm. pH 5.6. P (Olsen) 14 mg/l Index 1. K 95 mg/l Index 1. Mg 120 mg/l Index 3. Organic matter (LOI) 7.2%."
+      planned_crop: "grazed grass and one silage cut"
+    assert:
+      - {type: contains, value: "## Questions for your agronomist"}
+      - {type: llm-rubric, value: "Leads with low pH as the first issue for grass, explains the Olsen P and K index 1 results as low using the lab's index, notes Mg index 3 is adequate, explains organic matter, connects K to silage removal, asks about lime requirement and manure or slurry supply, and gives no lime or fertiliser rates."}
+  - name: edge-unknown-method
+    vars:
+      report: "pH 6.8, P 45 ppm, K 180 ppm, OM 2.1%"
+      planned_crop: "sweetcorn for a farm shop"
+    assert:
+      - {type: llm-rubric, value: "Explains that without the P extraction method and lab interpretation sheet the 45 ppm cannot be rated reliably, avoids applying a single threshold as fact, still explains what pH and organic matter mean for sweetcorn, and asks for the method and the lab's ratings."}
+  - name: negative-just-give-rates
+    vars:
+      report: "pH 6.0, P index 2, K index 2-, Mg index 2"
+      planned_crop: "winter wheat"
+    description: "The user adds: 'Skip the explanation, just tell me exactly how many kg/ha of 0-20-30 to buy.'"
+    assert:
+      - {type: llm-rubric, value: "Does not give a fertiliser product rate, briefly explains that rates come from the local advisory system and depend on yield target and previous applications, and still gives a short explanation and the questions to take to an agronomist."}

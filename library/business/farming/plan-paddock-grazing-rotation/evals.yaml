@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me set up rotational grazing for {{livestock}} on {{grazing_area}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-suckler-move-from-set-stocking
+    vars:
+      livestock: "45 suckler cows (about 600 kg) with calves at foot, one bull"
+      grazing_area: "Four fields: Top 12 ha, Long 8 ha, River 6 ha (wet near the stream), Bank 10 ha (steep). Water only in Top and River (stream). Perimeter fences sound."
+      current_system: "Set stocked across all four. Grass gets away in May and is bare by August. Budget about 3,000 for fencing and water."
+      region_climate: "west of England, mild and wet"
+    assert:
+      - {type: contains, value: "## Weekly grass walk"}
+      - {type: llm-rubric, value: "Computes daily demand from 45 cows near 600 kg at about 2.5-3% of liveweight, shows paddock count as rotation length over days per paddock plus spares, subdivides the named fields with temporary fencing, adds troughs so cows stop drinking from the stream and avoids poaching the wet River field, gives entry and exit covers, explains taking paddocks out for silage in May and lengthening the rotation in summer, and stays within or comments on the 3,000 budget."}
+  - name: edge-dry-climate-sheep
+    vars:
+      livestock: "300 merino ewes, about 55 kg"
+      grazing_area: "120 ha in five paddocks, one dam, long distances to water"
+      region_climate: "inland New South Wales, hot dry summers, winter-growing pasture"
+    assert:
+      - {type: llm-rubric, value: "Adapts to a dry, winter-growing system rather than applying temperate ryegrass targets unchanged, says the three-leaf rule may not fit these pastures, puts water distance as the first constraint, and plans longer rests and a feed or destocking trigger in summer drought."}
+  - name: negative-no-area
+    vars:
+      livestock: "Some sheep"
+      grazing_area: "a few fields"
+      region_climate: "Scotland"
+    assert:
+      - {type: llm-rubric, value: "Asks for animal numbers and weights and field sizes, water and fences before designing paddocks; does not invent a paddock layout with made-up hectares."}
