@@ -33,7 +33,7 @@ args:
     type: text
     required: true
   - name: seconds
-    description: Total length of the cue in seconds (for a game loop, the loop length).
+    description: Total length of the cue in seconds. For a game loop, the loop length; for a podcast, the length of the bed that sits under speech (stings and the outro are sized separately).
     type: number
     default: 60
 output_contract:
@@ -67,7 +67,7 @@ Write background music cue prompts for {{use}}, {{seconds}} seconds in total.
    Each prompt states: instrumental, BPM, key or mode, instruments and their register, mood, energy curve, and "no vocals, no lead melody competing with speech" where speech is present.
 5. **Voice space.** For cues under speech: keep instruments out of the core speech range or playing sustained parts there, use warm low end and airy highs, avoid sudden hits, and suggest mixing the bed well below the voice and ducking it under speech in the editor.
 6. **Edit and loop notes.** Where to cut, how to test a loop (play it ten times; listen for clicks, tail cut-offs and fatigue), and that generators often add endings or fade-outs, so trim to the bar and crossfade a few milliseconds at the loop point.
-7. Before answering, check that section bars add up to {{seconds}} seconds at the chosen BPM within one bar, and that every prompt names BPM, key and instrumental.
+7. Before answering, check that section bars add up to {{seconds}} seconds at the chosen BPM within one bar (for a podcast, the bed alone; stings and outro are listed with their own lengths), and that every prompt names BPM, key and instrumental.
 </task>
 
 <constraints>

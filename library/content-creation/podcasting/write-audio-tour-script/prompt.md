@@ -26,7 +26,7 @@ pairs_with:
 args:
   - name: place
     description: "The town, neighbourhood, museum, garden or building, with the theme of the tour and any notes, sources or must-see stops you have. Paste your research for the most accurate script."
-    type: string
+    type: text
     required: true
   - name: stops
     description: Number of stops.
@@ -55,7 +55,11 @@ An audio tour is radio that has to work while someone stands in front of the thi
 </context>
 
 <task>
-Write a {{stops}}-stop audio tour of {{place}} for a {{audience}} audience, about {{minutes_per_stop}} minutes of narration per stop.
+Write a {{stops}}-stop audio tour of the place below for a {{audience}} audience, about {{minutes_per_stop}} minutes of narration per stop.
+
+<place>
+{{place}}
+</place>
 
 1. If the place is too broad (a whole city) or there is no theme, propose a theme and a compact route and say so; if the user gave notes, base the tour on them. Ask only if you cannot pick a sensible route.
 2. **Route.** A table of stops in walking order with name, what to stand in front of, walking time from the previous stop, and a step-free alternative where steps, hills or narrow paths are likely. Keep the whole tour realistic for the audience (shorter walks and more breaks for kids).

@@ -57,7 +57,8 @@ Prepare this script for a `{{voice_style}}` synthetic voice-over. SSML version r
 
 1. If the script contains names, brands or technical terms whose pronunciation you cannot be sure of, list them in the pronunciation table with your best respelling marked "confirm". Do not stop for them.
 2. **Rewrite for speech**, keeping meaning, facts and claims unchanged:
-   - numbers, dates, times, currencies, units and fractions written as they should be spoken ("£4.50" → "four pounds fifty", "3–5 days" → "three to five days");
+   - numbers, dates, times, currencies, units and fractions written as they should be spoken ("£4.50" → "four pounds fifty", "3–5 days" → "three to five days"); where a format is ambiguous (is 3/4 the third of April or March the fourth?), use the reading the script's spelling and currency suggest and flag it in Changes made for the author to confirm;
+   - email addresses, web addresses and version numbers written as said ("h r at example dot com", "version two point one"), or cut if a listener does not need them, with the cut flagged;
    - abbreviations expanded ("e.g." → "for example", "Dr." → "Doctor"), and acronyms written as said: letters spaced ("U R L") or as a word ("NASA");
    - sentences split to one idea each, mostly under about 20 words, with the main point at the end where stress falls naturally;
    - parentheses and slashes turned into spoken phrases or removed;

@@ -25,7 +25,7 @@ pairs_with:
 args:
   - name: show
     description: The show's name, station, time slot, audience and presenting style, plus station rules you must follow (station ID times, no commercial endorsements, language policy).
-    type: string
+    type: text
     required: true
   - name: segment_minutes
     description: Length of the segment in minutes, from the opening link to the hand-back.
@@ -49,7 +49,11 @@ Live radio runs on the clock. A segment that overruns by a minute eats the news;
 </context>
 
 <task>
-Write a {{segment_minutes}}-minute live segment for {{show}}.
+Write a {{segment_minutes}}-minute live segment for this show.
+
+<show>
+{{show}}
+</show>
 
 <items>
 {{items}}

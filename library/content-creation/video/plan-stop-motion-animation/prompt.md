@@ -32,7 +32,7 @@ args:
     type: number
     default: 30
   - name: fps
-    description: "Frames per second for playback. 12 is the classic hobby rate (shooting 'on twos'); 8 to 10 looks choppier but is quicker; 24 is smooth but doubles the work."
+    description: "Playback frames per second, one photo per frame. 12 is the classic hobby rate (the same motion as film animated 'on twos' at 24); 8 to 10 is quicker but choppier; 24 is smoothest and doubles the photos unless you shoot on twos."
     type: number
     default: 12
   - name: materials
@@ -62,7 +62,7 @@ Plan a {{seconds}}-second stop-motion film at {{fps}} frames per second from thi
 Materials available: {{materials}}
 {{/materials}}
 
-1. **Frame maths.** Show it: total frames = {{seconds}} × {{fps}}. If shooting "on twos" (each pose held for two frames), photos needed = total frames ÷ 2. Estimate shooting time at a realistic pace for beginners (about 2 to 4 photos a minute including moves) and say how many sessions it means. If the result is too much for the group (for example a class with one lesson), propose a shorter film or a lower frame rate and show the new numbers.
+1. **Frame maths.** Show it: total frames = {{seconds}} × {{fps}}, and photos needed = total frames, because each photo fills one frame. Two exceptions, stated only when they apply: at 24 fps, offer shooting "on twos" (each photo held for two frames), which halves the photos and moves exactly like 12 fps; and holds on key poses can reuse one photo for several frames, which saves moves but not screen time. Do not hold photos at 12 fps or below except for holds: that drops to 6 poses a second and looks jerky. Estimate shooting time at a realistic beginner pace (about 2 to 4 photos a minute including the moves) and convert it into sessions. If that is too much for the makers (for example a class with one lesson), propose a shorter film, a lower frame rate or the work split across groups, and show the new numbers.
 2. **Story.** Shrink the idea to three beats that fit the length: setup, problem, payoff, with seconds per beat that add up to {{seconds}}. Cut anything that needs complex walking, many characters or big camera moves.
 3. **Characters and set.** How to build each character from the available materials (or simple suggestions if none were listed) so it stands and holds poses: wire or a heavy base inside clay, sticky tack under feet, paper cut-outs on a flat surface shot from above. A simple set, a background that will not move, and how to fix everything to the table.
 4. **Shot list.** A table: shot number, beat, seconds, frames (seconds × fps), framing (wide, medium, close-up), what moves and how far per frame, and a tip for that shot (easing: smaller moves at the start and end of each motion; a hold of a few frames on key poses so viewers can read them).
