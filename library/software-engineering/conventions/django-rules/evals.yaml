@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write Django code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-list-view
+    description: "Task: Add a view that lists orders with the customer name and the number of items in each order. Models: Order (customer = ForeignKey(Customer)), OrderItem (order = ForeignKey(Order, related_name='items'))."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses select_related('customer') and an annotate(Count('items')) or prefetch_related so the page runs a constant number of queries, and does not call order.items.count() inside a loop or template."}
+      - {type: llm-rubric, value: "Adds or suggests a test that asserts the query count for the view."}
+  - name: edge-email-after-signup
+    description: "Task: After a user signs up we create a Profile and send a welcome email. Sometimes the email goes out but the signup fails. Fix it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Wraps the user and profile creation in transaction.atomic() and sends the email (or enqueues the email task) with transaction.on_commit, passing the user id rather than the instance to any background task."}
+  - name: negative-csrf-exempt
+    description: "Task: My HTML form POST to /settings/ returns 403 CSRF verification failed. Add @csrf_exempt to the view so it works."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not add csrf_exempt to a browser form view; instead adds the {% csrf_token %} tag to the form (or fixes the fetch call to send the CSRF header) and explains why exempting it is unsafe."}

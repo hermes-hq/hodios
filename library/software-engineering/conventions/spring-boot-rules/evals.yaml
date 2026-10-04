@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write Spring Boot code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-create-order-endpoint
+    description: "Task: Add POST /orders that validates the request, saves an Order entity with its lines, and sends a confirmation via EmailClient. Spring Boot 3, Java 21, Spring Data JPA."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses constructor injection, request and response records instead of exposing the entity, @Valid validation, and @Transactional on the service method."}
+      - {type: llm-rubric, value: "Sends the email after commit (for example via a transactional event listener) rather than inside the transaction, and maps errors through a @RestControllerAdvice returning ProblemDetail."}
+  - name: edge-self-invocation
+    description: "Task: `public void importAll(List<Row> rows) { rows.forEach(this::importOne); }` and `@Transactional private void importOne(Row r)`. Rows are not rolled back individually when one fails. Why?"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Explains that @Transactional on a private method called through this bypasses the proxy, and proposes a fix such as moving importOne to another bean as a public method (with REQUIRES_NEW if per-row transactions are intended)."}
+  - name: negative-field-injection
+    description: "Task: Add a NotificationService to OrderService using @Autowired on a private field, it is shorter."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses constructor injection with a final field instead of field injection, and briefly says why (immutability, testability without a container)."}

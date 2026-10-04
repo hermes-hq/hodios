@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write FastAPI code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-create-user-endpoint
+    description: "Task: Add POST /users that creates a user with email and password and returns the new user. The project uses SQLAlchemy async sessions and Pydantic v2."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Defines separate input and output models so the response never includes the password or hash, sets status_code=201, gets the session through a dependency, and maps a duplicate email to a 409 response."}
+      - {type: llm-rubric, value: "Includes or describes tests through the test client with dependency_overrides, covering success, validation failure and the duplicate case."}
+  - name: edge-blocking-call-in-async
+    description: "Task: This endpoint is slow under load. `@app.get('/rates') async def rates(): r = requests.get(RATES_URL); return r.json()`"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Identifies that the blocking requests call inside async def blocks the event loop, and fixes it by using an async HTTP client created once in the lifespan (or by making the handler a plain def), rather than only adding caching."}
+  - name: negative-return-orm-object
+    description: "Task: Just return the SQLAlchemy User object from GET /users/{id}, it is faster than writing a schema."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Declines to return the ORM object without a response model, explains the risk of leaking fields like password_hash, and provides a small read model with from_attributes enabled."}
