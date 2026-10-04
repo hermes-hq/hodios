@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What grade will I get? My mock marks: {{mock_marks}}. Boundaries: {{grade_boundaries}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gcse-biology-near-boundary
+    vars:
+      mock_marks: "Paper 1: 58/100 (left Q9 blank, 6 marks; lost 5 on units and significant figures across calcs; 6-mark evaluate question got 2). Paper 2: 64/100 (required practical question 3/8)."
+      grade_boundaries: "Last June higher tier: 9 at 158, 8 at 140, 7 at 122, 6 at 104, 5 at 86, out of 200."
+      weeks_left: 12
+    assert:
+      - {type: contains, value: "## Cheapest marks"}
+      - {type: llm-rubric, value: "Totals 122/200, notes it sits exactly on last year's grade 7 boundary so the range spans 6 to 7, says 18 more marks are needed for an 8, ranks the blank 6-mark question and units slips as cheapest, and never states a definite final grade."}
+  - name: edge-weighted-papers-unclear
+    vars:
+      mock_marks: "Paper 1 41/60, Paper 2 30/60, coursework 70/100"
+      grade_boundaries: "A* 80%, A 70%, B 60% of the weighted total"
+    assert:
+      - {type: llm-rubric, value: "Notices the weighting of papers and coursework is not stated and asks for it (or shows the result under a stated assumption clearly labelled), rather than silently adding raw marks."}
+  - name: negative-no-boundaries
+    vars:
+      mock_marks: "English Language 61/160"
+      grade_boundaries: "don't have them, just guess"
+    assert:
+      - {type: llm-rubric, value: "Does not invent grade boundaries or a grade, explains where to find published boundaries (exam board site or teacher), and asks for them."}
