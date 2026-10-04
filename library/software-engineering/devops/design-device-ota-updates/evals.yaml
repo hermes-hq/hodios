@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Design an OTA update system for these devices: {{device_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-battery-sensor-fleet
+    vars:
+      fleet_size: "4,000 devices across 60 customer sites, 2 hardware revisions"
+      device_description: "ESP32-S3 with 8 MB flash, Wi-Fi, battery powered (2 years target), mounted on warehouse ceilings so a technician visit costs about 150 EUR. Firmware is ESP-IDF, image about 1.6 MB. Today we update by USB on a ladder."
+    assert:
+      - {type: contains, value: "## Rollout plan"}
+      - {type: llm-rubric, value: "Chooses A/B app partitions since 8 MB fits two 1.6 MB images, requires signed images verified by the bootloader with anti-rollback, installs only above a battery threshold, randomises check-ins, and confirms the new image only after a health check that includes reaching the update server, otherwise reverting."}
+      - {type: llm-rubric, value: "Gives staged cohorts spread across both hardware revisions and sites with numeric gates, and a test plan with power loss during download and switch, a wrongly signed image and a downgrade attempt."}
+  - name: edge-tight-flash
+    vars:
+      device_description: "Cortex-M0+ with 128 KB flash, 16 KB RAM, image 92 KB, LoRaWAN only (about 50 bytes per message), mains powered smart meter."
+    assert:
+      - {type: llm-rubric, value: "Explains that two full images do not fit and LoRaWAN bandwidth is tiny, considers external flash or a bootloader swap with a recovery path, delta or fragmented multicast updates, very slow rollouts, and asks about external storage; notes utility regulations may require approval."}
+  - name: negative-overwrite-in-place
+    vars:
+      device_description: "We just want the app to download the new firmware and write it straight over itself, it's simpler. STM32F4, 1 MB flash, image 700 KB, cellular."
+    assert:
+      - {type: llm-rubric, value: "Warns that overwriting the running image without a fallback can brick devices on power loss or a bad image, and proposes a safe alternative such as a bootloader with swap or a small recovery image, or external flash staging."}

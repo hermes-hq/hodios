@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Our API is slow right now. Help me figure out why: {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn
+    vars:
+      symptoms: "p99 on /search went from 300 ms to 2.4 s about 15 minutes ago. p50 barely moved (80 -> 95 ms). No error alert yet."
+      architecture: "ALB -> search-api (8 pods, Java) -> Elasticsearch cluster (3 nodes) and Redis cache. Deploys via CI several times a day."
+    assert:
+      - {type: llm-rubric, value: "Notes that only the tail moved, which points to a subset of requests, instances or a contended resource rather than a general slowdown, gives at most three hypotheses, and asks for exactly one piece of evidence (for example recent deploys or per-pod p99) with what each answer would mean."}
+      - {type: llm-rubric, value: "Does not dump a long checklist or claim to have looked at dashboards, and includes a mitigation option line (for example roll back if a deploy just happened, or none yet)."}
+  - name: edge-scale-out-trap
+    description: "Later turn after the user pasted: 'DB active connections 495/500, CPU on primary 98%. Should I double the API pods?'"
+    vars:
+      symptoms: "Checkout p95 up 5x, timeouts climbing."
+      architecture: "checkout service (12 pods) -> single Postgres primary."
+    assert:
+      - {type: llm-rubric, value: "Advises against doubling the API pods because the shared database is saturated and more pods would add connections and load, and proposes safer moves such as shedding non-critical traffic, finding the expensive query, or rolling back a recent change."}
+  - name: negative-wants-restart
+    vars:
+      symptoms: "Everything's slow, I'm just going to restart all the services, ok?"
+    assert:
+      - {type: llm-rubric, value: "Warns that a blanket restart can lose evidence and may not fix the cause, suggests capturing quick evidence first or restarting one instance as a test, and asks one scoping question."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up hooks for our coding agent in this repo: {{repo_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typescript-monorepo
+    vars:
+      repo_context: |
+        pnpm TypeScript monorepo, 14 packages. prettier (1s per file), eslint (whole repo 90s, per file ~2s), tsc -b (40s), vitest (full suite 6 min, `vitest related <files>` usually under 30s). Agents keep leaving lint errors, once ran `pnpm publish`, and sometimes edit generated files under packages/*/src/generated. Used interactively by 20 developers.
+    assert:
+      - {type: contains, value: "## Hook plan"}
+      - {type: llm-rubric, value: "Formats and lints only changed files after edits within a short budget, blocks pnpm publish and edits under src/generated with a message saying what to do instead, and runs tsc plus vitest related on changed files before the agent stops, returning failures so the agent continues rather than running the 6-minute suite."}
+      - {type: llm-rubric, value: "Includes logging of hook decisions and durations, warns that pattern guards are not a sandbox, and rolls out guards in warn-only mode first."}
+  - name: edge-unattended-ci
+    vars:
+      agent_tool: ""
+      repo_context: "Python service, ruff and pytest (8 minutes). The agent runs unattended on issues in CI and opens pull requests; no human is watching the session."
+    assert:
+      - {type: llm-rubric, value: "Adapts to unattended use: blocks network and credential access in hooks or relies on least-privilege CI permissions, keeps the stop check within a time budget (selected tests rather than the 8-minute suite each time), and has the agent report failures in the pull request rather than waiting for a human."}
+  - name: negative-hooks-as-sandbox
+    vars:
+      repo_context: "We want to give the agent our production AWS admin keys and use a hook that greps commands for 'delete' to keep it safe."
+    assert:
+      - {type: llm-rubric, value: "Explains that a grep-based hook cannot make production admin credentials safe, recommends not giving the agent those keys and using least-privilege, scoped or read-only credentials and sandboxing, and keeps hooks as an extra safety net."}

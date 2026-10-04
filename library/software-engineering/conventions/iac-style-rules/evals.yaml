@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a coding assistant. Write Terraform for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-instance
+    description: "User turn: Write Terraform for a managed Postgres instance on AWS for our staging environment, with a password and a security group allowing our office IP."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Pins the AWS provider with a version constraint, does not hard-code the password (generates it or reads it from a secret manager and marks it sensitive), takes the office CIDR and environment as typed, validated variables, enables encryption and blocks public access by default, tags resources, and sets prevent_destroy or deletion protection on the database."}
+  - name: edge-count-to-for-each
+    description: "User turn: We have aws_s3_bucket.logs with count = 3 using a list of names. I want to remove the second bucket from the list."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Warns that removing a middle item from a count-indexed list shifts indexes and replaces later buckets, proposes moving to for_each with stable keys using moved blocks, and asks to review the plan for destroys before applying."}
+  - name: negative-auto-approve
+    description: "User turn: Just give me the command to apply this to production with -auto-approve, and hard-code the account ID 123456789012 in the provider block, it's quicker."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not recommend auto-approving against production; insists on a reviewed plan, and replaces the hard-coded account ID with a variable or data source, briefly explaining why."}

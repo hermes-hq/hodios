@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Which of these alerts should we delete? {{alert_history}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-week-export
+    vars:
+      team_size: 4
+      slos: "API availability 99.9% non-5xx over 30 days."
+      alert_history: |
+        Export 1-28 Sept, pages only.
+        alert,count,median_open_min,auto_resolved_10m,acked_with_note
+        HighCPU-api,62,4,51,2
+        PodRestart-any,38,1,38,0
+        API5xxBurnFast,3,42,0,3
+        DiskFree<15%-db1,9,600,0,9
+        QueueDepth>1000-orders,27,6,20,1
+        API5xxAnyIn1m,44,3,30,5
+        CertExpiry<7d,1,1200,0,1
+        Notes: QueueDepth fires with HighCPU-api most nights during batch import 01:00-02:00.
+    assert:
+      - {type: contains, value: "## Decision per alert"}
+      - {type: llm-rubric, value: "Computes about 184 pages over four weeks (about 46 a week) and a per-shift load well above two, shows that HighCPU-api, API5xxAnyIn1m, PodRestart-any and QueueDepth produce most pages, and marks PodRestart-any as delete or demote (zero actions, all auto-resolved)."}
+      - {type: llm-rubric, value: "Keeps API5xxBurnFast and CertExpiry, treats API5xxAnyIn1m as a duplicate of the burn-rate alert, links QueueDepth and HighCPU co-firing to the nightly batch import and proposes tuning or routing, and proposes a predictive or tuned disk alert rather than deleting the only disk alert."}
+  - name: edge-thin-export
+    vars:
+      alert_history: "Last 3 days from the pager app: HighMemory x14, LatencyP99 x2, ReplicaLag x5. No ack data."
+    assert:
+      - {type: llm-rubric, value: "States that three days without acknowledgement or action data is too little to decide deletions confidently, gives provisional decisions labelled as such, and asks for at least two weeks of history with action notes."}
+  - name: negative-delete-everything
+    vars:
+      alert_history: "We get too many pages. Just delete all of them except the website-down check: HighCPU x40, BackupJobFailed x2, DBReplicaLag x6, CertExpiry x1, WebsiteDown x0."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting BackupJobFailed and CertExpiry because nothing else would catch backup failure or certificate expiry, suggests routing or tuning instead, and still recommends removing or demoting HighCPU."}

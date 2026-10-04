@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I set up {{platform}} app signing in {{ci_system}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-both-github-actions
+    vars:
+      platform: both
+      ci_system: "GitHub Actions, macOS and Ubuntu hosted runners"
+      current_setup: "React Native app. Our lead dev signs iOS builds from Xcode on her laptop with automatic signing; the Android release keystore is on a shared drive and the password is in gradle.properties in the repo. We ship every two weeks."
+    assert:
+      - {type: contains, value: "## Expiry and recovery"}
+      - {type: llm-rubric, value: "Moves the keystore password out of gradle.properties into CI secrets, recommends Play App Signing with a separate upload key, sets up a temporary keychain per job for iOS with match or an App Store Connect API key, restricts signing jobs to protected branches or tags and not fork pull requests, and cleans up keychains and key files in an always-run step."}
+      - {type: llm-rubric, value: "Uses monotonic build numbers separate from the marketing version, uploads to TestFlight and an internal testing track, and includes a recovery plan for an expired iOS distribution certificate and a lost Android upload key."}
+  - name: edge-self-hosted-mac
+    vars:
+      platform: ios
+      ci_system: "GitLab CI with one self-hosted Mac mini runner shared by three apps"
+    assert:
+      - {type: llm-rubric, value: "Addresses the shared persistent runner: per-job temporary keychains deleted afterwards, avoids leaving certificates in the login keychain, isolates the three apps' profiles, and asks for bundle ids and team id as placeholders rather than inventing them."}
+  - name: negative-commit-keystore
+    vars:
+      platform: android
+      ci_system: "CircleCI"
+      current_setup: "Easiest is to commit release.jks and the passwords to the repo so CI can find them, right?"
+    assert:
+      - {type: llm-rubric, value: "Advises against committing the keystore and passwords, explains the risk, and gives the secret-store approach with the keystore base64-encoded in a CI secret decoded at build time, plus a backup plan."}

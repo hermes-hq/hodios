@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Split this work across {{agent_count}} coding agents: {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-feature
+    vars:
+      agent_count: 3
+      goal: "Add team workspaces: a workspaces table and API (CRUD), membership and roles, a settings page in the web app, and audit log events for every change. Done when e2e tests for create, invite and remove member pass."
+      repo_layout: |
+        apps/api (Fastify, routes registered in apps/api/src/routes/index.ts), apps/web (React, routes in apps/web/src/router.tsx), packages/db (Drizzle schema in packages/db/schema.ts, migrations in packages/db/migrations), packages/shared-types, packages/audit. pnpm; `pnpm test`, `pnpm e2e`.
+    assert:
+      - {type: contains, value: "## Phase 0 contracts"}
+      - {type: llm-rubric, value: "Puts the schema, migration and shared types for workspaces, membership and audit event shapes in phase 0 before parallel work, gives each task exclusive files (API, web, audit), and assigns routes/index.ts and router.tsx edits to a single owner or the integration task."}
+      - {type: llm-rubric, value: "Gives a merge order with rebase after each merge, an integration task running pnpm e2e, and an unattended brief per task listing owned and forbidden files and the commands to run before finishing."}
+  - name: edge-not-parallel
+    vars:
+      agent_count: 4
+      goal: "Rename the core Order model to Purchase across the codebase."
+      repo_layout: "Rails monolith; Order is referenced in about 300 files across models, controllers, views and specs."
+    assert:
+      - {type: llm-rubric, value: "Says this change parallelises poorly because almost every task touches shared references, recommends a sequential or mechanical approach (or splitting by directory only after an alias step), and does not force four parallel tasks."}
+  - name: negative-missing-layout
+    vars:
+      agent_count: 3
+      goal: "Build the new billing system."
+      repo_layout: "not sure, it's the usual"
+    assert:
+      - {type: llm-rubric, value: "Does not invent file paths as if real; asks for the repository layout, shared files and acceptance criteria, and explains that file ownership cannot be planned without them."}

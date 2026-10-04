@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write an on-call handoff from these notes: {{shift_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-shift-notes
+    vars:
+      shift_window: "Tue 09:00 to Wed 09:00 UTC"
+      next_on_call: "Priya, first week on the payments rotation"
+      shift_notes: |
+        02:14 PaymentsLatencyHigh fired, p99 1.4s, stripe webhook queue backed up. scaled workers 4->10 by hand, latency back by 02:50. didn't scale back.
+        03:10 / 04:40 / 06:05 DiskUsage80 on log-ingest-2, same as last week, ignored
+        silenced KafkaConsumerLag for orders-consumer until "tomorrow" because of the replay job, replay at 60%
+        INC-4411 refund emails duplicated for ~200 customers, mitigated by disabling the refund-mailer flag, root cause unknown, Marco said he'd look
+        deploy of ledger-service v2.31 paused at 25% canary, error rate looked a bit higher, didn't have time to compare
+    assert:
+      - {type: contains, value: "## Silences and overrides"}
+      - {type: llm-rubric, value: "Lists the manual scale-up to 10 workers and the disabled refund-mailer flag as overrides, flags the KafkaConsumerLag silence as having no concrete expiry and ties its removal to the replay finishing, puts the paused 25% ledger-service canary under changes in flight with a rollback, classifies DiskUsage80 as known noise with a follow-up ticket, and keeps INC-4411 open with root cause unknown rather than resolved."}
+      - {type: llm-rubric, value: "Does not invent ticket numbers, exact owners or causes beyond the notes and marks unknowns as placeholders or gaps."}
+  - name: edge-quiet-shift
+    vars:
+      shift_notes: "Quiet one. Two pages for CertExpiry on staging (fixed by renewing), nothing else. Deploy freeze still on until Friday."
+    assert:
+      - {type: llm-rubric, value: "Produces a short handoff with a calm status line, notes the deploy freeze end and that the staging cert alert paged a human (suggests it should not page), and does not pad sections with invented items; empty sections say none."}
+  - name: negative-no-notes
+    vars:
+      shift_notes: "handoff pls, nothing to add"
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate incidents or alerts; asks for the shift's pages, open items, silences and changes in flight, or gives the empty template with the questions to answer."}

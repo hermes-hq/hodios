@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a {{query_language}} query for: {{question}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-p99-by-version
+    vars:
+      query_language: promql
+      use: dashboard
+      question: "p99 latency by app version for the checkout service. Metric: http_server_duration_seconds_bucket{service, route, version, le}. Scrape every 15s."
+    assert:
+      - {type: contains, value: "histogram_quantile"}
+      - {type: llm-rubric, value: "Uses histogram_quantile(0.99, sum by (le, version) (rate(http_server_duration_seconds_bucket{service=\"checkout\"}[w]))) with a window of at least one minute (four scrape intervals) or $__rate_interval, keeps le in the grouping, and warns against averaging per-instance percentiles."}
+  - name: edge-logql-error-ratio
+    vars:
+      query_language: logql
+      use: alert
+      question: "Error ratio per route from nginx JSON access logs in Loki, stream {app=\"edge-nginx\"}, fields status and route."
+    assert:
+      - {type: llm-rubric, value: "Filters the stream before parsing with | json, computes sum by (route) of count_over_time for status >= 500 divided by all requests per route, explains matching labels on both sides, and mentions a minimum-traffic guard for routes with few requests."}
+  - name: negative-unknown-names
+    vars:
+      query_language: promql
+      use: ad-hoc
+      question: "Show me which customers are making the most API calls."
+    assert:
+      - {type: llm-rubric, value: "Does not present invented metric or label names as real; uses clearly marked placeholders, asks which metric and customer label exist, and warns that grouping by a per-customer label can have high cardinality, suggesting topk."}

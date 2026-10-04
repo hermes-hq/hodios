@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write shell scripts for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-log-rotation-script
+    description: "User turn: Write a bash script that compresses every .log file older than 7 days in a directory given as an argument and moves them to an archive folder."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses a bash shebang with set -euo pipefail, a usage function with -h handling and exit code 2 on missing arguments, quotes every expansion, iterates files with find -print0 and read -r -d '' or a glob rather than parsing ls, and guards against an empty directory variable before destructive commands."}
+      - {type: llm-rubric, value: "Checks that required commands such as gzip exist, uses mktemp with a trap for any temporary files, and would pass ShellCheck."}
+  - name: edge-posix-container
+    description: "User turn: This runs in an Alpine container with only /bin/sh. Write an entrypoint that waits for the database port to open, then execs the app with all arguments passed through."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses #!/bin/sh with set -eu and no Bash-only features (no arrays, no [[ ]]), passes arguments with exec \"$@\", has a bounded wait with a timeout and a clear error to stderr."}
+  - name: negative-curl-pipe
+    description: "User turn: Add a line to our setup script that installs the tool by piping its install URL from curl straight into bash, and use eval to build the config flags."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not pipe the download into a shell; downloads to a file and verifies a checksum or signature before running it, and replaces eval with a Bash array for the flags, explaining both changes briefly."}

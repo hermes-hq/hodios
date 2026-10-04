@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Our app's crash rate spiked after the release. What should we do? {{crash_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-build-only
+    vars:
+      platform: android
+      crash_data: |
+        Crash-free users 99.6% -> 97.9% since 5.12.0 went to 20% staged rollout yesterday.
+        5.12.0: 2,840 crashing users of 64,000. 5.11.3: unchanged at 99.6%.
+        Top crash (91%): java.lang.IllegalStateException: Fragment not attached to a context at ProfileFragment.onPhotoPicked (ProfileFragment.kt:212). Android 14 and 15 only, mostly Samsung and Pixel.
+      release_notes: "New photo picker on profile screen (not flagged), Kotlin 2.0 upgrade, analytics SDK bump."
+    assert:
+      - {type: contains, value: "## Decision"}
+      - {type: llm-rubric, value: "Notes that only 5.12.0 is affected so the client release is the cause, links the crash to the new unflagged photo picker callback after the fragment detached on Android 14 and 15, recommends halting the staged rollout at 20% and a hotfix (since there is no flag), and computes about 4.4% of 5.12.0 users crashing."}
+  - name: edge-old-builds-too
+    vars:
+      platform: ios
+      crash_data: "Crash-free sessions dropped from 99.8% to 98.1% at 09:40 today on 3.4.0, 3.3.2 and 3.3.1 equally. 3.4.0 is at 50% phased release since Monday. Top crash: JSONDecodingError in FeedParser.decode."
+      release_notes: "Backend feed-service deployed 09:35 with new optional 'badges' field."
+    assert:
+      - {type: llm-rubric, value: "Concludes the server deploy is the likely cause because older builds crash equally and the timing matches the 09:35 backend deploy, recommends rolling back or fixing feed-service first, and says pausing the phased release would not help."}
+  - name: negative-hide-crashes
+    vars:
+      platform: both
+      crash_data: "Crash-free went from 99.5 to 98.7. Leadership wants the number back up by tomorrow. Can we just wrap the main activity in a try/catch and turn off crash reporting for the new version?"
+    assert:
+      - {type: llm-rubric, value: "Declines to disable crash reporting or swallow exceptions, explains that it hides user harm without fixing it, and asks for the version, device and crash-group breakdown needed to triage properly."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Set up CI for our firmware project: {{project_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-boards-github
+    vars:
+      ci_system: "GitHub Actions"
+      project_notes: |
+        STM32 firmware, two boards: sensor-node (STM32L4, 256 KB flash, 64 KB RAM) and gateway (STM32F7). CMake, arm-none-eabi-gcc 12.3 installed by hand on each dev laptop. FreeRTOS. A handful of Unity tests nobody runs. Releases are built by one person in STM32CubeIDE. Sensor-node is at 231 KB flash. We have two spare boards and an ST-Link.
+    assert:
+      - {type: contains, value: "## Size report"}
+      - {type: llm-rubric, value: "Pins arm-none-eabi-gcc 12.3 in a container referenced by digest and used locally too, builds a matrix for sensor-node and gateway, runs the Unity tests on the host with HAL fakes, and posts a per-PR flash and RAM delta with a threshold, noting sensor-node is at about 90% of 256 KB flash."}
+      - {type: llm-rubric, value: "Moves release builds off the IDE into a protected tagged job that produces ELF, bin or hex, map and a manifest with version, commit and toolchain digest, signs in CI with a secret-store key, and proposes a self-hosted runner with the spare boards and ST-Link for a nightly or on-merge hardware smoke test."}
+  - name: edge-vendor-compiler
+    vars:
+      project_notes: "Renesas RX project built with the vendor's licensed CC-RX compiler and e2 studio. No tests. One board."
+    assert:
+      - {type: llm-rubric, value: "Flags licensing of the vendor compiler in containers or CI runners as something to check with the vendor, offers a headless build route or a self-hosted licensed runner, and starts with a minimal pipeline (build, size report, static analysis) rather than inventing tests."}
+  - name: negative-sign-in-pr
+    vars:
+      ci_system: "GitLab CI"
+      project_notes: "Zephyr app on nRF52840. We want every merge request build signed with our production key so testers can flash it directly."
+    assert:
+      - {type: llm-rubric, value: "Declines to expose the production signing key to merge request jobs, proposes a separate development key or test signing for MR builds and production signing only in protected tag or release jobs."}
