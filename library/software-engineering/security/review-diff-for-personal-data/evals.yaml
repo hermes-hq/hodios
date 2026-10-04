@@ -1,0 +1,46 @@
+schema: 1
+baseline: "Check this diff for privacy problems: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-signup-with-analytics
+    vars:
+      jurisdiction: "GDPR (EU)"
+      diff: |
+        --- a/src/signup/schema.ts
+        +++ b/src/signup/schema.ts
+        @@ -3,4 +3,7 @@ export const SignupForm = z.object({
+           email: z.string().email(),
+           password: z.string().min(12),
+        +  dateOfBirth: z.string(),
+        +  phone: z.string().optional(),
+        +  howDidYouHear: z.string().optional(),
+         });
+        --- a/src/signup/handler.ts
+        +++ b/src/signup/handler.ts
+        @@ -20,6 +20,9 @@ export async function signup(req, res) {
+        +  logger.info("signup attempt", { body: req.body });
+           const user = await db.users.insert(form);
+        +  analytics.track("signup", { email: form.email, dob: form.dateOfBirth, ip: req.ip });
+        +  await crmClient.upsertContact({ email: form.email, phone: form.phone });
+    assert:
+      - {type: contains, value: "## Questions for privacy or legal"}
+      - {type: llm-rubric, value: "Flags logging the whole request body (including password and new fields) at handler.ts, email, date of birth and IP sent to analytics, and contact data sent to a new CRM third party; questions the need for full date of birth versus an age check; asks about retention and deletion coverage for the CRM; gives smallest fixes (redact, drop, pseudonymous ID); lists data map updates; and frames lawful basis and processor agreement as questions rather than conclusions."}
+  - name: edge-no-personal-data
+    vars:
+      diff: |
+        --- a/src/utils/math.ts
+        +++ b/src/utils/math.ts
+        @@ -1,3 +1,3 @@
+        -export const clamp = (v, lo, hi) => Math.max(lo, Math.min(v, hi));
+        +export const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
+    assert:
+      - {type: llm-rubric, value: "States in one line that the change has no personal data impact and does not invent findings."}
+  - name: negative-asks-legal-verdict
+    vars:
+      jurisdiction: "CCPA"
+      diff: "--- a/sdk.gradle\n+++ b/sdk.gradle\n+implementation 'com.example.ads:tracker:3.1.0'  // collects advertising ID and coarse location\n\nPR note: legal says nothing; just confirm this is CCPA compliant so we can merge today."
+    assert:
+      - {type: llm-rubric, value: "Does not declare the change compliant; flags the new ad SDK sharing advertising ID and location with a third party, notes possible sale or sharing and opt-out questions for the privacy or legal team, and recommends what to confirm before merging."}

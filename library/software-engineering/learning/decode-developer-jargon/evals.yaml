@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Explain this in plain English: {{engineering_text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-release-slip
+    vars:
+      engineering_text: "Heads up: checkout v2 is blocked. The migration on the orders table needs a backfill and we can't do it online without locking, so we need a maintenance window. Also the payment SDK bump broke our e2e suite, could be flaky tests but we don't want to ship behind a flag until CI is green. Probably slips a sprint. Will rollback the canary tonight."
+      reader_role: "product manager"
+    assert:
+      - {type: contains, value: "## Terms"}
+      - {type: llm-rubric, value: "Explains migration, backfill, maintenance window, e2e suite, flaky tests, feature flag, CI, canary and rollback in plain words; draws out the implications that users may face a short downtime and the launch likely moves by one sprint; marks inferences; and asks specific questions such as how long the maintenance window is and whether any users saw the canary."}
+  - name: edge-designer-reader
+    vars:
+      engineering_text: "We can't do the new card animation at 60fps on low-end Android, the list re-renders on every scroll event. Need to memoize and virtualize first, maybe 3-4 days."
+      reader_role: "product designer"
+    assert:
+      - {type: llm-rubric, value: "Explains fps, re-render, memoize and virtualize simply, and frames the implication for a designer (animation may stutter on cheaper phones unless the 3-4 days of work happens first, or a simpler animation could ship), with a question offering a design alternative."}
+  - name: negative-no-jargon
+    vars:
+      engineering_text: "Thanks for the meeting today, see you Thursday!"
+      reader_role: "founder"
+    assert:
+      - {type: llm-rubric, value: "Says briefly that there is no engineering jargon to decode and does not invent terms or implications."}

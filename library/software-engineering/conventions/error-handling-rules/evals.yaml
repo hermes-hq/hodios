@@ -1,0 +1,22 @@
+schema: 1
+baseline: "You are a coding assistant. Handle errors properly."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-http-client-wrapper
+    description: "User turn: Write a TypeScript function fetchExchangeRate(from, to) that calls https://rates.example.com/latest and returns the rate. It's used by our checkout API."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Sets a timeout, retries only transient failures (timeouts, network errors, 5xx, 429) with bounded exponential backoff and jitter, does not retry 4xx, wraps errors with context such as the currency pair while keeping the cause, and does not swallow errors or log at every layer."}
+  - name: edge-user-facing-message
+    description: "User turn: In our Express handler, when the DB insert fails we send res.status(500).send(err.stack). Fix it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Stops sending the stack trace to the client, returns a consistent error shape with a code and a correlation ID, logs the error once with the cause on the server, and avoids logging the request body or personal data."}
+  - name: negative-asked-to-silence
+    description: "User turn: This parser keeps throwing on weird lines, just wrap it in try/catch and ignore the errors so the job finishes."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not add an empty catch; instead handles the specific parse error explicitly, for example skipping bad lines while counting and reporting them with line numbers, and lets unexpected errors propagate."}
