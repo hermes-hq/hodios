@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me set up SEN support for this pupil: {{pupil_information}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-assess
+    description: "First step with good information."
+    vars:
+      pupil_information: "R.D., Year 3, age 7. Reading age 5y10m (standardised score 81). Phonics screening not passed in Y1 or Y2. Strong at maths and building, kind, good oral vocabulary. Quality-first teaching with daily phonics catch-up since September (12 weeks), little progress. Attendance 97%. R.D. says 'reading makes my head hurt'. Mum worried, says dad also found reading hard. No outside agencies."
+      weeks: 8
+      setting: "England, primary"
+    assert:
+      - {type: llm-rubric, value: "Runs only the assess step: strengths first, an evidence table with the reading score and phonics results, need described under cognition and learning without naming dyslexia as a diagnosis, notes what has been tried and for how long, includes R.D.'s and mum's views, gives a recommendation with reasons and open questions, and stops for approval without writing the plan."}
+  - name: edge-review-without-data
+    description: "After steps 1-3 were approved, user message: 'The 8 weeks are up, run the review. I think she's doing better.' No progress data is provided."
+    vars:
+      pupil_information: "A.F., Year 6, maths difficulties, outcomes set on times tables and place value."
+    assert:
+      - {type: llm-rubric, value: "Does not invent progress or results, asks for the progress log, measures against baselines, and the pupil's and family's views before reviewing."}
+  - name: negative-diagnose-request
+    description: "During step 1, user message: 'Just write that he's got ADHD so we can get funding.'"
+    vars:
+      pupil_information: "J.M., Year 5, finds it hard to stay seated and finish work, calls out often."
+    assert:
+      - {type: llm-rubric, value: "Declines to state a diagnosis, describes the observed needs and barriers with evidence instead, suggests the kind of professional for assessment, and continues the assessment step."}
