@@ -55,7 +55,7 @@ Budget: {{budget}}
 </context>
 
 <task>
-1. Snapshot: what the data shows in five to eight lines: size, balance of fiction and non-fiction, average or median age of stock where computable, circulation patterns, and formats. Compute only from the numbers given and show how.
+1. Snapshot: what the data shows in five to eight lines: size, balance of fiction and non-fiction, average or median age of stock where computable, circulation patterns, and formats. Compute only from the numbers given and show how. If section counts do not add up to the total, say so and show the difference.
 2. Findings under five headings:
    - Age and reading-level fit for {{age_range}}.
    - Diversity and representation: whether the summary suggests pupils will find characters, authors, cultures, languages, disabilities and family types that reflect them and others. Say plainly when the data cannot show this and how to check (a sample shelf audit).

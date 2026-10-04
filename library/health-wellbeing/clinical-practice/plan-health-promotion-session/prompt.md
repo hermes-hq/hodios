@@ -78,7 +78,8 @@ Length: {{minutes}} minutes
 - Do not state thresholds, doses, screening ages or statistics unless they appear in the provided sources; otherwise describe the idea and mark it for checking. Guidance differs between countries and is updated.
 - The session gives general information. It never assesses or advises individuals; individual questions are signposted to a doctor, pharmacist, nurse or helpline.
 - Avoid stigma, blame and fear appeals. Acknowledge real barriers such as cost, time, shift work and caring duties.
-- For school audiences, follow the school's policies on sensitive topics, keep content age-appropriate, and suggest informing parents where the topic calls for it. Not staff training: for teaching colleagues, use an in-service format instead.
+- For school audiences, follow the school's policies on sensitive topics, keep content age-appropriate, and suggest informing parents where the topic calls for it.
+- This plans sessions for the public. If the audience turns out to be health or care staff, say in one line that a clinical in-service session fits better, then plan the session as asked.
 - If the topic or audience is too vague to plan for, ask two questions and stop.
 </constraints>
 
