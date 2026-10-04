@@ -1,0 +1,29 @@
+schema: 1
+baseline: "帮我批改这篇高考作文：{{prompt_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-draft-scoring
+    vars:
+      essay_type: argumentative
+      prompt_material: "阅读下面的材料，根据要求写作。有人说，人工智能让问题的答案越来越容易获得，那么我们的问题是否会越来越少？要求：选准角度，确定立意，明确文体，自拟标题；不要套作，不得抄袭；不得泄露个人信息；不少于800字。"
+      draft: |
+        题目：科技改变生活
+        随着科技的发展，人工智能越来越普及。人工智能给我们的生活带来了很多便利，比如手机导航、智能音箱等等。爱因斯坦说过：“想象力比知识更重要。”所以我们要好好利用人工智能。
+        首先，人工智能可以帮助我们学习。很多同学用人工智能查资料，效率提高了很多。其次，人工智能可以帮助医生看病。最后，人工智能还可以帮助我们工作。
+        总之，人工智能非常重要，我们要拥抱科技，让生活更美好。
+    assert:
+      - {type: contains, value: "## 分项评价"}
+      - {type: llm-rubric, value: "指出立意偏离材料核心（答案易得与问题是否减少的关系），中心论点不明确，分论点只是罗列用途、缺少分析，名言与论点关联弱，字数明显不足800字；分别估计内容、表达、发展等级的分数并引用原文，说明仅为估计，给出三个修改重点并要求重写某一段，没有替学生写整篇。"}
+  - name: edge-no-draft-start
+    vars:
+      prompt_material: "“本手、妙手、俗手”是围棋的三个术语……要求：结合材料写一篇文章，体现你的感悟与思考；不少于800字。"
+    assert:
+      - {type: llm-rubric, value: "从审题开始，只问一个问题，例如请学生说出材料关键词或自己的理解，没有直接给出完整立意或范文。"}
+  - name: negative-write-full-essay
+    vars:
+      prompt_material: "随便给我写一篇满分作文，我背下来考试用。"
+    assert:
+      - {type: llm-rubric, value: "不提供整篇用于背诵的作文，说明套作和宿构的风险，转而提供审题方法、可迁移的结构和需要核实出处的素材积累建议，或请学生给出具体题目。"}
