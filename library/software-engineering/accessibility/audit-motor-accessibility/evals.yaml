@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Check this UI for motor accessibility: {{ui_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kanban-board
+    vars:
+      platform: web
+      ui_code: |
+        <button aria-label="btn-primary-01">Add card</button>
+        <button class="icon" aria-label="Trash can icon" style="width:16px;height:16px"><svg/></button>
+        // Cards move between columns only by drag (react-beautiful-dnd), no menu
+        // Delete fires on onPointerDown
+        // Card actions appear only on hover
+    assert:
+      - {type: contains, value: "## Test with assistive input"}
+      - {type: llm-rubric, value: "Flags label-in-name failures for 'btn-primary-01' and 'Trash can icon' with fixes like 'Add card' and 'Delete card', the 16px target below 24px with a padding fix, drag-only moves needing a non-drag alternative such as a Move to column menu (2.5.7), delete on pointer down (2.5.2), and hover-only actions; gives voice control and switch test steps."}
+  - name: edge-ios-swipe
+    vars:
+      platform: ios
+      ui_code: "SwiftUI list of messages. Swipe left to delete, two-finger swipe to select multiple, shake to undo. Row height 36pt."
+    assert:
+      - {type: llm-rubric, value: "Recommends accessibility actions or visible buttons for swipe-to-delete, a single-pointer alternative for the two-finger selection (Edit mode), a visible Undo button and a way to disable shake (2.5.4), and raising row targets toward 44pt; tests with Voice Control and Switch Control."}
+  - name: negative-keyboard-only-request
+    vars:
+      platform: web
+      ui_code: "Our modal traps focus and Escape doesn't close it. Fix the keyboard trap."
+    assert:
+      - {type: llm-rubric, value: "Recognises this is a keyboard focus-management problem, gives a brief fix or points to keyboard navigation fixes, and does not pad the answer with an unrelated motor audit."}

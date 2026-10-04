@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I automate translation files for my {{tech_stack}} app?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nextjs-agency
+    vars:
+      tech_stack: "Next.js 14 with next-intl, GitHub Actions"
+      catalog_format: json
+      workflow_notes: "Agency translates French, German and Spanish. Today we email them en.json every release and paste their files back; last release shipped 'checkout.cta.pay' raw on screen in German. We release weekly."
+    assert:
+      - {type: contains, value: "## CI checks"}
+      - {type: llm-rubric, value: "Keeps en.json in the repo as source of truth, extracts and uploads on merge to main with context, pulls approved translations via a bot pull request, adds CI checks that fail on placeholder or ICU mismatch and missing source keys but only report missing target translations, defines a fallback chain so raw keys never show in production, and keeps the TMS token in CI secrets."}
+  - name: edge-no-tms-vendor-files
+    vars:
+      tech_stack: "Django with gettext"
+      catalog_format: po
+      workflow_notes: "No budget for a TMS. A freelance translator works in a CAT tool and accepts XLIFF or PO files."
+    assert:
+      - {type: llm-rubric, value: "Designs a file-exchange pipeline without a TMS (makemessages, export of changed strings, import via a pull request, compilemessages and msgfmt --check in CI), handles fuzzy entries when the source changes, and does not assume a paid tool."}
+  - name: negative-edit-targets-directly
+    vars:
+      tech_stack: "Flutter with ARB files"
+      catalog_format: arb
+      workflow_notes: "Developers fix German typos directly in app_de.arb and also translators upload through the TMS. Can we keep doing both?"
+    assert:
+      - {type: llm-rubric, value: "Explains that editing target files by hand while the TMS also writes them causes overwrites, and routes all target-locale edits through the TMS (or a single owner), with CI or code-owner rules protecting target files."}

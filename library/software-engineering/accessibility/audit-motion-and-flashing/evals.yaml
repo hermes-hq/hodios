@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Check this animation code for accessibility problems: {{ui_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-landing-page
+    vars:
+      platform: web
+      ui_code: |
+        .hero-bg { animation: kenburns 20s infinite alternate; }   /* full-screen zoom 1.0 -> 1.3 */
+        .parallax { transform: translateY(calc(var(--scroll) * -0.6px)); }
+        // carousel.js
+        setInterval(() => next(), 4000);   // 5 slides, no controls
+        <video class="bg" src="team.mp4" autoplay muted loop></video>
+        .spinner { animation: spin 1s linear infinite; }
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the full-screen zoom and parallax as vestibular risks to disable under prefers-reduced-motion, the auto-advancing carousel and looping background video as 2.2.2 failures needing visible pause controls, and keeps the spinner as essential feedback in a reduced form rather than removing it; gives CSS media query and matchMedia code."}
+  - name: edge-game-flash
+    vars:
+      platform: game
+      ui_code: "On a critical hit the whole screen flashes red-white 6 times over 0.8 seconds and the camera shakes for 1 second. Explosion particles fill about half the screen."
+    assert:
+      - {type: llm-rubric, value: "Identifies the full-screen red-white flash at about 7.5 flashes per second as a high seizure risk (more than three per second, large area, saturated red), recommends removing or reducing it by default and measuring with a photosensitivity analysis tool, and adds in-game settings for screen flashes and camera shake."}
+  - name: negative-no-effect-details
+    vars:
+      platform: web
+      ui_code: "We have some animations on the site."
+    assert:
+      - {type: llm-rubric, value: "Asks for the actual code or a description of each effect (what moves, size, speed, duration, trigger) and does not invent findings; may give a short list of what to collect."}

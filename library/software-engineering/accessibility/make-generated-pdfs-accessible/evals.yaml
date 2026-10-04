@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Make the PDFs my code generates accessible: {{generator_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-puppeteer-invoice
+    vars:
+      pdf_library: "Puppeteer"
+      document_type: "customer invoice"
+      generator_code: |
+        const html = `<html><body>
+          <div class="logo"><img src="logo.png"></div>
+          <div class="title">Invoice INV-2291</div>
+          <div class="grid">${items.map(i => `<div class="r"><span>${i.name}</span><span>${i.qty}</span><span>${i.total}</span></div>`).join('')}</div>
+          <div class="footer">Page <span class="pageNumber"></span></div>
+        </body></html>`;
+        await page.setContent(html);
+        await page.pdf({ path: out, format: 'A4' });
+    assert:
+      - {type: contains, value: "## Automated check"}
+      - {type: llm-rubric, value: "Sets lang on html, a title, an h1 for the invoice, converts the div grid into a table with th and scope, gives the logo alt text or marks it decorative, moves the footer to header/footer templates so it is treated as an artifact, enables tagged PDF output in the pdf() call (or marks the option to verify), and adds a veraPDF PDF/UA check in CI; does not claim conformance."}
+  - name: edge-library-cannot-tag
+    vars:
+      pdf_library: "wkhtmltopdf"
+      document_type: "training certificate"
+      generator_code: "subprocess.run(['wkhtmltopdf', 'cert.html', out_path])"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that this tool is not known to produce tagged PDFs (or that this must be verified) and that markup changes alone will not fix it, proposes migrating the rendering step to a tool that can emit tagged PDF, and estimates what that migration touches."}
+  - name: negative-single-scanned-file
+    vars:
+      pdf_library: ""
+      document_type: "scanned contract"
+      generator_code: "I have one scanned PDF of a signed contract, can you make it accessible?"
+    assert:
+      - {type: llm-rubric, value: "Notes that this is a single existing document rather than generator code, explains it needs OCR and manual remediation in a PDF editor, and does not pretend to change generator code; may point to document remediation instead."}

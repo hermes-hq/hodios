@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Is my game accessible? {{game_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-action-platformer
+    vars:
+      platforms: "PC (keyboard, gamepad), Nintendo Switch"
+      genre: "2D action platformer"
+      game_description: |
+        Fast platformer with dash and wall-jump. Controls fixed: Space jump, Shift dash, hold E 3s to open chests.
+        Boss fights: red glow means attack incoming, blue glow means vulnerable. Subtitles off by default, 18px white text, no background.
+        Enemy footsteps warn of ambushes. Difficulty: Normal only. Screen shakes on every hit. Settings menu only reachable from the pause menu.
+    assert:
+      - {type: contains, value: "## Quick wins"}
+      - {type: llm-rubric, value: "Identifies the core challenge as platforming skill and keeps it, then flags fixed controls (needs remapping), hold-E (offer toggle), red/blue colour-only boss cues (add shape or sound), small unbacked subtitles off by default (offer on first launch, larger, background), footsteps without visual cue, screen shake without toggle, and options only in pause menu; proposes granular assists such as game speed; ranks by effort."}
+  - name: edge-competitive-shooter
+    vars:
+      platforms: "PC"
+      genre: "competitive online shooter"
+      game_description: "Ranked 5v5 shooter. Players ask for aim assist for mouse users and a slow-motion mode."
+    assert:
+      - {type: llm-rubric, value: "Distinguishes competitive fairness from single-player assists, avoids recommending options that change outcomes in ranked play such as slow motion, and instead suggests remapping, colour-blind team indicators, sound visualisation, subtitles and comfort toggles, plus assists limited to non-ranked modes."}
+  - name: negative-no-details
+    vars:
+      game_description: "It's a mobile game."
+    assert:
+      - {type: llm-rubric, value: "Asks for controls, HUD, audio, text and difficulty details instead of producing a generic audit; may list what information it needs."}

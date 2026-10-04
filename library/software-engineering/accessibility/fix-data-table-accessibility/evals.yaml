@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Make this table accessible: {{table_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sortable-grouped-headers
+    vars:
+      framework: react
+      table_features: "Server-side sorting; row checkboxes for bulk delete"
+      table_code: |
+        <div className="table">
+          <div className="row head"><div>Region</div><div className="span2">Q1</div><div className="span2">Q2</div></div>
+          <div className="row head"><div></div><div>Sales</div><div>Returns</div><div>Sales</div><div>Returns</div></div>
+          {rows.map(r => (
+            <div className="row" key={r.id}>
+              <input type="checkbox" checked={sel.has(r.id)} onChange={() => toggle(r.id)} />
+              <div>{r.region}</div><div>{r.q1s}</div><div>{r.q1r}</div><div>{r.q2s}</div><div>{r.q2r}</div>
+              <span className="icon-edit" onClick={() => edit(r.id)} />
+            </div>))}
+        </div>
+        // header click: <div onClick={() => sortBy('region')}>Region <i className="arrow"/></div>
+    assert:
+      - {type: contains, value: "## Fixed markup"}
+      - {type: llm-rubric, value: "Rebuilds as a native table with caption, thead and tbody; uses colgroup with scope=colgroup (or headers/ids) for the Q1 and Q2 groups and scope=col for Sales and Returns; makes Region a row header; puts sort buttons inside th with aria-sort only on the sorted column and a polite announcement; labels checkboxes and the edit control with the row's region name; does not add role=grid."}
+  - name: edge-mobile-cards
+    vars:
+      framework: html
+      table_features: "Below 600px each row shows as a card"
+      table_code: |
+        <table class="orders"><tr><td><b>Order</b></td><td><b>Status</b></td><td><b>Total</b></td></tr>
+        <tr><td>#1042</td><td>Shipped</td><td>€84.00</td></tr></table>
+        <style>@media (max-width:600px){ .orders, .orders tr, .orders td { display:block } .orders td:before { content: attr(data-label) } }</style>
+    assert:
+      - {type: llm-rubric, value: "Replaces bold td header cells with th scope=col in a thead, adds a caption, and explains that display:block on table elements can strip table semantics, then either restores explicit table roles or recommends a horizontally scrollable labelled focusable region or real list cards; notes that CSS generated content labels are unreliable for screen readers."}
+  - name: negative-layout-table
+    vars:
+      framework: html
+      table_code: |
+        <table><tr><td><img src="logo.png"></td><td><nav>...</nav></td></tr><tr><td colspan="2"><main>...</main></td></tr></table>
+    assert:
+      - {type: llm-rubric, value: "Recognises this is a layout table, not a data table, and recommends CSS layout (or role=presentation as a stopgap) instead of adding captions, headers or aria-sort."}

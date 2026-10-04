@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Is this email accessible? {{email_html}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-password-reset
+    vars:
+      email_kind: transactional
+      email_html: |
+        <html><head><title></title></head><body>
+        <table width="600"><tr><td><img src="logo-dark.png"></td></tr>
+        <tr><td style="font-size:12px;color:#999"><b>Password reset</b></td></tr>
+        <tr><td style="font-size:12px">Someone asked to reset your password. <a href="https://example.com/reset?t=8f2c" style="color:#999;text-decoration:none">Click here</a>.</td></tr>
+        <tr><td><a href="https://example.com/reset?t=8f2c"><img src="btn-reset.png"></a></td></tr>
+        <tr><td style="font-size:10px;color:#bbb">Acme Ltd, 1 Main St. Unsubscribe</td></tr></table></body></html>
+    assert:
+      - {type: contains, value: "## Fixed HTML"}
+      - {type: llm-rubric, value: "Adds lang and a title, role=presentation on the layout table, a real heading, replaces the image button with a bulletproof HTML button with text, rewrites 'Click here' to descriptive link text with a non-colour cue, raises text sizes to at least 14px with 4.5:1 contrast, gives the logo alt text, and flags the dark logo disappearing in dark mode."}
+  - name: edge-order-receipt-data-table
+    vars:
+      email_kind: transactional
+      email_html: |
+        <table role="presentation"><tr><td>Item</td><td>Qty</td><td>Price</td></tr>
+        <tr><td>Running shoes</td><td>1</td><td>€89.00</td></tr><tr><td>Socks (3 pack)</td><td>2</td><td>€24.00</td></tr></table>
+    assert:
+      - {type: llm-rubric, value: "Recognises the line-items table is a real data table, removes role=presentation from it and uses th with scope for Item, Qty and Price, while keeping role=presentation on surrounding layout tables."}
+  - name: negative-asks-for-web-css
+    vars:
+      email_kind: newsletter
+      email_html: "Can you convert our newsletter layout to CSS grid with external stylesheets to make it accessible? <div class=\"grid\">...</div>"
+    assert:
+      - {type: llm-rubric, value: "Explains that CSS grid and external stylesheets are not reliably supported across email clients and are not what makes email accessible, and recommends table-based layout with role=presentation and inline styles instead."}

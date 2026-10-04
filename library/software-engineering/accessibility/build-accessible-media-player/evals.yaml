@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Make this video player accessible: {{player_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-custom-video-controls
+    vars:
+      media_type: video
+      tech_stack: "plain HTML and JavaScript"
+      player_code: |
+        <div class="player">
+          <video src="/course/lesson-3.mp4" autoplay></video>
+          <div class="controls">
+            <div class="btn play" onclick="toggle()"><svg>...</svg></div>
+            <div class="bar" onmousedown="startDrag(event)"><div class="fill"></div></div>
+            <div class="btn cc" onclick="toggleCC()">CC</div>
+          </div>
+        </div>
+        <style>.player:not(:hover) .controls { opacity: 0 }</style>
+    assert:
+      - {type: contains, value: "## Content the team must supply"}
+      - {type: llm-rubric, value: "Replaces div controls with named buttons that expose state, replaces the drag-only seek bar with a range input or ARIA slider with aria-valuetext in minutes and seconds, removes autoplay with sound, adds a captions track element with srclang and label, keeps controls visible when focused, and lists captions and audio description as content the team must produce rather than writing them."}
+  - name: edge-live-stream
+    vars:
+      media_type: live-stream
+      tech_stack: "React with hls.js"
+      player_code: ""
+    assert:
+      - {type: llm-rubric, value: "Treats live captions (1.2.4) as the key requirement and names a real-time captioning route such as CART or the platform's live captions instead of a static WebVTT file, notes transcript or recording captions after the event, and builds controls with the same keyboard and naming rules."}
+  - name: negative-podcast-audio
+    vars:
+      media_type: audio
+      tech_stack: "plain HTML and JavaScript"
+      player_code: "<audio controls src=\"ep12.mp3\"></audio>"
+    assert:
+      - {type: llm-rubric, value: "Recognises the native audio controls are largely fine and does not rebuild them; says captions and audio description do not apply to audio-only media and the requirement is a text transcript (1.2.1) linked near the player."}

@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Help me prioritise these accessibility audit findings: {{audit_findings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-repeated-component
+    vars:
+      key_journeys: "sign up, search, checkout"
+      team_capacity: "2 frontend devs at 50% for 3 two-week sprints"
+      audit_findings: |
+        ID,Page,SC,Severity,Description
+        1-48,All pages,4.1.2,High,Header cart icon button has no accessible name
+        49,Checkout,2.1.1,Critical,Payment iframe date picker cannot be operated by keyboard
+        50-71,Product pages,1.1.1,Medium,Product images missing alt text
+        72-90,All pages,1.4.3,Medium,Footer link contrast 3.2:1
+        91,Checkout,3.3.1,High,Card number error shown only by red border
+        92,Settings,1.4.3,Low,Disabled Save button contrast 2.1:1
+        93,Blog,1.3.1,Low,Heading levels skip from h2 to h4
+    assert:
+      - {type: contains, value: "## Root causes"}
+      - {type: llm-rubric, value: "Collapses the 48 cart-icon findings and 19 footer-contrast findings into single shared fixes, puts the checkout keyboard blocker and the colour-only error first, flags the disabled-button contrast as likely exempt under WCAG, treats product alt text as content work needing owners, and fits a three-sprint plan to the stated capacity with regression protection."}
+  - name: edge-impossible-deadline
+    vars:
+      key_journeys: "apply for a grant, upload documents"
+      team_capacity: "1 developer at 20% for 2 weeks; contract deadline in 2 weeks"
+      audit_findings: "212 findings across 40 pages; 9 critical on the application form (custom file upload not keyboard operable, errors not announced, time limit 15 minutes with no extension)."
+    assert:
+      - {type: llm-rubric, value: "States plainly with numbers that the capacity cannot clear the findings by the deadline, prioritises the critical application-form blockers, and offers trade-offs such as added capacity or a staged commitment, without shrinking estimates or giving a legal opinion."}
+  - name: negative-no-findings
+    vars:
+      audit_findings: "We had an audit done but I don't have the report yet. Can you tell me what our top priorities are?"
+    assert:
+      - {type: llm-rubric, value: "Does not invent findings or priorities; asks for the report or export and says which columns are needed."}
