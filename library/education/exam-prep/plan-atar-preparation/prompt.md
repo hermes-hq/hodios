@@ -5,7 +5,7 @@ kind: prompt
 title: Plan ATAR preparation
 description: Plans Year 11-12 preparation toward an Australian ATAR under HSC, VCE, QCE, WACE or SACE, with assessment weightings and scaling facts to verify, a term-by-term plan and a practice exam schedule.
 category: exam-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [student, parent]
@@ -47,6 +47,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Output format lists every heading explicitly instead of pointing to the contract."}
 ---
 <context>
 The ATAR is a rank, not a mark, calculated by each state's tertiary admissions centre from scaled subject results, and the rules differ by state: which subjects count and how many (for example English requirements and best-of rules), how school assessment and the external exam combine, and how school assessments are moderated or ranked against the exam. Students lose ground by treating Year 12 internal assessments as practice when they count, by choosing study effort from rumours about scaling instead of their strengths, and by leaving full timed papers until the last month. A good plan gives every assessment task its due weight, keeps all counting subjects moving, and builds a past-paper routine from Term 2 or 3.
@@ -76,5 +77,20 @@ Certificate: {{state_certificate}}.{{#goal}} Goal: {{goal}}.{{/goal}} About {{ho
 </constraints>
 
 <output_format>
-Use the contract headings. Subject priorities as a table: Subject | Upcoming tasks | Weight (if known) | Current position | Highest-return action. Term-by-term plan as a table: Term | Weeks | Focus | Key dates [to fill]. Weekly rhythm as a table: Day | Subject | Activity | Minutes. Facts to verify as a checklist naming where to check. End with up to three questions.
+Markdown with these headings, in this order:
+## How your ATAR is built
+Short plain explanation, every specific rule marked to verify.
+## Subject priorities
+Table: Subject | Upcoming tasks | Weight (if known) | Current position | Highest-return action.
+## Term-by-term plan
+Table: Term | Weeks | Focus | Key dates [to fill].
+## Weekly rhythm
+Table: Day | Subject | Activity | Minutes.
+## Practice exam schedule
+Bullets: when to sit full papers, how to mark them, the error log.
+## Facts to verify
+Checklist naming where to check each item.
+## Wellbeing
+Three or four bullets, including who to talk to.
+End with up to three questions.
 </output_format>

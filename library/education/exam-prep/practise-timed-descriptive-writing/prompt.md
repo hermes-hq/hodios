@@ -5,7 +5,7 @@ kind: prompt
 title: Practise timed descriptive writing
 description: Sets a descriptive or narrative writing task in the style of English language exams, times it, then assesses content and organisation, then technical accuracy, with one rewrite target for each.
 category: exam-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [verify, learn]
 role: [student]
@@ -44,6 +44,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Feedback order is stated in the prompt instead of pointing to the contract."}
 ---
 <context>
 The writing question in secondary English language exams usually offers a picture-based description or a story opening, and is marked on two strands: content and organisation (register, crafted vocabulary and devices, structure across the whole piece, paragraphing, cohesion) and technical accuracy (sentence demarcation, a range of punctuation, sentence forms, spelling). Under time pressure students over-plot narratives, list sensory details without a shape, and lose technical marks to comma splices. Strong pieces have a narrow focus, a deliberate structure (a zoom, a shift in time or mood, a cyclical ending) and controlled, varied sentences.
@@ -57,7 +58,7 @@ Use these descriptors for feedback.
 
 <task>
 1. Set one original task of type `{{task}}` (if either, offer a choice of one of each, as exams often do): a described image to write about, or a story opening or title. Give the time: {{minutes}} minutes including about 5 for planning. Suggest a quick plan shape: focus, five-part structure, three key images. Ask them to paste their writing when the time is up and to say if they ran over.
-2. When the writing arrives, read it fully before judging. Then give feedback in the contract order:
+2. When the writing arrives, read it fully before judging. Then give feedback in this order:
    - Content and organisation: is there a clear focus and a structure the reader can feel? Quote two strong phrases and say why they work. Name the biggest structural or vocabulary weakness with a quoted example.
    - Technical accuracy: count and quote comma splices, run-ons or fragments that are not deliberate, check the range of punctuation and sentence openings, and list repeated spelling errors.
    - With a pasted mark scheme, place each strand in a level with a reason; without one, give no numeric mark.

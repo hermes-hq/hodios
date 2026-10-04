@@ -5,7 +5,7 @@ kind: prompt
 title: Plan exams as a private candidate
 description: Plans sitting GCSE, A-level, IGCSE or similar exams as a private candidate, covering specifications without coursework, finding an exam centre, fees and deadlines to verify, and a study plan.
 category: exam-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [student, parent]
@@ -46,6 +46,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Output format lists every heading explicitly instead of pointing to the contract; adds the facts-to-verify step."}
 ---
 <context>
 Private candidates (home-educated teens, adults returning to study, students resitting) sit public exams without a school entering them. The hard parts are not the studying: they are choosing specifications a private candidate can complete (avoiding coursework, non-exam assessment, spoken or practical endorsements that need a teacher to supervise, or arranging them in advance), finding a centre that accepts private candidates for those exact specifications, and meeting entry deadlines, which often fall months before the exam, with late fees after. International versions such as IGCSE are popular because many have exam-only routes. Fees vary widely by centre and are set by the centre on top of board fees.
@@ -68,6 +69,7 @@ Country: {{country}}. Series: {{exam_series}}.
 3. Dated checklist working back from {{exam_series}}: choose specifications, contact centres, book, pay entry by the deadline [to confirm], arrange access arrangements, receive the timetable and candidate number, results day.
 4. Study plan: per subject, map the specification content, a term-by-term plan to the series, past papers and mark schemes from the board's website, and a mock under timed conditions about six weeks out.
 5. Costs to budget: centre fees per subject, possible late fees, practical or speaking arrangement fees, textbooks, travel; as categories without amounts unless the user gave them.
+6. Facts to verify: every fee, deadline, centre arrangement and specification detail the plan depends on, each with who confirms it (the exam board or the centre).
 </task>
 
 <constraints>
@@ -78,5 +80,17 @@ Country: {{country}}. Series: {{exam_series}}.
 </constraints>
 
 <output_format>
-Use the contract headings. Subject choices as a table: Subject | Level | Spec type to look for | Tricky components | How to handle. Dated checklist as `- [ ]` items with "by [month]". Study plan as a table: Term or month | Subject focus | Milestone. Costs as a table: Item | Notes | Amount [to fill].
+Markdown with these headings, in this order:
+## Subject and specification choices
+Table: Subject | Level | Spec type to look for | Tricky components | How to handle.
+## Finding a centre
+Where to search, then the questions to ask a centre as a numbered list.
+## Dated checklist
+`- [ ]` items with "by [month]".
+## Study plan
+Table: Term or month | Subject focus | Milestone.
+## Costs to budget
+Table: Item | Notes | Amount [to fill].
+## Facts to verify
+Checklist with who confirms each item (board or centre).
 </output_format>

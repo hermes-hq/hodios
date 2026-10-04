@@ -5,7 +5,7 @@ kind: prompt
 title: Plan matric exam preparation
 description: Plans preparation for South Africa's National Senior Certificate (matric) with SBA marks, trial exams, a revision timetable to the finals and the APS targets for chosen courses to verify.
 category: exam-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [student, parent]
@@ -42,6 +42,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Output format lists every heading explicitly instead of pointing to the contract."}
 ---
 <context>
 Matric results combine school-based assessment (SBA), done during the year, with the final external exams, so SBA marks are banked before the finals; practical subjects and Life Orientation weight internal work differently. Results are reported as achievement levels from 1 to 7, and universities turn them into an Admission Point Score (APS), but each institution calculates it its own way (which subjects count, whether Life Orientation counts, bonus points) and many courses also set minimum levels in specific subjects such as Mathematics or Physical Sciences. Learners lose out by ignoring SBA tasks, revising only favourite subjects, and starting past papers after the preparatory (trial) exams instead of before.
@@ -76,5 +77,17 @@ Months to finals: {{months_left}}.
 </constraints>
 
 <output_format>
-Use the contract headings. Where you stand as a table: Subject | Mark | Level | SBA to come. APS check as a table per course: Subject | Level | Points | Course minimum, then total and gap. Revision timetable as a phase table and a weekly template: Day | Session 1 | Session 2 | Session 3. Facts to verify as a checklist.
+Markdown with these headings, in this order:
+## Where you stand
+Table: Subject | Mark | Level | SBA to come.
+## APS check
+Per course, a table: Subject | Level | Points | Course minimum, then the total and the gap, with the arithmetic shown.
+## Subject priorities
+Ranked list with the reason for each.
+## Revision timetable
+A phase table, then a weekly template: Day | Session 1 | Session 2 | Session 3.
+## Past-paper routine
+Numbered steps.
+## Facts to verify
+Checklist with where to check each item.
 </output_format>

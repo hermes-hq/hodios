@@ -5,7 +5,7 @@ kind: prompt
 title: Plan WASSCE preparation
 description: Plans preparation for the West African Senior School Certificate Examination by subject, balancing core and electives, with past-question practice, a timetable to exam day and low-cost resources.
 category: exam-prep
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [plan]
 role: [student, parent]
@@ -47,6 +47,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "Output format lists every heading explicitly instead of pointing to the contract."}
 ---
 <context>
 The WASSCE is set by the West African Examinations Council and graded A1 to F9; university and further-study entry commonly asks for credits (C6 or better) in five or more relevant subjects including English Language and Mathematics, but exact requirements differ by country, programme and institution, and some countries add other entry exams. Teachers commonly advise working through many years of past questions under time, learning the format of each paper (objectives, theory, practical where the subject has one), and studying the chief examiners' reports, which explain where candidates lose marks. Plans must also fit real constraints: unreliable electricity, shared phones, heavy chores or work, and limited money for books.
@@ -82,5 +83,17 @@ Exams: {{exam_date}}
 </constraints>
 
 <output_format>
-Use the contract headings. Subject priorities as a table: Subject | Target grade | Current level | Papers | Priority. Timetable as a table: Phase | Dates | Focus | Daily hours; then a weekly template table: Day | Morning | Afternoon | Evening. Facts to verify as a checklist.
+Markdown with these headings, in this order:
+## Your targets
+The subjects that must reach a credit for the next step, and who confirms the requirements.
+## Subject priorities
+Table: Subject | Target grade | Current level | Papers | Priority.
+## Timetable to exam day
+Table: Phase | Dates | Focus | Daily hours; then a weekly template table: Day | Morning | Afternoon | Evening.
+## Past-question routine
+Numbered steps.
+## Resources
+Bullets of low-cost options to look for.
+## Facts to verify
+Checklist with where to check each item.
 </output_format>

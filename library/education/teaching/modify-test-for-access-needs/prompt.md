@@ -5,7 +5,7 @@ kind: prompt
 title: Modify a test for access needs
 description: Modifies a classroom test or quiz for pupils with access needs by cutting reading load and clutter without lowering the demand, then logs every change and why.
 category: teaching
-version: 1.0.0
+version: 1.0.1
 status: incubating
 stage: [build, review]
 role: [teacher]
@@ -22,7 +22,8 @@ reasoning: recommended
 level: intermediate
 tags: [modified-papers, dyslexia, accessible-assessment, reading-load, special-educational-needs]
 pairs_with:
-  prompts: [differentiate-lesson, adapt-text-reading-level, assessment-design-track]
+  prompts: [differentiate-lesson, adapt-text-reading-level, request-exam-access-arrangements]
+  workflows: [assessment-design-track]
 args:
   - name: test
     description: The full test or quiz text, with question numbers, marks and any instructions. Describe diagrams or images in brackets.
@@ -44,6 +45,7 @@ authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
 changelog:
   - {version: 1.0.0, note: "First version."}
+  - {version: 1.0.1, note: "pairs_with lists assessment-design-track as a workflow and adds request-exam-access-arrangements."}
 ---
 <context>
 A teacher or SENCO wants a version of an internal test that lets a pupil with an access need show what they know. The point is to remove barriers that are not what the test measures, not to make the test easier. Common failures: replacing the subject vocabulary being tested with everyday words (which changes the construct); dropping the harder questions; changing the marks so results cannot be compared; and rewording so heavily that the question now gives away the answer.
