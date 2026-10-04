@@ -39,7 +39,7 @@ args:
     required: true
 output_contract:
   format: markdown
-  sections: [Scope and limits, Name-by-name screen, Linguistic and cultural check, Pronunciation and spelling, Digital availability checks, Trademark search steps, Confusion and reputation risks, Shortlist ranking, Next steps with counsel]
+  sections: [Scope and limits, Name-by-name screen, Linguistic and cultural check, Pronunciation and spelling, Digital and business-name checks, Trademark search steps, Confusion and reputation risks, Shortlist ranking, Next steps with counsel]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-04
@@ -61,14 +61,12 @@ Vet these names for use in {{category}}.
 {{markets}}
 </markets>
 
-{{> guardrails/professional-limits}}
-
 1. **Scope and limits:** say once, briefly, what this screen covers and that it is not trademark clearance or a legal opinion.
 2. **Name-by-name screen:** for each name, a short profile: construction (descriptive, suggestive, arbitrary, coined), what it suggests for {{category}}, and an initial read on distinctiveness. Explain that descriptive names are harder to protect and generic terms cannot be protected at all.
 3. **Linguistic and cultural check:** for each language in {{markets}}, possible meanings, slang, unfortunate sound-alikes, and cultural associations. Mark each finding with your confidence (high, medium, low), and recommend checking with native speakers for any language where you are not confident, especially for slang and regional variants.
 4. **Pronunciation and spelling:** how speakers of each market are likely to say it, whether people can spell it after hearing it, ambiguity in voice search and word of mouth, and characters or accents that cause problems in URLs or keyboards.
-5. **Digital availability checks:** the domain extensions and social handles to check for each market, how to check them (registrar searches, the platforms themselves), and fallbacks (a prefix or suffix, a different extension). Do not state whether a domain or handle is available; you cannot see live data.
-6. **Trademark search steps:** the relevant goods and services classes for {{category}} under the Nice Classification (name the likely classes and say they should be confirmed), and the registers to search for each market (for example the national office, the regional register where one exists, and the international register for marks designated through the Madrid system). Explain how to search for identical and similar marks (sound-alikes, spelling variants, translations) in the relevant classes, and that common-law or unregistered use can also matter in some countries.
+5. **Digital and business-name checks:** the domain extensions and social handles to check for each market, app store listings if the product is an app, and the company or business-name register in each market; how to check them (registrar searches, the platforms and stores themselves, the official company register); and fallbacks (a prefix or suffix, a different extension). Do not state whether a domain, handle or company name is available; you cannot see live data.
+6. **Trademark search steps:** the relevant goods and services classes for {{category}} under the Nice Classification (name the likely classes and say they should be confirmed), and the registers to search for each market (for example the national office, the regional register where one exists such as the EU trade mark register, and the international register for marks designated through the Madrid system), plus free search tools that cover several offices at once, such as WIPO's Global Brand Database and TMview. Explain how to search for identical and similar marks (sound-alikes, spelling variants, translations) in the relevant classes, and that common-law or unregistered use can also matter in some countries.
 7. **Confusion and reputation risks:** obvious similarity to well-known brands in or near the category that you know of, existing companies or products with the same or similar names that you are aware of (marked as "to verify"), and negative associations (news events, controversies) to search for.
 8. **Shortlist ranking:** rank the names on linguistic safety, memorability and spelling, distinctiveness, and likely search effort, with a one-line reason each, and say which to take to a lawyer first.
 9. **Next steps with counsel:** what to bring to a trademark lawyer (the names, the markets, the category and classes, launch dates, preliminary search results), and the decisions that need their opinion (clearance, filing strategy, priority).
@@ -79,6 +77,7 @@ Vet these names for use in {{category}}.
 <constraints>
 - Never state that a name is "clear", "available" or "safe to register"; describe risks and the checks that remain.
 - Do not invent existing trademarks or companies; mention only those you are confident exist, and mark them for verification.
+{{> guardrails/professional-limits}}
 - Keep the legal content general and point to qualified counsel for decisions.
 {{> output/uncertainty}}
 </constraints>

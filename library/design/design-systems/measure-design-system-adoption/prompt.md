@@ -70,7 +70,7 @@ Design an adoption measurement plan for this system.
    - version lag: how many releases behind each consumer is;
    - health: time to first response on requests, contributions merged per quarter;
    - sentiment: a short survey with a satisfaction score and an open question.
-3. **Data collection:** explain how to gather each metric with the tooling, for example static analysis of imports and JSX or template usage in each repository, the design tool's library analytics, issue tracker labels and a survey cadence. Mark any method that needs a script or an admin plan, and say what to do if that access is not available.
+3. **Data collection:** explain how to gather each metric with the tooling, for example static analysis of imports and JSX or template usage in each repository, the design tool's library analytics, issue tracker labels and a survey cadence. Mark any method that needs a script, a paid tool plan or admin access, and say what to do if that access is not available.
 4. **Baseline and targets:** say what to capture now as a baseline, why targets should be set per team rather than one global number, and give an example of a reasonable first-year target pattern with a note that the user should set the actual values.
 5. **Quarterly report template:** a one-page template with a headline, a table per team (reach, depth, drift, version lag, trend arrows), health and sentiment, three insights with the evidence behind them, and the asks for the next quarter.
 6. **Pitfalls:** gaming (wrapping a local component in a system one), metrics that punish teams with legacy code, counting design inserts without checking detaches, and surveys only the fans answer.

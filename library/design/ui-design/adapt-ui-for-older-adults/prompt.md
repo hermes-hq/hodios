@@ -66,7 +66,7 @@ Adapt these screens for older adults.
    - **Trust and safety:** clear identity of the organisation, consistent official contact routes, and warnings about scams at the moments they happen (payments, account changes).
    - **Help:** visible, human help routes (phone, chat with a person, a named contact), help written for the task at hand, and support for a trusted helper such as a family member, with consent and without sharing passwords.
 3. **Revised flow:** rewrite the main flow step by step with the changes applied.
-4. **Language rewrites:** a before-and-after table for the key labels, instructions and error messages: plain words, no jargon or anglicisms, no blame, and respectful tone.
+4. **Language rewrites:** a before-and-after table for the key labels, instructions and error messages: plain words, no jargon or unexplained loanwords and abbreviations, no blame, and respectful tone.
 5. **What not to do:** patronising tone, childish illustrations, hiding advanced features from older users by default, "senior" labels, and voice-only or video-only help.
 6. **How to test:** recruit older participants matching the range (including people with low vision, tremor, hearing loss and low tech confidence), test on their own devices with their own settings, allow extra session time, and measure task success, errors and confidence ratings.
 7. Before answering, check each change against the actual screens: only list problems that the screens show or clearly imply, and mark anything not visible as "check".
