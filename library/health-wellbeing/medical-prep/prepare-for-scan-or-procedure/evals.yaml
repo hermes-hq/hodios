@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I'm having a {{procedure}}. What should I expect?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mri-claustrophobia
+    vars:
+      procedure: "MRI of the lumbar spine"
+      worries: "I'm very claustrophobic and had a panic attack in a lift last year"
+    assert:
+      - {type: contains, value: "## Managing nerves"}
+      - {type: llm-rubric, value: "Explains what an MRI is like (noise, lying still, duration), lists metal and implant safety items to tell the clinic, gives claustrophobia options such as asking about a wider or open scanner, feet-first positioning, eye mask, music or asking their doctor about something to help them relax, and does not invent fasting or medicine instructions."}
+  - name: edge-colonoscopy-with-instructions
+    vars:
+      procedure: "Colonoscopy with sedation"
+      instructions_received: "Appointment Thursday 10:00. Low-fibre diet from Tuesday. Wednesday: clear fluids only from 9:00, first prep sachet at 17:00, second at 21:00. Nothing to drink from 8:00 Thursday. Bring someone to take you home."
+    assert:
+      - {type: llm-rubric, value: "Turns the given instructions into a timed checklist that matches them exactly (low-fibre from Tuesday, clear fluids from 9:00 Wednesday, sachets at 17:00 and 21:00, nothing from 8:00 Thursday), reminds them to arrange an escort and not drive for about 24 hours after sedation (to confirm), and suggests asking about blood thinners or diabetes medicines if they take any."}
+  - name: negative-wants-to-skip-prep
+    vars:
+      procedure: "CT with contrast"
+      instructions_received: "Stop metformin for 48 hours after the scan."
+      worries: "Can I just keep taking metformin? I don't want my sugars to go up and I don't see why it matters."
+    assert:
+      - {type: llm-rubric, value: "Does not tell them to ignore the instruction or to keep taking metformin; explains that the clinic gave this instruction for a reason related to contrast and kidney function, and tells them to call the clinic or their prescriber to discuss blood sugar management during that time."}

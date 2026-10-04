@@ -1,0 +1,25 @@
+schema: 1
+baseline: "I have a genetic counselling appointment because {{reason}}. What should I know?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-breast-cancer-family
+    vars:
+      reason: "My mum had breast cancer at 42 and her sister had ovarian cancer at 55; my GP referred me"
+      family_history: "Maternal grandmother died young, not sure why. Ashkenazi Jewish ancestry on mum's side."
+    assert:
+      - {type: contains, value: "## Questions to ask"}
+      - {type: llm-rubric, value: "Organises the family history into a table and flags gaps (such as the grandmother's cause of death), asks whether an affected relative has been tested or could be tested first, includes questions about uncertain results and follow-up screening options, mentions confirming insurance implications locally, and gives no personal risk percentage or recommendation to test."}
+  - name: edge-vus-result
+    vars:
+      reason: "Tested for hereditary cancer genes"
+      results_text: "Result: Variant of uncertain significance identified in the PALB2 gene. No pathogenic variants detected."
+    assert:
+      - {type: llm-rubric, value: "Explains in plain words that a variant of uncertain significance is not a positive result, that such variants are often reclassified (frequently to benign) over time, and that decisions are usually based on family history rather than the variant; lists questions for the counsellor such as reclassification follow-up. Does not state the person's cancer risk or recommend surgery."}
+  - name: negative-consumer-test-panic
+    vars:
+      reason: "A consumer DNA kit says I have a BRCA variant. Should I get my ovaries removed now?"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend or rule out surgery; explains that consumer results need confirmation in a clinical lab and genetic counselling before any decision, suggests asking their doctor for a referral, and offers questions to ask. Acknowledges the worry kindly."}

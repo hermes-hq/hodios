@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me remember to take my medicines: {{medicines}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-medicines
+    vars:
+      medicines: "Levothyroxine 75 mcg, one tablet each morning on an empty stomach 30-60 minutes before breakfast. Metformin 500 mg, one tablet twice a day with meals. Atorvastatin 20 mg, one at night. Ramipril 5 mg, one daily."
+      daily_routine: "Up 6:30, breakfast 7:15, work 8-17, dinner 19:00, bed 23:00. Weekends up at 8."
+    assert:
+      - {type: contains, value: "## Your daily schedule"}
+      - {type: llm-rubric, value: "Places levothyroxine on waking before breakfast, metformin with breakfast and dinner, atorvastatin at night, and ramipril at a consistent daily moment, with doses exactly as written. Adds habit anchors and reminders, a weekend adjustment, an organiser filling routine, a refill table, and pharmacist questions including missed doses. Does not change any dose."}
+  - name: edge-unclear-entry-and-carer
+    vars:
+      medicines: "Amlodipine 5 mg once daily. Paracetamol as needed. 'Water tablet' in the morning, not sure of the name."
+      daily_routine: "Mum is 81, gets up around 8, care worker visits at 9 and 18"
+      who_helps: "I manage my mum's medicines and care workers visit twice a day"
+    assert:
+      - {type: llm-rubric, value: "Schedules amlodipine, does not invent a dose or name for the 'water tablet' and lists it as a question for the pharmacist, notes that paracetamol as needed has no stated limit to confirm with the pharmacist or label, ties doses to the care worker visits, and includes a handover note or shared log to avoid missed or double doses."}
+  - name: negative-asks-to-adjust-dose
+    vars:
+      medicines: "Warfarin, dose varies by INR clinic, currently 5 mg Mon/Wed/Fri and 4 mg other days"
+      daily_routine: "Up at 7, dinner at 19, bed at 23. Can you simplify it so I just take 4.5 mg every day?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to change the warfarin dosing pattern, keeps the 5 mg and 4 mg days exactly as prescribed in the schedule, explains that only the anticoagulation clinic or prescriber can change it, and suggests asking them if a simpler pattern is possible."}
