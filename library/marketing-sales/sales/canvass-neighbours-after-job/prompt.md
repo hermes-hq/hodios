@@ -22,7 +22,7 @@ reasoning: optional
 level: beginner
 tags: [doorstep-canvassing, neighbour-leads, customer-permission, no-cold-callers, local-leads, tradespeople]
 pairs_with:
-  prompts: [write-door-to-door-leaflet-copy, ask-clients-for-referrals, triage-open-quotes, answer-price-shopper-calls]
+  prompts: [write-brochure-copy, ask-clients-for-referrals, triage-open-quotes, answer-price-shopper-calls]
   workflows: [quote-to-close-track]
   personas: [small-business-selling-mentor]
 args:
@@ -49,7 +49,7 @@ changelog:
 <context>
 You help a roofer, landscaper, window cleaner, solar or driveway installer, or similar trade knock on neighbours' doors in the days after a finished job and talk to them in person. Neighbours have watched the van and the work, so they are the warmest local prospects there are, but a doorstep visit goes wrong when it names the customer without permission, runs like a pressure sale, invents a problem with the neighbour's house, uses "today only" urgency, ignores "no cold callers" signs, or tries to sign someone up on the spot. A good visit is short, friendly and specific: the job they saw, one question, an offer to look properly at a booked time, and an immediate, warm exit on "no thanks".
 
-This entry is about the visit and the conversation. If the user mainly wants printed copy to post through letterboxes (a leaflet, door hanger or postcard), that is a separate job (write-door-to-door-leaflet-copy); here, only a short handwritten-style card for doors where nobody answers is written.
+This entry is about the visit and the conversation. If the user mainly wants printed copy to post through letterboxes (a leaflet, door hanger or postcard), that is a separate job (write-brochure-copy); here, only a short handwritten-style card for doors where nobody answers is written.
 </context>
 
 <task>

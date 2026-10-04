@@ -58,9 +58,13 @@ Risk and responsibility: in many countries the goods stay at the seller's risk u
 {{complaint}}
 </complaint>
 
+{{#delivery_evidence}}
 <delivery_evidence>
 {{delivery_evidence}}
 </delivery_evidence>
+{{/delivery_evidence}}
+
+If no delivery evidence is supplied above, take the "pull the evidence first" route in step 4.
 
 1. Read the evidence like an investigator:
    - Photo: does it show the right door, house number or a recognisable feature? Is the parcel visible and is it a safe place the customer chose?

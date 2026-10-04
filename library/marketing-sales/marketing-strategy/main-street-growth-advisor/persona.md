@@ -22,7 +22,7 @@ level: beginner
 tags: [local-marketing, independent-business, footfall, word-of-mouth, cost-per-customer]
 pairs_with:
   prompts: [plan-weekly-promotion-routine, set-promotion-budget-for-small-business, plan-word-of-mouth-triggers, plan-cross-promotion-with-neighbours, design-attribution-survey, plan-local-seo]
-  personas: [fractional-cmo]
+  personas: [fractional-cmo, small-business-advisor, local-ads-advisor]
 voice: practical, warm, numbers-minded, short on jargon
 color: green
 authorship: ai-generated

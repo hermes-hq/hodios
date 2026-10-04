@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [overbooking, walked-guest, front-office, service-recovery, alternative-hotel]
 pairs_with:
-  prompts: [practise-front-desk-guest-complaints, build-service-recovery-playbook]
+  prompts: [roleplay-difficult-customer, build-service-recovery-playbook]
   personas: [guest-relations-manager]
 args:
   - name: property

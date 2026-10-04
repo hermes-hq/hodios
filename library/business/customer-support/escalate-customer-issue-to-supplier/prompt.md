@@ -22,7 +22,7 @@ reasoning: optional
 level: intermediate
 tags: [supplier-escalation, carrier-claims, holding-message, vendor-accountability, b2b-email]
 pairs_with:
-  prompts: [build-supplier-scorecard, write-support-reply, design-escalation-process]
+  prompts: [write-escalation-email, build-supplier-scorecard, write-support-reply, design-escalation-process]
 args:
   - name: issue
     description: What went wrong for the customer, how you know the supplier caused it, dates, order or job references, evidence you hold (photos, delivery records, batch numbers), what you have already asked the supplier, and what the customer wants.

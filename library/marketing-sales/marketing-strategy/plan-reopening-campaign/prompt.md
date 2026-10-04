@@ -22,7 +22,7 @@ reasoning: recommended
 level: beginner
 tags: [reopening, win-back, regulars, soft-launch, local-press]
 pairs_with:
-  prompts: [announce-shop-move, plan-grand-opening-event, write-win-back-campaign, pitch-journalist]
+  prompts: [write-customer-change-notice, plan-grand-opening-event, write-win-back-campaign, pitch-journalist]
 args:
   - name: closure_story
     description: Why and how long you were closed, what changed (refit, new menu, new owner, same team), who your regulars are and how you can reach them (email list, social, phone numbers with consent, loyalty app), and trading before the closure.

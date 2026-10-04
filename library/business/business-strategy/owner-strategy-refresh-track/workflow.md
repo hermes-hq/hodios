@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [annual-review, owner-led, priorities, strategy-budget, staff-briefing, year-plan]
 pairs_with:
-  prompts: [run-yearly-company-health-check, write-one-page-strategy-for-owners, build-annual-operating-plan, map-growth-options, run-swot-analysis, brief-staff-on-company-direction]
+  prompts: [run-yearly-company-health-check, write-one-page-strategy-for-owners, build-annual-operating-plan, map-growth-options, run-swot-analysis, write-internal-announcement]
   personas: [small-business-advisor, management-consultant]
 args:
   - name: business

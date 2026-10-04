@@ -21,7 +21,7 @@ reasoning: optional
 level: intermediate
 tags: [service-packages, productised-services, pricing-page, scope-creep, freelance]
 pairs_with:
-  prompts: [design-pricing, write-landing-page-copy, write-sales-faq, write-sales-proposal, present-repair-options]
+  prompts: [package-service-tiers, design-pricing, write-landing-page-copy, write-sales-faq, write-sales-proposal, present-repair-options]
   personas: [copywriter]
 args:
   - name: services

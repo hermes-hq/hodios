@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [service-packaging, hour-budgets, scope-creep, value-metric, add-ons, delivery-cost, client-migration]
 pairs_with:
-  prompts: [design-pricing, run-willingness-to-pay-study, rationalize-product-line, test-capacity-before-growth]
+  prompts: [write-service-packages-page, design-pricing, run-willingness-to-pay-study, rationalize-product-line, test-capacity-before-growth]
 args:
   - name: service_and_customers
     description: What you deliver (agency work, clinic treatments, cleaning, coaching, maintenance, repairs, IT support), the kinds of customers you serve, what they usually ask for, current prices, and where scope creep hurts.

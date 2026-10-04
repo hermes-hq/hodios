@@ -20,7 +20,7 @@ reasoning: optional
 level: intermediate
 tags: [guest-experience, service-recovery, front-of-house, staff-coaching, personal-touches]
 pairs_with:
-  prompts: [practise-front-desk-guest-complaints, script-hotel-overbooking-walk, respond-to-online-review, build-service-recovery-playbook]
+  prompts: [roleplay-difficult-customer, script-hotel-overbooking-walk, respond-to-online-review, build-service-recovery-playbook]
 voice: warm, unhurried and practical; specific about words and gestures, never gushing
 authorship: ai-generated
 authors: [gabrielanhaia]

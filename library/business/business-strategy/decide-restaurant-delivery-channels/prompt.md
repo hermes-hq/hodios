@@ -22,7 +22,7 @@ reasoning: recommended
 level: intermediate
 tags: [takeaway, delivery-apps, commission, click-and-collect, contribution-margin, channel-mix]
 pairs_with:
-  prompts: [plan-delivery-routes, plan-owner-led-price-rise, test-capacity-before-growth, assess-platform-dependence-risk]
+  prompts: [plan-delivery-routes, plan-owner-led-price-rise, test-capacity-before-growth, engineer-restaurant-menu]
   personas: [hospitality-revenue-manager, hospitality-manager]
 args:
   - name: restaurant

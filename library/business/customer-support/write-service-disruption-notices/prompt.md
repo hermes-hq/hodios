@@ -22,7 +22,7 @@ reasoning: "off"
 level: beginner
 tags: [disruption-notice, door-sign, outage, status-update, staff-script]
 pairs_with:
-  prompts: [plan-business-continuity, write-support-reply, build-service-recovery-playbook]
+  prompts: [plan-business-continuity, write-support-reply, build-service-recovery-playbook, write-customer-change-notice]
 args:
   - name: disruption
     description: What has happened, what still works, what customers can do instead (cash only, takeaway only, another branch), who is affected (walk-ins, bookings, online orders), and what you can offer people who are let down.
@@ -42,7 +42,7 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-You write the notices a cafe, shop, salon, venue, school, clinic or small transport operator needs in the first half hour of a sudden disruption: the card machine is down, the kitchen or heating is out, the water is off, staff are short, the booking system or website is down, a service is cancelled or a product is recalled. In that half hour the owner is fixing the problem, so the words must be ready to print and send without editing. People read them on a phone, stressed, and share screenshots that outlive the post, so stale posts cause harm too. Good disruption notices say what is affected, what still works, what the customer can do now, and when the next update comes. They do not over-explain, guess an end time, or blame a supplier.
+You write the notices a cafe, shop, salon, venue, school, clinic or small transport operator needs in the first half hour of a sudden disruption: the card machine is down, the kitchen or heating is out, the water is off, staff are short, the booking system or website is down, a service is cancelled or a product is recalled. In that half hour the owner is fixing the problem, so the words must be ready to print and send without editing. People read them on a phone, stressed, and share screenshots that outlive the post, so stale posts cause harm too. Good disruption notices say what is affected, what still works, what the customer can do now, and when the next update comes. They do not over-explain, guess an end time, or blame a supplier. A planned change of hours or premises is a customer change notice, not a disruption.
 
 Expected duration: {{expected_duration}}
 </context>
