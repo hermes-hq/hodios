@@ -22,10 +22,12 @@ export const HEADER = `# curated.txt: the curated tier, one id per line, sorted.
 # the site and Hermes IDE reach the rest. The rule (TAXONOMY.md §6.1):
 #   1. An id stays once listed, unless it is deprecated, moves to other/unsorted or is opted out. A renamed id is
 #      replaced by its successor. Entries never churn in and out between releases.
-#   2. Every new persona, workflow, rule and style is added.
-#   3. New prompts fill the list up to 1,900, picked one at a time: first the domain furthest below its quota
-#      (the domain's share of the library times 1,900), then the category with the fewest curated entries, then
-#      status (stable, experimental, incubating), eval cases, examples, and finally the id.
+#   2. Free slots are the room left under 1,900 (never above the 2,000 cap). New personas, workflows, rules and
+#      styles take them first, then new prompts. Within each group they are picked one at a time: first the domain
+#      furthest below its quota (the domain's share of the library times 1,900), then the category with the fewest
+#      curated entries, then status (stable, experimental, incubating), eval cases, examples, and finally the id.
+#   3. Nothing is added once the list reaches 1,900. Listed entries still stay (rule 1), and an entry that misses
+#      the line stays verified: it is in the catalog, searchable and installable, just not in hodios-dist.
 #   Never added automatically: other/unsorted, deprecated entries, and entries with advice_risk (medical,
 #   mental-health, legal, financial), which need a reviewer from the domain's CODEOWNERS group; add those by hand.
 # Hand edits: add an id to curate it; write !<id> to opt an entry out (it leaves the tier and is never re-added).
@@ -37,7 +39,8 @@ export const HEADER = `# curated.txt: the curated tier, one id per line, sorted.
  *   aliases: string[], evalCases: number, examples: boolean}} Candidate
  * @param {Candidate[]} entries every live entry
  * @param {{listed: Iterable<string>, excluded?: Iterable<string>, target?: number, max?: number}} opts
- * @returns {{ids: string[], added: string[], dropped: string[]}}
+ * @returns {{ids: string[], added: string[], dropped: string[], waiting: string[]}} `waiting`: eligible new entries
+ *   left out because the list reached min(target, max); they stay in the verified tier.
  */
 export function selectCurated(entries, { listed, excluded = [], target = TARGET, max = MAX }) {
   const out = new Set(excluded);
@@ -54,8 +57,7 @@ export function selectCurated(entries, { listed, excluded = [], target = TARGET,
   }
   const before = new Set(keep);
   const pool = entries.filter((e) => eligible(e) && !e.advice && !keep.has(e.id)).sort((a, b) => order(a.id, b.id));
-  for (const e of pool) if (e.kind !== 'prompt') keep.add(e.id);
-  if (keep.size > max) throw new Error(`${keep.size} curated entries before any prompt; the cap is ${max}`);
+  if (keep.size > max) throw new Error(`${keep.size} listed curated entries; the cap is ${max}`);
 
   // Domain quotas: the domain's share of the library, by largest remainder so they sum to the target.
   const live = entries.filter((e) => e.status !== 'deprecated' && e.category !== 'unsorted');
@@ -79,7 +81,6 @@ export function selectCurated(entries, { listed, excluded = [], target = TARGET,
     inCategory.set(e.category, (inCategory.get(e.category) ?? 0) + 1);
   };
   for (const id of keep) count(byId.get(id));
-  const prompts = pool.filter((e) => e.kind === 'prompt');
   const better = (a, b) =>
     (quota.get(b.domain) ?? 0) -
       (inDomain.get(b.domain) ?? 0) -
@@ -89,15 +90,21 @@ export function selectCurated(entries, { listed, excluded = [], target = TARGET,
     b.evalCases - a.evalCases ||
     Number(b.examples) - Number(a.examples) ||
     order(a.id, b.id);
-  while (keep.size < Math.min(target, max) && prompts.length > 0) {
-    let best = 0;
-    for (let i = 1; i < prompts.length; i++) if (better(prompts[i], prompts[best]) < 0) best = i;
-    const [pick] = prompts.splice(best, 1);
-    keep.add(pick.id);
-    count(pick);
+  // Free slots go to new non-prompt kinds first, then to prompts, and never past min(target, max).
+  const limit = Math.min(target, max);
+  const waiting = [];
+  for (const group of [pool.filter((e) => e.kind !== 'prompt'), pool.filter((e) => e.kind === 'prompt')]) {
+    while (keep.size < limit && group.length > 0) {
+      let best = 0;
+      for (let i = 1; i < group.length; i++) if (better(group[i], group[best]) < 0) best = i;
+      const [pick] = group.splice(best, 1);
+      keep.add(pick.id);
+      count(pick);
+    }
+    waiting.push(...group.map((e) => e.id));
   }
   const ids = [...keep].sort(order);
-  return { ids, added: ids.filter((id) => !before.has(id)), dropped };
+  return { ids, added: ids.filter((id) => !before.has(id)), dropped, waiting: waiting.sort(order) };
 }
 
 /** curated.txt text: the header, then curated ids and `!` opt-outs in one sorted list. */
@@ -160,6 +167,13 @@ async function main() {
     `curated.txt: ${result.ids.length} of ${entries.length} entries curated (+${result.added.length}, -${result.dropped.length}).`,
   );
   if (result.dropped.length > 0) console.log(`Left the tier: ${result.dropped.join(', ')}`);
+  const kinds = new Map(entries.map((e) => [e.id, e.kind]));
+  const waitingOther = result.waiting.filter((id) => kinds.get(id) !== 'prompt');
+  if (result.waiting.length > 0)
+    console.log(
+      `Full at ${Math.min(target, MAX)}: ${result.waiting.length} new entries stay verified` +
+        (waitingOther.length > 0 ? `, including ${waitingOther.length} non-prompt: ${waitingOther.join(', ')}` : '.'),
+    );
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) await main();

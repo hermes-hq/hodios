@@ -33,6 +33,39 @@ describe('selectCurated', () => {
     expect(selectCurated(entries, { listed: ['a', 'b', 'c'], target: 2 }).ids).toEqual(['a', 'b', 'c']);
   });
 
+  it('gives free slots to new non-prompt kinds before prompts, and stops at the target', () => {
+    const entries = [
+      entry('kept'),
+      entry('a-prompt', { status: 'stable', evalCases: 9 }),
+      entry('new-workflow', { kind: 'workflow' }),
+      entry('new-style', { kind: 'style' }),
+      entry('new-persona', { kind: 'persona' }),
+    ];
+    const result = selectCurated(entries, { listed: ['kept'], target: 3 });
+    expect(result.ids).toEqual(['kept', 'new-persona', 'new-style']);
+    expect(result.waiting).toEqual(['a-prompt', 'new-workflow']);
+  });
+
+  it('adds nothing once listed entries reach the target, and keeps them all', () => {
+    const entries = [entry('a'), entry('b'), entry('c'), entry('new-persona', { kind: 'persona' }), entry('d')];
+    const result = selectCurated(entries, { listed: ['a', 'b', 'c'], target: 2 });
+    expect(result.ids).toEqual(['a', 'b', 'c']);
+    expect(result.added).toEqual([]);
+    expect(result.waiting).toEqual(['d', 'new-persona']);
+  });
+
+  it('never goes over the cap, whatever the target', () => {
+    const entries = Array.from({ length: 6 }, (_, i) => entry(`r${i}`, { kind: 'rule' }));
+    const result = selectCurated(entries, { listed: ['r0'], target: 10, max: 4 });
+    expect(result.ids).toHaveLength(4);
+    expect(result.waiting).toHaveLength(2);
+  });
+
+  it('refuses a hand-edited list that is already over the cap', () => {
+    const entries = [entry('a'), entry('b'), entry('c')];
+    expect(() => selectCurated(entries, { listed: ['a', 'b', 'c'], max: 2 })).toThrow(/cap is 2/);
+  });
+
   it('drops deprecated, holding-area and opted-out ids, and follows renames', () => {
     const entries = [
       entry('gone', { status: 'deprecated' }),
