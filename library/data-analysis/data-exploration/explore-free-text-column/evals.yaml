@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Analyse this free-text column using {{tool}}: {{text_column}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cancellation-reasons
+    vars:
+      tool: pandas
+      decision: Which options to put in a cancellation reason dropdown.
+      text_column: |
+        subscriptions.cancel_reason_text, 18,400 rows, segment columns: plan, cancelled_at, country.
+        Samples: "too expensive", "-", "n/a", "moving abroad", "Too exp. after price rise", "found cheaper elsewhere", "app crashes on login", "", "see ticket 88213", "não uso mais", "not using it enough", "price", "pausing for summer", "Bought a competitor product", "na"
+    assert:
+      - {type: contains, value: "## Candidate categories"}
+      - {type: llm-rubric, value: "Notes placeholders (-, n/a, na, empty) and builds a placeholder list from them, notices Portuguese text and suggests language detection, uses two- and three-word phrases and counts by plan and month, proposes candidate categories such as price, not using, technical problems, moving or pausing, competitor, presented as hypotheses with example values, and recommends next steps toward the dropdown."}
+  - name: edge-pii-in-notes
+    vars:
+      tool: pandas
+      decision: ""
+      text_column: "crm.call_notes, 95,000 rows. Samples include 'Called back on +44 7700 900123, wants refund', 'email to j.doe@example.com re invoice 44812', 'cust angry abt delivery dly'"
+    assert:
+      - {type: llm-rubric, value: "Masks phone numbers, emails and long digit strings before outputs are shared and does not repeat the sample personal data in the answer, handles abbreviations like 'abt' and 'dly', and still gives the profiling code."}
+  - name: negative-shares-from-samples
+    vars:
+      tool: pandas
+      decision: Give me the percentage of complaints in each category so I can put it in the board report today.
+      text_column: "complaints.description, 52,000 rows. 20 samples pasted: mostly about delivery delays and damaged items, two about billing."
+    assert:
+      - {type: llm-rubric, value: "Refuses to give category percentages from 20 samples as if they described 52,000 rows, explains why, and provides the code and approach to measure shares on the full column (or a sized random sample with a margin of error)."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Fix the dates in this data with {{tool}}, reporting in {{reporting_time_zone}}: {{data_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-sources
+    vars:
+      tool: pandas
+      reporting_time_zone: Europe/London
+      data_sample: |
+        orders.created (web shop, stored by server): "2026-03-29 00:45:12", "2026-10-25 01:30:00", "2026-07-01 23:10:00"
+        orders.delivered_on (warehouse spreadsheet, UK team): "03/04/2026", "15/04/2026", 46118
+    assert:
+      - {type: contains, value: "## Effect on counts"}
+      - {type: llm-rubric, value: "Asks or infers whether created is UTC (server) with stated evidence, converts to Europe/London using IANA names, notes 2026-03-29 and 2026-10-25 are UK daylight-saving change dates and handles nonexistent or ambiguous times explicitly, treats delivered_on as day-first with evidence from the 15/04 value, converts the 46118 Excel serial, and shows counts per day before and after."}
+  - name: edge-sql-epoch
+    vars:
+      tool: bigquery
+      reporting_time_zone: America/New_York
+      data_sample: "events.ts_ms INT64 like 1767225600000; events.local_time STRING like '2026-01-01 07:00' written by the mobile app in the device time zone, and events.device_tz STRING like 'Asia/Kolkata'."
+    assert:
+      - {type: llm-rubric, value: "Converts ts_ms with TIMESTAMP_MILLIS, parses local_time using each row's device_tz (for example TIMESTAMP(local_time, device_tz)), derives a reporting date with DATE(ts, 'America/New_York'), and notes which column should be trusted and how they can be cross-checked."}
+  - name: negative-guess-format
+    vars:
+      tool: pandas
+      reporting_time_zone: unsure
+      data_sample: "signup_date values: 01/02/2026, 03/04/2026, 05/06/2026, 11/12/2026 (source unknown)"
+    assert:
+      - {type: llm-rubric, value: "Points out that every value has day and month at 12 or below so the format cannot be determined from the data, refuses to pick day-first or month-first silently, asks about the source system or locale, and explains the UTC default for the unsure reporting time zone."}

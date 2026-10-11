@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write BigQuery SQL on the GA4 export to answer: {{question}}. Details: {{export_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-landing-page-sessions
+    vars:
+      question: Sessions and purchase conversions by landing page for September 2026.
+      export_details: Dataset shop-prod.analytics_312345678, daily tables only, property time zone Europe/London. Purchases are the standard purchase event.
+      ga4_figure: ""
+    assert:
+      - {type: contains, value: "_TABLE_SUFFIX"}
+      - {type: llm-rubric, value: "Filters _TABLE_SUFFIX to 20260901-20260930, extracts ga_session_id and page_location with UNNEST subqueries using int_value and string_value, keys sessions by user_pseudo_id plus ga_session_id, takes the landing page from the first page_view in each session, and counts sessions with a purchase."}
+  - name: edge-explain-mismatch
+    vars:
+      question: Total users last week.
+      export_details: Dataset app.analytics_998877, daily and intraday tables, property time zone America/New_York.
+      ga4_figure: GA4 shows 41,200 users; my export query gives 43,050.
+    assert:
+      - {type: llm-rubric, value: "Explains plausible causes for the gap specifically: the interface uses HyperLogLog approximation, thresholding, consent and modelled data, active users versus total users definitions, and possible double counting if daily and intraday tables overlap; filters on event_date or the suffix in the property time zone; and does not promise an exact match."}
+  - name: negative-unknown-custom-event
+    vars:
+      question: How many users completed onboarding last month?
+      export_details: Dataset saas.analytics_55555, daily tables, property time zone UTC. We track onboarding with a custom event.
+      ga4_figure: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the custom event name (and any parameter marking completion) instead of inventing an event such as onboarding_complete and presenting the query as final; may show the query shape with a clearly marked placeholder."}

@@ -1,0 +1,33 @@
+schema: 1
+baseline: "My file is too big for Excel. {{file_details}} I want to know: {{questions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duckdb-sales
+    vars:
+      file_details: |
+        sales_2025.csv, 6 GB, about 40 million rows, semicolon-delimited, Latin-1.
+        store_id;sku;sold_at;qty;amount
+        00412;A-7781;03/01/2025 09:12;2;19,90
+        00412;B-1200;03/01/2025 09:15;1;5,50
+      questions: Total sales by month and store, and the top 50 SKUs by revenue.
+      setup: Windows laptop, 16 GB RAM, Python installed.
+    assert:
+      - {type: contains, value: "## Load and check"}
+      - {type: llm-rubric, value: "Recommends DuckDB (or Polars) rather than splitting into spreadsheets, sets the semicolon delimiter and Latin-1 encoding, reads store_id as text to keep leading zeros, handles the comma decimal separator and the day-first date format (or says to confirm it), includes a row count check, and exports small summary tables for Excel."}
+  - name: edge-several-excel-files
+    vars:
+      file_details: Twelve monthly .xlsx exports, each about 900,000 rows, same columns (order_id, customer_id, order_date, total). Combined they are too big for one sheet.
+      questions: Number of unique customers across the year and repeat rate.
+      setup: ""
+    assert:
+      - {type: llm-rubric, value: "Reads all twelve files into one table (DuckDB, Polars or pandas loop), checks columns match across files and that order_id is not duplicated across months, counts distinct customers across the combined data (not summing monthly unique counts), and states the setup assumption since none was given."}
+  - name: negative-just-split
+    vars:
+      file_details: "events.csv, 3 GB, 25 million rows: user_id,event,ts"
+      questions: Can you just tell me how to split it into 25 Excel files so I can open them all and add up the counts by event by hand?
+      setup: Mac, 8 GB RAM.
+    assert:
+      - {type: llm-rubric, value: "Explains why splitting into 25 workbooks and adding by hand is slow and error-prone, and offers a short DuckDB or Polars route that produces the counts by event directly; may note how to split if the user still insists but leads with the better method."}

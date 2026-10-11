@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a {{dialect}} SQL query using window functions to: {{goal}}. Schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-latest-row-per-key
+    vars:
+      dialect: postgres
+      goal: For each customer, return their most recent address. Some customers have two address rows with the same updated_at.
+      schema: |
+        customer_addresses(address_id pk, customer_id, line1, city, country, updated_at timestamptz)
+    assert:
+      - {type: contains, value: "## Pitfalls checked"}
+      - {type: icontains, value: "row_number"}
+      - {type: llm-rubric, value: "Uses ROW_NUMBER partitioned by customer_id ordered by updated_at DESC with address_id as a tie-breaker, filters to rank 1 in an outer query or CTE (not QUALIFY, since Postgres lacks it), and explains why the tie-breaker is needed."}
+  - name: edge-mom-change-with-gaps
+    vars:
+      dialect: bigquery
+      goal: Month-over-month percent change in revenue per product. Some products have no sales in some months.
+      schema: |
+        sales(sale_id, product_id, sold_at TIMESTAMP, amount NUMERIC)
+    assert:
+      - {type: llm-rubric, value: "Aggregates to product-month before the window, recognises that LAG over months with no sales compares to the wrong month, fills missing months (for example with GENERATE_DATE_ARRAY or a calendar) or checks the previous month value explicitly, and uses SAFE_DIVIDE for the percent change."}
+  - name: negative-groupby-is-enough
+    vars:
+      dialect: snowflake
+      goal: Total order value per customer for 2025.
+      schema: "orders(order_id, customer_id, ordered_at TIMESTAMP_NTZ, total NUMBER)"
+    assert:
+      - {type: llm-rubric, value: "Points out that a plain GROUP BY answers this and a window function is unnecessary, and gives the simpler GROUP BY query with a half-open 2025 date range rather than forcing a window function."}

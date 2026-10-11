@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Write a {{dialect}} SQL query to {{goal}}. JSON data: {{json_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flatten-items
+    vars:
+      dialect: postgres
+      goal: Revenue by SKU from the items array, and separately total shipping per day.
+      json_sample: |
+        orders(order_id, created_at timestamptz, payload jsonb)
+        {"shipping": 4.99, "items": [{"sku": "A1", "qty": 2, "price": "10.00"}, {"sku": "B2", "qty": 1, "price": "5.50"}]}
+        {"shipping": 0, "items": []}
+    assert:
+      - {type: contains, value: "## Fan-out and missing values"}
+      - {type: llm-rubric, value: "Uses jsonb_array_elements (or jsonb_to_recordset) in a lateral join, casts price from text to numeric, computes SKU revenue as qty times price, and keeps shipping at order grain (does not sum shipping after flattening); notes the empty items array and how it is treated."}
+  - name: edge-snowflake-varying-keys
+    vars:
+      dialect: snowflake
+      goal: Count events by coupon code. Older events store the code at props.coupon, newer ones at props.discount.code.
+      json_sample: |
+        events(event_id, ts timestamp_ntz, props variant)
+        {"coupon": "SPRING10"}
+        {"discount": {"code": "SUMMER5", "pct": 5}}
+        {"discount": null}
+    assert:
+      - {type: llm-rubric, value: "Uses Snowflake colon path syntax with ::string casts, COALESCEs props:discount.code and props:coupon, handles the null discount without error, and gives a profiling query counting rows where both paths are missing."}
+  - name: negative-field-not-present
+    vars:
+      dialect: bigquery
+      goal: Average customer age from the profile JSON.
+      json_sample: |
+        users(user_id, profile JSON)
+        {"name_initial": "K", "country": "BR", "plan": "pro"}
+        {"country": "IN", "plan": "free"}
+    assert:
+      - {type: llm-rubric, value: "Says the samples contain no age or birth date field and asks where it is stored or whether another path exists; does not invent a profile.age path and present the query as working."}

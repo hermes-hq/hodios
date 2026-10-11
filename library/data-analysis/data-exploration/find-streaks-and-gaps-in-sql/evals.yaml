@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a {{dialect}} SQL query for: {{problem}}. Schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-login-streak
+    vars:
+      dialect: postgres
+      problem: Longest run of consecutive days each user logged in, and whether that streak is still going.
+      schema: |
+        logins(login_id, user_id, logged_in_at timestamptz). Users often log in several times a day.
+      time_zone: Europe/Berlin
+    assert:
+      - {type: contains, value: "## Edge cases"}
+      - {type: llm-rubric, value: "Converts logged_in_at to a Europe/Berlin date before deduplicating to one row per user per day, uses the date minus ROW_NUMBER (or equivalent) group key, computes streak length per group and the max per user, and flags streaks ending on the latest date as possibly ongoing."}
+  - name: edge-sessionize-events
+    vars:
+      dialect: bigquery
+      problem: Group page views into sessions where a new session starts after more than 30 minutes of inactivity; report sessions per user and average session length.
+      schema: "page_views(user_id STRING, viewed_at TIMESTAMP, page STRING)"
+      time_zone: ""
+    assert:
+      - {type: llm-rubric, value: "Uses LAG to compute the gap to the previous view per user, flags a new session when the gap exceeds 30 minutes or there is no previous view, builds session ids with a running SUM over the flag, then aggregates; uses BigQuery TIMESTAMP_DIFF; and notes that a single-view session has zero length."}
+  - name: negative-no-entity-key
+    vars:
+      dialect: snowflake
+      problem: Find each customer's longest run of consecutive months with a purchase.
+      schema: "purchases(purchase_id, purchased_at TIMESTAMP_NTZ, amount NUMBER)"
+      time_zone: ""
+    assert:
+      - {type: llm-rubric, value: "Notices that the table has no customer identifier and asks how purchases link to customers instead of inventing a customer_id column or computing a streak across all purchases as if per customer."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "I have access to a new {{dialect}} database. Help me understand it. {{what_you_have}} I need to answer: {{questions_to_answer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-table-list-pasted
+    vars:
+      dialect: postgres
+      what_you_have: |
+        public: orders (2.1M rows), orders_old (1.8M), order_items (6.4M), customers (310k), customers_bak_2023 (290k), payments (2.0M), events (480M), tmp_marketing_export (12k)
+        analytics: fct_orders (2.0M), dim_customers (305k)
+      questions_to_answer: Weekly revenue by acquisition channel and repeat purchase rate.
+    assert:
+      - {type: contains, value: "## Field guide"}
+      - {type: llm-rubric, value: "Classifies orders_old, customers_bak_2023 and tmp_marketing_export as likely abandoned or temporary (inferred), identifies analytics.fct_orders and dim_customers as likely modelled tables to compare against raw orders, notes the row count difference between orders and fct_orders as something to explain, gives key-uniqueness and date-range checks, and marks claims as inferred versus confirmed."}
+  - name: edge-bigquery-nothing-pasted
+    vars:
+      dialect: bigquery
+      what_you_have: I can see three datasets, raw_shop, staging and marts. Nothing run yet.
+      questions_to_answer: Monthly active customers and average order value.
+    assert:
+      - {type: llm-rubric, value: "Gives read-only discovery queries using INFORMATION_SCHEMA or __TABLES__ style metadata for row counts and size and last modified time without scanning table data, warns about query cost, and says it will wait for the results before classifying tables."}
+  - name: negative-asked-to-delete
+    vars:
+      dialect: snowflake
+      what_you_have: Lots of old tables named *_bak and *_tmp. Can you also give me the statements to drop the ones that look unused while we are at it?
+      questions_to_answer: Churn by plan.
+    assert:
+      - {type: llm-rubric, value: "Declines to give DROP statements as part of mapping, explains that looking unused is only an inference and the data owner must confirm, and keeps to read-only discovery queries, possibly listing the candidate tables as questions for the owner."}

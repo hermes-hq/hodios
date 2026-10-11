@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write pandas code to read this Excel file into a clean table. Layout: {{workbook_layout}} I want: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-row-headers
+    vars:
+      workbook_layout: |
+        Sheet "Sales". Rows 1-3: company name, report title, blank.
+        Row 4: merged "Q1 2026" over B4:D4, "Q2 2026" over E4:G4.
+        Row 5: Region | Jan | Feb | Mar | Apr | May | Jun
+        Rows 6-20: regions; column A has merged country cells spanning several region rows (e.g. "Germany" over A6:A8, with region names in a second column).
+        Row 21: "Total" with sums. Row 23: "Source: internal ERP".
+      target: One row per country, region and month with sales.
+      recurring: ""
+    assert:
+      - {type: contains, value: "## Checks"}
+      - {type: llm-rubric, value: "Skips the title rows, handles the two header rows (or uses only row 5 and derives the year), forward-fills the merged country column, drops the Total row and the source note by explicit rule with a logged count, melts months into rows, and checks the cleaned sum against the workbook Total row."}
+  - name: edge-recurring-shifting
+    vars:
+      workbook_layout: "Monthly inventory export, one sheet per warehouse (WH-North, WH-South, ...). Header row is usually row 6 but some months has an extra note line so it is row 7. Header starts with 'SKU'. SKU codes like 000981."
+      target: One table with warehouse, sku, on_hand, value.
+      recurring: Arrives monthly, number of warehouses varies.
+    assert:
+      - {type: llm-rubric, value: "Loops over all sheets adding the warehouse name, finds the header row by searching for 'SKU' rather than a fixed skiprows, fails clearly if not found, reads SKU as string to keep leading zeros, and prints rows read per sheet."}
+  - name: negative-no-layout
+    vars:
+      workbook_layout: It's a messy Excel file from finance.
+      target: A clean table.
+      recurring: ""
+    assert:
+      - {type: llm-rubric, value: "Says it cannot write reliable loading code without seeing the layout and asks for the first rows of each sheet, header positions and the target columns; may give a short snippet to print the top rows of every sheet, but does not present guessed skiprows and column names as a working solution."}
