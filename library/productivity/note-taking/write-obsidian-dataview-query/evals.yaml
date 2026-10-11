@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a Dataview query for Obsidian: {{request}}. My notes look like this: {{note_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-books-rated-five
+    vars:
+      request: "A table of books I rated 5, showing author and date finished, newest first."
+      note_sample: "Notes live in the folder Reading/Books. Frontmatter:\n---\ntitle: The Overstory\nauthor: Richard Powers\nrating: 5\nfinished: 2025-03-14\ntags: [book]\n---"
+    assert:
+      - {type: contains, value: "```dataview"}
+      - {type: llm-rubric, value: "Writes a TABLE query FROM \"Reading/Books\" with WHERE rating = 5, columns author and finished, and SORT finished DESC, using the exact field names from the sample; explains each clause; and lists likely causes of empty results such as a wrong folder path or rating stored as text."}
+  - name: edge-tasks-with-inline-due
+    vars:
+      request: "Unfinished tasks due in the next 7 days across all project notes, grouped by note."
+      note_sample: "Project notes are tagged #project. Tasks look like: - [ ] Send quote to client [due:: 2026-10-14]"
+      problem: "I used LIST and it shows the notes, not the tasks."
+    assert:
+      - {type: llm-rubric, value: "Explains that LIST returns notes and TASK is needed, writes a TASK query FROM #project with WHERE !completed and a due window using date(today) and dur(7 days), groups by the file link, and uses the inline field name due exactly."}
+  - name: negative-missing-fields
+    vars:
+      request: "Show me all my clients sorted by revenue."
+      note_sample: "I have a Clients folder, each note just has the client name as the title and some meeting notes."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a revenue field; points out the notes have no revenue data, explains how to add a revenue field in frontmatter or as an inline field, and only then shows a query that would use it, or asks first."}
