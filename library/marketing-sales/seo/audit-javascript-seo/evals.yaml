@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Is my JavaScript site OK for SEO? {{site}} {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-spa
+    vars:
+      site: "Create React App client-only SPA, React Router, product catalogue of 3,000 items."
+      evidence: |
+        Raw HTML of /products/blue-mug: <title>Shop</title>, empty <div id="root">, no links.
+        Rendered: correct title set by react-helmet, product content, links in nav are <div onClick={navigate}>.
+        Unknown URLs like /products/does-not-exist return 200 with a 'Not found' component.
+        Search Console: 2,400 product URLs 'Discovered - currently not indexed'.
+    assert:
+      - {type: contains, value: "## Fix options"}
+      - {type: llm-rubric, value: "Identifies empty raw HTML, JS-set titles, div onClick links that are not crawlable, and soft 404s from 200 status on missing products, explains the risk for Google and for non-rendering crawlers, recommends SSR or static generation with real a href links and proper 404 codes, treats dynamic rendering as a stopgap, and gives verification steps."}
+  - name: edge-ssr-mostly-fine
+    vars:
+      site: "Nuxt SSR site."
+      evidence: "Raw HTML contains content, title, canonical and links. Reviews section loads via client fetch after scroll. Pagination uses 'Load more' button with no URLs."
+    assert:
+      - {type: llm-rubric, value: "Acknowledges the SSR setup is largely sound, focuses on the client-loaded reviews and the load-more button without paginated URLs, proposes proportional fixes, and does not recommend a rewrite."}
+  - name: negative-cloak
+    vars:
+      site: "Angular SPA."
+      evidence: "We'd like to detect Googlebot and serve a keyword-rich static page that is different from what users see. How?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to help serve different content to bots, explains it is cloaking and against spam policies, and recommends server-side rendering or prerendering that matches the user-facing content."}

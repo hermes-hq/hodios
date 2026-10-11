@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Fix these structured data errors: {{errors}} {{markup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-errors
+    vars:
+      errors: |
+        Search Console Product snippets: Error "Either 'offers', 'review', or 'aggregateRating' should be specified" (212 items). Warning "Missing field 'brand'" (212). Warning "Missing field 'priceValidUntil'" (80).
+        Merchant listings: Error "Invalid price format in property 'price'" (40).
+      markup: '{"@context":"https://schema.org","@type":"Product","name":"Oak Desk","image":"/img/desk.jpg","offers":null,"price":"£249.00"}'
+      visible_content: "Price £249, in stock, brand Hartwood, no reviews shown. Markup comes from the theme."
+    assert:
+      - {type: contains, value: "## Corrected markup"}
+      - {type: llm-rubric, value: "Explains errors block eligibility while warnings do not, moves price into an Offer with numeric price and priceCurrency GBP and schema.org availability, adds brand from visible content, notes priceValidUntil is optional, does not add ratings, outputs valid JSON-LD with an absolute image URL or placeholder, and says to change the theme template and validate the fix."}
+  - name: edge-faq-retired
+    vars:
+      errors: "Rich Results Test: FAQ - no rich result detected. Was working before."
+      markup: '{"@type":"FAQPage","mainEntity":[...valid questions...]}'
+      visible_content: "Plumbing company service page with visible FAQ."
+    assert:
+      - {type: llm-rubric, value: "Explains that FAQ rich results were limited to certain authoritative sites so the markup is not broken, suggests keeping or removing it as low-value, and advises confirming current rules rather than trying to fix syntax."}
+  - name: negative-fake-ratings
+    vars:
+      errors: "Warning: missing aggregateRating."
+      markup: '{"@type":"Product","name":"Vitamin Gummies","offers":{...}}'
+      visible_content: "We don't show reviews, just add a 4.8 rating with 500 reviews to clear the warning."
+    assert:
+      - {type: llm-rubric, value: "Refuses to add ratings not shown on the page, explains the warning is optional and that fake rating markup violates guidelines and risks a manual action, and suggests leaving it or collecting and displaying real reviews."}

@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Map these keywords to my pages: {{pages}} {{keywords}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-service-business
+    vars:
+      pages: |
+        / - "Smith Plumbing | Plumbers in Leeds"
+        /boiler-repair - "Boiler Repair Leeds"
+        /boiler-servicing - "Boiler Service Leeds"
+        /blog/why-is-my-boiler-losing-pressure - "Why is my boiler losing pressure?"
+        /blog/boiler-pressure-guide - "Boiler pressure: the complete guide"
+        /blog/tag/boilers - tag archive
+        /emergency - "24 Hour Emergency Plumber"
+      keywords: "boiler repair leeds; boiler engineer leeds; boiler service cost; boiler losing pressure; how to repressurise a boiler; emergency plumber leeds; bathroom fitters leeds; leaking radiator valve"
+      business: "Plumbing and heating company in Leeds. Boiler repair and emergency call-outs are most profitable."
+    assert:
+      - {type: contains, value: "## Overlaps"}
+      - {type: llm-rubric, value: "Maps boiler repair and boiler engineer to /boiler-repair, flags the two boiler pressure blog posts as an overlap with a suggested owner, notes the tag archive has no target and suggests noindex or leaving it out, lists bathroom fitters and leaking radiator valve as keywords without a page with page types, keeps broad commercial terms on core pages, and does not invent volumes."}
+  - name: edge-pages-only-with-gsc
+    vars:
+      pages: |
+        /pricing - top queries: "acme pricing", "acme cost", "acme vs beta pricing"
+        /features - top queries: "acme features", "acme crm"
+        /blog/acme-vs-beta - top queries: "acme vs beta", "beta alternatives"
+        /about - top queries: "acme company"
+    assert:
+      - {type: llm-rubric, value: "Builds the map from pages and their Search Console queries without a keyword list, notes the versus query split between pricing and the comparison post, spots 'beta alternatives' as a possible separate intent that might need its own page, and labels intent groupings as judgement to confirm."}
+  - name: negative-delete-from-map
+    vars:
+      pages: "/blog/post-a, /blog/post-b, /blog/post-c all about 'meal prep ideas'"
+      keywords: "meal prep ideas"
+      business: "Just tell me which two to delete right now."
+    assert:
+      - {type: llm-rubric, value: "Flags the three posts as an overlap with a likely owner page but declines to order deletions from the map alone, explains that traffic, links and conversion data are needed and that merging with redirects is usually better than deletion, and lists the data to gather."}

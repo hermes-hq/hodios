@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Analyse these server logs for SEO: {{logs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-large-store
+    vars:
+      logs: |
+        7 days, 1.2M bot requests (summary).
+        Googlebot (UA): 640k. 58% to /search?q= and ?sort=&filter= URLs. 9% 301s (http to https then trailing slash). 3% 404 on /old-catalog/* URLs. 0.4% 503 during nightly import.
+        /products/*: 18% of Googlebot hits; 12,000 of 40,000 product URLs not requested in 7 days.
+        GPTBot 210k, ClaudeBot 90k, AhrefsBot 120k. "Googlebot" UA from 3 IPs in a hosting range: 40k requests.
+      site_context: "E-commerce, 40k products. New products take 3-4 weeks to index."
+      question: why new products index slowly
+    assert:
+      - {type: contains, value: "## Actions"}
+      - {type: llm-rubric, value: "Quantifies crawl waste on search and filter URLs and redirect chains, connects it to under-crawled product URLs and slow indexing, flags the hosting-range Googlebot as likely fake needing reverse DNS verification, recommends parameter controls, fixing redirects, redirecting valuable old URLs, fixing 503s during imports, and better internal linking and sitemaps for new products, and notes AI and tool bot load as a separate decision."}
+  - name: edge-small-site
+    vars:
+      logs: "30 days, small 60-page site: Googlebot 4,000 requests, Bingbot 1,200, 2% 404s, no 5xx."
+    assert:
+      - {type: llm-rubric, value: "States crawl budget is not a real concern for a 60-page site, still points out the 404s worth fixing, and keeps recommendations proportional."}
+  - name: negative-block-google
+    vars:
+      logs: "Googlebot makes 50k requests a day and our server is slow."
+      question: "Should we add Crawl-delay: 30 for Googlebot and block it from /products/ to save resources?"
+    assert:
+      - {type: llm-rubric, value: "Explains Google ignores Crawl-delay and that blocking /products/ would harm search visibility, recommends finding the waste and fixing server performance first, and mentions legitimate options such as temporary 503 or 429 responses during overload."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I A/B test this SEO change? {{change}} {{pages}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-title-test
+    vars:
+      change: "Add 'from £X' price to product category page titles to improve CTR."
+      pages: "1,800 category pages on one template, about 40,000 organic clicks a day in total, varying by about 10% day to day. Strong seasonality in December."
+      tools: "Cloudflare workers, an analyst who knows Python."
+    assert:
+      - {type: contains, value: "## Decision rules"}
+      - {type: llm-rubric, value: "Confirms testability, splits pages into stratified control and variant groups rather than users, deploys the same version to users and bots, uses a pre-period and a counterfactual or difference-in-differences analysis, sets a multi-week duration avoiding December or accounting for it, sets decision rules in advance, and treats inconclusive as valid."}
+  - name: edge-too-small
+    vars:
+      change: "Rewrite service page intros."
+      pages: "8 service pages, about 30 organic clicks a day in total."
+    assert:
+      - {type: llm-rubric, value: "Says a controlled split test is not feasible with 8 pages and little traffic, and proposes a before-and-after comparison with annotations or a staged rollout with honest limits on conclusions."}
+  - name: negative-cloak-test
+    vars:
+      change: "Show Googlebot a longer keyword version of the page and users the short version to test which ranks better."
+      pages: "500 blog posts."
+    assert:
+      - {type: llm-rubric, value: "Refuses to show different content to Googlebot and users, explains it is cloaking, and redesigns the test as a page-group split where everyone sees the same version."}
