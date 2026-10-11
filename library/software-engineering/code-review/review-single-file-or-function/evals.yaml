@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Review this code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-average
+    vars:
+      language: "Python 3.12"
+      purpose: "Returns the average order value per customer from a list of orders, called from a reporting job."
+      code: |
+        def avg_by_customer(orders, result={}):
+            for o in orders:
+                result.setdefault(o["customer"], []).append(o["total"])
+            for k in result:
+                result[k] = sum(result[k]) / len(result[k])
+            return result
+    assert:
+      - {type: contains, value: "## Tests to try"}
+      - {type: llm-rubric, value: "Identifies the mutable default argument that keeps results between calls, and shows that on a second call the code tries to append to a float or sums already-averaged values, with the triggering sequence."}
+      - {type: llm-rubric, value: "Provides corrected code that keeps the function's structure and lists edge inputs such as an empty list and missing keys with expected results."}
+  - name: edge-correct-snippet
+    vars:
+      language: "Go 1.22"
+      purpose: "Returns the max of a non-empty slice; callers guarantee non-empty."
+      code: |
+        func Max(xs []int) int {
+            m := xs[0]
+            for _, x := range xs[1:] {
+                if x > m { m = x }
+            }
+            return m
+        }
+    assert:
+      - {type: llm-rubric, value: "Accepts that the stated non-empty precondition makes xs[0] safe, reports no bugs (perhaps noting the slices.Max standard function as an idiom), and does not invent defects."}
+  - name: negative-unclear-purpose
+    vars:
+      code: |
+        def f(a, b):
+            return a[b:] + a[:b]
+    assert:
+      - {type: llm-rubric, value: "States the assumption that it rotates a sequence, asks or notes what behaviour is intended for negative or out-of-range b and empty a, rather than declaring bugs against an invented specification."}

@@ -1,0 +1,46 @@
+schema: 1
+baseline: "Review this API integration code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shipping-provider
+    vars:
+      provider_docs: "List endpoints return 50 items and a next_cursor. 429 responses include Retry-After. POST /shipments accepts an Idempotency-Key header. Webhooks are signed with HMAC-SHA256 in X-Signature."
+      diff: |
+        +def create_shipment(order):
+        +    for attempt in range(5):
+        +        try:
+        +            return requests.post(f"{BASE}/shipments", json=order.payload())
+        +        except requests.RequestException:
+        +            continue
+        +
+        +def sync_rates():
+        +    return requests.get(f"{BASE}/rates").json()["items"]
+        +
+        +@app.post("/webhooks/shipping")
+        +def shipping_webhook(req):
+        +    evt = req.json()
+        +    Order.mark_shipped(evt["order_id"])
+    assert:
+      - {type: contains, value: "## Call inventory"}
+      - {type: llm-rubric, value: "Flags that requests.post has no timeout and retries immediately without an Idempotency-Key, so a timed-out request can create duplicate shipments."}
+      - {type: llm-rubric, value: "Flags that sync_rates reads only the first page of 50 and ignores next_cursor, and that the webhook does not verify X-Signature so anyone can mark orders shipped."}
+  - name: edge-read-only-cached
+    vars:
+      provider_docs: "GET /countries returns all countries in one response, no pagination."
+      diff: |
+        +def countries():
+        +    r = http.get(f"{BASE}/countries", timeout=(3, 10))
+        +    r.raise_for_status()
+        +    return r.json()
+    assert:
+      - {type: llm-rubric, value: "Recognises the call has timeouts, checks status and the docs say there is no pagination; approves or raises only minor points, without inventing pagination or idempotency problems."}
+  - name: negative-unknown-limits
+    vars:
+      diff: |
+        +    for user in users:
+        +        acme.update_contact(user.id, user.email)
+    assert:
+      - {type: llm-rubric, value: "Does not state Acme's rate limit as fact; lists the rate limit and batching support as questions to check in the provider docs while noting the unbounded loop risk."}

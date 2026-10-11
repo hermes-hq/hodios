@@ -1,0 +1,40 @@
+schema: 1
+baseline: "The author updated the PR. Here are my earlier comments: {{earlier_comments}} and the new changes: {{new_changes}}. Review it again."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-partial-fixes
+    vars:
+      earlier_comments: |
+        1. users.py:40 - add a timeout to the HTTP call to the profile service. Author: Done.
+        2. users.py:55 and orders.py:80 - escape the search term before LIKE. Author: Done.
+        3. Please rename `x` to `retry_count`. Author: Kept `x`, it is a 3-line loop. Reviewer: fine.
+        4. Add a test for the empty-cart case. Author: Will do in a follow-up.
+      new_changes: |
+        users.py
+        -    r = http.get(PROFILE_URL + uid)
+        +    r = http.get(PROFILE_URL + uid, timeout=0)
+        -    q = q.filter(name__like=f"%{term}%")
+        +    q = q.filter(name__like=f"%{escape_like(term)}%")
+    assert:
+      - {type: contains, value: "## Earlier comments"}
+      - {type: llm-rubric, value: "Classifies comment 1 as made worse or not fixed because timeout=0 is not a sensible timeout (it disables or immediately fails depending on the client), and comment 2 as partly fixed because orders.py:80 was not changed."}
+      - {type: llm-rubric, value: "Treats comment 3 as settled and does not reopen it, and marks comment 4 as unanswered or deferred, listing it under Still open or noting the follow-up."}
+  - name: edge-all-fixed
+    vars:
+      earlier_comments: "1. config.py:12 - default should be False. Author: fixed."
+      new_changes: |
+        -ENABLE_EXPORT = True
+        +ENABLE_EXPORT = False
+    assert:
+      - {type: llm-rubric, value: "Marks the comment fixed with evidence, approves, and does not raise new nits on unchanged code."}
+  - name: negative-goalposts
+    vars:
+      earlier_comments: "1. api.py:10 - handle the 404 from the client. Author: done."
+      new_changes: |
+        +    except NotFound:
+        +        return None
+    assert:
+      - {type: llm-rubric, value: "Does not introduce new style or naming nits on code unchanged since the first review; any finding on unchanged code is a real defect and labelled as missed earlier."}

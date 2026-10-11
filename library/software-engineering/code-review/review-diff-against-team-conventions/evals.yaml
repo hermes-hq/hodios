@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Check this diff against our coding conventions: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conventions
+    vars:
+      conventions: |
+        CONTRIBUTING.md §Errors: raise domain errors from app/errors.py; never raise bare Exception.
+        §Logging: use structured logging, logger.info("event_name", key=value); no f-strings in log calls.
+        §Tests: test files are named test_<module>.py and live next to the module.
+        Formatting is enforced by ruff format and ruff check in CI.
+      diff: |
+        +# app/billing/charge.py
+        +def charge(order):
+        +    logger.info(f"charging {order.id}")
+        +    if order.total <= 0:
+        +        raise Exception("bad total")
+        +    x=compute(order)
+        +# tests/billing_charge_tests.py
+    assert:
+      - {type: contains, value: "## Rules checked"}
+      - {type: llm-rubric, value: "Flags the f-string log call and the bare Exception, each quoting the matching CONTRIBUTING section and showing a compliant line, and flags the test file name and location against the tests rule."}
+      - {type: llm-rubric, value: "Does not flag the missing spaces in x=compute(order), because the formatter enforces it."}
+  - name: edge-no-conventions
+    vars:
+      diff: |
+        +func Parse(s string) (Config, error) { ... }
+    assert:
+      - {type: llm-rubric, value: "When no conventions are supplied or found, says so, lists where it looked, and does not present personal style preferences as team conventions."}
+  - name: negative-unwritten-opinion
+    vars:
+      conventions: "Use early returns. Public functions need a docstring."
+      diff: |
+        +def total(items):
+        +    """Sum of item prices."""
+        +    return sum(i.price for i in items)
+    assert:
+      - {type: llm-rubric, value: "Reports no convention violations; any suggestion such as type hints goes under Not covered by rules rather than being presented as a rule violation."}

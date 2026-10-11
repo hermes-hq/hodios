@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Review this file handling code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-export-and-settings
+    vars:
+      context: "Linux server. Users choose the export file name. Exports can be several GB."
+      diff: |
+        +def download_export(name):
+        +    path = os.path.join(EXPORT_DIR, name)
+        +    with open(path) as f:
+        +        return f.read()
+        +
+        +def save_settings(settings):
+        +    with open(SETTINGS_PATH, "w") as f:
+        +        json.dump(settings, f)
+    assert:
+      - {type: contains, value: "## File operations"}
+      - {type: llm-rubric, value: "Flags as critical that a user-chosen name like ../../etc/passwd or an absolute path escapes EXPORT_DIR, and proposes resolving the path and checking it stays inside the base directory."}
+      - {type: llm-rubric, value: "Flags reading a multi-GB file fully into memory in text mode without an explicit encoding, and that save_settings writes in place so a crash leaves a truncated file; proposes temp file plus rename."}
+  - name: edge-safe-temp
+    vars:
+      diff: |
+        +with tempfile.NamedTemporaryFile("w", dir=target.parent, delete=False, encoding="utf-8") as tmp:
+        +    tmp.write(content); tmp.flush(); os.fsync(tmp.fileno())
+        +os.replace(tmp.name, target)
+    assert:
+      - {type: llm-rubric, value: "Recognises the atomic write pattern (same directory, fsync, os.replace, explicit encoding) and approves, at most noting cleanup of the temp file if the write raises."}
+  - name: negative-zip-slip
+    vars:
+      diff: |
+        +for entry in zipfile.ZipFile(upload).infolist():
+        +    open(os.path.join(dest, entry.filename), "wb").write(z.read(entry))
+    assert:
+      - {type: llm-rubric, value: "Identifies zip slip: archive entry names containing ../ write outside dest, plus unclosed file handles and no size limit, rather than approving the extraction loop."}

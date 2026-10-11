@@ -1,0 +1,38 @@
+schema: 1
+baseline: "What version bump does this change need? {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ts-library
+    vars:
+      context: "TypeScript library at 2.4.1. Everything exported from src/index.ts is public."
+      diff: |
+        -export type Status = "active" | "disabled"
+        +export type Status = "active" | "disabled" | "pending"
+        -export function parse(input: string, strict?: boolean): Result
+        +export function parse(input: string, options?: { strict?: boolean }): Result
+        +export function format(r: Result): string { ... }
+        -  "engines": { "node": ">=16" }
+        +  "engines": { "node": ">=18" }
+    assert:
+      - {type: contains, value: "## Public surface changes"}
+      - {type: llm-rubric, value: "Recommends a major bump (3.0.0) and identifies the parse signature change as breaking, with a caller example such as parse(text, true) failing."}
+      - {type: llm-rubric, value: "Also classifies the raised Node minimum as breaking, treats the added union member as breaking or uncertain for exhaustive switches with an explanation, and treats format as additive."}
+  - name: edge-internal-only
+    vars:
+      context: "Python package 1.8.0. Public API is what is listed in __all__ of the package root."
+      diff: |
+        -def _normalize(s): return s.strip().lower()
+        +def _normalize(s): return " ".join(s.split()).lower()
+    assert:
+      - {type: llm-rubric, value: "Notes the function is private, checks whether its behaviour change (collapsing internal whitespace) reaches public functions, and recommends patch if it is a bug fix or flags it as uncertain; does not call it major merely for being changed."}
+  - name: negative-zero-version
+    vars:
+      context: "Rust crate at 0.6.2. The author has labelled this a patch release, 0.6.3."
+      diff: |
+        -pub fn connect(url: &str) -> Client
+        +pub fn connect(url: &str) -> Result<Client, Error>
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the patch label: states the change is breaking and that for a 0.x crate Cargo treats the minor position as breaking, so the next version is 0.7.0 rather than 1.0.0 or 0.6.3."}

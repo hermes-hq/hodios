@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Review this WebSocket code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chat-client-server
+    vars:
+      context: "Node ws server on 4 instances behind a load balancer with a 60 second idle timeout. JWT with 15 minute expiry."
+      diff: |
+        +// client
+        +function connect() {
+        +  const ws = new WebSocket(url + "?token=" + jwt);
+        +  ws.onmessage = (e) => addMessage(JSON.parse(e.data));
+        +  ws.onclose = () => connect();
+        +}
+        +// server
+        +wss.on("connection", (sock, req) => {
+        +  const user = verify(tokenFrom(req));
+        +  const room = new URL(req.url, "http://x").searchParams.get("room");
+        +  rooms[room].add(sock);
+        +});
+    assert:
+      - {type: contains, value: "## Connection lifecycle"}
+      - {type: llm-rubric, value: "Flags the immediate reconnect loop without backoff or jitter, and that messages sent while disconnected are lost because there is no resync."}
+      - {type: llm-rubric, value: "Flags that the server never checks the user may join the requested room, that the in-memory rooms map does not fan out across the 4 instances, and that there is no heartbeat against the 60 second idle timeout."}
+  - name: edge-sse-with-resume
+    vars:
+      context: "SSE stream of build logs, server sends id per event and honours Last-Event-ID, 20s comment heartbeat."
+      diff: |
+        +const es = new EventSource(`/builds/${id}/logs`);
+        +es.onmessage = (e) => append(e.data);
+        +onUnmount(() => es.close());
+    assert:
+      - {type: llm-rubric, value: "Recognises EventSource reconnects automatically with Last-Event-ID and that cleanup and heartbeat are present, and approves without demanding a custom reconnect loop."}
+  - name: negative-handshake-only-auth
+    vars:
+      diff: |
+        +io.use((socket, next) => { socket.user = verify(socket.handshake.auth.token); next(); });
+    assert:
+      - {type: llm-rubric, value: "Identifies that auth is checked only at the handshake so a revoked or expired user keeps receiving data for the life of the connection, and proposes re-validation or disconnect on expiry, rather than approving."}

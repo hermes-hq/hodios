@@ -1,0 +1,35 @@
+schema: 1
+baseline: "What else might break because of this change? {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-return-and-event
+    vars:
+      scope: "The analytics service in another repository consumes the user.updated event."
+      diff: |
+        -def find_user(email) -> User | None:
+        -    return User.objects.filter(email=email).first()
+        +def find_user(email) -> User:
+        +    return User.objects.get(email=email.lower())   # raises DoesNotExist
+        -events.emit("user.updated", {"id": u.id, "email": u.email})
+        +events.emit("user.updated", {"user_id": u.id, "email": u.email})
+    assert:
+      - {type: contains, value: "## Not searched"}
+      - {type: llm-rubric, value: "Explains that callers checking for None now get an exception instead, and that lowercasing changes matching for stored mixed-case emails; classifies such callers as breaks or behaves differently."}
+      - {type: llm-rubric, value: "Identifies the event payload rename from id to user_id as affecting all consumers including the analytics service in another repository, listed under Not searched with how to check it."}
+  - name: edge-private-helper
+    vars:
+      diff: |
+        -def _fmt(n): return f"{n:,}"
+        +def _fmt(n: int) -> str: return f"{n:,}"
+    assert:
+      - {type: llm-rubric, value: "Recognises the change adds only type hints without behaviour change, reports callers as unaffected, and does not invent breaks."}
+  - name: negative-no-repo-access
+    vars:
+      diff: |
+        -export const DEFAULT_PAGE_SIZE = 50
+        +export const DEFAULT_PAGE_SIZE = 20
+    assert:
+      - {type: llm-rubric, value: "If the repository cannot be read, says it cannot list call sites, does not invent file paths, and describes the searches to run (symbol references and the literal name) and the behaviour change to look for."}

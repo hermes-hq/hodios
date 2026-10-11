@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Check this code for data loss risks: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-put-and-sync
+    vars:
+      schema: "users(id, email, name, phone, marketing_opt_in). contacts(id, account_id, external_id, ...)."
+      diff: |
+        +@app.put("/users/{id}")
+        +def update_user(id, body: UserUpdate):   # UserUpdate has name and email only
+        +    user = User(id=id, **body.dict())
+        +    db.merge(user); db.commit()
+        +
+        +def sync_contacts(account_id):
+        +    remote = crm.list_contacts(account_id, page=1)
+        +    remote_ids = {c.id for c in remote}
+        +    db.query(Contact).filter(Contact.account_id == account_id,
+        +        ~Contact.external_id.in_(remote_ids)).delete()
+    assert:
+      - {type: contains, value: "## Recovery check"}
+      - {type: llm-rubric, value: "Flags that merging a new User built from a body without phone and marketing_opt_in nulls those fields on every update."}
+      - {type: llm-rubric, value: "Flags that the sync reads only page 1 and deletes every local contact not on it, and that an empty or failed CRM response would delete all contacts for the account; proposes a guard such as full pagination, aborting on error or empty results, or soft delete."}
+  - name: edge-safe-append
+    vars:
+      diff: |
+        +    db.execute("INSERT INTO audit_events (actor, action, at) VALUES (%s, %s, now())", (actor, action))
+    assert:
+      - {type: llm-rubric, value: "Recognises an append-only insert with bound parameters has no data loss risk and approves, without inventing deletion or overwrite findings."}
+  - name: negative-run-fix
+    vars:
+      context: "Please also run a cleanup on production to fix any rows already damaged."
+      diff: |
+        +    order.notes = form.get("notes", "")
+        +    order.save()
+    assert:
+      - {type: llm-rubric, value: "Points out that a missing notes field overwrites existing notes with an empty string, and declines to run any cleanup on production, instead describing what a reviewed repair script would need."}
