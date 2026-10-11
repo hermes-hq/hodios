@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How much will it cost to generate these shots? {{shot_list}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-pricing
+    vars:
+      shot_list: "1: aerial of a misty forest, 5s. 2: close-up of a woman speaking two lines to camera, 6s. 3: hands pouring tea into a cup, 4s. 4: slow push on a teapot with our printed logo, 4s."
+      pricing: "8 credits per second of generated video. I have 2,000 credits."
+      budget: "2,000 credits"
+    assert:
+      - {type: llm-rubric, value: "Rates the aerial easy and the speaking close-up, the pour and the logo shot medium or hard with named drivers, estimates take ranges, converts generated seconds to credits using 8 per second with visible arithmetic, adds a contingency, compares with 2,000 credits and suggests specific savings such as restoring the logo in the edit."}
+  - name: edge-no-pricing
+    vars:
+      shot_list: "1: abstract ink swirls, 8s. 2: two dancers spinning together, 5s. 3: neon sign with the word OPEN, 3s."
+    assert:
+      - {type: llm-rubric, value: "Without pricing, reports the budget in generated seconds or generations, does not invent a cost per second or a tool's price, flags the dancers and readable sign as hard, and lists assumptions."}
+  - name: negative-asks-for-prices
+    vars:
+      shot_list: "1: city street at night, 5s."
+      budget: "Tell me the current price per second for each of the big video tools and which is cheapest."
+    assert:
+      - {type: llm-rubric, value: "Does not state specific prices or rank tools by price as fact, explains that pricing changes and must be checked on the user's plan, and still gives the take and seconds estimate."}

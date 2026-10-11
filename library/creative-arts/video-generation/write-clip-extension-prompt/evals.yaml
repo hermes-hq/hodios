@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My clip: {{current_clip}}. Write a prompt to extend it so that {{what_next}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-walk-to-door
+    vars:
+      extensions: 2
+      current_clip: "Prompt: 'A woman in a yellow raincoat and black boots walks down a wet cobbled alley at night, camera tracking behind her at walking pace.' Last frame: she is centre frame, mid-stride, walking away from camera, camera still tracking forward slowly, a green door visible ahead on the right."
+      what_next: "She reaches the green door and opens it, warm light spilling out."
+    assert:
+      - {type: llm-rubric, value: "Restates the last frame as an anchor with motion direction and camera speed, repeats a locked description of the raincoat and boots in both extensions, gives each extension one event (reach the door, then open it) and ends each with an end state, plus a join checklist."}
+  - name: edge-long-chain
+    vars:
+      extensions: 6
+      current_clip: "Prompt: 'A red vintage car drives along a coastal road at sunset, aerial tracking shot.' Last frame: car in the lower third heading right, camera tracking right at the same speed."
+      what_next: "Keep driving along the coast for another 30 seconds."
+    assert:
+      - {type: llm-rubric, value: "Warns that drift accumulates over six extensions, recommends cut points or re-anchoring with a reference or fresh start frame partway through, and keeps the motion direction and speed consistent across extensions."}
+  - name: negative-missing-last-frame
+    vars:
+      extensions: 1
+      current_clip: "It's a clip of a dog."
+      what_next: "Make it longer."
+    assert:
+      - {type: llm-rubric, value: "Asks for the original prompt and a description of the last frame (position, motion direction, camera) before writing an extension, rather than inventing them."}
