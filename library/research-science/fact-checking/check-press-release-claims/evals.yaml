@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a news story from this press release. {{release}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-corporate-release
+    vars:
+      planned_story: "local business news item"
+      release: |
+        FOR IMMEDIATE RELEASE. BrightHome, the UK's leading smart thermostat brand, today announced a 50 million investment and 500 new jobs. New research shows 7 in 10 Britons want smarter homes. BrightHome users save up to 40% on heating bills.
+        Notes to editors: Survey of 1,012 adults conducted online by BrightHome's agency. Investment over 10 years. Jobs figure includes roles at partner installers. Savings figure based on one customer's bills in 2023.
+    assert:
+      - {type: contains-all, value: ["## Claims to treat with care", "## Questions for the press office"]}
+      - {type: llm-rubric, value: "Uses the notes to editors to flag that the investment is over 10 years, the jobs include partner roles, the survey was commissioned and online, and the 40% figure is 'up to' from a single customer; flags 'leading' as an undefined superlative; names independent sources to check; and gives attributed framing and a headline that does not overstate."}
+  - name: edge-government-release
+    vars:
+      release: "Ministry of Transport: 'Record funding for roads: 2 billion for the national road programme, the biggest ever.' No breakdown or comparison given."
+    assert:
+      - {type: llm-rubric, value: "Applies the same scrutiny to a government release: asks whether 'biggest ever' is in real terms adjusted for inflation, over what period, and whether the money is new or previously announced; names budget documents as the independent check; does not assert the claim is false."}
+  - name: negative-no-claims
+    vars:
+      release: "The Riverside Library will host a free reading hour for children every Saturday at 10am starting in June. All welcome."
+    assert:
+      - {type: llm-rubric, value: "Notes that the release is an event notice with essentially no contested factual claims to check, perhaps suggests confirming the date and time, and does not invent issues."}
