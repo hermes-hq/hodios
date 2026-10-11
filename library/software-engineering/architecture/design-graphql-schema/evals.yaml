@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design a GraphQL schema for {{domain}}. Clients: {{clients}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-project-tracker
+    vars:
+      domain: "Project tracker: workspaces have projects, projects have tasks, tasks have comments, assignees (users) and labels. Users can create tasks, move them between statuses and comment."
+      clients: "React web app (board view with 200+ tasks per project, task detail page) and an iOS app."
+    assert:
+      - {type: contains, value: "## Resolver and data loading plan"}
+      - {type: llm-rubric, value: "Uses cursor connections (edges, node, pageInfo) for tasks and comments with a maximum page size, and mutation payload types with typed user errors rather than relying only on top-level errors."}
+      - {type: llm-rubric, value: "Identifies N+1 risks such as task assignees and labels on the board view and plans batched per-request loaders, and sets query depth or complexity limits."}
+  - name: edge-existing-rest
+    vars:
+      domain: "Wrap our existing REST API (orders, customers, products) in GraphQL for a new mobile app. Order JSON has fields like cust_id, prod_ids, status_cd."
+      clients: "One React Native app."
+    assert:
+      - {type: llm-rubric, value: "Models client-friendly types (Order.customer, Order.items with products) instead of exposing cust_id or status_cd raw, maps status_cd to an enum, and notes batching REST calls to avoid N+1 against the REST backend."}
+  - name: negative-remove-field
+    vars:
+      domain: "Our public partner GraphQL API has a field Product.price as Float. We want to change it to a Money object and delete the old field this week."
+      clients: "About 40 partner integrations we do not control."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting or retyping Product.price in place for uncontrolled partner clients, proposes adding a new field (for example priceMoney) and deprecating the old one with usage tracking before any removal."}

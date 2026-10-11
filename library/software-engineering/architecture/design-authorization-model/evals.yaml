@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design the permissions model for {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-docs-workspace
+    vars:
+      product: "Team wiki: organisations have spaces, spaces have nested pages. Org admins manage everything; space admins manage their space; members edit pages in spaces they belong to; any page can be shared with a specific person, including external guests, as viewer or editor; child pages inherit sharing from parents unless restricted."
+      current_state: "A role column on users (admin, member) and checks only on the page detail endpoint. Search results have leaked restricted pages."
+    assert:
+      - {type: contains, value: "## List filtering"}
+      - {type: llm-rubric, value: "Recommends combining scoped roles with relationship-based access for per-page sharing and inheritance, with default deny, rather than adding more global roles."}
+      - {type: llm-rubric, value: "Addresses the search leak with policy-derived list filtering and requires checks at every entry point, with permission-matrix and negative tests."}
+  - name: edge-attribute-rules
+    vars:
+      product: "Hospital records viewer: clinicians may view records of patients currently admitted to their ward; emergency access is allowed with a reason and is audited."
+    assert:
+      - {type: llm-rubric, value: "Uses attribute or context-based rules (ward assignment, admission status) and a break-glass emergency path with mandatory reason and audit, rather than plain static roles."}
+  - name: negative-hide-buttons
+    vars:
+      product: "Invoicing app."
+      current_state: "The team hides the delete and export buttons for non-admins in the UI and considers access control done."
+    assert:
+      - {type: llm-rubric, value: "States that hiding UI elements is not enforcement and requires server-side checks on every endpoint and job, including exports."}

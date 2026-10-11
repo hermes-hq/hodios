@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design filtering and sorting for the list endpoints of this API: {{api}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-api
+    vars:
+      api: "E-commerce admin API with list endpoints for orders, customers, products and refunds. Clients: our admin UI and merchants' integrations. They filter orders by status, date ranges, total, customer and channel; sort by date or total."
+      data_layer: "Postgres; orders table has 80 million rows with indexes on (merchant_id, created_at) and (merchant_id, status)."
+      existing_conventions: "Orders use status=paid, customers use filter[email]=, products use q= for everything."
+    assert:
+      - {type: contains, value: "## Per-resource allowlists"}
+      - {type: llm-rubric, value: "Defines one consistent syntax across resources with comparison operators for dates and totals, a unique tiebreaker such as id for sorting, and explicit errors for unknown fields or operators."}
+      - {type: llm-rubric, value: "Ties allowed filters and sorts on orders to the existing indexes, flags unindexed combinations (for example sorting by total over 80 million rows) with a cost decision, and includes a migration path from the three existing styles."}
+  - name: edge-bi-tool-demands
+    vars:
+      api: "SaaS API where some customers connect BI tools and want arbitrary filters with AND, OR and nested groups on any field."
+    assert:
+      - {type: llm-rubric, value: "Questions whether arbitrary expressions belong on the transactional API and offers a bounded syntax plus an alternative such as bulk export or a data feed for BI use."}
+  - name: negative-raw-sql
+    vars:
+      api: "Internal reporting API."
+      existing_conventions: "A developer proposes accepting a where= parameter that is appended to the SQL WHERE clause to save time."
+    assert:
+      - {type: llm-rubric, value: "Refuses the raw where= parameter because of SQL injection and uncontrolled query cost, even for an internal API, and proposes an allowlisted operator syntax instead."}

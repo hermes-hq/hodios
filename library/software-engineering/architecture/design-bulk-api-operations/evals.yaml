@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design API endpoints for these bulk operations: {{operations}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crm-contacts
+    vars:
+      operations: "Create or update up to 50,000 contacts at once from a customer's integration; export all contacts as CSV; delete up to 500 contacts by id."
+      constraints: "API gateway timeout 30 seconds and 10 MB body limit. We have a job queue and S3-compatible storage."
+    assert:
+      - {type: contains, value: "## Job lifecycle"}
+      - {type: llm-rubric, value: "Makes the 50,000-contact upsert and the export asynchronous jobs with 202 and a job resource (upload via storage given the 10 MB limit, export delivered as a temporary download link), and keeps the 500-id delete as a synchronous batch only if it fits the timeout."}
+      - {type: llm-rubric, value: "Returns per-item results with errors so clients can retry only failed items, and requires idempotency keys for submissions."}
+  - name: edge-all-or-nothing
+    vars:
+      operations: "Post a batch of journal entries (debits and credits) to an accounting ledger; a batch must balance."
+    assert:
+      - {type: llm-rubric, value: "Chooses all-or-nothing atomicity for the journal batch because partial application would unbalance the ledger, and explains why this differs from independent-item batches."}
+  - name: negative-raise-timeout
+    vars:
+      operations: "Generate a yearly report that takes 6 to 15 minutes."
+      constraints: "The team proposes raising the load balancer timeout to 20 minutes and keeping one synchronous GET."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a 20-minute synchronous request (dropped connections, retries duplicating work, held resources) and proposes an async job with status polling or a webhook and a downloadable result."}

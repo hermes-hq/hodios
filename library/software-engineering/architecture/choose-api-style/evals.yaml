@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should we use REST, GraphQL, gRPC or tRPC for {{api_purpose}}? Clients: {{clients}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-public-plus-internal
+    vars:
+      api_purpose: "Shipping-rates platform. Customers' developers integrate to get quotes and create shipments; internally, a quoting service calls six carrier adapter services."
+      clients: "Third-party developers in PHP, Python, Java, Node and .NET; our own React dashboard; internal Go services."
+      constraints: "Team knows Go and TypeScript. Quotes must be cacheable for 60 seconds at the edge."
+    assert:
+      - {type: contains, value: "## Costs of the choice"}
+      - {type: llm-rubric, value: "Recommends REST (or REST with OpenAPI) for the public third-party API, citing many client languages and edge caching, and allows gRPC or similar for the internal Go service-to-service calls as a separate boundary."}
+      - {type: llm-rubric, value: "Rules out tRPC for the public API because the third-party clients are not TypeScript, and lists long-term costs such as versioning, rate limiting and SDK generation."}
+  - name: edge-vague-clients
+    vars:
+      api_purpose: "An API for our new product."
+      clients: "Not sure yet."
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions about who the clients are (first-party versus third-party, languages, data shape) and stops instead of recommending a style."}
+  - name: negative-graphql-for-hype
+    vars:
+      api_purpose: "Internal CRUD API for one admin web app with eight simple resources."
+      clients: "One Next.js admin app written by the same three-person TypeScript team that owns the server, in one monorepo."
+      constraints: "The CTO wants GraphQL because it is modern."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on GraphQL for this case, explaining the schema, resolver and caching overhead it adds for one first-party client, and recommends something simpler such as tRPC or plain REST, while naming what would justify GraphQL later."}

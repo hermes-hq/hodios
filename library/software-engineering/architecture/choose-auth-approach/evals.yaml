@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should we handle user authentication for {{app}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2c-web-and-mobile
+    vars:
+      app: "Consumer fitness app with a Next.js web app and iOS and Android apps sharing one API."
+      requirements: "Email and password, Google and Apple sign-in, optional MFA, about 500,000 users in two years. Team of four."
+    assert:
+      - {type: contains, value: "## Session model"}
+      - {type: llm-rubric, value: "Compares hosted provider, self-hosted and library options including password hash portability and lock-in, and recommends one for a four-person team without quoting prices."}
+      - {type: llm-rubric, value: "Uses HttpOnly cookie sessions (or a backend-for-frontend) for the web app and short-lived access tokens with refresh rotation for mobile, and covers account recovery as an attack surface."}
+  - name: edge-enterprise-later
+    vars:
+      app: "B2B project management SaaS, currently small teams."
+      requirements: "Sales expects enterprise customers asking for SAML SSO and SCIM within a year."
+    assert:
+      - {type: llm-rubric, value: "Factors upcoming enterprise SSO and provisioning into the build-versus-buy decision and designs the user and organisation model so SSO can be added per organisation later."}
+  - name: negative-jwt-localstorage
+    vars:
+      app: "Single-page React banking dashboard."
+      stack: "The team plans to store a 30-day JWT in localStorage and never revoke it."
+    assert:
+      - {type: llm-rubric, value: "Rejects the 30-day JWT in localStorage for a banking app, explaining XSS theft and no revocation, and proposes HttpOnly cookie sessions or a backend-for-frontend with short-lived tokens."}

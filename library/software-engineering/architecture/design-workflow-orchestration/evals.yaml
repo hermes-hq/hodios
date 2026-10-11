@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design this business process: {{process}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-merchant-onboarding
+    vars:
+      process: "Merchant onboarding: sign-up, identity verification by a vendor (can take up to 3 days, result by webhook), manual review if risky, bank account verification with micro-deposits the merchant confirms (up to 10 days), contract e-signature, account activation. Reminders after 2 and 7 days of inactivity; abandon after 30 days."
+      environment: "Kubernetes, Postgres, a Redis job queue, cron jobs. Team of eight."
+      problems: "Merchants get stuck with no one noticing; reminders are sent twice or not at all."
+    assert:
+      - {type: contains, value: "## Timers and human steps"}
+      - {type: llm-rubric, value: "Evaluates a durable workflow engine against a database state machine for these multi-day waits and reminders and makes a justified choice, modelling waits for the vendor webhook and micro-deposit confirmation as signals with timeouts."}
+      - {type: llm-rubric, value: "Makes activities idempotent (for example reminders keyed per merchant and reminder number), defines escalation to manual review, and covers how to find stuck instances and version the flow for in-flight merchants."}
+  - name: edge-simple-flow
+    vars:
+      process: "When a user uploads a profile photo, resize it and update the profile."
+      environment: "One Node service and a job queue."
+    assert:
+      - {type: llm-rubric, value: "Recommends a simple background job rather than a workflow engine, explaining that the process has no long waits or branching to justify one."}
+  - name: negative-time-in-workflow
+    vars:
+      process: "Subscription dunning with retries on day 1, 3 and 7 using Temporal."
+      environment: "A developer's workflow code calls Date.now() and queries the database directly inside the workflow function to decide the next retry."
+    assert:
+      - {type: llm-rubric, value: "Flags calling the clock and the database inside workflow code as breaking deterministic replay, and moves them into activities or uses the engine's timer and time APIs."}

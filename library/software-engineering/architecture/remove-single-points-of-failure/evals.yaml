@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Find the single points of failure in this system: {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-stack
+    vars:
+      system: "Three app servers behind a load balancer in one availability zone; one Postgres primary with a replica in the same zone, manual promotion; Redis single node used for sessions; one cron VM running billing and cleanup; DNS at one provider; TLS certificate renewed manually each year by the CTO; deploys only possible from the CTO's laptop."
+      availability_goal: "99.9% monthly."
+    assert:
+      - {type: contains, value: "## SPOF register"}
+      - {type: llm-rubric, value: "Identifies the single zone, the Redis session store, the cron VM, manual database promotion, the manual certificate renewal and the CTO-only deploy path as SPOFs, including people and process ones."}
+      - {type: llm-rubric, value: "Orders fixes by risk per effort against the 99.9% target and gives a failover test with a pass condition for each fix, such as a controlled database promotion drill."}
+  - name: edge-shared-fate
+    vars:
+      system: "Two Kubernetes clusters for redundancy, both in the same region, both deployed from one pipeline that pushes config to both at once, both pulling images from one registry."
+    assert:
+      - {type: llm-rubric, value: "Points out shared fate in the region, the simultaneous config push and the single image registry, explaining that the two clusters are not independent."}
+  - name: negative-untested-replica
+    vars:
+      system: "Primary database with a replica that has never been promoted."
+      availability_goal: "The team says the database is no longer a SPOF because the replica exists."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that an untested replica does not remove the SPOF, citing replication lag and untested promotion, and requires a planned failover drill with a pass condition."}

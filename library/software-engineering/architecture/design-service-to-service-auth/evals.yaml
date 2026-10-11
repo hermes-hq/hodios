@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should our internal services authenticate to each other? {{services}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k8s-shared-token
+    vars:
+      services: "Twelve services on Kubernetes calling each other over HTTP, plus two AWS Lambda functions that call the orders service, and Kafka consumers."
+      current_state: "All services share one static token in an environment variable; anything inside the cluster can call anything."
+      requirements: "The orders service must know which end user a request is for and only return that user's orders."
+    assert:
+      - {type: contains, value: "## Authorisation between services"}
+      - {type: llm-rubric, value: "Replaces the shared token with per-workload identity (mesh mTLS or workload identity tokens), covers the Lambda functions with their own identity mechanism, and defines a default-deny caller-to-operation allowlist."}
+      - {type: llm-rubric, value: "Propagates end-user context via a downscoped or signed internal token and requires the orders service to check the user's object-level access, with an audit-only phase before enforcement."}
+  - name: edge-multi-cloud
+    vars:
+      services: "Services split between GCP and an on-premises data centre, calling each other over a VPN."
+    assert:
+      - {type: llm-rubric, value: "Addresses identity across the two environments (for example a common workload identity or certificate authority, or token federation) and does not assume a single cloud's built-in identity covers both."}
+  - name: negative-vpc-is-enough
+    vars:
+      services: "Payments, ledger and user services in one VPC."
+      current_state: "The team says no authentication is needed because the VPC is private."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that network location is not authentication, citing lateral movement and request forgery risks, and proposes service identity and authorisation especially for payments and ledger."}

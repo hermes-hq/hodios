@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design a two-way sync between {{systems}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crm-contacts
+    vars:
+      systems: "Our SaaS app's users and accounts with a customer's CRM contacts and companies. The CRM offers webhooks on create, update and delete, a modified-since query, and a limit of 100 requests per 10 seconds."
+      business_rules: "Sales edits phone, owner and lifecycle stage in the CRM. Our app owns plan, usage and signup date. Both sides can edit email and company name."
+      scale: "200,000 contacts, about 5,000 changes per day, changes should appear within 5 minutes."
+    assert:
+      - {type: contains, value: "## Loop prevention"}
+      - {type: llm-rubric, value: "Produces a per-field ownership map with one-way sync for CRM-owned and app-owned fields and explicit conflict rules only for email and company name."}
+      - {type: llm-rubric, value: "Uses webhooks plus a periodic modified-since sweep, prevents echo loops by comparing against last-written values or hashes, respects the rate limit with backoff, and adds scheduled reconciliation."}
+  - name: edge-unknown-api
+    vars:
+      systems: "Our order system and the customer's ERP."
+    assert:
+      - {type: llm-rubric, value: "Asks about the ERP's API capabilities, entities, field ownership and scale before designing, and stops rather than assuming webhooks exist."}
+  - name: negative-mirror-deletes
+    vars:
+      systems: "Our help desk contacts and a marketing tool's subscribers, both with webhooks."
+      business_rules: "The manager wants everything mirrored exactly, including deletes in both directions, matching people by full name."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on matching by full name and on automatic two-way delete propagation, explaining duplicates and data loss, and proposes matching on a stronger key such as email and soft-delete or flagging instead."}

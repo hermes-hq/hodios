@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do we let customers use their own domains for {{product}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-storefronts
+    vars:
+      product: "Online store builder; 8,000 stores expected to use custom domains within a year. Stores are served by our Node app behind a load balancer."
+      edge: "No CDN yet."
+      requirements: "Support both www.brand.com and brand.com. Live within 15 minutes of correct DNS."
+    assert:
+      - {type: contains, value: "## Certificates"}
+      - {type: llm-rubric, value: "Compares a managed custom-hostname service with an own proxy issuing ACME certificates on demand, gated to verified hostnames, with central certificate storage and renewal."}
+      - {type: llm-rubric, value: "Handles apex domains with A records, ALIAS or flattening, or an apex-to-www redirect, and requires ownership verification before attaching a hostname to a store."}
+  - name: edge-caa-and-errors
+    vars:
+      product: "Help centre platform."
+      requirements: "Many customers report setup failures we cannot diagnose."
+    assert:
+      - {type: llm-rubric, value: "Designs setup status checks with specific error messages for common DNS problems such as wrong CNAME target, conflicting records, proxied DNS or CAA records blocking issuance."}
+  - name: negative-no-verification
+    vars:
+      product: "Link-in-bio pages."
+      requirements: "To reduce friction, product wants to attach any domain a user types and issue a certificate immediately, without verification."
+    assert:
+      - {type: llm-rubric, value: "Refuses to attach domains or issue certificates without ownership verification, citing domain claiming, takeover and certificate authority rate limits, and proposes a low-friction verification such as CNAME-based checks."}

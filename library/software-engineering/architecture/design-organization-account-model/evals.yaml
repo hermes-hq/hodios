@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design users and organisations for {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-agency-tool
+    vars:
+      product: "Social media scheduling tool sold per seat. Agencies manage many client brands; clients' staff also log in to approve posts."
+      current_model: "users table with account_id and role; one account per user."
+      scenarios: "Freelancers work for several agencies; agency staff need access to several client workspaces; a client may later buy its own subscription."
+    assert:
+      - {type: contains, value: "## Edge cases"}
+      - {type: llm-rubric, value: "Separates user identity from memberships so one login can belong to several organisations and workspaces, with roles on the membership, and keeps data and billing owned by the organisation."}
+      - {type: llm-rubric, value: "Plans migration from account_id on users to a memberships table without breaking existing users, and handles seat counting from memberships."}
+  - name: edge-org-merge
+    vars:
+      product: "HR software."
+      scenarios: "Two customer companies merge and want one organisation with all employees and history."
+    assert:
+      - {type: llm-rubric, value: "Describes a merge procedure covering duplicate users, conflicting roles, billing consolidation and data ownership, as a controlled, audited operation rather than an ad hoc database edit."}
+  - name: negative-domain-autojoin
+    vars:
+      product: "Team chat app."
+      scenarios: "Product wants anyone who signs up with an email at a company's domain to be auto-added to that company's organisation, without verifying the domain or the email."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on auto-join without domain and email verification, explaining that anyone could claim an address or a domain could be unowned, and requires verified domain ownership plus verified user email, with admin control."}
