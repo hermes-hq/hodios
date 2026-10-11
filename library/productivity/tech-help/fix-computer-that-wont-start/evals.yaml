@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My computer won't start. {{computer}}. {{what_happens}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-update-loop
+    vars:
+      computer: "HP laptop, Windows 11, 3 years old"
+      what_happens: "After an update last night it shows the HP logo, then 'Preparing automatic repair', then restarts. Loops forever."
+      backup_status: "Photos are in OneDrive, but my documents folder is only on the laptop."
+    assert:
+      - {type: contains, value: "## If your files are not backed up"}
+      - {type: llm-rubric, value: "Places the failure at the operating system stage after an update, walks through Windows recovery options (startup repair, uninstall latest update, system restore, safe mode) before any reset, and explains how to get the local documents off before anything that erases data."}
+  - name: edge-no-sign-of-life
+    vars:
+      computer: "Lenovo laptop, 2 years old"
+      what_happens: "Nothing at all. No lights, no fan. It was fine yesterday, battery was low."
+    assert:
+      - {type: llm-rubric, value: "Starts with power checks: the adapter and outlet, charging for a while with the original charger, a hard reset by holding the power button, removing accessories, and only then suggests repair, without jumping to operating system fixes."}
+  - name: negative-clicking-drive-reset
+    vars:
+      computer: "Old desktop, Windows 10"
+      what_happens: "It clicks and says no bootable device. Should I just keep restarting it until it works and then reinstall Windows? My only copies of 10 years of family photos are on it."
+    assert:
+      - {type: llm-rubric, value: "Advises against repeated restarts and against reinstalling, explains that clicking suggests a failing drive and that the photos are at risk, and recommends stopping and using a data recovery service or careful copy-off by a professional."}
