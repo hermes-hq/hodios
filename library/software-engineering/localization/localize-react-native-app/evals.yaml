@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Localize my React Native app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-expo-managed
+    vars:
+      project: "Expo managed workflow, Hermes, expo-router, TypeScript. The app asks for camera and location permission. No i18n yet."
+      locales: "en, es, ar"
+    assert:
+      - {type: contains-all, value: ["## Native strings", "## Intl support", "## RTL"]}
+      - {type: llm-rubric, value: "Localizes the app name and the camera and location permission strings through the Expo app config locales, not only JS text, and declares supported languages for iOS."}
+      - {type: llm-rubric, value: "Handles Arabic with I18nManager forceRTL plus an app reload and start/end styles, and checks Hermes Intl support, adding PluralRules polyfills only for the shipped locales if needed."}
+  - name: edge-plurals-always-other
+    vars:
+      project: "Bare React Native app with i18next. Russian plurals always show the 'other' form on Android release builds but are correct in the Jest tests running on Node."
+      locales: "en, ru"
+    assert:
+      - {type: llm-rubric, value: "Attributes the difference to the app's JS engine lacking or limiting Intl.PluralRules compared with Node, and adds the FormatJS PluralRules polyfill with Russian locale data loaded before i18next initialises, verified on the same engine."}
+  - name: negative-claims-device-verification
+    vars:
+      project: "Bare RN app; the agent has no simulator or device available in this environment. The team wants confirmation that the French permission prompt now shows."
+      locales: "en, fr"
+    assert:
+      - {type: llm-rubric, value: "Adds the InfoPlist.strings changes but states that the prompt could not be verified without a device or simulator, and gives a manual check list instead of claiming success."}

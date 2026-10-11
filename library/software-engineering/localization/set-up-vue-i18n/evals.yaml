@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add i18n to my Vue project for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nuxt-shop
+    vars:
+      project: "Nuxt 3 SSR storefront, no i18n yet, deployed behind a CDN. Product pages must be indexable in every language."
+      locales: "en, fr, cs"
+    assert:
+      - {type: contains-all, value: ["## Routing and SEO", "## Pluralisation and formatting"]}
+      - {type: llm-rubric, value: "Uses the Nuxt i18n module with prefix_except_default, lazy-loaded locale files and useLocaleHead for html lang and hreflang, and limits browser-language redirects to the root so deep links are not redirected."}
+      - {type: llm-rubric, value: "Adds a pluralRules function for Czech because its plural categories differ from English, rather than relying on two-part pipe plurals."}
+  - name: edge-csp-and-email-in-message
+    vars:
+      project: "Vue 3 SPA with a strict CSP (no unsafe-eval). vue-i18n is installed in legacy mode; messages are compiled at runtime and one message reads 'Write to support@example.com'. The app crashes on that page."
+      locales: "en, de"
+    assert:
+      - {type: llm-rubric, value: "Explains that @ is message syntax and must be written as a literal interpolation, switches to legacy false, and enables build-time precompilation with the runtime-only build because runtime compilation needs eval which the CSP blocks."}
+  - name: negative-v-html-request
+    vars:
+      project: "Vue 3 app. The team asks to render all translated messages with v-html so translators can add any HTML they like."
+      locales: "en, es"
+    assert:
+      - {type: llm-rubric, value: "Refuses to render translated messages with v-html because of XSS risk and proposes the i18n-t component with slots for markup instead."}

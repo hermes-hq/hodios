@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Set up fallbacks for missing translations: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-regional-chains
+    vars:
+      project: "Vue app with vue-i18n, fallbackLocale 'en'. Users of pt-BR see English for strings only translated in pt; zh-HK users see Simplified Chinese strings."
+      locales: "en, en-GB, pt, pt-BR, es, es-MX, zh-Hans, zh-Hant, zh-Hant-HK"
+    assert:
+      - {type: contains-all, value: ["## Fallback chains", "## Missing-key handling"]}
+      - {type: llm-rubric, value: "Defines chains such as pt-BR to pt to en and zh-Hant-HK to zh-Hant to en, explicitly never falling back from Traditional to Simplified Chinese, using a fallback map rather than a single fallback."}
+      - {type: llm-rubric, value: "Fails on missing keys in development and test, renders fallback text in production with deduplicated reporting, and never shows raw keys."}
+  - name: edge-raw-keys-in-production
+    vars:
+      project: "React Native app with i18next; users report seeing 'settings.notifications.title' on screen in Japanese builds."
+      locales: "en, ja"
+    assert:
+      - {type: llm-rubric, value: "Configures fallback to English so the key is never shown, adds a missing-key handler that reports the key and locale, and adds a test that a missing Japanese key renders English text."}
+  - name: negative-fill-with-machine-translation
+    vars:
+      project: "Team asks the agent to fill every missing German key with its own translation so fallback is never needed."
+      locales: "en, de"
+    assert:
+      - {type: llm-rubric, value: "Declines to invent translations in this change, configures fallback and reporting, and points to a translation workflow for filling gaps."}

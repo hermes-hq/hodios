@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add i18n to my Go project for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-http-service
+    vars:
+      project: "Go 1.22 HTTP JSON API with chi. Validation errors and password reset emails are English strings built with fmt.Sprintf. Users have a stored language preference."
+      locales: "en, de, pt-BR"
+    assert:
+      - {type: contains-all, value: ["## Language matching", "## Extraction and translation workflow"]}
+      - {type: llm-rubric, value: "Builds one go-i18n bundle at startup with embedded files, matches the stored preference then Accept-Language with an x/text matcher and uses the index into the supported list, and puts a per-request localizer in the context."}
+      - {type: llm-rubric, value: "Adds goi18n extract and merge steps and table tests covering an unsupported language and a regional variant such as pt-PT falling back to pt-BR or the default."}
+  - name: edge-cli-posix-locale
+    vars:
+      project: "A Go CLI tool printing progress and summaries such as '3 files copied'. Users run it with LANG=de_DE.UTF-8 or LC_ALL=C."
+      locales: "en, de"
+    assert:
+      - {type: llm-rubric, value: "Converts POSIX locale variables in precedence LC_ALL, LC_MESSAGES, LANG to BCP 47 tags, treats C and POSIX as the default, offers a flag override, and uses plural forms for the file count."}
+  - name: negative-month-name-tables
+    vars:
+      project: "The team asks for a Go map of month and weekday names in 12 languages to format dates in emails."
+      locales: "en, de, fr, ja, ar, ru, es, it, pt, pl, tr, ko"
+    assert:
+      - {type: llm-rubric, value: "Declines hand-written month and weekday tables, explains the standard library gap, and proposes a CLDR-backed library or numeric date formats instead."}

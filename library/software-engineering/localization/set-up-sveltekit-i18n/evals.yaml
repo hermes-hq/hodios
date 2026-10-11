@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add i18n to my SvelteKit app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-adapter-blog
+    vars:
+      project: "SvelteKit 2 with adapter-node. Blog posts are prerendered, account pages are server-rendered. No i18n yet."
+      locales: "en, de, ar"
+    assert:
+      - {type: contains-all, value: ["## Locale resolution", "## Routes and prerendering"]}
+      - {type: llm-rubric, value: "Resolves the locale per request in hooks.server into event.locals, replaces a lang placeholder in app.html via transformPageChunk including dir for Arabic, and uses reroute or an optional segment rather than duplicating route folders."}
+      - {type: llm-rubric, value: "Adds prerender entries or crawlable links so German and Arabic blog posts are prerendered, and verifies the build output lists them."}
+  - name: edge-global-store-leak
+    vars:
+      project: "SvelteKit app using svelte-i18n. The locale store is set in +layout.server.ts from the user's cookie. Users report occasionally seeing pages in the wrong language under load."
+      locales: "en, fr"
+      library: svelte-i18n
+    assert:
+      - {type: llm-rubric, value: "Diagnoses that a module-level locale store is shared across concurrent server requests, and moves the locale to per-request state in hooks.server and event.locals, with a concurrent-request test."}
+  - name: negative-duplicate-routes
+    vars:
+      project: "The team proposes copying src/routes into src/routes/de and src/routes/fr and translating the Svelte files directly."
+      locales: "en, de, fr"
+    assert:
+      - {type: llm-rubric, value: "Advises against duplicating routes per language because of maintenance and drift, and proposes one route tree with reroute or a locale segment and message catalogs."}

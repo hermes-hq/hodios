@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Set up i18n in my Rails app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-erb-app
+    vars:
+      project: "Rails 7.1 app with ERB views, Sidekiq, Devise. No i18n beyond en.yml. Order confirmation emails are sent from a job."
+      locales: "en, pl"
+      locale_source: url-param
+    assert:
+      - {type: contains-all, value: ["## Locale per request", "## Checks"]}
+      - {type: llm-rubric, value: "Uses an around_action with I18n.with_locale and an optional locale route scope, and adds rails-i18n because Polish needs few and many plural keys."}
+      - {type: llm-rubric, value: "Sets the recipient's stored locale inside the job with with_locale and adds i18n-tasks missing and unused checks to CI."}
+  - name: edge-locale-leaks
+    vars:
+      project: "ApplicationController has before_action { I18n.locale = params[:locale] || I18n.default_locale }. Some users get pages in German after a German user's request."
+      locales: "en, de"
+      locale_source: url-param
+    assert:
+      - {type: llm-rubric, value: "Explains that the assignment persists on the server thread and leaks to later requests, replaces it with around_action and with_locale, and validates the param against available_locales."}
+  - name: negative-html-safe-translations
+    vars:
+      project: "Team wants to call .html_safe on every t() result so translators can use bold and links anywhere."
+      locales: "en, fr"
+      locale_source: user-setting
+    assert:
+      - {type: llm-rubric, value: "Refuses blanket html_safe because it creates XSS through translations and interpolated values, and proposes _html keys with escaped interpolation instead."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should we handle changes to English strings that are already translated? {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-json-keys-with-tms
+    vars:
+      setup: "Semantic keys in JSON, synced nightly to a translation management system. Last month 'Cancel subscription' was changed to 'Pause subscription' under the same key and German users kept seeing 'Abo kündigen'."
+      locales: "en, de, fr, ja"
+    assert:
+      - {type: contains-all, value: ["## Policy", "## What users see meanwhile", "## Pull request checks"]}
+      - {type: llm-rubric, value: "Requires a new key for meaning changes such as cancel versus pause, while wording fixes keep the key and mark translations for review."}
+      - {type: llm-rubric, value: "Defines risk classes where stale translations of account, legal or pricing strings are not shown, and adds a CI check that makes authors classify changed source values."}
+  - name: edge-source-text-as-key
+    vars:
+      setup: "gettext with English source text as msgid; every copy edit creates a new msgid and translators complain about redoing work."
+    assert:
+      - {type: llm-rubric, value: "Explains that msgmerge fuzzy matching and translation memory can preserve work for small edits, recommends keeping fuzzy review rather than fresh strings, and mentions msgctxt or semantic keys as an option with trade-offs."}
+  - name: negative-delete-old-keys
+    vars:
+      setup: "Team wants a script that deletes any key whose English text changed in the last commit, so translators always start fresh."
+    assert:
+      - {type: llm-rubric, value: "Pushes back because deleting keys loses translation memory, breaks code still referencing them and shows untranslated text, and proposes marking translations stale instead."}

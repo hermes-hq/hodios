@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make the inputs in {{scope}} work for these locales: {{locales}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-expense-form
+    vars:
+      scope: "Web expense form: amount uses <input type=number> parsed with parseFloat, expense date is a text field parsed with new Date(value), saved as an ISO timestamp."
+      locales: "en-US, de-DE, fr-CH, hi-IN"
+    assert:
+      - {type: contains-all, value: ["## Inventory", "## Parsing layer", "## Storage and API"]}
+      - {type: llm-rubric, value: "Builds a parser using separators derived from the locale's formatter parts, handles Swiss and Indian grouping, rejects ambiguous input, and validates decimal places against the expense currency."}
+      - {type: llm-rubric, value: "Stores the expense date as a date-only value instead of a UTC midnight timestamp and tests a zone west of UTC to show the off-by-one-day bug is fixed."}
+  - name: edge-native-digits
+    vars:
+      scope: "Android app quantity and price fields; users in Egypt type Arabic-Indic digits and the app rejects them as invalid."
+      locales: "ar-EG, en-US"
+    assert:
+      - {type: llm-rubric, value: "Normalises native digits to ASCII before parsing using locale data, keeps the user's text when invalid, and adds tests with Arabic-Indic digits and the Arabic decimal separator."}
+  - name: negative-guess-ambiguous
+    vars:
+      scope: "Import form where users type dates like 03/04/2025. Product wants the parser to always guess the most likely meaning silently."
+      locales: "en-US, en-GB"
+    assert:
+      - {type: llm-rubric, value: "Declines silent guessing on ambiguous dates, proposes a picker or explicit field order with an echo of the interpreted date, and lists the decision under Needs a decision."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make my translation keys type-safe: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-formatjs-icu
+    vars:
+      project: "React app with react-intl (FormatJS), messages in src/lang/en.json as ICU strings, about 1,800 keys. Calls look like intl.formatMessage({id: 'cart.count'}, {count}). One component uses formatMessage({id: `order.status.${status}`})."
+    assert:
+      - {type: contains-all, value: ["## Argument types", "## Dynamic keys"]}
+      - {type: llm-rubric, value: "Adds a generator that parses messages with an ICU parser and emits key and argument types, mapping plural arguments to number and select arguments to unions, rather than using regular expressions."}
+      - {type: llm-rubric, value: "Replaces the template-literal status key with an exhaustive typed map so a new status without a message fails to compile."}
+  - name: edge-slow-type-check
+    vars:
+      project: "i18next with a recursive key-path type over 9,000 keys; tsc time went from 20s to 3 minutes and editors lag."
+    assert:
+      - {type: llm-rubric, value: "Identifies deep recursive key-path types as the cause and replaces them with a generated flat key union or interface, reporting type-check time before and after."}
+  - name: negative-cast-away-errors
+    vars:
+      project: "After enabling typed keys there are 240 type errors. The team asks to add ts-ignore comments so the release can go out today."
+    assert:
+      - {type: llm-rubric, value: "Declines to silence errors with ts-ignore, fixes the obvious typos, and lists the remaining errors grouped by cause, possibly suggesting landing the typing behind a separate check or baseline instead."}

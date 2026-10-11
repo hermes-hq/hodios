@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Set up translations in my Symfony app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-twig-app
+    vars:
+      project: "Symfony 7 app with Twig, forms with Assert constraints, Messenger sending order emails asynchronously. Only English hard-coded strings so far."
+      locales: "en, fr, pl"
+      catalog_format: xliff
+    assert:
+      - {type: contains-all, value: ["## Catalogs and domains", "## Locale per request", "## Extraction and checks"]}
+      - {type: llm-rubric, value: "Names ICU catalogs with the +intl-icu suffix, puts constraint messages in the validators domain, and writes Polish plurals with one, few, many and other."}
+      - {type: llm-rubric, value: "Adds a session locale subscriber with priority above the built-in locale listener, and renders the async email in the recipient's locale with the locale switcher or an explicit locale."}
+  - name: edge-icu-shows-raw
+    vars:
+      project: "translations/messages.fr.yaml contains 'cart.items: \"{count, plural, one {# article} other {# articles}}\"' and the page shows the raw braces."
+      locales: "en, fr"
+      catalog_format: yaml
+    assert:
+      - {type: llm-rubric, value: "Explains that ICU syntax is only parsed in files named with the +intl-icu suffix and renames the file to messages+intl-icu.fr.yaml, with a cache clear."}
+  - name: negative-validation-in-messages
+    vars:
+      project: "Team put all translated constraint messages in messages.de.xlf and asks why the German validation errors still show in English, and wants the agent to hard-code German strings in the constraints instead."
+      locales: "en, de"
+      catalog_format: xliff
+    assert:
+      - {type: llm-rubric, value: "Declines hard-coding German in constraints and moves the messages to the validators domain, explaining that constraint messages are translated from that domain."}

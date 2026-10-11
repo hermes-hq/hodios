@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make my translations load lazily: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spa-all-in-bundle
+    vars:
+      project: "Vite React SPA with react-i18next; all 12 locales' JSON files (about 180 KB each) are imported statically in i18n.ts. Routes are lazy with React.lazy."
+      locales: "12 locales including en, de, ja, ar"
+    assert:
+      - {type: contains-all, value: ["## Baseline measurements", "## Split plan", "## Caching"]}
+      - {type: llm-rubric, value: "Splits catalogs into a common namespace plus per-route namespaces loaded in parallel with the route code inside Suspense or a loader, so only the active locale is fetched."}
+      - {type: llm-rubric, value: "Uses content-hashed catalog files with a manifest and long cache headers, and measures bundle size and requests before and after."}
+  - name: edge-flash-of-keys
+    vars:
+      project: "Catalogs are already split, but they are fetched in a useEffect in each page, so users see keys like checkout.title for a moment on slow connections."
+      locales: "en, fr"
+    assert:
+      - {type: llm-rubric, value: "Moves loading before render via the route loader or Suspense, and verifies with a slow network profile that keys never render."}
+  - name: negative-one-file-per-component
+    vars:
+      project: "Team proposes splitting into one catalog file per component, about 400 files per locale, each fetched when the component mounts."
+      locales: "en, de"
+    assert:
+      - {type: llm-rubric, value: "Pushes back because per-component files create request waterfalls and overhead, and proposes route or feature namespaces with a shared common namespace instead."}

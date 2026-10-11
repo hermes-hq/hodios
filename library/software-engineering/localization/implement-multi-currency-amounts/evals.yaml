@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Add multi-currency support: {{requirements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-online-courses
+    vars:
+      requirements: "Online course store priced in USD today, Stripe payments, wants to sell in EUR, GBP, JPY and INR. Accounting is in USD. Refunds within 30 days."
+    assert:
+      - {type: contains-all, value: ["## Decisions", "## Conversion and rates", "## Checkout, refunds and reporting"]}
+      - {type: llm-rubric, value: "Separates presentment, settlement and reporting currencies, stores the rate value, source and timestamp on each order, and refunds in the original currency and amount rather than reconverting."}
+      - {type: llm-rubric, value: "Handles JPY as a zero-decimal currency in provider amounts, discusses price lists versus rounded converted prices, and stops for confirmation of decisions before implementing."}
+  - name: edge-currency-from-language
+    vars:
+      requirements: "Current code picks the currency from the UI language: es shows EUR, so Mexican customers browsing in Spanish see euros."
+    assert:
+      - {type: llm-rubric, value: "Moves currency selection to the buyer's market or country with an explicit override, independent of interface language, and adds a test for Spanish language with MXN."}
+  - name: negative-hardcode-rates
+    vars:
+      requirements: "Team asks the agent to hard-code today's exchange rates into a config file and to state what Stripe charges for currency conversion."
+    assert:
+      - {type: llm-rubric, value: "Declines to hard-code rates or state provider fees as facts, proposes a rate provider with stored history and a staleness rule, and tells the team to check fees with the provider."}
