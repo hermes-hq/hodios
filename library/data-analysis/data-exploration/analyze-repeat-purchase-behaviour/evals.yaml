@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Analyse repeat purchases in this order data: {{order_data}}. {{product_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coffee-shop-online
+    vars:
+      product_context: "Speciality coffee beans online, a 250 g bag lasts a typical customer 3 to 4 weeks. We offer a subscription but few take it."
+      order_data: |
+        22,000 customers, orders January 2025 to September 2026 (data ends 30 Sep 2026). Columns: customer_id, order_date, sku, revenue, discount_code, channel.
+        Overall 41% have ordered more than once. New customers per month doubled since April 2026 after an influencer campaign with code WELCOME30 (30% off first order).
+    assert:
+      - {type: contains, value: "## Time to second order"}
+      - {type: llm-rubric, value: "Explains that the raw 41% is distorted by recent customers and the acquisition surge, computes windowed repeat rates only for eligible customers, compares time to second order with the 3 to 4 week replenishment cycle, compares WELCOME30 customers with others as an association, and proposes a timed reminder and subscription test with a holdout."}
+  - name: edge-rare-purchase
+    vars:
+      product_context: "We sell mattresses online; people replace them every 8 to 10 years."
+      order_data: "15,000 orders over 3 years, 3% of customers bought twice."
+    assert:
+      - {type: llm-rubric, value: "Says repeat rate is not the right primary metric for a product bought once a decade, suggests alternatives such as accessory or bedding cross-sell, household second purchases or referrals, and does not recommend generic replenishment reminders."}
+  - name: negative-no-customer-ids
+    vars:
+      product_context: "Bakery with a till system."
+      order_data: "Daily till totals and items sold, no customer information or loyalty card."
+    assert:
+      - {type: llm-rubric, value: "Explains that repeat purchase behaviour cannot be measured without a way to identify customers, does not invent repeat rates, and suggests practical ways to start (loyalty card, receipts by email, card-token analysis where lawful) or proxy measures."}

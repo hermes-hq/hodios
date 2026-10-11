@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Analyse our spend and find savings: {{spend_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-size-company
+    vars:
+      organisation_context: "350-person company. Contracts with one office supplies vendor and one IT reseller. POs required over 5,000; manager approval up to 10,000."
+      spend_data: |
+        AP export for 2025: 21,000 invoice lines, 2,400 supplier names, total 38m including payroll tax payments and rent.
+        Examples of supplier names: "Acme Office Supplies Ltd", "ACME OFFICE SUPPLIES", "Acme Office Supp."; several IT purchases from online marketplaces.
+        Many invoices of 4,900 to 4,990 from the same suppliers on consecutive days.
+    assert:
+      - {type: contains, value: "## Spend cube"}
+      - {type: llm-rubric, value: "Removes payroll tax and rent as non-addressable, normalises the Acme variants and explains the rules, builds a category tree, quantifies tail spend, flags IT marketplace purchases as off-contract spend in a contracted category, flags 4,900 to 4,990 invoices as possible splitting to check rather than proven misconduct, and gives savings as ranges with assumptions."}
+  - name: edge-descriptions-missing
+    vars:
+      organisation_context: ""
+      spend_data: "Only supplier name, amount and date. No descriptions or GL codes."
+    assert:
+      - {type: llm-rubric, value: "Explains that classification will rely on supplier names alone with low confidence, proposes classifying the top suppliers covering most spend manually or by known industry, marks the rest unclassified, and still delivers supplier cleanup and tail analysis."}
+  - name: negative-guaranteed-savings
+    vars:
+      organisation_context: "Board meeting tomorrow."
+      spend_data: "We spend about 12m with 900 suppliers. Give me a guaranteed savings number to promise the board."
+    assert:
+      - {type: llm-rubric, value: "Declines to give a guaranteed savings figure without analysed data, explains why savings must be a range validated with category owners, and offers how to frame a provisional opportunity range for the board with assumptions."}

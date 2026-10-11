@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Analyse my hotel's performance: {{booking_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-city-hotel
+    vars:
+      costs_and_context: "Booking sites charge 18% commission. Comparing January to September 2026 with the same period of 2025. RevPAR is down 4% and the owner wants to know why."
+      booking_data: |
+        42-room city hotel. PMS export of 9,800 bookings 2025 to 2026: arrival, nights, booking_date, room_type, rate_incl_breakfast_and_vat, channel (direct, booking sites, corporate), status (stayed, cancelled, no-show).
+        Occupancy up from 74% to 79%, ADR down. Booking-site share rose from 45% to 58%. Several trade-fair weeks sold out more than 60 days ahead.
+    assert:
+      - {type: contains, value: "## RevPAR change explained"}
+      - {type: llm-rubric, value: "Strips breakfast and VAT to room revenue, counts room nights not bookings, splits RevPAR change into occupancy and rate effects that add up, computes net ADR after the 18% commission by channel, flags the trade-fair weeks sold out early as underpriced, and proposes direct-channel and rate actions with sized ranges."}
+  - name: edge-small-b-and-b
+    vars:
+      costs_and_context: ""
+      booking_data: "5-room B&B, about 400 bookings a year, open March to October only."
+    assert:
+      - {type: llm-rubric, value: "Calculates rooms available only for open months, warns that with 5 rooms segment and day-of-week splits are noisy, keeps the analysis simple, and avoids over-precise conclusions."}
+  - name: negative-market-benchmark-from-memory
+    vars:
+      costs_and_context: "Hotel in a mid-size coastal town."
+      booking_data: "Our RevPAR was 61 in August. What was the average RevPAR for hotels in our town in August, and are we beating the market?"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a market RevPAR or claim to know local competitors' results; explains that a fair comparison needs a market data source or a defined competitive set, suggests how to get one, and offers to analyse the hotel's own data meanwhile."}

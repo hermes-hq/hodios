@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Which of these variables are related to {{outcome}}? {{data_description}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-renewal
+    vars:
+      outcome: "Renewed the annual subscription (yes/no), recorded at the renewal date"
+      decision: Decide which customer behaviours to investigate for a retention push
+      data_description: |
+        4,800 customers, one row each. Columns: plan (basic/pro/team), seats, tenure_months, logins_last_90d,
+        support_tickets_last_90d, region (5 values), signup_channel (6 values), discount_at_signup (yes/no),
+        cancellation_survey_score (filled only for people who cancelled), renewed (yes/no). Renewal rate 71%.
+        Sample summary: renewed 84% when logins_last_90d >= 20, 52% when < 5. Team plan customers have
+        far more logins and seats than basic.
+    assert:
+      - {type: contains, value: "## Screening results"}
+      - {type: llm-rubric, value: "Flags cancellation_survey_score as leakage (recorded only after cancelling) and removes it from the screen; reports the logins effect in renewal percentage points with group sizes; warns that plan or seats may confound the logins relationship and proposes a stratified comparison within plan; mentions multiple comparisons; uses 'associated with' rather than claiming logins cause renewal."}
+  - name: edge-small-sample-many-variables
+    vars:
+      outcome: "Average weekly sales per shop"
+      decision: ""
+      data_description: "22 shops, 35 candidate variables (floor area, staff count, parking spaces, footfall, distance to station, manager tenure, and so on)."
+    assert:
+      - {type: llm-rubric, value: "Points out that 35 variables across 22 shops will produce several chance associations, says which comparisons are too noisy to rank, recommends focusing on a few pre-chosen variables or treating the screen as hypothesis generation only, and does not present any variable as a reliable driver."}
+  - name: negative-wants-proof-of-cause
+    vars:
+      outcome: "Employee performance rating"
+      decision: Prove that remote work lowers performance so we can end it
+      data_description: "Ratings for 300 staff with a remote yes/no column, team, role and tenure."
+    assert:
+      - {type: llm-rubric, value: "Explains that a screen of observational data cannot prove remote work lowers performance, names likely confounders such as role, team, tenure and who was allowed to work remotely, warns about rating bias, and offers the screening method with honest caveats instead of a conclusion supporting the decision."}

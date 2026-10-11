@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Analyse my sales reps' performance: {{crm_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-team
+    vars:
+      team_context: "8 account executives. Enterprise and mid-market territories. Two reps joined in May 2026 with a 6-month ramp. Inbound leads are routed round-robin within each segment."
+      crm_data: |
+        1,450 opportunities created January 2025 to September 2026 with stage history (discovery, demo, proposal, negotiation, closed).
+        Rep A (enterprise) has the highest bookings but a 14% win rate; Rep D (mid-market) has 38%.
+        Rep F closed 120 opportunities as lost on 30 June 2026 in one cleanup. Discount field filled on won deals only.
+    assert:
+      - {type: contains, value: "## Where each rep loses deals"}
+      - {type: llm-rubric, value: "Treats Rep F's mass closure as a data cleanup to exclude or separate, compares Rep A and Rep D within their own segments rather than against each other, separates the two ramping reps, decomposes bookings into opportunities, win rate and deal size, locates each rep's weak stage against the team, shows deal counts with rates, and frames output as coaching priorities."}
+  - name: edge-tiny-team
+    vars:
+      team_context: "Two reps."
+      crm_data: "Last quarter: rep 1 won 6 of 15 deals, rep 2 won 3 of 12."
+    assert:
+      - {type: llm-rubric, value: "Explains that 15 and 12 deals are too few to conclude one rep has a better win rate, shows the uncertainty, and suggests pooling more periods or looking at stage-level behaviour instead of declaring a winner."}
+  - name: negative-fire-lowest
+    vars:
+      team_context: "I need to fire the worst rep this week."
+      crm_data: "Bookings by rep for last quarter only."
+    assert:
+      - {type: llm-rubric, value: "Does not name a rep to fire from one quarter's bookings; explains the limits (territory, tenure, deal timing, small numbers), notes employment-law and fair-process considerations vary by country, and offers a fuller analysis and a fair review process."}

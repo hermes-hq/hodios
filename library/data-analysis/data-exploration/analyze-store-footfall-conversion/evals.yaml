@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Analyse my store footfall and sales: {{store_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fashion-chain
+    vars:
+      concern: "Sales down 8% in Q3 versus last year across 6 stores"
+      store_data: |
+        Hourly footfall and transactions for 6 fashion stores, Q3 2025 and Q3 2026. Q3 2026 footfall flat versus last year,
+        transactions down 9%, average transaction value up 1%. Saturday 12:00 to 16:00 footfall up 5% but conversion fell from 18% to 13%.
+        Staff hours cut by 10% in 2026. Store 4's counter shows zero for two weeks in August while it still sold.
+    assert:
+      - {type: contains, value: "## Sales tree"}
+      - {type: llm-rubric, value: "Excludes Store 4's counter outage, decomposes the sales change into footfall, conversion and transaction value showing conversion explains most of it, links the Saturday afternoon conversion fall to the 10% staff cut as a hypothesis, and proposes moving staff hours into peak times with a measurable test against a comparison."}
+  - name: edge-bad-counter
+    vars:
+      concern: ""
+      store_data: "Footfall counter shows conversion of 140% on weekdays in one store; it counts in both directions at a narrow door."
+    assert:
+      - {type: llm-rubric, value: "Identifies that conversion above 100% means the counter data is wrong, suggests halving two-way counts or validating against a manual count before analysing conversion, and does not draw conclusions from the faulty figures."}
+  - name: negative-no-footfall
+    vars:
+      concern: Is our conversion rate good?
+      store_data: "We only have till sales, no footfall counter."
+    assert:
+      - {type: llm-rubric, value: "Explains conversion cannot be calculated without visitor counts, does not invent a rate or claim an industry benchmark as the answer, and suggests a manual count sample or counter, plus what can be learned from transactions and basket size meanwhile."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Calculate customer lifetime value from this data: {{transaction_data}}. {{business_model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-online-shop
+    vars:
+      purpose: Set a maximum cost per acquisition for paid social
+      business_model: "Online skincare shop, repeat purchases. Gross margin on products 62%, shipping and payment fees about 6 euros per order."
+      transaction_data: |
+        38,000 customers, orders from January 2024 to September 2026. Columns: customer_id, order_date, revenue_incl_vat, refund_amount, channel_first_order.
+        Average order 41 euros incl. VAT (20%). Cohorts from 2024 have 24+ months of history; 2026 cohorts have under 9.
+        Mature 2024 cohorts: cumulative net revenue per customer 58 euros at 12 months, 79 at 24.
+    assert:
+      - {type: contains, value: "## Historical value by cohort"}
+      - {type: llm-rubric, value: "Removes VAT and refunds, computes contribution after product cost and the 6 euro per order fees rather than using revenue, divides by all acquired customers in a cohort, uses mature 2024 cohorts' month-24 to month-12 ratio to project younger cohorts and labels them projected, gives figures by acquisition channel, and links the result to a maximum CPA with a payback view."}
+  - name: edge-short-history-subscription
+    vars:
+      purpose: Investor deck
+      business_model: "Monthly subscription meal kits, 30% contribution margin after food, packing and delivery."
+      transaction_data: "Launched 7 months ago. Month-1 churn 35%, months 2 to 6 about 9% per month. 4,200 subscribers acquired."
+    assert:
+      - {type: llm-rubric, value: "Refuses to use a simple 1/churn lifetime from early months, notes that churn is falling and only 7 months are observed, gives an observed 6-month value plus a clearly labelled conservative projection with a cap such as 24 months and a range, and warns the investor figure must be presented as an estimate."}
+  - name: negative-revenue-only-no-data
+    vars:
+      purpose: ""
+      business_model: "We sell furniture online."
+      transaction_data: "Our average order is 600 and people buy about twice. What's our LTV?"
+    assert:
+      - {type: llm-rubric, value: "Does not simply answer 1,200 as LTV; explains that this is revenue not margin, has no time horizon and no repeat-rate distribution, asks for margin and order history by customer, and at most shows the upper-bound arithmetic clearly labelled."}

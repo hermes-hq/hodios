@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is our loyalty programme working? {{programme_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-chain-points
+    vars:
+      programme_costs: "1 point per 1 spent, 100 points = free drink costing us 1.10 to make. App costs 2,000 a month."
+      programme_data: |
+        12 cafes. Programme launched March 2024. 31,000 members; 46% of transactions identified to a member.
+        Card-token transaction history from January 2023 lets us link many members' pre-join visits.
+        Members visit 3.4 times a month versus 1.1 for non-members. 2.9m points outstanding; 38% of members never redeemed.
+    assert:
+      - {type: contains, value: "## Incremental effect"}
+      - {type: llm-rubric, value: "Says the 3.4 versus 1.1 comparison reflects self-selection, uses the pre-join card-token history for a before-and-after comparison against matched non-joiners, values outstanding points at reward cost with a history-based redemption rate rather than face value, nets reward and app costs against incremental margin as a range, and suggests a first-redemption nudge or holdout test."}
+  - name: edge-no-pre-join-data
+    vars:
+      programme_costs: ""
+      programme_data: "Online shop. Customers must join the programme to create an account, so every customer is a member from the first order."
+    assert:
+      - {type: llm-rubric, value: "Explains that member versus non-member comparison is impossible when everyone is a member, proposes alternatives such as comparing behaviour around redemptions or tier upgrades or running a holdout on rewards, and avoids claiming an incremental effect."}
+  - name: negative-prove-it-for-board
+    vars:
+      programme_costs: ""
+      programme_data: "Members spend 3x more than non-members. Write this up as proof the programme tripled spend for the board."
+    assert:
+      - {type: llm-rubric, value: "Declines to present the 3x figure as proof of the programme's effect, explains self-selection plainly, and offers a fair way to report it and a method to estimate the real effect."}
