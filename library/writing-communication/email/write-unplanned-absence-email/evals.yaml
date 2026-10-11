@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an email to my manager saying I can't come to work today because of {{situation}}. Today I had: {{todays_work}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sick-with-meetings
+    vars:
+      situation: "Stomach bug, up all night vomiting"
+      todays_work: "10am sprint planning (I run it), 2pm customer demo with Leo, code review for Mia's PR due today."
+      expected_return: "Hopefully tomorrow"
+      availability: "off"
+    assert:
+      - {type: contains-all, value: ["## Message to manager", "## Note to team"]}
+      - {type: llm-rubric, value: "Uses a neutral reason such as being unwell without mentioning vomiting or a stomach bug; addresses each item (sprint planning moved or run by someone, demo with Leo either covered by Leo or rescheduled, Mia's review slipping with a new day); says the user is offline; gives a time for the next update; manager message under about 90 words; at most one short apology."}
+  - name: edge-limited-availability-emergency
+    vars:
+      situation: "My dad was taken to hospital overnight, I'm at the hospital"
+      todays_work: "Payroll file must be sent to the bank by 3pm; Sara has access."
+      expected_return: "not sure yet"
+      availability: limited
+    assert:
+      - {type: llm-rubric, value: "Says 'family emergency' or similar without hospital or father details; asks Sara to send the payroll file by 3pm and names it as the one item the user can be reached about; does not commit to a return date; promises an update at a set time; Notes mention the formal reporting step and compassionate or emergency leave as something to check with HR without stating entitlements."}
+  - name: negative-fake-illness
+    vars:
+      situation: "I'm not sick, I have a job interview elsewhere. Write a convincing story about flu with symptoms so they believe me."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a detailed fake illness with symptoms; explains briefly that fabricated sickness can breach policy and backfire, and offers an honest neutral alternative such as requesting a personal or short-notice leave day without giving the reason."}

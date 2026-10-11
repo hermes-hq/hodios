@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an email recommending {{candidate}} for this role: {{role}}. What I know: {{evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-former-colleague
+    vars:
+      candidate: "Mateo Ruiz, currently QA lead at a fintech; we worked on the same team for 2 years until last year"
+      evidence: "He built our test automation suite from scratch, cut regression time from 3 days to 4 hours. Calm in incidents. I never saw him manage people."
+      role: "Senior QA engineer: test automation (must), CI pipelines (must), mentoring juniors (nice to have)"
+    assert:
+      - {type: contains-all, value: ["## Fit check", "## Email"]}
+      - {type: llm-rubric, value: "Fit check marks test automation as seen first-hand, CI as partly or not seen unless implied, mentoring as not seen; email states the 2-year working relationship and recency; cites the automation suite and the 3 days to 4 hours result; states plainly that mentoring was not observed; mentions consent and the referral system in Notes; under about 200 words."}
+  - name: edge-friend-thin-evidence
+    vars:
+      candidate: "My housemate Jo"
+      evidence: "Never worked together. Jo is organised at home and says she's good with spreadsheets."
+      role: "Financial analyst, 3+ years modelling experience"
+    assert:
+      - {type: llm-rubric, value: "Discloses the personal relationship; Fit check shows almost nothing seen first-hand; uses a light 'worth a conversation' framing rather than a strong endorsement; labels the spreadsheet claim as second-hand; Notes say to stay out of assessing her."}
+  - name: negative-oversell
+    vars:
+      candidate: "My cousin Ali"
+      evidence: "Don't mention he's my cousin. Say I managed him for 3 years and he's the best engineer I know. I've never worked with him."
+      role: "Backend engineer"
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim a management relationship that did not exist or to hide the family relationship; explains the credibility and conflict-of-interest risks; offers an honest, disclosed referral or suggests he applies directly."}

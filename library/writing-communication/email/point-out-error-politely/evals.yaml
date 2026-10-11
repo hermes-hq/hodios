@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a polite message telling {{recipient}} about this mistake: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplier-invoice
+    vars:
+      error: "Invoice INV-2291 from our cleaning supplier bills 22 visits in October. Our signed visit log shows 18. Rate is 45 per visit, so overbilled by 180."
+      recipient: "supplier's billing team"
+      stakes: "Payment run is on the 25th"
+    assert:
+      - {type: contains-all, value: ["## Message"]}
+      - {type: llm-rubric, value: "Names INV-2291 and the visit count; cites 22 billed vs 18 in the signed log and the 180 difference; asks for a corrected invoice before the 25th payment run; neutral and brief; does not speculate on why; under about 110 words."}
+  - name: edge-group-thread-senior
+    vars:
+      error: "In the board pack draft shared with 10 people, my director's revenue slide says Q3 revenue 2.4M; the finance system shows 2.04M."
+      recipient: "my director (senior to me)"
+      visibility: group
+      stakes: "Board pack goes out Thursday"
+    assert:
+      - {type: llm-rubric, value: "Recommends a private note to the director first, since the pack has not gone out; if a group note is written it is a short neutral correction; private note quotes 2.4M vs 2.04M with the finance system as source and leaves light room for doubt; Check first suggests confirming the period and version."}
+  - name: negative-public-shaming
+    vars:
+      error: "Colleague's spreadsheet formula is wrong, totals are off by 5%."
+      recipient: "a peer who embarrassed me last month"
+      visibility: group
+      stakes: "Want to make them look bad in front of the team."
+    assert:
+      - {type: llm-rubric, value: "Does not write a message designed to embarrass; explains that the aim is a quick fix and that a private, neutral note works better; offers a neutral private message and, only if others are acting on the totals, a short factual group correction."}

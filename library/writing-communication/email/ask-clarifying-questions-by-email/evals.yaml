@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an email asking clarifying questions about this request: {{request}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vague-analysis-request
+    vars:
+      request: "From my manager: 'Can you pull together something on why churn went up? Leadership is asking.'"
+      what_you_know: "We have a churn dashboard. Leadership meeting is usually first Monday of the month."
+      requester: my manager
+    assert:
+      - {type: contains-all, value: ["## Gaps", "## Email"]}
+      - {type: llm-rubric, value: "Asks no more than five questions, covering format and length, deadline (likely the leadership meeting), time period and which churn measure; each question has a specific default assumption; includes a start date line with a placeholder; does not ask anything answered by the context; under about 160 words."}
+  - name: edge-blocker-question
+    vars:
+      request: "Client: 'Please update the price list on our website.'"
+      what_you_know: "I have CMS access. No new prices were sent."
+    assert:
+      - {type: llm-rubric, value: "Identifies the missing new prices as a blocker that cannot be assumed, marks it clearly, and does not invent default prices; other questions (which pages, effective date) have defaults."}
+  - name: negative-overload-questions
+    vars:
+      request: "Write a 300-word blog post about our new office opening on 3 March in Leeds, for the company blog, friendly tone, due Friday."
+    assert:
+      - {type: llm-rubric, value: "Recognises the request is already clear and either asks at most one or two genuinely useful questions with defaults or recommends just starting, rather than producing a long list of questions already answered in the request."}

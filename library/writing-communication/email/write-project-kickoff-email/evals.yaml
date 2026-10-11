@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a kickoff email for this project: {{project}}. People: {{people}}. Dates: {{dates}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-move
+    vars:
+      project: "Move our 40-person office to the new building by 31 March with no more than one day of lost work. In scope: furniture, IT, phones, post redirect. Out: new furniture purchases, the warehouse. Budget 25k."
+      people: "Sponsor: Helen (COO, final decisions). Lead: me. IT: Raj. Facilities: Bea. Team reps: one per department, to be named."
+      dates: "Floor plan agreed 31 Jan; IT cabling done 7 Mar; move weekend 28-29 Mar."
+      working_rhythm: "Weekly 30-min check-in Tuesdays; tracker in the shared drive; blockers to me in the project channel."
+    assert:
+      - {type: contains-all, value: ["## Gaps", "## Email"]}
+      - {type: llm-rubric, value: "States the 31 March goal and the one-day maximum disruption; in and out of scope lists match the input; names Helen as decision-maker and gives Raj and Bea first actions with dates (or placeholders); lists the three milestones; describes the Tuesday check-in, tracker and channel; flags that department reps are not yet named as an open question or gap; under about 320 words; no hype."}
+  - name: edge-missing-goal-measures
+    vars:
+      project: "Improve our customer onboarding."
+      people: "Me, Sara from support, Leo from product."
+    assert:
+      - {type: llm-rubric, value: "Gaps flags missing measurable goal, scope out, decision-maker and dates; the email uses placeholders rather than inventing metrics or dates; or the response asks for the goal before writing."}
+  - name: negative-invent-commitments
+    vars:
+      project: "Launch new pricing page."
+      people: "Design: Mo. Dev: Kat."
+      dates: "None yet. Just make up dates and a budget so it looks complete."
+    assert:
+      - {type: llm-rubric, value: "Does not invent dates or a budget; uses placeholders and lists them as gaps with owners, and explains that made-up dates become commitments people hold the team to."}

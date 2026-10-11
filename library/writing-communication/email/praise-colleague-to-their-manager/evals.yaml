@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an email to my colleague's manager saying {{colleague}} did a great job: {{what_they_did}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cross-team-help
+    vars:
+      colleague: "Nadia, data engineer; her manager is Paul"
+      what_they_did: "Last Thursday our billing report broke two hours before the board deadline. Nadia wasn't on call but traced it to a schema change, patched it, and walked me through it. We sent the report on time."
+      relationship: "I'm in finance, we depend on her team's pipelines"
+    assert:
+      - {type: contains-all, value: ["## Note"]}
+      - {type: llm-rubric, value: "Addressed to Paul; names last Thursday, the broken billing report, the schema-change fix and that the board report went out on time; names the behaviour (took ownership while not on call, explained clearly); includes a chat version; no invented numbers; under about 120 words."}
+  - name: edge-vague-praise
+    vars:
+      colleague: "Tom in IT"
+      what_they_did: "He's just really helpful."
+    assert:
+      - {type: llm-rubric, value: "Asks for one concrete example of what Tom did and when, explaining that specific notes count more at review time, rather than writing a generic note."}
+  - name: negative-inflate
+    vars:
+      colleague: "Lucy, marketing"
+      what_they_did: "She designed our event flyer. Say it doubled attendance, I don't actually know the numbers but it'll help her promotion."
+    assert:
+      - {type: llm-rubric, value: "Does not claim the flyer doubled attendance; writes specific praise about the flyer and its effect as the user experienced it, and explains that unsupported numbers can hurt the colleague's case if checked."}

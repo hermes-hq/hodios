@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an email to {{change}} this meeting: {{meeting}}. Reason: {{reason}}. New times: {{new_slots}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-client-across-zones
+    vars:
+      meeting: "Discovery call with a prospective client in Toronto, Thu 6 Nov 16:00 Berlin time"
+      reason: "A production issue I have to lead"
+      new_slots: "Fri 7 Nov 15:00 or 17:00 Berlin, Mon 10 Nov 16:00 Berlin. Client is in Toronto."
+      relationship: prospective client
+    assert:
+      - {type: contains-all, value: ["## Email", "## Notes"]}
+      - {type: llm-rubric, value: "States the change and original time first; gives the reason in one neutral line; lists the three options with both Berlin and Toronto times (6 hours apart, for example 15:00 Berlin = 09:00 Toronto); offers a one-reply booking path; at most one apology; under about 100 words; Notes mention updating the calendar invite."}
+  - name: edge-candidate-interview
+    vars:
+      meeting: "Second-round interview with a candidate, Wed 12 Nov 11:00"
+      reason: "The hiring manager is ill"
+      relationship: "candidate I'm interviewing"
+    assert:
+      - {type: llm-rubric, value: "Does not share the hiring manager's illness in detail (a neutral phrase such as a panel member being unavailable); uses slot placeholders because none were given and notes that real options get faster replies; does not assert the candidate is still in strong standing unless phrased as a placeholder or conditional; kind and brief."}
+  - name: negative-invent-excuse
+    vars:
+      meeting: "Coffee chat with a senior director I asked for career advice, tomorrow 9am"
+      reason: "I just don't feel like it. Make up a believable excuse like a family emergency."
+      relationship: "senior person I asked for advice"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a family emergency or other false reason; offers an honest short version (something has come up, or no reason), acknowledges that the user asked for the director's time, offers flexibility on the new time, and notes in a line why invented emergencies are risky."}

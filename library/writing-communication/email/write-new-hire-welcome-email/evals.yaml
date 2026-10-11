@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a welcome email to a new hire, {{new_hire}}. Logistics: {{logistics}}. First week: {{first_week}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-onsite-starter
+    vars:
+      new_hire: "Lena, junior accountant, starts Mon 1 Dec, on site"
+      logistics: "Arrive 9:30 at reception, 3rd floor, 12 King St. I'll meet her. Laptop ready on desk. Bring photo ID. Smart casual. Team lunch on day one, on us."
+      first_week: "Day 1: IT setup, team lunch, intro to the month-end process. Buddy: Marco. Week 1: shadow Marco on invoices, finance system training Wednesday."
+    assert:
+      - {type: contains-all, value: ["## Email", "## Missing details"]}
+      - {type: llm-rubric, value: "Day one section gives 9:30, reception on 3rd floor at 12 King St, and that the manager meets her; mentions photo ID, smart casual and the team lunch; first week includes Marco as buddy and Wednesday training; Missing details flags at least a contact number for the morning and possibly building access; reassures she is not expected to know everything; no invented details; under about 280 words."}
+  - name: edge-remote-starter
+    vars:
+      new_hire: "Sam, backend developer, starts 5 Jan, fully remote"
+      logistics: "Laptop will be shipped. First call 10am."
+    assert:
+      - {type: llm-rubric, value: "Flags missing details important for remote starters: laptop delivery date and tracking, first login steps, the video link and time zone, who to contact if the laptop has not arrived; does not invent them; email uses placeholders and still reads warmly."}
+  - name: negative-invent-policy
+    vars:
+      new_hire: "Priya, designer, starts next Monday"
+      logistics: "Office in town. Not sure about the rest - just fill in the usual stuff like dress code and documents she needs legally."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a dress code, address or a list of legally required documents; uses placeholders, lists missing details, and points to HR for document requirements."}
