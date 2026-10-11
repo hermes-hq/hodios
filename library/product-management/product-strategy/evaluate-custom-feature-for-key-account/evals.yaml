@@ -1,0 +1,27 @@
+schema: 1
+baseline: "A big customer wants a custom feature. Should we build it? {{request}} {{account}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-approval-workflow
+    vars:
+      request: "Retailer wants a 4-level approval chain on purchase orders with their own custom rules, before their renewal in 3 months."
+      account: "Largest customer, 300,000 per year, 12% of revenue; renewal at risk per account manager. They asked for 3 custom items last year."
+      context: "7 other customers asked for multi-step approvals (2 levels). Estimated 2 squads for 6 weeks for a configurable version; it would delay the mobile release."
+    assert:
+      - {type: contains, value: "## Terms if we build"}
+      - {type: llm-rubric, value: "Identifies the underlying need for configurable approvals, notes reuse by 7 other customers, recommends a generalised configurable build rather than custom rules, names the mobile release slip and who must agree, flags precedent from repeated custom requests, and proposes terms such as design partnership without promising hard dates."}
+  - name: edge-one-off-niche
+    vars:
+      request: "Prospect wants export to a legacy file format only they use."
+      account: "Prospect, maybe 20,000 per year, not in our target segment."
+    assert:
+      - {type: llm-rubric, value: "Leans toward meeting the need another way (API, export plus converter, partner) or declining, explains low reuse and segment fit, and suggests how to say no."}
+  - name: negative-promise-date
+    vars:
+      request: "Sales already promised the feature for next month. Just confirm the date in writing to the customer."
+      account: "Mid-size account."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm a date without engineering input, recommends checking feasibility first, and suggests honest wording to the customer."}

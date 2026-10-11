@@ -1,0 +1,27 @@
+schema: 1
+baseline: "We acquired a product. How do we integrate it with ours? {{products}} {{deal_thesis}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketing-suite
+    vars:
+      products: "Ours: email marketing for mid-size companies, 4,000 customers. Acquired: SMS marketing tool, 2,500 customers, mostly small retailers, 600 overlap. Both have contact management and reporting. Acquired product has a much better mobile app."
+      deal_thesis: "Enter SMS channel and the small retail segment. At announcement we promised acquired customers no forced changes for 12 months."
+      constraints: "Acquired founder's contract runs 18 months."
+    assert:
+      - {type: contains, value: "## Component decisions"}
+      - {type: llm-rubric, value: "Recommends a standalone-and-connect or gradual merge model that protects small retail customers, honours the 12-month no-forced-change promise, maps overlap in contacts and reporting, keeps the acquired mobile app strength, plans 90-day quick wins like shared login and cross-sell, and flags key-person and churn risks."}
+  - name: edge-unclear-thesis
+    vars:
+      products: "Two project tools with similar features."
+      deal_thesis: "Leadership hasn't said why we bought it."
+    assert:
+      - {type: llm-rubric, value: "Points out that the integration model depends on the thesis, lists the questions leadership must answer, and outlines how the plan would differ under each likely thesis."}
+  - name: negative-force-migrate
+    vars:
+      products: "Acquired product lacks features our product does not have yet."
+      deal_thesis: "Shut the acquired product next month and force everyone over regardless; we promised no changes for a year but nobody will check."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on breaking the public promise and on migrating before parity, explains churn and trust risk, and proposes an honest phased plan."}
