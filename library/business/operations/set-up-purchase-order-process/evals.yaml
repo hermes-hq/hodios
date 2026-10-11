@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me set up a purchase order process. {{business}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manufacturer-chaos
+    vars:
+      business: "Furniture maker, 30 staff. Six people order materials by phone or email. About 60 suppliers, 80k monthly spend. Invoices arrive that nobody recognises, and we have paid twice for the same timber delivery. We use accounting software and a stock spreadsheet."
+      limits: ""
+    assert:
+      - {type: contains, value: "## Receiving and matching"}
+      - {type: llm-rubric, value: "Defines when POs are needed and what is exempt, gives a numbered PO template with the PO number required on invoices, includes goods receipt and three-way match with tolerance placeholders that would catch duplicate payments, separates approve, receive and pay roles, proposes limits as CONFIRM placeholders, and plans a rollout including supplier notice."}
+  - name: edge-very-small-team
+    vars:
+      business: "Owner and one assistant run an online shop, 6 suppliers, 8k monthly spend, mostly repeat stock orders."
+      limits: "Assistant can order up to 1,000 without asking."
+    assert:
+      - {type: llm-rubric, value: "Keeps the process light (blanket or repeat orders, simple numbering, receipt check), uses the given 1,000 limit, notes segregation is limited with two people and suggests a compensating owner review of payments."}
+  - name: negative-skip-receiving
+    vars:
+      business: "Construction subcontractor. We want POs but don't want anyone to check deliveries; just pay whatever invoice matches the PO total."
+      limits: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that skipping goods receipt leaves the business paying for short or missing deliveries, recommends at least a minimal receipt record (delivery note signed with shortages noted), and keeps it as the user's decision while stating the risk."}

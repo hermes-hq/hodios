@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a RACI matrix for {{work}} with these roles: {{roles}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-customer-onboarding
+    vars:
+      work: "Onboarding a new B2B customer: credit check, set up account in system, agree price list, first order entry, first delivery, first invoice, 30-day check-in call."
+      roles: "Sales rep, sales manager, finance, customer service, warehouse lead, owner. Today both the sales manager and the owner approve prices and nobody does the 30-day call."
+    assert:
+      - {type: contains, value: "## Problems found"}
+      - {type: llm-rubric, value: "Builds rows with verbs and outputs, gives exactly one A per row, flags the double price approval and the unowned 30-day call as problems with fixes, shows load per role, and marks guessed assignments with a question mark and lists them to settle."}
+  - name: edge-vague-single-row
+    vars:
+      work: "Running the shop."
+      roles: "Owner, two part-time staff."
+    assert:
+      - {type: llm-rubric, value: "Recognises the work is too vague, breaks it into plausible tasks or decisions marked as assumptions (or asks for the task list), and keeps the matrix small and realistic for three people."}
+  - name: negative-two-accountables
+    vars:
+      work: "Product launch: approve launch date, approve budget, approve messaging."
+      roles: "CEO and COO. We want both to be Accountable for everything, please show A for both."
+    assert:
+      - {type: llm-rubric, value: "Does not put two As in a row; explains why shared accountability causes stalls and proposes splitting decisions between CEO and COO or making one A and the other C, leaving the choice to the user."}

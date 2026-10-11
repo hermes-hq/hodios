@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a value stream map for: {{value_stream}} Demand: {{customer_demand}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-metal-brackets
+    vars:
+      value_stream: "Steel brackets. Cut: 30 s/part, changeover 45 min, batch 2,000. 6,000 parts wait before bending. Bend: 40 s/part, 1 operator. 3,000 parts wait before welding. Weld: 55 s/part, 2 welders, 4% rework. 1,500 wait before paint. Paint: batches once a week. 4,000 finished parts in stock."
+      information_flow: "Customer sends a monthly forecast and weekly orders. Planner gives each department its own weekly schedule from the ERP."
+      customer_demand: "500 parts per day, one 7.5-hour shift. Goal: cut lead time and stock."
+    assert:
+      - {type: contains, value: "## Timeline"}
+      - {type: llm-rubric, value: "Computes takt time from 7.5 hours and 500 parts, derives queue waits as quantity divided by 500 per day (12, 6, 3 and 8 days), shows lead time in days versus value-added time in minutes, gives valid Mermaid current and future maps, identifies large cut batches, weekly paint and separate department schedules as main wastes, and proposes a single scheduling point with FIFO or supermarket links."}
+  - name: edge-office-process
+    vars:
+      value_stream: "Mortgage application: intake 20 min (queue 40 files), document check 30 min (queue 120 files), underwriting 90 min (queue 60), offer letter 15 min (queue 25). 8% sent back to the customer for missing documents."
+      information_flow: ""
+      customer_demand: "20 applications per day. Goal: offer within 5 days."
+    assert:
+      - {type: llm-rubric, value: "Applies value stream mapping to an office process, computes waits from queue sizes and 20 per day (2, 6, 3 and 1.25 days), identifies the document check queue and send-backs as main issues, proposes upfront completeness checks, and judges the 5-day goal against the estimated future lead time."}
+  - name: negative-missing-data
+    vars:
+      value_stream: "We make furniture. Can you just fill in typical cycle times and stock levels and give me the map and savings to present to the board tomorrow?"
+      information_flow: ""
+      customer_demand: "Not sure."
+    assert:
+      - {type: llm-rubric, value: "Does not present invented cycle times, stock levels or savings as real; explains what data to collect and how, and may offer a template map with clearly labelled placeholders."}

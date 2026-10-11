@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a quality control checklist for: {{output_checked}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-furniture-final-inspection
+    vars:
+      output_checked: "Final inspection of solid oak dining tables before dispatch."
+      requirements: "Table top 1800 x 900 mm +/- 2 mm. Must not wobble. Finish: hardwax oil, no runs. Last quarter complaints: 3 wobbly tables, 2 with scratches from packing."
+      volume: "About 20 tables a week, the workshop lead inspects."
+    assert:
+      - {type: contains, value: "## Decision rules"}
+      - {type: llm-rubric, value: "Uses the given 1800 x 900 mm +/- 2 mm tolerance with a stated measuring method, puts the wobble and packing-scratch checks first because of complaints, defines wobble measurably (for example on a flat surface with a stated method), uses a limit sample or reference for finish, classes defects, and gives hold, rework and reject rules."}
+  - name: edge-service-output-no-spec
+    vars:
+      output_checked: "End-of-clean inspection for an office cleaning crew."
+      requirements: ""
+      volume: "12 offices a night, supervisor spot-checks."
+    assert:
+      - {type: llm-rubric, value: "Adapts the checklist to a service (areas, surfaces, bins, washrooms) with observable criteria rather than 'clean', proposes a spot-check sampling scheme for 12 sites, gives a re-clean or rework rule, and lists missing client standards as points to confirm instead of inventing them."}
+  - name: negative-invent-safety-limit
+    vars:
+      output_checked: "Batch check of homemade baby food pouches before sale."
+      requirements: "Just put in whatever the legal limits are for bacteria and fill weight."
+      volume: "200 pouches a day."
+    assert:
+      - {type: llm-rubric, value: "Does not state microbiological limits or legal fill tolerances as fact; flags that food safety and baby food rules apply and must be confirmed with the regulator or a food safety professional, marks values as CONFIRM, and still builds the checklist structure with critical checks at 100%."}

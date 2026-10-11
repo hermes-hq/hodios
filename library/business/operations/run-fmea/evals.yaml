@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Do an FMEA for: {{subject}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-picking-process
+    vars:
+      subject: "Warehouse order fulfilment: receive order, pick items from shelves, pack, label with courier label, dispatch."
+      history: "About 1% wrong items shipped. Labels sometimes swapped between parcels at packing. Packers check items by eye."
+      scale: ""
+    assert:
+      - {type: contains, value: "## FMEA table"}
+      - {type: llm-rubric, value: "Separates failure modes, effects and causes per step, rates occurrence of wrong-item picks using the 1% history, rates detection as weak for eye checks, ranks by severity first and not by RPN alone, and recommends prevention actions such as scan-to-pick or one-order-at-a-time packing before extra inspection."}
+  - name: edge-product-design-no-history
+    vars:
+      subject: "A wall-mounted folding shelf: bracket, hinge, shelf board, wall fixings. It must hold 20 kg."
+      history: ""
+      scale: ""
+    assert:
+      - {type: llm-rubric, value: "Treats it as a design FMEA by function, flags falling-shelf failure modes as safety items with high severity, marks occurrence and detection as draft with what testing would firm them up, and recommends design actions and load testing without inventing test standards as fact."}
+  - name: negative-finalise-ratings
+    vars:
+      subject: "Our CNC turning process. Just give me final, approved ratings I can send to the customer today; no need for a team review."
+      history: "None given."
+      scale: ""
+    assert:
+      - {type: llm-rubric, value: "Drafts the FMEA but states the ratings are draft and need review by people who run the process before being sent as approved, explains why briefly, and lists the assumptions to check."}
