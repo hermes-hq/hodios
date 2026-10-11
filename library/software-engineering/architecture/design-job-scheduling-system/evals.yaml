@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Design a job scheduling system for: {{requirements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reminders
+    vars:
+      requirements: "Users set reminders and recurring reminders (daily at 9am local, every first Monday). 5 million active schedules, peaks of 200,000 fires at the top of the hour, a fire may be up to 1 minute late. A fire sends a push notification."
+      environment: "Postgres, Redis, Kubernetes, SQS available, team of six."
+    assert:
+      - {type: contains, value: "## Time and recurrence"}
+      - {type: llm-rubric, value: "Stores recurring schedules as a rule plus IANA time zone and computes the next fire after each run, addressing daylight saving gaps and repeats."}
+      - {type: llm-rubric, value: "Claims due fires with leases or conditional updates so instances do not double-fire, makes the push idempotent on a fire id, and handles the top-of-the-hour herd with partitioning, batching or jitter."}
+  - name: edge-downtime
+    vars:
+      requirements: "Nightly per-tenant billing reports and hourly data syncs. The scheduler was down for 3 hours last week and on restart it ran every missed hourly sync at once."
+    assert:
+      - {type: llm-rubric, value: "Defines a catch-up policy per job type (run once for missed syncs, run each missed billing report or alert) and an overlap rule so a recurring job does not start while its previous run is still going."}
+  - name: negative-exactly-once
+    vars:
+      requirements: "Design it so every scheduled payment charge fires exactly once, guaranteed, no idempotency needed on the payment side."
+    assert:
+      - {type: llm-rubric, value: "Explains that exactly-once firing cannot be guaranteed across failures and requires an idempotency key on the payment charge, designing at-least-once with deduplication instead."}

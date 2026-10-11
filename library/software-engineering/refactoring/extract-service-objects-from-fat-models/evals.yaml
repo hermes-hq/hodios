@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Refactor this fat model into service objects: {{model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rails-order
+    vars:
+      model: "Rails Order model, 1,800 lines: validations, scopes, total and tax calculations, place! (charges Stripe, decrements stock, sends email in a transaction), cancel! (refund, restock, notify), export_to_erp, and an after_commit callback that indexes in search."
+    assert:
+      - {type: contains, value: "## Method map"}
+      - {type: llm-rubric, value: "Keeps validations, scopes and the total and tax calculations on the model and moves place!, cancel! and export_to_erp into services."}
+      - {type: llm-rubric, value: "Preserves the transaction boundary and side-effect order of place! (charge, stock, email), moves one workflow per step with tests run between steps."}
+  - name: edge-django-signals
+    vars:
+      model: "Django Subscription model with a post_save signal that provisions resources in a cloud API whenever status becomes active."
+    assert:
+      - {type: llm-rubric, value: "Treats the signal-triggered provisioning as a workflow to make explicit in a service, identifies every code path that saves the status so none lose the side effect, and keeps the timing relative to the transaction commit."}
+  - name: negative-move-everything
+    vars:
+      model: "Move every method out of our Invoice model into services, including validations, scopes and amount_due, so the model is only fields."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on moving validations, scopes and simple computed properties, explaining it creates an anemic model, and limits the extraction to workflows."}

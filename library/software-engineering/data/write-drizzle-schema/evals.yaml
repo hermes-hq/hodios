@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a Drizzle schema for: {{data_model}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas
+    vars:
+      data_model: "Organizations, users who belong to one organization, and projects owned by organizations with a monthly budget. Deleting an organization deletes its projects but users must be detached, not deleted."
+      database: "Postgres with node-postgres behind a transaction-mode pooler"
+    assert:
+      - {type: contains, value: "## Migration workflow"}
+      - {type: llm-rubric, value: "Uses .references() with onDelete cascade for projects and set null for users, indexes the foreign key columns, and stores the budget as numeric or integer minor units rather than a floating type."}
+      - {type: llm-rubric, value: "Distinguishes relations() (query API only) from real foreign keys, and uses generated, reviewed migrations applied over a direct connection rather than push."}
+  - name: edge-sqlite
+    vars:
+      data_model: "Add a non-null priority column with default 'normal' to an existing tasks table that has rows."
+      database: "SQLite (libSQL)"
+    assert:
+      - {type: llm-rubric, value: "Uses the SQLite table builder and checks the generated migration handles the existing rows with a default (or a table rebuild if SQLite cannot alter it in place), reviewing the SQL before applying."}
+  - name: negative-push-prod
+    vars:
+      data_model: "Rename column title to name on posts. We run drizzle-kit push against production in CI, keep that."
+      database: "Postgres production"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on push against production because a rename can become a drop and add that loses data, and recommends a reviewed generated migration applied at deploy."}

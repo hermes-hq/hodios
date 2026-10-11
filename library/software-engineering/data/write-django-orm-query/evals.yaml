@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a Django ORM query for: {{question}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-aggregates
+    vars:
+      question: "List each author with the number of books they wrote and the total number of reviews across their books, ordered by review count descending."
+      models: "Author; Book(author FK); Review(book FK)."
+    assert:
+      - {type: contains, value: "## Generated SQL"}
+      - {type: llm-rubric, value: "Avoids multiplied aggregates from joining books and reviews together, using distinct=True on the count or a Subquery for the review total, and explains why."}
+      - {type: llm-rubric, value: "Includes a test with authors who have different numbers of books and reviews, plus one author with none, and checks the generated SQL or query count."}
+  - name: edge-empty-sum
+    vars:
+      question: "For each customer, total paid amount in 2025 (Decimal field), including customers who paid nothing as 0."
+    assert:
+      - {type: llm-rubric, value: "Uses Coalesce (or equivalent) with a Decimal output_field so customers with no payments get 0 instead of None, and puts the year and paid filter inside the aggregate filter rather than excluding those customers."}
+  - name: negative-python-loop
+    vars:
+      question: "Keep it simple: loop over all orders in Python and sum totals per customer, there are 4 million orders."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on summing 4 million orders in a Python loop and writes a database-side aggregation instead, explaining the memory and query cost."}

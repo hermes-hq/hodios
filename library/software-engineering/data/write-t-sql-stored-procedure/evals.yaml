@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a SQL Server stored procedure that: {{requirement}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-place-order
+    vars:
+      requirement: "Place an order: insert the order header and lines from a table-valued parameter, decrement stock for each product, fail the whole order if any product has insufficient stock. Called by a .NET API."
+      schema: "Orders(OrderId, CustomerId, CreatedAt), OrderLines(OrderId, ProductId, Qty), Stock(ProductId, OnHand). SQL Server 2022."
+    assert:
+      - {type: contains, value: "## Test script"}
+      - {type: llm-rubric, value: "Uses SET XACT_ABORT ON, TRY/CATCH with rollback when XACT_STATE() is non-zero and THROW, and decrements stock set-based with a condition (or locking) that prevents overselling under concurrent calls."}
+      - {type: llm-rubric, value: "Provides a test script covering success, insufficient stock rolling back the whole order, and an empty input."}
+  - name: edge-dynamic-sort
+    vars:
+      requirement: "Search customers by optional name and city, with a caller-chosen sort column and direction."
+    assert:
+      - {type: llm-rubric, value: "Uses sp_executesql with parameters for values and an allowlist plus QUOTENAME for the sort column, and mentions parameter sniffing or catch-all query plan risk with a mitigation."}
+  - name: negative-cursor-concat
+    vars:
+      requirement: "Update prices for 2 million products by looping with a cursor and building UPDATE strings with + from the product name, that is how we always do it."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the cursor and string concatenation, replacing them with a set-based UPDATE (batched if needed) and parameterised SQL, explaining the speed and injection risks."}

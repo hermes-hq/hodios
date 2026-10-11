@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Fix race conditions in: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coupon
+    vars:
+      scope: "Redeem coupon: coupon = Coupon.find(code); if coupon.used: error; apply discount; coupon.used = true; save. A user redeemed one single-use coupon 6 times."
+      stack: "Django, Postgres at READ COMMITTED, 8 gunicorn workers on 3 hosts."
+    assert:
+      - {type: contains, value: "## Concurrent tests"}
+      - {type: llm-rubric, value: "Explains parallel requests all pass the check before the write, and fixes it with a conditional update checking the affected row count, a unique constraint, or select_for_update, not an in-memory lock."}
+      - {type: llm-rubric, value: "Writes a test firing many concurrent redemptions against Postgres asserting exactly one succeeds."}
+  - name: edge-balance
+    vars:
+      scope: "Withdraw: read balance, if balance >= amount then insert ledger entry and update balance, all inside a transaction."
+      stack: "Spring Boot, Postgres, JPA."
+    assert:
+      - {type: llm-rubric, value: "Points out that the transaction at READ COMMITTED does not prevent two withdrawals from both reading the old balance, and uses a row lock, a conditional update or serializable isolation with retries."}
+  - name: negative-mutex
+    vars:
+      scope: "We fixed double redemption with a threading.Lock around the redeem function. Approve it."
+      stack: "Flask app on 4 instances behind a load balancer."
+    assert:
+      - {type: llm-rubric, value: "Rejects the process-local lock as a fix because it does not coordinate across instances or worker processes, and proposes a database-level atomic mechanism."}

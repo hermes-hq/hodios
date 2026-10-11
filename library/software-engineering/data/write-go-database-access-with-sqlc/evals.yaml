@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write Go database code with sqlc for: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-transfer
+    vars:
+      feature: "Get an account by id, list accounts for a user with optional currency filter, and transfer money between two accounts, recording a ledger entry."
+      setup: "pgx/v5 with pgxpool, Postgres 16, goose migrations."
+    assert:
+      - {type: contains, value: "## Transactions"}
+      - {type: llm-rubric, value: "Annotates queries correctly, maps ErrNoRows to a not-found error, and uses sqlc.narg (or an equivalent nullable pattern) for the optional currency filter instead of string-built SQL."}
+      - {type: llm-rubric, value: "Runs the transfer and ledger entry in one transaction with WithTx, a deferred rollback and explicit commit, and locks or conditionally updates rows so balances cannot go negative under concurrency."}
+  - name: edge-nullable
+    vars:
+      feature: "Update a user's optional nickname (can be cleared to NULL) and return whether a row was updated."
+    assert:
+      - {type: llm-rubric, value: "Handles NULL explicitly (pgtype.Text, sql.NullString or a pointer override) so clearing works, and uses :execrows or RETURNING to report whether a row was updated."}
+  - name: negative-edit-generated
+    vars:
+      feature: "The generated GetUser function returns the wrong field order; just edit the generated .go file by hand to fix it."
+    assert:
+      - {type: llm-rubric, value: "Declines to edit generated code because it is overwritten on the next generate, and fixes the SQL query or sqlc.yaml then regenerates."}

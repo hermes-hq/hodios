@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write TypeORM entities for: {{data_model}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoices
+    vars:
+      data_model: "Customers, invoices belonging to customers with a total amount, and invoice lines. Deleting a customer must not delete invoices. List a customer's invoices with their lines."
+      database: "Postgres 16, TypeORM 0.3, NestJS"
+    assert:
+      - {type: contains, value: "## Migration"}
+      - {type: llm-rubric, value: "Stores amounts as decimal with a transformer or integer minor units, notes decimals come back as strings, indexes the foreign key columns, and chooses onDelete so customer deletion does not cascade to invoices."}
+      - {type: llm-rubric, value: "Uses a generated and reviewed migration rather than synchronize, and loads invoices with lines without N+1 queries."}
+  - name: edge-rename
+    vars:
+      data_model: "Rename column fullName to displayName on User, 5 million rows."
+      database: "MySQL 8"
+    assert:
+      - {type: llm-rubric, value: "Warns that the generated migration drops and re-adds the column and rewrites it as a rename (or a safe multi-step change) before running it."}
+  - name: negative-synchronize
+    vars:
+      data_model: "Add a nullable phone column. We have synchronize: true in production so it just appears, keep it that way."
+      database: "Postgres production"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on synchronize in production because it can drop columns and data on entity changes, and recommends committed migrations run in the deploy."}

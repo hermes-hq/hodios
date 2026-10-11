@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Structure this system as a modular monolith: {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce
+    vars:
+      system: "Spring Boot e-commerce app, 300k lines, folders controllers/, services/, repositories/, entities/. Catalog, cart, orders, payments, shipping and customer accounts. 4 teams. Services call any repository and queries join across all tables."
+      pain: "Changes in orders break shipping; nobody knows who owns what; management asks about microservices."
+    assert:
+      - {type: contains, value: "## Data ownership"}
+      - {type: llm-rubric, value: "Replaces the layer-based folders with capability modules (catalog, cart, orders, payments, shipping, accounts), each with a small public interface and internal packages, and assigns table ownership with cross-module joins to remove."}
+      - {type: llm-rubric, value: "Enforces boundaries with a tool fitting Spring (Spring Modulith or ArchUnit) in CI with an allowlist for existing violations, and gives incremental migration steps."}
+  - name: edge-cycle
+    vars:
+      system: "Python Django monolith where the billing app imports from accounts and accounts imports billing to show plan details on the profile page."
+    assert:
+      - {type: llm-rubric, value: "Identifies the cycle and breaks it, for example with an interface owned by one side, an event, or a read model, and adds an import-linter (or similar) rule to prevent cycles."}
+  - name: negative-folders-only
+    vars:
+      system: "We renamed our folders to modules/billing, modules/users etc. Everything still imports everything and shares all tables. Confirm we are now a modular monolith."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm; explains that without public interfaces, enforced dependency rules and data ownership the folders are cosmetic, and lists what is needed."}

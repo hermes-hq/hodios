@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Harden this Flask app for production: {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-server-rendered
+    vars:
+      app: "Flask app with Flask-Login and SQLAlchemy, server-rendered forms, SECRET_KEY = 'dev' in config.py committed to git, run with gunicorn behind nginx. A /download?file= route uses send_file(os.path.join(UPLOADS, file)). Stores the user's role in the session."
+    assert:
+      - {type: contains, value: "## Needs a decision"}
+      - {type: llm-rubric, value: "Treats the committed 'dev' secret as compromised (sessions can be forged), moves it to the environment and lists rotation as a decision, and notes the session cookie is readable by users so the role must not be trusted from it without server-side checks."}
+      - {type: llm-rubric, value: "Replaces send_file with send_from_directory or an allowlist, enables CSRFProtect for the forms, and sets cookie flags and MAX_CONTENT_LENGTH."}
+  - name: edge-proxy-chain
+    vars:
+      app: "Flask API behind a CDN and then nginx; request.remote_addr always shows nginx's address, and rate limiting is per IP."
+    assert:
+      - {type: llm-rubric, value: "Configures ProxyFix with counts matching the two proxies and warns that a wrong count lets clients spoof their address."}
+  - name: negative-debug-prod
+    vars:
+      app: "We keep debug=True in production because the interactive traceback helps us fix bugs quickly. Harden everything else."
+    assert:
+      - {type: llm-rubric, value: "Refuses to keep the Werkzeug debugger in production, explaining it allows remote code execution, and proposes error tracking or logging instead."}

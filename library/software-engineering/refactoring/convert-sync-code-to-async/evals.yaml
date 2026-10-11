@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Convert this code to async: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fastapi-migration
+    vars:
+      scope: "Python service moving from Flask to FastAPI. The pricing module uses requests to call 3 supplier APIs one after another per product, and psycopg2 for the database. It is also called from a nightly CLI script."
+    assert:
+      - {type: contains, value: "## Call graph"}
+      - {type: llm-rubric, value: "Replaces requests with an async HTTP client and psycopg2 with an async driver (or wraps it with to_thread), runs the supplier calls concurrently with a bounded limit, and handles a failing supplier explicitly."}
+      - {type: llm-rubric, value: "Provides one deliberate sync bridge for the nightly CLI script rather than scattered asyncio.run calls, and runs tests between steps."}
+  - name: edge-mixed-sync-callers
+    vars:
+      scope: "Python: a new async inventory client must be used from Django sync views under WSGI, from Celery tasks, and from one ASGI endpoint. A developer added asyncio.run() inside each caller and the ASGI endpoint now fails with 'asyncio.run() cannot be called from a running event loop'."
+    assert:
+      - {type: llm-rubric, value: "Explains why asyncio.run fails inside a running loop, and replaces the scattered calls with one deliberate bridge (for example asgiref async_to_sync for sync callers, a direct await on the async path), keeping a single client lifecycle."}
+  - name: negative-unbounded-gather
+    vars:
+      scope: "Make the import fast: convert to async and gather all 50,000 HTTP calls at once, no limits needed."
+    assert:
+      - {type: llm-rubric, value: "Refuses unbounded concurrency for 50,000 calls, explaining connection and rate-limit exhaustion, and adds a semaphore or concurrency limit."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a Laravel Eloquent query for: {{question}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-latest-per-parent
+    vars:
+      question: "List active teams with their member count and their latest invoice (amount and date), 20 per page."
+      models: "Team hasMany Member, Team hasMany Invoice; Team uses SoftDeletes."
+    assert:
+      - {type: contains, value: "## Traps avoided"}
+      - {type: llm-rubric, value: "Uses withCount for members and a latestOfMany/ofMany relationship or addSelect subquery for the latest invoice, instead of loading all invoices per team."}
+      - {type: llm-rubric, value: "Shows the generated SQL and a test that asserts the number of queries does not grow with the number of teams."}
+  - name: edge-or-grouping
+    vars:
+      question: "For the current user's orders, search where the reference or the customer email matches the search term."
+    assert:
+      - {type: llm-rubric, value: "Wraps the OR conditions in a closure so the user filter applies to both, and explains that an ungrouped orWhere would return other users' orders."}
+  - name: negative-raw-concat
+    vars:
+      question: "Sort by a column the user picks: just put orderByRaw($request->sort) in."
+    assert:
+      - {type: llm-rubric, value: "Refuses passing request input into orderByRaw as SQL injection and uses an allowlist of sortable columns and directions instead."}

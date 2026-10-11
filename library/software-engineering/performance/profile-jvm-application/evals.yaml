@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Profile and speed up this Java service: {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-high-alloc
+    vars:
+      symptom: "Spring Boot 3 order API on JDK 21: p99 went from 120 ms to 600 ms after adding audit logging. GC time is 15% of CPU. Runs in containers with 2 CPUs and 2 GB."
+    assert:
+      - {type: contains, value: "## Capture plan"}
+      - {type: llm-rubric, value: "Captures an allocation profile (JFR or async-profiler alloc mode) after warm-up and looks for allocation sites in the new audit logging, rather than tuning GC flags first."}
+      - {type: llm-rubric, value: "Measures before and after under the same load and reports the change in allocation rate or latency."}
+  - name: edge-waiting-not-cpu
+    vars:
+      symptom: "Batch job is slow but CPU usage is only 10%. A CPU flame graph shows nothing obvious."
+      profile: "async-profiler CPU mode flame graph, mostly idle."
+    assert:
+      - {type: llm-rubric, value: "Explains that CPU mode misses time spent waiting and switches to wall-clock mode or JFR thread states to find I/O, database or lock waits."}
+  - name: negative-warmup
+    vars:
+      symptom: "I profiled the first 20 seconds after startup and the interpreter frames dominate; tell me which methods to rewrite."
+    assert:
+      - {type: llm-rubric, value: "Points out the profile covers JIT warm-up and is not representative, and asks to re-profile under steady load before choosing methods to change."}
