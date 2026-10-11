@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do we reduce our BigQuery bill? {{usage}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dashboard-scans
+    vars:
+      usage: "On-demand pricing. 70 percent of bytes billed come from a Looker service account running SELECT * FROM analytics.events WHERE DATE(event_ts) = CURRENT_DATE() every 10 minutes. events is 40 TB, partitioned by ingestion time, not clustered. Analysts often query with LIMIT 100 to preview."
+      context: "Dashboards should refresh at least hourly."
+    assert:
+      - {type: contains, value: "## Savings ranked"}
+      - {type: llm-rubric, value: "Identifies select-star and the filter on event_ts not pruning an ingestion-time partitioned table, and proposes partitioning on the event date with clustering and selecting only needed columns."}
+      - {type: llm-rubric, value: "Proposes a summary table or materialised view for the dashboard with a less frequent refresh, explains that LIMIT does not reduce bytes billed, and adds maximum bytes billed or quotas."}
+  - name: edge-editions-pricing
+    vars:
+      usage: "Enterprise edition with a 500-slot baseline reservation and autoscaling to 1,500; slot utilisation averages 20 percent outside a 2-hour nightly batch."
+    assert:
+      - {type: llm-rubric, value: "Focuses on slot usage and reservation sizing (baseline too high for the idle hours) rather than bytes scanned, and proposes measuring utilisation before changing the baseline."}
+  - name: negative-quote-prices
+    vars:
+      usage: "Tell me exactly how many dollars per TB we pay and the exact saving in dollars, I don't have our billing export."
+    assert:
+      - {type: llm-rubric, value: "Does not state exact prices or dollar savings as fact without billing data, and gives the queries or billing export steps needed to compute them."}

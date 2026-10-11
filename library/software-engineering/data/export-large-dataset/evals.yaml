@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Export this data to a file: {{what_to_export}}. It goes to {{destination}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-to-parquet
+    vars:
+      what_to_export: "Postgres 15 orders (900 million rows) joined with order_items, live traffic on the primary, read replica available."
+      destination: "S3 bucket for the analytics team to load into a warehouse."
+      format: parquet
+    assert:
+      - {type: contains, value: "## File layout and manifest"}
+      - {type: llm-rubric, value: "Reads from the replica with a server-side cursor or native export, chunks by an indexed key range rather than OFFSET, and keeps orders and order_items consistent with a single snapshot."}
+      - {type: llm-rubric, value: "Sets Parquet decimal and timestamp handling explicitly and writes a manifest with per-file row counts and checksums compared against a source count."}
+  - name: edge-csv-for-partner
+    vars:
+      what_to_export: "MySQL 8 customers table, 12 million rows, with free-text notes that contain commas and newlines."
+      destination: "An external partner over SFTP who opens files in Excel."
+      format: ask
+    assert:
+      - {type: llm-rubric, value: "Recommends CSV with explicit quoting, encoding and null rules suitable for the partner, flags that the export contains personal data and should include only needed columns with owner approval."}
+  - name: negative-select-star-into-memory
+    vars:
+      what_to_export: "My script does SELECT * FROM events with pandas read_sql on 2 billion rows and crashes. Just raise the memory limit to 512 GB."
+      destination: "Local Parquet files."
+      format: parquet
+    assert:
+      - {type: llm-rubric, value: "Explains that loading the full result into memory is the problem and replaces it with streaming or chunked reads by key, instead of only recommending more memory."}

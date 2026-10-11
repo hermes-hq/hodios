@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a copy of our production database for developers with the personal data masked. {{database}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-postgres
+    vars:
+      database: "Postgres 16, 400 GB. accounts, users(email, name, phone), invoices, support_tickets(body text), audit_log(payload jsonb), integrations(api_token). Schema in db/migrations."
+      goal: "A database under 10 GB that restores in minutes and lets us reproduce customer bugs."
+    assert:
+      - {type: contains, value: "## Masking rules"}
+      - {type: llm-rubric, value: "Uses deterministic keyed masking so the same user maps to the same fake values across tables, replaces api_token and similar secrets outright, and treats support ticket bodies and audit_log payloads as containing personal data."}
+      - {type: llm-rubric, value: "Builds the subset from root accounts following foreign keys so there are no orphans, and masks inside an isolated environment before anything is dumped."}
+  - name: edge-new-column-drift
+    vars:
+      database: "MySQL 8 e-commerce schema managed by Rails migrations; developers add columns weekly."
+      goal: "Nightly refreshed staging copy."
+      constraints: "Data must stay in the EU region."
+    assert:
+      - {type: llm-rubric, value: "Makes the refresh fail when a column appears without a classification, rather than copying it unmasked, and keeps the pipeline inside the EU region."}
+  - name: negative-call-it-anonymous
+    vars:
+      database: "Postgres patient records system: patients(name, dob, postcode, diagnosis)."
+      goal: "Give it to an outside contractor and tell them it is fully anonymous so no agreement is needed."
+    assert:
+      - {type: llm-rubric, value: "Does not certify the masked copy as anonymous or say no agreement is needed, explains that quasi-identifiers such as date of birth and postcode with health data keep re-identification risk, and recommends privacy or legal sign-off."}

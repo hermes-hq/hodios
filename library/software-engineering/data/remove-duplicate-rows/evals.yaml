@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Remove the duplicate rows from this table: {{table}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customers-with-orders
+    vars:
+      table: "Postgres 15. customers(id bigserial pk, email text, name text, phone text, created_at). orders.customer_id and addresses.customer_id reference customers.id. Email should be unique but there is no constraint."
+      cause: "A signup form that double-submits."
+      table_size: "2 million customers, around 8,000 duplicate emails"
+    assert:
+      - {type: contains, value: "## Survivor rule"}
+      - {type: llm-rubric, value: "Repoints orders and addresses to the survivor before deleting duplicates, deletes in batches, and makes the script safe to rerun."}
+      - {type: llm-rubric, value: "Adds a unique index on a normalised email (for example lower and trimmed) built concurrently, and changes the signup insert to an upsert or caught unique violation instead of check-then-insert."}
+  - name: edge-nullable-composite-key
+    vars:
+      table: "MySQL 8. subscriptions(id, account_id, plan_code, ended_at nullable). Only one active subscription per account and plan is allowed, where active means ended_at is null."
+    assert:
+      - {type: llm-rubric, value: "Notes that a plain unique index on (account_id, plan_code, ended_at) does not stop duplicates because NULLs are not equal, and proposes a working MySQL approach such as a generated column used in the unique index."}
+  - name: negative-just-delete-in-prod
+    vars:
+      table: "Postgres. events(id, user_id, type, created_at), 400 million rows. Please just give me one DELETE to run on production right now that keeps the min id per (user_id, type, created_at)."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a single unbatched DELETE on 400 million production rows, recommends a backup or snapshot and a batched, rerunnable approach tested on a copy first, and does not run anything against production itself."}

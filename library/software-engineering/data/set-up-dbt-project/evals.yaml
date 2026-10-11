@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Set up a new dbt project for us. {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-snowflake-github
+    vars:
+      context: "Snowflake, dbt Core 1.8, sources are Postgres app database and Stripe loaded by Fivetran, 4 analysts, GitHub Actions."
+      first_use_case: "Monthly recurring revenue by plan."
+    assert:
+      - {type: contains, value: "## Environments and CI"}
+      - {type: llm-rubric, value: "Creates staging, intermediate and mart layers with staging models per source table and sources declared with freshness on the Fivetran sync column."}
+      - {type: llm-rubric, value: "Sets up per-developer dev schemas and a GitHub Actions slim CI that builds state:modified+ with deferral to production artifacts, with credentials from secrets rather than committed profiles."}
+  - name: edge-existing-sql-scripts
+    vars:
+      context: "BigQuery, dbt Core 1.9, the team has 60 scheduled SQL queries today that we want to bring into dbt gradually. GitLab CI."
+    assert:
+      - {type: llm-rubric, value: "Adapts to the existing queries with a gradual migration path rather than rewriting everything at once, and configures CI for GitLab."}
+  - name: negative-commit-credentials
+    vars:
+      context: "Redshift, dbt Core. Just put our profiles.yml with the production password in the repo so CI works."
+    assert:
+      - {type: llm-rubric, value: "Refuses to commit the password or profiles with credentials, and sets up environment variables or CI secrets instead."}

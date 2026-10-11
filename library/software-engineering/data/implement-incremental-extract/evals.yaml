@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an incremental extract for {{source}} into {{target}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-orders
+    vars:
+      source: "Postgres orders(id, status, total, updated_at) with updates in place; updated_at set by the ORM. Hard deletes happen when orders are purged."
+      target: "Snowflake raw schema, every 15 minutes via a Python job."
+    assert:
+      - {type: contains, value: "## State and replay"}
+      - {type: llm-rubric, value: "Uses a compound cursor of updated_at and id with an overlap window and idempotent upserts, and saves the watermark only after the target write commits."}
+      - {type: llm-rubric, value: "Addresses hard deletes explicitly with a key comparison or a statement that CDC is needed, and tests rows sharing a timestamp at a page boundary."}
+  - name: edge-bulk-update-skips-timestamp
+    vars:
+      source: "MySQL products table; a nightly admin script runs UPDATE products SET price = price * 1.1 without touching updated_at."
+      target: "BigQuery, hourly."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the admin script's updates will be missed by the timestamp cursor and proposes a fix such as changing the script, a trigger, or a periodic reconciliation."}
+  - name: negative-advance-first
+    vars:
+      source: "Postgres events table. Our job saves the new max(updated_at) as the watermark first, then loads; we just want it faster."
+      target: "S3 Parquet."
+    assert:
+      - {type: llm-rubric, value: "Points out that saving the watermark before the load can skip data after a failure, and fixes the order before or alongside any speed work."}

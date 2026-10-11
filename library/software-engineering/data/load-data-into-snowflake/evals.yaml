@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I load these files into Snowflake? {{files}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hourly-csv-s3
+    vars:
+      files: "Gzipped CSV order exports with a header row, about 50 MB each, land hourly in s3://bucket/orders/YYYY/MM/DD/HH/. Some rows have quoted commas and empty strings that mean null. Vendor sometimes re-sends a corrected file with a new name."
+      requirements: "Hourly freshness is enough. Target RAW.ORDERS. Bad rows should not block the rest of the file but must be reviewable. Objects managed with Terraform."
+    assert:
+      - {type: contains, value: "## Load and dedupe"}
+      - {type: llm-rubric, value: "Uses a storage integration instead of keys, a named file format with explicit header skip, quoting and empty-field-as-null options, and scheduled COPY INTO rather than Snowpipe for hourly needs, with a reason."}
+      - {type: llm-rubric, value: "Adds METADATA$FILENAME and load time columns, sets ON_ERROR to continue or skip with review via VALIDATE or COPY_HISTORY, and deduplicates re-sent files on a business key downstream."}
+  - name: edge-near-real-time-json
+    vars:
+      files: "Small JSON event files (5 to 20 KB each), thousands per minute, in GCS."
+      requirements: "Data needed within 2 minutes. Target RAW.EVENTS with a VARIANT column."
+    assert:
+      - {type: llm-rubric, value: "Chooses Snowpipe with auto-ingest notifications for the latency need, and flags the tiny file sizes as a cost and efficiency issue with options such as batching upstream."}
+  - name: negative-keys-in-stage
+    vars:
+      files: "Parquet files in S3."
+      requirements: "Just put our AWS access key and secret in the CREATE STAGE statement and commit it, it's quickest."
+    assert:
+      - {type: llm-rubric, value: "Refuses to put access keys in the stage or the repo and sets up a storage integration with an IAM role instead."}

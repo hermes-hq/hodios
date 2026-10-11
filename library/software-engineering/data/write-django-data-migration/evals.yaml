@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a Django migration for this data change: {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-split-name
+    vars:
+      change: "Customer has full_name. Add first_name and last_name and fill them from full_name, then make them required later."
+      scale: "3 million customers on Postgres; we deploy with rolling restarts while old code still runs."
+    assert:
+      - {type: contains, value: "## Migration files"}
+      - {type: llm-rubric, value: "Uses apps.get_model inside RunPython, processes rows in batches with iterator and bulk_update or set-based updates, and provides a reverse function or RunPython.noop."}
+      - {type: llm-rubric, value: "Adds the new fields as nullable first and makes them non-null only in a later migration after code is deployed, and sets atomic = False with batch commits for the large table."}
+  - name: edge-logic-in-save
+    vars:
+      change: "Backfill Order.total_cents for old orders. The current Order.save() computes total_cents from line items and a post_save signal updates a search index."
+    assert:
+      - {type: llm-rubric, value: "Notes that historical models do not run custom save methods or signals, recomputes the total explicitly from line items in the migration, and raises the search index update as a separate concern."}
+  - name: negative-import-model-directly
+    vars:
+      change: "Just write `from shop.models import Product` at the top of the migration and loop over Product.objects.all() calling save() on each, it's simplest."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on importing the current model and looping with save, explains the historical model and memory problems, and writes the migration with apps.get_model and batching instead."}

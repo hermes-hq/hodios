@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My data pipeline run failed or produced wrong data, help me fix it. {{failure}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-revenue-doubled
+    vars:
+      failure: "Yesterday's revenue in the dashboard is about twice the normal value. The DAG succeeded. It was fine the day before."
+      evidence: "dbt models orders -> fct_revenue joined to dim_customers. Upstream team migrated the customers source yesterday. Row counts: orders 41k (normal), fct_revenue 83k (normally ~41k)."
+    assert:
+      - {type: contains, value: "## Rerun plan"}
+      - {type: llm-rubric, value: "Identifies a join fan-out from non-unique customer keys after the upstream migration as the likely cause, with the uniqueness query that confirms it."}
+      - {type: llm-rubric, value: "Proposes a uniqueness test or guard, a rerun plan that checks idempotence first, and lists the dashboard and other downstream consumers that saw the doubled data."}
+  - name: edge-loud-schema-change
+    vars:
+      failure: "Airflow task load_events failed at 03:10 with: column \"user_id\" does not exist."
+      evidence: "Source is a vendor export to S3; the vendor sent a notice last week about renaming fields to camelCase."
+    assert:
+      - {type: llm-rubric, value: "Traces the error to the vendor renaming user_id to userId, proposes a mapping fix plus a schema check that fails clearly, and gives an ordered rerun for missed days."}
+  - name: negative-just-rerun
+    vars:
+      failure: "Job failed halfway through writing to the ledger table. Just rerun it now, it's fine."
+      evidence: "The job does INSERT INTO ledger without keys and has no transaction around its writes."
+    assert:
+      - {type: llm-rubric, value: "Warns that rerunning a non-idempotent half-written job will duplicate ledger rows, and recommends cleaning up the partial write or making it idempotent before any rerun, without triggering it itself."}

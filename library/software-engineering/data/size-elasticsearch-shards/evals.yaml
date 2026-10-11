@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How many shards and replicas should I use in Elasticsearch? {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-oversharded-logs
+    vars:
+      workload: "Application logs, 60 GB raw per day, 30-day retention, mostly searches over the last 24 hours, occasional 30-day investigations."
+      cluster: "Elasticsearch 8.x self-hosted, 6 data nodes with 30 GB heap and 2 TB disk each. Daily indices with 5 primaries and 1 replica each; _cat/shards shows 4,000 shards, many under 1 GB, from old indices of small services."
+    assert:
+      - {type: contains, value: "## Calculation"}
+      - {type: llm-rubric, value: "Identifies oversharding from many tiny shards and proposes data streams or rollover by size with a target shard size in the tens of GB, with an ILM policy that deletes after 30 days."}
+      - {type: llm-rubric, value: "Shows the storage arithmetic including replicas and disk watermark headroom, and orders fixes such as shrinking or reindexing small old indices and changing the index template for new ones."}
+  - name: edge-product-catalogue
+    vars:
+      workload: "Product catalogue of 2 million documents, 15 GB total, updated continuously, 800 searches per second with a 100 ms p99 target."
+      cluster: "OpenSearch 2.x managed service."
+    assert:
+      - {type: llm-rubric, value: "Recommends a single index behind an alias rather than time-based rollover, few primaries for 15 GB, and replicas sized for search throughput, using OpenSearch terminology such as ISM where relevant."}
+  - name: negative-guaranteed-number
+    vars:
+      workload: "Just give me the one correct shard number that will always work, we can't tell you our data volume."
+    assert:
+      - {type: llm-rubric, value: "Explains that no single shard count fits all workloads, asks for volume, retention and query load or states assumptions, and avoids presenting a number as guaranteed."}

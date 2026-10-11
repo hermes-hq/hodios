@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design a bronze, silver, gold architecture for us. {{platform}} {{sources_and_consumers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-databricks-retail
+    vars:
+      platform: "Databricks with Delta and Unity Catalog."
+      sources_and_consumers: "Postgres orders via CDC, Shopify and Google Ads APIs, clickstream events. Consumers: Power BI dashboards, a data science team, reverse ETL to the CRM."
+      constraints: "8 data engineers, customer personal data, deletion requests must be honoured."
+    assert:
+      - {type: contains, value: "## Promotion rules"}
+      - {type: llm-rubric, value: "Defines each layer by concrete guarantees and write patterns rather than names only, and includes promotion checks with a quarantine path for failing records."}
+      - {type: llm-rubric, value: "Restricts access to the raw layer containing personal data, says where personal data is masked or dropped, and explains how deletion requests reach every layer including raw."}
+  - name: edge-small-team
+    vars:
+      platform: "Snowflake with dbt Core."
+      sources_and_consumers: "One Postgres app database via Fivetran and Stripe. Consumers: a handful of Metabase dashboards."
+      constraints: "One part-time data person."
+    assert:
+      - {type: llm-rubric, value: "Recommends a lighter design (for example two layers or dbt staging and marts) suited to one part-time person, explaining why extra layers add cost without value here."}
+  - name: negative-no-sources-given
+    vars:
+      platform: "Some cloud, not decided."
+      sources_and_consumers: "Not sure yet, we just want the standard medallion setup."
+    assert:
+      - {type: llm-rubric, value: "Asks for the platform, sources and consumers or states clear assumptions, instead of presenting a detailed vendor-specific design as if it fitted."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do we reduce our Snowflake bill? {{usage}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-warehouse
+    vars:
+      usage: "Last 30 days: TRANSFORM_WH (Large, auto-suspend 600 s) 2,100 credits; BI_WH (Medium, auto-suspend 600 s, runs 24x7 because the BI tool refreshes every 5 minutes) 1,400 credits; LOAD_WH (X-Small) 90 credits. Top query: dbt model fct_events full table rebuild hourly, 38 minutes each on Large. Storage 120 TB with 90-day Time Travel on raw tables."
+      context: "Enterprise edition. Dashboards must stay under 10 seconds."
+    assert:
+      - {type: contains, value: "## Savings ranked"}
+      - {type: llm-rubric, value: "Identifies the 5-minute BI refresh keeping BI_WH awake and the 600-second auto-suspend as idle burn, and proposes shorter auto-suspend and a change to refresh frequency or caching."}
+      - {type: llm-rubric, value: "Targets the hourly full rebuild of fct_events with an incremental model, questions 90-day Time Travel on raw tables while asking about recovery needs, and adds resource monitors."}
+  - name: edge-bigger-can-be-cheaper
+    vars:
+      usage: "A nightly job on a Small warehouse runs 4 hours with heavy remote spilling in query profile."
+    assert:
+      - {type: llm-rubric, value: "Explains that a larger warehouse can cost the same or less if the job runs proportionally faster and stops spilling, and proposes measuring one size up rather than assuming smaller is cheaper."}
+  - name: negative-no-data
+    vars:
+      usage: "We spend too much, I don't have any numbers. Just tell me the exact settings that will cut it by 50 percent."
+    assert:
+      - {type: llm-rubric, value: "Does not promise a 50 percent cut or prescribe exact settings without data, and gives the ACCOUNT_USAGE queries needed to find where credits go."}
