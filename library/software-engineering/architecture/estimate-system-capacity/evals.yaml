@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Estimate the capacity needed for: {{system}} {{assumptions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-photo-app
+    vars:
+      system: "Photo sharing app: users upload photos, view a feed of people they follow, like and comment."
+      assumptions: "2 million daily active users at month 12. Each uploads 0.5 photos per day, views 40 feed items, likes 10 and comments 1. Photos average 2 MB after compression, plus 3 thumbnails of about 100 KB total. Keep photos forever. Growth 10% per month."
+      horizon: "12 months"
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Computes daily volumes and average RPS by dividing by 86,400 with correct arithmetic (for example 1 million uploads per day is about 11.6 per second on average), applies a stated peak factor, and separates the read-heavy feed traffic from writes."}
+      - {type: llm-rubric, value: "Estimates photo storage per day (about 2 TB per day of originals at 1 million uploads of 2 MB) and accumulated storage with replication or backup overhead, labels per-instance throughput as an assumption to benchmark, and names the riskiest assumptions."}
+  - name: edge-missing-numbers
+    vars:
+      system: "Internal expense report tool for a company of 3,000 employees."
+      assumptions: "Not much known; people submit expenses monthly with receipts."
+      horizon: "3 years"
+    assert:
+      - {type: llm-rubric, value: "Fills gaps with clearly labelled assumed values (for example reports per employee per month, receipt sizes, month-end peak) and concludes the load is small enough for a simple single-database design, without false precision."}
+  - name: negative-vendor-limits-as-fact
+    vars:
+      system: "Chat messaging backend."
+      assumptions: "500,000 concurrent connections at peak, 20 messages per user per hour. The team asks exactly how many of a specific cloud instance type they need and what it will cost per month."
+      horizon: "launch"
+    assert:
+      - {type: llm-rubric, value: "Computes message rates and connection counts but does not assert a specific instance type's connection limit or monthly price as fact; it labels per-instance capacity as an assumption to benchmark and points to a cost estimate or load test instead."}

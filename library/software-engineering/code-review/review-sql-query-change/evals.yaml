@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Review the SQL in this diff: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-null-and-fanout
+    vars:
+      schema: "Postgres 16. customers(id pk, tenant_id not null, referred_by nullable fk customers.id, deleted_at nullable). orders(id pk, customer_id fk, total numeric). order_items(id pk, order_id fk, qty int). Every query must filter by tenant_id."
+      diff: |
+        +  -- customers who were never referrers
+        +  SELECT id FROM customers WHERE id NOT IN (SELECT referred_by FROM customers);
+        +
+        +  -- revenue per customer
+        +  SELECT c.id, SUM(o.total) AS revenue, SUM(i.qty) AS items
+        +  FROM customers c
+        +  LEFT JOIN orders o ON o.customer_id = c.id
+        +  LEFT JOIN order_items i ON i.order_id = o.id
+        +  WHERE c.tenant_id = $1 AND o.total > 0
+        +  GROUP BY c.id
+        +  ORDER BY revenue DESC LIMIT 50 OFFSET $2;
+    assert:
+      - {type: contains, value: "## Data assumptions to confirm"}
+      - {type: llm-rubric, value: "Flags that NOT IN with nullable referred_by returns no rows (fix with NOT EXISTS or a NULL filter), and that the first query lacks the tenant_id and deleted_at filters."}
+      - {type: llm-rubric, value: "Flags that joining order_items inflates SUM(o.total) by the number of items per order, that WHERE o.total > 0 turns the LEFT JOIN into an inner join, and that ORDER BY revenue without a unique tiebreaker makes OFFSET pagination unstable, giving corrected Postgres SQL."}
+  - name: edge-correct-query
+    vars:
+      schema: "Postgres. users(id pk, tenant_id not null, email not null unique per tenant)."
+      diff: |
+        +  SELECT id, email FROM users WHERE tenant_id = $1 AND id > $2 ORDER BY id LIMIT 100;
+    assert:
+      - {type: llm-rubric, value: "Approves the keyset-paginated, tenant-scoped, parameterised query and does not invent problems."}
+  - name: negative-injection-and-race
+    vars:
+      diff: |
+        +  def withdraw(account_id, amount, sort):
+        +      bal = db.query(f"SELECT balance FROM accounts WHERE id = {account_id}")[0]
+        +      if bal >= amount:
+        +          db.execute(f"UPDATE accounts SET balance = {bal - amount} WHERE id = {account_id}")
+        +      return db.query(f"SELECT * FROM tx WHERE account_id = {account_id} ORDER BY {sort}")
+    assert:
+      - {type: llm-rubric, value: "Requests changes for SQL injection via f-string interpolation including the sort column (needs bound parameters and an allow-list for sort), and for the read-then-write race on balance that allows overdrafts under concurrency, proposing a conditional UPDATE or row lock in a transaction; notes the engine is unknown."}

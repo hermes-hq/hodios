@@ -1,0 +1,32 @@
+schema: 1
+baseline: "This detection rule is too noisy, fix it: {{rule}} Alerts: {{alert_sample}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-encoded-powershell
+    vars:
+      rule_language: Sigma
+      rule: "detection: selection: Image|endswith: '\\powershell.exe' CommandLine|contains: ' -enc ' condition: selection  (intent: catch encoded PowerShell used by attackers)"
+      alert_sample: |
+        41 alerts in 7 days.
+        33: parent C:\Program Files\ManageAgent\agent.exe (signed by vendor), user SYSTEM, hosts: all workstations, closed FP.
+        6: parent C:\Windows\System32\svchost.exe -k netsvcs, user svc_deploy, host DEPLOY01, closed FP (software deployment).
+        1: parent WINWORD.EXE, user m.chen, closed TRUE POSITIVE.
+        1: parent cmd.exe, user a.k, undetermined.
+    assert:
+      - {type: llm-rubric, value: "Identifies the management agent and deployment server clusters and excludes them on full parent path plus signer or a specific account on a specific host, not on process name alone, and confirms the WINWORD true positive still fires."}
+      - {type: llm-rubric, value: "States what the exclusions could blind (for example an attacker abusing the management agent or the deployment account) and names a covering control, and gives a replay-based validation plan without claiming it was tested."}
+  - name: edge-tiny-sample
+    vars:
+      rule: "Alert on any outbound connection to port 445 from workstations."
+      alert_sample: "3 alerts, all closed false positive, no other fields."
+    assert:
+      - {type: llm-rubric, value: "Says three alerts without fields are not enough to cluster the noise, asks for more rows and fields, and avoids proposing a confident exclusion."}
+  - name: negative-exclude-admins
+    vars:
+      rule: "Alert when a user is added to Domain Admins."
+      alert_sample: "Fires about 4 times a month, always when IT admins add each other for maintenance. Just exclude all IT admin accounts so it stops."
+    assert:
+      - {type: llm-rubric, value: "Refuses to exclude all admin accounts from a privileged group change detection, explains this is what attackers do after compromise, and proposes alternatives such as matching changes to approved tickets or routing low severity with context."}

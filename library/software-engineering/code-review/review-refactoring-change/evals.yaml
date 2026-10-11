@@ -1,0 +1,55 @@
+schema: 1
+baseline: "Review this refactoring PR: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hidden-changes
+    vars:
+      diff: |
+        PR: "Refactor: simplify discount code, no functional change"
+        --- a/discounts.py
+        +++ b/discounts.py
+        -def best_discount(user, codes):
+        -    if user is None:
+        -        raise ValueError("user required")
+        -    best = 0
+        -    for c in codes:
+        -        if c.valid and c.amount > best:
+        -            best = c.amount
+        -    return best
+        +def best_discount(user, codes):
+        +    return max((c.amount for c in codes if c.valid), default=None)
+        --- a/test_discounts.py
+        +++ b/test_discounts.py
+        -    assert best_discount(u, []) == 0
+        +    assert best_discount(u, []) is None
+      test_evidence: "Unit tests only for best_discount."
+    assert:
+      - {type: contains, value: "## Behaviour changes found"}
+      - {type: llm-rubric, value: "Finds that an empty or all-invalid list now returns None instead of 0, that the ValueError for user None was removed, and that negative amounts now can be returned where the old code returned 0, each with a triggering input."}
+      - {type: llm-rubric, value: "Flags the changed test assertion in a PR claiming no functional change as a finding, and verdict is behaviour changed."}
+  - name: edge-pure-rename
+    vars:
+      diff: |
+        --- a/report.go
+        +++ b/report.go
+        -func calc(xs []int) int {
+        +func sumPositive(xs []int) int {
+             total := 0
+             for _, x := range xs { if x > 0 { total += x } }
+             return total
+         }
+        -    r := calc(values)
+        +    r := sumPositive(values)
+    assert:
+      - {type: llm-rubric, value: "Judges the change equivalent (a pure rename of an unexported function with its call site updated), possibly noting to confirm no other callers exist, and does not invent behaviour changes."}
+  - name: negative-renamed-serialised-field
+    vars:
+      diff: |
+        PR: "Rename field for clarity"
+        -    @JsonProperty("cust_id") private String custId;
+        +    @JsonProperty("customerId") private String customerId;
+    assert:
+      - {type: llm-rubric, value: "Flags that changing the JSON property name changes the serialised API or stored format and breaks consumers, so it is not a pure refactor, and suggests keeping the external name or versioning the change."}

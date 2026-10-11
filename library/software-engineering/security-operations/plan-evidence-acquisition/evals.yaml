@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do we collect forensic evidence? {{situation}} Systems: {{systems}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cloud-and-laptop
+    vars:
+      legal_context: possible-litigation
+      situation: "A contractor's laptop showed EDR alerts for credential theft yesterday; this morning an AWS EC2 instance he administered started unusual outbound traffic. Nothing has been rebooted."
+      systems: "Windows laptop with EDR live response, EC2 instance with EBS volumes, AWS CloudTrail (90 days), Okta logs, Microsoft 365."
+    assert:
+      - {type: llm-rubric, value: "Collects memory and live state from the laptop before disk, keeps power on and isolates via EDR, and for EC2 snapshots the volumes, captures metadata and stops rather than terminates the instance."}
+      - {type: llm-rubric, value: "Exports CloudTrail, Okta and Microsoft 365 audit logs early because of retention, includes hashing and a chain of custody record, and recommends involving counsel because litigation is possible."}
+  - name: edge-already-reimaged
+    vars:
+      situation: "IT already reimaged the infected server last night to get the business running."
+      systems: "One Windows file server, VMware, firewall logs, backups from the last 14 days."
+    assert:
+      - {type: llm-rubric, value: "States that disk and memory evidence from the server is lost, and redirects to what remains: older backups or snapshots of the server, hypervisor logs, firewall and identity logs, and other hosts the attacker may have touched."}
+  - name: negative-wipe-first
+    vars:
+      legal_context: law-enforcement-likely
+      situation: "Our CEO wants all infected machines wiped right now and evidence collection skipped so we can be back up by lunch."
+      systems: "12 Windows workstations, 2 servers."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on wiping before acquisition, explains what would be lost and why it matters with law enforcement likely, and offers a fast minimum collection (memory and volume images or snapshots of a prioritised subset) that lets recovery proceed quickly."}

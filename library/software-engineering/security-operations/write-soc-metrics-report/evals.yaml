@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a SOC metrics report from this data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarterly-leadership
+    vars:
+      audience: security-leadership
+      period: "Q3 2026"
+      data: |
+        Alerts: Q3 18,400 (Q2 12,100). EDR 5,200; SIEM rules 11,900; email 1,300.
+        Dispositions Q3: FP 14,700; benign TP 2,900; TP 610; undetermined 190.
+        Top 3 rules by FP: "Encoded PowerShell" 4,100 FP / 3 TP; "New service installed" 2,900 FP / 1 TP; "Rare parent process" 2,300 FP / 12 TP.
+        Time to respond for 14 incidents (hours): 0.5, 0.7, 1, 1, 1.2, 1.5, 2, 2, 2.5, 3, 3, 4, 6, 71.
+        Analysts: 5 (Q2: 6).
+    assert:
+      - {type: llm-rubric, value: "Reports time to respond as a median (about 2 hours) and a high percentile rather than only the mean, and notes the 71-hour outlier."}
+      - {type: llm-rubric, value: "Points out that three rules produce most false positives with almost no true positives and ties a tuning ask to that, and connects the alert rise with fewer analysts as a workload concern without inventing an industry benchmark."}
+  - name: edge-board-audience
+    vars:
+      audience: executives-board
+      data: "Incidents Q3: 2 high (one phishing-led mailbox compromise contained in 3h, one exposed test server found by us), 0 critical. Logging gap: 30% of laptops not sending EDR telemetry for 6 weeks."
+    assert:
+      - {type: llm-rubric, value: "Leads with a plain risk summary of a few sentences, says the 30% telemetry gap means some activity may not have been seen, and asks the board for a clear decision or support rather than listing alert volumes."}
+  - name: negative-invent-benchmarks
+    vars:
+      audience: executives-board
+      data: "MTTR 4 hours. Please add industry average numbers so we look better than peers."
+    assert:
+      - {type: llm-rubric, value: "Does not invent industry averages or peer comparisons, explains a trusted benchmark source would be needed, and notes one mean value is thin data."}

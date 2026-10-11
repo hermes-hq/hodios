@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should we add a backend for frontend? Clients: {{clients}} Backends: {{backends}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chatty-mobile-home
+    vars:
+      clients: "React web app released daily; iOS and Android apps released every two weeks, about 20% of users stay on versions older than 6 months. Mobile users often on 3G in some markets."
+      backends: "Catalog, pricing, user profile, recommendations and promotions services, each REST. The mobile home screen makes 9 calls and downloads 350 KB, most of it unused. Web needs richer data on the same screen."
+      teams: "A mobile team of 6 (Kotlin and Swift, some Node experience), a web team of 5 (TypeScript), backend teams own each service."
+    assert:
+      - {type: contains, value: "## Responsibilities"}
+      - {type: llm-rubric, value: "Recommends a mobile BFF (and possibly a separate web one) owned by the client team, aggregating the home screen calls in parallel with trimmed payloads, and explicitly keeps business rules such as promotion eligibility in the services."}
+      - {type: llm-rubric, value: "Addresses partial failure of one backend call, support for old app versions, timeouts within a screen budget and on-call ownership."}
+  - name: edge-identical-needs
+    vars:
+      clients: "A web app and a desktop Electron app that render the same screens with the same data."
+      backends: "One well-designed REST API, screens need 1-2 calls each."
+    assert:
+      - {type: llm-rubric, value: "Concludes a BFF is not needed and recommends keeping or improving the shared API, explaining the operational cost a BFF would add."}
+  - name: negative-business-logic-in-bff
+    vars:
+      clients: "Web and mobile."
+      backends: "Orders and pricing services. The pricing team is slow, so the PM wants the web and mobile BFFs to calculate discounts themselves until pricing catches up."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on calculating discounts in each BFF because of duplicated, diverging business rules, and proposes an alternative such as a contribution to the pricing service or a single interim pricing component with a clear owner."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Investigate this possibly compromised mailbox: {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bec-invoice-rule
+    vars:
+      platform: microsoft-365
+      trigger: "A supplier asked why our new bank details email came from our accounts payable clerk."
+      evidence: |
+        Sign-ins for ap.clerk: 2026-09-02 08:10 UTC from office IP, MFA satisfied. 2026-09-02 13:44 UTC from 185.x.x.x (hosting provider, Netherlands), single-factor, token previously satisfied MFA.
+        Inbox rule created 2026-09-02 13:52 UTC named "." : if subject or body contains "invoice" or "payment" or "bank" move to RSS Subscriptions and mark as read.
+        2026-09-03 09:01 sent mail to 14 external suppliers, subject "Updated remittance details".
+        MFA methods: Authenticator app (registered 2025), phone +44... added 2026-09-02 13:58 UTC.
+    assert:
+      - {type: llm-rubric, value: "Reaches a compromised or likely compromised verdict citing the hosting-provider sign-in with replayed token, the hidden inbox rule and the new phone MFA method, and lists them in time order."}
+      - {type: llm-rubric, value: "Says a password reset alone is not enough and includes revoking sessions or refresh tokens and removing the attacker-added MFA method, records the rule before removing it, and puts contacting the 14 suppliers and finance or the bank near the top of scope."}
+      - {type: contains, value: "## Evidence still needed"}
+  - name: edge-thin-evidence
+    vars:
+      platform: google-workspace
+      evidence: "User says some sent emails look strange. Only data: one login from Spain yesterday; user was in Spain on holiday."
+    assert:
+      - {type: llm-rubric, value: "Does not declare compromise, notes travel explains the location, says the evidence is too thin, and gives a concrete collection list (filters and forwarding, app access, sent mail, MFA changes, sign-ins) before any verdict."}
+  - name: negative-delete-and-skip-notification
+    vars:
+      platform: microsoft-365
+      evidence: "Found a forwarding rule to an outside gmail address on the HR manager's mailbox, active for 3 weeks, mailbox holds payroll and sick notes. Boss wants me to just delete the rule, reset the password and tell nobody. Confirm that is enough."
+    assert:
+      - {type: llm-rubric, value: "Pushes back: records the rule before deleting, says reset alone does not revoke sessions, tokens or app access, and flags that three weeks of forwarded payroll and health data is a possible personal data breach to route to the privacy or legal owner rather than keep quiet, without stating a specific country's deadline as fact."}

@@ -1,0 +1,56 @@
+schema: 1
+baseline: "Review this CI workflow change: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-privileged-fork-trigger
+    vars:
+      repo_context: "Public repo, accepts fork PRs. Branch protection requires the check named 'test'."
+      diff: |
+        --- a/.github/workflows/ci.yml
+        +++ b/.github/workflows/ci.yml
+        -on: pull_request
+        +on: pull_request_target
+         jobs:
+        -  test:
+        +  unit-tests:
+             runs-on: ubuntu-latest
+        +    permissions: write-all
+             steps:
+        -      - uses: actions/checkout@v4
+        +      - uses: actions/checkout@v4
+        +        with:
+        +          ref: ${{ github.event.pull_request.head.sha }}
+        +      - uses: someuser/setup-tooling@main
+        +      - run: echo "Testing ${{ github.event.pull_request.title }}"
+               - run: npm test
+        +        env:
+        +          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    assert:
+      - {type: contains, value: "## Required checks impact"}
+      - {type: llm-rubric, value: "Flags as critical that pull_request_target plus checking out the PR head runs untrusted fork code with secrets and write-all permissions, and recommends pull_request with minimal permissions or a separate trusted workflow."}
+      - {type: llm-rubric, value: "Also flags the PR title interpolated into a shell command (script injection), the third-party action pinned to @main instead of a SHA, and that renaming the job from test to unit-tests leaves the required 'test' check never reporting."}
+  - name: edge-benign-matrix-bump
+    vars:
+      repo_context: "Private repo, no forks."
+      diff: |
+        --- a/.github/workflows/ci.yml
+        +++ b/.github/workflows/ci.yml
+        -        node: [18, 20]
+        +        node: [20, 22]
+    assert:
+      - {type: llm-rubric, value: "Treats this as low risk, asks whether Node 18 is still a supported runtime for users of the project, and does not invent security findings."}
+  - name: negative-no-context-worst-case
+    vars:
+      diff: |
+        --- a/.gitlab-ci.yml
+        +++ b/.gitlab-ci.yml
+         deploy_prod:
+           stage: deploy
+           script: ./deploy.sh
+        -  when: manual
+        -  only: [main]
+    assert:
+      - {type: llm-rubric, value: "Uses GitLab CI terms, flags that removing when: manual and the main-only rule lets the production deploy run automatically from any branch, states that repo context was missing and assumes the worst case, and requests changes."}

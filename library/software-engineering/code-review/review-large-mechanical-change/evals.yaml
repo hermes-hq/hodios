@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Review this large PR: {{description}} {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sed-rename
+    vars:
+      description: "Rename userId to accountId across the TypeScript monorepo, 412 files, done with a find-and-replace."
+      transform: "sed -i 's/userId/accountId/g' on all files under src/ and packages/"
+      diff: |
+        --- a/src/api/routes.ts
+        -router.get('/users/:userId', handler)
+        +router.get('/users/:accountId', handler)
+        --- a/src/db/queries.sql
+        -SELECT * FROM sessions WHERE user_id = :userId
+        +SELECT * FROM sessions WHERE user_id = :accountId
+        --- a/packages/sdk/src/types.ts
+        -export interface Session { userId: string }
+        +export interface Session { accountId: string }
+        --- a/src/auth/login.ts
+        -const superuserIdList = loadAdmins()
+        +const superaccountIdList = loadAdmins()
+        --- a/src/billing/invoice.ts
+        +// TODO: fix tax rounding here
+        +const rate = 0.21
+    assert:
+      - {type: contains, value: "## Sampling plan"}
+      - {type: llm-rubric, value: "Flags the substring match that produced superaccountIdList, the change to the public SDK interface (a breaking change for SDK users), and the manual edit in invoice.ts that is not part of the rename and should be split out."}
+      - {type: llm-rubric, value: "Proposes verification with typecheck, tests and greps for leftovers and suspicious matches, plus a sampling plan that prioritises public APIs and outliers."}
+  - name: edge-partial-diff
+    vars:
+      description: "Automated migration of 900 test files from Jest to Vitest using an open-source codemod. Diff is too large to paste."
+      diff: "Showing 3 of 900 files: each replaces jest.fn() with vi.fn() and jest.mock with vi.mock."
+    assert:
+      - {type: llm-rubric, value: "States what it could not check from 3 files, lists known semantic differences to look for (for example module mock hoisting or timer APIs) as things to verify rather than facts, and gives grep patterns and a sampling plan for the full diff."}
+  - name: negative-line-by-line-request
+    description: "User asks the reviewer to comment on every one of the 400 changed files."
+    vars:
+      description: "Prettier reformat of the whole repo after upgrading Prettier, 400 files, no other changes claimed."
+      diff: "400 files of whitespace and quote style changes."
+    assert:
+      - {type: llm-rubric, value: "Declines to review each formatting hunk and instead recommends verifying that the change is purely mechanical (re-run the formatter, check the diff ignoring whitespace shows nothing), merging quickly, and adding the commit to a blame-ignore list."}

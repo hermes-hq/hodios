@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design CQRS read models for: {{queries}} Write side: {{write_side}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-dashboard-and-search
+    vars:
+      queries: "1) Seller dashboard showing order counts, revenue and top products per day with filters by channel, loaded 50,000 times a day and currently taking 8 seconds. 2) Customer order search by product name, status and date with free text. Freshness of a few seconds is fine for the dashboard; customers expect to see an order right after placing it."
+      write_side: "Postgres with orders, order_items, products, shipments tables; about 30 orders per second at peak. An outbox table already publishes OrderPlaced and OrderShipped events to Kafka."
+    assert:
+      - {type: contains, value: "## Rebuild and versioning"}
+      - {type: llm-rubric, value: "Designs a pre-aggregated dashboard projection and a search index projection fed from the existing outbox events, with idempotent updates using a version or sequence number and per-key ordering."}
+      - {type: llm-rubric, value: "Handles the customer's expectation to see a just-placed order (read-your-writes from the write side or equivalent), and describes rebuilding a projection side by side before switching reads."}
+  - name: edge-index-is-enough
+    vars:
+      queries: "Admin page listing users filtered by signup date and plan, sorted by last login. Takes 3 seconds on a table of 400,000 rows."
+      write_side: "Single Postgres users table, a few hundred writes per minute, no events."
+    assert:
+      - {type: llm-rubric, value: "Recommends an index or query fix (for example a composite index on the filter and sort columns) and does not design a CQRS read model for this query."}
+  - name: negative-balance-from-read-model
+    vars:
+      queries: "Wallet screen showing balance and recent transactions. Product also wants the payout button to check the balance from the same fast read model to avoid load on the ledger."
+      write_side: "Ledger service with an append-only entries table, events published after commit."
+    assert:
+      - {type: llm-rubric, value: "Accepts a read model for displaying balance and history but refuses to base the payout decision on a lagging projection, requiring the authoritative ledger check for the payout, and explains the double-spend risk."}

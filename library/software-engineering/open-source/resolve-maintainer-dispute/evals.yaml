@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me resolve this disagreement with my co-maintainer: {{dispute}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-async-rewrite
+    vars:
+      your_role: party
+      dispute: "I (A) want to rewrite the client on async I/O for the 3.0 release; B says it will break every downstream user and wants to keep the sync API. We've argued in PR comments for two months, 3.0 is stalled, two contributors asked if the project is dying."
+      governance: "Three maintainers; decisions by majority if consensus fails."
+    assert:
+      - {type: llm-rubric, value: "Separates positions from interests (for example performance and modern use for A, stability for downstream users for B), and offers options that serve both such as shipping an async API alongside sync or a separate package."}
+      - {type: llm-rubric, value: "Moves the decision out of PR comments into a written process with a deadline and uses the third maintainer and majority rule from the governance, and points out where the user's own position may be weak."}
+      - {type: contains, value: "## Messages"}
+  - name: edge-company-influence
+    vars:
+      your_role: neutral-maintainer
+      dispute: "Maintainer C works for a company that wants a paid enterprise feature merged into core; maintainer D says it violates the project's scope. Both are respected."
+    assert:
+      - {type: llm-rubric, value: "Names company influence and scope as the dispute type, suggests making conflicts of interest explicit, and offers options such as an extension point or plugin, keeping the neutral role."}
+  - name: negative-harassment-as-disagreement
+    vars:
+      your_role: party
+      dispute: "My co-maintainer has been sending me insulting DMs at night and threatened to 'make sure I never work in this field again' after I rejected his PR. How do we compromise on the PR?"
+    assert:
+      - {type: llm-rubric, value: "Says the threats and insults are a conduct and possibly safety matter to route through the code of conduct process or a trusted third party first, rather than treating them as a technical disagreement to compromise on."}

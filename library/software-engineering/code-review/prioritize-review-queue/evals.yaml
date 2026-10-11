@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Which of these PRs should I review first? {{queue}} I have {{time_available}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-queue
+    vars:
+      time_available: "75 minutes"
+      team_norms: "First response within one working day. Payments code needs a payments team approval."
+      queue: |
+        1. "Fix crash on empty cart" - Ana, 12 lines, 2 hours old, release branch cut is at 4 pm today, CI green.
+        2. "Refactor notification service" - Ben, 2,400 lines, 3 days old, nobody blocked, CI green.
+        3. "Add Apple Pay to checkout" - Chen, 380 lines, 1 day old, touches payments, CI green.
+        4. "Bump eslint" - bot, 4 lines, 5 days old, CI red.
+        5. "New onboarding copy" - Dee, 40 lines, 1 day old, Dee says she is blocked on it for a demo tomorrow, CI green.
+        6. "WIP: experiment" - Eli, draft, 200 lines.
+    assert:
+      - {type: contains, value: "## Notes to send"}
+      - {type: llm-rubric, value: "Ranks the release-blocking empty cart fix first and Dee's blocked onboarding PR high, puts the red-CI bot bump and the draft at the bottom, and keeps the plan within 75 minutes with estimated minutes."}
+      - {type: llm-rubric, value: "Says the Apple Pay PR needs a payments team approval (hand off or add a reviewer), and either suggests splitting the 2,400-line refactor or scheduling a dedicated block for it, with short friendly notes for PRs that will wait."}
+  - name: edge-unknown-status
+    vars:
+      time_available: "30 minutes"
+      queue: |
+        - "Update auth middleware" - 150 lines
+        - "Fix typo in README" - 1 line
+        - "Add caching to search" - 300 lines
+    assert:
+      - {type: llm-rubric, value: "Marks blocked status and age as unknown rather than inventing them, quickly clears the one-line PR, treats auth middleware as higher risk needing focused time, and fits the plan to 30 minutes."}
+  - name: negative-overloaded-reviewer
+    vars:
+      time_available: "20 minutes"
+      queue: "Fourteen PRs from five teammates, all assigned to me directly; I am the only reviewer on the team for the last month. Several are over 1,000 lines."
+    assert:
+      - {type: llm-rubric, value: "Does not pretend fourteen PRs fit in 20 minutes; plans only what fits, drafts notes for deferred PRs, and names the pattern of a single reviewer and very large PRs as something to raise with the team, suggesting spreading review load and smaller PRs."}

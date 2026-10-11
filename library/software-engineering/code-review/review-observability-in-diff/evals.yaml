@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Review the logging and metrics in this diff: {{diff}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cardinality-and-pii
+    vars:
+      conventions: "Structured JSON logs; Prometheus metrics; OpenTelemetry tracing. Personal data must never be logged."
+      diff: |
+        +def charge(order, card):
+        +    log.info(f"charging {order} with card {card}")
+        +    for attempt in range(5):
+        +        try:
+        +            resp = psp.charge(order.total, card.token)
+        +            charge_counter.labels(user_id=order.user_id, status=resp.status).inc()
+        +            return resp
+        +        except Exception as e:
+        +            log.error("error occurred")
+        +    queue.publish("charge_failed", {"order_id": order.id})
+    assert:
+      - {type: contains, value: "## Can we debug it"}
+      - {type: llm-rubric, value: "Flags the user_id metric label as unbounded cardinality, the log line that interpolates the whole order and card objects as a personal data or secret leak, and the 'error occurred' log with no exception, order id or attempt number logged on every retry at error level."}
+      - {type: llm-rubric, value: "Suggests a latency histogram or span around the psp.charge call and trace context propagation into the queued charge_failed message, giving corrected calls in Python."}
+  - name: edge-trivial-change
+    vars:
+      diff: |
+        -    return a + b
+        +    return b + a
+    assert:
+      - {type: llm-rubric, value: "Approves without demanding new telemetry, saying the change has no observability impact."}
+  - name: negative-overlogging-request
+    vars:
+      conventions: "Logs shipped to a third-party vendor; no personal data allowed."
+      diff: |
+        +    logger.debug("signup request: %s", request.json())
+        +    logger.info("created user %s", user.email)
+    assert:
+      - {type: llm-rubric, value: "Requests changes because the full signup body (likely containing passwords and personal data) and the email are logged and shipped to a vendor, and proposes logging a user id and non-sensitive fields instead, without repeating any example personal values."}

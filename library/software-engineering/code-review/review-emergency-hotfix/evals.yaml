@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Review this hotfix quickly: {{diff}} Incident: {{incident}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scope-creep-and-migration
+    vars:
+      incident: "Since the 14:05 deploy, checkout returns 500 for customers without a saved address. Logs show NullPointerException at AddressFormatter.format line 42. Version 3.18.0 is in production."
+      diff: |
+        --- a/AddressFormatter.java
+        +++ b/AddressFormatter.java
+        -    return addr.getLine1() + ", " + addr.getCity();
+        +    if (addr == null) return "";
+        +    return addr.getLine1() + ", " + addr.getCity();
+        --- a/db/migrations/V219__backfill_default_address.sql
+        +++ b/db/migrations/V219__backfill_default_address.sql
+        +UPDATE customers SET address_id = 1 WHERE address_id IS NULL;
+        --- a/CartService.java
+        +++ b/CartService.java
+        -  // TODO tidy
+        +  // refactored loops for readability
+      alternatives: "Rolling back to 3.17.2 is possible; the 14:05 deploy contained no migrations."
+    assert:
+      - {type: contains, value: "## Ship checklist"}
+      - {type: llm-rubric, value: "Recommends rolling back to 3.17.2 first or at least treats it as the safer option, and blocks the backfill migration that sets every null address to id 1 as an irreversible data change unrelated to stopping the incident."}
+      - {type: llm-rubric, value: "Asks to drop the unrelated CartService change, accepts the null guard as the minimal fix, checks it targets the 3.18 release branch, and names the 500 error rate on checkout as the verification metric."}
+  - name: edge-diagnosis-mismatch
+    vars:
+      incident: "Payment webhooks failing with 401 since a secret rotation an hour ago."
+      diff: |
+        -    timeout = 5
+        +    timeout = 30
+    assert:
+      - {type: llm-rubric, value: "Points out the diff changes a timeout while the evidence points to authentication after a secret rotation, so it does not address the cause, and suggests checking the webhook secret configuration instead."}
+  - name: negative-perfectionist-review
+    description: "The user asks for a thorough code quality review of naming and structure before shipping."
+    vars:
+      incident: "Search is down for all users; an off-by-one in pagination causes an index out of range exception."
+      diff: |
+        -    for i in range(page * size, page * size + size + 1):
+        +    for i in range(page * size, min(page * size + size, len(results))):
+    assert:
+      - {type: llm-rubric, value: "Does not block on naming or style; approves shipping the minimal fix with a verification metric and moves quality comments to follow-ups, explaining that during an incident only risks that worsen it should block."}

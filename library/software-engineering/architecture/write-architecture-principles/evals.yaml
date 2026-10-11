@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write architecture principles for our engineering org. {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-from-incidents
+    vars:
+      context: "Scale-up with 80 engineers in 12 teams, about 40 services. No shared principles; design reviews keep relitigating the same points."
+      evidence: "Three outages last year from services writing to another team's database tables. Two teams built their own feature flag systems. Every new service picks its own message broker (we now run three). ADR-12 chose managed Postgres over self-hosted after an incident during a manual failover. Debate repeats on whether services may call each other synchronously in a chain."
+    assert:
+      - {type: contains, value: "## Rejected candidates"}
+      - {type: llm-rubric, value: "Produces 5 to 10 principles that trace to the evidence, including one about each service owning its data (from the database outages) and one about preferring shared or managed platform capabilities over building or running duplicates, each with rationale, implications, exceptions and a reviewer test."}
+      - {type: llm-rubric, value: "Rejects at least one platitude-style candidate explicitly, keeps vendor names out of principle statements, and addresses a conflict or tension between two principles."}
+  - name: edge-revise-existing
+    vars:
+      context: "Mid-size fintech, 30 engineers."
+      evidence: "Repeated audit findings about missing audit trails. Slow releases because every change needs a CAB meeting."
+      existing: "1. Build for scale. 2. Security first. 3. Use Kubernetes for everything. 4. Keep it simple."
+    assert:
+      - {type: llm-rubric, value: "Marks each existing principle as kept, rewritten or retired with a reason, identifies 'build for scale' and 'keep it simple' as platitudes needing rewriting, and moves 'use Kubernetes' out of principles into a standard or rewrites it without the product name."}
+  - name: negative-no-evidence
+    vars:
+      context: "We want a list of architecture principles like the big tech companies have."
+      evidence: "None, we just want a good list."
+    assert:
+      - {type: llm-rubric, value: "Explains that principles should come from the organisation's own decisions and asks for evidence (recent debates, incidents, ADRs), or clearly labels any drafted principles as unvalidated proposals, rather than presenting a generic list as finished."}

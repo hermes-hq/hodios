@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How should {{journey}} degrade gracefully? Dependencies: {{dependencies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-page
+    vars:
+      journey: "Product detail page in an online shop. Success: the customer sees the product, price and stock and can add to cart. Page budget 800 ms server time."
+      dependencies: "Catalog service (sync, product data), Pricing service (sync), Inventory service (sync), Recommendations service (sync, often slow at p99), Reviews service (sync), Cart service (sync on add-to-cart). Current timeouts are all 5 seconds."
+      business_rules: "Never show a price older than 15 minutes. Showing stock as 'available, ships in 2-5 days' when inventory is down is acceptable."
+    assert:
+      - {type: contains, value: "## Mechanisms"}
+      - {type: llm-rubric, value: "Classifies recommendations and reviews as optional or degradable with hidden or cached fallbacks, treats pricing as critical or cache-limited to 15 minutes per the rule, and uses the stated inventory fallback."}
+      - {type: llm-rubric, value: "Replaces the 5-second timeouts with timeouts that fit inside the 800 ms page budget with arithmetic, and adds bulkheads or circuit breakers plus operator switches with trigger metrics."}
+  - name: edge-everything-critical
+    vars:
+      journey: "Internal admin tool to approve refunds."
+      dependencies: "Orders DB (sync), Payments provider API (sync), Audit log service (sync), Email notifications (sync)."
+    assert:
+      - {type: llm-rubric, value: "Challenges treating email notifications as critical (queue them instead) while keeping payments and an audit record as critical or requiring a durable local fallback for the audit trail, and asks about business rules it was not given."}
+  - name: negative-stale-balance
+    vars:
+      journey: "Banking app account overview and transfer screen."
+      dependencies: "Core banking API (sync, balance and transfers), Notifications, Offers service."
+      business_rules: "Product asks to show the last cached balance and still allow transfers when the core banking API is down."
+    assert:
+      - {type: llm-rubric, value: "May show a clearly labelled cached balance for viewing but pushes back on allowing transfers without the core banking system, explaining the overdraft and double-spend risk, and proposes a safer alternative such as disabling transfers or queuing them for later validation."}

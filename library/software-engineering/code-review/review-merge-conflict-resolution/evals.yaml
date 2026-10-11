@@ -1,0 +1,48 @@
+schema: 1
+baseline: "Is this merge conflict resolution correct? Ours: {{ours_change}} Theirs: {{theirs_change}} Result: {{resolution}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dropped-fix-and-semantic-conflict
+    vars:
+      ours_change: |
+        main: in billing/invoice.py, renamed calculate_tax(amount, region) to calculate_tax(amount, tax_region) and fixed rounding:
+        -    return amount * RATES[region]
+        +    return round_half_even(amount * RATES[tax_region], 2)
+      theirs_change: |
+        feature branch: in billing/invoice.py, added a discount before tax:
+        -    return amount * RATES[region]
+        +    amount = amount - discount_for(region)
+        +    return amount * RATES[region]
+        and in billing/credit_note.py added a new call: calculate_tax(amount=total, region=customer.region)
+      resolution: |
+        billing/invoice.py resolved to:
+        def calculate_tax(amount, tax_region):
+            amount = amount - discount_for(tax_region)
+            return amount * RATES[tax_region]
+        billing/credit_note.py taken from theirs unchanged.
+    assert:
+      - {type: contains, value: "## Semantic conflicts"}
+      - {type: llm-rubric, value: "Flags as a blocker that main's rounding fix (round_half_even) was dropped in the resolution."}
+      - {type: llm-rubric, value: "Flags the semantic conflict that credit_note.py calls calculate_tax with the keyword region= which no longer exists after the rename, causing a runtime error, and suggests running tests and grepping for old parameter names."}
+  - name: edge-summaries-only
+    vars:
+      ours_change: "main added retry logic to the HTTP client."
+      theirs_change: "branch switched the HTTP client to a new library."
+      resolution: "Kept the branch's new library version of the file."
+    assert:
+      - {type: llm-rubric, value: "Points out that main's retry logic was probably lost by taking the branch's file, says it could only reason from summaries and lists what diff evidence it needs to confirm."}
+  - name: negative-clean-resolution
+    vars:
+      ours_change: "main: added import of logging and a log line at the start of handle()."
+      theirs_change: "branch: added import of json and parsing of the request body at the start of handle()."
+      resolution: |
+        import json
+        import logging
+        def handle(req):
+            logging.info("handle called")
+            body = json.loads(req.body)
+    assert:
+      - {type: llm-rubric, value: "Judges the resolution correct (both imports and both intents preserved) and does not invent blockers; at most raises a minor question."}
