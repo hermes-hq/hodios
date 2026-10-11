@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Recreate this chart in code: {{chart_image}} Goal: {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bar-chart-screenshot
+    vars:
+      chart_image: "Screenshot of a vertical bar chart: 'Website visits by month 2025', y-axis 0 to 50k with gridlines every 10k, 12 bars, only the December bar labelled (47.2k)."
+      goal: "Same data in our house style, matplotlib."
+    assert:
+      - {type: llm-rubric, value: "Copies December as 47.2k labelled and marks the other eleven as estimated with a stated precision (for example plus or minus 1k); writes matplotlib code with data at the top; adds a source note that values were estimated from an image."}
+  - name: edge-misleading-original
+    vars:
+      chart_image: "Photo of a slide: 3D pie chart of market share for 7 companies with percentages printed on slices, two slices unlabelled."
+      goal: "A better chart of the same data, ggplot2."
+    assert:
+      - {type: llm-rubric, value: "Copies printed percentages exactly and derives unlabelled ones only if the total allows (100 minus the rest) or marks them estimated; replaces the 3D pie with a sorted bar chart; explains the change; gives ggplot2 code."}
+  - name: negative-unreadable-axis
+    vars:
+      chart_image: "Blurry phone photo of a line chart; axis labels unreadable; no values shown."
+      goal: "Exact values for a regulatory filing."
+    assert:
+      - {type: llm-rubric, value: "Says the axis cannot be calibrated from a blurry image and estimated values are unsuitable for a regulatory filing; asks for the original data source or a clear image; does not output a table of made-up values as if usable."}

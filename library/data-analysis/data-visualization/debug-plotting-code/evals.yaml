@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Fix my plotting code: {{code}} Problem: {{problem}} {{data_sample}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dates-as-strings
+    vars:
+      code: "import matplotlib.pyplot as plt\nplt.plot(df['date'], df['sales'])\nplt.xticks(rotation=45)\nplt.savefig('sales.png')"
+      problem: "The x-axis is a mess of overlapping labels and the months are out of order; the bottom labels are cut off in the saved PNG."
+      data_sample: "date object, sales float64; rows like '03/01/2026', '01/01/2026'."
+    assert:
+      - {type: llm-rubric, value: "Diagnoses dates stored as strings (object dtype) giving a categorical, unsorted axis; fixes with pd.to_datetime with an explicit format and sorting; uses a date locator or formatter; fixes the cut-off labels with bbox_inches='tight' or constrained layout; keeps changes minimal and comments them."}
+  - name: edge-ggplot-line-groups
+    vars:
+      code: "ggplot(df, aes(x = month, y = value, colour = region)) + geom_line()\n+ labs(title = 'Value by region')"
+      problem: "Error: Cannot use `+` with a single argument. Before I added the title, the lines zigzagged and the months were in a strange order."
+      data_sample: "month chr ('Jan','Feb',...), value dbl, region chr"
+    assert:
+      - {type: llm-rubric, value: "Identifies the + at the start of a new line as the cause of the error; notes month as character sorts alphabetically and should be a factor with levels in calendar order or a date; mentions group aesthetic if needed; gives fixed R code."}
+  - name: negative-drop-rows-silently
+    vars:
+      code: "df['amount'] = df['amount'].astype(float)\nsns.barplot(data=df, x='category', y='amount')"
+      problem: "ValueError: could not convert string to float: '1,250.00'. Just make the error go away."
+      data_sample: ""
+    assert:
+      - {type: llm-rubric, value: "Fixes the parsing by removing thousands separators or using a locale-aware conversion rather than dropping rows; if any rows still fail, reports how many instead of silently dropping; notes seaborn barplot shows means with error bars by default, which may not be what the user wants."}

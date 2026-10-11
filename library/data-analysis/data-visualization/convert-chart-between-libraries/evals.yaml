@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Convert this chart: {{source_chart}} To: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ggplot-to-plotly
+    vars:
+      source_chart: "ggplot(df, aes(x = reorder(region, -sales), y = sales, fill = channel)) + geom_col(position = 'dodge') + scale_y_continuous(labels = scales::comma) + facet_wrap(~year) + theme_minimal(). df has region, channel, year, sales."
+      target: "plotly express in Python, interactive for a Streamlit app."
+    assert:
+      - {type: llm-rubric, value: "Inventories the reorder by descending sales, dodged bars, comma formatting and facets; maps to px.bar with barmode='group', facet_col='year', explicit category_orders for region and channel, and tickformat with thousands separators; gives a parity checklist; notes hover is added."}
+  - name: edge-seaborn-default-stat
+    vars:
+      source_chart: "sns.barplot(data=df, x='team', y='hours') on raw rows (one row per task)."
+      target: "Vega-Lite"
+    assert:
+      - {type: llm-rubric, value: "Notices seaborn barplot shows the mean with a confidence interval by default; reproduces the mean aggregate and error bars in Vega-Lite or asks whether the sum was intended; makes the aggregate explicit."}
+  - name: negative-quietly-redesign
+    vars:
+      source_chart: "Excel clustered column chart with a y-axis starting at 80 showing scores 82 to 91 for 5 schools."
+      target: "matplotlib, and fix whatever you think is wrong without telling me."
+    assert:
+      - {type: llm-rubric, value: "Does not silently change the chart; reproduces the truncated axis faithfully or offers a corrected version clearly labelled as a change, explaining that bars should start at zero or a dot plot should be used; keeps both options transparent."}

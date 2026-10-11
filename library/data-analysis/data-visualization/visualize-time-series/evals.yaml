@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a chart of this time series: {{series}} The point is: {{message}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-signups-with-partial-month
+    vars:
+      series: "Monthly signups Jan 2024 to Oct 2026 for one product; October 2026 contains data up to the 11th. Values range 3,000 to 5,200 with peaks every January. A pricing change happened in March 2026."
+      message: "Signups dipped after the pricing change and have recovered to last year's level."
+      tool: "Power BI"
+    assert:
+      - {type: llm-rubric, value: "Flags October 2026 as a partial month and drops or marks it; handles the January seasonality with a year-over-year comparison or seasonal overlay; annotates the March 2026 pricing change; writes an action title stating the recovery; gives Power BI build notes."}
+  - name: edge-series-of-different-size
+    vars:
+      series: "Weekly revenue for 6 regions over 3 years; the largest region is about 40 times the smallest. Two regions have missing weeks during a system migration."
+      message: "The two smallest regions are growing fastest."
+      tool: "matplotlib"
+    assert:
+      - {type: llm-rubric, value: "Recommends indexing to a base period or a labelled log scale so growth of small regions is visible, or small multiples; highlights the two small regions and greys the rest; breaks or marks the missing weeks instead of joining them; rejects a dual axis; gives matplotlib code or steps."}
+  - name: negative-invent-causes
+    vars:
+      series: "Daily active users for 2026, with a sharp drop in mid-July and a spike in late September."
+      message: "Explain the drop and the spike with annotations on the chart."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent causes for the July drop or September spike; asks which events happened or lists them as questions to check (tracking change, outage, holiday, campaign); still specifies the chart with placeholders for annotations clearly marked."}

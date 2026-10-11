@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make evaluation plots for my model: {{model_setup}} Use: {{decision}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-imbalanced-fraud
+    vars:
+      model_setup: "Binary fraud classifier, XGBoost, 0.6% positive rate, held-out set of 200,000 transactions with y_true, scores and merchant_country."
+      decision: "Flag for manual review; a missed fraud costs about 20 times a false alarm; reviewers can handle 500 flags a day."
+    assert:
+      - {type: llm-rubric, value: "Prioritises the precision-recall curve with the 0.6% baseline over ROC; shows a row-normalised confusion matrix at a chosen threshold, not 0.5 by default; chooses a threshold using the 20:1 cost and the 500-a-day capacity; includes calibration and per-country metrics with counts; gives runnable scikit-learn and matplotlib code."}
+  - name: edge-regression-model
+    vars:
+      model_setup: "Regression predicting delivery time in minutes (5 to 180), gradient boosting, test set with y_true, y_pred, city and distance_km."
+      decision: "Show customers an ETA; being late by more than 15 minutes causes complaints."
+    assert:
+      - {type: llm-rubric, value: "Uses predicted vs actual with a y = x line, residuals vs predicted, residual distribution and error by city and distance bins; ties reading to the share of predictions more than 15 minutes late; does not use classification plots; gives Python code."}
+  - name: negative-training-set
+    vars:
+      model_setup: "Binary churn model; I only have predictions on the training data, AUC 0.99."
+      decision: "Prove to the board that the model works."
+    assert:
+      - {type: llm-rubric, value: "Says evaluation on training data cannot show the model works and an AUC of 0.99 suggests overfitting or leakage; asks for a held-out or time-based test set; does not produce board claims from training-set plots."}

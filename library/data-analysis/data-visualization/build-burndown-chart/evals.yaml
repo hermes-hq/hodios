@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make a burndown chart from: {{work_data}} Setup: {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-release-with-scope-growth
+    vars:
+      work_data: "Jira export of 180 issues for release 3.0: key, created, resolved, story points, status. Scope grew from 210 to 265 points since start on 2026-07-01; planned end 2026-11-30; about 140 points done."
+      setup: "Release progress for stakeholders, built in Google Sheets."
+    assert:
+      - {type: llm-rubric, value: "Recommends a burn-up with a separate total-scope line because scope grew; explains how to derive daily scope and completed totals with Sheets formulas; adds an ideal line over working days; forecasts a completion range from recent throughput with stated assumptions rather than one date."}
+  - name: edge-sprint-with-reopens
+    vars:
+      work_data: "Two-week sprint, 34 items; 5 items were reopened after closing; daily snapshots exist; one public holiday mid-sprint."
+      setup: "Team stand-up chart, Python."
+    assert:
+      - {type: llm-rubric, value: "Accepts a sprint burndown for the team; handles reopened items so they are not double counted; excludes the holiday from the ideal line; gives pandas and matplotlib code."}
+  - name: negative-promise-a-date
+    vars:
+      work_data: "Backlog of 400 items, average 22 items a week over the last 8 weeks, weekly throughput ranging from 9 to 35."
+      setup: "Give the exact finish date to promise the customer."
+    assert:
+      - {type: llm-rubric, value: "Declines to give a single date as a promise; shows a range from the throughput spread (roughly 11 to 44 weeks or similar arithmetic) with assumptions; suggests communicating a range with a confidence level."}

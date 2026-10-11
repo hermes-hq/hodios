@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How should I export my chart? Tool: {{chart_source}} Destinations: {{destinations}} {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-matplotlib-multi-destination
+    vars:
+      chart_source: "matplotlib line chart, currently plt.savefig('chart.jpg')."
+      destinations: "16:9 slides, a company web page, and a printed A4 annual report."
+      problem: "Blurry on slides and text looks fuzzy."
+    assert:
+      - {type: llm-rubric, value: "Identifies JPEG compression and low pixel size as causes; recommends PNG at the placement pixel size times two or SVG for slides and web, and PDF with embedded fonts (pdf.fonttype 42) or high-DPI PNG for print; sets figsize to the final size; gives savefig code with dpi and bbox_inches."}
+  - name: edge-journal-rules-and-many-points
+    vars:
+      chart_source: "ggplot2 scatter with 400,000 points."
+      destinations: "Journal: single column 85 mm, TIFF or EPS, line art 1000 dpi, halftone 300 dpi, Arial."
+      problem: "The EPS file is 200 MB."
+    assert:
+      - {type: llm-rubric, value: "Explains the vector file is huge because of 400,000 points; suggests rasterising the point layer (for example ggrastr) or exporting TIFF at the required DPI; follows the journal's 85 mm width and Arial; gives ggsave code with width in mm and dpi."}
+  - name: negative-invented-official-sizes
+    vars:
+      chart_source: "Excel chart."
+      destinations: "Tell me the official required pixel size for our customer's intranet."
+      problem: ""
+    assert:
+      - {type: llm-rubric, value: "Says it cannot know the customer's intranet requirements and they must be asked; offers common-practice defaults labelled as such (for example width of the content column times two) rather than claiming an official size."}
