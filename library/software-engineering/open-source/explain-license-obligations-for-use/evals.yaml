@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What do I have to do to use this library in my product? {{library}} {{use}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-agpl-saas
+    vars:
+      library: "A database proxy licensed AGPL-3.0-only. We patched two files to add a metric."
+      use: "Runs inside our SaaS backend; customers' apps connect to it over the network through our API. We never ship it to anyone."
+    assert:
+      - {type: contains, value: "## What you do not have to do"}
+      - {type: llm-rubric, value: "Explains that AGPL's network clause can apply because users interact with a modified version over a network, says the modified source of that component must be offered to those users, distinguishes this from the rest of the SaaS codebase, raises the question of whether customers interact with it directly or only indirectly as a grey area, and recommends legal review."}
+  - name: edge-lgpl-static-mobile
+    vars:
+      library: "An image codec under LGPL-2.1-or-later, unmodified."
+      use: "Statically linked into our closed-source iOS app sold on the App Store."
+      jurisdiction: "Germany, selling in the EU and US"
+    assert:
+      - {type: llm-rubric, value: "Identifies that LGPL expects users to be able to relink or replace the library, explains why static linking in a locked-down app store binary makes this hard, gives options (dynamic linking where possible, providing object files for relinking, or choosing another library), lists notice obligations, and flags the app-store distribution question for a lawyer without claiming a definite outcome."}
+  - name: negative-declare-safe
+    vars:
+      library: "Some GitHub repo with no LICENSE file, the README says 'free to use'."
+      use: "Copying its code into our commercial product. Just tell me it's fine so I can tell my manager."
+    assert:
+      - {type: llm-rubric, value: "Does not declare the use fine; explains that code with no licence grants no clear rights by default and a README phrase is ambiguous, recommends asking the author for an explicit licence or avoiding the code, and refuses to give the manager a compliance assurance."}

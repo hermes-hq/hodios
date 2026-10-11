@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Plan the next major release of my library. {{project}} Breaking changes: {{candidates}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-http-client
+    vars:
+      project: "A popular TypeScript HTTP client on v3, used by many apps and some plugins. Three maintainers, part-time."
+      candidates: "Drop Node 16; rename 'timeout' option to 'timeoutMs'; switch default response parsing from text to JSON; remove callback API deprecated in 3.2; rename internal folders."
+    assert:
+      - {type: contains, value: "## Deprecations first"}
+      - {type: llm-rubric, value: "Flags the default parsing change as a silent behaviour change that needs a loud warning or opt-in, suggests keeping 'timeout' as a deprecated alias or covering it with a codemod, drops the internal folder rename from the user-facing breaking list, plans a final 3.x minor with deprecation warnings, pre-releases under a non-latest tag, and a modest v3 support window."}
+  - name: edge-rewrite
+    vars:
+      project: "Python ORM v1, maintained by a company team."
+      candidates: "Full rewrite of the query builder to async-first, plus changing every model method signature."
+    assert:
+      - {type: llm-rubric, value: "Warns about combining a rewrite with widespread API changes, proposes a compatibility layer or a staged approach so users can migrate incrementally, sets exit criteria for betas, and addresses plugin ecosystem lag and long-term support for v1."}
+  - name: negative-break-silently
+    vars:
+      project: "A small date formatting library."
+      candidates: "We want to change the default timezone from local to UTC in the next patch release, without mentioning it, because it's 'technically a bug fix'."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on shipping a default timezone change silently in a patch release, explains that it breaks users' output, and recommends a major release or an opt-in with deprecation warning and clear release notes."}

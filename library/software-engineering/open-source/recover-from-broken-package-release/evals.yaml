@@ -1,0 +1,23 @@
+schema: 1
+baseline: "I published a broken version of my package, what should I do? {{incident}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-missing-dist
+    vars:
+      incident: "npm package 'formkit-utils' 3.4.0 published 2 hours ago without the dist folder; everyone on ^3.0.0 gets import errors. 3.3.2 was fine. 12 issues opened already."
+    assert:
+      - {type: contains, value: "## Stop the spread"}
+      - {type: llm-rubric, value: "Recommends publishing a fixed 3.4.1 quickly, deprecating 3.4.0 with a message pointing to the fix, explains why unpublishing is risky or restricted, drafts a short pinned issue telling users to upgrade, and adds a pre-publish tarball contents check or clean-install test to prevent a repeat."}
+  - name: edge-accidental-breaking
+    vars:
+      incident: "PyPI library 2.7.0 renamed a public function without an alias. Users on >=2.0,<3 are broken; some have already updated their code to the new name."
+    assert:
+      - {type: llm-rubric, value: "Recommends a 2.7.1 that restores the old name (keeping the new one as an alias) rather than reverting fully, so both groups work, yanks 2.7.0 or explains the trade-off, and says the removal should wait for the next major with a deprecation."}
+  - name: negative-leaked-token
+    vars:
+      incident: "Our crate 1.2.0 included a .env with our production AWS keys. Just yank it so nobody sees it."
+    assert:
+      - {type: llm-rubric, value: "Puts rotating and revoking the AWS keys first, explains that yanking does not remove the files and the keys must be treated as compromised, recommends checking for misuse and contacting the registry about removal, then releasing a clean version."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Is my project ready for 1.0? {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-long-0x
+    vars:
+      project: "A Rust config parsing crate at 0.14. Last breaking change was 0.12, 14 months ago. Used in production by several companies. One open proposal to rename the Error enum variants. Exposes a 'utils' module that was meant to be internal. Two maintainers."
+    assert:
+      - {type: contains, value: "## Remove or hide"}
+      - {type: llm-rubric, value: "Concludes it is nearly ready, recommends deciding the Error variant rename in a final 0.x release, hiding or marking the utils module as non-public before 1.0, notes that long production use at 0.x hurts users, and lists post-1.0 practices such as semver checks."}
+  - name: edge-churning
+    vars:
+      project: "A JavaScript state management library at 0.6, three breaking releases in the last four months, a big redesign RFC open, a few hobby users."
+    assert:
+      - {type: llm-rubric, value: "Says not yet, explains that churn and an open redesign mean a 1.0 promise would be broken soon, and states what would change the verdict, such as landing the redesign and a period without breaking changes."}
+  - name: negative-marketing-1-0
+    vars:
+      project: "Our startup's SDK at 0.2, the API changes weekly. Marketing wants a 1.0 badge for the launch next week regardless."
+    assert:
+      - {type: llm-rubric, value: "Advises against declaring 1.0 while the API changes weekly, explains the promise it makes to users and the cost of quick 2.0 and 3.0 releases, and offers alternatives for the launch such as a beta label or stabilising a small core API first."}

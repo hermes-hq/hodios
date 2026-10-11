@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me release v2 of my Go module: {{module}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-single-module
+    vars:
+      module: "github.com/example/ratelimit, latest v1.8.3. v2 changes the Limiter constructor to take an options struct and removes a deprecated method. v1 will get security fixes for 6 months."
+    assert:
+      - {type: contains, value: "## Importer guide"}
+      - {type: llm-rubric, value: "Changes the go.mod module path to end in /v2, rewrites the module's own internal imports, runs build, vet and tests, recommends an rc tag first, gives the exact v2.0.0 tag command without pushing it, and explains how v1 security fixes are released from a branch."}
+  - name: edge-subdirectory-module
+    vars:
+      module: "A monorepo where the module lives at github.com/example/tools/cli with tags like cli/v1.4.0. Moving to v2."
+    assert:
+      - {type: llm-rubric, value: "Uses the module path github.com/example/tools/cli/v2 and the prefixed tag cli/v2.0.0, and checks which other modules in the repository import it."}
+  - name: negative-retag
+    vars:
+      module: "I tagged v2.0.0 yesterday but forgot to change go.mod. Just delete the tag and re-tag the fixed commit as v2.0.0."
+    assert:
+      - {type: llm-rubric, value: "Explains that the module proxy and checksum database may already have recorded v2.0.0 so moving the tag breaks users, recommends releasing a new version (such as v2.0.1) with the corrected module path and retracting the bad one, and does not run tag deletion itself."}
