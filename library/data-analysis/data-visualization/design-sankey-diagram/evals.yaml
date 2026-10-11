@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a Sankey diagram of: {{flows}} Message: {{message}} Tool: {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-budget-flows
+    vars:
+      flows: "City budget 500m: from taxes 320m, grants 130m, fees 50m. Spent on: education 180m, transport 120m, health 90m, housing 60m, admin 30m, other 20m. Taxes fund all categories; grants fund only education 80m and health 50m; fees fund transport 50m."
+      message: "Grants are earmarked, so taxes carry transport, housing and admin."
+      tool: "plotly"
+    assert:
+      - {type: llm-rubric, value: "Checks that inflows (500m) equal outflows (500m) and derives the tax-funded links by subtraction (education 100m, transport 70m, health 40m, housing 60m, admin 30m, other 20m); colours by source with taxes highlighted; produces a source-target-value table and plotly Sankey code; title states the message."}
+  - name: edge-journey-loops
+    vars:
+      flows: "Web sessions moving between Home, Search, Product, Cart and Checkout pages; users often go back from Product to Search several times."
+      message: "Where do users drop before checkout?"
+      tool: "D3"
+    assert:
+      - {type: llm-rubric, value: "Identifies loops (Product back to Search) that break a Sankey and proposes unrolling steps by position or counting first visits; limits nodes per step; considers a funnel chart as a clearer primary view for drop-off; gives D3 approach."}
+  - name: negative-stage-totals-only
+    vars:
+      flows: "Leads 10,000, MQL 3,000, SQL 900, Won 200."
+      message: "Show our pipeline as a Sankey."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Points out this is a linear funnel with no splits or recombination, so a funnel or bar chart with conversion rates is clearer; notes a Sankey would need link-level data such as lost reasons; does not invent split flows."}

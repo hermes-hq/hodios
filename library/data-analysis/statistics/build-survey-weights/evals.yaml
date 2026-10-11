@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Weight this survey sample. Sample: {{sample}} Targets: {{targets}} Tool: {{tool}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-age-gender-poststrat
+    vars:
+      sample: "Online panel survey of 1,000 adults. Age 18-34: 450, 35-54: 350, 55+: 200."
+      targets: "National adult population (census): 18-34: 30%, 35-54: 35%, 55+: 35%."
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Computes weights as target share divided by sample share: 18-34 about 0.67, 35-54 1.00, 55+ 1.75; checks that the weighted shares match the targets; computes or explains Kish's design effect and an effective sample size below 1,000; notes that weighting on age alone does not correct other skews of an online panel; gives R code using the survey package or equivalent."}
+  - name: edge-raking-sparse-cells
+    vars:
+      sample: "Customer satisfaction survey, 640 responses. Plan: Free 400, Pro 200, Enterprise 40. Region: Americas 300, EMEA 250, APAC 90. Only 6 respondents are Enterprise in APAC."
+      targets: "Active customers: Free 70%, Pro 25%, Enterprise 5%; Americas 45%, EMEA 35%, APAC 20%. Cross-table of plan by region not available."
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Chooses raking on plan and region margins because the joint table is unknown and some cells are tiny; warns about the six Enterprise-APAC respondents; recommends trimming and reports design effect and effective sample size; checks weighted margins against targets; gives Python code."}
+  - name: negative-no-targets
+    vars:
+      sample: "Twitter poll of our followers, 2,300 votes, we know nothing about the voters."
+      targets: ""
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that without respondent-level variables and population targets there is nothing to weight on, and that a self-selected poll cannot be made representative by weighting; does not invent targets or weights; suggests what data would be needed or a different sampling approach."}

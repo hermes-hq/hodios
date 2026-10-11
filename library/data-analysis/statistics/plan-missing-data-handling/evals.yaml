@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I handle missing data here? {{dataset_summary}} Analysis: {{analysis}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-survey-income-mi
+    vars:
+      dataset_summary: "Employee survey, 2,400 rows. Wellbeing score (outcome) 4% missing. Income band 22% missing, more often among senior staff. Tenure 0% missing, department 0%, age 3%. Missing coded as -99 for income."
+      analysis: "Linear regression of wellbeing on income band, tenure, age and department, in R."
+    assert:
+      - {type: icontains, value: "mice"}
+      - {type: llm-rubric, value: "Flags the -99 coding; argues income missingness depends on seniority (observed via tenure or department, so MAR is plausible) but may also depend on income itself (MNAR risk); recommends multiple imputation with the outcome and auxiliary variables in the imputation model, around 25 to 30 imputations and Rubin's rules; rules out mean imputation; proposes a delta-adjustment or tipping-point sensitivity analysis; gives R mice code with pooling."}
+  - name: edge-trial-dropout
+    vars:
+      dataset_summary: "12-week weight-loss trial, 300 participants, weight measured weekly. 18% dropped out before week 12, more in the control arm. Dropouts had higher weight at their last visit."
+      analysis: "Compare week-12 weight between arms."
+    assert:
+      - {type: llm-rubric, value: "Identifies monotone dropout differing by arm; rejects last observation carried forward; recommends a mixed model for repeated measures or multiple imputation using earlier weights under MAR; notes dropout related to unobserved later weight would be MNAR and proposes a tipping-point or reference-based sensitivity analysis; does not claim MAR is proven."}
+  - name: negative-mostly-missing
+    vars:
+      dataset_summary: "CRM export of 10,000 leads. 'Annual revenue' field is 85% blank; it was added to the form last quarter and sales reps rarely fill it."
+      analysis: "Predict deal size from annual revenue."
+    assert:
+      - {type: llm-rubric, value: "Says imputation cannot reliably recover a variable that is 85% missing and largely structurally absent before the field existed; explains the missingness is related to time and rep behaviour; suggests restricting to the period after the field was added, collecting the value or using a proxy, rather than presenting imputation as a fix."}

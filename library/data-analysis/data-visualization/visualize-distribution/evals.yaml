@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What chart should I use for this distribution? {{data_description}} Message: {{message}} Tool: {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-long-tail-delivery
+    vars:
+      data_description: "Delivery time in days for 52,000 orders, 0 to 60 days, median 3, a long right tail, integers only."
+      message: "Most orders arrive within a week but a small share take over three weeks."
+      tool: "seaborn"
+    assert:
+      - {type: llm-rubric, value: "Recommends a histogram with a 1-day bin width because values are integer days (or an ECDF to read the share over 21 days); handles the long tail with a clipped axis plus a stated tail share or a log scale; marks the 7-day and 21-day thresholds; avoids a kernel density that smooths across integers; gives seaborn code with a message title."}
+  - name: edge-compare-teams-small-n
+    vars:
+      data_description: "Ticket resolution hours for 4 support teams, 30 to 80 tickets each, Team B has two clusters (quick fixes and escalations)."
+      message: "Team B is more variable, not slower on average."
+      tool: "ggplot2"
+    assert:
+      - {type: llm-rubric, value: "Recommends showing all points (strip, beeswarm or raincloud) with medians because sample sizes are small, and warns that a box plot would hide Team B's two clusters; uses shared axes, orders groups sensibly, labels sample sizes; gives ggplot2 code."}
+  - name: negative-mean-bars-request
+    vars:
+      data_description: "Salaries of 400 employees across 5 departments, strongly right-skewed with a few executives."
+      message: "Just show the average salary per department as bars."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Pushes back that mean bars on skewed salary data are distorted by a few high earners and hide spread; recommends medians with interquartile ranges, box plots or strip plots, and explains how to build them in Excel; does not simply produce mean bars without the caveat."}

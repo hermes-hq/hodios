@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Correct these p-values for multiple comparisons: {{results}} {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-holm-five-metrics
+    vars:
+      results: "Checkout redesign A/B test, five metrics: conversion p=0.004, average order value p=0.030, items per order p=0.041, return visits p=0.20, refund rate p=0.65."
+      context: "Conversion was the pre-registered primary metric. The others are secondary. Decision: ship or not."
+    assert:
+      - {type: icontains, value: "Holm"}
+      - {type: llm-rubric, value: "Treats conversion as the primary and either tests it unadjusted under a gatekeeping order or includes it in a Holm procedure; applies Holm correctly to the secondary metrics (sorted p-values compared with 0.05/k, 0.05/(k-1) and so on) so that average order value at 0.030 and items per order at 0.041 do not survive FWER control; reports that conversion supports shipping while secondary effects are hypotheses; gives statsmodels or p.adjust code."}
+  - name: edge-segment-screen-fdr
+    vars:
+      results: "We scanned 40 customer segments for uplift from a new onboarding email; 9 had p < 0.05. Lowest p-values: 0.0004, 0.001, 0.003, 0.008, 0.012, 0.020, 0.031, 0.044, 0.049. The other 31 are above 0.05."
+      context: "We want to pick segments for a follow-up targeted test."
+    assert:
+      - {type: llm-rubric, value: "Recognises this as screening and recommends Benjamini-Hochberg FDR control; applies BH with m=40 and shows that only the smallest few p-values survive (thresholds of rank times 0.05/40); notes about two of nine would be expected by chance at 0.05 alone; recommends the survivors go into a confirmatory follow-up test rather than being declared winners."}
+  - name: negative-only-significant-shared
+    vars:
+      results: "Here are our three significant findings: p=0.01, p=0.02, p=0.04. We tested a bunch of other things too but they did not show anything."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the family includes the unreported tests and that a correction cannot be computed honestly without the total number of tests and their p-values; asks for the full list; may show how the conclusion would change under assumed family sizes but labels this as illustrative; does not declare the three findings confirmed."}
