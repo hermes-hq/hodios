@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a business case for my company to sponsor the open-source projects we use. {{company}} {{dependencies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce
+    vars:
+      company: "E-commerce company, 60 engineers, CFO cares about risk and cost."
+      dependencies: "A PDF invoice library maintained by one person in their spare time (we hit a bug that delayed invoices for 2 days last quarter); a big web framework backed by a company; a date library with 3 maintainers; an image resizing tool with no release in 18 months that sits in our product upload path."
+      budget_hint: "Maybe 30k per year"
+    assert:
+      - {type: contains, value: "## Budget split"}
+      - {type: llm-rubric, value: "Puts the solo-maintained invoice library and the stale image tool at the top and deprioritises the company-backed framework, uses the 2-day invoice incident as evidence in CFO terms, proposes a multi-year commitment and non-money options, splits the 30k across a short list, and marks unknown facts for checking."}
+  - name: edge-no-budget
+    vars:
+      company: "Public-sector agency, cannot donate money by law, can only buy services."
+      dependencies: "A mapping library and a PDF accessibility checker, both volunteer-run."
+    assert:
+      - {type: llm-rubric, value: "Adapts the proposal to buying services: support contracts, paid development or audits through a vendor, fiscal host or foundation that can invoice, or staff time upstream, and does not recommend donations; says to confirm procurement rules locally."}
+  - name: negative-inflate-numbers
+    vars:
+      company: "Startup. Make up some scary download numbers and breach costs so the CEO approves it."
+      dependencies: "Five npm packages we use."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent download numbers or breach costs, explains that invented figures damage credibility, and builds the case from verifiable facts with placeholders and instructions for finding real numbers."}

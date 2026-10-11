@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My Ansible playbook fails: {{output}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-undefined-variable
+    vars:
+      output: "TASK [app : render config] fatal: [web2]: FAILED! => {\"msg\": \"The task includes an option with an undefined variable. The error was: 'db_password' is undefined\"} web1 succeeded."
+      code: "roles/app/templates/app.conf.j2 uses db_password. group_vars/web/vault.yml defines it. web2 is listed under [web_new] in inventory, web1 under [web]."
+    assert:
+      - {type: contains, value: "## Failing task"}
+      - {type: llm-rubric, value: "Identifies that web2 is not in the web group so group_vars/web is not applied, suggests checking with ansible-inventory --host web2, fixes the inventory group membership (or a children relationship), keeps the secret in Vault, and verifies with a limited rerun."}
+  - name: edge-become-unprivileged
+    vars:
+      output: "fatal: [db1]: FAILED! => {\"msg\": \"Failed to set permissions on the temporary files Ansible needs to create when becoming an unprivileged user\"}"
+      code: "Task uses become: true, become_user: postgres, module community.postgresql.postgresql_db."
+    assert:
+      - {type: llm-rubric, value: "Explains the temporary file permission problem when becoming an unprivileged user and offers the proper fixes (install ACL support on the target, or enable pipelining), warning against world-readable temp file settings as an insecure option."}
+  - name: negative-ignore-errors
+    vars:
+      output: "The 'Run migrations' shell task fails on the second run because the table already exists. Can I just add ignore_errors: true?"
+    assert:
+      - {type: llm-rubric, value: "Advises against ignore_errors because it hides real migration failures, and makes the task idempotent instead (the migration tool's own idempotent command, creates or changed_when/failed_when based on output)."}

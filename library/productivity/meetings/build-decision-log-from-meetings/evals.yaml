@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make a decision log from these meeting notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reversal
+    vars:
+      notes: "3 March project sync: Agreed to launch in the UK only first (Priya, as sponsor). Ben to check Irish VAT rules. Discussed moving to monthly billing, no conclusion. 17 March sync: Priya confirmed launch will now include Ireland as VAT is simple. Team agreed annual billing only for v1 because finance can't reconcile monthly yet."
+    assert:
+      - {type: contains, value: "## Decision log"}
+      - {type: llm-rubric, value: "Logs UK-only launch, the later inclusion of Ireland and annual-only billing as decisions with dates and deciders as stated, marks the UK-only decision superseded by the Ireland one, records the finance reason for annual billing, and does not log Ben's VAT check or the inconclusive monthly-billing discussion as decisions."}
+  - name: edge-no-dates-implied
+    vars:
+      notes: "Meeting A: Seems like we're going with vendor X. Meeting B: Jo (absent last time) wants to revisit vendor choice. Agreed in principle to cut the reporting module."
+    assert:
+      - {type: llm-rubric, value: "Notes the missing dates, puts the vendor choice and the 'agreed in principle' cut under implied or unclear decisions rather than as firm decisions, and asks the owner to confirm them, with no invented deciders."}
+  - name: negative-no-decisions
+    vars:
+      notes: "Weekly catch-up: everyone shared updates. Long discussion about office move options. Mia to collect quotes. Next week same time."
+    assert:
+      - {type: llm-rubric, value: "Says honestly that no decisions were recorded, does not manufacture any, and notes the quotes action belongs in an action tracker."}

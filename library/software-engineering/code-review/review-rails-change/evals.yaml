@@ -1,0 +1,59 @@
+schema: 1
+baseline: "Review this Rails code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-callback-and-params
+    vars:
+      context: "Rails 7.1, Postgres, Sidekiq. Users belong to an account; admins are flagged with role."
+      diff: |
+        +class User < ApplicationRecord
+        +  after_save :sync_to_crm
+        +  def sync_to_crm
+        +    CrmSyncJob.perform_later(self)
+        +  end
+        +end
+        +class UsersController < ApplicationController
+        +  def update
+        +    @user = User.find(params[:id])
+        +    @user.update(params.require(:user).permit(:name, :email, :role))
+        +  end
+        +end
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Flags that permitting :role lets a user make themselves admin and that User.find(params[:id]) lets one user update another (no scoping to the current account or user, no authorization check)."}
+      - {type: llm-rubric, value: "Flags that perform_later in after_save can run before the transaction commits and should use after_commit (or pass the id), and that the job fires on every save including unrelated attribute changes."}
+  - name: edge-column-removal
+    vars:
+      context: "Rails 7.1, Postgres. Migrations run before the new code is deployed; old servers keep running for several minutes."
+      diff: |
+        +class RemoveLegacyCodeFromOrders < ActiveRecord::Migration[7.1]
+        +  def change
+        +    remove_column :orders, :legacy_code, :string
+        +  end
+        +end
+        -  validates :legacy_code, length: { maximum: 10 }
+    assert:
+      - {type: llm-rubric, value: "Explains that old servers have the column cached and will error on inserts or updates after it is dropped, and recommends shipping ignored_columns first and removing the column in a later deploy."}
+  - name: negative-clean-controller
+    vars:
+      context: "Rails 7.1."
+      diff: |
+        +  def update
+        +    @post = current_user.posts.find(params[:id])
+        +    if @post.update(post_params)
+        +      redirect_to @post
+        +    else
+        +      render :edit, status: :unprocessable_entity
+        +    end
+        +  end
+        +
+        +  private
+        +
+        +  def post_params
+        +    params.require(:post).permit(:title, :body)
+        +  end
+    assert:
+      - {type: llm-rubric, value: "Recognises that the record is loaded through current_user.posts (so other users' posts raise not found) and that strong params permit only title and body; approves or raises only minor points, without inventing mass-assignment, authorisation or callback findings."}

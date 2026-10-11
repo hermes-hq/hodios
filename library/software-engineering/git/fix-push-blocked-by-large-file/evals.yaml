@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My git push fails because of a large file. {{push_error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dataset-in-earlier-commit
+    vars:
+      push_error: |
+        remote: error: File data/train.csv is 412.00 MB; this exceeds the file size limit of 100.00 MB
+        ! [remote rejected] main -> main (pre-receive hook declined)
+        I deleted train.csv and committed again but it still fails. 4 commits not pushed yet; train.csv was added in the 2nd.
+    assert:
+      - {type: contains, value: "## Check"}
+      - {type: llm-rubric, value: "Explains the file is still in the earlier unpushed commit, makes a backup, uses interactive rebase to edit that commit and git rm --cached the file, keeps it on disk, puts it in .gitignore or external storage, and verifies it is gone from the outgoing objects before pushing."}
+  - name: edge-asset-needs-lfs
+    vars:
+      push_error: "File assets/intro.mp4 is 180 MB, rejected. It's the app's intro video and must ship with the code. Only the last commit added it."
+    assert:
+      - {type: llm-rubric, value: "Removes the file from the last commit with git rm --cached and --amend, then tracks it with Git LFS including committing .gitattributes, and checks the outgoing commits."}
+  - name: negative-already-pushed
+    vars:
+      push_error: "A 300 MB zip got pushed to our shared develop branch last week via a different remote, now the mirror push to the main host fails."
+    assert:
+      - {type: llm-rubric, value: "Recognises the commit is already shared, does not apply the local-only fix, and points to a coordinated history rewrite with backup and team communication."}

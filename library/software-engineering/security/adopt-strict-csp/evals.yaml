@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add a strict CSP to my app. {{app}} {{current_policy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-server-rendered
+    vars:
+      app: "Django server-rendered app with jQuery, many templates using onclick attributes, and Google Analytics. No CDN page caching."
+      current_policy: "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com"
+    assert:
+      - {type: contains, value: "## Policy"}
+      - {type: llm-rubric, value: "Replaces the allowlist with a per-response nonce and strict-dynamic, refactors onclick attributes to event listeners, adds object-src none and base-uri none, and rolls out in report-only mode first."}
+  - name: edge-cdn-cached-pages
+    vars:
+      app: "Marketing site plus app, both behind a CDN that caches HTML for 10 minutes."
+      current_policy: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that cached HTML would reuse nonces and uses hashes for cached pages while using nonces only on uncached dynamic responses."}
+  - name: negative-unsafe-inline
+    vars:
+      app: "React SPA. Our CSP breaks the app, so just set script-src 'self' 'unsafe-inline' 'unsafe-eval' and call it strict."
+      current_policy: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that unsafe-inline and unsafe-eval remove most XSS protection, declines to call that strict, and finds what is breaking to fix it with nonces or code changes."}

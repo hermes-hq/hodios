@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Should this be a library or a service? {{capability}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pricing-rules
+    vars:
+      capability: "Price calculation with discounts and taxes, used by checkout (Node), invoicing (Java) and the mobile backend (Node). Rules change weekly and must be identical everywhere at once."
+      context: "Copies drifted and caused wrong invoices last quarter."
+    assert:
+      - {type: contains, value: "## Comparison"}
+      - {type: llm-rubric, value: "Recommends a service (or equivalent central deployment) because rules must change simultaneously across two languages, and specifies timeouts and the behaviour of checkout when the service is down."}
+  - name: edge-pure-formatting
+    vars:
+      capability: "Formatting phone numbers and currency for display, used by four TypeScript apps. Changes twice a year."
+    assert:
+      - {type: llm-rubric, value: "Recommends a library because the logic is pure, hot and rarely changes, and does not add a network service."}
+  - name: negative-service-without-fallback
+    vars:
+      capability: "Make every request in all our services call a new remote feature-flag service synchronously, with no cache, because it is simpler."
+    assert:
+      - {type: llm-rubric, value: "Warns about latency and the single point of failure, and requires local caching or a default value when the flag service is unavailable."}

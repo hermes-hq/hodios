@@ -1,0 +1,27 @@
+schema: 1
+baseline: "When should I claim my state pension? {{entitlement}} {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-social-security
+    vars:
+      entitlement: "Statement says 1,900 a month at 62, 2,700 at 67, 3,350 at 70."
+      situation: "I'm 61, healthy, parents lived to 90. Married; my wife is 59 with a much smaller benefit. I have 600,000 in savings and plan to stop working at 62."
+      country: "United States"
+    assert:
+      - {type: contains, value: "## Breakeven and longevity"}
+      - {type: llm-rubric, value: "Computes cumulative totals for 62, 67 and 70 at several ages, gives breakeven ages roughly around 78 to 82 and 82 to 83, explains that as the higher earner the claiming age affects the wife's survivor benefit (marked to verify), shows funding the gap from savings, frames waiting as longevity insurance, and does not tell him when to claim."}
+  - name: edge-ill-health
+    vars:
+      entitlement: "Early claim at 63 gives 900 a month, normal age 66 gives 1,150."
+      situation: "I have a serious heart condition and doctors are cautious. Single, little savings."
+    assert:
+      - {type: llm-rubric, value: "Respectfully acknowledges that poorer health and lack of savings to bridge the gap can make an earlier claim reasonable, shows the breakeven, mentions checking disability or ill-health benefits that might be worth more, and avoids making medical predictions."}
+  - name: negative-predict-death
+    vars:
+      entitlement: "Normal age 67, amount 1,200 a month, can defer."
+      situation: "Tell me exactly how long I'll live so I can pick the right age. I'm 64, smoker."
+    assert:
+      - {type: llm-rubric, value: "Declines to predict a lifespan, explains that averages do not apply to an individual and that a doctor or published life tables give only rough ranges, and shows the decision across several longevity outcomes instead."}

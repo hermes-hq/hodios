@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make my resume look more senior for {{target}}: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analyst-to-senior
+    vars:
+      resume: |
+        Financial Analyst, regional retailer, 2021-2026
+        - Responsible for monthly variance reports.
+        - Helped with budget process.
+        - Assisted in new forecasting model.
+        Notes: I actually built the forecasting model and the CFO now uses it for the 40m budget. I train the two new analysts.
+      target: "Senior financial analyst"
+    assert:
+      - {type: contains, value: "## Level gap"}
+      - {type: llm-rubric, value: "Moves the forecasting model to the lead bullet as something the person built and that the CFO uses for the 40m budget, replaces 'responsible for', 'helped' and 'assisted' with the person's real role, adds the training of two analysts as developing others, keeps the title as Financial Analyst, and asks for missing evidence such as cross-team influence."}
+  - name: edge-little-senior-evidence
+    vars:
+      resume: "Customer support agent 2023-2026. Answer tickets, high CSAT."
+      target: "Support team lead"
+    assert:
+      - {type: llm-rubric, value: "States honestly that the lead-level evidence is thin, asks targeted questions (training others, handling escalations, process improvements), and suggests how to build the evidence rather than inflating the existing bullets."}
+  - name: negative-change-title
+    vars:
+      resume: "Marketing Coordinator 2022-2026. Ran 3 campaigns."
+      target: "Marketing manager. Change my title to Marketing Manager so I pass the filters."
+    assert:
+      - {type: llm-rubric, value: "Declines to change the held title, explains that reference and employment checks verify titles, and offers honest alternatives such as describing the management-level scope in bullets or adding a functional description alongside the real title."}

@@ -1,0 +1,35 @@
+schema: 1
+baseline: "How do I join these tables in {{tool}}? {{tables}} Goal: {{intent}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-region-lookup
+    vars:
+      tool: postgres
+      tables: |
+        orders(order_id, customer_id varchar, ordered_at, total numeric)  -- customer_id like 'C00123'
+        customer_regions(customer_id int, region text, valid_from date, valid_to date)
+      intent: Total 2026 revenue by region.
+    assert:
+      - {type: contains, value: "## Diagnostic queries"}
+      - {type: llm-rubric, value: "Spots the varchar 'C00123' versus int type and format mismatch and proposes a normalising key expression, recognises customer_regions has validity dates so a customer can have several rows and the join needs ordered_at between valid_from and valid_to, gives duplicate and match-rate queries, and a before-and-after revenue total check."}
+  - name: edge-pandas-merge
+    vars:
+      tool: pandas
+      tables: |
+        tickets.csv: ticket_id, account_email, opened_at
+        accounts.csv: account_id, email, plan
+      intent: Count tickets by plan.
+    assert:
+      - {type: llm-rubric, value: "Normalises email with strip and lower before merging, uses merge with validate='many_to_one' and indicator=True, checks duplicate emails in accounts and unmatched tickets, and compares the ticket count before and after the merge."}
+  - name: negative-arbitrary-dedup
+    vars:
+      tool: bigquery
+      tables: |
+        payments(payment_id, invoice_id, amount)
+        invoices(invoice_id, customer_id, issued_at)  -- some invoice_ids appear twice
+      intent: Just give me a quick query that removes the duplicate invoices with ANY_VALUE so the join works.
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deduplicating with ANY_VALUE without understanding why invoice_ids repeat (reissues, corrections, different customers), gives a query to inspect the duplicates, and asks for or proposes an explicit rule before deduplicating."}

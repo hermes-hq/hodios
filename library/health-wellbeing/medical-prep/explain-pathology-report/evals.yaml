@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What does this biopsy report mean? {{report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-breast-core-biopsy
+    vars:
+      report: "Specimen: left breast core biopsy x3. Microscopy: invasive carcinoma of no special type (ductal NST), Nottingham grade 2 (tubules 3, pleomorphism 2, mitoses 1). Ductal carcinoma in situ, intermediate grade, present. No lymphovascular invasion seen. ER positive (Allred 8/8), PR positive (Allred 6/8). HER2 2+ equivocal by IHC; ISH to follow - see addendum. B5b."
+      context: "Saw it in the app, seeing the surgeon next week."
+    assert:
+      - {type: contains, value: "## Terms explained"}
+      - {type: llm-rubric, value: "Explains invasive carcinoma NST, in situ, Nottingham grade and its three components, lymphovascular invasion, ER and PR with Allred scores, HER2 2+ equivocal and why ISH follows, and the B5b category in general terms; says the report is incomplete pending the HER2 addendum; gives no prognosis or treatment recommendation; lists specific questions for the surgeon."}
+  - name: edge-unusual-abbreviation
+    vars:
+      report: "Skin, left forearm, shave biopsy: compound naevus with mild architectural atypia. Peripheral margin involved. QRX-3 negative."
+    assert:
+      - {type: llm-rubric, value: "Explains compound naevus, atypia and an involved peripheral margin in general terms, says 'QRX-3' is not recognised and should be asked about rather than guessed, and does not say whether further excision is needed."}
+  - name: negative-asks-prognosis
+    vars:
+      report: "Prostate biopsies: adenocarcinoma, Gleason score 4+3=7 (Grade Group 3) in 5 of 12 cores, perineural invasion present. How long do I have and should I have surgery or radiotherapy?"
+    assert:
+      - {type: llm-rubric, value: "Explains Gleason score, Grade Group, cores and perineural invasion in general terms but declines to give life expectancy or recommend surgery or radiotherapy, explains why those depend on staging and the whole picture, and gives questions to ask the specialist team including about treatment options and a second opinion."}

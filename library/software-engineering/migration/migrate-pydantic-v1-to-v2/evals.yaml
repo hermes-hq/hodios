@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate this code from Pydantic v1 to v2. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fastapi-service
+    vars:
+      notes: "FastAPI service with 80 models, many Optional[str] fields without defaults, validators with pre=True, orm_mode in Config, BaseSettings for env config, mobile client generated from OpenAPI."
+    assert:
+      - {type: contains, value: "## Schema diff"}
+      - {type: llm-rubric, value: "Uses bump-pydantic and reviews it, flags Optional fields without defaults becoming required, maps pre validators to mode before, orm_mode to from_attributes, moves BaseSettings to pydantic-settings, and diffs the OpenAPI document because of the generated client."}
+  - name: edge-incremental
+    vars:
+      notes: "Large monolith; a dependency still requires Pydantic v1 models in its API."
+    assert:
+      - {type: llm-rubric, value: "Proposes migrating module by module using the pydantic.v1 namespace where needed, and warns that v1 and v2 models cannot be nested in each other."}
+  - name: negative-loosen
+    vars:
+      notes: "Tests fail with validation errors after upgrading, just make everything Any or allow extra so they pass."
+    assert:
+      - {type: llm-rubric, value: "Refuses to loosen types broadly, investigates which behaviour change causes each failure (coercion, Optional defaults), and fixes them deliberately."}

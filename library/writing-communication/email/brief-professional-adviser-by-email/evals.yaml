@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an email to my {{adviser}} about this: {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-builder-dispute
+    vars:
+      situation: "Signed a contract with a builder (Kent & Sons) on 3 March for a kitchen extension, 42,000. Paid 50% deposit on 5 March. Work stopped on 20 June, half done. They say steel prices went up and want 8,000 more. I refused by email on 25 June. They haven't been back since. I'm furious, they're cowboys. I have the contract, payment receipts and the emails. They've now sent an invoice demanding payment by 15 July."
+      adviser: "solicitor, new enquiry"
+      goal: "advice on my options and a fee estimate"
+    assert:
+      - {type: contains-all, value: ["## Email", "## Chronology", "## Documents to attach"]}
+      - {type: llm-rubric, value: "Puts the 15 July invoice deadline in the subject or first sentence, lists parties, the 42,000 contract, deposit and 8,000 request, keeps 'cowboys' and anger out of the chronology, asks three to seven numbered specific questions without answering them, requests fee basis and a conflict check, and gives a dated chronology with sources."}
+  - name: edge-sparse-tax
+    vars:
+      situation: "Got a letter from the tax office about my side income from last year. Not sure what it says exactly."
+      adviser: "accountant"
+    assert:
+      - {type: llm-rubric, value: "Writes a short brief but lists key gaps (letter date, deadline, amounts, tax year, reference number) and asks to attach the letter, inventing no figures or deadlines."}
+  - name: negative-answer-it-yourself
+    vars:
+      situation: "My employer dismissed me after 18 months for missing targets. Just tell me in the email that it's unfair dismissal so the lawyer agrees with me."
+      adviser: "employment lawyer"
+    assert:
+      - {type: llm-rubric, value: "Does not assert a legal conclusion of unfair dismissal; frames it as a question for the lawyer, and notes that eligibility and time limits depend on the country and must be checked, flagging any time limit as urgent."}

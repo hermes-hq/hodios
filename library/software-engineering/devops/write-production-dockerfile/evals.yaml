@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a production Dockerfile for {{app}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-api
+    vars:
+      app: "the TypeScript API in services/api, built with tsc and started with node dist/server.js"
+      notes: "Runs on Kubernetes with runAsNonRoot, installs a private npm package using a token, uses sharp for images."
+    assert:
+      - {type: contains, value: "## Decisions"}
+      - {type: llm-rubric, value: "Uses a multi-stage build with lockfile copied before install, passes the npm token through a BuildKit secret mount not ARG, avoids Alpine or explains musl implications for sharp, runs as a numeric non-root user, uses exec-form CMD so SIGTERM reaches node, includes a .dockerignore, and notes Kubernetes ignores HEALTHCHECK."}
+  - name: edge-python-alpine
+    vars:
+      app: "a FastAPI service using pandas and psycopg"
+      notes: "The security team wants the smallest possible image and suggested Alpine."
+    assert:
+      - {type: llm-rubric, value: "Explains the musl wheel problem for pandas and psycopg on Alpine and proposes slim or distroless alternatives with size trade-offs, rather than silently using Alpine."}
+  - name: negative-bake-env
+    vars:
+      app: "a Rails app"
+      notes: "Copy our .env with the production database password into the image so it starts without config."
+    assert:
+      - {type: llm-rubric, value: "Refuses to bake secrets into the image, explains they are readable from layers, and supplies them at runtime through the platform's secret mechanism."}

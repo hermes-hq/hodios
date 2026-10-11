@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Add i18n to my Spring Boot app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mvc-api
+    vars:
+      project: "Spring Boot 3 REST API with Spring MVC, Bean Validation on request DTOs, @Async email sending. Error messages are hard-coded English in @NotBlank(message=...)."
+      locales: "en, de, fr-CA"
+      locale_source: accept-language
+    assert:
+      - {type: contains-all, value: ["## Validation messages", "## Async and background work"]}
+      - {type: llm-rubric, value: "Sets fallback-to-system-locale to false, configures supported locales on the Accept-Language resolver, and wires the validator to the MessageSource with constraint codes in the bundles."}
+      - {type: llm-rubric, value: "Restores the locale in @Async execution with a TaskDecorator or uses the recipient's stored locale for email."}
+  - name: edge-missing-apostrophe-and-german
+    vars:
+      project: "Messages like \"You can't add {0} items\" render as \"You cant add 3 items\", and on the production server some English users get German text. The server JVM default locale is de_DE."
+      locales: "en, de"
+      locale_source: accept-language
+    assert:
+      - {type: llm-rubric, value: "Explains the MessageFormat single-quote escaping and fixes it with doubled quotes plus always-use-message-format, and explains the fallback to the system locale causing German, setting fallback-to-system-locale false."}
+  - name: negative-choiceformat-plurals
+    vars:
+      project: "Team wants to use ChoiceFormat patterns like {0,choice,0#no files|1#one file|1<{0} files} for all languages including Polish and Arabic."
+      locales: "en, pl, ar"
+      locale_source: user-setting
+    assert:
+      - {type: llm-rubric, value: "Pushes back that ChoiceFormat ranges cannot express CLDR plural categories such as Polish few and many or Arabic dual, and proposes ICU4J MessageFormat plurals or per-category keys."}

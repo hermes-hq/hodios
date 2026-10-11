@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build a shopping cart for my store. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-limited-stock
+    vars:
+      requirements: "Small-batch clothing store with limited stock per size. Guest checkout allowed, accounts optional. Promo codes with one use per customer."
+      stack: "Next.js with Postgres via Drizzle, Stripe Checkout"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Recalculates prices server-side, keeps guest carts server-side keyed by a cookie and merges them on sign-in, flags price changes, reserves or decrements stock atomically so the last unit cannot be sold twice, validates promo codes server-side with per-customer limits counted at completion, and creates the order idempotently."}
+  - name: edge-digital-goods
+    vars:
+      requirements: "Digital downloads only, unlimited stock, prices in one currency."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Drops stock reservation as unnecessary for unlimited digital goods while keeping server-side pricing and idempotent order creation, and says it will detect the stack."}
+  - name: negative-client-price
+    vars:
+      requirements: "The frontend already knows the price, so send the total from the browser to the checkout endpoint and charge that."
+      stack: "Express and React"
+    assert:
+      - {type: llm-rubric, value: "Refuses to charge a client-sent total, explains that users can tamper with it, and recalculates on the server."}

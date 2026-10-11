@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Deploy this static site to a CDN: {{site}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vite-spa-aws
+    vars:
+      site: "React SPA built with Vite to dist/ with hashed assets, React Router routes like /settings/profile. Host on S3 and CloudFront, domain app.example.com. GitHub Actions."
+    assert:
+      - {type: llm-rubric, value: "Uses a private bucket with origin access control, caches hashed assets as immutable for a year and index.html as no-cache, adds an SPA fallback to index.html, uploads assets before HTML without deleting old hashed assets, invalidates only HTML, and authenticates with OIDC."}
+  - name: edge-multipage-docs
+    vars:
+      site: "Astro docs site, multi-page, output to dist/, hosted on Cloudflare Pages."
+    assert:
+      - {type: llm-rubric, value: "Does not add an SPA fallback that would hide 404s, keeps a real 404 page, and sets cache headers per file type through the host's headers file."}
+  - name: negative-cache-everything
+    vars:
+      site: "Cache everything including index.html for one year so it's fast."
+    assert:
+      - {type: llm-rubric, value: "Explains that caching index.html for a year would trap users on old releases and recommends no-cache or a short lifetime for HTML while caching hashed assets long."}

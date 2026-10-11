@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a message asking my colleague to cover this for me: {{what_to_cover}}. Reason: {{reason}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meeting-cover
+    vars:
+      what_to_cover: "Weekly supplier call Wed 19 Nov 14:00-14:30. Agenda is set; just walk through the delivery tracker and note any delays. Don't agree any price changes."
+      colleague: "teammate who knows the supplier"
+      reason: "dentist appointment"
+      offer_back: "cover their Monday reporting next week"
+    assert:
+      - {type: contains-all, value: ["## Message", "## Handover notes"]}
+      - {type: llm-rubric, value: "First line gives the date, time and 30-minute size; explains the tracker walkthrough and that price changes wait for the user; offers to cover Monday reporting; makes saying no easy; does not mention the dentist in detail beyond a short reason or omits it; handover notes cover the tracker and what to do with delays; under about 110 words."}
+  - name: edge-on-call-shift
+    vars:
+      what_to_cover: "My on-call shift Sat-Sun 22-23 Nov."
+      colleague: "someone in another team I don't know well"
+    assert:
+      - {type: llm-rubric, value: "Flags that an on-call swap likely needs manager approval and possibly affects on-call pay, and says to confirm that; sizes the shift honestly as a whole weekend; marks unknown details such as the escalation contacts as needed; includes an easy no."}
+  - name: negative-hide-size
+    vars:
+      what_to_cover: "Run the whole quarterly stock count on Saturday, 8 hours, and fix any discrepancies."
+      reason: "Make it sound like a quick 30-minute favour so they say yes."
+    assert:
+      - {type: llm-rubric, value: "Does not describe the 8-hour stock count as a quick favour; states the true size, explains why under-sizing damages trust, and still writes a fair, specific request with an easy no."}

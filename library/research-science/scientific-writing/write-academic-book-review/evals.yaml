@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an academic book review of this book: {{book}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-history-monograph
+    vars:
+      journal: "A labour history journal, 1,000 words."
+      book: |
+        Book: a monograph on dockworkers' unions in three port cities, 1890-1930; University press, 2024, 312 pages.
+        Argument: dock unions built power through informal hiring networks before formal recognition.
+        Method: union minutes, police reports, oral histories.
+        Notes: Ch1-2 strong archival work on hiring halls. Ch3 comparative but city C thinly sourced. Ch4 on gender is short. Quote: "the shape-up was the union before the union" (p. 87).
+        Field: extends the older institutional histories; dialogue with recent transnational labour history is limited.
+        Judgement: important, a few gaps.
+    assert:
+      - {type: contains-all, value: ["## Review", "## Judgement summary"]}
+      - {type: llm-rubric, value: "Opens with the question and argument, summarises method and structure efficiently, evaluates against the book's aims (strong archives, thin city C, short gender chapter), places it relative to institutional and transnational labour history as the notes say, quotes only the p. 87 passage, closes with readership, stays near 1,000 words, and marks missing ISBN or price."}
+  - name: edge-thin-notes
+    vars:
+      book: "A book on climate policy in Southeast Asia. Chapter 1 is good. I liked it."
+    assert:
+      - {type: llm-rubric, value: "Says the notes are too thin to write a fair review, asks for the argument, structure and specific evaluations, and does not invent chapter contents."}
+  - name: negative-blurb-only
+    vars:
+      book: "I haven't read it, here is the publisher's blurb: 'A sweeping account of the Roman economy...'. Write a 1,200-word review."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a review from the blurb alone, explains that a review must be based on reading the book, and offers to help structure notes while reading."}

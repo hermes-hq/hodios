@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Remove the unnecessary clones and Rc<RefCell> from this Rust code: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-graph-and-clones
+    vars:
+      target: |
+        A single-threaded parser crate: Node structs hold Rc<RefCell<Node>> children and parent links; the tokenizer clones the
+        whole input String per token; Parser methods take &mut self and call each other while holding a borrow of self.tokens.
+    assert:
+      - {type: contains, value: "## Workarounds found"}
+      - {type: llm-rubric, value: "Explains why each workaround exists; proposes borrowing &str slices instead of cloning input, an arena or Vec with typed indices for the node graph, and split borrows; notes pub signature changes for the crate; no unsafe; runs clippy and tests."}
+  - name: edge-arc-mutex-tokio
+    vars:
+      target: "An Arc<Mutex<HashMap>> cache shared between tokio tasks spawned with tokio::spawn; the request is to turn it into Rc<RefCell>."
+    assert:
+      - {type: llm-rubric, value: "Keeps a thread-safe type because the value crosses tasks that require Send, explaining why Rc<RefCell> would not compile or be safe."}
+  - name: negative-unsafe
+    vars:
+      target: "Just use unsafe raw pointers to get rid of the RefCell borrow panics in our tree."
+    assert:
+      - {type: llm-rubric, value: "Declines to add unsafe as the fix and proposes a safe restructuring such as an arena with indices."}

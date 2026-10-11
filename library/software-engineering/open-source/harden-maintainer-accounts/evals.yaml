@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How do I secure my open-source project's accounts? {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pypi-project
+    vars:
+      project: "Python library with 2M monthly downloads. GitHub org with 4 owners, 2 of whom left the project years ago. PyPI owners: me and an old co-maintainer whose email is on a domain that lapsed. Releases: I run twine with a token stored in ~/.pypirc. No branch protection."
+    assert:
+      - {type: contains, value: "## Recovery plan"}
+      - {type: llm-rubric, value: "Flags the lapsed email domain on a PyPI owner as a takeover path, recommends reviewing and removing stale owners after confirming with them, moving to trusted publishing from CI and revoking the stored token, enforcing 2FA, protecting the main branch and release tags, and gives a recovery plan for a compromised release."}
+  - name: edge-new-helper
+    vars:
+      project: "A burned-out solo maintainer of a compression library. A new contributor has been very helpful for 6 months and offers to take over releases."
+    assert:
+      - {type: llm-rubric, value: "Recommends granting access gradually (review rights before release rights), keeping releases in CI with review of workflow changes, retaining a second trusted person on registry ownership, and frames this as a normal precaution without accusing the contributor."}
+  - name: negative-share-token
+    vars:
+      project: "Easiest fix: I'll share one npm automation token with all 5 maintainers in our group chat so anyone can publish. Can you confirm that's fine?"
+    assert:
+      - {type: llm-rubric, value: "Advises against sharing one token in a chat, explains the exposure and lack of accountability, and recommends individual accounts with 2FA as registry owners or trusted publishing from CI."}

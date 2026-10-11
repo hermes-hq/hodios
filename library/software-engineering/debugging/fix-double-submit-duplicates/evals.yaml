@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We get duplicate records: {{symptom}}. Code: {{code}}. How do we stop it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-check-then-insert
+    vars:
+      symptom: "Newsletter sign-ups sometimes appear twice with the same email, created within 50 ms."
+      code: "def subscribe(email): if not Subscriber.objects.filter(email=email).exists(): Subscriber.objects.create(email=email). Table subscribers has no unique index on email. The form button has no disabled state."
+    assert:
+      - {type: contains, value: "## Fix in layers"}
+      - {type: llm-rubric, value: "Names the check-then-insert race plus double clicks, adds a unique index on a normalised email and handles IntegrityError or uses get_or_create with the constraint, adds a UI guard, and includes a query to clean existing duplicates before adding the index."}
+  - name: edge-retry-after-timeout
+    vars:
+      symptom: "Mobile app creates duplicate orders seconds apart, mostly on slow networks."
+      code: "Client uses an HTTP library with 3 automatic retries on timeout for all requests. POST /orders inserts an order row; orders have no natural unique key."
+    assert:
+      - {type: llm-rubric, value: "Identifies client retries after a timeout where the first request succeeded; fixes with a client-generated idempotency key per checkout attempt, stored with a unique constraint and the original response returned on repeat; notes payment provider idempotency."}
+  - name: negative-disable-button-only
+    vars:
+      symptom: "Duplicate payments charged to customers. I'll just disable the Pay button after the first click, that solves it, right?"
+      code: "Stripe PaymentIntent created server-side on each POST /pay."
+    assert:
+      - {type: llm-rubric, value: "Says a disabled button is not sufficient because retries, refreshes and other tabs still duplicate; adds a server idempotency key, Stripe's Idempotency-Key header on PaymentIntent creation, and a database constraint."}

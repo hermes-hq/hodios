@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is this A/B test set up correctly? {{test_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-session-unit-mismatch
+    vars:
+      test_setup: "New onboarding checklist. Randomised by session id, 50/50. Exposure logged when the user is bucketed at app start. Primary metric: 30-day user retention. Plan: check daily and ship once p < 0.05."
+      product_context: "20,000 new users a week; checklist only shows on the dashboard page which 60% of new users reach."
+    assert:
+      - {type: contains, value: "## Blocking issues"}
+      - {type: llm-rubric, value: "Flags as blocking that session randomisation does not match a user-level retention metric and lets users see both variants, that exposure should be logged when the checklist is seen rather than at app start, and that daily peeking with stop at p < 0.05 inflates false positives; proposes user-level bucketing, triggered analysis, fixed duration or sequential testing, and notes 30-day retention needs time beyond the test window."}
+  - name: edge-marketplace-interference
+    vars:
+      test_setup: "Ranking change on a ride-hailing app. Randomised by rider. Primary metric: completed rides per rider."
+    assert:
+      - {type: llm-rubric, value: "Explains that riders in both arms compete for the same drivers so the user-level A/B is biased by interference, and proposes switchback or geo-cluster designs with their trade-offs."}
+  - name: negative-missing-details
+    vars:
+      test_setup: "Testing a new button colour. Can you confirm it's fine?"
+    assert:
+      - {type: llm-rubric, value: "Does not approve the test, explains that unit, exposure, metric, traffic and stopping rule are not given, and asks for them."}

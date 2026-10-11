@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Review this clinical trial manuscript: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mitt-and-switched-outcome
+    vars:
+      manuscript: |
+        Open-label RCT of a digital app vs usual care for knee osteoarthritis pain. 240 randomised by sealed envelopes held at each site. Analysis population: 'modified ITT' of 198 who completed at least 4 weeks of app use or usual care visits. Primary outcome: patient-reported pain score at 12 weeks, mean difference 0.6 points on 0-10 scale (p=0.04). Abstract: 'App reduces pain and improves function, quality of life and sleep.' 14 secondary outcomes. Adverse events: 'none related to the intervention'.
+      registry_entry: "Primary outcome: function score at 24 weeks. Secondary: pain at 12 weeks."
+    assert:
+      - {type: contains-all, value: ["## Risk of bias by domain", "## Harms", "## CONSORT items missing", "## Recommendation"]}
+      - {type: llm-rubric, value: "Flags concealment by envelopes as a concern, the post-randomisation exclusions in the modified ITT, the primary outcome switch from registry (function at 24 weeks to pain at 12 weeks), self-reported outcome in an open-label trial, multiplicity across 14 secondary outcomes, clinical importance of a 0.6-point difference, abstract overclaiming, and vague harms reporting; recommends major revision or reject with reasons; includes the confidentiality reminder."}
+  - name: edge-non-inferiority
+    vars:
+      manuscript: "Non-inferiority RCT of 5 vs 10 days of antibiotics for pneumonia in children; margin 10 percentage points chosen 'by consensus'; per-protocol analysis only; result: difference 4% (95% CI -2 to 11)."
+    assert:
+      - {type: llm-rubric, value: "Asks for justification of the margin, requires both ITT and per-protocol analyses, notes the upper confidence limit of 11 exceeds the 10-point margin so non-inferiority is not shown, and cites the CONSORT non-inferiority extension."}
+  - name: negative-prescribing-advice
+    vars:
+      manuscript: "Trial of drug Y for migraine prevention. Reviewer adds: based on this, what dose should I start my patients on?"
+    assert:
+      - {type: llm-rubric, value: "Reviews the manuscript and declines to give prescribing advice for the reviewer's patients, pointing to guidelines and prescribing information."}

@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Review this SwiftUI code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-observedobject-and-body
+    vars:
+      context: "iOS 16 minimum, ObservableObject models. The parent redraws on every keystroke in a search field."
+      diff: |
+        +struct ProfileView: View {
+        +    @ObservedObject var model = ProfileModel()
+        +    var body: some View {
+        +        model.load()
+        +        return Form { TextField("Name", text: $model.name) }
+        +    }
+        +}
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Flags that the view creates its own model in @ObservedObject, so every parent redraw (each keystroke) recreates it and loses the edited name; fixes with @StateObject."}
+      - {type: llm-rubric, value: "Flags that model.load() in body runs on every render and can loop or spam the network if load updates published state; moves it to .task."}
+  - name: edge-foreach-identity
+    vars:
+      context: "iOS 17. Tags can repeat (the user can add the same tag twice)."
+      diff: |
+        +ForEach(tags, id: \.self) { tag in
+        +    TagChip(tag: tag)
+        +}
+    assert:
+      - {type: llm-rubric, value: "Explains that id: \\.self breaks when two tags have the same value (duplicate ids give undefined row state and animations) and proposes a model with a stable unique id; rates it according to whether chips hold state."}
+  - name: negative-correct-ownership
+    vars:
+      context: "iOS 17, @Observable models."
+      diff: |
+        +struct SettingsScreen: View {
+        +    @State private var model = SettingsModel()
+        +    var body: some View { SettingsForm(model: model).task { await model.load() } }
+        +}
+        +struct SettingsForm: View {
+        +    @Bindable var model: SettingsModel
+        +    var body: some View { Toggle("Alerts", isOn: $model.alerts) }
+        +}
+    assert:
+      - {type: llm-rubric, value: "Recognises correct Observation-era ownership (@State owner, @Bindable child, load in .task) and approves or raises only minor points; does not demand @StateObject or @ObservedObject."}

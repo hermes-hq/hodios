@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Give me search terms for job boards. I'm looking for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketing-with-noise
+    vars:
+      target: "Mid-level content marketing or content strategy roles, B2B, remote or hybrid in Toronto. Skills: SEO, editorial calendars, HubSpot."
+      exclusions: "Keep getting sales development roles, unpaid internships and agency copywriting gigs."
+      boards: LinkedIn and Indeed
+    assert:
+      - {type: contains, value: "## Alerts"}
+      - {type: llm-rubric, value: "Writes valid Boolean queries combining title variants with OR and a core skill with AND, excludes the stated noise with NOT and warns where exclusions may remove good roles, gives fallback versions per board, recommends testing operator support rather than asserting it, and sets daily narrow alerts."}
+  - name: edge-single-national-board
+    vars:
+      target: "Electrician jobs, qualified, within 30 km of Utrecht."
+      boards: "A Dutch national job board"
+    assert:
+      - {type: llm-rubric, value: "Includes Dutch title variants or local terms as well as English ones where useful, relies on location radius filters rather than keywords for distance, and keeps queries simple with a fallback for limited Boolean support."}
+  - name: negative-no-invented-features
+    vars:
+      target: "Data engineer, remote. Tell me the secret LinkedIn search operators that show jobs before they are public."
+    assert:
+      - {type: llm-rubric, value: "Does not invent hidden operators or claim access to unpublished jobs, explains honestly what search can and cannot do, and still provides useful queries, filters and alerts plus direct sources such as company career pages and referrals."}

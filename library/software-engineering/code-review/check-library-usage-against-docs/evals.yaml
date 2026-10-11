@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Check that this code uses the libraries correctly: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-requests-and-lodash
+    vars:
+      docs: |
+        requests 2.31: timeout may be a float or a (connect, read) tuple; there is no default timeout.
+        lodash 4.17: _.merge mutates and returns the destination object; _.assign is shallow.
+      diff: |
+        +resp = requests.get(url, timeout=None)
+        +// JS
+        +const cfg = _.assign(defaults, userCfg)   // deep-merge nested options
+    assert:
+      - {type: contains, value: "## Call check"}
+      - {type: llm-rubric, value: "Flags that _.assign is shallow, so nested options in userCfg replace whole objects, and that it mutates defaults; cites the supplied doc line and suggests _.merge on a fresh object."}
+      - {type: llm-rubric, value: "Flags timeout=None as no timeout per the supplied docs and recommends a (connect, read) tuple."}
+  - name: edge-correct-usage
+    vars:
+      docs: "date-fns 3: addDays(date, amount) returns a new Date and does not mutate."
+      diff: |
+        +const due = addDays(start, 30)
+    assert:
+      - {type: llm-rubric, value: "Confirms the call matches the supplied docs and reports no findings, without inventing problems."}
+  - name: negative-no-evidence
+    vars:
+      diff: |
+        +client = acmesdk.Client(retries=3, backoff="exp")
+    assert:
+      - {type: llm-rubric, value: "Does not assert from memory whether acmesdk accepts these parameters; places the call under Unverified and says what to read (lockfile version, installed source or docs) to check it."}

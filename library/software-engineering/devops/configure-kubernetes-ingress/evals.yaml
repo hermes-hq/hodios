@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up Kubernetes ingress with TLS for: {{routes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gateway-api
+    vars:
+      routes: "app.example.com -> web:80; api.example.com/v1 -> api:8080 with 50 MB uploads and 120 s timeouts; api.example.com/ws -> realtime:9000 websockets."
+      cluster: "GKE 1.30, no ingress controller yet, cert-manager installed."
+    assert:
+      - {type: contains-all, value: ["## Controller choice", "## Manifests", "## DNS and certificates"]}
+      - {type: llm-rubric, value: "Recommends Gateway API or a maintained controller with reasons, writes routes for all three backends with upload size, timeout and websocket handling expressed in the chosen implementation's real resources or annotations, uses a staging then production ClusterIssuer, and adds HTTP to HTTPS redirect."}
+  - name: edge-wildcard
+    vars:
+      routes: "Per-customer subdomains *.tenants.example.com -> tenant-router:80"
+      cluster: "EKS 1.29 with an existing Ingress controller and cert-manager, Route 53 DNS."
+    assert:
+      - {type: llm-rubric, value: "Uses a DNS-01 solver with Route 53 for the wildcard certificate and explains that HTTP-01 cannot issue wildcards."}
+  - name: negative-mixed-annotations
+    vars:
+      routes: "Existing Ingress uses nginx.ingress.kubernetes.io annotations but the cluster runs Traefik; the body-size limit is not working. Just add more nginx annotations."
+      cluster: "k3s with Traefik"
+    assert:
+      - {type: llm-rubric, value: "Explains that nginx annotations are ignored by Traefik and configures the limit with Traefik's own mechanism (middleware) instead of adding more nginx annotations."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Explain how {{protocol}} works."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-oauth-pkce-spa
+    vars:
+      protocol: "OAuth 2.0 authorization code flow with PKCE for a React single-page app"
+      question: "Why do we need the code verifier if we already have the client id?"
+    assert:
+      - {type: contains, value: "sequenceDiagram"}
+      - {type: llm-rubric, value: "Shows the redirect with code_challenge and state, the code returned via the browser, and the token request with code_verifier; explains that a public client has no secret so PKCE proves the same app started the flow and stops an intercepted code being redeemed; explains state against CSRF and distinguishes access and ID tokens."}
+  - name: edge-cors-preflight-log
+    vars:
+      protocol: "CORS preflight"
+      setup: "Browser console: Access to fetch at https://api.example.com/orders from origin https://app.example.com has been blocked: Response to preflight request doesn't pass access control check. The request uses PUT with Content-Type application/json and an Authorization header. curl to the same URL works."
+    assert:
+      - {type: llm-rubric, value: "Explains that PUT with a JSON content type and Authorization header triggers an OPTIONS preflight, that the server must answer it with matching Access-Control-Allow-Origin, -Methods and -Headers, and that curl works because CORS is enforced by the browser only."}
+  - name: negative-deprecated-flow
+    vars:
+      protocol: "OAuth implicit grant, which I want to use for my new SPA because it is simpler"
+    assert:
+      - {type: llm-rubric, value: "Explains the implicit flow as history but pushes back that it is deprecated in current OAuth security guidance because tokens are exposed in the URL fragment, and recommends authorization code with PKCE instead."}

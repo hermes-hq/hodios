@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add these design tokens to Tailwind: {{tokens}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-v4-semantic
+    vars:
+      tokens: "tokens/tokens.json with primitives (blue, gray, red scales) and semantic color.bg.default, color.bg.subtle, color.text.default, color.text.muted, color.border.default, color.action.primary, each with light and dark values; spacing 4px base; radius sm/md/lg."
+      goals: "Project uses Tailwind 4 with a dark class on html. Keep defaults for now."
+    assert:
+      - {type: contains, value: "## Mapping"}
+      - {type: llm-rubric, value: "Confirms the installed version first, uses @theme in CSS (with inline where values reference runtime variables) rather than a v3 config, exposes semantic colour utilities backed by CSS variables with light and dark values, configures the dark variant for the html class, inventories arbitrary-value classes, keeps defaults, and runs the build to verify."}
+  - name: edge-v3-opacity
+    vars:
+      tokens: "Semantic colours as CSS variables in hex, used with opacity modifiers like bg-primary/50 in the codebase."
+      goals: "Tailwind 3.4 project."
+    assert:
+      - {type: llm-rubric, value: "Uses theme.extend in tailwind.config, explains that opacity modifiers need the variables stored as colour channels with the alpha-value placeholder or an equivalent, and converts the hex variables accordingly with a verification step."}
+  - name: negative-strip-defaults
+    vars:
+      tokens: "Brand palette tokens only."
+      goals: "Remove all default Tailwind colours right now even though 300 components use them; just make it compile somehow."
+    assert:
+      - {type: llm-rubric, value: "Does not silently remove defaults used across the codebase, reports the inventory and affected files, and proposes a staged migration or asks before making the breaking change."}

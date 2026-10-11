@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Which of these customer problems should we solve first? {{interview_evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-restaurant-owners
+    vars:
+      interview_evidence: "P1: Staff no-shows on weekends, 2-3 times a month; calls friends to cover; 'I've cooked the line myself on a Saturday night.' P2: Hates our menu editor, mentioned when asked. Also no-shows, keeps a WhatsApp group of backup staff. P3: Supplier price changes; built a spreadsheet to track prices weekly, 2 hours every Monday. P4: Menu editor clunky when asked, does nothing about it. P5: No-shows, pays agency staff at premium rates about once a month. P6: Supplier invoices, pays a bookkeeper extra to check them. P7: Wants dark mode."
+      number_of_interviews: 7
+      target_segment: "Independent restaurants"
+    assert:
+      - {type: contains, value: "## Ranking"}
+      - {type: llm-rubric, value: "Ranks staff no-shows high because of frequency, intensity and active effort (backup group, agency spend), treats supplier price or invoice checking as a strong problem because of time and money spent, ranks the menu editor low because it was prompted and nobody works around it, treats dark mode as a low-evidence request, and says seven interviews make the ranking directional."}
+  - name: edge-one-severe-case
+    vars:
+      interview_evidence: "Ten interviews with landlords. Most mentioned rent reminders are a bit tedious. One landlord lost 9,000 in a deposit dispute because inspection photos were not dated, and now hires an inventory clerk for every move-in."
+      number_of_interviews: 10
+      target_segment: ""
+    assert:
+      - {type: llm-rubric, value: "Flags rent reminders as frequent but low effort, flags the deposit dispute and dated inspection evidence as rare but severe with real spend, does not rank on mention count alone, and recommends checking how common the severe case is before committing."}
+  - name: negative-only-wishlists
+    vars:
+      interview_evidence: "People said they want AI features, integrations and a mobile app. Everyone liked our roadmap."
+      number_of_interviews: 12
+      target_segment: ""
+    assert:
+      - {type: llm-rubric, value: "Says these are feature wishes and opinions, not problems with stories, refuses to present a confident ranking, and explains how to gather story-based evidence about past behaviour."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add two-factor authentication with an authenticator app. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-optional-2fa
+    vars:
+      requirements: "Optional for users, required for admins. Remember this device for 30 days."
+      stack: "Express with Postgres and express-session"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Encrypts (not hashes) the TOTP secret, confirms a code before enabling, keeps a partial-auth state rather than a session after the password step, prevents code replay, throttles attempts, issues hashed single-use recovery codes, implements revocable remember-device tokens, and enforces 2FA for admins."}
+  - name: edge-framework-library
+    vars:
+      requirements: "Users must be able to sign in when they lose their phone."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Says it will detect the stack and check for existing auth or TOTP support first, and handles lost phones through recovery codes and a support-assisted reset with an identity check and audit trail."}
+  - name: negative-email-bypass
+    vars:
+      requirements: "If a user can't produce a code, just email them a link that turns 2FA off."
+      stack: "Rails 7"
+    assert:
+      - {type: llm-rubric, value: "Declines an email-only 2FA disable link, explains it makes 2FA only as strong as the inbox, and proposes recovery codes plus a verified support-assisted reset instead."}

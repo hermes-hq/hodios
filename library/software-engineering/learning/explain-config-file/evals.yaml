@@ -1,0 +1,49 @@
+schema: 1
+baseline: "Explain this config file: {{config}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tsconfig
+    vars:
+      config: |
+        {
+          "compilerOptions": {
+            "target": "ES2020",
+            "module": "commonjs",
+            "strict": true,
+            "esModuleInterop": true,
+            "skipLibCheck": true,
+            "baseUrl": ".",
+            "paths": { "@/*": ["src/*"] },
+            "outDir": "dist"
+          }
+        }
+      question: "Why does node dist/index.js fail with Cannot find module '@/utils'?"
+    assert:
+      - {type: contains, value: "## Setting by setting"}
+      - {type: llm-rubric, value: "Answers first that paths only affects type checking and tsc does not rewrite the import specifiers, so Node cannot resolve @/utils at runtime, and names ways to fix it (a path-rewriting step, tsconfig-paths, bundler aliases or package imports); then explains each option with its default."}
+  - name: edge-compose-dead-setting
+    vars:
+      config: |
+        version: "3.8"
+        services:
+          web:
+            image: myapp:latest
+            ports: ["0.0.0.0:5432:5432"]
+            deploy:
+              replicas: 3
+              placement:
+                constraints: ["node.role == manager"]
+            environment:
+              DB_PASSWORD: hunter2
+      tool: "Docker Compose v2"
+    assert:
+      - {type: llm-rubric, value: "Flags that the top-level version key is obsolete in Compose v2, that the placement constraint only applies in Swarm and is ignored by docker compose up, that three replicas cannot all bind the same fixed host port, that the port is published on all interfaces, and that DB_PASSWORD is a plaintext secret to remove and rotate, without repeating the password value."}
+  - name: negative-no-edits
+    vars:
+      config: "worker_processes auto;\nevents { worker_connections 1024; }"
+      tool: "nginx"
+    assert:
+      - {type: llm-rubric, value: "Explains both settings and their defaults concisely, notes this fragment is not a complete server config, and does not rewrite the file or invent additional settings as if they were present."}

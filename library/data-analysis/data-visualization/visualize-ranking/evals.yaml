@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a ranking chart: {{items}} Point: {{message}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-top-products
+    vars:
+      items: "Revenue for 45 products last quarter, from 1.2m down to 4k; the top three are 1.2m, 1.1m, 0.95m and number four is 0.4m."
+      message: "Three products make up the top tier."
+      tool: "Power BI"
+    assert:
+      - {type: llm-rubric, value: "Recommends sorted horizontal bars of a top N (for example 10 to 15) with the top three highlighted and the rest grey; groups or omits the long tail with a note; bars start at zero with value labels; action title about the top three; Power BI build notes."}
+  - name: edge-stores-different-size
+    vars:
+      items: "Complaints by store for 2026: 60 stores, counts from 2 to 310; stores range from 500 to 40,000 transactions a month. Also ranks for 2024 and 2025."
+      message: "Show which stores are worst and how ranks changed."
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Says counts are unfair across store sizes and recommends complaints per 1,000 transactions; flags small stores whose rates are unstable; suggests intervals or a minimum volume; uses a bump chart for rank change of a limited set of stores rather than all 60; gives R code or steps."}
+  - name: negative-noise-as-ranking
+    vars:
+      items: "Satisfaction scores for 8 teams from a survey with 12 to 20 responses each; scores 4.1 to 4.4 out of 5."
+      message: "Name the best and worst team in a ranked bar chart for the all-hands."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Warns that with 12 to 20 responses and a 0.3 point range the differences are likely within noise; advises against naming best and worst; recommends a dot plot with intervals or a statement that teams are similar; does not invent intervals without data."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Build a slowly changing dimension type 2 for: {{dimension}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-snapshot
+    vars:
+      dimension: "app.customers(customer_id, email, segment, country, last_login_at, updated_at). Track segment and country over time; email can be overwritten. Loaded hourly."
+      tooling: "dbt snapshots on Snowflake, dbt 1.8"
+    assert:
+      - {type: contains, value: "## Point-in-time join"}
+      - {type: llm-rubric, value: "Tracks segment and country, excludes or overwrites last_login_at and email instead of versioning them, and keeps the snapshot as a direct capture of the source."}
+      - {type: llm-rubric, value: "Shows an as-of join using fact time between valid_from and valid_to with a stated interval convention, and tests for one current row per customer and no overlapping intervals."}
+  - name: edge-unreliable-updated-at
+    vars:
+      dimension: "erp.products(sku, category, price_band, supplier). The ERP does not update any timestamp when fields change. Nightly full extract."
+      tooling: "MERGE statements in Postgres 16 run by Airflow"
+    assert:
+      - {type: llm-rubric, value: "Uses a hash of tracked columns with consistent NULL handling for change detection, closes and inserts versions in one transaction, and makes the MERGE safe to rerun for the same night."}
+  - name: negative-backfill-history
+    vars:
+      dimension: "We are starting SCD2 on accounts today but need the full plan history for the last 3 years from it. The source only keeps the current plan."
+      tooling: "dbt snapshots on BigQuery"
+    assert:
+      - {type: llm-rubric, value: "States that a snapshot cannot recover past changes the source never kept, and suggests other places history might exist such as billing events or backups, rather than inventing it."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Translate the comments in this code to English: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-portuguese-service
+    vars:
+      source_language: Portuguese
+      include_logs: false
+      scope: |
+        faturamento.py:
+        # Calcula o ICMS da NF-e; gambiarra p/ SP até a SEFAZ corrigir o arredondamento
+        def calcular_icms(nota_fiscal, uf):
+            """Retorna o valor do imposto. Levanta ValueError se a UF for inválida."""
+            logger.info("nota processada")
+            raise ValueError("UF inválida")  # mensagem mostrada ao usuário no formulário
+    assert:
+      - {type: contains-all, value: ["## Translated", "## Left untouched"]}
+      - {type: llm-rubric, value: "Translates the comments and docstring into idiomatic English (workaround for SP until SEFAZ fixes rounding), keeps ICMS, NF-e and SEFAZ as terms with a gloss, leaves identifiers, the log message and the user-facing ValueError message unchanged, and lists the kept strings."}
+  - name: edge-alert-matched-log
+    vars:
+      include_logs: true
+      scope: "worker.go with log.Printf(\"falha ao conectar no banco\") and an alerts.yml rule matching that exact text."
+    assert:
+      - {type: llm-rubric, value: "Leaves the log message untranslated because an alert rule matches it, and reports this under Left untouched, possibly suggesting a coordinated change of the alert and the message."}
+  - name: negative-translate-ui
+    vars:
+      scope: "The whole app including locales/pt-BR.json, translate everything to English so we can drop Portuguese."
+    assert:
+      - {type: llm-rubric, value: "Declines to overwrite the pt-BR locale file or user-facing strings as part of a comment translation, explains that would remove the product's Portuguese UI, and limits itself to comments or points to a proper localisation change."}

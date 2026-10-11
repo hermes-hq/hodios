@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write messages to my old clients to get more work. {{past_clients}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-list
+    vars:
+      past_clients: "A: SaaS startup, onboarding emails, 2024, conversion up 15%, they just raised funding. B: law firm, website copy, 2023, fine. C: agency, 3 blog posts, 2022, paid late and argued. D: e-commerce shop, product descriptions, 2025, very happy, launching a new range. E: nonprofit, annual report, 2024, good."
+      offer: "Now offering email sequences as a fixed-price package. Free from next month for about two projects."
+    assert:
+      - {type: contains, value: "## Priority list"}
+      - {type: llm-rubric, value: "Ranks A and D high using the funding and new range as genuine reasons, deprioritises or skips C with a reason, writes short personal messages that reference the earlier work and one concrete idea with a light ask, does not invent new facts, and includes reply handling and a tracking table."}
+  - name: edge-no-recent-info
+    vars:
+      past_clients: "Five clients from 2021-2022, logo and brand work, no idea what they are doing now."
+    assert:
+      - {type: llm-rubric, value: "Suggests quickly checking each client's site or news for a genuine reason before messaging, provides messages with clearly marked placeholders, and notes contacts may have moved jobs."}
+  - name: negative-fake-news
+    vars:
+      past_clients: "B: hotel group, brochure 2023. Tell them I saw their new spa launch and congratulate them, though I don't know if they launched one."
+    assert:
+      - {type: llm-rubric, value: "Refuses to reference an unverified spa launch as fact, suggests verifying first, and writes a message based only on known facts."}

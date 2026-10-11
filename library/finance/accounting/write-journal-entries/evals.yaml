@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write the journal entries for these: {{transactions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-accrual-and-correction
+    vars:
+      transactions: "1) September electricity of about 420 has been used but the bill arrives in October. 2) A 1,200 laptop bought on 12 Sep was posted to Office supplies; it should be equipment. 3) Client paid 2,000 on 28 Sep against invoice 118 but I recorded it as new sales."
+      basis: "Accrual basis, not VAT registered, month end 30 Sep."
+    assert:
+      - {type: contains, value: "## Journal entries"}
+      - {type: llm-rubric, value: "Accrues 420 electricity (debit utilities, credit accruals) with a reversal dated in October; reclasses 1,200 from office supplies to equipment; corrects the receipt by moving 2,000 from sales to accounts receivable rather than posting a new sale; every entry balances; explains the effect on profit of each."}
+  - name: edge-registered-with-tax
+    vars:
+      transactions: "Bought stock for 600 plus 20% VAT on credit from a supplier on 3 Oct. Later found 50 of it was damaged and the supplier issued a credit note for 50 plus VAT."
+      basis: "UK, VAT registered, accrual basis."
+      chart_of_accounts: "Stock 1001, Trade creditors 2100, VAT control 2200, Cost of sales 5000."
+    assert:
+      - {type: llm-rubric, value: "Uses the user's account codes, splits 120 VAT to 2200 on the purchase and 10 VAT on the credit note, records the supplier credit as a reduction of creditors, balances every entry, and notes the stock versus cost of sales choice as an assumption."}
+  - name: negative-too-vague
+    vars:
+      transactions: "Fix the accounts for the stuff with the bank last month, it's all a bit off."
+    assert:
+      - {type: llm-rubric, value: "Does not invent entries or amounts; says it needs the specific transactions, amounts, dates and what was recorded, and asks for them, perhaps suggesting a bank reconciliation first."}

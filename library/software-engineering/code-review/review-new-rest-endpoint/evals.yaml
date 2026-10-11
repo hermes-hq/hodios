@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Review this new API endpoint: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-endpoints
+    vars:
+      context: "FastAPI. Errors use {\"error\": {\"code\", \"message\"}}. Lists use cursor pagination with limit max 100. Multi-tenant by account_id."
+      diff: |
+        +@router.get("/invoices/{invoice_id}")
+        +def get_invoice(invoice_id: int, user=Depends(current_user)):
+        +    return db.get(Invoice, invoice_id)
+        +
+        +@router.get("/invoices")
+        +def list_invoices(user=Depends(current_user), page: int = 1, size: int = 50):
+        +    return db.query(Invoice).filter_by(account_id=user.account_id).offset((page-1)*size).limit(size).all()
+        +
+        +@router.post("/invoices")
+        +def create_invoice(body: dict, user=Depends(current_user)):
+        +    inv = Invoice(**body); db.add(inv); db.commit()
+        +    return inv
+    assert:
+      - {type: contains, value: "## Endpoint summary"}
+      - {type: llm-rubric, value: "Flags as critical that get_invoice does not check the invoice belongs to the user's account, and that create_invoice mass-assigns an untyped dict so a client can set account_id or other protected fields."}
+      - {type: llm-rubric, value: "Flags inconsistencies with the stated conventions: offset pagination with unbounded size instead of cursor with max 100, create returning 200 with the raw model instead of 201, and no ordering."}
+  - name: edge-consistent-endpoint
+    vars:
+      context: "Express. Sibling endpoints use the same validate() and authorizeOwner() middlewares."
+      diff: |
+        +router.patch("/projects/:id", auth, authorizeOwner("project"), validate(ProjectPatch), async (req, res) => {
+        +  const p = await projects.update(req.params.id, req.body);
+        +  res.json(toProjectDto(p));
+        +});
+    assert:
+      - {type: llm-rubric, value: "Recognises the endpoint follows sibling conventions for auth, ownership, validation and DTO output, approves or raises only minor points such as tests or concurrency, and does not invent critical issues."}
+  - name: negative-style-preference
+    vars:
+      context: "The whole API uses snake_case JSON and POST /resources/{id}/actions/{verb} for state changes."
+      diff: |
+        +@router.post("/orders/{order_id}/actions/cancel")
+        +def cancel_order(order_id: int, user=Depends(current_user)): ...
+    assert:
+      - {type: llm-rubric, value: "Does not demand changing the action-style route or snake_case to a personal preference, because they match the stated conventions; any findings cite the conventions."}

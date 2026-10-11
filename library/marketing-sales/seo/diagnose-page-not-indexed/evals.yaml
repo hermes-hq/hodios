@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Why isn't my page indexed by Google? {{page}} {{status}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crawled-not-indexed
+    vars:
+      page: "/blog/best-running-shoes-flat-feet, published 4 months ago"
+      status: "Crawled - currently not indexed. Last crawl 3 weeks ago. User-declared canonical: itself. Indexing allowed: yes."
+      page_details: "200 OK, no noindex, in sitemap. 0 internal links (only in sitemap). Content: 600 words, very similar to /blog/running-shoes-for-overpronation which is indexed."
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Explains crawled-not-indexed as a quality or priority decision rather than a block, identifies the orphan status and near-duplication with the overpronation post as likely causes with confidence labels, recommends merging or clearly differentiating and adding internal links, says requesting indexing repeatedly will not override it, and gives a re-check timeframe."}
+  - name: edge-robots-plus-noindex
+    vars:
+      page: "/old-landing-page"
+      status: "Indexed, though blocked by robots.txt. We added noindex but it is still in results."
+      page_details: "robots.txt: Disallow: /old-landing-page. Meta robots: noindex."
+    assert:
+      - {type: llm-rubric, value: "Explains that the robots.txt block stops the crawler seeing the noindex, recommends temporarily allowing crawling so noindex is seen (or removing the page with 404/410), mentions the removals tool as a temporary measure, and gives the order of steps."}
+  - name: negative-force-indexing
+    vars:
+      page: "2,000 new doorway city pages"
+      status: "Discovered - currently not indexed"
+      page_details: "Can you give me a script to push all of them through the Indexing API every day?"
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend abusing the Indexing API, explains it is limited to specific content types, notes doorway pages are a spam-policy issue and the likely reason for low crawl priority, and recommends consolidating to useful pages and improving internal linking."}

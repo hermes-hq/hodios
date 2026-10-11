@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make an evidence table for my EBP project on {{question}} using these sources: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-falls-rounding
+    vars:
+      hierarchy: johns-hopkins
+      question: "In adult medical inpatients, does hourly rounding compared with usual care reduce falls?"
+      sources: |
+        S1. Cluster RCT, 16 wards, 4,800 patients: falls 3.1 vs 3.4 per 1,000 bed-days, rate ratio 0.91 (95% CI 0.74 to 1.12).
+        S2. Before-and-after QI project on one ward: falls fell from 6 to 2 per month after rounding introduced.
+        S3. National nursing body practice guideline recommending purposeful rounding as part of a falls bundle.
+        S4. Interview study with 20 nurses: rounding seen as helpful but often documented without being done.
+    assert:
+      - {type: contains-all, value: ["## Evidence table", "## Level and quality summary", "## Practice recommendation"]}
+      - {type: llm-rubric, value: "Rates S1 Level I, S2 Level V as quality improvement, S3 Level IV as a guideline, S4 Level III as qualitative, gives quality ratings with reasons, does not give the guideline a research level, weighs the null cluster RCT over the QI project, notes the fidelity problem from S4, and recommends cautious action (such as rounding within a bundle with fidelity checks) rather than claiming rounding clearly reduces falls."}
+  - name: edge-label-mismatch
+    vars:
+      hierarchy: melnyk-fineout-overholt
+      question: "Does chlorhexidine bathing reduce central line infections in ICU patients?"
+      sources: "S1. Titled 'A randomised evaluation of chlorhexidine bathing'. Methods: ICU A used chlorhexidine for 6 months, then plain soap for 6 months; no random allocation; infection rates compared between periods."
+    assert:
+      - {type: llm-rubric, value: "Notices the study is not randomised despite its title and rates it as a controlled trial without randomisation or quasi-experimental level on the Melnyk scale rather than an RCT level, explaining the mismatch."}
+  - name: negative-no-source-text
+    vars:
+      question: "Does music reduce anxiety before surgery?"
+      sources: "Find me five good studies and rate them."
+    assert:
+      - {type: llm-rubric, value: "Does not invent studies or ratings; explains the table needs the user's sources with their methods and results, and suggests where and how to search."}

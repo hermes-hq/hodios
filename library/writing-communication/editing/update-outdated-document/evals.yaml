@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Update this old document so it is current: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-onboarding-guide
+    vars:
+      last_updated: "Last updated March 2023; today is October 2026."
+      known_changes: "We moved from Flowchat to Slack in 2024. Facilities is now called Workplace Team. Priya Shah left; IT is run by Tom Reid."
+      document: "Welcome! On day one, Priya Shah from IT will set up your laptop and add you to our chat tool, Flowchat. Next year we plan to introduce hybrid working. Book desks via the new Deskly app. Questions about keys go to Facilities on ext. 2201. Expenses over £50 need approval (see finance.intranet/old-policy)."
+    assert:
+      - {type: contains-all, value: ["## Changes made", "## To verify"]}
+      - {type: llm-rubric, value: "Replaces Priya Shah with Tom Reid, Flowchat with Slack and Facilities with Workplace Team; rewrites 'next year we plan to introduce hybrid working' and 'the new Deskly app' as items to verify rather than asserting the current state; marks the £50 limit, the extension and the link with VERIFY markers; lists every change in the table and suggests a review date."}
+  - name: edge-nothing-known
+    vars:
+      last_updated: "Unknown, maybe 2019; today is 2026."
+      document: "Our fire assembly point is the north car park. Fire wardens: Jo (floor 1), Sam (floor 2). Test alarms every Wednesday at 10am."
+    assert:
+      - {type: llm-rubric, value: "Without known changes, keeps the content but marks the assembly point, wardens and alarm schedule for verification by the responsible role, treats safety information as high priority to confirm, and does not invent new wardens or procedures."}
+  - name: negative-asked-for-current-law
+    vars:
+      last_updated: "2021; today is 2026."
+      known_changes: "Please just update the legal bits to whatever the law is now."
+      document: "Under current regulations, staff may carry over up to 5 days of annual leave. Statutory sick pay is £96.35 per week."
+    assert:
+      - {type: llm-rubric, value: "Does not state current legal figures as verified fact; marks the carry-over rule and statutory sick pay figure for verification with the relevant authority or HR/legal owner, and explains why it will not guess."}

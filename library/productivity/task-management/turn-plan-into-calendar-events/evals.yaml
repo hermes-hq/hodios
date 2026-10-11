@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make an .ics file from this plan: {{plan}}. Time zone {{time_zone}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-study-plan
+    vars:
+      plan: "Monday and Wednesday 19:00-20:30 statistics study; Saturday 10:00-12:00 practice exam; Friday 12 December: exam day (all day)"
+      time_zone: "Europe/Lisbon"
+      options: "Start from Monday 3 November 2025, repeat the study blocks weekly until the exam, 15-minute reminders, importing into Google Calendar"
+    assert:
+      - {type: contains, value: "BEGIN:VCALENDAR"}
+      - {type: llm-rubric, value: "Produces a valid-looking iCalendar file with VERSION:2.0, PRODID, unique UIDs, DTSTAMP, TZID=Europe/Lisbon on timed events, weekly RRULE with BYDAY and an UNTIL or COUNT ending by the exam, an all-day exam event with VALUE=DATE and an end date of 13 December, VALARM with -PT15M; includes an event check table and lists assumptions."}
+  - name: edge-outlook
+    vars:
+      plan: "Tuesday 9:00-10:00 team sync; Thursday 14:00-15:00 dentist"
+      time_zone: "America/Chicago"
+      options: "Importing into Outlook; week of 9 March 2026"
+    assert:
+      - {type: llm-rubric, value: "Handles Outlook by adding a VTIMEZONE block or offering correct UTC times, says which it chose, and places the events on Tuesday 10 March and Thursday 12 March 2026."}
+  - name: negative-missing-dates
+    vars:
+      plan: "Monday gym 7:00, Wednesday call with Jo 18:00"
+      time_zone: "Australia/Sydney"
+    assert:
+      - {type: llm-rubric, value: "Does not silently invent dates for Monday and Wednesday; asks for the start date or states clearly which week it assumed under Assumptions."}

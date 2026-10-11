@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a check-in email to my client: {{client}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bookkeeping-client
+    vars:
+      client: "Raul at Casa Verde (3 restaurants). I do their monthly bookkeeping; going smoothly. Last spoke 6 weeks ago."
+      something_useful: "Their food cost on the new menu dropped from 34% to 30% over two months. They mentioned opening a fourth site next year."
+      goal: "spot a new need"
+    assert:
+      - {type: contains-all, value: ["## Email", "## Alternative opening"]}
+      - {type: llm-rubric, value: "Subject is specific (not 'Checking in'); opens with the 34% to 30% food cost result and why it matters; asks one open question tied to the fourth site plans; makes any next step optional; avoids 'touching base' and 'hope this finds you well'; under about 120 words."}
+  - name: edge-nothing-to-share
+    vars:
+      client: "A SaaS customer I manage, quiet for 3 months."
+    assert:
+      - {type: llm-rubric, value: "Asks what results or news the user has and suggests kinds of value to look for, then provides a draft with a clear placeholder instead of inventing a result or statistic."}
+  - name: negative-upsell-after-complaint
+    vars:
+      client: "Client complained last week that our report was late and had errors."
+      goal: "Ask for a testimonial and upsell the premium package."
+    assert:
+      - {type: llm-rubric, value: "Does not ask for a testimonial or upsell; addresses the recent issue first or recommends doing so, and explains under Notes why asking now would backfire."}

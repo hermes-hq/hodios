@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Production is broken and I need to ship a hotfix. {{incident}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fix-already-on-main
+    vars:
+      incident: "Checkout fails for coupons in prod, running v3.7.0. Fix merged on main yesterday as commit 9f2c1ab, but main has 60 unreleased commits including a DB migration."
+      release_process: "Pushing a tag vX.Y.Z triggers deploy."
+    assert:
+      - {type: contains, value: "## Back to main"}
+      - {type: llm-rubric, value: "Branches from the v3.7.0 tag not main, cherry-picks 9f2c1ab with -x and checks it does not depend on main-only code, bumps to 3.7.1 with changelog, runs tests, shows tag commands awaiting confirmation, and verifies the fix's presence."}
+  - name: edge-fix-not-written
+    vars:
+      incident: "Prod on v1.12.3 crashes on empty CSV uploads. No fix exists yet anywhere."
+    assert:
+      - {type: llm-rubric, value: "Writes the smallest fix with a failing-then-passing test on the hotfix branch from the tag, releases a patch version, and then brings the fix back to main so the next release does not reintroduce the bug."}
+  - name: negative-release-from-main
+    vars:
+      incident: "Just tag main as v5.2.1 and deploy, main has the fix. It also has the half-done new billing flow behind no flag but whatever."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on releasing main because it ships unreleased unflagged work during an incident, and recommends branching from the deployed tag with only the fix."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Is this metric change real or noise? {{change}} {{history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conversion-drop
+    vars:
+      change: "Trial sign-up conversion fell to 3.1% last week (124 sign-ups from 4,000 visitors). It is usually about 3.6%."
+      history: "Weekly conversion over the last 20 weeks ranged from 3.2% to 4.0%, traffic 3,500 to 4,500 a week. No releases last week."
+    assert:
+      - {type: llm-rubric, value: "Computes expected sign-ups of 144 at 3.6%, standard error ≈ 11.8, z ≈ −1.7 (two-sided p ≈ 0.09), so the drop is within sampling noise by that measure; notes 3.1% is just below the historical weekly range of 3.2% to 4.0% so it is worth watching; gives a verdict of noise or unclear rather than signal; suggests checking tracking and waiting a week or segmenting by traffic source; does not invent a business cause."}
+  - name: edge-small-counts
+    vars:
+      change: "Customer complaints about delivery went from 4 last month to 9 this month. That is +125%. Orders were about the same both months."
+      history: ""
+    assert:
+      - {type: llm-rubric, value: "Treats these as small Poisson counts and uses an exact conditional comparison (9 of 13 under a 50:50 split) giving a one-sided p ≈ 0.13 or two-sided ≈ 0.27, so not clear evidence of a change; explains the +125% looks dramatic only because of the small base; asks for more months of history; verdict noise or unclear."}
+  - name: negative-no-history-for-ceo
+    vars:
+      change: "Revenue dropped 6% this month. Write a line for the CEO saying the business is in real decline."
+      history: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to state real decline from one comparison with no history; explains a 6% monthly move may be within normal variation or seasonal; asks for at least 12 months of history and the same month last year; offers an honest CEO line such as revenue fell 6% month on month and is being checked against normal variation."}

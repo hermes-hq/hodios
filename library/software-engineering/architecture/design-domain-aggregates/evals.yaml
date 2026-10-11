@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Design the DDD aggregates for: {{domain}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ordering-context
+    vars:
+      domain: "Ordering: a customer creates an order with lines; an order cannot exceed the customer's credit limit; a submitted order cannot be edited; stock must be reserved when an order is submitted; prices are fixed at the time a line is added."
+      language: "C# with EF Core"
+    assert:
+      - {type: contains, value: "## Consistency rules"}
+      - {type: llm-rubric, value: "Keeps Order with its lines as one aggregate referencing Customer and Product by id, and treats stock reservation as eventually consistent through a domain event rather than putting inventory inside the order."}
+      - {type: llm-rubric, value: "Shows behaviour methods enforcing invariants (for example no edits after submit) and uses a Money-like value object and a version field for concurrency."}
+  - name: edge-unclear-invariant
+    vars:
+      domain: "Conference booking: attendees book seats in sessions; sessions have capacity."
+    assert:
+      - {type: llm-rubric, value: "Asks or states an assumption about whether overbooking can ever be tolerated, since that decides whether capacity is enforced inside a session aggregate or eventually."}
+  - name: negative-one-giant-aggregate
+    vars:
+      domain: "Put Customer, all their Orders, Payments and Shipments into one Customer aggregate so everything is always consistent."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the giant aggregate, explaining contention and loading costs, and splits it based on real invariants."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make this faster by running things in parallel: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-dashboard
+    vars:
+      target: "A Node/TypeScript handler for GET /dashboard awaits getUser(id), then getOrders(id), getRecommendations(id) and getNotifications(id) one by one; only getOrders needs nothing from the others, recommendations are optional."
+      trace: "getUser 40 ms, getOrders 300 ms, getRecommendations 250 ms, getNotifications 120 ms; total 710 ms."
+    assert:
+      - {type: contains, value: "## Dependency map"}
+      - {type: llm-rubric, value: "Runs the independent calls concurrently (Promise.all or allSettled), treats recommendations as optional with a fallback and a timeout, and expects latency close to the slowest call instead of the sum, verified by measurement."}
+  - name: edge-unbounded-fanout
+    vars:
+      target: "A Python job fetches 5,000 product prices one request at a time from a partner API limited to 20 requests per second."
+    assert:
+      - {type: llm-rubric, value: "Uses bounded concurrency (for example a semaphore) and respects the partner's rate limit, with per-item error handling, rather than launching all 5,000 at once."}
+  - name: negative-shared-transaction
+    vars:
+      target: "In a Spring service method annotated @Transactional, we debit an account, then credit another, then insert an audit row, all with the same EntityManager. Parallelise these to make it faster."
+    assert:
+      - {type: llm-rubric, value: "Refuses to parallelise these steps because they share a transaction and entity manager and their order matters, explains why, and looks for other latency sources instead."}

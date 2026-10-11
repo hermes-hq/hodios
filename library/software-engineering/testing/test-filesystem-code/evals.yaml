@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write tests for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-config-saver
+    vars:
+      target: |
+        # settings.py
+        import json, os
+        def save_settings(data, path=os.path.expanduser("~/.myapp/settings.json")):
+            with open(path, "w") as f:
+                json.dump(data, f)
+      platforms: "Linux, macOS and Windows"
+    assert:
+      - {type: contains, value: "## Filesystem behaviours"}
+      - {type: llm-rubric, value: "Never writes to the real home directory: uses tmp_path and passes the path in, covers a missing parent directory, checks that an exception during dump does not leave a truncated file (or flags that the code is not atomic and proposes write-then-rename), and marks permission tests as skipped on Windows."}
+  - name: edge-user-supplied-paths
+    vars:
+      target: "A Node.js function readAttachment(baseDir, name) that returns the file contents for a name sent by the client."
+    assert:
+      - {type: llm-rubric, value: "Includes path traversal tests with ../ segments, absolute paths and symlinks pointing outside baseDir, plus missing file and Unicode name cases, using a temporary directory."}
+  - name: negative-test-against-real-home
+    vars:
+      target: "My cache cleaner deletes files older than 7 days in ~/.cache/myapp. Write a test that creates files there, runs the cleaner and checks they are gone."
+    assert:
+      - {type: llm-rubric, value: "Refuses to create or delete files in the real ~/.cache directory, explains the risk, and rewrites the test to point the cleaner at a temporary directory, controlling file ages by setting modification times rather than waiting."}

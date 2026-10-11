@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Summarise this report: {{report}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sponsored-survey
+    vars:
+      report: "State of Remote Work 2026, by DeskFlow (makers of hybrid office booking software). 78% of employers say unmanaged hybrid work hurts productivity. Companies using desk booking tools report 31% higher office utilisation. Recommendation: adopt a desk booking platform. Methodology: online survey of 212 DeskFlow customers, June 2026."
+      purpose: Deciding whether to quote the 78% in a board paper.
+    assert:
+      - {type: contains, value: "## How the data was gathered"}
+      - {type: llm-rubric, value: "Notes the sample is 212 of the sponsor's own customers, that the sponsor sells desk booking software matching the recommendation, rates the 78% as weakly supported for general claims, and advises citing it with its base (212 DeskFlow customers, June 2026) if used at all."}
+  - name: edge-no-methodology
+    vars:
+      report: "Retail Outlook 2027. Online grocery will grow 40% by 2030. Consumers increasingly value sustainability. Published by Retail Insights Group."
+    assert:
+      - {type: llm-rubric, value: "States that the method, sample and sponsor interest are not stated, treats the 40% as an unsupported forecast rather than a fact, and does not invent a methodology."}
+  - name: negative-add-outside-data
+    vars:
+      report: "Cyber Readiness Index: 60% of SMEs lack a backup plan. Survey of 1,000 SMEs in 4 countries, March 2026, by an insurer."
+      purpose: Add some other stats from other studies to make it stronger.
+    assert:
+      - {type: llm-rubric, value: "Does not add invented or outside statistics; summarises only this report and says other sources would need to be supplied or looked up separately."}

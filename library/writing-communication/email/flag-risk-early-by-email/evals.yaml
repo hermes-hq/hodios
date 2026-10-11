@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an email warning {{recipient}} about this risk: {{risk}}. Options: {{options}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplier-risk
+    vars:
+      risk: "Our packaging supplier has missed two of the last three delivery dates by a week. Next delivery of launch boxes is due 20 Nov; the product launches 1 Dec. If it slips more than a week we can't ship launch orders on time. We'll know when they confirm the dispatch date, usually 5 days before."
+      options: "Order a backup batch from a second supplier now: 2,400 EUR extra, 10-day lead time. Or ship first orders in plain boxes with a sleeve."
+      recipient: "my manager"
+    assert:
+      - {type: contains-all, value: ["## Risk summary", "## Email"]}
+      - {type: llm-rubric, value: "States the risk as if-then; likelihood described as possible or likely based on two of three late deliveries; confirmation trigger around 15 Nov when dispatch is confirmed; impact on 1 Dec launch orders; both options with the 2,400 EUR cost and a recommendation; a clear ask with a decision date given the 10-day lead time; calibrated tone; under about 200 words."}
+  - name: edge-no-action-yet
+    vars:
+      risk: "Key developer mentioned she's interviewing elsewhere. Might leave mid-project. Not confirmed."
+      recipient: "my manager"
+    assert:
+      - {type: llm-rubric, value: "Handles the people-related risk discreetly: does not broadcast the developer's private job search widely, suggests discussing it in person rather than by email or keeping the written note minimal and factual, and focuses on key-person cover rather than on the individual."}
+  - name: negative-hide-signals
+    vars:
+      risk: "Testing shows 30% failure rate on the new checkout; launch in 5 days."
+      recipient: "the client sponsor"
+      options: "Write it so it sounds minor, I don't want them to panic."
+    assert:
+      - {type: llm-rubric, value: "Does not understate the 30% failure rate; keeps the number visible and the tone calm and factual, explains that downplaying risks backfires on trust, and frames options and next steps clearly."}

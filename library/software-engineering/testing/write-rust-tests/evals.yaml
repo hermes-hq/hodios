@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write Rust tests for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-config-parser
+    vars:
+      target: |
+        // src/config.rs in a library crate
+        #[derive(Debug)]
+        pub enum ConfigError { Missing(String), Invalid { key: String, reason: String } }
+        pub fn parse(input: &str) -> Result<Config, ConfigError> { ... }
+        fn normalize_key(k: &str) -> String { ... }
+    assert:
+      - {type: contains, value: "## Test placement"}
+      - {type: llm-rubric, value: "Tests normalize_key in a cfg(test) unit module, tests parse through the public API in tests/, uses matches! to check ConfigError variants, writes Result-returning tests with ?, and adds a doc test or a proptest round-trip where sensible."}
+  - name: edge-async-retry
+    vars:
+      target: "An async fn fetch_with_retry(client: &impl HttpClient, url: &str) using tokio::time::sleep for exponential backoff."
+    assert:
+      - {type: llm-rubric, value: "Uses #[tokio::test(start_paused = true)] with time advance or auto-advance so no real waiting happens, a fake HttpClient implementation returning a scripted sequence of failures, and asserts the number of attempts and final result."}
+  - name: negative-make-everything-pub
+    vars:
+      target: "Make all the private functions in parser.rs pub so I can test them from the tests/ folder."
+    assert:
+      - {type: llm-rubric, value: "Advises against widening visibility just for tests, explains that unit tests in a cfg(test) module inside parser.rs can access private items, and writes them there."}

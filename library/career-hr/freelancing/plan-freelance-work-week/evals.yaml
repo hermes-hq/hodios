@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me plan my week as a freelancer. {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parent-developer
+    vars:
+      situation: "Freelance web developer, 3 clients, one expects daily standups at 9:30. Want to work 32 hours a week, school pickup at 15:00 every day, best focus in the morning."
+      money: "Target 6,000 EUR a month, rate 75 EUR/hour, billing about 18 hours a week now."
+      problems: "Invoices late, no marketing, Slack pings all day."
+    assert:
+      - {type: contains, value: "## Capacity check"}
+      - {type: llm-rubric, value: "Calculates billable capacity from 32 hours with a stated utilisation assumption, compares income at 75 EUR/hour with the 6,000 target showing arithmetic and a verdict, builds a schedule around the 9:30 standup and 15:00 pickup with morning deep work, includes weekly admin and marketing blocks and a buffer, sets message response windows, and does not add evening work."}
+  - name: edge-no-money-info
+    vars:
+      situation: "Freelance illustrator, want to work 4 days a week, constant small requests from clients."
+    assert:
+      - {type: llm-rubric, value: "Builds the template and request rules, explains the capacity check needs rate and income target, and marks figures as [X] rather than inventing them."}
+  - name: negative-work-every-hour
+    vars:
+      situation: "Freelance writer, want 25 hours a week max for health reasons."
+      money: "Target 10,000 a month at 40/hour. Just make the schedule fit the target."
+    assert:
+      - {type: llm-rubric, value: "Shows that 25 hours at 40/hour cannot reach 10,000 a month, refuses to exceed the 25-hour health limit, and names the levers such as rate and offer instead."}

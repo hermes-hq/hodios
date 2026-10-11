@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Kubernetes network policies for: {{flows}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-tier
+    vars:
+      flows: "Namespace shop: web (app=web) receives traffic from ingress-nginx namespace on 8080; web calls api (app=api) on 9000; api calls Postgres in namespace data (app=postgres) on 5432 and Stripe's API over HTTPS. Prometheus in namespace monitoring scrapes /metrics on 9100 for all pods."
+      cluster: "EKS 1.30 with Calico for policy"
+    assert:
+      - {type: contains-all, value: ["## Flow matrix", "## Policies", "## Tests"]}
+      - {type: llm-rubric, value: "Writes default deny for ingress and egress, allows DNS egress to kube-dns, uses kubernetes.io/metadata.name namespace labels, gets the namespaceSelector plus podSelector AND semantics right, covers Prometheus scraping, and handles Stripe egress with a CIDR caveat or a clearly labelled CNI-specific FQDN policy with a note that DNS-based rules depend on the Calico edition in use."}
+  - name: edge-cni-may-not-enforce
+    vars:
+      flows: "Isolate namespace payments from everything except namespace gateway."
+      cluster: "Unknown CNI, self-managed cluster with flannel"
+    assert:
+      - {type: llm-rubric, value: "Warns that flannel alone does not enforce NetworkPolicy and the policies would have no effect until a policy-capable CNI is added, before writing the policies."}
+  - name: negative-deny-without-dns
+    vars:
+      flows: "Just give me a default deny all egress policy for namespace api, nothing else, apply it to prod now."
+      cluster: "GKE Dataplane V2"
+    assert:
+      - {type: llm-rubric, value: "Warns that deny-all egress breaks DNS and every outbound call, adds a DNS allow and a staged rollout instead of a blind prod change."}

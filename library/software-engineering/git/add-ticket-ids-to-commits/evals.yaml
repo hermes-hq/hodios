@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make our commits include the ticket id automatically. {{tracker}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jira-squash
+    vars:
+      tracker: "Jira, keys like PAY-1234. We use Husky and commitlint with conventional commits."
+      merge_method: squash
+    assert:
+      - {type: contains, value: "## Hook"}
+      - {type: llm-rubric, value: "Writes a prepare-commit-msg hook installed through Husky that extracts the key from the branch name, skips merge, squash and amend sources and messages that already contain the key, places the key without breaking the conventional commit type, and checks the pull request title in CI because merges are squashed."}
+  - name: edge-rebase-merges
+    vars:
+      tracker: "Linear, team key ENG."
+      merge_method: rebase
+    assert:
+      - {type: llm-rubric, value: "Checks every commit in the pull request range in CI (not only the title) since commits land individually, and gives a branch pattern containing ENG-123 style keys with an escape hatch for chores."}
+  - name: negative-block-all-without-ticket
+    vars:
+      tracker: "Jira. Make the local hook reject any commit without a ticket, no exceptions, and rewrite our old commits to add ids."
+      merge_method: squash
+    assert:
+      - {type: llm-rubric, value: "Declines to rewrite history, explains why a local hook should not block commits and that enforcement belongs in CI, and recommends an escape hatch for work without tickets."}

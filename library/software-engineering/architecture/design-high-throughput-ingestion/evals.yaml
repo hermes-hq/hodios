@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design an ingestion system for {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-analytics
+    vars:
+      workload: "Product analytics events from web and mobile SDKs of 1,500 customer apps. Average 20,000 events per second, peaks 120,000; events about 1 KB JSON. One customer produces 30% of traffic."
+      requirements: "No loss after we acknowledge; duplicates acceptable if deduplicated within 24 hours; queryable within 2 minutes; 13-month retention."
+      environment: "AWS. Currently a Node API inserting each event into Postgres, which is falling over."
+    assert:
+      - {type: contains, value: "## Capacity arithmetic"}
+      - {type: llm-rubric, value: "Replaces per-event Postgres inserts with acknowledge-after-durable-buffer to a log or stream, batched downstream writers into an analytics or columnar store, and client-generated event ids for 24-hour deduplication."}
+      - {type: llm-rubric, value: "Handles the 30% customer as a partition hotspot (salting or dedicated partitions) and per-tenant quotas, and shows peak arithmetic for bytes per second and partitions with stated assumptions."}
+  - name: edge-iot-offline
+    vars:
+      workload: "Readings from 200,000 IoT sensors every 10 seconds; devices go offline for hours and upload backlogs on reconnect."
+      requirements: "Per-device ordering for alerts; tolerate some loss of old readings."
+    assert:
+      - {type: llm-rubric, value: "Addresses reconnect surges from backlogged devices (client-side batching, rate limits, backoff) and per-device ordering via partition key or device timestamps and sequence numbers."}
+  - name: negative-conflicting-guarantees
+    vars:
+      workload: "Click events, 50,000 per second."
+      requirements: "Zero loss, zero duplicates, strict global ordering and under 100 ms to query, on a small budget."
+    assert:
+      - {type: llm-rubric, value: "Challenges the conflicting requirements, explains that strict global ordering limits throughput to one partition and that zero duplicates needs deduplication, and proposes realistic guarantees and trade-offs."}

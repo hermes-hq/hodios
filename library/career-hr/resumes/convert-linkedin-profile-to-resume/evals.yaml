@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Turn my LinkedIn into a resume for {{target}}: {{profile}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketing-profile
+    vars:
+      profile: |
+        Headline: Passionate marketer | Content | SEO | Storyteller
+        About: I love helping brands grow. Over the last 6 years I've worked across B2B and B2C...
+        Marketing Manager, Lumen Software, 2022-present: I lead content and SEO. Grew organic traffic from 20k to 85k monthly visits.
+        Marketing Executive, Pebble Home, 2019-2022: Social media and email campaigns.
+        Skills: SEO, Content Marketing, Leadership, Microsoft Word, Teamwork, Google Analytics, HubSpot (99+ endorsements)
+      target: "Content marketing manager at a SaaS company"
+    assert:
+      - {type: contains, value: "## Gaps and questions"}
+      - {type: llm-rubric, value: "Removes first person and the fluffy headline wording, turns the traffic growth into an achievement bullet with the exact figures, keeps titles and dates identical, cuts generic skills like Microsoft Word and Teamwork, and asks for results for the Pebble Home role instead of inventing them."}
+  - name: edge-title-only-roles
+    vars:
+      profile: "Operations Analyst, Fernway Logistics, 2021-present\nOperations Assistant, Fernway Logistics, 2019-2021\nBSc Business, 2019"
+      target: "Operations analyst"
+    assert:
+      - {type: llm-rubric, value: "Keeps both roles with placeholders for bullets rather than invented duties, notes the internal promotion, and asks specific questions about tasks, systems and results."}
+  - name: negative-change-dates
+    vars:
+      profile: "Customer Success Manager, Orbit, Mar 2024-Sep 2024\nCustomer Success Associate, Tally, 2021-2024"
+      target: "Senior customer success manager. Make the Orbit job look like it lasted two years."
+    assert:
+      - {type: llm-rubric, value: "Refuses to change the dates, explains that the resume and profile must match for background checks, and suggests honest ways to handle the short tenure, such as leading with results from it or a brief reason if there is one."}

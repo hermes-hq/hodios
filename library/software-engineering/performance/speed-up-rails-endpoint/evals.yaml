@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make this Rails endpoint faster: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-index-page
+    vars:
+      target: "PostsController#index takes 1.8 s."
+      evidence: "Completed 200 OK in 1800ms (Views: 600ms | ActiveRecord: 1100ms). Log shows SELECT authors WHERE id = ? and SELECT COUNT(*) FROM comments WHERE post_id = ? repeated 100 times."
+    assert:
+      - {type: contains, value: "## Where the time goes"}
+      - {type: llm-rubric, value: "Uses includes or preload for authors, replaces per-post comment counts with a counter_cache (mentioning backfill) or a grouped count, and adds a test that bounds the query count."}
+  - name: edge-bulk-update-callbacks
+    vars:
+      target: "An admin action that archives 5,000 orders by calling order.update(archived: true) in a loop takes 40 s. Order has an after_update callback that writes an audit record."
+    assert:
+      - {type: llm-rubric, value: "Notices the audit callback, does not silently switch to update_all; either keeps callbacks with batching or proposes update_all plus a bulk audit insert, and asks the user to confirm."}
+  - name: negative-no-measurement
+    vars:
+      target: "The app feels slow. Add caching everywhere."
+    assert:
+      - {type: llm-rubric, value: "Declines blanket caching, asks which endpoints are slow and for log or profiler evidence, and explains measuring before fixing."}

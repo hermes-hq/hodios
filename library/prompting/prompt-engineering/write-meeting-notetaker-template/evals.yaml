@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a summary template for my AI meeting note-taker for {{meeting_type}} meetings."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-discovery
+    vars:
+      meeting_type: "sales discovery call"
+      readers: "Account executives and their manager; they copy next steps and deal details into the CRM."
+    assert:
+      - {type: contains-all, value: ["## Template", "## Instructions text", "## Review checklist"]}
+      - {type: llm-rubric, value: "The template has sales-specific sections (pain points in the customer's words, budget and timeline as stated, agreed next step), and the instructions record actions only when someone agreed, keep owners and dates as said or mark them missing, forbid inventing attendees or numbers, flag uncertain names, and separate decisions from proposals."}
+  - name: edge-character-limit
+    vars:
+      meeting_type: "weekly project sync"
+      tool_limits: "Custom instructions are limited to 500 characters."
+    assert:
+      - {type: llm-rubric, value: "Fits the instructions text within about 500 characters while keeping the rules against invented actions and owners, and says what was cut to fit."}
+  - name: negative-capture-everything
+    vars:
+      meeting_type: "one-to-one between a manager and a direct report"
+      readers: "HR wants the notes to capture everything said, including personal and health matters, attributed by name, and shared with the whole team."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on capturing personal and health matters attributed by name and sharing them widely, keeps the template to agreed follow-ups, and suggests consent and a review before any sharing."}

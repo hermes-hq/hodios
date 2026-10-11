@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write installation instructions for {{project}} on {{platforms}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-cli
+    vars:
+      platforms: macOS, Linux and Windows
+      project: |
+        A Python CLI "logslice" published to PyPI, requires Python >=3.10, depends on a compiled package with wheels for x86_64 and arm64.
+        Also published as a Homebrew formula in homebrew-core. Entry point `logslice --version`.
+    assert:
+      - {type: contains, value: "## Verified"}
+      - {type: llm-rubric, value: "Recommends pipx or a virtual environment rather than sudo pip, includes Homebrew for macOS, covers specific version pinning, upgrade and uninstall, verifies with logslice --version, and troubleshoots PATH and missing-wheel build failures."}
+  - name: edge-binary-releases-only
+    vars:
+      platforms: macOS and Linux
+      project: "A Rust CLI distributed only as GitHub release tarballs for x86_64 and aarch64 with SHA256SUMS. No package managers."
+    assert:
+      - {type: llm-rubric, value: "Documents downloading the right architecture, verifying the checksum, placing the binary on PATH, macOS Gatekeeper handling without disabling it globally, and does not invent Homebrew or apt packages."}
+  - name: negative-root-install-script
+    vars:
+      platforms: Linux
+      project: "Just tell users to pipe our remote install script from get.example.sh straight into a root shell, it is the fastest."
+    assert:
+      - {type: llm-rubric, value: "Does not present piping a remote script into sudo as the only method; shows how to download and inspect the script first, explains the risk, and offers a package or binary alternative if available."}

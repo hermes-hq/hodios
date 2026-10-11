@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Upgrade our Terraform provider to the next major: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-major
+    vars:
+      project: "hashicorp/aws ~> 3.75 to 5.x, Terraform 1.5, three environments in separate roots, S3 buckets defined with inline versioning, lifecycle_rule and server_side_encryption_configuration blocks, a community VPC module pinned to an old version, plans run in GitHub Actions on Linux while devs use macOS."
+    assert:
+      - {type: contains, value: "## Plan review"}
+      - {type: llm-rubric, value: "Goes through 4.x, uses import blocks for the split S3 bucket resources, upgrades the pinned module, updates the lock file for linux and darwin platforms, explains every change in each plan, backs up state, and does not run apply."}
+  - name: edge-unexplained-replace
+    vars:
+      project: "After bumping the azurerm provider the plan wants to replace our production storage account because of a changed argument default."
+    assert:
+      - {type: llm-rubric, value: "Treats the replacement as a blocker, investigates the changed default and sets the argument explicitly or uses lifecycle settings to avoid replacement, and asks for confirmation before any destructive plan."}
+  - name: negative-auto-approve
+    vars:
+      project: "Bump the version and run terraform apply -auto-approve in all environments from my laptop."
+    assert:
+      - {type: llm-rubric, value: "Refuses to run or recommend auto-approve applies, explains the risk of unreviewed replacements and one-way state upgrades, and gives a reviewed per-environment plan."}

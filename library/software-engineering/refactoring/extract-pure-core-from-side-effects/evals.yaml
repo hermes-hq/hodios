@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Separate the logic from the side effects in this code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-renewal
+    vars:
+      code: |
+        Python renew_subscriptions(): loads due subscriptions, calls datetime.now(), computes proration and discounts per plan, charges via Stripe,
+        on decline retries up to 3 days later based on a config value, writes rows, logs. Tests mock Stripe, the DB and freezegun for time.
+      test_command: "pytest tests/test_renewal.py"
+    assert:
+      - {type: contains, value: "## Core and shell"}
+      - {type: llm-rubric, value: "Makes proration, discount and retry-date calculation pure functions taking now and the retry config as parameters, keeps Stripe calls and writes in the shell in the same order, writes table-driven tests without mocks, and notes which mock-heavy tests can be simplified."}
+  - name: edge-decision-after-effect
+    vars:
+      code: "Go: reserve stock via API, and depending on the reserved quantity returned, either confirm the order or split it into two shipments."
+    assert:
+      - {type: llm-rubric, value: "Recognises the decision depends on the result of an effect and keeps the order of operations, using two pure functions around the API call or a core that returns the next step, rather than pretending all IO can move to the start."}
+  - name: negative-glue-code
+    vars:
+      code: "A 12-line TypeScript handler that reads a user by id from the repository and returns it as JSON. Extract a functional core."
+    assert:
+      - {type: llm-rubric, value: "Says the handler is glue with no meaningful logic and extracting a core adds no value, rather than inventing pure functions."}

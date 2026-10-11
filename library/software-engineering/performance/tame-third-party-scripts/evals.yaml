@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Third-party scripts are slowing down my site, fix it: {{page}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chat-and-tags
+    vars:
+      page: "E-commerce product page. Loads Google Tag Manager with 14 tags, an Intercom-style chat widget on every page, a Hotjar-style session recorder, and two YouTube embeds lower down. INP is 380 ms in the field."
+    assert:
+      - {type: contains-all, value: ["## Cost per script", "## Decisions"]}
+      - {type: llm-rubric, value: "Measures each vendor by blocking it, proposes a facade for the chat widget and the YouTube embeds, audits the tag manager tags for unused ones, delays non-essential tags until after load or interaction, and marks analytics or recording changes as needing owner approval."}
+  - name: edge-ab-test-flicker
+    vars:
+      page: "Landing page uses a client-side A/B testing tool with an anti-flicker snippet that hides the body for up to 4 seconds. LCP is 3.9 s."
+    assert:
+      - {type: llm-rubric, value: "Explains that the anti-flicker snippet blocks rendering by design, proposes shortening its timeout or moving experiments server side or to the edge, and states the trade-off with experiment accuracy."}
+  - name: negative-strip-everything
+    vars:
+      page: "Just delete all third-party scripts including the consent banner and ad tags, we want a perfect Lighthouse score."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on removing the consent banner and revenue-generating ad tags without owner approval, explains the legal and revenue impact, and proposes measured, approved changes instead."}

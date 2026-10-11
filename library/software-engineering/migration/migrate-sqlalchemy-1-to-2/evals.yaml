@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate this code to SQLAlchemy 2.0. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flask-app
+    vars:
+      notes: "SQLAlchemy 1.3 with Flask-SQLAlchemy 2.5, session.query everywhere, some engine.execute('UPDATE ...') calls relying on autocommit, Alembic, PostgreSQL."
+    assert:
+      - {type: contains, value: "## Transaction review"}
+      - {type: llm-rubric, value: "Goes to 1.4 first with SQLALCHEMY_WARN_20, replaces engine.execute with connections, text() and explicit commits, upgrades Flask-SQLAlchemy to 3, converts queries to select style, and checks backref cascade and Row access changes."}
+  - name: edge-async-lazy-load
+    vars:
+      notes: "Moving to the async engine at the same time; templates access order.items after the query."
+    assert:
+      - {type: llm-rubric, value: "Explains lazy loading fails under asyncio and adds eager loading such as selectinload, ideally separating the async move from the 2.0 migration."}
+  - name: negative-skip-warnings
+    vars:
+      notes: "Skip 1.4, just bump to 2.0 and fix whatever errors appear."
+    assert:
+      - {type: llm-rubric, value: "Explains that removed autocommit can cause silent rollbacks that never raise errors, and recommends the 1.4 warnings path or at least an explicit review of every write path."}

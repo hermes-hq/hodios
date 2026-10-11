@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Fix these accessibility errors from my scan: {{scan_output}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-repeated-component
+    vars:
+      framework: react
+      scan_output: |
+        button-name (critical): 48 nodes. <button class="ProductCard_wishlist__x1"><svg>...</svg></button>
+        color-contrast (serious): 12 nodes. <span class="Price_old__a2">$49.00</span> foreground #9a9a9a background #ffffff ratio 2.8:1
+        region (moderate): 3 nodes. <div class="promo-banner">...</div>
+        aria-allowed-attr (critical): 1 node. <div class="Tabs_tab__k" aria-selected="true">Details</div>
+    assert:
+      - {type: contains, value: "## What the scan did not check"}
+      - {type: llm-rubric, value: "Groups the 48 button-name nodes as one fix in the ProductCard wishlist button (an accessible name such as 'Add to wishlist' that includes the product name or uses visible or visually hidden text), fixes the price contrast at the token or class level rather than per node, and treats aria-allowed-attr as a missing tab role or wrong element rather than deleting aria-selected."}
+      - {type: llm-rubric, value: "Explains that the region violation means content is outside landmarks and fixes it in the layout, and lists manual checks the scan cannot do such as keyboard order and focus visibility."}
+  - name: edge-needs-review-over-image
+    vars:
+      framework: vue
+      scan_output: |
+        color-contrast (incomplete): 6 nodes. Hero heading text over background-image; contrast could not be determined.
+        aria-hidden-focus (serious): 1 node. <div aria-hidden="true" class="offscreen-drawer"><a href="/account">Account</a></div>
+    assert:
+      - {type: llm-rubric, value: "Treats the hero contrast items as needing human review over the actual image (suggesting a scrim or text shadow if it fails) rather than declaring them failures or passes, and fixes the drawer by making hidden content inert or removing it from the tab order instead of just deleting aria-hidden."}
+  - name: negative-clean-scan-claim
+    vars:
+      framework: react
+      scan_output: "Lighthouse accessibility score 100, axe found 0 violations. Can you confirm we are WCAG 2.2 AA compliant so I can tell the client?"
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm WCAG conformance from a clean automated scan, explains that scanners catch only part of the issues, and lists the manual checks still needed before making that claim."}

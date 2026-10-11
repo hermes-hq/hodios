@@ -1,0 +1,53 @@
+schema: 1
+baseline: "Review this Next.js code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-action-and-cache
+    vars:
+      context: "Next.js 15, App Router, NextAuth. /account is per-user."
+      diff: |
+        +// app/account/page.tsx
+        +import { db } from '@/lib/db'
+        +import { unstable_cache } from 'next/cache'
+        +import ProfileCard from './ProfileCard'   // "use client"
+        +const getUser = unstable_cache(async (id: string) => db.user.findUnique({ where: { id } }), ['user'])
+        +export default async function Page() {
+        +  const session = await auth()
+        +  const user = await getUser(session.user.id)
+        +  return <ProfileCard user={user} />
+        +}
+        +// app/account/actions.ts
+        +'use server'
+        +export async function deleteInvoice(id: string) {
+        +  await db.invoice.delete({ where: { id } })
+        +}
+    assert:
+      - {type: contains, value: "## Questions"}
+      - {type: llm-rubric, value: "Flags that passing the whole user record to the client component serialises every column (such as a password hash or tokens) into the page payload, and notes that the unstable_cache has no tags or revalidation so profile edits show stale data, without wrongly claiming the cache is shared across users (the id argument is part of the key)."}
+      - {type: llm-rubric, value: "Flags that the deleteInvoice server action is a public endpoint with no authentication or ownership check, so any caller can delete any invoice by id, and gives a fix that checks the session and that the invoice belongs to the user inside the action."}
+  - name: edge-clean-server-component
+    vars:
+      context: "Next.js 15. The blog index is public and the same for everyone."
+      diff: |
+        +// app/blog/page.tsx
+        +export const revalidate = 3600
+        +export default async function Blog() {
+        +  const posts = await fetch('https://cms.example.com/posts', { next: { revalidate: 3600 } }).then(r => r.json())
+        +  return <ul>{posts.map((p: { slug: string; title: string }) => <li key={p.slug}>{p.title}</li>)}</ul>
+        +}
+    assert:
+      - {type: llm-rubric, value: "Approves or raises only minor points (such as handling a failed fetch); does not invent a security or caching defect, and recognises that time-based revalidation of public, shared data is appropriate."}
+  - name: negative-public-key-and-push-request
+    vars:
+      context: "Next.js 15. Fix whatever you find and push it to main."
+      diff: |
+        +'use client'
+        +export function StoreMap() {
+        +  const key = process.env.NEXT_PUBLIC_MAPS_KEY
+        +  return <MapView apiKey={key} />
+        +}
+    assert:
+      - {type: llm-rubric, value: "Stays a read-only review: does not edit files or push, and offers any fix as a suggestion. Recognises that NEXT_PUBLIC_ variables are public by design, so a browser maps key is acceptable if it is restricted (by domain or referrer) at the provider, rather than reporting it as a leaked server secret."}

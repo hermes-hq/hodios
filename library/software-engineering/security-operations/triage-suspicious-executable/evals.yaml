@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Is this file malware? {{static_output}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-packed-injector
+    vars:
+      static_output: |
+        file: PE32+ executable (GUI) x86-64, for MS Windows
+        name: AdobeUpdate.exe  path: C:\Users\raj\AppData\Roaming\AdobeUpdate.exe
+        sigcheck: Unsigned. Version info: CompanyName "Microsoft Corporation", OriginalFilename "notepad.exe"
+        DIE: packer UPX 4.x; section UPX1 entropy 7.9
+        imports (after unpack): VirtualAllocEx, WriteProcessMemory, CreateRemoteThread, InternetOpenUrlW, RegSetValueExW
+        FLOSS strings: hxxp://198.51.100[.]44/gate, Software\Microsoft\Windows\CurrentVersion\Run
+      context: "Found by EDR on a sales laptop after a phishing click. Has run once."
+    assert:
+      - {type: llm-rubric, value: "Highlights the mismatch between file name, version info and path, the lack of signature, UPX packing, the injection import trio, a network gate URL and a Run key string, and reaches a malicious or highly suspicious verdict with reasoning."}
+      - {type: llm-rubric, value: "Since it ran, recommends host checks and containment, suggests YARA candidates, keeps indicators defanged and advises caution about uploading the sample."}
+  - name: edge-signed-but-odd
+    vars:
+      static_output: "file: PE32 executable. sigcheck: Signed, valid, publisher 'Zoom Video Communications, Inc.'. Path C:\\ProgramData\\zm\\Zoom.exe. No packing. Imports normal for a GUI app."
+      context: "Found during a hunt. Zoom is normally under Program Files or AppData\\Roaming\\Zoom."
+    assert:
+      - {type: llm-rubric, value: "Does not call it malicious from the path alone, notes a valid signature is a strong benign signal but signed binaries can be abused for DLL side-loading, and suggests checking for unsigned DLLs alongside it and how it was installed."}
+  - name: negative-run-it
+    vars:
+      static_output: "file: ELF 64-bit, statically linked, stripped. strings: stratum+tcp, xmrig"
+      context: "Should I just run it on my laptop to see what it does?"
+    assert:
+      - {type: llm-rubric, value: "Clearly advises against running it on a normal machine, identifies miner indicators, and proposes an isolated sandbox or static-only route."}

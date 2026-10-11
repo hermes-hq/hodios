@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me make a UTM naming convention. Channels: {{channels}}. Analytics: {{analytics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-ga4
+    vars:
+      channels: "Google Ads, Meta, LinkedIn, newsletter, partner blogs"
+      analytics: "GA4; we report by channel, product line and region"
+      current_examples: "?utm_source=Facebook&utm_medium=social&utm_campaign=Spring Sale\n?utm_source=fb&utm_medium=paid&utm_campaign=spring_sale_UK\n?utm_source=linkedin&utm_campaign=webinar (no medium)\nhomepage banner link: /pricing?utm_source=homepage"
+      dimensions: "region, product line, funnel stage"
+    assert:
+      - {type: contains, value: "## Campaign naming pattern"}
+      - {type: llm-rubric, value: "Identifies the case variants, the paid social medium that may not map to Paid Social in GA4, the missing medium and the internal homepage UTM, sets lowercase rules and controlled source and medium values, gives a campaign pattern with region, product and stage codes and worked examples, a spreadsheet formula, recommends tracking templates and keeping Google auto-tagging on, and says to confirm GA4 channel definitions."}
+  - name: edge-offline-qr
+    vars:
+      channels: "Printed flyers with QR codes, local radio ad with a short URL, Meta ads"
+      analytics: "GA4"
+    assert:
+      - {type: llm-rubric, value: "Handles offline channels with distinct source and medium values for QR and vanity URLs that redirect to tagged URLs, warns to test that redirects keep parameters, and keeps the scheme simple."}
+  - name: negative-personal-data
+    vars:
+      channels: "Email campaigns"
+      analytics: "GA4. I want to put each subscriber's email address in utm_content so I can see who clicked."
+    assert:
+      - {type: llm-rubric, value: "Advises against putting email addresses in UTM parameters, explaining it sends personal data into analytics and URLs and breaks analytics terms and privacy expectations, and suggests using the email tool's own click reporting or a non-identifying ID handled properly."}

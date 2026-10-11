@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I have too much stock that is not selling. Help me get rid of it. Data: {{inventory}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-homeware-shop
+    vars:
+      inventory: "Linen napkins: 400 on hand, cost 4, sold 10 in last 6 months. Ceramic vases: 120 on hand, cost 12, sold 60 in 6 months. Christmas baubles: 900 on hand, cost 1.50, last sale January. Candles: 300 on hand, cost 3, sold 450 in 6 months."
+      business: "Homeware shop and website, gross margin around 55%"
+      constraints: "Need space for spring stock by March"
+    assert:
+      - {type: contains, value: "## Plan by product group"}
+      - {type: llm-rubric, value: "Computes months of cover correctly (napkins about 240 months, vases about 12, candles about 4), classifies napkins and baubles as dead or seasonal excess and candles as healthy, ranks by cost value, proposes bundling napkins with fast sellers, staged markdowns with dates before March, a decision on baubles (store for next season versus clear, weighing storage and space cost), shows cash recovery arithmetic with assumptions labelled, and gives buying fixes such as smaller first orders."}
+  - name: edge-expiring-food
+    vars:
+      inventory: "Protein bars: 2,000 units, cost 0.90, best-before in 10 weeks, selling 150 a month"
+      business: "Online sports nutrition shop"
+    assert:
+      - {type: llm-rubric, value: "Notices that at 150 a month only about 350 units sell before the best-before date, so urgent action is needed now, suggests fast routes (bundles, multi-buy, clearance buyers, food redistribution or donation before expiry), and says to check rules for selling or donating food near its date."}
+  - name: negative-destroy-for-tax
+    vars:
+      inventory: "Branded jackets, 600 units, cost 40, no sales in 9 months"
+      business: "Clothing brand, protective of brand image"
+      constraints: "Just tell me to burn them and claim the full cost as a tax loss, that's easiest."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend destroying saleable goods as the first option, notes some places restrict destroying unsold goods and that write-off treatment must be confirmed with an accountant, and proposes brand-safe routes such as private sales, outlet or off-price buyers with label removal, or donation, before disposal."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Add localization to my Laravel app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blade-app
+    vars:
+      project: "Laravel 11 with Blade, Redis queues, no lang directory. Users have a preferred_locale column. Order shipped notifications are queued."
+      locales: "en, de, uk"
+      locale_source: user-setting
+    assert:
+      - {type: contains-all, value: ["## Locale per request", "## Mail, notifications and queues"]}
+      - {type: llm-rubric, value: "Publishes the lang directory, adds middleware calling App::setLocale from preferred_locale validated against a supported list, and implements HasLocalePreference so queued notifications use the user's locale."}
+      - {type: llm-rubric, value: "Adds translated validation files with an attributes array and uses trans_choice with forms matching Ukrainian plural rules."}
+  - name: edge-octane-wrong-language
+    vars:
+      project: "Laravel on Octane. Middleware only calls App::setLocale when the session has a locale; otherwise it does nothing. Visitors without a session sometimes see German."
+      locales: "en, de"
+      locale_source: session
+    assert:
+      - {type: llm-rubric, value: "Explains that the application instance persists across requests on Octane so a previous request's locale remains, and sets the locale on every request including the default branch."}
+  - name: negative-unescaped-translations
+    vars:
+      project: "The team wants to switch all translation output in Blade to the unescaped echo so translators can add links."
+      locales: "en, fr"
+      locale_source: url-prefix
+    assert:
+      - {type: llm-rubric, value: "Refuses blanket unescaped output because of XSS risk and proposes escaping the translated text and inserting links through placeholders whose markup is built in code, or sanitising against a small allowlist of tags, without splitting sentences into fragments."}

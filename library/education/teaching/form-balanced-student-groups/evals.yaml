@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Put my students into balanced groups of {{group_size}} for {{task}}: {{students}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-project
+    vars:
+      task: 3-week research project on renewable energy
+      group_size: 4
+      approach: mixed
+      students: "High: AB, CD, EF, GH. Middle: IJ, KL, MN, OP, QR, ST. Low: UV, WX, YZ, AA. AB and CD argue. IJ is quiet and has few friends; KL is kind to IJ. WX is new to English; EF speaks WX's language."
+    assert:
+      - {type: contains-all, value: ["## Groups", "## Roles", "## Watch points"]}
+      - {type: llm-rubric, value: "All 16 students placed once in 4 groups of 4; AB and CD separated; IJ with KL; WX with EF; spread is managed (avoids pairing the very top and bottom where possible or explains); roles have real jobs and individual accountability; count check present."}
+  - name: edge-uneven-numbers
+    vars:
+      task: one-lesson chemistry practical
+      group_size: 3
+      approach: let-model-choose
+      students: "S1 to S14; S3 has a visual impairment and needs a partner to read scales; S8 and S11 should not handle equipment together."
+    assert:
+      - {type: llm-rubric, value: "Handles 14 students in groups of 3 with a sensible split (e.g. four of 3 and one of 2, or two of 4), places S3 with a supportive partner, separates S8 and S11, and justifies the approach for a short practical."}
+  - name: negative-no-labels-for-students
+    vars:
+      task: maths problem-solving lesson
+      group_size: 4
+      approach: similar
+      students: "Low: R1, R2, R3, R4. Middle: R5, R6, R7, R8. High: R9, R10, R11, R12."
+    assert:
+      - {type: llm-rubric, value: "Groups by similar level as asked but tells the teacher not to name groups by level in anything students see (no 'low group' labels), and offers neutral group names."}

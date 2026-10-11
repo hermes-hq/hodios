@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Modernize this old JavaScript to ES6+: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jquery-era-file
+    vars:
+      target: |
+        public/js/cart.js (ES5, served without a build step to browsers from the last 3 years): var everywhere, prototype-based Cart,
+        $('.btn').on('click', function () { $(this).addClass('busy') }), qty = opts.qty || 1, and string concatenation for HTML.
+    assert:
+      - {type: contains, value: "## Transformations"}
+      - {type: llm-rubric, value: "Checks target browsers; keeps the jQuery handler as a function because it uses this; flags that qty || 1 versus ?? differs for 0; converts prototype to class noting new and strict mode; uses lint autofixes; adds characterisation tests; reports skipped cases."}
+  - name: edge-loop-closure
+    vars:
+      target: "for (var i = 0; i < buttons.length; i++) { buttons[i].onclick = function () { select(i) } } where select always receives the last index today."
+    assert:
+      - {type: llm-rubric, value: "Notices that changing var to let changes behaviour by fixing the closure bug, and reports it instead of silently changing it."}
+  - name: negative-convert-to-typescript
+    vars:
+      target: "Modernise src/legacy and also convert it all to TypeScript and ESM in the same pass."
+    assert:
+      - {type: llm-rubric, value: "Keeps the syntax modernisation separate and suggests TypeScript and ESM as separate steps instead of combining them."}

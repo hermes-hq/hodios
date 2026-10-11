@@ -1,0 +1,54 @@
+schema: 1
+baseline: "Review this Spring Boot code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-self-invocation
+    vars:
+      context: "Spring Boot 3.2, Postgres, open-in-view disabled."
+      diff: |
+        +@Service
+        +public class TransferService {
+        +    public void transferAll(List<Transfer> ts) {
+        +        for (Transfer t : ts) { transfer(t); }
+        +    }
+        +    @Transactional
+        +    public void transfer(Transfer t) throws InsufficientFundsException {
+        +        accounts.debit(t.from(), t.amount());
+        +        if (accounts.balance(t.from()).signum() < 0) throw new InsufficientFundsException();
+        +        accounts.credit(t.to(), t.amount());
+        +    }
+        +}
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that transferAll calls transfer through this, bypassing the proxy, so no transaction is started from that path."}
+      - {type: llm-rubric, value: "Flags that InsufficientFundsException is a checked exception, so even with a transaction the debit would commit by default; fixes with rollbackFor or an unchecked exception and checking the balance before debiting."}
+  - name: edge-lazy-load-in-controller
+    vars:
+      context: "spring.jpa.open-in-view=false. Order has a lazy @OneToMany items."
+      diff: |
+        +@GetMapping("/orders/{id}")
+        +public OrderDto get(@PathVariable Long id) {
+        +    Order o = orderService.find(id); // @Transactional(readOnly = true) inside
+        +    return new OrderDto(o.getId(), o.getItems().size());
+        +}
+    assert:
+      - {type: llm-rubric, value: "Identifies that o.getItems() runs after the service transaction closed, so with open-in-view off it throws LazyInitializationException, and fixes it by building the DTO inside the service or using a fetch join or entity graph."}
+  - name: negative-correct-read-service
+    vars:
+      context: "Spring Boot 3.3. findWithItemsById is annotated with @EntityGraph(attributePaths = \"items\")."
+      diff: |
+        +@Service
+        +public class OrderQueries {
+        +    private final OrderRepository orders;
+        +    public OrderQueries(OrderRepository orders) { this.orders = orders; }
+        +    @Transactional(readOnly = true)
+        +    public OrderView find(long id) {
+        +        Order o = orders.findWithItemsById(id).orElseThrow(() -> new OrderNotFound(id));
+        +        return OrderView.from(o);
+        +    }
+        +}
+    assert:
+      - {type: llm-rubric, value: "Recognises a public transactional method called through the proxy, constructor injection, items fetched by the entity graph and mapped to a view inside the transaction, so no lazy-loading or proxy problem exists; approves or raises only minor points without inventing self-invocation or bean-scope findings."}

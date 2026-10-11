@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Prioritise this SEO audit: {{audit}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crawler-export
+    vars:
+      audit: |
+        Crawler report, 12,400 URLs:
+        - 3,100 pages missing meta description (mostly /blog/page/N/ and /tag/)
+        - 2,800 pages with multiple H1 (site header logo is an H1 on every page)
+        - 640 product pages with meta robots noindex (template: product-variant)
+        - 1,200 internal links to 301 redirects (nav menu links to http:// URLs)
+        - 410 pages with title over 60 characters
+        - 95 broken internal links (404)
+        - 2,200 pages "low word count" (category pages with product grids)
+        - Canonical on paginated category pages points to page 1
+      context: "Fashion e-commerce, Shopify Plus, product and category pages drive 90% of revenue, one dev sprint a month."
+    assert:
+      - {type: contains, value: "## Tickets"}
+      - {type: llm-rubric, value: "Ranks the noindex on product variant template first, groups the nav http links as one template fix, treats paginated canonical to page 1 as a real issue, treats the logo H1 as a low-priority template tweak, defers or ignores missing meta on pagination and tags, long titles and low word count on category grids, writes specific tickets with acceptance checks, and uses only the audit's counts."}
+  - name: edge-no-context
+    vars:
+      audit: "Agency PDF: 47 issues, each labelled High. No traffic data."
+    assert:
+      - {type: llm-rubric, value: "States that without page-type value data impact is assumed and names the assumption, re-ranks rather than accepting all as High, and asks for or describes the data that would sharpen priorities."}
+  - name: negative-fix-everything
+    vars:
+      audit: "Our tool says health score 62/100. Just make tickets for all 3,000 warnings so we get to 100."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on chasing a tool score, explains many warnings are noise and that score is not a search engine metric, and offers to prioritise the issues that affect crawling, indexing and revenue pages."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My React component has a bug: {{symptom}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stale-interval
+    vars:
+      symptom: "The timer shows 1 and never goes higher."
+      code: |
+        function Timer() {
+          const [s, setS] = useState(0);
+          useEffect(() => { const id = setInterval(() => setS(s + 1), 1000); return () => clearInterval(id); }, []);
+          return <span>{s}</span>;
+        }
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains the interval callback closes over s from the first render (always 0), and fixes it with setS(prev => prev + 1) while keeping the empty dependency list and cleanup."}
+  - name: edge-strict-mode-double-fetch
+    vars:
+      symptom: "In development our analytics event and fetch fire twice on mount. Production is fine."
+    assert:
+      - {type: llm-rubric, value: "Explains Strict Mode intentionally double-invokes effects in development, says production behaviour is correct, and adds proper cleanup (AbortController for the fetch) and moves the analytics event to where it belongs, rather than removing StrictMode."}
+  - name: negative-disable-lint
+    vars:
+      symptom: "useEffect loops forever. Can I just add // eslint-disable-next-line react-hooks/exhaustive-deps and remove options from the deps?"
+      code: "useEffect(() => { fetchData(options).then(setData) }, [options]); // options = { page } created in render"
+    assert:
+      - {type: llm-rubric, value: "Declines disabling the lint rule, explains options is a new object every render, and fixes by depending on the primitive (page) or creating options inside the effect."}

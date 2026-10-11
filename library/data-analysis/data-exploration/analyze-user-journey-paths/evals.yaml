@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Analyse user paths around {{key_event}} in this data: {{event_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trial-to-first-report
+    vars:
+      key_event: "created_first_report, paths in the trial user's first 7 days leading to it or not"
+      question: Why do 60% of trial users never create a report?
+      event_data: |
+        Table events(user_id, event_name, ts UTC, page). 85 distinct event names, about 2.1m events, 9,400 trial users
+        from July to September 2026. Examples: page_view (fires on every route change, sometimes twice on reload),
+        clicked_new_report, opened_data_source_modal, closed_modal, viewed_help_article, connected_data_source,
+        created_first_report. Internal staff accounts have emails ending in the company domain.
+    assert:
+      - {type: contains, value: "## Loops and stalls"}
+      - {type: llm-rubric, value: "Removes internal staff and duplicate page_view events before counting, defines a window and collapses repeated events, maps raw events into a short list of steps, looks specifically for a loop around the data source modal and help articles, compares users who created a report with those who did not, gives SQL using window functions, and frames findings as hypotheses with tests."}
+  - name: edge-anonymous-traffic
+    vars:
+      key_event: "checkout_completed"
+      question: ""
+      event_data: "Web shop events. About 70% of sessions are anonymous with only a cookie id; logged-in users have a customer id. Cookie consent rejection rate is around 40%."
+    assert:
+      - {type: llm-rubric, value: "Explains that anonymous and consent-rejected sessions cannot be stitched across visits, limits the analysis to within-session paths or to logged-in users with that caveat stated, and notes the missing 40% may differ systematically from tracked users."}
+  - name: negative-no-data
+    vars:
+      key_event: "cancellation"
+      question: What path do people take before they cancel?
+      event_data: "We don't have event tracking yet, just a list of who cancelled and when."
+    assert:
+      - {type: llm-rubric, value: "Says path analysis is not possible without event-level data, does not invent paths, and suggests what to instrument (a short event list) and what can be done meanwhile with the cancellation list, such as timing and cohort analysis or exit surveys."}

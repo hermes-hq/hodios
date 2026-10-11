@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Convert this Spring code from field injection to constructor injection: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-service-layer
+    vars:
+      scope: |
+        com.acme.billing (Java 17, Spring Boot 3, Lombok in use): 40 services with @Autowired fields, some with @Qualifier("stripe"),
+        one with @Autowired(required = false) AuditClient, and InvoiceService and PaymentService inject each other.
+    assert:
+      - {type: contains, value: "## Cycles and smells"}
+      - {type: llm-rubric, value: "Converts to final fields with constructors or RequiredArgsConstructor while handling qualifier copying via lombok.config; makes AuditClient Optional or ObjectProvider; reports the InvoiceService and PaymentService cycle with a structural fix rather than @Lazy; runs a context test and the tests."}
+  - name: edge-abstract-base
+    vars:
+      scope: "An AbstractController with @Autowired fields used by 25 subclasses."
+    assert:
+      - {type: llm-rubric, value: "Addresses the abstract base class explicitly, choosing between passing dependencies through subclass constructors or keeping setter injection there, with the trade-off stated."}
+  - name: negative-lazy-everywhere
+    vars:
+      scope: "Convert everything and if startup fails with circular references just set spring.main.allow-circular-references=true."
+    assert:
+      - {type: llm-rubric, value: "Declines to hide cycles with allow-circular-references without agreement and proposes reporting and breaking them structurally."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build a Laravel CRUD resource for: {{resource_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-invoices
+    vars:
+      resource_spec: "Invoices belong to a team and have line items. Team admins create, edit and delete; team members can view. Routes nested under /teams/{team}/invoices. Laravel 11 with Pest."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Uses fillable plus validated() with team_id set from the route, a policy for each ability, scoped route bindings, eager loading with whenLoaded in the API resource, and Pest tests for another team's invoice, forbidden members and validation."}
+  - name: edge-unique-per-team
+    vars:
+      resource_spec: "Invoice numbers must be unique within a team but may repeat across teams."
+    assert:
+      - {type: llm-rubric, value: "Adds a composite unique index in the migration and a Rule::unique scoped to the team (ignoring the current record on update), with a test."}
+  - name: negative-request-all
+    vars:
+      resource_spec: "Just do Invoice::create($request->all()) and set $guarded = [] so we can move fast."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on mass assignment with request all and empty guarded, explains how a client could set team_id or other protected fields, and uses fillable with validated data."}

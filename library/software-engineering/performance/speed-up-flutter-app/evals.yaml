@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Flutter app is janky, fix it: {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parse-and-opacity
+    vars:
+      symptom: "Opening the feed screen freezes for ~800 ms on a Moto G. initState awaits http.get then jsonDecode on a 4 MB response and calls setState at the root of the screen. Cards fade in with Opacity driven by an AnimationController. Measured in profile mode."
+    assert:
+      - {type: contains-all, value: ["## Timeline", "## Causes"]}
+      - {type: llm-rubric, value: "Moves the large JSON decode off the UI isolate with Isolate.run or compute, scopes the setState rebuild, replaces the animated Opacity with FadeTransition or similar to avoid saveLayer cost, and separates UI-thread from raster-thread causes."}
+  - name: edge-debug-mode-numbers
+    vars:
+      symptom: "Scrolling is janky in the iOS simulator when I run flutter run. Frames are 30-40 ms."
+    assert:
+      - {type: llm-rubric, value: "Points out that debug mode and the simulator do not represent real performance, asks for a profile-mode recording on a real device, and only lists possible causes as unconfirmed."}
+  - name: negative-isolate-everything
+    vars:
+      symptom: "Move every function in the app into isolates so nothing ever blocks the UI."
+    assert:
+      - {type: llm-rubric, value: "Pushes back because isolates copy data and add overhead, recommends measuring first and moving only heavy work, and does not produce a blanket refactor."}

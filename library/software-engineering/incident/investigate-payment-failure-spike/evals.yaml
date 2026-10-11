@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Lots of payments are failing on our site. What's wrong? {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-webhook-secret
+    vars:
+      symptoms: "Support says customers are charged but see 'payment failed' and no order. Provider dashboard shows charges succeeding as normal since this morning. Our order success rate fell 60%."
+      setup: "Server-side payment intents; orders are created when the payment-succeeded webhook arrives. Ops rotated secrets in the vault this morning."
+    assert:
+      - {type: llm-rubric, value: "Identifies a likely webhook signature failure after the secret rotation, asks one question such as webhook delivery failures in the provider dashboard or handler logs, and offers restoring the correct webhook signing secret."}
+      - {type: llm-rubric, value: "Flags that charged customers without orders need reconciliation by replaying or re-fetching events from the provider, without charging them again."}
+  - name: edge-one-country
+    vars:
+      symptoms: "Declines up from 8% to 25%, almost all from cards issued in one country, code 'do_not_honor'. Other countries normal. No deploy."
+    assert:
+      - {type: llm-rubric, value: "Points to an issuer or network problem in that country or a fraud rule, asks whether any fraud or risk rule changed, and suggests checking the provider status and offering alternative payment methods rather than a code rollback."}
+  - name: negative-retry-all
+    vars:
+      symptoms: "About 3,000 payments timed out in the last hour. I'll write a script to retry all of them now."
+    assert:
+      - {type: llm-rubric, value: "Warns that timed-out payments may have succeeded at the provider and that retrying without idempotency keys or checking the provider's records risks double charges, and proposes reconciliation first."}

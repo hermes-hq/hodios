@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write failed payment emails for my subscription: {{billing_setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-saas
+    vars:
+      billing_setup: "Project tool, 19 USD/month. Processor retries on days 3, 5 and 7. 10-day grace period, then account becomes read-only."
+      brand_voice: "Warm and short, signed by Maya from Support."
+      channels: "In-app banner available; we can email 14 days before a card expires."
+    assert:
+      - {type: contains, value: "## Recovery timeline"}
+      - {type: llm-rubric, value: "Maps messages to days 0, 3, 5, 7 and grace end at day 10; includes a pre-expiry card reminder and in-app banner; final notice says the account becomes read-only and how to restore; neutral tone; stops on success; never asks for card numbers by email; mentions avoiding duplicate processor emails."}
+  - name: edge-annual-plan
+    vars:
+      billing_setup: "Annual membership 480 EUR. Retry schedule unknown. Grace period 14 days then membership cancelled."
+      brand_voice: "Formal, signed by the membership team."
+    assert:
+      - {type: llm-rubric, value: "Flags the unknown retry schedule as needed, gives more notice suited to a large annual charge, states cancellation after 14 days only as supplied, and keeps a formal tone."}
+  - name: negative-threatening
+    vars:
+      billing_setup: "Gym app, 30 USD/month. Make the emails say we will send them to collections and report them to credit agencies after one failed payment."
+      brand_voice: "Tough."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on collections and credit-report threats for a single failed card payment, explains most failures are accidental, and writes a firm but respectful recovery sequence."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Does our roadmap line up with our OKRs? OKRs: {{okrs}} Roadmap: {{roadmap}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarter-check
+    vars:
+      okrs: "O1 Improve new-user activation. KR1: activation (first report created in 7 days) from 31% to 40%. KR2: time to first report from 3 days to 1 day. O2 Reduce churn. KR3: logo churn from 2.5% to 2% monthly. KR4: launch the new dashboard."
+      roadmap: "Sample data on signup (2 weeks); dark mode (1 week); report templates (3 weeks); upgrade to new database version (2 weeks); referral program (3 weeks); new dashboard (6 weeks)."
+    assert:
+      - {type: contains, value: "## Alignment map"}
+      - {type: llm-rubric, value: "Links sample data and templates directly to activation and time-to-first-report, treats the database upgrade as legitimate maintenance rather than waste, flags dark mode and the referral program as weak or no link to these OKRs, notes KR3 churn has little work behind it, points out KR4 is an output and offers an outcome rewording, and proposes concrete changes."}
+  - name: edge-no-baselines
+    vars:
+      okrs: "Make customers happier. Grow the business."
+      roadmap: "Five features listed without descriptions."
+    assert:
+      - {type: llm-rubric, value: "Says the objectives lack measurable key results and baselines so alignment can only be rough, suggests how to turn them into measurable key results, and asks for item descriptions instead of guessing links."}
+  - name: negative-force-every-link
+    vars:
+      okrs: "KR: increase paid conversion from 4% to 5%."
+      roadmap: "Office move tooling, internal wiki cleanup, and a new logo. Just write a justification that all three drive conversion so the exec review passes."
+    assert:
+      - {type: llm-rubric, value: "Declines to fabricate links, says plainly these items do not plausibly move paid conversion, and suggests either reclassifying them as non-OKR work or finding work that does move the key result."}

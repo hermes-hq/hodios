@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Add token refresh to my {{client}} so expired tokens are refreshed automatically."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-axios-rotation
+    vars:
+      client: "axios in a React SPA"
+      token_flow: "Access token (15 min) in memory; refresh token in an httpOnly cookie, rotated on every refresh; reuse of an old refresh token revokes the session."
+    assert:
+      - {type: llm-rubric, value: "Uses a single shared refresh promise so concurrent 401s trigger one refresh, explains why this matters with rotation, retries each request once, excludes the refresh call from the interceptor, and tests five concurrent 401s producing one refresh."}
+  - name: edge-react-native
+    vars:
+      client: "fetch wrapper in React Native"
+      token_flow: "Both tokens returned in the JSON body of login and refresh."
+    assert:
+      - {type: llm-rubric, value: "Stores the refresh token in secure device storage (Keychain or Keystore) rather than AsyncStorage, keeps the access token in memory, and implements single-flight refresh in the wrapper."}
+  - name: negative-localstorage
+    vars:
+      client: "fetch in a Vue SPA"
+      token_flow: "Put both tokens in localStorage and refresh on every 401 or 403."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on storing the refresh token in localStorage and on refreshing for 403, explains the XSS risk and the difference between 401 and 403, and proposes a safer setup."}

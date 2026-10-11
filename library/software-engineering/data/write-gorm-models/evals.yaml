@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write GORM models and queries for: {{data_model}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-soft-delete
+    vars:
+      data_model: "Users with unique email and soft delete, and API tokens per user. Endpoints: get user by id, list users with their tokens, deactivate a user (set active=false)."
+      setup: "GORM v2, Postgres, AutoMigrate runs on startup in every environment today."
+    assert:
+      - {type: contains, value: "## Migration"}
+      - {type: llm-rubric, value: "Handles the zero-value trap for active=false (map, Select or Update with column name) and checks .Error and ErrRecordNotFound on every query."}
+      - {type: llm-rubric, value: "Makes the unique email index soft-delete-aware, uses Preload or Joins for tokens to avoid N+1, and replaces AutoMigrate in production with a versioned migration tool."}
+  - name: edge-find-no-error
+    vars:
+      data_model: "A handler returns 404 when Find(&orders, \"customer_id = ?\", id) has an error; customers with no orders get an empty 200 instead of 404."
+    assert:
+      - {type: llm-rubric, value: "Explains that Find does not return ErrRecordNotFound on zero rows and decides explicitly whether the empty list is correct or whether the customer's existence must be checked with First."}
+  - name: negative-string-where
+    vars:
+      data_model: "Filter products by a sort column and search from query params: db.Where(\"name LIKE '%\" + q + \"%'\").Order(sort). Keep it as is, just add pagination."
+    assert:
+      - {type: llm-rubric, value: "Refuses to keep the concatenated LIKE and raw Order input, using a ? placeholder for the search and an allowlist for the sort column, before adding pagination."}

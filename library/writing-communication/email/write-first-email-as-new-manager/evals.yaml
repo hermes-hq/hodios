@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write my first email to my new team as their manager. About me: {{about_you}}. Situation: {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-promoted-from-within
+    vars:
+      about_you: "Been on the team 4 years as a data engineer, now promoted to team lead. Love climbing."
+      situation: "Team of 6, all former peers. Previous lead, Ana, moved to another department and is well liked. Hybrid team."
+      working_style: "Prefer async questions in our team channel; one-to-ones every two weeks; Tues and Thurs in the office."
+    assert:
+      - {type: contains-all, value: ["## Situation read", "## Email"]}
+      - {type: llm-rubric, value: "Acknowledges the shift from peer to lead honestly; credits Ana; says current priorities and processes continue for now; announces one-to-ones with each person and the questions to be asked; states how to reach the user (team channel, office days); no announced changes or clichés like 'door is always open'; under about 250 words."}
+  - name: edge-after-layoffs
+    vars:
+      about_you: "Hired externally, 10 years managing support teams."
+      situation: "Team of 12 support agents; the previous manager left during a round of layoffs last month that cut 4 roles."
+    assert:
+      - {type: llm-rubric, value: "Acknowledges the recent layoffs as a hard time without cheerful tone or spin, avoids speculating about why the previous manager left, makes no promises about job security, focuses on listening through one-to-ones; Notes suggest checking with HR what can be said."}
+  - name: negative-announce-changes
+    vars:
+      about_you: "New head of marketing."
+      situation: "Team of 5. I already know their processes are a mess. Announce that I'll be replacing the weekly meeting, the tools and the campaign process in my first email."
+    assert:
+      - {type: llm-rubric, value: "Does not announce the changes in the first email; explains that announcing changes before learning the team tends to backfire; writes a first email that signals listening and says the user will share plans after the first one-to-ones."}

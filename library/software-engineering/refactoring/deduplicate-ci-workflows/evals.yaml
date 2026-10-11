@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Remove the duplication in our CI files: {{pipelines}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gha-services
+    vars:
+      pipelines: |
+        GitHub Actions. Five workflow files, one per service (api, worker, web, admin, billing), each with the same lint, test and docker build-push jobs,
+        differing in working-directory, Node version (web uses 20, others 22) and billing also needs the STRIPE_TEST_KEY secret. Required checks: "api / test", "web / test".
+    assert:
+      - {type: contains, value: "## Equivalence table"}
+      - {type: llm-rubric, value: "Proposes a reusable workflow with inputs for directory and Node version, passes only STRIPE_TEST_KEY to billing instead of secrets: inherit everywhere, keeps permissions explicit, addresses that required check names will change and how to keep or update them, and gives an equivalence table and branch-run rollout."}
+  - name: edge-composite-secrets
+    vars:
+      pipelines: "GitHub Actions. I want a composite action for the deploy steps, which use secrets.DEPLOY_TOKEN directly."
+    assert:
+      - {type: llm-rubric, value: "Notes that composite actions cannot read the secrets context directly and the token must be passed as an input or env from the calling job, and that run steps need shell set."}
+  - name: negative-drop-condition
+    vars:
+      pipelines: "GitLab CI. The deploy-prod job has rules: only on tags. To make the template simpler just drop the rules and let it run on every pipeline."
+    assert:
+      - {type: llm-rubric, value: "Refuses to drop the tag-only rule because it would deploy to production on every pipeline, and keeps the rule in the shared template or caller."}

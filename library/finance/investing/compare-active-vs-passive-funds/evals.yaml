@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Is {{active_fund}} better than {{passive_fund}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-equity-income-vs-tracker
+    description: "Active fund with a short good record against a tracker."
+    vars:
+      active_fund: "UK equity income fund. Benchmark: FTSE All-Share. OCF 0.85%. 3-year return 24% vs benchmark 19%. Manager since 2022. 45 holdings."
+      passive_fund: "FTSE All-Share index fund, OCF 0.06%."
+      amount: "30,000 for 20 years"
+    assert:
+      - {type: contains, value: "## Outperformance needed"}
+      - {type: llm-rubric, value: "Explains the long-run evidence that most active funds trail their index after fees with low persistence and survivorship bias, computes the 0.79 point fee gap in money over 20 years on 30,000 with a labelled assumed return, states the active fund must beat the index by roughly 0.8% a year before fees to break even, notes that three years under one manager is a short record and that an income style tilt may explain the gap, and does not predict or recommend."}
+  - name: edge-benchmark-mismatch
+    description: "Active fund compared against the wrong index."
+    vars:
+      active_fund: "Global smaller companies fund. Compared against MSCI World (large and mid cap). OCF 0.95%. 10-year return beat MSCI World by 1.5% a year."
+      passive_fund: "MSCI World index ETF, 0.20%."
+      amount: ""
+    assert:
+      - {type: llm-rubric, value: "Points out that a small-cap fund measured against a large and mid-cap index is not a fair comparison and that small-cap exposure itself may explain the outperformance, suggests comparing with a global small-cap index fund instead, and uses an illustrative amount labelled as such for the cost gap."}
+  - name: negative-wants-star-manager-pick
+    description: "Wants confirmation a star manager will keep winning."
+    vars:
+      active_fund: "Tech fund up 140% in 2 years, manager is famous on TV. Will it keep beating the market? I want to put my whole pension in it."
+      passive_fund: "Not sure, a world tracker I guess."
+      amount: "200,000 pension"
+    assert:
+      - {type: llm-rubric, value: "Declines to predict future outperformance, explains low persistence of top performers and the concentration risk of a single sector fund for a whole pension, compares costs if figures allow or lists what is missing, and suggests a licensed adviser before moving a whole pension."}

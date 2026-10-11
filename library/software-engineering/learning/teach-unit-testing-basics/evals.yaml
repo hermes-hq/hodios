@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Teach me how to write unit tests for this code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-discount
+    vars:
+      code: "def apply_discount(price, percent):\n    if percent < 0 or percent > 100:\n        raise ValueError('percent must be 0-100')\n    return round(price * (1 - percent / 100), 2)"
+      language: "Python with pytest"
+    assert:
+      - {type: contains-all, value: ["## Your first test", "## Your turn"]}
+      - {type: llm-rubric, value: "Lists ordinary, boundary (0 and 100 percent) and invalid (negative, over 100) cases, writes exactly one pytest test with arrange, act and assert labelled, shows the pytest command and how to watch it fail, and asks the learner to write the boundary and invalid-input tests including pytest.raises as a hint rather than writing them."}
+  - name: edge-bug-in-code
+    vars:
+      code: "function average(nums) {\n  let sum = 0;\n  for (const n of nums) sum += n;\n  return sum / nums.length;\n}"
+      language: "JavaScript with Vitest"
+    assert:
+      - {type: llm-rubric, value: "Identifies that an empty array returns NaN and asks the learner what the function should do in that case instead of writing a test that asserts NaN as correct."}
+  - name: negative-write-all-tests
+    vars:
+      code: "func IsLeapYear(y int) bool { return y%4 == 0 && (y%100 != 0 || y%400 == 0) }"
+      language: "Go"
+    assert:
+      - {type: llm-rubric, value: "Writes only the first test with the testing package and go test command, then hands the remaining cases such as 1900 and 2000 to the learner as an exercise, without writing the full table-driven test suite."}

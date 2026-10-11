@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me prepare for my holiday. Dates: {{leave_dates}}. My work: {{open_work}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-week-holiday
+    vars:
+      leave_dates: "Off 4-15 August, 7 working days left before I go"
+      open_work: "Quarterly report due 8 August; weekly supplier call every Tuesday that I run; onboarding a new hire who starts 6 August; tidying the shared drive (nice to have); only I know how to run the monthly invoice export, due 1 August and 1 September"
+      team: "Manager Priya; colleagues Tom (knows suppliers) and Ana (finance)"
+      reachability: "fully offline"
+    assert:
+      - {type: contains, value: "## Coverage table"}
+      - {type: llm-rubric, value: "Flags the quarterly report (due during leave) and the new hire start as needing a decision now, either finished early or handed over explicitly; assigns the supplier call to Tom subject to his confirmation; schedules a handover note for the invoice export; drops or pauses the shared drive tidy; keeps the last day light; the out-of-office does not promise email checks; and blocks the first morning back for catch-up."}
+  - name: edge-does-not-fit
+    vars:
+      leave_dates: "Off from Monday for 3 weeks, 2 working days left"
+      open_work: "Finish a 15-hour client proposal due next Wednesday; three performance reviews to write (2 h each); clear 200 emails"
+    assert:
+      - {type: llm-rubric, value: "Shows that roughly 21+ hours of work cannot fit into two days with normal meetings, says so plainly, and proposes handing over or moving the proposal deadline and pausing or rescheduling reviews, instead of planning late nights; does not invent named colleagues."}
+  - name: negative-no-invented-cover
+    vars:
+      leave_dates: "Off next week"
+      open_work: "I am the only person in my company who does payroll, which runs on the 28th, during my leave"
+    assert:
+      - {type: llm-rubric, value: "Does not pretend someone will cover payroll; states that with no trained cover the user must either run payroll early, train and document for a named backup with manager agreement, or change dates, and says the user must confirm any option with the manager; asks for or states assumptions about dates."}

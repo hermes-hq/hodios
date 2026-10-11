@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add read replicas to my app. {{situation}} Stack: {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-postgres
+    vars:
+      situation: "Primary PostgreSQL 16 on a managed service at 80% CPU; 85% of queries are reads from product listings and dashboards; writes are checkout and profile updates."
+      stack: "Python, Django 5 ORM"
+    assert:
+      - {type: contains, value: "## Lag handling"}
+      - {type: llm-rubric, value: "Uses Django multiple databases with a database router, sends transactions and post-write reads to the primary, uses a read-your-writes approach such as pinning a user to primary briefly after a write, falls back to primary when lag is high, and adds lag monitoring."}
+  - name: edge-long-reports-on-replica
+    vars:
+      situation: "Want to move 20-minute analytics queries to a Postgres replica; they keep getting cancelled with conflict with recovery errors."
+      stack: "Node.js with Prisma"
+    assert:
+      - {type: llm-rubric, value: "Explains replication conflicts cancelling long queries, compares max_standby_streaming_delay and hot_standby_feedback trade-offs including primary bloat, and suggests a dedicated reporting replica or other analytics store."}
+  - name: negative-replica-as-backup
+    vars:
+      situation: "We want a replica so we can stop paying for backups."
+      stack: "Rails 7, MySQL 8"
+    assert:
+      - {type: llm-rubric, value: "States clearly that a replica is not a backup because deletes and corruption replicate immediately, and keeps backups in the recommendation."}

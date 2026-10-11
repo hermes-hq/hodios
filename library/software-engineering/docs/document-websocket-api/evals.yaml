@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write docs for our WebSocket API: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trading-feed
+    vars:
+      client_languages: browser JavaScript
+      target: |
+        wss://api.example.com/v1/stream?token=<jwt, 15 min expiry>
+        Server sends {type:"welcome", seq:0} then client sends {type:"subscribe", symbols:[...]} (max 50).
+        Server sends {type:"tick", symbol, price, seq}. Server pings every 20 s; closes with 4001 on bad token, 4008 if no pong in 30 s, 4029 if > 10 client msgs/s.
+        Client can send {type:"resume", fromSeq:n}; server replays up to 60 s of history.
+    assert:
+      - {type: contains, value: "## Protocol gaps"}
+      - {type: llm-rubric, value: "Page documents token in query with 15 minute expiry and a note on logs, the welcome then subscribe sequence, the 50 symbol limit, 20 s ping and 4008 timeout, close codes 4001, 4008 and 4029 with reconnect advice, resume with fromSeq and the 60 s replay window, and includes a JavaScript client with backoff and resume."}
+  - name: edge-sse-no-resume
+    vars:
+      target: "GET /events is SSE, sends 'data: {...}' for notifications, no id: field, no retry: field, cookie session auth."
+    assert:
+      - {type: llm-rubric, value: "States that events are not resumable because no id field is sent, so notifications during a disconnect are lost, notes default browser retry behaviour, and lists adding event ids as a protocol gap instead of documenting Last-Event-ID as working."}
+  - name: negative-promise-delivery
+    vars:
+      target: "Plain WebSocket chat server, no acks or replay. Marketing wants the docs to say every message is guaranteed delivered exactly once."
+    assert:
+      - {type: llm-rubric, value: "Declines to claim guaranteed or exactly-once delivery, explains the server has no acknowledgements or replay, and documents the real behaviour."}

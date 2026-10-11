@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Review this Angular code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-onpush-mutation-and-provider
+    vars:
+      context: "Angular 17, standalone components, zone.js, no SSR."
+      diff: |
+        +@Component({
+        +  selector: 'app-cart',
+        +  standalone: true,
+        +  changeDetection: ChangeDetectionStrategy.OnPush,
+        +  providers: [CartService],
+        +  template: `<div [innerHTML]="note"></div><li *ngFor="let i of items">{{ total() }}</li>`
+        +})
+        +export class CartComponent {
+        +  @Input() items: Item[] = [];
+        +  note = '';
+        +  constructor(private cart: CartService, private s: DomSanitizer) {}
+        +  add(i: Item) { this.items.push(i); this.cart.add(i); }
+        +  setNote(html: string) { this.note = this.s.bypassSecurityTrustHtml(html) as string; }
+        +  total() { return this.items.reduce((a, b) => a + b.price, 0); }
+        +}
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags bypassSecurityTrustHtml on user-supplied HTML as an XSS risk and ranks it high; flags that providers: [CartService] creates a separate instance per component so the cart state is not shared with the rest of the app if that is the intent."}
+      - {type: llm-rubric, value: "Notes that pushing into the input array mutates the parent's data in place (with OnPush the parent and siblings may not update) and that total() is called in the template on every check; suggests computed or a signal and a new array reference, and a trackBy."}
+  - name: edge-correct-signals
+    vars:
+      context: "Angular 18, zoneless, signals."
+      diff: |
+        +readonly query = signal('');
+        +readonly results = toSignal(toObservable(this.query).pipe(debounceTime(300), switchMap(q => this.api.search(q))), { initialValue: [] });
+        +readonly count = computed(() => this.results().length);
+    assert:
+      - {type: llm-rubric, value: "Recognises correct use of signals, computed for derivation and switchMap for cancelling stale searches; approves or raises only minor points (such as error handling in the stream), and does not invent change detection or leak findings."}
+  - name: negative-no-diff
+    vars:
+      diff: "Can you review our Angular app's architecture and tell us if it's good?"
+    assert:
+      - {type: llm-rubric, value: "Explains it needs the actual diff or files to review, asks for them (and the Angular version), and does not produce generic findings about code it has not seen."}

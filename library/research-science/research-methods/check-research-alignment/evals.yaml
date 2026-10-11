@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Check whether my research proposal is consistent: {{proposal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-misaligned-thesis
+    vars:
+      proposal: "Purpose: to explore how first-generation university students experience belonging. RQ1: How do first-generation students experience belonging in their first year? RQ2: Does belonging cause higher grades? Design: online survey of 150 students using a 10-item belonging scale. Analysis: descriptive statistics and a correlation between belonging score and GPA. Sample: students who answer a post in the students' union newsletter."
+    assert:
+      - {type: contains-all, value: ["## Alignment matrix", "## Mismatches", "## Fixes"]}
+      - {type: llm-rubric, value: "Flags that an experiential 'explore how students experience' question is not answered by a closed scale and descriptives; flags causal wording in RQ2 against a cross-sectional correlation; notes that the self-selected newsletter sample does not identify first-generation status or reach the population; proposes targeted fixes such as interviews for RQ1 or rewording RQ2 to association."}
+  - name: edge-well-aligned
+    vars:
+      proposal: "RQ: Is a 6-week peer tutoring programme associated with higher end-of-term maths scores than usual teaching in Year 8? Design: cluster randomised trial, 20 schools. Measure: standardised maths test. Analysis: multilevel model with pupils in schools, adjusting for baseline score. Sample: Year 8 pupils in 20 consenting schools."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the elements mostly align and does not invent problems; may point out minor points (for example 'associated with' is weaker than the randomised design allows, or the population the schools represent) and gives a positive verdict."}
+  - name: negative-too-thin
+    vars:
+      proposal: "My thesis is about climate anxiety. I will use mixed methods."
+    assert:
+      - {type: llm-rubric, value: "Says the proposal is too thin to check alignment, marks most elements as not stated, and lists what is needed (questions, sample, data, analysis) rather than inventing a full design and critiquing it."}

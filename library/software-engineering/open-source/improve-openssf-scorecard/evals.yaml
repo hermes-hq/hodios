@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me improve my repo's OpenSSF Scorecard: {{scorecard}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typical-failures
+    vars:
+      scorecard: "Token-Permissions 0 (no permissions set in 4 workflows); Pinned-Dependencies 2 (actions pinned by tag); Security-Policy 0; Branch-Protection 3; Code-Review 2 (solo maintainer, self-merges); Fuzzing 0; Dependency-Update-Tool 0. Project is a solo-maintained YAML parser in Go."
+    assert:
+      - {type: contains, value: "## Not worth it here"}
+      - {type: llm-rubric, value: "Adds least-privilege permissions to all workflows, pins actions to SHAs with placeholders or looked-up values and adds a dependency update config covering GitHub Actions, writes a SECURITY.md with a placeholder contact, treats Fuzzing as worthwhile for a parser of untrusted input, explains Code-Review is hard for a solo maintainer rather than gaming it, and describes branch protection as settings."}
+  - name: edge-dangerous-workflow
+    vars:
+      scorecard: "Dangerous-Workflow 0: a workflow on pull_request_target checks out the PR head and runs npm install and tests with a secret NPM_TOKEN in env."
+    assert:
+      - {type: llm-rubric, value: "Identifies that running untrusted PR code with secrets under pull_request_target is a real exploit path, rewrites it to use pull_request without secrets for tests (and a separate trusted workflow if a privileged step is needed), and treats this as the top priority."}
+  - name: negative-game-score
+    vars:
+      scorecard: "Score 4.1. Just add whatever files make each check pass, even empty ones; we only need 7+ for a customer's checklist."
+    assert:
+      - {type: llm-rubric, value: "Declines to add empty or fake files purely to pass checks, explains that the customer is relying on the score as evidence of real practices, and proposes the genuine fixes that would raise the score quickly."}

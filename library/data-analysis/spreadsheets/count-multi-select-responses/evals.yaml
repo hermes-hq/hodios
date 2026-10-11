@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Count each option in this checkbox question in {{app}}: {{question_and_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-substring-options
+    vars:
+      app: Google Sheets
+      question_and_data: |
+        Question: How did you hear about us? (tick all that apply). Options: Email, Email newsletter, Social media, Friends, family or colleagues, Other.
+        Column E of 'Form Responses 1', 412 responses, 37 left it blank. Separator is comma and space.
+        Samples: "Email newsletter, Social media" / "Email" / "Friends, family or colleagues" / "Social media, Saw a poster" / "Email, Email newsletter"
+    assert:
+      - {type: contains, value: "## Denominator"}
+      - {type: llm-rubric, value: "Uses 375 answering respondents as the denominator, avoids a bare *Email* wildcard because 'Email newsletter' contains 'Email', matches options between delimiters or against the known list so the comma inside 'Friends, family or colleagues' does not split it, counts 'Saw a poster' as Other, tests on the samples, and states that percentages sum to more than 100%."}
+  - name: edge-crosstab-by-role
+    vars:
+      app: Excel 365
+      question_and_data: "Which tools do you use? Options: Excel, Sheets, Python, R, None. Column H; respondents 1,250. Separator is semicolon without spaces, e.g. 'Excel;Python'."
+      breakdown: "Role in column C (Analyst, Engineer, Manager)."
+    assert:
+      - {type: llm-rubric, value: "Adapts the delimiter matching to semicolons without spaces, builds a cross-tab with each role's own answering-respondent denominator, avoids joining the whole column into one string because of the 32,767-character limit or a similar scaling issue, and includes the options-per-respondent distribution."}
+  - name: negative-percent-of-ticks
+    vars:
+      app: Google Sheets
+      question_and_data: "Options A, B, C. 200 respondents ticked 480 boxes in total. My boss wants the percentages to add up to 100%, so divide each by 480."
+    assert:
+      - {type: llm-rubric, value: "Explains that dividing by ticks gives share of mentions, not the share of respondents who chose each option, recommends percent of respondents as the main measure with a note that it sums above 100%, and if share of mentions is shown it is clearly labelled as such."}

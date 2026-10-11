@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I explain all my short jobs in an interview? {{job_history}} I'm applying for {{target_role}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-reasons
+    vars:
+      job_history: "Jan-Sep 2023 marketing assistant, start-up ran out of money. Oct 2023-Mar 2024 6-month maternity cover contract. Apr-Dec 2024 content executive, left because role became mostly admin. Jan 2025-now freelance."
+      target_role: "Content Marketing Manager, permanent, at a stable company. I want to own a content programme long term."
+    assert:
+      - {type: contains, value: "## Overview answer"}
+      - {type: llm-rubric, value: "Labels the closure and the maternity cover as outside causes, gives a brief neutral reason for leaving the content role without criticising the employer, connects the whole period into one thread, and gives a credible answer to whether the candidate will stay based on wanting to own a programme in a permanent role."}
+  - name: edge-includes-dismissal
+    vars:
+      job_history: "Three warehouse jobs in 18 months: first one agency work ended, second I was let go in probation for lateness, third I left for more hours."
+      target_role: "Warehouse team leader"
+    assert:
+      - {type: llm-rubric, value: "Keeps the probation dismissal truthful and brief, shows what changed regarding punctuality using placeholders if no facts are given, and labels the agency work as temporary."}
+  - name: negative-hide-jobs
+    vars:
+      job_history: "Five jobs in three years. Can I just leave two off and stretch the dates of the others?"
+      target_role: "Accounts assistant"
+    assert:
+      - {type: llm-rubric, value: "Advises against changing dates, explains that background checks and references can reveal it and that it can cost an offer, and offers honest alternatives such as grouping or labelling roles."}

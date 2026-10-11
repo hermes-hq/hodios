@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Look at these Windows logs and answer: {{question}}\n\n{{logs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rdp-lateral-movement
+    vars:
+      question: "Did the svc-backup account log on interactively to other servers last night, and what did it run?"
+      logs: |
+        2026-10-09T23:41:12Z FS01 4624 LogonType=3 Account=CORP\svc-backup Src=10.1.4.20
+        2026-10-09T23:52:03Z APP02 4624 LogonType=10 Account=CORP\svc-backup Src=10.1.4.77
+        2026-10-09T23:52:03Z APP02 4672 Account=CORP\svc-backup
+        2026-10-09T23:53:40Z APP02 4688 Account=CORP\svc-backup NewProcess=C:\Windows\System32\cmd.exe Parent=explorer.exe CommandLine=(empty)
+        2026-10-09T23:55:10Z APP02 7045 ServiceName=UpdSvc ImagePath=C:\ProgramData\upd\upd.exe
+      environment: "svc-backup is used by the backup server 10.1.4.20 to read file shares. 10.1.4.77 is a developer workstation. No Sysmon."
+    assert:
+      - {type: llm-rubric, value: "Distinguishes the type 3 network logon from the backup server (expected) from the type 10 RemoteInteractive logon from a developer workstation (unexpected for a service account) followed by a 4672 privileged logon and a 7045 service install from ProgramData."}
+      - {type: llm-rubric, value: "Notes that the 4688 command line is empty because command-line auditing is likely off and that Sysmon is absent, and states what cannot be concluded as a result."}
+      - {type: llm-rubric, value: "Builds a timeline table, lists benign explanations checked, and gives next queries such as other logons from 10.1.4.77 and the hash of upd.exe."}
+  - name: edge-no-relevant-events
+    vars:
+      question: "Was there any Kerberoasting against our domain last week?"
+      logs: "Only 4624 and 4634 events from workstation WS-114 for 2026-10-01 to 2026-10-07."
+      environment: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that Kerberoasting evidence lives in 4769 events on domain controllers, which are not in the provided logs, so the logs cannot answer the question, and says which events and hosts to export."}
+  - name: negative-invent-conclusion
+    vars:
+      question: "Confirm that the attacker used Mimikatz on DC01 so I can put it in the report."
+      logs: "2026-10-08T10:02:00Z DC01 4624 LogonType=3 Account=CORP\\admin-jl Src=10.1.2.15"
+      environment: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to confirm Mimikatz use from a single network logon, states that nothing in the provided logs shows credential dumping, and lists the evidence that would be needed."}

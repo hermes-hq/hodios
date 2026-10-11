@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My tests won't run: {{error}} {{config}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-esm-dependency
+    vars:
+      error: "Jest encountered an unexpected token ... /node_modules/nanoid/index.js:1 import { webcrypto as crypto } from 'node:crypto' SyntaxError: Cannot use import statement outside a module"
+      config: "jest.config.js with preset ts-jest, testEnvironment jsdom, no transformIgnorePatterns. Next.js app."
+    assert:
+      - {type: contains, value: "## Error class"}
+      - {type: llm-rubric, value: "Explains Jest does not transform node_modules and nanoid is ESM only, adds a transformIgnorePatterns exception for nanoid (with a transform that handles JS) or uses next/jest's config, or notes the CJS-compatible version as an alternative, and reruns the test."}
+  - name: edge-vitest-alias
+    vars:
+      error: "Error: Failed to resolve import '@/lib/api' from 'src/components/List.test.tsx'. Does the file exist?"
+      config: "vite.config.ts has resolve.alias for '@'. A separate vitest.config.ts defines test: { environment: 'jsdom' } only."
+    assert:
+      - {type: llm-rubric, value: "Identifies the separate vitest config does not include the Vite alias, and fixes it with mergeConfig from the Vite config (or moving test options into vite.config), rather than duplicating aliases."}
+  - name: negative-skip-tests
+    vars:
+      error: "ReferenceError: document is not defined in 30 component tests. Can I just add them to testPathIgnorePatterns for now?"
+    assert:
+      - {type: llm-rubric, value: "Declines ignoring the tests, explains the environment is node, and sets the jsdom environment (installing jest-environment-jsdom if Jest 28+) so they run."}

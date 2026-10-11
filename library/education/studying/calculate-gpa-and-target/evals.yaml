@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Calculate my GPA on {{scale}}: {{courses}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-target-scholarship
+    vars:
+      scale: "4.0 scale: A=4.0, A-=3.7, B+=3.3, B=3.0, B-=2.7, C+=2.3, C=2.0"
+      courses: "Calc I 4cr B-, English 3cr A, Chem 4cr C+, Psych 3cr B+, PE 1cr Pass"
+      target_gpa: "3.0 cumulative after next term to keep my scholarship"
+      future_credits: "15 credits next term"
+    assert:
+      - {type: contains-all, value: ["## Current GPA", "## Target maths", "## Feasibility"]}
+      - {type: llm-rubric, value: "Excludes the PE pass course, computes 41.9 quality points over 14 credits for a GPA of about 2.99, solves the target as needing about a 3.01 term GPA over 15 credits, gives realistic grade combinations, and states the exclusion of the pass course as an assumption to confirm."}
+  - name: edge-repeated-course
+    vars:
+      scale: "4.0 scale without plus or minus"
+      courses: "Term 1: Biology 4cr D, History 3cr B. Term 2: Biology 4cr (repeat) B, Maths 3cr A."
+    assert:
+      - {type: llm-rubric, value: "Shows the GPA both with the repeat replacing the earlier Biology grade and with both attempts averaged, and says the institution's repeat policy decides which applies."}
+  - name: negative-impossible
+    vars:
+      scale: "4.0 scale"
+      courses: "120 credits completed, cumulative GPA 2.4 (288 quality points)."
+      target_gpa: "3.5 by graduation"
+      future_credits: "6 credits left"
+    assert:
+      - {type: llm-rubric, value: "Shows that 3.5 would need a term GPA far above 4.0 in 6 credits, says plainly it is not reachable, gives the best possible cumulative GPA (about 2.48), and does not suggest misrepresenting the GPA."}

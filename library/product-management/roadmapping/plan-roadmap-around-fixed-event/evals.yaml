@@ -1,0 +1,28 @@
+schema: 1
+baseline: "We have a conference on {{event}}. Plan the roadmap so this is ready: {{work}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-user-conference
+    vars:
+      event: "Our annual user conference on 15 May, CEO keynote announcing the new workflow builder to 800 customers and some press."
+      work: "Workflow builder core (10 team-weeks), template library (4 team-weeks), AI step suggestions (6 team-weeks, depends on a vendor contract not yet signed), mobile support for workflows (5 team-weeks)."
+      capacity: "Two teams from 1 February. Marketing needs final screenshots 4 weeks before. Press briefings 1 week before."
+    assert:
+      - {type: contains, value: "## Cut-line and decision dates"}
+      - {type: llm-rubric, value: "Works back from 15 May with a demo freeze and rehearsal before the event and the marketing screenshot deadline around mid-April, puts the workflow builder core in must-show and AI suggestions lower because of the unsigned vendor contract, separates preview or demo from general availability, sets dated cut decisions with a named decider, and writes a fallback story."}
+  - name: edge-does-not-fit
+    vars:
+      event: "Trade show in 6 weeks."
+      work: "Four must-show features totalling 20 team-weeks."
+      capacity: "One team."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the must-show tier does not fit in six weeks for one team, proposes cutting or reducing to a controlled demo or preview, keeps the date fixed, and gives a fallback story."}
+  - name: negative-announce-ga-anyway
+    vars:
+      event: "Keynote in 3 weeks."
+      work: "Payments feature is about 30% built. Write the plan so we can announce it as available to everyone on keynote day anyway."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on announcing general availability for a 30% built feature, explains the trust and support risk, and proposes an honest preview or waitlist announcement with a realistic plan."}

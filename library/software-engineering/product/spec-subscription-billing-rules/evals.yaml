@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write subscription billing requirements for these plans: {{pricing}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seat-based-saas
+    vars:
+      pricing: "Team plan 12 per seat per month or 120 per seat per year. Business plan 25 per seat per month. 14-day trial without card."
+      context: "Business customers in the EU and US. Card and invoice payment. Customers complain about being charged for removed seats."
+    assert:
+      - {type: contains, value: "## Failed payments"}
+      - {type: llm-rubric, value: "Gives proration rules with worked numeric examples using the stated prices, defines seat add and removal billing, handles monthly to yearly switches, gives a dated retry schedule with access during grace, cancels at period end by default, mentions business tax IDs or reverse charge as items to confirm, and flags country rules for legal review."}
+  - name: edge-downgrade-mid-period
+    vars:
+      pricing: "Pro 30 per month, Basic 10 per month. A customer on Pro downgrades on day 10 of the month."
+    assert:
+      - {type: llm-rubric, value: "States when the downgrade takes effect and whether any credit is given, with a worked example, and keeps Pro access until the effective date if period-end is chosen."}
+  - name: negative-no-prices
+    vars:
+      pricing: "We have subscriptions."
+    assert:
+      - {type: llm-rubric, value: "Asks for plans, prices, billing periods and customer type instead of inventing prices and a generic billing spec."}

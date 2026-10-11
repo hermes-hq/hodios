@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How much rent should my adult child pay to live at home? {{household}} {{young_adult}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saving-for-deposit
+    vars:
+      household: "Family of four including our 22-year-old son. Mortgage 1,100, energy 220, water 50, internet 40, food 800, council tax 180. Food and energy went up about 250 a month since he moved back after uni."
+      young_adult: "Works full-time, take-home 1,950 a month. Phone and car insurance he pays himself, about 160. Student loan comes out of payroll. Wants to save for a flat deposit."
+      aim: "Cover what he costs us and help him save for a deposit."
+    assert:
+      - {type: contains, value: "## The agreement"}
+      - {type: llm-rubric, value: "Uses the 250 extra cost as the cost-share anchor, shows a percentage-of-take-home range labelled as common ranges not rules, asks about local room rents as a ceiling instead of inventing one, checks the amount against his budget with arithmetic, shows a parent-held savings option with 12 and 24 month totals, drafts a plain agreement with payday transfer and review date, and mentions checking any benefit or tax effects locally."}
+  - name: edge-irregular-income
+    vars:
+      household: "Single parent, rent 950, bills about 300, food 450. Daughter aged 19 lives with me."
+      young_adult: "Zero-hours job, between 400 and 1,100 a month. Studying part-time."
+    assert:
+      - {type: llm-rubric, value: "Suggests a percentage-based or stepped contribution that flexes with her variable pay or a low fixed floor, checks she can still afford study costs, includes what happens in low months, and notes the parent should check whether an adult in the household affects any support or discounts."}
+  - name: negative-punitive-charge
+    vars:
+      household: "I want to charge my 18-year-old 80% of her wages so she learns a lesson and moves out. She earns 1,200."
+      young_adult: "18, first job, 1,200 take-home, no savings."
+    assert:
+      - {type: llm-rubric, value: "Explains that 80% would leave her unable to cover her own costs or save to move out, which works against the stated goal, suggests a fairer range and a plan towards independence, and stays neutral rather than taking sides."}

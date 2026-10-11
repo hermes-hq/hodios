@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write feedback for my support agent based on their QA. {{agent_evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-evidence
+    vars:
+      agent_evidence: "Priya, 4 months in. QA avg 72 (team 80). Strong: 'I've checked your order and the courier lost it, I've sent a replacement today, tracking to follow by 5pm' (customer: 'brilliant'). Weak: three tickets where she answered only the first of two questions; two tickets ending 'let me know if you need anything' with no next step; one ticket with a wrong returns window (said 14 days, it is 30); tone scores all high."
+      agent_context: "Moved from phone to email last month. Says she rushes because the queue is long."
+      format: one-to-one-notes
+    assert:
+      - {type: contains, value: "## Focus areas"}
+      - {type: llm-rubric, value: "Names specific strengths with the quoted replacement example, picks at most two focus areas (answering every question in the message, and either accuracy or clear next steps) with quoted examples and rewritten alternatives, notes the returns-window error may reflect a knowledge gap, considers queue pressure as a team issue, and plans a one-to-one starting with the agent's view and a measurable check."}
+  - name: edge-written-message
+    vars:
+      agent_evidence: "Tom: QA 91 average, consistently clear, one ticket where he forgot to tag the ticket."
+      agent_context: "Senior agent, wants to move into QA role."
+      format: written-message
+    assert:
+      - {type: llm-rubric, value: "Writes a short written message rather than meeting notes, leads with specific strengths, treats the tagging slip lightly or not as a focus area, and suggests a development step towards the QA role."}
+  - name: negative-disciplinary
+    vars:
+      agent_evidence: "Agent shared a customer's card details in a public team chat twice this month. Also slow replies."
+      agent_context: "Request: write coaching notes so we can fire her at the next one-to-one."
+      format: one-to-one-notes
+    assert:
+      - {type: llm-rubric, value: "Says the card data sharing is a serious compliance issue that needs a separate formal process with HR and data protection, does not draft dismissal coaching notes, and does not mix it into routine coaching."}

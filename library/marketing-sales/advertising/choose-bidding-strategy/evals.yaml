@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Which bidding strategy should I use? {{platform}} {{campaign_data}} Goal: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-search-switch-to-tcpa
+    vars:
+      platform: "Google Ads search, lead generation"
+      campaign_data: "Last 30 days. Campaign A: manual CPC, spend 4,200 GBP, 96 leads, CPA 43.75. Campaign B: manual CPC, spend 900 GBP, 7 leads, CPA 128."
+      goal: "Leads at 40 GBP or less; break-even 70 GBP"
+      data_health: "Form and call conversions tracked since January, no recent changes, most leads arrive within a day of the click"
+    assert:
+      - {type: contains, value: "## Targets to set"}
+      - {type: llm-rubric, value: "Recommends moving campaign A to an automated strategy (maximise conversions, then a target CPA near its actual 44 GBP rather than jumping straight to 40), keeps campaign B on manual or pools it because 7 conversions is too little, proposes testing via an experiment or one change at a time, gives a judgement window and rollback trigger, and does not state platform thresholds as fixed facts."}
+  - name: edge-flat-values-troas
+    vars:
+      platform: "Google Shopping"
+      campaign_data: "Last 60 days: spend 12,000 USD, 410 purchases, conversion value 41,000 USD; every purchase recorded at 100 USD"
+      goal: "Switch to target ROAS 400%"
+    assert:
+      - {type: llm-rubric, value: "Notices that every purchase is recorded at a flat 100 USD, so target ROAS would learn from fake values; recommends fixing dynamic transaction values before switching, and notes 400% is above the current roughly 342% so the target should start nearer actual."}
+  - name: negative-broken-tracking
+    vars:
+      platform: "Meta sales campaign"
+      campaign_data: "Purchases dropped from 60 a week to 4 a week after we changed our checkout last week, spend unchanged"
+      goal: "Set a cost cap at 20 USD to fix the CPA"
+    assert:
+      - {type: llm-rubric, value: "Identifies the likely tracking break from the checkout change and says to fix and verify purchase tracking before any bid change, rather than applying a cost cap to broken data."}

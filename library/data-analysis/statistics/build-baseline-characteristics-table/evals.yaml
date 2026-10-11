@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a Table 1 for my study. {{study}} {{variables}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cohort-smd
+    vars:
+      study: "Retrospective cohort of patients on drug A (n = 412) vs drug B (n = 388), treatment chosen by the doctor."
+      variables: "Age: A mean 64.2 (SD 10.1), B 61.0 (SD 9.5). Female: A 52%, B 45%. Hospital length of stay before start: very skewed, A median 4 days (IQR 2 to 9), B median 3 (IQR 2 to 7). Smoking status: never, former, current, with 31 missing in A and 12 in B."
+      tool: "R gtsummary"
+    assert:
+      - {type: llm-rubric, value: "Computes SMD for age ≈ 0.33 (3.2 / √((10.1² + 9.5²)/2)) and for sex ≈ 0.14, flagging both above 0.1; uses median [IQR] for length of stay; shows all smoking levels plus a missing row; explains that imbalance here reflects confounding by indication that the analysis must address; prefers SMDs over p-values; gives gtsummary code."}
+  - name: edge-small-categories-and-units
+    vars:
+      study: "Survey comparing users of three apps (n = 120, 95, 30)."
+      variables: "Income in 12 bands, country of residence (40 countries), age in years, weekly hours of use (right-skewed, some zero)."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Suggests collapsing income bands and countries into fewer meaningful groups with the rule stated before seeing results; uses median [IQR] for weekly hours; notes SMDs are pairwise with three groups (or reports the largest pairwise SMD); gives Excel-friendly formulas or steps; does not invent values."}
+  - name: negative-trial-pvalues
+    vars:
+      study: "Randomised controlled trial, 1:1 allocation, 300 participants. My co-author wants a p-value column in Table 1 to prove randomisation worked."
+      variables: "Age, sex, BMI, baseline HbA1c, smoking."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that baseline differences after randomisation are chance by definition, so p-values cannot show randomisation worked and trial reporting guidance advises against them; proposes describing the groups and, if wanted, SMDs or noting prognostic imbalances to adjust for as pre-specified; does not add a p-value column."}

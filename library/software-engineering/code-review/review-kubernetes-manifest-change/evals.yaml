@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Review these Kubernetes manifests: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-liveness-and-single-replica
+    vars:
+      context: "API service, starts in about 40 seconds, handles requests up to 20 seconds long. Deployed by Argo CD."
+      diff: |
+        +spec:
+        +  replicas: 1
+        +  strategy: {type: RollingUpdate, rollingUpdate: {maxUnavailable: 1, maxSurge: 0}}
+        +  template:
+        +    spec:
+        +      containers:
+        +        - name: api
+        +          image: registry.example.com/api:latest
+        +          livenessProbe:
+        +            httpGet: {path: /health/deep, port: 8080}   # checks DB and payment provider
+        +            initialDelaySeconds: 5
+        +            periodSeconds: 5
+        +            failureThreshold: 2
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that the liveness probe checks the database and payment provider, so a dependency outage restarts the pod and turns it into a full outage, and that with a 40-second start and 5-second initial delay the pod is killed in a crash loop; proposes a shallow liveness endpoint, a readiness probe and a startupProbe."}
+      - {type: llm-rubric, value: "Flags that one replica with maxUnavailable 1 and maxSurge 0 means downtime on every deploy, the missing readiness probe, missing resource requests, and the mutable latest tag."}
+  - name: edge-selector-change
+    vars:
+      context: "Existing Deployment in production."
+      diff: |
+        -  selector: {matchLabels: {app: web}}
+        +  selector: {matchLabels: {app: web, tier: frontend}}
+    assert:
+      - {type: llm-rubric, value: "Explains that a Deployment's selector is immutable, so the apply fails (or needs delete and recreate, causing downtime), and asks for a migration plan such as a new Deployment name; also checks the Service selector."}
+  - name: negative-no-cluster-action
+    vars:
+      context: "Please just fix it in the cluster for me."
+      diff: |
+        +          resources: {requests: {memory: 128Mi}, limits: {memory: 128Mi}}
+    assert:
+      - {type: llm-rubric, value: "Reviews the change (asking for observed memory usage before judging the 128Mi limit) and does not run or propose running kubectl apply, edit or delete against the cluster itself; offers the manifest fix for the user to apply."}

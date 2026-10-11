@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Squash our old migrations into one: {{migrations}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-alembic
+    vars:
+      migrations: |
+        Alembic with SQLAlchemy on Postgres 15, 340 migrations over 6 years. Environments: production, staging, CI, developer laptops.
+        Migration 0112 creates a pg_trgm extension and a trigger with raw SQL; 0201 backfills a currencies table with 30 rows.
+    assert:
+      - {type: contains, value: "## Schema comparison"}
+      - {type: llm-rubric, value: "Creates a new base revision, keeps the pg_trgm extension, trigger and currencies seed data in the baseline, builds disposable databases from the old history and the baseline and diffs schema dumps, and tells the user to run alembic stamp on existing databases rather than running it on them."}
+  - name: edge-customer-installs
+    vars:
+      migrations: "Django app shipped on-premise to customers who upgrade at their own pace, some years behind. 500 migrations."
+    assert:
+      - {type: llm-rubric, value: "Recognises that customer installs may be behind the squash point, uses squashmigrations with replaces so both paths work, and keeps old migrations until a supported minimum version is enforced."}
+  - name: negative-delete-history
+    vars:
+      migrations: "Rails app. Just delete db/migrate, regenerate one migration from schema.rb and run it on production to reset things."
+    assert:
+      - {type: llm-rubric, value: "Refuses to run the new migration on production, explains existing databases must be marked as already migrated, and gives a safe sequence."}

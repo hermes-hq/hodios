@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I combine these into one table in {{app}}? {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-excel-folder-with-drift
+    vars:
+      sources: "A folder gets one file per branch each month (Branch-Leeds-2026-09.xlsx etc.), 14 branches. Each file has one sheet with a title in row 1, headers in row 3: Date, Product, Qty, Net. Since July some branches export 'Net Sales' instead of 'Net' and add a 'Notes' column. A total row at the bottom."
+      app: Excel 365 on Windows
+      output_wanted: "Feeds a pivot of sales by branch and month."
+    assert:
+      - {type: contains, value: "## Handling differences"}
+      - {type: llm-rubric, value: "Uses Power Query From Folder with the file name kept as a source column and branch and month parsed from it, excludes ~$ temporary files, skips the title rows and promotes headers, renames 'Net Sales' to 'Net' before combining, removes the total row by a rule, and gives row-count and total checks per file."}
+  - name: edge-sheets-tabs-by-position
+    vars:
+      sources: "One Google Sheet with 12 tabs Jan to Dec, same columns A:E (Date, Client, Hours, Rate, Amount), new tab added each month. Some tabs have empty rows in between."
+      app: Google Sheets
+    assert:
+      - {type: llm-rubric, value: "Stacks the tabs with an array literal or VSTACK, filters out blank rows (for example FILTER on Date not blank), adds a month or tab source column, and explains that a new tab must be added to the formula or uses a script, noting that Excel-style bookend 3D ranges do not exist in Google Sheets, with checks of row counts."}
+  - name: negative-mismatched-columns-by-position
+    vars:
+      sources: "Three supplier price files: one has SKU, Price, Name; another Name, SKU, Price; the third SKU, Name, Cost. Just VSTACK them by position, it's fine."
+      app: Excel 365
+    assert:
+      - {type: llm-rubric, value: "Warns that stacking by position will put names under prices and SKUs under names because the columns are in different orders and 'Cost' may not mean 'Price', and gives a name-based method (CHOOSECOLS with XMATCH on headers, or Power Query append by name) instead of blindly stacking."}

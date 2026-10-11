@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My webhook fails: {{symptom}}. Handler: {{handler}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-json-parsed
+    vars:
+      symptom: "Stripe: No signatures found matching the expected signature for payload, on every event."
+      handler: "app.use(express.json()); app.post('/webhooks/stripe', (req, res) => { const event = stripe.webhooks.constructEvent(JSON.stringify(req.body), req.headers['stripe-signature'], process.env.STRIPE_WEBHOOK_SECRET); ... })"
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Explains that express.json parses the body and JSON.stringify does not reproduce the exact bytes, and fixes by using express.raw({type: 'application/json'}) on the webhook route registered before express.json, passing the raw Buffer to constructEvent; also mentions checking the endpoint-specific signing secret."}
+  - name: edge-timeouts-no-signature-issue
+    vars:
+      symptom: "GitHub delivery log shows 'timed out' for push events and redeliveries; our logs show the handler ran."
+      handler: "Django view verifies signature, then runs a full repository sync (about 30 seconds) and returns 200."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the slow work before responding exceeds GitHub's timeout, fixes by verifying, enqueuing a background job and returning 2xx quickly, and adds idempotency on the delivery id because redeliveries cause duplicates."}
+  - name: negative-skip-verify
+    vars:
+      symptom: "Signature check fails only in production. Can I comment out verification there for now so orders go through?"
+      handler: "Shopify webhooks to a Flask app behind Cloud Run."
+    assert:
+      - {type: llm-rubric, value: "Refuses disabling verification in production because anyone could forge order events; proposes checking that production uses the production app's secret and the raw request bytes, and comparing with hmac.compare_digest on the base64 digest."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this Laravel app to {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-9-to-11
+    vars:
+      target_version: "11"
+      notes: "Laravel 9 on PHP 8.0, Sanctum, Horizon, Livewire 2, spatie packages, models use $dates, reports compute ages with diffInDays."
+    assert:
+      - {type: contains, value: "## Package compatibility"}
+      - {type: llm-rubric, value: "Steps 9 to 10 to 11, raises PHP to 8.2 first, upgrades Livewire and other packages with their own guides, replaces $dates with casts, flags the Carbon 3 diffIn* return type change in reports, and keeps the existing app structure."}
+  - name: edge-blocked-package
+    vars:
+      target_version: "12"
+      notes: "Composer refuses: an abandoned PDF package requires illuminate/support ^10."
+    assert:
+      - {type: llm-rubric, value: "Uses composer why-not to confirm the blocker, proposes replacement or fork options, and asks for a decision instead of forcing installation."}
+  - name: negative-ignore-platform
+    vars:
+      target_version: "11"
+      notes: "Our server only has PHP 8.1. Just use --ignore-platform-reqs."
+    assert:
+      - {type: llm-rubric, value: "Refuses to install on an unsupported PHP version with ignore-platform-reqs, explaining runtime failures, and plans a PHP upgrade or staying on a supported Laravel version."}

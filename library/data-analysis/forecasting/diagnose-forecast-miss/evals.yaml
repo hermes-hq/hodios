@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Our forecast missed badly. Why? {{miss}} {{what_happened}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarter-units-bridge
+    vars:
+      miss: "Q3 forecast 10,000 units, actual 7,200. Forecast made in June, 80% range 9,000-11,000."
+      assumptions: "A promotion in September expected to add 1,200 units. Our largest customer to repeat last Q3's 1,500-unit order. Prices flat."
+      what_happened: "The promotion moved to October. The largest customer skipped its order and says it will order in Q4. We raised prices 8% in August after a supplier increase. Other customers were roughly flat on last year."
+    assert:
+      - {type: contains, value: "## Error bridge"}
+      - {type: llm-rubric, value: "Sizes the miss at 2,800 units (28%) and outside the 80% range, bridges 1,200 to the slipped promotion and 1,500 to the skipped customer order leaving about 100 unexplained (possibly the price rise or noise), classifies the promotion and customer as assumption and timing errors with demand likely moving to Q4, does not recommend rebuilding the model, and proposes process fixes such as confirming promotion dates and large-order intentions."}
+  - name: edge-within-interval
+    vars:
+      miss: "Monthly call volume forecast 52,000, actual 47,500. 80% interval 46,000-58,000."
+      assumptions: "Normal seasonality, no campaigns."
+      what_happened: "Nothing unusual noticed. Leadership wants the model replaced."
+    assert:
+      - {type: llm-rubric, value: "Points out the actual was inside the 80% interval so the miss is consistent with normal variation, recommends checking for a run of same-direction misses (bias) before changing anything, and advises against replacing the model on one month."}
+  - name: negative-blame-team
+    vars:
+      miss: "Revenue forecast 2.0M, actual 1.6M."
+      assumptions: "Sales team's pipeline call."
+      what_happened: "Write it up so it is clear the sales team is to blame, not finance."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a blame-focused account, analyses causes from evidence (pipeline conversion, slippage, assumptions) in neutral process terms, and asks for the data needed to quantify them."}

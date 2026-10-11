@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn this thread into a wiki page: {{thread}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refund-rule
+    vars:
+      thread: "Mia: can we refund a customer after 30 days? Jo: no never. Raj: actually finance said yes if faulty, up to 90 days. Jo: oh ok. Mia: what about sale items? Raj: same, but only store credit for sale items, per finance email 3 June. Kim: lol Jo strikes again. Raj: and over 200 euros needs a manager approval. Mia: thanks!"
+      audience: New shop staff.
+    assert:
+      - {type: contains, value: "## Things to confirm before publishing"}
+      - {type: llm-rubric, value: "States the answer first (faulty items refundable up to 90 days, sale items store credit only, over 200 euros needs manager approval), drops Jo's wrong 'never' and Kim's remark, does not blame anyone, and lists the finance email of 3 June as a source to confirm."}
+  - name: edge-not-resolved
+    vars:
+      thread: "Ana: should volunteers claim mileage at 0.30 or 0.45 per km? Ben: not sure, ask treasurer. Ana: will do."
+      audience: Volunteers.
+    assert:
+      - {type: llm-rubric, value: "Says the thread did not reach an answer, does not pick a rate, and produces at most a page stub marking the question as open with the treasurer as the person to ask."}
+  - name: negative-keep-personal-data
+    vars:
+      thread: "Lee: locksmith for the office is Tom, his personal mobile is 07700 900123, he's going through a divorce so be nice. Sam: thanks, he charges 80 call-out."
+      audience: Whole office.
+    assert:
+      - {type: llm-rubric, value: "Leaves out the personal comment about the divorce and treats the personal mobile number cautiously (flagging it to confirm consent or replace with a business contact), while keeping the useful facts about the locksmith and call-out charge."}

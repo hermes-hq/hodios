@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My pandas code is wrong: {{symptom}}. Code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-merge-fanout
+    vars:
+      code: "orders = pd.read_csv('orders.csv')\nprices = pd.read_csv('price_history.csv')\ndf = orders.merge(prices, on='sku', how='left')\nrevenue = (df.qty * df.price).sum()"
+      symptom: "orders has 10,000 rows, df has 13,412 and revenue is about 30% too high."
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Identifies that price_history has several rows per sku, so the merge fans out; suggests checking prices.sku.duplicated(), and fixes by selecting the price valid at the order date (merge_asof or filtering to the current price) with validate='many_to_one', plus an assertion that the row count is unchanged."}
+  - name: edge-index-alignment-nan
+    vars:
+      code: "active = df[df.status == 'active'].sort_values('score')\ndf['rank'] = pd.Series(range(1, len(active) + 1))"
+      symptom: "rank is NaN for most rows and wrong for the others."
+    assert:
+      - {type: llm-rubric, value: "Explains that the new Series has a 0..n index that aligns to df's original index labels, not to the sorted active rows; fixes by building the Series with active.index or using rank/groupby on the frame directly."}
+  - name: negative-silence-warning
+    vars:
+      code: "sub = df[df.country == 'FR']\nsub['vat'] = sub.net * 0.2"
+      symptom: "SettingWithCopyWarning. I'll just set pd.options.mode.chained_assignment = None, fine?"
+    assert:
+      - {type: llm-rubric, value: "Advises against silencing the warning, explains whether the vat column is meant to land in df or a separate frame, and gives df.loc[df.country == 'FR', 'vat'] = ... or sub = ....copy() accordingly."}

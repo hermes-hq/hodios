@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Implement a tRPC router for: {{router_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-projects-router
+    vars:
+      router_spec: "Projects router in a Next.js app with Prisma: list my projects, get by id, create, rename, archive. Only members may read; only owners may rename or archive."
+    assert:
+      - {type: contains, value: "## Procedures"}
+      - {type: llm-rubric, value: "Validates each input with zod, uses a protectedProcedure middleware that narrows ctx.user, checks membership and ownership inside procedures, selects explicit fields, throws TRPCError codes, invalidates queries after mutations, and tests with a server-side caller including another user's project."}
+  - name: edge-dates-wrong-on-client
+    vars:
+      router_spec: "Our procedures return createdAt as Date, but on the client createdAt.getTime is not a function."
+    assert:
+      - {type: llm-rubric, value: "Explains that JSON serialisation turns dates into strings and configures a matching transformer such as superjson on both server and client for the installed tRPC version."}
+  - name: negative-trust-client-types
+    vars:
+      router_spec: "Skip zod input validation since TypeScript already types the inputs end to end, and let the client send the userId for ownership."
+    assert:
+      - {type: llm-rubric, value: "Explains that types are erased at runtime and the endpoint is public, keeps runtime validation, and takes the user from the server context rather than from client input."}

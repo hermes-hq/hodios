@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make the numbers in this text easier to understand: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-annual-report
+    vars:
+      reader: "Members of a community sports club"
+      number_style: ""
+      text: |
+        In 2025 membership rose from 412 to 538, an increase of 30.5825%, while total income was £61,847.23 compared with £48,210.90 in 2024, and the junior section, which accounts for 47.2% of members, logged 31,000 training minutes, a rise of 12.0007% on 27,679.
+    assert:
+      - {type: contains-all, value: ["## Edited text", "## Numbers changed"]}
+      - {type: llm-rubric, value: "Splits the overcrowded sentence into several; rounds 30.5825% to about 31% with 412 to 538 kept; rounds income to about £62,000 against about £48,000 or states the rise of about £13,600; rounds 12.0007% to 12% and 47.2% to about 47% or 'almost half'; uses one consistent format; shows arithmetic for any derived figure; adds no outside data."}
+  - name: edge-percentage-points
+    vars:
+      reader: "General public"
+      number_style: "Use % symbol"
+      text: "Turnout rose from 40% to 50%, a 10% increase."
+    assert:
+      - {type: llm-rubric, value: "Identifies the percent versus percentage-point confusion: the rise is 10 percentage points, or a 25% increase; corrects the text accordingly and shows the arithmetic."}
+  - name: negative-missing-denominator
+    vars:
+      reader: "Residents"
+      number_style: ""
+      text: "The council will spend £4.2 million on road repairs this year."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a population or per-household figure; marks the need for the number of residents or households with [NEED] if suggesting per-person framing; keeps £4.2 million accurate."}

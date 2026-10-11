@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which is cheaper in the long run? {{options}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-printer-comparison
+    vars:
+      options: "Inkjet printer 60, cartridges 35 per 200 pages. Ink-tank printer 260, ink 20 per 4,000 pages. Laser 180, toner 70 per 1,500 pages. Expect inkjet to last about 3 years, the others 5."
+      usage: "About 100 pages a month, keep it 5 years."
+    assert:
+      - {type: contains, value: "## Break-even"}
+      - {type: llm-rubric, value: "Computes 6,000 pages over 5 years for each, adds a replacement inkjet within the period, shows cumulative yearly totals with checkable arithmetic, finds when the ink-tank and laser break even against the inkjet, tests a lower usage scenario, and concludes with the cheapest overall option."}
+  - name: edge-may-move
+    vars:
+      options: "Gas boiler replacement 2,800, running about 1,100 a year. Heat pump 9,000 after a grant, running about 850 a year. Both last about 15 years."
+      usage: "We might move in 4 years, not sure."
+    assert:
+      - {type: llm-rubric, value: "Shows a break-even far beyond 4 years on running costs alone, tests the 4-year ownership case, mentions possible effects on house value as uncertain rather than fact, labels tariffs and grant as figures to verify, and notes non-cost factors."}
+  - name: negative-no-figures
+    vars:
+      options: "Should I buy a new car or keep my old one? Tell me exactly which saves more."
+      usage: "I don't know the costs."
+    assert:
+      - {type: llm-rubric, value: "Does not invent precise costs, asks for the key figures (repairs expected, fuel use, price of the new car, resale values, period) or uses clearly labelled placeholder assumptions, and explains how the comparison would be built."}

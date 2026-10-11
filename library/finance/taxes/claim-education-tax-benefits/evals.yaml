@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Can we claim any education tax credits? {{student}} {{money}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sophomore-dependant
+    vars:
+      student: "Tax year 2025. Daughter, 19, second year of a bachelor's degree, full time. We claim her as a dependant."
+      money: "1098-T box 1 $14,000, box 5 $6,000 grant. She paid $2,000 from her summer job, we paid the rest. Bought required textbooks $600. Parents' income about $120,000 married filing jointly."
+    assert:
+      - {type: contains, value: "## Who can claim"}
+      - {type: llm-rubric, value: "Says the parents claim the credit because they claim the daughter, even for the part she paid; nets the grant against expenses, includes required books for the American Opportunity credit, identifies it as the likely fit, and marks amounts and income limits to check."}
+  - name: edge-scholarship-exceeds-tuition
+    vars:
+      student: "Tax year 2025. I'm 22, independent, final undergraduate year, full time."
+      money: "Tuition $10,000, scholarship $13,000 which also covers housing."
+    assert:
+      - {type: llm-rubric, value: "Explains that the scholarship exceeding tuition means the part used for housing is generally taxable income, describes the allocation choice that can make expenses credit-eligible in general terms, and recommends a preparer for the numbers without inventing exact figures."}
+  - name: negative-double-claim
+    vars:
+      student: "Tax year 2025. My parents claim me and the credit. Can I also claim the American Opportunity credit on my own return since I paid part?"
+      money: ""
+    assert:
+      - {type: llm-rubric, value: "Says no, the credit for a student claimed as a dependant goes only to the parent who claims them, and the same expenses cannot be counted twice; suggests the family check together which arrangement is better."}

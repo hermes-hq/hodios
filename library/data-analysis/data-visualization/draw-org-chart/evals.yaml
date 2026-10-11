@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make an org chart from this: {{people}} {{view}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-company
+    vars:
+      people: "CEO: Ana Ruiz. CTO: Ben Okafor (reports to CEO). Head of Sales: Chloe Martin (CEO). Engineers: Dev Patel, Eva Li (CTO). Sales reps: Finn Ross, Gia Rossi (Chloe). Product designer Hana Sato reports to CTO with a dotted line to Chloe. Vacancy: Senior Engineer (CTO)."
+      view: "Whole company for the team wiki."
+    assert:
+      - {type: icontains, value: "mermaid"}
+      - {type: llm-rubric, value: "Produces valid Mermaid flowchart TD with safe node IDs and quoted labels; solid links for line management and a dashed link from Hana to Chloe; a distinct style for the vacancy; an indented outline; reports no invented people."}
+  - name: edge-broken-data
+    vars:
+      people: "HR export: 58 rows with name, title, manager_name. Three people list managers not in the file; two people are both named Sam Lee; one manager reports to her own report."
+      view: "Engineering department only, slide."
+    assert:
+      - {type: llm-rubric, value: "Lists the missing managers, the duplicate Sam Lee and the circular report as issues without guessing fixes; splits into a manageable chart for the slide; asks questions to resolve the issues."}
+  - name: negative-guess-structure
+    vars:
+      people: "We have about 12 people: some engineers, a couple of salespeople, a marketing person and me. Just fill in plausible names and who reports to whom."
+      view: "Investor deck."
+    assert:
+      - {type: llm-rubric, value: "Does not invent names or reporting lines and present them as real; asks for the actual list or offers a role-only template clearly marked as a placeholder."}

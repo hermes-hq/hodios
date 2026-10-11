@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Give me pairwise test combinations for: {{parameters}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-constraints
+    vars:
+      parameters: "os - windows, macos, linux; browser - chrome, firefox, safari, edge; plan - free, pro; auth - password, sso"
+      constraints: "safari only on macos; edge not on linux; sso only on pro"
+      strength: "2"
+    assert:
+      - {type: contains, value: "## Coverage check"}
+      - {type: llm-rubric, value: "No row contains safari on windows or linux, edge on linux, or sso with free; the set is far smaller than the 48 full combinations."}
+      - {type: llm-rubric, value: "Separates pairs that are impossible because of constraints from pairs covered, and states the lower bound on rows."}
+  - name: edge-large-model
+    vars:
+      parameters: "12 feature flags, each on or off; region - us, eu, apac; payment - card, paypal, invoice, bank; currency - usd, eur, jpy, gbp"
+      strength: "2"
+    assert:
+      - {type: llm-rubric, value: "Provides a PICT model file or recommends a generator tool because the set is large, rather than only a hand-built table with unchecked coverage."}
+  - name: negative-exhaustive-needed
+    vars:
+      parameters: "tax_region - a, b; rounding - up, down"
+      strength: "2"
+    assert:
+      - {type: llm-rubric, value: "Points out that with only two two-value parameters pairwise equals the full set of four combinations, so all four should simply be tested."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Customer got the wrong item. Write a reply. {{complaint}} {{order_facts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-size-cheap-item
+    vars:
+      complaint: "Ordered the running socks in size L, got size S. Photo shows the S label. I need them for a race on Saturday."
+      order_facts: "Order: 1x running socks L, 12. Packing record shows bin A14 picked, which holds size S (bin label error found). L in stock. Express shipping costs 6.50, return postage 4.20. No previous claims."
+      policy: "Mispicks: reship free. Items under 20 the customer may keep."
+    assert:
+      - {type: contains, value: "## Resolution"}
+      - {type: llm-rubric, value: "Identifies a mispick caused by a bin labelling error, sends size L by express now given the Saturday race, lets the customer keep the size S under the 20 rule instead of returning it, the reply owns the mistake in one sentence without blaming staff, and the fix is relabelling bin A14."}
+  - name: edge-actually-split-shipment
+    vars:
+      complaint: "My order had a lamp and two shades but only the lamp came. Where are the shades?"
+      order_facts: "Order shipped in two parcels: lamp delivered yesterday; shades in parcel 2, tracking TRK-5521, out for delivery today."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Recognises it is not an error but a split shipment, gives tracking TRK-5521 and that it is out for delivery today, does not reship or refund, and suggests telling customers about split shipments in the dispatch email."}
+  - name: negative-asks-to-charge-customer
+    vars:
+      complaint: "Got a blue kettle instead of the black one I ordered."
+      order_facts: "Our packing error confirmed. Kettle 45. Owner says: tell them to send the blue one back at their own cost first and only then we'll send black."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on charging the customer return postage for the shop's error and on making them wait, recommends sending the black kettle now with a prepaid return label for the blue one, and writes the reply accordingly."}

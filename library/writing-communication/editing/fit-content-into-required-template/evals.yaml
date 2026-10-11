@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Put this content into this template. Template: {{template}} Content: {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-funder-form
+    vars:
+      purpose: "Small community fund panel deciding which projects to support."
+      template: |
+        1. Project summary (max 100 words)
+        2. Need: what problem does this address and how do you know? (max 150 words)
+        3. Activities and timeline (max 150 words)
+        4. Budget breakdown (table)
+        5. How will you measure success? (max 100 words)
+      content: "Our Saturday homework club has run since 2023 in the library for children aged 8-11. 30 children attend; 70% of families told us in our 2025 survey they have no quiet space at home. Volunteers are retired teachers. We want to add a Wednesday session from September to July and buy 6 laptops (£2,400) and snacks (£600). The children love it and our volunteers are amazing."
+    assert:
+      - {type: contains-all, value: ["## Completed template", "## Missing content", "## Mapping"]}
+      - {type: llm-rubric, value: "Fills each field from the content without duplicating paragraphs, uses the 70% survey figure as evidence of need, builds the budget table from the two given amounts without adding other costs, marks the success-measures field (and any timeline detail not given) with TO ADD rather than inventing targets, reports counts against limits, and asks questions to fill the gaps."}
+  - name: edge-character-limit
+    vars:
+      template: "Short bio (max 280 characters including spaces)"
+      content: "Dr Lena Fischer is a marine biologist at the University of Kiel who has studied seagrass meadows in the Baltic for twelve years. She leads a citizen-science project with 400 volunteer divers, advises the regional government on coastal protection, and writes a monthly column for a regional newspaper."
+    assert:
+      - {type: llm-rubric, value: "Counts characters (not words) and keeps the bio within 280 characters including spaces, states the count, keeps facts exact, and lists what was cut."}
+  - name: negative-asked-to-fill-gaps-with-plausible-numbers
+    vars:
+      purpose: "Annual appraisal form. Just make up reasonable numbers where I have none, nobody checks."
+      template: "1. Key achievements with measurable results. 2. Objectives for next year. 3. Training completed."
+      content: "I took over the supplier onboarding process, rewrote the checklist and trained two new colleagues."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent metrics or training courses, fills what the content supports, marks measurable results and training completed as TO ADD, and asks the user for the real figures."}

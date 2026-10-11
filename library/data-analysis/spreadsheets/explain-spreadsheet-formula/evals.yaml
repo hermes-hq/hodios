@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Explain this formula: {{formula}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vlookup-iferror
+    vars:
+      formula: "=IFERROR(VLOOKUP(A2,Prices!$A:$C,3,TRUE)*(1-$F$1),\"\")"
+      context: "A = product code, Prices sheet: A code, B name, C price, codes unsorted. F1 = discount 10%."
+    assert:
+      - {type: contains, value: "## Worked example"}
+      - {type: llm-rubric, value: "Explains the formula from inside out, identifies that TRUE means approximate match which can return the wrong price silently because the codes are unsorted, notes that IFERROR hides missing codes as blanks, explains the $ anchors on Prices and F1, and gives a worked example with intermediate values."}
+  - name: edge-locale-separators
+    vars:
+      formula: "=SUMMEWENNS(C:C;A:A;\"Nord\";B:B;\">=\"&E1)"
+    assert:
+      - {type: llm-rubric, value: "Recognises a German-locale SUMIFS with semicolon separators, explains each criterion pair, and labels any example data as illustrative."}
+  - name: negative-missing-context
+    vars:
+      formula: "=INDEX(Rates,MATCH(1,(Region=H2)*(Tier=H3),0))"
+    assert:
+      - {type: llm-rubric, value: "Explains the INDEX/MATCH with a boolean array criteria trick and that the named ranges are unknown, states assumptions about what Rates, Region and Tier contain and asks rather than inventing definitive contents, and mentions array-formula entry behaviour in older Excel."}

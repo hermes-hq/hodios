@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write tests for this Next.js feature: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-project-settings
+    vars:
+      feature: |
+        app/projects/[id]/settings/page.tsx is an async server component that loads the project with prisma.
+        app/projects/[id]/settings/actions.ts exports 'use server' async function renameProject(formData) { await prisma.project.update({ where: { id: formData.get('id') }, data: { name: formData.get('name') } }) }
+    assert:
+      - {type: contains, value: "## Parts and test levels"}
+      - {type: llm-rubric, value: "Notices renameProject has no auth or ownership check and no validation, writes a test calling the action logic as an unauthorised user, notes the missing revalidatePath, extracts logic for unit tests, and covers the async server component with a Playwright test against a production build."}
+  - name: edge-route-handler
+    vars:
+      feature: "app/api/export/route.ts exports GET(request) that returns a CSV of the current user's invoices, using cookies() for the session."
+    assert:
+      - {type: llm-rubric, value: "Tests the route handler by calling GET with a constructed Request or through an end-to-end request, checks unauthenticated access returns 401, checks the Content-Type and that only the current user's invoices appear, and handles the cookies() dependency through an injectable session function or an end-to-end test rather than brittle deep mocks."}
+  - name: negative-unit-test-async-rsc
+    vars:
+      feature: "Just render all our async server components with Jest and React Testing Library and snapshot them, no e2e."
+    assert:
+      - {type: llm-rubric, value: "Explains honestly that async server components are not well supported by Jest and Testing Library and that snapshots of them prove little, and proposes extracting logic for unit tests plus a small set of end-to-end tests instead."}

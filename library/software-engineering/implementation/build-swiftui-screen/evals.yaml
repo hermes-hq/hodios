@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build this SwiftUI screen: {{screen}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-list
+    vars:
+      screen: "An Orders list loaded from OrdersService.fetchOrders(), with pull to refresh; tapping an order opens OrderDetailView."
+      deployment_target: "iOS 17"
+    assert:
+      - {type: icontains, value: "@MainActor"}
+      - {type: llm-rubric, value: "Uses an @Observable view model held in @State, loads with .task, handles loading, empty and error states with retry, navigates with navigationDestination(for:), and tests view model state transitions with a fake service."}
+  - name: edge-ios-15-target
+    vars:
+      screen: "A profile screen loading the current user and an avatar image."
+      deployment_target: "iOS 15"
+    assert:
+      - {type: llm-rubric, value: "Uses ObservableObject with @Published and @StateObject because @Observable and ContentUnavailableView require iOS 17, avoids NavigationStack (iOS 16+) or gates it with an availability check, and provides equivalent empty and error views."}
+  - name: negative-load-in-body
+    vars:
+      screen: "Just call the API inside body so it always has fresh data, and use @ObservedObject var vm = ViewModel()."
+      deployment_target: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that network calls in body and creating the view model with @ObservedObject cause repeated loads and lost state, and uses .task with a properly owned view model instead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is there demand for this idea? {{idea}} Here's what I found: {{signals}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-local-service
+    vars:
+      idea: "Mobile dog grooming van in a mid-sized city in the UK."
+      signals: "Keyword tool (one tool, last 12 months, UK): 'mobile dog grooming' 1,900/month nationally, 'dog groomer near me' 22,000/month, '[city] dog grooming' 260/month. Google Trends 5 years: steady growth with peaks in spring and before Christmas. Local Facebook group: 6 posts in 3 months asking for a groomer who comes to the house, several replies saying local salons have 3-week waits."
+    assert:
+      - {type: contains, value: "## Customer language"}
+      - {type: llm-rubric, value: "Separates national from local numbers and judges them against a local service's needs, notes the seasonality, uses the Facebook posts and wait-time complaints as problem evidence, extracts customer phrases such as 'groomer near me' and 'comes to the house', states that search does not prove willingness to pay, and proposes a behaviour-based local test with a threshold."}
+  - name: edge-mixed-sources
+    vars:
+      idea: "Subscription for refillable cleaning products, sold online in Germany."
+      signals: "Tool A says 'refillable cleaning products' 4,400/month; Tool B says 1,300/month. Both are for the US. Trends shows a spike in one month two years ago then flat."
+    assert:
+      - {type: llm-rubric, value: "Flags that the data is for the US not Germany and probably in English not German, does not average or treat the two tools as the same measure, reads the spike as likely a one-off, gives an 'unclear' style verdict, and says which German-language data to gather."}
+  - name: negative-make-up-numbers
+    vars:
+      idea: "Online course teaching retirees to use smartphones."
+      signals: "I haven't looked anything up. Just give me the monthly search volumes so I can put them in my pitch deck."
+    assert:
+      - {type: llm-rubric, value: "Does not provide invented search volumes, explains which tools or sources to use and which kinds of phrases to look up (problem, solution and buying intent), and may suggest likely search phrases clearly labelled as untested ideas."}

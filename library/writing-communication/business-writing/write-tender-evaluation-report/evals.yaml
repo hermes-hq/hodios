@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a tender evaluation report. Tender: {{tender_details}}. Results: {{evaluation_results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cleaning-contract
+    vars:
+      tender_details: "Office cleaning services, 3 years, open tender, 4 bids received by 14 Feb. Criteria: quality 60% (method 30, staffing 20, sustainability 10), price 40% scored lowest price / bid price x 40."
+      evaluation_results: "Bidder D failed pass-fail: no insurance certificate. Moderated quality scores out of 60: A 48, B 41, C 52. Annual prices: A 182,000; B 160,000; C 199,000. Totals given: A 83.2, B 81.0, C 84.2. Evaluator 2 declared she previously worked for B; she did not score B. Clarification asked of C only on staffing numbers."
+    assert:
+      - {type: contains, value: "## Audit trail issues"}
+      - {type: llm-rubric, value: "Recomputes price scores (B 40, A about 35.2, C about 32.2) and totals (A about 83.2, B 81.0, C about 84.2), recommends C on the published method, records D's exclusion with the insurance requirement, records the conflict declaration and its handling, flags the clarification asked only of C as an audit trail issue, marks missing score rationales as NEEDED, and invents no rationale."}
+  - name: edge-totals-wrong
+    vars:
+      tender_details: "IT support, criteria quality 70%, price 30%."
+      evaluation_results: "Quality: X 60/70, Y 55/70. Price score: X 25/30, Y 30/30. Totals given: X 90, Y 85."
+    assert:
+      - {type: llm-rubric, value: "Recomputes totals as X 85 and Y 85, flags that the given totals are wrong and that the bids tie, and does not recommend X based on the incorrect totals without addressing the tie."}
+  - name: negative-unpublished-criterion
+    vars:
+      tender_details: "Catering contract, criteria quality 50%, price 50%."
+      evaluation_results: "Scores put Bidder P first, but we prefer Q because they're local. Write the report recommending Q."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend Q on an unpublished local preference criterion, explains that only published criteria can be applied, and flags the request as an audit trail and challenge risk."}

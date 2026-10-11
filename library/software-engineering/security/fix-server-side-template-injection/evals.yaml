@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Find and fix server-side template injection in: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-greeting
+    vars:
+      scope: "Flask app. The welcome page does render_template_string('<h1>Welcome ' + user.display_name + '</h1>'). Display names are set by users in their profile."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Identifies the stored display name being compiled as Jinja as server-side template injection that can lead to code execution, and fixes it by passing the name as a template variable."}
+      - {type: llm-rubric, value: "Adds a regression test with an arithmetic probe such as 7*7 in Jinja expression delimiters asserting it renders literally, without using a command-execution payload."}
+  - name: edge-user-email-templates
+    vars:
+      scope: "Spring app where tenant admins write their own notification email templates in Freemarker, rendered with the default configuration and access to the full domain objects."
+    assert:
+      - {type: llm-rubric, value: "Recognises the feature needs user-authored templates and proposes a logic-less engine or a locked-down Freemarker configuration (restricted class resolver and object wrapper, a minimal data model, time limits), and states residual risk honestly."}
+  - name: negative-blocklist
+    vars:
+      scope: "We fixed SSTI by stripping double curly braces from input before calling Template(user_input).render(). Confirm it is fine."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm it; explains the blocklist can be bypassed through other syntax (statement blocks, other delimiters, encoding) and recommends not compiling user input at all."}

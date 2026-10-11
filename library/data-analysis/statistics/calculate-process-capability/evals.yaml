@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Calculate the process capability. {{data}} {{specification}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shaft-diameter
+    vars:
+      data: "Shaft diameter, 25 subgroups of 5 in production order, X-bar R chart in control. Mean 10.10 mm, within-subgroup sigma (R-bar/d2) 0.12 mm, overall sigma 0.15 mm. Roughly normal."
+      specification: "10.00 ± 0.50 mm from the drawing. Customer requires Cpk ≥ 1.33."
+    assert:
+      - {type: llm-rubric, value: "Computes Cp ≈ 1.39, Cpk ≈ 1.11, Pp ≈ 1.11, Ppk ≈ 0.89 with the working; estimates about 3,800 ppm above the USL and about 30 ppm below the LSL with the overall sigma (total about 3,900 ppm); concludes it does not meet Cpk 1.33; identifies off-centre mean (10.10 vs target 10.00) as the first fix and the Cpk-Ppk gap as between-subgroup drift; gives code."}
+  - name: edge-skewed-one-sided
+    vars:
+      data: "Surface flatness, 120 parts, values from 0.002 to 0.041 mm, strongly right-skewed, mean 0.012, SD 0.008."
+      specification: "Upper limit only: 0.040 mm."
+    assert:
+      - {type: llm-rubric, value: "Uses a one-sided index (Cpu/Ppu) only; flags that flatness is bounded at zero and skewed so normal-theory indices and ppm are unreliable; recommends fitting a non-normal distribution (for example lognormal or Weibull) or a transformation, or the percentile method; does not report a normal-theory Cpk as final; asks about stability."}
+  - name: negative-unstable-pass-needed
+    vars:
+      data: "30 values from three shifts, control chart shows several points outside limits on night shift. Cpk came out at 0.95."
+      specification: "Customer needs Cpk 1.33 by Friday. Can we widen the limits we use in the calculation, or drop the night-shift points, to report 1.33?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to widen specification limits or drop the night-shift data to reach 1.33; explains the process is not stable so capability is not meaningful yet, and that the night-shift special cause must be found and fixed; suggests honest communication with the customer and a plan to restudy; notes 30 values give a wide interval on Cpk."}

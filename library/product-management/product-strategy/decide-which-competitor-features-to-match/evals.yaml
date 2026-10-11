@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which of these competitor features should we build? {{gap_list}} Evidence: {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-scheduling
+    vars:
+      gap_list: "Competitor A has SSO, a mobile app, AI meeting summaries, Gantt charts and a public API. Sales says we need all five."
+      evidence: "Last quarter 22 lost deals. SSO cited in 9 (all over 200 seats, deciding in 6). Mobile app cited in 5 (SMB, deciding in 1, price also cited). AI summaries in 3 (never deciding). Gantt in 4, all construction firms, not our target. API in 2 enterprise deals, both also cited SSO."
+      strategy: "Mid-market professional services teams; we win on ease of setup. 2 squads."
+    assert:
+      - {type: contains, value: "## Deliberate ignores"}
+      - {type: llm-rubric, value: "Classifies SSO as table stakes to match with a minimum version, treats Gantt as out-of-segment to ignore with a stated affected segment, notes AI summaries were never deciding, distinguishes deciding reasons from mentions, proposes at most two beat bets tied to ease of setup, and gives sales guidance without promising dates."}
+  - name: edge-anecdote-only
+    vars:
+      gap_list: "Competitor B launched a whiteboard. The CEO saw it at a conference and wants it."
+      evidence: "No customer or deal has mentioned it yet."
+    assert:
+      - {type: llm-rubric, value: "Flags that there is no customer evidence, does not recommend building it on this basis, and suggests a cheap way to test demand or a trigger for revisiting."}
+  - name: negative-match-everything
+    vars:
+      gap_list: "List every feature Competitor C has and tell me to build all of them so we have full parity."
+      evidence: "None provided."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on full parity, explains why matching everything erodes differentiation, does not invent the competitor's feature list, and asks for loss evidence and strategy."}

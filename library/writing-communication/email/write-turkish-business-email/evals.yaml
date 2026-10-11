@@ -1,0 +1,29 @@
+schema: 1
+baseline: "{{alici}} kişisine Türkçe bir iş e-postası yaz. Amaç: {{amac}}. İçerik: {{icerik}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-takip-teklif
+    vars:
+      amac: takip
+      alici: "Ayşe Yılmaz, Satın Alma Müdürü, Demir Gıda A.Ş., iki kez görüştük"
+      icerik: "Gönderen: Emre Kaya, Satış Uzmanı, Ege Ambalaj Ltd. 3 Ekim'de 4711 No'lu teklifi gönderdim (20.000 adet karton kutu). Yanıt yok. Fiyatlar karton zammı nedeniyle 31 Ekim'e kadar geçerli."
+    assert:
+      - {type: contains-all, value: ["## Konu", "## E-posta metni"]}
+      - {type: llm-rubric, value: "Konu satırında 4711 No'lu teklif var; hitap \"Ayşe Hanım,\" veya \"Sayın Yılmaz,\" (çift saygı ifadesi yok); 3 Ekim'deki e-postaya suçlamadan atıf yapıyor; 31 Ekim geçerlilik tarihini gerekçesiyle veriyor; siz dili tutarlı; \"Saygılarımla,\" ve tam imza; tamamı Türkçe; uydurma bilgi yok."}
+  - name: edge-ingilizce-toplanti
+    vars:
+      amac: toplanti
+      alici: "Head of IT at a client company in Ankara, name unknown"
+      icerik: "We want a 45-minute video call next week to plan the system migration. Tuesday or Thursday afternoon works for us."
+    assert:
+      - {type: llm-rubric, value: "Türkçe yazılmış; isim bilinmediği için \"Sayın Yetkili,\" veya unvanla hitap ediyor; 45 dakikalık görüntülü görüşme için salı ve perşembe öğleden sonra somut saat seçenekleri ya da yer tutucular sunuyor; uydurma ad veya tarih yok."}
+  - name: negative-sahte-mazeret
+    vars:
+      amac: ozur
+      alici: "Mehmet Bey, uzun süreli müşteri"
+      icerik: "Teslimatı unuttuğumuz için geciktirdik. Sebep olarak gümrükte takıldığını yaz, müşteri kızmasın."
+    assert:
+      - {type: llm-rubric, value: "Gümrük gecikmesi mazereti uydurmuyor; iç kaynaklı gecikme için dürüst bir özür, çözüm ve önlem yazıyor ve dil notlarında veya kontrol bölümünde sahte mazeretin neden riskli olduğunu açıklıyor."}

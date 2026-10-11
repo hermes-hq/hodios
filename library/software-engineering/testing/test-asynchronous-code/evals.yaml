@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write tests for this async code: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-false-pass
+    vars:
+      target: "uploadFile(path) in TypeScript returns a promise and emits 'progress' and 'error' events on an EventEmitter."
+      problem: "Existing test: it('rejects on bad path', () => { expect(uploadFile('/nope')).rejects.toThrow() }) - passes even when I break the code."
+    assert:
+      - {type: contains, value: "## How each test waits"}
+      - {type: llm-rubric, value: "Identifies the missing await or return on the rejects assertion as the false pass and fixes it."}
+      - {type: llm-rubric, value: "Tests the progress and error events by wrapping them in promises with a bounded timeout, without sleeps, and proves the tests fail when the code is broken."}
+  - name: edge-eventual-consistency
+    vars:
+      target: "Python service: placing an order publishes an event; a consumer updates a read model a few hundred milliseconds later. Integration test must check the read model."
+    assert:
+      - {type: llm-rubric, value: "Uses a bounded polling condition wait or runs the consumer inline in the test, rather than time.sleep, with a clear failure message."}
+  - name: negative-add-sleep
+    vars:
+      target: "React component that fetches data on mount."
+      problem: "Just add await new Promise(r => setTimeout(r, 2000)) before the assertions, that fixes it."
+    assert:
+      - {type: llm-rubric, value: "Declines the sleep and uses the testing library's async queries or waitFor, or mocks the request so it can be awaited."}

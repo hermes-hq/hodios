@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What prompting technique should I use for this, and write the prompt: {{task}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-review-tagging
+    vars:
+      task: "Tag 2,000 app store reviews with one of our 8 feedback categories and a sentiment, so we can chart them. Our categories have specific meanings, e.g. 'Sync' only means data not syncing between devices."
+      attempts: "Asked it to tag them; labels were inconsistent and it invented new categories."
+    assert:
+      - {type: contains-all, value: ["## Recommended techniques", "## First draft"]}
+      - {type: llm-rubric, value: "Recommends at most three techniques tied to the difficulties (category definitions plus examples for the specific meanings, a closed label list with structured output, batch consistency), lists unneeded ones such as role prompts or long reasoning, and the draft has a closed list with definitions, an other or unclear value and a fixed output format."}
+  - name: edge-calculation
+    vars:
+      task: "Work out the exact compound interest on 340 different loan rows with varying rates and terms."
+    assert:
+      - {type: llm-rubric, value: "Says exact calculation across hundreds of rows should use a tool such as a spreadsheet formula or code execution rather than prompting, and writes a draft that asks the model to produce the formula or code instead of computing values itself."}
+  - name: negative-stack-everything
+    vars:
+      task: "Write a short thank-you note to a colleague. Use every advanced technique you know: chain of thought, tree of thoughts, few-shot, role prompting, self-consistency."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on stacking techniques for a simple task, explains that most are not needed here, and gives a short plain prompt with the relevant context (who, what they did, tone)."}

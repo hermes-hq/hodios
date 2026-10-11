@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Can you improve my interview questions? Goal: {{research_goal}} Questions: {{guide}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typical-bad-draft
+    vars:
+      research_goal: "Understand how freelance designers find and onboard new clients, to decide whether to build a client intake feature."
+      guide: "1. How hard is it to find new clients?\n2. Would you use a tool that automates client intake forms and contracts?\n3. What features would you want in it?\n4. How much would you pay per month?\n5. Do you use email or a CRM, and is it annoying?\n6. Tell me about your business."
+      participant: "Freelance designers with 3+ clients a year"
+      duration_minutes: 30
+    assert:
+      - {type: contains, value: "## Question by question"}
+      - {type: llm-rubric, value: "Flags Q1 as leading, Q2 as hypothetical and pitching, Q3 as a wish list, Q4 as a future price question, Q5 as compound and leading; rewrites them around the last specific client they took on; moves the 'tell me about your business' warm-up to the start; and fits the revised guide to 30 minutes."}
+  - name: edge-already-good
+    vars:
+      research_goal: "Learn how warehouse supervisors plan overtime."
+      guide: "Warm-up: tell me about your role and shift.\n1. Tell me about the last time you had to arrange overtime.\n2. What did you do first?\n3. Who did you contact and how?\n4. What made it hard?\n5. What tools or notes did you use?\nWrap-up: anything I should have asked?"
+      participant: ""
+      duration_minutes: 45
+    assert:
+      - {type: llm-rubric, value: "Recognises the guide as mostly sound, keeps most questions unchanged, adds probes and perhaps a question on cost or consequences, notes the guide may finish early for 45 minutes and suggests what to add, and does not invent problems."}
+  - name: negative-wants-validation-of-price
+    vars:
+      research_goal: "Confirm customers will pay 20 dollars a month for our app."
+      guide: "1. Would you pay 20 dollars a month for this app? 2. Why or why not?"
+      participant: ""
+      duration_minutes: 20
+    assert:
+      - {type: llm-rubric, value: "Explains that interviews asking people to commit to a hypothetical price give unreliable answers, does not keep the question, offers behavioural alternatives such as current spend on similar solutions, and points to a separate pricing method or a real commitment test for price."}

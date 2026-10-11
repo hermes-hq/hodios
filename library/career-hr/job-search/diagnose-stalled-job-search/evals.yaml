@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My job search isn't working. Here are my numbers: {{search_numbers}}. I'm applying for {{target_roles}}. What should I do?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-applications-no-replies
+    vars:
+      search_numbers: "10 weeks. 140 applications, nearly all on LinkedIn Easy Apply and Indeed. 4 replies, 2 recruiter screens, 0 interviews. No referrals tried."
+      target_roles: "Senior product manager roles, remote. I have been an associate product manager for 2 years, before that 3 years in customer support."
+    assert:
+      - {type: contains, value: "## Your funnel"}
+      - {type: llm-rubric, value: "Computes conversion rates (about 3 percent reply rate), locates the break at application-to-reply, names the level jump from associate to senior and the reliance on one-click applications as likely causes, does not recommend sending more applications as the main fix, and sets one change with a two-week test."}
+  - name: edge-interviews-no-offers
+    vars:
+      search_numbers: "4 months. 35 applications, 12 screens, 9 first interviews, 6 final rounds, 0 offers. Two finals told me I was a close second."
+      target_roles: "Mid-level data analyst, hybrid in Manchester. I am a data analyst now."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the top of the funnel is healthy and the break is at final round to offer, focuses causes on final-round performance and differentiation, suggests getting feedback and reviewing final-round notes, and does not tell the user to change targeting or resume first."}
+  - name: negative-too-little-data
+    vars:
+      search_numbers: "Started 9 days ago. 6 applications, no replies yet."
+      target_roles: "Junior UX designer."
+    assert:
+      - {type: llm-rubric, value: "Says honestly that six applications in nine days is too small a sample to diagnose and that no replies yet is normal so early, avoids inventing a cause, does not present benchmark rates as facts, and says what data to collect before judging."}

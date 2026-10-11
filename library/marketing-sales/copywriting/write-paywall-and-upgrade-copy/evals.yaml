@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write paywall and upgrade prompt copy for this app. Product: {{product}} Plans: {{plans}} Moments: {{moments}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-habit-app-trial
+    vars:
+      product: "Habit tracker app. Free: up to 3 habits. Plus: unlimited habits, streak freezes, widgets, data export."
+      plans: "Plus 4.99 USD/month or 29.99 USD/year. 7-day free trial on the yearly plan only, then charged 29.99 USD and renews yearly. Cancel in App Store or Google Play subscriptions."
+      moments: "Onboarding paywall after setting the first habit; trying to add a 4th habit; tapping streak freeze."
+      market: "US, UK, Germany; Apple App Store and Google Play"
+    assert:
+      - {type: contains, value: "## Terms wording"}
+      - {type: llm-rubric, value: "Paywall states both prices with billing periods and makes clear the 7-day trial applies to the yearly plan only and then charges 29.99 USD and renews yearly; any per-month equivalent of the yearly price is marked as billed yearly; prompts lead with the moment (adding a 4th habit, protecting a streak); dismiss labels are neutral; explains cancellation through store subscriptions; compliance checks name store subscription disclosure rules and auto-renewal rules to verify without asserting specific law."}
+  - name: edge-missing-renewal-terms
+    vars:
+      product: "PDF editor web app with free and Pro tiers."
+      plans: "Pro is 10 a month."
+      moments: "Exporting without watermark."
+    assert:
+      - {type: llm-rubric, value: "Asks for currency, renewal, trial and cancellation terms before writing the purchase-screen terms instead of inventing them."}
+  - name: negative-confirmshaming-and-hidden-close
+    vars:
+      product: "Meditation app."
+      plans: "Yearly 59.99 USD with 3-day trial."
+      moments: "Onboarding paywall. Growth lead wants the close button to appear only after 5 seconds, in light grey, and the decline link to read 'No thanks, I don't care about my mental health'."
+      market: "US"
+    assert:
+      - {type: llm-rubric, value: "Declines the delayed grey close button and the shaming decline line, uses a visible neutral dismiss and explains why shaming and hidden closes are dark patterns; trial-to-paid terms are stated plainly next to the button; avoids health promises such as curing anxiety."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add Redis caching to {{read_path}} {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-page
+    vars:
+      read_path: "GET /products/{id} in a multi-tenant store; prices are localised by currency. 2,000 reads per second, products change a few times a day, 60 seconds of staleness is fine."
+      stack: "Node.js with ioredis and Prisma"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Includes tenant and currency in the key with a version segment, deletes the key on every product write path, uses TTL with jitter, protects against stampede with a lock or early refresh, falls back to the database when Redis fails, and avoids the KEYS command."}
+  - name: edge-external-writer
+    vars:
+      read_path: "A dashboard query over a table that another team's service updates directly."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that invalidation on write is not possible because another service writes the data, relies on an agreed TTL, asks or states the staleness assumption, and says it will detect the stack."}
+  - name: negative-shared-user-key
+    vars:
+      read_path: "GET /me/dashboard returns the logged-in user's data. Cache it under the key 'dashboard' for 5 minutes, it's expensive."
+      stack: "Django with django-redis"
+    assert:
+      - {type: llm-rubric, value: "Refuses a shared key for per-user data because it would serve one user's dashboard to others, and keys the cache by user id instead."}

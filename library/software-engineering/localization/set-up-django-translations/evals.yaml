@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Set up Django translations for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-server-rendered-site
+    vars:
+      project: "Django 5 site with server-rendered templates, a REST API under /api/, deployed in Docker. models.py has verbose_name='Order' and STATUS_CHOICES with English labels. A view does messages.success(request, f'{n} orders exported')."
+      locales: "en, de, pt-br"
+      url_prefixes: true
+    assert:
+      - {type: contains-all, value: ["## Settings and middleware", "## Message files"]}
+      - {type: llm-rubric, value: "Uses gettext_lazy for verbose_name and choices, replaces the f-string with ngettext and a named placeholder, and places LocaleMiddleware after SessionMiddleware and before CommonMiddleware."}
+      - {type: llm-rubric, value: "Keeps /api/ outside i18n_patterns, and adds compilemessages to the Docker build or commits .mo files with the decision stated."}
+  - name: edge-strings-stay-english
+    vars:
+      project: "Translations exist in de/LC_MESSAGES/django.po and the team says some German strings never appear even though msgstr is filled in. The entries are marked '#, fuzzy'."
+      locales: "en, de"
+      url_prefixes: false
+    assert:
+      - {type: llm-rubric, value: "Explains that fuzzy entries are not compiled and need review and the flag removed, and checks that .mo files are compiled and deployed."}
+  - name: negative-translate-model-data-now
+    vars:
+      project: "Shop with Product.name and Product.description in English in the database. The team asks this change to also add German columns and migrate all products."
+      locales: "en, de"
+      url_prefixes: true
+    assert:
+      - {type: llm-rubric, value: "Sets up UI translation but does not create or run migrations for translated product fields; it recommends an approach such as django-modeltranslation or django-parler and leaves the migration as a separate change."}

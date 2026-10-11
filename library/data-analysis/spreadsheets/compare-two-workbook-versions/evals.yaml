@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Compare these two versions in {{app}} and show what changed: {{versions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-price-list-update
+    vars:
+      versions: "Supplier price list: tab 'Sep' (old) and tab 'Oct' (new). Columns: SKU (unique), Description, Pack size, Unit price. About 5,000 rows each; the October file was re-sorted by description and has new products and some discontinued ones."
+      app: Excel 365
+      purpose: "Tell our buyers which prices went up, which products are new and which were dropped."
+    assert:
+      - {type: contains, value: "## Change summary"}
+      - {type: llm-rubric, value: "Compares by SKU rather than row position because the file was re-sorted, checks for duplicate SKUs first, builds a union of SKUs with UNIQUE and VSTACK, uses XLOOKUP for old and new values, classifies Added, Deleted, Changed and Unchanged, names the changed fields, rounds prices to handle floating-point noise, and summarises price increases with differences."}
+  - name: edge-no-single-key
+    vars:
+      versions: "Staff rota v1 and v2 in Google Sheets: columns Date, Shift (Early/Late), Person, Role. No ID column; the same person can work two shifts on a date."
+      app: Google Sheets
+    assert:
+      - {type: llm-rubric, value: "Proposes a composite key such as Date plus Shift plus Role (or Date plus Shift plus Person depending on what should be compared), gives a uniqueness check for it in both versions, explains the trade-off of which field is in the key versus compared, and builds the comparison with Google Sheets functions."}
+  - name: negative-position-compare
+    vars:
+      versions: "Two versions of a customer list, around 2,000 rows each, a colleague inserted some rows and deleted others. Just give me =A2<>'Old'!A2 copied across everything."
+      app: Excel 365
+    assert:
+      - {type: llm-rubric, value: "Explains that a position-based comparison will flag almost every row after the first insertion or deletion, and offers a key-based comparison instead (asking for or proposing the key column), while not simply giving the position formula as the answer."}

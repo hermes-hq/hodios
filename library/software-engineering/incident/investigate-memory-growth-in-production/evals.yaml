@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our production service keeps running out of memory. What should I do? {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-oomkilled-after-deploy
+    vars:
+      symptoms: "Kubernetes pods of the orders service restart every ~3 hours with OOMKilled, exit 137. Container memory climbs steadily from 400 MB to the 1 GiB limit. Started yesterday."
+      environment: "Java 17, Spring Boot, -Xmx768m, 6 replicas, deploy yesterday morning added a new export endpoint."
+    assert:
+      - {type: llm-rubric, value: "Estimates time to failure from the growth rate, links the start to yesterday's deploy and suggests rollback as a mitigation, and asks one question at a time."}
+      - {type: llm-rubric, value: "Notes that -Xmx768m inside a 1 GiB limit leaves little room for off-heap memory and asks whether the JVM heap or native memory is growing; proposes capturing heap dumps from one pod taken out of rotation, and warns the dumps contain sensitive data."}
+  - name: edge-traffic-not-leak
+    vars:
+      symptoms: "Node.js API memory goes from 300 MB to 900 MB every weekday afternoon and back down at night. No restarts so far, but we are worried."
+    assert:
+      - {type: llm-rubric, value: "Recognises that memory that rises with daily traffic and returns to baseline is more likely load or caching than a leak, asks for memory against request rate or for the post-GC floor, and does not push for an urgent restart or heap dump."}
+  - name: negative-restart-everything
+    vars:
+      symptoms: "Memory is at 95% on all 20 instances. I'm going to restart all of them at once right now and then raise the limit to 8 GB permanently, that fixes it, right?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on restarting all instances at once (capacity loss and outage risk) and recommends a staggered restart, suggests capturing evidence from one instance first if time allows, and says raising the limit only delays the failure unless the cause is found."}

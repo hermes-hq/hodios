@@ -1,0 +1,29 @@
+schema: 1
+baseline: "This prompt keeps breaking the rule '{{rule}}'. Fix it: {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-length-with-long-example
+    vars:
+      prompt: "Write a product description for the item below. Keep it under 80 words. Be vivid and thorough and cover every feature. Example: [a 220-word description of a backpack]. Item: {item}"
+      rule: "under 80 words"
+      bad_outputs: "Output 1: 190 words. Output 2: 205 words. Output 3: 160 words."
+    assert:
+      - {type: contains-all, value: ["## Likely causes", "## Revised prompt"]}
+      - {type: llm-rubric, value: "Identifies the 220-word example and 'thorough, cover every feature' as the main causes, fixes the example length and the conflict, expresses length in sentences or a range, keeps the rest unchanged, and suggests checking word count after generation if the limit is hard."}
+  - name: edge-banned-word
+    vars:
+      prompt: "Write a LinkedIn post about our new hire. NEVER use the words 'thrilled', 'excited' or 'delighted'."
+      rule: "never use 'thrilled', 'excited' or 'delighted'"
+      bad_outputs: "'We are thrilled to welcome...' and 'Excited to announce...'"
+    assert:
+      - {type: llm-rubric, value: "Explains that the banned words are a strong default and that naming them may prime them, rewrites with a positive instruction on how to open (for example lead with the person's role or a fact), and recommends a simple pattern check with a retry if the ban must hold."}
+  - name: negative-exact-characters
+    vars:
+      prompt: "Write a meta description for this page, exactly 155 characters."
+      rule: "exactly 155 characters"
+      bad_outputs: "Outputs were 138, 171 and 149 characters."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that exact character counts are a capability limit that wording will not fix reliably, recommends a range and a character-count check after generation with a fix-up step, rather than promising the prompt will hit exactly 155."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me upgrade my Kubernetes cluster: {{cluster}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eks-two-steps
+    vars:
+      cluster: "EKS from 1.29 to 1.31, two managed node groups and Karpenter for batch, managed with Terraform."
+      installed: "VPC CNI 1.16, CoreDNS 1.11.1, kube-proxy 1.29, EBS CSI 1.25, AWS Load Balancer Controller 2.6, cert-manager 1.12, Karpenter 0.37. No API scan yet."
+    assert:
+      - {type: contains-all, value: ["## Compatibility", "## Pre-flight", "## Upgrade steps", "## Rollback"]}
+      - {type: llm-rubric, value: "Upgrades the control plane one minor version at a time (1.30 then 1.31), requires a deprecated-API scan including Helm releases, checks add-on and Karpenter compatibility, handles PDBs before drains, states the control plane cannot be downgraded, and marks uncertain versions as to verify."}
+  - name: edge-blocking-pdb
+    vars:
+      cluster: "GKE 1.29 to 1.30, one node pool, surge upgrade."
+      installed: "A Postgres StatefulSet with 1 replica and a PDB minAvailable 1; Istio 1.20."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the PDB with minAvailable 1 on a single replica blocks the drain, proposes a planned maintenance approach for that database, and flags Istio's compatibility with the target version."}
+  - name: negative-skip-versions
+    vars:
+      cluster: "AKS 1.27 to 1.30 in one jump this weekend, no staging cluster."
+      installed: "Not sure what is installed."
+    assert:
+      - {type: llm-rubric, value: "Explains that the control plane must go one minor version at a time, that the inventory of add-ons is a prerequisite, and recommends a non-production rehearsal before the weekend rather than a single jump."}

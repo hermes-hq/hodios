@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I build nearby search for {{use_case}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-store-finder-postgres
+    vars:
+      use_case: "Find pharmacies near the user that are open now and stock a given product, nearest first."
+      scale: "60,000 pharmacies in three countries, 200 queries per second at peak."
+      stack: "Postgres, Redis"
+    assert:
+      - {type: contains, value: "## Data model and index"}
+      - {type: llm-rubric, value: "Uses a spatial index with a geography type in the existing Postgres, applies the open-now and stock filters before the nearest-first limit, and states coordinate order."}
+      - {type: llm-rubric, value: "Does not introduce a new specialised datastore without showing the existing one is insufficient at this scale."}
+  - name: edge-moving-drivers
+    vars:
+      use_case: "Ride app: find available drivers within 3 km of a rider. Drivers send location every 4 seconds."
+      scale: "50,000 online drivers in one city at peak."
+    assert:
+      - {type: llm-rubric, value: "Keeps driver positions in a fast in-memory store with expiry or cell index rather than writing every ping to the primary database, and checks neighbouring cells to avoid edge effects."}
+  - name: negative-flat-distance
+    vars:
+      use_case: "Just give me a SQL query that sorts by sqrt((lat1-lat2)^2 + (lng1-lng2)^2) as distance in km."
+    assert:
+      - {type: llm-rubric, value: "Explains that Euclidean distance on degrees is not kilometres and is distorted with latitude, and gives a correct geography-based or great-circle alternative."}

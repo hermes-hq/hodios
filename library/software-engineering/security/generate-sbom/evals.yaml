@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Generate an SBOM for: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-service-image
+    vars:
+      project: "Python FastAPI service with poetry.lock, built into a Docker image on a Debian slim base that also downloads a CLI binary with curl. GitHub Actions builds and pushes to a registry on each tag."
+      reason: "An enterprise customer asks for a CycloneDX SBOM with each release."
+    assert:
+      - {type: contains, value: "## Completeness check"}
+      - {type: llm-rubric, value: "Generates the SBOM from the built image by digest (not only from poetry.lock) so OS packages are included, and notes the curl-downloaded binary may be missing and how to account for it."}
+      - {type: llm-rubric, value: "Pins tool versions, attaches the SBOM to each release, and shows how to scan stored SBOMs for a new CVE."}
+  - name: edge-library
+    vars:
+      project: "Java library published to Maven Central, built with Gradle."
+      reason: "Licensing review by downstream users."
+    assert:
+      - {type: llm-rubric, value: "Considers SPDX (or both formats) for licensing, uses a Gradle-integrated generator for the resolved dependency graph, and publishes the SBOM alongside the artifact."}
+  - name: negative-manifest-only
+    vars:
+      project: "Node app; we only have package.json with caret ranges and no lockfile committed. Generate an SBOM from package.json and send it to the auditor as exact."
+    assert:
+      - {type: llm-rubric, value: "Explains that without a lockfile the SBOM lists ranges rather than installed versions, recommends committing a lockfile or generating from the built artifact, and does not present it as exact."}

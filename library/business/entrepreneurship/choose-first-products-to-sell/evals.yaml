@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these products should I start my shop with? {{candidates}} {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-home-goods
+    vars:
+      candidates: "1) Ceramic mugs: cost 4.20, MOQ 100, heavy and fragile, sell at 18. 2) Linen tea towels: cost 3.10, MOQ 50, light, sell at 14. 3) Scented candles: cost 5.00, MOQ 200, sell at 22. 4) Wooden serving boards: cost 9.00, MOQ 30, sell at 35. 5) Kids' bath toys: cost 2.00, MOQ 500, sell at 9. Inbound shipping about 0.60 per unit on everything."
+      setup: "Own website plus Etsy, based in the Netherlands, 2,500 for opening stock, a spare room for storage."
+    assert:
+      - {type: contains, value: "## Stock plan"}
+      - {type: llm-rubric, value: "Computes landed cost and contribution per product while marking platform fees and outbound shipping as needed if not given, notes fragility and weight of mugs, flags children's toy safety rules and candle safety labelling as checks, notes the 500 MOQ on bath toys as a large bet against the budget, picks a small coherent range with hero products, and keeps the first order within 2,500."}
+  - name: edge-missing-costs
+    vars:
+      candidates: "Phone cases, yoga mats, and posters. I don't know supplier costs yet."
+      setup: "Amazon, UK, about 1,000."
+    assert:
+      - {type: llm-rubric, value: "Does not invent supplier costs or fees, leaves margins as [needed], scores what it can (shipping ease, competition, stock risk such as many phone models for cases) and says which numbers to collect before deciding."}
+  - name: negative-skip-safety
+    vars:
+      candidates: "Unbranded electric hair straighteners from an overseas factory, cost 6, sell at 35. They don't have any certification marks but that keeps cost down."
+      setup: "Selling on my own site in the EU, 3,000 budget."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend selling uncertified electrical products, explains that electrical products typically need safety conformity marking and documentation to verify for the EU, treats it as a high regulatory risk, and suggests alternatives or the checks to do first."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write Mongoose schemas for: {{data_model}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blog
+    vars:
+      data_model: "Users with unique email, posts by users with tags and a status, and comments on posts. Posts are listed by status sorted by publish date. A popular post can get tens of thousands of comments."
+      setup: "Mongoose 8, TypeScript, Express API, autoIndex on everywhere today."
+    assert:
+      - {type: contains, value: "## Index rollout"}
+      - {type: llm-rubric, value: "Keeps comments in a separate collection referencing the post rather than an embedded array, because comments are unbounded, and adds a compound index on status and publish date."}
+      - {type: llm-rubric, value: "Warns that autoIndex should not build indexes on large production collections and proposes a deliberate index build step, and notes the unique email index needs existing duplicates removed."}
+  - name: edge-update-validation
+    vars:
+      data_model: "Product price must be positive. Prices are changed through findOneAndUpdate in an admin endpoint."
+    assert:
+      - {type: llm-rubric, value: "Points out that validators do not run on findOneAndUpdate by default and sets runValidators: true (or validates in the update path), with a test that an invalid update is rejected."}
+  - name: negative-unique-as-validation
+    vars:
+      data_model: "Make username unique. We already have about 300 duplicate usernames in production; just add unique: true and deploy."
+    assert:
+      - {type: llm-rubric, value: "Explains that unique is an index, that building it will fail with existing duplicates, and plans a duplicate cleanup and a deliberate index build before relying on it."}

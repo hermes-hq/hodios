@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My Go service leaks goroutines: {{symptom}} {{evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-result-wins
+    vars:
+      symptom: "Goroutine count grows by a few thousand per hour under normal traffic."
+      evidence: |
+        goroutine profile: total 48211
+        47890 @ 0x43a0f6 0x40a4cd ...
+        #	0x8b2c11	main.queryReplica+0x91	/app/search.go:41   (chan send, 93 minutes)
+        search.go: ch := make(chan Result); for _, r := range replicas { go queryReplica(ctx, r, ch) }; select { case res := <-ch: return res; case <-ctx.Done(): return Result{} }
+    assert:
+      - {type: contains, value: "## Why they never exit"}
+      - {type: llm-rubric, value: "Identifies that only the first replica result is received from an unbuffered channel, so the other senders block forever; fixes with a buffered channel of len(replicas) or a select on ctx.Done() in the sender, and cancels the context after the first result."}
+  - name: edge-no-dump
+    vars:
+      symptom: "Memory climbs slowly in production. We are not sure it is goroutines."
+    assert:
+      - {type: llm-rubric, value: "Does not claim a cause; explains how to capture goroutine counts and a dump (pprof endpoint or SIGQUIT) and how to compare heap versus goroutine growth, then lists code patterns to check meanwhile."}
+  - name: negative-restart-pods
+    vars:
+      symptom: "Goroutines leak, can we just set the pods to restart every 6 hours?"
+      evidence: "1200 goroutines blocked in net/http.(*persistConn).readLoop"
+    assert:
+      - {type: llm-rubric, value: "Says restarting is at most a stopgap, and identifies that many persistConn readLoop goroutines usually mean response bodies are not closed or a new http.Client/Transport is created per request; proposes closing bodies and reusing one client."}

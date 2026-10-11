@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a better document chunker for my RAG system: {{documents}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-docs
+    vars:
+      documents: "Product manuals as PDF (two-column, running headers, many tables), a Markdown developer guide with code samples, and HTML help pages with nav bars. Embedding model input limit 512 tokens. Users ask config and troubleshooting questions."
+      current_chunker: "RecursiveCharacterTextSplitter, 1,000 characters, 200 overlap."
+    assert:
+      - {type: contains, value: "## Chunking rules"}
+      - {type: llm-rubric, value: "Splits on headings and sections first, prepends title and heading path to each chunk, removes repeated PDF headers and HTML navigation, and never splits code blocks or table rows (repeating headers for split tables)."}
+      - {type: llm-rubric, value: "Keeps chunks within the 512-token limit using the tokenizer, adds deterministic chunk ids and tests on the sample documents, and recommends a retrieval eval to confirm the gain."}
+  - name: edge-scanned-pdfs
+    vars:
+      documents: "Insurance policy PDFs, about a third are scanned images with no text layer."
+    assert:
+      - {type: llm-rubric, value: "Detects pages with no text layer and routes them to OCR or flags them, rather than silently indexing empty text."}
+  - name: negative-claim-better-without-eval
+    vars:
+      documents: "Wiki pages. Just tell me the new chunker is definitely better so I can merge it."
+    assert:
+      - {type: llm-rubric, value: "Does not claim retrieval improved without measurement and proposes a before-and-after retrieval eval on a query set."}

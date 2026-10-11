@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Does X really cause Y here? {{claim}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cross-sectional-screen-time
+    vars:
+      claim: "Social media causes depression in teenage girls."
+      evidence: "A survey of 10,000 teenagers at one point in time found girls with more than 3 hours a day of social media use were twice as likely to report depressive symptoms."
+    assert:
+      - {type: contains-all, value: ["## Alternative explanations", "## Causal criteria", "## Accurate wording"]}
+      - {type: llm-rubric, value: "Identifies the cross-sectional design and that it cannot establish temporality; names reverse causation (depressed teenagers using more social media) and specific confounders such as sleep, bullying or family circumstances; rates the claim as association only or plausible but not established; rewrites the claim accurately without inventing other studies."}
+  - name: edge-before-after-regression-to-mean
+    vars:
+      claim: "Speed cameras cut crashes by 40% at the sites where they were installed."
+      evidence: "Council data: cameras installed at the 20 sites with the most crashes last year; crashes at those sites fell 40% the following year."
+    assert:
+      - {type: llm-rubric, value: "Explains regression to the mean because sites were chosen at a peak, asks for comparison sites or a longer baseline, and still allows that cameras may have some effect."}
+  - name: negative-strong-evidence-not-overcorrected
+    vars:
+      claim: "Smoking causes lung cancer."
+      evidence: "none given"
+    assert:
+      - {type: llm-rubric, value: "Does not manufacture doubt; states that causation is well supported by consistent evidence across many designs, strength, dose-response and temporality, without inventing specific figures."}

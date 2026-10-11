@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Refactor the prompts in my code into separate template files: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-service
+    vars:
+      scope: "services/assistant/ in a Python Django app: six prompts built with f-strings across views and tasks, two of them nearly identical. Jinja2 is already a dependency."
+    assert:
+      - {type: contains, value: "## Inventory"}
+      - {type: llm-rubric, value: "Uses Jinja2 rather than adding a new engine, adds snapshot tests proving rendered output equals the old f-string output, and makes the loader fail on missing variables."}
+      - {type: llm-rubric, value: "Does not merge the two near-identical prompts unless they render identically, and logs prompt id and version with each call."}
+  - name: edge-typescript-no-engine
+    vars:
+      scope: "src/ai/ in a TypeScript Next.js app; prompts are template literals with ${} interpolation; no template library installed."
+    assert:
+      - {type: llm-rubric, value: "Implements a small loader without adding a heavy dependency and keeps rendered text identical, with tests."}
+  - name: negative-rewrite-while-moving
+    vars:
+      scope: "lib/prompts in a Ruby app. While you move them, also rewrite them to be better."
+    assert:
+      - {type: llm-rubric, value: "Separates the refactor from wording changes: keeps text identical during the move and lists proposed rewrites as follow-ups to be evaluated separately, explaining that combining them hides regressions."}

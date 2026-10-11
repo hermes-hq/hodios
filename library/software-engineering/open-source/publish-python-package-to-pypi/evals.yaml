@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me publish my Python package to PyPI: {{package}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pure-python
+    vars:
+      package: "Distribution 'csv-sanity', import name csv_sanity, flat layout, depends on pandas==2.2.2 and click, has a CLI entry. Supports Python 3.10+. Only a setup.py exists today."
+    assert:
+      - {type: contains, value: "## Clean install test"}
+      - {type: llm-rubric, value: "Writes a pyproject.toml with a build backend, readme, requires-python >=3.10, a console script entry, and relaxes the exact pandas pin to a range with a reason; builds and runs twine check, inspects the wheel contents, tests in a fresh venv outside the source tree, and plans TestPyPI first then trusted publishing, without uploading itself."}
+  - name: edge-rust-extension
+    vars:
+      package: "A Python library with a Rust core via PyO3, users on Linux, macOS and Windows."
+    assert:
+      - {type: llm-rubric, value: "Uses maturin as the build backend, explains that wheels must be built per platform and Python version in CI (with an sdist as fallback), and plans testing an installed wheel rather than the source tree."}
+  - name: negative-reuse-version
+    vars:
+      package: "I uploaded 0.3.0 with a missing module and deleted it from PyPI. Upload the fixed build as 0.3.0 again."
+    assert:
+      - {type: llm-rubric, value: "Explains that PyPI does not allow reusing a filename or a deleted version, recommends releasing 0.3.1 (and yanking 0.3.0 if still present), and does not run any upload command itself."}

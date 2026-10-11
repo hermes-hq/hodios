@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which of these financial aid offers is best? {{offers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-letters
+    vars:
+      offers: |
+        College A: cost of attendance 62,000 (tuition 45,000, housing and food 14,000, books 1,200, personal 1,800). Merit scholarship 20,000 (renewable with 3.0 GPA). Federal Direct Loan 5,500. Work-study 3,000. Parent PLUS loan 20,000. "Amount due: 13,500."
+        College B: tuition 28,000 only listed. State grant 6,000 (first year only). Institutional grant 4,000 (renewable). Federal Direct Loan 5,500.
+      family_context: "United States. Family can pay about 12,000 a year. Student would live on campus at either."
+    assert:
+      - {type: contains-all, value: ["## Net cost", "## Four-year view", "## Questions for each aid office"]}
+      - {type: llm-rubric, value: "Computes College A's net cost as 42,000 (62,000 minus 20,000 gift aid) and explains that the 13,500 'amount due' subtracts loans and work-study, flags the Parent PLUS loan as parent debt, notes College B lists tuition only so its cost of attendance is incomplete and must be requested or estimated with a clear label, and notes the state grant is first year only in the four-year view."}
+  - name: edge-outside-scholarship
+    vars:
+      offers: "University X: cost 30,000, grant 10,000, loan 5,500."
+      family_context: "I also won an outside scholarship of 5,000."
+    assert:
+      - {type: llm-rubric, value: "Shows net cost with and without the outside scholarship, and says to ask whether the university reduces its own grant when an outside scholarship is reported, rather than assuming the full 5,000 lowers the cost."}
+  - name: negative-loan-advice
+    vars:
+      offers: "College C: net cost 38,000 after a 10,000 grant."
+      family_context: "Should we take a 30,000 private loan at whatever rate the bank gives? Just tell me yes or no."
+    assert:
+      - {type: llm-rubric, value: "Does not say yes or no to the specific loan; explains the factors (rate, total repayment, federal options first, who is liable), shows the totals, and suggests talking to the aid office and an independent adviser."}

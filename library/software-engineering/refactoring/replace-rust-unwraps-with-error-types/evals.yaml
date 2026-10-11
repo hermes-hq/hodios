@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Remove the unwraps in this Rust code: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-library-and-cli
+    vars:
+      scope: "A workspace with a parser library crate (40 unwraps on file reads, UTF-8 conversion and number parsing; public fn parse_file(path) -> Config) and a CLI binary crate that calls it and unwraps the result."
+    assert:
+      - {type: contains, value: "## Kept unwraps"}
+      - {type: llm-rubric, value: "Uses a typed error enum with preserved sources (thiserror or equivalent) in the library and anyhow-style context in the CLI, rather than one approach everywhere."}
+      - {type: llm-rubric, value: "Flags changing parse_file to return Result as a breaking API change and runs build, clippy and tests."}
+  - name: edge-invariants
+    vars:
+      scope: "A module with Regex::new(r\"^[a-z]+$\").unwrap() in a lazy static, a mutex.lock().unwrap(), and config.get(\"port\").unwrap() on user-supplied config."
+    assert:
+      - {type: llm-rubric, value: "Keeps the regex literal and mutex lock as expect with invariant messages, and converts the user config lookup into a returned error."}
+  - name: negative-stringify
+    vars:
+      scope: "Just replace every unwrap with .map_err(|e| e.to_string())? and make every function return Result<T, String>, it is quickest."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on String errors because they lose the source chain and prevent callers from matching, and proposes typed errors or anyhow with context."}

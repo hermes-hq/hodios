@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My reviewer left these comments, what do they mean? {{comments}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-comments
+    vars:
+      comments: "1. nit: prefer early return here. 2. This will N+1, please prefetch. 3. Why is this catching Exception? 4. Can we pull the pricing logic out of the view?"
+      code: "def order_list(request):\n    try:\n        orders = Order.objects.filter(user=request.user)\n        if orders:\n            data = [{'id': o.id, 'customer': o.customer.name, 'total': o.items_total * 1.2} for o in orders]\n            return JsonResponse(data, safe=False)\n        else:\n            return JsonResponse([], safe=False)\n    except Exception:\n        return JsonResponse([], safe=False)"
+    assert:
+      - {type: contains-all, value: ["## Comment by comment", "## Replies you could send"]}
+      - {type: llm-rubric, value: "Classifies comment 1 as a nit and 2 and 3 as likely blocking, explains N+1 with o.customer.name and select_related, explains that catching Exception hides real errors and returns an empty list on failure, explains moving tax or pricing logic out of the view, and drafts short professional replies."}
+  - name: edge-debatable-comment
+    vars:
+      comments: "Reviewer: 'Never use reduce, always use a for loop.'"
+      code: "const total = items.reduce((sum, i) => sum + i.price, 0);"
+      confusion: "Is this a real rule?"
+    assert:
+      - {type: llm-rubric, value: "Says this is a matter of taste or team convention rather than a universal rule, notes the reduce here is simple and readable, and suggests asking whether it is a team convention with a polite reply."}
+  - name: negative-ambiguous-comment
+    vars:
+      comments: "Reviewer: 'Hmm.'"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a specific meaning; says the comment is ambiguous, gives a few possible readings at most, and drafts a reply asking the reviewer what concern they have."}

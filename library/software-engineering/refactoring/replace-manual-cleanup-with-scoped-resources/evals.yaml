@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Clean up the resource handling in this code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-export
+    vars:
+      code: |
+        Python 3.11. def export(path): conn = pool.getconn(); cur = conn.cursor(); f = open(path, "w");
+        if not rows: return None  (nothing closed); writes rows; f.close(); cur.close(); pool.putconn(conn). Exceptions while writing leak everything.
+      test_command: "pytest tests/test_export.py"
+    assert:
+      - {type: contains, value: "## Behaviour changes"}
+      - {type: llm-rubric, value: "Lists the early return and exception paths that leak, converts the file and cursor to with blocks and returns the pooled connection in a finally or context manager, adds a test for a leaking path, and states release order changes if any."}
+  - name: edge-go-defer-loop
+    vars:
+      code: "Go: for _, p := range paths { f, err := os.Open(p); if err != nil { return err }; process(f); f.Close() } over 50,000 files."
+    assert:
+      - {type: llm-rubric, value: "Warns that adding defer f.Close() inside the loop keeps all files open until the function returns, and moves the body into a helper function so defer runs per iteration."}
+  - name: negative-close-returned-stream
+    vars:
+      code: "Java: public InputStream openReport(String id) { InputStream in = storage.open(id); log(id); return in; } Wrap it in try-with-resources like the rest."
+    assert:
+      - {type: llm-rubric, value: "Refuses to wrap the returned stream in try-with-resources because it would be closed before the caller reads it, and explains the caller owns it."}

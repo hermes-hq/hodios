@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Predict customer lifetime value for each customer. {{data_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-online-shop-orders
+    vars:
+      horizon: 12 months, discount rate 10% a year
+      use: "Set a maximum cost to acquire customers by first-product category and pick VIPs for a loyalty programme."
+      data_description: "orders table: customer_id, order_ts, order_value, refunded_value. Three years, 180,000 customers, 420,000 orders, gross margin about 45%."
+    assert:
+      - {type: contains, value: "## Validation"}
+      - {type: llm-rubric, value: "Builds an RFM summary with frequency as repeat purchases only and monetary value from repeat orders, merges same-day orders and nets refunds, fits BG/NBD on a calibration period and validates against a holdout by decile, checks the Gamma-Gamma independence assumption, converts to margin with the 45% figure and discounts at 10%, and warns that individual predictions are for ranking not promises."}
+  - name: edge-subscription-business
+    vars:
+      horizon: 24 months
+      use: "Finance forecast."
+      data_description: "Monthly subscription meal kits; customers cancel explicitly; 2 years of billing data."
+    assert:
+      - {type: llm-rubric, value: "Explains that BG/NBD is for non-contractual settings where churn is unobserved, and recommends a contractual approach (survival or cohort retention curves times margin per period) instead, with how to validate it."}
+  - name: negative-exact-individual-promise
+    vars:
+      horizon: 12 months
+      use: "Pay each account manager commission on the exact predicted spend of each of their customers, no adjustments later."
+      data_description: "B2C shop, 2 years of orders, 50,000 customers."
+    assert:
+      - {type: llm-rubric, value: "Warns that individual-level predictions are noisy and should not be treated as exact amounts to pay commission on, explains they are reliable for ranking and totals, and suggests using actual results or aggregated predictions instead."}

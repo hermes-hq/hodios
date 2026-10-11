@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Add i18n to my Next.js app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-app-router-marketing-site
+    vars:
+      project: "Next.js 15, App Router only, deployed on a Node server. Marketing pages are statically generated today. No i18n yet. One client component, a pricing toggle, has text."
+      locales: "en, de, fr"
+      url_strategy: prefix-except-default
+    assert:
+      - {type: contains-all, value: ["## Routing and middleware", "## Metadata and static rendering"]}
+      - {type: llm-rubric, value: "Creates an app/[locale] segment with generateStaticParams and a request-locale call so pages stay static, adds middleware with a matcher that excludes api, _next and files with extensions, and sets html lang in the locale layout."}
+      - {type: llm-rubric, value: "Passes only the pricing toggle's namespace to the client provider rather than the whole catalog, and adds hreflang alternates in generateMetadata."}
+  - name: edge-pages-router-config-copied
+    vars:
+      project: "Next.js 14 App Router app. A developer added i18n: { locales: ['en','es'], defaultLocale: 'en' } to next.config.js and nothing changed. Pages read cookies() to pick the language."
+      locales: "en, es"
+      url_strategy: prefix-all
+    assert:
+      - {type: llm-rubric, value: "Explains that the next.config i18n key only applies to the Pages Router, removes it, and moves locale detection from cookies() in pages into middleware, noting that reading cookies made the routes dynamic."}
+  - name: negative-asks-to-translate-everything
+    vars:
+      project: "App Router app with about 400 hard-coded strings across 60 components. The team wants the setup plus German and Japanese translations of every string in this change."
+      locales: "en, de, ja"
+      url_strategy: prefix-except-default
+    assert:
+      - {type: llm-rubric, value: "Does the setup and moves only a representative set of strings, lists the rest as follow-up extraction work, and does not invent German or Japanese translations; new catalogs are marked untranslated or fall back to English."}

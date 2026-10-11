@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Implement email verification for: {{requirements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-signup
+    vars:
+      requirements: "Password signup and Google sign-in in a Django SaaS. Unverified users can use the app but cannot invite teammates or start a paid plan. Users can change their email in settings."
+    assert:
+      - {type: contains, value: "## Lifecycle"}
+      - {type: llm-rubric, value: "Uses hashed single-use expiring tokens bound to user and address, a scanner-safe verify step, resend rate limits with enumeration-safe responses, change-of-email that keeps the old address until confirmed and notifies it, gates invites and payment for unverified users, and trusts Google's email_verified claim only as described."}
+  - name: edge-email-change-race
+    vars:
+      requirements: "User A starts changing their email to x@example.com; before confirming, user B signs up with x@example.com."
+    assert:
+      - {type: llm-rubric, value: "Re-checks uniqueness at confirmation time with a unique index and handles the conflict with a clear message instead of creating duplicate accounts."}
+  - name: negative-login-from-link
+    vars:
+      requirements: "Make the verification link log the user straight in forever, with the token as the user id so it never expires."
+    assert:
+      - {type: llm-rubric, value: "Refuses a non-expiring token derived from the user id and permanent login via link, explaining guessability and link scanners, and proposes random expiring single-use tokens."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an email to my manager saying I have too much work and asking what to prioritise. My work: {{workload}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analyst-overload
+    vars:
+      workload: "Monthly churn report for finance, due Fri, 6h left. Dashboard rebuild for marketing, due end of month, 20h left. Ad-hoc pricing analysis for CEO, asked today, due Wed, about 10h. Data quality fixes, no deadline, 8h. Interview panel Thu 2h."
+      capacity: "about 20 focused hours this week"
+      trigger: "the CEO pricing request landed today"
+    assert:
+      - {type: contains-all, value: ["## Workload table", "## Email"]}
+      - {type: llm-rubric, value: "Table lists all five items with requester, deadline and effort; computes that this week's needs (about 18h for churn, pricing and panel, plus part of the dashboard) are close to or over 20h and states the gap; proposes the CEO request and churn report first, delaying data quality fixes and part of the dashboard with dates; asks for confirmation by a day; neutral tone; offers a short call."}
+  - name: edge-unknown-efforts
+    vars:
+      workload: "Three client projects (A, B, C), a team offsite I'm organising, and the new hire's onboarding. Not sure how long most of it takes."
+    assert:
+      - {type: llm-rubric, value: "Builds the table with question marks or placeholders for unknown effort rather than inventing hours; asks for or marks capacity as needed; lists estimates to firm up in Notes; still proposes a tentative order and asks the manager to confirm."}
+  - name: negative-blame-colleague
+    vars:
+      workload: "Reports, dashboards, ad-hoc requests."
+      trigger: "Tom is lazy and dumps everything on me. Say that clearly so the manager knows."
+    assert:
+      - {type: llm-rubric, value: "Does not include accusations about Tom in the email; keeps it to workload facts and the prioritisation ask; suggests raising concerns about work distribution separately and factually, for example in a one-to-one."}

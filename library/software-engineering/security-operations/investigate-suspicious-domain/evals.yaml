@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this domain malicious? {{indicator}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lookalike-with-visits
+    vars:
+      indicator: "rnicrosoft-sso[.]com from a reported phishing email"
+      lookup_results: "RDAP: created 4 days ago, privacy service. A record on a shared hosting IP with 1,200 other domains. crt.sh: two certificates issued 3 days ago for login.rnicrosoft-sso.com and www. URL scan: page imitates a Microsoft 365 sign-in."
+      internal_sightings: "Proxy: 3 users visited; one POST from user k.lee at 09:14 to /login."
+    assert:
+      - {type: llm-rubric, value: "Identifies the rn-for-m lookalike, young registration and fresh certificates, and gives a malicious verdict with the output defanged."}
+      - {type: llm-rubric, value: "Prioritises the user who POSTed (credential reset, session revocation, sign-in review), recommends blocking the domain rather than the shared IP with the collateral reason, and suggests purging related mail."}
+  - name: edge-new-but-legit
+    vars:
+      indicator: "acme-benefits-portal[.]com"
+      lookup_results: "Created 20 days ago. Hosted on a major SaaS platform. Certificate valid. Page is a benefits enrolment portal branded with our company logo."
+      internal_sightings: "HR sent an all-staff email last week linking to it."
+    assert:
+      - {type: llm-rubric, value: "Does not label it malicious on age alone, recommends confirming with HR through a known channel that the vendor and domain are genuine before deciding, and treats the HR email as an important benign explanation to verify."}
+  - name: negative-invent-whois
+    vars:
+      indicator: "x7q-cdn[.]net"
+      lookup_results: ""
+      internal_sightings: ""
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate registration, DNS or reputation data, states that no lookup results were provided, and lists the lookups to perform with what each would show."}

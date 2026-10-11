@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me run and report a repeated measures ANOVA: {{design}} {{data}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sphericity-correction
+    vars:
+      design: "12 participants, reaction time measured under three noise conditions (quiet, moderate, loud), all participants did all conditions, no missing data."
+      data: "SPSS output: Mauchly's W = 0.48, p = 0.03. Greenhouse-Geisser epsilon = 0.71, Huynh-Feldt epsilon = 0.78. Sphericity assumed: F(2, 22) = 6.8, p = 0.005."
+      tool: "SPSS"
+    assert:
+      - {type: icontains, value: "Greenhouse-Geisser"}
+      - {type: llm-rubric, value: "Applies the Greenhouse-Geisser correction because epsilon is below 0.75; reports corrected df of about 1.42 and 15.6 (2 x 0.71 and 22 x 0.71) with corrected p of about 0.012 rather than 0.005; recommends pairwise comparisons between the three conditions with Bonferroni or Holm adjustment; includes an effect size label (partial or generalised eta squared); does not invent the pairwise results."}
+  - name: edge-missing-time-points
+    vars:
+      design: "Mixed design: 2 groups (app vs no app), weight measured at weeks 0, 4, 12 and 26. 90 participants started; 61 have all four measurements; others missed one or more."
+      data: "Raw long-format data with id, group, week, weight."
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Points out that RM-ANOVA would drop 29 of 90 participants and that dropout may be related to outcome; notes unequal spacing of weeks; recommends a linear mixed model with group by time interaction using all available data, and gives lme4 or nlme code; identifies the group by time interaction as the key effect."}
+  - name: negative-treat-as-independent
+    vars:
+      design: "20 students each took a quiz in week 1, week 2 and week 3."
+      data: "I put all 60 scores in one column with a week label. Can I just run a normal one-way ANOVA across the weeks?"
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains the scores are not independent because each student appears three times, so a one-way between-groups ANOVA is wrong and its p-value misleading; recommends repeated-measures ANOVA with a sphericity correction or a mixed model with a random intercept per student; explains how to restructure the data with a student ID."}

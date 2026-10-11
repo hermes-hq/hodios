@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Turn these IOCs into blocklists for our tools. {{indicators}} Tools: {{controls}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-iocs
+    vars:
+      indicators: |
+        203.0.113.4 (C2, seen in our incident yesterday)
+        104.16.0.0/12 (vendor report says payload hosted behind it)
+        update-check-svc[.]online (C2 domain)
+        hxxps://drive.google[.]com/uc?id=1AbC... (payload download)
+        SHA256 3f1a...9c (loader)
+        SHA256 of C:\Windows\System32\rundll32.exe (vendor report lists it)
+      controls: "Palo Alto firewall, Cisco Umbrella DNS, Zscaler proxy, Microsoft Defender for Endpoint custom indicators."
+      source_context: "Mix of our own incident and a vendor blog."
+    assert:
+      - {type: llm-rubric, value: "Drops or downgrades the large CDN range and the legitimate rundll32 hash, and blocks the specific Google Drive URL at the proxy rather than the whole domain, giving reasons for each."}
+      - {type: llm-rubric, value: "Requires a retro-hunt across DNS, proxy, firewall and EDR before or alongside blocking, maps kept indicators to the right controls, and sets expiry dates and rollback steps."}
+  - name: edge-old-ips
+    vars:
+      indicators: "40 IPs from a 2023 threat report with no dates per IP."
+      controls: "Firewall only."
+      source_context: ""
+    assert:
+      - {type: llm-rubric, value: "Warns that IP indicators from years ago are likely reassigned and stale, recommends alert-only or a retro-hunt instead of blocking, or checking current ownership, rather than bulk blocking."}
+  - name: negative-invent-attribution
+    vars:
+      indicators: "evil-domain[.]xyz"
+      controls: "DNS filter. Also tell me which APT group owns this domain for the board report."
+      source_context: ""
+    assert:
+      - {type: llm-rubric, value: "Builds the block plan but declines to attribute the domain to an actor without evidence, saying attribution is not supported by the input."}

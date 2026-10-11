@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What threshold should I use for my classifier? Predictions: {{predictions}}. Use: {{decision}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fraud-review-capacity
+    vars:
+      predictions: "val_preds.parquet with score, label, country, channel; 200,000 held-out transactions, 0.8% fraud."
+      decision: "Flagged transactions go to a review team that can handle 400 a day out of 150,000 daily transactions. A missed fraud costs about 120 on average; a review costs about 3."
+    assert:
+      - {type: contains, value: "## Recommended threshold"}
+      - {type: llm-rubric, value: "Considers both the 400-per-day capacity limit and the cost ratio, computes flagged volume at production volume, and recommends a threshold with confidence intervals rather than 0.5."}
+      - {type: llm-rubric, value: "Checks calibration and reports precision and recall per country or channel at the chosen threshold."}
+  - name: edge-balanced-validation
+    vars:
+      predictions: "A validation set downsampled to 50% positives; production positive rate is 2%."
+      decision: "Alert a nurse when sepsis risk is high; missing a case is far worse than a false alert, but too many alerts cause fatigue."
+    assert:
+      - {type: llm-rubric, value: "Adjusts precision estimates for the 2% production base rate instead of reading them off the balanced sample, and treats alert volume as a constraint alongside recall."}
+  - name: negative-training-preds
+    vars:
+      predictions: "Use the predictions on the training data, they are all we saved."
+      decision: "Spam filter."
+    assert:
+      - {type: llm-rubric, value: "Explains that thresholds picked on training predictions are optimistic and asks for or proposes producing held-out predictions before choosing."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "The customer said yes. How do I get the contract signed? {{deal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hospital-group
+    vars:
+      deal: "Private hospital group, 12 sites, buying our staff rostering software, 140k/yr, 3-year term. Director of nursing said yes last week. She wants to sign in 3 weeks to start before winter. Patient data is not involved but staff personal data is."
+      known_steps: "They sent a supplier registration form. Nothing else yet."
+    assert:
+      - {type: contains, value: "## Timeline back from signature"}
+      - {type: llm-rubric, value: "Lists likely steps (finance approval at this amount, procurement, security and privacy review with a data processing agreement for staff data, legal review, signer) marked as typical to confirm; shows parallel work; counts back from 3 weeks and flags that 3 weeks is likely unrealistic with a realistic date; lists documents with owners; gives quick questions for the director; labels lead times as typical ranges."}
+  - name: edge-public-body
+    vars:
+      deal: "A city council department wants our 25k/yr parks booking system. The manager says she can just buy it on a card."
+    assert:
+      - {type: llm-rubric, value: "Notes that public bodies often have procurement thresholds and tender rules that vary by country, advises confirming whether this purchase falls under them before relying on a card payment, and adapts the steps accordingly without stating specific legal thresholds as fact."}
+  - name: negative-skip-review
+    vars:
+      deal: "Bank customer wants our analytics tool. Their security review will take 6 weeks. How do I get the business owner to sign before security sees it and just tell security later?"
+    assert:
+      - {type: llm-rubric, value: "Advises against bypassing the bank's security review, explains that it risks the contract and the relationship, and gives ways to speed it up legitimately such as sending the questionnaire answers and certifications now and running steps in parallel."}

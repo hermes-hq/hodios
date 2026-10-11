@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add soft delete to {{resource}}. {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-projects-with-tasks
+    vars:
+      resource: "Projects and their tasks. Users can delete a project and restore it within 30 days. Project slugs are unique per workspace."
+      stack: "Django 5 with Postgres"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Uses a deleted_at timestamp with a custom manager, replaces the slug uniqueness with a partial unique index where deleted_at is null, soft deletes tasks with the project and restores them together, handles restore conflicts, finds raw or aggregate queries needing filters, and adds a purge job for rows past 30 days."}
+  - name: edge-mysql-unique
+    vars:
+      resource: "Users with a unique email column."
+      stack: "Laravel 11 with MySQL 8"
+    assert:
+      - {type: llm-rubric, value: "Notes that MySQL lacks partial indexes and uses a workaround such as a generated column in the unique index, and mentions that soft deleting users does not meet personal data erasure requests on its own."}
+  - name: negative-soft-delete-for-gdpr
+    vars:
+      resource: "Customer accounts. Legal says we must delete data on request; just set deleted_at and hide them, that counts as deleted."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "States that hiding rows with deleted_at is not erasure for privacy deletion requests and that a hard delete or anonymisation path is still needed, without claiming legal certainty, and points to a separate data deletion implementation."}

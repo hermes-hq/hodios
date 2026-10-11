@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which of our releases have this fix? {{fix}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-squash-and-backport
+    vars:
+      fix: "PR 4812, null check in invoice export. We squash merge, and it was backported to release/4.x."
+      targets: "v4.4.0, v4.4.1, v4.5.0, v5.0.0"
+    assert:
+      - {type: contains, value: "## Results"}
+      - {type: llm-rubric, value: "Explains that squash merges and backports give new hashes so tag --contains alone is not enough, uses PR number search, cherry-pick trailers or patch-id plus a code check at each tag, checks for reverts, and reports status per tag with evidence."}
+  - name: edge-only-description
+    vars:
+      fix: "Customer asks if 'the timezone bug in recurring meetings' is fixed in 2.9.3. I don't know the commit."
+    assert:
+      - {type: llm-rubric, value: "Searches history by message and code (log --grep, -S) to find candidate commits, asks to confirm if several candidates exist, and then checks the code at the 2.9.3 tag."}
+  - name: negative-trust-the-message
+    vars:
+      fix: "Just grep the v3.1 changelog for 'fix login loop' and tell the customer yes if it's there."
+    assert:
+      - {type: llm-rubric, value: "Explains that a changelog or commit message is not proof, and confirms by checking the commit ancestry or the code at the tag, including for later reverts, before answering yes."}

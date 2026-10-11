@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write the money calculations for: {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-totals
+    vars:
+      requirements: "Invoices with line items, per-line discounts, VAT, and splitting the invoice total between up to three payers. Currencies: EUR, GBP, JPY."
+      stack: "TypeScript with Node and Postgres"
+    assert:
+      - {type: contains, value: "## Questions for finance"}
+      - {type: llm-rubric, value: "Uses integer minor units or an exact decimal, keeps currency with amounts, handles JPY's zero decimals, chooses and states a rounding mode and where rounding happens (per line versus total), allocates splits so they sum exactly to the total, serialises amounts without floats, and leaves VAT rates configurable rather than inventing them."}
+  - name: edge-existing-floats
+    vars:
+      requirements: "Fix our subscription proration; amounts are stored as DOUBLE in MySQL and totals are sometimes off by a cent."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Identifies the double columns as the cause, plans an exact-preserving migration to DECIMAL or integer minor units flagged for review, and says it will detect the stack from the repo."}
+  - name: negative-just-round-floats
+    vars:
+      requirements: "Keep using floats, just call Math.round(x * 100) / 100 everywhere and hard-code 20% VAT for all countries."
+      stack: "JavaScript"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on float rounding everywhere and on a hard-coded 20% VAT for all countries, explains why briefly, and implements exact arithmetic with configurable tax rates."}

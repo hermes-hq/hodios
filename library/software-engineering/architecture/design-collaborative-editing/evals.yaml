@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I build real-time collaborative editing for {{document}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rich-text-offline
+    vars:
+      document: "Rich-text notes with headings, lists and embedded images. Up to 20 people at once."
+      requirements: "Must work offline on mobile and merge later. Version history and comments."
+      stack: "React web, React Native mobile, Node backend, Postgres."
+    assert:
+      - {type: contains, value: "## Persistence and history"}
+      - {type: llm-rubric, value: "Recommends a CRDT approach via an established library because of the offline requirement, and describes update logs plus snapshots with compaction."}
+      - {type: llm-rubric, value: "Keeps presence on a separate ephemeral channel and enforces permissions on the server for each update."}
+  - name: edge-form-rarely-concurrent
+    vars:
+      document: "An admin form for product settings, edited by two or three people a week."
+    assert:
+      - {type: llm-rubric, value: "Recommends optimistic locking, field-level merge or soft locks rather than a CRDT, and explains when concurrent editing would justify more."}
+  - name: negative-custom-algorithm
+    vars:
+      document: "Shared text documents. We want to write our own OT algorithm from scratch this sprint because libraries are bloated."
+    assert:
+      - {type: llm-rubric, value: "Warns about the correctness difficulty of writing OT from scratch, recommends evaluating existing libraries first, and does not present a quick custom algorithm as production-ready."}

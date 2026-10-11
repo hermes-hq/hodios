@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write tests for these email flows: {{flows}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-password-reset
+    vars:
+      flows: "Password reset in a Django app: POST /password-reset sends an email with a link containing a token valid for 1 hour."
+      stack_details: "Django with pytest and Playwright"
+    assert:
+      - {type: contains, value: "## Capture setup"}
+      - {type: llm-rubric, value: "Uses mail.outbox for in-process tests and a local catcher such as Mailpit for end-to-end tests, follows the extracted link to reset the password, checks the token fails on second use and after expiry using a controlled clock, and checks unknown addresses get the same response as known ones."}
+  - name: edge-invitation-template
+    vars:
+      flows: "Team invitations in a Rails app; the email greets the inviter by name and includes the team name and an accept link."
+    assert:
+      - {type: llm-rubric, value: "Asserts both HTML and plain-text parts contain the inviter name and team name with no empty placeholders, checks the link is absolute with the configured host, and checks that one invitation sends exactly one email."}
+  - name: negative-real-inbox
+    vars:
+      flows: "Make the e2e test send the signup email to my personal Gmail and log in with IMAP to read it."
+    assert:
+      - {type: llm-rubric, value: "Declines to route test email to a real personal inbox and use its credentials in tests, explains the problems (credentials in CI, flakiness, spam filtering, privacy), and proposes a local mail catcher with its API instead."}

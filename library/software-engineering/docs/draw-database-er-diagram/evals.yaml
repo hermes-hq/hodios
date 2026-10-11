@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Draw an ER diagram for this schema: {{schema_source}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shop-ddl
+    vars:
+      format: mermaid
+      schema_source: |
+        CREATE TABLE customers (id bigint PRIMARY KEY, email text UNIQUE NOT NULL);
+        CREATE TABLE orders (id bigint PRIMARY KEY, customer_id bigint NOT NULL REFERENCES customers(id), coupon_id bigint REFERENCES coupons(id));
+        CREATE TABLE order_items (order_id bigint REFERENCES orders(id), product_id bigint REFERENCES products(id), qty int, PRIMARY KEY (order_id, product_id));
+        CREATE TABLE products (id bigint PRIMARY KEY, sku text UNIQUE);
+        CREATE TABLE coupons (id bigint PRIMARY KEY, code text);
+        CREATE TABLE customer_profiles (customer_id bigint UNIQUE REFERENCES customers(id), bio text);
+    assert:
+      - {type: icontains, value: "erDiagram"}
+      - {type: llm-rubric, value: "Shows orders to coupons as zero-or-one because coupon_id is nullable, customers to customer_profiles as one-to-one because of the unique key, and order_items as an entity carrying qty between orders and products; cardinalities are justified by constraints."}
+  - name: edge-orm-only-relations
+    vars:
+      format: dbml
+      schema_source: "Rails models: Comment belongs_to :commentable, polymorphic: true; Post has_many :comments, as: :commentable; Invoice belongs_to :account (schema.rb has account_id but no foreign key)."
+    assert:
+      - {type: llm-rubric, value: "Uses DBML Ref syntax, marks the invoice-account link as ORM-only with no database foreign key, and explains that the polymorphic commentable reference cannot be enforced by the database."}
+  - name: negative-guessing-tables
+    vars:
+      format: mermaid
+      schema_source: "It's a standard e-commerce database, draw the ERD."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a generic e-commerce schema; asks for the DDL, migrations or models."}

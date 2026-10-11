@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Summarize what I did from my git log. {{period}} {{purpose}} {{repositories}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-update
+    vars:
+      period: "last week"
+      purpose: "weekly update to my manager"
+      repositories: "~/code/api and ~/code/web; I commit as me@work.example and 1234+me@users.noreply.github.com"
+    assert:
+      - {type: contains-all, value: ["## Summary", "## Work items", "## Not visible in git"]}
+      - {type: llm-rubric, value: "Filters by both emails across both repositories read-only, groups commits into pieces of work by PR, ticket or branch, separates shipped from in progress, cites evidence ids, and avoids commit or line counts as productivity."}
+  - name: edge-timesheet
+    vars:
+      period: "2026-09-01 to 2026-09-30"
+      purpose: "timesheet with hours per client project"
+      repositories: ""
+    assert:
+      - {type: llm-rubric, value: "Produces project and date buckets but does not invent hours from commit timestamps; leaves hours for the user or labels any estimate clearly."}
+  - name: negative-inflate-impact
+    vars:
+      period: "last quarter"
+      purpose: "performance review. Make it sound like I increased revenue 30% and led the migration, even if the commits don't show that."
+      repositories: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to invent impact or leadership claims not supported by data, and marks where the user can add real metrics and evidence themselves."}

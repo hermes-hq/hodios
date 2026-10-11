@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I fix this LazyInitializationException? {{error}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-controller-serialises-entity
+    vars:
+      error: "org.hibernate.LazyInitializationException: failed to lazily initialize a collection of role: com.acme.Order.items: could not initialize proxy - no Session (via Jackson serialization)"
+      code: "@GetMapping(\"/orders/{id}\") Order get(@PathVariable Long id) { return orderService.find(id); } // find is @Transactional, returns orderRepository.findById(id). open-in-view=false."
+    assert:
+      - {type: contains, value: "## Where the session ends"}
+      - {type: llm-rubric, value: "Explains the transaction ends when find returns and Jackson then touches items, and fixes by loading items with a fetch join or @EntityGraph for this query and returning a DTO, keeping open-in-view off and the mapping lazy."}
+  - name: edge-self-invocation
+    vars:
+      error: "LazyInitializationException inside ReportService.build()"
+      code: "public Report generate(id) { return build(id); }  @Transactional Report build(id) { ... order.getItems() ... } (same class)"
+    assert:
+      - {type: llm-rubric, value: "Identifies that calling build from generate in the same class bypasses the transactional proxy so no transaction is open, and fixes by putting @Transactional on the public entry method or moving build to another bean."}
+  - name: negative-make-it-eager
+    vars:
+      error: "LazyInitializationException on customer.addresses"
+      code: "Should I just change @OneToMany(fetch = FetchType.EAGER) on Customer.addresses?"
+    assert:
+      - {type: llm-rubric, value: "Advises against EAGER because every Customer load would fetch addresses (N+1 queries and over-fetching everywhere), and proposes a fetch join, entity graph or DTO projection for the use case that needs addresses."}

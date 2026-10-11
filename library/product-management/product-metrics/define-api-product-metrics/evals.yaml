@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What metrics should we track for our API product? {{product}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments-api
+    vars:
+      product: "Payments API for online businesses, usage-based fees, sandbox and live keys, SDKs in four languages."
+      data_sources: "Gateway logs with key id, endpoint, status code, latency; accounts table; docs page analytics."
+    assert:
+      - {type: contains, value: "## Health and quality"}
+      - {type: llm-rubric, value: "Builds a developer funnel from signup to first sandbox call to first live payment, uses accounts with live traffic on a meaningful endpoint rather than call volume as the headline metric, splits 4xx from 5xx errors and measures them per customer, excludes sandbox keys from production metrics, and rolls keys up to accounts."}
+  - name: edge-no-key-separation
+    vars:
+      product: "Geocoding API, one key type used for both testing and production."
+    assert:
+      - {type: llm-rubric, value: "Notes that production and test traffic cannot be separated, explains the distortion, and proposes tagging keys or environments before relying on adoption metrics."}
+  - name: negative-call-volume-headline
+    vars:
+      product: "Email sending API."
+      data_sources: "Investors love big numbers; make total API calls our north star and count retries too."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on counting retries and total calls as the headline, explains it rewards failures and a few large senders, and proposes an adoption metric tied to real delivered value."}

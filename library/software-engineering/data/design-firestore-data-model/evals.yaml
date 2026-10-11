@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Design the Firestore structure for my app: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-chat
+    vars:
+      app: "Team chat app: list of my channels with last message preview and unread count; channel screen with messages in real time and sender name and avatar; only channel members can read; users can rename themselves."
+      scale: "20k daily users, average 15 channels each, opening the channel list 30 times a day."
+    assert:
+      - {type: contains, value: "## Read cost estimate"}
+      - {type: llm-rubric, value: "Uses channels with members stored on the channel document for rules and queries, messages as a subcollection, denormalises last message preview onto the channel and sender name onto messages with a sync plan for renames, keeps per-user unread state, lists composite indexes, and estimates reads per day for the channel list."}
+  - name: edge-like-counter
+    vars:
+      app: "Social feed where viral posts get thousands of likes per minute and show a like count."
+    assert:
+      - {type: llm-rubric, value: "Flags the per-document write rate limit on a single post counter and proposes distributed counters or aggregation, with likes stored in a subcollection or separate collection to prevent duplicate likes."}
+  - name: negative-relational-reports
+    vars:
+      app: "Back-office needs ad-hoc reports joining orders, customers and products with group-by and sums across all data."
+    assert:
+      - {type: llm-rubric, value: "Says Firestore is not suited to ad-hoc joins and aggregations, suggests exporting to an analytics warehouse or a relational database for reporting, and does not pretend Firestore queries can do it."}

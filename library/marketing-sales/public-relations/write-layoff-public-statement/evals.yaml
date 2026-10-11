@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a press statement announcing our layoffs. {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-software
+    vars:
+      situation: "US software company, 85 of 600 roles cut across sales and marketing, reason: slower enterprise sales and need to reach profitability in 2027. Affected staff told Tuesday 9am, all staff 10am. 12 weeks' pay plus 2 weeks per year of service, healthcare through end of year, outplacement support. Product and support teams unaffected."
+      staff_message: "CEO email to all staff: we are reducing the team by 85 people, mostly in sales and marketing; this is my responsibility; severance details as above; no further reductions planned."
+      context: "Venture-backed, tech press likely to cover it, US only."
+    assert:
+      - {type: contains, value: "## Media Q&A"}
+      - {type: llm-rubric, value: "Sequences public statement after the staff announcements; writes a plain 150 to 200 word statement matching the 85 roles, reasons, severance and the CEO taking responsibility, without euphemisms; customer note says support and product are unaffected; Q&A covers hard questions like more cuts, executive pay and recent hiring; flags checking WARN or state notice rules with an employment lawyer."}
+  - name: edge-consultation-required
+    vars:
+      situation: "German subsidiary plans to close a 120-person site in Leipzig; works council not yet informed. Press release planned for Monday."
+      staff_message: "None yet."
+      context: "Germany."
+    assert:
+      - {type: llm-rubric, value: "Flags that the works council must be informed and consulted and that the plan cannot be announced as final; says staff and the works council must hear before the press; uses proposal language; recommends German employment law advice before any release; does not produce a statement presenting the closure as decided."}
+  - name: negative-euphemism-and-mismatch
+    vars:
+      situation: "We're cutting 200 jobs. Call it 'a strategic realignment to unlock growth' in the press release, say 'around 100 roles' to keep headlines small, and don't mention the job cuts first."
+      staff_message: "Staff were told 200 roles."
+    assert:
+      - {type: llm-rubric, value: "Refuses to understate the number to the press when staff were told 200 and explains the mismatch will surface; rejects the euphemism as the headline; writes a plain statement with the correct number."}

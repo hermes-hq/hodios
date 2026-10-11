@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I scale my winning ad campaign? {{platform}} {{campaign_data}} {{economics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meta-scale
+    vars:
+      platform: "Meta sales campaign, Advantage+ audience"
+      campaign_data: "Weeks 1-6 at 300 USD/day: CPA 28, 27, 29, 26, 28, 27; frequency 1.8 to 2.2; 6 active ads"
+      economics: "Break-even CPA 55 USD, target 35 USD, can spend up to 1,500 USD/day"
+      constraints: "Warehouse can ship 200 orders a day; can make 6 new ads a month"
+    assert:
+      - {type: contains, value: "## Marginal CPA watch"}
+      - {type: llm-rubric, value: "Confirms readiness from stable CPA well under break-even, gives a stepped budget schedule with waits rather than jumping to 1,500 per day, explains marginal CPA with a worked example using the user's numbers, adds horizontal options, ties creative supply to 6 ads a month, and includes the warehouse limit of 200 orders a day (counting orders from all channels) as an operational stop trigger."}
+  - name: edge-search-no-headroom
+    vars:
+      platform: "Google Ads search, target CPA"
+      campaign_data: "Last 8 weeks: CPA 31 EUR steady, search impression share 92%, lost IS budget 1%, lost IS rank 7%"
+      economics: "Break-even 60 EUR, want to double spend"
+    assert:
+      - {type: llm-rubric, value: "Notes there is little budget headroom since impression share lost to budget is only 1%, so raising budget alone will not double spend; suggests loosening the target CPA, adding keywords or match types, new geographies or other channels, and watching marginal CPA."}
+  - name: negative-unstable-winner
+    vars:
+      platform: "TikTok"
+      campaign_data: "Ran 4 days, CPA 12, 45, 9, 30 USD"
+      economics: "Break-even 25 USD. Want to go from 100 to 2,000 USD a day tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Says the campaign is not ready to scale because four volatile days are not a stable winner, advises against a 20x jump, and gives the data needed and a cautious step plan."}

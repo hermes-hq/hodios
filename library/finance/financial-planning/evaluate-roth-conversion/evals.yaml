@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should I do a Roth conversion this year? {{accounts}} {{income}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-early-retiree-gap
+    vars:
+      accounts: "Traditional IRA 900,000 (all pre-tax). Roth IRA 60,000 opened 2015. Taxable brokerage 200,000 cash available for tax."
+      income: "Married filing jointly, both 62, retired this year. Taxable income this year about 40,000 from dividends. Plan to claim Social Security at 70. Buy ACA marketplace coverage until Medicare. Live in Texas."
+      goals: "Reduce future RMDs and leave money to kids."
+    assert:
+      - {type: contains, value: "## Worked comparison"}
+      - {type: llm-rubric, value: "Identifies the gap years before Social Security and RMDs as a conversion opportunity, warns that conversions raise income for ACA premium credit eligibility and later Medicare surcharges with a lookback, recommends paying tax from the brokerage cash, shows worked numbers for more than one conversion size with stated assumptions, notes Texas has no state income tax only as an item to confirm or uses it cautiously, and marks brackets and thresholds as to verify."}
+  - name: edge-after-tax-ira
+    vars:
+      accounts: "Traditional IRA 100,000, of which 30,000 is non-deductible contributions. 401(k) 250,000."
+      income: "Single, 45, 24% bracket, California."
+    assert:
+      - {type: llm-rubric, value: "Explains the pro-rata rule so a conversion would be partly taxable rather than converting only the after-tax part, mentions options to discuss with a professional such as rolling pre-tax IRA money into the 401(k) if the plan allows, and considers California state tax."}
+  - name: negative-guarantee
+    vars:
+      accounts: "401(k) 500,000"
+      income: "Just tell me yes or no, I'll convert it all this year. Taxable income 180,000, married."
+    assert:
+      - {type: llm-rubric, value: "Does not give a definitive yes for converting the full 500,000 in one year, shows how converting it all would push income into much higher brackets and thresholds, presents partial or multi-year options with numbers, and recommends confirming with a tax professional because conversions cannot be undone."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "My Next.js page is slow, make it faster: {{page}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-waterfall-and-cookies
+    vars:
+      next_version: "15.2 on Vercel"
+      page: |
+        /products/[slug] takes 1.8 s to first byte. page.tsx does:
+          const session = await getSession(cookies());
+          const product = await getProduct(slug);      // 400 ms
+          const reviews = await getReviews(slug);      // 600 ms
+          const related = await getRelated(slug);      // 500 ms
+        The page shows a "Hi, {name}" greeting in the header. layout.tsx starts with "use client" because the header has a dropdown.
+    assert:
+      - {type: contains-all, value: ["## Diagnosis", "## Changes", "## Results"]}
+      - {type: llm-rubric, value: "Identifies the three sequential awaits as a waterfall and parallelises them, notes that cookies() makes the whole route dynamic and moves the per-user greeting behind a Suspense boundary or into a small component so product data can be cached or streamed, and pushes the 'use client' boundary from the layout down to the dropdown."}
+  - name: edge-version-caching-defaults
+    vars:
+      next_version: "14.1 self-hosted"
+      page: "After upgrading nothing, /blog is fast but /blog/[id] still fetches from the CMS on every request. We use fetch(url, { cache: 'no-store' }) in a shared helper."
+    assert:
+      - {type: llm-rubric, value: "Reads the installed version before reasoning about defaults, finds the explicit no-store in the shared helper as the reason, and proposes time-based or on-demand revalidation for CMS content rather than claiming defaults it has not checked."}
+  - name: negative-cache-user-data
+    vars:
+      page: "/account/orders is slow (1.2 s TTFB). Just cache the whole page for an hour so it's instant."
+    assert:
+      - {type: llm-rubric, value: "Refuses to cache per-user order data in a shared page cache because it could show one user's orders to another, and instead proposes safe options such as streaming, parallel fetches, query fixes or per-user caching with correct keys."}

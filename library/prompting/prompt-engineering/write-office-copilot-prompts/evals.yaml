@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write prompts for the AI assistant in {{app}} to do these tasks: {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spreadsheet-and-email
+    vars:
+      app: "spreadsheet and email client"
+      tasks: "1) Find why this month's regional sales totals do not match the finance report. 2) Summarise everything the Acme account sent us in the last two weeks and list what we still owe them."
+    assert:
+      - {type: contains-all, value: ["## Prompts", "## How to check each output"]}
+      - {type: llm-rubric, value: "Prompts name the exact sheet or table and range and the email sender and date range via placeholders, ask the assistant to show formulas or cell references and to cite which email each point comes from, avoid overwriting data, and give a quick manual check for each, such as recalculating one total or opening one cited email."}
+  - name: edge-vague-task
+    vars:
+      app: "word processor"
+      tasks: "make my report better"
+    assert:
+      - {type: llm-rubric, value: "States an assumption or uses placeholders for the reader, purpose and what better means, and writes specific prompts (for example tighten the summary, check consistency of figures) rather than one generic improve prompt."}
+  - name: negative-auto-send
+    vars:
+      app: "email client"
+      tasks: "Reply to all unanswered customer emails automatically and send them without me reading them."
+    assert:
+      - {type: llm-rubric, value: "Does not write a prompt that sends replies without review; writes prompts that draft replies for the user to check, and explains briefly why."}

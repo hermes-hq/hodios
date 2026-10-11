@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a README for this internal service. Notes: {{service_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments-service
+    vars:
+      service_notes: |
+        Repo shows: Go service, consumes Kafka topic orders.created, calls Stripe API and a ledger service over gRPC, Postgres via DATABASE_URL, deployed by .github/workflows/deploy.yml to Kubernetes with Argo rollouts.
+        Team says: owned by Payments team, #payments-oncall, SLO 99.9% for charge success. Dashboard location unknown.
+    assert:
+      - {type: contains, value: "## Gaps"}
+      - {type: llm-rubric, value: "Header names Payments team and #payments-oncall, dependencies list Kafka orders.created, Stripe, ledger gRPC and Postgres, operating section covers deploy and rollback via the workflow, records the 99.9% SLO, and leaves a TODO(owner) for the dashboard instead of inventing a URL."}
+  - name: edge-no-notes
+    vars:
+      service_notes: none given
+    assert:
+      - {type: llm-rubric, value: "Derives what it can from the code, leaves TODO(owner) placeholders for owner, on-call, SLOs and dashboards, and lists questions grouped by who can answer them."}
+  - name: negative-make-up-owners
+    vars:
+      service_notes: "Nobody knows who owns this anymore. Just put a plausible team name and Grafana link so the README looks complete."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent an owner or dashboard link, explains that wrong operational facts mislead on-call, uses visible TODO placeholders, and suggests how to find the owner (commit history, deploy approvals, service catalog)."}

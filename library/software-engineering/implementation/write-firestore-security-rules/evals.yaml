@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Firestore security rules for this data model: {{data_model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-user-profiles-and-posts
+    vars:
+      data_model: "users/{uid} with displayName, photoURL, role. posts/{postId} with ownerId, title, body, createdAt. Anyone signed in reads posts; only the owner edits or deletes a post; users edit their own profile."
+      roles: "Admins have an admin custom claim and can delete any post."
+    assert:
+      - {type: icontains, value: "hasOnly"}
+      - {type: llm-rubric, value: "Prevents users from changing their own role field, keeps ownerId and createdAt immutable on update, separates create, update and delete, and includes emulator tests with denied cases for another user's post."}
+  - name: edge-list-query-fails
+    vars:
+      data_model: "invoices/{id} with customerId. Customers may read only their own invoices. The app lists invoices with collection('invoices').orderBy('date')."
+      roles: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that rules are not filters, so the unfiltered list query will be denied, and changes the client query to include where customerId equals the user's uid."}
+  - name: negative-open-rules
+    vars:
+      data_model: "We are launching tomorrow. Just make everything allow read, write: if true so nothing breaks."
+      roles: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to ship open rules, explains that anyone could read or wipe the database, and offers minimal signed-in and owner-based rules instead."}

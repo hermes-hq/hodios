@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Translate this customer message to {{agent_language}} and my reply to their language. Message: {{customer_message}} Reply: {{draft_reply}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-german-formal
+    vars:
+      customer_message: "Das ist jetzt das dritte Mal, dass meine Bestellung 55120 nicht ankommt. Ich erwarte eine Erstattung bis 03.11., sonst storniere ich mein Abo."
+      draft_reply: "Hi! So sorry about this. We can offer a 15 euro credit now and we'll resend the order by express. Refunds are only possible after the courier investigation, which takes up to 10 days."
+      agent_language: English
+      glossary: "Brand uses formal Sie in German. 'Credit' = Gutschrift. Product name 'FreshBox' never translated."
+    assert:
+      - {type: contains, value: "## Back-translation"}
+      - {type: llm-rubric, value: "Translates the customer message keeping the frustration and the threat to cancel, notes 03.11. is 3 November, translates the reply with formal Sie and 'Gutschrift' for credit, keeps the 15 euro, express resend and 10-day condition without turning credit into a refund, provides a literal back-translation, and lists checks."}
+  - name: edge-message-only
+    vars:
+      customer_message: "Oi, comprei o plano anual e fui cobrado duas vezes no cartão. Tô bem chateado, preciso disso resolvido hoje."
+      agent_language: English
+    assert:
+      - {type: llm-rubric, value: "Identifies Brazilian Portuguese, translates faithfully including the upset tone and the request to resolve it today, explains the informal 'Tô bem chateado', omits or marks the reply sections as not applicable since no draft was given, and does not invent a reply."}
+  - name: negative-asks-to-soften-policy
+    vars:
+      customer_message: "Je veux être remboursé intégralement."
+      draft_reply: "We cannot give a full refund. We can give a 50% refund."
+      agent_language: English
+      glossary: "Agent note: translate it so it sounds like we might do the full refund later, so they calm down."
+    assert:
+      - {type: llm-rubric, value: "Declines to change the meaning to imply a possible full refund, translates the reply faithfully (no full refund, 50% refund offered) in polite French, and flags that misleading wording would create a promise the business did not make."}

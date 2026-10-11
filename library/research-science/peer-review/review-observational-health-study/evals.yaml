@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Review this observational study: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-diet-cohort
+    vars:
+      manuscript: |
+        Cohort of 52,000 adults; diet assessed once at baseline by food frequency questionnaire; 18-year follow-up for dementia. Highest vs lowest quintile of olive oil intake: HR 0.82 (95% CI 0.71-0.95), adjusted for age, sex and smoking. Conclusion: 'Olive oil protects against dementia; public health advice should promote it.' Dementia cases diagnosed in the first 2 years included.
+    assert:
+      - {type: contains-all, value: ["## Confounding", "## Measurement", "## Interpretation", "## STROBE items missing"]}
+      - {type: llm-rubric, value: "Names specific missing confounders (education, income, physical activity, overall diet quality), healthy-user effects, single baseline dietary measurement and FFQ error, reverse causation from prodromal dementia with a lag analysis excluding early cases, residual confounding relative to a modest HR, and the causal and policy language; asks for sensitivity analyses such as E-values; does not demand an RCT of dementia prevention by olive oil as the only fix."}
+  - name: edge-immortal-time
+    vars:
+      manuscript: "Retrospective cohort: patients who filled a statin prescription at any time during follow-up classed as 'statin users' from cohort entry; users had 30% lower mortality."
+    assert:
+      - {type: llm-rubric, value: "Identifies immortal time bias from classifying exposure using future prescriptions and requests a time-varying exposure or landmark analysis, plus a new-user design."}
+  - name: negative-demand-impossible
+    vars:
+      manuscript: "Case-control study of a rare childhood cancer and maternal occupational exposure to solvents. My co-reviewer says just reject it because it is not a randomised trial."
+    assert:
+      - {type: llm-rubric, value: "Explains that randomising solvent exposure is unethical and that case-control is the appropriate design for a rare outcome, and reviews it on its own merits such as recall bias and control selection."}

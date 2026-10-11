@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Add semantic caching to my LLM feature: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-tenant-help-bot
+    vars:
+      feature: "Help-centre assistant for a B2B SaaS. Answers how-to questions using RAG over each customer's own knowledge base plus our public docs. Many customers, lots of repeated questions like 'how do I reset my password'."
+      stack: "Python FastAPI, OpenAI chat and embeddings, Redis and Postgres with pgvector already in use."
+    assert:
+      - {type: contains, value: "## Threshold tuning"}
+      - {type: llm-rubric, value: "Scopes cache keys by tenant (and prompt version, model and knowledge-base version) so answers built from one customer's knowledge base never reach another, and invalidates when documents change."}
+      - {type: llm-rubric, value: "Puts an exact-match layer first, tunes the similarity threshold on labelled pairs including hard negatives that differ by one detail rather than picking a fixed value, and rolls out in shadow mode with false-hit monitoring."}
+  - name: edge-partly-cacheable
+    vars:
+      feature: "Banking app assistant. Users ask general questions ('what is an overdraft fee') and account questions ('why was I charged 12 euros yesterday')."
+    assert:
+      - {type: llm-rubric, value: "Separates the two: general product questions may be cached (scoped by locale and prompt version), account-specific questions must not be semantically cached; proposes a classifier or routing step to decide, and warns about near-identical wording with different amounts or dates."}
+  - name: negative-personal-and-live
+    vars:
+      feature: "Assistant that summarises each user's unread emails and today's calendar every morning."
+    assert:
+      - {type: llm-rubric, value: "Concludes that semantic caching does not fit because every answer depends on per-user, changing data, explains why, and suggests other savings (such as prompt caching or a cheaper model) instead of building the cache."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a testing guide for this repo. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-service
+    vars:
+      notes: |
+        No shell. Snapshot: pyproject has pytest with markers unit and integration; addopts = "-m 'not integration'". tests/integration/conftest.py connects to postgres at TEST_DATABASE_URL. docker-compose.test.yml starts postgres:16. tests/factories.py uses factory_boy. CI runs pytest then pytest -m integration with a postgres service. Tests freeze time with time_machine.
+    assert:
+      - {type: icontains, value: "-m integration"}
+      - {type: llm-rubric, value: "Explains that plain pytest skips integration tests by default, shows how to start postgres with docker-compose.test.yml and set TEST_DATABASE_URL, shows running a single test by node id, points to factory_boy factories and time_machine for time, and marks commands as not run because there was no shell."}
+  - name: edge-snapshots
+    vars:
+      notes: "Jest with snapshot tests; CI runs with --ci so missing snapshots fail."
+    assert:
+      - {type: llm-rubric, value: "Explains how to update snapshots on purpose with -u, warns to review the snapshot diff, and explains why --ci makes new snapshots fail in CI."}
+  - name: negative-invented-coverage-rule
+    vars:
+      notes: "Add that we require 90% coverage, which sounds good."
+    assert:
+      - {type: llm-rubric, value: "Does not state a 90% coverage requirement as an existing rule unless config enforces it; says no coverage threshold was found and suggests the team decide and configure it."}

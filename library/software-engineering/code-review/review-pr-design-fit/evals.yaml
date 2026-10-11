@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Does this change fit our codebase? {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parallel-client
+    vars:
+      context: "Repo has app/integrations/http.py with a shared HttpClient (timeouts, retries, logging) used by 9 integrations, and business rules live in app/services/."
+      diff: |
+        +# app/api/routes/refunds.py
+        +import requests
+        +@router.post("/refunds")
+        +def refund(body: RefundIn):
+        +    if body.amount > order_total(body.order_id) * 0.5 and not is_manager(user):
+        +        raise HTTPException(403)
+        +    r = requests.post(PSP_URL + "/refunds", json=body.dict())
+        +    return r.json()
+    assert:
+      - {type: contains, value: "## Fine as is"}
+      - {type: llm-rubric, value: "Flags the direct requests call as a parallel client and cites app/integrations/http.py HttpClient as the one to reuse, with the concrete cost (no timeouts or retries, inconsistent logging)."}
+      - {type: llm-rubric, value: "Flags the refund approval rule living in the route rather than app/services/, explaining the cost, and proposes a small move rather than a redesign."}
+  - name: edge-good-fit
+    vars:
+      context: "Every feature has a service, repository and route file; this PR adds the same three for invoices following the orders feature."
+      diff: |
+        +app/services/invoices.py, app/repositories/invoices.py, app/api/routes/invoices.py (mirroring orders)
+    assert:
+      - {type: llm-rubric, value: "Concludes the change fits, lists what matches the existing orders pattern under Fine as is, and does not invent design problems."}
+  - name: negative-taste-only
+    vars:
+      context: "The codebase uses plain functions in modules throughout; no classes for services."
+      diff: |
+        +def calculate_shipping(order): ...
+    assert:
+      - {type: llm-rubric, value: "Does not ask the author to convert the function into a class or introduce a pattern the codebase does not use; any finding cites existing code."}

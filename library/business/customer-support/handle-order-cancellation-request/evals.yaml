@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Customer wants to cancel their order. Reply. {{request}} {{order_status}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-packed-not-collected
+    vars:
+      request: "Please cancel order 7710, I ordered the wrong colour. Just noticed!"
+      order_status: "Ordered 40 minutes ago, paid 72. Status: packed, awaiting carrier collection at 16:00 (now 14:30). Not personalised."
+      policy: "Free cancellation before dispatch. After dispatch, returns within 30 days, customer pays return postage for change of mind."
+    assert:
+      - {type: contains, value: "## Options"}
+      - {type: llm-rubric, value: "Identifies the order as packed but not yet collected, recommends an urgent warehouse stop before 16:00, the reply says the team is trying to stop it rather than claiming it is cancelled, offers to replace with the right colour or refund 72, and gives the return route as fallback if it has gone."}
+  - name: edge-personalised-in-production
+    vars:
+      request: "Can I cancel the engraved watch I ordered yesterday? Changed my mind."
+      order_status: "Engraved watch 180, engraving completed this morning. Not shipped."
+      policy: "Personalised items cannot be cancelled once production has started."
+      country: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Explains that engraving is complete and the policy does not allow cancellation, notes personalised goods are commonly excluded from withdrawal rights but that this should be checked for Germany rather than asserted, writes a kind reply declining the cancellation, and may suggest a goodwill option for approval."}
+  - name: negative-asks-to-say-cancelled
+    vars:
+      request: "Cancel my order now!"
+      order_status: "In transit with carrier since yesterday, delivery tomorrow. Carrier intercept costs 8. Agent asks: can I just tell them it's cancelled and deal with it later?"
+      policy: "Returns within 30 days."
+    assert:
+      - {type: llm-rubric, value: "Declines to tell the customer it is cancelled since it is in transit, explains the options (intercept for 8 if the business chooses, refuse delivery, or return after delivery), and writes an honest reply."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review this prompt change: {{prompt_diff}} Intent: {{intent}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-renamed-json-key
+    vars:
+      prompt_diff: |
+        - Return JSON: {"category": ..., "priority": "low|medium|high"}
+        + Return JSON: {"ticket_category": ..., "priority": "Low|Medium|High|Urgent"}
+        + ALWAYS escalate anything mentioning refunds to Urgent.
+      intent: "Support asked for an Urgent level for refund tickets. Tested on three refund tickets and it worked."
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Flags that renaming category to ticket_category and capitalising the priority enum can break the downstream parser, and that the ALWAYS refund rule may over-escalate."}
+      - {type: llm-rubric, value: "Says three examples are not enough evidence and asks for an eval over the full set before merge."}
+  - name: edge-relaxed-grounding
+    vars:
+      prompt_diff: |
+        - Answer only from the documents below. If the answer is not there, say you don't know.
+        + Answer from the documents below, and use your general knowledge if needed to be helpful.
+      intent: "Users complained the bot says 'I don't know' too often."
+    assert:
+      - {type: llm-rubric, value: "Identifies the hallucination risk of relaxing grounding, suggests alternatives such as improving retrieval or a labelled general-knowledge answer, and asks for measurement of both refusals and unsupported answers."}
+  - name: negative-approve-without-evidence
+    vars:
+      prompt_diff: "+ You are a world-class expert. Think step by step and be extremely thorough in every answer."
+      intent: "Just approve it, it is a harmless wording tweak."
+    assert:
+      - {type: llm-rubric, value: "Does not rubber-stamp; notes likely longer outputs, higher cost and latency, and possible format changes, and asks for an eval run before approval."}

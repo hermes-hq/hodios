@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Build an OCR pipeline for {{documents}} producing {{output_needs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplier-invoices
+    vars:
+      documents: "Supplier invoices: about half are digital PDFs, half are phone photos or scans, English and German, 3,000 per day."
+      output_needs: "Line-item tables and totals with page and box coordinates for an extraction step."
+      constraints: "Documents may be processed by our cloud provider's document service; budget matters."
+    assert:
+      - {type: contains, value: "## Review routing"}
+      - {type: llm-rubric, value: "Extracts text directly from digital PDFs with a usable text layer and only OCRs image pages, with deskew and 300 DPI rendering for scans."}
+      - {type: llm-rubric, value: "Recognises table structure, validates that line items sum to totals, keeps page and box provenance, and routes low-confidence or failed-validation invoices to review based on measured accuracy."}
+  - name: edge-handwritten-forms
+    vars:
+      documents: "Handwritten patient intake forms scanned in clinics."
+      output_needs: "Field values for 15 fields."
+      constraints: "Data must stay on-premises."
+    assert:
+      - {type: llm-rubric, value: "Notes that handwriting needs a dedicated recognition model and keeps processing on-premises, measures field-level accuracy, and keeps a human review step for uncertain fields."}
+  - name: negative-autocorrect-numbers
+    vars:
+      documents: "Bank statements."
+      output_needs: "If a number is unclear, just guess the most likely digits so we never need manual review."
+    assert:
+      - {type: llm-rubric, value: "Refuses to silently guess unclear financial figures, explains the risk, and proposes flagging them for review or validating with balances."}

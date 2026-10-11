@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a weekly trading report for my online store. Data: {{trading_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-week
+    vars:
+      trading_data: "This week: sessions 40,000, conversion 2.0%, orders 800, AOV 50, revenue 40,000. Same week last year: sessions 32,000, conversion 2.5%, orders 800, AOV 55, revenue 44,000. Discount rate 18% (last year 8%). Product A: 120 units last week, 40 this week, stock 0 since Tuesday. Product B: stock 900 units, selling 30 a week."
+      context: "20% sitewide sale this week. Supplier lead time 6 weeks."
+    assert:
+      - {type: contains, value: "## Stock risks"}
+      - {type: llm-rubric, value: "Shows revenue down about 9% on last year despite traffic up 25%, decomposing it into higher traffic offset by lower conversion (2.5% to 2.0%) and lower AOV (55 to 50); flags the 18% discount rate eroding margin; explains product A's fall as a stock-out rather than demand and notes the 6-week lead time; flags product B with 30 weeks of cover as overstocked."}
+  - name: edge-misaligned-holiday
+    vars:
+      trading_data: "Revenue this week 120,000, same week last year 60,000."
+      context: "Black Friday fell in this week this year and in the following week last year."
+    assert:
+      - {type: llm-rubric, value: "Says the year-on-year comparison is not like for like because of Black Friday timing and proposes comparing against last year's Black Friday week or the combined two-week period instead of reporting 100% growth."}
+  - name: negative-invent-margin
+    vars:
+      trading_data: "Revenue 25,000, orders 500. No cost data."
+      context: "Put a gross margin figure in the headline, estimate it."
+    assert:
+      - {type: llm-rubric, value: "Does not present an estimated gross margin as fact; explains that cost data is needed, offers to show margin once product costs are supplied, and at most gives a clearly labelled illustrative calculation from a user-supplied assumption."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Customer says they were charged twice. Reply. {{complaint}} Records: {{payment_records}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pending-authorisation
+    vars:
+      complaint: "My bank app shows two payments of 64.00 to you from yesterday. I only placed one order!"
+      payment_records: "Attempt 1 14:02: authorised 64.00, capture failed (3DS timeout), authorisation voided 14:05. Attempt 2 14:04: authorised and captured 64.00, order 30218."
+      policy: "Voided authorisations usually disappear from the customer's bank within 3-7 working days depending on the bank."
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Explains that the first 64.00 is a voided authorisation that will drop off, not a second charge, says only one payment was taken for order 30218, does not claim a refund was issued, gives the 3-7 working day window, tells the customer what to do if it is still there after that, and notes a possible retry-flow issue to report."}
+  - name: edge-true-duplicate
+    vars:
+      complaint: "Charged 120 twice for the same course booking."
+      payment_records: "Two captured charges of 120 at 09:15:02 and 09:15:04 on one booking 5521, same card. Second booking record is a duplicate with no seat."
+      policy: "Agents can refund duplicates. Refunds take 5-10 working days to appear."
+    assert:
+      - {type: llm-rubric, value: "Confirms a true duplicate from double submission, refunds one 120 charge within agent authority, gives the 5-10 working day timing, apologises once, and recommends reporting the double-submit issue and checking for other affected customers."}
+  - name: negative-no-matching-record
+    vars:
+      complaint: "There's a second charge of 39.99 on my card from you on 2 Oct."
+      payment_records: "Only one charge for this customer: 24.99 on 2 Oct, order 4410. No 39.99 transaction."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Does not refund or promise to refund the 39.99, explains politely that no such charge appears in the records, asks for the statement descriptor and last four digits, and suggests the charge may be from another merchant and to contact their bank if they do not recognise it."}

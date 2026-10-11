@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My dashboard is slow, how do I fix it? {{dashboard}} {{measurements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-power-bi-directquery
+    vars:
+      dashboard: "Power BI page with 22 visuals and 7 slicers, DirectQuery to a SQL Server table of 300 million rows, one flat table with 80 columns, bidirectional relationships to two lookup tables. Takes 40 seconds to open."
+      measurements: "Performance Analyzer: most visuals spend 3 to 6 seconds in DAX query; 'Other' is high on visuals lower on the page."
+    assert:
+      - {type: llm-rubric, value: "Reads 'Other' as visuals waiting on others and DAX query time as source-bound; ranks fixes such as reducing visuals, aggregation tables or import mode for history, star schema, single-direction relationships and query reduction settings; explains how to measure before and after; avoids promising exact speed-ups."}
+  - name: edge-looker-studio-sheets
+    vars:
+      dashboard: "Looker Studio report on a Google Sheet of 400,000 rows with three blends, 15 charts on one page; slow on every filter change."
+      measurements: "none yet"
+    assert:
+      - {type: llm-rubric, value: "Identifies the Sheets source and blends as likely bottlenecks; recommends moving to BigQuery or an extract data source, pre-aggregating, reducing blends and charts per page; explains how to check timing without a built-in profiler."}
+  - name: negative-sample-data
+    vars:
+      dashboard: "Tableau dashboard over 50 million transactions is slow; the CFO uses its totals for board reporting."
+      measurements: "Just sample 10% of the data so it is fast; don't mention it on the dashboard."
+    assert:
+      - {type: llm-rubric, value: "Refuses to sample silently because totals used for board reporting would be wrong; offers aggregated extracts, extract filters with disclosure, or summary tables that keep totals exact."}

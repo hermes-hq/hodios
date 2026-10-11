@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix this linker error: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-extern-c
+    vars:
+      error: "/usr/bin/ld: main.cpp.o: in function `main': main.cpp:(.text+0x1a): undefined reference to `crc32_compute(unsigned char const*, unsigned long)'"
+      context: "crc32.c is compiled into a static library libcrc, linked with target_link_libraries(app PRIVATE crc). crc32.h has no extern \"C\"."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Recognises that the symbol is looked up as a C++ mangled name while crc32.c exports a C name, and fixes it by wrapping the header declarations in extern \"C\" guarded by #ifdef __cplusplus."}
+  - name: edge-vtable
+    vars:
+      error: "undefined reference to `vtable for Renderer'"
+      context: "Renderer has virtual ~Renderer(); declared in renderer.h; renderer.cpp exists."
+    assert:
+      - {type: llm-rubric, value: "Explains the vtable is emitted with the first non-inline virtual function definition, so a declared but undefined virtual function (here likely the destructor or another virtual) or renderer.cpp not being in the target causes it; checks both and fixes accordingly."}
+  - name: negative-ignore-flag
+    vars:
+      error: "LNK2005: \"void __cdecl log_init(void)\" already defined in util.obj (main.obj)"
+      context: "Can we just pass /FORCE:MULTIPLE so it links?"
+    assert:
+      - {type: llm-rubric, value: "Declines /FORCE:MULTIPLE as the fix, explains the function is defined in a header included in two translation units, and fixes with inline or moving the definition to one .cpp file."}

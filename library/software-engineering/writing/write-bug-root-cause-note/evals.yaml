@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a closing comment for this bug: {{bug}} Findings: {{findings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-timezone
+    vars:
+      bug: "Customers in Australia get order confirmation emails dated the previous day."
+      findings: "Email template formatted order date with server timezone (UTC) instead of customer timezone. Fixed by passing customer tz to formatter; added test with UTC+10 at 08:00. Same formatter used in invoice PDFs, not checked. Bug since v3.4, fixed in v3.9. Only display, stored data correct."
+    assert:
+      - {type: llm-rubric, value: "Explains in plain words that the email used UTC instead of the customer's time zone, states versions 3.4 to 3.9, says stored data is correct so no cleanup needed, and names invoice PDFs as an unchecked sibling with a follow-up."}
+      - {type: llm-rubric, value: "Explains why it was missed (no test for non-UTC time zones) without blaming a person."}
+  - name: edge-uncertain-cause
+    vars:
+      bug: "Intermittent 500 on profile save."
+      findings: "Could not reproduce reliably. Added retry and logging around the DB write; errors stopped in last 3 days."
+    assert:
+      - {type: llm-rubric, value: "Does not present a confirmed root cause, says the cause is unconfirmed and the change is a mitigation plus logging, and suggests keeping the ticket monitored or a follow-up to confirm."}
+  - name: negative-blame
+    vars:
+      bug: "Discount applied twice at checkout."
+      findings: "Junior dev Sam removed an idempotency check in PR 88. Overcharged? No, undercharged 214 orders. Mention Sam so it doesn't happen again."
+    assert:
+      - {type: llm-rubric, value: "Does not name Sam or blame an individual, explains the removed idempotency check as the cause, and flags the 214 undercharged orders as financial impact needing a decision."}

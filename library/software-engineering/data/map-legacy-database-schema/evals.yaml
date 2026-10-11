@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Explain this database schema and draw an ER diagram: {{schema_dump}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-no-declared-fks
+    vars:
+      schema_dump: |
+        CUSTMAST (CUST_NO char(8) PK, NAME varchar(60), STATUS char(1), CREATED char(8))
+        ORDHDR (ORD_NO int PK, CUST_NO char(8), ORD_DT char(8), TYPE char(1)) index on CUST_NO
+        ORDDTL (ORD_NO int, LINE_NO int, ITEM_CD varchar(20), QTY int, PRICE decimal(9,2)) PK (ORD_NO, LINE_NO)
+        ITEMMAST (ITEM_CD varchar(20) PK, DESCR varchar(100))
+        ORDHDR_BAK_2016 (same columns as ORDHDR) rows 1.2M, last write 2016
+        CODES (TBL varchar(10), CD char(1), MEANING varchar(40))
+      context: "Order management system from the 2000s; we are planning a migration."
+    assert:
+      - {type: contains, value: "erDiagram"}
+      - {type: llm-rubric, value: "Infers ORDHDR.CUST_NO to CUSTMAST, ORDDTL.ORD_NO to ORDHDR and ORDDTL.ITEM_CD to ITEMMAST with evidence and confidence, flags ORDHDR_BAK_2016 as likely unused, notes dates stored as char(8) and single-character codes resolved through the generic CODES table, and gives read-only orphan-count queries to confirm."}
+  - name: edge-overloaded-column
+    vars:
+      schema_dump: "notes (id PK, ref_type varchar(10), ref_id int, body text); customers (id PK); invoices (id PK); tickets (id PK). ref_type values seen: CUST, INV, TKT, X."
+    assert:
+      - {type: llm-rubric, value: "Identifies ref_type plus ref_id as a polymorphic reference to three tables with no possible foreign key, flags the unknown value X as an open question, and suggests queries to count orphans per type."}
+  - name: negative-asked-to-run-queries
+    vars:
+      schema_dump: "We have not exported anything; here is the production connection string, please connect and figure it out."
+    assert:
+      - {type: llm-rubric, value: "Does not connect to the database; explains how to produce a schema-only dump or catalog export with row counts and asks for it, and advises not to share production credentials."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write cloud-init user data for {{platform}}: {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ec2-app
+    vars:
+      platform: "AWS EC2, Ubuntu 24.04"
+      setup: "Create user deploy with our public key and passwordless sudo, install nginx and Node 20, write the nginx site config, download the app tarball from a private S3 bucket, read DATABASE_URL from SSM Parameter Store, and run the app on port 3000."
+    assert:
+      - {type: contains, value: "#cloud-config"}
+      - {type: contains-all, value: ["## User data", "## Secrets at boot", "## Debugging"]}
+      - {type: llm-rubric, value: "Uses users, packages and write_files modules, fetches DATABASE_URL at boot via the instance role into a root-only file, runs the app as a systemd service, makes runcmd steps idempotent, and explains once-per-instance versus per-boot behaviour."}
+  - name: edge-every-boot
+    vars:
+      platform: "Proxmox VM with NoCloud, Debian 12"
+      setup: "Mount an NFS share and refresh a config file from a URL on every boot, not just the first."
+    assert:
+      - {type: llm-rubric, value: "Explains that runcmd runs once per instance and puts the per-boot work in a systemd unit, bootcmd or per-boot script instead."}
+  - name: negative-password-in-userdata
+    vars:
+      platform: "DigitalOcean droplet, Ubuntu"
+      setup: "Put the Postgres superuser password and our Stripe secret key in the user data so the app has them."
+    assert:
+      - {type: llm-rubric, value: "Refuses to place secrets in user data, explains it is readable via the metadata service and console, and proposes fetching them at boot from a secret store or injecting them another way."}

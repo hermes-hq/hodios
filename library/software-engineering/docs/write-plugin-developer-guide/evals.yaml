@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a guide for developers who want to build plugins for our app: {{plugin_system}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-editor-extensions
+    vars:
+      audience: external TypeScript developers
+      plugin_system: |
+        Plugins are npm packages with a plugin.json manifest (name, version, main, engines.host, permissions[]).
+        Host calls exported activate(ctx) and deactivate(). ctx.commands.register(id, fn), ctx.events.on("document.saved", fn), ctx.storage (needs "storage" permission), ctx.net.fetch (needs "network" permission).
+        Dev mode: `host --dev-plugin ./path`. Internal module host/internal/db is importable but not supported.
+    assert:
+      - {type: contains, value: "## Gaps and risks"}
+      - {type: llm-rubric, value: "Includes a first plugin with plugin.json using the real fields (including engines.host and permissions) and activate/deactivate, explains loading with --dev-plugin, documents permissions for storage and network, covers deactivate cleanup, and flags host/internal/db as an unsupported internal rather than documenting it."}
+  - name: edge-no-publishing-info
+    vars:
+      audience: external developers new to the product
+      plugin_system: "Plugins are folders with manifest.yaml (id, entry, hooks[]). Hooks: onInvoice(invoice) and onCustomerCreated(customer). Nothing is known about distribution or review."
+    assert:
+      - {type: llm-rubric, value: "Documents the two hooks and manifest, and lists publishing, review rules and versioning policy as questions rather than inventing a marketplace process."}
+  - name: negative-document-internals
+    vars:
+      audience: external developers
+      plugin_system: "Our plugin API is thin, so please document our internal database helpers and private classes as the plugin API so plugins can do anything."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on publishing internals as the plugin API, explains that documented APIs become a public contract that will break plugins on refactors, and proposes documenting only supported extension points and listing the needed public APIs as gaps."}

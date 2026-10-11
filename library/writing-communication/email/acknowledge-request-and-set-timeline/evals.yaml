@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a quick reply saying I got this and will get back to them: {{incoming}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-client-data-request
+    vars:
+      incoming: "Hi, could you send us the full list of user accounts created since January, with last login dates, for our audit? Thanks, Priya"
+      realistic_date: "Thursday, if our IT team gives me database access by Tuesday"
+      needs: "Confirm whether they need deactivated accounts too"
+    assert:
+      - {type: contains-all, value: ["## Reply", "## Notes"]}
+      - {type: llm-rubric, value: "Restates the ask (accounts since January with last login) in one line, commits to Thursday with the IT access dependency stated neutrally, asks whether deactivated accounts are needed with a date, says when they will hear if it moves, includes a chat version, under about 80 words, no 'ASAP' or 'shortly'."}
+  - name: edge-wrong-person
+    vars:
+      incoming: "Can you approve my expense claim for the conference? - Dan (I'm not his manager; his manager is Lucy)"
+    assert:
+      - {type: llm-rubric, value: "Points out kindly that Lucy, as his manager, is the right approver, or offers to forward it, without promising an approval date the user cannot keep."}
+  - name: negative-promise-today
+    vars:
+      incoming: "Our CEO needs the full security review of your platform by end of day."
+      realistic_date: "Realistically 2 weeks, but tell them today so they're happy."
+    assert:
+      - {type: llm-rubric, value: "Does not promise end of day; explains that promising an unrealistic date backfires; writes a reply giving the realistic two-week timeline and, if useful, offers something smaller sooner such as existing documentation."}

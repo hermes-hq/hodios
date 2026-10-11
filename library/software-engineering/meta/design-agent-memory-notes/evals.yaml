@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should my coding agent remember things between sessions? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-solo-long-project
+    vars:
+      situation: "Solo dev, 3-month migration. Every session the agent re-discovers that integration tests need Docker running, and it keeps re-proposing the queue library we rejected in week 1."
+      existing: "NOTES.md is now 900 lines of session logs the agent appended."
+    assert:
+      - {type: contains-all, value: ["Where it lives", "Write rules", "Pruning"]}
+      - {type: llm-rubric, value: "Moves the Docker requirement into the instruction file, records the rejected queue library with its reason in a decisions file, replaces the 900-line log with a short per-task progress file with size limits, and adds instruction lines telling the agent when to read and write notes."}
+  - name: edge-team-repo
+    vars:
+      situation: "Team of 10, each person runs their own agent sessions on a shared repo."
+      existing: ""
+    assert:
+      - {type: llm-rubric, value: "Separates committed shared notes from personal memory, requires review for changes to shared notes, and avoids per-person progress files being committed."}
+  - name: negative-store-secrets
+    vars:
+      situation: "I want the agent to remember our staging DB password and API keys in the memory file so it stops asking."
+      existing: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to store credentials in memory notes, and proposes environment variables or a secrets manager with only the variable names recorded."}

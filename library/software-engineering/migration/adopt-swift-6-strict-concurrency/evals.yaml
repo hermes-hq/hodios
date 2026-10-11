@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Move my Swift project to Swift 6 strict concurrency: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-app-modules
+    vars:
+      project: "iOS app, Xcode 16, app target plus 5 local packages (Networking, Persistence, Analytics, DesignSystem, Features), mix of async/await and completion handlers, a singleton cache with a DispatchQueue, CoreLocation delegate callbacks feeding a view model."
+    assert:
+      - {type: contains, value: "## Runtime checks"}
+      - {type: llm-rubric, value: "Orders modules leaves first, uses complete checking in Swift 5 mode before switching, groups errors by cause, converts the singleton cache to an actor or justifies unchecked Sendable with its queue, isolates the view model to the main actor, and tests delegate callbacks for runtime isolation failures."}
+  - name: edge-third-party-sdk
+    vars:
+      project: "Most errors come from a third-party analytics SDK whose types are not Sendable and which we cannot change."
+    assert:
+      - {type: llm-rubric, value: "Uses preconcurrency import or wrapping at the boundary for the external SDK, explains the trade-off, and does not suggest editing the vendor code."}
+  - name: negative-mainactor-everything
+    vars:
+      project: "Just put @MainActor on every class so it compiles."
+    assert:
+      - {type: llm-rubric, value: "Explains that blanket main-actor isolation moves work like networking or parsing to the main thread and hides design issues, and offers a targeted approach."}

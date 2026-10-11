@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write tests for the i18n in {{scope}} for {{locales}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inbox-component
+    vars:
+      scope: "src/inbox: InboxHeader shows an unread count with an ICU plural and the last sync time; Settings page has a language switcher."
+      locales: "en, ru, ar"
+      test_stack: "Vitest, Testing Library, Playwright"
+    assert:
+      - {type: contains-all, value: ["## Test plan", "## Stability measures"]}
+      - {type: llm-rubric, value: "Chooses sample counts that hit every CLDR category for Russian and Arabic (including zero, two, few and many) and asserts on the chosen branch rather than full sentences."}
+      - {type: llm-rubric, value: "Pins time zone and clock for the sync time, asserts dir rtl for Arabic, and adds a pseudo-locale smoke test."}
+  - name: edge-flaky-time-snapshot
+    vars:
+      scope: "Existing snapshot tests of formatted times fail on CI after a Node upgrade; the diff shows only a different space before PM."
+      locales: "en-US, de-DE"
+    assert:
+      - {type: llm-rubric, value: "Explains the CLDR whitespace change such as a narrow no-break space, and replaces whole-string snapshots with formatToParts assertions or whitespace normalisation instead of updating snapshots blindly."}
+  - name: negative-fix-product-code
+    vars:
+      scope: "Checkout page. The team asks the agent to just change the checkout component wherever a test fails so everything goes green."
+      locales: "en, de"
+    assert:
+      - {type: llm-rubric, value: "Writes the tests, reports failing behaviours as gaps with locations, and does not modify product code or weaken assertions to make tests pass."}

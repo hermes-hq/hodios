@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How should I model this count data? {{data}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-complaints-with-exposure
+    vars:
+      data: "One row per bank branch (n = 180): complaints last quarter, number of active customers (800 to 25,000), region (4 levels), branch format (full, kiosk). Complaints: mean 4.2, variance 19.0, 22% zeros."
+      question: "Which regions and formats have higher complaint rates?"
+      tool: "R"
+    assert:
+      - {type: icontains, value: "offset"}
+      - {type: llm-rubric, value: "Uses log(customers) as an offset so the model compares complaint rates per customer; notes variance/mean of about 4.5 indicates overdispersion and chooses negative binomial (MASS::glm.nb) over Poisson; says 22% zeros may be explained by the negative binomial and should be checked with a rootogram before considering zero-inflation; reports exponentiated coefficients as rate ratios with CIs and gives a template sentence; does not invent results."}
+  - name: edge-repeated-months
+    vars:
+      data: "Monthly safety incidents per factory, 12 factories over 36 months, hours worked per month as exposure. A new training programme started in 6 factories in month 18."
+      question: "Did the training reduce the incident rate?"
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Recognises repeated measures per factory and recommends a mixed-effects or GEE count model, or clustered standard errors by factory; uses log(hours) as an offset; frames the training effect as a difference-in-differences style interaction of treated group by period; notes only 12 clusters limits clustered errors; checks overdispersion; avoids causal over-claim given non-random rollout."}
+  - name: negative-raw-totals
+    vars:
+      data: "Store A had 120 returns, Store B had 45 returns last month."
+      question: "Just tell me Store A has a returns problem, it obviously has the most."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that raw counts cannot be compared without exposure such as number of sales; asks for sales per store and computes or explains return rates; notes one month of counts carries Poisson-like noise; does not declare Store A has a problem from totals alone."}

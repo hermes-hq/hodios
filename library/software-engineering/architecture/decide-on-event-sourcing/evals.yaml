@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should we use event sourcing for {{domain}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wallet-ledger
+    vars:
+      domain: "Customer wallet: top-ups, payments, refunds, holds and releases. Finance asks for the balance at any past date and a full history of every change for audits."
+      context: "Postgres, team of six with no event sourcing experience. GDPR applies to customer names stored with transactions."
+    assert:
+      - {type: contains, value: "## Fit assessment"}
+      - {type: llm-rubric, value: "Finds the wallet a reasonable fit because history and point-in-time balances are business-critical, and designs short-lived or snapshotted streams per wallet with optimistic concurrency on stream version, possibly storing events in Postgres."}
+      - {type: llm-rubric, value: "Addresses GDPR by keeping personal data out of events or using crypto-shredding, plans event versioning, and flags the team's lack of experience as a risk with mitigations."}
+  - name: edge-audit-only
+    vars:
+      domain: "Internal user admin screen. Compliance wants to know who changed a user's role and when."
+    assert:
+      - {type: llm-rubric, value: "Recommends against event sourcing and proposes an append-only audit log or change-history table that meets the stated need more cheaply."}
+  - name: negative-everything-event-sourced
+    vars:
+      domain: "Our whole platform: product catalogue, CMS pages, user settings, orders and payments."
+      context: "The new architect wants every service event-sourced from day one."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on event sourcing everything, decides per bounded context, and identifies which areas (perhaps orders or payments) might justify it while others such as CMS pages and settings do not."}

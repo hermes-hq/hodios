@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Review this Vue code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lost-reactivity
+    vars:
+      context: "Vue 3.4, script setup, Pinia."
+      diff: |
+        +<script setup lang="ts">
+        +const props = defineProps<{ items: Item[]; filter: string }>()
+        +const cart = useCartStore()
+        +const { total, count } = cart
+        +const visible = ref<Item[]>([])
+        +watch(() => props.filter, f => { visible.value = props.items.filter(i => i.name.includes(f)) })
+        +function remove(i: number) { props.items.splice(i, 1) }
+        +onMounted(() => window.addEventListener('scroll', onScroll))
+        +</script>
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that destructuring the Pinia store loses reactivity (use storeToRefs), that visible should be a computed (the watch misses changes to items and is empty until filter first changes because it lacks immediate), and that splicing props.items mutates the parent's data and should emit an event instead."}
+      - {type: llm-rubric, value: "Flags the scroll listener added in onMounted with no removal in onUnmounted."}
+  - name: edge-vue-3-5-props-destructure
+    vars:
+      context: "Vue 3.5, script setup."
+      diff: |
+        +const { size = 'md', label } = defineProps<{ size?: 'sm' | 'md'; label: string }>()
+        +const classes = computed(() => `btn btn-${size}`)
+    assert:
+      - {type: llm-rubric, value: "Recognises that in Vue 3.5 with script setup, destructured props stay reactive and the default syntax is valid, so it does not report lost reactivity; approves or raises only minor points."}
+  - name: negative-wrong-framework
+    vars:
+      diff: |
+        +export function Counter() {
+        +  const [n, setN] = useState(0)
+        +  return <button onClick={() => setN(n + 1)}>{n}</button>
+        +}
+    assert:
+      - {type: llm-rubric, value: "Points out that this is React code, not Vue, and either asks for the Vue diff or reviews it briefly while saying the Vue-specific checks do not apply; does not invent Vue reactivity findings."}

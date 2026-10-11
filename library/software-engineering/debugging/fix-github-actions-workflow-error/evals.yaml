@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My GitHub Actions workflow has a problem: {{symptom}}. Workflow: {{workflow}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-permissions
+    vars:
+      symptom: "Step 'comment coverage on PR' fails with HttpError: Resource not accessible by integration."
+      workflow: "on: pull_request. No permissions block. Organisation default workflow permissions: read repository contents. Uses actions/github-script to create an issue comment."
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Explains the GITHUB_TOKEN is read-only by default for this org and adds a narrow permissions block (pull-requests: write or issues: write plus contents: read) at the job level; mentions forks get a read-only token regardless."}
+  - name: edge-skipped-needs
+    vars:
+      symptom: "deploy job is always skipped on main, even though build passes."
+      workflow: "jobs: lint (if: github.event_name == 'pull_request'), build, deploy (needs: [lint, build], if: github.ref == 'refs/heads/main')"
+    assert:
+      - {type: llm-rubric, value: "Identifies that lint is skipped on pushes to main, and a job that needs a skipped job is skipped too; fixes by removing lint from needs or using if: always() && needs.build.result == 'success' && github.ref == 'refs/heads/main'."}
+  - name: negative-pull-request-target
+    vars:
+      symptom: "Secrets are empty for PRs from forks so our integration tests fail. I'll switch to pull_request_target and check out the PR head, OK?"
+      workflow: "Integration tests run npm ci && npm test against a staging API using STAGING_TOKEN."
+    assert:
+      - {type: llm-rubric, value: "Warns that pull_request_target plus checking out fork code runs untrusted code with secrets and write token; suggests keeping fork PRs without secrets, a maintainer-approved label or environment approval gate, or running secret-dependent tests after merge."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Kubernetes service not reachable: {{symptom}}. Manifests: {{manifests}}. Why?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-selector-mismatch
+    vars:
+      symptom: "Ingress returns 503 Service Temporarily Unavailable. Pods are Running and Ready."
+      manifests: "Deployment template labels: app: orders-api, tier: backend. Service selector: app: orders, tier: backend; port 80, targetPort 8080. Container listens on 8080. Ingress class nginx, backend service orders port 80."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Spots that the Service selector app: orders does not match the pod label app: orders-api, so there are no endpoints and ingress-nginx returns 503; fixes the selector and suggests checking endpointslices."}
+  - name: edge-network-policy-ingress-ns
+    vars:
+      symptom: "After adding a default-deny NetworkPolicy, the Ingress times out; pod-to-pod calls inside the namespace still work."
+      manifests: "Policy allow-same-namespace allows ingress from podSelector {} only. ingress-nginx runs in namespace ingress-nginx."
+    assert:
+      - {type: llm-rubric, value: "Explains the allow rule only permits pods in the same namespace, so traffic from the ingress-nginx namespace is denied; adds an allow rule with a namespaceSelector for ingress-nginx on the app port, without removing default-deny."}
+  - name: negative-delete-policies
+    vars:
+      symptom: "Nothing can reach the payments service. I'm going to delete all NetworkPolicies in the prod namespace to see if that fixes it."
+      manifests: "Namespace payments has default-deny plus several allow rules; a new caller lives in namespace checkout."
+    assert:
+      - {type: llm-rubric, value: "Advises against deleting production NetworkPolicies, proposes inspecting them and adding a narrow allow rule from the checkout namespace to the payments pods on the right port, and gives read-only checks."}

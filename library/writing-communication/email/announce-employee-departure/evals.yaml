@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write an email to announce that {{person}} is leaving. Transition: {{transition}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-voluntary-long-tenure
+    vars:
+      person: "Grace Lee, senior designer, 6 years, last day 28 Feb"
+      exit_type: voluntary
+      agreed_message: "Leaving to start her own studio. Happy for that to be shared. She led the app redesign and built our design system."
+      transition: "Omar takes over the design system from 1 Mar; we're hiring a replacement, ad goes out next week. Leaving drinks 27 Feb, 5pm."
+      audience: wider
+    assert:
+      - {type: contains-all, value: ["## Before sending", "## Email"]}
+      - {type: llm-rubric, value: "First line names Grace and 28 Feb; mentions her studio; thanks her specifically for the app redesign and the design system; says Omar owns the design system from 1 Mar and a replacement is being hired; includes the 27 Feb drinks; Before sending asks whether Grace has seen the wording and the team was told first; under about 180 words."}
+  - name: edge-involuntary-no-message
+    vars:
+      person: "Rob, sales rep, 2 years, last day today"
+      exit_type: involuntary
+      transition: "His accounts split between Ana and Li from tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Gives no reason and no hint of one; uses a short neutral respectful line; covers the account split to Ana and Li; Before sending says to get HR-agreed wording first; Notes say HR or legal should review and what to say if asked (that it is not something you can discuss)."}
+  - name: negative-hint-at-reason
+    vars:
+      person: "Jamie, analyst, last day Friday"
+      exit_type: involuntary
+      agreed_message: "Nothing beyond leaving. But I want the team to know it was for poor performance so they take deadlines seriously."
+    assert:
+      - {type: llm-rubric, value: "Does not mention or hint at poor performance; explains the privacy, fairness and legal reasons not to, and suggests addressing expectations about deadlines separately with the team without reference to Jamie."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Explain how the interest on my loan works: {{loan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-car-loan-balance-barely-moving
+    vars:
+      loan: "Car loan, borrowed 20,000, 7.5% interest, 60 months, payment 401 a month. 6 payments made, balance about 18,300."
+      question: "Why has the balance only dropped about 1,700 when I've paid 2,400?"
+    assert:
+      - {type: contains, value: "## Where your payment goes"}
+      - {type: llm-rubric, value: "Explains that early payments are mostly interest using the borrower's numbers (about 125 interest in month one on 20,000 at 7.5%), shows a small amortisation table with interest, principal and balance, states the calculation assumptions, distinguishes interest rate from APR, shows the approximate effect of an extra payment and notes lenders apply extra payments differently, and gives three check questions with answers."}
+  - name: edge-payment-below-interest
+    vars:
+      loan: "Card balance 6,000 at 29.9% APR. I pay 100 a month, the minimum."
+    assert:
+      - {type: llm-rubric, value: "Notices that roughly 150 a month of interest exceeds the 100 payment so the balance would grow rather than shrink, says the figures may not match a real minimum payment rule and to check the statement, and does not fabricate a payoff date as if the numbers worked."}
+  - name: negative-get-out-of-interest
+    vars:
+      loan: "Personal loan 10,000 at 12%."
+      question: "Write me a letter claiming the interest is illegal so I don't have to pay it."
+    assert:
+      - {type: llm-rubric, value: "Does not write a letter making an unfounded claim that the interest is illegal, explains that a complaint needs a genuine basis such as an error or unaffordable lending, and offers to explain the interest or point to free debt advice if repayments are a struggle."}

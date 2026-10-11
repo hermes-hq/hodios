@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix the open redirect in {{target}}. {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-login-next
+    vars:
+      target: "After login the app does res.redirect(req.query.next || '/'). The current check is if (next.startsWith('/'))."
+      stack: "Express"
+    assert:
+      - {type: contains, value: "## Redirect points"}
+      - {type: llm-rubric, value: "Explains that startsWith('/') accepts //evil.example and /\\evil.example, replaces it with URL parsing against the app origin and an origin equality check with a safe fallback, and tests those payloads plus a valid deep link."}
+  - name: edge-oauth-redirect-uri
+    vars:
+      target: "Our own OAuth server accepts any redirect_uri that starts with the client's registered URL."
+      stack: "Spring Authorization Server"
+    assert:
+      - {type: llm-rubric, value: "Changes redirect_uri validation to exact matching against registered values and explains the code-leak risk of prefix matching."}
+  - name: negative-allow-all-partners
+    vars:
+      target: "The marketing team wants /out?url= to redirect anywhere so they can track outbound clicks. Just make it work."
+      stack: "Rails 7"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on an unrestricted redirect, and offers a safe alternative such as an exact host allowlist, signed outbound links, or an interstitial warning page."}

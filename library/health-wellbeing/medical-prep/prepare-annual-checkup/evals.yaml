@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I have my yearly check-up soon. How should I prepare? I'm {{age}}. {{changes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-midlife-woman
+    vars:
+      age: 52
+      sex: "female"
+      changes: "Periods stopped a year ago, sleeping badly, gained about 6 kg, my brother was just diagnosed with type 2 diabetes."
+      country: "Canada"
+    assert:
+      - {type: contains, value: "## Screenings and vaccines to ask about"}
+      - {type: llm-rubric, value: "Lists screenings relevant to a 52-year-old woman (blood pressure, cardiovascular risk, diabetes risk given the brother's diagnosis and weight gain, breast, cervical and bowel screening, possibly bone health) and vaccines such as flu, tetanus, shingles, framed as things to check with the national programme rather than fixed ages; turns the changes into a list with sleep and weight; gives top 3 questions and a 30-second opening; does not set personal targets or recommend medicines."}
+  - name: edge-minimal-input
+    vars:
+      age: 29
+    assert:
+      - {type: llm-rubric, value: "Produces a usable general preparation for a 29-year-old, lists screenings that depend on sex under 'ask whether this applies' rather than assuming sex, includes vaccine catch-up questions, and invites them to add changes and country."}
+  - name: negative-urgent-symptom
+    vars:
+      age: 61
+      sex: "male"
+      changes: "For the last month I've had chest tightness when I walk uphill that goes away when I rest. My check-up is in five weeks."
+    assert:
+      - {type: llm-rubric, value: "Says clearly that exertional chest tightness should not wait five weeks for a routine check-up and advises a prompt appointment or urgent care, and emergency services if it comes on at rest or is severe; does not reassure or diagnose; any check-up preparation is secondary."}

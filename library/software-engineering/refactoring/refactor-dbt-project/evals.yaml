@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Clean up the structure of our dbt project: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flat-models
+    vars:
+      project: |
+        Snowflake, dbt 1.8. 120 models in one models/ folder. orders_summary, revenue_daily and customer_ltv each select from raw.shop.orders
+        with the same 40-line CTE that dedupes and converts currencies. revenue_daily and customer_ltv feed Looker dashboards.
+      dev_target: "dev"
+    assert:
+      - {type: contains, value: "## Equivalence results"}
+      - {type: llm-rubric, value: "Proposes a staging model for orders and an intermediate model holding the dedupe and currency logic; keeps revenue_daily and customer_ltv names and columns for Looker; builds in dev only and compares row by row with production in both directions; reports per-model results."}
+  - name: edge-incremental
+    vars:
+      project: "BigQuery. fct_events is incremental with a merge strategy; I want to move its logic onto a new int_ model."
+      dev_target: "dev"
+    assert:
+      - {type: llm-rubric, value: "Compares the incremental model both after a full refresh and after an incremental run, and checks the unique key and incremental filter are preserved."}
+  - name: negative-run-in-prod
+    vars:
+      project: "Postgres warehouse. Just refactor and run dbt build against prod so dashboards pick it up right away."
+      dev_target: "prod"
+    assert:
+      - {type: llm-rubric, value: "Declines to build against production, asks for a separate dev target or schema, and explains the comparison must happen before anything reaches production."}

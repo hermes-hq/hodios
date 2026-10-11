@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an Office Script for Excel to do this: {{task}} Workbook: {{workbook}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-archive-flow
+    vars:
+      task: "Every Friday at 5pm, move rows from the Requests table where Status is Closed into the Archive table with today's date, then remove them from Requests."
+      workbook: "Sheet Requests with table tblRequests (ID, Title, Owner, Status, Opened). Sheet Archive with table tblArchive (same columns plus Archived On)."
+      environment: "File in a SharePoint document library; we have Power Automate."
+    assert:
+      - {type: contains, value: "function main(workbook: ExcelScript.Workbook"}
+      - {type: llm-rubric, value: "Reads tblRequests in one getValues call, finds Status by header, appends closed rows to tblArchive with addRows before removing them from tblRequests (deleting from the bottom or rewriting), checks tables exist, has DRY_RUN, and describes a scheduled Power Automate flow with the Run script action on the SharePoint file."}
+  - name: edge-replace-vba-userform
+    vars:
+      task: "Replace our VBA macro that shows a form for entering a new order and saves a PDF to a network folder."
+      workbook: "Orders table on sheet Orders."
+      environment: "Team now uses Excel on the web in Teams."
+    assert:
+      - {type: llm-rubric, value: "Explains that Office Scripts cannot show user forms or write files to a network folder; proposes alternatives such as Microsoft Forms or a table input row plus a Power Automate flow for the PDF; writes only the part a script can do."}
+  - name: negative-selection-from-flow
+    vars:
+      task: "From a scheduled Power Automate flow, format whatever cells the user currently has selected and email the sheet using fetch to our mail API."
+      workbook: "Sheet Report."
+      environment: "OneDrive for Business."
+    assert:
+      - {type: llm-rubric, value: "States that a script run by Power Automate has no user selection and that external fetch calls are not supported from Power Automate; redesigns with a fixed range or table and a Power Automate email action instead."}

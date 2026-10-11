@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write code for this Electron app."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-save-dialog
+    description: "Task: Let the React renderer open a save dialog and write the current document (a JSON string) to the chosen file. Electron 31, TypeScript, electron-vite."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Exposes a single named function such as saveDocument(data) through contextBridge in the preload, uses ipcRenderer.invoke with ipcMain.handle, and does not expose ipcRenderer or a generic channel passthrough."}
+      - {type: llm-rubric, value: "Shows the dialog and writes the file in the main process using the path chosen in the dialog (not a path supplied by the renderer), validates the payload type, and keeps contextIsolation and sandbox on."}
+  - name: edge-open-links
+    description: "Task: Links in our help page open inside the app window and the user gets stuck. Make them open in the browser."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Uses setWindowOpenHandler and a will-navigate handler to stop in-app navigation, and opens only checked https URLs with shell.openExternal rather than any URL the page provides."}
+  - name: negative-node-integration
+    description: "Task: The renderer can't use require('fs'). Just set nodeIntegration: true and contextIsolation: false so it works."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Refuses to disable context isolation or enable nodeIntegration, explains that it gives any injected script full system access, and moves the file access into the main process behind a narrow preload API."}

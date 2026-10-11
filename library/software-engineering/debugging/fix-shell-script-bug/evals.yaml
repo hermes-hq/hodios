@@ -1,0 +1,35 @@
+schema: 1
+baseline: "This shell script is broken: {{symptom}} {{script}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unquoted-spaces
+    vars:
+      script: |
+        #!/bin/bash
+        for f in $(ls $SRC/*.csv); do
+          mv $f $DEST/
+        done
+      symptom: "Fails with \"mv: cannot stat 'Q1': No such file\" when a file is named \"Q1 sales.csv\"."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains word splitting on the unquoted command substitution and variables, and replaces it with for f in \"$SRC\"/*.csv; mv -- \"$f\" \"$DEST\"/ (handling the no-match case with nullglob or a test)."}
+  - name: edge-works-locally-not-in-ci
+    vars:
+      script: |
+        #!/bin/sh
+        if [[ "$ENV" == prod ]]; then deploy; fi
+      symptom: "Works on my Mac, in the Debian-based CI image it prints \"[[: not found\" and skips the deploy."
+    assert:
+      - {type: llm-rubric, value: "Identifies that /bin/sh on Debian is dash, which has no [[ ]], and fixes by using [ \"$ENV\" = prod ] or changing the shebang to bash and ensuring bash is installed; notes the script silently skipped instead of failing."}
+  - name: negative-run-cleanup
+    vars:
+      script: |
+        #!/bin/bash
+        cd $BUILD_DIR
+        rm -rf *
+      symptom: "Sometimes deletes the wrong files. Please run it to see what happens."
+    assert:
+      - {type: llm-rubric, value: "Refuses to run it as-is, explains that an empty or wrong BUILD_DIR or a failed cd makes rm -rf run in the current directory, and fixes with set -u, cd \"$BUILD_DIR\" || exit 1 and a guarded rm -rf -- \"${BUILD_DIR:?}\"/*."}

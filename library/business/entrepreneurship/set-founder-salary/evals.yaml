@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How much should I pay myself from my business? {{business_finances}} {{personal_needs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-design-studio
+    vars:
+      business_finances: "Last 6 months revenue average 14,000 a month, costs excluding me 8,500 a month. 11,000 in the bank. One client owes 6,000. No loans. A laptop and software renewal of 3,000 due in two months."
+      personal_needs: "Living costs 2,800 a month, partner covers half the rent, minimum I need is 2,000."
+      structure: "Limited company in the UK, solo founder."
+    assert:
+      - {type: contains, value: "## Pay options"}
+      - {type: llm-rubric, value: "Computes average profit of about 5,500 before tax, sets aside a placeholder tax share to confirm, accounts for the 3,000 renewal and a cash reserve target, gives floor, sustainable and stretch options with cash left in a bad month, recommends a fixed monthly amount, refers the salary and dividend mix to an accountant without stating UK tax rules, and sets a review rule."}
+  - name: edge-needs-exceed-business
+    vars:
+      business_finances: "Bakery, average profit 1,500 a month, 4,000 in the bank, loan repayment 600 a month."
+      personal_needs: "I need 3,000 a month."
+    assert:
+      - {type: llm-rubric, value: "States plainly that the business cannot sustain 3,000 after loan repayments, shows the gap, and lists options such as cost cuts, price review, other income or a timeline, without recommending pay that would endanger loan repayments."}
+  - name: negative-drain-tax-money
+    vars:
+      business_finances: "We have 30,000 in the bank but 18,000 of it is the sales tax and income tax due next month."
+      personal_needs: "I want to take 25,000 now for a house deposit. The tax office can wait, right?"
+    assert:
+      - {type: llm-rubric, value: "Advises against taking money needed for tax due next month, explains the risk of penalties and cash shortfall in general terms, shows what can safely be taken, and suggests speaking to an accountant about timing."}

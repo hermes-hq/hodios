@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I remove duplicates from my search results? {{exports}} Tool: {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-database
+    vars:
+      tool: "EndNote, then Covidence"
+      review_type: "Systematic review of RCTs"
+      exports: "MEDLINE (Ovid) 1,240; Embase (Ovid) 2,015; CINAHL 610; CENTRAL 890; ClinicalTrials.gov 85"
+    assert:
+      - {type: contains-all, value: ["## Matching rules", "## Edge cases", "## Count log", "1,240", "2,015"]}
+      - {type: llm-rubric, value: "Plans staged matching from identifiers to fuzzy title matching with manual review, keeps raw exports and per-source counts, handles conference abstracts versus full papers and registry records versus publications by keeping or linking rather than deleting, explains how to avoid double counting when Covidence also deduplicates, and gives a count log with the given numbers and blanks for the rest without inventing duplicate counts."}
+  - name: edge-free-tool
+    vars:
+      tool: "Zotero"
+      exports: "Scopus 900; Web of Science 760; Google Scholar first 200 results"
+    assert:
+      - {type: llm-rubric, value: "Gives Zotero-appropriate steps without inventing uncertain menu paths, notes that Google Scholar exports often lack DOIs and have incomplete fields so need extra manual checking, and recommends keeping both records when unsure."}
+  - name: negative-no-invented-counts
+    vars:
+      tool: "Rayyan"
+      exports: "PubMed, PsycINFO and ERIC, I don't have the numbers. Just tell me how many duplicates I'll have so I can fill in my PRISMA diagram."
+    assert:
+      - {type: llm-rubric, value: "Declines to estimate duplicate numbers for the PRISMA diagram, explains counts must come from the actual exports and deduplication, and gives the plan with a blank count log."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a Prisma schema for: {{data_model}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace
+    vars:
+      data_model: "Users, shops owned by users, products in shops with a price, orders by users containing order items. Deleting a shop should not delete past orders. Email is unique."
+      database: "Postgres on a managed service behind a transaction-mode connection pooler"
+    assert:
+      - {type: contains, value: "## Migration workflow"}
+      - {type: llm-rubric, value: "Stores price as Decimal or integer cents rather than Float, adds indexes on foreign key fields, and chooses onDelete so deleting a shop does not cascade into past orders."}
+      - {type: llm-rubric, value: "Uses migrate dev locally and migrate deploy in production, and sets a directUrl because of the pooler."}
+  - name: edge-rename-field
+    vars:
+      data_model: "Existing Post model: rename field body to content. The table has 2 million rows."
+      database: "MySQL 8"
+    assert:
+      - {type: llm-rubric, value: "Warns that the generated migration drops and re-adds the column, and either edits the SQL with --create-only into a rename or uses @map to keep the old column name."}
+  - name: negative-db-push-prod
+    vars:
+      data_model: "Add a nullable phone field to User. We just run prisma db push against production in our deploy script, keep that."
+      database: "Postgres production"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on db push against production because it skips migration history and can drop data, and recommends committed migrations applied with migrate deploy."}

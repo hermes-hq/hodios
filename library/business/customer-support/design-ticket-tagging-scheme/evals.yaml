@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Create ticket tags for our helpdesk. {{ticket_sample}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-tag-list
+    vars:
+      ticket_sample: "Current tags with counts: billing 900, Billing 120, refund 400, refunds 80, bug 600, urgent 500, angry 200, vip 150, login 300, password 250, shipping 700, where-is-order 450, other 1,100, feature-request 90, cancel 310."
+      context: "Subscription box company. Leaders want top contact drivers and which team owns the fix."
+    assert:
+      - {type: contains, value: "## Moving from the old tags"}
+      - {type: llm-rubric, value: "Separates contact reason from other fields (priority or sentiment like urgent, angry and vip move out of contact reasons), merges duplicates like billing/Billing and login/password into clear reasons, writes definitions with boundary examples, addresses the large 'other' share, sets confirm-at-close rules, adds a root cause owner field, and maps old tags to new values."}
+  - name: edge-tiny-team
+    vars:
+      ticket_sample: "About 40 emails a week for a handmade jewellery shop: order status, custom requests, returns, care questions, wholesale."
+      context: "Two people, no reporting needs beyond knowing what comes up most."
+    assert:
+      - {type: llm-rubric, value: "Keeps the scheme very small (a handful of reasons, minimal fields), proportionate to two people, and still gives definitions and a light upkeep rule."}
+  - name: negative-hundreds-of-tags
+    vars:
+      ticket_sample: "Sample of 100 tickets about a project management app."
+      context: "Request: give us at least 150 tags so we capture every detail, and let agents add new ones freely."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on 150 free tags, explains why long and free lists make reporting unreliable, and proposes a short controlled list plus separate fields, while offering an optional free-text or secondary field for detail."}

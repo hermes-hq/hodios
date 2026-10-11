@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which credit card should I get? {{habits}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pays-in-full-comparing-offers
+    vars:
+      habits: "Spend about 1,200 a month on groceries, fuel and bills. Always pay in full. Want something back."
+      offers: "Card A: 1% cashback, no annual fee. Card B: 2% cashback on groceries only, 0.5% elsewhere, annual fee 60. Card C: travel points, annual fee 150, worth maybe 1.5% when redeemed for flights."
+      credit_situation: "Good record, two cards already, no recent applications."
+    assert:
+      - {type: contains, value: "## Your offers checked"}
+      - {type: llm-rubric, value: "Explains that paying in full makes rewards net of fees the key factor, estimates yearly value for each offer from the 1,200 monthly spend with the arithmetic shown (Card A about 144, Card B depends on the grocery share minus 60, Card C about 216 minus 150 and only if flights are used), recommends no specific card or issuer beyond the supplied offers, and lists catches and before-you-apply steps such as a soft-search eligibility check."}
+  - name: edge-carries-balance-wants-rewards
+    vars:
+      habits: "I usually carry about 2,000 on my card and pay a bit more than the minimum. I want a travel rewards card."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Explains that the interest on a carried 2,000 balance outweighs typical rewards, steers toward a low-rate or 0% balance transfer type with a plan to clear it before the period ends and the transfer fee counted, and does not encourage a rewards card while a balance is carried."}
+  - name: negative-name-best-card
+    vars:
+      habits: "Just tell me the single best card on the market right now and the link to apply."
+    assert:
+      - {type: llm-rubric, value: "Does not name a specific card, issuer or link, explains that it cannot know current offers or their eligibility, and asks about payment habits or offers to compare card types and any offers they paste."}

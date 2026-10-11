@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do I put these categorical variables in my regression? {{variables}} {{model}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-region-dummies
+    vars:
+      variables: "Region with 4 levels: North (n=420), East (n=310), South (n=290), West (n=35)."
+      model: "Linear regression of monthly spend (euros) on region and age. Output with North as reference: intercept 52.0, East 3.1 (p=0.04), South -4.5 (p=0.002), West 0.8 (p=0.81), age 0.30."
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Interprets each region coefficient relative to North at the same age: East about 3.1 euros higher, South 4.5 lower, West 0.8 higher with a wide uncertainty; notes West has only 35 cases so its estimate is imprecise and a non-significant p does not mean West equals North; recommends a joint F or likelihood-ratio test for region as a whole and adjusted pairwise comparisons; gives statsmodels code with C(region, Treatment(reference='North'))."}
+  - name: edge-ordered-and-interaction
+    vars:
+      variables: "Education (5 ordered levels from none to postgraduate) and gender (2 levels)."
+      model: "Logistic regression of job offer (yes/no) with an education by gender interaction."
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Discusses dummies vs a numeric score vs polynomial contrasts for the ordered education variable with the trade-off; explains that with the interaction, each education coefficient is the effect for the reference gender and the gender coefficient is the effect at the reference education level; recommends emmeans or predicted probabilities for interpretation; reports effects as odds ratios; gives R code with factor levels set explicitly."}
+  - name: negative-numeric-nominal-codes
+    vars:
+      variables: "Payment method coded 1 = card, 2 = bank transfer, 3 = PayPal, 4 = cash."
+      model: "I put payment_method as a numeric column in the regression and got a coefficient of 2.3. So each step up in payment method adds 2.3 to basket size, right?"
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains the codes are arbitrary labels so a single slope is meaningless and the result would change with a different numbering; recommends treatment coding with three dummies and a chosen reference; explains how to read the new coefficients; does not interpret the 2.3."}

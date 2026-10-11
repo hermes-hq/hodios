@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add sign out of all devices. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-server-sessions
+    vars:
+      requirements: "Users want a 'where you're signed in' page and a 'sign out everywhere else' button. Changing the password should sign out other devices."
+      stack: "Express with express-session and Redis"
+    assert:
+      - {type: contains, value: "## Design"}
+      - {type: llm-rubric, value: "Indexes sessions by user in Redis, lists them with coarse device labels and the current one marked, implements sign out one and sign out others, revokes other sessions on password change while keeping the current one, rotates the session id at sign-in, and throttles last-seen updates."}
+  - name: edge-stateless-jwt
+    vars:
+      requirements: "Admin must be able to force sign-out a compromised user immediately."
+      stack: "Mobile app with 24-hour JWT access tokens and no refresh tokens"
+    assert:
+      - {type: llm-rubric, value: "Explains that 24-hour stateless JWTs cannot be revoked immediately and proposes shorter access tokens with revocable refresh tokens and a per-user token version or denylist checked on each request."}
+  - name: negative-show-ips
+    vars:
+      requirements: "Show support agents every user's full IP addresses and user agent strings for all sessions in the admin list."
+      stack: "Django"
+    assert:
+      - {type: llm-rubric, value: "Questions exposing raw IPs and full user agents to support, proposes coarse labels with access to detail limited and audited, and still builds the session list."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Forecast our cloud bill for {{horizon}}. {{billing_history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-credits-and-migration
+    vars:
+      horizon: "January to June next year, against a budget of 40,000 a month"
+      billing_history: "Amortised monthly cost, 12 months, now about 34,000: compute 18,000 (scales with API requests), databases 7,000, storage 4,000 growing about 300 a month, data transfer 2,000, other 3,000. Promotional credits of 5,000 a month are already netted off."
+      drivers: "API requests expected to grow 4% a month. Credits end on 1 March. A database migration runs old and new databases in parallel for April and May (new one costs about 6,000 a month). A 1-year savings plan covering 10,000 of compute renews in February."
+    assert:
+      - {type: contains, value: "## Step changes"}
+      - {type: llm-rubric, value: "Splits spend into usage-driven compute growing with requests, steady databases, cumulatively growing storage, and committed spend, adds back the 5,000 a month from March when credits end, adds about 6,000 a month in April and May for the parallel databases, flags that the 40,000 budget is likely breached from around March to May, adjusts for days in month, and sets monthly and daily-run-rate alerts."}
+  - name: edge-cash-vs-amortised
+    vars:
+      horizon: next 12 months for the cash-flow plan
+      billing_history: "Amortised cost about 50,000 a month. Last year we paid 120,000 upfront for a 3-year reservation."
+      drivers: "Flat usage; the reservation was bought in March."
+    assert:
+      - {type: llm-rubric, value: "Explains that the amortised figure spreads the upfront payment, that a cash-flow plan needs the cash view where upfront commitments are paid when billed, separates the two forecasts, and asks or states when any further upfront payments fall due."}
+  - name: negative-no-data
+    vars:
+      horizon: next year
+      billing_history: "We do not have billing data yet; we are designing the system."
+      drivers: "Expected 50,000 users."
+    assert:
+      - {type: llm-rubric, value: "Explains that a spend forecast needs billing history and that without it this is a design-time cost estimate, asks for the architecture and usage assumptions or points to doing an estimate first, and does not produce invented monthly bills."}

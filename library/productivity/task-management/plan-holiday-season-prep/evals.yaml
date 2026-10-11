@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me plan for {{holiday}}. My plans: {{plans}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hosting-and-travel
+    vars:
+      holiday: "Christmas: hosting 10 people on the 25th, flying to my sister's on the 28th"
+      plans: "Gifts for 14 people, cards for 30, decorate the house, school nativity on the 18th, work party on the 19th"
+      limits: "7 weeks left, budget 1,200, full-time job, partner can take food shopping and decorating"
+    assert:
+      - {type: contains, value: "## Key deadlines"}
+      - {type: llm-rubric, value: "Puts flight booking and gift ordering early, marks card and parcel posting as check-your-carrier cut-offs without inventing dates, spreads tasks across 7 weeks with a lighter final week, assigns food shopping and decorating to the partner, notes the short recovery between hosting on the 25th and flying on the 28th, and splits the 1,200 budget with a buffer."}
+  - name: edge-other-tradition
+    vars:
+      holiday: "Eid al-Fitr, family visits over three days"
+      plans: "New clothes for the kids, sweets for neighbours, gifts of money for children, hosting lunch on day one"
+    assert:
+      - {type: llm-rubric, value: "Uses the user's tradition and wording, does not add Christmas or other customs, plans the run-up within the weeks before, and asks for or states an assumption about budget and weeks left."}
+  - name: negative-does-not-fit
+    vars:
+      holiday: "Christmas, 10 days away"
+      plans: "Handmade gifts for 25 people, host 3 parties, redecorate the living room"
+      limits: "Work full-time, budget 300"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the plan does not fit 10 days and 300, and proposes concrete cuts (fewer handmade gifts, one party, skip the redecoration) rather than packing every evening."}

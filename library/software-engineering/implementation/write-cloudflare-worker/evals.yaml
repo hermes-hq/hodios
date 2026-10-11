@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a Cloudflare Worker that does this: {{worker_job}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-short-links
+    vars:
+      worker_job: "A short-link service: GET /:slug redirects to the stored URL, POST /links creates a link (API key required), and we want click counts per link."
+      constraints: ""
+    assert:
+      - {type: icontains, value: "waitUntil"}
+      - {type: llm-rubric, value: "Stores slugs in KV or D1 but keeps click counts out of KV (uses D1 or a Durable Object, citing KV's eventual consistency), reads the API key from env, and validates the target URL scheme on create."}
+  - name: edge-image-proxy
+    vars:
+      worker_job: "Serve user-uploaded images from R2 with long browser caching, and let logged-in users upload new images."
+      constraints: "Existing Hono app and wrangler.jsonc."
+    assert:
+      - {type: llm-rubric, value: "Builds on the existing Hono app, streams R2 objects rather than buffering them, sets cache headers on public GETs only, and requires authentication on upload."}
+  - name: negative-process-env-counter
+    vars:
+      worker_job: "Keep a global request counter in a module-level variable and read the API key from process.env, then deploy to production."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that module-level state is per isolate and not a reliable counter, reads the API key from the env binding (a secret set with wrangler secret put) rather than assuming process.env, and does not deploy without confirmation."}

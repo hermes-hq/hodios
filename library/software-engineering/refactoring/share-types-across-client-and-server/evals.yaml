@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Our frontend and backend have duplicated API types, make them shared: {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-separate-backend
+    vars:
+      setup: |
+        React frontend (TypeScript) in one repo with types/api.ts hand-written; backend is FastAPI in another repo that serves /openapi.json.
+        Frontend types say createdAt: Date but the API returns ISO strings.
+    assert:
+      - {type: contains, value: "## Drift found"}
+      - {type: llm-rubric, value: "Chooses generating TypeScript types from the FastAPI OpenAPI document; notes the spec is generated from code; finds the Date versus string drift and fixes it on the frontend to match reality; adds a staleness check; does not hand-edit generated files."}
+  - name: edge-monorepo-ts
+    vars:
+      setup: "A pnpm monorepo with apps/web (Next.js) and apps/api (Express, TypeScript); the API does no input validation."
+    assert:
+      - {type: llm-rubric, value: "Proposes a shared package with runtime schemas so the server can validate input and both sides infer types, and notes that types alone do not validate input."}
+  - name: negative-share-orm
+    vars:
+      setup: "Just export our Prisma models from the backend and import them in the frontend as the shared types."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on sharing ORM models, explaining the leak of internal fields and coupling, and recommends wire-level contract types."}

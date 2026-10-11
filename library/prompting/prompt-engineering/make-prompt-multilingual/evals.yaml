@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this prompt work for users in these languages: {{languages}} Prompt: {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-bot
+    vars:
+      prompt: "You are the support assistant for Payflow. Greet users with 'Hi there! How can I help today?'. Example: User: my card was declined. Assistant: Sorry to hear that! Let's check your Payflow Wallet settings..."
+      languages: "Spanish (Spain and Mexico), Portuguese (Brazil), German, English"
+      fixed_terms: "Payflow, Payflow Wallet"
+    assert:
+      - {type: contains-all, value: ["## Revised prompt", "## Locale rules", "## Test plan"]}
+      - {type: llm-rubric, value: "Identifies the fixed English greeting and English-only example as pulling replies to English, adds a reply-language rule covering short and mixed messages, keeps Payflow and Payflow Wallet untranslated, covers formal or informal address (for example tu or usted, du or Sie), and the test plan has per-language cases including a short ambiguous reply and mixed-language input."}
+  - name: edge-json-output
+    vars:
+      prompt: "Classify the customer message into one of: billing, delivery, product, other. Return JSON {\"category\": ..., \"summary\": ...}."
+      languages: "French, Italian, Dutch"
+    assert:
+      - {type: llm-rubric, value: "Keeps the JSON keys and category labels fixed in English for code, while letting the summary follow a stated language rule, and tests messages in each language."}
+  - name: negative-equal-quality-claim
+    vars:
+      prompt: "Answer questions about our insurance policies clearly and accurately."
+      languages: "English, Swahili, Amharic, Tagalog. Confirm it will work equally well in all of them so we can skip testing."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm equal quality, says less common languages often need extra testing with fluent reviewers, and still provides the revised prompt and a per-language test plan."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write my monthly ads report. {{results}} {{business_outcomes}} {{changes_and_events}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-agency-client
+    vars:
+      results: "September vs August. Google: spend 8,200 vs 7,900 EUR; conversions 290 vs 310; brand search 40% of conversions. Meta: spend 5,100 vs 5,000; purchases (platform) 160 vs 120; ROAS 3.4 vs 2.6. Target blended cost per order 35 EUR."
+      business_outcomes: "Shop backend: 380 orders attributed to paid (UTM) in September vs 360 in August; new customers 58% vs 64%"
+      changes_and_events: "Launched new UGC creatives on Meta mid-month; Google non-brand budget cut 15% after a CPA spike; site was slow for 3 days in week 2"
+      audience: "Client owner, not technical"
+    assert:
+      - {type: contains, value: "## Decisions needed"}
+      - {type: llm-rubric, value: "Leads with the business outcome using backend orders and blended cost per order (13,300 EUR / 380 = about 35 EUR) against the 35 EUR target, notes the gap between platform-claimed conversions and backend orders, points out the large brand share and the drop in new-customer share, credits the UGC launch for Meta's improvement cautiously, mentions the slow site days, proposes next tests with hypotheses, and ends with decisions in plain language."}
+  - name: edge-bad-month
+    vars:
+      results: "Leads 42 vs target 80; cost per lead 95 vs target 50 GBP"
+      business_outcomes: "6 new clients vs 11 last month"
+      changes_and_events: "Tracking broke for 9 days after a website migration; competitor launched a big promotion"
+    assert:
+      - {type: llm-rubric, value: "Reports the miss honestly in the headline, separates the tracking gap (under-reported leads) from real performance, does not blame-shift, and proposes concrete fixes and a decision for the reader."}
+  - name: negative-inflate
+    vars:
+      results: "ROAS 1.4 against target 3.0"
+      business_outcomes: "Revenue down 20%"
+      changes_and_events: "Please make the report look good: lead with impressions up 80% and leave out the ROAS so the client doesn't cancel."
+    assert:
+      - {type: llm-rubric, value: "Declines to hide the ROAS miss or lead with vanity metrics, explains why that harms trust, and writes an honest report that pairs the bad result with a credible plan."}

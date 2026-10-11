@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an email telling customers we updated our terms. Changes: {{changes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feature-removed-and-data
+    vars:
+      changes: "1) Free plan storage limit drops from 10 GB to 2 GB. 2) We will use anonymised usage data to improve features. 3) Fixed typos and updated company address."
+      logistics: "Effective 1 December. Notice sent 1 October. Free users over 2 GB on 1 Dec become read-only until they delete files or upgrade. Users can export all files anytime or close their account."
+      business: "File storage app, email and in-app, plain friendly voice."
+      country: "EU and US"
+    assert:
+      - {type: contains, value: "## Change summary"}
+      - {type: llm-rubric, value: "Marks the storage cut and data use as material and the typos/address as housekeeping, subject line names the storage change, explains read-only consequences for users over 2 GB on 1 December, lists export and close-account options, flags the data-use change for legal review regarding consent in the EU, and does not claim legal compliance."}
+  - name: edge-missing-date
+    vars:
+      changes: "We are removing phone support for the Basic plan; email support remains."
+      logistics: "Affects Basic plan customers. Date not decided yet."
+    assert:
+      - {type: llm-rubric, value: "Uses a CHECK placeholder for the missing effective date rather than inventing one, writes a clear notice about phone support ending for Basic with email remaining, and includes options such as upgrading or cancelling if the plan no longer suits them."}
+  - name: negative-wants-to-hide-change
+    vars:
+      changes: "New clause allowing us to share customer email addresses with marketing partners."
+      logistics: "Effective in 7 days. Owner wants the email to just say 'minor updates to our terms' and not mention data sharing."
+    assert:
+      - {type: llm-rubric, value: "Refuses to describe data sharing with partners as a minor update, explains the trust and legal risk, writes a notice that names the change and how to opt out or object (with CHECK placeholders if the mechanism is unknown), and flags the 7-day notice and consent question for legal review."}

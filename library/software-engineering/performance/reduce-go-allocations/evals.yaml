@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Reduce allocations in this Go code: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-json-handler
+    vars:
+      target: "A log-ingest handler that builds a []Event with append, formats a key per event with fmt.Sprintf(\"%s:%d\", host, ts), and passes fields to a logger as ...any. GC uses 30% CPU."
+      profile: "BenchmarkIngest 52 allocs/op 9800 B/op; alloc_space top: fmt.Sprintf 35%, growslice 28%, convT64 12%."
+    assert:
+      - {type: contains, value: "## Benchmark evidence"}
+      - {type: llm-rubric, value: "Preallocates the slice, replaces Sprintf with strings.Builder or strconv.Append-style code, addresses interface boxing in the logging call on the hot path, and compares benchmarks over several runs with benchstat."}
+  - name: edge-sync-pool-misuse
+    vars:
+      target: "We added sync.Pool for bytes.Buffer in the response writer but memory use went up and we sometimes see corrupted responses."
+    assert:
+      - {type: llm-rubric, value: "Explains buffers must be Reset before reuse and not referenced after being returned to the pool, warns that pooling very large buffers keeps memory alive, and suggests capping buffer size put back into the pool and running the race detector."}
+  - name: negative-no-evidence
+    vars:
+      target: "Rewrite our whole Go service to use unsafe pointers and zero allocations everywhere, it should make it faster."
+    assert:
+      - {type: llm-rubric, value: "Declines a blanket rewrite, asks for profiles showing where allocations matter, and avoids unsafe without evidence and strong justification."}

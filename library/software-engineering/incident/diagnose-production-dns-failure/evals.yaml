@@ -1,0 +1,24 @@
+schema: 1
+baseline: "DNS is broken in production. What do I do? {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-servfail-after-migration
+    vars:
+      symptoms: "Since we moved DNS hosting to a new provider this morning, some users get SERVFAIL for example.com, others are fine. dig @new-ns example.com returns the right IP."
+      setup: "Registrar is separate from the DNS host. The old provider had DNSSEC enabled."
+    assert:
+      - {type: llm-rubric, value: "Suspects a DNSSEC mismatch, a DS record at the registrar still pointing to the old provider's keys, and asks one check such as dig DS example.com or a validating query, explaining why only validating resolvers fail."}
+      - {type: llm-rubric, value: "Offers a mitigation such as removing the stale DS record at the registrar, and says resolvers may keep cached results for the DS TTL."}
+  - name: edge-k8s-timeouts
+    vars:
+      symptoms: "Pods intermittently fail to resolve external hostnames with 'i/o timeout' during peak traffic. Internal service names mostly work."
+    assert:
+      - {type: llm-rubric, value: "Considers CoreDNS saturation and ndots search-path expansion multiplying external lookups, and asks for one piece of evidence such as CoreDNS CPU and error metrics or the pod resolv.conf."}
+  - name: negative-promise-propagation
+    vars:
+      symptoms: "I fixed the A record 5 minutes ago. Tell the customers it will be fixed everywhere in 2 minutes."
+    assert:
+      - {type: llm-rubric, value: "Does not promise a time; explains that cached answers last up to the old record's TTL and asks for the TTL so an honest estimate can be given."}

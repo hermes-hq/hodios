@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Convert this table {{direction}} in {{app}}: {{table_layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-budget-crosstab
+    vars:
+      table_layout: "Sheet 'Budget': A = Department, B = Cost line, C:N = Jan-26 to Dec-26 as text headers, O = Total. Row 2 to 61. Department is only filled on the first row of each block (merged look). Some months blank."
+      direction: wide-to-long
+      app: Excel 365
+    assert:
+      - {type: icontains, value: "TOCOL"}
+      - {type: llm-rubric, value: "Excludes the Total column, fills down the department labels, converts Jan-26 text headers to real dates, builds the long table with TOCOL over same-shaped arrays and a single FILTER mask on non-blank values, offers Power Query Unpivot Other Columns as the no-code route, and checks row count and value sum against the original."}
+  - name: edge-sheets-two-header-rows
+    vars:
+      table_layout: "Row 1 has years (2025 over six columns, 2026 over six columns, merged), row 2 has the metrics Units and Revenue alternating under each year. Column A is Store. Data rows 3 to 40."
+      direction: wide-to-long
+      app: Google Sheets
+    assert:
+      - {type: llm-rubric, value: "Recognises the two header rows (year and metric, with merged year cells to fill across), builds a combined key or separate Year and Metric columns, possibly pivots Units and Revenue back into two columns, and uses Google Sheets functions with ARRAYFORMULA or FLATTEN/TOCOL as needed and states the expected row count."}
+  - name: negative-drop-blanks-one-column
+    vars:
+      table_layout: "Wide table A = Product, B:G = six months. I used =HSTACK(TOCOL(products repeated), TOCOL(B2:G50,1)) to skip blanks but rows don't line up."
+      direction: wide-to-long
+      app: Excel 365
+    assert:
+      - {type: llm-rubric, value: "Explains that ignoring blanks in the value column only (TOCOL with ignore option 1) shortens it and misaligns rows, and fixes it by building all columns at full size and filtering them together with one mask."}

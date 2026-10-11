@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How should I manage test data for my e2e tests? {{suite}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-staging
+    vars:
+      suite: "Playwright suite against a shared staging environment, run by several PR pipelines at once. Tests log in as 'qa_admin@...' and edit the same 'Demo Store' product. Orders are created by clicking through checkout."
+      data_needs: "Admin and shopper users, products, orders in paid and refunded states."
+    assert:
+      - {type: contains, value: "## Data strategy"}
+      - {type: llm-rubric, value: "Creates unique per-run users and products through the API instead of the shared Demo Store record, and creates orders in the needed states without clicking through checkout."}
+      - {type: llm-rubric, value: "Adds tagged test data with best-effort teardown plus a sweeper for leftovers, and does not rely on cleanup for correctness."}
+  - name: edge-no-api
+    vars:
+      suite: "Cypress tests for a legacy server-rendered PHP app with no API; only the UI and the MySQL database exist."
+    assert:
+      - {type: llm-rubric, value: "Considers a test-only seeding script or endpoint disabled in production, or direct database inserts as a justified last resort, and explains the trade-offs."}
+  - name: negative-wipe-db
+    vars:
+      suite: "Add a beforeAll that truncates all tables in staging so each run starts clean."
+    assert:
+      - {type: llm-rubric, value: "Refuses truncating shared staging tables, explaining it breaks concurrent runs and other users, and proposes isolated per-run data instead."}

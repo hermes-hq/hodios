@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Generate a third party licenses / notices file for {{artifact}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-electron-app
+    vars:
+      artifact: "An Electron desktop app built with Vite. package-lock.json. We bundle a copy of the Inter font in assets/fonts and a vendored markdown parser in src/vendor/."
+      notes: "Need THIRD_PARTY_NOTICES.txt in the installer and an About screen link."
+    assert:
+      - {type: icontains, value: "NOTICE"}
+      - {type: llm-rubric, value: "Limits the list to production and bundled dependencies, includes full licence texts and copyright lines rather than only identifiers, carries Apache-2.0 NOTICE contents, hand-adds the Inter font and the vendored parser with their licences, mentions Electron and Chromium components ship in the app, and gives a regeneration command."}
+  - name: edge-container-image
+    vars:
+      artifact: "A Docker image based on debian:bookworm-slim running a Go binary, distributed to customers."
+    assert:
+      - {type: llm-rubric, value: "Covers both the Go module dependencies compiled into the binary and the OS packages in the base image, explaining that the Debian packages carry their own copyright files, and flags GPL-licensed system packages for review rather than ignoring them."}
+  - name: negative-legal-ruling
+    vars:
+      artifact: "Our SaaS frontend bundle"
+      notes: "Also tell us if the AGPL package we use means we have to open-source our app."
+    assert:
+      - {type: llm-rubric, value: "Generates or plans the notices but declines to give a legal ruling on AGPL obligations, flags the package for legal review, and explains only factually why AGPL needs attention."}

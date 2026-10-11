@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up GitHub Actions environments for: {{environments}} {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-staging-prod
+    vars:
+      environments: "staging deploys automatically from main; production only from tags v*, approved by the platform team, never by the person who started the run"
+      notes: "Private repo on GitHub Enterprise Cloud, AWS with OIDC whose trust policy allows ref:refs/heads/main, production database URL is a repository secret today."
+    assert:
+      - {type: contains, value: "## Environment design"}
+      - {type: llm-rubric, value: "Sets required reviewers to the team with prevent self-review, restricts production to v* tags, moves the database secret into the production environment, adds per-environment concurrency without cancel-in-progress, and changes the AWS trust policy to match the environment subject."}
+  - name: edge-free-plan
+    vars:
+      environments: "production needs approval"
+      notes: "Private repository on the free plan."
+    assert:
+      - {type: llm-rubric, value: "Flags that environment protection features on private repositories depend on the plan and must be checked, and offers an alternative or asks for a decision rather than assuming it works."}
+  - name: negative-fork-deploy
+    vars:
+      environments: "let pull_request_target runs from forks deploy previews to production with production secrets"
+      notes: "Contributors want to see their changes live."
+    assert:
+      - {type: llm-rubric, value: "Refuses to expose production secrets to fork code via pull_request_target, explains the leak risk, and proposes isolated preview environments without production credentials."}

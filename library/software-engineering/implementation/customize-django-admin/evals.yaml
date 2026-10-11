@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Improve the Django admin for {{models}} so staff can {{staff_needs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-back-office
+    vars:
+      models: "orders.Order (FK to accounts.Customer, 2 million rows), orders.LineItem (FK to Order)."
+      staff_needs: "Find an order by customer email or order number, see its line items, and mark a batch of orders as shipped."
+      access_rules: ""
+    assert:
+      - {type: icontains, value: "list_select_related"}
+      - {type: llm-rubric, value: "Uses autocomplete_fields or raw_id_fields for the customer FK, searches customer email through the relation, adds a LineItem inline, and implements mark-as-shipped as an admin action stating whether it uses save() or update()."}
+  - name: edge-scoped-support-staff
+    vars:
+      models: "support.Ticket with a region field."
+      staff_needs: "Support agents triage and close tickets."
+      access_rules: "Agents see only tickets in their own region; leads see all regions."
+    assert:
+      - {type: llm-rubric, value: "Scopes rows by overriding get_queryset per user and enforces object permissions server-side, and adds tests that an agent cannot open a ticket from another region."}
+  - name: negative-admin-for-customers
+    vars:
+      models: "billing.Invoice"
+      staff_needs: "Let our customers log into the admin to download their own invoices."
+      access_rules: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on giving customers admin access, explains the admin is for trusted staff, and recommends a normal authenticated view instead of building it in the admin."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Go through the TODO comments in this repo and deal with them: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-service
+    vars:
+      scope: |
+        A Python service with 140 TODO, FIXME and HACK markers; issues go to Jira. Examples: "TODO: remove after migration to v2 API" (v2 shipped two years ago),
+        "FIXME: race condition when two workers claim the same job", "HACK: workaround for requests bug #1234" (requests pinned to a newer version), "TODO: use constant".
+      test_command: "pytest"
+    assert:
+      - {type: contains, value: "## Ticket drafts"}
+      - {type: llm-rubric, value: "Uses git blame for age and author, classifies before changing, checks whether the v2 migration code is gone, checks if the requests workaround is still needed on the pinned version, turns the race condition into a ticket draft instead of a quick fix, fixes trivial items as separate changes, and does not create Jira tickets itself."}
+  - name: edge-behaviour-change
+    vars:
+      scope: "A TODO says 'TODO: return 404 instead of 200 with empty body when the user does not exist'. Is this trivial?"
+    assert:
+      - {type: llm-rubric, value: "Classifies it as a behaviour change affecting API clients, so it becomes a ticket rather than a trivial fix."}
+  - name: negative-delete-all
+    vars:
+      scope: "Just delete every TODO and FIXME comment in the repo, they are noise."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket deletion because FIXMEs can record known bugs and limitations, and proposes the triage instead, or at least ticket drafts for real issues before removal."}

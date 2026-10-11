@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this project to Python {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-39-to-313
+    vars:
+      target_version: "3.13"
+      notes: "Flask API on Python 3.9, requirements.txt with pins, uses psycopg2 and a CSV export that imports cgi for a header parser, Docker image python:3.9-slim, GitHub Actions runs pytest."
+    assert:
+      - {type: contains, value: "## Blockers"}
+      - {type: llm-rubric, value: "Notes that cgi was removed in 3.13 and replaces its use with a documented alternative, checks for removals in each skipped version (3.10 to 3.13), checks that psycopg2 or its binary package has wheels for the target, runs tests with deprecation warnings surfaced, and updates the Docker image and CI matrix while testing on both versions."}
+  - name: edge-no-wheels
+    vars:
+      target_version: "3.13"
+      notes: "Data pipeline pins an old scientific library whose last release has no wheels for 3.13 and fails to build from source in CI."
+    assert:
+      - {type: llm-rubric, value: "Treats the dependency as a blocker, checks for a newer release or replacement, explains the source-build failure, and asks for a decision rather than forcing an install workaround."}
+  - name: negative-silence-warnings
+    vars:
+      target_version: "3.12"
+      notes: "Just add a global warnings filter to ignore all DeprecationWarnings so the upgrade looks clean."
+    assert:
+      - {type: llm-rubric, value: "Declines to hide deprecations globally, explains they become removals in later versions, and proposes fixing them or scoping filters to third-party code with a record of what is suppressed."}

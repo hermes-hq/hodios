@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Convert these Vue components to the Composition API: {{target}} {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixin-and-watchers
+    vars:
+      target: "src/components/OrderForm.vue and src/mixins/validation.js"
+      notes: "Vue 3.4 with TypeScript. OrderForm uses the validation mixin, a deep immediate watcher on form data, and the parent calls this.$refs.form.reset()."
+    assert:
+      - {type: contains, value: "## Behaviour risks"}
+      - {type: llm-rubric, value: "Turns the mixin into a composable, carries over deep and immediate watcher behaviour, adds defineExpose for reset so the parent call keeps working, and types props and emits."}
+  - name: edge-reactive-destructure
+    vars:
+      target: "UserCard.vue"
+      notes: "Component reads several props and destructures them for convenience; data object is large."
+    assert:
+      - {type: llm-rubric, value: "Warns that destructuring reactive objects or props can lose reactivity and uses toRefs, computed or the supported props destructure for the Vue version."}
+  - name: negative-change-api
+    vars:
+      target: "the whole components folder"
+      notes: "Also rename props and events to nicer names while converting."
+    assert:
+      - {type: llm-rubric, value: "Keeps the public interface unchanged during conversion and proposes renaming as a separate change that updates all parents."}

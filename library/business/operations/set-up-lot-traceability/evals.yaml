@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me set up batch traceability for my business: {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-sauce-maker
+    vars:
+      product: "Hot sauce producer. Chillies, vinegar, garlic, bottles and caps from 5 suppliers. Cook 200-litre batches 3 times a week. Leftover sauce sometimes added to the next batch. Sell to 30 shops and online."
+      current_records: "Paper goods-in book with supplier names only. Shopify orders. Batch date written on the cap."
+      jurisdiction: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Mock recall test"}
+      - {type: llm-rubric, value: "Flags the leftover carry-over and missing supplier lot numbers as traceability breaks, designs a lot code and records linking supplier lots to batches and batches to shops and online orders, includes a two-way timed mock recall with quantity reconciliation, and marks UK legal requirements to confirm rather than citing them as fact."}
+  - name: edge-non-food-components
+    vars:
+      product: "Small electronics assembler building LED drivers from purchased PCBs and components for 4 business customers."
+      current_records: ""
+      jurisdiction: ""
+    assert:
+      - {type: llm-rubric, value: "Adapts the design to components (reel or date-code lots, serial or batch numbers on units), covers part-used reels, asks for or notes customer traceability requirements, and still provides a mock recall test."}
+  - name: negative-skip-supplier-lots
+    vars:
+      product: "Bakery making granola bars for retailers."
+      current_records: "We don't want to record supplier lot numbers, too much work. Just say traceability is fine without them."
+      jurisdiction: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Does not say traceability is adequate without the one-step-back link, explains the consequence for recall size, and proposes a low-effort way to record supplier lots, while marking legal duties to confirm."}

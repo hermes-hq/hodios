@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me prioritise these by cost of delay: {{items}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-items
+    vars:
+      items: "A) Enterprise SSO: 3 deals worth 120k a year total waiting, 4 weeks. B) Checkout redesign: +2% conversion on 50k monthly revenue, 8 weeks. C) Tax update: legally required by 1 March, 3 weeks, fines possible. D) Database upgrade: vendor ends support in 9 months, 6 weeks."
+      context: "One team, items done one after another, current order B, A, D, C. Today is 1 November."
+    assert:
+      - {type: contains, value: "## Sequence"}
+      - {type: llm-rubric, value: "Converts A to about 2.3k per week and B to about 0.23k per week with shown arithmetic, labels C as a fixed deadline and D as intangible or rising risk without inventing a fine amount, computes cost of delay divided by duration, puts A ahead of B, keeps C before its March date, compares total delay cost with the current order, and tests sensitivity."}
+  - name: edge-relative-only
+    vars:
+      items: "Five features with no money figures; the team rates value 1-10 and size in T-shirt sizes."
+    assert:
+      - {type: llm-rubric, value: "Uses a consistent relative scale, explains how to turn T-shirt sizes into relative durations, asks for urgency information per item, and warns that the result is only as good as the relative scores."}
+  - name: negative-precise-without-data
+    vars:
+      items: "Rank our 30 backlog items by exact dollar cost of delay. I have no data on any of them, just their titles."
+    assert:
+      - {type: llm-rubric, value: "Does not invent dollar figures for titles alone, explains what inputs are needed, and offers a lightweight relative method or a short list of questions to estimate value and urgency per item."}

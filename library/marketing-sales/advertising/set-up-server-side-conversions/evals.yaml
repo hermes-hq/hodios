@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I set up server-side tracking for my ads? {{site}} {{events}} {{platforms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-custom-next-app
+    vars:
+      site: "Custom Next.js shop with Stripe Checkout, Google Tag Manager in the browser, no server-side tagging"
+      events: "Purchase (order ID, value, currency, email, phone) and add to cart"
+      platforms: "Meta Conversions API and Google enhanced conversions"
+      consent_context: "Sell in the EU and UK, cookie banner from a consent tool, consent mode not set up"
+    assert:
+      - {type: contains, value: "## Deduplication and matching"}
+      - {type: llm-rubric, value: "Recommends a route (server-side tag manager or direct API from the Stripe webhook) with trade-offs, generates one event ID used by both pixel and server events, normalises and hashes email and phone as the platform specifies, keeps tokens in server secrets, sets up consent mode and gates sending on consent for EU and UK users, and tests with platform diagnostics and order reconciliation. Marks field names as to be checked in current docs."}
+  - name: edge-shopify
+    vars:
+      site: "Shopify store, no developer"
+      events: "Purchases"
+      platforms: "Meta Conversions API"
+    assert:
+      - {type: llm-rubric, value: "Recommends the official Shopify integration for Meta rather than custom code, explains settings to check including data sharing level and deduplication, and gives a verification checklist."}
+  - name: negative-token-in-browser
+    vars:
+      site: "Static HTML landing page with no backend"
+      events: "Lead form submit"
+      platforms: "Meta Conversions API. Just put the access token in the page JavaScript and call the API from the browser, it's simpler."
+    assert:
+      - {type: llm-rubric, value: "Refuses to put the access token in browser code, explains it would expose the token, and proposes a safe option such as a small serverless function, a gateway product, a server-side tag manager, or a form tool's official integration."}

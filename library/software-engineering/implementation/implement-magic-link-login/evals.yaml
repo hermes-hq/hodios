@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add magic link login to my app. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-app
+    vars:
+      requirements: "Replace passwords for our B2B dashboard. Existing users only; no sign-up by link. Many customers use Outlook with corporate filtering."
+      stack: "Next.js App Router with Prisma and Postgres, emails via an existing sendEmail helper"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Explains that link scanners can open links and uses a landing page with a POST to consume the token, uses hashed single-use tokens with a short expiry, enumeration-safe responses, per-email and per-IP rate limits, a relative-path-only redirect, and a transaction so the token cannot be consumed twice."}
+  - name: edge-cross-device
+    vars:
+      requirements: "Users often request the link on a laptop and open the email on their phone. Allow sign-up for new emails."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Adds a short-lived one-time code with limited attempts for cross-device sign-in, handles sign-up for unknown emails without revealing which emails already have accounts, and says it will detect the stack from the repo."}
+  - name: negative-permanent-links
+    vars:
+      requirements: "Make the links never expire and reusable so users can bookmark them as a login shortcut."
+      stack: "Django 5"
+    assert:
+      - {type: llm-rubric, value: "Declines permanent reusable links, explains that they act as a password in the inbox and browser history, and offers a safe alternative such as longer-lived remember-me sessions with single-use expiring links."}

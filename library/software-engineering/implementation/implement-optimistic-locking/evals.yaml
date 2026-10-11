@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Stop users overwriting each other's changes to {{resource}}. {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jpa-form
+    vars:
+      resource: "Customer records edited by support agents in a React admin form via PUT /customers/{id}. Two agents often edit the same customer and one change disappears."
+      stack: "Spring Boot with JPA and Postgres, React frontend"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Uses JPA @Version with a migration backfilling existing rows, exposes the version via ETag or the body with If-Match or a version field, maps a conflict to 412 or 409 consistently, shows the agent a conflict message with reload rather than silently retrying, and tests two concurrent saves."}
+  - name: edge-bulk-and-jobs
+    vars:
+      resource: "Product prices edited in the UI and also by a nightly import job that uses a bulk update query."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Identifies that the bulk update bypasses the version check and increment, and adds a conditional update or version bump for the job path, and says it will detect the stack."}
+  - name: negative-last-write-wins-silently
+    vars:
+      resource: "Shared documents. When a conflict happens, just retry the save automatically with the latest version number so users never see an error."
+      stack: "Rails 7"
+    assert:
+      - {type: llm-rubric, value: "Explains that automatically retrying a user's save on top of newer data recreates the lost update, and proposes showing the conflict with reload or merge instead."}

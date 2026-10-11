@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Summarise this lecture transcript into notes: {{transcript}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-economics-lecture
+    vars:
+      course_context: "ECON101 Principles of Economics, lecture 6, assessed by a final exam with short-answer and graphing questions."
+      transcript: |
+        [00:00] OK, um, let's get going. Quick reminder the problem set is now due Friday not Thursday.
+        [01:10] So today, elasticity. Price elasticity of demand is the percentage change in quantity demanded divided by the percentage change in price. Write that down, that definition comes up every single year.
+        [04:30] Let's do one. Price goes from 10 to 12, quantity from 100 to 80. We use the midpoint method, so percentage change in quantity is minus 20 over 90, about minus 22 percent. Price, 2 over 11, about 18 percent. So elasticity is about minus 1.2, we usually drop the sign, so 1.2, elastic.
+        [09:15] A common mistake is to confuse slope with elasticity. Along a straight line demand curve the slope is constant but elasticity is not, as you can see here on the graph.
+        [12:40] Next time, cross price elasticity, and um the in come elasticity.
+    assert:
+      - {type: contains-all, value: ["## Exam signals", "## Rewatch list", "## Worked examples"]}
+      - {type: llm-rubric, value: "Records the changed problem set deadline as admin, gives the elasticity definition with the 'comes up every single year' exam signal at 01:10, reconstructs the midpoint calculation step by step, lists the slope-versus-elasticity warning as an exam signal, and puts 09:15 on the rewatch list because the graph is referred to but not described."}
+  - name: edge-no-timestamps-garbled
+    vars:
+      transcript: "so the cell uses a toe sin in the membrane pump and then the sodium pot ass E um pump moves three sodium out and two pot ass E um in which uses one ATP and that's why the resting potential is about minus seventy"
+    assert:
+      - {type: llm-rubric, value: "Gives no timestamps because the transcript has none, flags 'toe sin' and 'pot ass E um' as likely mis-transcriptions with guesses (for example potassium) clearly marked as guesses, and does not add facts about the sodium-potassium pump beyond what was said."}
+  - name: negative-not-a-lecture
+    vars:
+      transcript: "[00:00] Welcome back to the show, today my co-host and I are reviewing the new phone releases and arguing about which one has the best camera. [05:00] Thanks to our sponsor..."
+    assert:
+      - {type: llm-rubric, value: "Notices that this is a podcast or show rather than a lecture and asks whether to continue, instead of producing exam signals and study notes as if it were a lecture."}

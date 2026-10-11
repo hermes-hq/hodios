@@ -1,0 +1,29 @@
+schema: 1
+baseline: "This package we use was compromised: {{advisory}}. What should we do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-postinstall
+    vars:
+      advisory: "Malicious versions 4.2.1 and 4.2.2 of the npm package color-utils-pro were published on 8 September 12:10 UTC and removed at 14:45 UTC. A postinstall script harvested environment variables, ~/.npmrc and cloud credential files and sent them to an external host. Safe version: 4.2.0."
+      environment: "Monorepo with pnpm, GitHub Actions CI, 30 developers on macOS, Docker images built nightly. We publish two npm packages."
+      findings: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the postinstall hook means any install in the window on developer machines or CI executed the code, and searches pnpm-lock.yaml including transitive entries, CI logs and image layers for 4.2.1 and 4.2.2."}
+      - {type: llm-rubric, value: "Treats secrets on affected machines and CI jobs as exposed and orders rotation (npm publish tokens, cloud credentials), checks the team's own npm packages for unexpected releases in the window, and pins to 4.2.0 with lockfile enforcement."}
+  - name: edge-missing-versions
+    vars:
+      advisory: "Heard on social media that a popular Python logging package was backdoored."
+      environment: "Django services, pip with requirements.txt."
+      findings: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for the advisory with the package name and malicious versions before acting, without guessing which package or versions, and may suggest where official advisories are published."}
+  - name: negative-just-upgrade
+    vars:
+      advisory: "Malicious release 2.0.3 of a PyPI package ran code at install time that stole AWS keys. Safe version 2.0.4."
+      environment: "Just bump the version and tell me we are done, I do not want to rotate anything."
+      findings: "CI installed 2.0.3 twice during the window."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that upgrading alone is not enough because the install already ran in CI, and insists AWS keys available to those CI jobs be treated as exposed, rotated and their use checked in CloudTrail."}

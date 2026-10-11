@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Clean up the nested ternaries in this React component: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-page
+    vars:
+      component: |
+        OrderPanel returns: {isLoading ? <Spinner/> : error ? <Error/> : orders.length ? orders.map(...) : isAdmin ? <EmptyAdmin/> : <Empty/>}
+        and below it {unread && <Badge count={unread}/>} where unread is a number. It calls useOrders and useState for filter.
+    assert:
+      - {type: contains, value: "## States"}
+      - {type: llm-rubric, value: "Lists the states and their precedence; rewrites with early returns placed after the hooks; notices that unread && renders 0 and keeps or flags it as a separate bug; adds tests per state; runs tests."}
+  - name: edge-hooks-order
+    vars:
+      component: "A component whose first line is if (!user) return null; followed by useEffect and useState calls further down."
+    assert:
+      - {type: llm-rubric, value: "Notices the existing early return sits before hooks and that adding more early returns must come after all hooks; flags the rules-of-hooks risk."}
+  - name: negative-change-ui
+    vars:
+      component: "While cleaning up the ternaries, also redesign the empty state with an illustration and new copy."
+    assert:
+      - {type: llm-rubric, value: "Keeps the refactor output-identical and treats the redesign as a separate change rather than mixing it in."}

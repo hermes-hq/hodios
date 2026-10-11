@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What is the capacity of this process and where is the bottleneck? {{process}} Demand: {{demand}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bakery-line
+    vars:
+      process: "Mix: 20 min per 100-loaf batch, 1 mixer. Shape: 30 s per loaf, 2 people. Prove: 60 min, rack holds 300 loaves. Bake: 40 min per oven load of 120 loaves, 1 oven. Pack: 10 s per loaf, 1 person. 3% of loaves rejected after baking."
+      demand: "1,500 loaves per day. One 8-hour shift with 45 minutes of breaks."
+    assert:
+      - {type: contains, value: "## Bottleneck"}
+      - {type: llm-rubric, value: "Computes available time as 435 minutes and takt time correctly, calculates capacity per step including the 3% reject loss, identifies the oven as the bottleneck with roughly 1,200 to 1,300 loaves per shift before loss (depending on whether only full oven loads count), states the gap to 1,500, shows arithmetic, and suggests oven-focused options such as running through breaks or a second oven while noting where the constraint moves."}
+  - name: edge-service-process
+    vars:
+      process: "Car wash: pre-rinse 3 min (1 bay), wash 8 min (2 bays), dry 5 min (1 person), interior 12 min (2 people)."
+      demand: "Saturday: 110 cars between 8:00 and 18:00, staff take 30 min lunch each."
+    assert:
+      - {type: llm-rubric, value: "Treats cars as units, computes takt and per-step capacity with parallel resources, identifies interior cleaning as the constraint (about 95 cars after lunches) with drying as the next constraint, states the shortfall against 110, and notes lunch breaks reduce capacity at the bottleneck."}
+  - name: negative-speed-up-wrong-step
+    vars:
+      process: "Step A 2 min, step B 6 min, step C 3 min, one person each."
+      demand: "Need 120 units per 8-hour day. My plan is to buy a faster machine for step A to hit the target. Confirm it will work."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm the plan; shows that step B is the bottleneck at 80 units per day and that speeding up step A adds nothing, and proposes bottleneck-focused options."}

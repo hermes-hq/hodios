@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Does this PR match the design doc? Design: {{design_doc}} Code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-notifications
+    vars:
+      design_doc: |
+        §3 Notifications are written to the notifications table and an outbox row in the same transaction; a relay publishes from the outbox.
+        §4 If the push provider is down, notifications are retried with exponential backoff for up to 24 hours, then marked failed.
+        §5 Users can mute per channel. Non-goal: digest emails.
+      diff: |
+        +def notify(user, msg):
+        +    with db.transaction():
+        +        db.insert("notifications", user=user.id, msg=msg)
+        +    broker.publish("notify", {"user": user.id, "msg": msg})
+        +def send_push(n):
+        +    for _ in range(3):
+        +        if push.send(n): return
+        +def weekly_digest(user): ...
+    assert:
+      - {type: contains, value: "## Conformance table"}
+      - {type: llm-rubric, value: "Identifies that publishing directly after the transaction instead of an outbox row deviates from §3 with the consequence of lost or orphaned messages, and that three immediate retries deviate from §4's 24-hour backoff."}
+      - {type: llm-rubric, value: "Flags weekly_digest as scope creep against the stated non-goal, and marks per-channel mute (§5) as missing or not verifiable from the diff."}
+  - name: edge-phase-scoped
+    vars:
+      phase: "Phase 1: data model only."
+      design_doc: "§2 Data model: table subscriptions(id, user_id, plan, status, renews_at) with index on (status, renews_at). §3 Billing job. §4 Admin UI."
+      diff: |
+        +CREATE TABLE subscriptions (id bigint primary key, user_id bigint not null, plan text not null, status text not null, renews_at timestamptz not null);
+        +CREATE INDEX ON subscriptions (status, renews_at);
+    assert:
+      - {type: llm-rubric, value: "Marks the data model as implemented as designed and treats the billing job and admin UI as out of scope for phase 1 rather than missing."}
+  - name: negative-ambiguous-doc
+    vars:
+      design_doc: "§2 Results should be reasonably fresh."
+      diff: |
+        +CACHE_TTL_SECONDS = 3600
+    assert:
+      - {type: llm-rubric, value: "Does not declare the one-hour TTL conforming or deviating; lists the vague freshness requirement under Questions and records the TTL as an undocumented decision."}

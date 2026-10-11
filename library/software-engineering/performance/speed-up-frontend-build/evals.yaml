@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My frontend build is slow, speed it up: {{build}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-webpack-ts-loader
+    vars:
+      build: "Webpack 5, React + TypeScript, ts-loader with full type checking, devtool: source-map in dev, image-minimizer-webpack-plugin in all modes, no cache config. Dev start 95 s, a save takes 12 s to reload, prod build 6 min."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Profile"]}
+      - {type: llm-rubric, value: "Profiles per loader and plugin, switches to transpile-only or swc/esbuild with type checking moved to a separate process, enables the filesystem cache, uses a cheaper dev source map, limits image minification to production, and re-measures warm and cold."}
+  - name: edge-vite-barrel-files
+    vars:
+      build: "Vite 5 dev server takes 40 s before the first page is usable; the network tab shows 4,000 module requests, many from our components/index.ts barrel and an icon library."
+    assert:
+      - {type: llm-rubric, value: "Identifies barrel files and deep icon imports causing thousands of requests, recommends direct imports or pre-bundling settings, and measures time to first usable page after the change."}
+  - name: negative-turn-off-typecheck
+    vars:
+      build: "Just delete type checking from the build entirely, we will be fine."
+    assert:
+      - {type: llm-rubric, value: "Does not remove type checking outright; moves it to a separate process, editor or CI step and explains the risk of losing it."}

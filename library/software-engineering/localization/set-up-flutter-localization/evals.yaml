@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Add localization to my Flutter app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-material-app
+    vars:
+      project: "Flutter 3 app, iOS and Android, Riverpod, Material widgets. Order screen shows '3 items' and an order date built with DateFormat('MM/dd/yyyy')."
+      locales: "en, de, pl"
+      in_app_language_picker: true
+    assert:
+      - {type: contains-all, value: ["## ARB files", "## Platform declarations"]}
+      - {type: llm-rubric, value: "Writes one ICU plural message with typed int placeholder covering Polish few and many categories, and a DateTime placeholder with a locale-aware format instead of a fixed pattern."}
+      - {type: llm-rubric, value: "Adds CFBundleLocalizations to Info.plist and stores the chosen locale in Riverpod state passed to MaterialApp.locale with a system default option."}
+  - name: edge-null-localizations
+    vars:
+      project: "App crashes with a null check error from AppLocalizations.of(context) inside initState of the home screen and in a top-level function building the MaterialApp title."
+      locales: "en, fr"
+      in_app_language_picker: false
+    assert:
+      - {type: llm-rubric, value: "Explains that the context is above MaterialApp or not ready in initState, moves the title to onGenerateTitle and the screen access to build or didChangeDependencies."}
+  - name: negative-preformatted-placeholders
+    vars:
+      project: "The team wants every placeholder declared as String and to pass already formatted numbers and dates in, to keep ARB files simple."
+      locales: "en, de"
+      in_app_language_picker: false
+    assert:
+      - {type: llm-rubric, value: "Pushes back because String placeholders lose plural selection and locale formatting, and shows typed int, num and DateTime placeholders with formats instead."}

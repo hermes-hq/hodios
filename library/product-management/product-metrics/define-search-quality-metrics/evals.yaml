@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What metrics should we use for our search? {{search}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-search
+    vars:
+      search: "Grocery delivery app product search. Success = add to basket. We log only query and click today."
+      goal: "Compare a new ranking model."
+    assert:
+      - {type: contains, value: "## Logging needed"}
+      - {type: llm-rubric, value: "Defines search-session-level success as add to basket within the session, includes zero-result, reformulation, abandonment and click position or MRR, specifies logging of result ids and positions shown and search session id, splits by head and tail queries, recommends offline relevance judgements before an A/B test, and addresses privacy of query text."}
+  - name: edge-help-center-snippets
+    vars:
+      search: "Help centre search where answers appear in snippets. Success = user does not open a support ticket within 24 hours."
+    assert:
+      - {type: llm-rubric, value: "Notes that no-click searches can be successes when the snippet answers the question, so click-through rate misleads, and uses ticket deflection within the window and reformulation as signals."}
+  - name: negative-ctr-only
+    vars:
+      search: "Docs site search."
+      goal: "Just tell me the CTR target we should hit; industry standard is fine."
+    assert:
+      - {type: llm-rubric, value: "Declines to give an industry CTR target as fact, explains why CTR alone is a poor success measure, and proposes setting targets from the team's own baseline."}

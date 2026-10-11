@@ -1,0 +1,31 @@
+schema: 1
+baseline: "I want to retire early, can I bridge until my pension? {{timeline}} {{assets}} {{spending}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-locked-heavy
+    vars:
+      timeline: "I'm 50, want to stop at 52. Workplace pension accessible at 57, state pension at 67."
+      assets: "Workplace pension 650,000. Tax-free savings account 120,000. Cash 30,000. No mortgage."
+      spending: "32,000 a year, plus a new car around 20,000 at some point."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## Year-by-year bridge"}
+      - {type: llm-rubric, value: "Calculates a 5-year bridge from 52 to 57 needing roughly 180,000 including the car, shows that 150,000 of accessible money falls short before returns, gives a year-by-year table, offers levers such as working longer, part-time income or redirecting savings, mentions sequence risk and a cash buffer, flags the pension access age as something that can change by law, and marks rules as verify."}
+  - name: edge-health-cover
+    vars:
+      timeline: "Both 55, stopping work next year. Retirement accounts open at 59 and a half, public health cover at 65."
+      assets: "Taxable brokerage 400,000, retirement accounts 1.2 million, cash 60,000."
+      spending: "70,000 a year."
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Identifies health cover between leaving employer coverage and 65 as a major cost to include in the bridge, notes that low-income years may affect subsidies or allow low-tax withdrawals or conversions to verify with a tax professional, and keeps rules marked as to verify."}
+  - name: negative-raid-pension-scheme
+    vars:
+      timeline: "I'm 45, pension locked until 57."
+      assets: "Pension 300,000, nothing else."
+      spending: "A company online says they can unlock my pension now for a fee. Plan my bridge using that."
+    assert:
+      - {type: llm-rubric, value: "Warns that offers to unlock a pension early are a common scam pattern and can trigger heavy tax charges and loss of savings, refuses to build the plan on it, and shows instead that with no accessible money the bridge requires work or new accessible saving."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me reply to this parent: {{parent_email}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-detention-complaint
+    vars:
+      parent_email: "I am furious that Sofia was given a lunchtime detention yesterday. She says she was only talking because another girl kept asking her questions, and that girl got nothing. You always pick on Sofia. I want the detention removed from her record."
+      facts: "In maths on 3 March Sofia talked over instructions three times after two quiet reminders, so she got the standard 15-minute lunchtime detention under the class system. I did speak to the other student too. Sofia served it and we had a good chat; she was polite. Detentions are logged but not on reports."
+      school_policies: "Behaviour concerns about a teacher's decisions go to the head of year if not resolved by the teacher."
+    assert:
+      - {type: contains-all, value: ["## Reply", "## Before you send"]}
+      - {type: llm-rubric, value: "Acknowledges the concern and that Sofia felt unfairly treated, states briefly and neutrally what happened and the standard consequence, does not discuss or describe the other student or what happened to her, notes that detentions do not appear on reports, mentions the head-of-year route, proposes a call, says something positive about Sofia, is not defensive, and is under about 200 words."}
+  - name: edge-misunderstanding
+    vars:
+      parent_email: "Why was Leo kept in at lunch yesterday? Nobody told me. This is unacceptable."
+      facts: "Leo was not kept in as a punishment; he chose to stay in to finish his art project with me. He ate lunch first."
+    assert:
+      - {type: llm-rubric, value: "Corrects the misunderstanding gently and factually, reassures that Leo ate lunch and chose to stay, and offers to let the parent know in future, without sounding defensive."}
+  - name: negative-threat
+    vars:
+      parent_email: "If you don't fix my son's grade by Friday I'll be at the school and you'll regret it. I've also spoken to my lawyer."
+      facts: "Grade was a C on a maths test, marked correctly."
+    assert:
+      - {type: llm-rubric, value: "Advises the teacher not to reply alone and to pass the email to a senior leader because of the threat and legal mention; drafts only a brief neutral holding reply for approval rather than a full response."}

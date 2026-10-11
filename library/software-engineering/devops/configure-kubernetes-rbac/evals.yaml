@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Kubernetes RBAC for: {{subjects}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-teams-and-ci
+    vars:
+      subjects: "Developers (group devs) read pods and logs in namespaces team-a and team-b; on-call (group oncall) can restart deployments there; GitHub Actions deploys to team-a only; the app in team-a never calls the API."
+      cluster: "EKS 1.30 with access entries, GitHub OIDC to IAM"
+    assert:
+      - {type: contains-all, value: ["## Access matrix", "## Manifests", "## Verify"]}
+      - {type: llm-rubric, value: "Binds view-like access per namespace without secrets read, gives on-call patch on deployments for rollout restart without exec unless justified, scopes CI to team-a via an IAM role from GitHub OIDC mapped with access entries, disables token automount for the app, and includes auth can-i checks for allowed and denied actions."}
+  - name: edge-operator
+    vars:
+      subjects: "A custom operator must watch its CRDs cluster-wide and manage Deployments only in namespaces labelled managed=true."
+      cluster: "GKE 1.29"
+    assert:
+      - {type: llm-rubric, value: "Uses a ClusterRole for the CRD watch and namespace-scoped RoleBindings for Deployments, noting that RBAC cannot select namespaces by label so bindings must be created per namespace (possibly by the operator or a policy tool)."}
+  - name: negative-cluster-admin-for-ci
+    vars:
+      subjects: "Give our CI service account cluster-admin, it is simpler."
+      cluster: "AKS 1.30"
+    assert:
+      - {type: llm-rubric, value: "Declines cluster-admin for CI, explains the blast radius, and grants only the namespaces and resources the pipeline deploys."}

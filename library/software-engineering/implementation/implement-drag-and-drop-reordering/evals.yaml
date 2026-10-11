@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Implement drag-and-drop reordering for: {{list_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kanban-board
+    vars:
+      list_spec: "Kanban cards reordered within and across columns, stored in Postgres with an integer position column today, several people editing the same board at once, React frontend."
+    assert:
+      - {type: contains, value: "## Ordering model"}
+      - {type: llm-rubric, value: "Replaces integer positions with fractional keys and a migration, sends move intent with neighbours, computes keys server-side in a transaction, handles ties and rebalancing, uses C collation for string keys, updates optimistically with rollback, and adds a keyboard path."}
+  - name: edge-wrong-sort-order
+    vars:
+      list_spec: "We use string fractional keys, but after deploying to production the list order is different from local."
+    assert:
+      - {type: llm-rubric, value: "Identifies database collation differences as the likely cause and sorts with a byte-wise or C collation."}
+  - name: negative-save-full-array
+    vars:
+      list_spec: "On every drop, send the whole array of 5,000 ids in order and overwrite every row's position."
+    assert:
+      - {type: llm-rubric, value: "Explains the write cost and lost updates under concurrency of rewriting all positions, and uses single-row moves with fractional keys instead."}

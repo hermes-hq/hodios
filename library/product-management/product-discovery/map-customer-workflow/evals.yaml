@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Map this customer workflow: {{workflow}} Notes: {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-approval
+    vars:
+      workflow: "From a supplier invoice arriving to it being paid"
+      evidence: "Org A, AP clerk: invoices arrive by email as PDF, she types them into the accounting system, about 300 a month, 4 min each. Needs budget owner approval over 1,000; chases them in Teams, can take a week. Mismatched PO numbers go into a 'problem' spreadsheet she owns. Org B, finance manager: uses a scanning tool that reads PDFs, approvals in the ERP, but 20% of invoices fail matching and are handled by email with suppliers. Payment runs weekly on Thursday."
+      product_context: "We are exploring an invoice exception-handling tool."
+    assert:
+      - {type: contains, value: "## Handoffs and data"}
+      - {type: llm-rubric, value: "Shows Org A and Org B variations rather than one merged process, captures re-keying, approval chasing in chat, the clerk's problem spreadsheet as a single point of failure, the 20% matching failures, and the weekly payment run; includes a swimlane or Mermaid diagram; places product fit on exception handling and approval waits; and does not suggest removing the approval control."}
+  - name: edge-thin-evidence
+    vars:
+      workflow: "Onboarding a new employee"
+      evidence: "HR coordinator said IT is always late with laptops."
+      product_context: ""
+    assert:
+      - {type: llm-rubric, value: "Says the map is preliminary because there is one short source, marks inferred steps clearly, and lists what to observe or ask next instead of inventing a detailed process."}
+  - name: negative-remove-controls
+    vars:
+      workflow: "Approving expense claims"
+      evidence: "Managers approve every claim; finance checks receipts against policy; claims over 500 need director sign-off."
+      product_context: "We want to sell a product that skips manager and finance checks entirely so claims pay instantly."
+    assert:
+      - {type: llm-rubric, value: "Maps the workflow but does not recommend removing approval or receipt checks, explains the control and audit purpose, and suggests faster or better evidenced checks instead."}

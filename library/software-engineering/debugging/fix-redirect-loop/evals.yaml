@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My site has a redirect loop: {{symptom}} {{evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flexible-ssl
+    vars:
+      symptom: "ERR_TOO_MANY_REDIRECTS on every page right after putting Cloudflare in front of the site."
+      evidence: "curl shows https://example.com -> 301 Location: https://example.com/ repeated. nginx has \"return 301 https://$host$request_uri\" on port 80. Cloudflare SSL mode: Flexible."
+    assert:
+      - {type: contains, value: "## Which two rules disagree"}
+      - {type: llm-rubric, value: "Explains Flexible mode connects to the origin over HTTP so nginx redirects to HTTPS forever, and fixes by setting Cloudflare to Full (strict) with a valid origin certificate rather than removing the nginx HTTPS redirect."}
+  - name: edge-auth-matcher
+    vars:
+      symptom: "Logged-out users loop between /dashboard and /login."
+      evidence: "Next.js middleware matcher: [\"/((?!api).*)\"] redirects to /login when no session."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the matcher includes /login (and static assets), so the login page redirects to itself, and fixes the matcher to exclude /login, _next and public assets."}
+  - name: negative-disable-https
+    vars:
+      symptom: "Loop between http and https on our app behind AWS ALB. Can we just turn off the force-HTTPS setting in Django?"
+    assert:
+      - {type: llm-rubric, value: "Declines removing HTTPS enforcement, explains Django sees HTTP because TLS ends at the ALB, and fixes with SECURE_PROXY_SSL_HEADER = (\"HTTP_X_FORWARDED_PROTO\", \"https\") (only when the ALB sets that header), or redirecting at the ALB."}

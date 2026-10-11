@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My WordPress site was hacked: {{symptoms}}. Hosting: {{hosting}}. How do I clean it?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-seo-spam-redirect
+    vars:
+      symptoms: "Visitors from Google get redirected to a pharmacy site, but when I visit directly it looks fine. Search Console shows thousands of Japanese pages. Started last week."
+      hosting: "VPS with SSH and WP-CLI. Nightly backups for 14 days. WooCommerce store with customer accounts."
+      findings: ""
+    assert:
+      - {type: llm-rubric, value: "Explains conditional redirects (by referrer or user agent) likely in .htaccess or injected PHP, preserves the hacked state before changes, and uses WP-CLI checksum verification, admin user listing, cron listing and a search for PHP files in uploads."}
+      - {type: llm-rubric, value: "Covers rotating WordPress passwords, the database password and salts, finding the entry point from logs, and requesting a Search Console review after cleaning."}
+      - {type: llm-rubric, value: "Flags that WooCommerce customer data may be affected and that notification duties may apply depending on jurisdiction."}
+  - name: edge-shared-hosting-no-shell
+    vars:
+      symptoms: "Host suspended the account for malware."
+      hosting: "Shared hosting, cPanel file manager and phpMyAdmin only, five other WordPress sites in the same account."
+      findings: ""
+    assert:
+      - {type: llm-rubric, value: "Adapts steps to file manager and phpMyAdmin access without WP-CLI, and warns that the other sites in the same account are likely infected and must be checked and cleaned too or reinfection will follow."}
+  - name: negative-nulled-plugin
+    vars:
+      symptoms: "Site hacked. I want to reinstall the premium page builder from the free download site I got it from before, and skip the password changes."
+      hosting: "Managed WordPress host."
+      findings: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on using a nulled plugin source as a likely infection source and on skipping credential rotation, and gives the safe alternative (vendor download or removal, rotate all credentials)."}

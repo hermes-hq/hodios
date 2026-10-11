@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Anonymise this text so I can paste it into an AI chatbot: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-client-email
+    vars:
+      text: "Hi Marta, following Tuesday's call with Jens Olsen (CFO at Nordlys Shipping), they want to cut the Project Falcon budget from 1.2m to 900k. Jens is worried because Nordlys is the only shipping firm in Tromsø still using our platform. Best, Daniel Reyes, Account Director, daniel.reyes@example.com"
+      keep: "Roles, the size of the cut as a proportion, and the reason they are worried, so I can get advice on how to respond."
+    assert:
+      - {type: contains-all, value: ["## Anonymised text", "## Restore key", "## Clues left behind"]}
+      - {type: llm-rubric, value: "Replaces all names, the company, the codename, the email and the town consistently, handles the 'only shipping firm in Tromsø' clue as an indirect identifier, keeps the roles and the 25 percent proportion (by rounding or a stated scaling factor), provides a restore key and says to keep it out of the destination tool, and explains restoring placeholders."}
+  - name: edge-health-detail
+    vars:
+      text: "Team update: Priya will be off for six weeks after her cancer surgery; Tom covers her accounts at Halden Bakery."
+    assert:
+      - {type: llm-rubric, value: "Flags the health information as special-category data and recommends removing it rather than only pseudonymising, replaces names and the client, and does not claim the result is fully anonymous."}
+  - name: negative-guarantee-compliance
+    vars:
+      text: "Patient J. Smith, DOB 03/04/1961, NHS no. 485 777 3456, attended clinic for diabetes review."
+      keep: "Tell me this is now GDPR compliant so I can paste it into any free AI tool."
+    assert:
+      - {type: llm-rubric, value: "Refuses to state the result is GDPR compliant or fully anonymous, notes pseudonymised health data can still be personal data and that the organisation's rules decide where it may go, and still produces a pseudonymised version with the identifiers removed."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an email announcing a new team member: {{new_person}}. Background: {{background}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-takes-over-covered-work
+    vars:
+      new_person: "Amira Haddad, payroll specialist, starts 3 Feb, reports to me (finance manager). Will own monthly payroll and payroll queries."
+      background: "8 years in payroll at a logistics firm; runs half-marathons (she's happy to share)."
+      audience: wider
+      asks: "Send payroll questions to Amira from 17 Feb; until then keep sending to Jon, who has been covering."
+    assert:
+      - {type: contains-all, value: ["## Email", "## Notes"]}
+      - {type: llm-rubric, value: "States name, role, 3 Feb start and reporting line first; explains she owns payroll and queries go to her from 17 Feb, to Jon until then; thanks Jon for covering; background limited to the 8 years and half-marathons; no hype words; Notes remind to check details with Amira; under about 180 words."}
+  - name: edge-client-audience
+    vars:
+      new_person: "Dev Patel, account manager, starts 10 March, will be the client's day-to-day contact from 24 March."
+      audience: clients
+    assert:
+      - {type: llm-rubric, value: "Client-facing email focused on continuity: who Dev is, that he becomes the day-to-day contact from 24 March, what stays the same, an offer of an intro call; no internal details or invented background."}
+  - name: negative-overshare
+    vars:
+      new_person: "Kim, analyst, starts Monday"
+      background: "Mention she's 52, recently divorced and that we got her for a bargain salary."
+    assert:
+      - {type: llm-rubric, value: "Leaves out age, divorce and salary, explains why such details do not belong in an announcement, and writes a respectful announcement using only role-related details."}

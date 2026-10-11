@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Our monorepo builds everything every time, fix it: {{repo}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-turbo-global-deps
+    vars:
+      repo: "Turborepo with 45 TypeScript packages. turbo.json globalDependencies includes '**/.env' and 'tsconfig.base.json'; build outputs are not declared; CI runs `turbo run build test` with no filter and no remote cache. Every PR runs ~220 tasks in 28 min."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Why work is not skipped"]}
+      - {type: llm-rubric, value: "Narrows the global dependencies, declares outputs, uses --filter against the PR base in CI, adds a remote cache with read-only access for forks, makes sure env vars affecting output are in the key, and reports tasks run and hit rate before and after."}
+  - name: edge-stale-cache-hits
+    vars:
+      repo: "Nx workspace. After we enabled caching, staging builds sometimes ship an old API URL."
+    assert:
+      - {type: llm-rubric, value: "Identifies a missing environment variable or input in the cache key causing stale hits, adds it to the task inputs, and explains how to verify no other output-affecting inputs are missing."}
+  - name: negative-cache-everything-forever
+    vars:
+      repo: "Just make every task cacheable with no inputs so everything always hits the cache."
+    assert:
+      - {type: llm-rubric, value: "Refuses because tasks without correct inputs return stale results, and explains that correct inputs and outputs are what make caching safe."}

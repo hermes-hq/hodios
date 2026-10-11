@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Vue app renders slowly, fix it: {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-big-reactive-table
+    vars:
+      symptom: "Vue 3.4 + Pinia. The store holds rows = ref([]) filled with 8,000 objects from an API (each with nested address and tags). Sorting freezes for 1.5 s. The table template calls formatRow(row) for each cell and v-for uses :key='index'."
+    assert:
+      - {type: contains-all, value: ["## Causes", "## Changes"]}
+      - {type: llm-rubric, value: "Identifies deep reactivity on 8,000 nested objects and proposes shallowRef with replacement on sort, replaces the template method with computed or precomputed values, uses a stable id key instead of index, and considers virtualisation."}
+  - name: edge-nuxt-payload
+    vars:
+      symptom: "Nuxt 3 product listing is slow to become interactive. useFetch('/api/products') returns full product objects (200 KB each page) but the page shows only name, price and image."
+    assert:
+      - {type: llm-rubric, value: "Points to the payload serialised into the page and hydration cost, and uses pick or transform to send only the needed fields, possibly with lazy components."}
+  - name: negative-shallow-with-mutation
+    vars:
+      symptom: "Make all our refs shallowRef to speed things up. Our components do things like state.items[3].done = true all over the place."
+    assert:
+      - {type: llm-rubric, value: "Warns that switching to shallowRef with in-place nested mutations will stop the UI updating, refuses the blanket change, and recommends measuring and applying shallow reactivity only to large data that is replaced."}

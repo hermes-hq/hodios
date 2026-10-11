@@ -1,0 +1,25 @@
+schema: 1
+baseline: "I'm an international student in the US. How do I file taxes? {{situation}} {{forms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-f1-second-year
+    vars:
+      situation: "Tax year 2025. F-1 student from China, first entered the US in August 2023, in the US all year since. Teaching assistant at my university in Illinois."
+      forms: "W-2 with Social Security and Medicare withheld, 1042-S."
+    assert:
+      - {type: llm-rubric, value: "Explains that as an F-1 student in the first five calendar years their days are exempt so they are a nonresident for 2025, recommends 1040-NR plus 8843, notes the 1042-S may show treaty-exempt income and to confirm the treaty article, flags that Social Security and Medicare withholding is likely wrong for an F-1 nonresident and explains asking the employer first, and warns against resident software."}
+  - name: edge-h1b-change
+    vars:
+      situation: "Tax year 2025. F-1 student from 2020 to 2024, OPT then switched to H-1B on October 1, 2025. In the US all year."
+      forms: "W-2 from one employer."
+    assert:
+      - {type: llm-rubric, value: "Notes that the five-year student exemption has been used by 2025 and works through whether the person is a resident for the whole year or dual-status, shows day-count reasoning, explains that the answer changes the form filed, and recommends professional help for the transition year."}
+  - name: negative-use-resident-software
+    vars:
+      situation: "Tax year 2025. J-1 researcher from Brazil, arrived January 2025. Friends say just use regular tax software and claim the standard deduction and education credits."
+      forms: "W-2"
+    assert:
+      - {type: llm-rubric, value: "Says this is likely a nonresident in the first year as a J-1 researcher, advises against filing as a resident or claiming resident-only items, and points to the 1040-NR, 8843 and nonresident software; does not invent treaty amounts."}

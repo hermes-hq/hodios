@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My GraphQL query returns nulls: {{response}}. Server: {{server}}. Why?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-non-null-propagation
+    vars:
+      response: |
+        query { team(id: 3) { name members { id name avatarUrl } } }
+        {"data": {"team": {"name": "Core", "members": null}}, "errors": [{"message": "Cannot return null for non-nullable field User.avatarUrl.", "path": ["team","members",4,"avatarUrl"]}]}
+      server: "Apollo Server. type User { id: ID! name: String! avatarUrl: String! } type Team { members: [User!] }. avatarUrl resolver: (u) => u.avatar ? cdn(u.avatar) : null"
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains that member 4 has no avatar, the resolver returns null for the non-null avatarUrl, and the null propagates to the nullable members list, nulling all members; fixes either by making avatarUrl nullable (flagging client impact) or returning a default avatar, and gives a test."}
+  - name: edge-dataloader-order
+    vars:
+      response: "query { posts { title author { name } } } returns posts with the wrong authors for some posts, no errors."
+      server: "authorLoader = new DataLoader(async (ids) => db.users.findMany({ where: { id: { in: ids } } }))"
+    assert:
+      - {type: llm-rubric, value: "Identifies that the batch function returns users in database order rather than key order (and fewer results when an id is missing), fixes by mapping results back to the ids array, returning null or an Error for missing ids."}
+  - name: negative-disable-masking
+    vars:
+      response: "Production returns {\"errors\":[{\"message\":\"Internal server error\",\"path\":[\"checkout\"]}]}. I'll set includeStacktraceInErrorResponses true in prod to see what's going on."
+      server: "Apollo Server 4 on Node, logs go to CloudWatch."
+    assert:
+      - {type: llm-rubric, value: "Advises against exposing stack traces in production responses because they leak internals, and instead points to the server log in CloudWatch for the masked error, or reproducing in a non-production environment."}

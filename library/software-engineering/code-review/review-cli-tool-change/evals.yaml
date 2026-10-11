@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Review this CLI change: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-export-command
+    vars:
+      context: "Used in CI pipelines; `export` output is piped into other tools. Python click."
+      diff: |
+        -@click.option("--out-format", default="csv")
+        +@click.option("--format", default="json")
+        +def export(format):
+        +    print("Exporting records...")
+        +    try:
+        +        rows = fetch()
+        +    except ApiError as e:
+        +        print(f"error: {e}")
+        +        return
+        +    print(render(rows, format))
+    assert:
+      - {type: contains, value: "## Contract changes"}
+      - {type: llm-rubric, value: "Flags that --out-format was removed without an alias and the default changed from csv to json, breaking existing scripts."}
+      - {type: llm-rubric, value: "Flags that the progress message goes to stdout and corrupts piped output, and that the error path prints to stdout and exits 0, so CI does not fail."}
+  - name: edge-additive-flag
+    vars:
+      context: "Go cobra CLI."
+      diff: |
+        +cmd.Flags().BoolVar(&verbose, "verbose", false, "print request details to stderr")
+    assert:
+      - {type: llm-rubric, value: "Recognises an additive opt-in flag writing to stderr is compatible, approves, and at most suggests a help or changelog note or a test."}
+  - name: negative-interactive-delete
+    vars:
+      context: "Run nightly by cron."
+      diff: |
+        +    if input(f"Delete {n} snapshots? [y/N] ") != "y":
+        +        sys.exit(0)
+    assert:
+      - {type: llm-rubric, value: "Identifies that the prompt blocks or fails without a TTY under cron and exits 0 on refusal, and proposes a --yes flag, TTY detection and a non-zero code, without suggesting running the delete to test it."}

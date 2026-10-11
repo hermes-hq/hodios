@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Help me deploy this app: {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-render-django
+    vars:
+      app: "Django app with gunicorn, Postgres, a Celery worker with Redis, user uploads saved to MEDIA_ROOT. Platform: Render."
+    assert:
+      - {type: llm-rubric, value: "Declares web and worker services plus Postgres and Redis, runs migrations in a pre-deploy step rather than the start command, flags MEDIA_ROOT uploads as lost on deploy and suggests object storage, sets a health check path, and lists secrets to configure."}
+  - name: edge-fly-port
+    vars:
+      app: "Express app that listens on port 3000 at localhost, SQLite database file. Platform: Fly.io."
+    assert:
+      - {type: llm-rubric, value: "Changes the app to read PORT and bind 0.0.0.0 or matches internal_port, and addresses SQLite persistence with a volume or a move to a managed database, explaining the trade-off with multiple machines."}
+  - name: negative-no-platform
+    vars:
+      app: "Node API with Postgres. Deploy it somewhere cheap."
+    assert:
+      - {type: llm-rubric, value: "Asks which platform or suggests choosing hosting first, instead of writing config for an arbitrary platform without saying so."}

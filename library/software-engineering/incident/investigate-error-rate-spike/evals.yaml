@@ -1,0 +1,25 @@
+schema: 1
+baseline: "We have a spike in errors in production. Help me figure it out: {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-turn
+    vars:
+      symptoms: "500 rate on the orders API went from 0.2% to 9% at 14:05 UTC. Mostly NullPointerException in PriceCalculator. Users report failed checkouts."
+      architecture: "ALB -> orders-api (10 pods, rolling deploys several times a day) -> Postgres and a pricing service. Feature flags in LaunchDarkly."
+    assert:
+      - {type: llm-rubric, value: "Asks exactly one question, most likely whether a deploy or flag change happened around 14:05 or whether errors concentrate on one release version, and explains what each answer would mean."}
+      - {type: llm-rubric, value: "Offers a mitigation option such as rolling back the latest deploy or turning off a recent flag, with its risk, and suggests declaring an incident because checkouts fail."}
+  - name: edge-one-tenant
+    description: "Later turn after the user found that 95% of the 500s come from a single API key."
+    vars:
+      symptoms: "Error rate 6%, but 95% of 500s are from one partner API key sending bulk orders with 10,000 line items."
+    assert:
+      - {type: llm-rubric, value: "Recognises the spike is concentrated on one client, separates real user impact from that client's traffic, and proposes rate-limiting or temporarily blocking that key and fixing the 500 to a proper 4xx validation error rather than a rollback."}
+  - name: negative-blames-old-log
+    vars:
+      symptoms: "The logs are full of 'Redis connection reset' so Redis is clearly the cause. Should I fail over Redis now?"
+    assert:
+      - {type: llm-rubric, value: "Does not agree to fail over yet; asks whether the Redis error is new or was present before the spike at a similar rate, and warns that a failover is risky and not reversible in seconds."}

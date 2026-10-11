@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Add hybrid search (keyword plus vector) to my retrieval: {{current_search}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-error-codes
+    vars:
+      current_search: "Vector-only search with pgvector on a chunks table in Postgres 16; Python service in retrieval/search.py; every query filters by workspace_id."
+      queries: "'What does E-4012 mean?' and 'SKU AB-77-X stock' return unrelated chunks; paraphrase questions work fine."
+    assert:
+      - {type: contains, value: "## Results"}
+      - {type: llm-rubric, value: "Uses Postgres full-text search alongside pgvector rather than a new system, checks that the tokenizer keeps codes like E-4012 searchable, and fuses with reciprocal rank fusion."}
+      - {type: llm-rubric, value: "Applies the workspace_id filter in both the keyword and vector queries and evaluates keyword-only, vector-only and hybrid on a labelled set split by identifier and paraphrase queries."}
+  - name: edge-search-engine
+    vars:
+      current_search: "OpenSearch with BM25 only; no embeddings yet; Java service."
+    assert:
+      - {type: llm-rubric, value: "Adds embeddings and the vector side within the existing search engine where supported, and still measures each method separately."}
+  - name: negative-no-eval
+    vars:
+      current_search: "Vector search in a managed vector database. Skip the evaluation, just switch production to hybrid today."
+    assert:
+      - {type: llm-rubric, value: "Explains that without a side-by-side measurement hybrid may not help and could hurt some queries, and proposes at least a small labelled comparison before switching."}

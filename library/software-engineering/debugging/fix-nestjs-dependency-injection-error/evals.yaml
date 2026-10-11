@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do I fix this NestJS error? {{error}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missing-export
+    vars:
+      error: "Nest can't resolve dependencies of the OrdersService (?, PaymentsClient). Please make sure that the argument UsersService at index [0] is available in the OrdersModule context."
+      code: "UsersModule: providers [UsersService], no exports. OrdersModule: imports [UsersModule], providers [OrdersService, PaymentsClient]."
+    assert:
+      - {type: contains, value: "## What Nest could not resolve"}
+      - {type: llm-rubric, value: "Identifies UsersService is not exported from UsersModule, adds it to exports, warns against adding UsersService to OrdersModule providers (duplicate instance), and verifies by starting the app."}
+  - name: edge-interface-token
+    vars:
+      error: "Nest can't resolve dependencies of the NotificationService (?). Please make sure that the argument Object at index [0] is available in the NotificationModule context."
+      code: "constructor(private readonly sender: EmailSender) where EmailSender is an interface; providers: [NotificationService, SmtpEmailSender]."
+    assert:
+      - {type: llm-rubric, value: "Explains interfaces are erased at runtime so the token becomes Object, and fixes with a string or symbol token, @Inject(EMAIL_SENDER), and a provider { provide: EMAIL_SENDER, useClass: SmtpEmailSender }."}
+  - name: negative-global-everything
+    vars:
+      error: "We keep hitting can't resolve dependencies. Should we mark every module @Global() so we never have to think about imports?"
+    assert:
+      - {type: llm-rubric, value: "Advises against making all modules global (hidden coupling, harder testing, unclear boundaries), and explains the import and export rule with a fix for the specific error pattern, reserving @Global for app-wide infrastructure like config."}

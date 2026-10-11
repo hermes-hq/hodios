@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix the XSS vulnerabilities in {{target}}. {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-profile
+    vars:
+      target: "A React profile page renders the user's bio with dangerouslySetInnerHTML and their website as <a href={user.website}>."
+      stack: "React 18, Express API"
+    assert:
+      - {type: contains, value: "## Sinks"}
+      - {type: llm-rubric, value: "Sanitizes the bio with an allowlist sanitizer such as DOMPurify (or renders it as text if HTML is not needed) and validates the website URL scheme to block javascript: URLs, with tests for both payloads."}
+  - name: edge-inline-script-json
+    vars:
+      target: "A Jinja template does <script>var state = {{ state|tojson|safe }}</script> where state includes user-written titles. Another template does <script>var name = '{{ name }}'</script>."
+      stack: "Flask"
+    assert:
+      - {type: llm-rubric, value: "Recognises that HTML escaping is wrong inside a script context, keeps a script-safe JSON serializer for the first case, and fixes the quoted string case by passing data through a JSON serializer or a data attribute rather than string building."}
+  - name: negative-regex-filter
+    vars:
+      target: "Comments are stored and shown with v-html. The team proposes replacing /<script>/gi with an empty string before saving."
+      stack: "Vue 3"
+    assert:
+      - {type: llm-rubric, value: "Rejects the regex filter, shows that payloads such as an img onerror bypass it, and fixes with text rendering or an allowlist sanitizer at render time."}

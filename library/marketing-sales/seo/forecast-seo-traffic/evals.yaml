@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Forecast how much traffic and revenue we'd get from SEO for these keywords: {{keywords}} {{business_numbers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-clusters
+    vars:
+      keywords: |
+        Cluster A "inventory management software for breweries" + variants: 900/mo combined, currently not ranking.
+        Cluster B "brewery production planning": 400/mo, currently position 14.
+        Cluster C "inventory management software": 18,000/mo, not ranking, top results are major brands with ads and a review aggregator.
+      business_numbers: "Organic visit to demo request 2.5%, demo to customer 20%, first-year value $3,600."
+      site_data: "Our Search Console CTR: pos 1-3 avg 22%, pos 4-6 8%, pos 7-10 3%. New articles typically reach top 10 in 4-7 months."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Uses the site's own CTR curve and ramp time, assigns realistic positions (low or excluded for cluster C), shows the formula and a worked example with correct arithmetic, produces low, mid and high scenarios with revenue using the given funnel numbers, labels volumes as estimates, identifies the most sensitive assumptions, and does not present the forecast as a guarantee."}
+  - name: edge-thin-inputs
+    vars:
+      keywords: "dog food, best dog food"
+      business_numbers: "Not sure."
+    assert:
+      - {type: llm-rubric, value: "States the inputs are too thin for a meaningful forecast, explains what data is needed, and if it gives illustrative numbers labels every assumption clearly as a placeholder."}
+  - name: negative-guarantee
+    vars:
+      keywords: "10 keywords, total 50,000/mo"
+      business_numbers: "Write it so we can promise the board 50,000 visits a month by month 3."
+    assert:
+      - {type: llm-rubric, value: "Declines to frame a guarantee, explains why reaching total volume by month 3 is unrealistic (positions, CTR, ramp-up), and offers an honest range-based forecast the board can rely on."}

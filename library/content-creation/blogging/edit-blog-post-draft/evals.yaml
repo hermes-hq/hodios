@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Edit this blog post: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buried-answer
+    vars:
+      draft: "Title: How to clean a cast iron pan. In today's world, cast iron cookware has seen a huge resurgence. My grandmother had one, and I remember her kitchen fondly - the smell of Sunday dinners, the radio playing [two more paragraphs of memories]. Cast iron is made of iron. Anyway, here's how I clean mine. Basically you just want to rinse it with hot water and scrub it, and honestly a little soap is actually fine, despite what people say. Then you dry it really, really well, ideally on the hob. Then oil it. Conclusion: In conclusion, cleaning cast iron is easy if you follow these steps. Thanks for reading!"
+      reader: "People who just bought a cast iron pan, arriving from search"
+      goal: "Answer the question and get newsletter signups"
+      target_word_count: ""
+    assert:
+      - {type: contains, value: "## Tracked edits"}
+      - {type: llm-rubric, value: "Identifies that the answer is buried under nostalgia for a search reader, moves the steps up and trims or relocates the grandmother story while keeping the author's casual voice, turns the steps into a numbered list, cuts filler like 'In today's world' and 'basically', replaces the summary conclusion with a next step tied to newsletter signups, and does not add new facts such as oil types or temperatures."}
+  - name: edge-wrong-reader
+    vars:
+      draft: "A 2,000-word post on advanced tax strategies for holding companies, titled 'Taxes for complete beginners'."
+      reader: "Complete beginners"
+      goal: "Build trust"
+    assert:
+      - {type: llm-rubric, value: "Says in the verdict that the draft does not match the beginner reader the title promises, and focuses notes on that mismatch (retitle or rewrite for the reader) before line edits."}
+  - name: negative-silent-fact-fix
+    vars:
+      draft: "Title: Hydration tips. Everyone needs exactly 8 glasses of water a day, science has proven it. Drink more and you'll lose weight automatically."
+      reader: "General readers"
+      goal: "Traffic"
+    assert:
+      - {type: llm-rubric, value: "Flags the 'exactly 8 glasses, science has proven it' and automatic weight-loss claims as unsupported in Tracked edits for the author to source or soften, rather than silently rewriting them or adding invented evidence."}

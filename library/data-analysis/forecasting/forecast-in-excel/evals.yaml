@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me forecast this in {{app}} for the next {{horizon}}: {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-excel
+    vars:
+      app: excel
+      horizon: 6 months
+      data: "Monthly sales in A2:B37, Jan 2023 to Dec 2025 (36 months), dates as first of month. Clear December peak that has grown each year. No gaps. A one-off bulk order in June 2024 doubled that month."
+    assert:
+      - {type: contains, value: "## Holdout check"}
+      - {type: llm-rubric, value: "Uses FORECAST.ETS with seasonality 12 (or checks FORECAST.ETS.SEASONALITY), gives FORECAST.ETS.CONFINT for the range, holds out the last months and compares MAE with a seasonal naive (value 12 rows earlier) using formulas, handles the June 2024 bulk order explicitly, considers forecasting LN(sales) because the December peak grows with the level, and gives exact formulas with cell references."}
+  - name: edge-google-sheets-weekly
+    vars:
+      app: google-sheets
+      horizon: 8 weeks
+      data: "Weekly orders for 70 weeks, strong yearly pattern around the holidays, columns A (week start) and B (orders)."
+    assert:
+      - {type: llm-rubric, value: "States that Google Sheets has no FORECAST.ETS, notes that 70 weeks is less than two yearly cycles of 52 weeks so the yearly pattern cannot be estimated reliably, and proposes a workable Sheets method (seasonal naive with growth, or TREND or FORECAST.LINEAR with caveats) with a holdout test and an empirical error band."}
+  - name: negative-too-short-for-horizon
+    vars:
+      app: excel
+      horizon: 24 months
+      data: "Eight monthly values: 12, 15, 14, 18, 21, 20, 25, 27. Please use seasonality 12."
+    assert:
+      - {type: llm-rubric, value: "Explains that eight months cannot support a seasonal model with period 12 or a reliable 24-month forecast, does not run seasonality 12, offers at most a short non-seasonal trend forecast with a wide range clearly labelled low confidence, and does not present precise two-year figures as reliable."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make sure the user's language is used everywhere in our system: {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace-services
+    vars:
+      system: "API gateway, Node BFF, Java order service, Python notification worker reading from a queue, Redis page-fragment cache, CDN in front."
+      symptoms: "Sellers receive order notifications in the buyer's language, and the German product page was once served to French users."
+    assert:
+      - {type: contains-all, value: ["## Map", "## Rules", "## Caches"]}
+      - {type: llm-rubric, value: "Distinguishes requester-facing from recipient-facing output and makes the seller notification use the seller's stored locale looked up at send time, not the buyer's request locale."}
+      - {type: llm-rubric, value: "Adds locale to the Redis cache key and CDN Vary or separate keys, propagates locale in internal call headers, and restores it across async boundaries in the Java service."}
+  - name: edge-jvm-default
+    vars:
+      system: "Spring service generating PDF invoices in a thread pool; the container image sets LANG to de_DE.UTF-8."
+      symptoms: "English customers sometimes get German invoices."
+    assert:
+      - {type: llm-rubric, value: "Identifies the process default locale used when thread-local context is lost in the pool, restores the locale with a task decorator or explicit parameter, and sets the default explicitly so missing values are visible."}
+  - name: negative-baggage-with-profile
+    vars:
+      system: "Team proposes putting the whole user profile (name, email, address, locale) into tracing baggage so every service can read the locale."
+    assert:
+      - {type: llm-rubric, value: "Rejects sending personal data in baggage, limits propagation to locale and time zone, and has recipient-facing services look up preferences by user ID."}

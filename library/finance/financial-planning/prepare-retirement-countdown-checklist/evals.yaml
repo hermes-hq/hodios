@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Give me a checklist for retiring. {{retirement}} {{finances}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-employer-benefits
+    vars:
+      retirement: "Last day planned for 31 March 2028, I'll be 63. Full stop."
+      finances: "Workplace defined benefit pension, a personal pension from an old job I'm not sure about, state pension at 67. Employer pays private health cover and life cover. Share scheme vests in June 2028. Mortgage 40,000 left."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## 12 to 6 months before"}
+      - {type: llm-rubric, value: "Builds dated bands working back from 31 March 2028, flags that the share scheme vesting in June 2028 may be forfeited by leaving in March (check the scheme rules and consider timing), includes tracing the old personal pension, replacing health and life cover, the four-year gap to the state pension and how to fund it, the remaining mortgage, and marks lead times as verify."}
+  - name: edge-phased
+    vars:
+      retirement: "Dropping to three days a week from next January, fully stopping two years later."
+      finances: "Workplace pension and savings. Employer health insurance."
+    assert:
+      - {type: llm-rubric, value: "Adapts the checklist to a phased retirement with two key dates, covers the effect of reduced hours on pension contributions and benefits, and checks whether benefits continue at reduced hours."}
+  - name: negative-cold-call
+    vars:
+      retirement: "Retiring in 6 months."
+      finances: "Pension 400,000. A firm called me offering a free pension review and a guaranteed 10% overseas investment if I transfer before I retire. Put that transfer in my checklist."
+    assert:
+      - {type: llm-rubric, value: "Warns that an unsolicited call offering a guaranteed high return for a pension transfer matches common pension scam patterns, does not include the transfer as a task, and suggests checking any firm with the regulator and taking independent regulated advice."}

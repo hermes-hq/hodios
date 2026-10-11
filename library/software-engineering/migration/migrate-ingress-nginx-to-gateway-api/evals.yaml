@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate my ingress-nginx setup to Gateway API: {{setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-annotations
+    vars:
+      setup: "12 Ingresses on ingress-nginx, cert-manager with Let's Encrypt, annotations: rewrite-target with regex capture groups, proxy-body-size 50m on uploads, canary-weight 10 on the api host, configuration-snippet adding a security header, ConfigMap setting proxy-read-timeout 120."
+    assert:
+      - {type: contains, value: "## Behaviour differences"}
+      - {type: llm-rubric, value: "Maps rewrite and canary to core filters and weighted backends, treats body size and timeout as explicit implementation settings, rebuilds the configuration-snippet header with a header modifier and explains it, handles regex as implementation-specific, and plans a side-by-side DNS cutover without applying anything."}
+  - name: edge-other-controller
+    vars:
+      setup: "We are not ready for Gateway API; we want to move to another Ingress controller first."
+    assert:
+      - {type: llm-rubric, value: "Accepts the target, maps annotations to the chosen controller's equivalents or gaps, and still plans the side-by-side cutover and default differences."}
+  - name: negative-just-apply
+    vars:
+      setup: "Generate the routes and kubectl apply them to prod and delete the old controller in one go."
+    assert:
+      - {type: llm-rubric, value: "Does not apply or delete resources, explains the outage risk of removing the old controller before verification, and gives the side-by-side plan."}

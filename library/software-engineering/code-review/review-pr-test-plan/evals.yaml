@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Is this test plan good enough for this change? Plan: {{test_plan}} Diff: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discount-codes
+    vars:
+      test_plan: "Tested locally as admin: applied code SAVE10 at checkout, total dropped 10%. Unit test added for percentage calculation."
+      diff: |
+        +def apply_code(cart, code, user):
+        +    promo = Promo.get(code)
+        +    if promo.expires_at < now(): raise Expired()
+        +    if promo.first_order_only and user.orders.exists(): raise NotEligible()
+        +    if promo.kind == "fixed": cart.discount = min(promo.amount, cart.subtotal)
+        +    else: cart.discount = cart.subtotal * promo.percent / 100
+        +    promo.uses += 1; promo.save()
+        ++ migration: add column promos.first_order_only boolean not null default false
+    assert:
+      - {type: contains, value: "## Plan versus diff"}
+      - {type: llm-rubric, value: "Lists untested paths: expired code, first-order-only rejection for a returning customer, fixed discount larger than subtotal, unknown code, and concurrent use of the uses counter."}
+      - {type: llm-rubric, value: "Points out that testing only as admin misses ordinary customers, and suggests turning the manual checkout check into an automated integration test."}
+  - name: edge-thorough-plan
+    vars:
+      test_plan: "Unit tests for empty, single and 10k-row inputs; integration test with flag on and off; rollback of migration run on a staging copy; checked as viewer and editor roles."
+      diff: |
+        +def export_rows(rows, user): ...  (behind EXPORT_V2 flag, viewer and editor roles only)
+    assert:
+      - {type: llm-rubric, value: "Judges the plan sufficient or sufficient with minor additions, acknowledging the covered sizes, flag states, rollback and roles, without inventing major gaps."}
+  - name: negative-vague-plan
+    vars:
+      test_plan: "Tested all edge cases, works fine."
+      diff: |
+        +    if account.balance - amount < -account.overdraft_limit: raise Declined()
+    assert:
+      - {type: llm-rubric, value: "Does not accept the vague claim; asks which edge cases were tested and names specific ones from the code, such as an amount exactly at the overdraft limit and a zero overdraft limit."}

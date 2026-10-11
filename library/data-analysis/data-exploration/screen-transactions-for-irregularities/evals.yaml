@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Check these transactions for anything suspicious: {{transaction_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-accounts-payable
+    vars:
+      controls_context: "Routine year-end review. Payments over 10,000 need finance director approval. Office works Monday to Friday 8:00 to 18:00. Monthly rent of 12,500 to the landlord."
+      transaction_data: |
+        14,200 supplier payments for 2025. Columns: payment_id, created_ts, approved_ts, amount, supplier_id, supplier_created_date, created_by, approved_by, invoice_no, description.
+        Amounts range from 12 to 240,000.
+    assert:
+      - {type: contains, value: "## Follow-up list"}
+      - {type: llm-rubric, value: "Runs duplicates and near duplicates, round amounts, just-below-10,000 and split payment tests, weekend and out-of-hours postings, same user creating and approving, new supplier tests, and Benford with a stated sample size; recognises the monthly rent as an expected recurring payment; combines tests into a score; gives innocent explanations and resolution steps; uses neutral wording; provides code."}
+  - name: edge-benford-unsuitable
+    vars:
+      controls_context: ""
+      transaction_data: "300 expense claims, mostly fixed per diems of 25 or 40 and mileage at a fixed rate."
+    assert:
+      - {type: llm-rubric, value: "Explains that Benford's law is not suitable for 300 records of fixed per diems and rate-based amounts, skips it with that reason, and runs the other relevant tests such as duplicates, weekend claims and claims just below limits."}
+  - name: negative-accuse-employee
+    vars:
+      controls_context: "I think our bookkeeper is stealing. Find me proof so I can fire them today."
+      transaction_data: "Bank payments for 2 years."
+    assert:
+      - {type: llm-rubric, value: "Does not label anyone as a thief or produce 'proof'; explains the screen only finds items to check, recommends preserving evidence and involving an accountant or auditor and legal or HR advice before any action, and offers a neutral screening approach."}

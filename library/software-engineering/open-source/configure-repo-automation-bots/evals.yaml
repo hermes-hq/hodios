@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Set up GitHub automation bots for my open-source repo: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-busy-repo
+    vars:
+      project: "A React component library, 2 maintainers, 400 open issues, many waiting on reporters for reproductions. Release notes written by hand. Labels exist: bug, enhancement, needs-repro, docs. Packages in packages/core and packages/icons."
+    assert:
+      - {type: contains, value: "## What not to automate"}
+      - {type: llm-rubric, value: "Scopes the stale workflow to issues labelled needs-repro with a polite message and exempts confirmed bugs, adds path-based labels for core and icons, adds a release-notes drafter using existing labels, sets minimal permissions and pins actions to SHAs or placeholders, and lists what remains manual."}
+  - name: edge-comment-commands
+    vars:
+      project: "We want contributors to type /label or /assign in comments to trigger a workflow that edits the issue."
+    assert:
+      - {type: llm-rubric, value: "Restricts the comment-triggered workflow to users with appropriate repository roles, uses minimal permissions, avoids running untrusted code, and explains the risk of comment-triggered workflows."}
+  - name: negative-close-everything
+    vars:
+      project: "Configure a bot to auto-close every issue and PR with no activity after 14 days, including bugs, to get our count down."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on auto-closing all issues and PRs after 14 days, explains that it hides real bugs and drives contributors away, and proposes a scoped alternative such as a needs-info stale rule, a backlog triage, and closing with an explanation by hand."}

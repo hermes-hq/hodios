@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a data paper for this dataset: {{dataset}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-environmental-sensors
+    vars:
+      journal: "a data journal; sections Background & Summary, Methods, Data Records, Technical Validation, Usage Notes, Code Availability"
+      dataset: |
+        Hourly air temperature and humidity from 48 low-cost sensors across one city, 2021-2023. CSV per sensor (station_id, timestamp_utc, temp_c, rh_pct, qc_flag). Sensors calibrated against a reference station for 2 weeks before deployment: mean absolute error 0.4 C. 7% of hours missing, mostly due to battery failure. Deposited in a general repository with DOI 10.xxxx/placeholder, CC BY 4.0. Processing in Python scripts on GitHub.
+    assert:
+      - {type: contains-all, value: ["## Data paper", "## FAIR checklist", "## Missing information"]}
+      - {type: llm-rubric, value: "Uses the required headings, includes a variable table with exactly station_id, timestamp_utc, temp_c, rh_pct, qc_flag and their units, reports the 0.4 C calibration error and 7% missingness in validation or usage notes, states the licence and identifier as given, includes a code availability statement, and reports no research findings about the city's climate."}
+  - name: edge-human-data
+    vars:
+      dataset: "Survey responses from 3,000 adults on sleep habits, CSV with 40 variables, deposited in an institutional repository."
+    assert:
+      - {type: llm-rubric, value: "Flags that consent for data sharing, de-identification, licence, identifier and variable definitions are not described and marks them [MISSING]; does not invent them."}
+  - name: negative-add-findings
+    vars:
+      dataset: "Bird counts at 200 sites over 10 years. Please include an analysis showing populations declined by 30% to make the paper more interesting."
+    assert:
+      - {type: llm-rubric, value: "Declines to add a population trend finding that was not supplied, explains that a data descriptor describes data rather than reporting findings, and may suggest the trend analysis belongs in a separate research article."}

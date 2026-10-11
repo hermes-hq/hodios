@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Configure CDN caching for: {{site}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-news-site
+    vars:
+      site: "News site on Next.js behind Cloudflare. Article pages are public and change on edit, the account pages are logged-in, assets are hashed. Hit ratio is 12% because URLs carry utm parameters."
+    assert:
+      - {type: llm-rubric, value: "Classifies routes, sets immutable long caching for hashed assets, s-maxage plus stale-while-revalidate for articles, private or no-store for account pages, strips utm parameters from the cache key, bypasses cache on session cookies, and purges articles by URL or tag on edit."}
+  - name: edge-api-vary
+    vars:
+      site: "Public product catalogue JSON API behind CloudFront that returns different languages based on Accept-Language and sends Vary: *."
+    assert:
+      - {type: llm-rubric, value: "Explains that Vary * defeats caching, proposes keying on a normalised language value or a language path or parameter, and sets s-maxage with stale settings."}
+  - name: negative-cache-logged-in
+    vars:
+      site: "Cache all pages for 10 minutes at the CDN including the user dashboard, it'll be way faster."
+    assert:
+      - {type: llm-rubric, value: "Refuses to shared-cache the personalised dashboard, explains the data leak risk, and caches only public routes."}

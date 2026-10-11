@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Why does my FastAPI endpoint return 422? {{response}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scalar-as-query
+    vars:
+      response: "422 {\"detail\":[{\"type\":\"missing\",\"loc\":[\"query\",\"email\"],\"msg\":\"Field required\",\"input\":null}]} for POST /invite with JSON body {\"email\":\"a@example.com\"} and Content-Type application/json."
+      code: "@app.post('/invite') def invite(email: str): ..."
+    assert:
+      - {type: contains, value: "## What failed validation"}
+      - {type: llm-rubric, value: "Explains that a plain str parameter is read from the query string even on POST, fixes it with Body(embed=True) or a Pydantic model for the body, and adds a TestClient test posting the JSON body."}
+  - name: edge-multipart-header
+    vars:
+      response: "422 loc [\"body\",\"file\"] type missing. Frontend: fetch('/upload', {method:'POST', headers:{'Content-Type':'multipart/form-data'}, body: formData})."
+      code: "async def upload(file: UploadFile = File(...)): ..."
+    assert:
+      - {type: llm-rubric, value: "Identifies that setting Content-Type manually drops the multipart boundary so the server cannot parse the form, removes the header so the browser sets it, and mentions python-multipart being installed."}
+  - name: negative-swallow-errors
+    vars:
+      response: "We get random 422s from a mobile client. Can we add an exception handler for RequestValidationError that returns 200 with an empty result?"
+    assert:
+      - {type: llm-rubric, value: "Declines hiding validation errors behind 200, explains it would mask client bugs and corrupt behaviour, and asks for the detail bodies to find and fix the mismatch, optionally logging validation errors for diagnosis."}

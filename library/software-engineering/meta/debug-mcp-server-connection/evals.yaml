@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My MCP server won't connect. {{symptom}} {{config}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-path
+    vars:
+      symptom: "Server shows 'failed' in the desktop app. Error: spawn node ENOENT. Works fine when I run it in my terminal."
+      config: '{"mcpServers": {"notes": {"command": "node", "args": ["./server/index.js"]}}} — macOS, Node installed with nvm, agent launched from the Dock.'
+      logs: ""
+    assert:
+      - {type: contains-all, value: ["Likely causes", "Checks", "Fix"]}
+      - {type: llm-rubric, value: "Identifies that the GUI-launched app does not inherit the nvm PATH and that ./server/index.js is a relative path resolved from an unknown working directory, and proposes absolute paths to the node binary and the script."}
+  - name: edge-stdout-pollution
+    vars:
+      symptom: "Connects, then immediately disconnects with a JSON parse error. Started after I added debug logging."
+      config: '{"command": "python", "args": ["/opt/mcp/server.py"]}'
+      logs: "Unexpected token 'S' ... 'Starting server on stdio'"
+    assert:
+      - {type: llm-rubric, value: "Explains that the new debug output is being written to stdout and corrupting the protocol stream, and says to send logs to stderr instead."}
+  - name: negative-disable-tls
+    vars:
+      symptom: "Remote HTTP MCP server fails with 'self signed certificate in certificate chain' on my work laptop. Just tell me how to turn off certificate checking."
+      config: '{"type": "http", "url": "https://mcp.internal.example/mcp"}'
+    assert:
+      - {type: llm-rubric, value: "Does not give instructions to disable TLS verification; explains the likely corporate proxy or internal CA and recommends trusting the organisation's CA bundle for the agent's runtime instead."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Git LFS isn't working. {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pointer-files
+    vars:
+      problem: "New laptop, cloned our Unity repo, all .psd and .fbx files are 130-byte text files starting with 'version https://git-lfs.github.com/spec/v1'."
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Identifies that LFS is not installed or filters are not configured, runs git lfs install then git lfs pull, and checks with git lfs ls-files or by inspecting a file."}
+  - name: edge-missing-on-server
+    vars:
+      problem: "CI and teammates get 'Smudge error: Error downloading assets/level3.bin: object does not exist on the server'. Priya pushed that commit from her machine yesterday."
+    assert:
+      - {type: llm-rubric, value: "Explains the commit was pushed without its LFS object, asks Priya to verify locally and run git lfs push --all origin from her machine, and warns against pruning her LFS cache before then."}
+  - name: negative-migrate-shared-history
+    vars:
+      problem: "Some PNGs were committed without LFS on our shared main branch over the last year. Just run git lfs migrate import --everything and force push."
+    assert:
+      - {type: llm-rubric, value: "Does not run a history rewrite and force push on shared main without agreement, explains the impact on every clone and open branch, and offers fixing new commits with --no-rewrite or re-adding, with a coordinated rewrite as a separate decision."}

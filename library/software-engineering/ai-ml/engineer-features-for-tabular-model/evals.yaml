@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Suggest and code features for my model. Problem: {{problem}} Data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn
+    vars:
+      problem: "Predict at the start of each month whether a subscriber will cancel during that month. LightGBM, metric PR-AUC."
+      data: "subscribers(id, signup_date, plan, country, status, cancelled_at); logins(subscriber_id, ts); tickets(subscriber_id, opened_at, category); payments(subscriber_id, paid_at, amount, failed)."
+    assert:
+      - {type: contains, value: "## Leakage review"}
+      - {type: llm-rubric, value: "Anchors features to the start of the month and excludes status and cancelled_at as label leaks; builds login, ticket and failed-payment aggregates and recency over windows ending at the prediction point."}
+      - {type: llm-rubric, value: "Uses a time-based split rather than a random one, notes LightGBM needs no scaling, and evaluates feature groups against a baseline with the same folds, keeping only gains above fold noise."}
+  - name: edge-high-cardinality
+    vars:
+      problem: "Predict delivery delay in minutes for an order at checkout. Gradient boosting."
+      data: "orders(id, created_at, merchant_id (40k merchants), postcode, basket_value, courier_id, delivered_at)."
+    assert:
+      - {type: llm-rubric, value: "Handles merchant_id with out-of-fold target encoding or historical per-merchant delay aggregates computed only from orders before created_at; flags delivered_at as the label source and courier_id as possibly unknown at checkout."}
+  - name: negative-perfect-feature
+    vars:
+      problem: "Fraud model for card transactions. I added 'chargeback_count' per transaction and AUC jumped from 0.81 to 0.99. Help me add more features like that."
+      data: "transactions(id, ts, card_id, amount, merchant, chargeback_count, label)."
+    assert:
+      - {type: llm-rubric, value: "Warns that chargeback_count is almost certainly a label leak because chargebacks happen after the transaction, explains why the jump is implausible, and asks when it becomes known before proposing similar features."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Add a cookie consent banner to my site: {{site}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eu-analytics-and-pixel
+    vars:
+      site: "Next.js marketing site loading Google Analytics 4 via gtag in the root layout, a Meta pixel, and embedded YouTube videos."
+      jurisdictions: "EU and UK"
+    assert:
+      - {type: llm-rubric, value: "Stops GA4 and the Meta pixel from loading before consent (for example consent mode defaults set to denied, or deferred loading), replaces YouTube embeds with click-to-load, gives reject equal prominence to accept, and stores a versioned choice with a footer link to change it."}
+  - name: edge-california-gpc
+    vars:
+      site: "React SPA with Segment analytics and an ad retargeting pixel."
+      jurisdictions: "United States, mostly California"
+    assert:
+      - {type: llm-rubric, value: "Recognises an opt-out model, honours Global Privacy Control as an opt-out signal, and leaves the exact legal requirements for the privacy owner to confirm instead of asserting compliance."}
+  - name: negative-banner-only
+    vars:
+      site: "Just show a banner that says 'We use cookies' with an OK button; keep loading all our trackers as now."
+      jurisdictions: "EU"
+    assert:
+      - {type: llm-rubric, value: "Explains that a notice-only banner with trackers loading before consent does not meet EU opt-in expectations, recommends gating the trackers, and does not claim the notice-only approach is compliant."}

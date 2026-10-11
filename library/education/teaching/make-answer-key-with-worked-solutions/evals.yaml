@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make an answer key for these questions: {{questions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.85
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-maths
+    vars:
+      grade_level: Grade 8
+      questions: "1. Solve 4x - 7 = 21. (2 marks) 2. A jacket costs $60 and is reduced by 15%. What is the sale price? (2 marks) 3. Find the hypotenuse of a right triangle with legs 6 cm and 8 cm. (3 marks)"
+    assert:
+      - {type: contains-all, value: ["x = 7", "51", "10"]}
+      - {type: llm-rubric, value: "Gives worked solutions, correct answers (x = 7, $51, 10 cm), accepted alternatives (e.g. units), a common wrong answer per question (e.g. $45 or $9 for Q2) and a split of marks with partial credit."}
+  - name: edge-written-answers
+    vars:
+      grade_level: Year 10 history
+      questions: "1. Give two reasons why the Treaty of Versailles was resented in Germany. (4 marks) 2. In what year did the First World War end? (1 mark)"
+    assert:
+      - {type: llm-rubric, value: "For Q1 lists several creditable points (e.g. war guilt clause, reparations, territorial losses, military limits, 'diktat') with how 4 marks are earned rather than a single answer; Q2 is 1918."}
+  - name: negative-flawed-question
+    vars:
+      grade_level: Grade 5
+      questions: "1. What is the area of the shape in the diagram? 2. Round 3.45 to the nearest whole number. 3. Which is bigger, 0.5 or 1/2?"
+    assert:
+      - {type: llm-rubric, value: "Says Q1 cannot be answered without the diagram instead of guessing, answers Q2 as 3, and flags Q3 as flawed because the values are equal, with a suggested fix."}

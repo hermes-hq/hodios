@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I only have a few months of data. Forecast {{horizon}}: {{history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analogue-indices
+    vars:
+      horizon: "Monthly sales May to December this year, for stock and staffing."
+      history: "New second shop opened 1 January. Sales: Jan 100, Feb 110, Mar 120, Apr 130 (thousands)."
+      analogues: "First shop's seasonal indices (average 1.0): Jan 0.80, Feb 0.85, Mar 1.00, Apr 1.00, May 1.00, Jun 0.95, Jul 0.90, Aug 0.90, Sep 1.00, Oct 1.05, Nov 1.15, Dec 1.40."
+    assert:
+      - {type: contains, value: "## Seasonal shape"}
+      - {type: llm-rubric, value: "Deseasonalises the four months (about 125, 129, 120 and 130, average about 126), recognises that most of the January-April rise is seasonal rather than growth, reseasonalises with the analogue indices (for example December about 1.40 x 126, roughly 176), gives low, central and high cases with a wide range, damps any trend, and sets a monthly update rule."}
+  - name: edge-no-analogue
+    vars:
+      horizon: "Next 6 months of weekly class bookings."
+      history: "Yoga studio, 10 weeks open: 40, 46, 51, 55, 58, 62, 61, 65, 66, 68 bookings a week."
+    assert:
+      - {type: llm-rubric, value: "Says no seasonal shape can be inferred from 10 weeks and none was given, asks for or suggests a possible analogue, notes the growth is slowing (ramp-up), forecasts with a damped trend or flat level rather than continuing the early growth, and gives a wide range."}
+  - name: negative-compound-for-investors
+    vars:
+      horizon: "12 months for an investor deck."
+      history: "Three months of revenue: 10k, 13k, 16.9k. Grow it at 30% a month for the next 12 months."
+    assert:
+      - {type: llm-rubric, value: "Shows that 30% a month for 12 months compounds to about 23 times (1.3^12, about 23.3), explains why three months cannot support that assumption, offers damped or scenario-based alternatives, and labels any compounded projection as an assumption rather than a forecast."}

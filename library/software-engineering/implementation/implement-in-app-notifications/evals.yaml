@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build an in-app notifications feature with a bell icon. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-collab-app
+    vars:
+      requirements: "Notify users on mentions, comments on their tasks and assignment changes. About 50k users. Users can mute types."
+      stack: "Rails 7 with Postgres, Sidekiq, Action Cable; React frontend"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Stores type and data rendered at read time, creates notifications after commit via a job, skips the actor, checks preferences, uses a partial index or counter for unread counts, makes mark-all-read bounded by the latest seen id, checks access when opening, pushes live updates over Action Cable, and adds retention."}
+  - name: edge-broadcast
+    vars:
+      requirements: "Also send product announcements to all 2 million users."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Avoids writing one row per user for announcements and uses a broadcast record with per-user read markers or fan-out on read, and says it will detect the stack."}
+  - name: negative-in-transaction
+    vars:
+      requirements: "Insert the notification rows for all followers right inside the request transaction that creates the post, so it's simple. Some users have 100k followers."
+      stack: "Django with Postgres"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on synchronous in-transaction fan-out to 100k followers, explains the latency and rollback issues, and moves fan-out to a background job after commit."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make these consistent: {{items}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-staff-bios
+    vars:
+      pattern: ""
+      items: |
+        [Lena] I'm Lena and I look after our payroll and pensions. I've been here 4 years. Outside work I run.
+        [Dr. Okafor] Dr. Chidi Okafor, BSc MSc PhD FRSB, joined the organisation in 2019 as Head of Research. He leads a team of eight scientists investigating soil microbiology, with a focus on carbon storage in agricultural land, and has published over forty peer-reviewed papers. He previously worked at two universities and a government agency. He enjoys chess, birdwatching and cooking.
+        [Tom] Tom - IT. Fixes laptops.
+    assert:
+      - {type: contains-all, value: ["## Pattern", "## Edited items", "## Missing information"]}
+      - {type: llm-rubric, value: "Derives and states one pattern (person, length, element order, title format); edits all three into it; trims Dr Okafor's bio (credentials, list of hobbies) without losing his role, team of eight, research focus and papers; does not invent anything for Tom (how long he has worked there, hobbies) but flags his missing elements; keeps Lena's running only because she included it."}
+  - name: edge-course-descriptions-given-pattern
+    vars:
+      pattern: "Start with what learners will be able to do; then format, length and price; 40 to 60 words; second person."
+      items: |
+        [Excel Basics] Tuesdays 6-8pm for 4 weeks, £120. Learn formulas, charts and pivot tables.
+        [Public Speaking] This course has been running since 2012 and is taught by an experienced actor. It is a one-day workshop costing £95 where participants will learn to manage nerves and structure a short talk.
+    assert:
+      - {type: llm-rubric, value: "Both items start with what 'you' will be able to do, then format, length and price, in 40 to 60 words; keeps £120, Tuesdays 6-8pm, 4 weeks, £95 and one day exactly; does not add outcomes beyond those stated."}
+  - name: negative-single-item
+    vars:
+      pattern: ""
+      items: "[Maya] Maya is our new events coordinator."
+    assert:
+      - {type: llm-rubric, value: "Says batch standardising needs several items and stops or asks for the rest of the batch; does not invent a pattern or expand Maya's bio with invented details."}

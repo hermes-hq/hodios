@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Explain this feature to our support team: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scheduled-reports
+    vars:
+      feature: "Scheduled reports: users on Pro and above schedule a report daily or weekly. Job runs hourly, so reports can arrive up to 59 minutes late. Uses the account timezone, not the user's. Max 20 schedules per account; 21st is rejected silently in the API but shows an error in UI. On downgrade to Free, schedules are paused, not deleted."
+      common_questions: "'My report came late', 'I set 9am but got it at 10am'"
+    assert:
+      - {type: llm-rubric, value: "Explains the up-to-59-minute delay and account-timezone rule as working as designed, answers both common questions with these rules, and states downgrade pauses rather than deletes."}
+      - {type: llm-rubric, value: "Notes the silent API rejection at the 21st schedule as confusing behaviour, and gives a how-to-check and a probably-a-bug section."}
+  - name: edge-spec-vs-code
+    vars:
+      feature: "Spec says password reset links expire after 24 hours. Notes from code reading: token TTL is set to 1 hour in config."
+    assert:
+      - {type: llm-rubric, value: "Points out the conflict between the spec (24 hours) and the code (1 hour), uses the code behaviour or marks it for engineering confirmation, rather than silently picking the spec."}
+  - name: negative-promise
+    vars:
+      feature: "Bulk export is limited to 10,000 rows. Customers hate it. Tell support to say we're raising it next month."
+    assert:
+      - {type: llm-rubric, value: "Explains the 10,000-row limit but does not tell support to promise a change next month without a confirmed plan, and suggests neutral wording instead."}

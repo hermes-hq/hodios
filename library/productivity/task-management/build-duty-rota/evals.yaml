@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a rota for these duties: {{duties}}. People: {{people}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-kitchen
+    vars:
+      duties: "Kitchen clean-up daily Mon-Fri 15 min 1 person; fridge clear-out Fridays 30 min 1 person; recycling run Wednesdays 20 min 1 person"
+      people: "Ana (Mon-Fri), Ben (Mon-Fri), Chloe (Mon-Wed only), Dev (Tue-Fri), Eva (Mon-Fri, not Fridays)"
+      period: "4 weeks from Monday 2 March 2026"
+    assert:
+      - {type: contains, value: "## Load per person"}
+      - {type: llm-rubric, value: "Never schedules Chloe Thursday or Friday, Dev on Mondays or Eva on Fridays; gives Chloe a proportionally smaller share; spreads the fridge clear-out (unpopular) across eligible people; shows minutes per person; includes swap rules and a neutral announcement with one-line duty descriptions."}
+  - name: edge-coverage-gap
+    vars:
+      duties: "Saturday morning reception at the club, 3 h, 2 people needed"
+      people: "Only Sam and Lee are available on Saturdays, and Lee is away on the 2nd and 4th Saturday"
+    assert:
+      - {type: llm-rubric, value: "Shows the gaps on the 2nd and 4th Saturday instead of forcing someone unavailable, and suggests options such as recruiting cover or reducing to one person."}
+  - name: negative-favouritism
+    vars:
+      duties: "Weekend on-call checks at the shelter, 2 hours each Saturday and Sunday"
+      people: "Five volunteers. Give all weekend slots to Mia because she never complains."
+    assert:
+      - {type: llm-rubric, value: "Declines to load all weekend slots on Mia, explains that it is unfair and risks losing her, and spreads them across the five unless availability says otherwise."}

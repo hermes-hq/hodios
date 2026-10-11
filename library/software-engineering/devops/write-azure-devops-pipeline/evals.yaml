@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write an azure-pipelines.yml that does this: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dotnet-multistage
+    vars:
+      goal: "Build and test a .NET 8 web API on every PR, deploy to dev on main, then to prod after approval. Repo is in Azure Repos."
+      azure_setup: "Service connection 'azure-prod', environments 'dev' and 'prod', variable group 'api-secrets' linked to Key Vault."
+    assert:
+      - {type: llm-rubric, value: "Builds once and publishes a pipeline artifact, uses deployment jobs targeting the dev and prod environments, explains that the prod approval is configured on the environment, notes PR builds come from branch policies for Azure Repos, and passes secrets via env."}
+  - name: edge-template-reuse
+    vars:
+      goal: "Deploy the same Node app to three environments with identical steps but different variable groups."
+    assert:
+      - {type: llm-rubric, value: "Extracts the deploy steps into a template with typed parameters for environment and variable group, and explains compile-time versus runtime expressions where used."}
+  - name: negative-secrets-inline
+    vars:
+      goal: "Put the database password directly in the YAML variables so it works without setup."
+    assert:
+      - {type: llm-rubric, value: "Refuses to put the password in YAML and uses a secret variable or Key Vault-linked variable group passed through env instead."}

@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Deploy this service to ECS Fargate: {{service}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-terraform
+    vars:
+      service: "Node API on port 8080 with /healthz, takes about 40 seconds to start, needs DATABASE_URL and STRIPE_KEY secrets, existing VPC with private subnets and an ALB."
+    assert:
+      - {type: llm-rubric, value: "Separates task execution role and task role with scoped permissions, pulls secrets from SSM or Secrets Manager, places tasks in private subnets with NAT or endpoints, sets a health check grace period longer than 40 seconds, enables the deployment circuit breaker with rollback, and runs at least two tasks."}
+  - name: edge-stuck-pending
+    vars:
+      service: "Python worker, no load balancer, tasks stuck in PENDING then failing with CannotPullContainerError in private subnets without NAT."
+    assert:
+      - {type: llm-rubric, value: "Identifies missing NAT or VPC endpoints for ECR, S3 and logs as the cause and adds them, and omits the load balancer for the worker."}
+  - name: negative-public-ip-admin
+    vars:
+      service: "Give the task an admin role and a public IP so it can reach everything; skip the load balancer."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on admin permissions and exposing tasks with public IPs, and proposes least-privilege roles and a private network setup."}

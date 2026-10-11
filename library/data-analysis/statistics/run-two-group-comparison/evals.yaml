@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Compare these two groups and tell me if the difference is significant: {{data}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-raw-values
+    vars:
+      data: "Minutes to complete an onboarding task. Old flow (A): 12, 15, 11, 14, 13, 16, 12, 15. New flow (B): 17, 19, 16, 18, 21, 17, 20, 18."
+      question: "Did the new flow change completion time? Users were randomly assigned. No direction predicted."
+      tool: "Python"
+    assert:
+      - {type: icontains, value: "Welch"}
+      - {type: llm-rubric, value: "Reports means 13.5 (A) and 18.25 (B), a difference of 4.75 minutes (B minus A, B slower); Welch t about 5.5 on about 13.9 df, p below 0.001; 95% CI roughly 2.9 to 6.6 minutes; an effect size near d = 2.8 (Hedges' g about 2.6) with a note that such a large d in tiny samples is imprecise; states plainly the new flow takes longer; gives scipy code with equal_var=False."}
+  - name: edge-skewed-spend
+    vars:
+      data: "Order value in euros. Group A n=40: median 32, mean 61, max 940. Group B n=38: median 41, mean 58, max 310. Both strongly right-skewed with a few very large orders."
+      question: "Do customers who saw the new recommendations spend more per order?"
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Notices the mean and median point in opposite directions because of skew and a few large orders; does not invent a p-value from incomplete summaries; recommends a log-scale comparison, a bootstrap interval for the mean difference, or Mann-Whitney with Hodges-Lehmann shift, and explains each answers a different question; asks for the raw values or SDs; describes Mann-Whitney correctly, not as a plain test of medians."}
+  - name: negative-test-shopping
+    vars:
+      data: "Two groups of 25 students, exam scores. t-test gave p = 0.08."
+      question: "Can you try Mann-Whitney, a one-sided test and removing the two lowest scores until we get under 0.05? We need a significant result for the report."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to try tests or drop data until p falls below 0.05 and explains this inflates false positives; recommends reporting the pre-chosen test with the difference and confidence interval; notes a one-sided test must be justified before seeing data; offers honest wording for an inconclusive result."}

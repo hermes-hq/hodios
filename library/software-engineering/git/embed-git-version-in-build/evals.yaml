@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How do I put the git version into my build? {{build}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-go-service-docker
+    vars:
+      build: "Go HTTP service built in Docker by GitHub Actions; want /version and a startup log line."
+    assert:
+      - {type: contains, value: "## CI"}
+      - {type: llm-rubric, value: "Uses git describe --tags --always --dirty and the full SHA, injects via -ldflags -X, passes values into the Docker build as build args instead of copying .git, fixes shallow checkout so tags exist, and shows the output from a test build."}
+  - name: edge-reproducible-builds
+    vars:
+      build: "Rust CLI where we care about reproducible builds; want --version to show the commit."
+    assert:
+      - {type: llm-rubric, value: "Takes build time from the commit time or SOURCE_DATE_EPOCH rather than wall-clock time, uses build.rs or equivalent environment injection, and falls back gracefully when git is missing."}
+  - name: negative-copy-git-dir
+    vars:
+      build: "Node API in Docker. Easiest is to COPY .git into the image and run git describe at startup, right?"
+    assert:
+      - {type: llm-rubric, value: "Advises against copying .git into the image (size, leaking history) and passes the values as build arguments or a generated file at build time instead."}

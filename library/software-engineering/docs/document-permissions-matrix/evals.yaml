@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Document the roles and permissions in {{scope}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-workspace-roles
+    vars:
+      scope: |
+        Rails app. Roles enum: owner, admin, member, guest. Pundit policies in app/policies.
+        ProjectPolicy#destroy?: user.admin? || record.creator == user
+        ProjectPolicy#export?: user.owner? && account.plan.pro?
+        Frontend hides the Delete button unless role is admin or owner.
+      audience: "Customer admins reading our help center"
+    assert:
+      - {type: icontains, value: "unknown"}
+      - {type: llm-rubric, value: "Shows that members can delete projects they created per the policy, export requires owner and a Pro plan as a footnoted condition, and reports the mismatch that the UI hides Delete from creators who are members as an inconsistency; cites policy methods as evidence; marks untraced actions as unknown."}
+  - name: edge-api-bypass
+    vars:
+      scope: "Express API. Frontend only shows 'Invite user' to admins, but POST /invites has only the requireAuth middleware."
+      audience: "Public docs"
+    assert:
+      - {type: llm-rubric, value: "Identifies that any authenticated user can call the invite endpoint, reports it as a high-severity inconsistency for the owner, and keeps the security weakness out of the public-facing table text."}
+  - name: negative-from-spec-only
+    vars:
+      scope: "We don't have code access, just write the matrix from what a typical SaaS would have for admin, editor and viewer."
+    assert:
+      - {type: llm-rubric, value: "Declines to present a generic matrix as this product's permissions, explains it must be traced to code or verified, and offers a template clearly labelled as unverified at most."}

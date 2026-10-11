@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a {{orchestrator}} pipeline for: {{pipeline}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dagster-daily
+    vars:
+      pipeline: "Each day, pull yesterday's orders from Postgres, write Parquet to S3, then build a daily revenue table in DuckDB. Must support backfilling the last 90 days."
+      orchestrator: dagster
+      setup: "Dagster 1.8, self-hosted."
+    assert:
+      - {type: contains, value: "## Pipeline code"}
+      - {type: llm-rubric, value: "Models the steps as assets with a daily partitions definition, uses resources with environment variables for the Postgres and S3 credentials, and writes outputs keyed to the partition so reruns overwrite."}
+      - {type: llm-rubric, value: "Includes an asset check or equivalent validation and explains how to backfill the 90 days by partition."}
+  - name: edge-recommend-tool
+    vars:
+      pipeline: "Ad hoc ML training runs triggered from a notebook with different parameters, plus a nightly scoring job."
+      orchestrator: recommend
+    assert:
+      - {type: llm-rubric, value: "Makes a reasoned recommendation between Dagster and Prefect for parameterised ad hoc runs plus a nightly job, and writes the code in that tool's model with parameters and retries."}
+  - name: negative-now-based-logic
+    vars:
+      pipeline: "Prefect flow that processes datetime.now() minus one day each time it runs; we want to rerun last Tuesday but that's fine, just keep it as is."
+      orchestrator: prefect
+    assert:
+      - {type: llm-rubric, value: "Points out that basing the run on the current time prevents correct reruns and backfills, and changes the flow to take the run date as a parameter."}

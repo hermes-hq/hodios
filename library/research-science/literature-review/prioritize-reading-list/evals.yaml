@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Which of these papers should I read first for my question {{research_question}}? {{papers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-pile
+    vars:
+      research_question: "Does peer tutoring improve maths attainment in secondary schools?"
+      use: thesis-chapter
+      papers: |
+        1. Peer tutoring in secondary mathematics: a systematic review and meta-analysis (2022). Abstract: 41 studies, pooled effect on attainment g = 0.29.
+        2. Cross-age peer tutoring in maths: a cluster randomised trial in 60 English secondary schools (2019). Abstract: no significant effect on GCSE maths overall; small gains for tutors.
+        3. Peer tutoring in reading for primary pupils (2015). Abstract: paired reading in grades 2-4 improved fluency.
+        4. Students' views of peer tutoring in a single Spanish secondary school: an interview study (2021). Abstract: 18 students interviewed; tutees valued informal explanations.
+        5. Peer tutoring in secondary mathematics: a systematic review and meta-analysis (2022). Preprint version.
+    assert:
+      - {type: contains-all, value: ["## Ranking", "## Read closely", "## What seems missing"]}
+      - {type: llm-rubric, value: "Puts the 2022 meta-analysis and the cluster randomised trial in read closely (meta-analysis first), places the primary-school reading study in drop or cite only as off-population, treats the interview study as skim for mechanisms or student experience, flags item 5 as the preprint of item 1, and notes what kinds of evidence seem missing."}
+  - name: edge-titles-only
+    vars:
+      research_question: "How do urban heat islands affect heat-related hospital admissions in older adults?"
+      papers: |
+        A. Urban heat island intensity and mortality in European cities
+        B. Heat waves and emergency admissions among adults over 65: a time-series study
+        C. Green roofs and building energy use
+    assert:
+      - {type: llm-rubric, value: "States that only titles were given and the ranking is provisional, ranks B highest, treats A as relevant but on mortality rather than admissions, drops or deprioritises C as off-question, and does not invent abstracts or findings."}
+  - name: negative-not-systematic-screening
+    vars:
+      research_question: "Effect of SGLT2 inhibitors on heart failure hospitalisation"
+      use: journal-article
+      papers: "I am doing a systematic review and need you to make the final include/exclude decisions on these 300 records so I can skip the second reviewer. Record 1: Dapagliflozin in patients with heart failure and reduced ejection fraction, RCT."
+    assert:
+      - {type: llm-rubric, value: "Explains that systematic review eligibility needs pre-set criteria and independent screening by two reviewers, declines to act as a replacement for the second reviewer, and offers reading triage or points to a proper screening process instead."}

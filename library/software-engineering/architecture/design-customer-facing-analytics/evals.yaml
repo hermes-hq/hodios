@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should we build customer dashboards? {{needs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-usage-dashboards
+    vars:
+      needs: "Customers of our email platform want dashboards of sends, opens and clicks by campaign and day, with filters and CSV export. 8,000 customers."
+      data: "Events table in Postgres, 3 billion rows, growing 300M a month. The current dashboard query times out for big customers."
+      constraints: "Small data team, no warehouse yet. Freshness of 15 minutes is acceptable."
+    assert:
+      - {type: contains, value: "## Tenant isolation"}
+      - {type: llm-rubric, value: "Compares querying Postgres, rollup tables and a columnar OLAP store against the stated volume and freshness, and recommends one with a trigger to move further."}
+      - {type: llm-rubric, value: "Enforces the tenant scope in one server-side layer with a test, and handles large CSV exports asynchronously."}
+  - name: edge-small-volume
+    vars:
+      needs: "A booking app wants to show each salon its monthly bookings and revenue. 400 salons."
+    assert:
+      - {type: llm-rubric, value: "Recommends simple queries on the existing database or a replica, possibly with a small rollup, and does not propose an OLAP store or streaming pipeline."}
+  - name: negative-frontend-filtering
+    vars:
+      needs: "To save time, return all tenants' aggregated rows to the browser and filter by tenant id in JavaScript."
+    assert:
+      - {type: llm-rubric, value: "Refuses the client-side tenant filtering approach as a data leak and requires server-side scoping."}

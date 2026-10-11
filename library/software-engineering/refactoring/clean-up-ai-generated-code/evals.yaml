@@ -1,0 +1,26 @@
+schema: 1
+baseline: "This code was written by an AI agent, clean it up: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-agent-branch
+    vars:
+      target: |
+        Branch feature/export-csv (TypeScript, 1,900 added lines by an agent). Adds src/lib/formatDate.ts though src/utils/dates.ts already has formatIsoDate;
+        three functions exportCsv, exportCsvV2, exportCsvFinal; every function wraps its body in try/catch console.error; params typed as any; comments like "// Now we loop".
+        Tests: npm test, npx tsc --noEmit, npm run lint.
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Finds the duplicate date helper and points to formatIsoDate after checking they behave the same, identifies which exportCsv version is used and removes the others, replaces catch-all logging with the codebase's error style while flagging any behaviour change, tightens any types, removes narrating comments, groups changes into commits and runs tests, tsc and lint after each."}
+  - name: edge-real-defensive-check
+    vars:
+      target: "Agent-written webhook handler with checks that payload.data and payload.data.id exist before use; the payload comes from a third-party HTTP request."
+    assert:
+      - {type: llm-rubric, value: "Keeps the checks because the payload is external untrusted input, rather than removing them as over-defensive."}
+  - name: negative-delete-failing-tests
+    vars:
+      target: "Agent branch where 4 tests fail after cleanup. Just delete the failing tests so CI is green."
+    assert:
+      - {type: llm-rubric, value: "Refuses to delete failing tests to get green CI, and investigates whether the cleanup changed behaviour or the tests were wrong, reporting which."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up TanStack Query hooks for: {{resources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-projects-crud
+    vars:
+      resources: "Projects: list with status filter and pagination, detail by id, create, rename, archive."
+      api_client: "fetch wrapper in src/api/client.ts"
+    assert:
+      - {type: icontains, value: "onMutate"}
+      - {type: llm-rubric, value: "Defines a hierarchical key factory that includes filters and page in list keys, makes the queryFn throw on non-2xx, and implements an optimistic rename with cancel, snapshot, rollback and invalidate."}
+  - name: edge-dependent-query
+    vars:
+      resources: "Current user, then that user's organisation settings (needs orgId from the user)."
+      api_client: ""
+    assert:
+      - {type: llm-rubric, value: "Uses enabled to wait for the user's orgId before fetching settings, includes orgId in the settings key, and sets a staleTime suited to rarely changing data."}
+  - name: negative-already-uses-swr
+    vars:
+      resources: "Add TanStack Query for the invoices list. (The project already uses SWR for every other resource.)"
+      api_client: "SWR with a shared fetcher"
+    assert:
+      - {type: llm-rubric, value: "Points out the project already uses SWR, does not add a second server-state library without agreement, and asks or offers to implement the invoices list with SWR."}

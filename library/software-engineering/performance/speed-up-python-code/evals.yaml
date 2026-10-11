@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make this Python code faster: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-log-processing
+    vars:
+      target: "A script that reads a 2 GB log file, for each line runs re.match with a pattern string, checks if the user id is in a list of 50,000 banned ids, and appends results to a string with +=. Takes 40 minutes."
+    assert:
+      - {type: contains, value: "## Profile"}
+      - {type: llm-rubric, value: "Measures a baseline and profiles before changing code, then fixes the list membership with a set, compiles the regex once, and replaces string concatenation with a list join or streamed writes."}
+      - {type: llm-rubric, value: "Reports measured timings after each change and keeps output identical, verified with a test or comparison."}
+  - name: edge-io-bound
+    vars:
+      target: "A job that calls an external REST API once per record for 20,000 records; profile shows 95% of time in socket reads."
+    assert:
+      - {type: llm-rubric, value: "Recognises the job is I/O-bound on sequential network calls rather than CPU, and proposes batching, a session with connection reuse, or bounded concurrency, instead of micro-optimising Python code."}
+  - name: negative-rewrite-guess
+    vars:
+      target: "Our report generator is slow; rewrite it in Rust right away, no need to profile, we know Python is slow."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a rewrite without measurement and proposes profiling first to find the real hotspot, noting a rewrite may be considered only if pure Python CPU work remains the bottleneck."}

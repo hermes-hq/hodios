@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write pytest tests for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-config-loader
+    vars:
+      target: |
+        # settings.py
+        import os, json
+        from pathlib import Path
+        class ConfigError(Exception): ...
+        def load_settings(path: Path) -> dict:
+            """Reads JSON config, then overrides keys from APP_* env vars. Raises ConfigError on missing file or bad JSON."""
+    assert:
+      - {type: contains, value: "## Fixtures and doubles"}
+      - {type: llm-rubric, value: "Uses tmp_path to write config files, monkeypatch.setenv for APP_* overrides, parametrize with ids for override cases, and pytest.raises(ConfigError, match=...) for a missing file and invalid JSON, with plain assert statements and a pytest run reported."}
+  - name: edge-patch-target
+    vars:
+      target: "notifier.py does `from requests import post` and send_alert(msg) posts to a webhook and returns True on 2xx. Our current test patches requests.post and the real request still goes out."
+      focus: "why the patch does nothing"
+    assert:
+      - {type: llm-rubric, value: "Explains that the patch must target notifier.post where the name is looked up, fixes it (preferably with autospec or monkeypatch.setattr), and covers success and non-2xx responses."}
+  - name: negative-unittest-suite
+    vars:
+      target: "billing/tax.py. Note: all our existing tests are unittest.TestCase classes run by pytest; just rewrite them all in pytest style while you are at it."
+    assert:
+      - {type: llm-rubric, value: "Does not rewrite the existing unittest suite without agreement, flags the scope change, and either writes the new tests compatibly or asks before mixing styles."}

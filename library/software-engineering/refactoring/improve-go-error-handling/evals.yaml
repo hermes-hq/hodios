@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Improve the error handling in this Go code: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-http-service
+    vars:
+      scope: "An HTTP service where the repository logs and returns errors, the service logs and returns them again, and the handler checks if strings.Contains(err.Error(), \"not found\") to return 404. Errors arrive as 'sql: no rows in result set' with no context."
+    assert:
+      - {type: contains, value: "## Error design"}
+      - {type: llm-rubric, value: "Introduces a sentinel (or typed) not-found error checked with errors.Is at the handler, wraps errors with %w and context at each layer, and removes duplicate logging so errors are logged once at the boundary."}
+      - {type: llm-rubric, value: "Keeps the same status codes for clients and runs build, vet and tests."}
+  - name: edge-deferred-close
+    vars:
+      scope: "A function writes a report file with defer f.Close() and returns nil; users sometimes get truncated files on a full disk."
+    assert:
+      - {type: llm-rubric, value: "Identifies the ignored Close (or Flush) error on a written file as the cause of silent truncation and returns it, for example with a named return or explicit close before returning."}
+  - name: negative-panic
+    vars:
+      scope: "Replace all error returns in our library with panic and recover in main, so we do not have to write if err != nil everywhere."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on using panic for ordinary errors in a library, explaining callers lose control and it is not idiomatic, and keeps returned errors with wrapping."}

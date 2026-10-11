@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write Django tests for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-views
+    vars:
+      target: "invoices app: Invoice model with a unique (customer, number) constraint; InvoiceListView (login required, shows only the user's company's invoices); send_invoice view that marks it sent and calls transaction.on_commit(lambda: send_invoice_email.delay(invoice.id))."
+    assert:
+      - {type: contains, value: "## Setup"}
+      - {type: llm-rubric, value: "Uses factories, force_login, tests anonymous redirect and that another company's invoices are hidden, asserts the unique constraint raises IntegrityError, uses captureOnCommitCallbacks(execute=True) to check the email task is queued, and adds assertNumQueries to the list view."}
+  - name: edge-on-commit-not-firing
+    vars:
+      target: "Our test for signup asserts len(mail.outbox) == 1 but it is always 0. The welcome email is sent in transaction.on_commit inside the signup view. Tests use django.test.TestCase."
+    assert:
+      - {type: llm-rubric, value: "Explains on_commit callbacks do not run inside TestCase's wrapping transaction and fixes the test with captureOnCommitCallbacks(execute=True) rather than switching the whole class to TransactionTestCase."}
+  - name: negative-mock-orm
+    vars:
+      target: "OrderService.total_for_customer which runs an aggregate query. Mock Order.objects.filter so we don't need a database."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on mocking the ORM because it would not test the aggregate query, and writes the test against the test database with factory-created orders."}

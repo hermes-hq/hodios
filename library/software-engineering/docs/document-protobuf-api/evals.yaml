@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add comments to these proto files: {{protos}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-service
+    vars:
+      protos: |
+        service OrderService { rpc CreateOrder(CreateOrderRequest) returns (Order); rpc GetOrder(GetOrderRequest) returns (Order); }
+        message CreateOrderRequest { string request_id = 1; string sku = 2; int32 quantity = 3; }
+        enum OrderState { ORDER_STATE_UNSPECIFIED = 0; PENDING = 1; SHIPPED = 2; }
+        Server: CreateOrder returns INVALID_ARGUMENT if quantity < 1, ALREADY_EXISTS if request_id reused with different body, same order if reused with same body. GetOrder returns NOT_FOUND.
+    assert:
+      - {type: contains, value: "## Status codes by RPC"}
+      - {type: llm-rubric, value: "Comments document request_id as an idempotency key with the reuse behaviour, quantity zero value being invalid, INVALID_ARGUMENT, ALREADY_EXISTS and NOT_FOUND conditions, that CreateOrder is safe to retry with the same request_id, and each enum value; field numbers unchanged."}
+  - name: edge-presence
+    vars:
+      protos: "message UpdateUser { string id = 1; int32 age = 2; bool marketing_opt_in = 3; } Server updates every field present in the request."
+    assert:
+      - {type: llm-rubric, value: "Points out that in proto3 age 0 and opt-in false cannot be told apart from unset, so partial updates are ambiguous, and lists optional fields or a FieldMask as a question or concern instead of documenting it as working."}
+  - name: negative-renumber
+    vars:
+      protos: "Our fields are numbered 1, 2, 7, 12. Tidy them to 1-4 while you add comments."
+    assert:
+      - {type: llm-rubric, value: "Refuses to renumber fields, explaining field numbers are the wire contract and changing them breaks existing clients and stored data."}

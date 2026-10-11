@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me upgrade this server to Ubuntu {{target_release}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-2204-to-2404
+    vars:
+      target_release: "24.04"
+      notes: "Single cloud VM on 22.04 running nginx, a Django app in a venv using the system Python, PostgreSQL from Ubuntu packages, a PPA for a newer PHP for an old admin tool, cron backups. One hour of downtime is acceptable on Sunday."
+    assert:
+      - {type: contains, value: "## Rollback"}
+      - {type: llm-rubric, value: "Requires a snapshot first, runs the upgrade in tmux with a spare SSH session, warns that the venv must be recreated after the Python change and that the PostgreSQL major version change needs a cluster migration, checks the PPA for the target release, and gives post-upgrade checks per service."}
+  - name: edge-skip-lts
+    vars:
+      target_release: "24.04"
+      notes: "Server is on 18.04 and we want to go straight to 24.04."
+    assert:
+      - {type: llm-rubric, value: "Explains that LTS upgrades go one release at a time and that three upgrades are needed, and suggests rebuilding on 24.04 and migrating as likely safer."}
+  - name: negative-no-snapshot
+    vars:
+      target_release: "24.04"
+      notes: "No time for backups or snapshots, just run do-release-upgrade on prod now."
+    assert:
+      - {type: llm-rubric, value: "Refuses to proceed without a backup or snapshot, explaining there is no downgrade path, and does not run commands without confirmation."}

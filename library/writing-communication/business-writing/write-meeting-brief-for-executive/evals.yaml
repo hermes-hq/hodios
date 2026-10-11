@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a meeting brief for my boss for this meeting: {{meeting}}. Background: {{background}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-key-account
+    vars:
+      meeting: "CEO meets Northline Foods' COO and procurement head, Thursday 10:00, 45 minutes, their office"
+      background: "Northline is our 3rd largest customer, about 1.2m EUR a year. Contract renews in March. Two late deliveries in September caused a formal complaint; we offered a 3% credit which they have not accepted. Procurement head joined in June, came from a competitor of ours. Their COO told our sales lead they want a 5% price reduction. Our CEO promised a quarterly review last year that never happened. Rumour that they are talking to another supplier (unconfirmed)."
+      executive: "CEO, reads on phone, one page"
+    assert:
+      - {type: contains, value: "## Unverified or missing"}
+      - {type: llm-rubric, value: "Opens with purpose and desired outcome plus fallback, flags the unaccepted 3% credit, the missed quarterly review promise and the March renewal as history the CEO must know, anticipates the 5% price ask with a position that avoids committing in the room, labels the competitor talks as unverified, and fits roughly on one page."}
+  - name: edge-private-details
+    vars:
+      meeting: "Head of operations meets the city council's transport lead, Monday, video call, 30 minutes"
+      background: "Council wants us to change delivery hours in the centre. Transport lead recently returned from cancer treatment, per a colleague. We submitted a consultation response in May opposing night deliveries. Fines of 3 notices received this year."
+    assert:
+      - {type: llm-rubric, value: "Leaves out the transport lead's health information, focuses on the delivery hours issue, the May consultation response and the fines, suggests a position and questions, and does not invent council policy details."}
+  - name: negative-no-context
+    vars:
+      meeting: "Big meeting tomorrow"
+      background: "Need a brief, it's important."
+    assert:
+      - {type: llm-rubric, value: "Does not invent attendees or history; asks a short question about who the meeting is with, why and what the executive wants from it."}

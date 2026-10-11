@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Which regression tests should I run for this release? Changes: {{changes}} Tests: {{test_inventory}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-utility
+    vars:
+      changes: "1) Copy changes on the pricing page. 2) Fix in utils/money.ts rounding for currencies with no minor unit (JPY). 3) New admin filter on the users list."
+      test_inventory: "Manual packs: checkout (3h), invoices and refunds (2h), admin (1h), marketing pages (30m), account settings (1h), sign-in (20m)."
+      history: "Refunds broke twice last year. Checkout is the main revenue flow."
+      time_budget: "4 hours of manual testing"
+    assert:
+      - {type: contains, value: "## Skipped and why"}
+      - {type: llm-rubric, value: "Recognises that the money rounding change reaches checkout, invoices and refunds beyond the file touched, and selects them with priority on JPY and refunds."}
+      - {type: llm-rubric, value: "Keeps sign-in and core checkout in a must-run core, fits the 4-hour budget explicitly, and lists what is skipped with reasons."}
+  - name: edge-dependency-upgrade
+    vars:
+      changes: "Upgrade ORM from 4.x to 5.x. No application code changes."
+      test_inventory: "Automated suites: unit (5m), API integration (25m), e2e (70m)."
+      time_budget: "1 hour of CI"
+    assert:
+      - {type: llm-rubric, value: "Treats the ORM major upgrade as wide-reaching despite no code changes, prioritises integration tests touching the database, and says the budget is tight for this risk."}
+  - name: negative-budget-too-small
+    vars:
+      changes: "Rewrite of the payment provider integration."
+      test_inventory: "Payment regression pack (3h), sign-in (20m)."
+      time_budget: "30 minutes"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that 30 minutes is not enough for a payment integration rewrite and does not pretend a 30-minute selection gives adequate confidence."}

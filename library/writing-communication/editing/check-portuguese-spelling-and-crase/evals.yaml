@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Corrija os erros deste texto: {{texto}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-brasil
+    vars:
+      variante: pt-BR
+      registro: formal
+      texto: "Prezados, a reunião será as 15h e iremos começar a partir das 14h30 a preparação. Houveram muitos problemas mas a equipe, conseguiu resolver. Fazem dois anos que prefiro trabalhar remoto do que no escritório. Seguem anexo os documentos."
+    assert:
+      - {type: contains, value: "## Correções"}
+      - {type: llm-rubric, value: "Corrige 'as 15h' para 'às 15h', 'Houveram' para 'Houve', 'Fazem dois anos' para 'Faz dois anos', 'prefiro ... do que' para 'prefiro ... a', 'Seguem anexo' para 'Seguem anexos', remove a vírgula entre 'a equipe' e 'conseguiu', sugere vírgula antes de 'mas', não coloca crase em 'a partir', e explica cada regra brevemente."}
+  - name: edge-portugal
+    vars:
+      variante: pt-PT
+      registro: formal
+      texto: "Estou a preparar a receção dos clientes e, de facto, disse-me o diretor que chegam à hora de almoço."
+    assert:
+      - {type: llm-rubric, value: "Não altera 'estou a preparar', 'receção', 'facto', 'disse-me' nem 'diretor', reconhecendo-os como corretos em pt-PT, e indica que o texto está correto ou lista essas formas em Variantes aceitas."}
+  - name: negative-crase-facultativa
+    vars:
+      variante: pt-BR
+      registro: formal
+      texto: "Entreguei o relatório a minha gerente e enviei uma cópia à Ana."
+    assert:
+      - {type: llm-rubric, value: "Não marca como erro a ausência de crase em 'a minha gerente' nem a crase em 'à Ana', explicando que antes de pronome possessivo feminino e de nome próprio feminino a crase é facultativa."}

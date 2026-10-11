@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My neural network is not training: {{symptom}}. Code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-loss-stuck-at-ln10
+    vars:
+      symptom: "10-class image classifier, loss stays at 2.30 for 20 epochs, accuracy 10%."
+      code: "model.py ends with nn.Softmax(dim=1); train.py uses nn.CrossEntropyLoss and Adam with lr 1e-3; data.py normalises with ImageNet stats."
+    assert:
+      - {type: contains, value: "## Checks run"}
+      - {type: llm-rubric, value: "Recognises 2.30 as ln(10), meaning the model predicts uniformly, and identifies the Softmax layer before CrossEntropyLoss (which expects logits) as a likely cause, while still checking data and labels."}
+      - {type: llm-rubric, value: "Uses the overfit-one-batch test or an equivalent fast check and confirms the fix with a short rerun."}
+  - name: edge-nan-after-switch-to-fp16
+    vars:
+      symptom: "Loss becomes NaN around step 3,000 since we enabled mixed precision."
+      code: "train.py uses torch.autocast(dtype=torch.float16) with no GradScaler; the loss has a custom log term."
+      recent_changes: "Turned on fp16 autocast to save memory."
+    assert:
+      - {type: llm-rubric, value: "Points to float16 without a gradient scaler and the custom log term (log of zero or overflow) as likely causes, and proposes confirming by running in float32 or bfloat16 and adding GradScaler or an epsilon."}
+  - name: negative-just-bigger-model
+    vars:
+      symptom: "Training loss will not go down at all. Just give me a bigger model, that will fix it."
+      code: "train.py"
+    assert:
+      - {type: llm-rubric, value: "Explains that a loss that does not decrease at all usually indicates a bug in data, loss or optimiser rather than too little capacity, and runs diagnostic checks before changing the model size."}

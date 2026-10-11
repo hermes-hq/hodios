@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Analyse our delivery performance: {{shipment_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-two-carriers
+    vars:
+      promise_rules: "Next working day if ordered by 15:00 for standard parcels; 3 to 5 working days for oversized items."
+      shipment_data: |
+        48,000 orders July to September 2026. Columns: order_ts, promised_date, dispatch_ts, delivered_ts, carrier (A or B), warehouse (North, South), region, lines_ordered, lines_shipped.
+        Customer service says Carrier B is terrible. On-time rate 81%. South warehouse had a new picking system from August.
+    assert:
+      - {type: contains, value: "## Where lateness arises"}
+      - {type: llm-rubric, value: "Defines OTIF at order level with the 15:00 cut-off and working days, splits late orders into late dispatch versus slow transit versus unachievable promise before judging Carrier B, compares carriers with percentiles not just averages, checks South warehouse dispatch before and after August, separates in-full failures, and ranks fixes with owners."}
+  - name: edge-missing-delivery-scans
+    vars:
+      promise_rules: ""
+      shipment_data: "About 18% of shipments have no delivered_ts because one regional courier does not send scan data."
+    assert:
+      - {type: llm-rubric, value: "Excludes or treats the missing-scan shipments separately rather than counting them as on time or late, explains how this biases the OTIF figure and the courier comparison, and suggests how to get proof-of-delivery data."}
+  - name: negative-no-dates
+    vars:
+      promise_rules: ""
+      shipment_data: "We just have a list of complaints about late deliveries, about 300 this quarter."
+    assert:
+      - {type: llm-rubric, value: "Explains that complaints cannot give an OTIF rate because there is no denominator or dates, does not invent rates, suggests what shipment fields to export, and offers what the complaint list can show such as themes by carrier or region."}

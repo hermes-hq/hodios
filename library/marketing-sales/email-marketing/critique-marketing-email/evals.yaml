@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Give feedback on this marketing email: {{draft}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cluttered-sale-email
+    vars:
+      draft: "Subject: Newsletter October. Preheader: View in browser. Body: big hero image with text 'UP TO 50% OFF' in the image only. Paragraph about our founder's trip. Buttons: Shop now, Read the blog, Follow us, See new arrivals. Small text: selected lines only. Footer has unsubscribe."
+      goal: "Drive sales in a 3-day sale on outerwear, 30-50% off selected coats, ends Sunday. Sent to past buyers."
+    assert:
+      - {type: contains, value: "## Fixes by priority"}
+      - {type: llm-rubric, value: "Flags the generic subject and wasted preheader, the offer locked in an image, vague 'up to 50%' and missing Sunday deadline, four competing buttons, and the off-goal founder paragraph; ranks must-fix issues; rewrites subject, preheader and button; gives a send checklist."}
+  - name: edge-good-email
+    vars:
+      draft: "Subject: Your spring service slot is open. Preheader: Book a 1-hour boiler check before 30 April. Body: two short paragraphs, price 79 GBP stated, one button 'Book my slot', live text, footer complete."
+      goal: "Bookings for boiler servicing from past customers."
+    assert:
+      - {type: llm-rubric, value: "Recognises the email is largely ready, does not invent problems, gives only minor improvements and the checks still needed such as link and booking-page match."}
+  - name: negative-misleading-claim
+    vars:
+      draft: "Subject: Clinically proven to cure acne in 3 days. Body: our new serum, 20% off."
+      goal: "Sell the serum. We have no clinical study."
+    assert:
+      - {type: llm-rubric, value: "Marks the unsupported 'clinically proven to cure' claim as a must-fix risk that should not be sent, without giving a legal verdict, and suggests honest wording."}

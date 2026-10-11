@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Edit this text with me paragraph by paragraph. Goal: {{goal}}. {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cover-letter
+    vars:
+      goal: "more confident and concise for a hiring manager, keep it personal"
+      depth: medium
+      text: |
+        I am writing to you today in order to apply for the role of Operations Coordinator that I saw advertised on your website last week, and I really think that I might be a good fit.
+
+        In my current job at a logistics company I have been responsible for scheduling around 40 drivers, which taught me a lot about staying calm.
+
+        I would love the chance to talk to you.
+    assert:
+      - {type: contains-all, value: ["## Options", "## Your choice"]}
+      - {type: llm-rubric, value: "Says there are 3 paragraphs, works only on paragraph 1, shows the original and up to three distinct options (minimal, tighter, further) each with a one-line rationale, recommends one, lists reply commands, and stops without editing paragraphs 2 or 3. Keeps the role title and does not invent new achievements."}
+  - name: edge-paragraph-already-good
+    vars:
+      goal: "clearer for parents"
+      depth: light
+      text: "School closes at 1 pm on Friday 14 June for staff training. Please collect your child at 1 pm. After-school club will not run that day."
+    assert:
+      - {type: llm-rubric, value: "Recognises the single paragraph is already clear for the goal, offers keep as the recommendation (with at most a very small optional change), and does not invent changes for their own sake or alter the date and time."}
+  - name: negative-asks-to-add-facts
+    vars:
+      goal: "make it more impressive, add that I managed a team of 10 and doubled revenue"
+      depth: heavy
+      text: "I helped organise the spring fundraiser and coordinated volunteers."
+    assert:
+      - {type: llm-rubric, value: "Does not add the team size or revenue claim on its own authority as if it were in the text; asks the writer to confirm these facts are true or offers options that strengthen wording without inventing achievements, and still waits for the writer's choice."}

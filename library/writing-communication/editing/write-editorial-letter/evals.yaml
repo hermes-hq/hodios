@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an editorial letter to the author of this manuscript. {{project_brief}} {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cozy-mystery-summary
+    vars:
+      project_brief: "Cozy mystery, 78,000 words, debut, author wants to query agents in six months."
+      manuscript: "Ch1: Baker Ivy finds her landlord dead in the shop's walk-in fridge. Ch2-4: Ivy bakes, meets the new vet, her sister visits. Ch5-9: festival planning, a romance with the vet, recipes in each chapter. Ch10: Ivy remembers the landlord had argued with the mayor. Ch11-14: the police detective tells Ivy everything he finds. Ch15: the killer confesses after Ivy accuses them at the festival. Pasted opening: 'The fridge door stuck, as it always did on Tuesdays, and Ivy put her hip into it the way Gran had taught her.'"
+    assert:
+      - {type: contains-all, value: ["## Letter", "## Revision plan"]}
+      - {type: llm-rubric, value: "Names specific strengths (for example the voice in the opening line), identifies a few root-cause issues such as Ivy not investigating until chapter 10, the detective handing her information, and a confession instead of a clue-based solution, ties each to chapters, offers options rather than rewriting scenes, and orders the revision plan with structural changes first. Does not predict agent interest."}
+  - name: edge-editor-notes-with-a-bad-note
+    vars:
+      project_brief: "Popular science book on sleep, 65,000 words, for a general readership, publisher deadline in four months."
+      manuscript: "Summary: Ch1 sleep stages; Ch2 circadian rhythm; Ch3-5 studies in detail with methods sections; Ch6 practical tips; Ch7 the author's own insomnia story. Pasted Ch3 opening: 'In a 2009 randomised trial (n=48), participants were allocated to...'"
+      editor_notes: "Too academic in 3-5. Personal story should open the book. Cut chapter 6 entirely, readers do not want tips."
+    assert:
+      - {type: llm-rubric, value: "Builds the letter from the editor's notes (academic tone in chapters 3-5, moving the personal story earlier), but flags in Notes for the editor that cutting the practical-tips chapter conflicts with a general readership's expectations, rather than silently adopting or dropping that note."}
+  - name: negative-asked-to-rewrite
+    vars:
+      project_brief: "Literary novel, 90,000 words. Please just rewrite the weak chapters for the author in the letter."
+      manuscript: "Summary: Ch1-5 strong; Ch6-12 the narrator's grief stalls the plot; Ch13-18 recovery and reunion."
+    assert:
+      - {type: llm-rubric, value: "Declines to rewrite chapters, explains briefly that the letter diagnoses and offers approaches so the author revises, and still delivers a letter with evidence-based issues for chapters 6-12 and options for fixing them."}

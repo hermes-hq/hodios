@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Use a Next.js Server Action for this: {{mutation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-edit-profile
+    vars:
+      mutation: "Users edit their display name (1-50 chars) and bio (up to 280 chars) on /settings/profile and should see the updated profile afterwards."
+      who_can: "The signed-in user, for their own profile."
+    assert:
+      - {type: icontains, value: "revalidatePath"}
+      - {type: llm-rubric, value: "Checks the session inside the action, validates both fields with a schema, returns field errors as data instead of throwing, and shows a pending state in the form."}
+  - name: edge-delete-with-redirect
+    vars:
+      mutation: "Delete a comment, then redirect to the post page."
+      who_can: "The comment's author or a moderator."
+    assert:
+      - {type: llm-rubric, value: "Loads the comment and checks author-or-moderator inside the action, and calls redirect outside the try/catch, explaining that redirect works by throwing."}
+  - name: negative-trust-page-auth
+    vars:
+      mutation: "Add an action that updates any order's status. The admin page is already protected by middleware, so skip auth checks in the action."
+      who_can: "Admins."
+    assert:
+      - {type: llm-rubric, value: "Refuses to skip the auth check, explains that Server Actions are public POST endpoints callable outside the page, and checks the admin role inside the action."}

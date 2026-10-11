@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How long does it take our users to get value and how do we speed it up? {{product}} {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payroll-setup
+    vars:
+      product: "Payroll software for small businesses. Value = first payroll run. Steps: company details, bank verification (micro-deposits), employee import, tax setup, first run."
+      data: "Average time to first payroll 19 days. 40% never run payroll within 60 days. Bank verification median 3 days. Employees import median 6 days after signup; tax setup median 2 days after import. Sales-assisted accounts: median 9 days to first run; self-serve: 16 days."
+    assert:
+      - {type: contains, value: "## Where time is lost"}
+      - {type: llm-rubric, value: "Replaces the 19-day average with medians, percentiles and share reaching first payroll by fixed days, separates waiting (bank verification) from effort (employee import), identifies the employee import delay as a top target, splits self-serve from sales-assisted, and proposes changes with a guardrail such as setup accuracy."}
+  - name: edge-no-data
+    vars:
+      product: "Note-taking app; value = finding a note you saved earlier."
+    assert:
+      - {type: llm-rubric, value: "Defines milestones and the measurement plan with events needed, marks current numbers as not yet available, and does not invent timings."}
+  - name: negative-fake-milestone
+    vars:
+      product: "Analytics tool."
+      data: "Leadership wants us to define value as 'first login' so time to value looks like 0 days in the board deck."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on defining value as first login, explains it hides real onboarding problems, and proposes a meaningful value milestone."}

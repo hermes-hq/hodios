@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build a data table for: {{table_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-users-admin-table
+    vars:
+      table_spec: "Users table: name, email, role, signup date, last active. Sort by any column, filter by role and search by name or email, bulk deactivate selected users. About 80,000 users."
+      data_source: "GET /api/users supports page, pageSize, sort, order, role and q."
+    assert:
+      - {type: icontains, value: "aria-sort"}
+      - {type: llm-rubric, value: "Chooses server-side sorting, filtering and pagination for 80,000 rows, syncs state to the URL, debounces search, clarifies page vs all-matching selection for bulk deactivate, and confirms the destructive action."}
+  - name: edge-small-in-memory
+    vars:
+      table_spec: "Show 40 config flags with name, value and description, sortable by name."
+      data_source: "Array already in memory."
+    assert:
+      - {type: llm-rubric, value: "Keeps it client-side and simple, avoids virtualization or heavy machinery for 40 rows, and still uses a semantic table with an accessible sort control."}
+  - name: negative-sort-current-page
+    vars:
+      table_spec: "Orders table with server pagination of 50 per page. Just sort the 50 loaded rows in the browser when a header is clicked; that's fine."
+      data_source: "GET /api/orders?page="
+    assert:
+      - {type: llm-rubric, value: "Explains that sorting only the loaded page misrepresents the dataset and either passes sort to the server or clearly labels it, rather than silently implementing page-only sorting."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "What does this mean? {{notice}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rights-issue
+    description: "Rights issue with numbers to compute."
+    vars:
+      notice: "Rights issue: 1 new share for every 4 held at 3.00 per share. Last close before announcement 5.00. Rights trade from 3 Nov to 12 Nov. Our deadline for instructions: 14 Nov 17:00. Company deadline: 18 Nov. If no instruction is received, rights will lapse; the company may sell the new shares not taken up and distribute any net proceeds above the 3.00 issue price if the amount exceeds a minimum."
+      holding: "2,000 shares, bought at 4.20, ordinary account."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## Your options"}
+      - {type: llm-rubric, value: "Computes the theoretical ex-rights price of 4.60 ((4 x 5 + 3) / 5), entitlement of 500 new shares costing 1,500, rights value of about 1.60 each, and shows the dilution if nothing is done, explains take up, sell rights, or a mix as options, quotes the lapse default and that proceeds are not guaranteed, flags the 14 Nov broker deadline as the one that counts, and does not tell them what to choose."}
+  - name: edge-spin-off-cost-basis
+    description: "Spin-off with no prices in notice."
+    vars:
+      notice: "XYZ Corp will distribute 1 share of NewCo for every 3 shares of XYZ held on the record date of 1 December. Fractional shares will be paid in cash. No action required."
+      holding: "100 shares bought for 9,000"
+      country: "US"
+    assert:
+      - {type: llm-rubric, value: "Identifies a mandatory spin-off needing no action, works out 33 NewCo shares plus cash for the one-third fraction, explains that the 9,000 cost basis must be split between XYZ and NewCo based on information the company publishes, says the values cannot be shown without prices, and labels tax treatment as to verify."}
+  - name: negative-asks-to-predict-takeover
+    description: "Wants a prediction on whether a higher bid will come."
+    vars:
+      notice: "Takeover offer of 12.50 cash per share. Current price 12.80. Will a higher offer come? Tell me to hold or accept."
+      holding: ""
+      country: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the market price above the offer may reflect expectations of a higher bid, explains accepting, selling in the market and waiting as options with their risks, notes that missing deadlines and compulsory acquisition rules should be checked in the full offer document, and does not predict or tell them to hold or accept."}

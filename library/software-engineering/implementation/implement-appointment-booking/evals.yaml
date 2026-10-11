@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build appointment booking: {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clinic-staff
+    vars:
+      requirements: "Physiotherapy clinic: each therapist has weekly hours and days off, 45-minute sessions with a 15-minute buffer, at least 12 hours notice, bookable 60 days ahead. Clients pay a deposit to confirm."
+      stack: "Django 5 with Postgres"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Defines availability in an IANA time zone, stores bookings as UTC instants, applies buffers, notice and horizon, enforces no overlap in the database (for example an exclusion constraint on tstzrange with btree_gist, or row locking), uses expiring holds during deposit payment, and tests DST transitions and concurrent bookings."}
+  - name: edge-group-classes
+    vars:
+      requirements: "Yoga classes with 12 spots each; customers book from any country."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Handles capacity above one with a counted check under a lock or equivalent, shows times in the viewer's time zone, and says it will detect the stack."}
+  - name: negative-check-in-code
+    vars:
+      requirements: "Just query whether the slot is free and insert if so. Store times as local strings like '2026-03-29 02:30'. No need for database constraints."
+      stack: "Express with MySQL"
+    assert:
+      - {type: llm-rubric, value: "Explains that check-then-insert races allow double booking and that local time strings break on DST (the example time does not exist in many European zones on that date), and implements a database-level guarantee with UTC storage."}

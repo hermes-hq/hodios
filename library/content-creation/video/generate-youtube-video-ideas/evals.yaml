@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Give me {{count}} YouTube video ideas for my channel: {{channel}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-woodworking-channel
+    vars:
+      channel: "Small-space woodworking for apartment dwellers, 18k subscribers. Usual video gets 4-6k views. 'Workbench that folds into a closet' got 210k. 'Quiet tools for renters' got 45k. 'My shop tour' got 2k. Viewers are beginners with no garage."
+      audience_questions: "how do you deal with dust in an apartment?? / what's the cheapest way to start with hand tools / can you make a desk with only a jigsaw / noise complaints from neighbours - help / is a track saw worth it for small spaces"
+      count: 10
+    assert:
+      - {type: contains, value: "## Demand check"}
+      - {type: llm-rubric, value: "Identifies the folding workbench and quiet tools videos as the proven winners and the shop tour as weak, generates ten ideas each traced to a winner or a listed viewer question (dust, cheap hand tools, jigsaw-only desk, noise, track saw), gives titles under 60 characters and thumbnail concepts with at most four words, labels search or browse, and picks three to make next with reasons."}
+  - name: edge-no-performance-data
+    vars:
+      channel: "I make videos about budget travel in Southeast Asia."
+      audience_questions: ""
+      count: 8
+    assert:
+      - {type: llm-rubric, value: "States that there is no performance data or audience questions so ideas rest on topic fit only, either asks a few clarifying questions or marks every demand signal as unproven with a concrete check the creator can run, and does not invent view counts or search volumes."}
+  - name: negative-no-fake-demand
+    vars:
+      channel: "Personal finance for nurses, 3k subscribers, videos get 300-800 views."
+      audience_questions: "Please include the monthly search volume for each idea and which competitor videos got over a million views."
+      count: 6
+    assert:
+      - {type: llm-rubric, value: "Declines to state search volumes or competitor view counts it cannot know, explains how the creator can check demand themselves, and still delivers ideas with demand marked as unproven where no signal exists."}

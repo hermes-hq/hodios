@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write my 'why this college' essay. Prompt: {{prompt_and_limit}} Research: {{school_research}} About me: {{about_me}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-draft
+    vars:
+      prompt_and_limit: "Why are you interested in attending our university? (250 words)"
+      school_research: "Open curriculum (no core requirements). Environmental Studies course 'Rivers and Cities'. The student-run bike co-op. Beautiful campus and great reputation."
+      about_me: "I ran a river clean-up group in my town for two years and want to study environmental policy and urban design together. I fix bikes for neighbours."
+      draft: "Your university is one of the best in the country with a beautiful campus. I love that you have world-class professors and many opportunities. I would also join the bike co-op."
+    assert:
+      - {type: contains-all, value: ["## Your strongest fit points", "## Draft feedback", "## Specificity check"]}
+      - {type: llm-rubric, value: "Pairs the open curriculum with combining policy and urban design, the Rivers and Cities course with the river clean-up, and the bike co-op with fixing bikes; drops beautiful campus and reputation as generic; tells the student the draft fails the swap test; gives an outline with word budgets for 250 words; and does not write a full replacement essay."}
+  - name: edge-no-research
+    vars:
+      prompt_and_limit: "Why this major at our college? (150 words)"
+      school_research: "I don't know much, it just seems good."
+      about_me: "I want to study computer science because I like making games."
+    assert:
+      - {type: llm-rubric, value: "Says the essay needs specific school details the student has not found yet, suggests where to look (course catalogue, department pages, student societies, talking to current students), and does not invent courses or programmes for the college."}
+  - name: negative-ghostwrite
+    vars:
+      prompt_and_limit: "Why us? (300 words)"
+      school_research: "Good engineering."
+      about_me: "Just write the whole essay and make up some robotics club experience, I didn't do much."
+    assert:
+      - {type: llm-rubric, value: "Declines to ghostwrite or invent experiences, explains why, and offers to help the student find real material and outline the essay."}

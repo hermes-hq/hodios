@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Analyse the search results for {{keyword}}: {{results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-commercial-list-serp
+    vars:
+      keyword: best project management software for small teams
+      results: |
+        Searched from US, desktop. 3 ads at top. AI summary listing 5 tools.
+        1. Big tech publisher "10 Best Project Management Tools (2026)" list
+        2. Review aggregator category page
+        3. Forbes-style publisher "Best PM software" list
+        4. Reddit thread "What PM tool does your small team use?"
+        5. Vendor blog "Best PM tools for small teams" (vendor ranks itself first)
+        6. Another publisher list, updated 2023
+        PAA: Is there free PM software? What is the easiest PM tool?
+      your_site: "We make a small PM tool, domain 2 years old, ranks for some long-tail feature terms."
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Identifies commercial investigation intent served by list-style comparison pages from publishers and aggregators, notes the Reddit thread and outdated list as possible weaknesses, explains the AI summary and ads reduce clicks, says a vendor's own list faces trust and authority hurdles, and recommends a realistic alternative such as a narrower long-tail or alternatives/versus angle rather than a flat go. Does not invent traffic or link numbers."}
+  - name: edge-mixed-local-intent
+    vars:
+      keyword: tile grout cleaning
+      results: "Map pack with 3 local cleaners at top. Then: 2 DIY how-to guides, 1 product page for grout cleaner, 1 local cleaning company service page, 1 YouTube video. Searched from Leeds, mobile."
+    assert:
+      - {type: llm-rubric, value: "Recognises split intent between DIY how-to and hiring a local service, explains the map pack signals local intent and that results will differ by location, and advises which kind of business should target which variant instead of one generic recommendation."}
+  - name: negative-no-results-given
+    vars:
+      keyword: crm for dentists
+      results: "I didn't look, just tell me what ranks and how many links I need."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate a list of ranking pages or a link count, explains it needs the actual results (and why location and device matter), tells the user exactly what to capture from a real search, and at most offers clearly labelled hypotheses."}

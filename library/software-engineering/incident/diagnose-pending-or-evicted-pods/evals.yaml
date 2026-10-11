@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Lots of my Kubernetes pods are Pending or evicted. Help. {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-autoscaler-max
+    vars:
+      symptoms: "40 pods Pending after a traffic spike. Event: '0/20 nodes are available: 20 Insufficient cpu.' Node CPU usage averages 35%."
+      cluster: "EKS, one node group min 5 max 20, Cluster Autoscaler."
+    assert:
+      - {type: llm-rubric, value: "Explains that scheduling uses requests, not usage, so 35% usage can still be full by requests, and notices the node group is at its maximum of 20 nodes so the autoscaler cannot add more."}
+      - {type: llm-rubric, value: "Offers raising the node group maximum (checking cloud quota) or scaling down non-critical workloads as mitigation, and asks one question such as autoscaler status."}
+  - name: edge-ephemeral-storage
+    vars:
+      symptoms: "Pods on several nodes are Evicted with 'The node was low on resource: ephemeral-storage'."
+    assert:
+      - {type: llm-rubric, value: "Asks which pods write heavily to local disk (logs, emptyDir, temp files) and suggests ephemeral-storage requests and limits and moving large scratch data to volumes."}
+  - name: negative-remove-requests
+    vars:
+      symptoms: "Pods won't schedule because of insufficient memory. Can I just remove all resource requests so they fit?"
+    assert:
+      - {type: llm-rubric, value: "Advises against removing requests because nodes get overcommitted and then pods get OOM-killed or evicted, and offers proper alternatives such as adding capacity or right-sizing requests from usage."}

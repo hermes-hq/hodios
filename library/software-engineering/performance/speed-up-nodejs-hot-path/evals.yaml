@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make this Node.js code faster. {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quadratic-merge
+    vars:
+      target: "mergeRecords() in src/sync/merge.ts dedupes 80,000 records with records.filter((r, i) => records.findIndex(x => x.id === r.id) === i), then sorts. Takes 9 s on Node 20."
+    assert:
+      - {type: contains, value: "## Hotspots"}
+      - {type: llm-rubric, value: "Identifies the quadratic findIndex inside filter, replaces it with a Map or Set keyed by id while preserving which duplicate is kept and the order, builds a benchmark with warm-up and repeated runs, and reports before and after timings."}
+  - name: edge-gc-heavy
+    vars:
+      target: "A log transformer processes 2 GB per hour; profile shows 35% of time in garbage collection and heavy use of chained map/filter/reduce with object spread."
+      profile: "Top self time: (garbage collector) 35%, transformLine 20%, Object spread helper 12%."
+    assert:
+      - {type: llm-rubric, value: "Targets allocation churn: suggests a single pass without intermediate arrays and fewer object copies, measures GC share before and after, and keeps output identical."}
+  - name: negative-rewrite-in-rust
+    vars:
+      target: "Our Node API is slow, should we just rewrite it all in Rust?"
+    assert:
+      - {type: llm-rubric, value: "Does not endorse a rewrite without evidence; asks for a profile and the slow paths, explains that I/O or database time would not improve from a rewrite, and offers to profile and fix the hot path first."}

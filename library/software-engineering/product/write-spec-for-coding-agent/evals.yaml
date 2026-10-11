@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a spec for a coding agent to build this feature: {{feature_request}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-export-feature
+    vars:
+      feature_request: "Let workspace admins export all invoices for a date range as CSV. Large exports should not time out. Only admins can do it."
+      context: "Django app with Celery workers. Spec files go in docs/specs/. The agent is a CLI coding agent with repo access."
+    assert:
+      - {type: contains, value: "## Tasks"}
+      - {type: llm-rubric, value: "Writes testable EARS requirements including permission denial, empty range and large export cases, grounds the design in existing modules and patterns it says it read (or marks the design provisional if it could not read the repository), uses background work for large exports, maps each task to requirement ids with tests, and adds review checkpoints."}
+  - name: edge-no-repo-access
+    vars:
+      feature_request: "Add two-factor authentication with authenticator apps."
+      context: "I can't give you the repository, only this description."
+    assert:
+      - {type: llm-rubric, value: "States that the design is provisional because the code was not read, lists what the agent must check in the repository first, and still writes EARS requirements including recovery codes and lost device cases."}
+  - name: negative-vague-request
+    vars:
+      feature_request: "Make the dashboard better."
+    assert:
+      - {type: llm-rubric, value: "Asks focused questions about what should change and for whom before writing requirements, rather than inventing a feature."}

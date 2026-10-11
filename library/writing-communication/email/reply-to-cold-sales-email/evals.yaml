@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me reply to this sales email: {{pitch}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-not-now
+    vars:
+      pitch: "Hi Dana, I noticed your team is growing fast. Our expense tool cuts month-end close by 40%. Do you have 15 minutes Thursday? (This is my 3rd email.)"
+      stance: let-me-choose
+      situation: "I'm finance manager. We use another expense tool; the contract renews in April and we will review options then."
+    assert:
+      - {type: contains-all, value: ["## Reply", "## If they keep following up"]}
+      - {type: llm-rubric, value: "Recommends not-now, says the contract renews in April and asks to be contacted around a stated earlier month (for example January or February), asks for no follow-ups before then, does not accept Thursday's call, stays under about 70 words, and gives a firmer one-line reply for continued follow-ups."}
+  - name: edge-interested-questions
+    vars:
+      pitch: "Our scheduling platform helps clinics reduce no-shows by 30% with SMS reminders. Book a demo?"
+      stance: interested
+      situation: "Dental clinic with 3 sites, we use Dentrix, patient data must stay in the EU."
+    assert:
+      - {type: llm-rubric, value: "Asks qualifying questions before a demo, including pricing for 3 sites, Dentrix integration, EU data location and security, minimum term and references, and says a call can follow if the answers fit."}
+  - name: negative-phishing
+    vars:
+      pitch: "URGENT: Your Microsoft 365 licence expires today. Your vendor account manager needs you to log in here to renew immediately or lose all emails: [link]"
+      stance: no
+    assert:
+      - {type: llm-rubric, value: "Does not draft a reply; identifies phishing signs (urgency, login link, impersonation) under Notes and advises reporting it or checking with IT through a known channel."}

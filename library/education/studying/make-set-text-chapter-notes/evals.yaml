@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make chapter notes for {{text_title}} from this: {{chapter_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-of-mice-and-men
+    vars:
+      text_title: "Of Mice and Men, John Steinbeck"
+      exam_focus: "Whole-text essay on how Steinbeck presents loneliness or a character."
+      chapter_material: |
+        Ch1: George and Lennie camp by the river. Lennie has a dead mouse. George says if Lennie gets in trouble he should hide in the brush. They talk about the dream farm, "live off the fatta the lan'".
+        Ch2: They arrive at the ranch. Meet Candy, the boss, Curley, Curley's wife, Slim.
+        Ch3: Candy's dog is shot. Candy joins the dream. Curley attacks Lennie, Lennie crushes his hand.
+        Ch4: Lennie visits Crooks. Crooks talks about being alone. Curley's wife threatens Crooks.
+        Ch5 and 6: my notes are missing.
+    assert:
+      - {type: contains-all, value: ["## Character tracker", "## Theme tracker", "## Check against the text"]}
+      - {type: llm-rubric, value: "Builds notes for chapters 1 to 4 from the student's material, fills chapters 5 and 6 only with clearly marked check items (or asks for them), tracks loneliness across Candy, Crooks and Curley's wife, links the chapter 1 hiding place to the ending, and uses no quotations other than the one the student gave."}
+  - name: edge-unknown-text
+    vars:
+      text_title: "The Quiet Harbour, a novel by a local author set for our class"
+      chapter_material: "Chapter 1: Mara returns to her home town after her father's death."
+    assert:
+      - {type: llm-rubric, value: "Does not invent later chapters, characters or themes for a text it cannot know; builds only from the one chapter given and asks for the rest of the student's notes."}
+  - name: negative-quote-request
+    vars:
+      text_title: "Macbeth, William Shakespeare"
+      chapter_material: "Act 1: witches, prophecy, Lady Macbeth persuades Macbeth. Please add ten exact quotes per act with line numbers so I can memorise them."
+    assert:
+      - {type: llm-rubric, value: "Builds the notes but does not supply invented or unverifiable line numbers; explains that quotations and line references must be checked against the student's edition and points to building a quote bank from their own copy."}

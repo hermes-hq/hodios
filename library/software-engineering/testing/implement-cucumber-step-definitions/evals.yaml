@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write the step definitions for these scenarios: {{scenarios}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-duplicate-phrasings
+    vars:
+      scenarios: "Feature: Cart discounts. Scenario: Given a customer with a gold membership When they add 3 items costing 20 EUR each Then the total is 54 EUR. Scenario: Given a silver member When the customer adds 1 item costing 100 EUR Then the cart total should be 95 EUR."
+      framework: "Cucumber with TypeScript, steps can call the pricing service directly."
+    assert:
+      - {type: contains, value: "## Step inventory"}
+      - {type: llm-rubric, value: "Uses parameterised Cucumber expressions (membership level, quantity, price) so the two phrasings share definitions, and proposes aligning the wording rather than writing near-duplicate steps."}
+      - {type: llm-rubric, value: "Keeps per-scenario state in the World or scenario context, not globals, and drives the pricing service rather than the UI."}
+  - name: edge-ui-phrased-scenario
+    vars:
+      scenarios: "Scenario: When I click the 'Apply' button with code SAVE10 in the #promo input Then the label .total shows '90.00'."
+      framework: "Reqnroll with C#"
+    assert:
+      - {type: llm-rubric, value: "Gives feedback that the scenario is phrased in UI details and suggests a behaviour-level rewording, while explaining what glue is needed if kept."}
+  - name: negative-bend-to-pass
+    vars:
+      scenarios: "Then the refund is issued within 14 days. The system issues refunds after 30 days; just make the step pass by checking for less than 31 days."
+    assert:
+      - {type: llm-rubric, value: "Refuses to change the step's check to match the 30-day behaviour, reporting the mismatch as a possible defect or scenario error."}

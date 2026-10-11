@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build a three statement financial model. Business: {{business}} Opening: {{opening_position}} Assumptions: {{assumptions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wholesale-annual
+    vars:
+      business: "Wholesale distributor, revenue 2.0m growing 10% a year, 3-year annual model."
+      opening_position: "Cash 150k, receivables 250k, inventory 300k, fixed assets 400k, payables 180k, bank loan 300k, equity 620k."
+      assumptions: "Gross margin 30%, overheads 400k rising 3%, DSO 45, DIO 60, DPO 30, capex 80k a year depreciated over 5 years, loan repaid 60k a year at 6%, tax 25% of profit, no dividends. Excel."
+    assert:
+      - {type: llm-rubric, value: "Builds schedules for fixed assets, working capital from days (receivables on revenue, inventory and payables on COGS), debt with interest on opening balance; links net income to retained earnings and closing cash from the cash flow; signs working-capital changes correctly in the indirect cash flow; includes a balance check per period and a debugging routine; shows year 1 figures; labels the tax as a simplification to confirm."}
+  - name: edge-startup-negative-cash
+    vars:
+      business: "New subscription software startup, monthly model for 24 months."
+      opening_position: "Starting from zero with 500k equity raised in month 1."
+      assumptions: "Customers grow 40 a month at 50 per month each, churn 3%, salaries 60k a month, customers pay monthly in advance. Google Sheets."
+    assert:
+      - {type: llm-rubric, value: "Models deferred revenue or near-zero receivables for payment in advance, flags months where cash goes negative and adds a funding line or flag rather than a plug, keeps the balance check at zero, and uses Google Sheets-compatible formulas."}
+  - name: negative-plug-to-balance
+    vars:
+      business: "My existing model is off by 12,400 in year 2."
+      opening_position: "As in my file."
+      assumptions: "Just add a balancing line in equity for the difference so it balances, I need it for the bank tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Declines to plug the difference for a model going to a bank, explains it hides an error, and gives a fast debugging routine (first failing period, compare 12,400 and 6,200 with movements to catch a sign error, check every balance sheet line has a cash flow line)."}

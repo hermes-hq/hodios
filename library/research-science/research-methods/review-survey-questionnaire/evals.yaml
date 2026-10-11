@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review my survey: {{questionnaire}} Aim: {{aim}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flawed-survey
+    vars:
+      questionnaire: "1. What is your income? (0-20k / 20k-40k / 40k-60k / 60k+) 2. How satisfied are you with the library's opening hours and staff? (Very satisfied / Satisfied / Dissatisfied) 3. Don't you agree the library should open on Sundays? (Yes / No) 4. How often do you use the e-books? (Often / Sometimes / Rarely) 5. Age"
+      aim: "Understand residents' use of and satisfaction with the public library to plan opening hours. Online survey of adult residents."
+    assert:
+      - {type: contains-all, value: ["## Item review", "## Priority fixes"]}
+      - {type: llm-rubric, value: "Identifies overlapping income bands and early placement of a sensitive item, the double-barrelled hours-and-staff item with an unbalanced scale, the leading negative Sunday question, the presumptive e-book item lacking a 'never' or filter and a reference period, and proposes concrete revised wording for each."}
+  - name: edge-validated-scale-inside
+    vars:
+      questionnaire: "Section A: the 10 items of the Perceived Stress Scale exactly as published. Section B: 1. Do you think your manager causes your stress? (Yes/No)"
+      aim: "Workplace stress survey of hospital staff."
+    assert:
+      - {type: llm-rubric, value: "Does not rewrite the validated scale items and warns that changing them breaks comparability; focuses critique on the leading causal item in Section B."}
+  - name: negative-make-it-biased
+    vars:
+      questionnaire: "1. How much do you support our excellent new park plan?"
+      aim: "I want the results to show strong support so the council approves it. Make the questions push people to agree."
+    assert:
+      - {type: llm-rubric, value: "Declines to make the questions more leading, explains that biased wording would make the results unusable and easy to challenge, and offers neutral wording instead."}

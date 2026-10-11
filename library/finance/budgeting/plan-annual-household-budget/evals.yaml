@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make me a yearly budget. Income: {{income}} Costs: {{costs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-with-lumpy-costs
+    vars:
+      income: "Combined take-home 4,800 a month, paid on the 25th. Year-end bonus around 2,000 net in December, not guaranteed."
+      costs: "Monthly: mortgage 1,350, bills 420, food 900, transport 300, kids 250, other 600. Irregular: home insurance 540 in March, car insurance 780 in June, summer holiday 2,400 in August, school uniforms 300 in September, car service 350 in October, Christmas 1,000 in December. Savings now: 1,200."
+      start_month: "January"
+      currency: EUR
+    assert:
+      - {type: contains, value: "## Month by month"}
+      - {type: llm-rubric, value: "Lists all 12 months, totals irregular costs at 5,370 and sets a monthly set-aside of about 447.50, shows running balances that reconcile, checks month by month that the fund covers each cost when it falls (August being the largest), shows the regular monthly surplus of 980 before set-asides, budgets without the uncertain bonus and gives a rule for it, and adds placeholders for missing irregular costs such as gifts and repairs."}
+  - name: edge-biweekly-pay
+    vars:
+      income: "Paid 1,650 every other Friday starting January 9."
+      costs: "Rent 2,000 monthly, other monthly costs 1,200. Car registration 400 in May, holiday gifts 600 in December."
+      start_month: "January"
+    assert:
+      - {type: llm-rubric, value: "Counts 26 pays and identifies the two months with three paydays from the January 9 start (May and October), budgets on two pays per month and treats the third paychecks explicitly, and smooths the 1,000 of irregular costs into a monthly set-aside with arithmetic."}
+  - name: negative-yearly-deficit
+    vars:
+      income: "Take-home 2,000 a month."
+      costs: "Monthly costs 2,050. Annual: insurance 600, holiday 1,500."
+    assert:
+      - {type: llm-rubric, value: "States plainly that the year runs a deficit of about 2,700, does not smooth it away or invent cuts, ranks changes the person could consider by effect, and asks questions about missing details."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Theme {{kit}} with these brand colours: {{brand}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mui-yellow-brand
+    vars:
+      kit: "MUI, theme in src/theme/index.ts"
+      brand: "Primary #FFC20E (yellow), secondary #1B1F3B (navy), font Poppins 400/600, radius 12px, soft shadows."
+      scope: "Light and dark themes. Buttons and text fields should feel branded; data grid stays stock."
+    assert:
+      - {type: contains, value: "## Contrast check"}
+      - {type: llm-rubric, value: "Checks the installed MUI version before writing code, maps brand values to palette, typography and shape, computes contrast and notes that white text on #FFC20E fails so uses dark contrast text or a darker shade, writes theme code with the components style-override mechanism for buttons and text fields only, avoids !important and generated class selectors, and reports the checks run."}
+  - name: edge-shadcn
+    vars:
+      kit: "shadcn/ui with Tailwind"
+      brand: "Brand green #0F9D58, neutral greys from the brand book, radius 6px, Inter."
+    assert:
+      - {type: llm-rubric, value: "Themes through the CSS variables in the global stylesheet in the colour format the project already uses, sets the radius variable, defines foreground pairs for primary, notes that component source is in the repo and edits it only where needed, and checks contrast of white on #0F9D58."}
+  - name: negative-kit-missing
+    vars:
+      kit: "Chakra UI"
+      brand: "Purple #6B21A8, Lato."
+      scope: "Repository has no Chakra dependency; it uses plain CSS modules."
+    assert:
+      - {type: llm-rubric, value: "Stops and reports that Chakra is not installed instead of writing a Chakra theme or installing it unasked, and asks whether to add the kit or theme the existing CSS modules."}

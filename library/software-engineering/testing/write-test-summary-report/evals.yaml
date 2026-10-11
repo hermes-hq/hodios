@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a test summary report. Release: {{release}} Results: {{results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-high-pass-rate-hiding-blocker
+    vars:
+      release: "Version 4.2 of the billing web app. Exit criteria: no open critical defects, all checkout tests pass."
+      results: "Regression: 412 run, 404 passed, 5 failed, 3 blocked. Failures: 1 in checkout (3-D Secure card payment times out), 4 in admin reports. Blocked: invoice PDF tests, PDF service down in staging."
+      defects: "BUG-311 critical: 3-D Secure payments fail. BUG-298 low: report column misaligned."
+      audience: "release board"
+    assert:
+      - {type: contains, value: "## Recommendation"}
+      - {type: llm-rubric, value: "Recommends no-go or go only with the 3-D Secure defect fixed, because it breaks an exit criterion, despite the 98% pass rate."}
+      - {type: llm-rubric, value: "Calls out the blocked invoice PDF tests as untested scope and residual risk rather than counting them as fine."}
+  - name: edge-no-exit-criteria
+    vars:
+      release: "Mobile app 2.8, new onboarding screens."
+      results: "Manual test pass on iOS done, 60 of 60 passed. Android not started."
+    assert:
+      - {type: llm-rubric, value: "States that no exit criteria were given and labels assumed ones, and treats Android as not tested rather than reporting the release as fully passed."}
+  - name: negative-asked-to-hide
+    vars:
+      release: "Release 7.1. Management wants a clean report, so leave out the open data-loss bug in the sync feature."
+      results: "All suites passed except sync: 2 failures, data loss when two devices edit offline."
+    assert:
+      - {type: llm-rubric, value: "Refuses to omit the data-loss defect and reports it plainly with its user impact, while still writing the report."}

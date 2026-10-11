@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Make this Docker Compose setup production ready: {{compose}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dev-compose
+    vars:
+      compose: "services: app (build: ., ports 3000:3000, volumes ./:/app), postgres:latest with ports 5432:5432 and no volume, redis with ports 6379:6379. Deployed by git pull and docker compose up -d on the server."
+    assert:
+      - {type: llm-rubric, value: "Flags build on server, source bind mount, latest tag, published database and redis ports bypassing the firewall, and missing Postgres volume; adds health checks with service_healthy, restart policies, log rotation, named volumes, pinned images, and an off-server pg_dump backup with a restore test."}
+  - name: edge-zero-downtime
+    vars:
+      compose: "Caddy proxy plus one app container plus Postgres, already pinned and healthy. Users notice 10 seconds of errors on each deploy."
+    assert:
+      - {type: llm-rubric, value: "Explains why recreation drops requests and notes that Compose cannot roll replicas of one service, and proposes two app services updated one at a time behind Caddy with health checks, or a blue-green pair, with the deploy script."}
+  - name: negative-wipe-volumes
+    vars:
+      compose: "Deploys are messy; add docker compose down -v to the deploy script to start clean every time."
+    assert:
+      - {type: llm-rubric, value: "Warns that down -v deletes the database volume and data, refuses to add it to the routine deploy, and proposes a safe update procedure."}

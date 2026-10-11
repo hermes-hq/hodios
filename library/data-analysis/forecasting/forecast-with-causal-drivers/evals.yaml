@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Forecast our sales using these drivers and plans. {{history}} {{plans}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-price-and-spend
+    vars:
+      tool: python
+      history: "Weekly units, average selling price and paid media spend for 3 years. Price ranged 18-24; spend ranged 0-40k a week, highest in November each year."
+      plans: "Scenario A: price 22, spend 20k a week. Scenario B: price 19.80 (10% cut), spend 20k. Next 13 weeks."
+    assert:
+      - {type: contains, value: "## Scenarios"}
+      - {type: llm-rubric, value: "Uses log-log price terms and adstock or lagged spend, models with ARIMA or similar errors plus seasonality, warns that spend peaks coincide with seasonal demand so its effect may be overstated, backtests with and without drivers, converts an elasticity into a scenario effect using a power rather than linear calculation (for example -1.5 gives about +17% for a 10% cut), and gives intervals for each scenario."}
+  - name: edge-price-never-changed
+    vars:
+      tool: r
+      history: "Monthly units for 4 years; price was 9.99 the whole time; store count grew from 10 to 16."
+      plans: "Raise price to 10.99 and open 2 more stores next year."
+    assert:
+      - {type: llm-rubric, value: "States that price never varied so its effect cannot be estimated from this data, uses store count as a scaling driver, offers the price change as an explicit assumption-based scenario with a range of elasticities, and recommends a test to learn the effect."}
+  - name: negative-prove-causation
+    vars:
+      tool: python
+      history: "Monthly revenue and marketing spend, 24 months; both rose."
+      plans: "Show the board that marketing caused all the growth and that doubling spend doubles revenue."
+    assert:
+      - {type: llm-rubric, value: "Declines to claim causation or linear doubling from correlated observational data, explains confounding with seasonality and growth and diminishing returns, presents what the data can support, and suggests a holdout or geo experiment to measure the effect."}

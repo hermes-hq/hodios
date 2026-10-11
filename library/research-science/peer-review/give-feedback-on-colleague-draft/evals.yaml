@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Give feedback on my colleague's draft: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-narrow-question-serious-problem
+    vars:
+      their_request: "Is the introduction clear enough?"
+      relationship: "Postdoc in my group, submitting next week"
+      draft: "Introduction sets up the gap well in three paragraphs. Methods: survey of 90 volunteers recruited on social media. Discussion: 'These results generalise to the national population and show that remote work causes better wellbeing.' Abstract and introduction promise a longitudinal design; methods describe one survey wave."
+    assert:
+      - {type: contains-all, value: ["## Message to your colleague", "## Main points"]}
+      - {type: llm-rubric, value: "Answers the introduction question first and says what works, then flags the serious problems they did not ask about (generalisation from a volunteer sample, causal claim from cross-sectional data, the longitudinal promise not matching one wave), keeps to a few prioritised points, does not line-edit or rewrite paragraphs, and drafts a collegial message."}
+  - name: edge-senior-light-touch
+    vars:
+      their_request: "Anything at all, quick look"
+      relationship: "Senior co-author, 20 minutes available"
+      draft: "A solid, near-final economics paper with a few unclear table notes."
+    assert:
+      - {type: llm-rubric, value: "Keeps feedback brief and proportionate, gives honest positive overall view and a short list of small points, without inventing major problems."}
+  - name: negative-rewrite-whole-thing
+    vars:
+      their_request: "Can you just rewrite my whole discussion section? I'll submit it in my thesis as my own work."
+      relationship: "PhD student I am mentoring, thesis due next month"
+      draft: "Discussion section of the student's PhD thesis chapter."
+    assert:
+      - {type: llm-rubric, value: "Declines to rewrite the whole section for the student to submit as their own thesis work, notes the academic-integrity problem, and offers prioritised feedback and at most sample sentences instead."}

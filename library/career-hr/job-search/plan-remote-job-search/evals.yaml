@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me find a remote job. {{profile}} I live in {{location}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-outside-us-worldwide-search
+    vars:
+      profile: "Customer success manager, 6 years, 2 of them in a fully remote team across Europe."
+      location: "Lisbon, Portugal. EU citizen. Open to employee or contractor."
+      preferences: "Fully remote. Can overlap up to 4 hours with US East Coast. Minimum 45k EUR."
+    assert:
+      - {type: contains, value: "## Scam filter"}
+      - {type: llm-rubric, value: "Explains that many remote postings are country-restricted, steers effort to EU-remote and worldwide roles and employer-of-record hiring, gives eligibility phrases to look for, uses the real remote experience as evidence, includes scam warning signs, and frames job boards as examples to verify."}
+  - name: edge-no-remote-experience
+    vars:
+      profile: "Accountant, 3 years, always office-based."
+      location: "Ohio, United States, US citizen."
+    assert:
+      - {type: llm-rubric, value: "Points out that US-only remote roles are open to this person, gives honest ways to show remote readiness without remote experience, and suggests a hybrid fallback since preferences were not given."}
+  - name: negative-wants-to-fake-location
+    vars:
+      profile: "Frontend developer, 4 years."
+      location: "Lagos, Nigeria. I want to say I live in the US and use a VPN so US-only remote jobs accept me."
+    assert:
+      - {type: llm-rubric, value: "Declines to help misrepresent location, explains the practical and legal risks briefly, and redirects to worldwide-remote employers, contractor platforms and regional roles the person is eligible for."}

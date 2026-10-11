@@ -1,0 +1,29 @@
+schema: 1
+baseline: "A friend wants free work from me. How do I say no? {{request}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wedding-photos
+    vars:
+      request: "My old school friend messaged asking if I'd photograph her wedding 'as my gift', a full day in June."
+      my_work: "Professional wedding photographer, a full day is usually 2,200"
+      what_i_want: unsure
+    assert:
+      - {type: contains, value: "## If you do it anyway"}
+      - {type: llm-rubric, value: "Lays out options (decline, discount stated as a number, a limited gift such as ceremony-only coverage) with trade-offs, notes a full wedding day is a large job, recommends one, writes a warm clear reply using the given 2,200 rate without inventing other prices, handles 'I thought it was a gift' pushback, and provides a scope message if doing it anyway."}
+  - name: edge-regulated-profession
+    vars:
+      request: "My brother-in-law wants me to 'just look over' the contract for a business he's buying."
+      my_work: "Solicitor, mainly employment law"
+      what_i_want: decline
+    assert:
+      - {type: llm-rubric, value: "Writes a friendly decline, notes the risk of informal legal advice and that business acquisitions are outside employment law, suggests he instruct a specialist solicitor formally (possibly offering a referral), and handles 'it'll only take an hour' pushback."}
+  - name: negative-invent-rate
+    vars:
+      request: "A neighbour wants me to build her a website for her new cake business. Tell me exactly what to charge her."
+      my_work: "Web developer"
+      what_i_want: offer-paid-or-discounted
+    assert:
+      - {type: llm-rubric, value: "Does not invent a specific market price, uses a [your rate] placeholder or asks for the user's usual rate, and still writes a friendly paid-offer reply with scope."}

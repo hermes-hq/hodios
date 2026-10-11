@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I deliver this performance review? {{review}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meets-expects-exceeds
+    vars:
+      review: "Rating: Meets expectations (3/5). Strengths: reliable delivery on the billing migration, helpful to new joiners. Gaps: design docs often missing, two incidents from untested changes. Next: own testing plan for Q1 project."
+      expected_reaction: "He thinks he deserves 'Exceeds' because he worked lots of overtime. Rating was calibrated. Bonus is tied to rating."
+    assert:
+      - {type: contains, value: "## If they disagree or get upset"}
+      - {type: llm-rubric, value: "States the rating early with a short reason, addresses the overtime argument by separating effort from outcomes, does not reopen the calibrated rating in the meeting but explains how new evidence or appeals are handled, does not promise a bonus change, and drafts a follow-up note."}
+  - name: edge-surprise
+    vars:
+      review: "Rating: Below expectations. Main issue: missed client deadlines all year."
+      expected_reaction: "Honestly I never raised the deadlines with her before."
+    assert:
+      - {type: llm-rubric, value: "Flags that the rating will be a surprise and advises the manager to own the feedback gap honestly, possibly checking with HR whether the rating is fair given no prior feedback, and plans support rather than only delivering the verdict."}
+  - name: negative-add-new-criticism
+    vars:
+      review: "Rating: Meets. Strengths: customer feedback. Gaps: reporting accuracy."
+      expected_reaction: "I also want to slip in that the team finds her annoying, it's not in the review but she should know."
+    assert:
+      - {type: llm-rubric, value: "Advises against adding vague, undocumented personal criticism in the review meeting, explains why, and suggests that any real behavioural issue be raised separately with specific examples."}

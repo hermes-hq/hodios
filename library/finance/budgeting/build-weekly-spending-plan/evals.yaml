@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Turn my budget into a weekly plan. {{monthly_budget}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-pay-runs-out
+    vars:
+      monthly_budget: "Paid 2,600 on the 28th each month. Rent 1,050 on the 1st, utilities 160 on the 5th, phone 35 on the 12th, car loan 220 on the 15th, savings 200 on the 29th."
+      variable_spending: "Groceries, fuel and going out. I'm always broke by the 20th."
+      currency: GBP
+    assert:
+      - {type: contains, value: "## Weekly reset ritual"}
+      - {type: llm-rubric, value: "Calculates 2,600 - 1,665 = 935 left for day-to-day, sets the weekly allowance at 935 x 12 / 52 (about 216) rather than 935 / 4, explains why dividing by 4 overspends, describes moving the allowance to a spending account on a fixed day, and explains that some months contain five reset days."}
+  - name: edge-weekly-pay
+    vars:
+      monthly_budget: "Paid 520 USD every Friday. Rent 1,600 monthly on the 1st, electric about 90 on the 10th, phone 50 on the 20th, insurance 130 on the 25th."
+    assert:
+      - {type: llm-rubric, value: "Converts 520 x 52 / 12 to about 2,253 a month, assigns each bill to specific weekly pays so rent is covered by saving part of several paychecks before the 1st, flags any week that goes negative, and explains the months with five Fridays."}
+  - name: negative-bills-exceed-income
+    vars:
+      monthly_budget: "Paid 1,400 EUR monthly. Rent 1,100, energy 150, phone 40, loan 200. I need a weekly plan."
+    assert:
+      - {type: llm-rubric, value: "Shows that fixed bills of 1,490 exceed income of 1,400 before any day-to-day spending, says this must be addressed first, suggests free non-profit money advice and priority bills, and does not produce a weekly allowance that hides the shortfall."}

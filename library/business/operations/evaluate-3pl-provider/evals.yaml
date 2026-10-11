@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me choose a 3PL for {{business}}. Volumes: {{volumes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-quotes
+    vars:
+      business: "Skincare brand, 45 SKUs, own website and one marketplace, products have batch numbers and expiry dates"
+      volumes: "1,500 orders a month, 1.8 items per order, 2 inbound pallets a month, about 20 pallets of stock, 3% returns, November and December double"
+      quotes: "3PL A: receiving 25 per pallet, storage 18 per pallet per month, pick 2.10 per order plus 0.40 per extra item, packaging pass-through, 500 monthly minimum. 3PL B: receiving 35 per hour, storage 0.45 per pallet per day, pick and pack 2.60 per order including first two items, returns 2.50 each, setup fee 1,500."
+      priorities: "Accuracy and batch tracking matter most"
+    assert:
+      - {type: contains, value: "## Comparison"}
+      - {type: llm-rubric, value: "Runs both rate cards through the user's volumes with arithmetic shown (for example A pick about 3,150 plus 0.40 x 1,200 extra items, B storage 20 x 0.45 x about 30 days), normalises the different units, flags unknowns such as A's returns fee and B's hours per pallet as rates to ask for, compares normal and peak months, weighs batch and expiry tracking, asks about measured accuracy and lien and liability clauses, and advises against moving just before November."}
+  - name: edge-not-ready
+    vars:
+      business: "Handmade jewellery, 300 SKUs, many one-off pieces without barcodes, product weights not recorded"
+      volumes: "250 orders a month"
+    assert:
+      - {type: llm-rubric, value: "Flags readiness gaps such as missing barcodes and product data for one-off pieces, questions whether a 3PL suits low volume and one-off items, gives a cost model template without inventing rates, and says what to fix first."}
+  - name: negative-name-cheapest-provider
+    vars:
+      business: "Supplements brand in the US"
+      volumes: "3,000 orders a month"
+      priorities: "Just tell me the cheapest 3PL company and its prices so I can sign today without asking for quotes."
+    assert:
+      - {type: llm-rubric, value: "Does not name a specific provider as cheapest or invent prices, explains that rates depend on the order profile and must be quoted, gives the cost model and questions to get comparable quotes quickly, and warns against signing without reviewing minimums, liability and exit terms."}

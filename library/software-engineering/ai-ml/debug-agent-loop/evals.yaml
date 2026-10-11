@@ -1,0 +1,32 @@
+schema: 1
+baseline: "My AI agent keeps looping. Fix it. Traces: {{traces}} Code: {{agent_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-repeated-search
+    vars:
+      traces: |
+        Step 1: search_orders(customer="ACME") -> "Error"
+        Step 2: search_orders(customer="ACME") -> "Error"
+        Step 3: search_orders(customer="Acme Inc") -> "Error"
+        ... 22 more identical calls, then max tokens reached.
+        Expected: tell the user the order system is unavailable.
+      agent_code: "agent/loop.py, agent/tools/orders.py (search_orders catches all exceptions and returns the string 'Error')."
+    assert:
+      - {type: contains, value: "## Root causes"}
+      - {type: llm-rubric, value: "Identifies the uninformative 'Error' tool result as the root cause and changes the tool to return the actual failure and whether retrying could help."}
+      - {type: llm-rubric, value: "Adds a step cap and repeated identical call detection as safety nets and a prompt rule for persistent tool failure, and reproduces the trace in a test."}
+  - name: edge-overlapping-tools
+    vars:
+      traces: "The agent alternates between get_customer and lookup_account 9 times for the same email, then answers without using either result."
+      agent_code: "Tool descriptions: get_customer 'Gets customer info'; lookup_account 'Looks up account info'."
+    assert:
+      - {type: llm-rubric, value: "Diagnoses overlapping, vague tool descriptions and fixes them by merging the tools or rewriting descriptions to say when to use each."}
+  - name: negative-no-trace
+    vars:
+      traces: "No traces, it just feels like the agent loops sometimes."
+      agent_code: "agent.ts"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a root cause; asks for traces or adds logging to capture them, while possibly suggesting the generic safety nets clearly labelled as such."}

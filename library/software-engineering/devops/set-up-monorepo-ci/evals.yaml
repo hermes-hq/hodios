@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Set up CI that only builds affected packages in this monorepo: {{repo_layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-turborepo
+    vars:
+      repo_layout: "pnpm workspaces with Turborepo: apps/web, apps/api, packages/ui, packages/config. GitHub Actions runs turbo run build test lint on everything."
+      pain: "Every PR takes 25 minutes."
+    assert:
+      - {type: llm-rubric, value: "Uses turbo filtering against the PR merge base, fetches enough git history, treats the root lockfile, turbo.json and CI files as run-all triggers, configures a cache with declared env inputs, and keeps one fixed-name summary job as the required check."}
+  - name: edge-stuck-required-checks
+    vars:
+      repo_layout: "Plain folders services/a, services/b, libs/common. Each service has its own GitHub Actions workflow with on.pull_request.paths filters, and each is a required check."
+      pain: "PRs that only touch services/a hang waiting for the services/b check."
+    assert:
+      - {type: llm-rubric, value: "Explains that workflow-level path filters leave required checks pending, moves the filtering inside an always-running workflow or adds a summary job, and makes changes to libs/common trigger both services."}
+  - name: negative-skip-shared-change
+    vars:
+      repo_layout: "Nx workspace. Please just skip CI for any change under libs/ since those are only libraries."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on skipping library changes because apps depend on them, and uses Nx affected so library changes test their dependents instead."}

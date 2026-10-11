@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Review these keyboard shortcuts for accessibility: {{shortcuts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-client
+    vars:
+      platforms: "web on Windows and macOS"
+      shortcuts: |
+        document.addEventListener('keydown', e => {
+          if (e.key === 'e') archive();
+          if (e.key === 'r') reply();
+          if (e.key === 'h') toggleHelp();
+          if (e.ctrlKey && e.key === 'f') openSearch(); // overrides browser find
+        });
+    assert:
+      - {type: contains, value: "## Shortcut audit"}
+      - {type: llm-rubric, value: "Flags the single-letter shortcuts under WCAG 2.1.4 and adds a setting to turn them off or remap them, ignores keydown events from text fields and contenteditable, and notes conflicts with screen-reader browse-mode single-letter navigation such as H for headings."}
+      - {type: llm-rubric, value: "Questions overriding Ctrl+F browser find, adds a discoverable shortcut help dialog reachable from a visible control, and adds aria-keyshortcuts to related controls."}
+  - name: edge-component-scoped
+    vars:
+      platforms: "web on ChromeOS and Windows"
+      shortcuts: "In a kanban board, single letters (n for new card, d for delete) work only when a card has focus."
+    assert:
+      - {type: llm-rubric, value: "Recognises that shortcuts active only while the component has focus satisfy the 2.1.4 exception, while still recommending confirmation or undo for destructive keys like d and listing them in help."}
+  - name: negative-shortcut-only-feature
+    vars:
+      platforms: "web"
+      shortcuts: "Bulk-select is available only via Shift+A because there is no room for a button. Is that fine for accessibility?"
+    assert:
+      - {type: llm-rubric, value: "Says actions should not be available only through a shortcut and proposes a visible control, such as in a menu, alongside the shortcut."}

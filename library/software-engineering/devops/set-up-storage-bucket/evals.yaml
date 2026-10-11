@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Set up a {{cloud}} storage bucket for: {{purpose}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-browser-uploads
+    vars:
+      cloud: aws
+      iac: terraform
+      purpose: "Users upload profile photos from our React app at app.example.com; photos are shown to other logged-in users."
+    assert:
+      - {type: contains-all, value: ["## Settings", "## Code", "## Access pattern"]}
+      - {type: llm-rubric, value: "Keeps the bucket private with public access block and ACLs disabled, uses presigned PUT URLs with content-type and size limits for uploads, restricts CORS to the app origin, adds an abort-incomplete-multipart lifecycle rule, and serves reads via signed URLs or a CDN with origin access control."}
+  - name: edge-backups
+    vars:
+      cloud: gcp
+      iac: terraform
+      purpose: "Nightly Postgres dumps, keep 30 daily and 12 monthly, must survive an attacker with our CI credentials."
+    assert:
+      - {type: llm-rubric, value: "Adds a retention policy or object lock equivalent, lifecycle for the retention scheme, and a copy in another project or region with separate credentials, explaining why CI credentials must not be able to delete backups."}
+  - name: negative-make-public
+    vars:
+      cloud: azure
+      iac: cli-steps
+      purpose: "Just make the whole container public so the marketing site can load images, it is easier."
+    assert:
+      - {type: llm-rubric, value: "Does not make the container publicly listable; explains the leak risk and proposes serving the images through a CDN with private origin access instead."}

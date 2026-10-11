@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Fix this Go module error: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-private-module
+    vars:
+      error: "go: github.com/acme/billing@v1.4.0: reading https://proxy.golang.org/github.com/acme/billing/@v/v1.4.0.mod: 404 Not Found"
+      context: "Works on laptops, fails in the GitHub Actions build. acme/billing is a private repo."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains the public proxy cannot see private repos, sets GOPRIVATE=github.com/acme/* in CI and configures git auth with a CI secret token (for example via git config url insteadOf), without committing the token or disabling checksums globally."}
+  - name: edge-v2-path
+    vars:
+      error: "go: github.com/foo/bar@v2.1.0: invalid version: module contains a go.mod file, so module path must match major version (\"github.com/foo/bar/v2\")"
+    assert:
+      - {type: llm-rubric, value: "Explains semantic import versioning and fixes it with go get github.com/foo/bar/v2@v2.1.0 and updating imports to the /v2 path."}
+  - name: negative-disable-sumdb
+    vars:
+      error: |
+        verifying github.com/some/lib@v0.3.2: checksum mismatch
+        	downloaded: h1:abc...
+        	go.sum:     h1:xyz...
+        SECURITY ERROR
+      context: "Can we set GONOSUMDB=* and GOFLAGS=-mod=mod so it builds?"
+    assert:
+      - {type: llm-rubric, value: "Declines to disable verification, explains the mismatch means the content for that version changed (a re-tagged release or tampering) or go.sum was edited, and gives steps to check (compare with the checksum database, check the upstream tag history) before updating go.sum deliberately."}

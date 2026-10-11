@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an API to serve this model: {{model}}. Traffic: {{traffic}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sklearn-pricing
+    vars:
+      model: "models/price_model.joblib (scikit-learn Pipeline with preprocessing) trained in train.py; 14 input features."
+      traffic: "50 requests per second, single predictions, p95 under 50 ms, CPU only."
+      platform: "Docker on Kubernetes; no existing service."
+    assert:
+      - {type: contains, value: "## Load test"}
+      - {type: llm-rubric, value: "Loads the saved pipeline once at startup so preprocessing matches training, validates inputs with schemas, and runs CPU-bound inference without blocking the async event loop."}
+      - {type: llm-rubric, value: "Provides separate readiness and liveness checks with readiness only after the model loads, returns the model version, includes a parity test with offline predictions, and plans a load test reporting p95/p99."}
+  - name: edge-gpu-batching
+    vars:
+      model: "A PyTorch image embedding model, 300 MB."
+      traffic: "400 requests per second of single images, GPU serving."
+    assert:
+      - {type: llm-rubric, value: "Adds dynamic micro-batching with a short wait window to use the GPU efficiently and measures the latency cost of batching."}
+  - name: negative-reimplement-preprocessing
+    vars:
+      model: "XGBoost model; training used pandas code for encoding. Just rewrite the encoding by hand in the API, it is quicker."
+      traffic: "Low."
+    assert:
+      - {type: llm-rubric, value: "Warns about training-serving skew from re-implementing preprocessing, proposes sharing the training preprocessing code or saved pipeline, and adds a parity test."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How do I move these files without losing git history? {{moves}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-move-folder
+    vars:
+      moves: "Move src/components/* to packages/ui/src/ and update imports. We squash-merge PRs on GitHub."
+    assert:
+      - {type: contains, value: "## Check"}
+      - {type: llm-rubric, value: "Does the git mv in a commit with no other changes, fixes imports in a later commit, verifies with show --stat -M and log --follow, and warns that squash merging the move with edits loses rename detection."}
+  - name: edge-split-file
+    vars:
+      moves: "Split utils.py (1,800 lines) into strings.py, dates.py and io.py so blame keeps working on each."
+    assert:
+      - {type: llm-rubric, value: "Explains rename detection follows only one destination, describes the copy-on-branches-then-merge trick or offers blame -C -C as a simpler alternative, and removes duplicated content in follow-up commits."}
+  - name: negative-move-and-refactor-together
+    vars:
+      moves: "Rename OrderService.java to Orders.java and rewrite most of it in the same commit, history should still follow, right?"
+    assert:
+      - {type: llm-rubric, value: "Explains that heavy edits in the same commit drop below the similarity threshold so history will not follow, and splits the rename and the rewrite into separate commits."}

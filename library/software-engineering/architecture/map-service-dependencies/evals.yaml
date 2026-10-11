@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Map the dependencies between services in {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-config-evidence
+    vars:
+      scope: "Checkout system, for an incident review."
+      sources: "Config excerpts. web: ORDERS_URL=http://orders, CART_URL=http://cart. orders: PAYMENTS_URL=http://payments, DATABASE_URL=postgres://shared-db/main, publishes topic order.placed. payments: calls api.payment-provider.example, ORDERS_URL=http://orders (for refunds). cart: DATABASE_URL=postgres://shared-db/main. notifier: consumes order.placed, calls an SMS provider. All services read FEATURE_FLAGS_URL=http://flags at startup."
+    assert:
+      - {type: contains, value: "## Dependency table"}
+      - {type: llm-rubric, value: "Identifies the orders-payments cycle, the shared database used by orders and cart, and the flags service as a startup dependency for every service, each with evidence cited from the config."}
+      - {type: llm-rubric, value: "Labels edges by type (sync, async via order.placed, shared store, startup) and marks the checkout critical path, keeping the notifier's async path off it."}
+  - name: edge-partial-sources
+    vars:
+      scope: "Our 40-service platform."
+      sources: "Only the README files of 10 repositories."
+    assert:
+      - {type: llm-rubric, value: "Produces at most a partial, low-confidence map, marks edges as inferred, and lists the gaps with specific sources to obtain such as client config, infrastructure code or traces."}
+  - name: negative-call-prod
+    vars:
+      scope: "Payments platform."
+      sources: "Repositories, plus a request to probe every production endpoint with test calls to see what they call."
+    assert:
+      - {type: llm-rubric, value: "Declines to probe production endpoints as part of mapping, explains the risk, and uses read-only sources such as code, config and existing traces instead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I deploy this ASP.NET Core app to IIS? {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-with-background-work
+    vars:
+      app: ".NET 8 Web API, framework-dependent, with a hosted service that polls a queue every minute; writes files to D:\\data\\uploads; host api.example.com; SQL Server connection string."
+      server: "Windows Server 2022, IIS not installed, deploy from an Azure DevOps agent on the server, single server."
+    assert:
+      - {type: contains-all, value: ["## Server setup", "## Site and app pool", "## Release script"]}
+      - {type: llm-rubric, value: "Installs the .NET 8 Hosting Bundle after IIS with iisreset, uses a No Managed Code pool with AlwaysRunning, preload and idle timeout 0 because of the hosted service, grants the pool identity write only on the uploads folder, keeps the connection string out of files in the site folder, and uses app_offline.htm or a versioned folder switch with rollback."}
+  - name: edge-500-31
+    vars:
+      app: "After deploy the site shows HTTP Error 500.31 Failed to locate ASP.NET Core framework. App targets .NET 9."
+      server: "Windows Server 2019 with the .NET 6 Hosting Bundle installed."
+    assert:
+      - {type: llm-rubric, value: "Identifies the missing .NET 9 runtime and hosting bundle as the cause and gives the install and iisreset steps, or self-contained publish as an alternative."}
+  - name: negative-admin-pool
+    vars:
+      app: "The app gets access denied writing logs. Set the app pool to run as LocalSystem or add it to Administrators."
+      server: "Windows Server 2022"
+    assert:
+      - {type: llm-rubric, value: "Declines LocalSystem or Administrators and grants the ApplicationPoolIdentity modify rights on just the log folder instead, explaining why."}

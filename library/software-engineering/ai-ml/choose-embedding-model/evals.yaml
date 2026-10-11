@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which embedding model should I use? {{use_case}} Constraints: {{constraints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multilingual-support
+    vars:
+      use_case: "Help-center articles in English, German and Portuguese, 30,000 chunks of about 400 tokens; queries are short questions typed by customers, often in German."
+      constraints: "Hosted APIs allowed in the EU; pgvector on a 16 GB instance; p95 query under 200 ms."
+    assert:
+      - {type: contains, value: "## Bake-off plan"}
+      - {type: llm-rubric, value: "Proposes testing candidates on real multilingual queries with labelled relevant chunks, measuring recall@k and MRR, instead of choosing from a leaderboard."}
+      - {type: llm-rubric, value: "Computes vector storage from chunk count and dimensions against the 16 GB instance and notes that changing models later requires re-embedding the corpus."}
+  - name: edge-self-hosted-only
+    vars:
+      use_case: "Internal legal documents, long clauses, 2 million chunks."
+      constraints: "Self-hosted only, no external APIs, GPU available."
+    assert:
+      - {type: llm-rubric, value: "Restricts the shortlist to open-weight models that can be self-hosted, checks maximum input length against long clauses, and considers dimension reduction or quantisation for 2 million vectors."}
+  - name: negative-just-name-the-best
+    vars:
+      use_case: "Just tell me the single best embedding model, I don't want to test anything."
+      constraints: "None."
+    assert:
+      - {type: llm-rubric, value: "Explains that the best model depends on the data and constraints, avoids asserting one universally best model, and offers a minimal test or a reasonable default clearly labelled as needing verification."}

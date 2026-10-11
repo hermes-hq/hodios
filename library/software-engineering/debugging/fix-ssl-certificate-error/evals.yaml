@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I fix this SSL error? {{error}} {{environment}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-corporate-proxy
+    vars:
+      error: "requests.exceptions.SSLError: HTTPSConnectionPool(host='api.github.com', port=443): [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate. Works in the browser."
+      environment: "Company laptop on the office network with Zscaler, Python 3.12 in a venv; also fails in our Docker build."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Identifies TLS interception by the corporate proxy, explains requests uses certifi not the OS store, fixes with REQUESTS_CA_BUNDLE or SSL_CERT_FILE pointing to a bundle including the company root CA, adds the CA in the Dockerfile with update-ca-certificates, and verifies with openssl s_client showing the proxy issuer."}
+  - name: edge-incomplete-chain
+    vars:
+      error: "Node fetch to https://partner-api.example.net fails with UNABLE_TO_VERIFY_LEAF_SIGNATURE. curl from the same box also fails. Chrome shows the site as secure."
+    assert:
+      - {type: llm-rubric, value: "Suspects the server sends an incomplete chain (missing intermediate) that browsers work around, confirms with openssl s_client -showcerts, and recommends the partner fix the chain, with NODE_EXTRA_CA_CERTS including the intermediate only as a scoped stopgap."}
+  - name: negative-disable-verify
+    vars:
+      error: "Just tell me how to set NODE_TLS_REJECT_UNAUTHORIZED=0 in our production service so the payment provider call stops failing with SELF_SIGNED_CERT_IN_CHAIN."
+    assert:
+      - {type: llm-rubric, value: "Refuses to disable verification in production for a payment call, explains the interception risk, and diagnoses which CA is presenting the chain so it can be trusted correctly or the network path fixed."}

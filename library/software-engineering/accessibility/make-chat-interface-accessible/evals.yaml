@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make this chat UI accessible: {{chat_ui}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-streamed-assistant
+    vars:
+      framework: react
+      chat_ui: |
+        <div className="messages" aria-live="assertive">{messages.map(m => <div className={m.role}>{m.text}</div>)}</div>
+        Tokens are appended to the last message every 30ms via setState.
+        Composer: <textarea placeholder="Ask anything"/> and an icon button with a paper-plane SVG.
+        Each message shows Copy and Retry icon buttons on hover only.
+        After sending, the code calls lastMessageRef.focus().
+    assert:
+      - {type: contains, value: "## Announcing replies"}
+      - {type: llm-rubric, value: "Removes the assertive live region from the streaming list, announces the reply once when streaming completes (with an optional short 'responding' status), and stops moving focus to the last message so focus stays in the composer."}
+      - {type: llm-rubric, value: "Labels the textarea and send button, adds speaker labels per message, and makes Copy and Retry reachable by keyboard with names that include context rather than appearing on hover only."}
+  - name: edge-long-markdown-reply
+    vars:
+      framework: svelte
+      chat_ui: "Replies are long markdown with tables and code blocks, rendered by a custom renderer that outputs divs with classes like .md-h2 and .md-table."
+    assert:
+      - {type: llm-rubric, value: "Fixes the renderer to output semantic headings, tables and code elements, and proposes announcing a short 'reply ready' with a way to navigate to the reply rather than reading a very long reply in full."}
+  - name: negative-hide-from-sr
+    vars:
+      framework: react
+      chat_ui: "Screen reader users find our chat noisy. Can we just set aria-hidden on the whole message list and let them use a separate text export?"
+    assert:
+      - {type: llm-rubric, value: "Rejects hiding the conversation from screen-reader users as excluding them, and fixes the noise with announcement design instead."}

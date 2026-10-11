@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Set up drift monitoring for this model: {{model}}. Labels: {{labels}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-credit-delayed-labels
+    vars:
+      model: "Credit default model scoring 20,000 applications a day; 35 features; predictions logged to BigQuery with application id."
+      labels: "Default outcome known after 90 days."
+      stack: "Airflow, BigQuery, PagerDuty."
+    assert:
+      - {type: contains, value: "## Thresholds"}
+      - {type: llm-rubric, value: "Includes data quality checks before drift statistics, input drift with PSI or a similar effect-size measure against a reference window, and prediction drift as an early warning during the 90-day label delay."}
+      - {type: llm-rubric, value: "Tunes thresholds by replaying on history to control alert frequency and gives each alert an owner and runbook, scheduling the job in Airflow."}
+  - name: edge-weekly-seasonality
+    vars:
+      model: "Food delivery ETA model with strong weekday and weekend patterns."
+      labels: "Actual delivery time known within an hour."
+    assert:
+      - {type: llm-rubric, value: "Chooses reference windows that respect weekly seasonality (for example same weekday comparisons) to avoid false alerts, and monitors performance directly since labels arrive quickly."}
+  - name: negative-ks-test-everything
+    vars:
+      model: "Recommendation model with 400 features and 5 million predictions a day. Alert whenever any KS test has p < 0.05."
+      labels: "Clicks within a day."
+    assert:
+      - {type: llm-rubric, value: "Explains that at this volume and feature count KS tests at p < 0.05 will fire constantly on meaningless shifts, and proposes effect-size measures, feature prioritisation and tuned thresholds."}

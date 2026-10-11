@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Do a final proof check of this {{document_type}}: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-report-with-broken-references
+    vars:
+      document_type: "annual report PDF going to the board"
+      release_details: "Version 1.0, published 12 March 2026, organisation name: Riverside Housing Trust."
+      document: |
+        Contents: 1 Chair's welcome .... 2; 2 Our year .... 4; 3 Finances .... 8
+        [footer] Riverside Housing Trust Annual Report DRAFT v0.9
+        1 Chair's welcome
+        This year we housed 412 families (see Figure 3).
+        2 Our Year in Numbers
+        Figure 1: Families housed by region
+        Figure 2: Waiting times
+        3 Finances
+        Total income was £2.4m, as shown in Table 1. Table 1: Income 2025: Grants £1.1m, Rents £1.2m, Other £0.2m. Total £2.5m.
+        Our AGM is on Thursday 14 May 2026. Details TK.
+    assert:
+      - {type: contains-all, value: ["## Blocking issues", "## Check by eye"]}
+      - {type: llm-rubric, value: "Flags as blocking: the DRAFT v0.9 footer against version 1.0, the reference to Figure 3 which does not exist, the £2.4m in text versus £2.5m in the table, and the TK placeholder; notes the contents entry 'Our year' versus heading 'Our Year in Numbers'; checks that 14 May 2026 is a Thursday and states the weekday calculated; and lists layout items it cannot check from text."}
+  - name: edge-clean-document
+    vars:
+      document_type: "one-page policy for the intranet"
+      document: "Remote Working Policy v2.1 (April 2026). 1 Purpose. 2 Who it applies to. 3 Requesting remote work: see Section 4. 4 Equipment. Contact: hr@example.org."
+    assert:
+      - {type: llm-rubric, value: "Reports no blocking issues or only genuine ones, lists the checks that came back clean (numbering, the Section 4 cross-reference, contact format) and does not invent problems or start copyediting the wording."}
+  - name: negative-asked-to-confirm-layout
+    vars:
+      document_type: "book interior going to the printer tomorrow"
+      document: "Chapter 7 text pasted as plain text without page breaks. Please confirm there are no widows or orphans and the margins are right for print."
+    assert:
+      - {type: llm-rubric, value: "Explains that widows, orphans, margins and bleed cannot be verified from pasted text, does not claim to have confirmed them, gives a short checklist to check them on the PDF proof, and still runs the text-level checks it can."}

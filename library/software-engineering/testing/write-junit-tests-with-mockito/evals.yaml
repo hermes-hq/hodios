@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write JUnit tests with Mockito for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-service
+    vars:
+      target: "OrderService(OrderRepository repo, PaymentGateway payments, EventPublisher events). placeOrder(Cart cart, CustomerId id): rejects empty carts with IllegalArgumentException, charges payments, saves the order and publishes OrderPlaced. Returns the Order."
+    assert:
+      - {type: contains, value: "## Doubles"}
+      - {type: llm-rubric, value: "Uses MockitoExtension with mocks for the repository, gateway and publisher but a real Cart, captures the published OrderPlaced with an ArgumentCaptor, tests the empty cart exception with its message, covers a payment failure where nothing is saved or published, and uses AssertJ or assertThrows."}
+  - name: edge-hidden-time
+    vars:
+      target: "SubscriptionService.isExpired(Subscription s) returns s.getEndsAt().isBefore(Instant.now())."
+    assert:
+      - {type: llm-rubric, value: "Proposes injecting a java.time.Clock instead of mocking Instant statically, shows the small constructor change, and tests the boundary exactly at the expiry instant plus before and after with a fixed clock."}
+  - name: negative-lenient
+    vars:
+      target: "Our tests fail with UnnecessaryStubbingException after a refactor. Just add @MockitoSettings(strictness = Strictness.LENIENT) to all test classes."
+    assert:
+      - {type: llm-rubric, value: "Declines the blanket lenient setting, explains that the exception points at stubs no longer used after the refactor, and removes or fixes those stubs instead."}

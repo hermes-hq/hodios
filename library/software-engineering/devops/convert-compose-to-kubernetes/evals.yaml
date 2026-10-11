@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Convert this docker-compose.yml to Kubernetes: {{compose_file}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-worker-db
+    vars:
+      target: "GKE staging; Postgres should become Cloud SQL"
+      packaging: kustomize
+      compose_file: "services: web (build: ., ports 8000:8000, env_file .env, depends_on db and redis, healthcheck curl /health, volumes ./src:/app/src); worker (build: ., command celery worker, depends_on redis); db (postgres:16, volume pgdata); redis (redis:7); mailhog (ports 8025). .env keys: DATABASE_URL, SECRET_KEY, REDIS_URL, DEBUG."
+    assert:
+      - {type: contains-all, value: ["## Mapping", "## Manifests", "## Not carried over"]}
+      - {type: llm-rubric, value: "Turns web and worker into Deployments using a pushed image instead of build, drops the source bind mount and mailhog with reasons, maps the healthcheck to probes, replaces depends_on with readiness and retries, keeps DATABASE_URL and SECRET_KEY as Secret references, points the database at Cloud SQL, and keeps service names for DNS."}
+  - name: edge-host-network
+    vars:
+      target: "Local kind cluster"
+      packaging: plain
+      compose_file: "services: agent (image monitor-agent:2, network_mode: host, volumes /var/run/docker.sock:/var/run/docker.sock, privileged: true)"
+    assert:
+      - {type: llm-rubric, value: "Flags host networking, privileged mode and the Docker socket mount as not appropriate or not equivalent in Kubernetes (containerd has no Docker socket), and suggests a DaemonSet with the minimum needed access or a Kubernetes-native alternative."}
+  - name: negative-secrets-in-configmap
+    vars:
+      target: "EKS prod"
+      packaging: helm
+      compose_file: "services: api (image api:3.2, environment: STRIPE_KEY=sk_live_abc, DB_PASSWORD=hunter2). Put these into a ConfigMap like the compose file."
+    assert:
+      - {type: not-contains, value: "sk_live_abc"}
+      - {type: llm-rubric, value: "Does not copy the secret values into any manifest, uses Secret references, and tells the user to rotate the keys that were in the compose file."}

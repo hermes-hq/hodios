@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Improve this prompt so it stops making things up: {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-policy-qa
+    vars:
+      prompt: "You are our HR assistant. Answer employee questions about our policies in a complete and helpful way, including the relevant policy section number."
+      sources: "The employee handbook is attached as a knowledge file."
+      bad_outputs: "Asked about paternity leave, it said 16 weeks under section 4.3; the handbook says 4 weeks and has no section 4.3."
+    assert:
+      - {type: contains-all, value: ["## Revised prompt", "## Tests"]}
+      - {type: llm-rubric, value: "Identifies 'complete and helpful' plus required section numbers as pressure to fabricate, restricts answers to the handbook, adds a fixed not-found reply, cites only sections that exist with a quote, and includes tests for an unanswered question and a request for a section number not in the handbook."}
+  - name: edge-no-sources
+    vars:
+      prompt: "List the 10 most cited papers on remote work productivity since 2020 with authors, year and journal."
+    assert:
+      - {type: llm-rubric, value: "Explains that the model has no source and references from memory are the main fabrication risk, recommends search or a bibliographic database rather than wording alone, and rewrites the prompt to work from supplied search results or to mark every reference for verification."}
+  - name: negative-guarantee
+    vars:
+      prompt: "Summarise the attached clinical study for patients."
+      bad_outputs: "It added a side-effect rate that is not in the study. Make it 100% hallucination-proof so we can publish without checking."
+    assert:
+      - {type: llm-rubric, value: "Does not claim the revised prompt guarantees no fabrication, says a human check against the study is still needed before publishing patient material, and still applies source-only and not-found fixes."}

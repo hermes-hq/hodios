@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Convert this diagram to {{target}}. {{context_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-described-whiteboard
+    vars:
+      target: mermaid
+      context_notes: |
+        Text description of the photo, since images are not available in this test: boxes "Web app", "API gateway", "Orders svc", "Payments (Stripe)", a cylinder "orders db". Arrows: Web app -> API gateway; API gateway -> Orders svc; Orders svc -> orders db; Orders svc -> Payments, label "charge()"; a dashed arrow from Payments back to Orders svc labelled "webhook". A box "Inventory" is crossed out. One label under the gateway is smudged, maybe "auth" or "rate limit".
+    assert:
+      - {type: icontains, value: "flowchart"}
+      - {type: llm-rubric, value: "Produces a valid Mermaid flowchart with quoted labels for Payments (Stripe) and charge(), shows the webhook as a dashed arrow, leaves out the crossed-out Inventory box and says so, uses a database shape or note for orders db, and lists the smudged gateway label as uncertain instead of picking one silently."}
+  - name: edge-sequence-semantics
+    vars:
+      target: plantuml
+      context_notes: "Screenshot description: vertical lifelines for Client, Auth server, Resource server, numbered arrows 1 to 6 going back and forth in time order."
+    assert:
+      - {type: llm-rubric, value: "Chooses a sequence diagram because of the lifelines and time order, writes valid PlantUML with @startuml and @enduml, and keeps the six numbered messages in order."}
+  - name: negative-asked-to-improve
+    vars:
+      target: mermaid
+      context_notes: "Also add the services we forgot to draw, like the cache and the queue."
+    assert:
+      - {type: llm-rubric, value: "Does not add a cache or queue that are not in the image; says it can only convert what is drawn and asks for details if they want those added as a separate change."}

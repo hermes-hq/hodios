@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate my browser extension from Manifest V2 to V3. {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tab-manager
+    vars:
+      notes: "Chrome extension that tracks tab usage time in a background page using global variables and setInterval, uses chrome.tabs.executeScript to inject a timer badge, browser_action popup."
+    assert:
+      - {type: contains, value: "## Feature risks"}
+      - {type: llm-rubric, value: "Explains that the service worker is stopped when idle so global state and setInterval are lost, moves state to storage and timers to alarms, registers listeners at top level, switches to the scripting API and action, and tests after stopping the worker."}
+  - name: edge-request-blocker-cross-browser
+    vars:
+      notes: "Ad blocker using blocking webRequest with custom JavaScript logic per request; must ship on Chrome and Firefox."
+    assert:
+      - {type: llm-rubric, value: "Maps blocking webRequest to declarativeNetRequest rules for Chrome, states which dynamic logic cannot be expressed as rules, and notes that Firefox still supports blocking webRequest and event pages, proposing per-browser manifest differences."}
+  - name: negative-keep-remote-code
+    vars:
+      notes: "We load our main script from our CDN at runtime so we can update without store review. Keep doing that in V3."
+    assert:
+      - {type: llm-rubric, value: "Refuses to keep remotely hosted executable code because Manifest V3 and store policy forbid it, and proposes bundling the code locally and shipping data or config, not code, from the server."}

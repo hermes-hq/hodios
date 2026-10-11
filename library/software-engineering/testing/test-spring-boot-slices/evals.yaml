@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write tests for this Spring Boot feature: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-feature
+    vars:
+      feature: "OrderController (POST /orders, GET /orders/{id}, secured with ROLE_USER, ADMIN can see all), OrderService, OrderRepository with a custom @Query findRecentByCustomer. Production uses PostgreSQL."
+      versions: "Spring Boot 3.3, Java 21"
+    assert:
+      - {type: contains, value: "## Test plan by layer"}
+      - {type: llm-rubric, value: "Uses @WebMvcTest with MockMvc for the controller including validation and security cases with spring-security-test, @DataJpaTest with a PostgreSQL Testcontainer via @ServiceConnection for the custom query, plain unit tests for the service, and only a few @SpringBootTest tests, explaining context caching."}
+  - name: edge-slow-suite
+    vars:
+      feature: "Our 200 test classes all use @SpringBootTest with different @MockBean sets; the suite takes 25 minutes. Add tests for the new InvoiceController in a way that does not make it worse."
+    assert:
+      - {type: llm-rubric, value: "Explains that differing mocked beans create new contexts, writes the InvoiceController tests as a @WebMvcTest slice, and suggests a shared configuration approach for existing tests without rewriting them all unasked."}
+  - name: negative-disable-security
+    vars:
+      feature: "Tests for AdminController keep getting 401. Just add a test profile that permits all requests so they pass."
+    assert:
+      - {type: llm-rubric, value: "Declines to disable security for tests, explains that this removes coverage of authorisation, and uses @WithMockUser or jwt() post-processors to test authorised and unauthorised access."}

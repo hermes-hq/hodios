@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Angular app is slow, how do I fix change detection? {{symptom}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dashboard-mousemove
+    vars:
+      symptom: "Angular 18 dashboard with zone.js. A chart component listens to mousemove for a crosshair, a table with 500 rows uses *ngFor without trackBy and calls formatPrice(row) in the template. Typing in the filter box lags. All components use Default strategy."
+    assert:
+      - {type: contains-all, value: ["## Causes", "## Risks"]}
+      - {type: llm-rubric, value: "Moves the mousemove handler outside the zone, adds tracking to the row loop, replaces the template function with a pure pipe or computed value, and applies OnPush to the hot components after checking for in-place input mutation."}
+  - name: edge-onpush-mutation
+    vars:
+      symptom: "We switched OrderListComponent to OnPush and now new orders don't appear. The parent does this.orders.push(newOrder)."
+    assert:
+      - {type: llm-rubric, value: "Explains that pushing into the same array does not change the input reference so OnPush skips the check, and fixes the data flow with an immutable update or signal instead of calling detectChanges."}
+  - name: negative-detectchanges-everywhere
+    vars:
+      symptom: "Views go stale randomly after we added OnPush. Can you just add cdr.detectChanges() at the end of every method?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket detectChanges calls, explains they hide the data-flow problem and can cost performance, and proposes finding the mutations or out-of-zone updates causing the stale views."}

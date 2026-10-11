@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Implement usage quotas for: {{quota_spec}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ai-generations
+    vars:
+      quota_spec: "AI image generations per workspace per billing cycle - Free 50, Pro 2,000, Team 10,000 with overage billed through Stripe metered billing. Generations run in a background job and can fail."
+    assert:
+      - {type: contains, value: "## Enforcement points"}
+      - {type: llm-rubric, value: "Reserves atomically before queuing the job and releases on failure, keys counters by workspace and billing period, keeps an idempotent usage event log for billing, sends 80 and 100 percent warnings once, distinguishes over-quota from rate limit errors, and tests concurrency at the limit."}
+  - name: edge-downgrade-over-limit
+    vars:
+      quota_spec: "Projects per organisation - Pro 50, Free 3. A Pro org with 40 projects downgrades to Free."
+    assert:
+      - {type: llm-rubric, value: "Keeps existing projects, blocks creating new ones while over the limit, and explains the behaviour to the customer rather than deleting projects."}
+  - name: negative-count-after
+    vars:
+      quota_spec: "Just count requests in a log table nightly and email people who went over; no need to block anything in real time."
+    assert:
+      - {type: llm-rubric, value: "Points out that nightly counting cannot enforce a hard quota and lets usage run unbounded, and asks whether the plan allows overage or recommends real-time enforcement."}

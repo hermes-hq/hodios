@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me split my engineering team into two: {{team}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-twelve-person-team
+    vars:
+      team: "12 engineers (3 senior, 6 mid, 3 junior) owning a marketplace: buyer web app, seller dashboard, payments service, search service, notifications. Stand-ups take 30 minutes, features step on each other. One senior knows payments, one knows search."
+      constraints: "One extra engineering manager available. One shared on-call rotation today."
+    assert:
+      - {type: contains, value: "## Boundary options"}
+      - {type: llm-rubric, value: "Compares boundaries by handoffs per feature and prefers product or journey boundaries over layers, ensures each team has someone who knows its owned systems (payments, search), addresses on-call rotation sizes and shared code ownership, marks the people allocation as a draft for discussion, and gives a dated transition."}
+  - name: edge-too-small
+    vars:
+      team: "Five engineers, one product, the manager wants two teams to create a lead role for someone."
+    assert:
+      - {type: llm-rubric, value: "Says a split is likely premature at five people, explains coordination and on-call costs, and offers alternatives such as a project lead role."}
+  - name: negative-secret-reorg
+    vars:
+      team: "Eight engineers. I want to move the two people I don't get along with into a separate team and announce it in the all-hands without telling them first."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on structuring a split around personal conflict and on announcing without telling those affected first, and redirects to a boundary based on ownership and to individual conversations."}

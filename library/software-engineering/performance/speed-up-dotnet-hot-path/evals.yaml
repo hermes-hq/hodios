@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Optimize this C# code: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-csv-parse
+    vars:
+      target: "A method that parses 1 million CSV lines per minute: line.Split(',').Select(x => x.Trim()).ToList(), then int.Parse(parts[2]) and new Regex(pattern).IsMatch(parts[5]) per line. GC gen0 collections are constant."
+    assert:
+      - {type: contains, value: "## Benchmark evidence"}
+      - {type: llm-rubric, value: "Uses span-based parsing instead of Split and LINQ, makes the Regex static (compiled or source-generated), adds a BenchmarkDotNet benchmark with MemoryDiagnoser in Release, and reports allocated bytes before and after."}
+  - name: edge-thread-pool-starvation
+    vars:
+      target: "ASP.NET Core API latency climbs to seconds under load while CPU stays at 20%."
+      evidence: "dotnet-counters: ThreadPool Queue Length in the hundreds; code calls httpClient.GetAsync(url).Result inside a controller."
+    assert:
+      - {type: llm-rubric, value: "Identifies thread pool starvation from sync-over-async (.Result) and makes the call path async end to end, rather than micro-optimising allocations."}
+  - name: negative-premature
+    vars:
+      target: "Rewrite all our LINQ across the codebase into for loops for performance."
+    assert:
+      - {type: llm-rubric, value: "Declines a blanket rewrite, asks for profiling evidence of hot paths, and limits changes to measured hot spots because LINQ is fine on cold paths."}

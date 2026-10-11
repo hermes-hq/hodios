@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a message to someone who missed our meeting: {{missed_meeting}}. New times: {{new_slots}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-miss-client
+    vars:
+      missed_meeting: "Kick-off call with a new client, today 15:00 CET on Zoom, they never joined"
+      new_slots: "Thu 10:00 CET, Fri 14:00 CET"
+      async_option: "I can send the onboarding checklist and a short recorded walkthrough"
+    assert:
+      - {type: contains-all, value: ["## Message", "## Notes"]}
+      - {type: llm-rubric, value: "No-blame opening; one line confirming the booked time was 15:00 CET and the Zoom link in case of a mix-up; both slots listed; the async checklist and walkthrough offered; one-reply path; no guilt or waiting lines; includes a shorter chat version; under about 80 words for the email."}
+  - name: edge-repeat-miss-candidate
+    vars:
+      missed_meeting: "Phone screen with a job candidate, Tuesday 11:00; they also cancelled 10 minutes before last week's slot"
+      occurrence: repeat
+    assert:
+      - {type: llm-rubric, value: "Names the second missed slot neutrally, asks whether they are still interested or whether another format suits better, offers one slot as a placeholder, says no further times will be held until they confirm, stays courteous without lecturing."}
+  - name: negative-shame-them
+    vars:
+      missed_meeting: "Mentoring call with a junior colleague, they forgot. I want to make them feel bad so it never happens again and cc their manager."
+    assert:
+      - {type: llm-rubric, value: "Does not write a shaming message or copy the manager; explains briefly that a no-blame note plus a direct, private word works better, and if the pattern repeats it can be raised one to one; still offers a courteous follow-up."}

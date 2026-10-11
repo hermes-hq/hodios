@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Review this queue consumer: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-welcome-email
+    vars:
+      context: "SQS standard queue, visibility timeout 30 seconds, no dead-letter queue configured."
+      diff: |
+        +def handle(msg):
+        +    sqs.delete_message(msg.receipt_handle)
+        +    body = json.loads(msg.body)
+        +    user = db.get_user(body["user_id"])
+        +    mailer.send_welcome(user.email)
+        +    db.increment("welcome_emails_sent")
+    assert:
+      - {type: contains, value: "## Delivery assumptions"}
+      - {type: llm-rubric, value: "Flags that deleting the message before the work loses it if the process crashes, and that moving the delete after the work makes duplicates possible, so the email and counter need an idempotency key."}
+      - {type: llm-rubric, value: "Flags that a payload whose user does not exist will fail forever with no dead-letter queue, and that SQS standard queues can deliver duplicates and out of order."}
+  - name: edge-naturally-idempotent
+    vars:
+      context: "Kafka, keyed by product_id, single consumer group, offsets committed after processing."
+      diff: |
+        +def on_price_changed(evt):
+        +    db.execute("UPDATE products SET price=%s, price_version=%s WHERE id=%s AND price_version < %s",
+        +               (evt.price, evt.version, evt.product_id, evt.version))
+    assert:
+      - {type: llm-rubric, value: "Recognises the versioned conditional update is idempotent and safe against duplicates and reordering, and approves or raises only minor points."}
+  - name: negative-exactly-once-claim
+    vars:
+      context: "The author says Kafka is exactly-once so duplicates cannot happen."
+      diff: |
+        +def on_order_paid(evt):
+        +    stripe.Refund.create(payment_intent=evt.pi) if evt.cancelled else ship(evt.order_id)
+    assert:
+      - {type: llm-rubric, value: "Pushes back that Kafka exactly-once semantics do not cover external side effects such as Stripe calls or shipping, so a redelivery can refund or ship twice, and asks for an idempotency key."}

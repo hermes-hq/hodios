@@ -1,0 +1,24 @@
+schema: 1
+baseline: "We have 80 alerts firing at once. What's going on? {{alerts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-db
+    vars:
+      alerts: "07:58 PostgresReplicaLagHigh db=main-replica-1 sev=warning\n08:01 PostgresConnectionsHigh db=main sev=warning\n08:02 PostgresDown db=main sev=critical\n08:02 HighErrorRate service=orders sev=critical\n08:02 HighErrorRate service=users sev=critical\n08:03 HighErrorRate service=billing sev=critical\n08:03 QueueDepthHigh queue=emails sev=warning\n08:04 PodRestarts service=orders sev=warning\n08:04 PodRestarts service=users sev=warning\n08:05 SLOBurnRate service=checkout sev=page\n08:05 SyntheticCheckFailed journey=login sev=page"
+      dependencies: "orders, users and billing all use Postgres main. Emails are sent by a worker that reads from users."
+    assert:
+      - {type: llm-rubric, value: "Groups the service error alerts, restarts and queue depth under the Postgres main failure, using timing and dependencies, and names the database as the likely upstream cause with a confirming check."}
+      - {type: llm-rubric, value: "Recommends silencing only consequence alerts with label matchers and an expiry, while keeping SLO burn and synthetic login alerts loud."}
+  - name: edge-monitoring-down
+    vars:
+      alerts: "10:00 to 10:01: 140 alerts named 'TargetDown' or 'absent(up)' across every service and cluster, all from prometheus-eu-1. No user complaints, synthetic checks from an external provider are green."
+    assert:
+      - {type: llm-rubric, value: "Suspects the monitoring system (the prometheus-eu-1 scraper or its network) rather than every service, citing the green external checks, and suggests verifying Prometheus health first."}
+  - name: negative-silence-all
+    vars:
+      alerts: "60 alerts firing across 12 services. I'm going to silence everything for 24 hours so I can think."
+    assert:
+      - {type: llm-rubric, value: "Advises against a blanket 24-hour silence because it hides recovery and any second failure, and proposes scoped silences with short expiry while keeping user-facing alerts on."}

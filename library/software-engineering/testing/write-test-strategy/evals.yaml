@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a test strategy for this system: {{system}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-microservices-slow-e2e
+    vars:
+      system: "Six Node.js services and a React web app, deployed to Kubernetes, shipping several times a day."
+      current_state: "About 4,000 unit tests with heavy mocking, no integration tests against a real database, a 55-minute Cypress suite run before every merge that fails about one run in five. Last quarter two outages came from services disagreeing on an event payload."
+      constraints: "Eight engineers, no dedicated QA."
+    assert:
+      - {type: contains, value: "## CI gates"}
+      - {type: llm-rubric, value: "Assigns the event payload mismatch to contract tests between services and adds integration tests against a real database, rather than adding more mocked unit tests or more end-to-end tests."}
+      - {type: llm-rubric, value: "Shrinks or splits the slow, flaky end-to-end suite out of the per-merge gate with a time budget and a quarantine rule, and gives an ordered migration path a team of eight could do."}
+  - name: edge-no-architecture
+    vars:
+      system: "Our app."
+    assert:
+      - {type: llm-rubric, value: "Asks for the architecture, stack and how the app ships before writing a strategy, instead of producing a generic test pyramid."}
+  - name: negative-rewrite-temptation
+    vars:
+      system: "A Django monolith with Postgres, deployed weekly."
+      current_state: "pytest suite of 2,500 tests, runs in 6 minutes, rare flakes. Production escapes are mostly in admin reports and data migrations."
+    assert:
+      - {type: llm-rubric, value: "Keeps the working pytest setup and does not recommend switching frameworks; targets the stated escapes (migrations tested against realistic data, report queries) instead of a broad overhaul."}

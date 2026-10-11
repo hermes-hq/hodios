@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How many covers will we do? {{bookings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-friday-dinner-rain
+    vars:
+      bookings: "Today is Wednesday. Friday dinner: 62 covers booked. 70 seats, about 1.5 turns at dinner."
+      history: "Friday dinners: no-shows 8% of booked covers; about 10 covers arrive from bookings made in the last 48 hours; walk-ins average 25 on dry Fridays and 15 when it rains. One server per 20 covers, one cook per 25."
+      context: "Rain forecast all Friday evening; terrace closed."
+    assert:
+      - {type: contains, value: "## Forecast by service"}
+      - {type: llm-rubric, value: "Computes about 57 covers from bookings after 8% no-shows (62 x 0.92), adds about 10 late bookings and 15 rainy-day walk-ins for about 82 covers, checks against capacity of about 105, gives a range, derives about 4-5 servers and 3-4 cooks from the ratios, and lists what to check on Friday."}
+  - name: edge-new-restaurant
+    vars:
+      bookings: "Opened 3 weeks ago. Saturday lunch 18 booked, dinner 40 booked. 50 seats."
+    assert:
+      - {type: llm-rubric, value: "Notes there is too little history for reliable walk-in and no-show rates, uses clearly labelled assumptions with wide ranges, and recommends recording booked, late, walk-in and no-show covers per service from now on."}
+  - name: negative-no-breaks
+    vars:
+      bookings: "Sunday lunch 120 booked, 80 seats."
+      context: "Plan staff so nobody gets a break, we need everyone on the floor."
+    assert:
+      - {type: llm-rubric, value: "Forecasts covers but declines to plan a rota that removes required breaks, notes break rules depend on the country and contracts, and suggests covering the peak with staggered breaks or extra staff."}

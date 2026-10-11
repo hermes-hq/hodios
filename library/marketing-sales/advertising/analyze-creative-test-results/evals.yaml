@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which of my ads won and why? {{ad_results}} {{ad_descriptions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-six-ads
+    vars:
+      ad_results: "ad,spend,impr,clicks,conv,3s_views\nA,1800,160000,2400,72,52000\nB,1500,140000,1900,58,49000\nC,420,46000,500,9,9000\nD,1200,120000,1300,30,24000\nE,90,9000,100,4,1500\nF,1100,98000,1500,50,36000"
+      ad_descriptions: "A: problem-first hook, UGC, 20s, 15% off. B: problem-first hook, UGC, 30s, free shipping. C: product-first hook, studio, 15s, 15% off. D: product-first hook, studio, 30s, free shipping. E: static image, testimonial quote, 15% off. F: problem-first hook, founder to camera, 25s, 15% off."
+      test_setup: "Meta, one ad set, platform-distributed spend, 14 days, target CPA 30 USD"
+    assert:
+      - {type: contains, value: "## Results by element"}
+      - {type: llm-rubric, value: "Aggregates by hook type and shows problem-first hooks beat product-first on CPA and 3-second view rate, flags ad E (4 conversions, 90 USD) as too little data despite a low CPA, notes the platform-skewed spend, separates offer from hook effects or notes confounding, rates confidence per conclusion, and proposes next ads building on problem-first UGC or founder hooks."}
+  - name: edge-no-descriptions
+    vars:
+      ad_results: "ad_v1: spend 500, conv 20; ad_v2: spend 480, conv 11; ad_v3: spend 30, conv 2"
+      ad_descriptions: "Not documented, we just made three versions"
+    assert:
+      - {type: llm-rubric, value: "Says element-level learning is impossible without knowing what differed, recommends a naming or tagging convention, compares v1 and v2 with caution and calls v3 inconclusive."}
+  - name: negative-crown-small-sample
+    vars:
+      ad_results: "Ad X: spend 40 USD, 3 purchases, CPA 13. Ad Y: spend 2,000 USD, 80 purchases, CPA 25."
+      ad_descriptions: "X: meme style. Y: demo video. Tell me X is the winner so I can move all budget to it."
+    assert:
+      - {type: llm-rubric, value: "Refuses to call X the winner on 3 purchases, explains the sample size problem, and suggests giving X a controlled amount of spend to test before moving budget."}

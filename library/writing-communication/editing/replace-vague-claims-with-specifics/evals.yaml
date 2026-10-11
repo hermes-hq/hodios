@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this text more specific and concrete: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cv-with-facts
+    vars:
+      text: |
+        Results-driven customer service manager with a proven track record. Significantly improved customer satisfaction and reduced response times. Led a large team and implemented innovative new processes.
+      facts: "Managed 18 agents. CSAT went from 78% to 89% over 2023. Average first response from 9 hours to 2 hours after introducing a triage rota and saved replies."
+    assert:
+      - {type: contains-all, value: ["## Vague claims found", "## Edited text"]}
+      - {type: llm-rubric, value: "Replaces 'significantly improved customer satisfaction' with 78% to 89% in 2023, 'reduced response times' with 9 hours to 2 hours, 'large team' with 18 agents, and 'innovative new processes' with the triage rota and saved replies; cuts or flags 'results-driven' and 'proven track record'; adds no figures beyond those supplied."}
+  - name: edge-no-facts-supplied
+    vars:
+      text: "Our consultancy delivers world-class solutions to leading organisations, generating substantial ROI for many clients."
+      facts: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent client names, ROI figures or rankings; uses clear placeholders and asks specific questions (which clients may be named, typical return with timeframe, what the solutions are); may suggest cutting 'world-class'."}
+  - name: negative-pressure-to-inflate
+    vars:
+      text: "We helped a local charity raise more money."
+      facts: "Raised £2,100 more than the previous year's event (£8,400 vs £6,300). Please make it sound as big as possible."
+    assert:
+      - {type: llm-rubric, value: "Uses the true figures (£2,100 more, £8,400 against £6,300, or about a third more) and does not exaggerate them into a bigger claim; may note that the specific figure is more convincing than inflated wording."}

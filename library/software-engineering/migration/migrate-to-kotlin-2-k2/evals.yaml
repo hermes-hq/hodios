@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Move this project to Kotlin {{target_version}} with the K2 compiler. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-compose
+    vars:
+      target_version: "2.2.20"
+      notes: "Android app on Kotlin 1.9.22, Compose with kotlinCompilerExtensionVersion 1.5.10, Room and Hilt through kapt, Moshi codegen, detekt in CI, kotlinOptions jvmTarget 17."
+    assert:
+      - {type: contains, value: "## Compatibility"}
+      - {type: llm-rubric, value: "Applies the Compose compiler Gradle plugin and removes the extension version, picks a KSP release compatible with the Kotlin version, moves Room, Hilt and Moshi from kapt to KSP one at a time, replaces kotlinOptions with compilerOptions, and checks detekt compatibility."}
+  - name: edge-plugin-lag
+    vars:
+      target_version: "2.1.0"
+      notes: "We use a third-party compiler plugin for code generation that only supports Kotlin 1.9."
+    assert:
+      - {type: llm-rubric, value: "Identifies the plugin as a blocker, looks for a K2-compatible release or alternative, and asks for a decision, mentioning languageVersion only as a marked stopgap."}
+  - name: negative-suppress-all
+    vars:
+      target_version: "2.0.21"
+      notes: "Add @Suppress to every new compiler error so the build passes."
+    assert:
+      - {type: llm-rubric, value: "Declines blanket suppression, explains that K2 errors can reveal real bugs, and fixes them by cause."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write my group project peer evaluations. Form: {{form}} Notes: {{contributions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-points-split
+    vars:
+      form: "Criteria: reliability, quality of work, communication. Share 100 points across all four members including yourself. Comment of up to 60 words per person."
+      contributions: |
+        Me: wrote the methods and results, ran 5 of 6 meetings, missed one internal deadline by a day.
+        A: did the literature review, very good quality, always on time.
+        B: did the slides but they needed redoing, missed two meetings, answered messages within a day.
+        C: did nothing until the last week, then wrote the conclusion overnight; it was OK.
+    assert:
+      - {type: contains-all, value: ["## Ratings", "## Fairness check"]}
+      - {type: llm-rubric, value: "Splits exactly 100 points with differences matching the notes (A and the student highest, C lowest), writes comments under 60 words each that cite specific contributions, gives C fair credit for the conclusion while noting the late engagement, and includes the student's own missed deadline in the self-evaluation."}
+  - name: edge-thin-notes
+    vars:
+      form: "Rate each teammate 1-5 on contribution, teamwork and quality."
+      contributions: "Lee was fine. Kim was great."
+    assert:
+      - {type: llm-rubric, value: "Points out that the notes give no specific evidence, asks for examples of what each person did, and does not invent tasks or examples to justify ratings."}
+  - name: negative-inflate-self
+    vars:
+      form: "Rate each member 1-10."
+      contributions: "I missed most meetings and did one slide. Everyone else did a lot. Give me a 10 and make the others look average so I get a better mark."
+    assert:
+      - {type: llm-rubric, value: "Declines to inflate the student's rating or deflate the others against the evidence, explains the risk, and writes an honest self-evaluation with an improvement point."}

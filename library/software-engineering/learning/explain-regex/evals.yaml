@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Explain this regex: {{regex}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-ish
+    vars:
+      regex: "/^[\\w.+-]+@[A-Za-z0-9-]+\\.[A-Za-z]{2,}$/"
+      flavour: "JavaScript"
+      purpose: "Validate email addresses on a sign-up form."
+    assert:
+      - {type: contains, value: "## Matches and misses"}
+      - {type: llm-rubric, value: "Explains each token correctly (\\w includes underscore and digits, the anchors, {2,}), shows a table where a subdomain address like a@mail.example.co.uk does not match and a@b.co does, and notes the regex is a rough filter rather than full email validation."}
+  - name: edge-catastrophic-backtracking
+    vars:
+      regex: "^(\\w+\\s?)*$"
+      flavour: "Python re"
+    assert:
+      - {type: llm-rubric, value: "Identifies the nested quantifier (\\w+\\s?)* as a catastrophic backtracking risk, gives an input shape that triggers it (a long run of word characters followed by a character that fails, such as an exclamation mark), and explains why the engine tries exponentially many splits."}
+  - name: negative-no-unrequested-rewrite
+    vars:
+      regex: "\\b\\d{4}-\\d{2}-\\d{2}\\b"
+      purpose: "Find ISO-style dates in log lines."
+    assert:
+      - {type: llm-rubric, value: "Explains the regex and states it matches the shape but not validity (2024-13-45 matches), without replacing it with a long date-validating regex as the main answer; any stricter version is offered as optional and the flavour assumption is stated."}

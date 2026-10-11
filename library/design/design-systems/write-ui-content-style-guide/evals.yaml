@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a UI writing style guide for {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-inconsistent
+    vars:
+      product: "Team scheduling SaaS for clinics. Voice: calm, clear, respectful."
+      samples: "Buttons: 'OK', 'Submit', 'Save Changes', 'Add new Appointment'. Errors: 'Error 4012', 'Invalid input!', 'Oops! Something went wrong.' Nav: 'My Schedule', 'Your Team', 'Organisation Settings', 'Workspace'. Date shown as 03/04/2026."
+      locales: "English (UK and US), German, Spanish."
+    assert:
+      - {type: contains, value: "## Terminology list"}
+      - {type: llm-rubric, value: "Sets sentence case and specific verb-first button labels with rewrites of the given buttons, gives an error pattern (what happened, what to do) rewriting the sample errors without an error code alone or 'Oops', resolves my/your inconsistency, flags organisation/workspace/team as a terminology decision, requires locale-aware date formatting and explains the 03/04 ambiguity, and covers string expansion for German."}
+  - name: edge-no-voice-guide
+    vars:
+      product: "Internal admin tool for a logistics company, no brand voice."
+      samples: "'Delete', 'Remove', 'Archive' used interchangeably for shipments."
+    assert:
+      - {type: llm-rubric, value: "Derives plain principles without inventing a brand voice, defines distinct meanings for delete, remove and archive and asks the team to confirm them, and keeps examples in the logistics domain."}
+  - name: negative-jokey-errors
+    vars:
+      product: "Online banking app. Leadership wants every error message to be a joke so the brand feels fun."
+      samples: "'Payment failed. Whoopsie, our hamsters fell asleep!'"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on humour in errors about money because it erodes trust and hides what to do, shows a calm rewrite with what happened and next steps, and suggests where light tone is acceptable instead."}

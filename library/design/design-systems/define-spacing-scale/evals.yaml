@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Give me a spacing scale for {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-current
+    vars:
+      product: "Web CRM with dense data tables, forms and a settings area. Desktop first, some tablet use."
+      current: "Values found in code: 3, 4, 5, 6, 8, 10, 12, 14, 15, 16, 18, 20, 24, 25, 30, 32, 40, 48, 60, 64px. Buttons are 30px and 36px tall."
+    assert:
+      - {type: contains, value: "## Sizing tokens"}
+      - {type: llm-rubric, value: "Picks a 4px-based scale with denser small steps and wider large steps, names tokens so values can change without renames, separates sizing tokens for control and icon heights, states that components own padding and parents own gaps, maps each listed current value to a step and flags visible changes, and moves the 30px button to a base-aligned height."}
+  - name: edge-touch-first
+    vars:
+      product: "Field-service mobile app (iOS and Android) used with gloves outdoors."
+    assert:
+      - {type: llm-rubric, value: "Gives touch target minimums with their sources (WCAG 2.5.8 24px floor, platform guidance around 44pt and 48dp), argues for larger targets given gloves, checks every control size against the floor, and gives native constants instead of only CSS."}
+  - name: negative-no-scale
+    vars:
+      product: "Our designers want total freedom; give us a token for every pixel value from 1 to 100 so nothing is ever off-scale."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a token per pixel because it removes the consistency a scale exists for, explains the cost, and proposes a constrained scale with a documented exception process instead of producing 100 tokens."}

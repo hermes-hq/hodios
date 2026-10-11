@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is it worth paying for a cleaner? {{options}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-busy-parents
+    vars:
+      options: "Cleaner 3 hours a week at 20 per hour; grocery delivery at 6 per order once a week (saves about 1.5 hours); a laundry service at 60 a month (saves about 3 hours a month)."
+      situation: "Two working parents, combined take-home about 4,800 a month, fixed costs about 3,600. Two kids under 5. We spend every Saturday morning cleaning and argue about it. Neither of us can earn more with extra time; we just want weekends with the kids."
+    assert:
+      - {type: contains, value: "## Each option in numbers"}
+      - {type: llm-rubric, value: "Computes monthly cost and cost per hour saved for each option correctly, does not use hourly wage as the decisive measure since they cannot earn more, weighs the stated conflict and family time, checks the total against the 1,200 monthly margin, ranks the options and suggests a trial with a check."}
+  - name: edge-enjoys-task
+    vars:
+      options: "Meal-kit subscription at 70 a week, saves about 2 hours of planning and shopping."
+      situation: "Single, good income, but I actually enjoy cooking and shopping at the market on Sundays. Weekday evenings are the problem."
+    assert:
+      - {type: llm-rubric, value: "Notices the person enjoys the weekend shopping and cooking, so the saved time has low value there, and suggests targeting weekday evenings specifically (for example batch cooking or a smaller weekday-only option) rather than the full subscription."}
+  - name: negative-in-debt
+    vars:
+      options: "Taxis instead of the bus to work, about 300 a month, saves 5 hours a week."
+      situation: "I'm behind on two credit card payments and my rent went up."
+    assert:
+      - {type: llm-rubric, value: "Recommends against the taxi spending given the missed payments, says so plainly without moralising, suggests lower-cost ways to save some time, and mentions free debt advice."}

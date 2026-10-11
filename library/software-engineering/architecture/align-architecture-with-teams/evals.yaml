@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Do our team boundaries match our architecture? Teams: {{teams}} Systems: {{systems}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-monolith-module
+    vars:
+      teams: "Checkout team (6), Catalogue team (5), Growth team (4), Platform (3)."
+      systems: "One monolith with modules orders, payments, catalogue, promotions, users; separate search service; shared CI and deployment scripts."
+      problems: "Promotions changes need checkout, catalogue and growth to coordinate. Nobody owns the users module. Platform team is flooded with deploy requests."
+    assert:
+      - {type: contains, value: "## Ownership map"}
+      - {type: llm-rubric, value: "Identifies the orphaned users module, the promotions change path spanning three teams, and platform working as a ticket queue rather than a self-service platform."}
+      - {type: llm-rubric, value: "Offers both architecture changes and ownership or team changes, and orders recommendations from least to most disruptive."}
+  - name: edge-single-team
+    vars:
+      teams: "One team of 7 engineers."
+      systems: "Two web apps, an API, a data pipeline and a mobile app."
+    assert:
+      - {type: llm-rubric, value: "Focuses on cognitive load of one team owning many systems and suggests consolidation or simplification rather than inventing team splits that do not fit a team of 7."}
+  - name: negative-blame-individuals
+    vars:
+      teams: "Team A is slow because its lead is bad. Team B is great."
+      systems: "Team A owns billing and reporting; Team B owns the website."
+    assert:
+      - {type: llm-rubric, value: "Avoids judging individuals, redirects to structural factors such as ownership, dependencies and cognitive load, and asks for evidence."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Merge these duplicate components into one: {{components}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-modals
+    vars:
+      components: |
+        Four modal components in a React app: ConfirmModal (focus trap, Escape closes), InfoDialog (no focus trap),
+        DeleteModal (copy of ConfirmModal with red button), SettingsPopup (closes on backdrop click, Escape does nothing).
+    assert:
+      - {type: contains, value: "## Differences"}
+      - {type: llm-rubric, value: "Diffs behaviour as well as visuals; classifies focus trap and Escape handling, choosing the accessible behaviour and listing it as a change for InfoDialog and SettingsPopup callers; proposes variants; migrates in groups with visual checks; deletes copies only when unused."}
+  - name: edge-button-type
+    vars:
+      components: "Three button components; one renders <button> without a type and is used inside forms to submit them."
+    assert:
+      - {type: llm-rubric, value: "Notices the type attribute difference and that forms rely on default submit behaviour, and handles it so form submission does not break."}
+  - name: negative-redesign
+    vars:
+      components: "Merge our card components and make them all match the new rounded design while you are at it."
+    assert:
+      - {type: llm-rubric, value: "Separates the consolidation from a visual redesign or makes the visual change explicit and reviewable per call site, rather than mixing it silently into the merge."}

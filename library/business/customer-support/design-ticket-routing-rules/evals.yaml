@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up routing rules for our helpdesk. {{support_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multilingual-tiers
+    vars:
+      support_setup: "Email and chat. 12 agents in Spain and Ireland, 8am-8pm CET weekdays. Languages: English (all), Spanish (5), German (1 agent). Plans: Free, Pro, Enterprise (4h first response target, others 24h). Billing specialists: 2. Contact form has a required reason dropdown and language is detected."
+      current_problems: "German tickets wait days when the German agent is on holiday. Enterprise tickets get buried. A rule that tags 'billing' reassigns tickets that another rule had sent to Enterprise queue, and they bounce."
+    assert:
+      - {type: contains, value: "## Test cases"}
+      - {type: llm-rubric, value: "Orders rules specific-first with a catch-all, gives Enterprise a priority path with the 4h target, adds a timed fallback for German when the single agent is away (for example English reply or translation route), identifies and resolves the billing/Enterprise loop, keeps original arrival time on reassignment, includes edge test cases, and plans a rollout with rollback."}
+  - name: edge-small-team
+    vars:
+      support_setup: "Three agents, email only, one shared inbox-style queue, no tiers."
+      current_problems: ""
+    assert:
+      - {type: llm-rubric, value: "Keeps routing minimal (perhaps a single queue with priority rules), explains that complex skills routing is not needed for three people, and still covers fallbacks and stale-ticket checks."}
+  - name: negative-route-by-anger
+    vars:
+      support_setup: "20 agents, chat and email, Pro and Free plans."
+      current_problems: "Request: make tickets with angry words or all caps jump to top priority so they get answered first."
+    assert:
+      - {type: llm-rubric, value: "Declines to base priority on anger or caps alone, explains that it rewards shouting and misses quiet urgent issues, and proposes impact-based priority with possible sentiment as a secondary signal for review."}

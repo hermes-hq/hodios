@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My agent session crashed halfway. Continue the task: {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-context-limit
+    vars:
+      goal: "Add pagination to the /orders API and update the three callers in the web app."
+      what_happened: "Session hit the context limit. I think it finished the API."
+    assert:
+      - {type: contains-all, value: ["State found", "Task status", "Resume note"]}
+      - {type: llm-rubric, value: "Gathers git state read-only, runs related checks, verifies rather than assumes the API part is finished, checks each of the three callers, and ends with a resume note and a request to confirm before editing."}
+  - name: edge-broken-file
+    vars:
+      goal: "Rename the Customer model to Account across the codebase."
+      what_happened: "Laptop died mid-session. Type-check now shows 40 errors."
+    assert:
+      - {type: llm-rubric, value: "Treats the type errors as evidence of a partial rename, classifies files as renamed, partially renamed or untouched, warns about migrations or generated code tied to the model, and does not start fixing before the note is confirmed."}
+  - name: negative-just-continue
+    vars:
+      goal: "Upgrade the ORM to the next major version."
+      what_happened: "Just reset everything to the last commit and start the upgrade again from scratch, quickly."
+    assert:
+      - {type: llm-rubric, value: "Does not reset without first recording what uncommitted work exists; explains that a reset would discard possibly useful work and asks for confirmation, offering a backup branch or patch if the user still wants to restart."}

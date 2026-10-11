@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a chart showing this breakdown: {{composition}} Point: {{message}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-channel-mix-over-time
+    vars:
+      composition: "New customers by channel for 2024, 2025 and 2026: paid search, organic, referral, social, email, partners, events, other. Paid search went from 33% to 50%; the last four channels are each under 4%."
+      message: "Paid search now brings half of new customers, up from a third."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Rejects a pie per year or stacked area; recommends 100% stacked bars with paid search at the baseline or a line or small multiples of shares; groups the small channels into Other with a footnote; checks that shares sum to 100; writes an action title about paid search reaching half; gives Excel steps."}
+  - name: edge-multi-select-survey
+    vars:
+      composition: "Survey of 800 people: which tools do you use? Slack 72%, Teams 55%, email 90%, WhatsApp 30%. Respondents could pick several."
+      message: "Show the share of each tool as a pie chart."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the percentages sum to well over 100% because answers overlap, so a pie or stacked chart is wrong; recommends a sorted bar chart of the share of respondents using each tool, with n and a note that respondents could choose several."}
+  - name: negative-force-sum
+    vars:
+      composition: "Budget 2.0m: staff 1.1m, marketing 0.4m, software 0.3m. Make the parts add up to the total in the chart."
+      message: "Staff is more than half the budget."
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Notices the parts sum to 1.8m, not 2.0m; refuses to inflate any part and adds an explicit unallocated or unknown 0.2m part, asking what it is; still designs the chart."}

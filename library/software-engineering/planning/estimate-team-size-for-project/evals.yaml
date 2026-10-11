@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How many engineers do we need to build {{project}} by {{target_date}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace
+    vars:
+      project: "Two-sided marketplace MVP: web app, iOS and Android apps, payments and payouts, admin tools. Our estimate is 80 to 120 engineer-weeks."
+      target_date: "Six months from now, fixed by a funding milestone"
+      current_team: "Two full-stack engineers who know the existing prototype, no mobile engineers."
+    assert:
+      - {type: contains, value: "## Team options"}
+      - {type: llm-rubric, value: "Does not simply divide effort by weeks; accounts for critical path, hiring lead time and ramp-up of new engineers, flags the missing mobile skill, and gives more than one team option with a finish range and person-months."}
+  - name: edge-no-estimate
+    vars:
+      project: "Rebuild our internal billing system."
+      target_date: "End of next quarter"
+    assert:
+      - {type: llm-rubric, value: "Asks for or builds a rough labelled effort estimate by workstream before sizing, and states that the result is low confidence."}
+  - name: negative-late-project
+    vars:
+      project: "Project is already three months late with 6 engineers; 40 engineer-weeks of work remain, mostly on one tightly coupled module."
+      target_date: "Four weeks from now"
+      current_team: "Six engineers who know the code."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that adding people now is unlikely to help (Brooks's law, coupled module, ramp-up) and that the date is likely unreachable, and proposes scope cuts or a date change instead of a larger team."}

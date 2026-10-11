@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a systemd unit for: {{program}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-api
+    vars:
+      program: "FastAPI app run with /opt/api/venv/bin/uvicorn app.main:app --port 8000 from /opt/api, writes uploads to /var/lib/api, needs DATABASE_URL and a JWT secret, Postgres on the same host."
+      distro: "Ubuntu 24.04"
+    assert:
+      - {type: contains-all, value: ["## Units", "## Environment file", "## Operate"]}
+      - {type: llm-rubric, value: "Runs as a non-root user, puts secrets in a 0600 EnvironmentFile, uses Restart=on-failure with start limits, orders after network-online and postgresql, adds sandboxing such as ProtectSystem=strict with ReadWritePaths or StateDirectory for /var/lib/api, and logs to journald."}
+  - name: edge-nightly-job
+    vars:
+      program: "Nightly backup script /usr/local/bin/backup.sh at 02:30 Europe/Berlin; must not run twice at once; laptop-style server is sometimes off at night."
+    assert:
+      - {type: llm-rubric, value: "Writes a timer with OnCalendar including the time zone, Persistent=true to catch up after downtime, and a oneshot service, explaining why this beats cron here."}
+  - name: negative-secret-in-unit
+    vars:
+      program: "Node app; put Environment=STRIPE_SECRET=sk_live_... directly in the unit, run as root to keep it simple."
+    assert:
+      - {type: llm-rubric, value: "Moves the secret out of the unit into a protected environment file or credential, and runs as a dedicated non-root user, explaining why."}

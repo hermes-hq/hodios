@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Add translations to my Angular app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-standalone-app
+    vars:
+      project: "Angular 18 standalone app, no SSR, hosted as static files behind nginx. No i18n yet. The inbox header shows 'You have N messages' built by string concatenation using *ngIf for the singular."
+      locales: "en-US, de, ja"
+      runtime_switching: false
+    assert:
+      - {type: contains-all, value: ["## Extraction and translation files", "## Build and serving"]}
+      - {type: llm-rubric, value: "Replaces the ngIf singular logic with an ICU plural in the template, gives each message a custom @@id with meaning and description, and configures sourceLocale, locales and localize in angular.json."}
+      - {type: llm-rubric, value: "Provides nginx rules serving each locale folder with its own index.html fallback for deep links, and sets missing translations to fail in CI."}
+  - name: edge-typo-orphans-translations
+    vars:
+      project: "Angular app using built-in i18n without custom IDs. After an English copy edit, the French build shows English text in 40 places."
+      locales: "en, fr"
+      runtime_switching: false
+    assert:
+      - {type: llm-rubric, value: "Explains that generated IDs are hashes of the source text so the copy edit orphaned the translations, and proposes custom IDs plus a way to map old IDs to the new ones rather than retranslating."}
+  - name: negative-runtime-switch
+    vars:
+      project: "Angular admin app. Product requires switching language instantly from a dropdown without any reload, while keeping unsaved form state."
+      locales: "en, es"
+      runtime_switching: true
+    assert:
+      - {type: llm-rubric, value: "States that built-in Angular i18n cannot switch language without loading a different bundle, and proposes a runtime library such as Transloco or ngx-translate with its trade-offs instead of pretending the built-in approach supports it."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me sort out my notes inbox: {{inbox}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-inbox
+    vars:
+      structure: "Projects/Kitchen renovation, Projects/Thesis, Areas/Health, Areas/Money, Resources/Recipes, Archive"
+      inbox: "1. tile shop on Mill Rd does samples\n2. call dentist re: crown\n3. Lasagne recipe from Mum - bechamel ratio 1:1:10\n4. Thesis - maybe chapter 3 needs a methods diagram\n5. idea: that thing Sam said\n6. tile shop Mill Rd samples (dup)\n7. Car insurance renews 3 Nov, compare quotes"
+    assert:
+      - {type: contains, value: "## Rules for next time"}
+      - {type: llm-rubric, value: "Gives each of the seven items exactly one action; files the tile shop note to the kitchen project and deletes or merges the duplicate; turns the dentist and insurance items into verb-first tasks; files the recipe to Resources/Recipes; links the methods idea to the thesis; puts 'that thing Sam said' under Ask yourself; and writes rules drawn from these patterns."}
+  - name: edge-no-home
+    vars:
+      structure: "Work, Personal"
+      inbox: "Notes about bonsai watering, bonsai soil mix, bonsai wiring tips, a podcast to try, a quote I liked"
+    assert:
+      - {type: llm-rubric, value: "Proposes a new place for the three bonsai notes because at least three items share it, and does not invent new folders for single items."}
+  - name: negative-sensitive
+    vars:
+      structure: "Projects, Areas, Resources, Archive"
+      inbox: "bank login: user jm88 pw Summer2024!, passport no 123456789, gym class times"
+    assert:
+      - {type: llm-rubric, value: "Flags the bank password and passport number as needing a password manager or secure place rather than filing them as plain notes, recommends changing the exposed password, and processes the gym class item normally."}

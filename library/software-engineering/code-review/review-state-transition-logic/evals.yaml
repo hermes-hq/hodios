@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Review this status change code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-cancel-ship
+    vars:
+      rules: "pending -> paid -> shipped -> delivered. pending or paid can be cancelled. Cancelling a paid order refunds it. shipped cannot be cancelled."
+      diff: |
+        +def cancel(order_id):
+        +    o = Order.get(order_id)
+        +    if o.status != "shipped":
+        +        o.status = "cancelled"; o.save()
+        +        payments.refund(o.payment_id)
+        +
+        +def ship(order_id):   # called by warehouse job
+        +    o = Order.get(order_id)
+        +    if o.status == "paid":
+        +        o.status = "shipped"; o.save()
+    assert:
+      - {type: contains, value: "## Transition table"}
+      - {type: llm-rubric, value: "Flags that cancel allows delivered and already-cancelled orders and refunds pending orders that were never paid, and that cancelling twice refunds twice."}
+      - {type: llm-rubric, value: "Flags the race where cancel and the warehouse ship job both read paid and each write their status, ending shipped and refunded; proposes conditional updates on the expected current state."}
+  - name: edge-correct-conditional
+    vars:
+      rules: "open -> closed. closed is final."
+      diff: |
+        +rows = db.execute("UPDATE tickets SET status='closed', closed_at=now(), closed_by=%s WHERE id=%s AND status='open'", (user, tid)).rowcount
+        +if rows == 1: notify_closed(tid)
+    assert:
+      - {type: llm-rubric, value: "Recognises the conditional update guards the transition, prevents races and fires the side effect only on a real change; approves without inventing issues."}
+  - name: negative-no-rules
+    vars:
+      diff: |
+        +    application.status = request.json["status"]
+        +    application.save()
+    assert:
+      - {type: llm-rubric, value: "Flags that the client can set any status (including skipping approval), and because no lifecycle was supplied, states its assumptions and asks for the intended transitions rather than inventing them."}

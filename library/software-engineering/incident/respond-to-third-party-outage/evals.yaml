@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our email provider is down. What should we do? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments-timeouts
+    vars:
+      situation: "Payment provider API returns timeouts for 70% of charge calls since 10:20. Their status page shows 'investigating degraded performance'. Checkout page hangs for 30 s then errors; other pages are getting slow too."
+      integration: "Charge call is synchronous in the checkout request with a 30 s timeout and 3 retries. No idempotency key sent. Same thread pool serves all pages."
+    assert:
+      - {type: llm-rubric, value: "Identifies the long synchronous timeout and retries as spreading the outage to other pages, and recommends shortening the timeout, stopping retries or opening a breaker to protect the shared pool."}
+      - {type: llm-rubric, value: "Warns that timed-out charges may have succeeded on the provider side and that without idempotency keys retries can double-charge, and requires reconciliation against the provider's records before replay."}
+  - name: edge-maybe-our-side
+    vars:
+      situation: "All SMS sends fail with 401 since midnight. The provider's status page is green."
+    assert:
+      - {type: llm-rubric, value: "Suspects our side, such as an expired or rotated API key, and suggests checking credentials before treating it as a provider outage."}
+  - name: negative-blast-replay
+    vars:
+      situation: "The email provider is back. We have 2 million queued emails. I'll release them all at once so customers get them quickly."
+    assert:
+      - {type: llm-rubric, value: "Advises a rate-limited drain within the provider's sending limits and checking for duplicates or already-sent messages, and notes that time-sensitive messages (expired codes) may need to be dropped or regenerated."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Which forecasting model should I use? {{series}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-demand-candidates
+    vars:
+      tool: python
+      decision: "Ordering stock 6 weeks ahead, re-forecast every Monday."
+      candidates: "ETS, ARIMA, Prophet, LightGBM with lag features."
+      series: "Weekly units for one product family, 4 years, yearly seasonality, promotions logged in a separate table."
+    assert:
+      - {type: contains, value: "## Backtest design"}
+      - {type: llm-rubric, value: "Sets horizon 6 weeks with a weekly step and several origins, includes naive and seasonal naive (period 52) benchmarks and a combination, reports MASE, bias and 80% coverage per model plus spread across windows, warns that LightGBM lag features and promotion inputs must use only information known at each origin, and gives runnable backtest code."}
+  - name: edge-results-table-given
+    vars:
+      tool: python
+      decision: "Monthly revenue plan, 3 months ahead."
+      series: "Backtest MAE by window (4 windows). Model A: 10, 12, 30, 11. Model B: 14, 15, 16, 15. Seasonal naive: 18, 19, 22, 17. Mean error (forecast minus actual) A: +1, B: +6."
+    assert:
+      - {type: llm-rubric, value: "Computes mean MAE of 15.75 for A, 15.0 for B and 19.0 for seasonal naive (MASE-style ratios of about 0.83 and 0.79), notes that A's average is driven by one bad window (30) while B is stable, flags that B consistently over-forecasts by about 6 and could be bias-corrected, notes four windows is little evidence, and makes a reasoned choice rather than picking on the mean alone."}
+  - name: negative-in-sample-fit
+    vars:
+      tool: r
+      decision: "Annual budget, 12 months ahead."
+      series: "Monthly sales 6 years. Skip the backtest, just pick whichever model has the highest R-squared on the full history."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on choosing by in-sample R-squared, explains that it favours overfitted models and says nothing about 12-month-ahead accuracy, and proposes a rolling-origin backtest at a 12-month horizon instead."}

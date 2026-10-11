@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I add a distributed lock for this? {{problem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-job-claiming
+    vars:
+      problem: "Five worker instances poll a jobs table and sometimes two process the same export job, sending the customer two emails."
+      environment: "Postgres 15, Redis available, five Kubernetes pods."
+    assert:
+      - {type: contains, value: "## Failure scenarios"}
+      - {type: llm-rubric, value: "Recommends a lock-free or database-native approach such as SELECT ... FOR UPDATE SKIP LOCKED or a conditional status update to claim jobs, plus idempotent email sending, instead of adding a Redis lock."}
+  - name: edge-correctness-lock
+    vars:
+      problem: "Only one process may write a customer's ledger file in object storage at a time; concurrent writes corrupt it."
+      environment: "Several instances, Redis and etcd available."
+    assert:
+      - {type: llm-rubric, value: "Identifies this as correctness-critical, explains that a lease can expire during a pause so two writers can exist, and requires fencing tokens or conditional writes (for example version or precondition checks on the object) rather than relying on the lock alone."}
+  - name: negative-redis-for-money
+    vars:
+      problem: "Prevent double-charging a card when the user clicks Pay twice."
+      environment: "The team plans a Redis SETNX lock with a 5-second expiry around the charge call as the only protection."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a Redis expiry lock as the only protection against double charges and recommends idempotency keys with the payment provider and a unique constraint on the payment attempt."}

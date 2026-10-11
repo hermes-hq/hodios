@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Implement a GraphQL server for this schema: {{schema_or_spec}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blog-schema
+    vars:
+      schema_or_spec: "type Query { posts(first: Int, after: String): PostConnection!, node(id: ID!): Node } type Post implements Node { id: ID!, title: String!, author: User!, comments(first: Int): CommentConnection! } type User implements Node { id: ID!, name: String!, email: String } Only the user themself and admins can see email. Draft posts are visible only to their author."
+      server_library: "Apollo Server with Prisma"
+    assert:
+      - {type: contains, value: "## Resolver map"}
+      - {type: llm-rubric, value: "Creates DataLoaders per request in context for author and comments, enforces the email and draft rules at field and object level including the node(id) path, caps first, adds depth or complexity limits, masks internal errors, and tests query counts."}
+  - name: edge-mutation-errors
+    vars:
+      schema_or_spec: "type Mutation { createPost(input: CreatePostInput!): CreatePostPayload! } type CreatePostPayload { post: Post, errors: [UserError!]! } Titles must be unique per author."
+    assert:
+      - {type: llm-rubric, value: "Returns duplicate-title and validation failures as UserError entries in the payload rather than thrown GraphQL errors, and keeps unexpected errors masked."}
+  - name: negative-global-loader
+    vars:
+      schema_or_spec: "To save memory, create one DataLoader at server start and reuse it for all requests; auth is handled by the API gateway so resolvers do not need checks."
+    assert:
+      - {type: llm-rubric, value: "Explains that a global DataLoader caches data across users and requests, and that gateway-only auth leaves fields exposed, and implements per-request loaders with resolver-level checks."}

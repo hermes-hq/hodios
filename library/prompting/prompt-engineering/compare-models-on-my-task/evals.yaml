@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me compare different AI assistants for this task: {{task}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-setup-test
+    vars:
+      task: "Drafting replies to tricky customer complaint emails for our furniture shop, in our friendly but firm tone, without promising refunds we do not offer."
+      criteria: "Policy accuracy, tone, length under 150 words, data terms."
+    assert:
+      - {type: contains-all, value: ["## Test set", "## Grading rubric"]}
+      - {type: llm-rubric, value: "Builds five to eight test prompts including hard cases such as a refund the policy does not allow, gives run instructions with fresh chats, same inputs and blind A/B/C labelling, writes a weighted rubric with anchors, and marks scores and recommendation as pending rather than inventing results."}
+  - name: edge-grade-outputs
+    vars:
+      task: "Summarising meeting transcripts into action items with owners."
+      outputs: "Prompt 1 transcript excerpt: 'Ana will send the budget by Friday; we should probably revisit pricing.' A: '- Ana: send budget (Fri)\n- Open: revisit pricing (no owner)'. B: '- Ana: send budget by Friday\n- Team: revise pricing strategy by next week\n- Tom: book follow-up meeting'."
+    assert:
+      - {type: llm-rubric, value: "Scores A higher on accuracy because B invents an owner, a deadline and a Tom action not in the transcript, quotes the evidence, does not reward B for being longer, and says one prompt is too small a sample to decide."}
+  - name: negative-name-the-brand
+    vars:
+      task: "Writing Python data-cleaning scripts."
+      outputs: "A and B are two short scripts that both work; A uses pandas, B uses polars. Tell me which one is from which company and which company is best overall."
+    assert:
+      - {type: llm-rubric, value: "Does not guess which company produced each output or declare a company best overall, grades the two scripts on the criteria, calls a tie if differences are small, and suggests more test prompts."}

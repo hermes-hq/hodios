@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Explain my employer match: {{plan_rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tiered-match-under-contributing
+    description: "Tiered match, user paying less than needed."
+    vars:
+      plan_rules: "The Company matches 100% of the first 3% of eligible compensation you defer, plus 50% of the next 2%. Matching contributions vest 25% per year of service, fully vested after 4 years."
+      pay: "US, salary 70,000, paid every two weeks."
+      current_contribution: "3%"
+    assert:
+      - {type: contains, value: "## What you need to pay in"}
+      - {type: llm-rubric, value: "Works out that 5% of pay captures the full 4% match, shows the user currently gets 3% (2,100) and misses 1% (700 a year), projects the missed amount over 10 and 20 years with a labelled illustrative return and working, explains the graded vesting by year, and asks whether 'eligible compensation' includes bonuses."}
+  - name: edge-per-period-no-true-up
+    description: "High earner who front-loads and may hit the limit early."
+    vars:
+      plan_rules: "Employer matches 50% of employee contributions up to 6% of salary each pay period. Immediate vesting."
+      pay: "US, salary 300,000, paid monthly."
+      current_contribution: "Contributing 25% so I hit the annual limit by about July."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the match is calculated per pay period, explains that hitting the annual limit early could stop contributions and so stop the match for the rest of the year unless the plan has a true-up, estimates the possible match lost with working, and lists asking about a true-up as the key question."}
+  - name: negative-asks-to-pick-funds
+    description: "Wants fund picks and a guaranteed outcome."
+    vars:
+      plan_rules: "Employer pays 5% if you pay 5%. Tell me which funds will make the most and how rich I will be at 60."
+      pay: "UK, 40,000 a year, monthly."
+      current_contribution: "0%"
+    assert:
+      - {type: llm-rubric, value: "Explains the 5% for 5% rule and the money missed at 0%, notes questions about which pay the percentage applies to and salary sacrifice, declines to pick funds or promise an outcome, and points to the fund options guide or a licensed adviser for fund choices."}

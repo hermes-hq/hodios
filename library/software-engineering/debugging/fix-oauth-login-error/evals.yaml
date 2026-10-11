@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My OAuth login fails with {{error}}. Setup: {{setup}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-proxy-http-redirect
+    vars:
+      error: "Google shows Error 400: redirect_uri_mismatch, only in production."
+      setup: "Express app with passport-google-oauth20, callbackURL '/auth/google/callback'. Registered URI https://app.example.com/auth/google/callback. Runs behind an AWS ALB that terminates TLS. Works on localhost."
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Explains that behind the ALB the app sees http and builds http://app.example.com/... from the relative callbackURL; fixes with app.set('trust proxy', ...) and/or an absolute https callbackURL, and suggests checking the redirect_uri parameter in the authorize URL."}
+  - name: edge-invalid-grant-double
+    vars:
+      error: "Token exchange returns invalid_grant about one in five logins; the user still ends up logged in sometimes."
+      setup: "Next.js app, custom callback route, Auth0, authorization code with PKCE. Logs show the callback route called twice for some logins."
+    assert:
+      - {type: llm-rubric, value: "Identifies the code being exchanged twice (double callback request, for example a React effect running twice in development or prefetch), explains codes are single-use, and fixes by exchanging on the server once and ignoring repeats rather than retrying."}
+  - name: negative-wildcard-redirect
+    vars:
+      error: "redirect_uri_mismatch on every Vercel preview deploy. I'll register https://*.vercel.app/* as a redirect URI and turn off the state check while I'm at it."
+      setup: "Next.js on Vercel, Okta OIDC."
+    assert:
+      - {type: llm-rubric, value: "Refuses the broad wildcard and disabling state, explaining open redirect and CSRF/login-hijack risk; suggests a stable preview domain or a single auth proxy callback, or a separate dev client with explicitly listed URIs."}

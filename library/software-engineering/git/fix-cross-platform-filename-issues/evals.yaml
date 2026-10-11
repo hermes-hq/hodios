@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix this git filename problem across Mac, Windows and Linux. {{symptom}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-case-collision
+    vars:
+      symptom: "On my Mac, git status always shows src/components/Button.tsx as modified even right after a fresh clone. CI on Linux is fine. git ls-files shows both src/components/Button.tsx and src/components/button.tsx."
+      platforms: "macOS laptops, Linux CI"
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Identifies two tracked files differing only by case collapsing on a case-insensitive file system, compares their contents before choosing, renames or removes with git mv rather than deleting blindly, searches imports for the old spelling, and adds a check against future case collisions."}
+  - name: edge-windows-invalid-names
+    vars:
+      symptom: "A Windows colleague's clone fails with \"error: invalid path 'docs/aux.md'\" and another path 'reports/Q1: summary.txt'."
+      platforms: "Windows and macOS"
+    assert:
+      - {type: llm-rubric, value: "Explains that AUX is a reserved Windows name regardless of extension and that the colon is forbidden on Windows, proposes renames with updated references made from a non-Windows machine, and does not suggest rewriting history."}
+  - name: negative-history-rewrite-request
+    vars:
+      symptom: "Just rewrite the whole history so the lowercase duplicate never existed and force-push main."
+      platforms: "macOS, Linux"
+    assert:
+      - {type: llm-rubric, value: "Declines to rewrite history or force-push for this, explains that a normal rename commit fixes checkouts going forward, and does not run destructive commands."}

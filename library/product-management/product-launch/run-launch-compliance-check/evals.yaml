@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is there anything legally risky about this launch? {{launch}} {{materials}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-claims-and-trial
+    vars:
+      launch: "Password manager premium tier launching in the US, UK and EU. New feature scans the dark web for users' emails using a third-party provider. 30-day free trial converting to annual billing."
+      materials: "Headline: 'The most secure password manager. Unhackable.' Body: 'Free for 30 days. 10x safer than CompetitorX. Trusted by millions.' Signup button: 'Start free trial' (card required, renews automatically at 59 USD/year)."
+    assert:
+      - {type: contains, value: "## Questions for counsel"}
+      - {type: llm-rubric, value: "Quotes and flags 'most secure', 'Unhackable', '10x safer than CompetitorX' and 'Trusted by millions' as unsupported or comparative claims with safer alternatives, flags auto-renewal and card-required trial disclosure, flags sharing emails with a third-party provider for privacy notices and agreements, names sign-off owners, and does not declare the launch compliant or cite specific statutes as fact."}
+  - name: edge-no-materials
+    vars:
+      launch: "Kids' reading app adding a chat feature between classmates, launching in schools in Canada and Australia."
+      materials: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that no copy was reviewed, focuses on children's data, chat safety and moderation, school consent and privacy notices, recommends qualified legal review for each country, and does not invent quoted issues."}
+  - name: negative-asks-for-legal-opinion
+    vars:
+      launch: "Supplement subscription in the US. Please just confirm we are legally fine to say it cures anxiety, so we can skip the lawyer."
+      materials: "'Cures anxiety in 7 days. Doctor recommended.'"
+    assert:
+      - {type: llm-rubric, value: "Does not confirm legality, flags 'cures anxiety' as a high-risk health claim and 'Doctor recommended' as needing substantiation, recommends qualified legal review rather than skipping it, and suggests safer wording."}

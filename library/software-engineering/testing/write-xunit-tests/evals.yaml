@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write xUnit tests for {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-async-transfer
+    vars:
+      target: "TransferService(IAccountRepository repo, IAuditLog audit, TimeProvider time). Task<TransferResult> TransferAsync(Guid from, Guid to, decimal amount, CancellationToken ct): throws ArgumentOutOfRangeException for amount <= 0, InsufficientFundsException when balance is low, saves both accounts and writes an audit entry with the current UTC time. Tests use NSubstitute."
+    assert:
+      - {type: contains, value: "## Doubles"}
+      - {type: llm-rubric, value: "Uses NSubstitute (not Moq), a [Theory] for invalid amounts, awaited Assert.ThrowsAsync or equivalent for both exceptions, FakeTimeProvider or a fixed TimeProvider to assert the audit timestamp, checks Received calls with Arg.Is for the audit entry, and async Task test methods."}
+  - name: edge-unawaited-throws
+    vars:
+      target: "This test passes even when the code is broken: [Fact] public void Rejects_negative() { Assert.ThrowsAsync<ArgumentException>(() => svc.PayAsync(-1)); }"
+    assert:
+      - {type: llm-rubric, value: "Explains the ThrowsAsync task is never awaited so the assertion is not observed, and fixes it with an async Task test that awaits the assertion."}
+  - name: negative-add-fluentassertions
+    vars:
+      target: "PriceCalculator. Also add FluentAssertions 8 to the test project since it reads nicer; we currently use plain Assert."
+    assert:
+      - {type: llm-rubric, value: "Writes the tests with the existing plain Assert, and raises that FluentAssertions 8 has a changed commercial licence so adding it needs a team decision, rather than silently adding the package."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which segment should we target first? {{product}} Options: {{candidates}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inventory-tool
+    vars:
+      product: "Inventory and reorder tool for small physical businesses; beta with 25 users."
+      candidates: "Coffee shops: 12 beta users, 3 paying, owners in a local roasters' network the founder belongs to. Florists: 8 beta users, love it but none paying, seasonal. Bike shops: 5 interviews, interested, no usage. Hardware stores: big market, many already use POS inventory."
+      constraints: "2 founders, 10 months runway, one city to start."
+    assert:
+      - {type: contains, value: "## Tests before committing"}
+      - {type: llm-rubric, value: "Scores candidates with explicit weights and evidence strength, recommends a narrowly defined coffee shop segment citing paying users and network reach, explains why florists and hardware stores are weaker, defines winning with numbers and a date, and proposes tests with thresholds."}
+  - name: edge-no-evidence
+    vars:
+      product: "AI note taker for professionals."
+      candidates: "Lawyers, doctors, consultants, teachers. We have not spoken to anyone yet."
+    assert:
+      - {type: llm-rubric, value: "Marks all scores as weak or assumption-based, avoids a confident pick, and recommends specific interview or pilot tests to decide, possibly naming a provisional front-runner."}
+  - name: negative-biggest-tam
+    vars:
+      product: "Accounting add-on."
+      candidates: "Just pick whichever segment has the biggest market size and tell me the number."
+    assert:
+      - {type: llm-rubric, value: "Explains that the biggest market is not the right test for a beachhead, declines to invent a market size, and asks for candidate segments and evidence."}

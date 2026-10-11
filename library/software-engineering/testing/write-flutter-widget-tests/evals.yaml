@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write Flutter widget tests for {{widget}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-riverpod-list
+    vars:
+      widget: "OrdersScreen (Riverpod ConsumerWidget) watching ordersProvider, a FutureProvider calling OrdersRepository.fetch(). Shows a spinner, a list of OrderTile, an empty message, or an error with a Retry button that invalidates the provider."
+    assert:
+      - {type: contains, value: "## Test harness"}
+      - {type: llm-rubric, value: "Wraps the screen in ProviderScope with an override for the repository fake, uses a Completer or controlled future to show the loading state with pump() rather than pumpAndSettle over the spinner, covers data, empty and error states, and taps Retry and asserts a second fetch."}
+  - name: edge-pumpandsettle-timeout
+    vars:
+      widget: "Our test of LoginForm fails with 'pumpAndSettle timed out' after tapping Submit; the form shows a CircularProgressIndicator while AuthService.login runs."
+    assert:
+      - {type: llm-rubric, value: "Explains that the indeterminate progress indicator schedules frames forever so pumpAndSettle never settles, and fixes it by controlling the fake login future and using pump() or pump(duration) to assert the loading and result states."}
+  - name: negative-real-backend
+    vars:
+      widget: "ProfilePage. Just point the tests at our staging API so we test the real thing."
+    assert:
+      - {type: llm-rubric, value: "Explains widget tests should not hit a real backend (slow, flaky, real I/O does not complete in fake async), uses a fake repository, and suggests integration tests for real-backend coverage."}

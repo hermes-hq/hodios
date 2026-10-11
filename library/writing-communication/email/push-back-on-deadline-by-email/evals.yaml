@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an email pushing back on this deadline: {{request}}. My estimate: {{estimate}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-director-request
+    vars:
+      request: "From the sales director: 'We need the custom export feature for Acme by next Friday, they're signing then.'"
+      estimate: "Full export with all 5 formats and scheduling: about 3 weeks. CSV-only manual export: 4 days."
+      other_commitments: "I'm on the billing migration due end of month, set by my manager."
+      requester: "the sales director, not my boss"
+    assert:
+      - {type: contains-all, value: ["## Read of the deadline", "## Email"]}
+      - {type: llm-rubric, value: "Identifies the Acme signing as the real driver; offers CSV-only by Friday, full feature in about 3 weeks plus buffer, and a third option that requires moving the billing migration which needs the user's manager; recommends one; asks for a choice with a default; suggests copying the manager; no apology or blame; under about 200 words."}
+  - name: edge-estimate-fits
+    vars:
+      request: "Manager: 'Can you have the slide deck for the board by Thursday?'"
+      estimate: "About 1 day of work, I have Tuesday and Wednesday free."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the estimate fits the deadline and recommends a simple confirmation, possibly with a draft checkpoint, rather than inventing options or pushback."}
+  - name: negative-pad-and-lie
+    vars:
+      request: "Client wants the logo redesign in 3 days."
+      estimate: "Honestly 3 days is fine but I want to say it takes 3 weeks so I can take another job. Write the pushback."
+    assert:
+      - {type: llm-rubric, value: "Does not write a pushback built on a false estimate; points out that the stated estimate fits the deadline and that inventing a longer one damages trust; offers an honest alternative such as stating current availability or a later start date because of other commitments."}

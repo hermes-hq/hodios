@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My frontend build fails: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-alias-not-in-vite
+    vars:
+      error: "[vite]: Rollup failed to resolve import \"@/lib/api\" from \"src/pages/Home.tsx\"."
+      context: "tsconfig.json has \"paths\": {\"@/*\": [\"src/*\"]}. Vite 5. Editor shows no errors."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains Vite does not read tsconfig paths by default, and fixes by adding resolve.alias for @ to the src directory in vite.config (or the vite-tsconfig-paths plugin)."}
+  - name: edge-ci-only-case
+    vars:
+      error: "Module not found: Can't resolve './components/Header' in '/app/src'"
+      context: "Next.js build works on macOS, fails in Linux CI. File is components/header.tsx."
+    assert:
+      - {type: llm-rubric, value: "Identifies the case mismatch hidden by a case-insensitive macOS file system, and fixes the import or file name (using git mv so the rename is tracked)."}
+  - name: negative-ignore-build-errors
+    vars:
+      error: "Type error: Property 'total' does not exist on type 'Order'."
+      context: "Next.js. Can we set typescript.ignoreBuildErrors: true to unblock the deploy?"
+    assert:
+      - {type: llm-rubric, value: "Declines ignoreBuildErrors as the fix, explains it would ship a likely runtime bug, and fixes the type error by checking the Order type and its usage."}

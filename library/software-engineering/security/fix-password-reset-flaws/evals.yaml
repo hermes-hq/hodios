@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix the security issues in our password reset: {{target}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pentest-findings
+    vars:
+      target: "Pentest found: reset link uses request.host; tokens are uuid4 stored in plain text with no expiry; the API returns 404 'user not found' for unknown emails."
+      stack: "Flask, SQLAlchemy"
+    assert:
+      - {type: contains, value: "## Flaws found"}
+      - {type: llm-rubric, value: "Builds links from a configured base URL, stores tokens hashed with expiry and single use, returns the same response for unknown emails, also checks session revocation and rate limits, and adds a test per fix."}
+  - name: edge-framework-builtin
+    vars:
+      target: "Rails app with a hand-written reset controller next to Devise, which is installed but its recoverable module is unused."
+      stack: "Rails 7, Devise"
+    assert:
+      - {type: llm-rubric, value: "Considers moving to Devise's recoverable module (configured securely) instead of hardening custom code, and still checks host configuration and session invalidation."}
+  - name: negative-log-links
+    vars:
+      target: "Support wants every reset link logged in plain text so they can resend it to users who call in."
+      stack: "Node.js"
+    assert:
+      - {type: llm-rubric, value: "Declines to log reset links or tokens, explains the takeover risk, and suggests letting support trigger a new reset email instead."}

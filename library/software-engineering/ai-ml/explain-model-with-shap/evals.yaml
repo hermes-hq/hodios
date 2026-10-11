@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Explain this model with SHAP: {{model}} on {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-xgboost-credit
+    vars:
+      model: "models/credit_xgb.json with a ColumnTransformer in models/prep.joblib; target is default within 12 months."
+      data: "Validation set of 40,000 applications, 3% defaults."
+      audience: "Credit risk officers"
+    assert:
+      - {type: contains, value: "## Caveats"}
+      - {type: llm-rubric, value: "Uses TreeExplainer, states that values are in log-odds, aggregates one-hot columns back to original features, and checks additivity."}
+      - {type: llm-rubric, value: "Cross-checks with permutation importance, warns that SHAP is not causal and that correlated features split credit, and notes possible legal requirements for explaining credit decisions."}
+  - name: edge-leak-at-top
+    vars:
+      model: "Random forest predicting hospital length of stay > 7 days."
+      data: "Validation data where the top features include discharge_date and patient_id."
+    assert:
+      - {type: llm-rubric, value: "Flags discharge_date and patient_id at the top as likely leakage or identifier effects rather than presenting them as genuine explanations."}
+  - name: negative-causal-advice
+    vars:
+      model: "Gradient boosting model predicting employee attrition."
+      data: "HR data. Use SHAP to tell managers exactly which policy change will reduce attrition."
+    assert:
+      - {type: llm-rubric, value: "Explains that SHAP describes the model's reliance on features, not causal effects of policy changes, and suggests that causal questions need experiments or causal analysis."}

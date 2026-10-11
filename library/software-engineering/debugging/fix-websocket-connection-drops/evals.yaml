@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My WebSocket connections drop: {{symptom}}. Setup: {{setup}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nginx-idle-timeout
+    vars:
+      symptom: "Connections close with code 1006 after exactly 60 seconds when nobody is typing. Works fine locally."
+      setup: "Native WebSocket in the browser, ws on Node, Nginx in front with proxy_http_version 1.1 and Upgrade headers set, no other timeouts configured."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Attributes the 60-second drop to Nginx's default proxy_read_timeout on an idle connection; fixes with server or client pings at an interval well under 60 seconds and optionally a larger bounded proxy_read_timeout, plus client reconnect with backoff."}
+  - name: edge-socketio-multi-instance
+    vars:
+      symptom: "Socket.IO clients keep reconnecting and some messages never arrive after we scaled to 3 pods."
+      setup: "Socket.IO 4, Kubernetes with Nginx Ingress, no sticky sessions, no adapter."
+    assert:
+      - {type: llm-rubric, value: "Explains that without sticky sessions the polling handshake hits different pods and fails, and broadcasts only reach clients on the emitting pod; fixes with session affinity on the Ingress and the Redis adapter (or websocket-only transport plus adapter)."}
+  - name: negative-switch-to-polling
+    vars:
+      symptom: "WebSockets drop every 100 seconds behind Cloudflare. Should we just rip them out and poll every second?"
+      setup: "Chat app with 20,000 concurrent users, Cloudflare proxy, ws server on Node."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on one-second polling at that scale (load and latency), explains the drop is a proxy idle timeout, and fixes with heartbeats under that interval plus reconnect logic."}

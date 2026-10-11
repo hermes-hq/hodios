@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Our utils file is a mess, clean it up: {{module}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ts-helpers
+    vars:
+      module: |
+        src/utils/helpers.ts in a TypeScript monorepo app, 1,800 lines, 74 exports, re-exported from src/utils/index.ts. Contains formatMoney twice
+        (formatMoney and formatCurrency), calculateVat used only by checkout, debounce, isEmail, and about 20 functions nobody seems to import.
+      test_command: "npm test && npx tsc --noEmit"
+    assert:
+      - {type: contains, value: "## New homes"}
+      - {type: llm-rubric, value: "Inventories callers across the monorepo including through the index barrel, merges formatMoney and formatCurrency after checking they behave the same, moves calculateVat to the checkout or billing domain, keeps generic helpers in a named module, deletes unused helpers only after a repo-wide search, and runs tests and tsc after each group."}
+  - name: edge-published-library
+    vars:
+      module: "mylib/utils.py in a Python package published on PyPI; users import mylib.utils.slugify."
+    assert:
+      - {type: llm-rubric, value: "Keeps mylib.utils.slugify importable via a re-export with a deprecation warning rather than moving it outright, because external users depend on the path."}
+  - name: negative-rewrite-helpers
+    vars:
+      module: "Python common/helpers.py. While you split it, rewrite all the helpers to be more Pythonic and faster."
+    assert:
+      - {type: llm-rubric, value: "Keeps the split as moves without rewrites and lists rewrites as a separate follow-up, explaining that mixing them hides behaviour changes."}

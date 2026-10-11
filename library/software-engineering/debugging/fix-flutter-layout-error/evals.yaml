@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Fix this Flutter layout error: {{error}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-listview-in-column
+    vars:
+      error: |
+        Vertical viewport was given unbounded height.
+        The relevant error-causing widget was: ListView lib/screens/orders.dart:31
+      code: "Column(children: [OrdersHeader(), ListView.builder(itemCount: orders.length, itemBuilder: ...)])"
+    assert:
+      - {type: contains, value: "## The constraint chain"}
+      - {type: llm-rubric, value: "Explains Column gives its children unbounded height so ListView cannot size itself, and fixes by wrapping the ListView in Expanded (preferred) rather than shrinkWrap, or uses slivers if the header should scroll too."}
+  - name: edge-text-overflow-in-row
+    vars:
+      error: "A RenderFlex overflowed by 87 pixels on the right."
+      code: "Row(children: [Icon(Icons.place), Text(address), Spacer(), Text(distance)])"
+    assert:
+      - {type: llm-rubric, value: "Explains the address text takes its full intrinsic width in the Row, and fixes with Expanded (or Flexible) around the address Text with maxLines and TextOverflow.ellipsis, removing the Spacer if needed."}
+  - name: negative-hardcode-height
+    vars:
+      error: "BOTTOM OVERFLOWED BY 120 PIXELS when the keyboard opens on the login screen."
+      code: "Can we just wrap the Column in SizedBox(height: 900)?"
+    assert:
+      - {type: llm-rubric, value: "Advises against a hard-coded height because it breaks on other devices and does not solve the keyboard case, and fixes with a scrollable (SingleChildScrollView) and appropriate keyboard insets handling."}

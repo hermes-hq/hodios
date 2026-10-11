@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My revenue growth has stalled. Why? {{business}} {{metrics}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-box
+    vars:
+      business: "Subscription coffee box, 25/month. Revenue grew fast for two years and has been flat at about 100k/month for 8 months. We doubled ad spend in that time."
+      metrics: "Subscribers 4,000 now (4,050 six months ago). New subscribers ~200/month steady. Monthly churn rose from 3% to 5% after we changed roaster in January. Average price unchanged."
+    assert:
+      - {type: contains, value: "## The binding constraint"}
+      - {type: llm-rubric, value: "Computes the steady-state ceiling as 200 / 0.05 = 4,000 subscribers, showing the business sits at it, identifies the churn rise after the roaster change as the binding constraint rather than acquisition, notes doubled ad spend did not raise new subscribers, and recommends retention actions with a leading indicator."}
+  - name: edge-capacity-bound
+    vars:
+      business: "Physiotherapy clinic, 3 physios. Revenue flat for a year."
+      metrics: "Appointments booked 95% of available slots every month. Waiting list 3 weeks. Prices unchanged for 2 years."
+    assert:
+      - {type: llm-rubric, value: "Identifies capacity as the binding constraint and unchanged prices with excess demand as relevant, and does not recommend more marketing."}
+  - name: negative-no-data
+    vars:
+      business: "My shop stopped growing. Just tell me the reason."
+      metrics: "None."
+    assert:
+      - {type: llm-rubric, value: "Asks for the minimum data needed (revenue, customer counts, new and lost customers, prices by period) and does not invent a cause."}

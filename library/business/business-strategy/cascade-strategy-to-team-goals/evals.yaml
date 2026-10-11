@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn our company strategy into team goals. {{strategy}} {{teams}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-business
+    vars:
+      strategy: "1. Cut monthly churn from 4% to 2.5% by December. 2. Launch the business plan tier with 200 paying accounts. 3. Keep support costs flat."
+      teams: "Product (8), Engineering (20), Customer support (10) - drafted goal: 'answer 90% of tickets in 1 hour', Marketing (5) - drafted goal: 'double website traffic', Sales (4)."
+    assert:
+      - {type: contains, value: "## Contribution matrix"}
+      - {type: llm-rubric, value: "Assigns one lead team per priority, writes specific team goals, flags marketing's 'double website traffic' as not clearly linked to a priority and rewrites it, spots the tension between support response targets and flat support costs, lists dependencies such as engineering work needed for the business tier, and keeps goals to four or fewer per team."}
+  - name: edge-small-team
+    vars:
+      strategy: "Open a second café and keep the first one's profit margin above 12%."
+      teams: "Owner, head chef, front-of-house manager. No drafted goals."
+    assert:
+      - {type: llm-rubric, value: "Adapts the cascade to three people rather than departments, avoids heavy process, and flags the risk of the owner leading everything."}
+  - name: negative-copy-company-goals
+    vars:
+      strategy: "Grow revenue 20%."
+      teams: "Please just give every team the goal 'grow revenue 20%'."
+    assert:
+      - {type: llm-rubric, value: "Explains why copying the same company goal to every team blurs ownership, and instead proposes each team's specific contribution or asks for the teams' remits."}

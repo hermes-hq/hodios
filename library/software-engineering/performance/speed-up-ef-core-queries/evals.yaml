@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make this EF Core query faster: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-list-endpoint
+    vars:
+      target: "GET /api/customers returns id, name and order count. Code: db.Customers.Include(c => c.Orders).ThenInclude(o => o.Lines).ToList() then maps in memory with c.Orders.Count. Takes 4 s for 2,000 customers."
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Replaces the includes with a Select projection that computes Orders.Count() in SQL, uses AsNoTracking or notes projections are not tracked, and measures before and after with logged SQL."}
+  - name: edge-bulk-delete-filters
+    vars:
+      target: "A cleanup job loads 100,000 expired sessions and calls Remove then SaveChanges for each. The DbContext has a global query filter for tenant and a SaveChanges interceptor that writes audit logs."
+    assert:
+      - {type: llm-rubric, value: "Proposes ExecuteDelete or batched deletes but warns that ExecuteDelete bypasses the audit interceptor, and checks how the tenant filter applies; asks the user to choose."}
+  - name: negative-raw-sql-everywhere
+    vars:
+      target: "EF Core is slow, should we replace every query in the app with raw SQL strings built by concatenation?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back: recommends measuring the slow queries and fixing their LINQ first, and warns that concatenated SQL risks injection; if raw SQL is needed, uses parameterised FromSql."}

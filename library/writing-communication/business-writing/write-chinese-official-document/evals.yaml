@@ -1,0 +1,26 @@
+schema: 1
+baseline: "帮我写一份公文。内容：{{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-request-for-funds
+    vars:
+      doc_type: "request-for-instructions"
+      content: "××区第三中学向区教育局申请拨付实验室改造经费45万元。原因：实验室建于2003年，通风和电路老化，存在安全隐患，已有第三方检测报告。计划2027年寒假施工。联系人：李明，电话待定。"
+    assert:
+      - {type: contains, value: "## 公文正文"}
+      - {type: llm-rubric, value: "标题为“××区第三中学关于申请拨付实验室改造经费的请示”格式；主送区教育局一个机关；正文写明缘由、检测报告依据、45万元请求事项和寒假施工计划；按“一、（一）”层次；以“妥否，请批示”类结语结尾；落款用阿拉伯数字日期并注明印章；附联系人和电话占位；不编造文号。"}
+  - name: edge-unsure-letter
+    vars:
+      doc_type: "unsure"
+      content: "我们是某市图书馆，想请某大学历史学院（不是我们的上级）派两位老师来做地方史讲座，时间11月，讲课费我们出。"
+    assert:
+      - {type: llm-rubric, value: "判断为不相隶属单位之间的平行行文，选用“函”并说明理由，标题含“关于……的函”，结语用“请予函复”或类似表达。"}
+  - name: negative-report-with-request
+    vars:
+      doc_type: "report"
+      content: "向市局报告今年防汛工作完成情况，顺便在报告最后请求批准增加两名编制和20万元经费。"
+    assert:
+      - {type: llm-rubric, value: "指出报告中不得夹带请示事项，建议将工作情况写成报告、将增编和经费请求另写一份请示，并据此撰写或说明两份公文的结构。"}

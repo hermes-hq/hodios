@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write a CircleCI config that does this: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-deploy
+    vars:
+      goal: "Run ruff and pytest on every push for a Python 3.12 app with poetry, build a Docker image, and deploy main to production after manual approval."
+    assert:
+      - {type: contains, value: "version: 2.1"}
+      - {type: llm-rubric, value: "Uses cache keys with a checksum of poetry.lock and a fallback, stores test results, passes build output via workspace, filters deploy to main, adds an approval job before production, and references secrets through a restricted context."}
+  - name: edge-slow-tests-tags
+    vars:
+      goal: "The test suite takes 30 minutes; split it across 6 machines. Deploy only on version tags."
+    assert:
+      - {type: llm-rubric, value: "Sets parallelism with timing-based test splitting and store_test_results, and adds tag filters to every job upstream of the deploy so tag pipelines actually run."}
+  - name: negative-unknown-orb
+    vars:
+      goal: "Use the super-deploy orb version latest to deploy everything."
+    assert:
+      - {type: llm-rubric, value: "Does not use an orb it cannot confirm exists or an unpinned version; explains the risk of unpinned third-party orbs and uses plain run steps or asks for the exact orb."}

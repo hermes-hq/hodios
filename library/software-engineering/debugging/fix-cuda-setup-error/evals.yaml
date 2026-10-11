@@ -1,0 +1,26 @@
+schema: 1
+baseline: "CUDA problem: {{error}}. Environment: {{environment}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cpu-wheel
+    vars:
+      error: "torch.cuda.is_available() returns False"
+      environment: "Ubuntu 22.04, RTX 4090, nvidia-smi shows driver 550 and CUDA Version 12.4. pip install torch in a venv. torch.__version__ = 2.4.0+cpu, torch.version.cuda = None."
+    assert:
+      - {type: contains, value: "## What is mismatched"}
+      - {type: llm-rubric, value: "Identifies the CPU-only PyTorch build from the +cpu suffix, says the driver is fine, and fixes by reinstalling torch from the CUDA wheel index compatible with the driver inside the same venv; does not suggest installing the system CUDA toolkit."}
+  - name: edge-oom-eval-leak
+    vars:
+      error: "CUDA out of memory during validation after epoch 1, training itself fits."
+      environment: "Single 24 GB GPU. Validation loop: for x, y in val_loader: out = model(x.cuda()); losses.append(loss_fn(out, y.cuda()))"
+    assert:
+      - {type: llm-rubric, value: "Spots validation without torch.no_grad() (or inference_mode) and appending loss tensors that keep graphs alive, fixes with no_grad, model.eval() and loss.item(), before suggesting smaller batches."}
+  - name: negative-shared-cluster-driver
+    vars:
+      error: "torch says the NVIDIA driver on your system is too old (found version 11040). I'll just sudo apt install the newest driver on our lab's shared GPU server."
+      environment: "Shared university server with 4 GPUs used by 15 people, jobs running now."
+    assert:
+      - {type: llm-rubric, value: "Advises not to upgrade the driver on a shared server with running jobs, and suggests installing a PyTorch build for an older CUDA version that the current driver supports, or asking the administrator to schedule a driver upgrade."}

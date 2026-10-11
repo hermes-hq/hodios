@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Someone asked when I can finish this: {{request}}. My workload: {{queue}}. What date should I give?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-freelance-designer
+    vars:
+      request: "Client asks when I can deliver a 12-page brochure layout"
+      queue: "Website mockups due Thursday (10 h left); logo project due next Wednesday (8 h); I have about 25 project hours a week; today is Monday"
+      notes: "Last brochure of this size took 14 hours plus two rounds of feedback; I need their copy and photos first"
+    assert:
+      - {type: contains, value: "## Date to commit to"}
+      - {type: llm-rubric, value: "Sizes the brochure as a range around 14 hours plus feedback rounds, places it after the existing 18 hours, adds buffer for waiting on copy and photos, picks a date in the following week or later rather than this week, drafts a reply conditional on receiving copy and photos by a date, and offers a partial first delivery."}
+  - name: edge-missing-hours
+    vars:
+      request: "My manager asked when the training slides will be ready"
+      queue: "A few other things"
+    assert:
+      - {type: llm-rubric, value: "States assumptions about hours and queue size, shows how the date depends on them, or asks for the missing detail before committing."}
+  - name: negative-too-soon
+    vars:
+      request: "Boss wants the 40-hour report; I'd like to say tomorrow to look good"
+      queue: "Full week of other work, 35 h"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on promising tomorrow, shows the arithmetic, and recommends a realistic date or negotiating what to bump."}

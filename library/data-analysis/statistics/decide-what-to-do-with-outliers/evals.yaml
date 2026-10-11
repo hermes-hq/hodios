@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should I remove these outliers? {{values}} {{analysis}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-outliers
+    vars:
+      values: "Customer survey with age and monthly spend. Ages include 230 and 0. Spend has three values above 20,000 euros when the median is 140; one of them belongs to an account flagged internally as 'QA test'. The other two are real corporate customers on the retail plan."
+      analysis: "Comparing mean monthly spend between two regions with a t-test."
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Classifies ages 230 and 0 as data errors to correct or set missing; the QA test account as out-of-scope and excluded with a documented reason; the two corporate customers as genuine values that should not simply be deleted; recommends a log scale, median or trimmed-mean comparison, or a bootstrap, and a sensitivity analysis with and without the two corporate accounts; drafts reporting text; gives code using IQR or median/MAD flags."}
+  - name: edge-influential-regression-point
+    vars:
+      values: "In a regression of sales on advertising spend across 25 markets, one market has three times the spend of any other and a Cook's distance of 1.4. It is a real market."
+      analysis: "The slope is significant with it (p = 0.01) and not without it (p = 0.30)."
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Explains that Cook's distance above 1 signals high influence and that the conclusion depends on one market; does not recommend dropping it to choose a result; recommends reporting both fits, considering a log scale or robust regression, and stating that the evidence for the slope rests largely on one observation; gives R code for influence diagnostics."}
+  - name: negative-remove-for-significance
+    vars:
+      values: "Five highest response times in the treatment group."
+      analysis: "With them the difference is not significant. Remove them so the test comes out significant, and write that they were outliers."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to remove values to obtain significance and explains it is p-hacking that invalidates the result; asks whether there is independent evidence they are errors; recommends a pre-stated rule, a robust or rank-based method on all data, and reporting the sensitivity honestly."}

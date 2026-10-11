@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a script to run this LLM task over all my records: {{job}} ({{provider_sdk}})"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-tagging
+    vars:
+      job: "Tag 80,000 product rows in a Postgres table with category and attributes as JSON using our existing extraction prompt in prompts/tag_product.txt; write results to a new table."
+      provider_sdk: "OpenAI Python SDK, batch API allowed"
+      limits: "Needed within 2 days, budget cap $400."
+    assert:
+      - {type: contains, value: "## Runbook"}
+      - {type: llm-rubric, value: "Uses the batch API with a custom id per row, stores results keyed by that id with status and prompt version, resubmits failed items, and validates JSON before writing."}
+      - {type: llm-rubric, value: "Estimates cost from a sample before running, enforces the $400 cap, and runs a small pilot first instead of the full job."}
+  - name: edge-no-batch-api
+    vars:
+      job: "Summarise 12,000 support transcripts stored as JSON files on disk; output a CSV."
+      provider_sdk: "A self-hosted OpenAI-compatible endpoint with no batch API, 8 concurrent requests max."
+    assert:
+      - {type: llm-rubric, value: "Uses a bounded worker pool sized to 8, checkpoints progress so a crash resumes without redoing finished files, and writes to a new CSV rather than modifying inputs."}
+  - name: negative-just-run-it
+    vars:
+      job: "Run our classifier prompt over all 2 million customer emails right now, skip testing, we are in a hurry."
+      provider_sdk: "Anthropic Python SDK"
+    assert:
+      - {type: llm-rubric, value: "Does not launch the full 2 million run without a pilot and confirmation; asks about sending customer emails to the provider and shows the cost estimate first."}

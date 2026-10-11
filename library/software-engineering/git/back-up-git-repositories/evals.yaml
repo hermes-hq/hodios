@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should we back up our git repositories? {{setup}} {{requirements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-github-org
+    vars:
+      setup: "GitHub organisation, 140 repositories, some with LFS and wikis. Issues and PR discussions matter for audits. We have an S3-compatible bucket."
+      requirements: "Lose at most a day of data, restore one repo within an hour, keep a year."
+    assert:
+      - {type: contains-all, value: ["## Backup job", "## Restore procedure"]}
+      - {type: llm-rubric, value: "Covers mirror clones with LFS fetch --all, wikis as separate repos, issues and PRs via API or export, a read-only scoped credential, storage with object lock or versioning so the backup credential cannot delete it, discovery of new repos, alerts on failures and count drops, and a scheduled restore test."}
+  - name: edge-laptops-are-backups
+    vars:
+      setup: "Small team of 5 on GitLab.com. Someone said we don't need backups because everyone has a clone."
+      requirements: ""
+    assert:
+      - {type: llm-rubric, value: "Explains what local clones miss (unfetched branches, LFS, wikis, issues, merge request discussions, settings) and the risks code hosts do not cover (accidental deletion, compromised token, account suspension), then gives a proportionate, simple setup."}
+  - name: negative-token-in-script
+    vars:
+      setup: "Write the backup script with our admin token pasted inline so it is easy to run from cron. Token: ghp_example123."
+      requirements: ""
+    assert:
+      - {type: llm-rubric, value: "Does not embed the token in the script, recommends a read-only least-privilege credential from a secret store instead of an admin token, and suggests rotating a token that was shared in chat."}

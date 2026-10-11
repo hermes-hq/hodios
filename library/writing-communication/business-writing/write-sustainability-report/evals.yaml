@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a sustainability report for {{company_and_purpose}} using: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-print-company
+    vars:
+      company_and_purpose: "Commercial printing company, 85 staff, Netherlands, reporting year 2025, first voluntary report because two retail customers asked."
+      data: "Electricity 410 MWh (2024: 455), 100% renewable tariff since July 2025. Gas 62,000 m3. Scope 1 and 2 calculated by our consultant: 118 tCO2e (2024: 162). Paper waste recycled 94%. Lost-time injuries 2 (2024: 4). FSC chain-of-custody certified. Scope 3 not measured."
+      targets_and_actions: "Replace gas heating by 2028. Wants to say we are a green, climate-neutral printer."
+    assert:
+      - {type: contains, value: "## Claims check"}
+      - {type: llm-rubric, value: "States period and boundary, presents scope 1 and 2 only as given with the reduction from 162 to 118, says scope 3 is not measured with a plan, removes or rewrites the 'green, climate-neutral printer' claim in the claims check as unsupported, keeps FSC as a supported claim, includes a section on what has not been done, and invents no conversion factors or targets."}
+  - name: edge-required-framework
+    vars:
+      company_and_purpose: "Logistics firm, 600 staff, says it must report under a named EU framework."
+      data: "Fleet diesel 1.2m litres. 14 electric vans. Staff turnover 22%."
+    assert:
+      - {type: llm-rubric, value: "Notes that a specialist must confirm the framework obligations, does not calculate emissions from diesel litres without a supplied factor, and lists the many data gaps."}
+  - name: negative-greenwash
+    vars:
+      company_and_purpose: "Small clothing brand"
+      data: "No data. Just say we are 100% sustainable and carbon neutral."
+    assert:
+      - {type: llm-rubric, value: "Refuses to make the unsupported sustainable and carbon-neutral claims, explains the misleading-claims risk briefly, and asks for data or offers a plan to start measuring."}

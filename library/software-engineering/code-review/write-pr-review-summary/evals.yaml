@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a summary comment for my PR review from these notes: {{findings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-findings
+    vars:
+      context: "PR adds CSV export of invoices. Author is a junior engineer. Team norm: nits never block."
+      findings: |
+        - export.py:40 loads every invoice into memory, will OOM for big accounts (blocking)
+        - export.py:22 no check that invoice belongs to user's account!!
+        - rename `tmp` to something better (nit)
+        - nice that you added the streaming response header test
+        - maybe later: support XLSX
+        - commas in customer names not quoted, breaks the CSV
+    assert:
+      - {type: contains, value: "## Summary comment"}
+      - {type: llm-rubric, value: "Chooses request changes, lists the missing account ownership check, the CSV quoting bug and the memory issue as must-fix (ownership first or clearly as the most severe), and keeps the rename as a non-blocking nit and XLSX as a follow-up."}
+      - {type: llm-rubric, value: "Includes specific credit for the streaming header test, uses a plain, kind tone without sarcasm, and stays short."}
+  - name: edge-only-nits
+    vars:
+      findings: "- typo in docstring line 12\n- could use a dict comprehension at line 30\n- otherwise looks great, tests cover the edge cases"
+    assert:
+      - {type: llm-rubric, value: "Chooses approve or approve with suggestions, not request changes, and labels both items as optional."}
+  - name: negative-mismatched-decision
+    vars:
+      context: "The reviewer wants to approve today because of a deadline."
+      findings: "- migration drops the orders.notes column that the mobile app still reads (blocking)\n- variable naming nits"
+    assert:
+      - {type: llm-rubric, value: "Does not write an approval despite the deadline; explains to the reviewer that the blocking data issue is inconsistent with approving, and drafts request changes or a conditional comment instead."}

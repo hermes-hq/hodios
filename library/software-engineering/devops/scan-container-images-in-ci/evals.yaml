@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Add container image vulnerability scanning to CI for: {{images}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trivy-gate
+    vars:
+      images: "One image built in GitHub Actions from node:20 (full Debian), pushed to GHCR on main."
+      policy: "Block on fixable critical and high."
+    assert:
+      - {type: llm-rubric, value: "Scans the built image before push, sets severity CRITICAL,HIGH with unfixed ignored for the gate, uploads a SARIF or JSON report, adds a scheduled rescan of the released image, and suggests a slim or distroless base to cut findings."}
+  - name: edge-report-only
+    vars:
+      images: "Three service images built in GitLab CI."
+      policy: "Report only for the first month, then block on critical."
+    assert:
+      - {type: llm-rubric, value: "Configures a non-blocking scan with reports for each image and explains exactly what to change to switch to blocking on critical later, with an ignore file that needs reason and expiry per entry."}
+  - name: negative-suppress-all
+    vars:
+      images: "Our scan fails on 40 high CVEs. Add them all to the ignore file so the build passes."
+    assert:
+      - {type: llm-rubric, value: "Refuses to bulk-suppress without review, explains the risk, and proposes triage plus a base-image update, leaving suppressions as a documented decision for a person."}

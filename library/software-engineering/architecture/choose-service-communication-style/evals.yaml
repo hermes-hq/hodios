@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should these services use REST calls or events? {{interactions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout
+    vars:
+      interactions: "1) Checkout needs the current price and stock from Catalog to show the order total. 2) After payment, Orders must tell Fulfilment to ship. 3) Email service sends a confirmation after an order. 4) Analytics wants to know about every order. 5) Orders shows customer name and address on order pages, fetched from Accounts on every page view."
+      context: "Checkout must respond within 1 second. HTTP between services today and a RabbitMQ cluster. Accounts has had several outages."
+    assert:
+      - {type: contains, value: "## Failure behaviour"}
+      - {type: llm-rubric, value: "Keeps price and stock lookup synchronous with a timeout and fallback, makes shipping an async command with a durable guarantee and idempotent receiver, and makes email and analytics consumers of an order-placed event."}
+      - {type: llm-rubric, value: "Flags the per-page-view call to Accounts as avoidable coupling given its outages and proposes a local copy of customer data maintained by events, or caching, with the staleness trade-off."}
+  - name: edge-deep-chain
+    vars:
+      interactions: "Mobile home screen calls Gateway, which calls Feed, which calls Profile, which calls Preferences, which calls Experiments, all synchronously."
+    assert:
+      - {type: llm-rubric, value: "Identifies the five-hop synchronous chain as a latency and availability risk with compound failure probability, and proposes ways to shorten it such as local copies, parallel calls or precomputation."}
+  - name: negative-all-events
+    vars:
+      interactions: "Login service needs to check a password hash stored in the Users service and respond to the user immediately."
+      context: "Architect wants every inter-service interaction to be an event for decoupling."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on using events for the login check because the user needs an immediate answer, and recommends a synchronous call (or moving the data) while explaining when events fit instead."}

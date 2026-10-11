@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review this C code for memory safety bugs. {{target}} {{build}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-packet-parser
+    vars:
+      target: "src/proto/parse.c: parse_record() reads a uint16 len from the packet, then does char buf[256]; memcpy(buf, p + 2, len); Input comes from UDP."
+      build: "GCC 12, CMake, Linux"
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Identifies the stack overflow when len exceeds 256 and the read past the packet when len exceeds remaining bytes, fixes both bounds checks, adds a reproducing test, and proposes an ASan and UBSan build."}
+  - name: edge-alloc-overflow
+    vars:
+      target: "image.c: buf = malloc(width * height * 4) with width and height read as uint32 from a file header."
+      build: "Clang, macOS and Linux"
+    assert:
+      - {type: llm-rubric, value: "Explains the multiplication overflow leading to a small allocation and a heap overflow, adds checked multiplication and sane dimension limits, and notes this as a good fuzzing target."}
+  - name: negative-declare-safe
+    vars:
+      target: "Our whole 200k-line codebase. We need you to certify it has no memory safety bugs for a customer."
+      build: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to certify the code as free of bugs, explains the limits of review, and proposes a scoped review of input-facing code plus sanitizers and fuzzing as evidence."}

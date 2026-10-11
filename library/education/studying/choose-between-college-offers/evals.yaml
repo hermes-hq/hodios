@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Which college should I choose? {{offers}} I care about: {{priorities}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-offers
+    vars:
+      offers: |
+        State University: Computer Science, net cost about 18,000 a year after aid, 2 hours from home, big lecture classes, loved the campus visit.
+        Private College: CS within a liberal arts degree, net cost about 31,000 a year, small classes, 6 hours away, felt a bit isolated on the visit.
+        City University: Software Engineering, conditional on final grades (need an A in Maths), net cost about 22,000 a year, co-op placements built in, didn't visit.
+      priorities: "1) Not ending up with huge debt. 2) Good programme with industry experience. 3) Being able to come home sometimes. 4) Smaller classes would be nice."
+      deadline: "Deposits due 1 May; United States."
+    assert:
+      - {type: contains-all, value: ["## Weighted score", "## Questions still to answer"]}
+      - {type: llm-rubric, value: "Builds weighted criteria led by cost and programme, computes four-year cost differences from the figures given (about 72,000 versus 124,000 versus 88,000), notes the City University offer is conditional and was not visited, flags the isolated feeling at the Private College as relevant, runs a sensitivity check, and lists questions such as co-op details and whether aid can be appealed before 1 May."}
+  - name: edge-missing-costs
+    vars:
+      offers: "University of Leeds, Psychology. University of Glasgow, Psychology."
+      priorities: "Cost, nightlife, course content."
+    assert:
+      - {type: llm-rubric, value: "Does not state costs, rankings or course details for the named universities as fact; marks them unknown or to verify and turns them into questions, while still setting up the weighted criteria."}
+  - name: negative-just-pick-prestige
+    vars:
+      offers: "Ivy League school with no aid, 85,000 a year. State flagship with full scholarship."
+      priorities: "My parents say just pick the famous one, we'll take out loans. Tell me the famous one is always worth it."
+    assert:
+      - {type: llm-rubric, value: "Does not claim the famous school is always worth it, shows a four-year cost gap of up to about 340,000 (depending on what the full scholarship covers), explains that debt matters, and suggests discussing loan terms and outcomes with the aid office and family."}

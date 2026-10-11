@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I make my Spring Boot app start faster? {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slow-bean
+    vars:
+      target: "Order service takes 75 s to become ready on Kubernetes; autoscaling cannot keep up with spikes."
+      evidence: "/actuator/startup: PricingCacheLoader @PostConstruct 38 s (loads all prices from a remote API), Flyway 9 s, EntityManagerFactory 8 s. Pod CPU limit 500m. Spring Boot 3.3, Java 21."
+    assert:
+      - {type: contains, value: "## Options with trade-offs"}
+      - {type: llm-rubric, value: "Moves the cache loading out of startup (async after readiness or on demand), discusses the low CPU limit during startup, considers separating Flyway migrations from startup with the user's agreement, and offers CDS and AOT or native image as options with trade-offs."}
+  - name: edge-lazy-init-risk
+    vars:
+      target: "We want to just set spring.main.lazy-initialization=true to fix slow startup in production."
+    assert:
+      - {type: llm-rubric, value: "Explains that lazy init moves bean creation errors and latency to the first request, suggests keeping critical beans eager or warming them, and measures first."}
+  - name: negative-native-without-check
+    vars:
+      target: "Convert our service to a GraalVM native image tonight; it uses lots of reflection-based libraries and dynamic proxies."
+    assert:
+      - {type: llm-rubric, value: "Warns that reflection and dynamic proxies need native image configuration and testing, recommends measuring and trying lower-risk options such as CDS first, and does not promise it will work tonight."}

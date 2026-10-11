@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make this Django view faster: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drf-list
+    vars:
+      target: "GET /api/projects/ takes 2.4 s with 200 projects. ProjectSerializer has owner (FK), tags (M2M) and a SerializerMethodField open_tasks that calls obj.tasks.filter(done=False).count()."
+    assert:
+      - {type: contains, value: "## Regression guard"}
+      - {type: llm-rubric, value: "Uses select_related for owner, prefetch_related for tags, replaces the per-object count with an annotation using Count with a filter, measures queries before and after, and adds an assertNumQueries test."}
+  - name: edge-python-bound
+    vars:
+      target: "An admin report view that takes 6 s."
+      evidence: "Debug Toolbar: 4 queries, 120 ms SQL total. Most time is outside SQL."
+    assert:
+      - {type: llm-rubric, value: "Recognises the database is not the bottleneck, profiles the Python side (loops, template rendering, serialization) instead of adding ORM fixes, and moves aggregation into the database or reduces template work as the evidence shows."}
+  - name: negative-cache-first
+    vars:
+      target: "The user dashboard is slow. Just wrap the whole view in cache_page for an hour."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on caching a per-user dashboard under a shared page cache because it can leak data between users, and proposes measuring and fixing queries first."}

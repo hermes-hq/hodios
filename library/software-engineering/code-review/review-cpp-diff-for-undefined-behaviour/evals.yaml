@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Review this C++ code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dangling-and-invalidation
+    vars:
+      context: "C++20, GCC 13, tests run without sanitizers."
+      diff: |
+        +std::string_view Config::name() const {
+        +    return prefix_ + "-" + id_;
+        +}
+        +void Scene::spawnAll() {
+        +    for (auto& e : entities_) {
+        +        if (e.splits()) entities_.push_back(e.split());
+        +    }
+        +}
+    assert:
+      - {type: contains, value: "## Missing tests"}
+      - {type: llm-rubric, value: "Flags that name() returns a string_view to a temporary std::string destroyed at the end of the return statement, so every caller reads freed memory; fixes by returning std::string."}
+      - {type: llm-rubric, value: "Flags that push_back inside a range-for over the same vector invalidates the loop's iterators (and the reference e) when the vector reallocates; proposes collecting new entities in a separate vector or iterating by index over the original size. Recommends running tests under ASan."}
+  - name: edge-signed-overflow
+    vars:
+      diff: |
+        +bool willOverflow(int a, int b) { return a + b < a; }
+    assert:
+      - {type: llm-rubric, value: "Explains that signed overflow is undefined behaviour, so the compiler may assume a + b < a is equivalent to b < 0 and the check does not detect overflow; proposes checking against INT_MAX - a before adding or using __builtin_add_overflow."}
+  - name: negative-correct-raii
+    vars:
+      diff: |
+        +auto file = std::unique_ptr<FILE, decltype(&fclose)>(std::fopen(path.c_str(), "rb"), &fclose);
+        +if (!file) return std::nullopt;
+    assert:
+      - {type: llm-rubric, value: "Recognises correct RAII ownership of the FILE handle with a null check; approves or raises only minor points, and does not invent a dangling c_str() issue (path outlives the call)."}

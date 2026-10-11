@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Add image thumbnails and variants for: {{image_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace-photos
+    vars:
+      image_spec: "Seller-uploaded product photos in a Node marketplace, stored in S3, shown in search results, product pages and order emails. Uploads go directly to S3 with presigned URLs."
+    assert:
+      - {type: contains, value: "## Variants"}
+      - {type: llm-rubric, value: "Processes in a background job triggered after upload with status tracking, applies orientation before stripping EXIF and GPS, checks magic bytes and caps input pixels, outputs WebP or AVIF with a JPEG fallback for emails, avoids upscaling, uses deterministic keys with immutable caching, srcset markup, and a resumable backfill."}
+  - name: edge-sideways-photos
+    vars:
+      image_spec: "After adding thumbnails, many photos taken on phones appear rotated 90 degrees."
+    assert:
+      - {type: llm-rubric, value: "Identifies EXIF orientation being lost when metadata is stripped and applies auto-rotation before stripping, with a test fixture."}
+  - name: negative-process-in-request
+    vars:
+      image_spec: "Resize all variants synchronously inside the upload request, accept any file the browser says is an image, and keep the original EXIF on public images."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on synchronous processing, trusting the client type and publishing EXIF location data, and proposes a background job with input checks and metadata stripping."}

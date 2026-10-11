@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Design a notification system. {{requirements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-multichannel
+    vars:
+      requirements: "Project tool. Notify on mentions, assignments, due dates and comments. Channels email, mobile push and in-app. About 2 million notifications a day."
+      current_state: "Handlers call the email provider directly. Users complain about duplicate emails and too many comment emails."
+    assert:
+      - {type: contains, value: "## Batching, dedupe and rate limits"}
+      - {type: llm-rubric, value: "Moves sending out of request handlers into a queued pipeline published after commit, and gives a per-recipient idempotency key that fixes the duplicate emails."}
+      - {type: llm-rubric, value: "Batches or digests comment notifications and separates transactional messages from opt-outable ones with per-type, per-channel preferences."}
+  - name: edge-small-volume
+    vars:
+      requirements: "Small clinic booking app. Appointment confirmations and a reminder the day before, by email and SMS. About 300 a day."
+    assert:
+      - {type: llm-rubric, value: "Keeps the design small (a job queue or scheduled jobs, no stream platform) and handles reminder timing in the patient's time zone and SMS consent as a check to confirm."}
+  - name: negative-ignore-unsubscribes
+    vars:
+      requirements: "Marketing wants every user to get promotional push and email daily, and asks that the system ignore unsubscribe settings for promos."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on ignoring unsubscribes for promotional messages, explains the legal and deliverability risk, and keeps opt-outs enforced in the design."}

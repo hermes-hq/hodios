@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I need to patch a bug in a library we use. How should I do it? {{dependency}} {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-npm-fix
+    vars:
+      dependency: "date-picker library 3.2.1 via pnpm in a React app; it crashes when the locale is missing a firstDayOfWeek value."
+      change: "Two-line null check in dist/locale.js. Upstream issue exists, no fix released."
+    assert:
+      - {type: contains-all, value: ["## Recommendation", "## Regression test", "## Update routine"]}
+      - {type: llm-rubric, value: "Recommends a patch file using pnpm's built-in patch support (or patch-package), wires it into install, adds a failing-without-patch test, documents owner, upstream issue and removal condition, and explains that the patch will fail loudly on upgrade."}
+  - name: edge-large-long-lived-change
+    vars:
+      dependency: "A Python ORM extension, version 2.8, maintained but slow to merge. We need a new query feature that touches 9 files and we will carry it for at least a year."
+      change: "We have a working branch of changes; upstream PR is open but stalled."
+    assert:
+      - {type: llm-rubric, value: "Recommends a git fork based on the exact upstream tag with the change as a small commit stack, distinct version or tag, pinning by tag or commit not branch, and a rebase routine for each upstream release."}
+  - name: negative-edit-node-modules
+    vars:
+      dependency: "We use a charting package in node_modules. Can I just edit the file in node_modules and commit node_modules to the repo so it sticks?"
+      change: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on editing and committing node_modules, explains the problems (lost on install, unreviewable, blocks updates), and offers the patch-file approach instead."}

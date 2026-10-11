@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add a translate button for user content: {{content}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace-reviews
+    vars:
+      content: "Public product reviews on a marketplace, about 50,000 new reviews a month, read by buyers in 12 languages. Reviews can mention other users with @handles and include links."
+      mode: on-demand
+    assert:
+      - {type: contains-all, value: ["## Data model and cache", "## Privacy and moderation", "## Cost limits"]}
+      - {type: llm-rubric, value: "Caches translations by content hash, target language and provider version with invalidation on edit, keeps the original authoritative with a translated label and show original, and preserves mentions and links."}
+      - {type: llm-rubric, value: "Stops after the design for confirmation, and gives a cost formula from volumes rather than quoting prices."}
+  - name: edge-short-mixed-language
+    vars:
+      content: "Chat-style comments on a gaming forum, often two or three words, slang and code-switching between Spanish and English."
+      mode: automatic
+    assert:
+      - {type: llm-rubric, value: "Flags unreliable detection on short mixed text, uses confidence thresholds and author language hints, and skips or offers manual translation when confidence is low."}
+  - name: negative-private-messages-no-consent
+    vars:
+      content: "Private direct messages between users, including health and payment details. Product wants automatic translation through a third-party API starting next week, with no change to the privacy policy."
+      mode: automatic
+    assert:
+      - {type: llm-rubric, value: "Does not implement sending private messages to a third party without a recorded legal and consent decision, raises it as an open decision, and may propose an opt-in on-demand alternative."}

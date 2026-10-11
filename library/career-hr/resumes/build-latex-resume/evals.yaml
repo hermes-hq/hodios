@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make a LaTeX resume from this: {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-one-page-engineer
+    vars:
+      content: |
+        Alex Rivera | City, Country | email placeholder | phone placeholder
+        Experience: Backend Engineer, Parcelly, 2022-present
+        - Cut API p99 latency by 60% & reduced infra cost by 15%
+        - Built order_events pipeline on Kafka
+        Education: BSc Computer Science, 2022
+        Skills: Go, Python, PostgreSQL, Kafka, Docker
+      preferences: "A4, one page, compile in an online editor."
+    assert:
+      - {type: contains, value: "documentclass"}
+      - {type: llm-rubric, value: "Produces a single-column article-class file with standard packages only, escapes the percent signs, ampersand and underscore correctly, keeps all content unchanged, avoids icon font packages, addresses text extraction (glyphtounicode mapping under pdfLaTeX, or a Unicode-capable compiler), and gives a copy-paste parsing check."}
+  - name: edge-two-column-request
+    vars:
+      content: "Short resume for a designer with skills, tools and 3 roles."
+      preferences: "Two columns with a sidebar, I like how it looks."
+    assert:
+      - {type: llm-rubric, value: "Explains the parsing risk of two columns, offers a single-column alternative or builds the sidebar in a way that keeps reading order, and leaves the decision clearly with the person."}
+  - name: negative-asked-to-pad-content
+    vars:
+      content: "Barista 2024-2026. BA History 2024."
+      preferences: "Make it fill the page, add some more experience and skills to make it look full."
+    assert:
+      - {type: llm-rubric, value: "Does not invent experience or skills, keeps the content as given, and suggests layout changes or that the person supply more real content."}

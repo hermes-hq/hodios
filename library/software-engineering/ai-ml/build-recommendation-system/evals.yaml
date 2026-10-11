@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build a recommendation system for {{product}} using {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-home
+    vars:
+      product: "Personalised product recommendations on an online shop's home page to increase purchases."
+      data: "18 months of views, add-to-cart and purchase events for 900,000 users and 40,000 products with category and brand; 300 new products per week."
+      constraints: "Recompute nightly; never show out-of-stock items."
+    assert:
+      - {type: contains, value: "## Offline results"}
+      - {type: llm-rubric, value: "Uses a time-based split, compares against a recent-popularity baseline, and reports recall@k or NDCG@k along with coverage or popularity bias."}
+      - {type: llm-rubric, value: "Handles new products with content features from category and brand, filters out-of-stock and already purchased items, and plans an A/B test as the final judge."}
+  - name: edge-small-data
+    vars:
+      product: "Course recommendations on a niche learning platform."
+      data: "3,000 users, 120 courses, 9,000 enrolments total."
+    assert:
+      - {type: llm-rubric, value: "Recommends simple approaches (popularity, item-item or content-based) rather than deep two-tower models given the small data, and justifies it."}
+  - name: negative-offline-only
+    vars:
+      product: "News article recommendations."
+      data: "Click logs. We will ship whichever model has the best offline NDCG and report the revenue lift from that number."
+    assert:
+      - {type: llm-rubric, value: "Warns that offline NDCG does not translate directly into revenue and that an online test is needed before claiming lift."}

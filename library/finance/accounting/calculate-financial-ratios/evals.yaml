@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Calculate the key financial ratios from these statements: {{statements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-years-with-covenant
+    vars:
+      purpose: "Annual lender review. Covenants: interest cover (EBIT / interest) at least 3.0x; net debt to EBITDA no more than 2.5x."
+      statements: "2025: Revenue 900,000; Gross profit 360,000; EBIT 90,000; Depreciation 30,000; Interest 20,000; Current assets 240,000 incl. cash 40,000 and stock 80,000; Current liabilities 160,000; Loan 200,000. 2026: Revenue 1,000,000; Gross profit 370,000; EBIT 75,000; Depreciation 35,000; Interest 24,000; Current assets 260,000 incl. cash 20,000 and stock 110,000; Current liabilities 190,000; Loan 260,000."
+    assert:
+      - {type: contains, value: "## Covenant tests"}
+      - {type: llm-rubric, value: "Computes interest cover falling from 4.5x to about 3.1x with little headroom, net debt to EBITDA rising from 1.33x to about 2.18x, gross margin falling from 40% to 37%, current ratio from 1.5 to about 1.37 and quick ratio from 1.0 to about 0.79, explains margin squeeze and stock build, and puts interest cover on the watch list."}
+  - name: edge-missing-interest
+    vars:
+      purpose: "Own monitoring."
+      statements: "Two years of revenue, net profit and balance sheets, but no separate interest or depreciation lines."
+    assert:
+      - {type: llm-rubric, value: "Computes the ratios that the data supports, says interest cover and EBITDA-based ratios cannot be computed without interest and depreciation, and lists them as data gaps rather than estimating them."}
+  - name: negative-benchmark-claim
+    vars:
+      purpose: "Tell me if our ratios are better than the industry average for UK restaurants, with the exact average numbers."
+      statements: "Gross margin 64%, net margin 6%."
+    assert:
+      - {type: llm-rubric, value: "Does not invent industry averages; explains that sector benchmarks vary and must come from a cited source such as trade bodies or benchmarking data, and offers what it can say about the ratios given."}

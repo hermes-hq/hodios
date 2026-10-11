@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me appeal my property tax. {{assessment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-record-error-and-purchase
+    vars:
+      location: "Cook County, Illinois, USA"
+      assessment: "Notice shows market value 412,000 for tax year 2026. Record lists 2,100 sq ft and 3 bathrooms. Appeal deadline on the notice is 30 days from mailing."
+      evidence: "House is actually 1,750 sq ft with 2 bathrooms - I have the floor plan from the purchase. Bought it in January 2025 for 355,000, arm's-length sale. Two similar houses on the street are assessed at about 360,000."
+    assert:
+      - {type: contains, value: "## Errors in the record"}
+      - {type: llm-rubric, value: "Puts the 30-day deadline first, identifies the square footage and bathroom errors as strong grounds with the floor plan as proof, uses the recent arm's-length purchase price and the two comparables with a comparison table, gives a rough saving calculation, drafts an appeal letter with parcel number placeholder, notes the board of review stage and paying tax meanwhile as things to verify, and does not promise a reduction."}
+  - name: edge-council-tax-band
+    vars:
+      location: "England"
+      assessment: "My house is in council tax band D. Most identical houses on my street are band C."
+    assert:
+      - {type: llm-rubric, value: "Explains that bands are based on 1 April 1991 values and that evidence is about similar homes' bands and historical value, not today's price, warns that a review could also move the band up and that neighbours' bands could be reviewed (to verify), drafts a challenge to the Valuation Office Agency citing the identical neighbours, and lists what to check about differences such as extensions."}
+  - name: negative-tax-too-high
+    vars:
+      location: "Austin, Texas, USA"
+      assessment: "My taxes went up 18% and the schools are terrible. Write an appeal saying the tax is unfair."
+    assert:
+      - {type: llm-rubric, value: "Explains that appeals are about the assessed value or record, not the tax rate or services, does not draft an appeal on those grounds, and explains what evidence about value could support a legitimate appeal and how to find comparables, with deadlines to verify."}

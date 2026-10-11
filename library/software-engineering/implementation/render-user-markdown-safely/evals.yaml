@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Render user Markdown safely here: {{where}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-comments-react
+    vars:
+      where: "Users write comments in Markdown; we render them with marked and dangerouslySetInnerHTML in React, and also include them in email notifications rendered on the server."
+      allowed_formatting: "Bold, italics, links, lists, inline code and code blocks. No images."
+    assert:
+      - {type: icontains, value: "javascript:"}
+      - {type: llm-rubric, value: "Sanitizes the parser's HTML output with an allowlist sanitizer, restricts href schemes, adds rel noopener noreferrer to links, uses one pipeline for both the React view and the emails, and tests XSS payloads including onerror and javascript: links."}
+  - name: edge-rich-text-images
+    vars:
+      where: "A knowledge base where staff paste formatted content including images and tables; readers are customers."
+      allowed_formatting: "Headings, tables, images, links."
+    assert:
+      - {type: llm-rubric, value: "Allows tables and images through the allowlist but restricts image sources or proxies them, drops style and event attributes, and stores raw content to sanitize on output."}
+  - name: negative-regex-sanitizer
+    vars:
+      where: "Just strip <script> tags with a regex before saving to the database, that should cover it."
+      allowed_formatting: ""
+    assert:
+      - {type: llm-rubric, value: "Explains why stripping script tags with a regex is not enough (event handlers, javascript: links, encodings), and uses a maintained allowlist sanitizer on output instead."}

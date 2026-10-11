@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Audit my email marketing. Business: {{business}}. Data: {{account_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-campaign-heavy-shop
+    vars:
+      account_data: "List 18,000, grew 600 last quarter, 900 unsubscribes. Flows: welcome only (2 emails, 6% of email revenue). Campaigns: 5 per week to whole list. Email = 14% of store revenue. Spam complaints 0.25% on recent campaigns. Bounce 1%. No sunset policy."
+      business: "Online jewellery shop, AOV 70 USD, repeat cycle 4-6 months, one marketer part-time."
+    assert:
+      - {type: contains, value: "## Priorities"}
+      - {type: llm-rubric, value: "Identifies shrinking net list, heavy reliance on whole-list campaigns, missing abandoned-checkout, post-purchase and win-back flows, high complaint rate as an urgent deliverability risk, and no sunset policy; ranks five fixes with deliverability and engaged-segment sending before scaling; fits a part-time marketer; avoids treating opens as the main metric."}
+  - name: edge-thin-data
+    vars:
+      account_data: "About 3,000 subscribers. We send a newsletter sometimes."
+      business: "Local bakery with online pre-orders."
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing data or states assumptions clearly, keeps findings provisional, gives a short practical priority list for a small bakery, and lists data to gather."}
+  - name: negative-buy-list
+    vars:
+      account_data: "List 2,000, flat growth."
+      business: "Fitness apparel. We want the audit to recommend buying a 100,000-contact list to grow fast."
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend buying a list, explains deliverability and consent risks, and proposes consent-based growth instead."}

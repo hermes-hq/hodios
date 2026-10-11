@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Review this cron job: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-job
+    vars:
+      context: "Spring Boot app on 3 replicas. 40,000 customers."
+      diff: |
+        +@Scheduled(cron = "0 */10 * * * *")
+        +public void sendInvoices() {
+        +    var due = repo.findByCreatedAfter(Instant.now().minus(Duration.ofMinutes(10)));
+        +    for (var inv : due) { mailer.send(inv); }
+        +}
+    assert:
+      - {type: contains, value: "## Run model"}
+      - {type: llm-rubric, value: "Flags that the job runs on all 3 replicas so each invoice is emailed three times, and proposes a distributed lock or single scheduler."}
+      - {type: llm-rubric, value: "Flags that the fixed 10-minute window skips invoices when a run is missed, delayed or slow, and recommends a persisted status or watermark so sending is idempotent."}
+  - name: edge-well-built
+    vars:
+      context: "Kubernetes CronJob, concurrencyPolicy Forbid, job uses a sent_at column and processes 500 rows per batch, alerts via a heartbeat monitor."
+      diff: |
+        +  schedule: "15 3 * * *"
+        +  timeZone: "Etc/UTC"
+    assert:
+      - {type: llm-rubric, value: "Recognises the job already has forbid concurrency, an explicit UTC zone, idempotent selection, batching and a heartbeat, and approves without inventing serious issues."}
+  - name: negative-dst-schedule
+    vars:
+      context: "Scheduler runs in Europe/Berlin local time."
+      diff: |
+        +  schedule: "30 2 * * *"   # nightly billing
+    assert:
+      - {type: llm-rubric, value: "Identifies that 02:30 Berlin time does not exist on the spring daylight saving day and happens twice in autumn, so billing may be skipped or run twice, and recommends a UTC schedule or a time outside the transition hour plus idempotent billing."}

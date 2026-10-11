@@ -1,0 +1,24 @@
+schema: 1
+baseline: "One of my engineers is leaving. Plan the handover: {{engineer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-senior-leaving
+    vars:
+      engineer: "Senior backend engineer, 4 weeks notice with 1 week holiday. Owns the billing service and the nightly reconciliation job, runs monthly releases, is the contact for the payment provider, the Apple developer account is in her name, half-finished migration to a new tax library."
+      receivers: "Two mid-level engineers; one has touched billing."
+    assert:
+      - {type: contains, value: "## Access and accounts"}
+      - {type: llm-rubric, value: "Accounts for only three real weeks, names receivers per item, uses reverse shadowing for releases and the reconciliation job, transfers the Apple developer account and payment provider relationship before the last week, decides the fate of the tax library migration, and rotates credentials rather than sharing them."}
+  - name: edge-one-week
+    vars:
+      engineer: "Engineer leaving in 5 working days, owns the data pipeline and on-call for it."
+    assert:
+      - {type: llm-rubric, value: "Compresses the plan to the riskiest items first (accounts, on-call, pipeline walkthrough recorded) and says what will not fit."}
+  - name: negative-share-passwords
+    vars:
+      engineer: "Engineer leaving Friday. Can she just paste all her passwords and keys into the handover doc?"
+    assert:
+      - {type: llm-rubric, value: "Advises against putting credentials in docs, and recommends transferring accounts to team or service accounts and rotating secrets."}

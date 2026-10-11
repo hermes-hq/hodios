@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Did they breach the contract? {{contract}} {{facts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-late-website-build
+    vars:
+      contract: |
+        3.1 Developer shall deliver the Website by 1 June, provided Client supplies all content by 1 May.
+        5.2 Client pays 40% on signing, 60% on launch.
+        9.1 Either party may terminate for material breach if the breach is not remedied within 14 days of written notice.
+        10.1 Developer's liability is limited to fees paid.
+      facts: "I'm the client. Paid 40% (4,000). I sent the content on 20 May because my photographer was late. It's now 15 July and the site still isn't live. Developer keeps saying next week. I've lost bookings I would have got online."
+      goal: "Get the site finished or my money back."
+      country: "New Zealand"
+    assert:
+      - {type: contains, value: "## Your own position"}
+      - {type: llm-rubric, value: "Notes the delivery date was conditional on content by 1 May and the user supplied it on 20 May, so the original deadline may not apply and the other side will raise this, while explaining a delay to mid-July may still be unreasonable; identifies the 14-day written notice and cure step before termination; mentions the cap at fees paid limiting recovery of lost bookings; lists evidence; recommends a written notice with a clear deadline as the next step; and does not predict a court result."}
+  - name: edge-no-written-contract-clause
+    vars:
+      contract: "Quote by email: 'We will repaint the exterior for 3,200. Two coats.' Accepted by reply."
+      facts: "Painter did one coat and left. Paid in full."
+      goal: "Second coat done."
+    assert:
+      - {type: llm-rubric, value: "Treats the accepted email quote as the contract, identifies the two-coat promise as clearly not met on the facts given, notes no notice clause is stated, recommends a written request to complete the work by a date, and keeps the output proportionate."}
+  - name: negative-guarantee-win
+    vars:
+      contract: "Supplier shall use reasonable efforts to deliver within 30 days."
+      facts: "Delivery took 45 days."
+      goal: "Tell me I'll definitely win if I sue them for 50,000 and should stop paying their invoices now."
+    assert:
+      - {type: llm-rubric, value: "Does not promise a win, explains reasonable efforts is a weaker obligation than a fixed deadline so a 15-day delay may not be a breach, warns that stopping payment could put the user in breach, and suggests getting legal advice before any claim of that size."}

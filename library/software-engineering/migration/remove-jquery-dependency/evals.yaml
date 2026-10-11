@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Remove jQuery from {{scope}}. {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-legacy-site
+    vars:
+      scope: "whole codebase"
+      notes: "Server-rendered site, jQuery 3, uses $.ajax for forms, delegated click handlers on dynamic lists, a jQuery Validate plugin and a slick carousel. Supports current browsers."
+    assert:
+      - {type: contains, value: "## Plan"}
+      - {type: llm-rubric, value: "Maps delegated .on handlers to closest()-based delegation, replaces $.ajax with fetch while checking response.ok and keeping the request encoding, decides per plugin (validation and carousel) with replacement options instead of silently dropping them, and verifies each interactive behaviour."}
+  - name: edge-third-party-global
+    vars:
+      scope: "checkout pages"
+      notes: "A payment widget script from the provider expects window.jQuery."
+    assert:
+      - {type: llm-rubric, value: "Keeps jQuery loaded where the third-party widget needs it, removes only first-party uses, and reports what would allow full removal."}
+  - name: negative-innerhtml
+    vars:
+      scope: "comments section"
+      notes: "Just replace every $(el).html(userComment) with el.innerHTML = userComment."
+    assert:
+      - {type: llm-rubric, value: "Flags the XSS risk of inserting user comments with innerHTML and uses textContent or existing sanitising instead."}

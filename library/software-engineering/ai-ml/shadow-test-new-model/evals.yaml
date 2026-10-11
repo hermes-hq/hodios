@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do I safely roll out this new model? {{change}}. Serving: {{serving}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fraud-model-v2
+    vars:
+      change: "Fraud model v2 adds device features and lifts offline PR-AUC from 0.61 to 0.66."
+      serving: "Real-time scoring service, 300 requests per second; a high score blocks the card payment and sends an SMS."
+      risk_appetite: "False blocks anger customers; rollback must take under 5 minutes."
+    assert:
+      - {type: contains, value: "## Promotion criteria"}
+      - {type: llm-rubric, value: "Runs v2 in shadow first with blocking and SMS side effects disabled on the shadow path and off the request's critical path, and fixes promotion criteria before seeing results."}
+      - {type: llm-rubric, value: "Uses sticky canary assignment with a one-switch rollback tested to work within 5 minutes, and compares agreement, score distributions, latency and block rates."}
+  - name: edge-llm-prompt-change
+    vars:
+      change: "Switching the support assistant from one LLM to a cheaper one with a revised prompt."
+      serving: "Chat assistant answering 20,000 conversations a day; it can create refund tickets via a tool."
+    assert:
+      - {type: llm-rubric, value: "Ensures the shadow model cannot execute the refund tool and compares outputs with a judged or sampled review, plus latency and cost, before a canary."}
+  - name: negative-decide-later
+    vars:
+      change: "New churn model. Let's ship to 50% of users and decide afterwards what counts as success."
+      serving: "Nightly batch scores used for retention emails."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on choosing success criteria after the fact and on starting at 50%, and proposes pre-registered criteria and a smaller starting share or shadow scoring."}

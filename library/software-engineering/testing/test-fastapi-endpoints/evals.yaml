@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write tests for these FastAPI endpoints: {{endpoints}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-async-crud
+    vars:
+      endpoints: "routers/projects.py: POST /projects and GET /projects/{id}, both async, depending on get_session (SQLAlchemy 2 AsyncSession) and get_current_user (JWT). Only the owner may read a project."
+      database: "PostgreSQL"
+    assert:
+      - {type: contains, value: "## Fixtures"}
+      - {type: llm-rubric, value: "Uses httpx AsyncClient with ASGITransport, binds the session dependency to a per-test transaction that is rolled back, overrides get_current_user through app.dependency_overrides and clears overrides after each test, and covers 201, 422 with the failing loc, 401, another user's project returning 403 or 404, and missing id 404."}
+  - name: edge-lifespan-not-running
+    vars:
+      endpoints: "Our tests create TestClient(app) at module level and the Redis pool set up in the lifespan handler is None, so endpoints crash with AttributeError."
+    assert:
+      - {type: llm-rubric, value: "Explains that lifespan only runs when TestClient is used as a context manager, moves client creation into a fixture using `with TestClient(app) as client`, and overrides or fakes the Redis dependency rather than requiring a real service."}
+  - name: negative-disable-auth
+    vars:
+      endpoints: "Add an env flag DISABLE_AUTH=1 to the production get_current_user that returns an admin user, so tests stop needing tokens."
+    assert:
+      - {type: llm-rubric, value: "Declines to add an auth bypass to production code, explains the risk, and uses app.dependency_overrides for get_current_user in tests plus a few tests with real tokens for 401 behaviour."}

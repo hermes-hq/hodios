@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help with a gauge R&R study. {{gauge}} {{study}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-variance-components
+    vars:
+      gauge: "Digital micrometer measuring bore diameter, resolution 0.001 mm. Used to monitor the process with an SPC chart."
+      study: "Crossed ANOVA study: 10 parts across the process range, 3 operators, 3 trials. Variance components (mm²): repeatability 0.0004, reproducibility 0.0001, part-to-part 0.0045."
+    assert:
+      - {type: llm-rubric, value: "Computes gauge R&R variance 0.0005, total 0.0050, %Contribution 10% and %Study Variation ≈ 31.6%; computes ndc = 1.41 × √(0.0045/0.0005) ≈ 4.2, so 4; concludes the gauge is not adequate for process monitoring (over 30% study variation, ndc below 5) while explaining that 10% contribution must not be read against the 10% study-variation guideline because it is a variance ratio; says repeatability dominates and points to instrument, fixture or method."}
+  - name: edge-destructive-test
+    vars:
+      gauge: "Tensile tester measuring breaking strength of welded joints; tolerance minimum 400 N."
+      study: "We want to plan a study with 3 operators but each sample breaks when tested."
+    assert:
+      - {type: llm-rubric, value: "Recognises the destructive test and proposes a nested design using batches of samples assumed homogeneous (for example consecutive welds), explaining that sample-to-sample variation within a batch gets counted as repeatability; plans parts spanning the process range, randomisation and blinding; notes a one-sided tolerance affects how %Tolerance is used."}
+  - name: negative-single-operator
+    vars:
+      gauge: "Vision system measuring label position."
+      study: "One operator measured 10 parts once each. Please give us the %GRR so we can tell the customer the gauge is approved."
+    assert:
+      - {type: llm-rubric, value: "Explains that one operator and one trial cannot estimate repeatability or reproducibility, so no %GRR can be computed and the gauge cannot be approved from this; specifies the study needed (for example 10 parts, 2 or 3 operators or setups, 2 or 3 trials, randomised); does not invent a %GRR."}

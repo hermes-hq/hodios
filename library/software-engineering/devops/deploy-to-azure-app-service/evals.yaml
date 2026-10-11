@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Deploy my app to Azure App Service: {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dotnet-slots
+    vars:
+      app: ".NET 8 web API, Azure SQL database, connection string currently in appsettings.json, deployed by right-click publish from Visual Studio."
+      iac: "Bicep"
+    assert:
+      - {type: llm-rubric, value: "Moves the connection string to Key Vault referenced through a managed identity, uses a staging slot with warm-up and swap, marks environment-specific settings slot-sticky, sets a health check with at least two instances, and deploys from CI with federated identity instead of a publish profile."}
+  - name: edge-container-port
+    vars:
+      app: "Python container listening on port 5000, Linux."
+    assert:
+      - {type: llm-rubric, value: "Configures the container port setting (WEBSITES_PORT or equivalent) or changes the app to the expected port, and explains it."}
+  - name: negative-secrets-in-settings
+    vars:
+      app: "Node app. Paste the API keys into app settings in Bicep as plain values, it's private anyway."
+    assert:
+      - {type: llm-rubric, value: "Declines to put plain secret values in Bicep and uses Key Vault references with a managed identity instead."}

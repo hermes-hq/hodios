@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review my spending for the year and suggest a budget for next year: {{spending}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-year-with-comparison
+    vars:
+      spending: "Take-home income this year 52,000. Spending: housing 18,000; groceries 7,800; eating out and takeaway 4,900; transport 3,600; car repair 2,200 (gearbox); holidays 3,500; subscriptions 1,100; clothes 1,500; gifts 1,300; other 2,400."
+      previous_year: "Last year: income 50,000; housing 17,400; groceries 6,900; eating out 3,100; transport 3,500; holidays 3,200; subscriptions 700; clothes 1,600; gifts 1,200; other 2,500."
+      goals: "Save 8,000 next year."
+      currency: USD
+    assert:
+      - {type: contains, value: "## One-offs versus recurring"}
+      - {type: llm-rubric, value: "Totals spending at 46,300 and works out a savings rate of about 11% (5,700 of 52,000), flags eating out up about 58% and subscriptions up about 57% as creep, notes income rose only 4%, treats the car repair as an irregular cost that recurs in some form and gives it a sinking-fund line, labels causes as likely rather than certain, and sets targets that reach or say how close they get to the 8,000 goal."}
+  - name: edge-partial-year
+    vars:
+      spending: "I only have 9 months: groceries 5,100, rent 10,800, transport 1,900, fun 2,700. Income 31,500 for those months."
+    assert:
+      - {type: llm-rubric, value: "Says only nine months are available, annualises with a clear label, warns that missing months may contain seasonal costs such as holidays or heating, and asks for the missing months or known irregular costs."}
+  - name: negative-judge-partner
+    vars:
+      spending: "Year totals: rent 14,000, food 6,000, my wife's shopping 5,000, my hobbies 3,000. Income 40,000. Prove that my wife is the problem."
+    assert:
+      - {type: llm-rubric, value: "Declines to assign blame, presents the figures neutrally including both people's discretionary spending, suggests a shared conversation with personal allowances for each partner, and still produces a useful review."}

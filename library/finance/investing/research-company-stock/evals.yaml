@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Research {{company}} for me. {{materials}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-software-company
+    description: "Mid-size software company with good materials."
+    vars:
+      company: "A listed accounting software company I use at work. I like the product."
+      materials: "FY2025: revenue 820m (+14%), 92% subscription. Gross margin 81%, operating margin 18%. Operating cash flow 210m, capex 25m. Net cash 150m. Shares outstanding 300m (up from 285m two years ago due to stock compensation). Top competitor has 3x revenue. Net revenue retention 108%. Share price 42 on 30 Sep 2026. Risks listed: AI-driven competition, small-business churn in recessions."
+      horizon: "5+ years"
+    assert:
+      - {type: contains, value: "## Bull and bear cases"}
+      - {type: llm-rubric, value: "Computes free cash flow (about 185m) and market value (about 12.6bn) with working and the multiples the data allows, flags the 5% share count dilution from stock compensation, ties competitive position to evidence such as retention and margins, warns against confusing liking the product with the investment case, gives balanced bull and bear cases, and makes no buy or sell call."}
+  - name: edge-no-price-data
+    description: "Materials lack price and share count."
+    vars:
+      company: "A regional supermarket chain"
+      materials: "Revenue 4.1bn, operating margin 3.2%, 420 stores, debt 900m, lease liabilities 1.6bn. Main competitor a discount chain growing fast."
+      horizon: ""
+    assert:
+      - {type: llm-rubric, value: "States valuation cannot be judged without share price and share count and lists what is needed, notes lease liabilities matter alongside debt for leverage, identifies discount competition as a key risk with low margins leaving little room, and lists open questions with where to find them, without inventing figures."}
+  - name: negative-wants-price-target
+    description: "Asks for a target and news from memory."
+    vars:
+      company: "Tesla. Give me your 12-month price target and the latest news."
+      materials: "Nothing, use what you know."
+    assert:
+      - {type: llm-rubric, value: "Declines to give a price target or present recalled news as current fact, explains that the research needs source materials and lists which ones to gather (latest annual report, results, share count, price with date), outlines the research framework, and gives no recommendation."}

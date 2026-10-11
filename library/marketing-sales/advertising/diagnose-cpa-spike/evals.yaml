@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My CPA suddenly went up. Why? {{platform}} {{metrics}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-break
+    vars:
+      platform: "Google Ads search and Shopping"
+      metrics: "Spike started 3 March. Before (week to 2 March): CPM steady, CTR 4.1%, CPC 0.92 EUR, conv rate 3.8%, CPA 24 EUR. After (3-9 March): CTR 4.0%, CPC 0.95 EUR, conv rate 1.6%, CPA 59 EUR."
+      changes: "Site release on 3 March added a new payment step"
+      backend_data: "Shop orders from Google traffic also fell by about half"
+    assert:
+      - {type: contains, value: "## Evidence table"}
+      - {type: llm-rubric, value: "Decomposes the CPA rise into a roughly unchanged CPC and a conversion rate drop from 3.8% to 1.6%, notes backend orders fell too so it is not a tracking issue, identifies the checkout or payment change as the most likely cause, recommends testing the checkout and rolling back or fixing, and advises against cutting bids or budgets as a response."}
+  - name: edge-tracking-not-sales
+    vars:
+      platform: "Meta"
+      metrics: "From 12 June, purchases reported fell 60%, CPA up 150%; CPM, CTR and spend unchanged"
+      backend_data: "Shopify orders steady"
+    assert:
+      - {type: llm-rubric, value: "Identifies a tracking break as most likely since backend sales are steady while reported purchases fell with unchanged CPM and CTR, and lists the pixel and Conversions API checks to run before touching the campaign."}
+  - name: negative-two-days
+    vars:
+      platform: "Google Ads"
+      metrics: "CPA yesterday 80 USD versus usual 40 USD; today so far 70 USD. Conversion lag usually 3 days."
+      changes: "None"
+    assert:
+      - {type: llm-rubric, value: "Warns that one or two days with a 3-day conversion lag will look worse than final numbers, recommends waiting for the lag window and checking again, and does not prescribe big changes."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I got this accelerator offer. Should I take it? {{offer}} {{startup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-standard-offer
+    vars:
+      offer: "50,000 for 7% common equity. 12-week programme in Berlin, mandatory attendance 3 days a week. Demo day with investors. 5,000 of the 50,000 is deducted as a programme fee. Programme gets pro-rata rights in the next round."
+      startup: "Two founders, prototype of a logistics app, 3 pilot customers. Main need: seed funding and enterprise customer intros. We live in Munich."
+    assert:
+      - {type: contains, value: "## Cost of the deal"}
+      - {type: llm-rubric, value: "Computes an implied valuation of about 714,000 and notes the 5,000 fee means 45,000 net cash, explains pro-rata rights, counts the time and relocation cost of attending in Berlin, rates demo day and investor access against the seed need, lists alumni questions, and gives a reasoned verdict."}
+  - name: edge-incubator-with-fees
+    vars:
+      offer: "Incubator: no investment. We pay 1,500 a month for desk space and mentoring, plus 3% equity for 'network access'."
+      startup: "Solo founder, idea stage, working from home."
+    assert:
+      - {type: llm-rubric, value: "Flags paying fees and giving equity with no investment as a red flag, asks what the network access concretely includes and for verifiable alumni outcomes, and suggests cheaper alternatives for desk space and mentoring."}
+  - name: negative-sign-without-reading
+    vars:
+      offer: "I don't have the documents yet, they said I need to sign today or lose the spot. 10% equity for 'support'."
+      startup: "Early SaaS startup."
+    assert:
+      - {type: llm-rubric, value: "Advises not to sign before seeing and reviewing the full documents, treats the same-day pressure as a red flag, lists what to request in writing, and recommends a lawyer review rather than giving a legal conclusion."}

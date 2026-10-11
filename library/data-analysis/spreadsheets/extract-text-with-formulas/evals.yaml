@@ -1,0 +1,40 @@
+schema: 1
+baseline: "In {{app}}, write formulas to {{what_to_extract}} from these values: {{sample_values}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-codes-in-notes
+    vars:
+      app: Google Sheets
+      what_to_extract: "The order number (ORD- followed by 5 or 6 digits) into B as a number, and the amount in euros into C."
+      sample_values: |
+        Refund ORD-48213 approved, 45.90 EUR
+        ord-102938 customer called; amount 120 EUR
+        Duplicate of ORD-55120 (no charge)
+        Paid 9.99 EUR for ORD-77001
+        ORD-60004  ,  15.00 EUR
+    assert:
+      - {type: icontains, value: "REGEXEXTRACT"}
+      - {type: llm-rubric, value: "Uses REGEXEXTRACT with a case-insensitive pattern (for example (?i)) for ORD- plus 5 or 6 digits, converts results to numbers with VALUE, returns blank instead of an error when no amount exists (the 'no charge' row), tests every sample row with the actual result, and handles the mixed case 'ord-' row."}
+  - name: edge-old-excel-names
+    vars:
+      app: Excel 2016
+      what_to_extract: "First name into B, last name into C."
+      sample_values: |
+        Maria Lopez
+         John  Smith
+        Anna Maria van der Berg
+        Dr. Priya Nair
+        Cher
+        O'Neill, Sean
+    assert:
+      - {type: llm-rubric, value: "Uses only functions available in Excel 2016 (no TEXTSPLIT, TEXTBEFORE or REGEXEXTRACT) such as LEFT, MID, FIND and TRIM, handles the extra spaces, and flags the single name, the title, the 'van der' particle and the 'Last, First' row for human review rather than claiming they split correctly."}
+  - name: negative-too-few-samples
+    vars:
+      app: Excel 365
+      what_to_extract: "Split the address into street, city and postcode."
+      sample_values: "10 High St"
+    assert:
+      - {type: llm-rubric, value: "Says one sample without city or postcode is not enough to design a reliable split and asks for more varied real rows, while not pretending the formula is tested against data it has not seen; any first version is labelled provisional."}

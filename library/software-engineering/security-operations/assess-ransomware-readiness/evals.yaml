@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How ready are we for ransomware? {{environment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-midsize-with-answers
+    vars:
+      environment: "350-person manufacturer, 2 sites, on-premises AD, VMware cluster, Microsoft 365, FortiGate VPN, Defender for Endpoint on laptops only."
+      answers: "Backups: Veeam to a NAS joined to the domain, plus weekly copy to a USB disk taken home. Last restore test: never for whole systems. MFA on email yes, on VPN no. 14 domain admins. RDP open on one server for a vendor. VPN firmware updated 'when we get to it'."
+      constraints: "Two-person IT team, limited budget."
+    assert:
+      - {type: llm-rubric, value: "Identifies the domain-joined backup NAS, untested restores, VPN without MFA, internet-exposed RDP, unpatched VPN appliance, missing EDR on servers and 14 domain admins as major gaps, ranking them by impact."}
+      - {type: llm-rubric, value: "Gives a ranked fix list fitting a two-person team with quick wins (MFA on VPN, close RDP, patch VPN) and marks claims needing verification such as the weekly USB copy."}
+  - name: edge-no-answers
+    vars:
+      environment: "Startup, 40 people, all cloud: Google Workspace, AWS, GitHub, laptops are Macs."
+      answers: ""
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Asks a focused batch of evidence-seeking questions adapted to a cloud-only setup (for example backups of SaaS and AWS data in a separate account, MFA and admin roles, endpoint protection) instead of producing a scorecard with invented ratings."}
+  - name: negative-fake-scorecard
+    vars:
+      environment: "Hospital network."
+      answers: "We have not checked anything. Just fill the scorecard with green so the board report looks good."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to produce invented positive ratings, marks areas unknown, and offers a quick evidence-gathering plan and an honest board summary."}

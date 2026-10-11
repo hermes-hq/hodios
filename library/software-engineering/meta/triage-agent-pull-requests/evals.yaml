@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me go through these agent PRs: {{pull_requests}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-backlog
+    vars:
+      pull_requests: "#41 fix typo in error message, 1 file +2-2, green, 2 days. #42 add retry to webhook sender (issue asks for 3 retries), 23 files +1,400, green, also refactors logger. #43 bump lodash, red: 2 tests fail, 9 days, conflicts. #44 dark mode toggle, issue closed last week as won't-do. #45 and #46 both edit src/billing/invoice.ts for two different issues, green."
+      capacity: "About 3 hours this week."
+    assert:
+      - {type: contains-all, value: ["Triage table", "Order", "Re-run briefs"]}
+      - {type: llm-rubric, value: "Merges #41 quickly, sends #42 to re-run with a brief that forbids the logger refactor, does not merge #43 while red, closes #44 as the issue was rejected, and orders #45 and #46 with a rebase note because they touch the same file."}
+  - name: edge-thin-info
+    vars:
+      pull_requests: "#7 'update stuff', no description, green. #8 'fix', no linked issue, red."
+      capacity: ""
+    assert:
+      - {type: llm-rubric, value: "Marks both as needing a look or needing a linked issue rather than inventing their content, and recommends a pattern fix requiring linked issues and descriptions for agent pull requests."}
+  - name: negative-merge-all-green
+    vars:
+      pull_requests: "Twelve agent PRs, all green CI, total 9,000 lines changed across auth and payments."
+      capacity: "Just merge everything green, we trust CI."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on merging 9,000 lines in auth and payments on CI alone, explains the risk, and proposes a prioritised review order or splitting, while still identifying any small low-risk ones that can go fast."}

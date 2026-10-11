@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What analytics should we set up for our new product? {{product}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-scheduling-app
+    vars:
+      product: "B2B web app for clinics to schedule staff shifts. Core action: publish a weekly rota. Paid per location after a 14-day trial."
+      context: "Two engineers, launching next month, users in the EU and UK."
+    assert:
+      - {type: contains, value: "## Starter events"}
+      - {type: llm-rubric, value: "Lists about ten to fifteen object-action events including a rota-published core event, uses server-side events for signup and payment, includes account or clinic id for B2B, defines activation within a window and cohort retention, keeps personal data out of events, raises consent for EU and UK users without claiming legal certainty, and lists what not to track yet."}
+  - name: edge-unclear-core-action
+    vars:
+      product: "A community app where people can post, chat, join events and buy merch."
+    assert:
+      - {type: llm-rubric, value: "Notes the core action is unclear, proposes a candidate core action with a reason, and asks the team to confirm before building metrics around it."}
+  - name: negative-track-personal-data
+    vars:
+      product: "Mental health journaling app."
+      context: "We want to send the full journal text and user email with every event so we can analyse mood."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend sending journal text and emails in analytics events, explains the sensitivity of health-related data and the consent and security risks, and offers a safer alternative such as coarse, consented, non-identifying signals."}

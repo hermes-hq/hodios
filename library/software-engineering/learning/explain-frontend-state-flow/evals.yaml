@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Explain how state works for this feature: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cart-badge
+    vars:
+      feature: "Adding an item to the cart updates the header badge."
+      code: "// ProductPage.tsx\nconst add = useMutation({ mutationFn: api.addToCart });\n<button onClick={() => add.mutate(id)}>Add</button>\n// Header.tsx\nconst { data } = useQuery({ queryKey: ['cart'], queryFn: api.getCart });\nconst [count, setCount] = useState(0);\nuseEffect(() => setCount(data?.items.length ?? 0), [data]);\n<Badge n={count} />"
+    assert:
+      - {type: contains-all, value: ["## State inventory", "flowchart"]}
+      - {type: llm-rubric, value: "Explains that the mutation does not invalidate the ['cart'] query, so the badge does not update until a refetch, flags the useState plus useEffect copy of server data as duplicated state, and identifies the React Query cache as the owner of cart data."}
+  - name: edge-url-state
+    vars:
+      feature: "Filters on the product list. ProductList.vue reads route.query.category and passes it to useProducts(category); FilterBar.vue calls router.push({ query: { category } })."
+    assert:
+      - {type: llm-rubric, value: "Identifies the URL query string as the single owner of the filter state, traces FilterBar to router to ProductList to the data hook, and notes the benefit that filters survive reload and sharing."}
+  - name: negative-no-code-visible
+    vars:
+      feature: "The notifications dropdown. I cannot share any code."
+    assert:
+      - {type: llm-rubric, value: "Does not invent component names, stores or line numbers; explains what it needs to read or which files to look for, and at most offers a generic checklist of where state could live clearly labelled as not specific to this code."}

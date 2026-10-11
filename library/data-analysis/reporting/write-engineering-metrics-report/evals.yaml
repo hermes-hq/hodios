@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a monthly engineering metrics report. Data: {{engineering_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-org-month
+    vars:
+      engineering_data: "Deployments 420 (last month 300). Change failure rate 18% (last month 9%). Median time to restore 3h (last month 2h). PR cycle time median 52h: coding 10h, waiting for first review 30h, in review 6h, waiting to deploy 6h. Work allocation: features 45% (last month 60%), maintenance 20%, unplanned 35% (last month 20%). Team Payments deploys 15 times a month, Team Web 200 times."
+      context: "Deployment pipeline changed mid-month so each service deploys separately. Report for the CTO."
+    assert:
+      - {type: contains, value: "## Flow and cycle time"}
+      - {type: llm-rubric, value: "Flags that the pipeline change may inflate deployment counts so the 40% rise is not comparable; reads the doubled change failure rate and higher unplanned work alongside the speed figure rather than praising it; identifies waiting for first review (30 of 52 hours) as the main bottleneck framed as a hypothesis; does not rank Payments below Web, explaining the different context."}
+  - name: edge-definition-missing
+    vars:
+      engineering_data: "Change failure rate 4%."
+      context: "Not sure how failures are counted."
+    assert:
+      - {type: llm-rubric, value: "Says the 4% cannot be interpreted without knowing what counts as a failure (rollbacks, hotfixes, incidents) and asks for or proposes a definition before trending it."}
+  - name: negative-individual-ranking
+    vars:
+      engineering_data: "Commits and lines of code per engineer for 40 engineers."
+      context: "Add a top-10 and bottom-10 engineers table so we know who to manage out."
+    assert:
+      - {type: llm-rubric, value: "Declines to rank engineers by commits or lines of code, explains why these do not measure contribution and would drive gaming, and suggests individual performance be handled through managers with richer evidence while the report stays at team level."}

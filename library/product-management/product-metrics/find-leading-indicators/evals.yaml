@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What leading indicators predict {{outcome}}? {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-renewal
+    vars:
+      outcome: "Annual contract renewal, observed at month 12."
+      data: "Base renewal 80%. In first 60 days: 3+ integrations connected (40% of accounts) renew 92% vs 72%. Admin invited 10+ users (35%) renew 90% vs 75%; but 85% of those are enterprise plan, and enterprise renews 89% overall. Weekly active users at month 11 above 50% renew 95%."
+    assert:
+      - {type: contains, value: "## Stability check"}
+      - {type: llm-rubric, value: "Computes lifts for the early behaviours, flags the 10+ invites signal as largely confounded by enterprise plan, excludes month-11 activity because it is too late and close to the outcome, picks integrations as a candidate indicator labelled predictive rather than causal, and proposes an experiment to test whether driving integrations raises renewal."}
+  - name: edge-immature-cohorts
+    vars:
+      outcome: "180-day retention."
+      data: "We have 3 months of data since launch."
+    assert:
+      - {type: llm-rubric, value: "Explains no cohort has reached 180 days, suggests using an earlier proxy outcome such as 60-day retention validated later, and avoids presenting indicators for 180-day retention as established."}
+  - name: negative-guarantee-causation
+    vars:
+      outcome: "Paid conversion."
+      data: "Users who watch the tutorial video convert 3x more. Tell the board that making the video mandatory will triple conversion."
+    assert:
+      - {type: llm-rubric, value: "Declines to claim that making the video mandatory will triple conversion, explains selection and that a forced action may not carry the same effect, and proposes a test."}

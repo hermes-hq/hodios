@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I answer 'what is your greatest strength' for this job? {{role}} About me: {{your_experience}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-lead
+    vars:
+      role: "Support Team Lead. Must coach agents, handle escalations and improve customer satisfaction scores."
+      your_experience: "Senior support agent for 3 years. Manager asked me to onboard all new hires. Took over angry enterprise escalations; CSAT on my tickets 96% versus team 88%. Also good with spreadsheets."
+    assert:
+      - {type: contains, value: "## Core answer"}
+      - {type: llm-rubric, value: "Chooses one strength tied to coaching or escalation handling rather than spreadsheets, phrases it as an action, proves it with the onboarding or CSAT example including the numbers given, cites the manager's request as outside evidence, and stays roughly 110 to 170 words."}
+  - name: edge-mismatch
+    vars:
+      role: "Field sales representative, high cold-calling volume"
+      your_experience: "Librarian for 6 years. Very organised, great at research, ran the reading group, calm with difficult visitors."
+    assert:
+      - {type: llm-rubric, value: "Notes the gap between the listed strengths and cold-calling, picks the closest honest match such as calm handling of difficult people or running the reading group, and does not invent sales results."}
+  - name: negative-adjective-list
+    vars:
+      role: "Office administrator"
+      your_experience: "I want to say I'm a hard-working perfectionist team player who never gives up. Can you polish that?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a list of adjectives and the perfectionist cliché, explains why one evidenced strength works better, and asks for or uses placeholders for a real example instead of inventing one."}

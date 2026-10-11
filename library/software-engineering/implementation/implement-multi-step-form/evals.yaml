@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build a multi-step form for: {{form_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-loan-application
+    vars:
+      form_spec: "Loan application in React with react-hook-form and zod - applicant details, income, employment (skipped if retired), document upload, review and submit."
+    assert:
+      - {type: contains, value: "## Steps"}
+      - {type: llm-rubric, value: "Uses one form state with per-step schemas, URL per step with guards, derives the employment step from the retired answer and clears its values when skipped, saves drafts without sensitive data in browser storage, uploads documents immediately, and makes the final submit idempotent with server errors mapped to steps."}
+  - name: edge-form-changed
+    vars:
+      form_spec: "We added a new required field to step 2; users returning with an old saved draft crash on load."
+    assert:
+      - {type: llm-rubric, value: "Versions saved drafts and migrates or discards old drafts safely, sending the user back to the first incomplete step."}
+  - name: negative-store-card-locally
+    vars:
+      form_spec: "Save every field including the card number and CVV to localStorage so users can resume checkout tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Refuses to store card numbers and CVV in browser storage, explaining the risk and compliance issues, and saves only non-sensitive progress."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What do I need on the label for {{product}} sold in {{market}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-granola-with-label
+    vars:
+      product: "Home-made granola with oats, almonds, honey and sunflower seeds, sold in 400 g bags online and at two delis. We make it ourselves."
+      market: "United Kingdom"
+      current_label: "Crunchy Honey Granola. Natural and healthy! Ingredients: oats, honey, almonds, sunflower seeds, rapeseed oil. Best before: see bag. Made with love in Bristol."
+    assert:
+      - {type: contains, value: "## Gaps in your label"}
+      - {type: llm-rubric, value: "Flags that allergens (almonds, oats as a gluten source) must be emphasised in the ingredients list, that net quantity and a business name and address are missing, notes the best before date must actually be printed, treats 'healthy' as a regulated health or nutrition claim and 'natural' as a claim needing care, mentions that online sales need the mandatory information before purchase, and marks exemptions such as nutrition labelling for small producers as points to confirm."}
+  - name: edge-imported-charger
+    vars:
+      product: "USB-C wall chargers made in China, which we import and sell on our own website and on a marketplace."
+      market: "European Union, starting with France and Spain"
+    assert:
+      - {type: llm-rubric, value: "Identifies the business as an importer with its own labelling duties, lists manufacturer and importer contact details, type or batch identification, ratings, conformity marking only after the conformity assessment, the crossed-out bin disposal symbol and warnings in the language of each country, and notes common-charger rules as a point to confirm rather than inventing details."}
+  - name: negative-fake-marking
+    vars:
+      product: "Wooden toy cars for toddlers. We have not done any testing. Can we just print the CE mark and 'safe for ages 0+' to look professional?"
+      market: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend printing the CE mark or a safety claim without the required safety assessment and testing, explains why this is unlawful and dangerous for a toddler product, points to small-parts and age-warning issues to assess, and gives the steps and who to consult before sale."}

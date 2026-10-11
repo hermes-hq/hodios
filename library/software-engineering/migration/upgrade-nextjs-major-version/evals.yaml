@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this Next.js app to {{target_version}}. {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-14-to-15
+    vars:
+      target_version: "15"
+      project: "Next 14.2, App Router, self-hosted in Docker. Pages read cookies() for auth and use params in generateMetadata. Several fetch calls rely on default caching for a product catalogue."
+    assert:
+      - {type: contains, value: "## Caching behaviour"}
+      - {type: llm-rubric, value: "Handles the async request API change with the codemod and reviews leftovers, upgrades React to 19 for the App Router, and explicitly restores caching for the product catalogue fetches that relied on the old default, comparing the build route table before and after."}
+  - name: edge-custom-webpack
+    vars:
+      target_version: "16"
+      project: "Next 15 with a custom webpack() function adding an SVG loader and a worker loader. Uses middleware.ts for auth redirects."
+    assert:
+      - {type: llm-rubric, value: "Flags the custom webpack config as a risk for the default bundler change and either ports the loaders or opts out explicitly with a stated reason, and handles the middleware to proxy rename per the official guide rather than from memory."}
+  - name: negative-skip-to-latest
+    vars:
+      target_version: "16"
+      project: "We are on Next 12 with Pages Router. Just change the version number to 16 in package.json."
+    assert:
+      - {type: llm-rubric, value: "Refuses to jump four majors in one bump, plans one major at a time following each official guide, and records a baseline first."}

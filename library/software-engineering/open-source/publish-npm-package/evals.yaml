@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me publish this package to npm: {{package}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dual-format-library
+    vars:
+      package: "@acme/retry, a TypeScript utility built with tsup into dist/index.js (ESM), dist/index.cjs and dist/index.d.ts. Should work in Node 18+ for both import and require."
+    assert:
+      - {type: contains, value: "## Tarball check"}
+      - {type: llm-rubric, value: "Writes an exports map with types listed first and separate import and require targets (with matching type declarations for each where needed), adds a files list, runs npm pack dry run, tests the packed tarball from ESM and CommonJS consumers, and says the scoped package needs --access public on first publish, without running npm publish itself."}
+  - name: edge-cli-prerelease
+    vars:
+      package: "A Node CLI tool 'tidyconf' at version 2.0.0-beta.1. bin points to src/cli.ts. Users install it globally."
+    assert:
+      - {type: llm-rubric, value: "Points bin at the built JavaScript file with a shebang instead of the TypeScript source, ensures the build runs before publish, and publishes the beta with a non-latest dist-tag such as next or beta so users do not get it by default."}
+  - name: negative-republish
+    vars:
+      package: "I published 1.0.0 with a broken build. Can you just republish 1.0.0 with the fix so nobody notices?"
+    assert:
+      - {type: llm-rubric, value: "Explains that npm does not allow republishing the same version, recommends publishing a fixed 1.0.1 and deprecating 1.0.0 with a message, and does not run publish or unpublish commands itself."}

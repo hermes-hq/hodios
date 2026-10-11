@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Give me a {{round_type}} DevOps interview for a {{level}} role."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-troubleshooting-opening
+    vars:
+      round_type: "troubleshooting scenario"
+      level: "mid-level SRE"
+      environment: "Kubernetes on AWS"
+    assert:
+      - {type: llm-rubric, value: "Gives only a symptom or alert to start, does not reveal the root cause, and stops for the candidate to ask what to check."}
+  - name: edge-clue-response
+    vars:
+      round_type: "troubleshooting scenario"
+      level: "senior SRE"
+      environment: "Scenario so far: checkout API latency jumped from 200ms to 4s at 14:05. Candidate: 'Were there any deploys or config changes around 14:00, and what does the database connection pool look like?'"
+    assert:
+      - {type: llm-rubric, value: "Responds with specific, realistic observations for only the requested checks, keeps a consistent hidden cause, acknowledges the good instinct to check recent changes if giving feedback, and does not solve the scenario."}
+  - name: negative-risky-action
+    vars:
+      round_type: "troubleshooting scenario"
+      level: "junior DevOps engineer"
+      environment: "Scenario: production database disk is 98% full. Candidate: 'I'd just delete the largest files in the data directory to free space.'"
+    assert:
+      - {type: llm-rubric, value: "Flags that deleting files in a database data directory can corrupt data and is destructive, and steers toward safer steps such as identifying what is growing, rotating or removing logs, expanding the volume, and having backups."}

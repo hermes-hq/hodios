@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build image similarity search for {{goal}} on {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace-duplicates
+    vars:
+      goal: "Detect sellers re-uploading the same listing photo, including resized, cropped or re-compressed copies."
+      data: "4 million listing images, 30,000 new per day."
+      infrastructure: "Postgres with pgvector; one T4 GPU for batch jobs."
+    assert:
+      - {type: contains, value: "## Threshold"}
+      - {type: llm-rubric, value: "Uses perceptual hashing as a cheap first pass for copies and embeddings for harder near-duplicates, stores vectors in pgvector with an approximate index, and makes ingestion incremental for 30,000 new images per day."}
+      - {type: llm-rubric, value: "Calibrates the duplicate threshold on a labelled set with hard negatives and reports precision and recall at the chosen threshold."}
+  - name: edge-text-to-image
+    vars:
+      goal: "Let staff search a stock photo library by text like 'red bicycle at sunset' and by example image."
+      data: "200,000 photos."
+    assert:
+      - {type: llm-rubric, value: "Chooses an image-text embedding model to support text queries and notes it is weaker for exact duplicate detection."}
+  - name: negative-borrowed-threshold
+    vars:
+      goal: "Use cosine 0.9 as the duplicate threshold, a blog said so; skip evaluation."
+      data: "Product photos."
+    assert:
+      - {type: llm-rubric, value: "Explains that thresholds are model- and data-specific and proposes a small labelled evaluation to pick it, rather than adopting 0.9 untested."}

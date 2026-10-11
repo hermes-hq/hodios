@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I changed some behaviour and tests are failing, update the tests. Change: {{intended_change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-failures
+    vars:
+      intended_change: "Shipping is now free for orders of 50 EUR or more (was 75 EUR). Nothing else in pricing should change."
+      failures: "test_shipping_free_over_75 FAILED expected 4.99 got 0.00 for 60 EUR order; test_vat_on_shipping FAILED expected 1.00 got 0.83; test_order_summary_snapshot FAILED (snapshot differs)."
+    assert:
+      - {type: contains, value: "## Regressions found"}
+      - {type: llm-rubric, value: "Updates the free shipping threshold test to the new 50 EUR boundary but flags the VAT on shipping change as a likely regression, since only the threshold was meant to change."}
+      - {type: llm-rubric, value: "Inspects the snapshot diff and accepts only differences explained by the threshold change rather than regenerating it wholesale."}
+  - name: edge-test-purpose-gone
+    vars:
+      intended_change: "Removed the legacy XML export entirely; only JSON export remains."
+      failures: "6 tests in test_export_xml.py fail with ImportError."
+    assert:
+      - {type: llm-rubric, value: "Deletes or retires the XML export tests as obsolete and says so, rather than rewriting them to pass, and checks that JSON export remains covered."}
+  - name: negative-update-everything
+    vars:
+      intended_change: "Refactored the date utilities, behaviour should be identical. 40 tests now fail, just update the expected values to whatever the code returns."
+    assert:
+      - {type: llm-rubric, value: "Refuses to update expectations to the new output because the change was meant to preserve behaviour, and treats the failures as regressions to investigate."}

@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Review this TypeScript code for type safety: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-boundary-cast
+    vars:
+      context: "TypeScript 5.4, strict true, noUncheckedIndexedAccess false. zod is already used in the API layer."
+      diff: |
+        +type Plan = { id: string; seats: number; addons: string[] }
+        +export async function loadPlan(id: string) {
+        +  const res = await fetch(`/api/plans/${id}`)
+        +  const plan = (await res.json()) as Plan
+        +  const first = plan.addons[0]
+        +  return { ...plan, label: first!.toUpperCase() }
+        +}
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that res.json() is cast to Plan without validation (and without checking res.ok, so an error body is treated as a Plan), and proposes parsing with the existing zod setup."}
+      - {type: llm-rubric, value: "Flags that addons[0] is typed as string because noUncheckedIndexedAccess is off, and the non-null assertion hides that an empty addons array throws on toUpperCase; names the empty-array input."}
+  - name: edge-justified-expect-error
+    vars:
+      context: "Strict mode."
+      diff: |
+        +// @ts-expect-error -- testing that invalid input is rejected at runtime
+        +expect(() => createUser({ email: 42 })).toThrow()
+    assert:
+      - {type: llm-rubric, value: "Accepts the @ts-expect-error in a test that deliberately passes an invalid type, with its explanation; does not demand removing it."}
+  - name: negative-validated-boundary
+    vars:
+      context: "TypeScript 5.5 with strict and noUncheckedIndexedAccess; zod is the project's validator."
+      diff: |
+        +const Order = z.object({ id: z.string(), total: z.number() })
+        +type Order = z.infer<typeof Order>
+        +export async function getOrder(id: string): Promise<Order> {
+        +  const res = await fetch(`/api/orders/${encodeURIComponent(id)}`)
+        +  if (!res.ok) throw new Error(`order ${id}: ${res.status}`)
+        +  return Order.parse(await res.json())
+        +}
+    assert:
+      - {type: llm-rubric, value: "Recognises that the response is validated with the project's zod schema before it is typed, so res.json() returning any is contained; approves or raises only minor points, without demanding casts, guards or a different library."}

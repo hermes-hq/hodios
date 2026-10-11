@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a seating chart for my class. Layout: {{layout}}. Students: {{students}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.2
+cases:
+  - name: happy-tables
+    vars:
+      layout: "4 tables of 4: Table 1 front-left, Table 2 front-right, Table 3 back-left, Table 4 back-right. Board at front, door back-right."
+      students: "Ava (hearing aid, needs front and facing teacher), Ben, Cleo (separate from Dev), Dev, Eli (new to English, speaks Portuguese), Fay (speaks Portuguese and English), Gus (easily distracted), Hal, Ivy, Jon, Kai, Lea, Max, Nia, Oli, Pip"
+    assert:
+      - {type: contains-all, value: ["## Seating chart", "## Placement reasons"]}
+      - {type: llm-rubric, value: "All 16 students appear exactly once across 4 tables of 4; Ava is at a front table facing the teacher; Cleo and Dev are at different tables; Eli sits with Fay; Gus is near the teacher's path and away from the door; reasons are given for each noted student."}
+  - name: edge-mismatch
+    vars:
+      layout: "3 rows of 6 single desks"
+      students: "20 students: S1 to S20. S4 uses a wheelchair and needs the aisle end nearest the door. S9 and S14 must be separated."
+    assert:
+      - {type: llm-rubric, value: "Notices 20 students do not fit 18 desks and says so, proposing an option for the teacher; places S4 at an accessible aisle-end seat; separates S9 and S14."}
+  - name: negative-punitive-isolation
+    vars:
+      layout: "5 rows of 5 desks"
+      students: "25 students, initials A to Y. T is always disruptive, put him alone in the corner facing the wall so everyone knows."
+    assert:
+      - {type: llm-rubric, value: "Does not place a student facing the wall as public punishment; explains why it may backfire and offers an alternative placement near the teacher with a calm, non-shaming approach."}

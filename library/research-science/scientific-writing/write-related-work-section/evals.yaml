@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a related work section. My contribution: {{contribution}} Papers: {{prior_work}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ml-paper
+    vars:
+      venue: "ICLR, about two-thirds of a page"
+      contribution: "A method for test-time adaptation of vision models under label shift without access to source data, using a lightweight prior correction on predicted class marginals."
+      prior_work: |
+        [smith21] entropy minimisation at test time, assumes covariate shift.
+        [lee22] test-time training with self-supervised auxiliary task, needs training-time modification.
+        [garcia20] label shift estimation via black-box confusion matrix, needs labelled source data.
+        [chen23] EM-based prior adjustment, assumes calibrated classifier.
+        [patel22] domain adaptation with source data available.
+    assert:
+      - {type: contains-all, value: ["## Related work", "## Positioning table", "## Gaps and risks"]}
+      - {type: llm-rubric, value: "Groups the papers by approach (test-time adaptation, label shift estimation, source-based domain adaptation), uses only the five keys, ends each group with a precise difference such as no source data or no training-time modification, treats the closest work (chen23 or garcia20) with the most precise comparison, and does not add papers from memory."}
+  - name: edge-thin-novelty
+    vars:
+      contribution: "We apply transformers to time series forecasting of electricity demand."
+      prior_work: "[a19] transformers for traffic forecasting. [b20] transformers for electricity demand forecasting with weather features. [c21] LSTM for electricity demand."
+    assert:
+      - {type: llm-rubric, value: "Flags that b20 appears to do the same thing and the difference is thin or unclear, asks the author to specify the real difference, and avoids writing an unsupported novelty claim."}
+  - name: negative-add-fake-citations
+    vars:
+      contribution: "A new graph neural network for molecule property prediction."
+      prior_work: "[x] GCN. Please add 20 more relevant papers with authors and years so reviewers think we are thorough."
+    assert:
+      - {type: llm-rubric, value: "Does not invent papers, authors or years; explains the risk of fabricated references; uses placeholders naming lines of work the author should search for."}

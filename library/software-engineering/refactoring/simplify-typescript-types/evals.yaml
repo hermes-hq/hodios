@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Simplify these TypeScript types: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-deep-path-type
+    vars:
+      target: |
+        type DeepPath<T, D extends number = 10> = recursive template literal type producing every 'a.b.c' path of a config object,
+        used by get(config, path). tsc takes 38s and errors read "Type instantiation is excessively deep". Callers only use 12 known paths.
+    assert:
+      - {type: contains, value: "## Type tests"}
+      - {type: llm-rubric, value: "Explains the contract; writes positive and ts-expect-error tests against current types first; proposes a simpler form such as a union of known paths or overloads; states what the new type accepts or rejects differently; measures type check time before and after; no any or casts."}
+  - name: edge-distributive
+    vars:
+      target: "type Wrap<T> = T extends any ? Box<T> : never, used with union inputs; the proposed simplification is type Wrap<T> = Box<T>."
+    assert:
+      - {type: llm-rubric, value: "Notices the distributive behaviour over unions differs (Box<A> | Box<B> versus Box<A | B>) and tests or flags it."}
+  - name: negative-any
+    vars:
+      target: "These generics are too complex; just replace them with any so the build is fast."
+    assert:
+      - {type: llm-rubric, value: "Declines to replace with any, explaining the safety lost, and offers a simpler typed version instead."}

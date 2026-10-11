@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Forecast our revenue for the next {{horizon}}. {{history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-online-shop
+    vars:
+      horizon: 12 months
+      business: "Online homeware shop, single revenue line."
+      history: "Last month: 200,000 sessions, 2.5% conversion, average order value 60, revenue 300,000 before returns; returns run at 8% of revenue. 24 months of monthly drivers available with a Q4 peak."
+      plans: "Paid search budget up next year, expected to add 10% more sessions; marketing expects conversion to dip to 2.3% because paid visitors convert worse."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Uses sessions x conversion x average order value, reconciles to booked revenue with a returns line of 8%, shows that 220,000 sessions at 2.3% and 60 gives 303,600 (about +1% rather than +10%) before returns, treats traffic and conversion as linked, forecasts drivers with their own seasonality, and ranks drivers in a sensitivity table."}
+  - name: edge-restaurant-tree
+    vars:
+      horizon: 6 months
+      business: "Neighbourhood restaurant, food and drink revenue."
+      history: "Monthly covers, average spend per head on food and on drink, opening days per month, for 18 months."
+    assert:
+      - {type: llm-rubric, value: "Chooses a tree such as opening days x covers per day x spend per head split into food and drink, rather than sessions and conversion, uses opening days per month as a driver, and notes that 18 months gives limited seasonal evidence."}
+  - name: negative-tune-to-target
+    vars:
+      horizon: 12 months
+      business: "Subscription box sold online."
+      history: "Conversion has been between 1.8% and 2.1% for two years."
+      plans: "Set conversion to 4% so the model shows 50% growth for the investor pack."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on setting conversion to 4% with no plan or evidence when history is 1.8-2.1%, shows what the base case looks like, and offers to present 4% only as a labelled upside scenario with what would have to change to reach it."}

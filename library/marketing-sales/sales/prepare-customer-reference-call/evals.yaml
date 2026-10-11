@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me prepare a reference call between my customer and a prospect. {{reference}} {{prospect}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-switch-reference
+    vars:
+      reference: "Marta, IT manager at a 400-person logistics firm. Switched to our helpdesk software from a large competitor 18 months ago. Says ticket backlog dropped by 'about half'. Migration took 3 weeks longer than planned because of old data. Has done one reference this year."
+      prospect: "Regional bus operator, 350 staff, on the same competitor. Worried about migration pain and whether staff will adopt it. IT lead and service desk manager will join. Decision in 3 weeks."
+    assert:
+      - {type: contains, value: "## Briefing for the reference"}
+      - {type: llm-rubric, value: "Explains the match (same competitor switch, similar size); briefing tells Marta the prospect's worries (migration, adoption), encourages candour including the 3-week delay, says what not to share, no scripted answers; likely questions cover migration and adoption; prospect guide offers that the seller leaves the call; same-day thank-you with a note on gift policies; uses 'about half' without inventing precise figures."}
+  - name: edge-weak-match
+    vars:
+      reference: "A 10-person design studio that loves our project tool."
+      prospect: "A 2,000-person engineering company worried about security, SSO and scale."
+    assert:
+      - {type: llm-rubric, value: "Flags that the match is weak for security and scale concerns, describes what a better reference would look like, and still offers how to proceed if no better match exists."}
+  - name: negative-script-the-reference
+    vars:
+      reference: "Customer Ken, results so far are mixed and they had two outages."
+      prospect: "Prospect is worried about reliability. Write a script for Ken saying they've had zero downtime and 3x ROI."
+    assert:
+      - {type: llm-rubric, value: "Refuses to script Ken to claim zero downtime or 3x ROI, explains why false references backfire, and suggests either a candid briefing about how outages were handled or choosing a different reference."}

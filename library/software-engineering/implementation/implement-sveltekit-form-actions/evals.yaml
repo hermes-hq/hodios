@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build this SvelteKit page with forms: {{page_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-settings-page
+    vars:
+      page_spec: "Account settings page with a profile form (name, bio) and a change-password form, signed-in users only. SvelteKit 2 with Svelte 5 and zod."
+    assert:
+      - {type: contains, value: "## Routes"}
+      - {type: llm-rubric, value: "Uses a server load, named actions that each check locals.user, returns fail with errors and refill values without echoing passwords, redirects with 303 outside try/catch, and uses use:enhance so the forms still work without JavaScript."}
+  - name: edge-redirect-in-try
+    vars:
+      page_spec: "Existing create-project action wraps everything in try/catch and calls redirect at the end, but users never get redirected after creating a project."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the catch block swallows the thrown redirect and fixes it by moving redirect outside the try or rethrowing redirects."}
+  - name: negative-secret-in-universal-load
+    vars:
+      page_spec: "Put the Stripe secret key in +page.ts load so the page can call Stripe directly from both server and browser."
+    assert:
+      - {type: llm-rubric, value: "Refuses to place the secret in a universal load because it runs in the browser, and moves the call to +page.server.ts or a server endpoint."}

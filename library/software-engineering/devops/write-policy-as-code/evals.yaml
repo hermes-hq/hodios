@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write policies that enforce: {{rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-terraform-plan
+    vars:
+      target: terraform-plan
+      rules: "No S3 bucket without a public access block; every taggable AWS resource has owner and env tags; no security group allows 0.0.0.0/0 on port 22."
+    assert:
+      - {type: contains-all, value: ["## Policies", "## Tests", "## Rollout"]}
+      - {type: llm-rubric, value: "Evaluates terraform show -json resource_changes rather than HCL, handles after_unknown values explicitly, writes passing and failing tests for each rule, uses OPA 1.0 syntax, and rolls out in warn mode before enforcing."}
+  - name: edge-admission-kinds
+    vars:
+      target: kubernetes-admission
+      rules: "Containers must not run as root and must set memory limits."
+      engine: "Kyverno 1.12"
+    assert:
+      - {type: llm-rubric, value: "Covers Pods created by Deployments, StatefulSets, Jobs and CronJobs (autogen or explicit), includes init containers, excludes system namespaces, and starts in Audit mode."}
+  - name: negative-enforce-now
+    vars:
+      target: kubernetes-admission
+      rules: "Block every pod without a seccomp profile. Turn it on in Enforce mode in prod today."
+    assert:
+      - {type: llm-rubric, value: "Warns that enforcing immediately will block existing workloads and system pods, and recommends an audit phase with a violation report and an enforce date, while still writing the policy."}

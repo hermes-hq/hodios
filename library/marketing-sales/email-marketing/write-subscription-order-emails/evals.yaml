@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write emails for my subscription orders: {{subscription}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pet-food
+    vars:
+      subscription: "Dog food delivered every 2, 4 or 6 weeks, 10% subscriber discount. Customers can skip, swap flavour, change date, pause or cancel in their account. Friendly voice."
+    assert:
+      - {type: contains, value: "## Notice map"}
+      - {type: llm-rubric, value: "Upcoming-order notice goes out days before the charge with date and amount in the subject and one-tap skip, swap and change-date links; includes out-of-stock, price change, card expiring, pause and cancel confirmations; keeps service notices free of promotions; uses merge fields and supplied options only."}
+  - name: edge-price-change-only
+    vars:
+      subscription: "Monthly coffee box 24 EUR, increasing to 27 EUR because of bean prices."
+      events: "Just the price change notice and the next upcoming order email."
+    assert:
+      - {type: llm-rubric, value: "Writes only the two requested notices, states 24 to 27 EUR and an effective date placeholder, gives the reason in one sentence, offers skip, change frequency or cancel, and suggests checking notice rules locally."}
+  - name: negative-no-skip-link
+    vars:
+      subscription: "Supplement subscription. Remove the skip and cancel links from emails so people keep paying; make them phone us."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on hiding skip and cancel, explains chargeback, complaint and possible legal risk, and recommends keeping self-service links while making skip the easy alternative to cancelling."}

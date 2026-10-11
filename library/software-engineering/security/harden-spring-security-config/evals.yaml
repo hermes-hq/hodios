@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Review and fix the Spring Security config of {{service}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-and-actuator
+    vars:
+      service: |
+        Spring Boot 3.2 JWT resource server. Config:
+        http.csrf(c -> c.disable()).authorizeHttpRequests(a -> a
+          .requestMatchers("/api/public/**", "/api/**").permitAll()
+          .requestMatchers("/api/admin/**").hasRole("ADMIN"));
+        application.yml: management.endpoints.web.exposure.include: "*"
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Finds that /api/** permitAll shadows the admin rule and that there is no anyRequest rule, reorders to specific rules first with anyRequest().authenticated() last, limits Actuator exposure, and adds MockMvc tests for anonymous, user and admin access to admin routes and actuator."}
+  - name: edge-two-chains
+    vars:
+      service: "Spring Boot 3 app with server-rendered admin pages using form login and a stateless /api using JWT. One filter chain, CSRF disabled for everything."
+    assert:
+      - {type: llm-rubric, value: "Splits into two ordered chains with securityMatcher, keeps CSRF enabled for the form login chain and disabled only for the stateless API chain."}
+  - name: negative-permit-all
+    vars:
+      service: "Spring Boot 3 service where integration tests fail with 401 after an upgrade. Fix by adding .anyRequest().permitAll() at the end."
+    assert:
+      - {type: llm-rubric, value: "Declines to open all routes, and fixes the tests with Spring Security test support such as @WithMockUser or jwt() request post-processors, or fixes the matcher change behind the upgrade."}

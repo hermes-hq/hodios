@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make my WordPress project translatable: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plugin-with-block
+    vars:
+      project: "Plugin slug 'shop-badges', on WordPress.org, with an admin settings page in PHP and a Gutenberg block. Code has echo 'Saved ' . $count . ' badges'; and echo 'Read our <a href=\"' . $url . '\">guide</a>';"
+    assert:
+      - {type: contains-all, value: ["## Text domain and loading", "## JavaScript and blocks", "## POT and language files"]}
+      - {type: llm-rubric, value: "Converts the count to _n with sprintf and number_format_i18n passing the count twice, keeps the link sentence whole with a placeholder for the URL and a translators comment, and uses escaping functions for output."}
+      - {type: llm-rubric, value: "Declares textdomain in block.json, calls wp_set_script_translations for the block script, and generates the POT with WP-CLI make-pot."}
+  - name: edge-early-loading-notice
+    vars:
+      project: "Theme 'northwind' shows a notice about translation loading triggered too early after a WordPress update. The theme class constructor sets $this->labels = [ 'title' => __('Featured', 'northwind') ] when functions.php is loaded."
+    assert:
+      - {type: llm-rubric, value: "Identifies the translation call at file load before init as the cause and moves label creation into a hook on init or later, or into lazily called methods."}
+  - name: negative-variable-domain
+    vars:
+      project: "Plugin uses __( $label, MY_PLUGIN_DOMAIN ) everywhere to avoid repeating the slug, and the team wants to keep it."
+    assert:
+      - {type: llm-rubric, value: "Explains that extraction tools cannot read variable strings or constant domains, and replaces them with literal strings and the literal slug, listing dynamic labels that need a different approach."}

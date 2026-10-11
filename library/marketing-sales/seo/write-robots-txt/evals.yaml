@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a robots.txt for my site. {{site}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-review-ecommerce
+    vars:
+      site: "Custom e-commerce site. Filter URLs like /shoes?color=red&size=9, internal search /search?q=, cart /cart, account /account. CSS and JS in /static/. Sitemap at /sitemap.xml."
+      current_file: |
+        User-agent: *
+        Disallow: /static/
+        Disallow: /cart
+        User-agent: Googlebot
+        Disallow: /search
+      goals: "Stop crawl of internal search and filter combinations, allow AI search citations but not training."
+    assert:
+      - {type: contains, value: "## robots.txt"}
+      - {type: llm-rubric, value: "Flags blocking /static/ as harmful to rendering, explains that the Googlebot group overrides the * group so Googlebot can crawl /cart, writes a corrected file with search and filter parameter rules using wildcards and a Sitemap line, distinguishes AI search crawlers from training crawlers with examples and tells the user to verify names, and explains robots.txt does not remove indexed pages."}
+  - name: edge-shopify
+    vars:
+      site: "Shopify store with a blog. Wants to stop tag pages being crawled."
+    assert:
+      - {type: llm-rubric, value: "Explains Shopify generates a default robots.txt that is edited through a robots.txt template in the theme, keeps sensible defaults, adds a rule for tag URL patterns, and notes that noindex may be better if tag pages are already indexed."}
+  - name: negative-security-and-removal
+    vars:
+      site: "We have /admin-backup/ with customer exports and want robots.txt to hide it, and also to remove our old pricing page from Google."
+    assert:
+      - {type: llm-rubric, value: "Warns that robots.txt is public and does not protect content, so listing /admin-backup/ advertises it, recommends removing or putting the data behind authentication immediately, and explains that removing the pricing page needs noindex or 404/410 plus the removals tool rather than a Disallow."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Design a pipeline that uses an LLM to translate our app strings: {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-catalog
+    vars:
+      context: "SaaS web app, 6,000 ICU JSON strings, 9 locales including ja, de, pl and ar. About 200 strings change per week. Agency turnaround is 10 days. Last LLM experiment translated the product name and broke plural messages."
+    assert:
+      - {type: contains-all, value: ["## Validation", "## Review routing", "## Caching and cost"]}
+      - {type: llm-rubric, value: "Injects glossary terms with do-not-translate entries and plural categories required per target locale, and validates results deterministically with an ICU parser for placeholders and plural categories."}
+      - {type: llm-rubric, value: "Routes legal, pricing and payment strings to mandatory human review, translates only deltas after translation memory lookup, and gives a cost formula rather than quoting prices."}
+  - name: edge-short-ambiguous-strings
+    vars:
+      context: "Mobile app with many one-word strings such as Save, Post, Close, Book and Match, no translator notes, 4 locales."
+    assert:
+      - {type: llm-rubric, value: "Identifies ambiguity of short strings as the main risk and adds screen or feature context and notes per string, batching by feature, rather than translating strings in isolation."}
+  - name: negative-auto-publish-everything
+    vars:
+      context: "Startup wants every string, including terms of service and checkout pricing text, translated by the model and shipped automatically with no review to cut cost."
+    assert:
+      - {type: llm-rubric, value: "Refuses to auto-publish legal and pricing text without human review, explains the risk, and proposes risk-based routing that still automates routine UI strings."}

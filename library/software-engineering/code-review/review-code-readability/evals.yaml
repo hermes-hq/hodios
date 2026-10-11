@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Review this code for readability: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dense-function
+    vars:
+      audience: "On-call engineers unfamiliar with billing."
+      code: |
+        def proc(d, f=False, g=True):
+            r = []
+            for x in d:
+                if x["s"] == 3:
+                    if not f:
+                        if x["a"] > 10000:
+                            r.append(x)
+                    else:
+                        r.append(x)
+            if g:
+                send(r, True, False)
+            return r
+    assert:
+      - {type: contains, value: "## Leave as is"}
+      - {type: llm-rubric, value: "Identifies the vague names (proc, d, f, g, r, x), the magic values 3 and 10000, and the boolean arguments, and gives rewritten code with meaningful names, named constants and guard clauses or a filter, while keeping behaviour identical."}
+      - {type: llm-rubric, value: "Asks or notes what status 3 and the flags mean rather than inventing a specific business meaning as fact."}
+  - name: edge-already-clear
+    vars:
+      code: |
+        def is_eligible_for_refund(order: Order, today: date) -> bool:
+            if order.status != OrderStatus.DELIVERED:
+                return False
+            return (today - order.delivered_on).days <= REFUND_WINDOW_DAYS
+    assert:
+      - {type: llm-rubric, value: "Recognises the function is already readable and returns few or no findings, without inventing style changes."}
+  - name: negative-behaviour-change
+    vars:
+      code: |
+        total = sum(p for p in prices if p)  # skip missing prices
+    assert:
+      - {type: llm-rubric, value: "Does not rewrite it as `if p is not None` without flagging that this changes behaviour for zero prices; any behaviour-changing suggestion is flagged separately."}

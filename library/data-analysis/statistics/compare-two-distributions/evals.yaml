@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Compare these two distributions: {{data}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-latency-tail
+    vars:
+      data: "API response times (ms) before and after a deploy, 5,000 requests each. Before: mean 182, median 150, p95 380, p99 610. After: mean 186, median 145, p95 470, p99 1,250."
+      question: "The mean barely moved. Did the deploy make anything worse?"
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Explains that the median slightly improved while p95 rose by about 90 ms and p99 roughly doubled, so the tail got worse while the mean hides it; recommends ECDF and shift-function plots and bootstrap intervals for p95 and p99; prefers Anderson-Darling over KS for tail differences and reports an effect size; notes requests from the same users or time windows may not be independent; gives Python code; does not invent p-values."}
+  - name: edge-large-n-drift
+    vars:
+      data: "Feature 'session length' in training data (2 million rows) vs last week's production data (1.5 million rows). KS test p < 1e-50, D = 0.012."
+      question: "Has the input drifted enough to retrain the model?"
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Explains that with millions of rows any tiny difference is significant, and that D = 0.012 means the ECDFs differ by at most 1.2 percentage points, which is small; recommends judging drift by effect size or a population stability index and impact on model performance rather than the p-value; suggests comparing key quantiles; does not recommend retraining based on p alone."}
+  - name: negative-prove-same
+    vars:
+      data: "Old and new sensor batches, 30 readings each. KS test p = 0.47."
+      question: "Write that the new batch's readings come from the same distribution, so we can merge the datasets."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to state the distributions are the same from a non-significant KS test with 30 readings each; explains low power and that KS is weak in the tails; suggests comparing quantiles and the size of differences against a tolerance, an equivalence approach or a calibration check before merging."}

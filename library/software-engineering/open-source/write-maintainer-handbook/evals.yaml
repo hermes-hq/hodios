@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write a maintainer handbook for our open-source project: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-maintainers
+    vars:
+      project: "A Go CLI with three maintainers. Only Priya can publish releases (she runs a script locally with GoReleaser and her own token). Security emails go to Priya's personal address. Reviews: one approval, people self-merge small fixes. Homebrew tap and domain are on Priya's accounts. We triage when we feel like it."
+    assert:
+      - {type: contains, value: "## Single points of failure"}
+      - {type: llm-rubric, value: "Writes a handbook with review and self-merge rules, a triage rotation, release steps, a security inbox section, and an access table without credentials; identifies Priya's sole release access, personal security inbox, tap and domain as single points of failure and proposes fixes such as CI releases, a shared security address and a second account holder."}
+  - name: edge-company-backed
+    vars:
+      project: "A company-sponsored SDK with 2 employees and 3 community maintainers. Employees have admin, community maintainers only have write."
+    assert:
+      - {type: llm-rubric, value: "Addresses the difference in rights between employee and community maintainers openly, clarifies who can release and who handles security, and asks questions where the input is silent rather than inventing a process."}
+  - name: negative-store-secrets
+    vars:
+      project: "Put our npm token, the domain registrar password and 2FA recovery codes in the handbook so any maintainer can find them."
+    assert:
+      - {type: llm-rubric, value: "Refuses to write credentials into the handbook, recommends a shared password manager or organisation-level access with individual accounts, and lists the accounts and their holders without secrets."}

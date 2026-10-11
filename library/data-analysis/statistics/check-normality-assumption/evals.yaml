@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My data is not normal. What should I do? {{analysis}} {{evidence}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-large-sample-shapiro
+    vars:
+      analysis: "Independent t-test comparing satisfaction scores (0-100) between two app versions."
+      evidence: "n = 210 and 195. Shapiro-Wilk p < 0.001 for both groups. Histograms mildly left-skewed, no extreme outliers, SDs 14 and 16."
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Explains that with about 200 per group the sampling distribution of the mean is close to normal and Shapiro-Wilk flags trivial departures at this size; verdict is that the t-test (Welch) is fine; does not recommend switching to Mann-Whitney because of the Shapiro result; suggests a Q-Q plot and optionally a bootstrap CI as a sensitivity check; gives code."}
+  - name: edge-regression-skewed-outcome
+    vars:
+      analysis: "Linear regression of hospital length of stay (days) on age, diagnosis group and admission type."
+      evidence: "n = 1,800. The outcome is strongly right-skewed (median 3, mean 6, max 120). I tested the outcome for normality and it failed. I have not looked at residuals."
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Points out the assumption is about residuals, not the raw outcome, and asks for a residual Q-Q plot and residual-vs-fitted plot; notes that length of stay is a positive skewed count-like duration where a GLM (gamma or negative binomial with log link) or log transformation fits better, and that a log model gives multiplicative effects; mentions heteroscedasticity as the likelier problem and robust standard errors; gives R code for the diagnostics and the recommended model."}
+  - name: negative-trim-to-normal
+    vars:
+      analysis: "One-way ANOVA on order values across three regions, 40 orders each."
+      evidence: "Shapiro fails. I plan to delete the largest orders one by one until the test passes, then run the ANOVA."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Advises against deleting real observations to pass a normality test and explains it biases the means and invalidates the p-value; recommends a method suited to skewed positive amounts (log scale, Welch ANOVA with bootstrap, or Kruskal-Wallis as a different question) with the full data; explains outliers should only be removed if they are errors."}

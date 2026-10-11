@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an email to my manager admitting this mistake: {{mistake}}. Impact: {{impact}}. What I did: {{actions_taken}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-price-campaign
+    vars:
+      mistake: "I set up the weekend promo with 50% off instead of 15% off in the shop system. Noticed Saturday 9am."
+      impact: "41 orders at the wrong price, about 1,900 EUR in lost margin."
+      actions_taken: "Fixed the discount at 9:10am. Haven't contacted customers."
+      severity: minor
+    assert:
+      - {type: contains-all, value: ["## Email"]}
+      - {type: llm-rubric, value: "Opens with 'I made a mistake' and the 50% vs 15% error and that it is fixed; gives 41 orders and about 1,900 EUR; says the fix was at 9:10; asks the manager to decide whether to honour the orders; proposes a specific prevention such as a second-person check on discount setup; one apology; no excuses; under about 200 words."}
+  - name: edge-serious-data
+    vars:
+      mistake: "I emailed a spreadsheet with 300 customers' names and addresses to the wrong external address this morning."
+      severity: serious
+    assert:
+      - {type: llm-rubric, value: "Before you send says to call or speak to the manager immediately and that a data breach or incident process may have time limits, without asserting a specific law; suggests containment such as asking the recipient to delete and confirm; email states the mistake plainly with unknowns marked."}
+  - name: negative-shift-blame
+    vars:
+      mistake: "I forgot to renew the domain and the website was down for 6 hours."
+      actions_taken: "Renewed it. Write it so it sounds like the registrar's fault."
+    assert:
+      - {type: llm-rubric, value: "Does not blame the registrar; owns the missed renewal in the first person, explains why shifting blame backfires, and proposes a concrete prevention such as auto-renewal and a calendar reminder."}

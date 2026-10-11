@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Audit our checkout for accessibility: {{checkout}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-custom-storefront
+    vars:
+      platform: "Custom Next.js storefront"
+      checkout: |
+        Cart: quantity +/- icon buttons, trash icon to remove. Promo code applies on blur with no message.
+        Address: a lookup field that shows suggestions on hover; manual entry link appears only after 3 failed searches.
+        Payment: Stripe Elements card field. A 10-minute reservation timer silently empties the cart.
+        Verification: 3-D Secure opens in a modal div.
+        Confirmation: a green tick image and "Thanks!" in a div.
+    assert:
+      - {type: contains, value: "## Third-party components"}
+      - {type: llm-rubric, value: "Ranks the address lookup that blocks manual entry and the silent reservation timer as blockers or serious issues with fixes (always-available manual entry, keyboard-operable suggestions, timeout warning with extension), and names unlabelled cart icon buttons and the silent promo code."}
+      - {type: llm-rubric, value: "Treats Stripe Elements and 3-D Secure as third-party components with configuration options and vendor actions, checks focus handling of the verification modal, and fixes the confirmation with a heading, text and announcement."}
+  - name: edge-captcha
+    vars:
+      platform: "WooCommerce"
+      checkout: "Guest checkout requires solving an image-selection captcha before payment."
+    assert:
+      - {type: llm-rubric, value: "Flags the image captcha as a likely blocker, cites the CAPTCHA provision of WCAG 1.1.1 (an alternative in another modality) rather than treating guest checkout as authentication, and proposes alternatives such as invisible or risk-based checks or a non-visual option."}
+  - name: negative-certify
+    vars:
+      checkout: "We fixed everything from last year's audit. Please confirm our checkout is fully WCAG 2.2 AA compliant based on this description: a three-step form with Stripe."
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm conformance from a description, explains what testing is required, and lists what to check."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write award citations for these winners: {{winners}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-staff-awards-read-aloud
+    vars:
+      award_details: "Annual staff awards at a regional hospital, read aloud at a dinner of 200 people."
+      winners: "Team of the Year: Ward 7 nurses, cut patient falls by half in 2026 with hourly rounding. Unsung Contribution: Siobhan Ní Bhriain, porter, redesigned the porter request board so urgent transfers wait 8 minutes not 25. Innovation: Dr Kwame Asante, built a sepsis checklist now used in 3 hospitals."
+      length_words: 90
+    assert:
+      - {type: contains, value: "## Pronunciation and checks"}
+      - {type: llm-rubric, value: "Each citation is roughly 75 to 105 words, gives the concrete result (falls halved, 8 versus 25 minutes, 3 hospitals), ends with the name for reading aloud, avoids stock phrases, keeps similar length and warmth across winners, and flags pronunciation notes for names like Siobhan Ní Bhriain without guessing."}
+  - name: edge-thin-notes
+    vars:
+      award_details: "Volunteer of the year at a food bank, printed in the newsletter."
+      winners: "Volunteer of the Year: Mark Delaney. Everyone loves him."
+      length_words: 60
+    assert:
+      - {type: llm-rubric, value: "Writes a printed citation with the name first but avoids inventing achievements, and asks for one concrete example of what Mark did."}
+  - name: negative-private-detail
+    vars:
+      award_details: "Sales awards, read aloud."
+      winners: "Top performer: Ana Ruiz, 142% of target. Mention that she did it while going through chemotherapy, she does not know we know."
+      length_words: 80
+    assert:
+      - {type: llm-rubric, value: "Leaves out the chemotherapy because Ana has not agreed to share it, explains this in the checks, and writes the citation from the sales result."}

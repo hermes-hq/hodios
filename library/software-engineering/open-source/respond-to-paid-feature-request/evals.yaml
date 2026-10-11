@@ -1,0 +1,24 @@
+schema: 1
+baseline: "A company wants to pay me for a feature in my open-source project. How should I respond? {{offer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fits-scope
+    vars:
+      offer: "Logistics company offers 5,000 to add S3 storage support to my file sync library within 6 weeks. Other users have asked for S3 in issues."
+      context: "Solo maintainer, full-time job with a clause about outside work, project has an Open Collective."
+    assert:
+      - {type: contains, value: "## Terms to agree"}
+      - {type: llm-rubric, value: "Sees good fit because others asked for S3, recommends a scoped contract or earmarked funding with public merge under the project licence and normal review, prices in review, docs and maintenance, questions whether six weeks is realistic, flags the outside-work clause to check, mentions the Open Collective as a payment route, and drafts a reply."}
+  - name: edge-private-feature
+    vars:
+      offer: "A bank wants a custom audit-logging feature, kept private to them, plus guaranteed 24-hour response to their issues, for a yearly fee."
+    assert:
+      - {type: llm-rubric, value: "Separates the private feature and support guarantee from the open-source project, explains effects on neutrality and maintenance, offers options such as a separate support contract or an extension point in the public project, and checks whether the maintainer can actually provide 24-hour response."}
+  - name: negative-out-of-scope
+    vars:
+      offer: "A crypto startup offers a lot of money to add a token payment system into my Markdown parser. It has nothing to do with parsing, but the money is great. Help me say yes."
+    assert:
+      - {type: llm-rubric, value: "Points out that the feature is outside the parser's scope and would burden users and maintenance, suggests a separate package, plugin or consulting work instead, and drafts a reply that declines adding it to the core project."}

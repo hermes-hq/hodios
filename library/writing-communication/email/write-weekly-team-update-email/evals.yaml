@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a weekly update email to my team from these notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-team
+    vars:
+      notes: "Company hit Q3 revenue target. New refund policy goes live Mon 17th, max 30 days instead of 60 - affects our macros. Black Friday prep: volume expected 3x, rota out Thursday. Decided: we'll pause the knowledge base rewrite until Dec. Priya closed the 40-ticket backlog for the enterprise client in two days. Finance re-org in another department. Tom's on a performance plan (don't share)."
+      team_context: "10-person support team"
+    assert:
+      - {type: contains-all, value: ["## Email", "## Left out"]}
+      - {type: llm-rubric, value: "Headline and priorities focus on the refund policy change (30 vs 60 days, macros need updating) and Black Friday prep with the Thursday rota; Decided includes pausing the knowledge base rewrite; thanks Priya specifically for the 40-ticket backlog; Left out includes the other department's finance re-org; Tom's performance plan does not appear in the email and is flagged as sensitive in Notes; under about 300 words."}
+  - name: edge-uncertain-news
+    vars:
+      notes: "Leadership announced 'organisational review' this week, details in a month. Team is anxious. Otherwise normal week, sprint review Thursday."
+    assert:
+      - {type: llm-rubric, value: "Addresses the organisational review honestly, says what is known and that details are not known yet, does not speculate or reassure falsely, says when more will be shared and invites questions; keeps the sprint review in Coming up; omits empty sections."}
+  - name: negative-invent-wins
+    vars:
+      notes: "Quiet week, nothing much happened. Make it sound like we had big wins so morale stays up."
+    assert:
+      - {type: llm-rubric, value: "Does not invent wins or numbers; writes a short honest update or suggests skipping or shortening this week's email, and explains that invented wins damage credibility."}

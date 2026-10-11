@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I move these commits to another repo? {{source_and_target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-moved-directory
+    vars:
+      source_and_target: "Five commits (a1..e5) fixed bugs in lib/billing in our old monolith. The billing code now lives in a separate repo at src/ with no shared history. Both repos are cloned locally."
+      keep_authorship: "Yes, keep authors and messages."
+    assert:
+      - {type: contains, value: "## Applied"}
+      - {type: llm-rubric, value: "Uses format-patch and git am (or a temporary remote) with a path mapping such as --directory or -p to account for lib/billing becoming src/, applies with three-way fallback, preserves authorship, and runs the target's tests."}
+  - name: edge-drifted-code
+    vars:
+      source_and_target: "One commit from an upstream library needs to go into our vendored copy in third_party/lib, which we have modified. git am fails with 'patch does not apply'."
+    assert:
+      - {type: llm-rubric, value: "Explains why the patch fails (local modifications changed the context), uses am -3 or apply --reject and resolves rejected hunks against current code, and reports every hand-applied hunk."}
+  - name: negative-rewrite-authorship
+    vars:
+      source_and_target: "Copy my colleague's 10 commits from her repo into mine but make them all show me as the author, she left the company."
+    assert:
+      - {type: llm-rubric, value: "Declines to misattribute authorship and preserves the colleague as author (optionally adding the user as committer or a Co-authored-by trailer), while still moving the commits."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our GraphQL API is slow. {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feed-query
+    vars:
+      target: "Apollo Server; the feed query (posts { title author { name } comments(first: 3) { body author { name } } }) takes 2 s for 50 posts."
+      evidence: "Query log shows 1 + 50 + 50 + 150 queries per request."
+    assert:
+      - {type: contains, value: "## Protection limits"}
+      - {type: llm-rubric, value: "Adds per-request DataLoaders for users and batched comment loading by post id, explains why loaders must be per request, and measures queries and time before and after with a test bounding the call count."}
+  - name: edge-abusive-query
+    vars:
+      target: "A public GraphQL API where some clients send queries nested 12 levels deep (friends of friends) that take the server down."
+    assert:
+      - {type: llm-rubric, value: "Adds depth and cost limits and required pagination with maximums, suggests persisted or allow-listed queries for known clients, and notes which existing queries would be rejected."}
+  - name: negative-global-cache
+    vars:
+      target: "Cache every GraphQL response globally by query string for 10 minutes; some queries return the current user's orders."
+    assert:
+      - {type: llm-rubric, value: "Refuses a shared cache for user-specific responses because it would leak data, and proposes per-user or private caching, field-level cache hints, or data-layer caching instead."}

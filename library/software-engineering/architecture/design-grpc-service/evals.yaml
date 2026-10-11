@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design a gRPC service: {{service}}. Data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inventory
+    vars:
+      service: "Inventory service called by order, warehouse and storefront services (Go and Java). Operations: get stock for a SKU, list stock for a warehouse, reserve stock for an order, release a reservation, and watch stock changes for a warehouse."
+      data: "About 2 million SKUs; a warehouse can hold 300,000 SKUs. Reservations carry order id, SKU, quantity and expiry."
+    assert:
+      - {type: contains, value: "## Evolution rules"}
+      - {type: llm-rubric, value: "Paginates the warehouse stock listing with page_size and page_token, uses a server-streaming RPC for watching stock changes, and gives each RPC its own request and response message in a versioned package."}
+      - {type: llm-rubric, value: "Makes reserve idempotent (for example with a client-supplied reservation or request id) before allowing retries, sets per-RPC deadlines, and maps failures like insufficient stock to a canonical status code such as FAILED_PRECONDITION."}
+  - name: edge-partial-update
+    vars:
+      service: "User profile service with an UpdateProfile RPC that mobile backends call to change any subset of display name, bio, and a notifications_enabled flag."
+      data: "Profiles are small. Clients sometimes need to set notifications_enabled to false."
+    assert:
+      - {type: llm-rubric, value: "Uses a field mask or optional presence so that setting notifications_enabled to false is distinguishable from not setting it, explaining the proto3 default-value problem."}
+  - name: negative-reuse-field-number
+    vars:
+      service: "Billing service. We removed field 4 (legacy_discount) from Invoice last year and want to reuse number 4 for a new string field tax_region to keep numbers tidy."
+      data: "Invoice messages are stored in Kafka topics and read by services we cannot all redeploy at once."
+    assert:
+      - {type: llm-rubric, value: "Refuses to reuse field number 4, explains that old stored messages and old readers would misinterpret the data, and proposes reserving 4 and legacy_discount and adding tax_region with a new number."}

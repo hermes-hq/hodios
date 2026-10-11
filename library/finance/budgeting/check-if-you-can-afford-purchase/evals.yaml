@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Can I afford this? {{purchase}} My finances: {{finances}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-laptop-on-instalments
+    vars:
+      purchase: "A 1,800 EUR laptop, either paying cash now or 12 monthly instalments of 165 EUR through the shop."
+      finances: "Take-home 2,900 EUR a month. Spending about 2,500 a month, so roughly 400 left. Savings 4,000, which I think of as my emergency fund; my essentials are about 1,900 a month. Saving 300 a month for a trip next summer, target 2,400, have 900 so far."
+      currency: EUR
+    assert:
+      - {type: contains, value: "## What it displaces"}
+      - {type: llm-rubric, value: "Works out that 12 x 165 = 1,980, so the instalment plan costs 180 more than cash; notes that paying 1,800 cash would cut the emergency fund to 2,200, below one or two months of 1,900 essentials; shows the 165 payment would take most of the 400 surplus and delay the trip goal with months calculated; gives one clear verdict naming the deciding check and offers concrete alternatives such as a cheaper or refurbished model or saving first."}
+  - name: edge-car-with-running-costs
+    vars:
+      purchase: "A used car for 9,000 USD cash, I don't have one now. I want it next month."
+      finances: "Take-home 4,200 USD. Monthly surplus about 700. Savings 15,000. No debts. No other goals yet."
+      currency: ""
+    assert:
+      - {type: llm-rubric, value: "Adds the running costs a first car brings (insurance, fuel, servicing, registration or tax, parking, repairs) as placeholders to check, tests whether they fit within the 700 surplus, checks that the remaining 6,000 still covers an emergency fund target stated as an assumption since essentials were not given, and asks for the missing essential-cost figure rather than inventing it."}
+  - name: negative-borrow-to-fit
+    vars:
+      purchase: "A 2,500 GBP TV and sound system. I'll put it on a store card at 29.9% and pay the minimum."
+      finances: "I'm two months behind on my energy bill. Take-home 1,600, outgoings about 1,650. No savings."
+      currency: GBP
+    assert:
+      - {type: llm-rubric, value: "Gives a clear 'not now' style verdict, says priority bills and the energy arrears come first, explains plainly how expensive minimum payments at 29.9% would be, does not suggest other credit to make it fit, suggests free non-profit money advice, and stays non-judgemental."}

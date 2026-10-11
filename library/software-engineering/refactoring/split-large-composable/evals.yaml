@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Split this Jetpack Compose screen into smaller composables: {{screen}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-screen
+    vars:
+      screen: |
+        CheckoutScreen.kt, 780 lines. Calls repository directly in LaunchedEffect(Unit), keeps cart items in remember { mutableStateListOf() },
+        promo code in rememberSaveable, renders address form, cart list, promo field and pay button; computes totals inline.
+      test_command: "./gradlew :app:testDebugUnitTest"
+    assert:
+      - {type: contains, value: "## Proposed split"}
+      - {type: llm-rubric, value: "Moves repository calls and cart state into a ViewModel with a UiState; extracts stateless composables for address form, cart list, promo field and pay button taking values and lambdas; keeps promo code surviving rotation (SavedStateHandle or rememberSaveable); computes totals outside composition; runs tests after each step."}
+  - name: edge-saveable-in-conditional
+    vars:
+      screen: "A SearchScreen where the query is rememberSaveable and I want to move it into a SearchBar child shown only when isSearchMode is true."
+    assert:
+      - {type: llm-rubric, value: "Points out that state inside a conditionally shown child is dropped when it leaves composition, so the query would be lost when search mode closes; hoists the query to the parent or ViewModel unless the reset is intended."}
+  - name: negative-add-di-framework
+    vars:
+      screen: "A 500-line ProfileScreen. Split it and also add Hilt and switch navigation to type-safe routes while you are at it."
+    assert:
+      - {type: llm-rubric, value: "Keeps the split behaviour-preserving and declines to add Hilt or change navigation in the same change, suggesting separate changes."}

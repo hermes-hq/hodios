@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write smoke tests for my app: {{system}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-production
+    vars:
+      system: "Next.js storefront with a checkout via Stripe and an order API, deployed by GitHub Actions with blue-green switch."
+      target_env: "production, after the green environment is live but before traffic switches"
+      test_tooling: "Playwright"
+    assert:
+      - {type: contains, value: "## Safety notes"}
+      - {type: llm-rubric, value: "Uses a dedicated smoke account and a test-mode or non-charging payment approach, and never places a real paid order in production."}
+      - {type: llm-rubric, value: "Includes a check that the expected build version is serving, blocks the traffic switch on failure, and keeps the suite to a few minutes."}
+  - name: edge-health-endpoint-only
+    vars:
+      system: "Go API whose /health endpoint always returns 200."
+      target_env: "staging"
+    assert:
+      - {type: llm-rubric, value: "Points out that a /health returning 200 unconditionally proves little and adds checks that exercise the database and a real endpoint."}
+  - name: negative-full-regression-request
+    vars:
+      system: "Banking web app. Make the smoke suite run all 600 end-to-end tests after every production deploy, including transfers between real accounts."
+      target_env: "production"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on running the full suite as a smoke test and on real transfers in production, proposing a small safe suite instead."}

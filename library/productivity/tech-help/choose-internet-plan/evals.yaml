@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which internet plan should I choose? {{household}} Options: {{offers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-remote-workers
+    vars:
+      household: "Two adults working from home, frequent video calls and large file uploads, one TV streaming in the evening."
+      offers: "A: cable 1 Gbps down / 50 Mbps up, 30/month for 6 months then 48, 18-month contract, 40 setup. B: full fibre 500/500, 42/month fixed, 24-month contract, free setup. C: 5G home internet up to 300 down, 30/month, no contract."
+    assert:
+      - {type: contains, value: "## Plans compared"}
+      - {type: llm-rubric, value: "Estimates need well below 1 Gbps, highlights upload as the deciding factor for these remote workers, computes total contract cost for each plan including the post-promotion price and setup fee, and recommends the symmetric fibre plan or explains clearly why not."}
+  - name: edge-rural-satellite
+    vars:
+      household: "Retired couple in a rural farmhouse, email, news sites and weekly video calls with grandchildren."
+      offers: "DSL up to 8 Mbps at 25/month, 12 months. Low-orbit satellite 100 Mbps at 75/month plus 300 equipment. 4G home router, signal unknown, 35/month."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Shows that modest needs might be met by DSL or 4G, tells them to test 4G signal at the house before committing, accounts for the satellite equipment cost in the total, and does not overbuy."}
+  - name: negative-invent-provider
+    vars:
+      household: "Family of four, lots of streaming."
+      offers: "I don't know what's available. Just tell me the best provider in my area and their price."
+    assert:
+      - {type: llm-rubric, value: "Does not invent providers, prices or availability for the area; explains how to find which plans are available at the address and what to collect, and gives the speed need estimate it can make."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do we handle old versions of our mobile app? {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-breaking-checkout
+    vars:
+      app: "iOS and Android food-ordering apps released every two weeks, calling a REST backend."
+      version_data: "Apps send an X-App-Version header. 9% of weekly users are on versions older than 6 months."
+      pressure: "The checkout endpoint must change its request format to support a new payment provider."
+    assert:
+      - {type: contains, value: "## Upgrade prompts"}
+      - {type: llm-rubric, value: "Keeps old versions working by adding a new checkout endpoint or adapting requests per version, rather than changing the existing format in place, and uses the version header to measure when old versions have drained."}
+      - {type: llm-rubric, value: "Designs a startup config response with minimum and recommended versions, distinguishing a soft prompt from a forced-upgrade screen, plus remote kill switches."}
+  - name: edge-no-version-check
+    vars:
+      app: "Android app whose first versions shipped without any version header or forced-upgrade check."
+      pressure: "A security flaw in an old login flow."
+    assert:
+      - {type: llm-rubric, value: "Recognises that old versions cannot be prompted to upgrade, proposes server-side options such as detecting them by other request traits and blocking the vulnerable flow with an error the app displays, and adds version signalling and the check to the next release."}
+  - name: negative-force-everyone
+    vars:
+      app: "Banking app."
+      pressure: "Marketing wants to force every user onto the latest version within a week so they see the new design."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a forced upgrade for a cosmetic change, explaining user and support costs and users who cannot update, and recommends a soft prompt with forced upgrades reserved for security or breaking reasons."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a CAPA report for this problem: {{nonconformance}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-label-mixup
+    vars:
+      nonconformance: "Internal audit found 2 cartons of 250 ml bottles labelled as 500 ml in finished goods on 3 March. Line 2 runs both sizes. Labels are loaded manually from a shared rack."
+      investigation: "Changeover on 2 March evening shift. The changeover checklist has no label check line. Both label rolls look similar. Operator says the roll was on the wrong rack slot."
+      system: "ISO 9001"
+    assert:
+      - {type: contains, value: "## Effectiveness check"}
+      - {type: llm-rubric, value: "Contains finished stock and anything shipped since 2 March, names the occurrence cause (no label verification at changeover, similar rolls, shared rack) and the detection cause, does not stop at operator error, proposes system actions such as a changeover label check or segregated storage, extends preventive action to other lines with shared labels, and sets a measurable effectiveness check with a period."}
+  - name: edge-no-investigation-yet
+    vars:
+      nonconformance: "Customer reported 5 of 40 welded brackets cracked at the weld in delivery 1182."
+      investigation: ""
+      system: ""
+    assert:
+      - {type: llm-rubric, value: "Writes containment covering remaining stock, WIP and other deliveries from the same period, presents root causes only as hypotheses with the evidence needed to confirm each (weld procedure, welder, material, inspection), marks unknowns as CONFIRM, and notes the customer reply is a separate document."}
+  - name: negative-close-with-retraining
+    vars:
+      nonconformance: "Wrong part fitted to an assembly, caught at final test."
+      investigation: "Operator was new. Please just write root cause: operator error, action: retrain, and mark it closed today."
+      system: "ISO 9001"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on operator error as the root cause and on closing the same day, asks why the process allowed a wrong part (similar parts, bin layout, no verification, onboarding), keeps retraining only as one action, and requires an effectiveness check before closure."}

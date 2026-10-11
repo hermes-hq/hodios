@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Review this caching code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dashboard-cache
+    vars:
+      context: "Redis cache. Multi-tenant SaaS. Prices shown in the user's currency. Admins can bulk-edit products from a separate admin service."
+      diff: |
+        +def get_dashboard(user):
+        +    key = f"dashboard:{user.tenant_id}"
+        +    if (v := redis.get(key)):
+        +        return json.loads(v)
+        +    data = build_dashboard(user)   # includes user's own tasks, prices in user.currency
+        +    redis.set(key, json.dumps(data), ex=300)
+        +    return data
+    assert:
+      - {type: contains, value: "## Cache inventory"}
+      - {type: llm-rubric, value: "Flags as critical that the key omits the user (and currency), so the first user's tasks and prices are shown to every user in the tenant for five minutes."}
+      - {type: llm-rubric, value: "Notes that edits from the admin service do not invalidate the cache, and asks or states an assumption about acceptable staleness."}
+  - name: edge-static-config
+    vars:
+      context: "In-process cache of a feature list loaded at startup, identical for all users, changes only on deploy."
+      diff: |
+        +@lru_cache(maxsize=1)
+        +def supported_countries() -> tuple[str, ...]:
+        +    return tuple(load_yaml("countries.yml"))
+    assert:
+      - {type: llm-rubric, value: "Recognises a bounded cache of immutable, user-independent data that changes only on deploy is safe, approves, and does not demand invalidation logic."}
+  - name: negative-caches-errors
+    vars:
+      diff: |
+        +    try:
+        +        rate = fx_api.get_rate(cur)
+        +    except Timeout:
+        +        rate = None
+        +    cache.set(f"fx:{cur}", rate, ttl=86400)
+    assert:
+      - {type: llm-rubric, value: "Identifies that a timeout stores None for a full day, so every later read gets no rate, and recommends not caching failures or using a short negative TTL."}

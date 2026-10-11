@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a JSON Schema for {{config}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pydantic-yaml
+    vars:
+      config: |
+        .deployer.yaml loaded in deployer/config.py:
+        class Config(BaseModel):
+            model_config = ConfigDict(extra="ignore")
+            region: Literal["eu", "us"] = "eu"
+            timeout: int = Field(30, ge=1, le=600)  # seconds
+            hooks: dict[str, str] = {}
+            retries: int | None = None
+            # legacy key 'max_retries' mapped to retries in a validator
+      notes: "Users edit it in VS Code."
+    assert:
+      - {type: icontains, value: "additionalProperties"}
+      - {type: llm-rubric, value: "Generates the schema from the pydantic model or mirrors it exactly, does not set additionalProperties false at the top level because extra is ignore, documents timeout in seconds with 1 to 600 and default 30, keeps hooks as an open map of strings, includes max_retries as deprecated pointing to retries, and shows the yaml-language-server comment or VS Code yaml.schemas setting."}
+  - name: edge-example-fails
+    vars:
+      config: "tool.toml, parsed into a Rust struct with serde(deny_unknown_fields). docs/examples/full.toml contains a key 'colour' that the struct does not have."
+    assert:
+      - {type: llm-rubric, value: "Sets additionalProperties false to match deny_unknown_fields, validates the docs example, and reports that the example itself is invalid rather than loosening the schema to accept it."}
+  - name: negative-guess-without-code
+    vars:
+      config: "config.json for our tool. I can't share the code, just make up sensible options."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent options for a real tool's schema, explains that a guessed schema would flag valid configs or miss real ones, and asks for the loader code or real config examples."}

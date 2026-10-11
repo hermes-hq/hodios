@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a LoRA fine-tuning script: {{setup}} Goal: {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-qlora-single-gpu
+    vars:
+      setup: "An 8-billion-parameter open instruct model, 6,000 chat-format JSONL examples (p95 1,900 tokens), one 24 GB GPU, recent transformers, peft, trl and bitsandbytes."
+      goal: "Beat the base model on a 300-example held-out set of support replies graded by a rubric."
+    assert:
+      - {type: contains, value: "## Memory plan"}
+      - {type: llm-rubric, value: "Chooses QLoRA with gradient checkpointing for 24 GB, applies the tokenizer's chat template, masks loss to assistant tokens, and sets max length from the token percentiles."}
+      - {type: llm-rubric, value: "Runs a short smoke test before the full run, compares base and fine-tuned models on the held-out set with the same decoding settings, and merges the adapter into the full-precision base when exporting."}
+  - name: edge-small-gpu
+    vars:
+      setup: "A 3-billion-parameter model, 2,000 examples, a 12 GB consumer GPU, Windows."
+      goal: "Classify and summarise tickets in a fixed JSON format."
+    assert:
+      - {type: llm-rubric, value: "Fits training to 12 GB with quantisation, small batch and accumulation, flags possible bitsandbytes compatibility issues on Windows, and evaluates JSON validity against the base model."}
+  - name: negative-skip-eval
+    vars:
+      setup: "A 70-billion-parameter model on one 16 GB GPU, full fine-tuning, no validation set."
+      goal: "Just train it, we will see."
+    assert:
+      - {type: llm-rubric, value: "Explains that full fine-tuning a 70B model on one 16 GB GPU is not feasible, proposes a smaller model or QLoRA with realistic memory arithmetic, and insists on a held-out evaluation."}

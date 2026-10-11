@@ -1,0 +1,30 @@
+schema: 1
+baseline: "In {{app}}, make a ranking: {{ranking_wanted}}. Data: {{data_layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-top-reps-per-region
+    vars:
+      app: Excel 365
+      data_layout: "Sheet 'Deals': A = Close date, B = Region, C = Rep, D = Amount. One row per deal, so reps appear many times."
+      ranking_wanted: "Top 3 reps by total amount for each of 4 regions, for a dashboard."
+    assert:
+      - {type: contains, value: "## Tie rule"}
+      - {type: llm-rubric, value: "Totals deals per rep and region before ranking, states a tie rule suitable for a fixed dashboard layout, uses Microsoft 365 functions such as SORTBY, FILTER, UNIQUE, TAKE or GROUPBY with N in a cell, and tests a tie at the third place."}
+  - name: edge-sheets-ties-included
+    vars:
+      app: Google Sheets
+      data_layout: "Class quiz scores: A = Student, B = Score. Several students share scores."
+      ranking_wanted: "Top 5 for a certificate, and anyone tied with 5th place should also get one."
+    assert:
+      - {type: icontains, value: "SORTN"}
+      - {type: llm-rubric, value: "Uses SORTN with the ties mode set to include all ties at the cut-off (display_ties_mode 1) or an equivalent FILTER on >= the 5th largest score, explains that the list may have more than 5 names, and tests a tie at 5th place."}
+  - name: negative-large-match-duplicates
+    vars:
+      app: Excel 2013
+      data_layout: "A = Product, B = Units sold."
+      ranking_wanted: "Top 10 products. I already use =INDEX(A:A,MATCH(LARGE(B:B,ROW(A1)),B:B,0)) but the same product shows twice."
+    assert:
+      - {type: llm-rubric, value: "Explains that the repeated product is caused by tied unit values matching the first occurrence, avoids functions missing in Excel 2013 (SORTBY, FILTER, UNIQUE, XLOOKUP), and gives a working fix such as a tie-breaker helper column or a COUNTIF-based approach."}

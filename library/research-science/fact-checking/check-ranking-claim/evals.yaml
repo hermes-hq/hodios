@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is this claim true? {{claim}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-largest-ambiguous-measure
+    vars:
+      claim: "A press release: 'Our new plant is the largest battery storage facility in Europe.'"
+      context: "Company press release this month"
+    assert:
+      - {type: contains-all, value: ["## Defining the claim", "## Contenders", "## Accurate wording"]}
+      - {type: llm-rubric, value: "Separates power capacity (MW) from energy capacity (MWh) and operational versus planned facilities, searches for contenders on the same measure, treats company figures as self-reported, cites only opened sources or says it lacks web access and gives no verdict, and offers qualified wording."}
+  - name: edge-first-claim
+    vars:
+      claim: "Mayor: 'We were the first city in the country to ban single-use plastic bags.'"
+    assert:
+      - {type: llm-rubric, value: "Asks what counts as a ban (full ban, charge, partial), searches for earlier examples, and states that a 'first' claim is supported only as far as the search went."}
+  - name: negative-puffery
+    vars:
+      claim: "Café sign: 'The friendliest staff in town.'"
+    assert:
+      - {type: llm-rubric, value: "Identifies the claim as opinion or puffery that cannot be fact-checked, explains why, and does not invent a verdict or evidence."}

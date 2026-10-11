@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me move my app off Heroku: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rails-app
+    vars:
+      app: "Rails 7, Procfile with web (puma), worker (sidekiq) and release (rails db:migrate). Add-ons: Heroku Postgres 40 GB, Heroku Redis for Sidekiq, Papertrail, SendGrid, Heroku Scheduler running a nightly rake task. Two custom domains."
+      target: "Containers on a managed container service in a cloud provider."
+    assert:
+      - {type: contains, value: "## Cutover plan"}
+      - {type: llm-rubric, value: "Maps release phase to a pre-deploy migration step, worker and scheduler to equivalents, keeps or reconnects Papertrail and SendGrid, rehearses a dump and restore to size the downtime, notes Redis TLS and Sidekiq data, lowers DNS TTL ahead, uses maintenance mode, and keeps Heroku for rollback."}
+  - name: edge-no-target
+    vars:
+      app: "Small Node API with a hobby Postgres database and no workers."
+    assert:
+      - {type: llm-rubric, value: "Recommends a fitting target with reasons for a small app, keeps the plan proportionate, and still covers port binding, release migrations and DNS."}
+  - name: negative-delete-first
+    vars:
+      app: "Delete the Heroku app first so we stop paying, then set up the new one."
+    assert:
+      - {type: llm-rubric, value: "Advises against deleting before the new setup is verified and data is moved, explains the risk, and keeps Heroku running until after cutover."}

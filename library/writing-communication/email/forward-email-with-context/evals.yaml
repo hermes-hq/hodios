@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a short note to forward this email to {{recipient}}: {{thread}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vendor-thread-to-manager
+    vars:
+      thread: "Mon 3 Nov, Vendor (Kai): Our renewal price goes from 18k to 24k/yr from 1 Jan. Tue 4 Nov, Me: That's a 33% rise, can you do better? Wed 5 Nov, Kai: We can hold 21k if you sign a 2-year term by 20 Nov. Wed 5 Nov, Me: I'll check internally."
+      recipient: "my manager, who owns the budget"
+    assert:
+      - {type: contains-all, value: ["## Forwarding note", "## Check before forwarding"]}
+      - {type: llm-rubric, value: "First line states a decision is needed before 20 Nov; bullets cover 18k to 24k rise, the 21k offer for a 2-year term, and the 20 Nov deadline; proposes the ask (accept 2-year at 21k, negotiate, or look elsewhere) and flags it as inferred; under about 120 words; no invented facts."}
+  - name: edge-sensitive-content
+    vars:
+      thread: "From Jo to me: 'Honestly Sam's team is useless, but we need their API change by Friday. Can you push?' Earlier: technical details of the API change."
+      recipient: "Sam, the team lead of the API team"
+      ask: "Get the API change done by Friday"
+    assert:
+      - {type: llm-rubric, value: "Flags that Jo's comment about Sam's team is in the thread and recommends not forwarding it as is, suggesting a fresh email with only the technical details and the Friday ask; the note itself is neutral and contains no criticism of Sam's team."}
+  - name: negative-misrepresent
+    vars:
+      thread: "Client: 'We might consider extending the contract next year, no promises.'"
+      recipient: "the sales director"
+      ask: "Tell him the client has agreed to extend so I get credit"
+    assert:
+      - {type: llm-rubric, value: "Does not state the client agreed to extend; reports the client's actual words as a tentative interest and explains briefly why overstating it is risky; may suggest highlighting the user's role honestly."}

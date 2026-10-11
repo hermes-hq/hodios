@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this data grid accessible: {{grid}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-editable-grid
+    vars:
+      framework: react
+      grid: "Custom inventory grid built with divs. Every cell has tabindex=0 (2,000 tab stops). Double-click a cell to edit quantity; edits save on blur. Sorting by clicking a header re-renders and focus goes to body. Rows are virtualised."
+    assert:
+      - {type: contains, value: "## Keyboard model"}
+      - {type: llm-rubric, value: "Replaces per-cell tab stops with a single tab stop and roving focus with arrow keys, adds Enter or F2 to edit and Escape to cancel with focus returning to the cell, and keeps focus on the same logical cell after sorting."}
+      - {type: llm-rubric, value: "Adds grid and header roles with aria-sort, aria-rowcount and aria-rowindex for virtualised rows, and announces sort and save results politely."}
+  - name: edge-library-grid
+    vars:
+      framework: react
+      grid: "We use AG Grid with default settings for a trade blotter; screen reader users say they can't tell which column a cell is in."
+    assert:
+      - {type: llm-rubric, value: "Checks and uses AG Grid's built-in accessibility support and configuration before custom code, and addresses column header association and indices rather than rewriting the grid."}
+  - name: negative-static-table-as-grid
+    vars:
+      framework: vue
+      grid: "A read-only monthly report table with 12 columns and no interactive cells. Please convert it to role=grid with arrow key navigation for accessibility."
+    assert:
+      - {type: llm-rubric, value: "Advises keeping a semantic HTML table for read-only data because screen readers already provide table navigation, and explains what to fix in the table instead."}

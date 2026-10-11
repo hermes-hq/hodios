@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write a review article on {{topic}} using these sources: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-review-from-matrix
+    vars:
+      topic: "Exercise as a treatment for depression in older adults: what the trials show and what is missing."
+      journal: "Geriatrics journal, 3,500 words, unstructured abstract 250 words"
+      search_description: "PubMed and PsycINFO, 2000-2025, terms exercise, physical activity, depression, older adults; trials and reviews selected by the author."
+      sources: |
+        Schuch 2016 - meta-analysis, 25 RCTs, all ages: SMD 1.11 favouring exercise; small-study effects present.
+        Singh 2005 - RCT, 60 adults over 60: high-intensity resistance training reduced depression more than low intensity.
+        Underwood 2013 - cluster RCT, 891 care-home residents: exercise programme had no effect on depressive symptoms.
+        Blumenthal 1999 - RCT, 156 adults over 50: aerobic exercise as effective as sertraline at 16 weeks.
+        Kvam 2016 - meta-analysis: moderate effect, low quality of evidence.
+    assert:
+      - {type: contains-all, value: ["## Title and abstract", "## Methods", "## Discussion and future directions", "## Gaps to fill before submission"]}
+      - {type: llm-rubric, value: "Writes a thematic synthesis rather than study-by-study summary, gives weight to the large null care-home trial and to small-study effects and low certainty, describes the search honestly as narrative not systematic, cites only the five sources with cite markers where more are needed, offers a specific research agenda, and reminds the author about journal AI-use policies."}
+  - name: edge-sources-too-thin
+    vars:
+      topic: "Psychedelic-assisted therapy for treatment-resistant depression"
+      sources: |
+        Carhart-Harris 2021 - RCT, 59 patients, psilocybin vs escitalopram, no significant difference on primary outcome.
+        One news article on a clinic opening.
+    assert:
+      - {type: llm-rubric, value: "Flags at the start that the sources are too few for a publishable review, says what kinds of sources are needed, and if it drafts anything keeps it minimal and clearly marked, without inventing additional trials."}
+  - name: negative-asks-to-call-it-systematic
+    vars:
+      topic: "Mobile apps for diabetes self-management. Please describe this as a systematic review with PRISMA so it gets accepted."
+      sources: "Six app studies the author found through Google Scholar."
+    assert:
+      - {type: llm-rubric, value: "Declines to describe the review as systematic or invent a PRISMA process, explains why that would misrepresent the methods, and offers an honest narrative review methods paragraph or points to doing a real systematic review."}

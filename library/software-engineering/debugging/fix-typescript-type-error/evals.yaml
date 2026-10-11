@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Fix this TypeScript error: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discriminant-widened
+    vars:
+      error: |
+        src/events.ts:14:12 - error TS2345: Argument of type '{ kind: string; id: string; }' is not assignable to parameter of type 'AppEvent'.
+          Type '{ kind: string; id: string; }' is not assignable to type '{ kind: "deleted"; id: string; }'.
+            Types of property 'kind' are incompatible.
+              Type 'string' is not assignable to type '"deleted"'.
+      context: "const evt = { kind: \"deleted\", id }; dispatch(evt); AppEvent is a union discriminated on kind."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains that kind was widened to string because evt is a mutable object literal assigned to a variable, and fixes it with as const, satisfies AppEvent, an explicit AppEvent annotation or inlining the literal; does not use `as AppEvent` or any."}
+  - name: edge-generic-constraint
+    vars:
+      error: "error TS2322: Type '{ id: string; }' is not assignable to type 'T'. '{ id: string; }' is assignable to the constraint of type 'T', but 'T' could be instantiated with a different subtype of constraint '{ id: string; }'."
+      context: "function withDefault<T extends { id: string }>(x?: T): T { return x ?? { id: \"new\" }; }"
+    assert:
+      - {type: llm-rubric, value: "Explains that T may be a richer subtype so a plain {id} object is not a T, and fixes the design (return type T | {id: string}, a default factory parameter of type () => T, or overloads) rather than casting to T."}
+  - name: negative-just-cast-it
+    vars:
+      error: "error TS2532: Object is possibly 'undefined'. users.find(u => u.id === id).email"
+      context: "Can you just add ! or cast so the build passes? We are sure the user exists."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the non-null assertion as the default, explains find can return undefined, and handles the missing case explicitly (throw a clear error, early return or a typed assertion helper); may mention ! is acceptable only if the invariant is truly guaranteed and documented."}

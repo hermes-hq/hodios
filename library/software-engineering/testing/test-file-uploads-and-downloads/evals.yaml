@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write tests for this upload feature: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-avatar-upload
+    vars:
+      feature: "POST /api/avatar in an Express app using multer, accepts PNG or JPEG up to 2 MB, stores in uploads/ on disk, GET /api/avatar/:userId returns the image."
+      test_tools: "Jest with supertest, Playwright for e2e"
+    assert:
+      - {type: contains, value: "## Rules under test"}
+      - {type: llm-rubric, value: "Tests a file just under and just over 2 MB generated in the test, a file with a .png extension but non-image content, an empty file, compares stored bytes by checksum, checks Content-Type on download, checks that rejected uploads store nothing, and points the storage directory at a temporary folder."}
+  - name: edge-private-documents
+    vars:
+      feature: "Users download their own invoices as PDFs from GET /invoices/:id/pdf; filenames include the customer name, which may contain accents."
+    assert:
+      - {type: llm-rubric, value: "Tests that another user's invoice returns 403 or 404, checks a correctly encoded Content-Disposition filename for names with accents, and asserts the downloaded content is a PDF rather than only checking status 200."}
+  - name: negative-production-bucket
+    vars:
+      feature: "Uploads go to our production S3 bucket. Write tests that upload real files there and delete them afterwards, it is simpler."
+    assert:
+      - {type: llm-rubric, value: "Declines to test against the production bucket, explains the risks (data leaks, cost, deleting real objects, flaky cleanup), and proposes a local emulator or temporary storage with configuration to switch the bucket in tests."}

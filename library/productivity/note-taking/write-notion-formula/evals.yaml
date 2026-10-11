@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a Notion formula: {{request}}. Properties: {{properties}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-days-until-due
+    vars:
+      request: "Show 'Due in N days', 'Due today' or 'Overdue by N days' in red, and nothing if Status is Done or there is no due date."
+      properties: "Due (date, no time), Status (status: Not started, In progress, Done)"
+    assert:
+      - {type: contains, value: "## Test it"}
+      - {type: llm-rubric, value: "Handles an empty Due and Status Done first, uses date-only comparison rather than raw now() so today is not off by one, returns the three text cases with red styling for overdue, uses the exact property names, and gives a test table including blank, today and overdue rows."}
+  - name: edge-progress-bar-relation
+    vars:
+      request: "A 10-block progress bar with percentage from completed subtasks."
+      properties: "Subtasks (relation to Tasks database, which has a Done checkbox)"
+    assert:
+      - {type: llm-rubric, value: "Reads through the relation to count Done subtasks, guards against zero subtasks to avoid dividing by zero, builds a 10-block bar with a percentage, and tests zero, partial and complete cases."}
+  - name: negative-missing-property
+    vars:
+      request: "Calculate profit for each project."
+      properties: "Name (title), Client (select)"
+    assert:
+      - {type: llm-rubric, value: "Does not invent revenue or cost properties; says which numeric properties are needed and asks for them or explains how to add them before writing the formula."}

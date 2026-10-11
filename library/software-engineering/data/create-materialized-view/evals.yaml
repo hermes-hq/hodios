@@ -1,0 +1,29 @@
+schema: 1
+baseline: "This query is slow, make a materialized view for it on {{database}}: {{slow_query}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-dashboard
+    vars:
+      database: "PostgreSQL 16, orders table 80M rows growing 200k per day"
+      slow_query: "SELECT account_id, date_trunc('day', created_at) AS day, count(*), sum(total_cents) FROM orders GROUP BY 1, 2; runs on every dashboard load, takes 9 s."
+      freshness: "15 minutes is fine; dashboard for account managers"
+    assert:
+      - {type: contains, value: "## Refresh"}
+      - {type: llm-rubric, value: "Compares a full or concurrent materialized view refresh with an incremental daily summary table, notes the unique index needed for REFRESH CONCURRENTLY, likely prefers incremental recompute of recent days given growth, guards against overlapping refreshes, and checks results against the live query."}
+  - name: edge-mysql-no-matviews
+    vars:
+      database: "MySQL 8.0, events table 300M rows"
+      slow_query: "Daily active users per product per day for the last 90 days, 40 s."
+      freshness: "updated hourly"
+    assert:
+      - {type: llm-rubric, value: "States MySQL has no materialized views and designs a summary table maintained by a scheduled job with an upsert of recent buckets, handles late events with a recompute window, notes distinct counts cannot be summed across days without care, and avoids promising real-time numbers."}
+  - name: negative-index-fixes-it
+    vars:
+      database: "PostgreSQL 15, invoices 2M rows"
+      slow_query: "SELECT sum(amount) FROM invoices WHERE customer_id = $1 AND status = 'open'; 1.2 s, plan shows Seq Scan on invoices."
+      freshness: "must be real time, shown on payment page"
+    assert:
+      - {type: llm-rubric, value: "Recognises this is a selective lookup fixable with an index on (customer_id, status) or a partial index, and that a periodically refreshed view would violate the real-time requirement; recommends the index instead of a materialized view."}

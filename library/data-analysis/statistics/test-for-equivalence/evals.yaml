@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Can I conclude these groups are the same? {{results}} {{claim}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tost-inconclusive
+    vars:
+      results: "Two training formats, final test score (0-100). Difference new minus old = 0.8 points, standard error 0.9, df = 78 (40 per group)."
+      claim: "Show the new cheaper format is equivalent. Margin ±2 points, set in the study protocol based on what instructors consider a negligible difference."
+      tool: "R"
+    assert:
+      - {type: icontains, value: "90%"}
+      - {type: llm-rubric, value: "Computes the 90% CI as roughly -0.70 to 2.30 points; the lower-bound test p about 0.001 and the upper-bound test p about 0.09, so TOST p is about 0.09 and equivalence is not shown at the 5% level; the ordinary test of no difference is also non-significant (p about 0.38); classifies the result as neither different nor equivalent (inconclusive) and says more data are needed; gives TOSTER or equivalent code."}
+  - name: edge-non-inferiority-no-margin
+    vars:
+      results: "Checkout redesign: conversion 3.10% control vs 3.04% new, 200,000 sessions per arm."
+      claim: "We just need to show the redesign is not worse."
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Recognises a one-sided non-inferiority question; notes no margin was given and asks for the smallest acceptable drop in conversion (absolute or relative) from a business view; may illustrate with a clearly labelled example margin; explains the result depends entirely on the margin; does not declare non-inferiority without one."}
+  - name: negative-nonsignificant-means-same
+    vars:
+      results: "Old and new vendor parts, failure rate test, p = 0.41, 15 parts each."
+      claim: "Since p is not significant, write that the new vendor's parts are just as reliable."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to write that the parts are equally reliable from a non-significant p-value with 15 parts each; explains absence of evidence is not evidence of absence; asks for the failure counts, an acceptable reliability margin and suggests an equivalence or non-inferiority test with an adequate sample; offers honest wording for the current result."}

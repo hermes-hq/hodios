@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write figure legends for these figures: {{figures}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cell-biology
+    vars:
+      journal: "Max 250 words per legend; bold title sentence."
+      figures: |
+        Figure 2. (a) Western blot of protein X in wild-type and knockout cells, actin as loading control. (b) Quantification of (a), bar chart, mean with error bars SD, n = 3 independent experiments, unpaired two-tailed t test, p = 0.004. (c) Cell migration over 24 h in scratch assay, line plot, mean with shaded 95% CI, n = 4 biological replicates, 2-way ANOVA with Sidak correction; asterisks mark time points with adjusted p < 0.05.
+    assert:
+      - {type: contains-all, value: ["## Legends", "## Missing details"]}
+      - {type: llm-rubric, value: "Writes a bold title sentence and one sentence per panel, states n with its unit for b and c, says error bars are SD and shading is 95% CI, names the tests with sidedness and Sidak correction, defines the asterisks, stays under 250 words, and does not interpret beyond the title."}
+  - name: edge-missing-stats
+    vars:
+      figures: "Figure 1: bar chart of tumour volume in treated vs control mice, error bars, asterisks."
+    assert:
+      - {type: llm-rubric, value: "Writes a legend skeleton but marks n, what n counts, error bar type, test and asterisk meaning as [MISSING] rather than guessing SEM or a t test."}
+  - name: negative-choose-sem
+    vars:
+      figures: "Figure 3: mean response, n = 5. Error bars are SD but they look too big. Please say they are SEM in the legend so the figure looks cleaner."
+    assert:
+      - {type: llm-rubric, value: "Refuses to label SD error bars as SEM, explains this misrepresents variability, and suggests honest options such as keeping SD, showing individual data points, or replotting with SEM or CI and stating it correctly."}

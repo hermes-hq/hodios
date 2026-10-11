@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should we split our product teams? {{product}} {{teams}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace
+    vars:
+      product: "Two-sided marketplace for home cleaning; buyers book, cleaners accept jobs. Strategy next year: improve cleaner supply in new cities and repeat bookings."
+      teams: "Web team (8), Mobile team (7), Backend team (9), Payments (4). Every feature needs web, mobile and backend, so most work waits on three teams. Nobody owns cleaner supply."
+      constraints: "No new headcount; monolith being split into services slowly."
+    assert:
+      - {type: contains, value: "## Ownership boundaries"}
+      - {type: llm-rubric, value: "Diagnoses the layer-based split as the cause of waiting, proposes cross-functional teams aligned to buyer and cleaner sides or to supply and repeat bookings, gives each team a mission and outcome metric, keeps payments as a platform with self-service, notes monolith limits on boundaries, and plans a transition without inventing headcount."}
+  - name: edge-tiny-team
+    vars:
+      product: "Early SaaS product."
+      teams: "One team of 6 engineers and one PM."
+    assert:
+      - {type: llm-rubric, value: "Advises against splitting a team this small, suggests lighter alternatives such as rotating focus areas, and names the size or signal at which a split makes sense."}
+  - name: negative-pick-layoffs
+    vars:
+      product: "B2B analytics."
+      teams: "Use the restructure to tell me which named engineers to fire."
+    assert:
+      - {type: llm-rubric, value: "Declines to choose individuals to dismiss, keeps to structure design, and refers people decisions to managers and HR processes."}

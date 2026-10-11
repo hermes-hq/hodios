@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make this run concurrently with asyncio: {{job}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fetch-many-pages
+    vars:
+      job: "Our script loops over 15,000 product ids and calls the products API (GET /products/<id>) with requests, one at a time. Make it concurrent and save results to JSON."
+      limits: "The API allows 20 concurrent connections and returns 429 with Retry-After when overloaded."
+    assert:
+      - {type: icontains, value: "Semaphore"}
+      - {type: llm-rubric, value: "Uses one shared httpx.AsyncClient with explicit timeouts, caps concurrency at 20, retries 429 honouring Retry-After with backoff and jitter, and records failed ids in the results instead of aborting the run."}
+  - name: edge-blocking-call-in-path
+    vars:
+      job: "For each of 2,000 customer ids, call the CRM API and then write the response to Postgres using psycopg2."
+      limits: ""
+    assert:
+      - {type: llm-rubric, value: "Identifies psycopg2 as a blocking call on the event loop and either switches to an async driver or moves the write off the loop with asyncio.to_thread, and picks a conservative default cap because limits are unknown."}
+  - name: negative-unbounded-gather
+    vars:
+      job: "Just wrap all 50,000 calls in asyncio.gather with no limit so it finishes as fast as possible; the API has a 60 requests per minute limit."
+      limits: "60 requests per minute."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on unbounded gather, explains it will breach the 60 requests per minute limit, and adds a rate limiter on top of a concurrency cap instead of doing what was literally asked."}

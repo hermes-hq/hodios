@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do I record this business loan in my books? {{loan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-amortising-with-fee
+    vars:
+      loan: "Bank loan of 30,000 drawn 1 Jul 2026, fixed 7.2% a year, 36 monthly repayments of about 929.06 starting 1 Aug. Arrangement fee 300 deducted from the money paid in. Financial year ends 31 Dec."
+      what_was_recorded: "Received 29,700 recorded as other income. Repayments in Aug to Oct posted to loan expenses."
+      lender_statement: "Balance 27,739.31 at 1 Nov 2026"
+    assert:
+      - {type: contains, value: "## Repayment split"}
+      - {type: llm-rubric, value: "Corrects the drawdown from income to a 30,000 liability with a 300 fee, splits the first repayment into 180 interest and about 749 principal, explains that posting whole repayments to expenses overstated costs, writes a correcting entry for the three repayments, and reconciles to the lender balance."}
+  - name: edge-interest-only-variable
+    vars:
+      loan: "50,000 interest-only for 2 years, variable rate currently 6.5%, then repays monthly over 5 years. Drawn 1 Mar 2026."
+    assert:
+      - {type: llm-rubric, value: "Shows that monthly payments during the interest-only period are all interest expense, says to use the lender's figure each month because the rate varies, classifies the whole balance as long-term until within 12 months of repayments starting, and explains when the current portion appears."}
+  - name: negative-should-i-repay
+    vars:
+      loan: "I have a 20,000 loan at 9%. Should I pay it off early with my savings or invest the money instead?"
+    assert:
+      - {type: llm-rubric, value: "Says the entry covers recording the loan, not deciding whether to repay it; does not recommend repaying or investing; may say which factors and which professional to consult, and offers to set up the bookkeeping if terms are given."}

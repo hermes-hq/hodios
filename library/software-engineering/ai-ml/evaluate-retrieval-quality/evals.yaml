@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I measure how good my RAG retrieval is? {{retriever}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-search
+    vars:
+      retriever: "Python function retrieve(query, k=5) over 40,000 help-center chunks in a vector store; the generator receives the top 5."
+      query_sources: "Six months of chat logs with user questions; support agents can label."
+    assert:
+      - {type: contains, value: "## Baseline results"}
+      - {type: llm-rubric, value: "Builds a mostly real query set from chat logs stratified by type including unanswerable queries, labels relevance at document or section level so labels survive re-chunking, and removes personal data."}
+      - {type: llm-rubric, value: "Measures recall@5 and a larger k plus MRR separately from answer quality, per query type, and writes per-query misses for inspection."}
+  - name: edge-no-real-queries
+    vars:
+      retriever: "New internal policy assistant, not launched yet."
+      query_sources: "No logs yet; two HR experts available for a day."
+    assert:
+      - {type: llm-rubric, value: "Uses expert-written queries as the core, allows LLM-generated questions only as marked top-ups, and warns that generated questions overlap the passage wording and inflate scores."}
+  - name: negative-use-answer-scores
+    vars:
+      retriever: "We already score final answers with an LLM judge; just use that as the retrieval score."
+      query_sources: "Existing answer eval set."
+    assert:
+      - {type: llm-rubric, value: "Explains why answer scores cannot isolate retrieval failures and proposes labelling relevant passages for the existing questions to measure retrieval directly."}

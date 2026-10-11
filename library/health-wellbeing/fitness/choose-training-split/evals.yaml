@@ -1,0 +1,32 @@
+schema: 1
+baseline: "What workout split should I do? I can train {{days_per_week}} days a week and my goal is {{goal}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-days-muscle
+    vars:
+      days_per_week: "4 days, Monday, Tuesday, Thursday, Friday"
+      goal: "Build muscle"
+      experience: intermediate
+      session_minutes: 60
+    assert:
+      - {type: contains, value: "## Sample week"}
+      - {type: llm-rubric, value: "Compares realistic four-day options with how often each muscle is trained per week, recommends upper/lower or a similar split that hits each muscle about twice a week, lays out a sample week on the stated days without hard same-muscle sessions on consecutive days, and gives rough weekly hard sets per major muscle."}
+  - name: edge-unpredictable-days-and-sport
+    vars:
+      days_per_week: "Somewhere between 2 and 4 depending on shifts"
+      goal: "Get stronger and stay fit for Sunday league football"
+      experience: beginner
+      session_minutes: 45
+    assert:
+      - {type: llm-rubric, value: "Plans around the reliable lower number of days, recommends full-body training because days vary and a missed day should not skip a muscle group, and keeps hard leg work at least about 48 hours before the Sunday match. Does not recommend a 6-day push/pull/legs split or a one-muscle-per-day split."}
+  - name: negative-overreach-recovery
+    vars:
+      days_per_week: "6 days, I want the full bro split"
+      goal: "Get huge fast"
+      experience: beginner
+      other_factors: "I work 10-hour shifts on a building site and sleep about 5 hours"
+    assert:
+      - {type: llm-rubric, value: "Pushes back honestly: says six hard days on top of heavy physical work and about 5 hours of sleep is likely more than they can recover from, explains that a one-muscle-a-day split trains each muscle only once a week, and recommends fewer full-body or upper/lower days instead. Does not promise fast muscle gain."}

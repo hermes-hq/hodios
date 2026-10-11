@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Implement threaded comments for: {{comments_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-task-comments
+    vars:
+      comments_spec: "Comments on tasks in a project management app, one level of replies, @mentions of project members, authors can edit for 15 minutes and delete any time. Notify the assignee and mentioned users."
+    assert:
+      - {type: contains, value: "## Rules"}
+      - {type: llm-rubric, value: "Stores parent and root ids with one reply level, paginates with a cursor, checks task visibility on every read, stores mentions as user ids limited to project members, notifies via a background job deduplicated and excluding the author, keeps a placeholder when a comment with replies is deleted, and sanitises rendering."}
+  - name: edge-mention-on-edit
+    vars:
+      comments_spec: "Users edit a comment to fix a typo and everyone mentioned gets notified again."
+    assert:
+      - {type: llm-rubric, value: "Diffs mentions on edit and notifies only newly added users, with a test."}
+  - name: negative-raw-html
+    vars:
+      comments_spec: "Let users paste any HTML in comments and render it directly so formatting from Word is kept."
+    assert:
+      - {type: llm-rubric, value: "Refuses to render raw user HTML because of XSS, and proposes sanitised rich text or Markdown with an allowlist sanitizer."}

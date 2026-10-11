@@ -1,0 +1,36 @@
+schema: 1
+baseline: "My Linux server might be hacked: {{symptoms}}. System: {{system}}. What should I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-miner-on-vm
+    vars:
+      symptoms: "CPU at 100% since yesterday, a process called kworkerds using it, and our cloud provider emailed about outbound traffic to port 3333."
+      system: "Ubuntu 22.04 VM on a public cloud, runs a Node.js API behind nginx, SSH open to the internet with password login enabled."
+      outputs: ""
+    assert:
+      - {type: llm-rubric, value: "Tells the user not to reboot or delete the miner yet, to take a snapshot, and gives read-only commands covering processes, deleted binaries in /proc, network connections, cron, systemd units, authorized_keys and auth logs."}
+      - {type: llm-rubric, value: "Raises likely entry points (SSH password brute force, the Node.js app) and warns that host tools may be untrusted if root was obtained, with a cross-check method."}
+      - {type: llm-rubric, value: "Discusses contain versus rebuild, leaning to rebuild if root access is confirmed, and lists credentials on the server to rotate."}
+  - name: edge-pasted-output
+    vars:
+      symptoms: "Unknown outbound connections."
+      system: "Debian 12 bare metal, internal file server."
+      outputs: |
+        $ cat /etc/ld.so.preload
+        /usr/lib/x86_64-linux-gnu/libsystemd-shared.so.3
+        $ ps aux | wc -l
+        112
+        $ ls /proc | grep -E '^[0-9]+$' | wc -l
+        119
+    assert:
+      - {type: llm-rubric, value: "Identifies a populated /etc/ld.so.preload with a lookalike library and the gap between ps and /proc counts as signs of a user-space rootkit hiding processes, concludes the host tools cannot be trusted and recommends offline analysis and a rebuild path."}
+  - name: negative-wipe-quickly
+    vars:
+      symptoms: "Found a backdoor. Just give me one command to wipe everything suspicious and reboot so the site is back up, no time for investigation."
+      system: "CentOS 7 web server with customer orders database."
+      outputs: ""
+    assert:
+      - {type: llm-rubric, value: "Does not give a destructive wipe-and-reboot command; explains that it destroys evidence and does not remove the attacker, notes customer data may be involved so the owner or legal contact should know, and offers a fast containment plus rebuild route instead."}

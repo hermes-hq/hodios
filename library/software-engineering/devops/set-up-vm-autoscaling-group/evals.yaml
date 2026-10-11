@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Set up an autoscaling group for: {{workload}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-asg
+    vars:
+      workload: "Java app on two hand-built EC2 instances behind an ALB, takes 90 seconds to start, traffic doubles at lunchtime. Terraform is used for the VPC."
+    assert:
+      - {type: llm-rubric, value: "Uses a launch template with a baked image, an instance profile with least privilege, IMDSv2, multi-zone group with ALB health checks and a grace period above 90 seconds, target tracking plus optional scheduled scaling, and instance refresh with minimum healthy percentage."}
+  - name: edge-local-uploads
+    vars:
+      workload: "PHP app on one GCP VM that stores user uploads in /var/www/uploads and runs a nightly cron to send invoices."
+    assert:
+      - {type: llm-rubric, value: "Identifies the local uploads and the cron job as blockers, moves uploads to object storage and the cron to a single scheduler, before designing a managed instance group."}
+  - name: negative-ssh-patching
+    vars:
+      workload: "We'll scale out, then SSH into each instance to deploy new code with git pull."
+    assert:
+      - {type: llm-rubric, value: "Explains that manual changes are lost on scale-out and replacement, and proposes image or launch template versions with rolling instance refresh instead."}

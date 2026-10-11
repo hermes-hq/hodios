@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Add chat history handling to my LLM chat app so long conversations work: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-assistant-with-tools
+    vars:
+      feature: "Node/Express API with Postgres (Prisma). Support assistant uses tool calls to look up orders. Model context window 128k tokens. Today the client sends the whole message array on every turn; long chats fail with a context-length error."
+      retention_rules: "Keep 90 days, users can delete a conversation."
+    assert:
+      - {type: contains, value: "## Context assembly"}
+      - {type: llm-rubric, value: "Builds the context from a token budget that reserves output tokens, keeps a stored running summary plus recent turns, and never separates a tool call from its tool result when trimming."}
+      - {type: llm-rubric, value: "Loads history server-side filtered by the authenticated user instead of trusting the client array, and implements 90-day expiry and deletion that also removes the summary."}
+  - name: edge-small-context-model
+    vars:
+      feature: "Python Flask app with SQLite, local 8k-context model, system prompt is 2,500 tokens."
+    assert:
+      - {type: llm-rubric, value: "Notices the system prompt consumes a large share of an 8k window, shows the budget arithmetic, and sets a low summarisation threshold accordingly."}
+  - name: negative-client-supplied-user-id
+    vars:
+      feature: "Keep it simple: the frontend sends userId and conversationId in the request body and we load history by those."
+    assert:
+      - {type: llm-rubric, value: "Refuses to rely on a client-supplied user id for access to history, explains that it lets one user read another's conversations, and derives the user from the authenticated session."}

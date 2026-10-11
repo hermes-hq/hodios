@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Migrate my app from {{from_library}} to {{to_library}}: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-i18next-to-formatjs
+    vars:
+      from_library: "i18next 23 with react-i18next, JSON v4 with _one/_other suffixes and double-brace interpolation"
+      to_library: "react-intl (FormatJS) with ICU messages"
+      project: "React SPA, about 1,100 call sites, 2,400 keys, 8 locales including pl and ar, Crowdin sync. Migrating for ICU support required by the translation vendor."
+    assert:
+      - {type: contains-all, value: ["## Mapping", "## Parity check", "## Migration plan"]}
+      - {type: llm-rubric, value: "Converts suffix-based plural keys into single ICU plural messages with a parser-based script while keeping base keys stable for the translation tool, and introduces an adapter so both libraries run during migration."}
+      - {type: llm-rubric, value: "Builds a parity check rendering every key in every locale with counts hitting each plural category through both libraries, and stops for confirmation after the plan."}
+  - name: edge-source-text-keys
+    vars:
+      from_library: "gettext with English msgids in a Python and Jinja app"
+      to_library: "a key-based JSON catalog for a new front end"
+      project: "Flask app moving templates to a Vue front end; 900 msgids, 5 locales, translations held in PO files."
+    assert:
+      - {type: llm-rubric, value: "Defines a deterministic map from msgid (and msgctxt) to new keys, preserves existing translations through the map, and flags plural entries with msgid_plural for conversion to the target plural syntax."}
+  - name: negative-big-bang
+    vars:
+      from_library: "vue-i18n 8"
+      to_library: "vue-i18n 9"
+      project: "Team wants one weekend PR that rewrites every call site with search and replace and regenerates keys from the English text."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on regex search and replace and regenerated keys, proposing syntax-tree codemods, stable keys and an incremental plan with parity checks."}

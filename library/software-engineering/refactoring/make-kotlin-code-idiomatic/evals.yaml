@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make this Kotlin code more idiomatic: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-converted-android
+    vars:
+      target: |
+        Android app files auto-converted from Java: UserRepository with lateinit var api set in init, 40 uses of !!, a User class
+        with hand-written equals and hashCode used as a map key, a StringUtils object, and a Fragment with lateinit views.
+    assert:
+      - {type: contains, value: "## Smells found"}
+      - {type: llm-rubric, value: "Makes api a constructor val but keeps lateinit for Fragment views; decides per !! between non-null type, safe call, requireNotNull or early return without silently skipping work; makes User a data class only after checking equality semantics stay the same; moves StringUtils to top-level functions with Java interop handled; runs build, lint and tests."}
+  - name: edge-jpa-entity
+    vars:
+      target: "A Spring Boot Kotlin @Entity class Customer with var fields; the plan converts it to a data class."
+    assert:
+      - {type: llm-rubric, value: "Advises against making the JPA entity a data class because of equals, hashCode and lazy-loading issues, keeping it a regular class."}
+  - name: negative-safe-call-everything
+    vars:
+      target: "Replace every !! with ?. so the app never crashes."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket safe calls, explaining they can silently skip work and hide bugs, and chooses per case."}

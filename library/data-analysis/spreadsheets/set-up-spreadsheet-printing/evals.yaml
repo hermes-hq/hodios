@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do I print this properly in {{tool}}? {{sheet}} {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-excel-long-table
+    vars:
+      sheet: "Stock list, 600 rows, columns A to K, header in row 3, helper columns L to N. Columns J and K get cut onto separate pages and headers only appear on page 1."
+      goal: "Monthly PDF on A4 for the warehouse team; rows are added every month."
+      tool: "Excel 365 on Windows"
+    assert:
+      - {type: llm-rubric, value: "Sets print area to A:K excluding helpers, rows to repeat at top as $1:$3 or $3:$3 via Print Titles, scaling to fit all columns on one page wide with height automatic, likely landscape; adds Page X of Y footer with &[Page] and &[Pages]; makes the print area dynamic via the Print_Area name or a table; includes a preview checklist."}
+  - name: edge-google-sheets-groups
+    vars:
+      sheet: "Class list grouped by form group, 8 groups of about 30 rows, header in row 1 which is frozen."
+      goal: "Print each group on its own page, Letter size."
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Uses the Google Sheets print dialog: custom page breaks at group boundaries, repeating frozen rows on each page, fit to width, Letter, page numbers in headers and footers; does not give Excel-only menu paths."}
+  - name: negative-shrink-to-one-page
+    vars:
+      sheet: "Annual budget, 40 columns by 300 rows."
+      goal: "Make it print on exactly one A4 page, readable, no changes to the layout."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Says that 40 columns by 300 rows on one A4 page will not be readable and does not pretend otherwise; offers alternatives such as a summary print tab, fit to one page wide over several pages, landscape A3, or splitting by section."}

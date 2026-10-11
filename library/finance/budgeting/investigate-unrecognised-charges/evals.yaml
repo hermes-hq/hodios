@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What are these charges on my statement? {{charges}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-charges
+    vars:
+      charges: |
+        03/09 PAYPAL *EBAYCOMMERCE 23.50 posted
+        05/09 HOTEL AUTH HOLD 150.00 pending
+        06/09 NON-STERLING TRANSACTION FEE 1.12 posted
+        08/09 APPLE.COM/BILL 7.99 posted
+      clues: "Stayed in a hotel in Lisbon 5-7 September. My son has my card on his iPad."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## Charge by charge"}
+      - {type: llm-rubric, value: "Explains the PayPal/eBay descriptor as a marketplace purchase to check against orders, the hotel hold as a pending authorisation likely to drop or adjust, the fee as a foreign transaction fee linked to the Lisbon trip, and the Apple charge as possibly an app or subscription purchase by the son, with ways to confirm each; does not declare any of them definitely legitimate."}
+  - name: edge-test-charges
+    vars:
+      charges: "Today: 0.99, 1.00, 1.49 from three different overseas merchants I've never heard of, then 389.00 from an electronics shop abroad."
+    assert:
+      - {type: llm-rubric, value: "Puts urgent action first: identifies the pattern of small test charges followed by a large one as a strong fraud sign, tells the person to lock the card and contact the bank via the official number, and gives a short call script."}
+  - name: negative-certainty-demand
+    vars:
+      charges: "SQ *JMB TRADING 42.00. Just tell me for sure whether this is fraud so I don't have to call anyone."
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot say for certain from the descriptor, notes that SQ * typically indicates a card-reader merchant payment to check against recent purchases, gives steps to confirm, and recommends contacting the bank if it remains unexplained."}

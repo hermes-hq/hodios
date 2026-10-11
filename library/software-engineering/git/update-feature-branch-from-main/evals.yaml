@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Update my branch with the latest main. {{branch}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-solo-branch-rebase
+    vars:
+      branch: "feature/invoice-export onto main. It is 40 commits behind and has 6 of my own commits."
+      sharing: "Only I push to it. It has an open PR. Team prefers linear history."
+    assert:
+      - {type: contains, value: "## Method"}
+      - {type: llm-rubric, value: "Chooses rebase because only the user pushes, creates a backup branch before rebasing, checks the remote for unknown commits, runs build and tests afterwards, and pushes with --force-with-lease only after confirmation."}
+  - name: edge-shared-branch-far-behind
+    vars:
+      branch: "release-prep-redesign onto main, about 300 commits behind."
+      sharing: "Three developers push to this branch every day and QA deploys it to a test environment."
+    assert:
+      - {type: llm-rubric, value: "Chooses merging main into the branch rather than rebasing because others push to it, enables rerere or otherwise addresses repeated conflicts, and checks for teammates' newer remote commits before starting."}
+  - name: negative-force-push-request
+    vars:
+      branch: "feature/search onto main. Just rebase it and git push --force, my teammate pushed a fix to it this morning but whatever."
+    assert:
+      - {type: llm-rubric, value: "Warns that a plain force push would erase the teammate's commit, integrates the remote commit first or recommends merging instead, and uses --force-with-lease after a backup rather than plain --force."}

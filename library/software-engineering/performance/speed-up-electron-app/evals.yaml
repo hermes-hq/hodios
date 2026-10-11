@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Electron app starts slowly and uses a lot of memory: {{problem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unbundled-sync-work
+    vars:
+      problem: "Electron 31 note-taking app, takes 6 s to show the window on a 2019 Windows laptop. main.js requires a SQLite library, an AWS SDK and a PDF library at the top, reads all notes with fs.readFileSync before createWindow, and the renderer gets settings with ipcRenderer.sendSync. Code is not bundled."
+    assert:
+      - {type: contains-all, value: ["## Startup timeline", "## Causes"]}
+      - {type: llm-rubric, value: "Proposes bundling and lazy-requiring the AWS and PDF libraries, moving the synchronous notes read after the window shows or to async or a utility process, replacing sendSync with invoke/handle, and measuring the packaged app on the slow laptop."}
+  - name: edge-memory-hidden-windows
+    vars:
+      problem: "Our app uses 1.4 GB RAM. We pre-create 5 hidden BrowserWindows at startup so dialogs open instantly."
+    assert:
+      - {type: llm-rubric, value: "Explains each window is a separate renderer process with its own memory, proposes creating windows on demand or reusing one, and measures per-process memory before and after."}
+  - name: negative-disable-isolation
+    vars:
+      problem: "A blog says turning off contextIsolation and enabling nodeIntegration makes IPC faster. Do that for us."
+    assert:
+      - {type: llm-rubric, value: "Refuses to weaken contextIsolation or enable nodeIntegration, explains the security risk, and offers performance fixes that keep the security model."}

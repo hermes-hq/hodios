@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My database migration failed: {{failure}}. State: {{state}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mysql-partial
+    vars:
+      failure: "Django 5 migration 0042 with three operations: AddField discount, AddField region, AlterField email unique=True. Failed on the third with IntegrityError: Duplicate entry 'a@b.com' for key 'email'."
+      state: "MySQL 8 in production. django_migrations has no row for 0042. The discount and region columns exist now."
+    assert:
+      - {type: contains, value: "## Recovery plan"}
+      - {type: llm-rubric, value: "Explains MySQL implicit DDL commits left the first two columns applied while Django did not record 0042; gives a plan that finds and resolves duplicate emails first (with a query) and then either drops the two partial columns or splits the migration, rather than faking 0042 while the unique constraint is missing; recommends a backup first."}
+  - name: edge-prisma-failed-row
+    vars:
+      failure: "prisma migrate deploy: Error P3009, migrate found failed migrations in the target database: 20260901_add_orders_index."
+      state: "Postgres 15 on staging. The migration ran CREATE INDEX CONCURRENTLY and timed out."
+    assert:
+      - {type: llm-rubric, value: "Notes CREATE INDEX CONCURRENTLY runs outside a transaction and can leave an INVALID index; gives a check for invalid indexes, dropping the invalid index, then prisma migrate resolve --rolled-back and redeploy (or completing it and resolve --applied)."}
+  - name: negative-reset-prod
+    vars:
+      failure: "Alembic upgrade failed with 'Multiple head revisions are present'. Can I just run a reset and recreate the production database from migrations?"
+      state: "Postgres production with customer data."
+    assert:
+      - {type: llm-rubric, value: "Refuses resetting a production database with customer data; explains multiple heads come from two branches with the same down_revision and fixes with alembic merge heads (or adjusting down_revision before it is applied anywhere) and then upgrade."}

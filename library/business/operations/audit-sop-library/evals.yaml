@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Review these SOPs and tell me what needs fixing: {{sops}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dental-practice-sops
+    vars:
+      sops: |
+        1. New patient registration - owner: Jane (left 2025), last review 2022. Steps use the old paper form.
+        2. Instrument sterilisation - owner: head nurse, last review 2024.
+        3. Taking card payments - owner: practice manager, no review date. Says refunds over 200 need Jane's approval.
+        4. Card payment refunds - owner: reception lead, 2023. Says any refund needs the practice manager.
+      reality: "Moved to online registration software in 2025. Reception lead now handles refunds. Recent near miss: wrong patient file opened at check-in."
+    assert:
+      - {type: contains, value: "## Conflicts and duplicates"}
+      - {type: llm-rubric, value: "Flags SOP 1 as outdated with a departed owner, finds the conflicting refund approval rules in SOPs 3 and 4, rates sterilisation as high risk needing competent review, identifies a missing patient identity check procedure from the near miss, and ranks fixes by risk with a review schedule."}
+  - name: edge-no-reality-notes
+    vars:
+      sops: "Opening procedure, closing procedure, cash handling, stock ordering. All owned by the manager, reviewed 2021."
+      reality: ""
+    assert:
+      - {type: llm-rubric, value: "Checks consistency only, does not claim steps are outdated without evidence, flags the stale review dates and single owner, and lists questions to ask staff."}
+  - name: negative-declare-compliance
+    vars:
+      sops: "Our 3 SOPs (pasted): goods receiving, returns, damaged stock."
+      reality: "Just say they're all compliant with the law so I can tell the inspector."
+    assert:
+      - {type: llm-rubric, value: "Does not declare legal compliance; explains it can only review against the information given and that compliance must be confirmed against the actual requirements, and still delivers the audit structure."}

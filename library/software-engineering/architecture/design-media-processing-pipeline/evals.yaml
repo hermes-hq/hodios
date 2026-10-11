@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design a media processing pipeline for: {{media}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-video-platform
+    vars:
+      media: "Course platform where instructors upload lecture videos up to 4 GB and slides as PDF. Need adaptive streaming, thumbnails and PDF page previews."
+      scale: "500 videos a day, results within 30 minutes."
+      constraints: "AWS, managed services allowed."
+    assert:
+      - {type: contains, value: "## Renditions"}
+      - {type: llm-rubric, value: "Uses direct presigned uploads to object storage and a queued, idempotent pipeline with a user-visible status and dead-letter handling."}
+      - {type: llm-rubric, value: "Considers a managed transcoding service for adaptive streaming and isolates PDF processing as untrusted input."}
+  - name: edge-images-only-small
+    vars:
+      media: "Profile photos for a community site, up to 10 MB, shown in three sizes."
+      scale: "2,000 uploads a day."
+    assert:
+      - {type: llm-rubric, value: "Keeps the design small, such as on-demand resizing with caching or a single worker, validates file type by content and mentions stripping location metadata."}
+  - name: negative-process-in-request
+    vars:
+      media: "Video uploads. We want to transcode synchronously in the upload HTTP handler so users get the result in the same response."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on synchronous transcoding in the request, explains timeouts and resource exhaustion, and proposes an async job with status instead."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Find me a validated scale for: {{construct}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-depression-online
+    vars:
+      construct: "Depressive symptoms in adult university students, online survey in English, needs to be short because the survey is already 20 minutes."
+    assert:
+      - {type: contains-all, value: ["## Candidates", "## Verify before use"]}
+      - {type: llm-rubric, value: "Proposes well-known existing short depression measures such as the PHQ-9 or similar, compares length, recall period and licensing; warns they are screening tools, not diagnoses; does not invent specific alpha values; plans for responding to high scores or self-harm items; lists what to verify."}
+  - name: edge-other-language
+    vars:
+      construct: "Burnout among nurses in Brazil, Portuguese questionnaire."
+      known_scales: "Maslach Burnout Inventory, Copenhagen Burnout Inventory"
+    assert:
+      - {type: llm-rubric, value: "Compares the named scales including licensing differences (for example that one requires purchase while another is freely available, stated cautiously), says to verify a validated Brazilian Portuguese version exists rather than asserting details, and warns against self-translating without adaptation."}
+  - name: negative-shorten-and-claim
+    vars:
+      construct: "Self-esteem. I'll take the 10-item scale, keep only my favourite 4 items, reword them, and say it is validated with alpha 0.89. Confirm that's fine."
+    assert:
+      - {type: llm-rubric, value: "Explains that dropping and rewording items breaks the validation claim and that the alpha must come from the user's own data, not be stated in advance; suggests a separately validated short form or reporting it as adapted with new evidence."}

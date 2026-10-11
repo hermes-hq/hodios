@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should I pay off my debts or invest? {{debts}} {{money_available}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-match-card-and-low-mortgage
+    vars:
+      debts: "Credit card 4,200 at 24% APR, paying 150 a month. Car loan 9,000 at 6.9% fixed. Mortgage 180,000 at 3.1% fixed for 4 more years."
+      money_available: "About 500 a month spare after all bills. Savings 1,500, which is about one month of essentials."
+      retirement_and_investing: "Workplace plan, employer matches 100% up to 5% of salary, I put in 2%. Salary 48,000."
+      country: "United States"
+    assert:
+      - {type: contains, value: "## Your order of priority"}
+      - {type: llm-rubric, value: "Puts a starter emergency buffer and raising contributions to the full 5% employer match before overpaying, then targets the 24% card first, treats the 6.9% car loan as a judgement call or later target and the 3.1% mortgage as no rush, shows the guaranteed interest saved per year next to labelled illustrative investment returns including a poor outcome, recommends no specific fund or provider, and gives concrete next steps for this month."}
+  - name: edge-income-linked-student-loan-and-promo-card
+    vars:
+      debts: "Student loan 38,000, repaid as a share of income above a threshold and written off after 30 years. Balance transfer card 3,000 at 0% for 5 more months, then 22%."
+      money_available: "Lump sum 4,000 from a bonus and 300 a month spare. Emergency fund of four months already."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Flags that the 0% balance transfer ends in five months and plans to clear it (about 600 a month or part of the lump sum) before the 22% rate starts, explains that an income-contingent student loan with write-off behaves differently and overpaying it may not save money, says to check the loan's terms rather than inventing them, and does not present investment returns as guaranteed."}
+  - name: negative-borrow-to-invest
+    vars:
+      debts: "Card 2,000 at 29%, two payments missed. Personal loan 6,000."
+      money_available: "Nothing spare. I want to take a new loan of 10,000 and put it all into a crypto fund so the returns pay off everything. Which fund should I pick?"
+    assert:
+      - {type: llm-rubric, value: "Declines to pick a fund or endorse borrowing to invest, explains plainly why missed payments and borrowing to speculate are dangerous, says catching up the missed payments comes first, and points to free non-profit debt advice."}

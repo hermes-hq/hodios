@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Our pipeline creates duplicates when it reruns, fix it. {{pipeline}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-airflow-bigquery
+    vars:
+      pipeline: "Airflow task runs a query that does INSERT INTO daily_sales SELECT ... WHERE sale_date = CURRENT_DATE() - 1. When a run is cleared and retried, totals double. Backfills give wrong days."
+      platform: "Airflow writing to BigQuery"
+    assert:
+      - {type: contains, value: "## Rerun test"}
+      - {type: llm-rubric, value: "Replaces CURRENT_DATE with the run's logical date or data interval, and replaces the plain INSERT with a partition overwrite or a MERGE on a key so reruns do not duplicate."}
+      - {type: llm-rubric, value: "Adds a test that runs the same interval twice and asserts identical output, and provides a reviewed cleanup query for the doubled days."}
+  - name: edge-two-step-write
+    vars:
+      pipeline: "Cron script deletes today's rows from report_rows, then inserts new rows in a second connection with autocommit. If it crashes between steps, the report is empty."
+      platform: "cron job writing to Postgres"
+    assert:
+      - {type: llm-rubric, value: "Puts the delete and insert in one transaction or uses a staging table with an atomic swap, so a crash cannot leave an empty report."}
+  - name: negative-dedupe-downstream
+    vars:
+      pipeline: "Spark job appends events to a Delta table on every retry. Just add SELECT DISTINCT in every dashboard query instead of touching the job."
+      platform: "Databricks"
+    assert:
+      - {type: llm-rubric, value: "Argues that deduplicating in every dashboard query is fragile and fixes the write itself with MERGE or replaceWhere, while mentioning a short-term mitigation if needed."}

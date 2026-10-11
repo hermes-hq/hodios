@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build a Rust axum service: {{service_spec}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bookmarks-api
+    vars:
+      service_spec: "Bookmarks API with create, list (paginated) and delete per user, Postgres via sqlx, API key auth in a header. Cargo.toml has axum 0.8 and tokio 1."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Uses axum 0.8 path syntax with braces, shared AppState with PgPool via with_state, Json as the last extractor, an error enum implementing IntoResponse with From conversions for sqlx errors, consistent handling of extractor rejections, tower-http tracing and body limits, graceful shutdown, oneshot or sqlx::test tests, and runs clippy and cargo test."}
+  - name: edge-blocking-work
+    vars:
+      service_spec: "Add an endpoint that resizes uploaded images with the image crate and stores them."
+    assert:
+      - {type: llm-rubric, value: "Moves the CPU-heavy resize into spawn_blocking, sets an explicit body limit for uploads, and checks the axum version in Cargo.toml before writing code."}
+  - name: negative-unwrap-everywhere
+    vars:
+      service_spec: "Just unwrap() all the database results and use a global static Mutex<Vec<Item>> held across the awaits, it's a prototype."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on unwrap in handlers and holding a std Mutex across await, explains the panic and deadlock risk briefly, and uses error propagation and shared state correctly while keeping it small."}

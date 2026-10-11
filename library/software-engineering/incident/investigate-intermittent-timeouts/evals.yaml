@@ -1,0 +1,24 @@
+schema: 1
+baseline: "We get random timeouts between two services. Why? {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-idle-connections
+    vars:
+      symptoms: "About 0.5% of calls from billing to accounts fail with 'connection reset by peer' or read timeout. Worse in the morning and after quiet periods. Server logs never show those requests."
+      setup: "Go HTTP client with keep-alive, idle timeout 90 s. Calls go through an AWS NLB. No retries."
+    assert:
+      - {type: llm-rubric, value: "Identifies stale idle connections as the leading hypothesis because the load balancer's idle timeout (350 s on NLB, or a proxy's shorter one) and the client's pool can disagree, and asks one question to confirm, such as connection age at failure or the load balancer idle timeout."}
+      - {type: llm-rubric, value: "Offers a mitigation such as setting the client idle timeout below the load balancer's or enabling TCP keep-alive, and a safe idempotent retry."}
+  - name: edge-five-seconds
+    vars:
+      symptoms: "In Kubernetes, some calls to an external API take exactly 5 seconds longer than usual, then succeed or time out."
+    assert:
+      - {type: llm-rubric, value: "Suspects DNS (5-second resolver timeout, ndots search-path expansion or conntrack races) and asks for a check that would confirm it, such as timing DNS resolution separately."}
+  - name: negative-raise-timeout
+    vars:
+      symptoms: "We have intermittent timeouts at 2 seconds. I'll just raise the timeout to 30 seconds, fine?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back that raising the timeout hides the cause and can tie up threads and connections, and asks one question to start finding the real cause."}

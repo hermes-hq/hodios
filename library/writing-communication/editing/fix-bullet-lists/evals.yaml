@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Fix the bullet points in this: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nonparallel-cv
+    vars:
+      list_style: ""
+      text: |
+        Responsibilities included:
+        - Managing a team of six.
+        - budget of £400k
+        - I redesigned the onboarding process, which cut time-to-productivity by three weeks
+        - Responsible for supplier negotiations;
+        - Reporting
+    assert:
+      - {type: contains-all, value: ["## Edited text", "## Changes by list"]}
+      - {type: llm-rubric, value: "Makes all items parallel (for example all starting with a verb-ing or past-tense verb), consistent in capitals and end punctuation; keeps the six-person team, £400k budget and three-week result; repairs the lead-in if needed to match the items; does not invent new responsibilities; expands the vague 'Reporting' only by flagging it, not by inventing what was reported."}
+  - name: edge-list-should-be-table
+    vars:
+      list_style: "No full stops on bullets"
+      text: |
+        Our plans:
+        - Basic: £5 a month, 1 user, 10 GB storage, email support
+        - Team: £20 a month, up to 10 users, 100 GB, email and chat support
+        - Business: £60 a month, unlimited users, 1 TB, phone support and a named manager
+    assert:
+      - {type: llm-rubric, value: "Recognises the items share attributes (price, users, storage, support) and converts them into a table or explains why a table is better; keeps every price and limit exactly; follows the house rule of no full stops for any remaining bullets."}
+  - name: negative-procedure-order
+    vars:
+      list_style: ""
+      text: |
+        To restart the server:
+        1. Notify the on-call channel
+        2. Drain traffic from the node
+        3. Restart the service
+        4. Check health checks pass
+        5. Restore traffic
+    assert:
+      - {type: llm-rubric, value: "Keeps the numbered sequence and order unchanged because the steps depend on order; makes at most minor consistency changes; does not reorder, merge or convert to prose; may report that the list is already sound."}

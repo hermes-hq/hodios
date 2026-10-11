@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Check this for colour accessibility problems: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-status-and-links
+    vars:
+      framework: "React with CSS modules"
+      target: |
+        StatusDot.tsx: <span className={styles[status]} /> where styles.ok is green, styles.late is red.
+        Article links: a { color: #0b62d6; text-decoration: none; } in body text that is #222.
+        Form errors: input.invalid { border-color: red } with no message.
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Adds text or an icon with an accessible name to StatusDot, restores underlines for inline links (or explains the 3:1 plus non-colour hover and focus cue option), and adds an error message tied to the field with aria-invalid rather than only a red border."}
+      - {type: llm-rubric, value: "Keeps colour-only issues separate from contrast ratio issues and fixes the shared component rather than every usage."}
+  - name: edge-diff-view
+    vars:
+      target: "A code review screen shows added lines with a green background and removed lines with a red background; there are no + or - markers."
+    assert:
+      - {type: llm-rubric, value: "Adds non-colour markers such as + and - prefixes or icons with visually hidden text like 'added' and 'removed' that screen readers announce."}
+  - name: negative-contrast-only
+    vars:
+      target: "Our grey text #999 on white is too light. Is that a colour-only problem?"
+    assert:
+      - {type: llm-rubric, value: "Explains that low contrast is a contrast issue (WCAG 1.4.3), not use of colour (1.4.1), and points to a contrast check rather than treating it as a colour-only failure."}

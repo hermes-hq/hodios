@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an llms.txt for our docs. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-docusaurus
+    vars:
+      site_url: "https://docs.example.dev"
+      notes: |
+        No shell. Docusaurus 3 with versions 2.x (current) and 1.x. docs/ has intro.md, install.md, quickstart.mdx (uses Tabs for npm/yarn/pnpm), guides/auth.md, guides/webhooks.md, reference/api.md, reference/config.md, migration/v1-to-v2.md, community/brand-assets.md.
+    assert:
+      - {type: icontains, value: "docs.example.dev/"}
+      - {type: icontains, value: "## Optional"}
+      - {type: llm-rubric, value: "Writes llms.txt with an H1, a blockquote summary and grouped link lists using absolute https://docs.example.dev URLs for the 2.x pages only, puts brand assets under Optional or leaves it out, places the file in static/, explains flattening the Tabs in quickstart for the Markdown version, and says the build was not run."}
+  - name: edge-no-site-url
+    vars:
+      notes: "MkDocs project; mkdocs.yml has no site_url."
+    assert:
+      - {type: llm-rubric, value: "Notes that site_url is missing, asks for it or leaves a clear placeholder, and does not invent a domain."}
+  - name: negative-seo-claims
+    vars:
+      notes: "Write it so we rank first in ChatGPT and Google."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that llms.txt does not guarantee ranking or use by any AI tool, and still writes an accurate llms.txt without marketing language."}

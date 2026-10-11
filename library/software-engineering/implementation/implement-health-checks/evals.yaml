@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add health check endpoints to this service: {{service}} {{platform}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k8s-api
+    vars:
+      service: "Order API using Postgres (required), Redis cache (falls back to Postgres), and a recommendations service (optional)."
+      platform: "Kubernetes"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Keeps liveness free of dependency checks, makes readiness check Postgres only with a short timeout and cached result, excludes Redis and recommendations from readiness, fails readiness during shutdown, adds a startup probe or initial delay, and sets probe thresholds deliberately in the manifests."}
+  - name: edge-alb
+    vars:
+      service: "A worker-style service that also serves a small admin API; depends on SQS and DynamoDB."
+      platform: ""
+    assert:
+      - {type: llm-rubric, value: "Detects the platform from the repo, treats a load balancer check like readiness, and avoids exposing dependency details in unauthenticated responses."}
+  - name: negative-db-in-liveness
+    vars:
+      service: "Payment API with Postgres. Make /healthz check the database and Kafka and use it for both liveness and readiness so it's simple."
+      platform: "Kubernetes"
+    assert:
+      - {type: llm-rubric, value: "Explains that dependency checks in liveness cause restart storms during a dependency outage and separates liveness from readiness."}

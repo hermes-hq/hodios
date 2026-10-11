@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I keep history of changes for this table? {{entity}} ({{database}})"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-price-history
+    vars:
+      entity: "products(id, sku, price_cents). Prices change often and are sometimes scheduled for next month. Finance asks what price applied to each order line on its order date."
+      database: "PostgreSQL 16; future-dated changes yes, back-dated corrections rare."
+    assert:
+      - {type: contains, value: "valid_from"}
+      - {type: llm-rubric, value: "Chooses valid time, uses a price history table with half-open ranges and an exclusion constraint preventing overlaps per product (btree_gist), shows closing and opening periods in one transaction, handles a future-dated change, and gives an as-of join from order lines while recommending orders also store the price used."}
+  - name: edge-bitemporal
+    vars:
+      entity: "insurance_policies(id, holder, coverage_amount). Regulators ask both what coverage was in effect on a date and what our records said about it on an earlier reporting date, after corrections."
+      database: "SQL Server 2022"
+    assert:
+      - {type: llm-rubric, value: "Identifies the need for both valid and transaction time, uses system-versioned temporal tables for transaction time plus application period columns for valid time, and shows how a correction preserves the old belief and how to query both dimensions."}
+  - name: negative-wants-audit-log
+    vars:
+      entity: "users table; security team wants to know which admin changed a user's role and when."
+      database: "MySQL 8"
+    assert:
+      - {type: llm-rubric, value: "Recognises this is an audit trail need (who changed what) rather than valid-time modelling, says so, and points to an audit log approach instead of building effective-dated periods."}

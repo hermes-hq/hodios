@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Edit this copy to match our brand voice. Voice guide: {{voice_guide}} Copy: {{copy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-misses
+    vars:
+      channel: "Membership renewal email"
+      voice_guide: |
+        Voice: friendly, plain, never pushy. Use "members", never "customers" or "users". Contractions are fine. Sentence case headings. No exclamation marks. No urgency tricks ("last chance", "act now"). Always say the price including VAT.
+      copy: |
+        Subject: LAST CHANCE To Renew!!!
+        Dear Customer, your membership expires on 31 May. Act now to avoid losing access to all our premium features! Renewal costs £60 + VAT. Users who renew before the deadline get a free tote bag!
+    assert:
+      - {type: contains-all, value: ["## Edited copy", "## Edit log"]}
+      - {type: llm-rubric, value: "Removes 'LAST CHANCE', 'Act now' and exclamation marks; replaces 'Customer' and 'Users' with members; uses sentence case in the subject; applies the include-VAT rule without silently changing the price: uses a placeholder or flags that the writer must confirm the VAT-inclusive figure (any calculated figure is shown with its assumed rate and marked for confirmation) rather than keeping '£60 + VAT' unremarked; keeps 31 May and the tote bag offer; each log entry cites a guide rule."}
+  - name: edge-channel-tone-flex
+    vars:
+      channel: "Error message when a card payment fails"
+      voice_guide: "Voice: playful and witty in marketing; calm, plain and helpful in errors, billing and anything about money. No jokes when something has gone wrong for the member."
+      copy: "Whoopsie! Your card did a little dance and declined. Try again?"
+    assert:
+      - {type: llm-rubric, value: "Applies the guide's error and money tone: removes the joke and playful wording and writes a calm, plain message saying the payment did not go through and what to do next; cites the tone-by-situation rule."}
+  - name: negative-legal-text
+    vars:
+      channel: "Footer of a loan advert"
+      voice_guide: "Voice: warm, simple, upbeat. Avoid jargon. Short sentences."
+      copy: "Representative example: borrowing £5,000 over 36 months at 9.9% APR representative (fixed). Monthly repayment £160.42. Total amount repayable £5,775.12."
+    assert:
+      - {type: llm-rubric, value: "Recognises this as regulated financial wording and leaves the figures and the representative example unchanged, flagging that any wording change needs compliance review; does not make it 'upbeat' or remove APR terms."}

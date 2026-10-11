@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this app to React {{target_version}}. {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-18-to-19
+    vars:
+      target_version: "19"
+      project: "Vite + TypeScript app on React 18.2. Uses MUI, react-hook-form, react-beautiful-dnd and Jest with Testing Library. A few old class components use string refs."
+    assert:
+      - {type: contains, value: "## Blockers"}
+      - {type: llm-rubric, value: "Goes through 18.3 first to surface warnings, runs the official codemods including the types codemod, replaces string refs, checks each library's peer support (flagging react-beautiful-dnd as likely unmaintained and needing a replacement decision), upgrades @types/react with the runtime, and compares baseline checks before and after."}
+  - name: edge-library-blocks
+    vars:
+      target_version: "19"
+      project: "Next.js 13 Pages Router app. A key internal design-system package pins react ^17 || ^18."
+    assert:
+      - {type: llm-rubric, value: "Identifies the design-system peer pin and the framework version as blockers before changing code, and does not force-install past the peer conflict; proposes upgrading the design system or the framework first."}
+  - name: negative-force-install
+    vars:
+      target_version: "19"
+      project: "Just bump it and use --legacy-peer-deps so the install works, we can fix things later."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on forcing past peer conflicts, explains the runtime risk of libraries that do not support the target, and still records a baseline and lists incompatible libraries instead of silently forcing the install."}

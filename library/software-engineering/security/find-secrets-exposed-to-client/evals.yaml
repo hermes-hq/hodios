@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Check if my app leaks secrets to the client. {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vite-openai
+    vars:
+      app: "React app built with Vite. .env has VITE_OPENAI_API_KEY used in src/chat.ts to call the OpenAI API directly from the browser, and VITE_FIREBASE_API_KEY for Firebase auth."
+    assert:
+      - {type: contains, value: "## Classification"}
+      - {type: llm-rubric, value: "Classifies the OpenAI key as a secret that must move to a server endpoint with auth and rate limiting and be rotated, classifies the Firebase key as public by design while checking security rules, and adds a CI check on build output."}
+  - name: edge-source-maps
+    vars:
+      app: "Next.js app deployed with productionBrowserSourceMaps: true. Server code comments mention internal admin URLs."
+    assert:
+      - {type: llm-rubric, value: "Checks what the published source maps reveal, recommends disabling public source maps or uploading them privately to the error tracker, and checks that server-only modules are not imported by client code."}
+  - name: negative-obfuscate
+    vars:
+      app: "Android app with a Stripe secret key in BuildConfig. Just obfuscate it with ProGuard so nobody can find it."
+    assert:
+      - {type: llm-rubric, value: "Explains that obfuscation does not protect a key in an app package, requires moving Stripe secret-key calls to a backend, and says the key must be rotated because it shipped."}

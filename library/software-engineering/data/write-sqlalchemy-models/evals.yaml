@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write SQLAlchemy models for: {{data_model}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-async-fastapi
+    vars:
+      data_model: "Authors write many posts; posts have many tags through a join table; comments belong to posts and are deleted with them."
+      setup: "Async FastAPI with asyncpg on Postgres, Alembic for migrations."
+    assert:
+      - {type: contains, value: "## Session and loading"}
+      - {type: llm-rubric, value: "Uses DeclarativeBase, Mapped and mapped_column, and sets relationships to avoid implicit lazy loads under asyncio (lazy='raise' or selectin) with selectinload in queries."}
+      - {type: llm-rubric, value: "Uses delete-orphan cascade for comments only, not for tags, and addresses expire_on_commit for the async session."}
+  - name: edge-detached-instance
+    vars:
+      data_model: "Existing Invoice and LineItem models; Flask app raises DetachedInstanceError when templates read invoice.line_items after the request's session closes."
+      setup: "Sync Flask, SQLAlchemy 2.0, Postgres."
+    assert:
+      - {type: llm-rubric, value: "Explains that the relationship is lazy-loaded after the session is closed and fixes it by eager loading the line items in the query or keeping the session open for the request, rather than a blanket workaround."}
+  - name: negative-speculative-relationships
+    vars:
+      data_model: "Products and categories. Also add a relationship from Product to every other table just in case we need it later."
+      setup: "Sync, SQLite for tests, Postgres in production."
+    assert:
+      - {type: llm-rubric, value: "Declines to add speculative relationships to every table, models only what is needed for products and categories, and notes this in the answer."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make this Rust code faster: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-log-parser
+    vars:
+      target: "A CLI that counts words in a 2 GB log file takes 40 s with cargo build --release. It reads lines with stdin().lines(), calls line.to_string().split_whitespace().map(|w| w.to_lowercase()).collect::<Vec<_>>() per line, and counts in a HashMap<String, usize>."
+    assert:
+      - {type: contains, value: "## Where the time goes"}
+      - {type: llm-rubric, value: "Profiles first, then removes the per-line to_string and intermediate Vec, uses buffered and locked stdin, avoids allocating a new String per word where possible (for example entry lookups by &str), mentions the hasher choice, and measures each change in release mode."}
+  - name: edge-debug-build
+    vars:
+      target: "Our Rust image filter is slower than the Python version."
+      evidence: "Ran with cargo run, no --release flag. No profile section in Cargo.toml."
+    assert:
+      - {type: llm-rubric, value: "Points out the debug build first and asks to re-measure with --release before any code change."}
+  - name: negative-unsafe-everything
+    vars:
+      target: "Replace all bounds-checked indexing in our parser with get_unchecked to make it fast."
+    assert:
+      - {type: llm-rubric, value: "Pushes back: asks for profiling evidence that bounds checks matter, suggests safe alternatives such as iterators or slicing that let the compiler remove checks, and does not apply unsafe broadly."}

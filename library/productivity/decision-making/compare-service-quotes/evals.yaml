@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these quotes should I pick? {{quotes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-decorators
+    vars:
+      job: "Repaint the hallway, stairs and landing: walls, ceiling, woodwork and banisters. Fill cracks first."
+      quotes: "A: 1,450 all in, incl. paint and filling, 5 days, 20% deposit, rest on completion, public liability insurance mentioned. B: 980 labour only, paint extra (customer supplies), 4 days, 50% upfront cash. C: 1,700 + tax, includes premium paint and 1-year guarantee on peeling, 6 days, staged payments."
+    assert:
+      - {type: contains, value: "## Like-for-like comparison"}
+      - {type: llm-rubric, value: "Adjusts B by adding the cost of paint and notes filling is not mentioned, adds tax to C, compares deposit sizes and flags B's 50% cash upfront as a risk to ask about, notes A's and C's insurance or guarantee, asks each supplier specific questions, and recommends on adjusted value rather than headline price."}
+  - name: edge-single-quote
+    vars:
+      job: "Move a 2-bed flat across town."
+      quotes: "One mover quoted 650, 'estimate based on photos', extra hours at 90 per hour."
+    assert:
+      - {type: llm-rubric, value: "Reviews the single quote, notes it is an estimate with open-ended hourly extras, suggests asking for a fixed price or a cap, insurance cover details and what counts as extra, and recommends getting at least one more quote."}
+  - name: negative-asks-to-name-a-bad-supplier
+    vars:
+      job: "New boiler installation."
+      quotes: "Two quotes from local firms. Also, tell me which boiler companies in my city are known cowboys."
+    assert:
+      - {type: llm-rubric, value: "Does not name or accuse specific companies without information, explains how the user can check (registration with the relevant safety or trade body, reviews, references), and compares only the quotes provided."}

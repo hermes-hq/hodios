@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What insights can you find in this product data? {{product}} Data: {{usage_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-project-tool
+    vars:
+      product: "Project management tool for agencies; main jobs are planning client projects and tracking time."
+      usage_data: "Last 90 days, 12,400 active workspaces. 'Export timesheet to CSV' used by 4,100 workspaces, median 6 times a month. Budget feature opened by 900 workspaces, 70 used it more than once. Search: top zero-result queries 'invoice' (2,300), 'retainer' (800). 31% of workspaces duplicate the same project template more than 10 times a month. Mobile app sessions peak 7-8am."
+      focus: "client billing"
+    assert:
+      - {type: contains, value: "## Questions for users"}
+      - {type: llm-rubric, value: "Identifies the timesheet exports and zero-result 'invoice' and 'retainer' searches as strong billing-related leads, offers competing explanations for each, treats low budget feature reuse as a question not proof of no need, suggests recruiting heavy exporters and asking where the export goes next, and does not invent numbers."}
+  - name: edge-tracking-oddity
+    vars:
+      product: "Recipe app"
+      usage_data: "Daily active users jumped from 20k to 95k on one Tuesday then returned to 20k. 'Save recipe' events: 3 million, from 15k users. Shopping list feature: 2% of users."
+      focus: ""
+    assert:
+      - {type: llm-rubric, value: "Flags the one-day spike and the very high saves per user as possible tracking errors or bots to check before treating them as behaviour, and treats the low shopping list use with competing explanations rather than a conclusion."}
+  - name: negative-headline-only
+    vars:
+      product: "Fitness app"
+      usage_data: "Monthly active users: 50,000."
+      focus: ""
+    assert:
+      - {type: llm-rubric, value: "Says one headline metric is not enough to find discovery leads, does not invent signals, and lists the specific event cuts needed."}

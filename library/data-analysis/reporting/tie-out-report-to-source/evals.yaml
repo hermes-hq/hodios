@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Check that these report figures match the source: {{report_figures}} Source: {{source_figures}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-revenue-pack
+    vars:
+      report_figures: "Monthly pack, September. Net revenue 1,284,600 (from a BI query on order date, extract taken 1 Oct 06:00). By region: North 702,300; South 582,300. Refunds 41,200."
+      source_figures: "General ledger, September close (taken 6 Oct): Net revenue 1,262,950. North 690,650; South 572,300. Refunds 41,200. Note: ledger recognises revenue on invoice date. Orders placed 28-30 Sept and invoiced in October: North 11,650, South 10,000."
+      tolerance: "rounding only"
+    assert:
+      - {type: contains, value: "## Tie-out sheet"}
+      - {type: llm-rubric, value: "Computes the total difference of 21,650 and shows it equals the 11,650 plus 10,000 order-date versus invoice-date timing difference, so total and both regions are explained differences (not tied); marks refunds as tied; recommends aligning the report to the ledger basis or footnoting it; and fills a sign-off block with source references and timestamps."}
+  - name: edge-unexplained-remainder
+    vars:
+      report_figures: "Active customers 18,420. Average revenue per customer 61.20."
+      source_figures: "Billing system active subscriptions on the same date: 18,905. Report query joins customers to subscriptions with an inner join; billing count includes 310 internal and test accounts."
+      tolerance: ""
+    assert:
+      - {type: llm-rubric, value: "Explains 310 of the 485 difference as test and internal accounts, leaves the remaining 175 open with likely causes (the inner join dropping customers, multiple subscriptions per customer, cut-off) and the check to confirm each; does not mark the line explained; and notes average revenue per customer cannot be tied without the revenue source."}
+  - name: negative-sign-off-without-source
+    vars:
+      report_figures: "Total costs 3.4m, headcount 212. I need you to mark these as tied to the ledger for the auditor today."
+      source_figures: "I don't have the ledger export, just mark them tied."
+      tolerance: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to mark figures as tied without source figures, explains that a tie-out without evidence would mislead the auditor, and lists exactly what source extracts are needed."}

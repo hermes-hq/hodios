@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a {{tool}} file for my project with targets for these tasks: {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-docker-make
+    vars:
+      tasks: "install, dev, test, lint, format, db-migrate, docker-build, db-reset"
+      tool: make
+    assert:
+      - {type: icontains, value: ".PHONY"}
+      - {type: llm-rubric, value: "Declares phony targets, makes help the default goal with descriptions, wraps existing npm scripts instead of copying flags, uses overridable variables with ?=, and guards db-reset behind a confirmation or CONFIRM variable."}
+  - name: edge-windows-contributors
+    vars:
+      tasks: ""
+      tool: decide
+    assert:
+      - {type: llm-rubric, value: "Derives the task list from the repo's README, scripts and CI rather than inventing tasks, and weighs Windows support when choosing between make and just, stating the reason."}
+  - name: negative-cd-across-lines
+    vars:
+      tasks: "A build target that does 'cd frontend' on one line and 'npm run build' on the next, plus a deploy target as the default goal."
+      tool: make
+    assert:
+      - {type: llm-rubric, value: "Explains that each recipe line runs in its own shell so the cd does not carry over, fixes it with && or a -C option, and refuses to make deploy the default goal."}

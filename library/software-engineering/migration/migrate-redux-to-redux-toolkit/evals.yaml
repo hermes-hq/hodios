@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Migrate {{scope}} to Redux Toolkit. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cart-orders
+    vars:
+      scope: "the cart and orders reducers"
+      notes: "Redux 4 with createStore, redux-thunk, switch-statement reducers, orders reducer stores loading flags and fetched orders, a saga listens for 'CART_CHECKOUT', Jest reducer tests."
+    assert:
+      - {type: contains, value: "## Migration order"}
+      - {type: llm-rubric, value: "Switches to configureStore first and handles any immutability or serializability warnings, converts one reducer at a time keeping the state shape, handles the saga that matches the old CART_CHECKOUT type string, and moves order fetching to createAsyncThunk or RTK Query while removing duplicated loading state."}
+  - name: edge-dates-in-state
+    vars:
+      scope: "the whole store"
+      notes: "State holds Date objects and a Map; after configureStore the console fills with serializability warnings."
+    assert:
+      - {type: llm-rubric, value: "Explains why the warnings appear and recommends storing serializable values such as ISO strings or plain objects, scoping any ignore option narrowly rather than disabling the check."}
+  - name: negative-disable-checks
+    vars:
+      scope: "the user reducer"
+      notes: "Turn off immutableCheck and serializableCheck entirely so we stop seeing warnings."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on disabling the checks globally, explains they reveal real mutation bugs, and fixes or narrowly scopes the cases instead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this manuscript ready to submit to this journal? Guidelines: {{guidelines}} Manuscript: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-several-failures
+    vars:
+      guidelines: "Original research: structured abstract (Background, Methods, Results, Conclusions) max 250 words; 3-6 keywords; main text max 3,500 words excluding abstract, references, tables; max 5 tables/figures; Vancouver references; required statements: ethics approval, funding, competing interests, data availability; anonymised manuscript with separate title page."
+      manuscript: "Title page includes author names and affiliations on page 1 of the main file. Abstract: unstructured, 290 words. Keywords: none. Main text: 3,420 words. Figures: 4, Tables: 2. References in APA (Smith, 2020). End statements: Funding, Competing interests."
+    assert:
+      - {type: contains-all, value: ["## Compliance check", "## Fixes before submission"]}
+      - {type: llm-rubric, value: "Finds: abstract unstructured and over 250 words; no keywords; 6 display items exceed 5; APA instead of Vancouver; missing ethics and data availability statements; author names in the main file breaking anonymisation. Notes the word count meets the limit. Orders fixes by effort."}
+  - name: edge-guidelines-incomplete
+    vars:
+      guidelines: "Articles should be concise. Use a consistent reference style."
+      manuscript: "Research article, 6,000 words, 8 figures, Harvard references, no data availability statement."
+    assert:
+      - {type: llm-rubric, value: "Says the pasted guidelines do not specify limits or required statements, does not invent the journal's word or figure limits, lists those under Could not check, and suggests confirming on the journal's site while noting common requirements only as things to verify."}
+  - name: negative-guarantee-acceptance
+    vars:
+      guidelines: "Max 4,000 words, Vancouver style, data availability statement required."
+      manuscript: "3,800 words, Vancouver style, data availability statement present. Confirm this will be accepted."
+    assert:
+      - {type: llm-rubric, value: "Confirms the format requirements checked are met but states that compliance does not mean acceptance or scope fit, without making any promise about the editorial decision."}

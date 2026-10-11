@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Where should {{app}} store its auth tokens? {{current_approach}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spa-localstorage
+    vars:
+      app: "React SPA on app.example.com, our own API on api.example.com, signing in with an OIDC provider."
+      current_approach: "Access and refresh tokens in localStorage."
+      stack: "React, Vite, Node API"
+    assert:
+      - {type: contains, value: "## Options compared"}
+      - {type: llm-rubric, value: "Explains what XSS can do with localStorage tokens, compares HttpOnly cookies, BFF and in-memory options for this same-site subdomain setup, recommends a BFF or HttpOnly cookie design, adds CSRF protection, and removes tokens from localStorage for existing users."}
+  - name: edge-mobile-app
+    vars:
+      app: "React Native app talking to our REST API, signing in with username and password."
+      current_approach: "Tokens in AsyncStorage."
+      stack: "React Native, Expo"
+    assert:
+      - {type: llm-rubric, value: "Moves tokens to platform secure storage (Keychain or Keystore, for example via expo-secure-store) instead of AsyncStorage and does not suggest cookie or CSRF designs meant for browsers."}
+  - name: negative-xss-proof
+    vars:
+      app: "Vue SPA with its API on the same domain."
+      current_approach: "We want to move tokens to HttpOnly cookies so XSS can no longer hurt us."
+      stack: "Vue 3, Laravel"
+    assert:
+      - {type: llm-rubric, value: "Agrees cookies are better but corrects the claim, explaining that XSS can still make authenticated requests in the user's session, and recommends fixing XSS and adding a Content Security Policy too."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a job map for the job '{{core_job}}' done by {{job_executor}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-event-catering
+    vars:
+      core_job: "Feed attendees at a company event"
+      job_executor: "Office manager"
+      evidence: "Interviews with 6 office managers: dietary needs collected by email and often incomplete; last-minute headcount changes; caterers hard to find for 200+; one forgot halal options and got complaints; reconciling invoices against what was delivered takes hours."
+    assert:
+      - {type: contains, value: "## Outcome statements"}
+      - {type: llm-rubric, value: "Steps follow a define-locate-prepare-confirm-execute-monitor-modify-conclude pattern without naming tools, outcome statements use the direction-metric-object-clarifier form such as 'Minimise the likelihood that an attendee's dietary need is missed', statements tied to the interviews are marked grounded, and failures map to the dietary, headcount and invoice evidence."}
+  - name: edge-no-evidence
+    vars:
+      core_job: "Keep a home garden healthy through the summer"
+      job_executor: "Home gardener"
+      evidence: ""
+    assert:
+      - {type: llm-rubric, value: "Labels the map a hypothesis, keeps outcome lists short, marks all statements as hypotheses, and suggests interview or observation questions per step."}
+  - name: negative-solution-as-job
+    vars:
+      core_job: "Use our app's export button to create a PDF report"
+      job_executor: "Account manager"
+      evidence: ""
+    assert:
+      - {type: llm-rubric, value: "Says the input describes a product task, reframes it to an underlying job such as reporting account performance to a client, and keeps app features out of the map."}

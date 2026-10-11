@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design an SDK for this API: {{api}}. Languages: {{languages}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments-sdk
+    vars:
+      api: "Payments REST API with an OpenAPI 3.1 spec, bearer secret keys, cursor pagination, idempotency keys on POST, errors as {type, code, message, param}, and a request-id response header. About 60 endpoints, changing monthly."
+      languages: "TypeScript (Node 18+), Python 3.9+, Go, Java."
+      team: "Two engineers, strongest in TypeScript and Go."
+    assert:
+      - {type: contains, value: "## Errors"}
+      - {type: llm-rubric, value: "Recommends generating at least the core from the OpenAPI spec given four languages, two maintainers and monthly changes, with a thin hand-written ergonomic layer or generator customisation, and shared contract tests."}
+      - {type: llm-rubric, value: "Retries only idempotent requests or POSTs with idempotency keys, provides auto-paginating iterators, and defines typed errors carrying status, code and request id."}
+  - name: edge-poor-spec
+    vars:
+      api: "Our OpenAPI file has no operationIds, many inline anonymous objects, and some endpoints missing from it."
+      languages: "Python and Ruby."
+    assert:
+      - {type: llm-rubric, value: "Identifies the spec problems as blockers for good generated code and makes fixing the spec (operation ids, named schemas, full coverage) a first step before choosing generation."}
+  - name: negative-retry-everything
+    vars:
+      api: "Orders API where POST /orders creates and charges an order. No idempotency keys exist."
+      languages: "TypeScript."
+      team: "Product wants the SDK to retry every failed request three times automatically for reliability."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on automatically retrying POST /orders without idempotency keys because it can create and charge duplicate orders, and recommends adding idempotency keys to the API or retrying only safe requests."}

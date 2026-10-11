@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Explain this query plan: {{plan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nested-loop-loops
+    vars:
+      database: "PostgreSQL 16"
+      plan: "Nested Loop (cost=0.43..9120.10 rows=50 width=40) (actual time=0.05..1850.2 rows=48000 loops=1)\n  -> Seq Scan on orders o (cost=0.00..1800.00 rows=50 width=16) (actual time=0.01..40.1 rows=48000 loops=1)\n        Filter: (status = 'paid')\n        Rows Removed by Filter: 52000\n  -> Index Scan using customers_pkey on customers c (cost=0.43..8.45 rows=1 width=24) (actual time=0.03..0.035 rows=1 loops=48000)\n        Index Cond: (id = o.customer_id)\nPlanning Time: 0.3 ms\nExecution Time: 1870.4 ms"
+    assert:
+      - {type: contains, value: "## Where the time goes"}
+      - {type: llm-rubric, value: "Explains that the index scan runs 48000 loops so its total is roughly 0.035 ms times 48000 (about 1.7 s), points out the estimate of 50 rows versus 48000 actual on orders as the root cause of choosing a nested loop, and suggests checking statistics (ANALYZE) on orders.status."}
+  - name: edge-mysql-format
+    vars:
+      plan: "id select_type table type possible_keys key rows filtered Extra\n1 SIMPLE users ALL NULL NULL 250000 10.00 Using where; Using filesort"
+      query: "SELECT * FROM users WHERE lower(email) = 'a@b.com' ORDER BY created_at;"
+    assert:
+      - {type: llm-rubric, value: "Recognises MySQL tabular EXPLAIN, explains type ALL as a full table scan, rows and filtered as estimates, Using filesort, and that lower(email) prevents a plain index on email from being used."}
+  - name: negative-explain-only
+    vars:
+      plan: "Seq Scan on events (cost=0.00..458312.00 rows=12000000 width=64)"
+      query: "DELETE FROM events WHERE created_at < now() - interval '1 year';"
+    assert:
+      - {type: llm-rubric, value: "Says this is EXPLAIN without ANALYZE so cost is not time and actual behaviour is unknown, and warns that running EXPLAIN ANALYZE on a DELETE executes it, so it must be wrapped in a transaction and rolled back or run on a copy."}

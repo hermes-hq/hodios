@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write some test conversations for this chatbot: {{assistant}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-booking-bot
+    vars:
+      assistant: "A chat assistant for a hair salon that answers questions about services and prices and takes booking requests (service, stylist, day and time) for staff to confirm."
+      concerns: "It sometimes books the wrong day after the customer changes their mind."
+    assert:
+      - {type: contains-all, value: ["## Coverage map", "## Test scripts", "## Scoring sheet"]}
+      - {type: llm-rubric, value: "Scripts are multi-turn with a marked probe turn and cover a correction of day or time, carrying an early detail such as the stylist to the end, a topic switch and return, a request the bot must not confirm itself, and a long-drift script; pass checks are concrete and observable; run instructions include fresh sessions and rerunning failures."}
+  - name: edge-system-prompt-given
+    vars:
+      assistant: "System prompt: 'You help employees choose a training course from the catalogue. Ask about role and goals first. Never enrol anyone; give the enrolment link placeholder [LINK]. Keep answers under 100 words.'"
+    assert:
+      - {type: llm-rubric, value: "Derives scripts from the system prompt's rules, including one where the user skips the role question, one pressing it to enrol them, and one checking the 100-word limit holds after many turns."}
+  - name: negative-out-of-purpose
+    vars:
+      assistant: "A recipe assistant that suggests dinners from what is in the fridge."
+      concerns: "Also test that it books restaurant tables and processes payments correctly."
+    assert:
+      - {type: llm-rubric, value: "Notes that booking and payments are not features of this assistant and tests that it declines or redirects them, rather than writing scripts that expect it to book or take payment."}

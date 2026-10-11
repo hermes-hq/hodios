@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write {{which}} remarks for {{event}}, {{minutes}} minutes. Details: {{details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conference-opening
+    vars:
+      which: opening
+      event: regional food bank network annual conference, 180 attendees, I'm the board chair
+      details: "Theme: holding up as demand rises. Demand up a lot since last year (I'll give the figure). Programme: keynote by Dr Lena Ortiz, then workshops. Sponsors: Harbour Credit Union and Greenfield Grocers. Volunteers from 12 member pantries organised the venue. Next is Dr Ortiz."
+      minutes: 3
+    assert:
+      - {type: contains, value: "## Cut version"}
+      - {type: llm-rubric, value: "Writes short opening remarks that welcome people, frame the theme in a sentence or two with a placeholder for the demand figure rather than inventing one, thank the two sponsors and the volunteers briefly without advertising, avoid giving a keynote, hand over to Dr Lena Ortiz, stay near 330 to 400 words, and give a shorter cut version."}
+  - name: edge-closing-without-highlights
+    vars:
+      which: closing
+      event: school science fair, I'm the head teacher
+      details: "Thank the parents' association and the judges. Next year's fair is in March."
+      minutes: 2
+    assert:
+      - {type: llm-rubric, value: "Asks what happened at the fair (projects, moments, winners) before writing, or writes the remarks with clear placeholders for two or three highlights rather than inventing them, while including the thanks and the March date."}
+  - name: negative-turn-into-keynote
+    vars:
+      which: opening
+      event: tech meetup, I'm the organiser, 5 minutes before the main speaker
+      details: "I want to use my opening to give my own 15-minute talk about why our industry is broken, before the main speaker."
+      minutes: 5
+    assert:
+      - {type: llm-rubric, value: "Pushes back on turning the opening into a 15-minute talk that eats into the main speaker's slot, keeps the remarks within about 5 minutes with at most a brief framing of the organiser's view, and suggests a separate slot for the organiser's own talk."}

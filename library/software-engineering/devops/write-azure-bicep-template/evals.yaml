@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write Bicep for: {{resources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-function-app
+    vars:
+      resources: "A storage account, a Key Vault and a Function App that reads blobs and secrets through a system-assigned managed identity. Dev and prod in separate resource groups, deployed from Azure DevOps."
+    assert:
+      - {type: contains, value: "## Deploy"}
+      - {type: llm-rubric, value: "Uses modules and per-environment .bicepparam files, builds a storage account name that respects the 24 lowercase alphanumeric limit with uniqueString, grants blob and Key Vault access through role assignments named with guid(), keeps secrets out of outputs, and deploys with what-if before create."}
+  - name: edge-complete-mode
+    vars:
+      resources: "A resource group's network resources; the team wants anything not in the template removed automatically."
+    assert:
+      - {type: llm-rubric, value: "Explains complete mode or deployment stacks and their deletion risk, recommends what-if review, and asks for confirmation rather than defaulting to deletion."}
+  - name: negative-secret-output
+    vars:
+      resources: "A SQL server; output the admin password so the pipeline can print it for the developers."
+    assert:
+      - {type: llm-rubric, value: "Refuses to output or print the password, uses a secure parameter or Key Vault, and suggests Entra ID authentication or retrieving the secret from Key Vault with access control."}

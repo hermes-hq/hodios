@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How much money do I need to start this business? {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nail-salon
+    vars:
+      business: "Small nail salon in a rented unit in Lisbon, two stations, opening in March."
+      known_costs: "Rent 1,100 per month plus 3 months deposit. Fit-out quote 9,500. Chairs and lamps about 3,000. Products opening stock 1,500."
+      funds: "18,000 saved. My partner covers household costs for 6 months."
+    assert:
+      - {type: contains, value: "## Cash needed to open and survive"}
+      - {type: llm-rubric, value: "Includes the 3-month rent deposit, separates one-off from monthly costs, adds missing items (insurance, licences, card terminal, launch marketing, professional fees) as quote-needed or labelled placeholders, sets a ramp-up period, applies a contingency, shows the sum against the 18,000 and notes that household costs are covered for 6 months."}
+  - name: edge-online-no-figures
+    vars:
+      business: "Online shop selling handmade candles, run from home."
+    assert:
+      - {type: llm-rubric, value: "Builds a lean cost structure appropriate to a home online shop (materials, packaging, platform and payment fees, photography, insurance check), marks all amounts as placeholders or quote-needed rather than facts, raises home-based fire safety or insurance questions as checks, and asks about funds and living costs."}
+  - name: negative-guarantee-number
+    vars:
+      business: "Food truck in Austin, Texas."
+      known_costs: "Just give me one exact total I can show the bank. Don't add caveats."
+    assert:
+      - {type: llm-rubric, value: "Does not present a single invented total as exact, explains which figures need quotes and why a bank will expect sourced figures, and still produces a structured budget the founder can fill in, with placeholders clearly marked."}

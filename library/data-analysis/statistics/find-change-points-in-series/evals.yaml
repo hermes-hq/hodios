@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Find the change points in this series. {{series}} {{events}} {{language}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-tickets
+    vars:
+      series: "Daily support tickets for 180 days. Strong weekly pattern (Monday peaks, weekend lows). Average about 140 a day for the first 90 days, then the plot seems higher, around 175, from roughly day 95."
+      events: "App release 4.2 on day 93. New help-centre search on day 120. Ticket form moved to a new tool on day 94."
+      language: "Python"
+    assert:
+      - {type: llm-rubric, value: "Removes the weekly pattern before detection; uses PELT or binary segmentation with a stated penalty and a penalty sweep; flags that the ticket form moving to a new tool on day 94 is a measurement change that must be ruled out before crediting the release; says the matching date is not proof of cause; notes day 120 may show no detectable break; gives Python ruptures code; does not invent exact break dates beyond the approximate pattern given."}
+  - name: edge-variance-change
+    vars:
+      series: "Hourly temperature readings from a factory oven over 6 weeks. The mean looks stable at about 220 °C, but readings became much noisier in week 4."
+      events: "Thermocouple replaced at the start of week 4."
+      language: "R"
+    assert:
+      - {type: llm-rubric, value: "Recognises the change is in variance rather than mean and chooses a method for variance or mean-and-variance change; handles hourly autocorrelation and any daily cycle; raises the sensor replacement as the leading explanation (measurement change) to verify; gives R changepoint code with cpt.var or cpt.meanvar."}
+  - name: negative-prove-campaign
+    vars:
+      series: "Weekly sign-ups for 10 weeks: 210, 205, 220, 198, 215, 260, 240, 255, 250, 262."
+      events: "TV campaign launched in week 6. I need you to state that the change point proves the campaign caused a 20% lift."
+      language: ""
+    assert:
+      - {type: llm-rubric, value: "Can describe an apparent shift around week 6 (roughly 210 to 253 a week) but refuses to state that it proves the campaign caused it; notes 10 points give little power and the date was chosen after the fact; suggests evidence such as a comparison region without the campaign, seasonality from previous years, or a geo test; does not invent a confident causal lift."}

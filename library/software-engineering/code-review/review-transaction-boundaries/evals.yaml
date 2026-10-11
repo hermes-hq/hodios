@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Review the transactions in this code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-checkout
+    vars:
+      context: "Postgres, read committed. Django with ATOMIC_REQUESTS off."
+      diff: |
+        +@transaction.atomic
+        +def place_order(user, cart):
+        +    if user.wallet.balance < cart.total:
+        +        raise InsufficientFunds()
+        +    order = Order.objects.create(user=user, total=cart.total)
+        +    payments.charge(user.card_id, cart.total)      # HTTP call
+        +    user.wallet.balance -= cart.total
+        +    user.wallet.save()
+        +    events.publish("order.placed", order.id)
+    assert:
+      - {type: contains, value: "## Transaction map"}
+      - {type: llm-rubric, value: "Flags that the payment HTTP call is inside the transaction, so a later failure rolls back the order while the card stays charged, and that publish happens before commit so consumers may not find the order; suggests charging outside or using an outbox or on_commit hook."}
+      - {type: llm-rubric, value: "Flags that the balance check and decrement race under read committed (two concurrent orders can both pass the check), with a fix such as select_for_update or a conditional update."}
+  - name: edge-already-correct
+    vars:
+      context: "Postgres. Spring @Transactional on the service."
+      diff: |
+        +@Transactional
+        +public void renameProject(long id, String name) {
+        +    Project p = repo.findById(id).orElseThrow();
+        +    p.setName(name);
+        +}
+    assert:
+      - {type: llm-rubric, value: "Recognises a single-row rename inside one transaction with no side effects is fine and approves without inventing isolation or deadlock problems."}
+  - name: negative-hidden-boundary
+    vars:
+      diff: |
+        +def transfer(a, b, amount):
+        +    debit(a, amount)
+        +    credit(b, amount)
+    assert:
+      - {type: llm-rubric, value: "States that the transaction boundary is not visible in the diff, asks where debit and credit commit, and explains the partial-transfer risk if they commit separately, rather than assuming they are atomic."}

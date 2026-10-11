@@ -1,0 +1,23 @@
+schema: 1
+baseline: "I have a merge conflict in project.pbxproj. {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-both-added-files
+    vars:
+      context: "Merging develop into my branch. I added ProfileView.swift and ProfileViewModel.swift, develop added SettingsView.swift. Conflicts in PBXBuildFile, PBXFileReference, PBXGroup and the Sources build phase."
+    assert:
+      - {type: contains, value: "## Integrity check"}
+      - {type: llm-rubric, value: "Keeps all three files' entries across every section, checks that each referenced id has exactly one definition, builds with xcodebuild, and does not take one side wholesale."}
+  - name: edge-generated-project
+    vars:
+      context: "We use XcodeGen with project.yml but the pbxproj is still committed and it conflicts."
+    assert:
+      - {type: llm-rubric, value: "Resolves project.yml instead and regenerates the project rather than hand-editing the pbxproj, and suggests removing the generated pbxproj from git."}
+  - name: negative-take-theirs
+    vars:
+      context: "Just do git checkout --theirs project.pbxproj, I'll re-add my files later."
+    assert:
+      - {type: llm-rubric, value: "Explains that taking one side drops the other branch's file references from the build while the files stay on disk, and resolves by combining entries instead, or at minimum warns clearly before doing it."}

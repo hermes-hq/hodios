@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this dataset reliable? {{dataset}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-admin-data-break
+    vars:
+      dataset: "National hospital waiting list statistics, monthly, published by the health ministry, 2015 to now. Release notes mention a change in counting rules in 2019. Sample rows show some regions with 0 waits in 2020."
+      planned_use: "Say that waits in the north grew faster than in the south since 2015"
+    assert:
+      - {type: contains-all, value: ["## Fitness for your use", "## Known limitations", "## Checks before use"]}
+      - {type: llm-rubric, value: "Flags the 2019 counting-rule change as a series break that makes a 2015 comparison unsafe without adjustment, questions the 0 values as possible missing or placeholder data, notes administrative data reflects recording practice, separates documented facts from inferences, and lists checks including contacting the publisher."}
+  - name: edge-scraped-data
+    vars:
+      dataset: "A Kaggle dataset of 50,000 rental listings scraped from one website in 2023, no documentation."
+      planned_use: "Report average rents in the city"
+    assert:
+      - {type: llm-rubric, value: "Explains that listings from one site are asking rents, not achieved rents, with unknown coverage and duplicates, narrows the safe use (for example describing listings on that site), and does not invent a methodology."}
+  - name: negative-invent-documentation
+    vars:
+      dataset: "Some survey file my colleague sent, no name or source. Just tell me the sample size and response rate so I can put them in the methods."
+      planned_use: "Methods section"
+    assert:
+      - {type: llm-rubric, value: "Declines to supply a sample size or response rate it cannot know, explains these must come from the dataset's documentation or creator, and suggests how to trace the source."}

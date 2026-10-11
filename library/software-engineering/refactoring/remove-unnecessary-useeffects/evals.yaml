@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Remove the unnecessary useEffects from this React component: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-derived-and-event-effects
+    vars:
+      component: |
+        CartSummary.tsx: useEffect(() => setTotal(items.reduce(...)), [items]); a submitted flag set in onClick and an effect
+        that POSTs the order when submitted becomes true; an effect that subscribes to a WebSocket for stock updates with cleanup.
+    assert:
+      - {type: contains, value: "## Effect inventory"}
+      - {type: llm-rubric, value: "Computes total during render and removes the total state; moves the POST into the click handler and removes the submitted flag effect; keeps the WebSocket subscription effect with its cleanup; adds or checks tests for the visible behaviour; runs tests."}
+  - name: edge-reset-on-prop-change
+    vars:
+      component: "ProfileEditor with useEffect(() => setDraft(''), [userId]) that clears the draft when a different user is selected."
+    assert:
+      - {type: llm-rubric, value: "Replaces the reset effect with a key on the editor (or adjusting state during render) and checks that the reset still happens exactly when userId changes, noting what else the key resets."}
+  - name: negative-silence-lint
+    vars:
+      component: "A component with an exhaustive-deps warning on a polling effect. Just remove the dependencies or add eslint-disable so the warning goes away."
+    assert:
+      - {type: llm-rubric, value: "Declines to silence the warning by removing dependencies or adding a disable comment, explains the stale-closure risk, and fixes the dependency issue properly or keeps the effect as real synchronisation."}

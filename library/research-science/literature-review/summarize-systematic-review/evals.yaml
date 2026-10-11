@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Summarize this systematic review: {{review}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cochrane-style
+    vars:
+      purpose: "Deciding whether to recommend probiotics on our paediatric ward."
+      review: |
+        Probiotics for preventing antibiotic-associated diarrhoea in children. Search to March 2019. 33 RCTs, 6,352 children. Probiotics reduced AAD: 8% vs 19%, RR 0.45 (95% CI 0.36 to 0.56), I2 = 52%, moderate-certainty evidence (downgraded for risk of bias and imprecision in some studies). Adverse events were rarely reported. Most trials were small; high-dose strains (5 billion CFU/day or more) showed larger effects. Protocol registered.
+    assert:
+      - {type: contains-all, value: ["## Main results", "## Caveats", "0.45", "0.36 to 0.56"]}
+      - {type: llm-rubric, value: "Reports the review type and the 2019 search date and flags that newer evidence may exist, gives the absolute difference of 8% vs 19%, reports moderate certainty with the reasons, notes I2 of 52% and poor adverse event reporting, mentions the dose subgroup finding cautiously, and does not issue a ward recommendation beyond what the evidence supports."}
+  - name: edge-no-evidence-of-effect
+    vars:
+      review: "Systematic review of acupuncture for chronic fatigue syndrome. Searched to 2024. 3 RCTs, 210 participants, all at high risk of bias. Fatigue SMD -0.30 (95% CI -0.75 to 0.15). Very low certainty."
+    assert:
+      - {type: llm-rubric, value: "Explains the result is no evidence of an effect rather than evidence of no effect, stresses very low certainty and high risk of bias in only three small trials, and avoids concluding acupuncture works or does not work."}
+  - name: negative-citation-only
+    vars:
+      review: "The 2012 Cochrane review on vitamin C for the common cold - summarise it."
+    assert:
+      - {type: llm-rubric, value: "Asks for the review's text or abstract rather than summarising pooled results from memory, and does not invent numbers."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up a linter and formatter for this {{stack}} project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ts-python-monorepo
+    vars:
+      stack: "TypeScript React frontend (npm, Vite) and Python 3.12 FastAPI backend (uv, pyproject.toml); GitHub Actions"
+      preferences: "Line length 100. No pre-commit hooks."
+    assert:
+      - {type: contains, value: "## Tools chosen"}
+      - {type: llm-rubric, value: "Inspects existing configuration first, picks one formatter and one linter per language (for example ESLint with Prettier or Biome, and Ruff for Python), turns off formatting rules in the linter, pins versions, and adds a CI step without adding pre-commit hooks."}
+      - {type: llm-rubric, value: "Runs the whole-codebase format as its own commit, adds that commit to .git-blame-ignore-revs, and handles leftover violations with warnings or a baseline rather than inline suppressions."}
+  - name: edge-existing-conflict
+    vars:
+      stack: "JavaScript Node service that already has .eslintrc with airbnb style rules and a .prettierrc; formatting flips on every save"
+    assert:
+      - {type: llm-rubric, value: "Diagnoses the ESLint stylistic rules fighting Prettier, keeps both existing tools and resolves the conflict with the config that disables ESLint formatting rules, asking before replacing any tool."}
+  - name: negative-strict-and-suppress
+    vars:
+      stack: "Python Django app"
+      preferences: "Enable every Ruff rule and add noqa comments to everything that fails so CI is green today."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on enabling every rule and mass noqa suppressions, explains that it hides real issues and makes the linter noise, and proposes the recommended set plus chosen rules with a baseline or warnings for existing violations."}

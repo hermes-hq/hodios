@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Hot reload is not working: {{symptom}} Setup: {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wsl-windows-path
+    vars:
+      symptom: "Vite does not pick up any changes; I have to restart the dev server every time."
+      setup: "Windows 11, WSL 2 Ubuntu, project in /mnt/c/Users/me/projects/app, edited in VS Code."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains that files on the Windows file system under /mnt/c do not emit inotify events to Linux, recommends moving the project into the WSL file system (for example ~/projects) and opening it with the VS Code WSL extension, and mentions polling only as a fallback with its CPU cost."}
+  - name: edge-full-reload-react
+    vars:
+      symptom: "Changes appear but the whole page reloads and form state is lost. Console says \"[vite] hmr invalidate ... Could not Fast Refresh\"."
+      setup: "Vite + React, Button.tsx exports the component and a BUTTON_SIZES constant."
+    assert:
+      - {type: llm-rubric, value: "Explains Fast Refresh requires a module to export only components, so the extra constant export forces a full reload, and fixes by moving the constant to its own module."}
+  - name: negative-reinstall-everything
+    vars:
+      symptom: "Hot reload stopped. Should I delete node_modules and reinstall?"
+      setup: "Next.js in Docker on macOS with a bind mount, worked last week before we moved to Docker."
+    assert:
+      - {type: llm-rubric, value: "Points out the change that matters is the move to Docker on macOS, where bind mounts may not deliver file events, and suggests checking whether the server sees changes and enabling WATCHPACK_POLLING or a supported file sharing setting, rather than reinstalling dependencies."}

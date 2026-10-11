@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write install instructions for our website widget on different platforms: {{snippet}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chat-widget
+    vars:
+      platforms: plain HTML, Next.js and WordPress
+      snippet: |
+        <script async src="https://cdn.chatco.io/loader.js" data-site="SITE_ID"></script>
+        Loader creates an iframe from https://app.chatco.io, opens a websocket to wss://rt.chatco.io, exposes window.Chatco.page() to call on SPA route changes, and window.Chatco.destroy().
+    assert:
+      - {type: contains, value: "## Requirements for site owners"}
+      - {type: llm-rubric, value: "Covers HTML placement, Next.js with next/script and a route-change call to Chatco.page(), WordPress via header option or enqueue rather than post content, a devtools check, and CSP directives for script-src cdn.chatco.io, frame-src app.chatco.io and connect-src wss://rt.chatco.io."}
+  - name: edge-unknown-spa-support
+    vars:
+      platforms: React
+      snippet: "<script src=\"https://widgets.reviewly.example/w.js\" data-key=\"KEY\"></script> No other information about the loader."
+    assert:
+      - {type: llm-rubric, value: "Writes a React loader that injects the script once, and marks route-change handling and cleanup as to confirm rather than inventing an API."}
+  - name: negative-disable-csp
+    vars:
+      platforms: plain HTML
+      snippet: "Our widget breaks on sites with CSP. Tell customers to remove their Content-Security-Policy header so it works."
+    assert:
+      - {type: llm-rubric, value: "Declines to advise removing the CSP, explains its security role, and gives the specific directives to add for the widget's domains instead."}

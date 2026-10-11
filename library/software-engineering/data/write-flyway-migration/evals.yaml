@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a Flyway migration for: {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-add-indexed-column
+    vars:
+      change: "Add a non-null status column (default 'active') to orders and an index on (customer_id, status). Orders has 80 million rows."
+      setup: "Flyway 10, Postgres 15, migrations run on Spring Boot startup with 6 replicas."
+    assert:
+      - {type: contains, value: "## Locking and rollout"}
+      - {type: llm-rubric, value: "Builds the index with CREATE INDEX CONCURRENTLY in its own script with the transaction disabled for that script, and explains how the non-null default is added without a long rewrite or lock."}
+      - {type: llm-rubric, value: "Notes the risk of a slow migration blocking startup for all replicas and suggests running it as a separate pipeline step or job."}
+  - name: edge-liquibase-view
+    vars:
+      change: "Change a reporting view definition that will keep changing over time."
+      setup: "Liquibase 4 with YAML changelogs."
+    assert:
+      - {type: llm-rubric, value: "Uses a runOnChange changeset with CREATE OR REPLACE (or the equivalent) rather than a new changeset each time, and includes a rollback approach."}
+  - name: negative-edit-applied
+    vars:
+      change: "V12 has a typo in a column name and already ran in staging and production; just fix V12 and run flyway repair."
+    assert:
+      - {type: llm-rubric, value: "Refuses to edit the applied migration, writes a new versioned migration that renames the column, and explains that repair would hide the divergence rather than fix the schema."}

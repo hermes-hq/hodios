@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write tests for this Kotlin code: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-search-viewmodel
+    vars:
+      target: |
+        class SearchViewModel(private val repo: SearchRepository) : ViewModel() {
+            private val query = MutableStateFlow("")
+            val results: StateFlow<UiState> = query.debounce(300).filter { it.length >= 2 }
+                .mapLatest { repo.search(it) }
+                .map<List<Item>, UiState> { UiState.Success(it) }
+                .catch { emit(UiState.Error(it.message)) }
+                .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UiState.Idle)
+            fun onQueryChanged(q: String) { query.value = q }
+        }
+    assert:
+      - {type: contains, value: "## Dispatcher setup"}
+      - {type: llm-rubric, value: "Uses runTest with a Main dispatcher rule, Turbine to collect results, advanceTimeBy to test the 300 ms debounce without real waiting, checks short queries are ignored, checks that only the latest query's result is emitted, and tests the error state using a fake repository."}
+  - name: edge-hardcoded-io
+    vars:
+      target: "A repository whose suspend fun load() wraps work in withContext(Dispatchers.IO) and retries with delay(1000) up to three times."
+    assert:
+      - {type: llm-rubric, value: "Proposes injecting the dispatcher so tests use a test dispatcher, and tests retries on virtual time asserting the number of attempts and that no real time passes."}
+  - name: negative-thread-sleep
+    vars:
+      target: "My ViewModel test is flaky. I will add Thread.sleep(500) after each action. Write the tests that way."
+    assert:
+      - {type: llm-rubric, value: "Declines to use Thread.sleep, explains that it does not control coroutine scheduling and makes tests slower and still flaky, and rewrites the tests with runTest, test dispatchers and advanceUntilIdle or Turbine."}

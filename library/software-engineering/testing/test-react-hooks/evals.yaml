@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write tests for this React hook: {{hook}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-search-hook
+    vars:
+      hook: |
+        export function useUserSearch(query: string) {
+          const [results, setResults] = useState<User[]>([]);
+          useEffect(() => {
+            if (!query) return;
+            fetch(`/api/users?q=${query}`).then(r => r.json()).then(setResults);
+          }, [query]);
+          return results;
+        }
+      test_runner: "Vitest with jsdom and MSW"
+    assert:
+      - {type: contains, value: "## Hook contract"}
+      - {type: llm-rubric, value: "Uses renderHook from @testing-library/react with rerender to change the query, includes a race-condition test where an earlier slow response arrives after a later fast one and shows stale results win, tests unmount before the fetch resolves, and mocks the network with MSW rather than mocking fetch internals."}
+  - name: edge-interval-hook
+    vars:
+      hook: "useCountdown(seconds) that uses setInterval to decrement every second and returns {remaining, reset}."
+    assert:
+      - {type: llm-rubric, value: "Uses fake timers to advance time without waiting, calls reset inside act, checks it stops at zero, and verifies the interval is cleared on unmount."}
+  - name: negative-test-internal-state
+    vars:
+      hook: "Write tests that spy on useState and useEffect to make sure my useCart hook calls them the right number of times."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on spying on React's useState and useEffect call counts as implementation detail testing, and instead tests the hook's returned values and behaviour through renderHook and act."}

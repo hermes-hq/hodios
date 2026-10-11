@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Harden this Kubernetes deployment. {{workload}} {{cluster}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-api
+    vars:
+      workload: "k8s/api-deployment.yaml: Node API, image node:20 running npm start as root, writes uploads to /tmp, talks to Postgres in the db namespace. Default service account. No network policies."
+      cluster: "EKS with the AWS VPC CNI"
+    assert:
+      - {type: contains, value: "## Current posture"}
+      - {type: llm-rubric, value: "Adds a restricted security context with non-root user, dropped capabilities, seccomp and read-only root filesystem with an emptyDir for /tmp, disables the service account token, writes default-deny plus allow-to-Postgres-and-DNS policies, and checks whether the CNI enforces network policies."}
+  - name: edge-operator-needs-api
+    vars:
+      workload: "A job controller that creates Jobs in its own namespace. It currently uses a ClusterRoleBinding to cluster-admin."
+      cluster: "GKE"
+    assert:
+      - {type: llm-rubric, value: "Replaces cluster-admin with a namespaced Role granting only the Job verbs it uses, keeps the token mounted because it calls the API, and explains how to verify with kubectl auth can-i."}
+  - name: negative-apply-to-prod
+    vars:
+      workload: "Apply enforce mode on every production namespace right now and delete all old RoleBindings."
+      cluster: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to apply enforce mode and delete bindings directly in production, proposes warn and audit mode first with a review of what depends on the bindings, and provides commands for the user to run after review."}

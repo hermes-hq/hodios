@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me move my WordPress site to a new host. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-woocommerce-move
+    vars:
+      notes: "WooCommerce shop moving from shared hosting to a VPS with SSH and WP-CLI, same domain, email currently hosted with the old host, uses a caching plugin and Cloudflare."
+    assert:
+      - {type: contains, value: "## Rollback"}
+      - {type: llm-rubric, value: "Plans a content freeze or final sync so orders are not lost, lowers DNS TTL, tests via a hosts file before cutover, handles SSL issuance and MX/SPF records, purges caches, and keeps the old host for rollback."}
+  - name: edge-domain-change
+    vars:
+      notes: "Moving to a new host and changing the domain from oldbrand.example to newbrand.example at the same time."
+    assert:
+      - {type: llm-rubric, value: "Uses a serialization-safe search-replace with a dry run, sets up 301 redirects from the old domain, and mentions the search engine change-of-address step."}
+  - name: negative-sql-replace
+    vars:
+      notes: "I'll just open the SQL dump in a text editor and replace the old URL with the new one everywhere."
+    assert:
+      - {type: llm-rubric, value: "Warns that plain find-and-replace breaks serialized data and recommends WP-CLI search-replace or another serialization-aware tool."}

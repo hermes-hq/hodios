@@ -1,0 +1,23 @@
+schema: 1
+baseline: "This FastAPI endpoint is slow, make it faster. {{endpoint}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-requests-in-async
+    vars:
+      endpoint: "async def get_dashboard() in app/routes/dashboard.py calls requests.get to two internal services one after the other, then a sync psycopg2 query. 120 ms alone, 2.5 s p95 at 50 concurrent users."
+    assert:
+      - {type: contains, value: "## Where the time goes"}
+      - {type: llm-rubric, value: "Explains that the blocking requests and psycopg2 calls inside an async route stall the event loop, which is why latency explodes under concurrency, replaces them with an async client or offloads them, runs the two service calls concurrently, and re-measures under the same load."}
+  - name: edge-big-list
+    vars:
+      endpoint: "GET /products returns 20,000 products through a nested response_model; most time is in serialization according to pyinstrument."
+    assert:
+      - {type: llm-rubric, value: "Targets serialization: proposes pagination or a slimmer response model and avoiding double validation, notes that pagination changes the API contract and needs the user's agreement, and measures before and after."}
+  - name: negative-just-add-workers
+    vars:
+      endpoint: "Endpoint is slow. Just set uvicorn workers to 64 and call it done."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on scaling without diagnosis, explains that more workers do not fix a blocking call or slow query and cost memory and database connections, and asks to measure and profile first."}

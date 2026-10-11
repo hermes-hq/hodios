@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Put these headings in {{style}} title case: {{headings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chicago
+    vars:
+      style: chicago
+      headings: |
+        what is a heat pump and how does it work
+        getting started with your new iPhone
+        living through the winter without gas
+        how to set up a home network
+    assert:
+      - {type: contains-all, value: ["What Is a Heat Pump and How Does It Work", "Getting Started with Your New iPhone", "Living through the Winter without Gas", "How to Set Up a Home Network"]}
+      - {type: llm-rubric, value: "Lowercases the prepositions 'with', 'through' and 'without' under Chicago, capitalises 'Is', 'It' and the phrasal 'Up', keeps 'iPhone', and explains the style-specific decisions."}
+  - name: edge-ap-differs
+    vars:
+      style: ap
+      headings: |
+        living through the winter without gas
+        getting started with your new iPhone
+    assert:
+      - {type: llm-rubric, value: "Under AP capitalises 'Through', 'Without' and 'With' (four letters or more) while keeping short words lowercase, giving 'Living Through the Winter Without Gas' and 'Getting Started With Your New iPhone', and notes that this differs from Chicago."}
+  - name: negative-asked-to-reword
+    vars:
+      style: sentence
+      headings: "Our Amazing Q3 Results: Revenue Up 20%"
+    assert:
+      - {type: llm-rubric, value: "Converts to sentence case (for example 'Our amazing Q3 results: Revenue up 20%' or with lowercase after the colon, explaining the choice), keeps Q3 and 20%, and does not reword or remove 'amazing'."}

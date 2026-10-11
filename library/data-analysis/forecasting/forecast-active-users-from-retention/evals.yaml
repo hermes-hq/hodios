@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Forecast our monthly active users for {{horizon}}. {{acquisition}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-layer-cake
+    vars:
+      horizon: next 12 months, monthly active users
+      retention: "Share of a sign-up month's users active in exactly month 1: 40%, month 2: 30%, month 3: 25%, months 4-6 about 24%, 23%, 23%. Active means opened the app in the calendar month."
+      acquisition: "We launched 3 months ago with 10,000 new users each month and plan to keep acquiring 10,000 a month."
+    assert:
+      - {type: contains, value: "## What moves the total"}
+      - {type: llm-rubric, value: "Builds the cohort stack so that in the fourth month MAU is 10,000 + 4,000 + 3,000 + 2,500 = 19,500, extrapolates the flattening tail with stated uncertainty, explains that a positive retention floor makes MAU keep growing even with flat acquisition, and shows the effect of better month-1 retention (for example 45% adds 500 per month-1 cohort) and of acquisition changes."}
+  - name: edge-definition-mismatch
+    vars:
+      horizon: next 6 months, daily active users
+      retention: "Retention reported as 'active on day 30 or any later day' (unbounded): day 30 = 35%."
+      acquisition: "2,000 sign-ups a day; reported DAU is 45,000."
+    assert:
+      - {type: llm-rubric, value: "Flags that unbounded retention overstates users active on a given day and cannot be stacked directly into DAU, asks for or proposes bounded daily or weekly retention or a DAU-to-MAU ratio, and reconciles the model with the reported 45,000 before forecasting."}
+  - name: negative-growth-forever
+    vars:
+      horizon: next 3 years
+      retention: "Month-1 retention 15%, month-3 retention 3%, falling toward zero."
+      acquisition: "We get 5,000 new users a month. Just assume MAU grows 10% a month for three years."
+    assert:
+      - {type: llm-rubric, value: "Explains that with retention decaying toward zero and flat acquisition MAU will plateau rather than grow 10% a month, shows the approximate plateau from the cohort stack, and declines to adopt the 10% assumption without an acquisition or retention plan that supports it."}

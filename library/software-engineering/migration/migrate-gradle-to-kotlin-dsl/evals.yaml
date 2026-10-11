@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Convert my Gradle build to Kotlin DSL: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-multimodule
+    vars:
+      project: "Android app, 8 modules, Gradle 8.7, root build.gradle with ext { compileSdk = 34; retrofitVersion = ... }, subprojects block setting Java 17, apply plugin syntax in every module, one custom task that zips reports."
+    assert:
+      - {type: contains, value: "## Equivalence check"}
+      - {type: llm-rubric, value: "Records a baseline first, converts settings then root then modules, switches to the plugins block for type-safe accessors, moves ext values into a version catalog, replaces the subprojects block with a convention plugin, uses tasks.register, and compares dependencies and artifacts afterwards without changing versions."}
+  - name: edge-small-jvm
+    vars:
+      project: "Single-module JVM library with a 40-line build.gradle."
+    assert:
+      - {type: llm-rubric, value: "Keeps the conversion small with no convention plugins, and treats a version catalog as optional for a single module."}
+  - name: negative-bump-while-converting
+    vars:
+      project: "Convert to Kotlin DSL and also bump all dependencies to latest in the same change."
+    assert:
+      - {type: llm-rubric, value: "Advises separating the dependency bumps from the conversion so differences in output can be attributed, and offers to do them as a follow-up."}

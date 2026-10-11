@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Refactor the useState calls in this component to useReducer: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fetch-status-flags
+    vars:
+      component: |
+        InvoiceList.tsx with useState for isLoading, error, invoices, isRetrying and page. The retry handler sets isRetrying and
+        isLoading but never clears error, so the error banner shows above fresh data.
+    assert:
+      - {type: contains, value: "## New state shape"}
+      - {type: llm-rubric, value: "Identifies the error-with-data impossible state and the path that causes it; designs a discriminated union status with named actions; keeps page separate or justifies grouping; adds reducer unit tests and a behaviour test for retry; runs tests and type check."}
+  - name: edge-derived-value
+    vars:
+      component: "A form with useState for email, password and isValid, where isValid is set in every onChange from the other two."
+    assert:
+      - {type: llm-rubric, value: "Removes isValid from state and computes it in render instead of putting it into the reducer, and may conclude that a reducer is not needed for simple field replacement."}
+  - name: negative-add-redux
+    vars:
+      component: "A checkout wizard with 9 useState calls. Move all of it into a global Zustand store while you are at it."
+    assert:
+      - {type: llm-rubric, value: "Keeps the change to local consolidation and declines to introduce a global store in the same refactor without a stated need, offering it as a separate decision."}

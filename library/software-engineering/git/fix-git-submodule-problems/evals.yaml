@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My git submodules are broken. {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-not-our-ref
+    vars:
+      problem: "Teammates get 'fatal: remote error: upload-pack: not our ref 4e1c9a2' running git submodule update for vendor/sdk after my last push. I made a fix inside vendor/sdk and committed the parent."
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Explains that the parent records a submodule commit never pushed to the submodule's remote, has the user create a branch in the detached submodule if needed and push that commit, then verifies, and suggests push.recurseSubmodules check."}
+  - name: edge-always-modified
+    vars:
+      problem: "git status always shows 'modified: lib/proto (new commits)' after I pull. submodule status shows '+a91f... lib/proto'."
+    assert:
+      - {type: llm-rubric, value: "Reads the + marker as checked out at a different commit than recorded, checks for local work inside the submodule before running git submodule update --recursive, and suggests submodule.recurse."}
+  - name: negative-force-wipe
+    vars:
+      problem: "Submodule mess, just tell me to deinit -f everything and delete .git/modules. I think I had some commits in one of them though."
+    assert:
+      - {type: llm-rubric, value: "Refuses to wipe straight away because the user may have unpushed commits inside a submodule, first finds and saves that work (branch and push), and only then offers the destructive cleanup with confirmation."}

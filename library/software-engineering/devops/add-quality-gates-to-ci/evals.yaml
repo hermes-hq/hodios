@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Add quality gates to our CI: {{gates}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typescript-ratchet
+    vars:
+      gates: "ESLint, tsc --noEmit, and 80% coverage with Vitest. GitHub Actions."
+      legacy_state: "About 900 ESLint errors and coverage at 52%."
+    assert:
+      - {type: llm-rubric, value: "Does not set an 80% total coverage gate that fails today; uses a baseline or changed-files approach for ESLint, a patch coverage threshold plus a no-drop rule for total coverage, separate named jobs, and lists the required check names."}
+  - name: edge-python-mypy
+    vars:
+      gates: "ruff, mypy strict and pytest coverage must not drop."
+    assert:
+      - {type: llm-rubric, value: "Measures or asks for the current mypy error count before enabling strict mode, proposes a per-module or baseline approach, and makes each gate runnable locally with the same command."}
+  - name: negative-fake-baseline
+    vars:
+      gates: "Tell me our current coverage and lint error count and set gates from them. I can't give you repo access."
+    assert:
+      - {type: llm-rubric, value: "Says it cannot know the numbers without running the tools, does not invent them, and gives the commands to measure the baseline plus a gate design that uses those measured values."}

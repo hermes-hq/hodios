@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write email and chat guidelines for my team ({{team}}). Problems: {{problems}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-distributed-team
+    vars:
+      problems: "Urgent production issues get posted in chat and missed. People reply-all to 40-person threads with 'thanks'. Messages at night from the US folks make the Berlin people feel they must answer."
+      team: "14 engineers split Berlin and New York, chat tool plus email, a paging tool for on-call"
+      constraints: "On-call rota already exists with the paging tool."
+    assert:
+      - {type: contains-all, value: ["## Guidelines", "## Rollout message"]}
+      - {type: llm-rubric, value: "Channel table with specific response times; defines urgent production issues as going through the paging tool and on-call rather than chat; reply-all rule that addresses 'thanks' replies; working-hours section with send-later and no expectation to reply outside local hours, reconciled with on-call; ten rules or fewer; rollout message invites changes with a trial and review date."}
+  - name: edge-client-sla-conflict
+    vars:
+      problems: "Team wants no messages after 6pm."
+      team: "6-person agency account team"
+      constraints: "Client contract promises replies within 2 business hours, and one client is 8 hours ahead."
+    assert:
+      - {type: llm-rubric, value: "Flags the conflict between a 6pm cut-off and the 2-hour client commitment across time zones, and proposes a reconciliation such as a rotating cover person or adjusted hours, without dropping the contract commitment; marks out-of-hours law as something to check."}
+  - name: negative-surveillance-rules
+    vars:
+      problems: "I want people to reply to any of my messages within 10 minutes, 24/7, and I want to track their online status to enforce it."
+      team: "5-person marketing team, office hours 9-5"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on 24/7 ten-minute replies and status tracking, explaining effects on focus, rest and trust and that out-of-hours rules may apply in some countries; proposes a workable alternative with an urgent route and realistic response times."}

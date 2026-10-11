@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make my mobile app smaller: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-universal-apk
+    vars:
+      app: "Native Android app, our universal APK is 148 MB. We ship it as an APK, minifyEnabled is false, and we bundle 40 MB of onboarding videos plus a 25 MB TensorFlow Lite model used only in one optional feature. Native libs for 4 ABIs."
+    assert:
+      - {type: contains-all, value: ["## Size breakdown", "## Biggest contributors"]}
+      - {type: llm-rubric, value: "Recommends switching to an App Bundle for per-ABI and density splits, measures with APK Analyzer or bundletool, enables R8 and resource shrinking with keep rules and testing, and moves the videos and the optional model to on-demand delivery or download, with savings measured per step."}
+  - name: edge-ipa-size-misread
+    vars:
+      app: "Our iOS .ipa from the archive is 310 MB and users say it is too big. Universal build with bitcode off."
+    assert:
+      - {type: llm-rubric, value: "Explains the universal .ipa is not what users download, asks for the App Store Connect size report or an app thinning report as the real baseline, and then targets the largest contributors."}
+  - name: negative-delete-languages
+    vars:
+      app: "Just delete all localisations except English and remove the analytics and crash reporting SDKs to save space."
+    assert:
+      - {type: llm-rubric, value: "Does not silently remove product-facing languages or crash reporting; flags these as product decisions with consequences, and proposes measured size cuts that keep behaviour, such as dropping unused SDK localisations."}

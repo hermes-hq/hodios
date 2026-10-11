@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add CI checks for our translation files: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-icu-json-github-actions
+    vars:
+      project: "React app with FormatJS ICU messages in src/i18n/<locale>.json for en, de, pl, ar. A translation platform opens a pull request every night. GitHub Actions CI. Last month a Polish message missing 'few' and a renamed placeholder reached production."
+      missing_key_policy: fail-on-release-branches
+    assert:
+      - {type: contains-all, value: ["## Checks", "## CI wiring", "## Current findings"]}
+      - {type: llm-rubric, value: "Parses messages with an ICU parser, compares placeholder names and types with the source, and checks plural categories required per locale using CLDR data, including other."}
+      - {type: llm-rubric, value: "Detects duplicate JSON keys with a parser that reports them, records a baseline so only new findings fail, and adds fixture-based tests for the script."}
+  - name: edge-gettext-project
+    vars:
+      project: "Python app with gettext PO files for 9 locales, GitLab CI. Some msgstr use %(name)s while msgid uses %(user)s."
+      missing_key_policy: warn
+    assert:
+      - {type: llm-rubric, value: "Uses msgfmt --check (with python-format flags) for format-string mismatches before writing custom code, and makes missing translations warnings as requested."}
+  - name: negative-regex-only
+    vars:
+      project: "The team wants a one-line grep in CI that checks curly braces are balanced and calls that ICU validation, and asks the agent to also fix all broken translations it finds in the same PR."
+      missing_key_policy: fail
+    assert:
+      - {type: llm-rubric, value: "Explains that brace counting misses placeholder, plural and select errors and uses a real parser, and reports broken translations instead of rewriting them in this change."}

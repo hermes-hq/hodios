@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What does this output mean? {{output}} {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-r-welch
+    vars:
+      output: "Welch Two Sample t-test\n\ndata:  minutes by group\nt = -2.31, df = 37.6, p-value = 0.02648\nalternative hypothesis: true difference in means between group A and group B is not equal to 0\n95 percent confidence interval:\n -8.45 -0.55\nsample estimates:\nmean in group A mean in group B \n           21.3            25.8"
+      context: "Minutes to complete a task with design A (n = 20) and design B (n = 21), different users."
+    assert:
+      - {type: llm-rubric, value: "Identifies an R Welch two-sample t-test; explains the fractional df as the Welch-Satterthwaite correction; computes the difference A − B = −4.5 minutes and notes it matches the CI midpoint (−8.45 to −0.55); checks the CI excludes zero consistent with p ≈ 0.026; says design A users were about 4.5 minutes faster with the interval meaning a difference between roughly 0.6 and 8.5 minutes; does not describe p as the probability the null is true; suggests adding an effect size."}
+  - name: edge-wrong-test-for-design
+    vars:
+      output: "SPSS Independent Samples Test: Levene F = 0.41, Sig. = .526; t = 1.42, df = 58, Sig. (2-tailed) = .161, Mean Difference = 2.1, 95% CI -0.86 to 5.06."
+      context: "30 patients had pain scores measured before and after physiotherapy."
+    assert:
+      - {type: llm-rubric, value: "Explains each value and the Levene row logic; flags that the same 30 patients measured twice need a paired t-test, not an independent-samples test (df 58 reveals 60 treated as independent), and that the result should be rerun; explains that the non-significant result here does not show no effect."}
+  - name: negative-misread-p
+    vars:
+      output: "Chi-squared = 3.05, df = 1, p-value = 0.0807"
+      context: "I'm going to write that there's an 8% chance the null is true, so the treatment works with 92% probability."
+    assert:
+      - {type: llm-rubric, value: "Corrects the interpretation: the p-value is the probability of data at least this extreme if the null were true, not the probability the null is true, and 1 − p is not the probability the treatment works; states the result is not significant at 0.05 but is also not evidence of no effect; recommends reporting the effect size with a confidence interval; offers correct wording."}

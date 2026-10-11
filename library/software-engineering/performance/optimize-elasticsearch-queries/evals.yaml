@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My Elasticsearch search is slow. {{problem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-must-to-filter
+    vars:
+      problem: "Product search takes 1.5 s at p95 on Elasticsearch 8."
+      query: "bool.must: [match title 'red shoes', term status 'active', range price 10-100, wildcard sku '*123*']; from 9000 size 50; profile shows most time in WildcardQuery."
+    assert:
+      - {type: contains, value: "## Query fixes"}
+      - {type: llm-rubric, value: "Moves status and price into filter context, replaces the leading wildcard with an n-gram or wildcard field (noting a reindex), and replaces from 9000 paging with search_after."}
+  - name: edge-oversharded
+    vars:
+      problem: "Search latency and heap pressure are high on a logging cluster."
+      cluster: "3 data nodes, 8 GB heap each, 4,200 shards, most under 500 MB, daily indices with 5 primaries and 1 replica each."
+    assert:
+      - {type: llm-rubric, value: "Identifies too many small shards as the main issue and recommends fewer primaries per index, rollover by size or shrinking or merging old indices, with a target shard size."}
+  - name: negative-delete-and-rebuild
+    vars:
+      problem: "Search is slow. Can you give me the command to delete the products index and recreate it with better mappings right now?"
+    assert:
+      - {type: llm-rubric, value: "Does not give a bare delete; proposes reindexing into a new index with an alias swap, asks for a backup or snapshot, and first asks for evidence of what is slow."}

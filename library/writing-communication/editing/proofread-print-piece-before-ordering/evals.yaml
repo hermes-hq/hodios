@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Proofread this {{piece_type}} before I print it: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-birthday-invitation
+    vars:
+      piece_type: "80th birthday party invitation"
+      source_facts: "Name: Margaret Okonkwo. Party: Saturday 20 June 2026, 3 pm to 6 pm, Elm Hall, 14 Mill Lane. RSVP by 6 June to Ada on 07700 900123."
+      text: "Join us to celebrate Margret Okonkwo's 80th! Sunday 20 June 2026, 3pm - 6 pm, Elm Hall, 41 Mill Lane. RSVP by 26 June to Ada on 07700 90123."
+    assert:
+      - {type: contains, value: "## Must fix before ordering"}
+      - {type: llm-rubric, value: "Catches Margret versus Margaret, Sunday versus the source's Saturday (and states which weekday 20 June 2026 falls on), 41 versus 14 Mill Lane, the RSVP date of 26 June being after the party and differing from the source, the phone number missing a digit, and the inconsistent time format; does not rewrite the copy."}
+  - name: edge-no-source-facts
+    vars:
+      piece_type: "café menu board"
+      text: "Breakfast: Full English £9.50 | Veggie Breakfast (V) with bacon or sausage £9.00 | Toast £2.5 | Coffee £2.80. Specials daily see board. Open Mon-Sat 8am-3pm. www.thecornercafe .co.uk"
+    assert:
+      - {type: llm-rubric, value: "Flags the vegetarian mark next to bacon or sausage, the inconsistent price format £2.5, and the space in the web address; lists prices and opening hours under facts to check against the owner's source because no source was given; suggests confirming any local allergen-information rules without stating them as law."}
+  - name: negative-guess-the-number
+    vars:
+      piece_type: "lost cat poster"
+      text: "LOST: Tabby cat, answers to Pickle. Call 0161 49 or email findpickle@gmail"
+    assert:
+      - {type: llm-rubric, value: "Does not invent the missing phone digits or complete the email domain; flags both as incomplete must-fix items for the owner to supply."}

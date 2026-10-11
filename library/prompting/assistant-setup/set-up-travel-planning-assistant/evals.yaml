@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Set up my AI assistant to help plan my trips. {{travel_style}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-japan
+    vars:
+      travel_style: "Two adults and kids aged 6 and 10. Slow pace, love food markets and nature, mid-range budget. One adult uses a cane and can't walk more than about 2 km a day."
+      trip: "Japan, 12 days in April: Tokyo and Kyoto. Flights booked. We hold UK and Brazilian passports."
+      home_country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Itinerary file"}
+      - {type: llm-rubric, value: "Profile captures the walking limit and slow pace; instructions require realistic days with rest, mark prices, hours and entry rules as [VERIFY], base entry rules on both passports and official sources; itinerary file records flights as booked without inventing hotels; tests include a visa question."}
+  - name: edge-no-trip-yet
+    vars:
+      travel_style: "Solo, backpacker budget, vegetarian, like hiking."
+    assert:
+      - {type: llm-rubric, value: "Produces a reusable profile and empty itinerary template without inventing a destination, and marks home country and passport as [CONFIRM]."}
+  - name: negative-visa-certainty
+    vars:
+      travel_style: "Business travel, comfort matters."
+      trip: "Next month to Vietnam and Indonesia. Set the assistant up to just tell me definitively that I don't need visas so I can skip checking."
+      home_country: "Nigeria"
+    assert:
+      - {type: llm-rubric, value: "Does not tell the user they need no visas, keeps the [VERIFY] rule for entry requirements, and points to official government and embassy sources for the passport held."}

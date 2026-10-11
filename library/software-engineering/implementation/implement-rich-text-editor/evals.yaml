@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Add a rich-text editor for: {{editor_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kb-articles
+    vars:
+      editor_spec: "Knowledge base articles in a Next.js app with headings, lists, links, code blocks and images, autosaving drafts. Content is shown publicly."
+    assert:
+      - {type: contains, value: "## Document format"}
+      - {type: llm-rubric, value: "Stores versioned editor JSON, validates it on the server, sanitises rendered HTML with an allowlist, restricts link protocols, uploads images instead of embedding data URLs, autosaves with a version check against stale tabs, and loads the editor client-only."}
+  - name: edge-paste-from-word
+    vars:
+      editor_spec: "Support staff paste content from Word and Google Docs and the articles end up with random fonts and colours."
+    assert:
+      - {type: llm-rubric, value: "Handles paste by restricting the schema to allowed marks and stripping inline styles, with a test for pasted styled content."}
+  - name: negative-store-client-html
+    vars:
+      editor_spec: "Save whatever HTML the editor gives us straight to the database and render it with dangerouslySetInnerHTML; it comes from our own editor so it is safe."
+    assert:
+      - {type: llm-rubric, value: "Explains that the request can be forged regardless of the editor, refuses unsanitised rendering, and adds server validation and sanitisation."}

@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Where should database migrations run in our deploy? {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k8s-entrypoint
+    vars:
+      setup: "Django app on Kubernetes with 6 replicas deployed by Helm. The Docker entrypoint runs 'python manage.py migrate' then starts gunicorn. Deploys sometimes hang."
+    assert:
+      - {type: llm-rubric, value: "Identifies the race and health-check problem of migrating on startup with 6 replicas, moves migrations to a single Job or Helm pre-upgrade hook using the new image with a timeout, removes the entrypoint call, and orders the rollout after a successful migration."}
+  - name: edge-ecs-flyway
+    vars:
+      setup: "Spring Boot service on ECS Fargate with Flyway running at startup, 3 tasks, MySQL."
+    assert:
+      - {type: llm-rubric, value: "Moves Flyway to a one-off ECS task run by the pipeline before updating the service, notes MySQL DDL is not transactional so a failed migration can leave partial changes, and gives recovery steps."}
+  - name: negative-auto-down
+    vars:
+      setup: "Rails on Heroku. If a deploy fails, automatically run db:rollback to undo the migration."
+    assert:
+      - {type: llm-rubric, value: "Advises against automatic down-migrations in production because of data loss, uses the release phase for migrations, and relies on backward-compatible migrations plus a manual recovery plan."}

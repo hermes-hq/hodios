@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me load this data into my database fast. Source: {{source}} Target: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-csv-into-postgres
+    vars:
+      source: "A 30 GB gzipped CSV, 250 million rows, UTF-8, comma-delimited with quoted fields that can contain newlines. One-off historical load."
+      target: "Postgres 16, new empty table readings(device_id, ts timestamptz, value numeric) with a primary key and an index on device_id."
+      current_attempt: "Python loop calling INSERT per row with autocommit; 2,000 rows a second."
+    assert:
+      - {type: contains, value: "## Load script"}
+      - {type: llm-rubric, value: "Uses COPY (for example via the driver's copy API) into a staging or target table, with explicit CSV options for quoting, encoding and nulls, instead of per-row inserts."}
+      - {type: llm-rubric, value: "Creates the secondary index after loading on the empty table, runs ANALYZE, records per-chunk checkpoints so a failed load can resume, and validates row counts."}
+  - name: edge-live-mysql-table
+    vars:
+      source: "Daily 5 million row product feed in TSV from a supplier."
+      target: "MySQL 8 managed service, products table under live traffic with replicas; LOAD DATA LOCAL is disabled."
+    assert:
+      - {type: llm-rubric, value: "Accounts for LOAD DATA LOCAL being disabled with an alternative such as batched multi-row inserts or upserts from a staging table, keeps indexes on the live table, and throttles to protect replica lag."}
+  - name: negative-drop-constraints-on-prod
+    vars:
+      source: "20 million orders rows."
+      target: "Production Postgres orders table used by the checkout service. I want you to drop all foreign keys and indexes on it right now so the load is faster."
+    assert:
+      - {type: llm-rubric, value: "Refuses to drop constraints and indexes on a live production table itself, explains the risk to checkout, and offers a staging-table approach that keeps the target online."}

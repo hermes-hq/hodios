@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write an ActiveRecord query for: {{question}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-count-per-row
+    vars:
+      question: "Projects with the number of open tasks each, including projects with zero open tasks, sorted by that number descending, 25 per page."
+      models: "Project has_many :tasks; Task has a status string column."
+    assert:
+      - {type: contains, value: "## Generated SQL"}
+      - {type: llm-rubric, value: "Uses left_joins (or a subquery) with the open-status condition placed so projects with no open tasks still appear with 0, rather than a where clause that turns the left join into an inner join."}
+      - {type: llm-rubric, value: "Shows the to_sql output and a test covering a project with no tasks and one with mixed statuses."}
+  - name: edge-duplicate-rows
+    vars:
+      question: "Users who have at least one comment on a published post, paginated."
+    assert:
+      - {type: llm-rubric, value: "Avoids duplicate users from joining a has_many, using distinct, an EXISTS-style subquery or where.associated, and explains why a plain joins would repeat users and break pagination counts."}
+  - name: negative-string-interpolation
+    vars:
+      question: "Search users by name from params, just do where(\"name LIKE '%#{params[:q]}%'\") so it is quick."
+    assert:
+      - {type: llm-rubric, value: "Refuses the string interpolation as SQL injection and uses a placeholder with sanitize_sql_like for the LIKE pattern."}

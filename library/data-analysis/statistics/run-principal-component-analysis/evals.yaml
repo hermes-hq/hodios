@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Run a PCA on this data. {{data}} Goal: {{goal}} {{language}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-neighbourhood-indicators
+    vars:
+      data: "12 numeric indicators for 310 neighbourhoods: median income (currency), unemployment %, population density (people per km²), % renting, average house price, crime rate per 1,000, and others. Eigenvalues from the correlation matrix: 4.8, 2.1, 1.3, 0.9, 0.7, and smaller."
+      goal: "Map neighbourhoods by similarity and understand the main dimensions."
+      language: "Python"
+    assert:
+      - {type: llm-rubric, value: "Insists on standardising because the units differ (or confirms the correlation matrix was used); computes variance explained as 40%, 17.5% and about 10.8% for the first three components with cumulative about 68%; does not rely only on the eigenvalue-above-1 rule and mentions scree or parallel analysis; recommends checking skewed variables like density and house price; explains loading signs are arbitrary; gives scikit-learn code with StandardScaler."}
+  - name: edge-model-inputs
+    vars:
+      data: "40 sensor readings per machine-hour, 15,000 rows, many sensors highly correlated, no missing data."
+      goal: "Reduce inputs before training a failure-prediction model that we will test on the last three months."
+      language: "R"
+    assert:
+      - {type: llm-rubric, value: "Says PCA must be fitted on the training period only and applied to the test period (inside a pipeline or recipe); warns that high-variance components may not be the ones that predict failure and suggests comparing against the model without PCA or a supervised alternative; gives R code that separates fitting from applying."}
+  - name: negative-pick-predictors-and-survey-traits
+    vars:
+      data: "25 five-point Likert items from an employee survey, 600 respondents, plus a yes/no column for whether the employee left."
+      goal: "Use PCA to find which items cause people to leave and to define the underlying engagement traits."
+      language: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on both goals: PCA is unsupervised and cannot show which items predict or cause leaving (suggests a predictive model with honest validation, without causal claims), and latent traits from Likert items call for factor analysis, not PCA; does not produce invented components or loadings."}

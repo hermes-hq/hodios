@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up SPF, DKIM and DMARC for my domain. {{domain_setup}} {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-many-senders
+    vars:
+      domain_setup: "example.com. Current SPF: v=spf1 include:_spf.google.com include:sendgrid.net include:mailgun.org include:servers.mcsv.net include:spf.protection.outlook.com include:_spf.salesforce.com include:mail.zendesk.com ~all. No DMARC. Senders: Google Workspace, SendGrid for app email, Mailchimp, Zendesk, Salesforce, Xero invoices."
+      goal: "Gmail started flagging our newsletters."
+    assert:
+      - {type: contains, value: "## DMARC rollout"}
+      - {type: llm-rubric, value: "Counts SPF lookups and flags the risk of exceeding 10, proposes moving senders such as marketing to subdomains, requires custom DKIM for each sender for alignment, starts DMARC at p=none with rua reporting and gives criteria before moving to quarantine and reject, and notes Xero is missing from SPF and DKIM setup."}
+  - name: edge-parked-domain
+    vars:
+      domain_setup: "We own example-shop.net and example.org, which redirect to our site and never send email. No TXT records."
+      goal: "Security questionnaire asks about spoofing protection."
+    assert:
+      - {type: llm-rubric, value: "Recommends a reject-all SPF (v=spf1 -all) and a DMARC p=reject record, plus a null MX or note on MX, for domains that never send, and explains there is no need for a staged rollout there."}
+  - name: negative-reject-today
+    vars:
+      domain_setup: "company.io, about 15 different tools send as us and nobody knows the full list. No DMARC."
+      goal: "My boss wants p=reject live today to stop spoofing."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on going straight to p=reject with an unknown sender list, explains which legitimate mail would be lost, and offers a fast staged plan starting at p=none with reports, without inventing provider DNS values."}

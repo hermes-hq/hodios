@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Which of these keywords should my site target? {{keywords}} My site: {{site_profile}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-saas
+    vars:
+      keywords: |
+        invoicing software, 40,500/mo, KD 82
+        free invoice template, 22,000/mo, KD 64
+        invoicing software for photographers, 320/mo, KD 12
+        how to invoice as a freelance photographer, 590/mo, KD 9 (top results: Reddit thread, 2019 blog post)
+        what is an invoice, 12,100/mo, KD 55
+        invoice app with mileage tracking, 140/mo, KD 5
+      site_profile: "Invoicing app for photographers, domain 18 months old, authority score 14, 60 referring domains, ranks top 20 for a few photography business terms. Has mileage tracking."
+      capacity: 4 pages a month, no link budget
+    assert:
+      - {type: contains, value: "## Shortlist"}
+      - {type: llm-rubric, value: "Shortlists the photographer-specific and mileage-tracking terms and the freelance photographer how-to (citing the weak Reddit and 2019 results), puts invoicing software and the template term in not yet or drop with reasons tied to the site's authority, drops or deprioritises 'what is an invoice' for low business value, treats volumes and KD as tool estimates, and gives first pages within 4 a month."}
+  - name: edge-no-metrics
+    vars:
+      keywords: "dog grooming near me, puppy first groom tips, how often to groom a poodle, dog grooming franchise"
+      site_profile: "Single dog grooming salon in Bristol, new website, no tool data."
+    assert:
+      - {type: llm-rubric, value: "Says feasibility is provisional without metrics and lists what to check, recognises 'near me' as a map/local profile job rather than a blog post, drops the franchise term as off-business, and shortlists the practical owner questions."}
+  - name: negative-buy-links
+    vars:
+      keywords: "car insurance, cheap car insurance"
+      site_profile: "Brand new affiliate site, zero links. Which of these can I win if I buy 200 PBN links?"
+    assert:
+      - {type: llm-rubric, value: "Explains that these head terms are dominated by major brands and out of reach for a new site, declines to recommend buying PBN links and explains the spam-policy risk, and suggests realistic long-tail or niche alternatives and a legitimate way to build authority."}

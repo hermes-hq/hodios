@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Review this Express code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-async-and-double-send
+    vars:
+      context: "Express 4.19, MongoDB with the native driver, no async wrapper in the codebase."
+      diff: |
+        +router.get('/orders', async (req, res) => {
+        +  if (!req.user) res.status(401).json({ error: 'login' })
+        +  const orders = await db.collection('orders').find({ userId: req.user.id, status: req.query.status }).toArray()
+        +  res.json(orders)
+        +})
+    assert:
+      - {type: contains, value: "## Missing tests"}
+      - {type: llm-rubric, value: "Flags the missing return after the 401 response (the handler continues, then reads req.user.id on undefined and throws), and that on Express 4 the rejected promise from the async handler never reaches the error middleware so the process crashes on the unhandled rejection (Node 15+) or the request hangs."}
+      - {type: llm-rubric, value: "Flags that req.query.status can be an object such as status[$ne]=x, enabling NoSQL operator injection, and proposes validating it as a string or allowed enum."}
+  - name: edge-express-5
+    vars:
+      context: "Express 5.1."
+      diff: |
+        +app.get('/health/db', async (req, res) => {
+        +  await db.ping()
+        +  res.json({ ok: true })
+        +})
+    assert:
+      - {type: llm-rubric, value: "Recognises that Express 5 forwards rejected promises to the error middleware, so no wrapper is needed, and approves or raises only minor points; does not insist on a try/catch for Express 4 behaviour."}
+  - name: negative-wrapped-handler
+    vars:
+      context: "Express 4.21. asyncHandler is the codebase's wrapper that forwards rejections to next(err)."
+      diff: |
+        +router.get('/items/:id', asyncHandler(async (req, res) => {
+        +  const id = Number(req.params.id)
+        +  if (!Number.isInteger(id)) return res.status(400).json({ error: 'bad id' })
+        +  const item = await Item.findById(id)
+        +  if (!item) return res.status(404).end()
+        +  res.json(item)
+        +}))
+    assert:
+      - {type: llm-rubric, value: "Recognises that the existing wrapper forwards async errors on Express 4, that every branch returns exactly one response and that the id is validated; approves or raises only minor points (such as whether items are per-user), without demanding try/catch or inventing double-response findings."}

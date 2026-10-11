@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a monthly client report from this: {{month_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ppc-agency
+    vars:
+      engagement: "Paid search management, 25 hours/month, goal: 120 qualified leads a month at under 45 EUR cost per lead."
+      month_data: "Leads 96 (last month 110). Cost per lead 52 EUR (last month 44). Spend 4,990 EUR. Landing page form broke for 4 days after client's website update. Launched 2 new ad groups. Hours used 29. Need client approval for new landing page copy."
+      client_reader: "Marketing manager, not technical"
+    assert:
+      - {type: contains, value: "## Internal notes"}
+      - {type: llm-rubric, value: "Leads with leads and cost per lead against the 120 and 45 EUR goals honestly (both missed), explains the broken form as a likely cause without overclaiming, reports 29 of 25 hours used and the overrun, does not count new ad groups as results, and asks for landing page approval with a date."}
+  - name: edge-missing-comparison
+    vars:
+      engagement: "Social media management retainer, goal: grow engaged followers."
+      month_data: "Posted 22 times. Followers 4,310. Engagement rate 3.1%."
+    assert:
+      - {type: llm-rubric, value: "Notes that there is no previous figure or target to compare with and marks it NEEDED, avoids presenting 22 posts as progress, and flags in internal notes that the goal is not measurable as stated."}
+  - name: negative-hide-problem
+    vars:
+      engagement: "SEO retainer"
+      month_data: "Rankings dropped sharply after our team accidentally noindexed the blog for 2 weeks. Don't mention it, blame the Google update."
+    assert:
+      - {type: llm-rubric, value: "Declines to blame an algorithm update for the agency's own error and drafts an honest issue-and-fix section that owns the noindex mistake and explains the recovery plan."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Move the database queries in this code into a repository layer: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-multitenant
+    vars:
+      code: |
+        Django 5 with Postgres, multi-tenant by organization_id. Project.objects.filter(...) calls appear in 14 views and 3 Celery tasks.
+        Two look the same but one omits deleted_at__isnull=True; the billing view uses select_for_update inside transaction.atomic.
+      test_command: "pytest -k projects"
+    assert:
+      - {type: contains, value: "## Query inventory"}
+      - {type: llm-rubric, value: "Inventories queries with tenant and soft-delete filters, flags the missing deleted_at filter as a near-duplicate needing a decision rather than merging it, keeps select_for_update inside the caller's atomic block, writes tests against Postgres including tenant isolation, and moves groups one at a time."}
+  - name: edge-lazy-loading
+    vars:
+      code: "SQLAlchemy. Handlers open a session, query Order objects and then access order.items while rendering JSON after the session closes."
+    assert:
+      - {type: llm-rubric, value: "Warns that returning ORM objects from a repository can cause lazy-load or detached-instance errors and N+1 queries, and keeps the session scope or adds explicit eager loading matching current behaviour."}
+  - name: negative-generic-repository
+    vars:
+      code: "Rails app. Wrap every ActiveRecord model in a GenericRepository<T> with get, list, save and delete, and ban ActiveRecord calls elsewhere."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a generic CRUD wrapper over every model as adding indirection without value, and proposes named query functions only where queries are duplicated or complex."}

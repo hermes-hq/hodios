@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Is this regex correct? {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-allowed-host
+    vars:
+      intent: "Allow redirects only to example.com and its subdomains."
+      diff: |
+        +ALLOWED = /https?:\/\/([a-z0-9]+\.)*example.com/
+        +if (ALLOWED.test(req.query.next)) res.redirect(req.query.next)
+    assert:
+      - {type: contains, value: "## Wrong accepts and rejects"}
+      - {type: llm-rubric, value: "Shows concrete accepted attack strings caused by missing anchors and the unescaped dot, such as https://example.com.evil.net or https://evil.net/?https://example.com or https://exampleXcom, and proposes an anchored, escaped pattern or URL parsing of the host."}
+      - {type: llm-rubric, value: "Notes that hyphenated subdomains such as my-app.example.com are wrongly rejected, and gives test strings."}
+  - name: edge-simple-correct
+    vars:
+      intent: "Match a 6-digit numeric PIN, whole string, Python."
+      diff: |
+        +PIN = re.compile(r"[0-9]{6}")
+        +if PIN.fullmatch(pin): ...
+    assert:
+      - {type: llm-rubric, value: "Recognises fullmatch with [0-9]{6} is correct (and that [0-9] avoids Unicode digit issues), approves, and does not invent problems."}
+  - name: negative-redos
+    vars:
+      intent: "Validate comma-separated tags from a public form."
+      diff: |
+        +const TAGS = /^(\w+\s?)*,?$/
+    assert:
+      - {type: llm-rubric, value: "Identifies catastrophic backtracking from the nested quantifier on user input, gives an attack string such as many word characters followed by an invalid character, and proposes a linear alternative rather than approving."}

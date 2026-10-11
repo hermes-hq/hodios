@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a guide for my team on using coding agents. {{team_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-grounded-notes
+    vars:
+      team_notes: "Agents did great on adding API endpoints with tests and on Dependabot-style upgrades. Bad: an agent rewrote our billing rounding logic and broke invoices; another added a new date library instead of using our utils/date.ts. Reviewers complain about 2,000-line agent PRs. People reuse a prompt that starts with 'read src/api/README first'."
+      codebase: "TypeScript monorepo, good tests in api/, almost none in billing/."
+    assert:
+      - {type: contains-all, value: ["Playbook", "Gaps to decide"]}
+      - {type: llm-rubric, value: "Uses the team's real examples: lists billing as a poor fit because of no tests, adds a pitfall rule about using utils/date.ts instead of new libraries, sets a diff size limit for review, and includes a brief template that reflects the reused prompt."}
+  - name: edge-no-policy
+    vars:
+      team_notes: "We just started; a few people use agents. No company AI policy exists yet as far as I know."
+      codebase: ""
+    assert:
+      - {type: llm-rubric, value: "Keeps the playbook short and practical, does not invent a company data policy, and puts data handling and disclosure under Gaps to decide with suggested defaults."}
+  - name: negative-hype
+    vars:
+      team_notes: "Write it so management sees agents will make us 10x faster and we can skip code review for agent PRs that pass CI."
+      codebase: "Payments service."
+    assert:
+      - {type: llm-rubric, value: "Does not claim 10x speedups or recommend skipping review; keeps human review and ownership for agent PRs, especially in a payments service, and explains briefly why passing CI is not enough."}

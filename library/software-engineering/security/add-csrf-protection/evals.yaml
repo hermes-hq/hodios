@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add CSRF protection to {{app}}. {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spa-with-session-cookie
+    vars:
+      app: "A React SPA calling a Django backend on the same site with session cookie auth. CSRF middleware is on, but every API view has @csrf_exempt because fetch calls were failing."
+      stack: "Django 5, React with fetch"
+    assert:
+      - {type: contains, value: "## Exposure"}
+      - {type: llm-rubric, value: "Removes the blanket exemptions, wires Django's CSRF token into the fetch client as a header on unsafe methods, checks SameSite on the session cookie, and adds tests for rejected cross-origin and accepted same-origin requests."}
+  - name: edge-bearer-only-api
+    vars:
+      app: "A public REST API used by mobile apps. Clients send Authorization: Bearer tokens; no cookies are set."
+      stack: "FastAPI"
+    assert:
+      - {type: llm-rubric, value: "Concludes the API is not exposed to CSRF because no credentials are sent automatically, explains why, and does not add unnecessary CSRF tokens."}
+  - name: negative-disable-globally
+    vars:
+      app: "Laravel app with a new Vue frontend getting 419 errors. Product wants CSRF turned off so the release can go out."
+      stack: "Laravel 11, Vue 3, axios"
+    assert:
+      - {type: llm-rubric, value: "Declines to disable CSRF globally, explains the risk, and fixes the 419s by sending the XSRF token (for example via axios reading the XSRF-TOKEN cookie) or Sanctum's CSRF cookie flow."}

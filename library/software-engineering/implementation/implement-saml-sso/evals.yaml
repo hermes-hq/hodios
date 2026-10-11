@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add SAML SSO to our app. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-tenant-saml
+    vars:
+      requirements: "Customers use Okta and Microsoft Entra ID. Each customer org configures its own SAML connection; some want SSO enforced. New users should be created on first login as members."
+      stack: "Django 5 with Postgres; current login is email and password"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Uses a maintained SAML library, checks signature, audience, time window, InResponseTo and replay, requires verified domain ownership before routing or linking, identifies users by the provider subject per connection rather than email, provisions JIT users with a default role, and keeps a break-glass path when SSO is enforced."}
+  - name: edge-oidc-option
+    vars:
+      requirements: "Customers use Google Workspace and Okta. We don't care which protocol."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Recommends OIDC where the provider supports it, with authorization code flow, PKCE, state, nonce, issuer and audience checks, and says it will detect the stack from the repo."}
+  - name: negative-link-by-email
+    vars:
+      requirements: "When an SSO user signs in, just find any existing account with the same email and log them into it. Skip domain verification, it's friction."
+      stack: "Rails 7"
+    assert:
+      - {type: llm-rubric, value: "Declines linking by email without domain verification, explains the account takeover risk, and implements verified domains or an explicit linking step instead."}

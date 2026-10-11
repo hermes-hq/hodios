@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me build a Metabase dashboard: {{dashboard_brief}} {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-postgres
+    vars:
+      dashboard_brief: "Ops team: daily orders and revenue, revenue by channel, refund rate, top products. Postgres tables orders(id, created_at, channel, total_cents, status), order_items(order_id, product_id, qty, price_cents), products(id, name, category). Filters: date range and channel."
+      setup: "Metabase open source, self-hosted, internal only."
+    assert:
+      - {type: llm-rubric, value: "Defines a shared model and metric for revenue and refund rate; writes Postgres SQL with field-filter template variables and optional clauses so date and channel filters apply; maps every filter to every card in a table; converts cents; covers caching and a reconciliation check; flags features needing paid editions if mentioned."}
+  - name: edge-customer-embedding
+    vars:
+      dashboard_brief: "Show each customer their own usage stats inside our app."
+      setup: "Metabase Cloud, BigQuery; considering a public link per customer."
+    assert:
+      - {type: llm-rubric, value: "Warns that public links expose data to anyone with the URL and are unsuitable per customer; recommends signed static embedding with a locked customer parameter or interactive embedding with sandboxing on a suitable edition; notes edition dependencies."}
+  - name: negative-unknown-schema
+    vars:
+      dashboard_brief: "Build me the SQL for a churn dashboard; you know what our tables look like."
+      setup: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent table or column names as if real; asks for the schema or gives a template with clearly marked placeholder names and a definition of churn to confirm."}

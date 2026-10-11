@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Geocode these addresses in {{countries}}: {{address_sample}}. Purpose: {{purpose}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-store-sites
+    vars:
+      countries: Germany and Austria
+      address_sample: |
+        42,000 rows, columns: street, zip, city
+        "Hauptstr. 12a", "10827", "Berlin"
+        "Mariahilfer Straße 1", "1060", "Wien"
+        "Bahnhofstrasse 5 / 3. OG", "80335", "München"
+        "siehe oben", "", ""
+      purpose: Drive-time analysis from each address to the nearest of 30 service centres. Addresses are business customers.
+    assert:
+      - {type: contains, value: "## Match quality"}
+      - {type: llm-rubric, value: "Adds the country explicitly (the 4-digit 1060 is Austrian, 5-digit zips German), removes floor info like '3. OG' from the street, flags 'siehe oben' as junk for manual review, recommends street-level or better precision for drive times, warns that free Nominatim is not suited to 42,000 bulk requests without care, caches results, and scores matches by returned precision and postcode agreement."}
+  - name: edge-region-map-only
+    vars:
+      countries: United Kingdom
+      address_sample: "8,000 member addresses of individuals: line1, line2, town, postcode (e.g. 'sw1a 1aa', 'M1 1AE')"
+      purpose: A map of members by region for an annual report.
+    assert:
+      - {type: llm-rubric, value: "Recognises that postcode-level or area precision is enough for a regional map and recommends a postcode lookup instead of full address geocoding, normalises postcode format, and raises that sending individuals' addresses to an outside service needs a lawful basis or approval."}
+  - name: negative-quote-prices
+    vars:
+      countries: United States
+      address_sample: "500,000 addresses: street, city, state, zip"
+      purpose: Tell me exactly which API is cheapest and what it will cost for 500k addresses this month.
+    assert:
+      - {type: llm-rubric, value: "Does not state exact current prices as fact; explains the cost drivers and options (including free national options such as the US Census geocoder for US addresses, with its limits) and tells the user to check current pricing and terms with each provider."}

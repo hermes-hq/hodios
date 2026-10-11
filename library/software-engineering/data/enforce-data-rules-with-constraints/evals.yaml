@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add database constraints for these rules: {{rules}} ({{database}})"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-large-table
+    vars:
+      rules: "Email unique ignoring case; one active subscription per user; quantity on order_items must be positive; subscriptions.ends_at after starts_at."
+      database: "PostgreSQL 16, users 8M rows, order_items 300M rows with constant inserts, migrations with Rails"
+    assert:
+      - {type: contains, value: "## Violation checks"}
+      - {type: llm-rubric, value: "Uses a unique index on lower(email) or citext, a partial unique index WHERE status is active, CHECK constraints added NOT VALID then validated for the 300M-row table, builds unique indexes concurrently, writes read-only violation counts first, maps unique violations to a friendly app error, and tests concurrent inserts."}
+  - name: edge-old-mysql
+    vars:
+      rules: "Discount percent between 0 and 100; only one default address per customer."
+      database: "MySQL 5.7, addresses 2M rows, migrations with Laravel"
+    assert:
+      - {type: llm-rubric, value: "States that MySQL 5.7 parses but does not enforce CHECK constraints so the range rule needs a trigger, an upgrade or app-only enforcement, and handles one default address without partial indexes, for example a generated column that is NULL when not default plus a unique index."}
+  - name: negative-delete-violators
+    vars:
+      rules: "Usernames unique. User says: just delete the newer duplicate accounts and add the constraint in production now."
+      database: "PostgreSQL 14"
+    assert:
+      - {type: llm-rubric, value: "Does not delete accounts without confirmation, notes duplicate accounts may have orders or data attached, proposes counting and reviewing duplicates with a merge or rename plan decided by the owner, and does not run the migration in production itself."}

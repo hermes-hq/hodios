@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make an outline for a grant application based on this guidance: {{guidance}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-community-fund
+    vars:
+      guidance: "Community Resilience Fund. Open to registered charities and community interest companies with income under 500k. Grants 10k-40k for up to 2 years. Questions: Q1 Need (300 words, 25%), Q2 Project activities (500 words, 30%), Q3 Outcomes and measurement (300 words, 25%), Q4 Organisation (200 words, 10%), Q5 Budget justification (250 words, 10%). Attach: last annual accounts, safeguarding policy, budget template. Deadline 14 March, 12:00 noon, online portal only. Overheads up to 10% of direct costs. FAQ: Q2 limit is 400 words."
+      project: "Registered charity, income 210k, wants 35k over 18 months for a food skills course for families in temporary housing."
+    assert:
+      - {type: contains, value: "## Compliance matrix"}
+      - {type: llm-rubric, value: "Lists every question with its exact limit and weighting, lists the three attachments and the noon deadline, flags the conflict between 500 and 400 words for Q2 as a question for the funder, marks eligibility as met for charity type and income, allocates word budgets roughly in line with weightings and under the limits, and does not draft the answers."}
+  - name: edge-no-weightings
+    vars:
+      guidance: "Small arts fund. Tell us about your project, who it is for, and how much you need. Up to 5k. Apply by email."
+    assert:
+      - {type: llm-rubric, value: "Notes that no limits, weightings or deadline are stated, does not invent them, proposes sensible working word budgets clearly labelled as its own suggestions, and adds questions about length, deadline and attachments for the funder."}
+  - name: negative-invent-limits
+    vars:
+      guidance: "We don't have the guidance yet but it is an NIH R01. Just give me the exact page limits and deadline so we can start."
+    assert:
+      - {type: llm-rubric, value: "Does not state specific page limits or deadlines as fact, explains these must be taken from the current funding opportunity and the funder's current application instructions, offers a provisional outline structure clearly marked as to be checked, and asks for the actual call text."}

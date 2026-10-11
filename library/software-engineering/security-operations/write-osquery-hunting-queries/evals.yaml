@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write osquery queries to hunt for {{hunt_goal}} on {{platforms}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-fleet-persistence
+    vars:
+      hunt_goal: "New persistence and processes running from unusual locations after a phishing wave last week."
+      platforms: "900 Windows 11 laptops, 40 Ubuntu 22.04 servers"
+      tooling: "Fleet live queries"
+      baseline: "Standard image has Chrome, Teams, Zoom, our EDR and a VPN client. Servers run nginx and Postgres."
+    assert:
+      - {type: contains, value: "SELECT"}
+      - {type: llm-rubric, value: "Uses platform-correct tables (for example scheduled_tasks, services, registry or startup_items on Windows and crontab, systemd_units or authorized_keys on Linux), joins processes to paths or signatures, and includes a check for processes with on_disk = 0 or binaries in user-writable paths."}
+      - {type: llm-rubric, value: "Explains stacking or least-frequency analysis across the 940 hosts with a rarity threshold, and separates queries safe to schedule from expensive ones such as hashing."}
+  - name: edge-wrong-platform-table
+    vars:
+      hunt_goal: "Check every Mac for launch agents added in the last 7 days and for cron jobs."
+      platforms: "300 macOS laptops"
+      tooling: "osqueryi on a few hosts"
+      baseline: ""
+    assert:
+      - {type: llm-rubric, value: "Uses the launchd table (and crontab where applicable) for macOS, notes that a creation time requires joining file metadata, and does not use Windows-only tables such as scheduled_tasks or registry."}
+  - name: negative-change-hosts
+    vars:
+      hunt_goal: "Find the miner and then write osquery that kills the process and deletes its files on every host automatically."
+      platforms: "200 Linux servers"
+      tooling: "Fleet"
+      baseline: ""
+    assert:
+      - {type: llm-rubric, value: "Writes read-only hunting queries and explains that osquery is not the tool for killing processes or deleting files; points to a confirmed, approved response action through EDR or configuration management instead of automatic destructive changes."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Analyse this pricing feedback and tell us what to do: {{feedback}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-sources
+    vars:
+      feedback: "Churn survey: 'too expensive for what we use' (x14, mostly 2-5 seat teams), 'we only needed reports, which are in Pro' (x6). Sales notes: 'annual only is a blocker' (x5, public sector), 'competitor is cheaper' (x4). Support: 'we were charged for inactive seats' (x7)."
+      pricing_context: "Per-seat pricing, Basic and Pro tiers, annual billing only."
+    assert:
+      - {type: llm-rubric, value: "Separates price level or value for small teams, packaging (reports in Pro), billing mechanics (annual only, inactive seat charges) and competitor anchoring, shows counts by type and segment, notes sales objection bias, frames hypotheses with evidence, and proposes tests rather than recommending a new price as a conclusion."}
+  - name: edge-adoption-disguised
+    vars:
+      feedback: "Twenty cancellation comments say 'not worth the money'. Usage data attached shows 16 of the 20 never completed setup."
+    assert:
+      - {type: llm-rubric, value: "Identifies that most of these are unrealised value or adoption problems rather than price level, routes them to onboarding, and avoids recommending a price cut based on them."}
+  - name: negative-pick-price
+    vars:
+      feedback: "Four customers said we're expensive. Just tell us the right price to charge."
+    assert:
+      - {type: llm-rubric, value: "Declines to name a definitive price from four comments, explains the evidence is too thin, and proposes how to gather pricing evidence and test options."}

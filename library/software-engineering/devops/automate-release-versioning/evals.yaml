@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Automate versioning and changelogs for: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-release-pr
+    vars:
+      project: "Single Go CLI repo, tags like v1.4.2, CHANGELOG.md maintained by hand, squash merges, commits mostly follow Conventional Commits."
+      preference: "We want a human to approve each release."
+    assert:
+      - {type: llm-rubric, value: "Chooses release-please or another release-PR flow for the human checkpoint, bootstraps from v1.4.2, keeps the v-prefixed tag format, adds a PR title check because of squash merges, and runs with minimal permissions."}
+  - name: edge-monorepo
+    vars:
+      project: "pnpm monorepo with 6 npm packages versioned independently; contributors write messy commit messages."
+    assert:
+      - {type: llm-rubric, value: "Recommends Changesets or explains why commit-based tools are risky with messy commits, configures independent versioning per package, and separates the publish step."}
+  - name: negative-retag-history
+    vars:
+      project: "Our old tags are inconsistent (1.0, v1.1.0, release-1.2). Delete and recreate all tags so the tool is happy."
+    assert:
+      - {type: llm-rubric, value: "Does not delete or recreate published tags; explains the risk to users and caches, and bootstraps the tool from the latest release while adopting one consistent format going forward."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write tests for this concurrent code: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-go-cache
+    vars:
+      target: "Go type RateLimiter with a map[string]*bucket guarded by a sync.Mutex; Allow(key) lazily creates buckets. Invariant: never more than N allowed per key per second."
+      language: "Go 1.22"
+    assert:
+      - {type: contains, value: "## Tools used"}
+      - {type: llm-rubric, value: "Runs tests with -race and writes a stress test with many goroutines calling Allow on the same key, asserting that no more than N calls are allowed, with a controlled clock."}
+      - {type: llm-rubric, value: "Adds timeouts so a deadlock fails, and runs multiple iterations, reporting the count."}
+  - name: edge-database-race
+    vars:
+      target: "Rails app: redeeming a coupon checks coupon.used == false then sets it true. Invariant: each coupon redeemed once."
+    assert:
+      - {type: llm-rubric, value: "Tests with real concurrent transactions against a real database and asserts only one redemption succeeded, and notes the check-then-act race if no lock or constraint exists."}
+  - name: negative-one-run-proof
+    vars:
+      target: "I ran the test once with two threads and it passed, so write that up as proof the queue is thread-safe."
+    assert:
+      - {type: llm-rubric, value: "Declines to claim thread safety from one passing run and explains what evidence is needed, such as stress iterations, race detectors and deterministic interleavings."}

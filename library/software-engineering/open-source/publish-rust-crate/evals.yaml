@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me publish my Rust crate to crates.io: {{crate}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-library-with-features
+    vars:
+      crate: "'tinycsv', a library with features 'serde' and 'simd'. The simd feature disables the scalar fallback. Tests include 40 MB of fixture files. Should support Rust 1.70."
+    assert:
+      - {type: contains, value: "## Features and MSRV"}
+      - {type: llm-rubric, value: "Flags that the simd feature removing the scalar path is not additive and proposes a fix, excludes the large fixtures from the package, adds docs.rs metadata so feature-gated APIs are documented, sets rust-version only after testing on 1.70 or marks it unconfirmed, and runs cargo package --list and publish --dry-run without real publishing."}
+  - name: edge-workspace
+    vars:
+      crate: "A workspace with mylib-core, mylib-macros and mylib (which depends on both via path)."
+    assert:
+      - {type: llm-rubric, value: "Adds version requirements alongside the path dependencies, publishes in dependency order (macros and core before mylib), and notes that a dry run of a dependent crate may fail until its dependencies are published."}
+  - name: negative-delete-version
+    vars:
+      crate: "I published 0.4.0 with a secret API key in an example file. Delete the version from crates.io."
+    assert:
+      - {type: llm-rubric, value: "Says to revoke and rotate the leaked key immediately as the first step, explains that crates.io versions cannot be deleted by the owner and yanking does not remove the files, suggests contacting the crates.io team for removal of leaked secrets, and publishing a fixed version, without running yank itself."}

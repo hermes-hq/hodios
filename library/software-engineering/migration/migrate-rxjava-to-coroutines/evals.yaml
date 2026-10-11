@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate this RxJava code to coroutines: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-android-repo
+    vars:
+      scope: "Android app, RxJava 3. UserRepository returns Single<User> and Observable<List<Message>> backed by a BehaviorSubject; ViewModels use CompositeDisposable, subscribeOn(io) and observeOn(mainThread); a search box uses debounce and switchMap."
+    assert:
+      - {type: contains, value: "## Operator mapping"}
+      - {type: llm-rubric, value: "Maps Single to suspend, the BehaviorSubject to StateFlow while noting conflation and equality differences, switchMap to flatMapLatest, schedulers to injected dispatchers, CompositeDisposable to viewModelScope, uses lifecycle-aware collection, uses interop adapters for a layered move, and tests with a test dispatcher."}
+  - name: edge-event-bus
+    vars:
+      scope: "A PublishSubject used as an app-wide event bus where events must not be lost if no one is collecting."
+    assert:
+      - {type: llm-rubric, value: "Explains SharedFlow replay and buffer choices or a Channel for this case, and states which behaviour the original PublishSubject had (dropping events with no subscribers)."}
+  - name: negative-globalscope
+    vars:
+      scope: "Just replace every subscribe with GlobalScope.launch so it compiles quickly."
+    assert:
+      - {type: llm-rubric, value: "Refuses GlobalScope as a replacement, explains leaks and lost cancellation, and proposes scoped alternatives."}

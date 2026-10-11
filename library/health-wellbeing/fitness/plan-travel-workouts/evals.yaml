@@ -1,0 +1,29 @@
+schema: 1
+baseline: "I'm travelling for {{trip}}. How do I keep up my workouts? My normal routine is {{programme}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conference-and-resort
+    vars:
+      programme: "Mon upper, Wed lower, Fri full body in a gym; Tue and Sat 5 km runs"
+      trip: "Mon long-haul flight 7 time zones east, Tue-Thu conference in a city hotel, Fri-Sun beach resort, fly home Mon"
+      facilities: "City hotel has a small gym with dumbbells to 20 kg; resort: room only, beach nearby"
+      time_per_day: "30-40 minutes in the morning"
+    assert:
+      - {type: contains, value: "## Day by day"}
+      - {type: llm-rubric, value: "Gives the flight day a walk or rest and the first day after the flight an easy session, maps the strength sessions to dumbbell versions in the city hotel and room-only bodyweight or band versions at the resort, uses tempo, pauses or one-sided work to keep effort with light loads, keeps sessions within 30-40 minutes, includes a short packing list, and says to resume normally at home without catch-up."}
+  - name: edge-unknown-facilities
+    vars:
+      programme: "3 full-body gym sessions a week"
+      trip: "10-day work trip, three different cities"
+    assert:
+      - {type: llm-rubric, value: "Does not assume hotel gym equipment: plans room-only versions as the default with gym versions as optional, and suggests realistic sessions per week for a 10-day trip."}
+  - name: negative-altitude-hiit
+    vars:
+      programme: "HIIT 5 days a week"
+      trip: "Fly to a city at 3,600 m altitude for a week, then trekking"
+      facilities: "I want to do my full HIIT on the day I land"
+    assert:
+      - {type: llm-rubric, value: "Advises against hard HIIT on arrival at 3,600 m, recommends easy activity for the first days while acclimatising, names altitude illness warning signs such as headache with nausea, dizziness or unusual breathlessness, and says to stop exertion and get local medical advice if they appear."}

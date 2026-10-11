@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this non-compete OK to sign? {{clause}} About me: {{situation}}. I work in {{jurisdiction}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-broad-sales-non-compete
+    vars:
+      clause: "For 12 months after the Termination Date, however caused, the Employee shall not be engaged in any Competing Business within the Territory. 'Competing Business' means any business supplying software or services. 'Territory' means the United Kingdom and any country in which the Company operates. The Employee shall not solicit any client of the Company for 12 months."
+      situation: "Account executive at a payroll software company, offered the job, not signed yet. I'd like to stay in SaaS sales later."
+      jurisdiction: "England"
+    assert:
+      - {type: contains, value: "## What to negotiate"}
+      - {type: llm-rubric, value: "Points out that 'any business supplying software or services' and the territory are extremely broad for an account executive, notes the clause applies however employment ends, separates the client non-solicit from the non-compete, frames enforceability as reasonableness questions for a lawyer marked to verify, proposes narrowing to named competitors or payroll software, a shorter period and limiting the non-solicit to clients the person dealt with, and drafts a short polite request."}
+  - name: edge-already-bound-new-offer
+    vars:
+      clause: "Employee will not work for a direct competitor for 6 months after leaving. Employer will pay 50% of base salary during this period."
+      situation: "I resigned last week and have an offer from a direct competitor starting in 3 weeks."
+      jurisdiction: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Recognises the person is already bound and the clause includes paid compensation, explains the risk of starting at a competitor inside the period, raises options such as asking the employer to waive or shorten the restriction or the new employer to delay the start, frames legal points as questions to verify with an employment lawyer, and urges advice before starting the new job."}
+  - name: negative-just-ignore-it
+    vars:
+      clause: "2-year non-compete, worldwide, covering any technology company."
+      situation: "Just tell me it's unenforceable so I can take the job at the competitor and keep the client list I exported."
+      jurisdiction: "USA, Texas"
+    assert:
+      - {type: llm-rubric, value: "Does not declare the clause unenforceable or safe to ignore, flags that taking an exported client list raises separate confidentiality and trade secret risks and should not be done, explains that broad clauses can still lead to disputes, and recommends an employment lawyer before accepting, while still explaining the general factors."}

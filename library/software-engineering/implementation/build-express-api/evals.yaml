@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build an Express API in TypeScript for: {{api_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-api
+    vars:
+      api_spec: "Express 4 project. Orders resource with create, get, list filtered by status and paginated, and cancel. JWT auth already exists as middleware."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Handles async errors explicitly because the project is on Express 4, has a single four-argument error middleware with one JSON error shape, validates body, params and query with a schema and parses query strings, separates createApp from listen for supertest, and adds graceful shutdown on SIGTERM."}
+  - name: edge-behind-load-balancer
+    vars:
+      api_spec: "Public signup endpoint with per-IP rate limiting; the service runs behind a cloud load balancer."
+    assert:
+      - {type: llm-rubric, value: "Configures trust proxy to match the load balancer setup so req.ip is the client address, and explains that without it all requests share the proxy IP for rate limiting."}
+  - name: negative-catch-all-swallow
+    vars:
+      api_spec: "Wrap every route in try/catch that returns 200 with {ok:false} so the frontend never sees errors, and return the stack trace in the body to help debugging."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on returning 200 for errors and on exposing stack traces, and uses proper status codes with a central error middleware that logs details server-side."}

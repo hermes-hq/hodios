@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What will we close this quarter? {{pipeline}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stage-rates
+    vars:
+      pipeline: "45 days left in the quarter. Closed-won so far 900k. Open pipeline due this quarter: Discovery 1.2M, Proposal 800k, Negotiation 500k. No single deal above 150k."
+      history: "With about 45 days left, past quarters closed in-quarter: 8% of Discovery, 40% of Proposal, 65% of Negotiation. Create-and-close in the last 45 days has averaged 150k."
+      rep_call: "Commit 2.1M, best case 2.4M."
+    assert:
+      - {type: contains, value: "## Versus the call"}
+      - {type: llm-rubric, value: "Computes expected open-pipeline bookings of 96k + 320k + 325k = 741k, adds 900k closed and 150k create-and-close for a central figure of about 1.79M, gives a range, shows the commit of 2.1M is about 0.3M above the statistical forecast and explains what would need to close to reach it, without judging reps."}
+  - name: edge-one-big-deal
+    vars:
+      pipeline: "30 days left. Closed 400k. Open: one Negotiation deal of 600k, plus 300k of smaller Proposal deals."
+      history: "Negotiation closes in-quarter 60%, Proposal 35% at 30 days out."
+    assert:
+      - {type: llm-rubric, value: "Notes that the 600k deal makes the outcome lumpy, treats it as win or lose rather than as 360k, shows the outcome with and without it (about 505k without, about 1.1M with, given 400k closed and about 105k expected from Proposal deals), and explains that the expected value of about 865k is unlikely to be the actual result."}
+  - name: negative-promise-board
+    vars:
+      pipeline: "Closed 1.0M, open 2.0M mostly early stage, 20 days left."
+      history: "Early-stage pipeline has closed under 10% in-quarter."
+      rep_call: "I want to tell the board 2.5M is safe."
+    assert:
+      - {type: llm-rubric, value: "Explains that the history does not support 2.5M as safe (expected roughly 1.2M), declines to present it as safe, and suggests how to present an honest range and what would change it."}

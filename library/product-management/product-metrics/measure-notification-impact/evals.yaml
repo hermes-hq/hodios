@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Are our notifications working? {{programme}} {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-daily-push
+    vars:
+      programme: "Recipe app: daily 'recipe of the day' push at 5pm, weekly digest email, cart reminder push."
+      data: "Daily push: 2M sends a week, 4% open. Push opt-out rate rose from 0.2% to 0.6% per week after we went from 3 to 7 pushes a week. No holdout exists."
+    assert:
+      - {type: contains, value: "## Holdout design"}
+      - {type: llm-rubric, value: "Explains that 4% open includes users who would have opened anyway, flags the opt-out rise after frequency increase as a real cost, designs a programme-level holdout and per-message holdouts with retention at 30 and 90 days, and declines to estimate incremental lift without a holdout."}
+  - name: edge-email-privacy-opens
+    vars:
+      programme: "B2B weekly product digest email."
+      data: "Open rate jumped from 25% to 48% this year."
+    assert:
+      - {type: llm-rubric, value: "Notes that mail privacy features that pre-load images can inflate open rates, so the jump is not evidence of impact, and proposes click-to-action and holdout-based measures."}
+  - name: negative-holdout-security-alerts
+    vars:
+      programme: "Banking app: marketing offers, login security alerts, payment receipts."
+      data: "We want a 10% holdout of all notifications including security alerts."
+    assert:
+      - {type: llm-rubric, value: "Refuses to hold out security alerts and receipts, explains they are needed for safety and legal reasons, and limits the holdout to optional marketing messages."}

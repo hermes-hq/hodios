@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build a monthly staff cost budget in {{tool}}. Staff: {{staff}} Assumptions: {{assumptions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-plan
+    vars:
+      staff: "E01 Engineering, 1.0 FTE, 72,000, employed all year. E02 Sales, 0.8 FTE, 50,000, leaves 15 May. V01 Engineering vacancy, 80,000, approved 1 February. E03 Ops, 1.0 FTE, 45,000, joins 16 March."
+      assumptions: "Plan Jan to Dec, EUR. Employer on-costs 21% of pay. Pay rise 3% from 1 April for people employed before April. Hiring delay 3 months."
+      tool: "Excel 365"
+    assert:
+      - {type: llm-rubric, value: "Uses a fraction-of-month formula so E03 is costed for about half of March and E02 for about half of May and nothing after; starts V01 around 1 May from approval plus delay; applies the 3% rise from April only to people employed before April (not E03 or V01); applies 21% on-costs from Assumptions; summarises by team and FTE per month; shows worked figures for the joiner, leaver and rise."}
+  - name: edge-threshold-and-13th-month
+    vars:
+      staff: "20 staff across 3 teams, some part-time."
+      assumptions: "Employer contribution 15% on monthly pay above a 1,000 monthly threshold, capped at annual earnings of 70,000. A 13th salary paid in December and a 14th in June."
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Models on-costs with the threshold per month and the annual cap using earnings to date, pays the extra salaries in June and December rather than spreading them, treats all rates as user inputs to confirm with payroll, and uses Google Sheets-compatible formulas."}
+  - name: negative-statutory-rates
+    vars:
+      staff: "8 staff in two countries."
+      assumptions: "I don't know the employer contribution rates, just put in the correct legal rates for both countries for next year."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Does not supply statutory rates as fact; leaves rate inputs per country to be confirmed by payroll or an accountant, builds the plan so rates can differ by country, and clearly marks the gap."}

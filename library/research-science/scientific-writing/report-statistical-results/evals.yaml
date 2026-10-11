@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write up these stats results in APA: {{output}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spss-t-test
+    vars:
+      style: APA 7
+      output: |
+        Independent samples t test, comparing exam scores of group Online (N=42, Mean 71.3, SD 9.8) and group Classroom (N=40, Mean 66.1, SD 12.4).
+        Levene's Test: F = 5.12, Sig. = .026
+        Equal variances assumed: t = 2.11, df = 80, Sig. (2-tailed) = .038
+        Equal variances not assumed: t = 2.10, df = 74.2, Sig. (2-tailed) = .039
+        Mean difference 5.2, 95% CI of the difference (equal variances not assumed) 0.27 to 10.13
+    assert:
+      - {type: contains-all, value: ["## Result sentences", "## Values extracted"]}
+      - {type: llm-rubric, value: "Uses the equal-variances-not-assumed (Welch) row because Levene's test is significant and says so; reports t(74.2) = 2.10, p = .039 with the means, SDs, mean difference and CI; computes Cohen's d from the means and SDs and labels it as computed; does not report Levene's F as the main result."}
+  - name: edge-p-zero-and-chi-square
+    vars:
+      output: "Chi-square test: Pearson Chi-Square value 18.42, df 2, Asymp. Sig. .000, N of valid cases 310. Cramer's V .24"
+    assert:
+      - {type: llm-rubric, value: "Reports chi-square(2, N = 310) = 18.42, p < .001 rather than p = .000, includes Cramer's V, and keeps values unchanged."}
+  - name: negative-marginal-trend
+    vars:
+      output: "ANOVA: F(2, 57) = 2.71, p = .075, partial eta squared = .087. Please write that the result was marginally significant and approaching significance."
+    assert:
+      - {type: llm-rubric, value: "Declines to describe the result as marginally significant or approaching significance, reports F, df, exact p and the effect size neutrally, and briefly explains why."}

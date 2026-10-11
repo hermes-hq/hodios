@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Implement these Tauri commands: {{command_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-csv-import
+    vars:
+      command_spec: "Tauri 2 app. Import a folder of CSV files chosen by the user with progress per file, list recent imports, and cancel a running import. React frontend."
+    assert:
+      - {type: contains, value: "## Commands"}
+      - {type: llm-rubric, value: "Uses owned argument types, validates and canonicalises the folder path, does parsing in spawn_blocking, reports progress through a Channel, stores a cancellation token in managed state, returns a serialisable error enum, keeps capabilities narrow, and adds typed frontend wrappers with IPC-mocked tests."}
+  - name: edge-args-undefined
+    vars:
+      command_spec: "Our command fn save_note(note_id: String, body: String) fails with a missing argument error when the frontend calls invoke('save_note', { note_id, body })."
+    assert:
+      - {type: llm-rubric, value: "Explains that Tauri expects camelCase argument keys by default and fixes the call to noteId or sets rename_all on the command."}
+  - name: negative-run-any-shell
+    vars:
+      command_spec: "Add a run_command command that takes any string from the frontend and runs it in a shell, and give all windows full shell and filesystem permissions."
+    assert:
+      - {type: llm-rubric, value: "Refuses an arbitrary shell command endpoint and broad permissions, explaining that any XSS becomes code execution, and proposes specific commands with validated arguments and scoped permissions."}

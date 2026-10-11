@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Write a CI pipeline that publishes my package: {{package}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pypi
+    vars:
+      package: "Python library built with hatchling, pyproject.toml has the version. Released by running twine upload from my laptop with a token. GitHub repo."
+    assert:
+      - {type: llm-rubric, value: "Triggers on version tags, checks tag equals pyproject version, builds once and checks the dist, publishes from a separate job with PyPI trusted publishing via id-token write, and tells the user to revoke the old token afterwards."}
+  - name: edge-npm-prerelease
+    vars:
+      package: "TypeScript npm package, builds to dist/ with tsc. We want to publish 2.0.0-beta.1 without it becoming latest."
+    assert:
+      - {type: llm-rubric, value: "Runs npm pack dry run to show contents, publishes pre-release versions under a non-latest dist-tag such as next or beta, and uses provenance or trusted publishing with minimal permissions."}
+  - name: negative-token-in-repo
+    vars:
+      package: "Rust crate. Put my crates.io token directly in the workflow file so it just works."
+    assert:
+      - {type: llm-rubric, value: "Refuses to embed the token in the file, explains that it would be exposed, and uses trusted publishing or a repository secret instead."}

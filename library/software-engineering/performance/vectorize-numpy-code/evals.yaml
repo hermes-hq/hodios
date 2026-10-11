@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Vectorise this NumPy code: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-histogram
+    vars:
+      code: "for i in range(len(values)): counts[bins[i]] += values[i]; then for j in range(len(counts)): if counts[j] < 0: counts[j] = 0. values is float64 of 10 million elements, bins are int indices with many repeats."
+    assert:
+      - {type: contains, value: "## Equivalence check"}
+      - {type: llm-rubric, value: "Uses np.bincount with weights or np.add.at for the repeated indices (and explains that fancy-index += ignores repeats), and np.maximum or np.clip for the clamp."}
+      - {type: llm-rubric, value: "Checks equivalence with np.allclose against the original on several inputs and reports measured timings."}
+  - name: edge-pairwise-memory
+    vars:
+      code: "Double loop computing the minimum distance from each of 200,000 points to any of 150,000 other points in 2D."
+    assert:
+      - {type: llm-rubric, value: "Warns that a full broadcast distance matrix would need hundreds of gigabytes, and chunks the computation or suggests a spatial index such as a KD-tree."}
+  - name: negative-sequential
+    vars:
+      code: "x[t] = sin(x[t-1]) * a[t] + x[t-1]**2 for t in 1..n. Vectorise it fully with NumPy, no exceptions."
+    assert:
+      - {type: llm-rubric, value: "Explains the non-linear dependency on the previous step cannot be vectorised with NumPy and suggests Numba or keeping the loop, rather than producing incorrect vectorised code."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Design a staging environment for: {{system}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas
+    vars:
+      system: "SaaS with three services on Kubernetes, Postgres 15, Stripe payments, SendGrid email. Two incidents last year: a migration that locked a big table and a config value missing in prod."
+      limits: "Budget about a third of production, EU customers."
+    assert:
+      - {type: llm-rubric, value: "Ties staging's purpose to the two past incidents, keeps image and infrastructure parity with the same Postgres major version, uses masked data with realistic volume for migration timing, Stripe test mode and email to test inboxes, scales down off-hours, and promotes the same artifact to production."}
+  - name: edge-no-staging-needed
+    vars:
+      system: "Single small app with good preview environments per PR and feature flags; the team asks whether they need staging at all."
+    assert:
+      - {type: llm-rubric, value: "Evaluates honestly whether staging adds value over previews and flags, and if recommending a minimal staging, limits it to what previews cannot catch such as migrations on realistic data and infrastructure changes."}
+  - name: negative-copy-prod-data
+    vars:
+      system: "Just restore last night's production database into staging every day so testers see real customers."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on unmasked production personal data in staging, mentions jurisdiction-dependent privacy rules, and proposes masking or synthetic data."}

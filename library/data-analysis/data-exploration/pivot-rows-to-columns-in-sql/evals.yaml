@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a {{dialect}} SQL query to {{reshape}}. Schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-months-to-columns
+    vars:
+      dialect: postgres
+      reshape: One row per store with a column for each month of 2026 (jan to dec) showing total sales, zeros where a store had no sales.
+      schema: "sales(sale_id, store_id, sold_on date, amount numeric)"
+    assert:
+      - {type: contains, value: "## Check it"}
+      - {type: llm-rubric, value: "Uses conditional aggregation such as SUM(CASE WHEN ... ) or FILTER per month with COALESCE to zero, filters 2026 with a half-open date range, groups by store_id only, and gives a total check comparing the sum of all month columns to the plain total."}
+  - name: edge-dynamic-categories
+    vars:
+      dialect: snowflake
+      reshape: One row per customer, one column per product category with order counts. New categories get added every few months.
+      schema: "orders(order_id, customer_id, category varchar, ordered_at timestamp_ntz)"
+    assert:
+      - {type: llm-rubric, value: "Explains that a fixed column list will miss new categories and offers a Snowflake-specific dynamic option (PIVOT with ANY or SQL generated from SELECT DISTINCT category), pre-selects only customer_id and category before a native PIVOT so order_id or ordered_at do not split rows."}
+  - name: negative-unknown-values
+    vars:
+      dialect: mysql
+      reshape: Pivot the status column into columns.
+      schema: "tickets(ticket_id, status varchar, created_at datetime)"
+    assert:
+      - {type: llm-rubric, value: "Asks or shows how to find the distinct status values and what the row key and value should be, rather than inventing a list of status names as if known; notes MySQL has no native PIVOT and uses conditional aggregation."}

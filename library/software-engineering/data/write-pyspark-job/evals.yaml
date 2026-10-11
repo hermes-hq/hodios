@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a PySpark job that does this: {{job}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-daily-sessions
+    vars:
+      job: "Read raw clickstream JSON for one day, sessionise events per user with a 30-minute gap rule, join the country from a users table, write daily session facts."
+      platform: "Databricks runtime 14, Delta tables."
+      data_sizes: "Clickstream 800 GB a day; users table 2 GB."
+    assert:
+      - {type: contains, value: "## Job code"}
+      - {type: llm-rubric, value: "Declares an explicit schema for the JSON input, uses window functions rather than Python UDFs for sessionisation, and broadcasts the users table."}
+      - {type: llm-rubric, value: "Writes output idempotently for the run date (replaceWhere, dynamic partition overwrite or MERGE) instead of plain append, and includes a local pytest with a few rows."}
+  - name: edge-skewed-join
+    vars:
+      job: "Join 5 TB of transactions to 1 TB of merchant events on merchant_id. One merchant accounts for 30 percent of rows."
+      platform: "EMR with Spark 3.5, Parquet on S3."
+    assert:
+      - {type: llm-rubric, value: "Identifies the hot merchant key as skew and handles it, for example with adaptive query execution skew join settings or salting, rather than a plain shuffle join."}
+  - name: negative-topandas
+    vars:
+      job: "Load the 400 GB orders table with spark, call toPandas() and do the aggregation in pandas because the team knows pandas better."
+      platform: "Dataproc, Spark 3.4."
+    assert:
+      - {type: llm-rubric, value: "Explains that toPandas on 400 GB pulls everything to the driver and will fail, and writes the aggregation in Spark (or with the pandas API on Spark) instead."}

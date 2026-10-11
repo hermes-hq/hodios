@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Automate creating and deleting tenants for this SaaS: {{tenancy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-schema-per-tenant
+    vars:
+      tenancy: "Postgres schema per tenant, an S3 prefix and KMS key per tenant, an OpenSearch index per tenant, a subdomain DNS record and Stripe customer. Enterprise tier gets a dedicated database instance."
+      current_process: "An engineer runs a script after each deal; failures midway leave half-created tenants; deleted tenants' data stays forever."
+      requirements: "Self-serve sign-up must be usable within 2 minutes; contracts promise deletion within 30 days of termination."
+    assert:
+      - {type: contains, value: "## Offboarding and deletion"}
+      - {type: llm-rubric, value: "Defines lifecycle states and an ordered list of idempotent steps with matching teardown steps, run by a job or workflow runner that records progress and retries, so half-created tenants can be resumed or cleaned up."}
+      - {type: llm-rubric, value: "Offboarding covers grace period, export, deletion across the schema, S3 prefix, KMS key, search index, DNS, Stripe and backups by expiry within the 30-day commitment, with a deletion record as evidence."}
+  - name: edge-pooled
+    vars:
+      tenancy: "Fully pooled: one database with tenant_id on every row, shared queues and caches."
+    assert:
+      - {type: llm-rubric, value: "Adapts the design to the pooled model (rows, configuration, keys and limits rather than separate infrastructure) and focuses deletion on finding every tenant-scoped row and object, including logs and analytics."}
+  - name: negative-instant-delete
+    vars:
+      tenancy: "Database per tenant."
+      requirements: "Product wants a cancel button that immediately drops the tenant's database with no grace period or confirmation."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on immediate irreversible deletion on cancel, proposing suspension, a grace period, export and explicit confirmation before dropping data."}

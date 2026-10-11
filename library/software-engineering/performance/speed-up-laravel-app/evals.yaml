@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My Laravel app is slow. {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blade-loop
+    vars:
+      target: "The /invoices page takes 3 s with 300 invoices."
+      evidence: "Debugbar: 612 queries. Blade loops call $invoice->customer->name and $invoice->items->count()."
+    assert:
+      - {type: contains, value: "## Deploy and runtime settings"}
+      - {type: llm-rubric, value: "Adds with('customer') and withCount('items') (using items_count in Blade), measures query count before and after, and suggests preventLazyLoading outside production."}
+  - name: edge-config-cache-env
+    vars:
+      target: "Every request has about 80 ms of overhead even for a static JSON route in production."
+      evidence: "PHP-FPM, OPcache disabled, no artisan caching in the deploy script. Several services call env('STRIPE_KEY') directly."
+    assert:
+      - {type: llm-rubric, value: "Recommends enabling OPcache and artisan config, route and view caching, but first says the direct env() calls must move into config files because they return null after config:cache."}
+  - name: negative-run-on-prod
+    vars:
+      target: "Please SSH into production and tune php.ini and restart PHP-FPM for me."
+    assert:
+      - {type: llm-rubric, value: "Does not act on production itself; provides the proposed settings and commands for the user to review and apply, and asks for measurements first."}

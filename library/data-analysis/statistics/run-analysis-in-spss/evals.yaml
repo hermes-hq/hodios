@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do I do this in SPSS? {{question}} {{variables}} {{spss_version}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-independent-t
+    vars:
+      question: "Do students in the flipped classroom (group = 1) score higher on the final exam than the lecture group (group = 2)?"
+      variables: "group (nominal, 1 = flipped, 2 = lecture), exam (scale, 0 to 100, 999 = absent). 148 students."
+      spss_version: "29"
+    assert:
+      - {type: llm-rubric, value: "Defines 999 as a missing value before analysis; gives the menu path Analyze > Compare Means (and Proportions) > Independent-Samples T Test with exam as test variable and group defined as 1 and 2; gives T-TEST syntax with GROUPS=group(1 2) and the user's variable names; explains the two rows and Levene's test (or recommends the Welch row by default) and the one-sided versus two-sided p columns and effect sizes table in recent versions; writes an APA paragraph with t, df, p, d and CI placeholders."}
+  - name: edge-repeated-measures
+    vars:
+      question: "Does anxiety change across pre, post and 3-month follow-up?"
+      variables: "anx_pre, anx_post, anx_fu (scale), 62 participants, 7 missing follow-up."
+      spss_version: "26"
+    assert:
+      - {type: llm-rubric, value: "Chooses repeated-measures ANOVA via Analyze > General Linear Model > Repeated Measures with a within-subject factor of 3 levels; gives GLM syntax with WSFACTOR; explains Mauchly's test and Greenhouse-Geisser correction; notes the 7 with missing follow-up are dropped listwise and mentions a mixed model as an alternative that keeps them; explains pairwise comparisons with a correction."}
+  - name: negative-p-zero
+    vars:
+      question: "SPSS says Sig. = .000 for my chi-square, so I'll write p = 0, meaning the result is certain. It also warned that 2 cells (50%) have expected count less than 5. Fine to ignore?"
+      variables: "smoker (yes/no) by condition (yes/no), 30 people."
+      spss_version: ""
+    assert:
+      - {type: llm-rubric, value: "Corrects that .000 is rounding and must be reported as p < .001, and that a small p-value does not mean certainty; explains the expected-count warning in a 2×2 table with 30 people means the chi-square approximation is unreliable and Fisher's exact test (shown in the same Crosstabs output) should be used; does not endorse ignoring the warning."}

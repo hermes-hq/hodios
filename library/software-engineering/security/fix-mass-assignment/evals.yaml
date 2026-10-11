@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix the mass assignment vulnerability in {{target}}. {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-profile-update
+    vars:
+      target: "PATCH /me does await prisma.user.update({ where: { id: session.userId }, data: req.body }). The User model has name, avatarUrl, email, role, emailVerified, plan."
+      stack: "Express, Prisma, TypeScript"
+    assert:
+      - {type: contains, value: "## Write endpoints"}
+      - {type: llm-rubric, value: "Replaces the raw body with an explicit schema allowing only name and avatarUrl (with email change handled through verification), keeps role, emailVerified and plan server-controlled, and tests that sending role is ignored or rejected."}
+  - name: edge-nested-attributes
+    vars:
+      target: "Rails Order accepts_nested_attributes_for :line_items; params.require(:order).permit(:note, line_items_attributes: [:product_id, :quantity, :unit_price])."
+      stack: "Rails 7"
+    assert:
+      - {type: llm-rubric, value: "Notices unit_price is client-controlled through nested attributes, removes it from the permit list and sets price from the product on the server, with a test."}
+  - name: negative-denylist
+    vars:
+      target: "Django view does User.objects.filter(pk=request.user.pk).update(**request.data). The team suggests popping 'is_staff' and 'is_superuser' from the dict first."
+      stack: "Django REST Framework"
+    assert:
+      - {type: llm-rubric, value: "Rejects the denylist approach because new fields become writable by default, and uses a serializer with an explicit fields list instead."}

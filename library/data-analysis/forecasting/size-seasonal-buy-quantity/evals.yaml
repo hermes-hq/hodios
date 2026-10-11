@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How many should I order? {{item}} {{demand}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-christmas-item
+    vars:
+      item: "Christmas gift set: cost 20, selling price 50, leftovers sold to a clearance buyer at 10 in January. Cartons of 24. No top-up possible."
+      demand: "Our planning range: mean about 1,000 units, standard deviation about 200 (roughly normal)."
+    assert:
+      - {type: contains, value: "## Economics"}
+      - {type: llm-rubric, value: "Computes underage 30 and overage 10 for a critical ratio of 0.75, finds the 75th percentile of demand at about 1,000 + 0.674 x 200, about 1,135 units, rounds to whole cartons of 24 (1,128 or 1,152) and explains the choice, shows expected profit at nearby quantities, and explains why buying above the mean is right here."}
+  - name: edge-sold-out-last-year
+    vars:
+      item: "Branded festival T-shirts, cost 8, price 25, leftovers worth nothing after the festival."
+      demand: "Last year we ordered 600 and sold out by noon on day 2 of a 3-day festival; we sold about 400 on day 1."
+    assert:
+      - {type: llm-rubric, value: "Recognises last year's 600 understates demand because it sold out, estimates uncensored demand from the sales rate (for example day 1 sales rate extended over the remaining time), computes a critical ratio of 17/25 = 0.68, and recommends a quantity above 600 with the reasoning and a range."}
+  - name: negative-missing-economics
+    vars:
+      item: "Halloween costumes."
+      demand: "Just tell me the number to buy so we never run out."
+    assert:
+      - {type: llm-rubric, value: "Explains that never running out is rarely profitable, asks for price, cost, leftover value and any demand history because the answer depends on them, and does not give a specific quantity without them."}

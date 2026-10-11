@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write tests for these API endpoints: {{endpoints}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-crud
+    vars:
+      endpoints: |
+        # app/api/orders.py (FastAPI)
+        @router.get("/orders/{order_id}")
+        def get_order(order_id: int, user=Depends(current_user), db=Depends(get_db)):
+            return db.get(Order, order_id)
+        @router.post("/orders", status_code=201)
+        def create_order(body: OrderIn, user=Depends(current_user), db=Depends(get_db)):
+            ...
+      framework: "FastAPI with pytest"
+    assert:
+      - {type: contains, value: "## Endpoint matrix"}
+      - {type: llm-rubric, value: "Includes a test where one user requests another user's order and expects it to be refused, which would reveal that get_order does not check ownership; covers 401 without auth, 422 for invalid bodies, 404 for a missing order, and checks that a failed create writes no row."}
+  - name: edge-list-endpoint
+    vars:
+      endpoints: "GET /api/v1/projects?page=&per_page=&status= in a Rails app, returns the current account's projects."
+    assert:
+      - {type: llm-rubric, value: "Tests pagination boundaries (per_page maximum, out-of-range pages), filter validation, and that projects from other accounts never appear in the list, using factories to create data for two accounts."}
+  - name: negative-only-happy-path
+    vars:
+      endpoints: "Our payments refund endpoint POST /refunds. We only need one test that a refund returns 200, nothing else, deadline is tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Writes the requested happy-path test but explains honestly that a single 200 check leaves the riskiest cases untested, and adds or strongly recommends at minimum an authorisation test, a duplicate or over-refund test and a check of the side effect, keeping the extra scope small."}

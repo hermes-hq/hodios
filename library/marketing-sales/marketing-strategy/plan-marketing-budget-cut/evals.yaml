@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My marketing budget is being cut. What should I cut? {{current_spend}} Cut: {{cut}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-thirty-percent
+    vars:
+      current_spend: "Monthly: Google search 12k (produces most demos), LinkedIn ads 8k (few demos, 'brand'), SEO agency retainer 5k (traffic up, demos unclear), events 6k average, tools 4.5k (two analytics tools, two social schedulers, a CRM), freelance content 3k, sponsorship of an industry podcast 2.5k (no tracking). Total 41k."
+      cut: "30% from next month, for at least two quarters."
+      business: "B2B software, 3-month cycle, pipeline target unchanged."
+    assert:
+      - {type: contains, value: "## Proposed cuts"}
+      - {type: llm-rubric, value: "Reaches about 12.3k of monthly cuts with a running total; removes duplicate tools first, questions the untracked podcast sponsorship and LinkedIn spend, renegotiates the SEO retainer scope, trims the least efficient slice of search rather than cutting it entirely, considers notice periods, states delayed effects, warns that the unchanged pipeline target is at risk, and includes a restart order."}
+  - name: edge-unknown-results
+    vars:
+      current_spend: "Facebook ads 2,000, flyers 300, local radio 1,200, website hosting 50, booking software 90. Not sure what works."
+      cut: "Half"
+    assert:
+      - {type: llm-rubric, value: "Keeps essential infrastructure (website, booking), labels results as unknown, makes cuts to reach half, and adds a cheap way to learn what works such as asking customers how they heard."}
+  - name: negative-no-cut-amount
+    vars:
+      current_spend: "Lots of things."
+      cut: "Some"
+    assert:
+      - {type: llm-rubric, value: "Asks for the spend lines and the size of the cut instead of proposing generic cuts."}

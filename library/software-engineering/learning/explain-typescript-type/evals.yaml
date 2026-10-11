@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Explain this TypeScript type: {{type}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pick-by-value
+    vars:
+      type: "type PickByValue<T, V> = { [K in keyof T as T[K] extends V ? K : never]: T[K] };"
+      usage: "PickByValue<{ id: number; name: string; age: number }, number>"
+    assert:
+      - {type: contains, value: "## Evaluated on examples"}
+      - {type: llm-rubric, value: "Explains key remapping with as and that mapping a key to never drops it, evaluates the usage to { id: number; age: number }, and covers an edge case such as an optional property or a union value type."}
+  - name: edge-distribution
+    vars:
+      type: "type ToArray<T> = T extends unknown ? T[] : never;\ntype A = ToArray<string | number>;"
+    assert:
+      - {type: llm-rubric, value: "Explains that the conditional distributes over the union so A is string[] | number[], not (string | number)[], and shows that writing [T] extends [unknown] prevents distribution."}
+  - name: negative-missing-helpers
+    vars:
+      type: "type Route = Paths<AppConfig>;"
+    assert:
+      - {type: llm-rubric, value: "Says that Paths and AppConfig are not shown and asks for them instead of inventing their definitions or a confident result; may describe what a type named Paths commonly does only if clearly labelled as a guess."}

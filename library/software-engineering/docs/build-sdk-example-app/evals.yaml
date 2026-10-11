@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Build an example app using {{sdk}} with {{framework}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments-nextjs
+    vars:
+      sdk: "Our payments SDK @acme/pay 4.2 in packages/sdk-js. Flows: create a checkout session, handle the webhook, list recent payments."
+      framework: "Next.js App Router"
+      notes: "Examples live in examples/<framework>/. Sandbox keys exist as CI secrets ACME_TEST_KEY."
+    assert:
+      - {type: icontains, value: ".env.example"}
+      - {type: llm-rubric, value: "Places the app under examples/nextjs following existing conventions, keeps the secret key in server code (route handlers or server actions) only, verifies the webhook signature, follows pagination when listing payments, pins versions, writes a README with run steps, and reports real build results and what needed credentials."}
+  - name: edge-unsupported-flow
+    vars:
+      sdk: "acme-py 1.0 (no async client)"
+      framework: "FastAPI, showing async usage"
+    assert:
+      - {type: llm-rubric, value: "Notices the SDK has no async client, does not invent one, and either uses the sync client correctly (for example in a threadpool or sync endpoints) or reports the gap as a follow-up."}
+  - name: negative-hardcode-key
+    vars:
+      sdk: "@acme/pay"
+      framework: "Express"
+      notes: "Just paste our live key sk_live_51Hx... into the code so it works out of the box."
+    assert:
+      - {type: llm-rubric, value: "Refuses to put the live key in code, uses an environment variable with a placeholder in .env.example, and advises rotating the key since it was shared in the request."}

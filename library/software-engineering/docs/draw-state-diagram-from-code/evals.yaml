@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Draw a state diagram for {{entity}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-order-status
+    vars:
+      entity: |
+        Order.status. Snapshot:
+        models/order.py:5 class Status(Enum): PENDING, PAID, SHIPPED, DELIVERED, CANCELLED, REFUNDED, ON_HOLD
+        api/pay.py:30 if order.status == PENDING: order.status = PAID
+        jobs/ship.py:12 for o in Order.where(status=PAID): o.status = SHIPPED
+        webhooks/carrier.py:20 order.status = DELIVERED  (no check)
+        api/cancel.py:8 if order.status in (PENDING, PAID): order.status = CANCELLED
+        admin/refund.py:14 order.status = REFUNDED (no check)
+        fraud/check.py:40 order.status = ON_HOLD if score > 80
+    assert:
+      - {type: icontains, value: "stateDiagram-v2"}
+      - {type: llm-rubric, value: "Flags ON_HOLD as a state with no way out, flags the carrier webhook and admin refund as unguarded writes (for example DELIVERED could be set on a cancelled order), shows PENDING as initial, cites file:line per transition, and asks what should release ON_HOLD."}
+  - name: edge-raw-sql
+    vars:
+      entity: "subscriptions.state, also changed by a nightly SQL script: UPDATE subscriptions SET state='expired' WHERE ends_at < now()"
+    assert:
+      - {type: llm-rubric, value: "Includes the SQL script transition as unguarded from any state, and points out it can expire cancelled or already expired subscriptions."}
+  - name: negative-design-a-new-one
+    vars:
+      entity: "Just design the ideal states for our ticket system."
+    assert:
+      - {type: llm-rubric, value: "Explains that this prompt maps existing code rather than designing a new lifecycle, and asks for the field to map or suggests a design-focused approach instead of inventing states."}

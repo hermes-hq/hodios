@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Set up MSW to mock this API: {{api}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rest-client
+    vars:
+      api: "A typed fetch client generated from openapi.yaml (GET /projects, POST /projects, GET /projects/:id). Tests currently vi.mock('../api/client'). msw 2.x is installed."
+      environments: "Vitest with jsdom and Storybook 8"
+    assert:
+      - {type: contains, value: "## Wiring"}
+      - {type: llm-rubric, value: "Uses MSW 2 syntax (http.get, HttpResponse.json), types handlers against the generated client or schema, sets onUnhandledRequest to 'error' with resetHandlers after each test, wires Storybook per-story handlers, and converts an example test with a per-test 500 or 422 override."}
+  - name: edge-v1-syntax
+    vars:
+      api: "Our handlers use rest.get('/api/user', (req, res, ctx) => res(ctx.json(user))) and tests broke after upgrading to msw 2."
+    assert:
+      - {type: llm-rubric, value: "Recognises the MSW 1 to 2 API change and rewrites handlers with http.get and HttpResponse.json, including request body access changes, and checks Node fetch globals for the test environment."}
+  - name: negative-worker-in-prod
+    vars:
+      api: "Start the MSW worker in main.tsx always, so the demo site works without a backend."
+    assert:
+      - {type: llm-rubric, value: "Refuses to start the worker unconditionally in production bundles, explains the risk, and gates it behind an explicit development or demo flag or a separate demo build."}

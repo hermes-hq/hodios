@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I fix this SQLAlchemy error? {{error}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-async-missing-greenlet
+    vars:
+      error: "sqlalchemy.exc.MissingGreenlet: greenlet_spawn has not been called; can't call await_only() here. Was IO attempted in an unexpected place? (raised while FastAPI serialises OrderOut)"
+      code: "async def get_order(id, session: AsyncSession = Depends(get_session)): return await session.get(Order, id). OrderOut includes items: list[ItemOut]. Order.items is a relationship with default lazy loading."
+    assert:
+      - {type: contains, value: "## Session lifecycle"}
+      - {type: llm-rubric, value: "Explains the response model touches Order.items, which triggers an implicit lazy load not allowed in async, and fixes it by loading items with selectinload in a select query (or session.get with options), recommends expire_on_commit=False on the async session factory and lazy='raise' to catch it early, and verifies with SQL echo."}
+  - name: edge-expire-on-commit
+    vars:
+      error: "DetachedInstanceError: Instance <User at 0x...> is not bound to a Session; attribute refresh operation cannot proceed"
+      code: "def create_user(data): with Session() as s: u = User(**data); s.add(u); s.commit(); return u  -- then the caller prints u.email."
+    assert:
+      - {type: llm-rubric, value: "Identifies that commit expired all attributes and the session closed on leaving the with block, so reading u.email tries to refresh; fixes with expire_on_commit=False for this factory, or reading needed values or converting to a DTO before the session closes."}
+  - name: negative-global-session
+    vars:
+      error: "DetachedInstanceError in our Celery task."
+      code: "Can I just create one global Session at import time and use it everywhere so objects are never detached?"
+    assert:
+      - {type: llm-rubric, value: "Advises against a global shared session (thread and process safety, stale data, failed transactions poisoning it) and recommends a session per task, passing ids rather than ORM objects into the task."}

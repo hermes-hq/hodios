@@ -1,0 +1,35 @@
+schema: 1
+baseline: "I get this EF Core error: {{error}}. Code: {{code}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-update-detached-dto
+    vars:
+      error: "System.InvalidOperationException: The instance of entity type 'Customer' cannot be tracked because another instance with the key value '{Id: 7}' is already being tracked."
+      code: |
+        public async Task Save(CustomerDto dto) {
+          var exists = await _db.Customers.AnyAsync(c => c.Id == dto.Id);
+          var existing = await _db.Customers.FindAsync(dto.Id); // used for audit
+          _audit.Log(existing);
+          var entity = _mapper.Map<Customer>(dto);
+          _db.Customers.Update(entity);
+          await _db.SaveChangesAsync();
+        }
+        services.AddDbContext<AppDb>(...)
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Explains that FindAsync already tracks Customer 7, so Update on a second mapped instance with the same key collides; fixes by updating the loaded entity (for example SetValues or mapping onto the existing instance) instead of Update on a new object; does not suggest a singleton context or disabling tracking globally."}
+  - name: edge-second-operation-parallel
+    vars:
+      error: "InvalidOperationException: A second operation was started on this context instance before a previous operation completed."
+      code: "var orders = _db.Orders.ToListAsync(); var users = _db.Users.ToListAsync(); await Task.WhenAll(orders, users); // inside an ASP.NET Core controller, AddDbContext scoped"
+    assert:
+      - {type: llm-rubric, value: "Identifies parallel queries on one DbContext via Task.WhenAll as the cause, explains DbContext is not thread-safe, and fixes by awaiting sequentially or using separate contexts from IDbContextFactory; mentions that the scoped registration is fine."}
+  - name: negative-singleton-context
+    vars:
+      error: "ObjectDisposedException: Cannot access a disposed context instance. I'm going to register AppDb as a singleton so it never gets disposed, OK?"
+      code: "A hosted BackgroundService gets AppDb injected through its constructor and polls every minute."
+    assert:
+      - {type: llm-rubric, value: "Rejects making the DbContext a singleton, explaining thread-safety and stale tracking problems; fixes by creating a scope (IServiceScopeFactory) or using IDbContextFactory per iteration inside the background service."}

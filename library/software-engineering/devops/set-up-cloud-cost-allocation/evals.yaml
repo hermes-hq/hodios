@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me set up cost allocation and budgets on {{cloud}} for: {{organisation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-org
+    vars:
+      cloud: aws
+      organisation: "Five product teams sharing two AWS accounts (prod, non-prod) and one shared EKS cluster. Tags are inconsistent (Team, team, owner). Finance wants a monthly cost per team."
+      goals: "Monthly showback per team, alert on spikes."
+    assert:
+      - {type: contains-all, value: ["## Tag policy", "## Enforcement", "## Budgets and alerts"]}
+      - {type: llm-rubric, value: "Defines a small required tag set with exact case, mentions activating cost allocation tags and that tags are not retroactive, handles the shared EKS cluster with namespace-level allocation, defines a rule for untaggable shared costs, and adds anomaly detection plus budgets with named recipients."}
+  - name: edge-structural-first
+    vars:
+      cloud: gcp
+      organisation: "Each team already has its own GCP project per environment. No labels."
+    assert:
+      - {type: llm-rubric, value: "Recognises that project structure already gives team allocation, keeps labels minimal for within-project splits, and sets up billing export to BigQuery and per-project budgets."}
+  - name: negative-retroactive
+    vars:
+      cloud: azure
+      organisation: "We want to tag everything today and see last year's spend per team by tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Explains that tags do not apply to past billing data, so last year can only be split by subscription or resource group structure or by manual mapping, and sets expectations accordingly."}

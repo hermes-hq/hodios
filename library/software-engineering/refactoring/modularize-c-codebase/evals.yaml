@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Refactor this C code into proper modules: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cli-tool
+    vars:
+      code: |
+        A 9,000-line C99 command-line tool in 6 files built with make. globals.h declares 40 extern globals (config flags, buffers, an open FILE*),
+        defined in main.c. parser.c, output.c and net.c all read and write them. No tests, but there is a sample input directory.
+      build_and_test: "make && ./run_samples.sh"
+    assert:
+      - {type: contains, value: "## Module plan"}
+      - {type: llm-rubric, value: "Maps which file uses each global, assigns each to an owning module with static storage and accessors or a passed context struct, proposes public headers with static internals, sets up a sample-output comparison before moving code, and builds with warnings after each move."}
+  - name: edge-embedded-no-malloc
+    vars:
+      code: "Firmware in C11 for a microcontroller with no heap. I want an opaque uart_driver type."
+    assert:
+      - {type: llm-rubric, value: "Notes that an opaque type normally needs heap allocation and offers a no-heap option such as a static pool, caller-provided storage with a size constant, or a non-opaque struct with documented private fields."}
+  - name: negative-rename-exports
+    vars:
+      code: "Our C library is a mess of globals. Modularize it and while you are at it change all the exported function names to a new prefix; other teams link against it."
+    assert:
+      - {type: llm-rubric, value: "Warns that renaming exported functions breaks other teams' builds and ABI, keeps them stable or proposes compatibility aliases and a separate deprecation plan."}

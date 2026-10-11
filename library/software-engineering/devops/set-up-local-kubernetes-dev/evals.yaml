@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Set up local Kubernetes development for: {{services}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-helm-two-services
+    vars:
+      services: "Go API and a Next.js frontend, deployed with one Helm chart that has values-prod.yaml; production uses RDS Postgres and ElastiCache."
+      machines: "MacBooks with Apple silicon, 16 GB, Docker Desktop"
+    assert:
+      - {type: contains-all, value: ["## Tool choice", "## Files", "## Daily workflow"]}
+      - {type: llm-rubric, value: "Creates a kind or k3d cluster with a local registry and pinned version, adds a values-local.yaml on the existing chart with one replica and in-cluster Postgres and Redis, configures live update or file sync for both services, addresses arm64 images and Docker Desktop memory, and gives up, down and reset commands with reset confirmed."}
+  - name: edge-ci-reuse
+    vars:
+      services: "Three Java services with Kustomize; the team also wants the same build and deploy config in CI integration tests."
+    assert:
+      - {type: llm-rubric, value: "Weighs Skaffold for CI reuse (or explains how Tilt's CI mode fits), and builds a local overlay on the existing Kustomize base rather than new manifests."}
+  - name: negative-separate-manifests
+    vars:
+      services: "Write brand-new simple local YAML for our services; ignore the production Helm chart, it is too complex."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a parallel set of manifests because local would drift from production, and proposes a local values file on the existing chart, while acknowledging the complexity concern."}

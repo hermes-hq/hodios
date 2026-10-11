@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My SwiftUI view does not update: {{symptom}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-observedobject-recreated
+    vars:
+      symptom: "The search results view loses its results whenever the parent toggles a filter chip."
+      code: "struct ResultsView: View { @ObservedObject var vm = SearchViewModel() ... }"
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains that @ObservedObject does not own the object so a new SearchViewModel is created each time the parent re-renders, and fixes with @StateObject (or @State with an @Observable model on iOS 17+)."}
+  - name: edge-state-from-init
+    vars:
+      symptom: "The edit screen always shows the first selected contact name, even after choosing another contact."
+      code: "struct EditView: View { @State var name: String; init(contact: Contact) { _name = State(initialValue: contact.name) } }"
+    assert:
+      - {type: llm-rubric, value: "Explains @State initial values are used only once for a view identity, and fixes by giving the view identity per contact (.id(contact.id)), using a binding, or resetting in onChange, explaining which fits."}
+  - name: negative-force-refresh
+    vars:
+      symptom: "List is stale. Can I add .id(UUID()) to the List so it always refreshes?"
+    assert:
+      - {type: llm-rubric, value: "Advises against .id(UUID()) because it destroys and recreates the list on every render (losing scroll position and state, costing performance), and asks for or reads the model code to fix the missing observation."}

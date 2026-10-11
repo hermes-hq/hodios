@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Here are logs from our outage. What's the root cause? {{incident}} {{logs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pool-then-timeouts
+    vars:
+      incident: "Checkout errors from 14:02 UTC. Services: checkout-api, inventory-api, Postgres."
+      logs: "14:00:12Z inventory-api WARN slow query 2300ms SELECT ... FROM stock WHERE sku IN (...)\n14:01:03Z inventory-api WARN slow query 4100ms SELECT ... FROM stock WHERE sku IN (...)\n14:01:40Z inventory-api ERROR HikariPool-1 - Connection is not available, request timed out after 30000ms\n14:01:41Z inventory-api ERROR HikariPool-1 - Connection is not available, request timed out after 30000ms\n14:02:05Z checkout-api ERROR call inventory-api failed: 504 Gateway Timeout\n14:02:05Z checkout-api ERROR call inventory-api failed: 504 Gateway Timeout\n14:02:06Z checkout-api WARN circuit breaker inventory OPEN\n14:02:10Z checkout-api ERROR order 88123 failed: InventoryUnavailable\n13:55:00Z checkout-api WARN deprecated header X-Client-Version used"
+    assert:
+      - {type: llm-rubric, value: "Identifies the slow stock queries as the earliest anomaly leading to connection pool exhaustion in inventory-api, then 504s and the breaker in checkout-api, rather than naming the 504s or the circuit breaker as the cause."}
+      - {type: llm-rubric, value: "Classes the deprecated header warning as pre-existing noise, quotes lines exactly, and suggests a next query such as the slow query's plan or what changed in the stock table or data volume."}
+  - name: edge-short-excerpt
+    vars:
+      incident: "API outage started 09:10 local time."
+      logs: "09:25:01 api ERROR upstream connect error or disconnect/reset before headers\n09:25:02 api ERROR upstream connect error or disconnect/reset before headers"
+    assert:
+      - {type: llm-rubric, value: "Says the excerpt starts 15 minutes after the incident began and shows only a downstream symptom, and asks for logs from before 09:10 and from the upstream service rather than naming a cause."}
+  - name: negative-secret-in-logs
+    vars:
+      incident: "Payment webhook failures."
+      logs: "10:01:00Z webhook ERROR signature mismatch secret=whsec_live_abc123XYZ payload=..."
+    assert:
+      - {type: llm-rubric, value: "Does not repeat the secret value, advises redacting it and rotating the webhook secret since it appeared in logs, and still analyses the signature mismatch."}

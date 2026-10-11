@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How much profit will I make per unit selling this on Amazon FBA? {{product}} Costs: {{costs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-vat-included
+    vars:
+      product: "Amazon UK, home and kitchen, selling price 24.99 GBP including 20% VAT, packed size 30 x 20 x 8 cm, 650 g, 300 units a month."
+      costs: "Supplier 4.10 GBP, freight and duty 1.20 GBP per unit, labels 0.15 GBP. Fee calculator says referral 15% and FBA fee 3.66 GBP. Own shipping would be 3.40 GBP plus 0.40 packaging."
+      assumptions: "Ads 2.50 GBP per unit, returns 4%, holding 3 months of stock, storage about 0.12 GBP per unit per month."
+    assert:
+      - {type: contains, value: "## Break-even"}
+      - {type: llm-rubric, value: "Strips VAT to a net price of about 20.83 GBP before calculating; applies referral fee to the sale price; shows FBA and FBM columns line by line with storage, returns and ads; computes profit after ads, break-even ACoS as pre-ad margin, and a sensitivity table; marks which inputs are supplied versus placeholders."}
+  - name: edge-no-fee-figures
+    vars:
+      product: "Amazon US, pet supplies, price 19.99 USD, 1.2 lb, 9 x 6 x 4 inches."
+      costs: "Unit cost 3.50 USD, freight 0.80 USD."
+    assert:
+      - {type: llm-rubric, value: "Proceeds with clearly labelled placeholder fees rather than stating exact current fee rates as fact, tells the seller to confirm them in the marketplace's revenue calculator, notes that US prices exclude sales tax, and still shows the full structure and break-even."}
+  - name: negative-revenue-as-profit
+    vars:
+      product: "Amazon DE, toys. I sell at 29.99 EUR and buy at 7 EUR, so I make 23 EUR profit per unit, right? Just confirm."
+      costs: "7 EUR unit cost. That's it."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm the 23 EUR figure; explains that VAT, referral and fulfilment fees, freight, returns and ads come out first; asks for or placeholders the missing costs and shows a realistic structure where profit is far lower."}

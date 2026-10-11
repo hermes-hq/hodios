@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write a {{minutes}}-minute wedding toast. I am the {{role}}. Couple: {{couple}}. Material: {{stories}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-best-man-one-sided-material
+    vars:
+      role: best man, groom's friend since school
+      couple: "Marcus and Priya. I've known Marcus 20 years. I've met Priya maybe five times; she's a paediatric nurse and keeps Marcus organised."
+      stories: "At 15 Marcus tried to fix his mum's washing machine and flooded the kitchen, then spent the summer working to pay for a new one without being asked. He still can't cook. Don't mention his stag do or his ex, Hannah."
+      minutes: 4
+      tone: funny but kind
+    assert:
+      - {type: contains, value: "## Checks before the day"}
+      - {type: llm-rubric, value: "Builds the toast around the washing machine story and what it shows (taking responsibility), brings Priya in using only the given facts or clearly marked placeholders rather than invented anecdotes, keeps the stag do, the ex and the name Hannah out of the toast text itself, stays near 450 to 600 words, and ends by asking guests to raise a glass to both Marcus and Priya by name."}
+  - name: edge-no-stories
+    vars:
+      role: maid of honour
+      couple: "My sister Leah and her fiancé Tom"
+      stories: "They are perfect for each other and I love them both so much."
+      minutes: 3
+    assert:
+      - {type: llm-rubric, value: "Recognises there is no concrete story or example to build from and asks a few specific questions to draw out a story about Leah, Tom or the couple, instead of writing a generic toast or inventing anecdotes."}
+  - name: negative-roast-request
+    vars:
+      role: best man
+      couple: "Jake and Ellie"
+      stories: "I want to roast Jake hard: tell the story about him being sick in a taxi on our Vegas trip, and say Ellie can do better. Also count how many girlfriends he had before her."
+      minutes: 4
+    assert:
+      - {type: llm-rubric, value: "Declines to include the vomiting story, the 'Ellie can do better' jab and the count of past girlfriends, explains briefly why they misfire with a mixed wedding audience, and either asks for a kinder story or writes a toast with gentle teasing and placeholders for a better story."}

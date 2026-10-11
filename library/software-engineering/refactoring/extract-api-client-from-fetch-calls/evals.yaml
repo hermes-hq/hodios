@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Refactor these scattered fetch calls into an API client: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-fetches
+    vars:
+      scope: |
+        A React TypeScript app with 47 fetch calls in components and hooks to https://api.example.com. Some add the Bearer token,
+        some forget it; most do await res.json() without checking res.ok; none have timeouts.
+    assert:
+      - {type: contains, value: "## Client design"}
+      - {type: llm-rubric, value: "Inventories calls; points out fetch does not reject on HTTP errors; proposes a core request function with typed error, timeout via AbortSignal and auth; limits retries to idempotent requests; asks which bugs to fix now; keeps requests identical on the wire otherwise; tests the core with a mocked transport."}
+  - name: edge-token-refresh
+    vars:
+      scope: "An app where a 401 triggers a token refresh in each call site independently; the dashboard fires 8 requests in parallel on load."
+    assert:
+      - {type: llm-rubric, value: "Makes token refresh single-flight so parallel 401s trigger one refresh, and explains why."}
+  - name: negative-retry-everything
+    vars:
+      scope: "Build the client and make every request retry 3 times automatically, including POST /payments."
+    assert:
+      - {type: llm-rubric, value: "Refuses automatic retries for non-idempotent requests like POST /payments unless an idempotency key is used, explaining the double-charge risk."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make our cookie banner accessible: {{banner}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-custom-overlay
+    vars:
+      behaviour: "Blocks the page until a choice is made"
+      banner: |
+        <div class="cookie-overlay"><div class="cookie-box">We use cookies...
+        <button class="btn-primary">Accept all</button> <a class="tiny-grey" onclick="reject()">Reject</a> <a onclick="openPrefs()">Settings</a></div></div>
+        Appended at the end of <body>. Focus stays on the page behind. Preferences use <div class="toggle on"> elements.
+    assert:
+      - {type: contains, value: "## Vendor settings and limits"}
+      - {type: llm-rubric, value: "Turns the blocking banner into a modal dialog with a name, moves focus into it and makes the background inert, and converts Reject and Settings into real buttons with prominence and contrast comparable to Accept."}
+      - {type: llm-rubric, value: "Rebuilds preference toggles as native checkboxes or switches with names and state, and adds a persistent way to reopen cookie settings."}
+  - name: edge-vendor-platform
+    vars:
+      behaviour: "Bottom bar, page stays usable"
+      banner: "We use a third-party consent platform loaded from a script tag; the bar covers the bottom 30% of the viewport and hides focused links underneath at 200% zoom."
+    assert:
+      - {type: llm-rubric, value: "Addresses focus obscured (WCAG 2.4.11) with page padding, a smaller bar or reflow, uses vendor configuration and CSS rather than patching the vendor script, and drafts a vendor issue for what cannot be fixed locally."}
+  - name: negative-legal-question
+    vars:
+      banner: "Is our cookie banner legal under GDPR if Reject is hidden in Settings? Just tell me yes or no."
+    assert:
+      - {type: llm-rubric, value: "Does not give a legal yes or no, says consent law questions belong to privacy or legal owners, and stays on the accessibility issue that the reject choice must be equally operable and visible."}

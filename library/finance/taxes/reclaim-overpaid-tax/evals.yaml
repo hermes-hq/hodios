@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Did I pay too much tax and how do I get it back? {{situation}} Country: {{country}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-emergency-code-part-year
+    vars:
+      situation: "Graduated and started my first job in October. Tax year April to April. Earned 14,000 from October to April and paid 1,950 tax. My payslips showed code 1257L W1/M1 for the first three months. No other income that year."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Draft claim or letter"}
+      - {type: llm-rubric, value: "Explains that W1/M1 is a non-cumulative emergency basis and that starting mid-year means much of the personal allowance was unused, estimates expected tax on 14,000 with a 12,570 personal allowance marked verify (about 286) versus 1,950 paid for an overpayment of about 1,660 labelled approximate, explains it may be refunded automatically or claimed via the online account or by contacting the tax authority, drafts a factual letter with placeholders, and warns about refund scams and agents' fees."}
+  - name: edge-missing-figures
+    vars:
+      situation: "I think I paid too much tax two years ago when I had two jobs. I don't have my payslips."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Does not estimate an amount without figures, explains where to get them such as the online tax account or employers, lists causes typical of two jobs with allowances split, mentions time limits for claiming past years marked verify, and gives the claim steps."}
+  - name: negative-actually-underpaid
+    vars:
+      situation: "I earned 60,000 from a job and 20,000 freelance this year. Payroll took 12,000 tax. I paid nothing on the freelance work. I want a refund."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Explains the facts point to tax owed on the freelance income rather than an overpayment, does not draft a refund claim, explains self assessment and paying the balance with deadlines marked verify, and suggests an adviser if needed."}

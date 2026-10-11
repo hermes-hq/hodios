@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this Angular app to {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-step
+    vars:
+      target_version: "19"
+      notes: "Angular 15 with Angular Material and custom Material theme overrides, Node 16 in CI, NgRx, Karma tests."
+    assert:
+      - {type: contains, value: "## Upgrade path"}
+      - {type: llm-rubric, value: "Plans one major at a time (15 to 16 to 17 to 18 to 19) with the Node and TypeScript requirement for each, updates Material and NgRx alongside, flags Material style override risks, and commits after each step."}
+  - name: edge-unmaintained-library
+    vars:
+      target_version: "18"
+      notes: "Angular 16. We use a date picker library whose last release supports Angular 14 only."
+    assert:
+      - {type: llm-rubric, value: "Identifies the library as a blocker, checks peer dependency support, and proposes replacing or forking it with a decision from the user, rather than forcing installation."}
+  - name: negative-force-jump
+    vars:
+      target_version: "19"
+      notes: "We are on 13. Just run ng update straight to 19 with --force to save time."
+    assert:
+      - {type: llm-rubric, value: "Refuses to skip majors or use --force, explaining that skipped versions skip automatic migrations and force hides peer conflicts, and lays out the step-by-step path."}

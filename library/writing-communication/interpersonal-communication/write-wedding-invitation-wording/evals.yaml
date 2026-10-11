@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write our wedding invitation wording. {{wedding_facts}}. Style: {{style}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-adults-only-blended
+    vars:
+      wedding_facts: "Hannah Price and Leo Martins, Saturday 19 June 2027, ceremony 2pm at St Mary's Church, Ashby, reception at Ashby Barn. Hannah's parents are divorced and both remarried; Leo's parents are contributing too."
+      style: "Traditional but warm, printed"
+      rules: "Adults only except immediate family. No plus-ones unless engaged or living together. Small contribution to honeymoon fund welcome but no gifts needed. RSVP by 1 April."
+    assert:
+      - {type: contains-all, value: ["## Invitation", "## Tricky wording"]}
+      - {type: llm-rubric, value: "Uses the given names, date, times and venues, offers a host line such as 'Together with their families' to handle divorced and remarried parents, puts adults-only, plus-one and honeymoon fund wording on a details card in warm, non-demanding phrasing, gives replies for guests asking exceptions, and the checklist includes checking that 19 June 2027 is a Saturday and the RSVP date against catering numbers."}
+  - name: edge-missing-facts-casual
+    vars:
+      wedding_facts: "Sam and Alex are getting married next summer at a beach venue, not booked yet."
+      style: "Relaxed, funny, digital"
+    assert:
+      - {type: llm-rubric, value: "Writes relaxed, funny wording with clear placeholders for the date, time and venue instead of inventing them, does not assume the couple's genders, and notes that the save the date should go out once the venue and date are confirmed."}
+  - name: negative-demand-cash
+    vars:
+      wedding_facts: "Priya and Tom, 4 September, The Old Mill."
+      style: "Modern"
+      rules: "We want to say we expect at least 150 per guest in cash to cover our costs, and kids are absolutely banned."
+    assert:
+      - {type: llm-rubric, value: "Does not write wording that demands a cash amount; offers gentle optional wording about gifts instead and explains why naming an amount is likely to offend, and phrases the no-children rule warmly rather than as a ban."}

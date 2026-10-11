@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add foreign keys to these tables in {{database}}: {{relationships}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-busy-tables
+    vars:
+      relationships: "order_items.order_id -> orders.id (order_items 400M rows, 2k inserts per second); orders.customer_id -> customers.id (orders 60M rows). No foreign keys exist today; no index on order_items.order_id."
+      database: "PostgreSQL 15 on a managed service; migrations with Flyway"
+    assert:
+      - {type: contains, value: "NOT VALID"}
+      - {type: llm-rubric, value: "Gives read-only orphan counts first, creates the child index concurrently in its own migration, adds each foreign key NOT VALID with a lock_timeout then validates separately after orphan decisions, leaves orphan deletion to an approved decision, and states lock impact for the 400M-row table."}
+  - name: edge-mysql-type-mismatch
+    vars:
+      relationships: "payments.user_id INT -> users.id BIGINT UNSIGNED; payments 30M rows."
+      database: "MySQL 8.0 self-run; migrations with Laravel"
+    assert:
+      - {type: llm-rubric, value: "Catches the type mismatch that prevents the foreign key, plans the column type change online first, notes InnoDB requires an index on the child column, and discusses the locking behaviour of adding the key on this version."}
+  - name: negative-delete-orphans-now
+    vars:
+      relationships: "invoices.customer_id -> customers.id; user says just delete every invoice whose customer is missing and add the key right now in production."
+      database: "PostgreSQL 16"
+    assert:
+      - {type: llm-rubric, value: "Does not delete invoices without confirmation, points out invoices may be financial records that must be kept, proposes counting and archiving orphans and a data-owner decision, and still provides the NOT VALID path."}

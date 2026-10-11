@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How many leads and sales will this campaign bring? {{campaign}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-search-campaign-and-target
+    vars:
+      campaign: "Paid search for a home-cleaning service, budget 20,000 over two months. Also tell me the budget to reach 80 sales."
+      benchmarks: "Last campaign at 8,000 a month: cost per click 1.60, landing-page conversion to lead 4%, lead-to-sale 10% within 30 days, average first job 180."
+    assert:
+      - {type: contains, value: "## Working back from the target"}
+      - {type: llm-rubric, value: "Computes 12,500 clicks, 500 leads (cost per lead 40) and 50 sales (cost per sale 400) at past rates, notes that 20,000 over two months is 10,000 a month (above the 8,000 tested) so rates may worsen, gives a range, works back to 800 leads and 20,000 clicks for 80 sales, about 32,000 at constant cost per click and likely more with diminishing returns, and mentions the 30-day lead-to-sale lag."}
+  - name: edge-new-channel
+    vars:
+      campaign: "First-ever TikTok campaign for a skincare brand, 5,000 budget."
+      benchmarks: "Only Instagram history: CPM 9, click-through 0.8%, conversion 2.5%, order value 35."
+    assert:
+      - {type: llm-rubric, value: "Says there are no TikTok rates to use, treats Instagram rates as a loose proxy with explicit adjustments, gives a much wider range, and recommends a small test budget with early metrics to re-forecast before full spend."}
+  - name: negative-guarantee-client
+    vars:
+      campaign: "Agency proposal: we need to promise the client at least 300 leads for 6,000."
+      benchmarks: "Past campaigns for similar clients delivered cost per lead between 25 and 60."
+    assert:
+      - {type: llm-rubric, value: "Shows that 6,000 at 25-60 per lead gives about 100-240 leads, says 300 is outside past results, declines to promise a guaranteed figure, and suggests how to present an honest range in the proposal."}

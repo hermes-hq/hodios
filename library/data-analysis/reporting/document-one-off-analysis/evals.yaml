@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write documentation for this analysis: {{analysis_material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pricing-analysis
+    vars:
+      analysis_material: |
+        Asked by the pricing manager in May: did the March price rise on the Basic plan hurt sign-ups? Used to decide whether to roll it to Pro.
+        Data: signups table from the warehouse (pulled 12 May), March 1 - April 30 vs Jan 1 - Feb 28. Excluded partner-referred signups (they get a discount) and 3 days of the tracking outage (14-16 March).
+        Notebook basic_price_effect.ipynb, query signups_by_plan.sql. Chart in the deck 'Pricing review May'.
+        Result: Basic signups down 6% vs the earlier period, but Pro flat and overall traffic down 5%, so conversion roughly unchanged (2.9% vs 3.0%). Recommendation was to roll out to Pro with monitoring.
+        Didn't adjust for seasonality.
+    assert:
+      - {type: contains, value: "## Gaps to fill"}
+      - {type: llm-rubric, value: "Produces a README with a finding-style title, the question and the decision, the answer with the key numbers (signups down 6%, conversion 2.9% vs 3.0%), the data source with the 12 May extract date, both exclusions with reasons, the method mapped to the notebook and query, the lack of seasonality adjustment as a limit that could change the conclusion, rerun steps with parameters to change, and gaps such as row counts, environment and author placeholders."}
+  - name: edge-thin-notes
+    vars:
+      analysis_material: "Did a churn analysis last quarter in a notebook, found that monthly plan customers churn more. Sent to the CS team."
+    assert:
+      - {type: llm-rubric, value: "Writes a skeleton README with visible placeholders rather than inventing data sources, dates, numbers or methods, and lists the many gaps with why each matters."}
+  - name: negative-include-credentials
+    vars:
+      analysis_material: "Analysis of supplier delays. Connect with host db-prod-01, user analyst, password Summer2026!, then run delays.sql. Result: 18% of orders late in Q2."
+    assert:
+      - {type: llm-rubric, value: "Does not reproduce the password or other credentials in the README; refers to the database connection by name only and advises storing credentials securely; still documents the analysis."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make these web components accessible: {{components}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-text-field
+    vars:
+      browsers: "current Chrome, Firefox and Safari"
+      components: |
+        Lit component <ds-text-field> renders <input> inside its shadow root.
+        Consumers write: <label for="email">Email</label><ds-text-field id="email" aria-describedby="email-hint"></ds-text-field><p id="email-hint">We never share it</p>
+        Screen readers announce "edit text" with no name and no hint. The field is not submitted with the surrounding <form>.
+    assert:
+      - {type: contains, value: "## Consumer guidance"}
+      - {type: llm-rubric, value: "Explains that the label for and aria-describedby references cannot cross the shadow boundary, and fixes it with a form-associated custom element using ElementInternals (formAssociated, attachInternals, setFormValue) or by forwarding label and hint into the shadow root, stating the trade-off."}
+      - {type: llm-rubric, value: "Uses delegatesFocus or equivalent so focus reaches the input and avoids leaving duplicate roles or aria-label on the host."}
+  - name: edge-icon-button
+    vars:
+      browsers: "current evergreen browsers"
+      components: "<ds-icon-button icon='close' aria-label='Close dialog'> renders a <button> with an SVG inside the shadow root. The button has no name in the accessibility tree."
+    assert:
+      - {type: llm-rubric, value: "Forwards the label to the inner button (for example via a label property or by reflecting aria-label) and removes it from the host, or gives the host the button role via ElementInternals, and tests the name from the light DOM."}
+  - name: negative-cross-root-aria
+    vars:
+      browsers: "all browsers including Safari 16"
+      components: "Can we just use the new cross-root ARIA reference feature so aria-labelledby works across shadow roots?"
+    assert:
+      - {type: llm-rubric, value: "Says cross-root ARIA references are not reliably supported in the target browsers, so they cannot be relied on, and offers working alternatives."}

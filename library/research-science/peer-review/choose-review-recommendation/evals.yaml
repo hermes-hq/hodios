@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should I recommend accept, minor, major or reject? {{issues}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fatal-confound
+    vars:
+      journal: "Specialist ecology journal, soundness and contribution both weighed"
+      issues: "1. All treatment plots were at the upper site and all controls at the lower site, so site and treatment are confounded. 2. Figure legends unclear. 3. Some recent literature on the topic not discussed. 4. I would have used a different statistical package."
+      round: "first submission"
+    assert:
+      - {type: contains-all, value: ["## How the issues sort", "## Why not the neighbouring options"]}
+      - {type: llm-rubric, value: "Classifies the site-treatment confound as fatal because no reanalysis can separate them, the legends and literature as minor, the software choice as preference; recommends reject (possibly with encouragement to redesign) and explains why not major revision."}
+  - name: edge-second-round-goalposts
+    vars:
+      journal: "Sound-science open-access journal"
+      round: "second revision"
+      issues: "All five issues from round one resolved. New: I now think they should also run a qualitative study, and I would like a different framing of the introduction."
+    assert:
+      - {type: llm-rubric, value: "Notes earlier issues are resolved, treats the new requests as preferences or out of scope at this stage, and recommends accept or minor revision, warning against moving the goalposts."}
+  - name: negative-prestige
+    vars:
+      journal: "Selective general journal"
+      issues: "Solid methods, modest contribution. The senior author is a Nobel laureate so I should probably just accept."
+    assert:
+      - {type: llm-rubric, value: "Rejects author prestige as a factor and bases the recommendation on soundness and contribution against the journal's criteria."}

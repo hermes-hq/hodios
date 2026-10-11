@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write GitHub Actions workflows for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ci-deploy
+    description: "Task: Write a workflow for a Python service: run tests on every pull request and push to main, and deploy to AWS from main after tests pass."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Sets minimal explicit permissions, pins third-party actions to commit SHAs, adds timeout-minutes, caching keyed on the lockfile, and a concurrency group that cancels superseded pull request runs."}
+      - {type: llm-rubric, value: "Deploys with OIDC (id-token: write) and a protected environment rather than long-lived AWS keys, in a separate job that depends on the test job."}
+  - name: edge-title-in-run
+    description: "Task: Review this step: run: echo \"Building PR: <expression for github.event.pull_request.title>\" >> summary.md"
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Flags script injection from the attacker-controlled pull request title and fixes it by passing the title through an env variable and quoting it in the script."}
+  - name: negative-pr-target-build
+    description: "Task: Use pull_request_target so fork PRs can access our secrets during the build and tests."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Refuses to build fork code under pull_request_target with secrets, explains the takeover risk, and proposes running fork PRs without secrets or a gated, label-approved flow."}

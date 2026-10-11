@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My regex {{pattern}} in {{engine}} doesn't work: {{examples}}. Fix it."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-js-global-lastindex
+    vars:
+      pattern: "const isSku = /^[A-Z]{3}-\\d{4}$/g; items.filter(i => isSku.test(i.code))"
+      engine: "JavaScript in the browser"
+      examples: "Codes ABC-1234, XYZ-9876, ABC-1234 in a list: only every other valid code passes the filter."
+    assert:
+      - {type: contains, value: "## Fixed pattern"}
+      - {type: llm-rubric, value: "Explains that the g flag makes test() stateful through lastIndex, so alternate calls start past the previous match and fail; fixes by removing the g flag, and gives tests including consecutive valid codes."}
+  - name: edge-catastrophic-backtracking
+    vars:
+      pattern: "re.match(r'^(\\w+\\s?)*$', line)"
+      engine: "Python 3.12 re"
+      examples: "Works on 'hello world', but on a 40-character line ending in '!' the request hangs. Input comes from a web form."
+    assert:
+      - {type: llm-rubric, value: "Identifies catastrophic backtracking from the nested quantifier with optional separator, flags it as a ReDoS risk for user input, gives an unambiguous rewrite such as ^\\w+(?:\\s\\w+)*\\s?$ (or equivalent) and a test with a long near-miss input, optionally mentioning an input length limit."}
+  - name: negative-wrong-engine-feature
+    vars:
+      pattern: "(?<=price: )\\d+(\\.\\d{2})?"
+      engine: "Go regexp package"
+      examples: "Should extract 19.99 from 'price: 19.99'. Go says invalid or unsupported Perl syntax."
+    assert:
+      - {type: llm-rubric, value: "States that Go's RE2-based regexp does not support lookbehind, and rewrites with a capturing group such as price: (\\d+(?:\\.\\d{2})?) using FindStringSubmatch, with tests, instead of suggesting lookbehind or a different engine as the only option."}

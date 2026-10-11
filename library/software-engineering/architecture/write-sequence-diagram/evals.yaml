@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Draw a sequence diagram for {{flow}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-description
+    vars:
+      flow: "Checkout: browser posts to API gateway, order service validates the cart with cart service, charges via payment provider, saves order, publishes OrderPlaced to a queue; email service consumes it and sends confirmation. If payment fails the user sees an error and the cart is kept."
+      format: "Mermaid"
+    assert:
+      - {type: contains, value: "sequenceDiagram"}
+      - {type: llm-rubric, value: "Shows the payment failure path in an alt block, shows the queue hand-off to the email service as asynchronous, and uses specific message labels."}
+      - {type: llm-rubric, value: "Lists participants and states which steps were inferred from the description."}
+  - name: edge-plantuml-large
+    vars:
+      flow: "Our whole platform: every service call in the system for all features."
+      format: "PlantUML"
+    assert:
+      - {type: llm-rubric, value: "Explains that one diagram for everything will be unreadable and proposes an overview plus per-flow diagrams, or asks which flow to start with."}
+  - name: negative-no-invention
+    vars:
+      flow: "The password reset flow in our repo. You do not have the repo; just make it look complete."
+    assert:
+      - {type: llm-rubric, value: "Does not present invented services or endpoints as the real system; either asks for the code or produces a clearly labelled generic draft with assumptions listed."}

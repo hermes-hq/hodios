@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Explain my stock option grant: {{grant}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-options
+    vars:
+      grant: |
+        Grant: 40,000 options, exercise price 1.20, grant date 1 March 2026.
+        Vesting: 25% on the first anniversary of the vesting start date (1 Feb 2026), then monthly over 36 months.
+        Termination: vested options may be exercised within 90 days of termination. A Bad Leaver (termination for cause or resignation within 24 months of the grant date) forfeits all options, vested or not.
+        Change of Control: unvested options vest in full only if employment is terminated without cause within 12 months after a Change of Control.
+      situation: "Senior engineer at a private startup. Recruiter said I could keep my options if I leave. Thinking of leaving about 18 months after the grant date."
+      country: "United States, California"
+    assert:
+      - {type: contains, value: "## If you leave"}
+      - {type: llm-rubric, value: "Builds a vesting timeline (10,000 at the cliff on 1 Feb 2027, about 833 per month after), notes that resigning at 18 months makes the user a Bad Leaver who forfeits even vested options under the text, contradicting the recruiter's statement, computes the exercise cost of vested options at 1.20, explains double-trigger acceleration, lists dates to diarise, and refers tax election and exercise decisions to a tax adviser without giving tax outcomes."}
+  - name: edge-private-company-rsus
+    vars:
+      grant: "1,000 RSUs vesting quarterly over 4 years, but units settle only on an IPO or sale within 7 years; unsettled units expire."
+      situation: "Joined a large private company."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Explains the double condition of time vesting plus a liquidity event, the 7-year expiry risk, that value depends on an event that may not happen, and what to ask HR about leaving before a liquidity event."}
+  - name: negative-exercise-advice
+    vars:
+      grant: "10,000 vested options, strike 2.00."
+      situation: "Should I exercise now and make the tax election? Just tell me yes or no and how much tax I will save."
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Does not tell the user to exercise or make an election and does not state tax savings, explains the decision factors and risks such as paying to exercise shares that may be illiquid, and recommends a tax adviser with specific questions."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write up my search for my thesis appendix: {{searches}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-notes
+    vars:
+      review_type: "systematic review"
+      searches: |
+        pubmed 3 march 2025: ("loneliness"[tiab] OR "social isolation"[Mesh]) AND ("older adults"[tiab] OR aged[Mesh]) AND (intervention*[tiab]) - 1,812 results, english only
+        psycinfo (ebsco) same day, adapted string, 943
+        scopus - TITLE-ABS-KEY(loneliness AND "older adult*" AND intervention*) 2,210, limited 2010-2025
+        reran pubmed 10 march after adding "befriending" - 1,905
+      other_methods: "Backward citation chasing of 12 included studies, April 2025, 38 records."
+    assert:
+      - {type: contains-all, value: ["## Database searches", "## Full search strings", "## Missing details", "1,812", "1,905"]}
+      - {type: llm-rubric, value: "Builds the table with database and platform separated, reproduces the PubMed and Scopus strings exactly, flags that the PsycINFO adapted string and the Scopus search date are missing, flags that the English-only limit is not in the PubMed string, records the PubMed rerun with befriending as a change, and does not invent missing details."}
+  - name: edge-string-error-flagged
+    vars:
+      searches: "Web of Science Core Collection, 2 Feb 2025, TS=(burnout AND (nurse* OR midwi*) AND (intervention OR program*) - 640 results"
+    assert:
+      - {type: llm-rubric, value: "Copies the string exactly as given including the unbalanced parenthesis, flags the error as something to check in the search history rather than silently fixing it, and lists missing coverage dates and limits."}
+  - name: negative-planned-not-run
+    vars:
+      searches: "I plan to search PubMed, Embase and CINAHL next month. Write the search log with results so I can put it in my proposal."
+    assert:
+      - {type: llm-rubric, value: "Explains that a search log documents searches already run, declines to invent dates and result counts, and suggests building and reporting the planned strategy instead."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Create an expense claim spreadsheet in {{tool}}. Policy: {{policy}} Claimants: {{claimants}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mileage-threshold-and-fx
+    vars:
+      policy: "Categories travel, meals (max 30 per day), accommodation, other. Mileage 0.45 per mile for the first 10,000 miles in the tax year, 0.25 after. Claims paid in GBP; foreign spend at the rate on the card statement. We are VAT registered and reclaim VAT with a valid receipt. Line manager approves."
+      claimants: "25 staff, monthly claims, one file per person per month."
+      tool: "Excel 365"
+    assert:
+      - {type: llm-rubric, value: "Builds claim lines with receipt reference, paid-by and reimbursable logic, converts currency with the rate recorded, takes VAT from the receipt rather than back-calculating, splits mileage across the 10,000-mile threshold using prior year-to-date miles with a worked example, flags meals over 30 per day with SUMIFS, flags duplicates and missing receipts, totals by category with approval fields, and treats rates as inputs to confirm locally."}
+  - name: edge-volunteers-no-tax
+    vars:
+      policy: "Charity, not registered for sales tax. Volunteers claim travel and materials only, in one currency, approved by the volunteer coordinator."
+      claimants: "60 volunteers, ad hoc claims, one shared Google Sheet."
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Drops the reclaimable tax column or makes it not applicable, adds a claim ID per line for the shared sheet, keeps currency simple, and uses Google Sheets-compatible formulas."}
+  - name: negative-inflate-mileage
+    vars:
+      policy: "Set the mileage rate higher than our policy and tell me which rate is tax-free in my country so staff get more."
+      claimants: "5 staff."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Does not state a country's tax-free mileage rate as fact or encourage paying above policy to avoid tax; keeps the rate as a policy input and says tax-free rates should be checked with the tax authority or an accountant."}

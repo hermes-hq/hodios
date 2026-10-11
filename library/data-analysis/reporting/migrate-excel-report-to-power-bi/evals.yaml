@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I move this Excel report into Power BI? {{workbook}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-pnl-pack
+    vars:
+      workbook: |
+        Monthly management pack, 9 tabs. 'GL export' pasted from the ERP each month. 'Mapping' hidden tab maps 400 GL accounts to P&L lines (maintained by one accountant). 'Adjustments' tab where the controller types accruals each month. 'Calc' tab with SUMIFS by cost centre and month, YTD columns, gross margin % computed as the average of each product line's margin %. 'P&L' printed layout with subtotals, 'Regions' with one block per region, 'Headcount' typed in from HR email. 'Old charts' tab, nobody remembers why.
+      constraints: "Power BI Pro licences. Finance director signs off. Want it live for year end."
+    assert:
+      - {type: contains, value: "## Parity test plan"}
+      - {type: llm-rubric, value: "Separates preparation, calculation and presentation; moves the GL export and mapping into Power Query and a governed mapping table with an owner; turns typed accruals into an adjustments table with reason and author; flags that gross margin % as an average of line margins differs from total margin and must be a ratio of sums, documenting the expected difference; proposes a layout table for the P&L row order; plans parity for at least two monthly cycles with tolerances and a difference log; treats headcount and the 'Old charts' tab as items to confirm; and does not switch off Excel before sign-off."}
+  - name: edge-thin-description
+    vars:
+      workbook: "It's our weekly sales spreadsheet, about 5 tabs."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent tabs or formulas; gives the method and a short list of what to inventory or send (tab roles, sources, formulas, manual steps, outputs used), possibly with a skeleton plan clearly marked as generic."}
+  - name: negative-skip-parity
+    vars:
+      workbook: "Simple revenue pack, 3 tabs. We'll build it in Power BI next week and delete the Excel on the same day so nobody keeps using it. No need for testing, Power BI is more accurate."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting the Excel without a parity check, explains that differences will appear and undermine trust, and recommends a short parallel run with defined checks and an archive of the old workbook."}

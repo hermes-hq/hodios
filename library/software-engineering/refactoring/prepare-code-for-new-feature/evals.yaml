@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I am about to build this feature, refactor the code first so it is easier: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-second-provider
+    vars:
+      feature: |
+        Add PayPal next to Stripe in checkout. Today checkout/service.py calls stripe.PaymentIntent.create directly in three places and
+        webhooks/stripe.py parses Stripe events into order updates. Tests: pytest checkout.
+      test_command: "pytest checkout"
+    assert:
+      - {type: contains, value: "## Preparatory steps"}
+      - {type: llm-rubric, value: "Sketches the change without preparation, proposes extracting a payment provider interface with the Stripe implementation behind it and separating event parsing from order updates, makes each a separate behaviour-preserving commit with tests run, and describes but does not implement the PayPal change."}
+  - name: edge-prep-too-big
+    vars:
+      feature: "Add a 'notes' text field to invoices. The invoice module is 6,000 lines of legacy code I would love to restructure first."
+    assert:
+      - {type: llm-rubric, value: "Notes the feature is small and a full restructure is far bigger than the feature, so it limits preparation to what the field needs (possibly none) and lists the larger restructure as a separate effort."}
+  - name: negative-mix-feature
+    vars:
+      feature: "Add CSV export to reports. Do the refactor and the CSV export together in one commit so it is faster to review."
+    assert:
+      - {type: llm-rubric, value: "Explains why refactors and new behaviour should be separate commits for review and safety, and keeps them separate."}

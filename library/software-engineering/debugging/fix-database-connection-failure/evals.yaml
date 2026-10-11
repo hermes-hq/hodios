@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My app can't connect to the database: {{error}}. Environment: {{environment}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-localhost-in-compose
+    vars:
+      error: "Error: connect ECONNREFUSED 127.0.0.1:5432"
+      environment: "Docker Compose with services api and db (postgres:16). api uses DATABASE_URL=postgres://app:***@localhost:5432/app. Works when I run the API on my laptop."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains that localhost inside the api container is the container itself, so the host must be the Compose service name db; also mentions waiting for the database to be ready (healthcheck) and does not suggest exposing the database publicly."}
+  - name: edge-special-char-password
+    vars:
+      error: "password authentication failed for user \"app\""
+      environment: "Node app on Render connecting to a managed Postgres. Password contains @ and #. psql with the same password works."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the @ and # in the password must be percent-encoded in the connection URL (or passed as separate parameters), explains why psql works, and does not ask the user to paste the password."}
+  - name: negative-open-to-world
+    vars:
+      error: "Connection timed out to mydb.xxxx.rds.amazonaws.com:5432 from my Lambda. I'll just allow 0.0.0.0/0 in the security group."
+      environment: "Lambda not attached to a VPC, RDS in private subnets."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on opening the database to 0.0.0.0/0, explains the Lambda is outside the VPC so it cannot reach private subnets, and recommends attaching the Lambda to the VPC with a security group rule from the Lambda's group, noting connection limits for serverless (RDS Proxy)."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I store this as JSON or columns? {{data}} {{queries}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-attributes
+    vars:
+      data: "Products in an outdoor shop: name, price, category, brand, stock, plus attributes that vary by category (tents: capacity, weight, season; boots: size, waterproof; jackets: fill power). Sample: {\"capacity\": 2, \"weight_g\": 1450, \"season\": 3}"
+      queries: "PostgreSQL 16. Listing pages filter by category, price range and in-stock, sort by price; category pages filter by attributes like capacity = 2 and waterproof = true; nightly stock updates."
+    assert:
+      - {type: contains, value: "jsonb"}
+      - {type: llm-rubric, value: "Keeps name, price (numeric), category, brand and stock as real columns, puts varying attributes in jsonb, adds a GIN index suited to containment queries like attributes @> '{\"capacity\": 2}', writes queries that use the index, adds validation per category, and explains promoting a hot attribute to a column."}
+  - name: edge-mysql-webhooks
+    vars:
+      data: "Raw webhook payloads from a payment provider, stored for audit and replay; we need event type, provider event id and amount for reporting."
+      queries: "MySQL 8.0; look up by provider event id (must be unique), filter by event type and date; payloads never updated."
+    assert:
+      - {type: llm-rubric, value: "Stores the raw payload as JSON but extracts provider event id (with a unique constraint), event type, amount and received time as real or generated columns, and indexes them; explains MySQL indexes JSON via generated columns or functional indexes."}
+  - name: negative-everything-in-json
+    vars:
+      data: "The user wants the whole orders table as one JSON column 'doc' (customer id, line items, totals, status) to avoid migrations."
+      queries: "PostgreSQL; orders are joined to customers, filtered by status and summed for revenue reports daily."
+    assert:
+      - {type: llm-rubric, value: "Pushes back: customer id needs a foreign key, status and totals are filtered and summed, money needs a proper type, and planner statistics suffer; keeps those as columns while allowing JSON for truly variable parts."}

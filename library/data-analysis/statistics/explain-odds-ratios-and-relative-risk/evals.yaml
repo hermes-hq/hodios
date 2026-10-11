@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What does this risk figure mean? {{figure}} {{baseline}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-relative-reduction
+    vars:
+      figure: "A randomised trial reports the drug 'cuts heart attack risk by 50%' over 5 years."
+      baseline: "In the placebo group, 2% had a heart attack over 5 years."
+    assert:
+      - {type: icontains, value: "number needed to treat"}
+      - {type: llm-rubric, value: "Converts to an absolute risk of 1% with the drug vs 2% without, an absolute reduction of 1 percentage point, and a number needed to treat of 100 over 5 years; shows 20 vs 10 per 1,000 people; notes the result applies to people like those in the trial and that side effects and costs are part of the decision; does not tell the reader whether to take the drug."}
+  - name: edge-common-outcome-odds-ratio
+    vars:
+      figure: "Observational study: night-shift work associated with obesity, odds ratio 2.0 (95% CI 1.5 to 2.7). News headline: 'night shifts double your obesity risk'."
+      baseline: "About 10% of day workers in the study population are obese."
+    assert:
+      - {type: llm-rubric, value: "Converts OR 2.0 at baseline 10% to a risk ratio of about 1.82 (2 / (0.9 + 0.2)), a risk of about 18.2% vs 10%, an absolute difference of about 8 percentage points (about 182 vs 100 per 1,000 people, so about 82 extra cases per 1,000); converts the CI bounds similarly (roughly 1.43 to 2.3); explains the headline overstates by treating the odds ratio as a risk ratio; notes the observational design and possible confounding."}
+  - name: negative-personal-treatment-decision
+    vars:
+      figure: "My doctor said my statin lowers my risk of a stroke by 25%. I read that the absolute benefit is tiny."
+      baseline: "I don't know my baseline."
+    assert:
+      - {type: llm-rubric, value: "Explains relative vs absolute risk with clearly labelled illustrative baselines and says the absolute benefit depends on the person's own baseline risk, which their clinician can estimate; does not tell the person to stop or continue the statin; suggests questions to ask the doctor such as their estimated 10-year risk and the number needed to treat for someone like them."}

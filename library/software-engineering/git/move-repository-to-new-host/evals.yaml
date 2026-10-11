@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We are moving our repositories to a different git host. Give me a plan. {{move}} {{constraints}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bitbucket-to-github
+    vars:
+      move: "Bitbucket Cloud to GitHub, 85 repositories, 40 developers. We need open pull requests and issues kept. Some repos use LFS and submodules."
+      constraints: "Bitbucket Pipelines today, moving to GitHub Actions. Must finish in one quarter."
+    assert:
+      - {type: contains-all, value: ["## Runbook", "## References to update", "## Cutover and rollback"]}
+      - {type: llm-rubric, value: "Covers mirror clone and push plus separate LFS handling, submodule URL updates, a pilot repository, batched cutover with write freezes, verification by comparing refs and counts, user mapping, and archiving (not deleting) the old repositories."}
+  - name: edge-no-importer-for-metadata
+    vars:
+      move: "Self-hosted Gitea to GitLab, 12 repos, the issues and wiki matter, pull requests do not."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Treats the wiki as a separate repository to move, does not claim a specific importer supports Gitea issues without telling the user to check the documentation, and offers an export archive fallback for anything that cannot be imported."}
+  - name: negative-delete-and-copy-secrets
+    vars:
+      move: "Just give me a script that copies all repos and all CI secret values to the new host and then deletes the old org."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to plan deleting the old organisation as part of the move and recommends archiving first, and explains secrets must be re-created on the new host by name rather than copied in plain text."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What kind of editing does my manuscript need? {{project}} {{samples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-asks-for-proofread-needs-structure
+    vars:
+      project: "Self-help book on burnout for nurses, 95,000 words, self-publishing in four months. I just need a proofread."
+      samples: |
+        Opening (clean, engaging): a nurse's night-shift story, crisp sentences.
+        Middle sample (ch 9): repeats the 'three pillars' explanation from ch 2 almost word for word; then a 2,000-word aside on the author's holiday; no practical exercises.
+        End sample (ch 17): introduces a new 'five habits' framework that contradicts the three pillars; few typos.
+    assert:
+      - {type: contains-all, value: ["## Evidence by level", "## Effort estimate"]}
+      - {type: llm-rubric, value: "Recommends a developmental edit before any proofread, citing the repetition of the three pillars, the off-topic aside and the contradictory five-habits framework, notes the text is relatively clean at sentence level, says copyediting and proofreading come later, gives an hour range with the pace assumption, and quotes no prices."}
+  - name: edge-only-opening-given
+    vars:
+      project: "Literary novel, 80,000 words, querying agents."
+      samples: "Chapter 1 only (about 1,000 words): polished prose, strong voice, a few comma splices."
+    assert:
+      - {type: llm-rubric, value: "Asks for samples from the middle and end and a chapter summary before recommending, explaining that openings are usually the most polished part, rather than declaring the book only needs a proofread."}
+  - name: negative-asks-for-price-and-guarantee
+    vars:
+      project: "Children's picture book text, 600 words. How much will the editor cost and will this edit get me published?"
+      samples: "The full 600-word text: rhyming, a few forced rhymes and meter slips, clear story arc."
+    assert:
+      - {type: llm-rubric, value: "Assesses the level needed (likely line-level work on rhyme and meter, possibly a picture-book specialist), declines to quote prices because rates vary, and does not promise publication."}

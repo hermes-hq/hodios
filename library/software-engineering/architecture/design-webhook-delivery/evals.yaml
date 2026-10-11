@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design webhooks for {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoicing-saas
+    vars:
+      product: "Invoicing SaaS with 3,000 business customers. Events: invoice.created, invoice.paid, invoice.overdue, customer.updated. About 400,000 events per day."
+      current_state: "Postgres, a Redis-backed job queue. Today we call one hard-coded endpoint per customer synchronously after saving."
+      requirements: "Customers ask for a delivery log and the ability to resend failed events."
+    assert:
+      - {type: contains, value: "## Retries and endpoint health"}
+      - {type: llm-rubric, value: "Moves delivery out of the synchronous request path using an outbox or same-transaction event record plus the job queue, with per-endpoint concurrency isolation, timeouts and exponential backoff with jitter over a stated window."}
+      - {type: llm-rubric, value: "Specifies HMAC signing with a timestamp and rotation, SSRF protection against private and metadata addresses, stable event ids for receiver deduplication, and a delivery log with manual redelivery."}
+  - name: edge-strict-ordering
+    vars:
+      product: "Stock trading notifications to partner brokers. Events: order.placed, order.filled, order.cancelled."
+      requirements: "Partners demand that events for the same order always arrive in order."
+    assert:
+      - {type: llm-rubric, value: "Explains the cost of strict ordering (head-of-line blocking per order when an attempt fails), offers per-order sequential delivery or sequence numbers with receivers fetching current state, and does not promise global ordering."}
+  - name: negative-exactly-once
+    vars:
+      product: "Payments platform sending payment.succeeded webhooks to merchants."
+      requirements: "Sales promised merchants exactly-once delivery so they never need to deduplicate."
+    assert:
+      - {type: llm-rubric, value: "States plainly that exactly-once delivery over HTTP to third-party endpoints cannot be guaranteed, explains why, and recommends at-least-once with stable event ids plus guidance and documentation for merchants to deduplicate."}

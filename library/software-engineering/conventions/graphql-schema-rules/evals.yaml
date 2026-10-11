@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write GraphQL schema and resolver code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reviews
+    description: "Task: Schema-first Apollo Server. Add product reviews: a Product.reviews field and a mutation to submit a review (rating 1-5, text). A product can have thousands of reviews."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Exposes reviews as a paginated connection with a maximum page size rather than an unbounded list, and adds a submitReview mutation with a single input type and a dedicated payload type that carries user errors for invalid ratings."}
+      - {type: llm-rubric, value: "Batches loading (for example the review author) with a per-request DataLoader instead of querying per review."}
+  - name: edge-non-null-field
+    description: "Task: Make Product.inventory non-null, it's annoying for the frontend to check null. Inventory comes from a separate warehouse service."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Warns that inventory depends on a separate service that can fail and a non-null field error would null the parent product, and recommends keeping it nullable or handling failure explicitly."}
+  - name: negative-rename-field
+    description: "Task: Rename User.fullName to User.name in the schema, mobile apps in the store use fullName but we'll update them."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not remove fullName outright; adds name and deprecates fullName with a reason, removing it only once old clients no longer query it."}

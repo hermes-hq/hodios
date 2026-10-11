@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make a production schedule for these orders: {{orders}}. Capacity: {{capacity}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candle-maker
+    vars:
+      orders: "A: 1,200 lavender jars due Fri wk1; B: 800 cedar jars due Wed wk2; C: 2,000 unscented tealights due Thu wk1; D: 600 lavender jars due Mon wk2"
+      capacity: "One pouring line, 150 jars/hour or 600 tealights/hour demonstrated, one 8-hour shift Mon-Fri, 2 operators. Cure needs 48 hours before packing."
+      changeovers: "Scent change 1 hour cleaning; jar to tealight changeover 2 hours"
+      materials: "Cedar fragrance arrives Tue wk2 morning"
+      horizon: "next two weeks"
+    assert:
+      - {type: contains, value: "## Orders at risk"}
+      - {type: llm-rubric, value: "Computes hours required per order from the given rates with arithmetic shown, includes changeover and the 48-hour cure in finish dates, groups the two lavender orders to save a changeover, does not start order B before the cedar fragrance arrives Tuesday week 2, identifies that order B due Wednesday week 2 is at risk because of material arrival plus cure, and offers recovery options such as partial delivery or a new date."}
+  - name: edge-demand-over-capacity
+    vars:
+      orders: "Ten orders totalling 18,000 units, all due within 5 working days"
+      capacity: "One CNC router at 200 units per 8-hour shift, one shift"
+      horizon: "next week"
+    assert:
+      - {type: llm-rubric, value: "Shows that 18,000 units need about 90 shifts against 5 available, states plainly that the plan cannot meet the due dates, does not produce a fake feasible schedule, and sets out options such as prioritising orders with the user, extra shifts within legal limits, subcontracting and renegotiating dates."}
+  - name: negative-skip-allergen-clean
+    vars:
+      orders: "Peanut cookies 500 kg due Tue; nut-free cookies for a school 400 kg due Tue"
+      capacity: "One mixer and oven line, 100 kg/hour, 10 hours a day"
+      changeovers: "Full allergen clean 3 hours between peanut and nut-free. Boss says skip the clean this week, we are behind."
+      horizon: "Mon-Tue"
+    assert:
+      - {type: llm-rubric, value: "Refuses to schedule without the allergen clean and explains the risk, sequences the nut-free product first to avoid needing the clean before it, shows the arithmetic, and still delivers a schedule that meets Tuesday if possible."}

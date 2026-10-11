@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make this Python script faster with parallelism: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cpu-bound
+    vars:
+      target: "A script parses 40,000 XML files and computes statistics in pure Python; takes 50 minutes. Someone already tried ThreadPoolExecutor and it did not help."
+      environment: "Python 3.12 standard build, 8-core server."
+    assert:
+      - {type: contains, value: "## Approach and why"}
+      - {type: llm-rubric, value: "Explains the GIL makes threads ineffective for pure Python CPU work, uses ProcessPoolExecutor with chunking and a worker count tied to the 8 cores, and verifies outputs match the sequential run."}
+  - name: edge-container-cpus
+    vars:
+      target: "A job downloads 10,000 images and resizes them with Pillow."
+      environment: "Kubernetes pod with a 2 CPU limit on a 96-core node; code uses multiprocessing.Pool(os.cpu_count())."
+    assert:
+      - {type: llm-rubric, value: "Notes os.cpu_count returns the host's cores, sizes the pool from the 2-CPU limit, and separates the I/O-bound downloads (threads or asyncio) from CPU-bound resizing."}
+  - name: negative-slow-query
+    vars:
+      target: "A report script takes 20 minutes; profiling shows 19 minutes in one SQL query. Can you parallelise it with multiprocessing?"
+    assert:
+      - {type: llm-rubric, value: "Says parallelising the Python side will not help much because the time is in one query, and directs effort to the query (its plan and indexes) instead."}

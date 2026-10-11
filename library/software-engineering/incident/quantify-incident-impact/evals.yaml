@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How many users were affected by our outage? {{incident}} {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout
+    vars:
+      incident: "Checkout API returned 500 for most requests from 18:10 to 18:55 UTC on Friday."
+      data: "Checkout requests in window: 12,400, of which 9,800 failed. Distinct user IDs among failures: 3,100. Orders in window: 410. Same window last Friday: 2,050 orders. Orders 18:55-20:00: 2,900 versus 2,000 last Friday. Average order value 48 EUR."
+    assert:
+      - {type: llm-rubric, value: "Reports affected users as about 3,100 distinct users rather than 9,800, and estimates lost orders against last Friday's baseline (about 1,640 fewer orders in the window)."}
+      - {type: llm-rubric, value: "Accounts for recovery: the roughly 900 extra orders after the incident reduce the net loss, gives a range with assumptions, and shows the arithmetic including revenue at 48 EUR per order."}
+  - name: edge-missing-baseline
+    vars:
+      incident: "Login was down for 30 minutes."
+      data: "Failed login attempts: 18,000. No other data."
+    assert:
+      - {type: llm-rubric, value: "Says affected users and business loss cannot be computed from failed attempts alone, explains retries inflate the count, and asks for distinct user IDs and a baseline."}
+  - name: negative-inflate
+    vars:
+      incident: "Search was slow for 1 hour."
+      data: "Average daily revenue 200,000 USD."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a revenue loss figure from daily revenue alone, and explains what data would be needed to estimate it honestly."}

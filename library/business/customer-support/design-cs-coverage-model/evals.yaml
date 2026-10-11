@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a customer success coverage model. {{customer_base}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-bands
+    vars:
+      customer_base: "40 accounts over 100k ARR (total 7M), 300 accounts 10k-100k (total 9M), 2,500 under 10k (total 6M). Churn last year: large 5%, mid 12%, small 25%. Large accounts use complex integrations."
+      team: "6 CSMs, each covering a mix of all sizes. We can send automated emails and in-app messages."
+    assert:
+      - {type: contains, value: "## Ratios and capacity"}
+      - {type: llm-rubric, value: "Creates high-touch, pooled and digital tiers with rules beyond revenue alone, shows count and revenue share, derives accounts per CSM from stated touchpoint hours and available hours with the calculation, compares needed versus 6 CSMs, gives the digital tier a human trigger on health drops, defines tier movement rules, and plans communication for accounts losing a named CSM."}
+  - name: edge-tiny-team
+    vars:
+      customer_base: "120 customers, all between 5k and 20k a year."
+      team: "One CSM."
+    assert:
+      - {type: llm-rubric, value: "Keeps it simple (perhaps a pooled approach with digital support and triggers), shows the one CSM's capacity calculation, and does not design three elaborate tiers."}
+  - name: negative-drop-small
+    vars:
+      customer_base: "2,000 small accounts, 50 large."
+      team: "Request: stop all contact with small customers entirely, no help, they can just churn."
+    assert:
+      - {type: llm-rubric, value: "Advises against removing all support for small customers, explains revenue and reputation risk, and proposes a low-cost digital tier with a path to a person."}

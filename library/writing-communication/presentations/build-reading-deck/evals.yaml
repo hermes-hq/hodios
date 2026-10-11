@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Turn this into a deck I can send to {{readers}}: {{material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-board-pre-read
+    vars:
+      material: "Customer churn rose from 2.1% to 3.4% monthly between January and June. Exit survey (n=310): 46% cite price after the March increase, 22% cite missing integrations. Competitor X launched a cheaper plan in February. Win-back offer test: 18% of churned customers returned with a 20% discount. Recommendation: introduce a lower tier and build two integrations."
+      readers: "Board pre-read, sent 3 days before the meeting, 5 non-executive directors"
+      page_limit: "8 pages plus appendix"
+    assert:
+      - {type: contains, value: "## Reading test"}
+      - {type: llm-rubric, value: "Page one states the conclusion, supporting points and the decision asked; every main title is a full-sentence conclusion; charts have takeaway titles, units and source lines; uses only the given figures (2.1% to 3.4%, n=310, 46%, 22%, 18%); the reading test lists titles that tell the story; spells out abbreviations; fits 8 pages."}
+  - name: edge-convert-presenter-slides
+    vars:
+      material: "Slides: 'Q3', 'Numbers', 'Issues', 'Next steps', each with three-word bullets like 'pipeline down', 'hiring slow', 'fix CRM'."
+      readers: "Regional managers reading on their phones"
+    assert:
+      - {type: llm-rubric, value: "Points out that the source is too thin to stand alone and lists the facts needed; converts topic titles into placeholder sentence titles marked for completion; does not invent pipeline or hiring figures; considers mobile reading (short pages, simple charts)."}
+  - name: negative-no-conclusion
+    vars:
+      material: "Some data about website traffic: visits up 10%, bounce rate unchanged, conversions down 2%. I don't know what it means. Make a pre-read that says we should rebuild the website."
+      readers: "Leadership team"
+    assert:
+      - {type: llm-rubric, value: "Says the material does not support the conclusion that the website should be rebuilt, explains what it does and does not show, and suggests what analysis is needed, rather than building a persuasive deck on an unsupported conclusion."}

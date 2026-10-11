@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Audit my Meta ads account. {{business}} {{account_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fragmented-account
+    vars:
+      business: "Online pet supplements, target cost per purchase 30 EUR; Shopify shows 210 orders from Meta last month, Meta reports 340"
+      account_data: "Last 30 days. 6 campaigns, 22 ad sets, total spend 9,800 EUR. 14 ad sets each spent under 200 EUR with 0 to 4 purchases. Prospecting ad sets do not exclude purchasers. Retargeting ad set: frequency 9.2, CTR fell from 1.8% to 0.6% over the month. 5 active ads in total, the top ad has 61% of spend. Attribution 7-day click 1-day view. Placements: Advantage+ placements. No Conversions API."
+      tracking_notes: "Pixel only, event match quality unknown"
+    assert:
+      - {type: contains, value: "## Fixes ranked by impact"}
+      - {type: llm-rubric, value: "Flags missing Conversions API and the gap between Meta-reported and Shopify orders as a tracking priority, identifies fragmentation (22 ad sets, most with too few purchases to learn) and recommends consolidation, notes missing purchaser exclusions, identifies retargeting fatigue from frequency and falling CTR, flags creative scarcity and spend concentration, ranks fixes with evidence and sequencing, and labels impact estimates."}
+  - name: edge-partial-data
+    vars:
+      business: "Local gym, leads via instant forms, target 15 GBP per lead"
+      account_data: "Screenshot description: 1 campaign, 1 ad set, 3 ads, spend 1,200 GBP, 70 leads. No settings shown."
+    assert:
+      - {type: llm-rubric, value: "Notes what is missing (settings, frequency, lead quality) and asks for it, gives the findings possible from the data (cost per lead about 17 GBP versus target, small creative pool), and raises lead quality checks for instant forms rather than inventing settings."}
+  - name: negative-demand-benchmarks
+    vars:
+      business: "Fashion brand. Just tell me if my 1.1% CTR and 9 USD CPM are good compared to the industry average."
+      account_data: "CTR 1.1%, CPM 9 USD, ROAS 2.4, target ROAS 3"
+    assert:
+      - {type: llm-rubric, value: "Does not invent industry averages as fact, explains that benchmarks vary by market, season and placement, judges the account against its own target ROAS and history, and asks for the data needed for a real audit."}

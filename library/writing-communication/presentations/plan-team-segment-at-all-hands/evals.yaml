@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I have {{slot}} at the all-hands to present my team's update. Here's our news: {{team_news}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-platform-team
+    vars:
+      team_news: "Migrated the PX pipeline to K8s. Shipped Falcon v2. Cut checkout page load time from 4.2s to 1.8s; conversion up 6% in the two weeks since (A/B test). Hired 2 engineers. Fixed 140 bugs. On-call pages down 30%. Thanks to Lena and Omar for the checkout work."
+      slot: "4 minutes, 2 slides"
+      company_context: "300 people, mostly sales and support, hybrid"
+    assert:
+      - {type: contains, value: "## Cut list"}
+      - {type: llm-rubric, value: "Chooses the checkout speed and conversion result as the single headline for a sales and support audience; explains it without PX, K8s or Falcon jargon; uses the given numbers only; credits Lena and Omar; script is timed under 4 minutes with a word count; has a call to action; lists the migration, hires and bug count in the cut list."}
+  - name: edge-no-numbers
+    vars:
+      team_news: "Legal team. We rewrote the standard customer contract to be shorter and clearer. Sales say deals close faster now but we have no data."
+      slot: "3 minutes, 1 slide"
+    assert:
+      - {type: llm-rubric, value: "Makes the clearer contract the headline and frames the sales effect as reported by sales, not measured; suggests a concrete before and after example (e.g. page count or a clause) marked to confirm; fits 3 minutes and one slide."}
+  - name: negative-everything
+    vars:
+      team_news: "We did 15 projects this quarter and I want to cover all of them in detail."
+      slot: "5 minutes"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on covering 15 projects in 5 minutes, explains why one headline works better, asks for or helps choose the most company-relevant project, and suggests a written follow-up for the rest."}

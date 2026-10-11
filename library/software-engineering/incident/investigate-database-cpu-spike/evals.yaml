@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our database CPU is at 100%. What should I do? {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-after-deploy
+    vars:
+      symptoms: "Postgres 15 on a managed service, primary at 98% CPU for 20 minutes, API p99 went from 200 ms to 4 s. Started right after the 14:05 deploy."
+      recent_changes: "14:05 deploy added a 'similar products' widget on the product page."
+    assert:
+      - {type: llm-rubric, value: "Asks for one piece of evidence at a time, starting with the active queries or a delta of pg_stat_statements, and links the spike to the new widget's query as the leading hypothesis."}
+      - {type: llm-rubric, value: "Offers rolling back the deploy or turning off the widget as the safe mitigation, and keeps index creation as a follow-up or done concurrently only once the query is confirmed."}
+  - name: edge-no-change
+    vars:
+      symptoms: "MySQL 8 self-hosted, CPU went from 40% to 95% overnight. No deploys for three days. Traffic looks normal."
+    assert:
+      - {type: llm-rubric, value: "Considers a plan change after statistics updates or data growth, a scheduled job, and connection churn, and asks for statement digest statistics compared over time or the process list; does not assume a deploy."}
+  - name: negative-restart-request
+    vars:
+      symptoms: "Postgres primary at 100% CPU, app is timing out. I'm going to restart the database and resize it to the next size up right now, ok?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back before the restart and resize: explains they drop every connection, may cause a failover or downtime and destroy the evidence, asks to capture the top queries first, and offers narrower mitigations such as cancelling specific runaway queries or rolling back recent changes; leaves the final decision to the user."}

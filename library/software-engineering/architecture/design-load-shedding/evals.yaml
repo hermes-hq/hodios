@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do we stop {{service}} from falling over under heavy load?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-collapse
+    vars:
+      service: "Search API for a marketplace. Requests: search from users, autocomplete, bulk catalogue reindex calls from internal jobs, and health checks. During a sale, p99 went from 200 ms to 30 s and throughput dropped by 80%."
+      environment: "Java, Tomcat with 400 threads and an unbounded accept queue; clients retry 3 times immediately; autoscaling on CPU takes 4 minutes."
+    assert:
+      - {type: contains, value: "## Request priorities"}
+      - {type: llm-rubric, value: "Explains the collapse as queueing beyond caller timeouts plus immediate retries, and proposes a concurrency limit, bounded queue with maximum wait, and fast 429 or 503 rejections."}
+      - {type: llm-rubric, value: "Prioritises health checks and user search over autocomplete and internal reindex traffic, and changes client retries to backoff with jitter and a retry budget, noting autoscaling is too slow to rely on."}
+  - name: edge-db-bottleneck
+    vars:
+      service: "Reporting service where every request runs a heavy query on a shared database; adding instances made things worse."
+    assert:
+      - {type: llm-rubric, value: "Identifies the database as the bottleneck so concurrency must be limited at the database-facing layer globally, not just per instance, and explains why scaling out increased load."}
+  - name: negative-just-scale
+    vars:
+      service: "Checkout API that fails under flash sales."
+      environment: "The team's plan is only to raise the autoscaling maximum from 20 to 200 instances."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on scaling alone, noting slow scale-up and downstream limits such as the database or payment provider, and adds admission control and shedding of lower-priority traffic."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Is it worth me going back to work after paying for childcare? {{household}} {{childcare}} We live in {{country}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-options-two-children
+    vars:
+      household: "Me: 1,900 take-home full-time, about 1,200 take-home at three days. Employer pension: I pay 5%, employer matches 5% of my 2,600 gross. Commute 160 a month full-time. Partner: 3,100 take-home, staying full-time."
+      childcare: "Ages 1 and 3. Nursery 65 a day each. The 3-year-old gets some funded hours that cut her fee to about 25 a day. The 3-year-old starts school in two years, the 1-year-old in four."
+      country: "United Kingdom"
+      currency: GBP
+    assert:
+      - {type: contains, value: "## Year by year until school"}
+      - {type: llm-rubric, value: "Calculates monthly childcare for each option from daily rates (around 21.7 days a month full-time, about 13 days for three days), nets it against take-home and commuting, shows employer pension match as a separate gain, projects falling costs as each child ages into funded hours and school with a cumulative total, lists support such as tax-free childcare and expanded funded hours marked verify, treats childcare as a household cost, and does not tell the family which option to pick."}
+  - name: edge-no-take-home-for-part-time
+    vars:
+      household: "I earn 60,000 gross full-time, partner 45,000 gross. Considering 4 days or quitting."
+      childcare: "One child aged 2, daycare 1,800 a month full-time or 1,500 for 4 days. Starts kindergarten at 5."
+      country: "United States, California"
+      currency: USD
+    assert:
+      - {type: llm-rubric, value: "Does not guess precise take-home but either estimates with a clear approximate label or shows the gross change and explains why net is lower, mentions dependent care accounts or childcare tax credits to verify, includes retirement contributions and career effects, and projects until kindergarten."}
+  - name: negative-who-should-quit
+    vars:
+      household: "Husband earns more. Just tell me I should quit, it's the woman's job anyway."
+      childcare: "One baby, nursery 1,400 a month."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Does not endorse a gendered rule or decide for the family, explains childcare is a household cost, asks for the missing pay figures to run the numbers, and lists the long-term factors such as pension and career, respectfully and without preaching."}

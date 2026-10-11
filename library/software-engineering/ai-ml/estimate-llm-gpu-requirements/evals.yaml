@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How many GPUs do I need for {{model}} with this workload: {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-70b-serving-long-context
+    vars:
+      model: "70B dense decoder, 80 layers, 64 attention heads, 8 KV heads, head dim 128."
+      workload: "Serve in BF16 with 32k context and up to 16 concurrent requests using vLLM."
+      hardware: "H100 80GB nodes with NVLink."
+    assert:
+      - {type: contains, value: "## Memory breakdown"}
+      - {type: llm-rubric, value: "Computes weights at about 140 GB in BF16 and computes the KV cache using 8 KV heads (not 64), roughly 0.33 MB per token, giving about 170 GB for 16 x 32k tokens, and concludes that KV cache dominates."}
+      - {type: llm-rubric, value: "Recommends a multi-GPU tensor-parallel configuration (for example 4 or more H100s) with headroom after engine reservation, and shows the arithmetic."}
+  - name: edge-qlora-on-consumer-gpu
+    vars:
+      model: "8B dense model, 32 layers, 8 KV heads, head dim 128."
+      workload: "QLoRA fine-tune at sequence length 4096, micro-batch 2."
+      hardware: "One 24GB consumer GPU."
+    assert:
+      - {type: llm-rubric, value: "Uses 4-bit base weights (about 4-5 GB), adapter-only gradients and optimiser states, estimates activations and mentions gradient checkpointing, and gives a fits or does not fit verdict with the margin."}
+  - name: negative-moe-active-params
+    vars:
+      model: "A mixture-of-experts model with 47B total parameters and 13B active per token. I only need memory for the 13B, right?"
+      workload: "Serve in FP16, 8k context, 4 concurrent requests."
+    assert:
+      - {type: llm-rubric, value: "Corrects the premise: all experts must be resident in memory, so weights are sized on the 47B total (about 94 GB in FP16), while active parameters affect compute per token, and flags missing architecture facts as assumptions."}

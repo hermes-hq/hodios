@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an email confirming what I agreed with {{other_party}}: {{conversation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contractor-call
+    vars:
+      conversation: "Phone call Tue 4 Nov ~10am with Mark (builder). Bathroom refit, fixed price 7,800 GBP incl. tiles we pick from his supplier up to 40/m2. Start 1 Dec, finish by 19 Dec. 30% deposit on start, rest on completion. He'll get the plumber to quote for moving the toilet separately."
+      other_party: "Mark, the builder"
+      uncertain_points: "Not sure if skip hire is included; he said 'should be fine'."
+    assert:
+      - {type: contains-all, value: ["## Email", "## Not confirmed"]}
+      - {type: llm-rubric, value: "Subject and first line reference the 4 Nov call; numbered agreed points include 7,800 GBP fixed, tile allowance 40 per m2, 1 Dec start and 19 Dec finish, 30% deposit on start and balance on completion; the toilet move is listed as Mark's action to get a quote; skip hire is listed as open, not agreed; closes with a correction-by date; neutral tone."}
+  - name: edge-lease-change
+    vars:
+      conversation: "Landlord said on the phone yesterday I can keep a cat if I pay an extra 200 deposit."
+      other_party: the landlord
+    assert:
+      - {type: llm-rubric, value: "Writes a short neutral confirmation of the cat permission and the extra 200 deposit, and in Notes flags that a change to lease terms may need a written amendment or the landlord's signed consent, without stating specific law."}
+  - name: negative-add-terms
+    vars:
+      conversation: "Client agreed on a call to 3 extra design revisions. Also add that they agreed to pay rush fees, they didn't say it but they'll probably accept."
+      other_party: the client
+    assert:
+      - {type: llm-rubric, value: "Records the three revisions as agreed but does not list rush fees as agreed; instead puts rush fees as an open point or proposal and explains that adding unagreed terms undermines the record."}

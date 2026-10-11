@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Build me a search box in {{tool}} for this data: {{data}} Users should be able to: {{criteria}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-excel-contacts
+    vars:
+      data: "Table Contacts with Name, Company, City, Status, Last Contact (date), Notes. About 2,000 rows, grows weekly."
+      criteria: "Type part of a name or company, pick a City (or All), pick a Status (or All), results sorted by Last Contact newest first, show Name, Company, City, Last Contact."
+      tool: "Excel 365"
+    assert:
+      - {type: icontains, value: "FILTER"}
+      - {type: llm-rubric, value: "Uses one SORT(FILTER()) formula with ISNUMBER(SEARCH()) over Name and Company concatenated, blank-or-All switches for each criterion, the if_empty argument, returns only the four requested columns, builds dropdowns from SORT(UNIQUE()) with All, mentions #SPILL!, and gives test searches."}
+  - name: edge-google-sheets-open-range
+    vars:
+      data: "Sheet Orders A:F: Order ID, Date, Customer, Product, Qty, Status. Rows appended by a form."
+      criteria: "Date from and date to (either can be blank), product dropdown with All."
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Writes a Google Sheets FILTER with conditions that stay the same size as the range (for example ((FromDate=\"\")+(B2:B>=FromDate))>0 style), excludes blank rows, wraps in IFNA for no results, and does not rely on Excel's if_empty argument."}
+  - name: negative-excel-2016-filter
+    vars:
+      data: "Parts list, 5,000 rows, columns Part No, Description, Supplier, Price."
+      criteria: "Search description text and pick a supplier."
+      tool: "Excel 2016"
+    assert:
+      - {type: llm-rubric, value: "States FILTER is not available in Excel 2016 and does not give a FILTER formula as the solution; offers Advanced Filter, AutoFilter with a search, or a helper-column approach with INDEX and AGGREGATE or SMALL."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Analyse this docs feedback and tell me what to fix: {{feedback}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-signals
+    vars:
+      feedback: |
+        Failed searches (30 days): "rate limit" 84, "ratelimit" 21, "429" 37, "sso" 12, "delete account" 9
+        Page ratings: /quickstart 120 up / 60 down (views 18,000); /webhooks 4 up / 22 down (views 1,100); /pricing-faq 2 up / 40 down
+        Comments: /webhooks "signature check example fails, header name is wrong" (x6); /quickstart "your product is too expensive"; /webhooks "retries not explained"
+        Tickets tagged docs: 14 about 429 errors, 5 about webhook signatures
+    assert:
+      - {type: icontains, value: "429"}
+      - {type: llm-rubric, value: "Merges rate limit, ratelimit and 429 into one missing-or-unfindable rate-limit theme supported by searches and tickets and ranks it high; ranks the webhooks signature example as a broken example with high severity, using the down-vote rate relative to views rather than raw counts; routes the pricing complaint and pricing-faq votes as non-docs or product feedback; cites counts for every fix."}
+  - name: edge-no-view-data
+    vars:
+      feedback: "Page /install: 40 thumbs down. Page /config: 5 thumbs down. No comments."
+    assert:
+      - {type: llm-rubric, value: "States that without page views or comments the counts cannot show severity or cause, avoids confidently ranking /install as worst, and lists collecting views and comments as a data gap."}
+  - name: negative-invent-fixes
+    vars:
+      feedback: "One comment on /auth: 'confusing'."
+      notes: "Give us a full list of 15 docs improvements."
+    assert:
+      - {type: llm-rubric, value: "Declines to produce 15 fixes from one vague comment, reports that the data supports at most one low-confidence item, and suggests how to gather more signal instead of inventing fixes."}

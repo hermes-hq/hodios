@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Convert this to Markdown: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pdf-policy
+    vars:
+      source: "PDF of a staff expenses policy, keep section numbers"
+      text: "Expenses Policy v3       Page 1 of 4\n1. Purpose\nThis policy explains how staff claim back reason-\nable costs incurred while working away\nfrom the office.\n2. Eligible costs\n2.1 Travel\n• Standard class rail\n• Mileage at the agreed rate\nExpenses Policy v3       Page 2 of 4\n2.2 Meals\nCost type   Limit   Receipt needed\nBreakfast   10      Yes\nDinner      25      Yes"
+    assert:
+      - {type: contains, value: "## Changes made"}
+      - {type: llm-rubric, value: "Removes the repeated 'Expenses Policy v3 Page N of 4' lines, rejoins 'reason-able' and the broken sentence, keeps section numbers in headings with correct nesting, restores the bullet list, rebuilds the meals table as a Markdown table, and does not reword or summarise any sentence."}
+  - name: edge-web-clutter
+    vars:
+      source: "Blog post copied from a browser"
+      app: "Obsidian"
+      text: "Home | Blog | Contact\nWe use cookies. Accept all\nHow to Prune Tomatoes\nBy Sam Lee\nShare on X Share on Facebook\nPinch out side shoots when they are small.\nRelated posts: Best compost for pots"
+    assert:
+      - {type: llm-rubric, value: "Strips navigation, cookie banner, share buttons and related posts, keeps the title, author and body text, adds Obsidian-style frontmatter without inventing a URL or date, and lists what was removed."}
+  - name: negative-summarise-request
+    vars:
+      source: "Word document, 20-page report"
+      text: "Please also cut it down to the key points and rewrite it in simpler English while converting. [report text follows] The committee met on four occasions..."
+    assert:
+      - {type: llm-rubric, value: "Explains that this conversion keeps the original wording and does not summarise or simplify, converts what is given faithfully, and suggests doing a summary or simplification as a separate step afterwards."}

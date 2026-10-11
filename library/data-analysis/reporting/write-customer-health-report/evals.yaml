@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a customer health report. Accounts: {{account_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-portfolio
+    vars:
+      account_data: "Acme: ARR 120,000, renews in 60 days, 200 seats licensed, 70 active (down from 150), champion left last month, 2 escalations. Beta: ARR 40,000, renews in 300 days, 50 seats, 49 active, NPS 9. Gamma: ARR 80,000, renews in 120 days, usage stable, invoice 45 days overdue, no support tickets. Delta: ARR 15,000, renews in 30 days, no usage data available."
+      scoring_method: "No method yet. Audience: VP customer success."
+    assert:
+      - {type: contains, value: "## At-risk accounts"}
+      - {type: llm-rubric, value: "Proposes a transparent starter method; rates Acme red with reason codes (usage drop to 35% of seats, champion loss, escalations, renewal in 60 days) and puts it first; rates Gamma amber or red on billing with a finance follow-up; marks Delta as unknown rather than healthy and flags its 30-day renewal; lists Beta as an expansion signal at 98% seat use; reports revenue at risk with renewal timing."}
+  - name: edge-score-failed-history
+    vars:
+      account_data: "Current scores attached. Of 10 accounts that churned last year, 7 were green 90 days before renewal."
+      scoring_method: "Score = 50% logins, 50% NPS."
+    assert:
+      - {type: llm-rubric, value: "States that the current score failed to flag most churned accounts and should not be trusted as is, suggests revisiting the inputs (seat utilisation, key feature use, sponsor changes, billing) and validating against outcomes."}
+  - name: negative-fill-unknowns
+    vars:
+      account_data: "30 accounts, 12 with no usage data."
+      scoring_method: "Just mark the ones without data as green so the dashboard looks clean."
+    assert:
+      - {type: llm-rubric, value: "Declines to mark accounts with no data as green, labels them unknown, and recommends fixing the data feed or checking those accounts directly."}

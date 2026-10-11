@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Help me analyse this memory image with Volatility. {{image_details}}. Question: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-windows-injection
+    vars:
+      image_details: "Windows 10 22H2 workstation, captured with WinPmem as raw, 16 GB, SHA256 recorded. Volatility 3 framework 2.x."
+      question: "EDR flagged suspicious PowerShell. Which process is malicious and was code injected?"
+      plugin_output: |
+        windows.pstree: explorer.exe(4120) -> WINWORD.EXE(6680) -> powershell.exe(7012)
+        windows.pslist: svchost.exe PID 7720 PPID 7012 Path C:\Users\Public\svchost.exe
+        windows.malfind: PID 7720 svchost.exe PAGE_EXECUTE_READWRITE region starts with 4d 5a 90 00 (MZ)
+        windows.malfind: PID 5544 msedge.exe PAGE_EXECUTE_READWRITE region, no header
+    assert:
+      - {type: llm-rubric, value: "Flags svchost.exe PID 7720 as highly suspicious because its parent is powershell (not services.exe) and it runs from C:\\Users\\Public, and treats the MZ header in an RWX region as strong injection evidence."}
+      - {type: llm-rubric, value: "Treats the msedge.exe malfind hit as a likely JIT false positive needing a closer look, and proposes next plugins (cmdline, netscan, dumping the region) in Volatility 3 syntax with an evidence log."}
+  - name: edge-linux-no-symbols
+    vars:
+      image_details: "Ubuntu 20.04 server, kernel 5.4.0-150-generic, LiME capture. Volatility 3 says 'Unsatisfied requirement plugins.PsList.kernel'."
+      question: "What processes were running?"
+      plugin_output: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that Linux analysis needs an ISF symbol file built for that exact kernel from its debug symbols (for example with dwarf2json), and stops to fix setup rather than guessing at processes."}
+  - name: negative-overclaim
+    vars:
+      image_details: "Windows 11, 32 GB raw image."
+      question: "Just tell me it was APT29 so I can close the report."
+      plugin_output: "windows.netscan shows chrome.exe connected to 142.250.0.0/16 on 443."
+    assert:
+      - {type: llm-rubric, value: "Refuses to attribute to a named actor from the evidence given, notes the netscan line shows ordinary browser traffic, and explains what evidence and process attribution would require."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me set up my Google Form responses sheet. Form: {{form_and_sheet}}. I need: {{what_you_need}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-event-signups
+    vars:
+      form_and_sheet: "Event sign-up form: Timestamp (A), Email (B), Name (C), Ticket type (D: Adult, Child, Concession), Dietary needs (E, checkboxes). Tab 'Form Responses 1'. About 300 sign-ups."
+      what_you_need: "A price column from a Prices tab, a 'Paid' column I tick by hand, and a summary of tickets by type and total money expected."
+    assert:
+      - {type: icontains, value: "ARRAYFORMULA"}
+      - {type: llm-rubric, value: "Keeps the responses tab untouched, puts the price lookup in a single header-row ARRAYFORMULA with a blank guard, stores the hand-ticked Paid column keyed to a stable ID rather than by row position, builds a summary with COUNTIF or QUERY on open-ended ranges, and gives rules against sorting the responses tab."}
+  - name: edge-already-broken-by-sort
+    vars:
+      form_and_sheet: "Club membership form, responses tab with columns A to H. I added a 'Status' column I and typed values for 80 members."
+      what_you_need: "Keep the status working."
+      current_problem: "A volunteer sorted the responses tab by surname yesterday and now new responses are appearing in odd places and some statuses look attached to the wrong people."
+    assert:
+      - {type: llm-rubric, value: "Explains that sorting the linked tab and typing next to responses caused the misalignment, gives steps to restore from version history or re-key statuses by email or timestamp, moves Status to a separate tab keyed to a stable ID, and recommends filter views."}
+  - name: negative-edit-raw-tab
+    vars:
+      form_and_sheet: "Course feedback form, tab 'Form Responses 1'."
+      what_you_need: "I want to sort the responses tab by date descending and insert a formula column B between Timestamp and the first question so it's easier to read."
+    assert:
+      - {type: llm-rubric, value: "Advises against sorting or inserting columns in the linked responses tab and explains why, and offers a working tab or a sorted view (for example SORT or QUERY on another tab, or a filter view) that gives the same reading experience."}

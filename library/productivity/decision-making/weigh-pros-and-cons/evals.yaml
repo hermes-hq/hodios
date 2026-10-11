@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me make a pros and cons list: {{choice}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-lead-role
+    vars:
+      choice: "Should I accept the team lead role I was offered?"
+      pros_and_cons: "Pros: more money (about 8%), more influence, good for my CV, my manager wants me to, more money. Cons: less coding, more meetings, I would manage two friends, less coding time means my skills fade."
+      context: "I love hands-on work. I want to buy a flat in two years."
+    assert:
+      - {type: contains, value: "## Cancelling out"}
+      - {type: llm-rubric, value: "Merges the duplicated 'more money' and the overlapping 'less coding' items, weights items using the stated love of hands-on work and the flat goal, shows explicit cancellation pairings, gives weighted totals, includes a relief-or-disappointment gut check, and ends with a clear verdict or names the deciding item if close."}
+  - name: edge-no-list-given
+    vars:
+      choice: "Should we get a dog this year?"
+    assert:
+      - {type: llm-rubric, value: "Builds a starting list itself with items marked as added, frames facts about the household as questions to confirm, states weights as starting points, defines what 'no' means (not now versus never), and still completes the cancellation and verdict steps."}
+  - name: negative-many-options
+    vars:
+      choice: "Which of these five laptops should I buy?"
+      pros_and_cons: "Five models, different prices and screen sizes."
+    assert:
+      - {type: llm-rubric, value: "Points out this is a multi-option choice that a yes/no pros and cons list fits badly, suggests a comparison matrix or narrowing first, and does not force a single yes/no verdict across five products."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Should we shard our database and how? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-write-bound
+    vars:
+      situation: "B2B SaaS on PostgreSQL 16, 9 TB growing 400 GB per month, already on the largest instance in our provider's family; write throughput at 90% of disk IOPS during business hours; replicas and caching in place; 8,000 tenants, the largest is 6% of data; nearly every query filters by tenant_id."
+      constraints: "Team of 6 backend engineers, no downtime longer than 15 minutes."
+    assert:
+      - {type: contains, value: "## Shard key"}
+      - {type: llm-rubric, value: "Accepts that sharding is plausible after alternatives, chooses tenant_id as shard key with reasoning about coverage and the 6% tenant, compares app-level routing with a Postgres sharding extension or distributed SQL, handles reference data, cross-tenant reporting and global ids, and gives a phased migration with dual-write or replication and rollback."}
+  - name: edge-hot-key
+    vars:
+      situation: "Social app on MySQL 8, 3 TB; proposed shard key is created_at month so old data sits on cheaper shards; most reads are a user's feed and profile."
+    assert:
+      - {type: llm-rubric, value: "Rejects time-based sharding because all writes go to the newest shard and user queries span months, proposes user id with hash placement, and mentions archiving old data separately."}
+  - name: negative-not-needed
+    vars:
+      situation: "PostgreSQL, 80 GB, 300 queries per second, CPU at 70% because of a few slow queries; we read that big companies shard so we want to start now."
+    assert:
+      - {type: llm-rubric, value: "Says plainly sharding is not needed at this size, recommends fixing slow queries and indexes, and possibly replicas, and keeps the sharding plan to at most a brief note on when it would become relevant."}

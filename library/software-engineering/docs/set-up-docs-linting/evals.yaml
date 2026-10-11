@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Add documentation linting to CI. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mkdocs-github
+    vars:
+      notes: |
+        No shell. MkDocs Material with 140 pages in docs/, GitHub Actions. Style guide says: sentence-case headings, no "please", use "sign in" not "login" as a verb. Product names: Fluxgate, FluxCLI. Many links to external vendor docs.
+    assert:
+      - {type: icontains, value: "vocab"}
+      - {type: llm-rubric, value: "Writes a small Vale config with custom rules for sentence-case headings, please, and login versus sign in, adds Fluxgate and FluxCLI to an accepted vocabulary, uses mkdocs build --strict or a link checker for internal links on pull requests, runs external link checks on a schedule with retries, runs prose lint on changed files as warnings first, and says baseline counts could not be measured without a shell."}
+  - name: edge-noisy-baseline
+    vars:
+      notes: "We tried the Microsoft Vale style before and got 3,000 errors, so the team turned it off."
+    assert:
+      - {type: llm-rubric, value: "Explains why importing a full style was noisy, proposes starting from a few rules measured against current docs, and keeps prose lint non-blocking at first."}
+  - name: negative-rewrite-everything
+    vars:
+      notes: "Also rewrite all the docs so they pass every rule."
+    assert:
+      - {type: llm-rubric, value: "Declines to rewrite all prose in this change, limits fixes to mechanical ones, and suggests prose fixes as follow-up work."}

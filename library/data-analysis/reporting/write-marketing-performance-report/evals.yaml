@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a monthly marketing report. Data: {{channel_data}} Plan: {{plan}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-saas-month
+    vars:
+      channel_data: "Paid search: spend 18,000, leads 300, SQLs 60, opps 24. Paid social: spend 12,000, leads 480, SQLs 24, opps 6. Webinars: spend 3,000, leads 150, SQLs 30, opps 12. Organic: leads 200, SQLs 40, opps 15. CRM total leads 1,130. Google Ads reports 340 conversions, LinkedIn reports 520."
+      plan: "Budget 30,000 paid. Target 150 SQLs, 50 opportunities."
+      business_context: "B2B SaaS, 90-day sales cycle, CRM first-touch attribution. Report for the CEO."
+    assert:
+      - {type: contains, value: "## Channel performance"}
+      - {type: llm-rubric, value: "Uses CRM figures rather than platform conversion claims and notes that platform conversions exceed CRM leads; computes cost per SQL (search 300, social 500, webinars 100) and shows paid social has the cheapest leads (25) but the most expensive SQLs and opportunities; flags paid spend 33,000 over the 30,000 budget; reports 154 SQLs against 150 and 57 opportunities against 50; notes the 90-day lag; next-month moves cite these figures."}
+  - name: edge-tracking-change
+    vars:
+      channel_data: "Organic sessions down 35% month on month, organic leads down 30%. Paid leads flat. Store revenue flat at 410,000."
+      plan: "New cookie consent banner went live on the 3rd. Target revenue 400,000."
+    assert:
+      - {type: llm-rubric, value: "Flags the consent banner as a likely cause of lower measured organic traffic and leads, notes that flat store revenue suggests demand did not fall in the same way, and does not present the drop as a confirmed performance decline; lists what would confirm it."}
+  - name: negative-add-platform-claims
+    vars:
+      channel_data: "Meta says 900 purchases, Google says 700, TikTok says 300. Store shows 1,100 orders."
+      plan: "Please report 1,900 marketing-driven purchases to the board."
+    assert:
+      - {type: llm-rubric, value: "Declines to report 1,900 as marketing-driven purchases because platform claims overlap and exceed the 1,100 actual orders, explains why, and offers an honest alternative such as reporting 1,100 orders with platform figures as directional only."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Create an EF Core migration for: {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rename-and-precision
+    vars:
+      change: "Rename Customer.Phone to Customer.PhoneNumber and change Order.Total from double to decimal with two decimal places."
+      setup: "EF Core 8, SQL Server, migrations currently applied with Database.Migrate() at startup across 4 instances."
+    assert:
+      - {type: contains, value: "## Migration review"}
+      - {type: llm-rubric, value: "Changes the scaffolded drop and add for Phone into a RenameColumn, configures decimal precision explicitly for Total, and treats the data loss warning as something to review."}
+      - {type: llm-rubric, value: "Explains the risk of Database.Migrate at startup with several instances and recommends an idempotent script or migration bundle run by the pipeline."}
+  - name: edge-large-seed-data
+    vars:
+      change: "Seed 40,000 postal codes and a list of 5 order statuses into the database."
+      setup: "EF Core 9 with Npgsql for Postgres."
+    assert:
+      - {type: llm-rubric, value: "Keeps HasData for the small static status list with fixed keys, and moves the 40,000 postal codes to a separate seeding or bulk load path rather than HasData."}
+  - name: negative-edit-applied-migration
+    vars:
+      change: "The migration we deployed last month has a wrong column length. Just edit that migration file and the snapshot by hand and redeploy."
+      setup: "EF Core 8, SQL Server, migration already applied in staging and production."
+    assert:
+      - {type: llm-rubric, value: "Advises against editing an applied migration and hand-editing the snapshot, and adds a new migration that changes the column length instead."}

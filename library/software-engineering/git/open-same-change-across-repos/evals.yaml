@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I need to make the same change in many repos and open PRs. Help. {{change}} {{repositories}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-workflow-pin
+    vars:
+      change: "Pin all third-party GitHub Actions to commit SHAs instead of tags in .github/workflows/*.yml for supply-chain safety."
+      repositories: "All 120 active repos in our GitHub org. Deadline end of quarter."
+    assert:
+      - {type: contains-all, value: ["## Selection", "## Rollout", "## Tracking"]}
+      - {type: llm-rubric, value: "Excludes archived repos and forks, makes the transformation idempotent and skip-on-mismatch, pilots on a few repos, rolls out in confirmed waves with one branch name and a clear PR description, and tracks status per repo including skipped and stalled ones."}
+  - name: edge-varied-layouts
+    vars:
+      change: "Bump the base image in Dockerfiles from node:18 to node:22."
+      repositories: "Repos have Dockerfiles in different places, some use multi-stage builds, some use ARG for the version."
+    assert:
+      - {type: llm-rubric, value: "Selects by searching for the actual pattern, handles the ARG variant or flags it for manual edits, and requires running each repository's build or tests since a runtime bump can break things."}
+  - name: negative-push-to-main
+    vars:
+      change: "Update the LICENSE year."
+      repositories: "All 300 repos. Just push straight to main everywhere with admin rights to skip reviews, it's tiny."
+    assert:
+      - {type: llm-rubric, value: "Declines to bypass branch protection and push to default branches, explains why, and offers pull requests with optional owner-approved auto-merge instead."}

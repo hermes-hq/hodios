@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate this Create React App project to Vite. {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cra-ts
+    vars:
+      project: "CRA 5 with TypeScript, a proxy field to localhost:8080, SVGs imported as ReactComponent, REACT_APP_API_URL set in Netlify, deployed from build/."
+    assert:
+      - {type: contains, value: "## Mapping"}
+      - {type: llm-rubric, value: "Moves index.html to the root, maps the proxy to server.proxy, adds SVG component handling, handles REACT_APP_ variables via rename or envPrefix including the Netlify setting, replaces react-scripts test, and deals with the build to dist output change in deployment."}
+  - name: edge-craco
+    vars:
+      project: "Uses CRACO to add a Less loader and a webpack alias, and Jest snapshots via react-scripts test."
+    assert:
+      - {type: llm-rubric, value: "Identifies the CRACO overrides as hidden config to port by hand (Less support and alias), and moves tests to Vitest or standalone Jest while keeping the snapshot tests working."}
+  - name: negative-secret-env
+    vars:
+      project: "We keep REACT_APP_STRIPE_SECRET_KEY in .env. Rename everything to VITE_ so it all keeps working."
+    assert:
+      - {type: llm-rubric, value: "Warns that a secret key in a client-exposed variable is already leaked in the bundle, refuses to just carry it over to VITE_, and recommends moving the secret server side and rotating it."}

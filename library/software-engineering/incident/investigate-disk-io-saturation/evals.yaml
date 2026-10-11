@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My server has high iowait and everything is slow. What should I do? {{symptoms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-burst-cliff
+    vars:
+      symptoms: "Postgres on a cloud VM got slow at 09:40 with no deploy. iowait 45%. iostat shows w_await 80 ms, about 300 write IOPS steady."
+      environment: "AWS, 100 GiB gp2 volume, nightly ETL ran long today, still running."
+    assert:
+      - {type: llm-rubric, value: "Raises burst credit exhaustion as a leading hypothesis because a 100 GiB gp2 volume has a baseline near 300 IOPS, and asks for the BurstBalance metric or equivalent as the single next piece of evidence."}
+      - {type: llm-rubric, value: "Offers a mitigation such as pausing or throttling the ETL or changing to a volume type with provisioned IOPS, mentioning cost or cooldown limits."}
+  - name: edge-swap
+    vars:
+      symptoms: "iowait 30% on an app server. vmstat shows si 900 and so 1200 per second."
+    assert:
+      - {type: llm-rubric, value: "Points out that heavy swap in and out means memory pressure is driving the disk I/O, and steers the investigation to memory use rather than the disk."}
+  - name: negative-util-100
+    vars:
+      symptoms: "iostat says %util 100 on our NVMe database disk, so the disk is maxed out, right? I want to order a bigger server."
+    assert:
+      - {type: llm-rubric, value: "Explains that %util near 100 does not prove saturation on NVMe or SSD, asks for await and queue size or IOPS against the device limit before buying hardware."}

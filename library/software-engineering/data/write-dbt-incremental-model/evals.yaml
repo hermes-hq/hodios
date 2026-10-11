@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make this dbt model incremental: {{model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-late-events-bigquery
+    vars:
+      model: "fct_page_views, one row per page view (view_id), from raw.events with event_ts and _loaded_at. Table is 6 TB."
+      warehouse: "BigQuery, dbt 1.8"
+      data_behaviour: "Events arrive up to 2 days late."
+    assert:
+      - {type: contains, value: "## Strategy choice"}
+      - {type: llm-rubric, value: "Chooses a BigQuery-appropriate strategy such as insert_overwrite on a date partition or merge with partition pruning, with a lookback of at least 2 days, and explains why."}
+      - {type: llm-rubric, value: "Includes a parity check comparing an incremental build with a full refresh, and does not run a full refresh on production itself."}
+  - name: edge-updates-and-deletes
+    vars:
+      model: "dim_subscriptions from app.subscriptions where rows are updated in place (status, plan) and sometimes hard deleted."
+      warehouse: "Snowflake, dbt 1.7"
+      data_behaviour: "Updated rows get a new updated_at; deletes leave no trace."
+    assert:
+      - {type: llm-rubric, value: "Uses merge on the subscription key with a lookback on updated_at, and states that hard deletes are not captured by the incremental filter, proposing a reconciliation or soft-delete approach."}
+  - name: negative-max-filter
+    vars:
+      model: "Keep using where created_at > (select max(created_at) from this) with append; just tidy the SQL."
+      warehouse: "Postgres, dbt 1.8"
+      data_behaviour: "Orders can be inserted with a created_at in the past when imported from stores."
+    assert:
+      - {type: llm-rubric, value: "Warns that the max-timestamp filter with append will permanently miss back-dated orders and can duplicate rows, and recommends a unique key with a lookback instead of only tidying."}

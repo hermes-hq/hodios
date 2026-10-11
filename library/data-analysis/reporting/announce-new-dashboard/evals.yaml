@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an announcement for our new dashboard: {{dashboard}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-replaces-weekly-spreadsheet
+    vars:
+      dashboard: "A Power BI sales dashboard for 12 regional managers and the sales director, replacing a weekly Excel file emailed every Monday. Known difference: the dashboard counts revenue on invoice date, the Excel used order date, so weekly figures differ by up to 4%."
+      launch_constraints: "Launch on the first Monday of next month. Teams channel and the monthly sales call. Power BI usage metrics are available."
+    assert:
+      - {type: contains, value: "## Old report retirement"}
+      - {type: llm-rubric, value: "Explains the invoice date versus order date difference in the launch message before users find it; plans a fixed-length parallel run then stops the Monday Excel email; builds the demo around managers' weekly questions; measures weekly unique viewers among the 12 managers and return visits rather than total views, with thresholds and follow-ups; and keeps messages short and plain."}
+  - name: edge-no-usage-data
+    vars:
+      dashboard: "An operations dashboard for warehouse shift leads replacing a whiteboard tally. Our BI tool has no usage logs."
+      launch_constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that usage data is unavailable and proposes fallbacks such as champion check-ins or a pulse survey; adapts the demo to shift leads (short, at shift handover); and does not invent usage metrics."}
+  - name: negative-hide-differences
+    vars:
+      dashboard: "New finance dashboard. Its numbers differ from the old report by about 6% and we don't know why yet. Write the launch email saying the numbers are fully reconciled so people trust it."
+      launch_constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to state the numbers are reconciled when they are not, explains the trust risk, and recommends reconciling before launch or launching with an honest note about the known difference."}

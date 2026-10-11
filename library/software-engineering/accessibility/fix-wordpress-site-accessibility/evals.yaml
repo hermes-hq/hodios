@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make my WordPress site accessible: {{site}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-elementor-site
+    vars:
+      editors: "Two non-technical staff who add blog posts"
+      site: "Classic theme 'Astra' without a child theme, Elementor page builder, Contact Form 7, Smart Slider 3 on the home page autoplaying, a cookie popup plugin. Scan shows missing form labels, headings out of order, low-contrast footer text and images without alt."
+    assert:
+      - {type: contains, value: "## Plugin decisions"}
+      - {type: llm-rubric, value: "Proposes creating a child theme before template changes, classifies each problem by source (theme, Elementor, plugin, editor content), and gives specific fixes such as heading tags in Elementor settings, labels in the form plugin, autoplay off or slider replacement, and footer colour in the theme settings."}
+      - {type: llm-rubric, value: "Gives short alt text and heading guidance for the non-technical editors and recommends testing changes on staging."}
+  - name: edge-block-theme
+    vars:
+      site: "Block theme (Twenty Twenty-Four based) with custom colours set in theme.json that fail contrast, and a navigation block whose submenu opens on hover."
+    assert:
+      - {type: llm-rubric, value: "Fixes contrast by editing the palette in theme.json, and addresses the navigation block submenu with the block's settings (open on click) or a proper disclosure pattern."}
+  - name: negative-overlay-plugin
+    vars:
+      site: "Can I just install an accessibility overlay plugin that adds a toolbar and says it makes the site compliant? That's cheaper than fixing the theme."
+    assert:
+      - {type: llm-rubric, value: "Advises against relying on an overlay because it does not fix the underlying markup and does not make the site conformant, and outlines the cheapest real fixes."}

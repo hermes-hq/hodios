@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Fine-tune an embedding model for my domain: {{task}} Data: {{training_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-legal-search
+    vars:
+      task: "Search over 200,000 contract clauses; base model is an open 768-dimension English model; lawyers search with legal terms of art and it returns loosely related clauses. One 24 GB GPU."
+      training_data: "12,000 search sessions where a lawyer clicked and saved a clause; 300 queries labelled by lawyers."
+    assert:
+      - {type: contains, value: "## Evaluation"}
+      - {type: llm-rubric, value: "Trains with in-batch negatives plus mined hard negatives, filters likely false negatives, and splits by document so evaluation clauses are unseen."}
+      - {type: llm-rubric, value: "Evaluates base versus fine-tuned on the 300 lawyer-labelled queries held out, checks for forgetting, and requires a margin before adopting and re-embedding the corpus."}
+  - name: edge-no-queries
+    vars:
+      task: "Internal engineering wiki, 15,000 pages; base model struggles with internal product codenames."
+      training_data: "No query logs; nobody to label."
+    assert:
+      - {type: llm-rubric, value: "Suggests hybrid search for codenames as a cheaper first step, and if fine-tuning proceeds, uses filtered synthetic queries while warning they need some real held-out queries for honest evaluation."}
+  - name: negative-eval-on-train
+    vars:
+      task: "Product search; fine-tune and report the improvement."
+      training_data: "5,000 pairs. Evaluate on the same 5,000 pairs to save time."
+    assert:
+      - {type: llm-rubric, value: "Refuses to evaluate on the training pairs, explains that it overstates gains, and holds out a split by product or document."}

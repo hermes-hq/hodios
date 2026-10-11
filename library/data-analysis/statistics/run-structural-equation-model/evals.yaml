@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me run and interpret a structural equation model. Model: {{model}} Data: {{data}} {{software}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-job-satisfaction-fit
+    vars:
+      model: "Supervisor support (4 items) and workload (4 items) predict job satisfaction (4 items), which predicts turnover intention (3 items). Based on job demands-resources theory."
+      data: "Cross-sectional survey of 420 nurses, all items on a 5-point agree scale, 3% missing. Our output: chi-square(84) = 262, CFI = 0.91, TLI = 0.89, RMSEA = 0.071 (90% CI 0.061 to 0.081), SRMR = 0.062. Modification indices suggest 6 correlated errors."
+      software: "R lavaan"
+    assert:
+      - {type: icontains, value: "WLSMV"}
+      - {type: llm-rubric, value: "Recommends an ordinal (WLSMV) or robust estimator for 5-point items; fits the measurement model before the structural model; reads the fit as mediocre or not good (CFI 0.91 and TLI 0.89 below common guidelines, RMSEA upper bound near 0.08) while saying cut-offs are rules of thumb; refuses to add all six correlated errors just to improve fit and only allows theory-justified ones, reported openly; warns that cross-sectional data cannot establish the causal order; gives lavaan code with the estimator set."}
+  - name: edge-small-sample
+    vars:
+      model: "Five latent factors with 2 or 3 indicators each, 9 structural paths and two mediated effects."
+      data: "88 students from one class, Likert items, the model will not converge in AMOS."
+      software: "AMOS"
+    assert:
+      - {type: llm-rubric, value: "Identifies that 88 cases is too small for this model and that factors with two indicators cause identification and convergence problems; suggests concrete alternatives such as simplifying the model, composite scores with path analysis, or collecting more data; does not just tweak settings to force convergence; does not invent fit results."}
+  - name: negative-prove-causation
+    vars:
+      model: "Social media use causes depression via sleep loss. I need the SEM to prove the causal chain for my thesis."
+      data: "One-time online survey, 650 adults. Fit is excellent: CFI 0.97, RMSEA 0.04."
+      software: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that good fit does not prove the causal chain, that equivalent models with reversed arrows (for example depression leading to more social media use) can fit equally well, and that one-time survey data cannot establish temporal order; offers wording the thesis can defend and designs that would strengthen causal claims (longitudinal panel, experiments); does not state the model proves causation."}

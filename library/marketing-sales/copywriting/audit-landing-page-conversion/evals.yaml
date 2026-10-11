@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Audit my landing page and tell me how to improve conversions. Page: {{page}}. Traffic: {{traffic}}. Goal: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mismatch-and-long-form
+    vars:
+      page: "Top nav with 7 links. Headline: 'Innovative Solutions for Modern Businesses'. Subhead: 'We help companies grow with technology.' Button: 'Submit'. Form with 11 fields including company revenue, budget and phone (all required). Below: three stock photos, a paragraph about our history since 2005. No reviews on the page. Footer."
+      traffic: "Google search ads for 'IT support for small accounting firms' with the ad text 'Fixed-price IT support for accounting firms - get a quote in 24h'. 70% mobile."
+      goal: "Quote request form. Current conversion 0.9%."
+      data: "Form starts 4%, form submits 0.9%."
+    assert:
+      - {type: contains, value: "## Prioritised fixes"}
+      - {type: llm-rubric, value: "Identifies the message mismatch (ad says fixed-price IT support for accounting firms and 24h quote; page is generic) as the top issue; flags the 11-field form with required budget and revenue and uses the 4% start to 0.9% submit drop as evidence of form friction; notes the 'Submit' button, the navigation exits, missing proof and mobile load; rewrites the hero to match the ad; gives impact ratings without promising specific uplift percentages."}
+  - name: edge-no-data-screenshot-description
+    vars:
+      page: "Webinar registration page: headline 'Free masterclass: hiring your first employee', date and time shown, 3 bullets on what you will learn, presenter photo and bio, form with name and email, button 'Save my seat'. Countdown timer resets on each visit."
+      traffic: "Facebook ads to small business owners promising 'a 45-minute masterclass on hiring your first employee legally'."
+      goal: "Registrations"
+    assert:
+      - {type: llm-rubric, value: "Recognises the page is mostly sound, flags the resetting countdown timer as a fake urgency dark pattern to remove, checks that the 'legally' promise is matched on the page, and keeps fixes proportionate rather than inventing many problems."}
+  - name: negative-no-page
+    vars:
+      page: "My landing page converts badly, why?"
+      traffic: ""
+      goal: "signups"
+    assert:
+      - {type: llm-rubric, value: "Asks for the page content or screenshots and the traffic source before auditing, and does not give a generic list of invented findings as if it had seen the page."}

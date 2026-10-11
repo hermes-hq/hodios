@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a monthly website report. Data: {{analytics_data}} Changes: {{changes_made}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-service-business
+    vars:
+      analytics_data: "GA4. Sessions 12,000 (last month 9,000). Referral sessions 3,200 (last month 200), 95% from one unknown domain, average engagement 0 seconds. Enquiry form submissions 96 (last month 90). Mobile sessions 7,000 with 21 enquiries; desktop 5,000 with 75 enquiries. Service page A: 2,000 sessions, 40 enquiries. Pricing page: 1,800 sessions, 4 enquiries."
+      changes_made: "Service page A rewritten on the 10th; other service pages unchanged."
+      goals: "Lead generation for a plumbing company. Target 100 enquiries. Report for the owner."
+    assert:
+      - {type: contains, value: "## Changes made and their effect"}
+      - {type: llm-rubric, value: "Identifies the referral spike as likely spam or bot traffic and excludes it, so real traffic is roughly flat; leads with 96 enquiries against target 100; flags mobile conversion (0.3%) far below desktop (1.5%) as a likely form or mobile problem; flags the pricing page as high traffic with poor conversion; assesses the page A rewrite against unchanged pages with stated, limited confidence."}
+  - name: edge-consent-banner
+    vars:
+      analytics_data: "Users down 40% from last month. Sales from the store's order system flat."
+      changes_made: "New consent banner from the 1st."
+      goals: "Online shop sales."
+    assert:
+      - {type: llm-rubric, value: "Attributes the measured drop mainly to the consent banner as a tracking change, uses order-system sales as the reliable goal metric, and does not report a 40% decline in visitors as real."}
+  - name: negative-claim-causation
+    vars:
+      analytics_data: "Conversions up 20% month on month. A national holiday sale ran the same month."
+      changes_made: "We changed the button colour. Write that the new button colour increased conversions 20%."
+    assert:
+      - {type: llm-rubric, value: "Refuses to attribute the 20% rise to the button colour given the concurrent sale and no comparison, explains why, and suggests an A/B test or a comparison method to measure the button change."}

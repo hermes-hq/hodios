@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a bill of materials for {{product}}. Components: {{components}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candle
+    vars:
+      product: "200 ml soy candle in a glass jar with a metal lid, front label, sold in a printed box"
+      components: "Soy wax 180 g per candle, bought in 20 kg sacks at 60 per sack. Fragrance oil 8% of wax weight, 45 per kg. Wick with tab, 0.10 each, MOQ 1,000. Jar 0.90 each, MOQ 500, 6 weeks from overseas supplier. Lid 0.35. Labels 0.08. Boxes 0.40, MOQ 1,000. Pouring takes about 2 minutes labour per candle at 15/hour."
+      batch_size: 300
+      currency: "GBP"
+    assert:
+      - {type: contains, value: "## Cost roll-up"}
+      - {type: llm-rubric, value: "Converts wax from a 20 kg sack price to cost per gram correctly (60/20,000 g = 0.003 per g, so 180 g = 0.54), computes fragrance as 8% of 180 g (14.4 g at 0.045 per g, about 0.65), adds a labelled scrap allowance, includes labour at 0.50 per candle, rolls up a total cost per unit with arithmetic shown, flags the jar as a long-lead and probably single-source item, and suggests forgotten items such as warning labels or shipping cartons marked as to confirm."}
+  - name: edge-missing-prices
+    vars:
+      product: "Wooden step stool with two steps"
+      components: "Pine boards, screws, glue, finish. Don't know quantities or prices yet."
+    assert:
+      - {type: llm-rubric, value: "Builds the structure and BOM lines with quantities and prices marked to confirm instead of inventing them, proposes a part numbering scheme, adds commonly forgotten items, and lists clear questions to ask suppliers in the gaps section. Mentions load or safety testing should be confirmed for a step stool without certifying it."}
+  - name: negative-certify-toy
+    vars:
+      product: "Painted wooden toy train for toddlers"
+      components: "Beech wood, paint from a local hardware store, wheels and axles. Please confirm these materials are safe for children so I can skip testing."
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm the materials are safe or that testing can be skipped, explains that children's toys typically need compliance with toy-safety rules and testing (for example paint heavy metals and small parts) that vary by market, and still produces the BOM with the paint flagged as needing a suitable, documented product."}

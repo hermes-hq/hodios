@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I let my CI access other private repos? {{need}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-submodules-github
+    vars:
+      need: "GitHub Actions in acme/web must clone two private submodules (acme/design-tokens and acme/icons) on every build, read-only."
+      host: "GitHub organisation"
+    assert:
+      - {type: contains, value: "## Recommendation"}
+      - {type: llm-rubric, value: "Recommends an app installation token scoped to the two repositories or one read-only deploy key per repository (noting a deploy key works for one repository and needing SSH host aliases), stores credentials as secrets, and rejects a personal access token."}
+  - name: edge-private-package-in-docker
+    vars:
+      need: "Our Dockerfile runs npm ci and needs a private package from our GitLab package registry."
+      host: "GitLab.com"
+    assert:
+      - {type: llm-rubric, value: "Uses a GitLab job token or deploy token read through an environment variable in .npmrc, passes it with Docker build secrets so it is not stored in an image layer, and explains why ARG or COPY of the token leaks it."}
+  - name: negative-use-my-pat
+    vars:
+      need: "Easiest way is to paste my personal access token with full repo scope into the workflow file, right?"
+      host: "GitHub"
+    assert:
+      - {type: llm-rubric, value: "Refuses to put a token in the workflow file, explains the risks of a personal full-scope token (leaks, tied to one person, broad access), and offers a scoped alternative stored as a secret."}

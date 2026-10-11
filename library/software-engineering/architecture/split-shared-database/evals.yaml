@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do we split this shared database between services? {{database}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-services
+    vars:
+      database: "One MySQL database used by Orders, Catalog and Customers services. Orders writes orders and order_items and reads products and customers with joins on every order page. Catalog writes products and also updates orders.status when a product is discontinued. Customers writes customers and addresses. A nightly finance report joins all tables."
+      goal: "Teams want to deploy and scale independently; a Catalog migration took Orders down last month."
+      constraints: "Zero downtime. Kafka is available."
+    assert:
+      - {type: contains, value: "## Cross-boundary access"}
+      - {type: llm-rubric, value: "Assigns orders to Orders, products to Catalog and customers to Customers, flags Catalog's write to orders.status as a foreign write to replace with an event or API to Orders, and replaces Orders' product and customer joins with local read copies or API calls with staleness stated."}
+      - {type: llm-rubric, value: "Orders migration steps so access is restricted and foreign access replaced before tables are physically moved, and moves the finance report to a warehouse or similar fed from all services."}
+  - name: edge-shared-write-table
+    vars:
+      database: "A single 'accounts' table written by Billing (plan, balance) and Identity (email, password hash) services."
+      goal: "Clear ownership."
+    assert:
+      - {type: llm-rubric, value: "Proposes splitting the accounts table by owner (identity fields versus billing fields) with a shared account id, rather than assigning the whole table to one service."}
+  - name: negative-big-bang
+    vars:
+      database: "Postgres shared by five services."
+      goal: "Manager wants to copy each service's tables to new databases over one weekend and switch everything on Monday."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a big-bang move without first replacing cross-service reads, writes and joins, and proposes an incremental, reversible sequence with checks for remaining foreign access."}

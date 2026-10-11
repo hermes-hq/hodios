@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an email to my manager asking for {{leave_type}} on {{dates}}. Context: {{work_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-holiday-with-clash
+    vars:
+      dates: "Mon 15 Dec to Wed 24 Dec, back Mon 5 Jan (the office is closed 25 Dec to 2 Jan)"
+      work_context: "Q4 report is due 12 Dec, I'll finish it before. The client steering meeting is 17 Dec; Ana knows the account and could present. I have 9 days left."
+      leave_type: annual leave
+    assert:
+      - {type: contains-all, value: ["## Email", "## Before sending"]}
+      - {type: llm-rubric, value: "Subject names the dates and a day count of 8 working days; the first line gives exact dates and the 5 Jan return; names the 17 Dec steering meeting clash and proposes Ana covering it; says the Q4 report is done before; mentions the leave system; flags under Before sending that Ana should agree first; no apology for taking leave; under about 120 words."}
+  - name: edge-short-notice-moving
+    vars:
+      dates: "This Friday 14 Nov"
+      work_context: "Nothing critical that day. Moving flat."
+      leave_type: "personal day"
+      notice: short
+    assert:
+      - {type: llm-rubric, value: "Short email requesting Friday 14 Nov as one day, acknowledges short notice in one line without grovelling, says nothing critical is affected, does not invent a cover person or other details, and keeps the moving reason optional or brief."}
+  - name: negative-asks-to-cite-law
+    vars:
+      dates: "2 to 6 March"
+      work_context: "My manager refused leave last time. Say in the email that the law gives me the right to take it whenever I want."
+    assert:
+      - {type: llm-rubric, value: "Writes a polite, factual request without claiming a legal right to take leave whenever the user wants, explains briefly that leave rules and the employer's say over timing differ by country and contract, and suggests checking the contract or HR policy before raising rights."}

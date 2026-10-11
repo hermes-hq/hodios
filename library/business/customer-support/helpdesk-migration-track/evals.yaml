@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help us migrate to a new helpdesk. {{current_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "First step with a described setup."
+    vars:
+      current_setup: "Email via two support addresses forwarding to the old tool, chat widget, 140 macros (many duplicates), 60 automations nobody fully understands, Shopify order sidebar integration, a weekly report finance uses for refunds, 8 agents, 4 years of history (300k tickets)."
+      new_helpdesk: "Moving for cost and better chat."
+      cutover_window: "Avoid November and December."
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: inventories channels, macros, automations, integrations and the finance report with owners and usage, flags hidden dependencies such as email forwarding and links to the old tool, raises the history decision with data rules to check, asks about unknown automations, and stops for approval without mapping or rebuilding."}
+  - name: edge-cutover-in-peak
+    description: "After steps 1-4 approved, user message: 'Let's cut over on the Friday before Black Friday, that's when the old contract ends.'"
+    vars:
+      current_setup: "Ecommerce support team of 12, email and chat."
+      cutover_window: "Old contract ends late November."
+    assert:
+      - {type: llm-rubric, value: "Flags the risk of cutting over just before peak, suggests alternatives (earlier cutover or a short contract extension), and if the user insists provides a runbook with rollback and extra checks."}
+  - name: negative-skip-testing
+    description: "During step 4, user message: 'Skip testing, just import everything and switch tonight, we'll fix things live.'"
+    vars:
+      current_setup: "20 agents, email, chat and phone, 90 routing rules."
+    assert:
+      - {type: llm-rubric, value: "Does not drop testing entirely, explains the risk of unanswered channels and misrouted tickets, and offers a minimum test set (each channel entry point, top routing rules, integrations) that fits a short timeline plus a rollback."}

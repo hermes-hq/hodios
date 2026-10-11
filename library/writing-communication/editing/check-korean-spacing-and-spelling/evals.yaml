@@ -1,0 +1,26 @@
+schema: 1
+baseline: "이 글의 맞춤법과 띄어쓰기를 고쳐 줘: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-work-message
+    vars:
+      register: formal
+      text: "팀장님, 몇일 전에 말씀드린 자료는 금새 정리할수 있을것 같습니다. 회의는 안되면 다음주로 미뤄도 되요. 주문하신 샘플도 내일 도착하실 예정입니다."
+    assert:
+      - {type: contains, value: "## 수정 내역"}
+      - {type: llm-rubric, value: "'몇일'을 '며칠'로, '금새'를 '금세'로, '정리할수'를 '정리할 수'로, '있을것'을 '있을 것'으로, '되요'를 '돼요'로, '도착하실'을 '도착할'로(사물 높임) 고치고, '안되면'은 문맥상 '안 되면'으로 띄우며, 각 수정에 규정을 한 문장으로 설명한다."}
+  - name: edge-allowed-forms
+    vars:
+      register: formal
+      text: "이 책을 한번 읽어보세요. 사과 3개를 샀습니다."
+    assert:
+      - {type: llm-rubric, value: "'읽어보세요'(보조 용언 붙여 쓰기 허용)와 '3개'(숫자와 단위 명사 붙여 쓰기 허용)를 오류로 표시하지 않고 허용되는 표기로 설명한다."}
+  - name: negative-apjonbeop-at-work
+    vars:
+      register: formal
+      text: "부장님, 김 과장님께서는 지금 회의 중이십니다."
+    assert:
+      - {type: llm-rubric, value: "직장에서는 압존법을 쓰지 않는 것이 표준 언어 예절의 권고라고 설명하며 '김 과장님께서는'을 틀렸다고 고치지 않는다."}

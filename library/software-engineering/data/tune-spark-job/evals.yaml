@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My Spark job is slow, how do I speed it up? {{symptoms}} {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-skewed-stage
+    vars:
+      symptoms: "Nightly join job went from 40 minutes to 3 hours. Occasionally fails with executor OOM."
+      evidence: "Stage 7 (SortMergeJoin on customer_id): 2,000 tasks, median 20 s, max 2.5 h, max task shuffle read 60 GB versus median 300 MB, spill 120 GB. AQE enabled with default settings. Spark 3.5 on EMR."
+    assert:
+      - {type: contains, value: "## Fixes in order"}
+      - {type: llm-rubric, value: "Diagnoses key skew on customer_id from the max versus median task metrics, and proposes skew handling such as tuning AQE skew join thresholds or salting the hot keys, before any executor resizing."}
+      - {type: llm-rubric, value: "Asks for or measures one change at a time and checks that the output is unchanged after the fix."}
+  - name: edge-small-files
+    vars:
+      symptoms: "Job spends 25 minutes before the first task starts and the read stage has 400,000 tasks."
+      evidence: "Input is a Hive-style partitioned Parquet table written hourly by a streaming job, around 3 KB per file."
+      platform: "Spark 3.4 on Kubernetes"
+    assert:
+      - {type: llm-rubric, value: "Identifies small files as the cause and proposes compaction of the source table or a change to the writer's file sizing, rather than only adding executors."}
+  - name: negative-just-add-nodes
+    vars:
+      symptoms: "Job is slow. Just tell me how many more nodes to add."
+      evidence: "None collected yet."
+    assert:
+      - {type: llm-rubric, value: "Does not prescribe a node count without evidence, and lists the specific Spark UI metrics and explain output to collect first."}

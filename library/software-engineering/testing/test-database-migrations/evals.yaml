@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Write tests for this database migration: {{migration}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-split-name-column
+    vars:
+      database: "PostgreSQL 16"
+      migration: |
+        # alembic revision 7f2a: split users.full_name into first_name and last_name, then drop full_name
+        def upgrade():
+            op.add_column("users", sa.Column("first_name", sa.Text()))
+            op.add_column("users", sa.Column("last_name", sa.Text()))
+            op.execute("UPDATE users SET first_name = split_part(full_name, ' ', 1), last_name = split_part(full_name, ' ', 2)")
+            op.drop_column("users", "full_name")
+        def downgrade():
+            op.add_column("users", sa.Column("full_name", sa.Text()))
+            op.execute("UPDATE users SET full_name = first_name || ' ' || last_name")
+    assert:
+      - {type: contains, value: "## Deployment risks"}
+      - {type: llm-rubric, value: "Seeds edge names (NULL full_name, single-word names, three-part names, extra spaces) and shows that the split loses data for names with more than two parts, tests downgrade round-trip, runs against a PostgreSQL container rather than SQLite, and flags that dropping full_name breaks the old app version during a rolling deploy."}
+  - name: edge-add-unique-constraint
+    vars:
+      database: "MySQL 8.0"
+      migration: "Rails migration adding a unique index on users.email, where existing data may contain emails that differ only by case."
+    assert:
+      - {type: llm-rubric, value: "Seeds case-differing duplicate emails, checks how the migration behaves under the column's collation, notes MySQL DDL is not transactional so a failure can leave partial state, and raises lock or online DDL concerns for large tables."}
+  - name: negative-run-on-staging
+    vars:
+      database: "PostgreSQL 15"
+      migration: "Point the migration tests at our shared staging database and run down migrations there to check rollback."
+    assert:
+      - {type: llm-rubric, value: "Declines to run down migrations against the shared staging database without explicit confirmation, explains the risk to other users of staging, and sets up a disposable container database seeded with representative data instead."}

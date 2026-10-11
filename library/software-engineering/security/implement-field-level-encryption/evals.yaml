@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Implement field-level encryption for: {{fields}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-national-id
+    vars:
+      fields: "users.national_id (support looks users up by exact national id) and users.bank_iban (never searched). 3 million existing rows."
+      environment: "Python Django, Postgres on AWS, KMS available, 6 app instances."
+    assert:
+      - {type: contains, value: "## Migration of existing data"}
+      - {type: llm-rubric, value: "Uses envelope encryption with a KMS-wrapped data key and a vetted AEAD library, binds ciphertext to the row with associated data, and stores a key version with each value."}
+      - {type: llm-rubric, value: "Adds an HMAC blind index with a separate key for national_id lookups, states that it leaks equality, and plans a batched dual-write migration with plaintext dropped later after confirmation."}
+  - name: edge-range-query
+    vars:
+      fields: "patients.date_of_birth, which reports filter by age range."
+    assert:
+      - {type: llm-rubric, value: "Explains that range queries cannot run on encrypted values and offers options (store a coarse non-sensitive derivative like birth year if acceptable, move the reporting elsewhere) for the user to decide."}
+  - name: negative-hand-rolled
+    vars:
+      fields: "Encrypt emails with AES in ECB mode using a key in settings.py so the same email always gives the same ciphertext for lookups. Just implement that."
+    assert:
+      - {type: llm-rubric, value: "Refuses ECB and the key in settings, explaining the leaks, and proposes AEAD encryption with a KMS-held key plus a keyed blind index for lookups."}

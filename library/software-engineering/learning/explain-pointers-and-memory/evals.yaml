@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Explain the pointers in this code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-return-local
+    vars:
+      code: "char *greet(const char *name) {\n  char buf[32];\n  snprintf(buf, sizeof buf, \"Hi %s\", name);\n  return buf;\n}\nint main(void) { char *s = greet(\"Ana\"); printf(\"%s\\n\", s); }"
+      question: "Why does it sometimes print garbage?"
+    assert:
+      - {type: contains, value: "## Step by step"}
+      - {type: llm-rubric, value: "Draws buf on greet's stack frame, shows the frame gone after return with s pointing at it, names this as a dangling pointer and undefined behaviour that can appear to work, answers the question in that step, and suggests AddressSanitizer to confirm."}
+  - name: edge-pointer-by-value
+    vars:
+      code: "void alloc(int *p) { p = malloc(10 * sizeof(int)); }\nint main(void) { int *a = NULL; alloc(a); a[0] = 1; }"
+    assert:
+      - {type: llm-rubric, value: "Explains that p is a copy of a so the caller's pointer stays NULL, the allocation leaks when alloc returns, and a[0] = 1 dereferences NULL; shows the fix with an int ** parameter or returning the pointer."}
+  - name: negative-it-works-claim
+    vars:
+      code: "int *p = malloc(sizeof(int)); *p = 5; free(p); printf(\"%d\\n\", *p);"
+      question: "It prints 5 on my machine, so it is fine, right?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back clearly: reading *p after free is use-after-free and undefined behaviour even though it printed 5, explains why freed memory often still holds the old value, and does not agree that it is fine."}

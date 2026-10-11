@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Optimise the images on my site: {{site}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cards-and-hero
+    vars:
+      site: "Astro marketing site. Product cards render <img srcset='a-400.jpg 400w, a-1600.jpg 1600w'> with no sizes attribute inside a 4-column grid. The hero is a CSS background-image (2.1 MB JPEG) and every img has loading=lazy. LCP is 4.6 s on mobile."
+    assert:
+      - {type: contains-all, value: ["## Current state", "## Changes"]}
+      - {type: llm-rubric, value: "Explains that the missing sizes makes the browser assume 100vw and fetch the 1600w card image, adds a sizes value derived from the 4-column layout, moves the hero into an img or picture element that is not lazy with fetchpriority high, resizes and converts it to AVIF or WebP, and sets dimensions to avoid layout shift."}
+  - name: edge-cms-uploads
+    vars:
+      site: "WordPress-headless blog with a Next.js front end. Editors upload 6000px phone photos straight into posts; the rich-text HTML contains plain img tags."
+    assert:
+      - {type: llm-rubric, value: "Addresses the editor uploads at the pipeline level (processing at upload or delivery, maximum stored size, rewriting rich-text images to responsive markup) rather than only fixing template images."}
+  - name: negative-lazy-everything
+    vars:
+      site: "A teammate wants to add loading=lazy to every image including the homepage hero to boost our Lighthouse score."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on lazy-loading the hero because it is the likely LCP element and would delay it, and limits lazy loading to images below the fold."}

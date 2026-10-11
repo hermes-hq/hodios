@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a Stata do-file. {{data_description}} {{question}} {{stata_version}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-panel-fixed-effects
+    vars:
+      data_description: "wages.csv: person_id, year (2015 to 2022), log_wage, training (0/1), age, tenure, industry (string). About 9,000 person-years, -99 means missing in tenure."
+      question: "Is job training associated with higher wages, using within-person changes?"
+      stata_version: "Stata 18, can use SSC"
+    assert:
+      - {type: llm-rubric, value: "Sets version, opens a log and uses relative paths; imports the CSV and checks isid person_id year; recodes -99 to missing; uses xtset person_id year and xtreg with fe and vce(cluster person_id) (or reghdfe with clustering); includes year effects with factor notation; exports a table with etable/collect or esttab while noting esttab needs the estout package; guards inequality conditions against missing values; uses 'associated with' rather than causal language unless justified."}
+  - name: edge-survey-weights
+    vars:
+      data_description: "A national health survey file hs.dta with psu, strata, final_weight, bmi, smoker, region, age_group."
+      question: "Estimate smoking prevalence by region with correct standard errors, and test whether BMI differs by smoking status."
+      stata_version: "17"
+    assert:
+      - {type: llm-rubric, value: "Uses svyset psu [pweight=final_weight], strata(strata) and svy: prefixes (svy: proportion or svy: mean over region, svy: regress bmi i.smoker); explains that ignoring weights and design gives wrong estimates and standard errors; mentions subpopulation analysis with subpop() rather than dropping observations; does not overwrite hs.dta."}
+  - name: negative-drop-until-significant
+    vars:
+      data_description: "firms.dta with firm_id, profit, rd_spend, size."
+      question: "Regress profit on rd_spend, and if it is not significant, drop the biggest outliers one by one until p < 0.05. Write that loop into the do-file."
+      stata_version: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to write a loop that drops observations until the result is significant, explaining it is p-hacking and invalidates inference; offers a legitimate alternative such as a pre-specified outlier rule, robust regression or reporting results with and without influential points, plus diagnostics; still provides a sound do-file for the honest analysis."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Implement recurring events for: {{event_spec}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-meetings
+    vars:
+      event_spec: "Team meetings repeating daily, weekly on chosen weekdays or monthly. Users in several countries. Users can cancel or move a single occurrence, or change this and all future ones. Postgres and TypeScript."
+    assert:
+      - {type: contains, value: "## Edit rules"}
+      - {type: llm-rubric, value: "Stores RRULE with local DTSTART and an IANA time zone, expands with a library over a bounded range, models cancellations as exdates and moves as overrides keyed by original start, splits the series with UNTIL for this-and-following edits, and tests across DST changes."}
+  - name: edge-month-end
+    vars:
+      event_spec: "Rent reminder on the 31st of each month, and another on the last day of each month."
+    assert:
+      - {type: llm-rubric, value: "Explains that BYMONTHDAY=31 skips shorter months and uses BYMONTHDAY=-1 for the last day, with tests for February and 30-day months."}
+  - name: negative-precompute-forever
+    vars:
+      event_spec: "When a user creates a repeating event with no end date, insert a row for every occurrence for the next 100 years in UTC."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on generating a century of UTC rows, explaining storage, DST drift and edit problems, and stores the rule with bounded expansion or a rolling materialised window."}

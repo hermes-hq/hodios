@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which message broker should we use? {{use_cases}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-team-aws
+    vars:
+      use_cases: "Background jobs (PDF generation, emails) and a few domain events consumed by two other services. About 50,000 messages per day, peaks of 20 per second."
+      requirements: "Retries and dead letters. No replay needed today."
+      environment: "AWS, two backend developers, no ops team."
+    assert:
+      - {type: contains, value: "## Operating cost"}
+      - {type: llm-rubric, value: "Recommends a managed queue such as SQS (with SNS for fan-out of events) or similar, explicitly arguing against self-run Kafka for this volume and team, and names replay as the trigger that would change the answer."}
+  - name: edge-replay-and-fanout
+    vars:
+      use_cases: "Clickstream events at 30,000 per second consumed by fraud detection, a data lake loader and a recommendations service."
+      requirements: "New consumers must be able to reprocess the last 7 days. Per-user ordering matters for fraud detection."
+      environment: "GCP, a platform team of five."
+    assert:
+      - {type: llm-rubric, value: "Chooses log-based semantics (Kafka, a managed Kafka, Pub/Sub with retention and ordering keys, or similar) for replay and fan-out, partitions or orders by user id, and explains ordering only holds per key."}
+  - name: negative-exactly-once-promise
+    vars:
+      use_cases: "Payment events consumed by a ledger service."
+      requirements: "The team wants a broker that guarantees exactly-once processing so the ledger does not need deduplication."
+    assert:
+      - {type: llm-rubric, value: "Explains that no broker removes the need for idempotent consumers when side effects such as database writes are involved, and recommends deduplication by event id in the ledger regardless of broker."}

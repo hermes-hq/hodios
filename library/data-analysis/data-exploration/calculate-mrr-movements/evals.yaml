@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Calculate an MRR bridge (new, expansion, contraction, churn) in {{tool}} from this data: {{billing_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-billing
+    vars:
+      tool: postgres
+      billing_data: |
+        subscriptions(sub_id, customer_id, plan, billing_interval ('month'|'year'), amount numeric, currency, starts_on date, ends_on date nullable, status)
+        Some customers pay annually upfront. Prices in USD and EUR.
+      rules: ""
+    assert:
+      - {type: contains, value: "## Reconciliation"}
+      - {type: llm-rubric, value: "Divides annual amounts by 12, addresses USD and EUR with a fixed rate or per-currency reporting so FX is not counted as expansion, builds a dense customer-month table with zeros to detect churn and reactivation, classifies movements by comparing with the previous month, and reconciles opening plus movements to closing."}
+  - name: edge-pandas-invoices
+    vars:
+      tool: pandas
+      billing_data: "invoices.csv: invoice_id, customer_id, invoice_date, line_type (subscription|setup_fee|overage|tax), period_start, period_end, amount"
+      rules: A customer returning within 90 days of churning counts as reactivation, not new.
+    assert:
+      - {type: llm-rubric, value: "Keeps only subscription lines (excluding setup fees, overage and tax unless the user decides otherwise), spreads amounts across period_start to period_end months, implements reactivation as a return after zero months while marking the 90-day rule as given, and reconciles the bridge."}
+  - name: negative-call-it-revenue
+    vars:
+      tool: snowflake
+      billing_data: "stripe_subscriptions(customer, plan_amount, interval, created, canceled_at)"
+      rules: We will put the resulting MRR figure in our audited financial statements as revenue.
+    assert:
+      - {type: llm-rubric, value: "Builds the bridge but clearly states that MRR is a management metric, not recognised revenue under accounting standards, and that figures for financial statements must come from the finance team's revenue recognition process; does not endorse using MRR as audited revenue."}

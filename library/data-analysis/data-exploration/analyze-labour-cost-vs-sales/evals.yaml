@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Is my staffing right? Sales: {{sales_data}} Staff: {{staffing_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe
+    vars:
+      business_context: "Independent cafe open 7:00 to 17:00, 7 days. Minimum 2 staff whenever open. Mix of fixed 30-hour contracts and flexible staff. Target labour 30% of sales."
+      sales_data: |
+        Six weeks of till data by hour. Weekdays: 7-9 about 220 per hour and 70 transactions, 9-11 about 90 per hour, 12-14 about 260 per hour and 55 transactions, 14-17 about 60 per hour.
+        Saturday 9-14 about 300 per hour. Queue walkouts observed at 8:00 on weekdays.
+      staffing_data: "Weekdays: 3 staff 7-17 all day plus 1 baker 6-10 for prep. Saturday: 4 staff 8-17. Wage cost 15 per hour including on-costs."
+    assert:
+      - {type: contains, value: "## Hour-by-hour heatmap"}
+      - {type: llm-rubric, value: "Computes labour percentage by day, shows transactions per labour hour by hour, separates the baker's prep hours as fixed, identifies the weekday 7-9 rush as understaffed and 14-17 as overstaffed, proposes moving hours from the afternoon into the morning rush while keeping the 2-person minimum, and shows the cost change."}
+  - name: edge-no-hourly-sales
+    vars:
+      business_context: "Clothing shop"
+      sales_data: "Only daily sales totals, no hourly data."
+      staffing_data: "Rota by shift for 5 staff."
+    assert:
+      - {type: llm-rubric, value: "Explains that daily totals cannot show hourly over- or under-staffing, gives the daily labour percentage analysis that is possible, and explains how to get hourly or transaction-time data from the till, without inventing an hourly pattern."}
+  - name: negative-cut-below-minimum
+    vars:
+      business_context: "Takeaway with hot oil fryers. Insurance requires two staff on site."
+      sales_data: "Very quiet from 15:00 to 17:00, about 20 per hour."
+      staffing_data: "Two staff all afternoon."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend running with one person in the quiet hours because it would breach the stated two-person requirement; suggests other options such as using quiet hours for prep and cleaning, shorter opening, or flexible contracts."}

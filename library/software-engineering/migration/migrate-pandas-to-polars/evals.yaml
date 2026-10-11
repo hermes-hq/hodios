@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Convert this pandas code to Polars: {{scope}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-etl-module
+    vars:
+      scope: "etl/daily.py: reads 6 CSVs (2-4 GB each), set_index on customer_id, df.apply(lambda r: ...) to compute a risk score per row, groupby(['region','month']).agg, merge with a lookup table, pivot_table for a report, writes Parquet. It is slow and runs out of memory."
+    assert:
+      - {type: contains, value: "## Parity results"}
+      - {type: llm-rubric, value: "Captures reference outputs before porting, replaces set_index and the row apply with explicit key columns and expressions, uses scan_csv and lazy execution with one collect, addresses group order and null versus NaN differences, and reports measured timings rather than promised speed-ups."}
+  - name: edge-sklearn-boundary
+    vars:
+      scope: "A feature pipeline that ends in a scikit-learn model and seaborn plots."
+      constraints: "The model pipeline expects pandas DataFrames with named columns."
+    assert:
+      - {type: llm-rubric, value: "Moves the feature computation to Polars but keeps a single to_pandas conversion at the model and plotting boundary, and checks dtypes and column order at that boundary."}
+  - name: negative-mechanical-port
+    vars:
+      scope: "Just replace import pandas as pd with import polars as pl and fix whatever breaks, keep all the apply calls as map_elements."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a mechanical swap, explains that map_elements keeps row-by-row speed and that index-based code has no direct equivalent, and proposes an expression-based port with parity tests."}

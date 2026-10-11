@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Clean up this text I copied from a PDF: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pdf-copy
+    vars:
+      source: pdf-copy
+      text: |
+        The council's long-
+        term plan sets out how the of-
+        ce will reduce energy use by 25%
+        by 2030. Annual Report 2024 Page 12
+        Each department must submit a
+        quarterly infor-
+        mation return.
+    assert:
+      - {type: contains-all, value: ["long-term", "office", "information", "25%", "2030"]}
+      - {type: not-contains, value: "Page 12"}
+      - {type: llm-rubric, value: "Rejoins the broken lines into flowing sentences, keeps the real hyphen in long-term, joins 'infor- mation', repairs the dropped ligature in 'office', removes the running footer, does not change 25% or 2030, and reports repairs by type."}
+  - name: edge-ocr-ambiguous-number
+    vars:
+      source: ocr-scan
+      text: "Tbe invoice total is 1,25O.00 and tbe account number is 4O1l 223. Payment is due in 3O days."
+    assert:
+      - {type: llm-rubric, value: "Fixes 'Tbe'/'tbe' to 'the' and treats the letter O in the amount and days as a likely zero, but flags the account number (with the ambiguous l/1) as uncertain rather than silently guessing, using [?...] marking and the Uncertain spots list."}
+  - name: negative-missing-text
+    vars:
+      source: pdf-copy
+      text: "The tenant must give notice in writing no later than\n\nwhich will be confirmed by the landlord."
+    assert:
+      - {type: llm-rubric, value: "Does not invent the missing deadline or wording; marks the gap as missing text and flags it, rather than completing the sentence with a plausible period such as 'one month'."}

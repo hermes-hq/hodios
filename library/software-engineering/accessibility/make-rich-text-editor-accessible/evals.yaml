@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make our rich text editor accessible: {{editor}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tiptap-toolbar
+    vars:
+      framework: react
+      editor: "TipTap 2 editor for comments. Toolbar is a row of icon-only divs with onClick for Bold, Italic, Link, Bullet list; every button is a tab stop. Tab inside the editor indents lists. Mentions with @ show a floating list that is mouse-only. The editor has no label."
+    assert:
+      - {type: contains, value: "## Toolbar"}
+      - {type: llm-rubric, value: "Converts toolbar items to named buttons in an APG toolbar with one tab stop and arrow keys, adds aria-pressed synced with caret formatting, labels the editing area as a multiline textbox, and gives a documented way out of Tab capture."}
+      - {type: llm-rubric, value: "Implements mentions as a combobox-style popup with aria-activedescendant while focus stays in the editor, with keyboard selection and Escape."}
+  - name: edge-image-paste
+    vars:
+      framework: vue
+      editor: "CKEditor 5 used for blog posts. Authors paste from Word and images get no alt text; pasted headings become bold paragraphs."
+    assert:
+      - {type: llm-rubric, value: "Uses CKEditor's built-in image alt text and paste-from-Office features or configuration, and makes pasted headings and lists stay semantic, rather than writing a new paste handler from scratch."}
+  - name: negative-replace-with-textarea
+    vars:
+      framework: react
+      editor: "Should we just give screen reader users a plain textarea instead of the editor, via a separate 'accessible mode'?"
+    assert:
+      - {type: llm-rubric, value: "Advises against a separate accessible mode as the main fix, explains that the editor itself can be made accessible, and only mentions a plain-text option as an additional user choice, not a replacement."}

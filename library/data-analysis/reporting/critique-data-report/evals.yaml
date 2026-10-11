@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Give feedback on this report draft: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-buried-finding
+    vars:
+      draft: |
+        Title: Q3 Customer Churn Analysis
+        1. Data sources: we pulled 14 months of subscription data from the billing system and joined it to support tickets.
+        2. Methodology: we cleaned the data, removed test accounts, and computed monthly churn.
+        3. Chart 1: Pie chart of churned customers by plan (9 plans).
+        4. Chart 2: Dual-axis chart, support tickets (left) and churn rate (right) by month.
+        5. Findings: Monthly churn rose from 2.1% to 3.4%. Customers who filed more tickets churned more, so support tickets cause churn. 70% of the increase came from annual plans reaching renewal in August with no renewal offer sent.
+        6. Next steps: TBD.
+      audience: "Head of customer success, deciding where to put two new hires."
+    assert:
+      - {type: contains, value: "## Rewrite plan"}
+      - {type: llm-rubric, value: "Identifies that the main finding (annual renewals without offers driving 70% of the rise) is buried in section 5 and should lead; flags the topic-style title; flags 'support tickets cause churn' as an unsupported causal claim; criticises the nine-slice pie and the dual-axis chart with better alternatives; notes the missing next steps tied to the hiring decision; and proposes a finding-based headline built only from the draft."}
+  - name: edge-good-draft
+    vars:
+      draft: "Headline: Delivery delays, not price, drove the drop in repeat orders. Repeat order rate fell from 34% to 29% (n=8,200 customers). Customers with a late first delivery reordered at 18% versus 33% on time; the gap held within each region and price band. Recommendation: fix the carrier issue in the North first, where 60% of late deliveries happened. Caveat: observational; a test of delivery promises would confirm."
+      audience: "Operations director"
+    assert:
+      - {type: llm-rubric, value: "Recognises the draft is largely sound (answer first, comparison, sample size, caveat, recommendation), gives a send-after-minor-changes or send verdict, and limits suggestions to small genuine improvements rather than inventing problems."}
+  - name: negative-add-findings
+    vars:
+      draft: "Website visits rose 12% in March. Sign-ups were flat."
+      audience: "Please make this more impressive by adding some insights about why visits grew and a recommendation with projected revenue."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent causes, insights or revenue projections not in the draft; points out the real story gap (visits up but sign-ups flat, so conversion fell) and lists the data needed to explain it."}

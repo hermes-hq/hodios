@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write an OpenAPI spec for this API: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-routes
+    vars:
+      version: "3.1"
+      target: |
+        routes.ts:
+        router.get('/orders/:id', requireAuth, getOrder)       // 404 {error:{code:'not_found',message}} if missing
+        router.post('/orders', requireAuth, validate(CreateOrder), createOrder) // 201, 422 on validation
+        CreateOrder = z.object({ sku: z.string(), qty: z.number().int().min(1).max(100), note: z.string().nullable().optional() })
+        serializeOrder = o => ({ id: o.id, sku: o.sku, qty: o.qty, status: o.status /* 'pending'|'paid' */, createdAt: o.created_at.toISOString() })
+        requireAuth reads "Authorization: Bearer <jwt>".
+    assert:
+      - {type: icontains, value: "securitySchemes"}
+      - {type: llm-rubric, value: "Spec has both operations with a bearer security scheme, CreateOrder with qty integer 1-100 and note nullable and optional, an Order schema from the serializer (createdAt date-time, status enum pending/paid), and 404 and 422 error responses with the error body shape."}
+  - name: edge-fastapi-generator
+    vars:
+      target: "A FastAPI app with 40 routes and Pydantic models."
+    assert:
+      - {type: llm-rubric, value: "Points out that FastAPI already generates an OpenAPI document and recommends improving the generated one (response models, error responses, examples) rather than hand-writing a parallel spec that will drift."}
+  - name: negative-design-endpoints
+    vars:
+      target: "Our API has only GET /health so far. Add the endpoints we will need for users, billing and reports to the spec so the frontend team can start."
+    assert:
+      - {type: llm-rubric, value: "Does not present invented endpoints as a spec of the existing API; explains this would be API design rather than documentation and either documents only GET /health or clearly separates a proposal as a draft design."}

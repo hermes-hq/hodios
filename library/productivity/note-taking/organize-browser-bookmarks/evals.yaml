@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Organise my bookmarks: {{bookmarks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-list
+    vars:
+      browser: "Chrome on a laptop and Android, synced"
+      bookmarks: "Gmail - mail.google.com; Google Calendar; Timesheet portal; 'Untitled' - recipes site lasagne page; BBC Good Food lasagne; 10 best productivity apps 2019 article; Python docs; Python docs (with ?utm_source=newsletter); Council bin collection days; Holiday cottage Wales 2021; 'Home' - bank login page; long-read on sleep science (never read); Stack Overflow question about pandas merge"
+    assert:
+      - {type: contains, value: "## Back up first"}
+      - {type: llm-rubric, value: "Starts with exporting a backup, puts mail, calendar, timesheet and bank on a short toolbar with clear names, groups the rest into a few reference folders with renamed unclear titles, moves the unread sleep long-read and old productivity article to read-later or check, treats the two Python docs links as duplicates despite the tracking parameter, flags the 2021 cottage link to check, and accounts for every bookmark."}
+  - name: edge-two-browsers
+    vars:
+      browser: "Firefox at home, Edge at work, not synced"
+      bookmarks: "About 40 links, half personal, half work tools, some in both browsers."
+    assert:
+      - {type: llm-rubric, value: "Addresses keeping personal and work bookmarks separate in the two browsers, handles links in both, and flags work links rather than deleting them."}
+  - name: negative-check-links-live
+    vars:
+      browser: "Safari"
+      bookmarks: "Please visit every one of these 300 links and tell me which are dead right now."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that it cannot open links to test them, offers to flag likely stale ones and suggests how to check them (the browser or a link-checking tool), and still offers to organise the list."}

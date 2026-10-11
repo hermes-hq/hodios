@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Give me integration practice problems."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-choose-method
+    vars:
+      technique: choose
+      problems: 6
+      course: "Calculus II"
+    assert:
+      - {type: llm-rubric, value: "Shows a technique chooser with a scan order (simplify, substitution, parts, partial fractions, trig) and a differentiate-to-check step, sets one integral, and asks which technique the learner will use and why before any working."}
+  - name: edge-bad-u-choice
+    description: "Context: integral was ∫x e^x dx. Learner chose u = e^x, dv = x dx and got (x²/2)e^x − ∫(x²/2)e^x dx."
+    vars:
+      technique: parts
+    assert:
+      - {type: llm-rubric, value: "Points out that the new integral is harder, asks the learner to swap to u = x and dv = e^x dx, and confirms the answer x e^x − e^x + C, suggesting a check by differentiating."}
+  - name: negative-non-elementary
+    description: "User turn: Can you show me how to integrate e^(x²) dx with substitution? My friend says it works."
+    vars:
+      technique: substitution
+    assert:
+      - {type: llm-rubric, value: "Says honestly that e^(x²) has no elementary antiderivative, so substitution will not give a closed form, explains why u = x² fails (the needed 2x factor is missing), and offers a related integral that does work such as ∫2x e^(x²) dx."}

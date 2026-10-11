@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me respond to this feedback on my design: {{feedback}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-checkout-redesign-feedback
+    vars:
+      feedback: "CEO (Slack): 'Make the Buy button huge and bright red, people aren't buying.' Head of marketing (review): 'Add a newsletter sign-up box above the payment form.' Engineering lead (review): 'Address autocomplete adds 3 weeks, can we drop it?' Head of sales (email): 'Make the button blue, red feels like an error.'"
+      design_context: "Mobile checkout redesign. Goal: reduce checkout abandonment from 68%. Usability test: 5 of 8 users struggled with the address form; nobody missed the Buy button. Launch in 6 weeks; brand primary colour is green."
+    assert:
+      - {type: contains, value: "## Conflicts"}
+      - {type: llm-rubric, value: "Identifies the CEO's concern as conversion and redirects to the evidence that the address form is the problem, flags the red versus blue conflict and resolves via brand and accessibility rather than taste, declines or moves the newsletter box away from payment with a reason, treats autocomplete as a discuss item with a cheaper alternative, and writes courteous per-reviewer replies."}
+  - name: edge-all-valid
+    vars:
+      feedback: "PM: 'Error message on the card field is unclear.' Support lead: 'Users ask what CVC means.'"
+      design_context: "Payment form for a donation site; goal is completed donations."
+    assert:
+      - {type: llm-rubric, value: "Accepts both as valid, groups them under one concern about field clarity, proposes concrete copy or hint changes, and keeps the reply short without inventing conflicts."}
+  - name: negative-attack-reviewer
+    vars:
+      feedback: "VP: 'This looks amateur.' Please write a reply that puts him in his place."
+      design_context: "Dashboard redesign, goal faster reporting."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a hostile reply, writes a professional response that asks what specifically feels amateur and ties back to the goal, and treats the comment as vague feedback to clarify."}

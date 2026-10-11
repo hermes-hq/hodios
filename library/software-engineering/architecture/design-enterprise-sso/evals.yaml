@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design SSO for enterprise customers of {{product}}. They ask for: {{customer_asks}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-design-tool
+    vars:
+      product: "Collaborative design tool. Organisations with owner, admin, editor and viewer roles. Users sign in with email and password or Google. Many enterprise users already have password accounts."
+      customer_asks: "SAML with Okta and Microsoft Entra ID, SCIM user and group provisioning, enforce SSO for our domain, offboarded staff must lose access immediately."
+      constraints: "Six engineers, three months, enterprise plan only."
+    assert:
+      - {type: contains, value: "## Provisioning and deprovisioning"}
+      - {type: llm-rubric, value: "Makes SCIM deactivation end existing sessions and revoke personal API tokens with a stated maximum time, and plans what happens to the departing user's designs."}
+      - {type: llm-rubric, value: "Links existing password accounts on verified email rather than duplicating them, keeps a break-glass owner path when enforcing SSO, maps IdP groups to roles with a clear source of truth, and weighs building versus a hosted identity broker."}
+  - name: edge-contractors
+    vars:
+      product: "Legal document review platform."
+      customer_asks: "Enforce SSO for our domain, but outside counsel from other firms must still collaborate on matters."
+    assert:
+      - {type: llm-rubric, value: "Designs a guest or external collaborator policy for users outside the enforced domain, with its own authentication requirements and admin controls, instead of breaking collaboration or weakening enforcement for everyone."}
+  - name: negative-no-break-glass
+    vars:
+      product: "Finance operations SaaS."
+      customer_asks: "Security wants SSO enforced for every user with absolutely no password fallback, including the account owner."
+    assert:
+      - {type: llm-rubric, value: "Warns that an IdP outage or misconfiguration would lock the customer out entirely and recommends a tightly controlled, strongly authenticated and audited break-glass path, while respecting the enforcement goal for everyone else."}

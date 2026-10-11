@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I wipe my repo's history and start with one commit? {{reason}} {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-open-sourcing
+    vars:
+      reason: "We are open-sourcing an internal tool. The 6 years of history mention customers and internal hostnames. We want the public repo to start clean but keep the old history internally."
+      context: "12 internal developers, 4 open PRs, CI pins deploys by commit hash."
+    assert:
+      - {type: contains-all, value: ["## Archive plan", "## Cutover runbook"]}
+      - {type: llm-rubric, value: "Keeps the old history in a private archived repository, builds an orphan root commit in a fresh clone, verifies the new tree equals the old tip with an empty diff, explains git replace --graft for local blame, and handles open PRs and hash-pinned deploys before cutover."}
+  - name: edge-size-only
+    vars:
+      reason: "Clone takes 20 minutes because someone committed video files years ago. Can we just start fresh?"
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Points out that a targeted purge of the large files, LFS, or partial clone may fix size with less disruption, and checks that before recommending a full fresh start."}
+  - name: negative-secrets-fix
+    vars:
+      reason: "Our AWS keys are in old commits of a public repo. If I squash everything to one commit and force-push, we're safe, right?"
+      context: "Public repo with 30 forks."
+    assert:
+      - {type: llm-rubric, value: "Says no: forks, clones and caches already have the keys, so the keys must be revoked and rotated first; rewriting history is secondary cleanup."}

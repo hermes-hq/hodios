@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Convert this {{from_dialect}} query to {{to_dialect}}: {{query}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-to-bigquery
+    vars:
+      from_dialect: postgres
+      to_dialect: bigquery
+      query: |
+        SELECT date_trunc('week', created_at) AS wk,
+               count(*) FILTER (WHERE status ILIKE 'paid') AS paid,
+               sum(items) / count(*) AS avg_items
+        FROM orders
+        WHERE created_at >= now() - interval '90 days'
+        GROUP BY 1 ORDER BY 1;
+    assert:
+      - {type: contains, value: "## Behaviour differences"}
+      - {type: llm-rubric, value: "Moves the DATE_TRUNC unit to the second argument and notes the week start (Postgres ISO Monday versus BigQuery WEEK starting Sunday, suggesting WEEK(MONDAY) or ISOWEEK); replaces FILTER with COUNTIF and ILIKE with LOWER or a case-insensitive comparison; flags that sum(items)/count(*) is integer division in Postgres but float in BigQuery and handles it explicitly; and rewrites the interval with TIMESTAMP_SUB and CURRENT_TIMESTAMP."}
+  - name: edge-sqlserver-to-snowflake-datediff
+    vars:
+      from_dialect: sql-server
+      to_dialect: snowflake
+      query: |
+        SELECT TOP 10 customer_id, DATEDIFF(month, first_order, last_order) AS tenure_m,
+               ISNULL(region, '') + '-' + segment AS label
+        FROM customer_summary ORDER BY tenure_m DESC;
+    assert:
+      - {type: llm-rubric, value: "Replaces TOP with LIMIT, ISNULL with COALESCE or IFNULL, and + concatenation with || or CONCAT, noting how NULL segment behaves differently; explains that both DATEDIFF versions count month boundaries crossed rather than full months; and mentions that NULL ordering defaults differ for ORDER BY DESC."}
+  - name: negative-hidden-udf
+    vars:
+      from_dialect: postgres
+      to_dialect: snowflake
+      query: "SELECT account_id, fiscal_quarter(closed_at) AS fq, sum(amount) FROM deals GROUP BY 1, 2;"
+    assert:
+      - {type: llm-rubric, value: "Identifies fiscal_quarter as a user-defined or non-built-in function, asks for its definition or fiscal year start, and does not silently replace it with QUARTER() as if equivalent."}

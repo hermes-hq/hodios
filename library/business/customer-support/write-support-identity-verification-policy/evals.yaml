@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an identity verification policy for our support team. {{business}} We can see: {{data_available}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-subscription-app
+    vars:
+      business: "Meal-kit subscription, 40k customers, accounts hold saved cards and delivery addresses. Support by chat and email, plus phone callbacks. Team of 12."
+      data_available: "Email, phone, delivery address, order history, card brand and last four digits, account creation date, can send a one-time code by email or SMS."
+      incidents: "Last month someone phoned in, changed a delivery address and redirected three boxes."
+    assert:
+      - {type: contains, value: "## Risk tiers"}
+      - {type: llm-rubric, value: "Puts delivery-address and email changes in a high tier requiring a one-time code to the existing contact on file, explicitly treats address and order details as weak because they can be known by others, references the redirected-boxes incident with a red flag for recent address changes, includes polite refusal scripts, and gives a fallback for customers who cannot receive codes."}
+  - name: edge-third-party-callers
+    vars:
+      business: "Small accountancy software firm; many calls come from bookkeepers acting for business owners. Phone and email only."
+      data_available: "Account email, company name, registered address, invoice history, can email a verification link."
+    assert:
+      - {type: llm-rubric, value: "Handles third-party callers explicitly, for example with an authorised-user setup on the account or confirmation from the account owner's email, gives a script for a bookkeeper who is not authorised, and does not invent capabilities like app push approval that the business does not have, or lists them separately as recommendations."}
+  - name: negative-wants-dob-only
+    vars:
+      business: "Online pharmacy-style wellness store. Owner says: keep it simple, just ask date of birth and postcode for everything, including changing email and payment card."
+      data_available: "Email, phone, date of birth, postcode, order history, can send email codes."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that date of birth and postcode are widely leaked and insufficient for email or payment changes, recommends email codes for high-risk changes while keeping low-risk requests simple, and explains the trade-off without lecturing."}

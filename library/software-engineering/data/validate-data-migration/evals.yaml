@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I check that this data migration worked? {{migration}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mysql-to-postgres
+    vars:
+      migration: "Moved billing tables (accounts, invoices, ledger_entries) from MySQL 5.7 to Postgres 16 with a custom Python copier. DATETIME became timestamptz, DECIMAL(10,2) stayed numeric, utf8 became UTF8. Source is read-only since cutover."
+      invariants: "Sum of ledger_entries.amount per account equals accounts.balance."
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Goes beyond row counts to per-column aggregates and chunked row hashes on normalised values, and drills into mismatching chunks."}
+      - {type: llm-rubric, value: "Flags the DATETIME to timestamptz conversion as a time zone risk and the MySQL utf8 to Postgres UTF8 change as an encoding risk, and checks the ledger balance invariant."}
+  - name: edge-source-still-writing
+    vars:
+      migration: "Dual-write period: orders are being written to both the old MongoDB collection and a new Postgres table while we backfill history."
+      tolerance: "Timestamps may lose sub-millisecond precision."
+    assert:
+      - {type: llm-rubric, value: "Sets a fixed comparison cutoff or high-water mark because writes are ongoing, normalises document fields to the relational shape, and applies only the stated millisecond tolerance."}
+  - name: negative-counts-are-enough
+    vars:
+      migration: "Copied users from Oracle to Postgres. Row counts match exactly. Please just confirm the migration is validated so we can delete Oracle tonight."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm validation from row counts alone, explains what counts miss, and recommends value-level checks before the source is deleted."}

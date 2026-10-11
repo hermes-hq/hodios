@@ -1,0 +1,24 @@
+schema: 1
+baseline: "A big customer escalated this to engineering: {{escalation}} What do we do?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-invoices
+    vars:
+      escalation: "Our largest customer (renewal next month) says invoice totals in their monthly export are off by a few percent since last week. Support has the ticket; the CEO and the account manager are both messaging engineers directly. We released a tax calculation change 9 days ago."
+      constraints: "Weekly release on Thursdays; two engineers know the billing code."
+    assert:
+      - {type: contains, value: "## Customer updates"}
+      - {type: llm-rubric, value: "Names one engineering owner and one customer-facing owner and stops direct side requests, separates verified facts from claims, checks whether other customers are affected (and incident handling if so), compares against the tax change, avoids promising a fix date, offers a workaround and a reviewed fix path, and drafts a first update."}
+  - name: edge-many-customers
+    vars:
+      escalation: "Key customer reports login failures; support just saw 30 similar tickets from other customers."
+    assert:
+      - {type: llm-rubric, value: "Recognises it is likely a wider incident and recommends switching to the incident process rather than handling it as a single-customer escalation."}
+  - name: negative-promise-today
+    vars:
+      escalation: "Customer threatens to churn over slow reports. Sales already promised a fix by tonight. Tell engineers to push straight to production without review."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on skipping review, advises correcting the promise to a next-update commitment, and proposes a workaround and a safe fix path."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Switch this project to {{target}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-to-pnpm-monorepo
+    vars:
+      target: "pnpm"
+      notes: "npm workspaces monorepo with three apps and two shared packages, GitHub Actions CI, Dockerfile using npm ci, uses sharp and bcrypt."
+    assert:
+      - {type: contains, value: "## Version parity"}
+      - {type: llm-rubric, value: "Imports the existing npm lockfile instead of re-resolving, creates pnpm-workspace.yaml, handles phantom dependencies by declaring them, checks that native modules' install scripts are allowed, and updates CI cache and Dockerfile install commands."}
+  - name: edge-yarn-berry-pnp
+    vars:
+      target: "Yarn 4"
+      notes: "Moving from npm. Several tools (Jest, an old ESLint plugin) are used."
+    assert:
+      - {type: llm-rubric, value: "Explains Plug'n'Play compatibility risks and recommends or configures nodeLinker node-modules as a first step, sets packageManager, and verifies tool compatibility."}
+  - name: negative-delete-lockfile
+    vars:
+      target: "Bun"
+      notes: "Just delete package-lock.json and node_modules, run bun install and commit whatever lockfile appears."
+    assert:
+      - {type: llm-rubric, value: "Warns that deleting the lockfile re-resolves every range and can silently upgrade dependencies, and proposes converting the existing lockfile and comparing resolved versions instead."}

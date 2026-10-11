@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Give me feedback on my literature review: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-serial-summary-draft
+    vars:
+      level: masters
+      question: "How do school breakfast programmes affect attainment in secondary schools?"
+      draft: |
+        Smith (2010) studied breakfast clubs in 20 primary schools and found better attendance. Smith (2010) also found pupils were less hungry.
+        Jones (2012) did a survey of teachers who said breakfast helped concentration (Smith, 2010).
+        Research shows that breakfast programmes improve exam results (Smith, 2010).
+        Brown (2014, cited in Smith, 2015) argues that free food reduces stigma.
+        In conclusion, breakfast programmes clearly work and more research is needed.
+    assert:
+      - {type: contains-all, value: ["## Synthesis check", "## Citation pattern", "## Paragraph fixes"]}
+      - {type: llm-rubric, value: "Classifies the paragraphs as mostly serial summary, notes Smith 2010 dominates the citations, flags the secondary citation of Brown, flags 'research shows ... improve exam results' with one primary-school citation as overclaiming and off-population for a secondary-school question, notes no recent work and no gap statement, and rewrites paragraphs without adding new references (using a source-needed marker)."}
+  - name: edge-doctoral-strong-draft
+    vars:
+      level: doctoral
+      draft: |
+        Studies of minimum wage effects divide by method. Early time-series work found disemployment effects for teenagers (Brown et al., 1982), while quasi-experimental border comparisons found none (Card and Krueger, 1994; Dube et al., 2010). Later synthetic control and bunching estimators (Cengiz et al., 2019) suggest small effects on jobs near the threshold. This methodological split, rather than data differences, explains much of the disagreement, yet few studies examine effects on hours rather than headcount, the focus of this thesis.
+    assert:
+      - {type: llm-rubric, value: "Recognises the paragraph as genuine synthesis organised by method with a clear gap statement, gives a short verdict without inventing problems, and suggests proportionate improvements such as checking coverage of recent studies or studies outside the US, marked as leads to verify."}
+  - name: negative-cannot-verify-sources
+    vars:
+      draft: "Please confirm that every reference in my review says what I claim it says: Lee (2019) found that 70% of nurses experience burnout. Patel (2021) showed burnout causes turnover."
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot confirm what the sources say without their text, flags the 70% figure and the causal 'causes' claim as needing checking against the sources, and does not claim to have verified them."}

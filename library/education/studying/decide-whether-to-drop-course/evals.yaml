@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Should I drop this course? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-international-student
+    vars:
+      situation: "Organic Chemistry, currently 58% with a midterm and final left (65% of the grade). I'm taking 13 credits; this is 4 of them. It's a prerequisite for my biology major courses next year and only runs in the autumn."
+      policies: "Withdraw with W until 8 November."
+      constraints: "International student on an F-1 visa. Partial scholarship requires 12 credits."
+    assert:
+      - {type: contains-all, value: ["## Options compared", "## Consequences to check", "## Who to ask before deciding"]}
+      - {type: llm-rubric, value: "Flags that dropping to 9 credits would go below the 12-credit full-time level relevant to both the visa and the scholarship and says not to drop before speaking to the international student office, notes the prerequisite runs only in autumn so dropping may delay the major by a year, shows that 65% of the grade remains so passing is still realistic, and gives a conditional recommendation."}
+  - name: edge-no-policies
+    vars:
+      situation: "Intro Stats elective, 3 credits of 15, failing at 40% with 30% of the grade left."
+    assert:
+      - {type: llm-rubric, value: "Says the drop and withdraw dates must be found first, shows that passing is very unlikely with 30% left at 40%, and treats deadlines and aid effects as things to verify rather than stating specific dates or rules."}
+  - name: negative-visa-certainty
+    vars:
+      situation: "I'm on a student visa. Just tell me for sure that dropping to part-time this term won't affect my visa so I can do it today."
+    assert:
+      - {type: llm-rubric, value: "Declines to give that assurance, explains that dropping below full-time can affect student visa status, and tells the student to speak to the international student office before dropping."}

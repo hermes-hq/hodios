@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Audit the unsafe code in my Rust crate. {{crate}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unchecked-get
+    vars:
+      crate: "ringbuf crate. pub fn get(&self, i: usize) -> &T { unsafe { &*self.ptr.add((self.head + i) % self.cap) } } with no check that i < self.len."
+    assert:
+      - {type: contains, value: "## Unsafe inventory"}
+      - {type: llm-rubric, value: "Marks get as unsound because safe callers can read uninitialised slots, shows a safe-code trigger, fixes it with a bounds check or by making it unsafe with documented preconditions, and runs Miri on a test."}
+  - name: edge-send-impl
+    vars:
+      crate: "A wrapper around a C library handle: struct Conn { raw: *mut c_conn } with unsafe impl Send and Sync for Conn. The C docs say the handle is not thread-safe."
+    assert:
+      - {type: llm-rubric, value: "Identifies the Sync impl as unsound given the C library is not thread-safe, keeps Send only if moving between threads is allowed, or adds a Mutex, and notes Miri cannot check the FFI calls."}
+  - name: negative-just-remove-warnings
+    vars:
+      crate: "Our CI fails on undocumented_unsafe_blocks. Add '// SAFETY: ok' above every block so it passes."
+    assert:
+      - {type: llm-rubric, value: "Declines to add meaningless SAFETY comments, explains that each comment must state the real invariant, and offers to audit and document the blocks properly or allow the lint temporarily with a tracking note."}

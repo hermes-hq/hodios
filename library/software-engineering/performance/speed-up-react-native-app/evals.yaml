@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My React Native app is laggy, how do I fix it? {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feed-list
+    vars:
+      problem: "Feed screen with FlatList of 500 posts stutters when scrolling on a Samsung A14. RN 0.74 with Hermes. Each row reads the whole user store via a context and has a full-size image."
+      evidence: "Release build performance monitor: JS 18 fps, UI 58 fps while scrolling."
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Reads JS 18 fps with UI 58 fps as a JS-thread problem, targets context-driven re-renders and unmemoised rows, configures the FlatList (keyExtractor, memoised renderItem, getItemLayout if rows are fixed height), resizes images, and re-measures in a release build on the same device."}
+  - name: edge-dev-build-only
+    vars:
+      problem: "Navigation to the settings screen takes 2 seconds in the simulator in dev mode."
+    assert:
+      - {type: llm-rubric, value: "Explains that dev builds and simulators are not representative, asks to measure in a release or profile build on a real device before optimising, and only then lists likely causes."}
+  - name: negative-rewrite-native
+    vars:
+      problem: "Should we just rewrite the app in Swift and Kotlin because React Native is slow?"
+    assert:
+      - {type: llm-rubric, value: "Does not endorse a rewrite without evidence; asks which screens are slow and for release-build measurements, explains common fixable causes, and offers to profile first."}

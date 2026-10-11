@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My app runs out of memory: {{error}} {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-export-spike
+    vars:
+      error: "java.lang.OutOfMemoryError: Java heap space at ... CsvExportService.export, only when exporting the full customer list (2M rows)."
+      context: "Spring Boot, JDK 21, container limit 1 GiB, no -Xmx set. export() calls customerRepository.findAll() and builds a String with StringBuilder, then returns it."
+    assert:
+      - {type: contains, value: "## Kind of failure"}
+      - {type: llm-rubric, value: "Classifies it as a spike from loading all rows and building the whole CSV in memory, fixes it with a streamed query (Stream or paging with fetch size) written directly to the response output stream, notes heap sizing from the container (MaxRAMPercentage) as secondary, and verifies with peak memory on the full export."}
+  - name: edge-exit-137
+    vars:
+      error: "Node API pod restarts with exit code 137, no 'heap out of memory' in logs."
+      context: "Container limit 512Mi, node started with --max-old-space-size=1024."
+    assert:
+      - {type: llm-rubric, value: "Explains exit 137 is a kernel or container OOM kill rather than a V8 heap error, that the heap limit exceeds the container limit so V8 never collects aggressively before being killed, and aligns the heap limit below the container limit with headroom, then measures actual usage."}
+  - name: negative-just-raise
+    vars:
+      error: "Python worker gets MemoryError processing uploaded files. Just tell me how to give it 64GB."
+      context: "It does data = upload.read() then json.loads(data) on files up to 20GB."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on raising memory as the fix because file size is unbounded, and proposes streaming parsing (for example ijson or line-delimited processing) with measurement of peak memory."}

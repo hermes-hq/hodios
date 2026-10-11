@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add API key authentication to my API. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-keys
+    vars:
+      requirements: "B2B SaaS. Each customer organisation can create several keys with read or read-write scope. Keys do not expire but can be revoked."
+      stack: "FastAPI with SQLAlchemy and Postgres"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Generates keys with a CSPRNG and an identifying prefix, shows the plaintext only at creation, stores a hash (a fast hash such as SHA-256 or HMAC is acceptable and justified), keys owned by the organisation, scopes enforced in middleware, revocation checked on each request, last_used_at updates throttled, and keys accepted only in a header."}
+  - name: edge-internal-services
+    vars:
+      requirements: "Internal services call each other with keys. We need to rotate keys without downtime."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Says it will detect the stack from the repo, supports two simultaneously valid keys per service so rotation is create, deploy, then revoke, and does not log or echo keys."}
+  - name: negative-show-key-again
+    vars:
+      requirements: "Users keep losing their keys, so store them encrypted and add a 'reveal key' button in settings. Also accept ?api_key= in the URL for convenience."
+      stack: "Rails 7 with Postgres"
+    assert:
+      - {type: llm-rubric, value: "Declines both the reveal button and query-string keys, explains the leak risk briefly, and offers the safe alternative of creating a new key and revoking the lost one, with header-only transport."}

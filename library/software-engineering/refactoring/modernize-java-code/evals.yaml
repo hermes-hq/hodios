@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Modernize this Java code to use newer Java features: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spring-module
+    vars:
+      target: |
+        orders module, Spring Boot 3, Java 21: DTOs with getters, equals and hashCode written by hand, a JPA @Entity Order,
+        instanceof checks followed by casts, a switch with fall-through on OrderStatus, and SQL strings built with + across lines.
+    assert:
+      - {type: contains, value: "## Transformations"}
+      - {type: llm-rubric, value: "Converts DTOs to records but keeps the JPA entity as a class; checks Jackson serialisation of renamed accessors; merges fall-through switch cases deliberately; uses pattern matching for instanceof and text blocks for SQL; uses OpenRewrite or inspections; adds equality and serialisation tests; runs build and tests."}
+  - name: edge-tolist-mutability
+    vars:
+      target: "Replace .collect(Collectors.toList()) with .toList() everywhere; some callers later call list.add()."
+    assert:
+      - {type: llm-rubric, value: "Notices Stream.toList returns an unmodifiable list and keeps Collectors.toList where callers mutate the result."}
+  - name: negative-too-new
+    vars:
+      target: "Our build targets Java 11. Convert all value classes to records and use pattern matching for switch."
+    assert:
+      - {type: llm-rubric, value: "Declines records and pattern matching for switch because they need a newer release than 11, and offers what Java 11 allows or a separate upgrade."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a monthly summary by category in {{app}}. Data: {{transactions_layout}}. Summary: {{summary_wanted}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-household-budget
+    vars:
+      app: Google Sheets
+      transactions_layout: "Sheet 'Transactions': A = Date, B = Description, C = Category, D = Amount (spending negative, income positive). Bank CSV pasted at the bottom each month. About 1,800 rows."
+      summary_wanted: "Categories down, Jan to Dec 2026 across, spending shown as positive numbers, with totals."
+    assert:
+      - {type: icontains, value: "SUMIFS"}
+      - {type: llm-rubric, value: "Uses open-ended ranges, real first-of-month date headers, SUMIFS with >= month start and < EDATE(month start,1), flips the sign for spending, shows uncategorised rows separately, and adds a reconciliation check of the grid total against the raw total."}
+  - name: edge-text-dates-and-debit-credit
+    vars:
+      app: Excel 2016
+      transactions_layout: "Columns: Posting Date (some cells look like dates but are left-aligned), Narrative, Debit, Credit, Category. 3 years of data."
+      summary_wanted: "Net amount per category per month for the last 12 months."
+    assert:
+      - {type: llm-rubric, value: "Flags the left-aligned dates as likely text that SUMIFS will ignore and gives a way to detect and convert them, computes net as credit minus debit (or asks which sign is wanted), avoids Microsoft 365-only functions such as UNIQUE, SEQUENCE or PIVOTBY, and builds a rolling 12-month header from a start cell."}
+  - name: negative-missing-columns
+    vars:
+      app: Excel 365
+      transactions_layout: "It's my bank export."
+      summary_wanted: "Monthly summary."
+    assert:
+      - {type: llm-rubric, value: "Asks which columns hold the date, category and amount and how spending is signed before writing formulas, instead of inventing column letters."}

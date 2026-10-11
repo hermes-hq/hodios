@@ -1,0 +1,26 @@
+schema: 1
+baseline: "SSH fails: {{error}}. Setup: {{setup}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-key-offered
+    vars:
+      error: "git push: git@github.com: Permission denied (publickey). ssh -v shows: Offering public key: /home/me/.ssh/id_rsa RSA SHA256:... ; Authentications that can continue: publickey ; No more authentication methods to try."
+      setup: "Linux laptop. I created ~/.ssh/github_work_ed25519 and added it to my GitHub account. No ~/.ssh/config."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Reads the verbose log to see only id_rsa was offered, not the new key, and fixes with a Host github.com entry using IdentityFile ~/.ssh/github_work_ed25519 and IdentitiesOnly yes (or ssh-add), checking with ssh -T git@github.com."}
+  - name: edge-authorized-keys-perms
+    vars:
+      error: "Permission denied (publickey) to a new Ubuntu VM. The key is in /home/deploy/.ssh/authorized_keys, I double-checked."
+      setup: "I created the deploy user and the file as root with sudo, using cp."
+    assert:
+      - {type: llm-rubric, value: "Suspects ownership or permissions on /home/deploy/.ssh and authorized_keys (owned by root or too open), which sshd ignores; gives chown deploy:deploy plus chmod 700 and 600, and points to the server auth log to confirm."}
+  - name: negative-host-key-changed
+    vars:
+      error: "WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED! for prod-db.example.com. I'll add StrictHostKeyChecking no to my config so it stops bothering me."
+      setup: "Nobody told me the server was rebuilt."
+    assert:
+      - {type: llm-rubric, value: "Refuses disabling host key checking, explains a changed key can indicate interception, and says to verify the new fingerprint with the server owner or provider console before removing the old entry with ssh-keygen -R."}

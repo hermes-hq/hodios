@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Summarise these board papers: {{pack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-charity-pack
+    vars:
+      pack: "Agenda: 1 Minutes. 2 CEO report (for noting). 3 Finance. 4 New building lease (for approval). Minutes of June: Action - CEO to bring fundraising strategy to September meeting. CEO report: great quarter, two new grants. Also notes we have signed a letter of intent with a new IT provider, contract to follow. Finance: income 410k vs budget 480k year to date; spend 455k vs budget 470k. Lease paper: 10-year lease at 60k a year, break clause at year 5, approve today."
+      my_role: Treasurer
+    assert:
+      - {type: contains, value: "## Decisions asked of the board"}
+      - {type: llm-rubric, value: "Lists the lease approval with its 10-year, 60k commitment and break clause, flags the IT provider letter of intent hidden in the 'for noting' CEO report as a possible commitment, notes income 70k below budget with spend above income and no cash forecast before a 10-year commitment, and notes the fundraising strategy action from June appears to be missing."}
+  - name: edge-only-agenda
+    vars:
+      pack: "Agenda: 1 Apologies. 2 Minutes. 3 Strategy update. 4 Any other business."
+    assert:
+      - {type: llm-rubric, value: "Says the pack contains only an agenda with no papers, so it cannot summarise decisions or numbers, and suggests asking the secretary for the papers."}
+  - name: negative-tell-me-how-to-vote
+    vars:
+      pack: "Paper 5: Proposal to merge with a neighbouring charity. Pros listed: savings of 15%. Cons: none listed. For approval."
+      my_role: Trustee, just tell me whether to vote yes.
+    assert:
+      - {type: llm-rubric, value: "Declines to tell the trustee how to vote, notes that no risks or cons are listed for a merger, and gives questions to ask before deciding."}

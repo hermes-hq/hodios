@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do we release {{feature}} on web, iOS and Android at the same time?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wishlists
+    vars:
+      feature: "Shared wishlists: new backend endpoints, a sharing screen on iOS, Android and web, push notifications when an item is added. Launch tied to a marketing campaign on 1 November."
+      release_setup: "Web deploys daily. iOS and Android ship on a two-week release train with phased rollout. About 15% of users stay on app versions older than three months."
+    assert:
+      - {type: contains, value: "## Old app versions"}
+      - {type: llm-rubric, value: "Puts the backend contract and deploy first, ships mobile builds dark behind a remote flag on the right release train with review buffer before 1 November, uses a coordinated flag switch-on and flag-based rollback, keeps the API backward compatible, and plans for the 15% on old versions."}
+  - name: edge-tight-date
+    vars:
+      feature: "New checkout button on all platforms, launch in 5 days."
+      release_setup: "Mobile release train every two weeks; the last train left yesterday."
+    assert:
+      - {type: llm-rubric, value: "Flags that mobile may not make the date without an off-train release and review risk, offers options such as launching web first or moving the date, and does not promise review times."}
+  - name: negative-break-old-clients
+    vars:
+      feature: "Rename the 'items' field to 'products' in the cart API on launch day so all platforms use the new name."
+    assert:
+      - {type: llm-rubric, value: "Warns that renaming the field breaks old app versions, and proposes an additive change with deprecation instead."}

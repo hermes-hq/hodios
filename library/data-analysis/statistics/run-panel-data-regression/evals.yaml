@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me run a panel data regression: {{panel}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-firm-panel
+    vars:
+      panel: "1,200 firms observed yearly 2012-2023, unbalanced (some firms enter or exit). Outcome: log labour productivity. Variable of interest: share of capital spent on software. Controls: firm size, export status. Industry never changes within a firm."
+      question: "Is more software investment associated with higher productivity within firms? We would like a causal reading if defensible."
+      tool: "R"
+    assert:
+      - {type: icontains, value: "cluster"}
+      - {type: llm-rubric, value: "Recommends two-way fixed effects (firm and year) with standard errors clustered by firm; notes industry is absorbed by firm fixed effects and cannot be estimated; gives fixest code such as feols(y ~ x + controls | firm + year, cluster = ~firm) and comparison models; interprets the coefficient as a within-firm association; names time-varying confounders such as management changes or demand shocks and reverse causation, suggesting leads and lags; does not invent results."}
+  - name: edge-few-clusters-staggered
+    vars:
+      panel: "Monthly employment in 8 regions over 10 years. A training subsidy was introduced in 3 regions, at different dates."
+      question: "Estimate the effect of the subsidy with two-way fixed effects."
+      tool: "Stata"
+    assert:
+      - {type: llm-rubric, value: "Flags that 8 clusters are far too few for reliable clustered standard errors and recommends a wild cluster bootstrap or randomisation inference; flags staggered adoption bias in two-way fixed effects and names alternative estimators (for example Callaway-Sant'Anna, Sun-Abraham or stacked designs); recommends an event-study plot to check pre-trends; is candid that 3 treated regions give limited evidence."}
+  - name: negative-time-invariant-variable
+    vars:
+      panel: "Panel of 5,000 workers over 8 years with wages, hours, job tenure and gender."
+      question: "Use individual fixed effects to estimate the gender pay gap."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that gender does not vary within a worker, so individual fixed effects absorb it and cannot estimate the gap; offers alternatives (pooled or random-effects models with clustered errors, correlated random effects, or decomposition methods) and states their assumptions; does not produce a gender coefficient from a fixed-effects model."}

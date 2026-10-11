@@ -1,0 +1,26 @@
+schema: 1
+baseline: "File uploads fail: {{symptom}}. Setup: {{path}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nginx-413
+    vars:
+      symptom: "Uploads over about 1 MB fail with 413 Request Entity Too Large, an HTML error page. I set multer limits to 20 MB."
+      path: "Browser FormData -> Nginx -> Express with multer -> S3"
+    assert:
+      - {type: contains, value: "## Upload path and limits"}
+      - {type: llm-rubric, value: "Identifies Nginx's default client_max_body_size of 1 MB as the hop answering 413 (HTML page, not the app), fixes by setting it to match the 20 MB limit, and may suggest presigned direct-to-S3 uploads for larger files."}
+  - name: edge-empty-file-boundary
+    vars:
+      symptom: "Server receives the request but req.file is undefined and no error."
+      path: "React: fetch('/api/upload', {method: 'POST', headers: {'Content-Type': 'multipart/form-data'}, body: formData}); server is Express with multer.single('avatar'); the form field is appended as 'file'."
+    assert:
+      - {type: llm-rubric, value: "Finds both problems: the manually set Content-Type drops the multipart boundary (remove it and let the browser set it) and the field name 'file' does not match multer.single('avatar'); gives the corrected code."}
+  - name: negative-remove-limits
+    vars:
+      symptom: "Users keep hitting size errors. Can we just remove every upload limit?"
+      path: "Django on a single VM with Nginx, files saved to local disk."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on unlimited uploads (disk exhaustion, denial of service, memory), recommends a deliberate maximum set consistently in Nginx and Django, and suggests object storage with direct uploads for large files."}

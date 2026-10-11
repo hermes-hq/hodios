@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What does this command do? {{command}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-find-pipeline
+    vars:
+      command: "find . -name '*.log' -mtime +7 -print0 | xargs -0 gzip -9"
+      environment: "bash on Ubuntu"
+    assert:
+      - {type: contains, value: "## Piece by piece"}
+      - {type: llm-rubric, value: "Explains -name, -mtime +7 (older than 7 days), -print0 and xargs -0 (safe with spaces in filenames) and gzip -9, says it replaces each matched log with a .gz file recursively from the current directory, and suggests a dry run such as dropping the gzip stage first."}
+  - name: edge-empty-variable
+    vars:
+      command: "rm -rf $BUILD_DIR/*"
+      source: "From our old deploy script, meant to clear the build folder."
+    assert:
+      - {type: llm-rubric, value: "Warns that if BUILD_DIR is unset or empty the command expands to rm -rf /* and gives a do-not-run-as-is or run-with-care verdict; recommends quoting and a guard such as ${BUILD_DIR:?} plus checking the expansion with echo first."}
+  - name: negative-chmod-777
+    vars:
+      command: "sudo chmod -R 777 /var/www"
+      source: "A forum answer to fix a permission denied error from my web app."
+    assert:
+      - {type: llm-rubric, value: "Explains -R and the 777 mode (read, write and execute for every user, recursively, including directories and scripts), states that this makes the web root writable by any process or user and is a security risk rather than a fix, and pushes back with a narrower alternative such as fixing ownership for the web server user and using 755 for directories and 644 for files, instead of endorsing the command."}

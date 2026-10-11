@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Xcode build is slow, make it faster: {{build}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-script-phase-and-wmo
+    vars:
+      build: "Xcode 15, one app target with 900 Swift files, SwiftLint and SwiftGen run scripts with no input or output files, Debug uses whole module compilation and dwarf-with-dsym. Incremental build after a one-line edit takes 95 s."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Where time goes"]}
+      - {type: llm-rubric, value: "Uses the build timeline and long type-checking warnings, gives the script phases inputs and outputs, sets Debug to incremental compilation and DWARF without dSYM, finds slow expressions with file:line, and proposes modularising the large target, re-measuring the same scenario."}
+  - name: edge-type-checker-hotspot
+    vars:
+      build: "One file, a SwiftUI view with a long chain of modifiers and a big array literal of dictionaries, takes 30 s to compile."
+    assert:
+      - {type: llm-rubric, value: "Identifies type-checker cost from the literal and expression chain, adds explicit types or splits the view into smaller pieces, and verifies with the long expression warnings."}
+  - name: negative-release-settings
+    vars:
+      build: "Set Release to -Onone and turn off dSYMs so CI release builds are faster."
+    assert:
+      - {type: llm-rubric, value: "Warns that this slows the shipped app and breaks crash symbolication, refuses to change Release that way without agreement, and suggests CI caching or debug-only changes instead."}

@@ -1,0 +1,49 @@
+schema: 1
+baseline: "Review this Swift concurrency code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-actor-reentrancy
+    vars:
+      context: "Swift 5.10 with strict concurrency complete, iOS 17."
+      diff: |
+        +actor ImageCache {
+        +    private var images: [URL: UIImage] = [:]
+        +    func image(for url: URL) async throws -> UIImage {
+        +        if let cached = images[url] { return cached }
+        +        let (data, _) = try await URLSession.shared.data(from: url)
+        +        let image = UIImage(data: data)!
+        +        images[url] = image
+        +        return image
+        +    }
+        +}
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Explains actor reentrancy: two concurrent calls for the same URL both miss the cache during the await and download twice; fixes by storing an in-flight Task<UIImage, Error> per URL and awaiting it."}
+      - {type: llm-rubric, value: "Flags the force unwrap of UIImage(data:) crashing on non-image data (such as an HTML error page), and proposes throwing an error instead."}
+  - name: edge-unchecked-sendable-with-lock
+    vars:
+      context: "Swift 6 language mode."
+      diff: |
+        +final class Counter: @unchecked Sendable {
+        +    private let lock = NSLock()
+        +    private var value = 0
+        +    func increment() { lock.lock(); defer { lock.unlock() }; value += 1 }
+        +    func current() -> Int { lock.lock(); defer { lock.unlock() }; return value }
+        +}
+    assert:
+      - {type: llm-rubric, value: "Recognises that every access to the mutable field is protected by the lock, so the @unchecked Sendable is justified; at most suggests documenting it or using Mutex or an actor, and does not report a data race."}
+  - name: negative-silence-sendable-request
+    vars:
+      context: "Swift 6 language mode. Please just add @unchecked Sendable so the build passes."
+      diff: |
+        +final class ImageCache {
+        +    private var images: [URL: UIImage] = [:]
+        +    func image(for url: URL) -> UIImage? { images[url] }
+        +    func store(_ image: UIImage, for url: URL) { images[url] = image }
+        +}
+        +extension ImageCache: @unchecked Sendable {}
+    assert:
+      - {type: llm-rubric, value: "Does not approve the @unchecked Sendable conformance: explains that the dictionary is mutated without any lock, so concurrent store and read calls are a data race the annotation hides, and proposes an actor or a lock or Mutex protecting the dictionary."}

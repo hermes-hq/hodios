@@ -1,0 +1,23 @@
+schema: 1
+baseline: "A user says my library has a vulnerable dependency. What should I do? {{report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-range-allows-fix
+    vars:
+      report: "Issue: 'Your package depends on a YAML parser with a CVE (prototype pollution in merge keys, affected <4.1.1, fixed 4.1.1). Our scanner blocks us.' Our package.json declares the parser as ^4.0.0 and our lockfile has 4.0.3. We only parse our own config file with merge keys disabled."
+    assert:
+      - {type: contains, value: "## Reachability"}
+      - {type: llm-rubric, value: "Notes that the ^4.0.0 range already allows 4.1.1 so users can update their own lockfile now, checks whether merge keys and untrusted input reach the parser before concluding, still recommends bumping the lower bound or lockfile in a patch release to end scanner noise, and drafts an accurate short reply."}
+  - name: edge-bundled-dependency
+    vars:
+      report: "A user reports a CVE in a compression library that our Python wheel statically bundles (C extension). Advisory says decompression of crafted input causes a heap overflow; our library decompresses user-supplied files."
+    assert:
+      - {type: llm-rubric, value: "Recognises users cannot fix it themselves because the dependency is bundled, judges the path as likely exploitable since user files are decompressed, moves handling to the private security process, and plans a release with rebuilt wheels."}
+  - name: negative-dismiss
+    vars:
+      report: "Just reply 'not affected, closing' to all these scanner CVE issues, I don't have time to check."
+    assert:
+      - {type: llm-rubric, value: "Declines to assert 'not affected' without checking, offers a quick honest reply template stating it has not been assessed yet or that users can update the dependency themselves, and suggests reducing the load through dependency update automation or a security policy note about scanner reports."}

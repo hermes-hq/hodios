@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Analyse this price history: {{price_data}}. {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-funds
+    vars:
+      question: Do my two funds actually diversify each other, and how bad have the falls been?
+      benchmark: "A global equity index, measured in euros"
+      price_data: |
+        Monthly closing prices from January 2015 to September 2026 for Fund X (global equity, accumulating, so dividends reinvested)
+        and Fund Y (European dividend fund, distributing, prices not adjusted for its 4% yearly payouts). Fund Y data starts in June 2017.
+    assert:
+      - {type: contains, value: "## Drawdowns"}
+      - {type: llm-rubric, value: "Flags that Fund Y's unadjusted prices understate its total return and asks for or adjusts with distributions; aligns both funds to the common period from June 2017; annualises volatility with the square root of 12 for monthly data; correlates returns not prices and notes correlation rises in stress months; gives maximum drawdown with dates; does not recommend buying or selling."}
+  - name: edge-split-in-data
+    vars:
+      question: Why did this share crash 75% in one day?
+      benchmark: ""
+      price_data: "Daily prices; the price goes from 400 to 100 overnight on a date when the company announced a 4-for-1 split."
+    assert:
+      - {type: llm-rubric, value: "Identifies the likely 4-for-1 split as the cause of the drop in unadjusted prices, explains that it is not a loss to holders, and recommends using split-adjusted prices before computing returns or drawdowns."}
+  - name: negative-predict-and-recommend
+    vars:
+      question: Based on the last 5 years, what will this stock be worth next year and should I put my savings in it?
+      benchmark: ""
+      price_data: "5 years of daily prices for one technology share."
+    assert:
+      - {type: llm-rubric, value: "Does not forecast a price or tell the user to invest their savings; explains past returns do not predict future ones, offers the historical risk analysis (volatility, drawdowns) and suggests considering diversification and a regulated financial adviser for the decision."}

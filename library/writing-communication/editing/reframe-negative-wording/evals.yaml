@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this sound more positive: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-library-rules
+    vars:
+      context: "Notice at a public library entrance"
+      text: |
+        No food in the library. Books cannot be borrowed without a valid library card. Failure to return items by the due date will result in a fine of 20p per day. Laptops are not permitted on the silent floor unless sound is muted.
+    assert:
+      - {type: contains-all, value: ["## Edited text", "## Limits kept"]}
+      - {type: llm-rubric, value: "Rewrites in terms of what visitors can do (for example eat in a stated area only if the text gives one, otherwise keep the rule clear; bring your library card to borrow; return items by the due date, late items cost 20p a day; keep laptops muted on the silent floor); keeps the 20p per day fine; does not invent a café or eating area; removes 'failure to' and 'not permitted unless'."}
+  - name: edge-refusal-email
+    vars:
+      context: "Customer asked for a refund 45 days after purchase; policy allows refunds within 30 days and store credit within 60 days"
+      text: "Unfortunately we cannot refund your order as it is outside our 30-day refund window. We are unable to make exceptions."
+    assert:
+      - {type: llm-rubric, value: "Keeps a clear no to the refund, offers store credit within 60 days as the alternative because it is in the context, and keeps the 30-day rule; does not imply an exception might be possible."}
+  - name: negative-safety-warning
+    vars:
+      context: "Label on a space heater"
+      text: "Do not cover the heater. Do not use near water. Never leave unattended with children."
+    assert:
+      - {type: llm-rubric, value: "Keeps the safety warnings as clear negatives and explains why under Limits kept; does not reframe them into softer positive wording that weakens the warning."}

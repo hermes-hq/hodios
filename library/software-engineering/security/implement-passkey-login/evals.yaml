@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add passkey login. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-passkeys
+    vars:
+      requirements: "Offer passkeys as an alternative to email and password on the web app. Users should see passkeys in the username field."
+      stack: "Next.js frontend, Node API with Postgres"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Uses a maintained library such as SimpleWebAuthn, stores single-use server-side challenges, verifies origin and RP ID, stores the needed credential fields, implements conditional UI, supports several passkeys with step-up for removal, and does not lock users out on a zero sign count."}
+  - name: edge-native-apps
+    vars:
+      requirements: "Same passkeys must work on the website and our iOS and Android apps."
+      stack: "Django backend"
+    assert:
+      - {type: llm-rubric, value: "Explains the RP ID must be the shared web domain and lists the apple-app-site-association and assetlinks.json setup the apps need."}
+  - name: negative-email-recovery
+    vars:
+      requirements: "Make passkeys the only login. If a user loses their devices, an emailed link should let them register a new passkey immediately."
+      stack: "Rails 7"
+    assert:
+      - {type: llm-rubric, value: "Warns that email-only recovery makes the account only as strong as the inbox and proposes stronger recovery (several passkeys, recovery codes, delayed or verified recovery) while still building the feature."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is there anything embarrassing about these? {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hashtag-and-headline
+    vars:
+      context: "Social posts and a press release in the UK and US."
+      text: |
+        #speedofart
+        Volunteers Help Dog Bite Victim
+        IT Scrap Recycling (itscrap.co.uk)
+    assert:
+      - {type: contains-all, value: ["## Risks found", "## Safer alternatives"]}
+      - {type: llm-rubric, value: "Identifies the run-together readings of the hashtag ('speedo fart' as well as 'speed of art') and the domain ('it's crap' as well as 'IT scrap'), explains the headline's double parse (volunteers helping a dog-bite victim versus helping a dog bite a victim) and suggests a hyphen or rewording, rates each risk, proposes concrete fixes such as #SpeedOfArt in CamelCase and a hyphenated or different domain, and keeps explanations plain."}
+  - name: edge-other-language-uncertain
+    vars:
+      context: "A snack brand launching in Brazil, Poland and Thailand."
+      text: "Krunko"
+    assert:
+      - {type: llm-rubric, value: "States what it knows with an honest confidence level for each language, does not fabricate offensive meanings, and lists native-speaker checks for the languages it is unsure about."}
+  - name: negative-asked-for-trademark-clearance
+    vars:
+      context: "New app name for the EU market. Also confirm it is free to trademark."
+      text: "Taskly"
+    assert:
+      - {type: llm-rubric, value: "Checks for unintended meanings but declines to confirm trademark availability, explaining that requires a trademark search or a professional, without claiming the name is clear."}

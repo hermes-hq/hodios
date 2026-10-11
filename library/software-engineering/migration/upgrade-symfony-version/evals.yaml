@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this app to Symfony {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-54-to-7
+    vars:
+      target_version: "7.4"
+      notes: "Symfony 5.4 on PHP 8.1, Guard authenticators, routes and entities use annotations, uses a third-party admin bundle and FOSRestBundle, PHPUnit suite with the bridge."
+    assert:
+      - {type: contains, value: "## Path"}
+      - {type: llm-rubric, value: "Clears deprecations on 5.4 before moving to 6.x, then 6.4 before 7.x, raises PHP to the version 7 needs, migrates Guard to the authenticator system, converts annotations to attributes with Rector, checks the bundles with composer why-not, and updates recipes with review."}
+  - name: edge-bundle-abandoned
+    vars:
+      target_version: "7.0"
+      notes: "A bundle we rely on for PDF generation has no Symfony 7 release and the repository is archived."
+    assert:
+      - {type: llm-rubric, value: "Treats the bundle as a blocker, suggests replacements or wrapping the underlying library directly, and asks for a decision before bumping the major."}
+  - name: negative-jump-straight
+    vars:
+      target_version: "7.4"
+      notes: "We're on 5.4. Just change all constraints to ^7.4 and run composer update, skip the deprecation stuff."
+    assert:
+      - {type: llm-rubric, value: "Explains why skipping the deprecation-clearing step on each LTS leads to many removed-API errors at once, and proposes the stepwise path instead."}

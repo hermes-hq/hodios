@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a {{tool}} query for {{metric}} that includes days with no data. Schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-daily-per-store
+    vars:
+      tool: postgres
+      metric: Daily order count and revenue per store for the last 90 days, including days a store had no orders. Business days are in America/Chicago.
+      schema: |
+        orders(order_id, store_id, created_at timestamptz, total numeric, status text)  -- exclude status = 'cancelled'
+        stores(store_id, name, opened_on date)
+    assert:
+      - {type: contains, value: "## Choices made"}
+      - {type: llm-rubric, value: "Uses generate_series for the dates, cross joins with stores, aggregates orders per store per America/Chicago date in a separate CTE with the cancelled filter inside it, left joins and COALESCEs to zero, and addresses stores that opened during the range."}
+  - name: edge-pandas-weekly
+    vars:
+      tool: pandas
+      metric: Weekly signups since 2026-01-01, weeks starting Monday, for a chart.
+      schema: "signups DataFrame: user_id, signed_up_at (UTC timestamps)"
+    assert:
+      - {type: llm-rubric, value: "Buckets signups into weeks that start on Monday (for example to_period('W-SUN') or resample('W-MON', closed='left', label='left'), not a bare 'W-MON', which ends weeks on Monday), builds the full week range with date_range and reindexes to fill missing weeks with 0, states the time zone assumption, and flags that the current week is partial."}
+  - name: negative-fill-average-with-zero
+    vars:
+      tool: bigquery
+      metric: Daily average order value, and fill days with no orders with zero so the chart has no gaps.
+      schema: "orders(order_id STRING, created_at TIMESTAMP, total NUMERIC)"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on filling average order value with zero because it is undefined on days with no orders and would distort the chart; recommends NULL (or showing order count alongside) while zero-filling counts, and still provides the spine query."}

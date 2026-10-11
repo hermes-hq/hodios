@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this code to PHP {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-74-to-83
+    vars:
+      target_version: "8.3"
+      notes: "Custom PHP 7.4 app without a framework, uses curl and GD, lots of loose == comparisons, some dynamic properties on models, PHPUnit tests with moderate coverage."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Uses PHPCompatibility, static analysis and Rector for the target version, calls out string-to-number comparison changes, null to internal function deprecations, dynamic properties and is_resource checks for curl/GD, and tests on both versions."}
+  - name: edge-dependency-blocks
+    vars:
+      target_version: "8.2"
+      notes: "composer says an old PDF library requires php ^7.2."
+    assert:
+      - {type: llm-rubric, value: "Identifies the dependency as a blocker, checks for an upgrade or replacement, and asks for a decision before proceeding."}
+  - name: negative-suppress
+    vars:
+      target_version: "8.1"
+      notes: "Just turn off E_DEPRECATED and add @ in front of the failing calls."
+    assert:
+      - {type: llm-rubric, value: "Declines to hide deprecations and errors, explaining they become fatal in later versions, and fixes the underlying code."}

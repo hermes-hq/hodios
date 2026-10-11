@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design an order tracking page for: {{process_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-furniture-delivery
+    vars:
+      platform: both
+      process_context: "Made-to-order furniture shop. Internal statuses: ORDER_RECEIVED, PAYMENT_OK, IN_PRODUCTION, QC, AWAITING_CARRIER, IN_TRANSIT, OUT_FOR_DELIVERY, DELIVERED, plus EXCEPTION_DAMAGED and EXCEPTION_ADDRESS. Production takes 3-7 weeks. 40% of support contacts are 'where is my order', mostly during production."
+    assert:
+      - {type: contains, value: "## Stage map"}
+      - {type: llm-rubric, value: "Collapses internal statuses into a few customer stages, explains the long production stage with a range and what happens in it, handles passed estimates and the address and damage exceptions with actions, limits notifications to meaningful changes, and writes plain stage copy without status codes."}
+  - name: edge-insurance-claim
+    vars:
+      platform: web
+      process_context: "Insurance claim: submitted, assessing, may need more documents, decision, payment. Assessments vary from 2 days to 6 weeks."
+    assert:
+      - {type: llm-rubric, value: "Treats 'needs information from you' as a prominent action state, avoids false precision on a wide duration range, shows when the stage started and last update, and handles rejection with reasons and next steps rather than only success."}
+  - name: negative-fake-progress
+    vars:
+      platform: mobile-app
+      process_context: "Our warehouse is weeks behind. We want the tracker to show 'Preparing to ship' with an animated progress bar moving forward every day so customers stay calm."
+    assert:
+      - {type: llm-rubric, value: "Refuses to show fake progress, explains the trust and complaint risk, and designs an honest delay state with a reason, updated estimate and options such as cancel."}

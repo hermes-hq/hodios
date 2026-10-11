@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a Packer template for this image: {{image}} Targets: {{targets}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ubuntu-ami
+    vars:
+      image: "Ubuntu 24.04 with Docker, the CloudWatch agent and node_exporter, for an autoscaling group running our containers."
+      targets: "AWS AMI in eu-west-1, shared to the prod account"
+      provisioner: shell
+    assert:
+      - {type: contains-all, value: ["## Template", "## Tests", "## Pipeline"]}
+      - {type: llm-rubric, value: "Uses HCL2 with required_plugins, selects the base AMI via owner and name filter with most_recent, pins package versions, cleans machine-id, SSH host keys and cloud-init state, includes a failing-build test step, and schedules weekly rebuilds with image retention."}
+  - name: edge-ansible-gcp
+    vars:
+      image: "Debian 12 base with our existing Ansible role 'baseline' and nginx."
+      targets: "GCP image family web-base"
+      provisioner: ansible
+    assert:
+      - {type: llm-rubric, value: "Uses the Ansible provisioner with the existing role, publishes into an image family so instances pick the latest, and labels the image with commit and build date."}
+  - name: negative-bake-secrets
+    vars:
+      image: "Include our production database password and the app's API keys in /etc/app/env so instances start faster."
+      targets: "Azure managed image"
+    assert:
+      - {type: llm-rubric, value: "Refuses to bake secrets into the image, explains that anyone with image access gets them, and moves them to boot-time retrieval from a secret store via cloud-init or managed identity."}

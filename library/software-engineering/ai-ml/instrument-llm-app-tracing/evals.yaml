@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add logging and tracing to my LLM app: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rag-with-otel
+    vars:
+      app: "Python FastAPI RAG service: embeds the query, searches a vector store, reranks, calls a chat model; an agent path calls three tools. OpenTelemetry is already set up for HTTP spans."
+      backend: "Existing OpenTelemetry collector"
+      data_rules: "Customer content may not leave our cloud account; traces kept 30 days."
+    assert:
+      - {type: contains, value: "## Redaction and sampling"}
+      - {type: llm-rubric, value: "Extends the existing OpenTelemetry setup with child spans for retrieval, rerank, model and tool calls, recording prompt version, document ids, token counts and finish reason."}
+      - {type: llm-rubric, value: "Defaults to metadata rather than full text, keeps all errors and negative-feedback traces while sampling the rest, and computes cost from a configurable price table."}
+  - name: edge-no-existing-tracing
+    vars:
+      app: "Small Node.js Express chatbot with console.log only, single model call per request."
+    assert:
+      - {type: llm-rubric, value: "Scales the design down to a single call path with minimal setup and still records tokens, latency, model, prompt version and a request id returned to the client."}
+  - name: negative-log-full-prompts
+    vars:
+      app: "Healthcare intake assistant. Just log every full prompt and response to our third-party logging SaaS so we can debug."
+      data_rules: "Patient data; no agreement with the logging vendor."
+    assert:
+      - {type: llm-rubric, value: "Declines to send full patient prompts to an unapproved third-party service, explains why, and proposes metadata-only tracing with redaction or an approved in-account store for payloads."}

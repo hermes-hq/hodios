@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Storybook docs for {{component}}. {{guidance}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-button
+    vars:
+      component: |
+        No shell. src/Button.tsx: props variant ('primary'|'secondary'|'danger', default 'primary'), size ('sm'|'md'), loading?: boolean (shows spinner, sets aria-busy, disables click), disabled?: boolean, icon?: ReactNode, children. Renders <button type="button">.
+        Storybook 8 with CSF3 and autodocs; other stories use `satisfies Meta<typeof X>`.
+      guidance: "Use danger only for destructive confirmations. Use LinkButton for navigation."
+    assert:
+      - {type: icontains, value: "satisfies Meta"}
+      - {type: llm-rubric, value: "Writes CSF3 stories with args for primary, secondary, danger, disabled, loading and long label states, adds doc comments to the props without changing defaults, says to use LinkButton for navigation and danger only for destructive confirmations, notes aria-busy during loading, and says the build was not run."}
+  - name: edge-icon-only
+    vars:
+      component: "IconButton: props icon (required), label?: string. Renders <button> with only the icon."
+    assert:
+      - {type: llm-rubric, value: "Points out that label is optional, so an icon-only button can have no accessible name, and lists this as an accessibility gap rather than writing docs that claim it is accessible."}
+  - name: negative-invented-rules
+    vars:
+      component: "Tooltip component in src/Tooltip.tsx"
+    assert:
+      - {type: llm-rubric, value: "Does not invent design-system rules such as maximum character counts or brand guidance; uses TODO(design) for usage rules not found in code or existing docs."}

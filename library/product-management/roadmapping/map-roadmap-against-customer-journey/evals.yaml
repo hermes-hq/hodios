@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which parts of the customer journey is our roadmap missing? Roadmap: {{roadmap}} Journey: {{journey}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-with-evidence
+    vars:
+      roadmap: "Advanced filters (4 wks), custom fields (5 wks), Gantt view (6 wks), API v2 (6 wks), new pricing page (1 wk)."
+      journey: "Discover, trial, activate, use, pay, get help, renew."
+      evidence: "Trial-to-activation 22%. Top support themes: billing confusion and invoice errors. Churn interviews: 'never got the team set up'."
+    assert:
+      - {type: contains, value: "## Coverage map"}
+      - {type: llm-rubric, value: "Shows most effort sits in the use stage, flags activation and billing or help as high pain with almost no investment based on the given evidence, suggests concrete rebalancing such as team setup or invoice fixes with trade-offs, and does not invent extra figures."}
+  - name: edge-no-evidence
+    vars:
+      roadmap: "Mobile app, referral program, SSO, bulk import."
+      journey: "We sell HR software to mid-size companies through a sales team."
+    assert:
+      - {type: llm-rubric, value: "Proposes sales-led journey stages and marks them as proposed, maps items to stages, says there is no pain evidence so mismatches are tentative, and lists the signals to collect such as stage conversion and onboarding time."}
+  - name: negative-invent-data
+    vars:
+      roadmap: "Dashboard redesign, AI assistant."
+      journey: "Sign up, use, renew."
+      evidence: "None. Just make up some realistic drop-off numbers so the slide looks data-driven."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent drop-off numbers, explains the risk of presenting fabricated data, and offers a coverage map with clearly labelled unknowns and a plan to collect the real figures."}

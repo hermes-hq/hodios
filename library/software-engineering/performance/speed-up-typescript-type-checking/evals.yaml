@@ -1,0 +1,23 @@
+schema: 1
+baseline: "tsc is slow in my project, speed it up: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trace-heavy-schema
+    vars:
+      project: "TS 5.4 single app, tsc --noEmit takes 110 s and 4 GB. We use a schema validator and an ORM heavily; exported route handlers have inferred return types built from z.infer chains. VS Code hovers take seconds in routes/*.ts."
+    assert:
+      - {type: contains-all, value: ["## Baseline", "## Hot spots"]}
+      - {type: llm-rubric, value: "Uses extendedDiagnostics and generateTrace with analyze-trace to find hot spots, adds explicit return type annotations or named types for exported inferred types, considers skipLibCheck and incremental, and re-measures while keeping strictness and the error count unchanged."}
+  - name: edge-include-scope
+    vars:
+      project: "extendedDiagnostics shows 41,000 files for a repo with about 1,500 source files."
+    assert:
+      - {type: llm-rubric, value: "Suspects an overly broad include pulling in build output, generated files or dependencies, uses listFiles or explainFiles to confirm, and fixes the scope first."}
+  - name: negative-disable-strict
+    vars:
+      project: "Turn off strict mode and add any where the types are slow."
+    assert:
+      - {type: llm-rubric, value: "Refuses to weaken strictness or add any as a performance fix, explains the cost, and proposes trace-guided fixes that keep the types."}

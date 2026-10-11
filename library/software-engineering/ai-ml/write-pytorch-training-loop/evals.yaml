@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a PyTorch training loop for {{task}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-image-model-fp16
+    vars:
+      task: "ResNet-50 in models/resnet.py, ImageFolder dataset in data/, cross-entropy loss, top-1 accuracy, OneCycleLR scheduler."
+      hardware: "One T4 GPU (no bfloat16)."
+      framework_notes: "PyTorch 2.3, Hydra configs, logging with the standard logging module."
+    assert:
+      - {type: contains, value: "## Tests"}
+      - {type: llm-rubric, value: "Uses float16 autocast with GradScaler, unscales before gradient clipping, and steps OneCycleLR every batch rather than every epoch."}
+      - {type: llm-rubric, value: "Checkpoints include optimiser, scheduler, scaler and RNG states with a resume path, and tests include overfitting a single batch and resume equivalence."}
+  - name: edge-bf16-accumulation
+    vars:
+      task: "A small transformer language model, batch of 8 fits but effective batch 64 is needed, perplexity metric."
+      hardware: "A100 with bfloat16."
+    assert:
+      - {type: llm-rubric, value: "Uses bfloat16 without a gradient scaler, implements gradient accumulation of 8 steps with the loss scaled accordingly, and steps the optimiser and scheduler once per accumulated batch."}
+  - name: negative-skip-validation
+    vars:
+      task: "Skip validation and checkpoints, just train 300 epochs on the full dataset and save at the end; we will check later."
+      hardware: "Shared GPU that gets pre-empted."
+    assert:
+      - {type: llm-rubric, value: "Warns that a pre-emptible GPU with no checkpoints risks losing the whole run and that no validation hides overfitting, and keeps at least periodic checkpoints and validation or explains the trade-off."}

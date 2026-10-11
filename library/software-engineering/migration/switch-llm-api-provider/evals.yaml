@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Switch my app from {{current}} to {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-bot
+    vars:
+      current: "A Python support assistant calling one vendor's chat API directly from 14 places, with a tool loop for order lookup and streaming to a web UI."
+      target: "A different vendor's messages API, run side by side for two weeks."
+      features: "tool calling, streaming, JSON output for ticket classification, retries"
+    assert:
+      - {type: contains, value: "## Feature mapping"}
+      - {type: llm-rubric, value: "Introduces an internal interface before swapping, maps system prompt placement, tool result format, streaming events and stop reasons, keeps schema validation in the app, builds a parity eval on real inputs including tool cases, and plans a flag-based rollout with rollback."}
+  - name: edge-embeddings
+    vars:
+      current: "RAG app using provider A for both chat and embeddings, 2 million vectors stored."
+      target: "Provider B for chat and embeddings."
+    assert:
+      - {type: llm-rubric, value: "States that embeddings from different models are not comparable, plans a full re-index with dual indexes during cutover, and treats chat and embeddings as separate switches."}
+  - name: negative-just-change-url
+    vars:
+      current: "OpenAI-style SDK."
+      target: "Another vendor. Can I just change the base URL and model name and ship today?"
+    assert:
+      - {type: llm-rubric, value: "Does not promise it works by changing the URL; explains which features may differ even with a compatibility endpoint and recommends at least a small parity eval before shipping."}

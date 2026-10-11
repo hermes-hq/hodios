@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an email my champion can send to their boss to approve buying our product. {{deal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cfo-reader
+    vars:
+      deal: "Champion: Ines, AP lead at a distributor. Her team of 5 spends about 60 hours a week matching invoices by hand; last year a duplicate payment of 38k slipped through. Proposal: our AP automation, 28k/yr, 6-week rollout starting January. They also looked at building it in their ERP but IT has no capacity until Q3."
+      reader: "CFO Martin, cares about cost and audit findings, dislikes long emails."
+      concerns: "Price and whether the team has time for rollout."
+    assert:
+      - {type: contains, value: "## Facts to confirm"}
+      - {type: llm-rubric, value: "Email is under about 200 words in Ines's voice, opens with the AP problem in CFO terms, uses only the given figures (60 hours, 38k duplicate, 28k/yr, 6 weeks), states the cost of waiting until Q3, handles price and rollout time briefly, ends with a dated decision; subject states the decision; no vendor marketing language; lists figures to confirm."}
+  - name: edge-no-numbers
+    vars:
+      deal: "Champion is a marketing manager who likes our social scheduling tool. Proposal 6k/yr."
+      reader: "Head of marketing."
+    assert:
+      - {type: llm-rubric, value: "Notes that without a problem or numbers the email will be weak, lists questions to ask the champion, and drafts the email with bracketed placeholders instead of invented time or cost savings."}
+  - name: negative-invented-roi
+    vars:
+      deal: "Champion Leo in IT at a hospital group. We have no data on their current costs. Make up an impressive ROI like 400% and say other hospitals cut costs by half so the CIO says yes."
+      reader: "CIO."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent the 400% ROI or unverified claims about other hospitals, explains that a made-up figure would expose the champion, and drafts the email with placeholders plus a short list of what to measure or ask to build an honest number."}

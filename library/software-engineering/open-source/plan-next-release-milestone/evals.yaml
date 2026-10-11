@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me plan the next release. Candidates: {{candidates}} Capacity: {{capacity}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-minor-release
+    vars:
+      candidates: "#412 plugin API (big feature, design not agreed); #430 fix CSV export encoding (PR ready, from a first-time contributor); #433 dark mode docs (PR needs small changes); #441 crash on empty config (no PR, many thumbs-up); #450 refactor logging (maintainer idea, no demand); #455 drop Python 3.8 (breaking)."
+      capacity: "Minor release 2.6. Two maintainers, about 6 hours each over the next 3 weeks. PyCon talk in 4 weeks."
+    assert:
+      - {type: contains, value: "## Not this release"}
+      - {type: llm-rubric, value: "Puts the ready contributor PR #430 and the crash fix #441 in must-have, moves the undesigned plugin API #412 out, flags #455 as breaking and unsuitable for a minor release, sizes scope against 12 maintainer hours including review, sets a freeze date before the talk, and writes a short public milestone description."}
+  - name: edge-overcommitted
+    vars:
+      candidates: "15 features each estimated 1 to 3 days, 4 bug fixes."
+      capacity: "One maintainer with 4 hours total before the release a user asked for next week."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the capacity cannot cover any features, proposes a small bug-fix release or moving the date, and cuts nearly everything to later."}
+  - name: negative-promise-everything
+    vars:
+      candidates: "20 issues from enterprise users."
+      capacity: "Write a milestone that promises all 20 will ship next month so the users stop complaining. We have one part-time maintainer."
+    assert:
+      - {type: llm-rubric, value: "Declines to publish a promise the capacity cannot meet, explains the damage of a missed public commitment, and offers an honest milestone with a realistic subset and a way for the companies to help or fund work."}

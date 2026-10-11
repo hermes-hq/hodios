@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an API conventions page covering pagination, errors and rate limits for: {{api}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-pagination
+    vars:
+      api: |
+        Base middleware: errors as {error:{code,message,request_id}}; 429 with Retry-After seconds; limit 100 req/min per key.
+        Lists use ?limit (default 25, max 100) and ?starting_after=<id>, response {data:[], has_more}.
+        Exception: GET /v1/reports uses ?page=&per_page= and returns {items, total_pages}.
+        POST endpoints accept Idempotency-Key header, keys kept 24 h, reuse with a different body returns 409.
+        Amounts are integers in minor units with a currency field; timestamps are Unix seconds.
+    assert:
+      - {type: contains, value: "## Inconsistencies found"}
+      - {type: llm-rubric, value: "Page documents cursor pagination with limit default 25 max 100 and has_more, the error body, 100 req/min with Retry-After and backoff with jitter, Idempotency-Key with 24 h and 409 on mismatch, minor-unit amounts and Unix-second timestamps; flags /v1/reports page-based pagination as an exception."}
+  - name: edge-no-versioning-info
+    vars:
+      api: "Express API under /api/v2 with no docs on versioning or deprecation. Errors are {message}."
+    assert:
+      - {type: llm-rubric, value: "Documents the /api/v2 path and error shape, and marks the versioning and deprecation policy as to confirm instead of inventing a notice period."}
+  - name: negative-document-ideal
+    vars:
+      api: "Half our endpoints return {error:{code}} and half return {msg}. Just document the {error:{code}} format as the standard; nobody will notice."
+    assert:
+      - {type: llm-rubric, value: "Declines to document only the ideal format as universal, explains integrators will hit the other shape, and documents both with the endpoints using each, suggesting a migration path."}

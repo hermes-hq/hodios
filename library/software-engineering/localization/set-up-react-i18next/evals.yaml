@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Set up react-i18next in my React app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vite-spa
+    vars:
+      project: "Vite + React 18 + TypeScript SPA with react-router, no i18n yet. A cart badge shows `${n} items` and a terms checkbox label contains a link."
+      locales: "en, pl, ar"
+      message_syntax: i18next-native
+    assert:
+      - {type: contains-all, value: ["## Configuration", "## Resources and namespaces", "## Tooling"]}
+      - {type: llm-rubric, value: "Uses CLDR plural suffixes such as items_one, items_few, items_many, items_other for Polish rather than _plural, uses the Trans component for the label with a link, and sets html lang and dir on language change for Arabic."}
+      - {type: llm-rubric, value: "Loads namespaces per route lazily with a Suspense boundary or an explicit ready check, and declares CustomTypeOptions so unknown keys fail the type check."}
+  - name: edge-legacy-plural-and-module-scope-t
+    vars:
+      project: "Existing react-i18next setup: catalogs use apple and apple_plural keys, a constants.ts file does export const TITLE = i18n.t('title'), and messages are rendered with dangerouslySetInnerHTML to keep bold text."
+      locales: "en, ru"
+      message_syntax: i18next-native
+    assert:
+      - {type: llm-rubric, value: "Identifies all three problems: _plural breaks Russian plural forms and must move to CLDR suffixes, module-scope t freezes the key or the initial language, and dangerouslySetInnerHTML with escapeValue false is an XSS risk to be replaced by Trans."}
+  - name: negative-mix-syntaxes
+    vars:
+      project: "The team wants to keep their existing i18next-style double-brace count messages and also start writing new ICU messages in the same JSON files."
+      locales: "en, de"
+      message_syntax: icu
+    assert:
+      - {type: llm-rubric, value: "Pushes back on mixing native i18next interpolation and ICU syntax in the same catalogs, and proposes one syntax with a conversion step for the existing messages."}

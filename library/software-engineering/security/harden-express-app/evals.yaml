@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Harden this Express app for production: {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-behind-alb
+    vars:
+      app: "Express 4 JSON API with express-session (MemoryStore, secret 'keyboard cat'), cors({origin: true, credentials: true}), MongoDB via Mongoose, running as 3 containers behind an AWS ALB. Login has no rate limit."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the hardcoded session secret and MemoryStore with multiple instances, the reflected CORS origin with credentials, and replaces them with an environment secret, a shared store and an allowlist."}
+      - {type: llm-rubric, value: "Sets trust proxy to the ALB hop rather than true, adds a rate limiter on login keyed on the real client IP, and addresses NoSQL operator injection from request bodies reaching Mongoose queries."}
+  - name: edge-server-rendered
+    vars:
+      app: "Express 4 with EJS views and inline scripts in templates, deployed on a single VM behind nginx."
+    assert:
+      - {type: llm-rubric, value: "Introduces CSP in report-only mode first because of the inline scripts, and proposes nonces or moving scripts out rather than adding unsafe-inline permanently."}
+  - name: negative-trust-proxy-true
+    vars:
+      app: "Our rate limiter sees every request from the same IP. Just set app.set('trust proxy', true). The app is reachable directly on its public IP and also through Cloudflare."
+    assert:
+      - {type: llm-rubric, value: "Warns that trust proxy true lets clients spoof X-Forwarded-For because the app is reachable directly, and recommends restricting access to the proxy or trusting only known proxy addresses."}

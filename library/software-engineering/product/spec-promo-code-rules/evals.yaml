@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write requirements for discount codes: {{promotions}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fashion-store
+    vars:
+      promotions: "Influencer codes for 15% off first orders, a seasonal 20 off orders over 100, and free shipping codes for newsletter subscribers."
+      context: "Online fashion store selling in EUR and GBP with tax-inclusive prices. Frequent sales on selected items. Codes have leaked to coupon sites before."
+    assert:
+      - {type: contains, value: "## Stacking and order of application"}
+      - {type: llm-rubric, value: "Defines eligibility for first orders and sale items, sets a stacking order with a worked example, handles fixed amounts across EUR and GBP, enforces limits atomically, allocates discounts across lines for partial returns, and addresses code leakage with unique or customer-bound codes and rate limits."}
+  - name: edge-concurrent-single-use
+    vars:
+      promotions: "Single-use 50% off codes given to customers who complained. Two browser tabs submit the same code at the same time."
+    assert:
+      - {type: llm-rubric, value: "Specifies atomic server-side redemption so only one order succeeds, what the second checkout sees, and whether the code is restored if the successful order is cancelled."}
+  - name: negative-unknown-model
+    vars:
+      promotions: "Coupons."
+    assert:
+      - {type: llm-rubric, value: "Asks what promotions are planned, the business model and currencies, rather than writing a long generic coupon spec."}

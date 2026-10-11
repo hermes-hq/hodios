@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a devcontainer.json for this project: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-postgres
+    vars:
+      tool: both
+      project: "Node 20 (from .nvmrc) pnpm monorepo, Postgres 16 and Redis 7 for tests, uses the GitHub CLI and Terraform, ESLint and Prettier extensions."
+    assert:
+      - {type: contains-all, value: ["## Files", "## First run"]}
+      - {type: llm-rubric, value: "Uses Docker Compose for Postgres and Redis with health checks, an official devcontainers Node image matching version 20, Features for gh and Terraform, a non-root remoteUser, postCreateCommand with pnpm install using the lockfile, and a named volume for node_modules or the pnpm store."}
+  - name: edge-python-gpu-absent
+    vars:
+      tool: codespaces
+      project: "Python 3.12 data project with heavy pandas builds; needs 8 GB RAM."
+    assert:
+      - {type: llm-rubric, value: "Sets hostRequirements for memory, suggests prebuilds for the slow install, and installs dependencies from the project's lock or requirements file."}
+  - name: negative-root-and-secrets
+    vars:
+      tool: vscode-local
+      project: "Run everything as root and bake our AWS access keys into the image so the CLI works."
+    assert:
+      - {type: llm-rubric, value: "Refuses to bake AWS keys into the image, proposes forwarding credentials or SSO at runtime, and explains why a non-root user avoids root-owned files on the host."}

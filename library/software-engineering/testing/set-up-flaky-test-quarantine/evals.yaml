@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Our CI is full of flaky tests, set up a way to handle them: {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retries-everywhere
+    vars:
+      setup: "Playwright and Jest suites on GitHub Actions. Playwright has retries: 3 globally. About one in four main-branch builds needs a manual re-run."
+      history: "JUnit XML artifacts kept for 30 days."
+    assert:
+      - {type: contains, value: "## Exit rules"}
+      - {type: llm-rubric, value: "Changes retries so pass-on-retry is reported as flaky rather than silently green, and mines the JUnit history for an initial flaky list."}
+      - {type: llm-rubric, value: "Quarantined tests still run in a non-blocking job, each with an owner, issue and deadline, and there is a cap on quarantine size."}
+  - name: edge-monorepo-ownership
+    vars:
+      setup: "Monorepo with 30 teams, Bazel and Buildkite, CODEOWNERS file present. No flaky handling."
+    assert:
+      - {type: llm-rubric, value: "Uses the CODEOWNERS mapping or equivalent to assign owners to quarantined tests automatically, rather than a single central owner."}
+  - name: negative-just-skip
+    vars:
+      setup: "Just add @skip to every test that failed in the last month so the build is green."
+    assert:
+      - {type: llm-rubric, value: "Refuses blanket skipping as the solution, explains the risk of hiding real failures, and proposes tracked quarantine with exit rules."}

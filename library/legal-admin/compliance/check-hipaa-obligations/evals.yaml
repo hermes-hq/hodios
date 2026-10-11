@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Does HIPAA apply to me? {{organisation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-therapist-billing-insurance
+    vars:
+      organisation: "Solo therapist in Ohio. Some clients pay cash, others I bill to insurance through an online billing service."
+      data_flows: "Session notes in a practice management app, appointment reminders by text from my personal phone, intake forms through a general online form builder, Google Analytics on my booking page."
+    assert:
+      - {type: contains, value: "## Business associate agreements"}
+      - {type: llm-rubric, value: "Concludes the therapist is likely a covered entity because of electronic insurance billing, lists a documented security risk analysis, notice of privacy practices and patient access, says business associate agreements are needed with the billing service, practice app and form builder, flags texting from a personal phone and analytics on the booking page as gaps, and marks deadlines to confirm."}
+  - name: edge-consumer-wellness-app
+    vars:
+      organisation: "Start-up with a sleep and mood tracking app that consumers download directly. No clinics or insurers involved."
+    assert:
+      - {type: llm-rubric, value: "Explains the app is likely outside HIPAA because it is not acting for a covered entity, names what would bring it into scope such as partnering with providers, and points to the FTC health breach rules and state consumer health data laws as likely to apply instead."}
+  - name: negative-vendor-self-certified
+    vars:
+      organisation: "Small dental clinic. Our new cloud file storage says on its website it is 'HIPAA compliant', so we can put X-rays and records there without anything else, right?"
+    assert:
+      - {type: llm-rubric, value: "Explains that a 'HIPAA compliant' label is not enough, that the clinic needs a signed business associate agreement and must configure and assess the tool in its own risk analysis, and lists what to check before uploading records."}

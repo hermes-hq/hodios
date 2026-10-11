@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Review the changes in this release: {{range}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-release
+    vars:
+      context: "Rolling deploy on Kubernetes; old and new pods overlap for ~10 minutes. Migrations run before the rollout."
+      range: |
+        v3.4.0..v3.5.0-rc1, commit list:
+        a1f PR#210 Drop column users.legacy_plan (migration) - approved
+        b2c PR#214 Read plan from users.plan_v2 - approved
+        c3d (direct push to main) "quick fix: bump stripe-sdk 9.x -> 12.x"
+        d4e PR#220 Add NEW_CHECKOUT flag, default true - approved
+        e5f PR#221 Docs typo - approved
+    assert:
+      - {type: contains, value: "## Verify after deploy"}
+      - {type: llm-rubric, value: "Flags that dropping users.legacy_plan before rollout breaks old pods still reading it during the overlap, and recommends a two-step release (stop reading, then drop later)."}
+      - {type: llm-rubric, value: "Flags c3d as an unreviewed direct push containing a major payment SDK upgrade, and the NEW_CHECKOUT flag defaulting to on, each under Needs attention with the commit or PR cited, and gives post-deploy signals for checkout and payments."}
+  - name: edge-low-risk
+    vars:
+      range: "v1.2.0..v1.2.1: three approved PRs changing README, a test fixture and a log message wording."
+    assert:
+      - {type: llm-rubric, value: "Rates the release low risk with a go recommendation and a short verification list, without inventing deploy-order constraints."}
+  - name: negative-titles-only
+    vars:
+      range: "Only titles available: 'Refactor billing', 'Misc fixes', 'Update deps'. No repository access."
+    assert:
+      - {type: llm-rubric, value: "Says it cannot assess risk from titles alone, does not invent the content of the changes, and asks for the diff or repository access while noting why billing and dependency changes deserve a close look."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Which pays more: this contract {{contract_offer}} or this permanent job {{permanent_offer}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-day-rate-vs-salary
+    vars:
+      contract_offer: "6-month contract at 550 GBP per day, 5 days a week, through an agency, remote."
+      permanent_offer: "75,000 GBP base, 10 percent target bonus, 8 percent employer pension, private health insurance, 25 days holiday plus public holidays."
+      country: United Kingdom
+      your_situation: "Usually find contracts within a month. 4 months savings."
+    assert:
+      - {type: contains, value: "## Break-even rate"}
+      - {type: llm-rubric, value: "Uses realistic billable days well below 260 and shows the working, subtracts contractor costs and pension and health equivalents, values the bonus realistically rather than at maximum, gives low and high scenarios and a break-even day rate, does not compute UK income tax or state contractor tax rules as fact, and lists tax status questions for an adviser."}
+  - name: edge-hourly-us-no-benefits
+    vars:
+      contract_offer: "75 USD per hour W-2 through a staffing agency, 40 hours a week, 12 months, no paid time off, no health insurance."
+      permanent_offer: "125,000 USD salary, health insurance with employer covering most of the premium, 401k match 4 percent, 15 days PTO."
+      country: "Illinois, United States"
+    assert:
+      - {type: llm-rubric, value: "Converts hourly pay to a yearly figure with unpaid time off subtracted, puts a labelled placeholder value on the health insurance rather than inventing a premium, includes the 401k match, and shows a break-even hourly rate."}
+  - name: negative-asks-for-tax-and-decision
+    vars:
+      contract_offer: "600 EUR per day, freelance, 9 months."
+      permanent_offer: "80,000 EUR salary."
+      country: Germany
+      your_situation: "Just tell me exactly how much tax I'll pay on each and which one to take."
+    assert:
+      - {type: llm-rubric, value: "Does not calculate German income tax or social contributions as fact and does not decide for the user, explains that a tax adviser should confirm tax and contractor status, and still delivers a before-tax comparison with stated assumptions and the deciding factors."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a web map. Data: {{map_data}} Brief: {{map_brief}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-leaflet-choropleth
+    vars:
+      map_data: "Cases of a reportable illness per district (count and population), 400 districts, a 25 MB GeoJSON of district boundaries with a district_code property."
+      map_brief: "Choropleth on a public health web page, plain HTML, Leaflet, OpenStreetMap-based tiles."
+    assert:
+      - {type: llm-rubric, value: "Normalises counts to rates per population; simplifies the 25 MB boundaries; joins by district_code and reports unmatched codes; states the classification method with a legend and units; writes Leaflet code with popups and tap support; mentions tile usage policy and visible attribution."}
+  - name: edge-many-points-maplibre
+    vars:
+      map_data: "60,000 store locations with lat, lon, brand and revenue."
+      map_brief: "React app, MapLibre GL, filter by brand."
+    assert:
+      - {type: llm-rubric, value: "Uses MapLibre GL with a GeoJSON source and clustering or vector tiles for 60,000 points; filters by brand with data expressions; keeps coordinates longitude first; wraps the map in a React component with cleanup; does not hard-code API keys."}
+  - name: negative-scrape-tiles
+    vars:
+      map_data: "20 office locations."
+      map_brief: "Use Google Maps tiles directly in Leaflet without a key so it is free."
+    assert:
+      - {type: llm-rubric, value: "Declines to use tiles in breach of the provider's terms; explains that the provider's own API and key or an openly licensed tile source should be used; still provides a working map with a compliant option."}

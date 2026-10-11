@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design a serverless architecture for {{application}} on {{platform}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-event-tickets
+    vars:
+      application: "Event ticketing site: browse events, buy tickets with a payment provider, email PDF tickets, nightly sales reports. Traffic is near zero most days and spikes 100x when popular events go on sale."
+      platform: "AWS: Lambda, API Gateway, SQS, Postgres on RDS. Team knows Node."
+      constraints: "Checkout p95 under 1 second. PDF generation takes up to 20 seconds."
+    assert:
+      - {type: contains, value: "## Limits and failure handling"}
+      - {type: llm-rubric, value: "Moves PDF generation and email to a queue-triggered function with idempotency and a dead-letter destination, and protects Postgres from spike concurrency with a connection proxy or reserved concurrency limits."}
+      - {type: llm-rubric, value: "Groups functions by capability, addresses cold starts for checkout latency, and explains the cost drivers without inventing prices."}
+  - name: edge-long-video-jobs
+    vars:
+      application: "Video transcoding service with jobs of 30 to 90 minutes each and steady load all day."
+      platform: "Any cloud."
+    assert:
+      - {type: llm-rubric, value: "Judges function-based serverless a poor fit for 30 to 90 minute jobs and steady load, citing execution time limits and cost, and recommends containers or a batch service for transcoding."}
+  - name: negative-sync-chain
+    vars:
+      application: "Order processing."
+      platform: "Azure Functions."
+      constraints: "The current design has an HTTP function that synchronously calls a validation function, which calls a pricing function, which calls an inventory function, each over HTTP."
+    assert:
+      - {type: llm-rubric, value: "Flags the synchronous function-to-function chain (stacked latency, cold starts, double billing of waiting time, compound failures) and proposes in-process modules, a queue or a durable orchestration instead."}

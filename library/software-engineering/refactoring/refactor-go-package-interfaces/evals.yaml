@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make the interfaces in these Go packages more idiomatic: {{packages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-interfaces-package
+    vars:
+      packages: |
+        internal/interfaces declares UserService (18 methods), OrderRepository (14 methods) and Mailer, each with one implementation.
+        NewUserService returns UserService. Handlers use 2-3 methods each; mockery mocks are generated for all.
+    assert:
+      - {type: contains, value: "## Interface inventory"}
+      - {type: llm-rubric, value: "Moves small consumer-defined interfaces next to handlers with only the methods used; constructors return concrete types; keeps Mailer if it is a boundary tests fake; checks nil interface comparisons and type assertions; runs go vet, build and tests per package."}
+  - name: edge-nil-interface
+    vars:
+      packages: "A function returning error-like interface Validator that is changed to return *validatorImpl; callers compare the result to nil."
+    assert:
+      - {type: llm-rubric, value: "Explains the nil pointer in interface pitfall and checks the callers' nil comparisons when changing return types."}
+  - name: negative-public-module
+    vars:
+      packages: "Remove the exported Store interface from our open source library github module; many users implement it."
+    assert:
+      - {type: llm-rubric, value: "Flags removing an exported interface implemented by users as a breaking change needing a major version or deprecation path, and does not just remove it."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Quiz me on this codebase. {{area}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-first-question
+    vars:
+      area: "Repo snapshot: src/routes/ (Express routers per resource), src/services/ (business logic), src/db/migrations/, tests/ with supertest; errors thrown as AppError and handled in src/middleware/error.ts."
+      questions: 5
+      mode: mixed
+    assert:
+      - {type: contains, value: "## Question"}
+      - {type: llm-rubric, value: "Asks exactly one question about this repo (such as where to add a new endpoint or how errors reach the client) with topic and difficulty, does not reveal the answer, and does not ask trivia."}
+  - name: edge-reasoning-mode
+    vars:
+      area: "Repo snapshot: orders have status pending, paid, shipped; a cron job cancels pending orders older than 24 hours in jobs/cancel_stale.py; payments webhook in api/webhooks.py sets paid."
+      questions: 3
+      mode: reasoning
+    assert:
+      - {type: llm-rubric, value: "Asks a change-consequence question grounded in the snapshot, such as what happens if a payment webhook arrives after the 24-hour cancellation, rather than a where-is-it question."}
+  - name: negative-unverifiable
+    vars:
+      area: "I can't give you access to the repo, just quiz me on it anyway. It's a Rails app."
+      questions: 5
+      mode: recall
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot quiz on this specific repo without reading it, does not invent repo-specific questions and answers, and offers to proceed once given access or to quiz on general Rails conventions clearly labelled as general."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Give me a one-liner to do this: {{transformation}}. Input looks like: {{sample_input}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jq-extract
+    vars:
+      transformation: "From a JSON array of users, print the username of every user whose plan is pro, one per line, skipping users without a username."
+      sample_input: '[{"id":1,"username":"ana","plan":"pro"},{"id":2,"plan":"pro"},{"id":3,"username":"carl","plan":"free"}]'
+      platform: both
+    assert:
+      - {type: contains, value: "jq -r"}
+      - {type: llm-rubric, value: "Filters plan == pro, skips the user without a username (for example with select or // empty), shows the exact expected output ana, and explains each part of the filter."}
+  - name: edge-sed-in-place-macos
+    vars:
+      transformation: "In all .env.example files under the repo, replace API_URL=http://localhost:3000 with API_URL=http://localhost:8080."
+      sample_input: "API_URL=http://localhost:3000\nDEBUG=true"
+      platform: both
+    assert:
+      - {type: llm-rubric, value: "Shows a preview step first, then an in-place edit that works on both macOS and Linux (for example sed -i.bak or perl -pi), and escapes or changes the delimiter for the slashes in the URL."}
+  - name: negative-quoted-csv-awk
+    vars:
+      transformation: "Sum the third column of this CSV with awk -F,"
+      sample_input: 'name,city,amount\n"Smith, J",Lisbon,10\n"Doe, A",Porto,5'
+      platform: linux
+    assert:
+      - {type: llm-rubric, value: "Points out that awk -F, splits inside the quoted names so the third column is wrong for this data, and recommends a CSV-aware tool or script (giving the command) instead of a naive awk one-liner."}

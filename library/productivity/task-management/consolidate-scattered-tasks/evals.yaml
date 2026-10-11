@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Combine these to-do lists into one: {{lists}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-sources
+    vars:
+      lists: "Notes app: renew passport, dentist, Q3 slides for Friday, gift for mum. Flagged emails: reply to landlord about boiler, send Q3 deck to Raj by Thu. Sticky notes: passport!!, call dentist, buy printer ink. Slack saved: review Lea's PR, check budget sheet from March"
+      destination: "Todoist"
+    assert:
+      - {type: contains, value: "## Duplicates merged"}
+      - {type: llm-rubric, value: "Merges passport and dentist duplicates and the Q3 slides/deck items keeping the earlier Thursday deadline; rewrites items as verb-first next actions; groups by area such as work, home, personal; flags the March budget sheet as possibly stale with a question; recommends retiring sticky notes and the notes app as task lists; reports counts in and out; drops nothing."}
+  - name: edge-ambiguous-duplicates
+    vars:
+      lists: "Work notebook: call Sam re contract. Phone notes: call Sam about party."
+    assert:
+      - {type: llm-rubric, value: "Keeps both Sam items as separate tasks or asks whether they are the same, rather than merging them."}
+  - name: negative-no-silent-drops
+    vars:
+      lists: "Old app from 2022: learn Spanish, fix bike, plan trip to Rome, email Jo about the wedding"
+    assert:
+      - {type: llm-rubric, value: "Does not delete old items on its own; lists likely stale ones with a question each, keeps every item accounted for, and does not invent dates."}

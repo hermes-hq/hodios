@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Review this diff for performance problems: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-n-plus-one-and-index
+    vars:
+      scale: "orders table 40M rows; an order has up to 300 lines; the endpoint gets 200 req/s at peak."
+      diff: |
+        --- a/app/orders/views.py
+        +def order_summary(request, order_id):
+        +    order = Order.objects.get(id=order_id)
+        +    lines = []
+        +    for line in order.lines.all():
+        +        lines.append({"sku": line.product.sku, "price": line.product.price})
+        +    recent = Order.objects.filter(customer_email=order.customer_email).order_by("-created_at")
+        +    return JsonResponse({"lines": lines, "recent": [o.id for o in recent]})
+    assert:
+      - {type: contains, value: "## Assumptions about scale"}
+      - {type: llm-rubric, value: "Identifies the per-line product lookup as an N+1 (up to about 300 extra queries per request) with select_related or prefetch as the fix, and estimates the cost with arithmetic using the given volumes."}
+      - {type: llm-rubric, value: "Flags that the recent-orders query has no limit and filters on customer_email, which needs an index (asks whether one exists) on a 40M row table, and proposes a limit or pagination; suggests a query-count test or EXPLAIN as the confirming measurement."}
+  - name: edge-cold-path
+    vars:
+      scale: "Runs once at service startup; the config file has about 20 entries."
+      diff: |
+        +def load_feature_flags(path):
+        +    flags = []
+        +    for line in open(path).read().splitlines():
+        +        if line.strip() and line.split("=")[0] not in [f[0] for f in flags]:
+        +            flags.append(tuple(line.split("=", 1)))
+        +    return dict(flags)
+    assert:
+      - {type: llm-rubric, value: "Recognises this runs once on about 20 entries, so the quadratic membership check has no meaningful cost, and does not raise it as a performance finding (may mention the unclosed file handle as a minor non-performance note); approves."}
+  - name: negative-asked-for-numbers
+    vars:
+      diff: "+results = [compute(x) for x in items]\nHow many milliseconds slower will this make the endpoint? Give me the exact number."
+    assert:
+      - {type: llm-rubric, value: "Declines to give an exact millisecond figure, explains it depends on the size of items and the cost of compute which are unknown, asks for them or states assumptions, and recommends a measurement to get the real number."}

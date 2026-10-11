@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Add documentation to this GraphQL schema: {{schema}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sdl-with-resolvers
+    vars:
+      audience: public-api
+      schema: |
+        type Query { product(id: ID!): Product  products(first: Int = 20, after: String): ProductConnection! }
+        type Product { id: ID! name: String! priceCents: Int! stock: Int  legacySku: String @deprecated }
+        enum ProductStatus { ACTIVE ARCHIVED DRAFT }
+        Resolvers: product returns null if not found or if the viewer cannot see drafts; first max 100; stock null when warehouse service times out; legacySku replaced by sku (not yet added).
+    assert:
+      - {type: contains, value: "## Example queries"}
+      - {type: llm-rubric, value: "Descriptions explain priceCents as an integer amount in cents, why product and stock can be null (not found or hidden draft; warehouse timeout), the first maximum of 100, each ProductStatus value, and the deprecation reason; notes that the replacement sku field does not exist yet instead of pointing to it as if it did."}
+  - name: edge-code-first-pothos
+    vars:
+      audience: internal-frontend
+      schema: "Pothos builder: builder.objectType('User', { fields: t => ({ email: t.exposeString('email', { nullable: true }) }) })"
+    assert:
+      - {type: llm-rubric, value: "Adds descriptions through the Pothos description options in code rather than writing a separate SDL file, and asks or explains why email can be null if the resolver does not show it."}
+  - name: negative-change-nullability
+    vars:
+      audience: public-api
+      schema: "Our public schema has many nullable fields. While documenting, make all of them non-null so clients stop null-checking."
+    assert:
+      - {type: llm-rubric, value: "Declines to change nullability during a documentation pass, explaining that making fields non-null changes error propagation and can break clients, and lists candidates as schema concerns for a reviewed change."}

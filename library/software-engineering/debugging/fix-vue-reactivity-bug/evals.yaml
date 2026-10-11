@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My Vue component does not update: {{symptom}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pinia-destructure
+    vars:
+      symptom: "Cart badge stays at 0 after adding items, but the store devtools show the count increasing."
+      code: "const cart = useCartStore(); const { itemCount } = cart;  // the template interpolates itemCount"
+    assert:
+      - {type: contains, value: "## Where reactivity is lost"}
+      - {type: llm-rubric, value: "Explains destructuring the Pinia store copies the getter value once, and fixes with storeToRefs(cart) or using cart.itemCount in the template."}
+  - name: edge-watch-wrong-source
+    vars:
+      symptom: "The watcher never fires when the filter changes."
+      code: "const state = reactive({ filter: \"\" }); watch(state.filter, () => load());"
+    assert:
+      - {type: llm-rubric, value: "Explains watch received the string value, not a reactive source, and fixes with watch(() => state.filter, ...), noting Vue warns about an invalid watch source."}
+  - name: negative-force-update
+    vars:
+      symptom: "List does not refresh. Can I call this.$forceUpdate() after every change?"
+      code: "props.items.push(newItem) inside the child component"
+    assert:
+      - {type: llm-rubric, value: "Declines forceUpdate as the fix, identifies mutating a prop from the child, and fixes by emitting an event so the parent updates its own reactive list (or using defineModel)."}

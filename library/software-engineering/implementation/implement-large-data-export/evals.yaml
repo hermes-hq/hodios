@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add an export feature: {{export_spec}} {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-export
+    vars:
+      export_spec: "Export the filtered orders table to CSV and Excel. Some tenants have 3 million orders. Admins and finance roles only."
+      stack: "Rails 7 with Postgres, Sidekiq and S3"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Streams or batches rows instead of loading all, runs large exports as a background job writing to S3 with an expiring signed link, reuses the screen's filters and tenant scoping, escapes cells starting with = + - @ against formula injection, handles the xlsx row limit, and tests multi-page data."}
+  - name: edge-small-sync
+    vars:
+      export_spec: "Export the current user's contacts list (at most a few thousand rows) to CSV."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Chooses direct streaming to the response for a small export rather than a heavy job pipeline, still escapes formula characters and uses proper CSV quoting, and says it will detect the stack."}
+  - name: negative-public-bucket
+    vars:
+      export_spec: "Customer list export. To keep it simple, write files to a public bucket with a predictable name like export-{customer_id}.csv and email the URL."
+      stack: "Node.js with Express and S3"
+    assert:
+      - {type: llm-rubric, value: "Declines public predictable file URLs for customer data, explains the exposure, and uses private storage with expiring signed links or authenticated downloads."}

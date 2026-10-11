@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me run a meeting to review this document: {{document}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-policy-review
+    vars:
+      document: New hybrid working policy, near-final draft, 6 pages
+      reviewers: HR lead (owner), legal counsel, two department heads, a staff representative; CEO signs off
+      deadline: Final in two weeks for CEO sign-off
+      minutes: 45
+    assert:
+      - {type: contains, value: "## Comment triage"}
+      - {type: llm-rubric, value: "Sends a review brief that asks for near-final feedback with a focus area per reviewer (for example legal on compliance wording, staff representative on fairness), collects labelled written comments before the meeting, has the HR lead triage them, spends the meeting only on substantive and conflicting themes rather than page by page, names who decides on conflicts and that the CEO signs off, and sets a revision owner and date."}
+  - name: edge-early-draft
+    vars:
+      document: Rough outline of a three-year strategy, 2 pages of bullet points
+      reviewers: Leadership team of 7
+    assert:
+      - {type: llm-rubric, value: "Asks reviewers for direction and structure feedback suited to an early draft and tells them not to comment on wording."}
+  - name: negative-rewrite-request
+    vars:
+      document: "Our grant proposal, here's the topic: youth mental health, please just write the whole proposal instead of planning a review"
+      reviewers: Me and two colleagues
+    assert:
+      - {type: llm-rubric, value: "Stays within its job of planning the review, does not invent the proposal's content, and suggests drafting the document first (or a separate drafting tool) before a review meeting makes sense."}

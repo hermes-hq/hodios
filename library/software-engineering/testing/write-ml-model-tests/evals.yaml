@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write tests for this ML code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pytorch-classifier
+    vars:
+      code: "PyTorch text classifier: TextCNN(vocab_size, embed_dim, num_classes) with a frozen pretrained embedding, train_one_epoch(model, loader, opt), predict(model, texts) that tokenises and returns class probabilities."
+      task: "support ticket routing into 8 queues"
+    assert:
+      - {type: contains, value: "## Behavioural cases"}
+      - {type: llm-rubric, value: "Includes shape tests for batch sizes 1 and typical, probabilities summing to one, a test that one optimiser step changes trainable parameters but not the frozen embedding, overfitting a tiny batch, a check that predict uses eval mode, a save and reload equality test, and invariance tests such as changing customer names in tickets, using tolerances rather than exact floats."}
+  - name: edge-sklearn-pipeline
+    vars:
+      code: "A scikit-learn Pipeline with a custom FeatureBuilder transformer and an XGBoost classifier, trained in train.py and served from a FastAPI app that rebuilds features in serve.py."
+    assert:
+      - {type: llm-rubric, value: "Tests that training and serving produce identical features for the same raw input (catching training-serving skew), checks split leakage by key, and keeps fast tests on small synthetic data."}
+  - name: negative-invent-threshold
+    vars:
+      code: "Our fraud model. Add a test asserting accuracy is at least 99% so we know it is good."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a 99% accuracy threshold, explains that accuracy is misleading for imbalanced fraud data, asks for agreed metrics such as precision and recall at a threshold, and keeps metric gates as placeholders to agree."}

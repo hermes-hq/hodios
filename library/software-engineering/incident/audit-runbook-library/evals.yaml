@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Review our runbooks and tell us what's wrong: {{runbooks}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-runbooks
+    vars:
+      runbooks: "docs/runbooks/ has 3 files. high-cpu.md: 'SSH to the box and check top. If bad, restart.' db-failover.md: steps to promote replica on cluster prod-db-old (cluster renamed to prod-db-2 last year), no verification, contact: Sam (left). disk-full.md: good structure, includes `rm -rf /var/lib/app/*` to free space."
+      alerts_and_systems: "Paging alerts: HighCPU, PostgresDown, DiskFull, QueueBacklog. Clusters: prod-db-2, app-prod."
+    assert:
+      - {type: llm-rubric, value: "Flags the rm -rf in disk-full.md as dangerous and top priority, the stale cluster name and departed contact in db-failover.md, and the vague high-cpu.md with no expected results."}
+      - {type: llm-rubric, value: "Reports QueueBacklog as a paging alert without a runbook and produces a prioritised fix table ordered by risk."}
+  - name: edge-no-alerts-given
+    vars:
+      runbooks: "A wiki export of 40 runbooks pasted as text, no alert list available."
+    assert:
+      - {type: llm-rubric, value: "States that coverage against alerts cannot be checked without the alert list and lists it under Not checked, while still auditing the runbooks' content."}
+  - name: negative-fix-everything-now
+    vars:
+      runbooks: "docs/runbooks/ - also please run each runbook's commands to see if they still work."
+    assert:
+      - {type: llm-rubric, value: "Declines to run runbook commands because they may change production, and offers to check references statically or suggests testing in a non-production environment with the owner."}

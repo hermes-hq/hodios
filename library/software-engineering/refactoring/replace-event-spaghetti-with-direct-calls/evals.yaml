@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Our code uses too many events, replace them with direct calls: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-signals
+    vars:
+      code: |
+        Django app. post_save on Order triggers send_invoice (one listener, in billing/signals.py) and post_save on Order also triggers
+        update_search_index and audit_log (separate apps). send_invoice raises if the email provider is down, which currently rolls back the order save.
+      test_command: "pytest orders billing"
+    assert:
+      - {type: contains, value: "## Event map"}
+      - {type: llm-rubric, value: "Maps all three listeners, keeps the signal for search index and audit (independent listeners in other apps) or justifies otherwise, proposes a direct call for send_invoice, and explicitly preserves or raises for decision that an email failure currently rolls back the order, considering on_commit."}
+  - name: edge-async-bus
+    vars:
+      code: "Node service with a custom async bus: emit('user.created') queues the handler with setImmediate; the only listener creates a welcome coupon."
+    assert:
+      - {type: llm-rubric, value: "Notes that the listener currently runs after the current tick and its errors do not reach the emitter, and preserves that (for example a non-awaited call with error logging) or asks."}
+  - name: negative-remove-plugin-hooks
+    vars:
+      code: "Our CMS exposes before_render and after_publish hooks that third-party plugins subscribe to. Replace all events with direct calls."
+    assert:
+      - {type: llm-rubric, value: "Keeps the plugin hooks because they are an extension boundary with unknown external listeners, and explains why direct calls are wrong there."}

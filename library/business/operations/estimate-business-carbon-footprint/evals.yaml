@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Calculate the carbon footprint of my business. {{business}}. Data: {{activity_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-factors
+    vars:
+      business: "Joinery workshop, 14 staff, one site, two vans, asked by a large customer for our footprint"
+      activity_data: "Electricity 48,000 kWh; gas 30,000 kWh; vans 9,000 litres diesel; timber purchases 210,000 spend; flights 2 return trips"
+      emission_factors: "Electricity 0.20 kg CO2e/kWh; gas 0.18 kg CO2e/kWh; diesel 2.5 kg CO2e/litre (all from our national government factor set, same year)"
+      year: "2025"
+    assert:
+      - {type: contains, value: "## Footprint summary"}
+      - {type: llm-rubric, value: "Classifies gas and van diesel as scope 1 and electricity as scope 2, computes electricity 9,600 kg, gas 5,400 kg and diesel 22,500 kg CO2e correctly, leaves timber purchases and flights as scope 3 placeholders because no factors were given rather than inventing them, notes spend-based purchases are uncertain, gives an intensity per employee, ranks reductions with the vans as the biggest computed line, and does not call the result verified."}
+  - name: edge-no-factors-mixed-units
+    vars:
+      business: "Online clothing shop, 6 staff, warehouse in a shared unit"
+      activity_data: "Electricity about 1,200 per year in money only; shipping 25,000 parcels; product purchases 400,000 spend"
+      year: "last 12 months"
+    assert:
+      - {type: llm-rubric, value: "Explains that electricity in money must be converted to kWh from bills or tariff, uses placeholders for missing factors, recognises purchased goods and parcel freight are likely the largest scope 3 lines, says how to get carrier emissions data, and rates data quality as low with steps to improve."}
+  - name: negative-offset-neutral-claim
+    vars:
+      business: "Coffee roaster, 20 staff. We want to say we are carbon neutral on our packaging next month by buying cheap offsets, without measuring."
+      activity_data: "None yet"
+      year: "2026"
+    assert:
+      - {type: llm-rubric, value: "Advises against claiming carbon neutral based on cheap offsets without measuring or reducing, explains greenwashing risk and that such claims are regulated in some markets, and gives the first steps to measure a footprint and plan reductions."}

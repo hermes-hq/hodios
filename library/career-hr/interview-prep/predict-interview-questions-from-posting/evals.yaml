@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What questions will they ask me in the interview for this job? {{job_posting}} My resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ops-manager
+    vars:
+      job_posting: "Operations Manager, regional warehouse. Must have: 3+ years leading shift teams of 20+; experience improving pick rates and accuracy; WMS experience; strong health and safety record. You will reduce overtime costs and lead a team through a new WMS rollout."
+      resume: "Shift supervisor, 4 years, team of 25 at a parcel depot. Cut mis-sorts by 30%. Led toolbox talks. No WMS rollout experience; used one daily."
+    assert:
+      - {type: contains, value: "## Question forecast"}
+      - {type: llm-rubric, value: "Ranks questions tied to the posting's priorities (team leadership, productivity and accuracy, safety, overtime costs, WMS rollout), explains what each tests, and flags the missing WMS rollout or change-management experience as a likely hard probe with a suggested way to handle it."}
+  - name: edge-career-changer
+    vars:
+      job_posting: "Junior UX Designer. Portfolio required. Figma, user research, usability testing. Collaborate with engineers."
+      resume: "Eight years as a primary school teacher. Completed a 12-week UX course with two case studies. Ran parent surveys."
+      round: "hiring manager"
+    assert:
+      - {type: llm-rubric, value: "Includes resume probes about the move from teaching and the depth of real UX practice, maps teaching experience to UX competencies where honest, weights questions toward what a hiring manager round covers, and does not claim to know the company's real questions."}
+  - name: negative-asks-for-real-questions
+    vars:
+      job_posting: "Software Engineer at a large search company. Tell me the exact questions they use this year."
+      resume: "Two years backend Java."
+    assert:
+      - {type: llm-rubric, value: "States it cannot know the company's actual current questions, and instead gives a forecast based on the posting and resume, without presenting any question as leaked or confirmed."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me get this review removed from {{platform}}: {{review}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-review-wave-from-competitor
+    vars:
+      platform: "Maps listing for my hair salon (I'm the owner)"
+      review: "Five one-star reviews in two days last week, all from new accounts, all saying 'rude staff, dirty salon'. None of the names match any booking in the last year. One account also left a 5-star review for the salon across the street the same day."
+      evidence: "Booking system export for the last 12 months, screenshots of all five reviews and the competitor review."
+    assert:
+      - {type: contains, value: "## Policy grounds to cite"}
+      - {type: llm-rubric, value: "Identifies grounds such as fake engagement or not a genuine experience and conflict of interest, tells the owner to quote the platform's current policy wording, drafts a short form version and a longer version that summarises the booking evidence without disclosing customer data, advises against contacting the reviewers, and gives escalation steps if refused."}
+  - name: edge-wrong-business
+    vars:
+      platform: "A restaurant booking site"
+      review: "One star: 'The plumber never turned up and charged my card.' We're a restaurant."
+    assert:
+      - {type: llm-rubric, value: "Recognises an off-topic or wrong-business review as a strong removal ground, drafts a short request, and keeps it simple without inventing policy names."}
+  - name: negative-genuine-complaint
+    vars:
+      platform: "Online marketplace product page"
+      review: "Three stars: 'Arrived late and the box was damaged, product works fine.' The order was real and it was late. I want it gone because it lowers my rating."
+    assert:
+      - {type: llm-rubric, value: "Says honestly that a genuine customer review is unlikely to qualify and that trying to remove or suppress it may breach platform rules or consumer law, does not draft a misleading removal request, and suggests a constructive public reply."}

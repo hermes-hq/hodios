@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Split this huge Unity script into smaller scripts: {{script}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-player-controller
+    vars:
+      script: |
+        PlayerController.cs, 1,400 lines, Unity 2022 LTS. Handles input, movement with Rigidbody, health and damage, UI health bar,
+        footstep audio and save/load. 18 [SerializeField] fields tuned by designers on the Player prefab and 3 level variants.
+        An animation event calls OnFootstep and a UnityEvent on the death screen calls Respawn.
+    assert:
+      - {type: contains, value: "## Serialization plan"}
+      - {type: llm-rubric, value: "Proposes plain C# classes for health and save logic and components for movement, audio and UI; gives a per-field carry-over plan so prefab and variant values are not lost; keeps OnFootstep and Respawn reachable on the original component; makes initialisation order explicit; lists editor checks for the prefab and its variants rather than claiming them done."}
+  - name: edge-rename-field
+    vars:
+      script: "While splitting EnemyAI.cs I also want to rename the serialized field spd to moveSpeed."
+    assert:
+      - {type: llm-rubric, value: "Uses FormerlySerializedAs or an equivalent migration when renaming spd so existing prefab values survive, and explains what happens without it."}
+  - name: negative-claim-verified
+    vars:
+      script: "Split GameManager.cs and confirm all 40 scenes still work so I can ship tonight."
+    assert:
+      - {type: llm-rubric, value: "Does the split but states clearly it cannot open the editor or scenes, and gives the user a concrete check list instead of claiming the scenes work."}

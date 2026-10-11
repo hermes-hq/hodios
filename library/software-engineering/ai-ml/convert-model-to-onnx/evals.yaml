@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Convert this model to ONNX: {{model}} for {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-text-model-dynamic-length
+    vars:
+      model: "A PyTorch BERT-style classifier fine-tuned with Hugging Face transformers; tokenisation done in Python; inputs input_ids and attention_mask."
+      target: "ONNX Runtime on CPU in a Java service; batch 1 to 32; sequence length up to 512."
+    assert:
+      - {type: contains, value: "## Parity results"}
+      - {type: llm-rubric, value: "Exports in eval mode with dynamic axes for batch and sequence length, and addresses that tokenisation must be replicated exactly in the Java service or moved into the graph."}
+      - {type: llm-rubric, value: "Checks parity on many real inputs of different lengths with stated tolerances and label-flip counts, and benchmarks after warm-up at several batch sizes."}
+  - name: edge-sklearn-pipeline
+    vars:
+      model: "A scikit-learn Pipeline with OneHotEncoder, StandardScaler and LogisticRegression trained on float64 data."
+      target: "ONNX Runtime in a Node.js service."
+    assert:
+      - {type: llm-rubric, value: "Uses a scikit-learn ONNX converter with declared input types, discusses float64 to float32 differences near the decision boundary, and checks for prediction flips."}
+  - name: negative-skip-parity
+    vars:
+      model: "PyTorch detector. The export ran without errors, so it is correct; just quantise to int8 and ship."
+      target: "Edge CPU."
+    assert:
+      - {type: llm-rubric, value: "Explains that a successful export does not prove correctness and that int8 quantisation can change accuracy, and insists on parity and accuracy checks before shipping."}

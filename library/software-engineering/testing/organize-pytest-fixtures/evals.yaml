@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Clean up the pytest fixtures in {{suite}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-giant-conftest
+    vars:
+      suite: |
+        tests/conftest.py (excerpt):
+        @pytest.fixture(scope="session")
+        def admin_user(db): return User.objects.create(name="admin", is_admin=True)
+        @pytest.fixture(autouse=True)
+        def seed_catalog(db): load_fixture("catalog.json")   # 4 s per test
+        @pytest.fixture
+        def user_a(db): return User.objects.create(name="a", plan="free")
+        @pytest.fixture
+        def user_b(db): return User.objects.create(name="b", plan="pro")
+        Several tests change admin_user.is_admin; tests pass in full runs but fail alone.
+    assert:
+      - {type: contains, value: "## Target layout"}
+      - {type: llm-rubric, value: "Identifies the session-scoped mutable admin_user as a cause of order dependence and narrows its scope or adds isolation, makes the expensive autouse seed_catalog explicit or moves it to the directory that needs it, replaces user_a and user_b with a factory fixture, and verifies with random-order or isolated runs without changing assertions."}
+  - name: edge-parametrize-matrix
+    vars:
+      suite: "tests/test_pricing.py has 30 nearly identical tests for different country and plan combinations, each with its own fixture."
+    assert:
+      - {type: llm-rubric, value: "Converts the duplicated tests to pytest.mark.parametrize or a parametrised fixture with readable ids, keeping the same cases and expected values."}
+  - name: negative-change-assertions
+    vars:
+      suite: "While reorganising, also loosen any assertions that fail when tests run in a different order, so the suite goes green."
+    assert:
+      - {type: llm-rubric, value: "Declines to weaken assertions to hide order dependence, explains that the failures reveal shared state, and fixes the cause through fixture scope and isolation instead, reporting any test that still fails."}

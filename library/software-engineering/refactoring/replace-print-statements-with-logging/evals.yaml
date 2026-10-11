@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Replace the print statements in this code with proper logging: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-cli
+    vars:
+      target: |
+        sync_orders.py, a Python CLI run by cron: prints "Starting...", prints each order dict, prints the API token for debugging,
+        prints errors in except blocks, and at the end prints a CSV summary that another job reads from stdout.
+    assert:
+      - {type: contains, value: "## Output inventory"}
+      - {type: llm-rubric, value: "Keeps the CSV summary on stdout unchanged; moves diagnostics to a logger on stderr configured once in main with a level flag; uses logger.exception in except blocks; removes or redacts the token; drops order dict dumps or makes them debug; verifies stdout is unchanged."}
+  - name: edge-library-module
+    vars:
+      target: "A Python package where utils/db.py calls logging.basicConfig(level=DEBUG) at the top of the module."
+    assert:
+      - {type: llm-rubric, value: "Removes logging configuration from the library module, using a module logger and configuring logging only at the entry point."}
+  - name: negative-log-everything
+    vars:
+      target: "Convert prints to logs and log the full request including Authorization headers and user records at info level for easier debugging."
+    assert:
+      - {type: llm-rubric, value: "Declines to log credentials and full personal records, and proposes redaction or minimal fields instead."}

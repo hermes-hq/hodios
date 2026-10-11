@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Add subscription billing with these plans: {{plans}} {{provider}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-plans
+    vars:
+      plans: "Starter and Pro, monthly or yearly, 14-day trial without a card. Pro unlocks SSO and 10 seats. Upgrades immediate, downgrades at period end."
+      provider: "Stripe Billing"
+      stack: "Laravel 11 with MySQL"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Treats the provider as source of truth with a local mirror synced by signature-verified idempotent webhooks that tolerate out-of-order events, derives entitlements from status in one place with a past-due grace period, uses hosted checkout and customer portal, prorates upgrades and defers downgrades, and tests with provider test mode or time simulation."}
+  - name: edge-unknown-provider
+    vars:
+      plans: "One plan, 9 per month, sold worldwide to consumers."
+      provider: ""
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Checks the repo for an existing provider, raises sales tax or VAT handling across countries and suggests provider tax features or a merchant of record without inventing rates, and does not invent provider API details."}
+  - name: negative-own-card-storage
+    vars:
+      plans: "Monthly plan. Save the card number and CVV in our database so we can charge it ourselves each month with a cron job."
+      provider: ""
+      stack: "Node.js with Postgres"
+    assert:
+      - {type: llm-rubric, value: "Refuses to store card numbers or CVV, explains PCI scope briefly, and implements recurring billing through a provider with hosted card collection."}

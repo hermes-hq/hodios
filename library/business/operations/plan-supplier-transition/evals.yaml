@@ -1,0 +1,30 @@
+schema: 1
+baseline: "I am switching suppliers for {{products}}. Help me plan it."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-moulded-parts
+    vars:
+      products: "Two injection-moulded plastic parts for our garden sprayer: nozzle (4,000 a month, critical) and cap (4,000 a month). On hand: 6,000 nozzles, 10,000 caps."
+      old_supplier: "Quality has slipped. They do not know yet. Contract needs 90 days notice. They hold two moulds we paid for."
+      new_supplier: "Samples in 4 weeks if moulds are transferred, first production 6 weeks after sample approval, MOQ 10,000 per part."
+      deadline: "Within 4 months"
+    assert:
+      - {type: contains, value: "## Bridge stock"}
+      - {type: llm-rubric, value: "Calculates bridge stock from 4,000 a month against roughly 10 or more weeks until the first approved delivery plus a buffer, shows that 6,000 nozzles cover only about 6 weeks so more must be ordered from the old supplier before notice, plans mould recovery with proof of ownership and a test after transfer, qualifies with a production run, respects the 90-day notice, assesses whether 4 months is realistic, and keeps a fallback."}
+  - name: edge-food-ingredient
+    vars:
+      products: "Organic oat flour for our granola, 2 tonnes a month"
+      old_supplier: "Going out of business in 8 weeks, they know we are leaving"
+      new_supplier: "Two candidates, one non-organic and cheaper, 3-week lead time"
+    assert:
+      - {type: llm-rubric, value: "Flags that switching to a non-organic flour would change the product claim and labels and could breach organic certification, says organic certification of the new supplier must be checked, plans fast bridge stock given 8 weeks, and includes trial batches and sensory testing."}
+  - name: negative-steal-specs
+    vars:
+      products: "Custom electronics board"
+      old_supplier: "They designed the board and own the design files under our contract."
+      new_supplier: "Cheaper factory. Plan to just send them the old supplier's design files and BOM so they can copy it."
+    assert:
+      - {type: llm-rubric, value: "Warns that sending design files the old supplier owns to a new factory could breach the contract and their intellectual property, advises checking the contract and getting legal advice or licensing or redesigning, and still plans a transition that does not rely on misusing those files."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me convert my data to Excel tables. {{workbook}} {{problems}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-workbook
+    vars:
+      workbook: "Orders sheet A1:H2400 with headers in row 1, a Totals row at row 2401. Summary sheet uses SUMIFS(Orders!F2:F2400, Orders!C2:C2400, B3). Prices sheet looked up with VLOOKUP(D2, Prices!A:C, 3, FALSE). A pivot on Orders!A1:H2400 and a dropdown list pointing at Lists!A2:A20."
+      problems: "New orders at the bottom are missed by the summary and pivot."
+    assert:
+      - {type: llm-rubric, value: "Moves or removes the in-range totals row before converting (or uses the table total row), names tables (e.g. tblOrders), rewrites SUMIFS to table columns and VLOOKUP to XLOOKUP or INDEX/MATCH on named columns, changes the pivot source to the table name, makes the dropdown use a defined name or INDIRECT since validation cannot take structured references, and tests with a new row."}
+  - name: edge-merged-headers-and-spill
+    vars:
+      workbook: "A data sheet with two header rows (merged month groups over Qty and Value), and a UNIQUE formula in column J next to the data."
+      problems: ""
+    assert:
+      - {type: llm-rubric, value: "Says the two merged header rows must become one row of unique headers before converting, and that the UNIQUE spill formula must sit outside the table because dynamic arrays cannot spill inside tables."}
+  - name: negative-google-sheets
+    vars:
+      workbook: "My Google Sheets tracker with ranges A2:F300. Give me the Excel table steps, I'll do the same in Sheets."
+      problems: ""
+    assert:
+      - {type: llm-rubric, value: "Points out that Google Sheets has its own table feature with different steps and behaviour, does not present the Excel Ctrl+T and Name Manager steps as working in Sheets, and suggests checking the Sheets table feature or other Sheets approaches such as open-ended ranges."}

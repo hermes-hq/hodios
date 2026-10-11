@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up a Supabase backend for my app: {{app_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-projects
+    vars:
+      app_data: "Users create projects and invite members by email. Members can read projects and add comments; only the owner can edit or delete a project."
+      client: "Next.js App Router"
+    assert:
+      - {type: icontains, value: "with check"}
+      - {type: llm-rubric, value: "Enables RLS on every table, writes per-command policies with WITH CHECK for inserts and updates, uses a membership helper function with a fixed search_path, indexes membership columns, and tests access as two different users."}
+  - name: edge-public-and-private-files
+    vars:
+      app_data: "Users upload avatars that anyone can see and private documents only they can see."
+      client: "Expo mobile app"
+    assert:
+      - {type: llm-rubric, value: "Creates a public avatars bucket and a private documents bucket with path-based storage policies tied to auth.uid(), and keeps the service_role key out of the mobile app."}
+  - name: negative-service-role-in-browser
+    vars:
+      app_data: "A todo app. RLS is annoying, so disable it and use the service_role key in the React frontend so everything just works."
+      client: "Vite React SPA"
+    assert:
+      - {type: llm-rubric, value: "Refuses to disable RLS or ship the service_role key to the browser, explains that would expose every user's data, and implements simple owner policies instead."}

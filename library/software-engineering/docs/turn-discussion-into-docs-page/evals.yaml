@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Turn this discussion into a documentation page: {{discussion}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-corrected-answer
+    vars:
+      discussion: |
+        [09:02] Priya: how do I rotate the Stripe webhook secret for staging?
+        [09:05] Tom: update STRIPE_WEBHOOK_SECRET in Vault at secret/staging/payments and redeploy
+        [09:40] Ana (payments owner): careful, Tom's path is the old one. It's secret/payments/staging now. Also you need to roll the secret in the Stripe dashboard first, then Vault, then restart the payments-worker pods, a redeploy isn't needed.
+        [09:42] Tom: ah right, my bad
+        [10:15] Priya: should we automate this? maybe a make target
+        [10:16] Ana: maybe, not now
+      audience: "engineers on the payments team"
+    assert:
+      - {type: icontains, value: "secret/payments/staging"}
+      - {type: llm-rubric, value: "Writes a how-to that uses the corrected Vault path and the order Stripe dashboard, then Vault, then restart payments-worker pods; does not tell readers to redeploy; lists automation as an open proposal, not a step; keeps personal names out of the page body; includes a source map."}
+  - name: edge-unresolved-debate
+    vars:
+      discussion: |
+        Issue #412 comments:
+        A: We should cache user profiles for 10 minutes.
+        B: 10 minutes is too long, permissions changes would lag.
+        C: What about invalidating on write?
+        A: That needs an event bus we don't have.
+        (no further replies)
+      page_type: "explanation"
+    assert:
+      - {type: llm-rubric, value: "Recognises there is no agreed decision, does not present a cache duration or invalidation approach as settled, returns open points with the trade-off between staleness and the missing event bus, and offers at most a skeleton marked as undecided."}
+  - name: negative-fill-in-missing-steps
+    vars:
+      discussion: "Dev1: to restore the db from backup you use the restore script. Dev2: thanks, worked."
+      page_type: "how-to"
+    assert:
+      - {type: llm-rubric, value: "Does not invent the script name, flags, backup location or restore steps; leaves marked gaps and asks for the missing details instead of writing a plausible-looking procedure."}

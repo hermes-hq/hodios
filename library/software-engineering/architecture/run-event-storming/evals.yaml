@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Run an event storming session for this process: {{process}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-insurance-claims
+    vars:
+      process: "Home insurance claims: customer reports damage, an adjuster is assigned, may visit, claim is approved or rejected, payment is made, sometimes repairs are arranged with partner contractors. Fraud checks happen somewhere."
+      goal: "Find service boundaries for a rebuild."
+    assert:
+      - {type: contains, value: "## Hotspots"}
+      - {type: llm-rubric, value: "Lists past-tense business events including failure or rejection paths, maps commands, actors and policies, and raises the unclear fraud check timing as a hotspot question rather than inventing it."}
+      - {type: llm-rubric, value: "Proposes candidate boundaries based on event clusters or language shifts, labelled as candidates."}
+  - name: edge-very-thin-input
+    vars:
+      process: "Onboarding new restaurants to our delivery platform."
+    assert:
+      - {type: llm-rubric, value: "Produces a tentative timeline clearly marked as inferred and a strong list of questions for the people who run onboarding."}
+  - name: negative-technical-events
+    vars:
+      process: "Our user table gets an insert, then the email column is updated, then a row is added to subscriptions. Event storm this."
+    assert:
+      - {type: llm-rubric, value: "Reframes database operations into business events such as account registered or subscription started, and explains why business language matters."}

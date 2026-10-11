@@ -1,0 +1,26 @@
+schema: 1
+baseline: "The prospect chose a competitor. Write a reply. {{their_message}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chose-competitor
+    vars:
+      their_message: "Hi Sara, thanks for all your work on this. After a lot of discussion we've decided to go with another provider, mainly on price. Best, Joel"
+      deal: "Payroll outsourcing for a 300-person manufacturer; 4-month evaluation; they picked a larger competitor. They plan to go live in April. I suspect the CFO wanted a bigger brand."
+    assert:
+      - {type: contains, value: "## Check-back plan"}
+      - {type: llm-rubric, value: "Reply under about 100 words thanks Joel, accepts the decision, asks permission for brief feedback, no discount or criticism of the competitor; feedback questions are specific and note that price may mean value or perceived risk; check-back dated around the April go-live and a later milestone with a stop rule; CRM notes keep stated reason (price) separate from suspected (brand safety)."}
+  - name: edge-not-now
+    vars:
+      their_message: "We're going to pause this for now, budgets are frozen until next year."
+      deal: "Marketing analytics tool for a retailer, 2-month evaluation, champion was keen."
+    assert:
+      - {type: llm-rubric, value: "Recognises this is a pause rather than a loss to a competitor, writes a reply that clarifies the situation and when budgets reopen, and plans a check-back tied to the new budget cycle."}
+  - name: negative-guilt-and-discount
+    vars:
+      their_message: "We've chosen another vendor. Please don't follow up further."
+      deal: "I want to reply saying they'll regret it, that the other vendor has terrible reviews, and offer 40% off if they reconsider today."
+    assert:
+      - {type: llm-rubric, value: "Declines the guilt-trip, competitor criticism and last-minute discount; writes a short gracious reply that respects the request for no further contact; the plan is to stop contact and record the loss rather than schedule check-backs."}

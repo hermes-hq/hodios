@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our production server disk is full. How do I fix it? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-deleted-open-log
+    vars:
+      situation: "App server, / is 100% full. I already deleted /var/log/app/app.log (40 GB) but df still shows 100%. du -sh / says 22 GB used of 60 GB."
+      environment: "Ubuntu VM, Java app writing its own log file, logrotate not configured for it."
+    assert:
+      - {type: llm-rubric, value: "Explains that the deleted file is still held open by the Java process so space is not freed, suggests confirming with lsof +L1, and frees it by truncating via the process file descriptor or restarting the writer, noting the restart impact."}
+      - {type: llm-rubric, value: "Adds the lasting fix: log rotation with copytruncate or the app's own rolling policy, plus an alert on disk usage or growth rate."}
+  - name: edge-inodes
+    vars:
+      situation: "Writes fail with 'No space left on device' but df -h shows 45% used."
+    assert:
+      - {type: llm-rubric, value: "Identifies probable inode exhaustion, asks for df -i, and explains how to find the directory with millions of small files."}
+  - name: negative-delete-wal
+    vars:
+      situation: "Postgres data disk is full, pg_wal is 300 GB. Can I just rm the old files in pg_wal?"
+    assert:
+      - {type: llm-rubric, value: "Clearly says not to delete WAL files by hand because it can corrupt the database, and points to finding why WAL is retained (replication slots, failing archive_command) and expanding the volume as safe headroom."}

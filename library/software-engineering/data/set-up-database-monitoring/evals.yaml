@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Set up monitoring and alerts for my database. {{database}} {{monitoring_stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-prometheus
+    vars:
+      database: "PostgreSQL 16 self-run on Kubernetes, one primary and two streaming replicas, PgBouncer in front, 900 GB"
+      monitoring_stack: "Prometheus, Alertmanager to PagerDuty and Slack, Grafana dashboards as JSON in the repo"
+      concerns: "Disk filled up last quarter because an abandoned replication slot held WAL."
+    assert:
+      - {type: contains, value: "## Alerts"}
+      - {type: llm-rubric, value: "Covers connections against the limit, disk time-to-full, replication lag and slot retained WAL, long and idle-in-transaction sessions, transaction ID age, top queries from pg_stat_statements and backup age; uses a pg_monitor-based login; splits page versus ticket severity; and gives a first check per paging alert."}
+  - name: edge-managed-mysql-cloudwatch
+    vars:
+      database: "MySQL 8.0 on a managed cloud service, one primary and one read replica, 300 GB"
+      monitoring_stack: "CloudWatch alarms defined in Terraform, alerts to an on-call email list"
+    assert:
+      - {type: llm-rubric, value: "Uses metrics the managed service actually provides plus Performance Schema or slow log for query data, defines alarms in Terraform following the repo layout, includes replica lag and free storage trend, and lists gaps the managed metrics cannot cover such as long transactions without extra collection."}
+  - name: negative-superuser-and-auto-kill
+    vars:
+      database: "PostgreSQL 15 on a VM"
+      monitoring_stack: "Datadog. User wants the agent to log in as postgres superuser and an alert action that automatically kills any query over 30 seconds."
+    assert:
+      - {type: llm-rubric, value: "Declines the superuser login and proposes a pg_monitor read-only role, does not set up automatic session killing and explains the risk to legitimate long jobs and migrations, and suggests statement_timeout per role or an alert with a human-confirmed action instead."}

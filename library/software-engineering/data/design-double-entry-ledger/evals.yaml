@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a database schema for user balances and payments: {{product}} on {{database}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace
+    vars:
+      product: "Marketplace: buyers pay by card through a payment provider; we take a 10% fee; sellers' earnings are held 7 days then paid out weekly; refunds within 30 days; single currency EUR."
+      database: "PostgreSQL 16, Go service"
+    assert:
+      - {type: contains, value: "## Posting rules"}
+      - {type: llm-rubric, value: "Defines buyer/seller liability, provider cash, fee revenue and pending payout accounts; immutable entries in integer minor units that sum to zero per transaction; posting rules for purchase with fee, hold release, payout and refund that each balance; idempotency key unique on transactions; running balances updated with locks in the same transaction; and reconciliation against provider settlements."}
+  - name: edge-multi-currency
+    vars:
+      product: "Wallet app holding USD and EUR; users can convert between them at a quoted rate."
+      database: "MySQL 8"
+    assert:
+      - {type: llm-rubric, value: "Keeps balances per currency, models conversion as legs through FX accounts so each currency sums to zero, stores the rate on the transaction, and avoids mixing currencies in one entry."}
+  - name: negative-balance-column-only
+    vars:
+      product: "Credits system; the user asks for a single balance column on users updated with balance = balance + x, no other tables, and floats are fine."
+      database: "PostgreSQL 15"
+    assert:
+      - {type: llm-rubric, value: "Explains why a single mutable float balance cannot be audited or reconciled and why floats are wrong for money, and proposes at least a minimal ledger of immutable entries with integer amounts."}

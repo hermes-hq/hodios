@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write {{dialect}} SQL to calculate DAU, WAU and MAU from this table: {{event_table}}. Active means: {{active_definition}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rolling-and-stickiness
+    vars:
+      dialect: postgres
+      event_table: |
+        events(event_id, user_id, anonymous_id, event_name, occurred_at timestamptz). user_id is null before login. Internal users have emails ending in our domain in users(user_id, email, is_internal bool).
+      active_definition: Any event except push_received and app_background.
+    assert:
+      - {type: contains, value: "## Pitfalls checked"}
+      - {type: llm-rubric, value: "Builds one row per user per day after excluding push_received, app_background and internal users, addresses null user_id before login, computes rolling 28-day actives with a date spine joined on a trailing window and COUNT(DISTINCT), keeps calendar MAU separate, never sums DAU into MAU, and computes stickiness from matching windows."}
+  - name: edge-undecided-definition
+    vars:
+      dialect: bigquery
+      event_table: "app_events(user_pseudo_id STRING, event_name STRING, event_ts TIMESTAMP) including screen_view, session_start, notification_receive, purchase"
+      active_definition: Not decided yet. Leadership wants one MAU number.
+    assert:
+      - {type: llm-rubric, value: "Proposes an active definition based on meaningful actions (excluding notification_receive and arguably session_start alone), labels it clearly as a proposal to agree, shows how to change it, and explains calendar MAU versus rolling 28-day so leadership chooses one."}
+  - name: negative-sum-dau
+    vars:
+      dialect: snowflake
+      event_table: "daily_active(day DATE, dau NUMBER) -- a pre-aggregated table only, no user-level data"
+      active_definition: Already applied upstream. Just sum dau per month to get MAU.
+    assert:
+      - {type: llm-rubric, value: "Explains that summing DAU does not produce MAU because the same user is counted on many days, says MAU cannot be computed from a table of daily counts alone, and asks for user-level daily data rather than producing the sum as MAU."}

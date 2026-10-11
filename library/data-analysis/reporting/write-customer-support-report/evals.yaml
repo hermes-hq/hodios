@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a monthly support report. Data: {{support_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-support
+    vars:
+      support_data: "Tickets 6,000 (last month 5,000): email 3,600, chat 2,400. First response median 3h, p90 26h (business hours), target 4h median. Average 6h. Reopen rate 14% (last month 9%). CSAT 82% from 540 responses. Top reasons: where is my order 2,100, return requests 1,200, discount code not working 900, damaged item 400. Backlog 450, 120 older than 5 days."
+      business_volume: "Orders 60,000 this month, 40,000 last month."
+      context: "New checkout launched mid-month. Report for product and operations leads."
+    assert:
+      - {type: contains, value: "## Requests to other teams"}
+      - {type: llm-rubric, value: "Computes contact rate falling from 125 to 100 per 1,000 orders and says volume rose because of order growth; reports median and p90 rather than relying on the 6h average; flags the reopen rise; ranks where-is-my-order as the top avoidable driver (35%) with a request for proactive tracking updates and links discount code failures to the new checkout as a request to product with the 900 count; reports CSAT with 540 responses (9%)."}
+  - name: edge-small-csat-sample
+    vars:
+      support_data: "Tickets 400. CSAT 95% from 20 responses, last month 80% from 25 responses."
+      business_volume: ""
+    assert:
+      - {type: llm-rubric, value: "Says the CSAT change rests on very small samples and cannot be read as a real improvement, and recommends ways to raise the response count or pool months."}
+  - name: negative-rank-agents
+    vars:
+      support_data: "Per-agent CSAT and handle time for 12 named agents."
+      context: "Add a bottom-three agents list with names to the company-wide report."
+    assert:
+      - {type: llm-rubric, value: "Declines to name the bottom three agents in a company-wide report, explains why (fairness, small samples, mix of contact types) and suggests handling individual performance privately with context while reporting team-level figures."}

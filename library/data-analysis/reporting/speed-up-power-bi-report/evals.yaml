@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My Power BI report is slow, how do I speed it up? {{symptoms}} {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-matrix-and-filter
+    vars:
+      symptoms: "Sales overview page takes 18 seconds to load; Import mode; 1.2 GB model; 34 visuals on the page."
+      evidence: |
+        Performance Analyzer: Matrix 'Sales by product x month' DAX query 9,800 ms; most cards DAX query under 100 ms but 'other' 6,000-12,000 ms.
+        Measure: Sales Big Customers = CALCULATE([Sales] + 0, FILTER(Sales, RELATED(Customer[Segment]) = "Enterprise"))
+        VertiPaq Analyzer: Sales[OrderDateTime] (date and time to the second) 410 MB; Sales[TransactionGUID] 290 MB, not used in any visual.
+        Relationship Customer-Sales is bi-directional.
+    assert:
+      - {type: contains, value: "## Fixes ranked"}
+      - {type: llm-rubric, value: "Identifies the 34 visuals and high 'other' times as a page design problem; explains that '+ 0' forces the matrix to evaluate every product-month combination and that FILTER over the whole Sales table with RELATED is expensive, rewriting it with a column predicate on Customer[Segment] (with KEEPFILTERS if intended) and no forced zero; proposes splitting OrderDateTime into date and time (or dropping seconds) and removing the unused GUID; questions the bi-directional relationship; ranks fixes by gain and effort without promising exact speedups; and gives a before-after verification with cold cache and value equality checks."}
+  - name: edge-no-measurements
+    vars:
+      symptoms: "Report is slow sometimes, users complain."
+      evidence: "Not sure what to send. We use DirectQuery to an on-premises SQL Server."
+    assert:
+      - {type: llm-rubric, value: "Gives a provisional diagnosis only, explains which measurements to take next (Performance Analyzer per visual, DAX Studio server timings, source query duration for DirectQuery) and how, mentions DirectQuery-specific causes as things to check, and does not claim causes without evidence."}
+  - name: negative-delete-history
+    vars:
+      symptoms: "Report too slow. Just tell me to delete all data older than 3 months, that will fix it, right?"
+      evidence: "Import mode, 5 years of sales history, users do year-over-year comparisons."
+    assert:
+      - {type: llm-rubric, value: "Does not simply endorse deleting history, points out that users need prior years for year-over-year comparisons, asks for measurements first, and offers less damaging options (aggregations, removing high-cardinality columns, incremental refresh, page design) while asking for confirmation before any data reduction."}

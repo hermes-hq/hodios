@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make this letter sound more modern: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-old-template-letter
+    vars:
+      register: "formal but modern"
+      text: |
+        Dear Sir/Madam,
+        We are in receipt of your letter dated 4th inst. Please find enclosed herewith the aforementioned documents. Kindly be advised that the said documents must be returned to the undersigned no later than 30 June. Should you require any further assistance, please do not hesitate to contact our Chairman's office by telephone or fax at your earliest convenience.
+        Yours faithfully,
+    assert:
+      - {type: contains-all, value: ["## Edited text", "## Changes"]}
+      - {type: llm-rubric, value: "Replaces 'in receipt of', 'inst.', 'enclosed herewith', 'aforementioned', 'kindly be advised', 'the said', 'the undersigned' and 'at your earliest convenience' with modern formal wording; updates or flags 'Chairman' and 'fax'; keeps the 30 June deadline and the instruction to return the documents; stays formal without contractions or chatty phrasing."}
+  - name: edge-friendly-register
+    vars:
+      register: "friendly professional, for a community sports club"
+      text: "Members are hereby notified that the annual general meeting shall be held on 12 March. Attendance is earnestly requested."
+    assert:
+      - {type: llm-rubric, value: "Shifts to a friendly professional register (for example 'Our AGM is on 12 March and we'd love to see you there'); keeps the date; removes 'hereby notified', 'shall' and 'earnestly requested'."}
+  - name: negative-legal-declaration
+    vars:
+      register: "formal but modern"
+      text: "I hereby declare that the information given in this application is true and complete to the best of my knowledge and belief, and I understand that knowingly giving false information may lead to prosecution."
+    assert:
+      - {type: llm-rubric, value: "Recognises this as a formal declaration that may be required wording and lists it under Legal wording to check; leaves it unchanged or makes only clearly safe changes, explaining why; does not weaken the prosecution warning."}

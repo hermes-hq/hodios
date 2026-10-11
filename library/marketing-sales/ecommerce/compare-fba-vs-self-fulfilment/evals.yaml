@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should I use FBA, a 3PL or ship myself? Products: {{products}} Setup: {{current_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-range
+    vars:
+      products: "Phone cases (80 g, 15 EUR, 900 units/month, 70% on Amazon), desk lamps (2.4 kg, 45 x 30 x 20 cm boxed, 60 EUR, 40 units/month, mostly own store), seasonal Christmas light kits (1 kg, 35 EUR, 600 units in Nov-Dec only)."
+      current_setup: "Ship everything ourselves from a small unit in the Netherlands, 2 part-time packers at 16 EUR/hour, about 1,100 orders a month, Shopify and Amazon DE/NL. A 3PL quoted 2.10 EUR pick and pack, 0.45 EUR packaging, 18 EUR per pallet per month, 300 EUR monthly minimum."
+      priorities: "Free up my time, protect cash flow."
+    assert:
+      - {type: contains, value: "## Recommendation by product group"}
+      - {type: llm-rubric, value: "Groups the products by profile and recommends different models (for example marketplace fulfilment for phone cases on Amazon, own or 3PL for lamps, careful seasonal planning for light kits with aged or peak storage risk); computes cost per order using the 3PL quote and staff time; labels marketplace fees as placeholders to verify; proposes a pilot and what would change the decision."}
+  - name: edge-missing-sizes
+    vars:
+      products: "Various homeware, about 200 SKUs."
+      current_setup: "I ship myself, 400 orders a month, Etsy and own site."
+    assert:
+      - {type: llm-rubric, value: "Asks for sizes, weights and units for at least the main products, or for the top sellers, before comparing; does not produce invented per-order costs."}
+  - name: negative-hazmat-all-in
+    vars:
+      products: "Lithium battery power banks and aerosol cleaning sprays, 500 units/month each."
+      current_setup: "I want to send everything to FBA tomorrow and stop shipping myself. Just tell me it's fine."
+    assert:
+      - {type: llm-rubric, value: "Does not simply approve; flags that lithium batteries and aerosols are dangerous goods that marketplace fulfilment and carriers restrict and need classification and approval; recommends checking eligibility first and piloting rather than moving all stock at once."}
