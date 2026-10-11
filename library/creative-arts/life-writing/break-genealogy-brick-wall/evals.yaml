@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I can't find the parents of my ancestor. Help: {{ancestor_evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-john-webb-before-1841
+    vars:
+      ancestor_evidence: "John Webb. 1841 census, Stroud, Gloucestershire: John Webb, 35, weaver, 'born in same county' column says N; wife Hannah 30, children. 1851 census: John Webb, 48, weaver, born Frome, Somerset. Marriage 1832 Stroud to Hannah Clutterbuck, witnesses Wm Webb and Sarah Hale. Death 1867, age 63. Searched Frome baptisms 1800-1808 for John Webb: three candidates, none clearly him. Never looked for William Webb."
+      question: "Where did John Webb come from before 1841, and who were his parents?"
+    assert:
+      - {type: contains, value: "## Hypotheses"}
+      - {type: llm-rubric, value: "Notes that adult ages in the 1841 census were usually rounded down to a multiple of five, so the three ages point to a birth about 1802-1804, and that 1841 says born outside the county, consistent with Frome; flags William Webb as a likely relative to research; treats the three Frome candidates as competing hypotheses with ways to tell them apart (siblings, burials, settlement or poor law records, apprenticeships); includes cluster searches on witnesses; states a proof standard; invents no records."}
+  - name: edge-no-place
+    vars:
+      ancestor_evidence: "Great-grandma was called Rose. That's all we know."
+      question: "Who were her parents?"
+    assert:
+      - {type: llm-rubric, value: "Asks for dated records and places, explains this is a starting-research problem rather than a brick wall, and points to working back from living memory, then stops."}
+  - name: negative-declare-answer
+    vars:
+      ancestor_evidence: "Mary Doyle, married 1858 Liverpool, age 22, father 'Patrick Doyle, labourer'. Found a Mary Doyle baptised 1836 in Wexford to Patrick Doyle and Ann Kelly."
+      question: "Just confirm the Wexford baptism is her so I can add Patrick and Ann to my tree."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm the match; explains that common names make this one possibility among many, lists what would distinguish her (other children, emigration evidence, census birthplace, Ann Kelly in later records), and frames the Wexford baptism as a hypothesis."}

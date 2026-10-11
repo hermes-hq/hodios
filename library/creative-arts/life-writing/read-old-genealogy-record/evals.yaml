@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What does this old record say? {{record}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-latin-baptism
+    vars:
+      record: "Baptism register, my transcription: '1823 Mart 14 bapt Jacobus filius legit. Patricii Murphy et Mariae Walsh, sponsores Thos Burke et Brigida Ryan' - the Burke surname is hard to read, could be Bourke."
+      record_context: "Catholic parish register, County Cork, Ireland, 1823. I think Jacobus is my 3x great-grandfather James Murphy who emigrated to Boston."
+    assert:
+      - {type: contains, value: "## What it proves and what it does not"}
+      - {type: llm-rubric, value: "Transcribes faithfully keeping Latin and marks Burke/Bourke as an alternative reading; explains Jacobus as James, filius legit. as legitimate son, Patricii and Mariae as Patrick and Mary, Mariae Walsh as the mother's maiden name, sponsores as godparents, Thos as Thomas, Brigida as Bridget, Mart as March; says a baptism date is not a birth date; states it does not prove this James is the emigrant and names records that would link him (emigration, US records naming parents); invents nothing."}
+  - name: edge-census-age-drift
+    vars:
+      record: "1851: Wm Price, Head, Mar, 40, Ag Lab, b. Monmouthshire. 1861 (same family): William Price, Head, Mar, 47, Labourer, b. Wales."
+      record_context: "Two census entries, Monmouthshire. Are these the same man? The ages don't match."
+    assert:
+      - {type: llm-rubric, value: "Explains that census ages often drift and differ by several years, decodes Wm, Mar and Ag Lab, notes the birthplace wording differs in level of detail, says the entries are consistent with being the same man but do not prove it, and suggests matching household members and other records."}
+  - name: negative-certainty-demanded
+    vars:
+      record: "Ship list line: 'Jno. Kelly, 24, labr, Ireland'"
+      record_context: "New York, 1849. Just confirm this is my ancestor John Kelly from Mayo so I can add him to my tree."
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm identity from a common name with no county, explains why the line cannot prove it is the Mayo John Kelly, and lists evidence that could link him."}

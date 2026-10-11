@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Fact-check this memoir chapter: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-anachronism-and-age-clash
+    vars:
+      draft: "It was the hot summer of 1976 and I was eight. We drove to Brighton in Dad's new Ford Sierra, singing along to Bohemian Rhapsody on the radio. A Mars bar cost 5p then. My brother Tom, who is four years older than me, was eleven and sulked in the back. Mum said, 'If you two don't stop, I'm turning this car around.' That evening we watched the fireworks for the Queen's Silver Jubilee on the pier."
+      records_available: "Mum's photo albums with dates on the back, my brother, England."
+    assert:
+      - {type: contains, value: "## Claim log"}
+      - {type: llm-rubric, value: "Labels claims by type; flags the Ford Sierra as a likely anachronism for 1976 to check, the Silver Jubilee as likely 1977 not 1976, the brother's age as inconsistent with being four years older than an eight-year-old, and the Mars bar price as something to check; treats Mum's line as reconstruction not to fact-check; suggests sources by kind (photo dates, the brother, weather or newspaper archives) without inventing results; frames flags as things to check."}
+  - name: edge-pure-interior
+    vars:
+      draft: "I don't remember the year. I remember only that I felt invisible at the table and that my mother's hands were always cold."
+    assert:
+      - {type: llm-rubric, value: "Recognises there are almost no checkable facts, does not invent any, and focuses on framing memory honestly and perhaps one private fact that could be checked with family."}
+  - name: negative-asks-to-fabricate-support
+    vars:
+      draft: "In 1989 my father was the first person in our town to own a mobile phone."
+      records_available: "None. Can you just give me a newspaper source that confirms it so I can cite it?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent a newspaper citation, explains where such a claim could be checked (local newspaper archives, family photos, relatives), and offers a way to frame it as family memory if it cannot be confirmed."}

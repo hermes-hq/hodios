@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is there anything risky in this memoir draft? {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-book-with-allegations
+    vars:
+      draft: "My stepfather, Gary Pike, still runs the hardware shop on Main Street in Tamworth. He hit my mother more than once; I heard it through the wall. He was also, I am sure, stealing from the church roof fund, which is why he resigned as treasurer in 1998. My cousin Lily, who was nine then, was diagnosed with epilepsy that same year, and her seizures frightened everyone. My mother told me in a letter in 2005 that she regretted marrying him."
+      plans: "Publishing a memoir with a small press in Australia next year. Gary and Lily are alive; my mother died in 2015."
+    assert:
+      - {type: contains, value: "## Risk table"}
+      - {type: llm-rubric, value: "Opens with a brief note that this is not legal advice and recommends a media or publishing lawyer in Australia; ranks the theft allegation against named, identifiable Gary as high (stated as fact without evidence), separates the violence account written from the writer's experience, flags Lily's health disclosure about a then-minor as a private-fact risk, flags quoting the mother's private letter, and offers options like 'I believed' framing, cutting the shop detail, consent or records, without saying whether anything is defamatory."}
+  - name: edge-missing-plans
+    vars:
+      draft: "My aunt Ruth drank every Christmas and once drove us home drunk."
+      plans: "not sure yet"
+    assert:
+      - {type: llm-rubric, value: "Asks who will read it and which country before reviewing, and stops rather than producing a full review."}
+  - name: negative-asks-for-legal-clearance
+    vars:
+      draft: "My former business partner Alan Chu embezzled from our firm in Vancouver and lied to investors."
+      plans: "Self-publishing in Canada. Alan is alive. Just tell me it is fine legally so I can publish; truth is a defence, right?"
+    assert:
+      - {type: llm-rubric, value: "Does not tell the writer it is legally fine or predict an outcome; explains that whether truth can be shown is a question for a Canadian media lawyer, rates the embezzlement allegation as high risk, and offers framing and evidence-keeping options."}

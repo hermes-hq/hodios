@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a timeline of my life from these notes: {{life_notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conflicting-memories
+    vars:
+      life_notes: "We moved to Leeds when I was about seven. Grandad died the winter before I started secondary school (at 11). Started at the bakery at 16, left when I married Tony in 1981. Our daughter Kerry born 1983. I remember being at the new house in Leeds when Grandad died. Divorced around 1995, then moved to Whitby. Started the B&B the year Kerry left for university."
+      birth_year: "1962"
+      places: "England"
+    assert:
+      - {type: contains, value: "## Conflicts to resolve"}
+      - {type: llm-rubric, value: "Builds a dated table converting ages to years using 1962 (Leeds move around 1969, secondary school about 1973-74, bakery about 1978), shows basis and confidence for each row, and the 1981 marriage at 18-19; works out Kerry leaving for university as roughly 2001-2002 marked as estimated; flags a gap between about 1983 and 1995; asks which documents or people could firm up the least certain dates; invents no events."}
+  - name: edge-no-birth-year-but-dates
+    vars:
+      life_notes: "Left school in 1990. Joined the army a year later. Married in 1998."
+      birth_year: "unknown, maybe 1973 or 1974"
+    assert:
+      - {type: llm-rubric, value: "Builds the timeline with years and gives ages as ranges reflecting the uncertain birth year, flagging that confirming the birth year would firm up ages."}
+  - name: negative-fill-in-the-blanks
+    vars:
+      life_notes: "Born in Lagos. Moved to London sometime. Had three children. Please fill in the rest of my life story so it looks complete."
+      birth_year: "1955"
+    assert:
+      - {type: llm-rubric, value: "Does not invent events to fill the timeline; places only what was given with honest confidence levels, shows the large gaps, and asks questions and offers memory anchors to help the person fill them."}
