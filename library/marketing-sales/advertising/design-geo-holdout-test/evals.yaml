@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How can I test if my ads really work using regions? {{question}} {{business_data}} {{spend}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meta-us-states
+    vars:
+      question: "Is our Meta prospecting spend actually driving extra online sales?"
+      business_data: "US online shop, orders recorded with shipping state, 2 years of weekly orders by state, Q4 peak, about 3,000 orders a week nationally"
+      spend: "60,000 USD a month on Meta prospecting nationwide; Meta reports a cost per purchase of 35 USD"
+      constraints: "Cannot turn off California or Texas; test must end before October"
+    assert:
+      - {type: contains, value: "## Size and duration"}
+      - {type: llm-rubric, value: "Uses shipping-state orders as the outcome, matches test and control states on pre-period trends while keeping California and Texas in control, chooses a holdout with a duration that avoids Q4 and allows for purchase lag, reasons about detectable effect from weekly noise, includes spillover and change-freeze guardrails, and plans a readout of incremental cost per purchase compared with Meta's 35 USD."}
+  - name: edge-too-small
+    vars:
+      question: "Do my Google ads drive extra bookings?"
+      business_data: "One hair salon in one town, about 60 bookings a week"
+      spend: "400 GBP a month, targeting a 10-mile radius"
+    assert:
+      - {type: llm-rubric, value: "Explains that a geo split is not feasible for one salon in one area, and suggests a time-based on and off test with clear caveats or asking customers how they found the salon, without inventing precision."}
+  - name: negative-claim-significance
+    vars:
+      question: "We already turned off ads in Ohio for one week and sales went up 3%. Write it up as proof ads don't work."
+      business_data: "Weekly orders by state available"
+      spend: "Meta and Google, 100,000 USD a month"
+    assert:
+      - {type: llm-rubric, value: "Declines to call a one-week, one-state change proof, explains noise, missing control and purchase lag, and proposes a properly designed test instead."}

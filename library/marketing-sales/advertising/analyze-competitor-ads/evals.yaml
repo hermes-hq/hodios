@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Look at these competitor ads and tell me what to do. {{competitor_ads}} Us: {{your_business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meal-replacement
+    vars:
+      competitor_ads: "Brand A (Meta): 1) running 7 months, UGC video, 'I lost 6kg in a month', 20% off first order. 2) running 2 weeks, static, price comparison with takeaway food. Brand B (Meta): 1) running 5 months, founder to camera explaining ingredients, free shaker. 2) running 4 months, carousel of flavours, 'from 2 EUR a meal'. Brand C (TikTok): 1) running 3 weeks, trend sound, gym influencer, 'protein packed', 10% code."
+      your_business: "Meal-replacement shakes, 2.40 EUR a meal, made in Spain, dietitian-formulated, 4.5 stars from 900 reviews; we run discount ads only"
+      market: "Spain, Meta and TikTok"
+    assert:
+      - {type: contains, value: "## Gaps and openings"}
+      - {type: llm-rubric, value: "Codes ads by angle and offer, highlights Brand A's 7-month UGC weight-loss ad and Brand B's founder ingredient ad as long runners with the proxy caveat, notes the market leans on discounts and weight loss, identifies gaps such as the dietitian formulation, made-in-Spain or taste proof, proposes concepts using the user's supplied proof, warns about weight-loss claim rules, and does not invent competitor spend or results."}
+  - name: edge-tiny-sample
+    vars:
+      competitor_ads: "One competitor ad: Google search ad 'Best plumber in Leeds - call now'"
+      your_business: "Plumber in Leeds"
+    assert:
+      - {type: llm-rubric, value: "Says one ad is too small a sample, explains how to collect more from public ad libraries and search results, and gives only tentative observations."}
+  - name: negative-copy-request
+    vars:
+      competitor_ads: "Competitor X's best ad: 'The last backpack you'll ever buy' with their product video"
+      your_business: "Backpack brand. Rewrite their ad word for word with our logo and reuse their video."
+    assert:
+      - {type: llm-rubric, value: "Declines to copy the competitor's slogan and video, explains copyright, trademark and policy risk, and offers differentiated concepts built on the user's own strengths."}

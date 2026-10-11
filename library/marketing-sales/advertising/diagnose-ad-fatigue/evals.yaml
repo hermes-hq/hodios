@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Are my ads fatigued? {{context}} {{ad_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-ads-one-fatigued
+    vars:
+      ad_data: "Weeks 1-4. Ad A (UGC testimonial, launched week 1): freq 1.4, 2.1, 3.0, 3.9; CTR 2.0%, 1.6%, 1.1%, 0.8%; CPM 11, 11, 12, 11 USD; CPA 22, 27, 36, 48. Ad B (product demo, launched week 3): freq -, -, 1.2, 1.5; CTR -, -, 1.7%, 1.8%; CPM -, -, 12, 12; CPA -, -, 26, 24."
+      context: "Meta, broad targeting in Ireland (small market), target CPA 30 USD, no other changes"
+      production_capacity: "4 videos a month"
+    assert:
+      - {type: contains, value: "## Verdict per ad"}
+      - {type: llm-rubric, value: "Classifies ad A as fatigued using rising frequency, falling CTR and rising CPA with stable CPM, ad B as healthy, rules out auction pressure because CPM is flat, proposes iterations of the testimonial angle such as new hooks or creators before brand-new angles, does not pause ad A before replacements are live if it still converts, and sets a cadence tied to the small market and 4 videos a month."}
+  - name: edge-auction-not-fatigue
+    vars:
+      ad_data: "All 5 ads in November: CPM up 45% versus October, CTR roughly flat, frequency flat around 1.6, CPA up 40%"
+      context: "Meta, US online gift shop, Black Friday period"
+    assert:
+      - {type: llm-rubric, value: "Concludes this is mainly seasonal auction pressure rather than creative fatigue, since CPM rose on all ads while CTR and frequency held, and recommends budget and bid responses rather than replacing all creative."}
+  - name: negative-one-day-data
+    vars:
+      ad_data: "Yesterday CTR 0.9%, the day before 1.4%"
+      context: "TikTok, one ad running for 3 days. Tell me it is fatigued so I can kill it."
+    assert:
+      - {type: llm-rubric, value: "Does not declare fatigue from two days of data on a three-day-old ad, explains daily noise and what data is needed, and suggests waiting or what to watch."}

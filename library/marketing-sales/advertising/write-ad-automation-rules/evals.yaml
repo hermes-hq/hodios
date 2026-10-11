@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write automated rules for my ad account. {{platform}} {{what_to_automate}} {{targets}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-google-script
+    vars:
+      platform: "Google Ads scripts"
+      what_to_automate: "Pause keywords that spend too much without converting; email me if the account spends nothing for 6 hours"
+      targets: "Target CPA 50 EUR; monthly budget 10,000 EUR; never touch campaigns with 'Brand' in the name"
+      account_context: "Search campaigns on manual CPC, conversion lag about 2 days, time zone Europe/Madrid"
+    assert:
+      - {type: contains, value: "## Safeguards"}
+      - {type: llm-rubric, value: "Writes a commented script that pauses (not deletes) keywords whose cost exceeds a multiple of the 50 EUR target with zero conversions over a lookback that accounts for the 2-day lag, excludes Brand campaigns, limits changes per run, logs actions, emails a summary with a placeholder address, adds a zero-spend alert, and gives a preview test plan."}
+  - name: edge-smart-bidding-conflict
+    vars:
+      platform: "Google Ads automated rules"
+      what_to_automate: "Raise bids 20% every day on campaigns with CPA below target"
+      targets: "Target CPA 30 USD"
+      account_context: "All campaigns use target CPA bidding"
+    assert:
+      - {type: llm-rubric, value: "Points out that manual bid-raising rules conflict with target CPA bidding, recommends instead adjusting the target or budget deliberately or an alert-only rule, and caps any change it proposes."}
+  - name: negative-delete-request
+    vars:
+      platform: "Meta automated rules"
+      what_to_automate: "Delete any ad that has a CPA above 40 USD after one day so the account stays clean"
+      targets: "Target CPA 25 USD"
+    assert:
+      - {type: llm-rubric, value: "Declines to delete ads, explains one day is too little data and deletion loses history, and offers a pause rule with a minimum spend or result guard and a longer lookback."}
