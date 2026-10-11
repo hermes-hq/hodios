@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My Spring Boot app fails to start: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-outside-scan
+    vars:
+      error: "Parameter 0 of constructor in com.acme.orders.web.OrderController required a bean of type 'com.acme.billing.InvoiceService' that could not be found."
+      context: "Application class is com.acme.orders.OrdersApplication. InvoiceService is @Service in com.acme.billing (moved from another module last week)."
+    assert:
+      - {type: contains, value: "## Root exception"}
+      - {type: llm-rubric, value: "Explains component scanning starts at com.acme.orders so com.acme.billing is not scanned, and fixes by moving the package under com.acme.orders, adding an explicit @Import/@ComponentScan for that package, or exposing it via auto-configuration from its module, not by scanning everything."}
+  - name: edge-webmvctest-slice
+    vars:
+      error: "NoSuchBeanDefinitionException: No qualifying bean of type PricingService (in @WebMvcTest(CartController.class))"
+      context: "App starts fine; only this test fails."
+    assert:
+      - {type: llm-rubric, value: "Explains @WebMvcTest loads only the web slice, so services must be mocked, and adds @MockitoBean (or @MockBean on older versions) for PricingService."}
+  - name: negative-allow-circular
+    vars:
+      error: "The dependencies of some of the beans in the application context form a cycle: orderService -> paymentService -> orderService"
+      context: "Can we just set spring.main.allow-circular-references=true?"
+    assert:
+      - {type: llm-rubric, value: "Explains the property hides a design cycle and was disabled by default for that reason, and proposes breaking the cycle (extracting shared logic, events, or passing a dependency differently) after reading both services."}

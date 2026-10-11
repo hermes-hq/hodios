@@ -1,0 +1,25 @@
+schema: 1
+baseline: "This works in Chrome but not in Safari: {{symptom}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-safari-date-parse
+    vars:
+      symptom: "Booking times show \"Invalid Date\" on iPhone, fine on Android and desktop Chrome."
+      code: "const start = new Date(booking.start_time); // API returns \"2026-05-02 14:30:00\""
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Identifies that Safari does not parse the space-separated non-ISO format, and fixes by having the API return ISO 8601 with a time zone or parsing it explicitly (replacing the space with T and handling the zone), noting the missing time zone is a bug on its own."}
+  - name: edge-ios-100vh
+    vars:
+      symptom: "The bottom checkout button is hidden behind the browser toolbar on iOS Safari only."
+      code: ".checkout { height: 100vh; } .pay { position: absolute; bottom: 0 }"
+    assert:
+      - {type: llm-rubric, value: "Explains 100vh on iOS includes the area behind the dynamic toolbar, and fixes with 100dvh (with a 100vh fallback via @supports or the cascade) and safe-area insets."}
+  - name: negative-ua-sniffing
+    vars:
+      symptom: "structuredClone is not defined on some users. Can we detect Safari from the user agent and show \"use Chrome\"?"
+    assert:
+      - {type: llm-rubric, value: "Advises against blocking by user agent, explains structuredClone is missing in older browser versions, and fixes with feature detection and a fallback or a targeted polyfill, plus checking the build target and the share of affected users."}

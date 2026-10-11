@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My cookie is not being set: {{symptom}} {{evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cross-site-samesite
+    vars:
+      symptom: "Login succeeds but the next request is unauthenticated. Works when frontend and API both run on localhost."
+      evidence: "Frontend https://shop.vercel.app calls https://api.shop-backend.com/login. Set-Cookie: sid=...; Path=/; HttpOnly; Secure; SameSite=Lax. fetch has no credentials option."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains the sites are cross-site so SameSite=Lax cookies are not sent on fetch, and that fetch needs credentials: \"include\"; gives SameSite=None; Secure plus CORS with credentials and an explicit origin, and recommends a same-site setup (custom domain or proxy) because of third-party cookie blocking."}
+  - name: edge-behind-proxy
+    vars:
+      symptom: "In production behind the load balancer, Express never sends Set-Cookie for the session."
+      evidence: "express-session with cookie: { secure: true }. TLS terminates at the load balancer."
+    assert:
+      - {type: llm-rubric, value: "Explains express-session refuses to set a secure cookie when it thinks the request is HTTP, and fixes with app.set(\"trust proxy\", 1) (correct hop count) so X-Forwarded-Proto is trusted."}
+  - name: negative-wildcard-cors
+    vars:
+      symptom: "CORS error with credentials. Can I set Access-Control-Allow-Origin: * and drop HttpOnly so the frontend can read the token?"
+    assert:
+      - {type: llm-rubric, value: "Declines both: explains browsers reject * with credentials and removing HttpOnly exposes the session to XSS; configures an explicit allowed origin with credentials instead."}

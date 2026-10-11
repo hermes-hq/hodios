@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Fix this Angular change detection issue: {{symptom}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-onpush-mutation
+    vars:
+      symptom: "The order list (OnPush) does not show a new order until I click somewhere on the page."
+      code: "Parent: this.orders.push(newOrder); Child: @Input() orders: Order[]; changeDetection: OnPush"
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains OnPush only checks on new input references, and fixes with an immutable update (this.orders = [...this.orders, newOrder]) or a signal, rather than switching to Default or calling detectChanges."}
+  - name: edge-template-method-new-value
+    vars:
+      symptom: "ExpressionChangedAfterItHasBeenCheckedError: Previous value: '10:41:02'. Current value: '10:41:03'."
+      code: "The template interpolates now() inside a span; now() { return new Date().toLocaleTimeString(); }"
+    assert:
+      - {type: llm-rubric, value: "Explains the template method returns a different value on each check, and fixes by storing the time in a field or signal updated on an interval, not by calling it from the template."}
+  - name: negative-settimeout
+    vars:
+      symptom: "ExpressionChanged error when the child sets the parent title in ngAfterViewInit. Can I wrap it in setTimeout?"
+    assert:
+      - {type: llm-rubric, value: "Says setTimeout hides a one-way data-flow violation and causes an extra render, and proposes moving the title to a shared service or signal set earlier, or having the parent own the title."}

@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Fix this Rust borrow error: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mutate-while-iterating
+    vars:
+      error: |
+        error[E0502]: cannot borrow `self.items` as mutable because it is also borrowed as immutable
+          --> src/cart.rs:22:13
+           |
+        20 |         for item in self.items.iter() {
+           |                     ----------------- immutable borrow occurs here
+        21 |             if item.qty == 0 {
+        22 |                 self.items.remove(item.id);
+           |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ mutable borrow occurs here
+      context: "items is a Vec<Item>; remove takes an index in our own wrapper."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains removing from the collection while iterating it conflicts, and fixes it with retain(|i| i.qty != 0) or by collecting indices first; does not clone the whole vector or use unsafe."}
+  - name: edge-spawn-static
+    vars:
+      error: "error[E0597]: `config` does not live long enough ... argument requires that `config` is borrowed for `'static` (tokio::spawn(async { handle(&config).await }))"
+    assert:
+      - {type: llm-rubric, value: "Explains tokio::spawn requires a 'static future so it cannot borrow a local, and fixes it by moving owned data or an Arc<Config> clone into an async move block; does not use Box::leak or unsafe."}
+  - name: negative-use-unsafe
+    vars:
+      error: "error[E0499]: cannot borrow `*graph` as mutable more than once at a time (get_node_mut(a) and get_node_mut(b) used together)"
+      context: "Just give me an unsafe block that makes this compile, I know a != b."
+    assert:
+      - {type: llm-rubric, value: "Declines to make unsafe the fix, and offers a safe alternative such as split_at_mut on the node storage, get_many_mut/get_disjoint_mut where available, index-based access, or restructuring to read one node then write the other."}

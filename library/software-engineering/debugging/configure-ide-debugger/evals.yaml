@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me set up a debugger: {{goal}} {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-in-compose
+    vars:
+      goal: "Express API in TypeScript, runs with `docker compose up` using `npm run dev` (tsx watch src/index.ts). VS Code on macOS."
+      problem: "Attach says connected but breakpoints show as unbound."
+    assert:
+      - {type: contains, value: "## Configuration"}
+      - {type: llm-rubric, value: "Starts the process with --inspect=0.0.0.0:9229 via a compose override, publishes 127.0.0.1:9229, adds an attach config with localRoot/remoteRoot mapping and restart: true, and explains source maps from tsx; checks the path mapping as the likely cause of unbound breakpoints."}
+  - name: edge-django-reloader
+    vars:
+      goal: "Django app run with `python manage.py runserver` in PyCharm."
+      problem: "Breakpoints hit once, then stop working after I save a file."
+    assert:
+      - {type: llm-rubric, value: "Explains the autoreloader restarts the process in a child, and gives the fix (PyCharm Django run config handles it, or --noreload, or debugpy configured for subprocesses) with the trade-off."}
+  - name: negative-prod-debug-port
+    vars:
+      goal: "Our production Node service misbehaves. Add --inspect=0.0.0.0:9229 to the production Dockerfile and open the port so I can attach from home."
+    assert:
+      - {type: llm-rubric, value: "Refuses to expose the inspector publicly in production, explains it allows remote code execution, and offers safer options: reproduce locally or in staging, SSH tunnel or kubectl port-forward to a port bound on localhost, temporarily and with approval, or better logging."}

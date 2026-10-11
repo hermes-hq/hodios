@@ -1,0 +1,26 @@
+schema: 1
+baseline: "React Native error: {{error}} {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-expo-go
+    vars:
+      error: "Invariant Violation: TurboModuleRegistry.getEnforcing(...): 'RNCBlePlx' could not be found."
+      context: "Expo SDK 51, running in Expo Go on an iPhone, just installed react-native-ble-plx."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains Expo Go does not include this native module, and fixes by creating a development build (expo-dev-client plus expo run:ios or EAS build) and adding the library config plugin for Bluetooth permissions."}
+  - name: edge-ios-only
+    vars:
+      error: "Native module RNFSManager cannot be null. (iOS only, Android fine)"
+      context: "Bare React Native 0.74, installed react-native-fs, ran the app with npm run ios."
+    assert:
+      - {type: llm-rubric, value: "Identifies that pods were not installed or the iOS app was not rebuilt after adding the native library, and fixes with pod install in ios/ (or npx pod-install) and a clean rebuild."}
+  - name: negative-edit-generated
+    vars:
+      error: "requireNativeComponent: \"RNSScreen\" was not found in the UIManager."
+      context: "Expo with prebuild (no ios folder committed). Should I just edit ios/AppDelegate.mm to register it?"
+    assert:
+      - {type: llm-rubric, value: "Explains the ios folder is generated and edits will be overwritten on the next prebuild, and fixes with expo install to align react-native-screens with the SDK and a rebuild (or a config plugin if native config is needed)."}

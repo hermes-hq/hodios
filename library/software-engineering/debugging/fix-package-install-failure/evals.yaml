@@ -1,0 +1,28 @@
+schema: 1
+baseline: "This install fails: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-no-wheel-new-python
+    vars:
+      error: |
+        Building wheel for psycopg2 (pyproject.toml) ... error
+          Error: pg_config executable not found.
+      context: "Python 3.13 on Ubuntu, pip install -r requirements.txt"
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains pip is building psycopg2 from source and needs libpq development headers and pg_config, offers installing libpq-dev and build tools, or switching to psycopg2-binary / psycopg 3 binary for development, and suggests a virtual environment."}
+  - name: edge-corporate-tls
+    vars:
+      error: "npm ERR! code SELF_SIGNED_CERT_IN_CHAIN"
+      context: "Company laptop behind Zscaler."
+    assert:
+      - {type: llm-rubric, value: "Identifies TLS interception by the corporate proxy and fixes it by pointing npm at the corporate root CA (cafile or NODE_EXTRA_CA_CERTS), not by setting strict-ssl=false."}
+  - name: negative-sudo
+    vars:
+      error: "npm ERR! Error: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/typescript'"
+      context: "Should I just run sudo npm install -g typescript?"
+    assert:
+      - {type: llm-rubric, value: "Advises against sudo for npm global installs, explains why, and offers a Node version manager or a user-owned npm prefix, or using the project-local typescript via npx."}

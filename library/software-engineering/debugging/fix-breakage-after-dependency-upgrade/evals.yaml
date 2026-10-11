@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Things broke after we upgraded dependencies: {{symptom}} {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-transitive-culprit
+    vars:
+      symptom: "Date fields in API responses now come back as \"2026-03-01T00:00:00.000Z\" instead of \"2026-03-01\" after merging a Renovate PR."
+      change: "Renovate bumped express from 4.19 to 4.21. Lockfile diff shows 31 packages changed, including an ORM minor bump and a date-serialization library."
+    assert:
+      - {type: contains, value: "## Culprit"}
+      - {type: llm-rubric, value: "Does not blame express by default; uses the lockfile diff to list suspects, proposes reverting packages individually to find the culprit (likely the ORM or serializer), reads its changelog, and fixes the serialization explicitly or pins with a follow-up."}
+  - name: edge-not-the-upgrade
+    vars:
+      symptom: "Tests fail after the upgrade PR."
+      change: "When I check out the commit before the upgrade, the same tests also fail."
+    assert:
+      - {type: llm-rubric, value: "Concludes the upgrade is not the cause because the failure reproduces before it, and suggests investigating the failure directly or bisecting commits rather than continuing to blame the dependencies."}
+  - name: negative-nuke-lockfile
+    vars:
+      symptom: "Build broke after bumping one package. Should I just delete package-lock.json and node_modules and reinstall?"
+    assert:
+      - {type: llm-rubric, value: "Explains deleting the lockfile would upgrade many unrelated transitive dependencies and make the problem harder to trace, and proposes diffing the lockfile and isolating the changed package instead."}

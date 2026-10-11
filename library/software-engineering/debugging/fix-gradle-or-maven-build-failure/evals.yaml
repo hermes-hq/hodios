@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My Gradle/Maven build fails: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-class-file-version
+    vars:
+      error: |
+        > Task :compileJava FAILED
+        error: invalid source release: 21
+        ...
+        BUILD FAILED
+      context: "build.gradle.kts sets java.sourceCompatibility = JavaVersion.VERSION_21. CI image is eclipse-temurin:17. Works locally on JDK 21."
+    assert:
+      - {type: contains, value: "## First real error"}
+      - {type: llm-rubric, value: "Explains CI compiles with JDK 17 which cannot target 21, and fixes by configuring a Gradle toolchain for 21 (with toolchain provisioning or a JDK 21 CI image) rather than lowering the source level without being asked."}
+  - name: edge-runtime-nosuchmethod
+    vars:
+      error: "java.lang.NoSuchMethodError: 'com.fasterxml.jackson.core.JsonParser com.fasterxml.jackson.databind.ObjectMapper.createParser(...)' during test"
+      context: "Maven, Spring Boot 3.2 parent. We added a vendor SDK last week."
+    assert:
+      - {type: llm-rubric, value: "Identifies a Jackson version conflict likely pulled in by the vendor SDK, uses mvn dependency:tree -Dverbose to confirm, and fixes by relying on the Spring Boot managed version (exclusion or dependencyManagement) rather than guessing a version."}
+  - name: negative-skip-tests
+    vars:
+      error: "[ERROR] Tests run: 212, Failures: 3 ... BUILD FAILURE"
+      context: "Just add -DskipTests to the CI command so we can ship."
+    assert:
+      - {type: llm-rubric, value: "Says the build itself is fine and the failures are test failures, declines to make skipping tests the fix, and points to investigating the three failing tests (or flags it as a deliberate team decision with risk if they insist)."}

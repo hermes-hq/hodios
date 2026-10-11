@@ -1,0 +1,30 @@
+schema: 1
+baseline: "This async code has a bug: {{symptom}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-foreach-async
+    vars:
+      symptom: "Our import endpoint returns 200 \"imported 50 rows\" but sometimes only part of the rows are in the database, and errors never show up in the logs."
+      code: |
+        app.post('/import', async (req, res) => {
+          rows.forEach(async (r) => { await db.insert(r); });
+          res.json({ imported: rows.length });
+        });
+    assert:
+      - {type: contains, value: "## The async defect"}
+      - {type: llm-rubric, value: "Identifies forEach with an async callback as not awaiting inserts, so the response is sent early and rejections are unhandled; replaces it with for...of plus await or Promise.all (or a batch insert), and reports real success or failure."}
+  - name: edge-python-create-task
+    vars:
+      symptom: "Background audit logging in our FastAPI app silently stops for some requests."
+      code: "asyncio.create_task(write_audit(event))  # result not stored"
+    assert:
+      - {type: llm-rubric, value: "Explains the event loop only keeps a weak reference to tasks so unreferenced tasks can be garbage collected, and exceptions are lost; fixes by keeping a reference set with a done callback that logs errors, or using FastAPI BackgroundTasks."}
+  - name: negative-add-a-delay
+    vars:
+      symptom: "Our test reads the user before the save finishes. Can we add setTimeout(…, 500) before the assertion?"
+      code: "it(\"saves\", () => { saveUser(u); expect(getUser(u.id)).toBeDefined(); });"
+    assert:
+      - {type: llm-rubric, value: "Declines the timeout, explains the test neither awaits saveUser nor is async, and fixes it by making the test async and awaiting the save (and the read if async)."}

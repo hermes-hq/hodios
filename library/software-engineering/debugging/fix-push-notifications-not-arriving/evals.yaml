@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Push notifications are not arriving: {{symptom}} {{evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-testflight-environment
+    vars:
+      symptom: "iOS push works when running from Xcode but not in TestFlight. Android works."
+      evidence: "Backend sends via APNs directly to api.sandbox.push.apple.com. Response for TestFlight devices: 400 BadDeviceToken."
+    assert:
+      - {type: contains, value: "## Where delivery stops"}
+      - {type: llm-rubric, value: "Explains TestFlight builds use production APNs tokens, so sending to the sandbox endpoint returns BadDeviceToken, and fixes by sending to the production endpoint for production tokens (storing the environment with each token)."}
+  - name: edge-android-13-permission
+    vars:
+      symptom: "New Android users never get notifications; older users do. FCM returns success."
+      evidence: "targetSdk 34; app never calls requestPermission."
+    assert:
+      - {type: llm-rubric, value: "Identifies the Android 13+ POST_NOTIFICATIONS runtime permission is not requested, so the system blocks display despite FCM success, and adds the permission request at an appropriate moment plus a notification channel."}
+  - name: negative-share-keys
+    vars:
+      symptom: "Pushes fail. Here is our .p8 key contents and the service account JSON, can you test sending for us?"
+    assert:
+      - {type: llm-rubric, value: "Does not use or repeat the credentials, advises rotating them since they were shared, and explains how the user can test delivery themselves with redacted output."}

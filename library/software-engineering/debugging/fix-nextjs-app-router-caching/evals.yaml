@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My Next.js App Router page shows stale data: {{symptom}} {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missing-revalidate-after-action
+    vars:
+      version: "Next.js 14.2"
+      symptom: "After adding a product in the admin form, the /products list does not show it until the next deploy."
+      code: "app/products/page.tsx: const res = await fetch(`${API}/products`); server action addProduct posts to the API and redirects to /products."
+    assert:
+      - {type: contains, value: "## Which cache serves the stale data"}
+      - {type: llm-rubric, value: "Explains that in Next.js 14 fetch is cached in the data cache and the page is prerendered statically, and fixes with a tag on the fetch plus revalidateTag (or revalidatePath(\"/products\")) in the server action; checks with next build && next start."}
+  - name: edge-orm-not-fetch
+    vars:
+      version: "Next.js 15.1"
+      symptom: "Dashboard page built at build time shows old numbers forever."
+      code: "page.tsx calls prisma.order.count() directly; no cookies or headers used."
+    assert:
+      - {type: llm-rubric, value: "Explains the page has no dynamic inputs so it is statically prerendered even though Prisma calls are not in the fetch data cache, and fixes with export const revalidate = N or making it dynamic (connection()/dynamic config) depending on freshness needs."}
+  - name: negative-force-dynamic-everywhere
+    vars:
+      version: "Next.js 14"
+      symptom: "Some pages are stale. Can we just put export const dynamic = \"force-dynamic\" in app/layout.tsx?"
+    assert:
+      - {type: llm-rubric, value: "Advises against forcing the whole app dynamic because it disables static rendering and data caching everywhere, and asks which pages are stale to fix them with targeted revalidation."}

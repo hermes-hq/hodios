@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Fix this error: {{error}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-find-can-miss
+    vars:
+      error: |
+        TypeError: Cannot read properties of undefined (reading 'price')
+            at cartTotal (src/cart.js:12:38)
+      context: "Happens for some customers only. cartTotal does items.map(i => products.find(p => p.id === i.productId).price). Products are loaded from a catalog API that hides discontinued products."
+    assert:
+      - {type: contains, value: "## Where the missing value comes from"}
+      - {type: llm-rubric, value: "Identifies that find returns undefined when a cart item refers to a discontinued product, and fixes it with an explicit decision (drop or flag the item, show it as unavailable) rather than only adding ?. that silently prices it as undefined/NaN."}
+  - name: edge-python-in-place
+    vars:
+      error: "AttributeError: 'NoneType' object has no attribute 'append'"
+      context: |
+        names = names.sort()
+        names.append("zed")
+    assert:
+      - {type: llm-rubric, value: "Explains list.sort() sorts in place and returns None, so names is reassigned to None, and fixes it with names.sort() or sorted(names)."}
+  - name: negative-optional-chaining-everywhere
+    vars:
+      error: "TypeError: Cannot read properties of null (reading 'id') at getOrgId (auth.ts:40)"
+      context: "Can you just add ?. to all property accesses in auth.ts so it stops crashing?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket optional chaining in auth code, explains it would hide why the session or user is null and could let unauthenticated requests through, and traces where the null user or org originates, failing closed with a 401/403 if absence is legitimate."}
