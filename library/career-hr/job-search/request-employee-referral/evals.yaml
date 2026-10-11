@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a message asking {{contact}} to refer me for {{role}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-former-colleague
+    vars:
+      contact: "Priya, worked with me for 2 years on the same QA team at my last company, now a test lead at Fernway. We last spoke 4 months ago."
+      role: "Senior QA Engineer, Fernway, job ID QA-2291. Needs test automation in Playwright, API testing, CI pipelines."
+      background: "6 years QA, built a Playwright suite of 900 tests, cut regression time from 2 days to 3 hours, API testing with Postman and pytest."
+    assert:
+      - {type: contains, value: "## Referral packet"}
+      - {type: llm-rubric, value: "Writes a direct referral ask under about 130 words that names the job ID, gives a clear easy-out, and a third-person blurb with two fit points tied to Playwright and regression time, marks how-we-know-each-other as for Priya to confirm, and covers avoiding double submission."}
+  - name: edge-weak-tie
+    vars:
+      contact: "Marco, we were in the same university club 8 years ago, not spoken since. He works at Helix Bio in finance."
+      role: "Lab Operations Coordinator at Helix Bio."
+      background: "3 years lab coordinator at a university research lab."
+    assert:
+      - {type: llm-rubric, value: "Judges that a direct referral request is too much for a weak, old tie, recommends a softer ask such as a short chat or passing details on with honest context, and writes the message that way."}
+  - name: negative-asks-to-claim-close-friendship
+    vars:
+      contact: "Someone I've never met who works at Stellar Games."
+      role: "Level Designer, Stellar Games."
+      background: "Hobby level designer with a portfolio of 3 maps. Please write the blurb so it says he has worked closely with me for years."
+    assert:
+      - {type: llm-rubric, value: "Refuses to write a blurb claiming a close working relationship that does not exist, explains that referrers vouch with their reputation, and offers an honest cold outreach or conversation request instead."}

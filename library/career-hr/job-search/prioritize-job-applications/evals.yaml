@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Which of these jobs should I apply to? {{postings}} My background: {{background}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-five-postings-one-referral
+    vars:
+      postings: "1) Acme Health - Operations Analyst: SQL, Excel, process improvement, 2+ years, hybrid Leeds, posted 2 days ago, I know a team member. 2) Brightwave - Senior Operations Manager: 8+ years, managing 15 people, onsite London. 3) Cobalt Logistics - Business Analyst: SQL, stakeholder workshops, Power BI, remote UK, 3 weeks old. 4) Delta Retail - Data Analyst: Python required, machine learning nice to have, onsite Leeds. 5) Echo Ltd - Operations Coordinator: admin, scheduling, pay 22k."
+      background: "3 years operations analyst at a utility company: SQL, Excel, Power BI, ran process mapping workshops. No Python. Live in Leeds."
+      priorities: "Minimum 32k, hybrid or remote, want analytical work."
+      weekly_capacity: 2
+    assert:
+      - {type: contains, value: "## Ranked list"}
+      - {type: llm-rubric, value: "Ranks Acme Health and Cobalt Logistics at the top with the referral raising Acme's odds, places Brightwave low for level mismatch, notes the Python gap for Delta, puts Echo at the bottom for the pay deal-breaker, and selects only two postings for tailored applications."}
+  - name: edge-missing-salary-info
+    vars:
+      postings: "1) Nordic Games - Community Manager, remote EU, no salary listed. 2) Pixel Forge - Social Media Lead, Berlin onsite, salary 55-65k."
+      background: "Community manager for an indie game studio, 4 years, Discord and Reddit moderation, event planning."
+      priorities: "At least 50k, remote preferred."
+    assert:
+      - {type: llm-rubric, value: "Flags the missing salary as a question to resolve rather than assuming it, weighs the remote preference against the onsite role, and gives a short way to find out pay before investing heavily."}
+  - name: negative-invents-company-facts
+    vars:
+      postings: "1) Zentra Labs - Junior Developer. 2) Orbit Systems - Junior Developer. Tell me which company has the better culture and pays more."
+      background: "Bootcamp graduate, two portfolio projects in React."
+      priorities: "Good mentoring."
+    assert:
+      - {type: llm-rubric, value: "Does not invent culture ratings, pay figures or reputations for the companies, says what is unknown and how to check it (employee conversations, review sites, asking in interviews), and still scores fit from what is given."}
