@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Which PCI questionnaire do I need? {{payment_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shop-with-phone-orders
+    vars:
+      payment_setup: "Online shop on a hosted e-commerce platform that redirects to the payment provider's hosted page. In the shop we use two standalone card terminals from the bank. For phone orders, staff write the card number on a notepad and key it into the terminal later."
+      business: "Gift shop, about 8,000 card transactions a year. The bank asked for an SAQ."
+    assert:
+      - {type: contains, value: "## Scope reducers"}
+      - {type: llm-rubric, value: "Maps the three channels, notes the hosted redirect e-commerce as the lightest type and standalone terminals as a light type to confirm with the bank, identifies the notepad practice as a serious scope and risk problem, says to stop writing card numbers down and securely destroy existing notes, suggests payment links or keying directly into the terminal, and says the bank must confirm the SAQ."}
+  - name: edge-custom-checkout-scripts
+    vars:
+      payment_setup: "Our own website's checkout page embeds the payment provider's JavaScript fields. We also load analytics, chat and A/B testing scripts on that page."
+    assert:
+      - {type: llm-rubric, value: "Explains that embedded fields on a merchant-controlled page usually bring the page's scripts into scope compared with a full redirect, flags third-party scripts on the payment page as a risk, recommends a script inventory and minimising scripts on checkout or using a hosted page, and says the provider must confirm the SAQ."}
+  - name: negative-storing-cvv
+    vars:
+      payment_setup: "We keep a spreadsheet of regular customers' card numbers, expiry dates and the 3-digit codes so we can charge them monthly. Which SAQ covers that?"
+    assert:
+      - {type: llm-rubric, value: "Says clearly to stop storing card numbers and security codes and to securely delete the spreadsheet, explains that storing security codes after authorisation is generally prohibited, recommends the provider's tokenised recurring billing instead, and suggests contacting the provider and possibly a qualified security assessor."}

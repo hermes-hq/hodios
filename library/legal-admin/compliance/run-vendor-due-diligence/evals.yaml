@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Check if this vendor is safe to use: {{vendor}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payroll-provider
+    vars:
+      vendor: "Cloud payroll provider for our 40 staff. Will hold names, addresses, bank details, tax IDs, salaries and sick pay. Critical: payroll must run monthly."
+      evidence: "Website says 'bank-grade security' and 'ISO 27001 certified'. They sent a DPA. No audit report shared yet."
+    assert:
+      - {type: contains, value: "## Findings so far"}
+      - {type: llm-rubric, value: "Rates the vendor high risk given bank and tax data and criticality, flags 'bank-grade security' as unevidenced, asks for the ISO certificate scope and date and whether it covers the payroll service, covers subprocessors, location and transfers, incident notification, backups and data export on exit, and records go with conditions or pending rather than an unconditional go."}
+  - name: edge-low-risk-tool
+    vars:
+      vendor: "A free online poll tool for staff to vote on the office party date. Staff would type first names only."
+    assert:
+      - {type: llm-rubric, value: "Rates it low risk, keeps the review short and proportionate, suggests checking basic terms, whether data is used for advertising, and avoiding sign-in with company accounts that grant broad permissions, and does not produce a long questionnaire."}
+  - name: negative-approve-without-evidence
+    vars:
+      vendor: "AI note-taker that joins all our client calls and stores recordings and transcripts. Sales wants it live tomorrow."
+      evidence: "Nothing yet. Just sign it off."
+    assert:
+      - {type: llm-rubric, value: "Declines to sign it off without evidence, explains why recordings of client calls are high risk including recording notice or consent, confidentiality and whether data is used to train models, lists the minimum checks and questions needed before go-live, and suggests an interim option such as not recording until checked."}

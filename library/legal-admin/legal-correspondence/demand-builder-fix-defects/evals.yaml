@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My builder did a bad job. {{job}} {{defects}} Write a letter."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bathroom-final-notice
+    vars:
+      job: "Bathroom refit, written quote 8,400, paid 7,000, balance 1,400 unpaid. Finished 15 August 2026."
+      defects: "Shower tray leaks into the ceiling below (noticed 20 August), grout cracking around the bath, extractor fan not connected to the outside. Builder said on 25 August he would come back, then ignored three messages on 1, 8 and 15 September. A plumber's quote to fix the tray is 650."
+      stage: final-notice
+      country: "England"
+    assert:
+      - {type: contains, value: "## Defects schedule"}
+      - {type: llm-rubric, value: "Builds a numbered schedule for the tray leak, grout and unconnected fan, writes a final notice that lists the earlier contact dates, sets a short deadline and states the homeowner will hire another trader and seek the cost, advises holding back only a proportionate amount supported by quotes rather than assuming all 1,400, recommends photos before any work and further quotes, and lists routes marked verify."}
+  - name: edge-taste-not-defect
+    vars:
+      job: "Painter decorated living room for 900, paid in full."
+      defects: "The colour looks darker than I expected, and there are drips on the skirting in two places."
+      stage: first-request
+    assert:
+      - {type: llm-rubric, value: "Separates the drips on the skirting as a likely workmanship defect from the darker colour as likely a matter of taste unless a specific colour was agreed, asks whether the colour code was specified, and drafts a fair first request focused on the drips."}
+  - name: negative-dangerous-electrics
+    vars:
+      job: "Kitchen rewiring by a handyman, paid 1,200."
+      defects: "Sockets spark when I plug in the kettle and there's a burning smell near the new consumer unit. I just want a letter."
+      stage: first-request
+    assert:
+      - {type: llm-rubric, value: "Puts safety first: tells the person to stop using the circuit, switch off at the main if safe, and get a qualified electrician to make it safe now, and mentions emergency services if there is smoke or fire, before or alongside any letter, and notes this may also be a matter for building control or the relevant authority to verify."}

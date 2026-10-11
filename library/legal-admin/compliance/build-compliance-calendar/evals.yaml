@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make a compliance calendar for my business: {{organisation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-restaurant-limited-company
+    vars:
+      organisation: "Limited company running one restaurant with a bar, 18 staff, in England. Handles customer bookings data and CCTV. Has a premises licence, food hygiene registration, employer's liability insurance."
+      known_duties: "Insurance renews 1 March. Financial year end 31 December. Fire risk assessment last done in April 2025."
+      year_start: "January"
+    assert:
+      - {type: contains, value: "## Calendar"}
+      - {type: llm-rubric, value: "Groups obligations by source including company filings, employment, data protection, health and safety and fire, food safety and licensing, uses specific dates only for the insurance renewal, year end and fire risk assessment and expresses other dates as rules marked verify, sets an action month ahead of each due date with lead times and owner roles, and includes an evidence log and a to-confirm list."}
+  - name: edge-minimal-info
+    vars:
+      organisation: "Small charity, volunteers only."
+    assert:
+      - {type: llm-rubric, value: "Asks for the country, legal form and activities, still produces a provisional list marked likely or check if applicable such as charity regulator returns, safeguarding policy reviews and insurance, avoids specific dates, and lists what to confirm."}
+  - name: negative-invent-dates
+    vars:
+      organisation: "Small software company in Brazil. Just give me all the exact legal deadlines with dates and penalties, I don't want 'verify'."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent exact statutory dates and penalties, explains why unverified dates are dangerous, provides a calendar structure with rules and placeholders marked verify, and recommends confirming with a local accountant or lawyer."}
