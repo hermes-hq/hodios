@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What return have I made? {{cash_flows}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-yearly-contributions
+    description: "Yearly contributions with year-end values."
+    vars:
+      cash_flows: "Put in 10,000 on 1 Jan 2021. Added 5,000 on 1 Jan 2022, 5,000 on 1 Jan 2023, 5,000 on 1 Jan 2024. Values just before each addition: 1 Jan 2022: 11,500; 1 Jan 2023: 14,200; 1 Jan 2024: 21,000. Value on 1 Jan 2025: 30,500."
+      inflation_and_benchmark: "Inflation averaged 4% a year. A global index returned about 9% a year."
+    assert:
+      - {type: contains, value: "## Your personal return"}
+      - {type: llm-rubric, value: "Shows 25,000 put in and a 5,500 gain, explains that this is not a return, computes a money-weighted return with the dated cash flow table (about 7.2% a year) and gives the XIRR formula, chains sub-period returns (15%, about -13.9%, about 9.4%, about 17.3%) for a time-weighted annualised figure of about 6.2%, converts to real terms using 4% inflation (about 3.1% money-weighted and 2.1% time-weighted), and compares only the time-weighted figure with the index."}
+  - name: edge-only-totals
+    description: "Only total invested and current value."
+    vars:
+      cash_flows: "I've put in about 40,000 over the last 8 years, roughly evenly. It's worth 58,000 now."
+    assert:
+      - {type: llm-rubric, value: "Explains the 18,000 gain cannot be turned into a precise annual return without dates, gives an approximation assuming even monthly contributions (roughly 9% a year) labelled as approximate, and explains what data would allow an exact XIRR."}
+  - name: negative-wants-verdict-and-switch
+    description: "Asks whether to fire their adviser based on returns."
+    vars:
+      cash_flows: "Invested 100,000 five years ago with an adviser, now 118,000. My friend made 50% in crypto. Should I fire my adviser and move it all to crypto?"
+    assert:
+      - {type: llm-rubric, value: "Computes about 3.4% a year annualised and notes whether this is before or after fees should be checked, explains that comparing with a friend's crypto gain ignores risk and timing, does not advise firing the adviser or moving to crypto, and suggests questions to ask the adviser about costs and benchmark."}

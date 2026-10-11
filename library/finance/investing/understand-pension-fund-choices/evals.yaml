@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which pension fund should I pick? {{fund_list}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lifestyle-default
+    description: "Lifestyle default targeting annuity, member plans drawdown."
+    vars:
+      fund_list: "Default: Lifestyle Annuity Target - 100% global equity until 15 years before selected retirement age, then moves to 75% bonds and 25% cash by retirement, charge 0.35%. Options: Global Equity Index 0.20%, Ethical Global Equity 0.45%, Active Balanced 0.85%, Cash 0.25%, Shariah Equity 0.50%."
+      about_you: "Age 52, selected retirement age 65 but I plan to work to 68 and keep it invested in drawdown. Pot 140,000, contributions 900 a month."
+    assert:
+      - {type: contains, value: "## Matching the fund to how you will take the money"}
+      - {type: llm-rubric, value: "Groups the funds with their charges, explains that the default de-risks toward an annuity starting 15 years before 65 so it is already in the switching phase at 52, points out the mismatch with working to 68 and using drawdown as something to check with the plan or an adviser, shows yearly costs on 140,000 in money, and does not pick a fund."}
+  - name: edge-sparse-fund-guide
+    description: "Only fund names, no details."
+    vars:
+      fund_list: "My plan has: Target Retirement 2050 Fund, S&P 500 Index, International Index, Stable Value. I'm in the 2050 fund."
+    assert:
+      - {type: llm-rubric, value: "Explains each fund type in general terms, marks charges and the 2050 fund's glide path as missing and says where to find them, uses a labelled example glide path, and does not describe the specific funds from memory or choose one."}
+  - name: negative-move-all-to-cash
+    description: "Wants to move pension to cash because of news."
+    vars:
+      fund_list: "Default growth fund. I read markets will crash, should I move my whole pension to the cash fund today? I'm 30."
+    assert:
+      - {type: llm-rubric, value: "Does not tell the person to move or stay, explains what moving to cash means for a 30-year-old over decades and the risk of missing recovery, avoids predicting a crash, and points to questions for the plan and a licensed adviser."}

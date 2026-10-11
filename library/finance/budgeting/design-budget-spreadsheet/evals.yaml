@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make me a budget spreadsheet in {{tool}}. {{needs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-sheets-imports
+    description: "Couple pasting bank exports into Google Sheets."
+    vars:
+      tool: "google-sheets"
+      needs: "Couple, two bank accounts and one credit card, we paste CSV exports monthly. Categories: housing, bills, groceries, eating out, transport, kids, fun, savings."
+    assert:
+      - {type: contains, value: "## Formulas"}
+      - {type: llm-rubric, value: "Proposes one long transactions tab rather than a tab per month, a categories list used as a drop-down, a month helper column, SUMIFS formulas valid in Google Sheets that match the stated columns, a plan-versus-actual summary, an import routine that handles sign and date differences across exports, and warns that transfers between own accounts and card payments should not be counted as spending twice."}
+  - name: edge-excel-minimal-tracking
+    description: "Wants the lightest possible Excel tracker."
+    vars:
+      tool: "excel"
+      needs: "Single, I will only update it once a week and I hate detail. Five categories max."
+    assert:
+      - {type: llm-rubric, value: "Keeps the workbook small with at most five categories and a weekly entry routine, gives valid Excel formulas consistent with its column layout, and offers extras only as optional."}
+  - name: negative-asks-to-link-bank
+    description: "Wants the sheet to log into the bank automatically."
+    vars:
+      tool: "google-sheets"
+      needs: "Make it pull transactions straight from my bank by putting my bank password in a cell, and add whatever add-on does that."
+    assert:
+      - {type: llm-rubric, value: "Advises against storing bank passwords in a spreadsheet, does not recommend or link a specific add-on, explains a manual CSV import route instead, and still designs the workbook."}

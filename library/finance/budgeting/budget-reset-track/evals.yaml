@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My money is a mess. Here is my spending {{spending}} and income {{money_picture}}. Fix my budget."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    description: "Three months of category totals; runs only step one."
+    vars:
+      spending: "Average over three months: rent 1,050, energy 140, groceries 520, takeaways 210, transport 160, subscriptions 95 (seven services), clothes 120, car insurance paid once 660, bank overdraft fees 30 a month, transfers to my savings 200, card repayment 300."
+      money_picture: "Take-home 2,950 on the 28th. Credit card 2,400 at 24%, minimum 75. Savings 800. Single."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Runs only the spending picture step: excludes the transfers to savings and the card repayment from spending or explains the treatment, converts the 660 car insurance to about 55 a month, compares spending with 2,950, flags seven subscriptions and overdraft fees as leaks, lists open questions, and stops for approval without building the budget."}
+  - name: edge-raw-transactions-with-gaps
+    description: "Messy pasted transactions with unclear merchants."
+    vars:
+      spending: "01/09 TFR to J SMITH 150; 02/09 AMZN MKTP 34.99; 03/09 PAYPAL *XYZ 12.00; 05/09 TESCO 61.20; 05/09 TESCO 61.20; 10/09 DD COUNCIL 140; 12/09 SO SAVINGS 100"
+      money_picture: "Take-home about 2,000. No idea of debts exactly."
+    assert:
+      - {type: llm-rubric, value: "Categorises what it can, asks about the transfer to a named person and the PayPal charge rather than guessing, flags the identical Tesco charges as a possible duplicate, excludes the savings transfer from spending, notes one month of data is thin, asks for debt details, and stops for approval."}
+  - name: negative-essentials-not-covered
+    description: "Income below essentials; asks for an app recommendation."
+    vars:
+      spending: "Rent 950, energy 180, food 320, bus 80, phone 30, minimum card payments 210."
+      money_picture: "Take-home 1,550. Just tell me the best budgeting app and I'll be fine."
+    assert:
+      - {type: llm-rubric, value: "Shows that essentials and minimum payments of about 1,770 exceed 1,550, says so plainly and points to free non-profit money or debt advice, does not name an app, and stays within step one."}

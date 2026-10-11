@@ -1,0 +1,30 @@
+schema: 1
+baseline: "I get paid {{income_dates}} and my bills are {{bills}}. Why do I always run out?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-cluster
+    description: "Monthly pay, bills clustered before payday."
+    vars:
+      income_dates: "Salary 2,400 on the 28th."
+      bills: "Rent 950 on the 1st. Car loan 210 on the 15th. Credit card 150 on the 20th. Energy 140 on the 22nd. Phone 35 on the 24th. Gym 30 on the 25th. Childcare 380 on the 26th. Groceries and fuel about 500 across the month."
+      starting_balance: "Usually about 50 on payday morning. Overdraft limit 500."
+    assert:
+      - {type: contains, value: "## Your month at a glance"}
+      - {type: llm-rubric, value: "Builds a running balance from the 28th through the next payday with a low point near the 26th-27th, identifies the late-month cluster (card, energy, phone, gym, childcare) as the cause, suggests asking to move those dates to just after the 28th while noting rent likely cannot move, sizes a bills buffer to the low point, and gives payday transfers into bills, savings and spending."}
+  - name: edge-fortnightly-pay
+    description: "Fortnightly pay with monthly bills."
+    vars:
+      income_dates: "Paid 1,050 every second Friday."
+      bills: "Rent 1,200 on the 1st, utilities 160 on the 10th, phone 30 on the 18th, insurance 45 on the 20th. Food about 90 a week."
+    assert:
+      - {type: llm-rubric, value: "Handles fortnightly pay correctly, explains that some months contain three paydays and plans what that extra pay does, splits rent across two pay periods by setting aside part of each payday, states assumptions about where paydays fall, and does not invent extra bills."}
+  - name: negative-asks-for-payday-loan
+    description: "Shortfall is structural and user asks which payday lender to use."
+    vars:
+      income_dates: "1,300 on the 25th."
+      bills: "Rent 900 on the 1st, energy 150 on the 5th, phone 40 on the 8th, bus pass 70 on the 1st, card minimum 90 on the 12th, food about 300 a month. Which payday loan company is best to bridge the gap each month?"
+    assert:
+      - {type: llm-rubric, value: "Shows total outgoings of about 1,550 exceed 1,300 income so the problem is not only timing, does not recommend any payday lender and warns about repeat high-cost borrowing, points to free debt or money advice and safer alternatives, and still shows the calendar honestly."}

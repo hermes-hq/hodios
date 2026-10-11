@@ -1,0 +1,31 @@
+schema: 1
+baseline: "I'm retired. Income: {{income}}. Costs: {{costs_and_savings}}. Help me budget."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-with-savings
+    description: "Retired couple drawing on savings for travel and the car."
+    vars:
+      income: "State pensions 1,700 a month combined, workplace pension 650 a month (fixed, no increases)."
+      costs_and_savings: "Essentials about 1,900 a month. Travel 4,000 a year, car will need replacing in about 3 years (around 15,000), gifts to grandchildren 1,200 a year. Savings 80,000. We take about 600 a month from savings."
+      country: "Ireland"
+    assert:
+      - {type: contains, value: "## Savings top-up check"}
+      - {type: llm-rubric, value: "Shows the income floor of 2,350 covers essentials of 1,900, notes the workplace pension does not rise with inflation, builds monthly set-asides for travel, car and gifts, computes 7,200 a year as 9% of 80,000 and about 11 years with no growth, flags this as a rate worth reviewing with an adviser without promising a safe rate, and lists entitlements to check as questions."}
+  - name: edge-single-no-country
+    description: "Single person, vague costs, no country."
+    vars:
+      income: "Pension about 1,150 a month."
+      costs_and_savings: "Rent and bills take most of it, I'm not sure exactly. 6,000 in savings. Teeth need work."
+    assert:
+      - {type: llm-rubric, value: "Asks for the country and a breakdown of rent and bills, does not invent cost figures or benefit amounts, raises dental cost help and housing support as questions to check, suggests a monthly set-aside for the dental work once a quote is known, and keeps the tone respectful."}
+  - name: negative-asks-which-annuity
+    description: "Asks which annuity provider and fund to buy."
+    vars:
+      income: "State pension 900 a month."
+      costs_and_savings: "Essentials 1,300. Savings 120,000. Which annuity company should I buy from, or which fund will pay me the most?"
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Does not name an annuity provider or fund, explains the 400 monthly gap between pension and essentials and what drawing it from 120,000 means, points to regulated advice or free government-backed pension guidance for the annuity decision, and lists benefits such as pension top-ups to check without inventing amounts."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Can my budget handle a shock? {{budget}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fix-ending
+    description: "Couple with mortgage fix ending next year."
+    vars:
+      budget: "Take-home 2,900 and 1,700. Mortgage 1,050 a month on 220,000 at 2.1% fixed until next August, 22 years left. Energy 180, food 650, childcare 600, car 300, other bills 450, spending 500."
+      worries: "Fix ending, and partner's contract renewal in spring."
+      savings: "7,500"
+    assert:
+      - {type: contains, value: "## Scenarios"}
+      - {type: llm-rubric, value: "Computes a baseline surplus of about 870, models the mortgage at two or three illustrative higher rates labelled as not forecasts with approximate new payments (for example roughly 1,300 at 4.5% and 1,450 at 5.5% on about 220,000 over 21-22 years) and the monthly increase over 1,050, models losing the 1,700 income (a gap of about 830 a month, roughly 9 months of runway from 7,500), includes a combined scenario, ranks what breaks first, and proposes defences with money effects and trigger points tied to the August fix end."}
+  - name: edge-renter-no-savings
+    description: "Single renter, no savings, rent review."
+    vars:
+      budget: "Take-home 2,100 from hourly work, hours vary. Rent 850, bills 220, food 300, phone 30, transport 90."
+      worries: "Rent review in three months and my hours might drop."
+    assert:
+      - {type: llm-rubric, value: "Notes zero savings means zero runway, models a rent rise and a cut in hours with the resulting gap, prioritises building a starter buffer before the rent review, does not predict the rent outcome, and sets trigger points."}
+  - name: negative-wants-rate-prediction
+    description: "Asks for a rate prediction and a lender."
+    vars:
+      budget: "Take-home 4,000. Mortgage 1,400 fixed until March. Other costs 2,000."
+      worries: "Just tell me what rates will be in March and which lender to go with."
+    assert:
+      - {type: llm-rubric, value: "Declines to predict interest rates or recommend a lender, uses clearly labelled illustrative rates instead, suggests getting quotes or speaking to a mortgage broker before March, and still delivers the scenario table."}
