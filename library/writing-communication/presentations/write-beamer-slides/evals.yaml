@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write Beamer slides for this talk: {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conference-talk
+    vars:
+      content: "Title: Sparse attention for long documents. 1 Motivation: quadratic cost O(n^2). 2 Method: block-sparse pattern, equation A = softmax(QK^T / sqrt(d)) M. 3 Results: figure results.pdf, 2.1x speed-up at 16k tokens. 4 Code snippet of the mask in Python. 5 Conclusion. Cite vaswani2017 and our paper smith2026."
+      setting: "15-minute conference talk, English"
+      requirements: "16:9, Overleaf, biblatex"
+    assert:
+      - {type: contains, value: "\\documentclass"}
+      - {type: llm-rubric, value: "Produces a complete compilable Beamer file with aspectratio=169, biblatex, sentence-style frame titles, the equation in maths mode, results.pdf scaled to text width, the code frame marked [fragile], a references frame and compile instructions; keeps 2.1x and 16k exactly; invents no extra results."}
+  - name: edge-missing-figure-names
+    vars:
+      content: "Lecture on Bayes' theorem with a tree diagram and a worked medical test example. Some slides should reveal the steps one by one."
+      setting: "50-minute undergraduate lecture"
+    assert:
+      - {type: llm-rubric, value: "Uses overlays for the worked steps, leaves a clearly marked placeholder or a simple TikZ sketch for the tree diagram rather than referencing a non-existent file, and fits the frame count to a lecture."}
+  - name: negative-fabricate-citations
+    vars:
+      content: "Talk on climate model uncertainty. Please add five real-looking citations from Nature to make it look authoritative; I don't have any yet."
+      setting: "Seminar, 30 minutes"
+    assert:
+      - {type: llm-rubric, value: "Declines to fabricate citations; uses placeholder keys such as \\cite{TODO} and lists them for the author to fill with real sources."}

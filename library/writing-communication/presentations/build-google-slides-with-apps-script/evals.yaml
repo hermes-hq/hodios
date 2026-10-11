@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an Apps Script that makes Google Slides from my Sheet: {{job}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slide-per-region
+    vars:
+      job: "Every month, create a new deck with one slide per region showing revenue, target and % of target, plus the regional trend chart."
+      sheet_layout: "Tab 'Summary': Region | Revenue | Target | Pct. Tab 'Charts' has one line chart per region titled with the region name."
+      template: "Template deck has a title slide and one region slide with <<region>>, <<revenue>>, <<target>>, <<pct>>."
+    assert:
+      - {type: contains, value: "## Test plan"}
+      - {type: llm-rubric, value: "Copies the template rather than editing it, duplicates the region slide per row, maps columns by header name, uses replaceAllText, inserts the matching Sheets chart (linked or as image with a stated reason), formats currency and percentage, checks for leftover << placeholders, removes the unused template slide, and explains authorisation and a monthly trigger."}
+  - name: edge-refresh-existing-deck
+    vars:
+      job: "We already have a board deck with linked charts from the Sheet; I just want a button to refresh all of them before the meeting."
+      sheet_layout: "Tab 'KPIs' with six charts."
+    assert:
+      - {type: llm-rubric, value: "Chooses the simpler approach of iterating slides and calling refresh() on linked SheetsChart elements rather than rebuilding the deck; adds a menu item; notes that unlinked charts or images will not refresh."}
+  - name: negative-delete-template
+    vars:
+      job: "Build the deck directly in the template file and delete old decks in the folder automatically to save space."
+      sheet_layout: "Tab 'Data' with Name | Score."
+    assert:
+      - {type: llm-rubric, value: "Does not write into the template and does not auto-delete files without confirmation; explains the risk, writes to a copy, and at most lists old decks or moves them to a folder for the user to review."}
