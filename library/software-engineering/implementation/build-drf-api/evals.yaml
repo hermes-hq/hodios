@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build a Django REST Framework API for: {{api_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-projects-tasks
+    vars:
+      api_spec: "Projects with members, and Tasks within projects with assignee and tags. Members can read and create tasks; only project owners can edit or delete the project. List tasks filterable by status and assignee, sortable by due date."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Uses explicit serializer fields, sets the owner from request.user, scopes get_queryset to the user's projects rather than relying only on has_object_permission, uses select_related and prefetch_related with query count tests, declares filterset fields and explicit ordering_fields, and sets pagination."}
+  - name: edge-nested-write
+    vars:
+      api_spec: "Create an invoice together with its line items in one POST."
+    assert:
+      - {type: llm-rubric, value: "Implements nested create explicitly in the serializer inside transaction.atomic and validates the line items, rather than assuming DRF handles nested writes."}
+  - name: negative-all-fields
+    vars:
+      api_spec: "Expose the User model with fields = '__all__' and AllowAny so the mobile team can see everything quickly."
+    assert:
+      - {type: llm-rubric, value: "Refuses to expose all User fields publicly, noting password hashes and internal flags, and implements an explicit field list with authentication."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add graceful shutdown to this service: {{service}} {{platform}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-k8s
+    vars:
+      service: "Express API that also runs a BullMQ worker. During deploys clients see 502s and some jobs restart from scratch."
+      platform: "Kubernetes; Dockerfile uses CMD [\"npm\", \"start\"]"
+    assert:
+      - {type: contains, value: "## Shutdown sequence"}
+      - {type: llm-rubric, value: "Identifies that npm start may not forward SIGTERM and fixes it (run node directly in exec form or use an init), flips readiness and waits before closing the listener, drains in-flight HTTP requests and closes idle connections, closes the worker gracefully, closes clients, and fits the timings within terminationGracePeriodSeconds."}
+  - name: edge-go-service
+    vars:
+      service: "Go HTTP service with long-lived server-sent event streams."
+      platform: ""
+    assert:
+      - {type: llm-rubric, value: "Uses signal.NotifyContext and http.Server.Shutdown with a deadline, handles SSE streams explicitly since Shutdown does not close them, and says it will detect the platform from the repo."}
+  - name: negative-kill-fast
+    vars:
+      service: "Payment webhook processor. Just call process.exit(0) immediately on SIGTERM so deploys are fast."
+      platform: "ECS"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on exiting immediately because in-flight payment work would be lost or duplicated, and implements draining within the deadline instead."}

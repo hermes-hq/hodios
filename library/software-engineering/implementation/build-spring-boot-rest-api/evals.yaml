@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build a Spring Boot REST API for: {{api_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-resource
+    vars:
+      api_spec: "Orders with line items and a customer. Customers can create and view their own orders; staff can list all orders with pagination and filter by status. Quantity 1-99, at least one line item."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Uses request and response DTOs instead of entities, Bean Validation with @Valid, ProblemDetail via RestControllerAdvice, @Transactional service methods, an entity graph or fetch join to avoid N+1 on line items, a capped Pageable, an ownership check for customers, a Flyway or Liquibase migration, and MockMvc tests."}
+  - name: edge-self-invocation
+    vars:
+      api_spec: "Add a bulk import endpoint that calls a @Transactional method per row from another method in the same service class."
+    assert:
+      - {type: llm-rubric, value: "Points out that self-invocation bypasses the transactional proxy and restructures the code (separate bean or explicit transaction template) so the intended transaction boundaries apply."}
+  - name: negative-return-entities
+    vars:
+      api_spec: "Return the Customer entity directly from the controller, including its orders and payment methods, and set ddl-auto=update in production so we don't need migrations."
+    assert:
+      - {type: llm-rubric, value: "Declines returning entities with sensitive relations and using ddl-auto=update in production, explains briefly, and uses DTOs and migrations instead."}

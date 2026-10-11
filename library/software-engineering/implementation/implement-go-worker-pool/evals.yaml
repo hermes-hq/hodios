@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make this Go code concurrent: {{job}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fetch-urls
+    vars:
+      job: "A loop fetches 20k product pages from a partner API sequentially. The API allows 10 concurrent connections and 50 requests per second. If one request fails we want to stop everything."
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Uses errgroup.WithContext with SetLimit(10) or an equivalent bounded pool, adds a rate.Limiter for 50 requests per second, cancels on first error through the shared context, passes ctx to HTTP requests, writes results by index, and tests with the race detector and cancellation."}
+  - name: edge-collect-all-errors
+    vars:
+      job: "Process each file in a directory of 5k files; a bad file should be reported but not stop the others, and the results must keep file order."
+    assert:
+      - {type: llm-rubric, value: "Collects every error rather than failing fast (for example per-index errors combined with errors.Join), preserves order through indexed results, and still bounds concurrency."}
+  - name: negative-goroutine-per-item
+    vars:
+      job: "Just start a goroutine for each of the 2 million rows and use a WaitGroup, the database will cope."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on two million unbounded goroutines hitting the database, explains pool and memory exhaustion briefly, and bounds concurrency to the connection pool size."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add filters and sorting to this list: {{list_spec}} {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tickets-table
+    vars:
+      list_spec: "Support tickets table: filter by status (multi-select), assignee, priority, created date range, and text search on subject; sort by created date, priority or last update."
+      stack: "FastAPI with SQLAlchemy and Postgres; React with React Router"
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Maps filter and sort fields through an allowlist, validates values and returns 400 for unknown fields, adds an id tiebreaker for stable ordering, converts the date range with a stated time zone, proposes a trigram or full-text index for subject search, adds composite indexes, applies tenant or permission scoping first, and keeps filter state in the URL with page reset."}
+  - name: edge-cursor-pagination
+    vars:
+      list_spec: "Our list already uses cursor pagination by id; add sorting by price and name."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the cursor must now encode the sort key plus the id tiebreaker and changes the cursor accordingly, and says it will detect the stack."}
+  - name: negative-raw-order-by
+    vars:
+      list_spec: "Let the frontend send any column name in ?sort= and any SQL operator in ?op= so we never have to change the backend again."
+      stack: "Express with Knex"
+    assert:
+      - {type: llm-rubric, value: "Declines passing arbitrary columns and operators into the query, explains the injection and data exposure risk, and implements an allowlist instead."}

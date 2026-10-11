@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build a Go HTTP service: {{service_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-notes-service
+    vars:
+      service_spec: "Notes API: create, get, list and delete notes per user, stored in Postgres via pgx. Bearer token auth validated by an existing auth package. Go 1.23."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Uses the Go 1.22+ ServeMux method and wildcard patterns, sets ReadHeaderTimeout and other server timeouts, limits request bodies with MaxBytesReader, passes r.Context() to pgx calls, maps errors with errors.Is or errors.As in one place, uses slog middleware with recovery, adds graceful shutdown, and runs go test -race."}
+  - name: edge-existing-chi
+    vars:
+      service_spec: "Add a webhooks endpoint to a service whose go.mod already uses chi and zerolog."
+    assert:
+      - {type: llm-rubric, value: "Follows the existing chi router and zerolog logging rather than switching to ServeMux or slog, and still sets body limits and context propagation."}
+  - name: negative-no-timeouts
+    vars:
+      service_spec: "Just use http.ListenAndServe(\":8080\", nil) with the default mux and global variables for the DB, keep it minimal."
+    assert:
+      - {type: llm-rubric, value: "Explains that http.ListenAndServe has no timeouts and globals hurt testing, and uses a configured http.Server with timeouts and injected dependencies while keeping the code small."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make these endpoints idempotent: {{endpoints}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-and-payments
+    vars:
+      endpoints: "POST /orders creates an order and charges the card through Stripe. Mobile clients retry on timeout and we see duplicate charges."
+      stack: "Spring Boot with Postgres"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Claims the key atomically with a unique constraint, scopes keys per caller, fingerprints the request and rejects a mismatched body, returns 409 for a concurrent in-progress duplicate, stores the response with the business write where possible, passes an idempotency key to the payment provider, expires keys, and tests concurrent duplicates."}
+  - name: edge-natural-key
+    vars:
+      endpoints: "POST /carts/{id}/checkout turns a cart into an order. Each cart can only ever become one order."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Notices that a unique constraint on the cart id is a natural idempotency guarantee and discusses whether it is enough or should be combined with an Idempotency-Key, and says it will detect the stack."}
+  - name: negative-check-then-insert
+    vars:
+      endpoints: "POST /transfers. Keep it simple: check Redis for the key, and if it's not there, run the transfer and then set the key."
+      stack: "Node with Express, Postgres and Redis"
+    assert:
+      - {type: llm-rubric, value: "Points out the race in check-then-run-then-set where concurrent retries both run the transfer, and implements an atomic claim (SET NX or a unique insert) with an in-progress state instead."}

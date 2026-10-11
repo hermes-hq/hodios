@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a consumer for this queue: {{message_spec}} {{stack}} {{volume}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kafka-orders
+    vars:
+      message_spec: "Kafka topic order-events, JSON messages keyed by order id. For each OrderPaid event we update the order row and send a receipt email. Events for the same order must be processed in order."
+      stack: "Java 21 with Spring Kafka"
+      volume: "About 300 messages per second at peak."
+    assert:
+      - {type: contains, value: "## Operating notes"}
+      - {type: llm-rubric, value: "Commits offsets only after processing, relies on the order-id key for per-partition ordering, deduplicates or makes processing idempotent so a redelivered event does not send a second email, sends repeated failures to a retry or dead-letter topic so a poison message does not block the partition, and mentions max.poll.interval.ms and graceful shutdown."}
+  - name: edge-sqs-long-processing
+    vars:
+      message_spec: "SQS standard queue; each message triggers a video transcode that takes 2 to 10 minutes."
+      stack: "Python with boto3"
+      volume: ""
+    assert:
+      - {type: llm-rubric, value: "Sets or extends the visibility timeout beyond processing time, deletes the message only after success, configures a redrive policy with maxReceiveCount to a dead-letter queue, and notes that standard queues can deliver duplicates and out of order."}
+  - name: negative-auto-ack
+    vars:
+      message_spec: "RabbitMQ queue of payment notifications. Use auto-ack so messages leave the queue immediately, and on any error just nack with requeue so they're retried forever."
+      stack: "Node.js with amqplib"
+      volume: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on auto-ack because messages are lost on crash and on infinite requeue because poison messages loop, and implements manual ack after processing with bounded retries and a dead-letter exchange."}

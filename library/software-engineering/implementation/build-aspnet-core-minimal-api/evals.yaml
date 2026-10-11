@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Build an ASP.NET Core minimal API for: {{api_spec}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-products-api
+    vars:
+      api_spec: "Products CRUD for a catalogue: name 1-100 chars, price above zero, category id must exist. Anyone signed in can read; only the CatalogAdmin role can write."
+    assert:
+      - {type: contains, value: "## Contract"}
+      - {type: llm-rubric, value: "Checks the target framework first, organises endpoints with MapGroup, returns TypedResults with a Results union, chooses validation appropriate to the .NET version, uses ProblemDetails for errors, projects EF Core reads to DTOs and passes CancellationToken, applies an authorization policy for writes, and writes WebApplicationFactory tests."}
+  - name: edge-older-framework
+    vars:
+      api_spec: "Add an orders endpoint to an existing net8.0 project that already uses FluentValidation and Swashbuckle."
+    assert:
+      - {type: llm-rubric, value: "Keeps FluentValidation and Swashbuckle consistent with the project instead of switching to .NET 10 built-in validation or Microsoft.AspNetCore.OpenApi, and avoids APIs unavailable in .NET 8."}
+  - name: negative-singleton-dbcontext
+    vars:
+      api_spec: "Register the DbContext as a singleton so it's faster, and return the EF entities directly."
+    assert:
+      - {type: llm-rubric, value: "Refuses a singleton DbContext, explaining that it is not thread-safe and grows its change tracker, and returns DTOs instead of entities."}

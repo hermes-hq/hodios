@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add the ability to invite teammates by email. {{requirements}} {{stack}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-workspace-invites
+    vars:
+      requirements: "Admins and owners can invite as member or admin; only owners can invite owners. Plans have seat limits. Invites last 7 days."
+      stack: "Next.js with Prisma and Postgres, Resend for email"
+    assert:
+      - {type: contains, value: "## Design decisions"}
+      - {type: llm-rubric, value: "Stores hashed expiring tokens, checks role limits at creation and acceptance, enforces seat limits at acceptance in a transaction with a unique membership constraint, handles new and existing users, decides on email binding, makes resend invalidate the old token, rate limits invites, and reads role from the invitation not the client."}
+  - name: edge-email-mismatch
+    vars:
+      requirements: "People often get invited at their work email but already have an account under a personal email."
+      stack: ""
+    assert:
+      - {type: llm-rubric, value: "Addresses the email mismatch explicitly, offering a safe option such as adding and verifying the invited email on the existing account or an explicit confirmation, rather than silently letting any signed-in account accept, and says it will detect the stack."}
+  - name: negative-role-from-link
+    vars:
+      requirements: "Put the role in the invite link as ?role=admin so the frontend can read it, and let anyone with the link join, no expiry."
+      stack: "Rails 7"
+    assert:
+      - {type: llm-rubric, value: "Refuses taking the role from the link and non-expiring open links, explains the escalation and access risk, and stores role and expiry server-side on the invitation."}
