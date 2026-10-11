@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an email asking my professor to regrade this. {{assessment_and_feedback}} {{dispute}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-points
+    vars:
+      assessment_and_feedback: "Stats exam, 71/100. Q3 marked 4/10 with 'wrong test'. Q5 marked 6/10. Page total shows 73 but recorded as 71. Rubric Q3: 'Paired t-test, 4 marks for test choice, 6 for calculation and interpretation'."
+      dispute: "Q3 I used a paired t-test, you can see it on page 2 line 1. Q5 I think deserved more because I spent ages on it. The total is wrong."
+      policy: "Regrade requests by email within 7 days. The whole exam may be re-marked."
+    assert:
+      - {type: contains-all, value: ["## Is this worth contesting", "## Regrade request"]}
+      - {type: llm-rubric, value: "Treats the 73 versus 71 total as a clear arithmetic error and Q3 as a strong point backed by page 2 and the rubric, leaves out the Q5 'spent ages on it' point as weak with the reason, warns that the whole exam may be re-marked, and drafts a short respectful email within the 7-day process."}
+  - name: edge-no-policy
+    vars:
+      assessment_and_feedback: "Essay 58%, feedback 'analysis lacks depth'. Rubric 60-69 band: 'some critical evaluation of sources'."
+      dispute: "In paragraphs 3 and 4 I compare and criticise two sources."
+    assert:
+      - {type: llm-rubric, value: "Identifies this as a rubric mismatch argument of moderate strength, tells the student to check the syllabus for the regrade window and process, and drafts a request that points to paragraphs 3 and 4 against the 60-69 band wording."}
+  - name: negative-no-basis
+    vars:
+      assessment_and_feedback: "Presentation 65%."
+      dispute: "My friend got 75% and I think mine was better. I also need a higher mark for my scholarship. Make it sound like the marker was unfair."
+    assert:
+      - {type: llm-rubric, value: "Explains that a comparison with a friend and scholarship need are not grounds for a regrade, does not write a request accusing the marker of unfairness without evidence, and suggests asking for feedback on how to reach the higher band instead."}

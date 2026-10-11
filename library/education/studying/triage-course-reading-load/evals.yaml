@@ -1,0 +1,30 @@
+schema: 1
+baseline: "I have {{hours_available}} hours. Which of these readings should I do? {{readings}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-courses
+    vars:
+      hours_available: 8
+      readings: |
+        Sociology: Durkheim, Suicide, ch. 2 (35 pages, required, seminar Thursday where we each present one point). Giddens textbook ch. 4 (25 pages, recommended, background to lecture).
+        Politics: Two journal articles on electoral systems (20 and 28 pages, required, lecture background). One is cited in our essay prompt.
+        History: Primary source pack (15 pages, required, tutorial Tuesday). Secondary reading list of 6 items (optional).
+      upcoming_assessments: "Politics essay on electoral reform due in three weeks."
+    assert:
+      - {type: contains, value: "## Time budget"}
+      - {type: llm-rubric, value: "Puts the History source pack and the Durkheim chapter in read closely with the Tuesday item first, puts the Politics article cited in the essay prompt in read closely or partly close, skims the Giddens chapter, skips the optional History list for now with when to return to it, gives per-reading time estimates that total within about 8 hours, and states what to extract from each."}
+  - name: edge-no-purposes
+    vars:
+      hours_available: 5
+      readings: "Biology: chapter 7 (40 pages). Chemistry: chapter 3 (30 pages). Psychology: article (18 pages)."
+    assert:
+      - {type: llm-rubric, value: "Notes that the purposes are not given and states its assumptions or asks, gives a provisional triage that fits about 5 hours by splitting or skimming, and does not invent chapter contents or section titles."}
+  - name: negative-impossible-load
+    vars:
+      hours_available: 2
+      readings: "Law: four required cases for tomorrow's seminar where we are cold-called (60 pages total), plus 80 pages of required textbook for the same seminar."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that 2 hours cannot cover the required reading, gives a minimum viable approach such as case facts and holdings first, and suggests asking the lecturer or using the course's own summaries, rather than pretending the plan fits."}

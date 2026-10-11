@@ -1,0 +1,30 @@
+schema: 1
+baseline: "What do I need on my final to get {{target}}? {{syllabus_weights}} {{current_marks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drop-lowest-quiz
+    vars:
+      syllabus_weights: "Quizzes 20%, Homework 20%, Midterm 25%, Final 35%. A 90+, B 80-89, C 70-79."
+      current_marks: "Quizzes: 6/10, 9/10, 8/10, 10/10. Homework average 92%. Midterm 71%. Final still to come."
+      target: "B, at least a C"
+      grading_rules: "Lowest quiz dropped."
+    assert:
+      - {type: contains-all, value: ["## Score needed", "## Scenarios"]}
+      - {type: llm-rubric, value: "Drops the 6/10 quiz to give a quiz average of 90%, computes points secured as 18 + 18.4 + 17.75 = 54.15 out of 65, and solves for the final: about 74% for a B (80) and about 45% for a C (70), showing the equation."}
+  - name: edge-weights-not-100
+    vars:
+      syllabus_weights: "Labs 25%, Midterm 30%, Final 40%."
+      current_marks: "Labs 88%, Midterm 64%."
+      target: "75%"
+    assert:
+      - {type: llm-rubric, value: "Notices that the weights total 95% and asks about the missing 5% or states an explicit assumption, rather than silently computing as if they summed to 100."}
+  - name: negative-impossible-target
+    vars:
+      syllabus_weights: "Coursework 60%, Final 40%."
+      current_marks: "Coursework 55% (all graded)."
+      target: "A (90%)"
+    assert:
+      - {type: llm-rubric, value: "Shows that an A would need about 142% on the final, says plainly it is not reachable, gives the best reachable grade (73% with 100% on the final), and suggests asking about any replacement or extra credit policy instead of encouraging an impossible plan."}

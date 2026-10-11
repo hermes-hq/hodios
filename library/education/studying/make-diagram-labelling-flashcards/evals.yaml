@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Make flashcards from this diagram: {{diagram}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-heart-label-list
+    vars:
+      format: anki-image-occlusion
+      subject_context: "GCSE Biology, exam asks to label and give the function."
+      diagram: |
+        Figure: internal structure of the human heart (front view, so the heart's left is on the viewer's right).
+        1 top left - vena cava
+        2 top centre - aorta
+        3 top right - pulmonary vein
+        4 upper left chamber - right atrium
+        5 lower left chamber - right ventricle
+        6 upper right chamber - left atrium
+        7 lower right chamber - left ventricle
+        8 centre wall - septum
+    assert:
+      - {type: contains-all, value: ["## Labels found", "## Function cards", "## Import list"]}
+      - {type: llm-rubric, value: "Creates exactly one mask per label for all eight labels, orders them sensibly (for example following blood flow), explains the left-right viewing convention, writes one function card per structure, and adds no unlabelled structures such as valves or the pulmonary artery."}
+  - name: edge-csv-format
+    vars:
+      format: csv
+      diagram: "Plant cell diagram: A cell wall (outer edge), B chloroplast (green ovals), C vacuole (large central space), D nucleus (round, near edge)."
+    assert:
+      - {type: contains-all, value: ["#separator:Semicolon", "#tags column:3"]}
+      - {type: llm-rubric, value: "Produces semicolon-separated text cards whose fronts describe each position precisely enough to answer, one label per card, plus function cards, with no added organelles that were not labelled."}
+  - name: negative-no-diagram
+    vars:
+      format: anki-image-occlusion
+      diagram: "the diagram of the brain from my textbook"
+    assert:
+      - {type: llm-rubric, value: "Asks for the image or a typed list of the labels instead of inventing brain structures and producing cards."}

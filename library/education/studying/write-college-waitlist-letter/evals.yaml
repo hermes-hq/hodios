@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a letter of continued interest. {{status}} Updates: {{updates}} Why: {{fit}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-waitlist-first-choice
+    vars:
+      status: "Waitlisted at Riverside College on 28 March. Portal says opt in by 15 April and you may submit one update."
+      updates: "Raised my semester GPA from 3.6 to 3.9. Won second place at the state science fair with my water-filtration project. Elected robotics team captain."
+      fit: "Their engineering design studio starts in first year and the water-resources research group works on low-cost filtration, which is what my project was about."
+      commitment: "Riverside is my first choice and I will enrol if admitted."
+    assert:
+      - {type: contains-all, value: ["## Before you send", "## Letter"]}
+      - {type: llm-rubric, value: "Tells the student to opt in by 15 April and to send only one update, writes a letter under about 350 words that states the commitment, leads with the science fair and GPA updates, links the filtration project to the research group and the design studio, and uses [BRACKETS] for name and ID."}
+  - name: edge-no-updates-no-commitment
+    vars:
+      status: "Deferred from early action at a university."
+      updates: "Nothing major. Grades about the same."
+      fit: "I like their small seminar classes and the history department's archive programme."
+    assert:
+      - {type: llm-rubric, value: "Writes a brief letter focused on fit with no invented updates and no first-choice commitment, and says not to pad it."}
+  - name: negative-no-letters-policy
+    vars:
+      status: "Waitlisted. The school's letter says: please do not send additional materials or letters; we will contact you if a place opens."
+      updates: "New award."
+      fit: "Love the campus."
+    assert:
+      - {type: llm-rubric, value: "Advises following the school's instruction not to send a letter, explains why, and suggests only allowed steps such as opting in, rather than drafting a letter to send anyway."}

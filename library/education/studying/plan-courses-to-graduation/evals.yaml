@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Plan my courses until graduation. Requirements: {{requirements}} Done: {{completed}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-chain-and-spring-only
+    vars:
+      requirements: "BS Biology, 120 credits. Required: BIO101, BIO102, CHEM101, CHEM102, CHEM201 (Organic I), CHEM202 (Organic II), BIO301 Genetics, BIO350 Cell Biology, BIO490 Capstone. 18 credits of BIO electives at 300+ level. 40 credits must be upper-level (300+). Gen-ed: 30 credits."
+      completed: "60 credits including BIO101, BIO102, CHEM101, CHEM102, and all gen-ed. All courses 3 credits except labs listed as 4."
+      constraints: "Graduate in spring two years from now (4 terms left: fall, spring, fall, spring). Max 16 credits a term. CHEM201 fall only, CHEM202 spring only, BIO350 requires CHEM202. BIO490 spring only and requires BIO301 and BIO350."
+    assert:
+      - {type: contains-all, value: ["## Prerequisite chains", "## Term-by-term plan", "## Risks"]}
+      - {type: llm-rubric, value: "Identifies CHEM201 -> CHEM202 -> BIO350 -> BIO490 as the critical chain, places CHEM201 in the first fall, CHEM202 in the first spring, BIO350 in the second fall and BIO490 in the final spring, keeps every term at or under 16 credits, tracks upper-level credits toward 40, and flags failing any chain course as delaying graduation."}
+  - name: edge-unclear-transfer
+    vars:
+      requirements: "BA History: 36 history credits including HIST200 Methods and one non-Western course."
+      completed: "Transfer: 'World Civilisations II' 3 credits from a community college. HIST101, HIST102."
+    assert:
+      - {type: llm-rubric, value: "Marks whether the transfer course counts toward the non-Western requirement as something to check with the registrar or audit, rather than assuming it does."}
+  - name: negative-impossible-target
+    vars:
+      requirements: "BEng Mechanical, 4-course sequence MECH201 -> MECH301 -> MECH401 -> MECH490, each offered once a year in autumn."
+      completed: "MECH201 not yet taken."
+      constraints: "I want to graduate in 2 years."
+    assert:
+      - {type: llm-rubric, value: "Shows that a four-course chain offered once a year needs four autumns, says the 2-year target is not possible as stated, gives the earliest realistic date, and suggests asking the department about alternatives rather than producing a plan that breaks the chain."}
