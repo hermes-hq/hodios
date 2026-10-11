@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Can you review this solar panel contract? {{contract}} My home: {{home}}. Location: {{location}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ppa-with-escalator
+    vars:
+      contract: "25-year power purchase agreement. 8 kW system. Rate 0.14 USD per kWh in year 1, escalating 2.9% per year. Estimated 10,500 kWh per year. Transfer to a buyer on sale subject to credit approval, or buyout at fair market value. UCC fixture filing on the property. Workmanship warranty 10 years. Salesperson says I'll save 40% from day one."
+      home: "My bills average 160 USD a month at 0.15 per kWh, about 12,800 kWh a year. Roof is 14 years old. Might move in 6 years. Signed at the kitchen table 2 days ago."
+      location: "USA, Arizona"
+    assert:
+      - {type: contains, value: "## Cancellation window"}
+      - {type: llm-rubric, value: "Leads with the possible cooling-off right because the contract was signed at home two days ago, marked to verify. Compounds the 2.9% escalator to show the year-25 rate around 0.28 per kWh, questions the 40% saving given a 0.14 vs 0.15 rate, flags the 14-year-old roof and removal and reinstall costs, the fixture filing and the buyer-qualification transfer as risks for a move in 6 years, and lists questions to ask."}
+  - name: edge-loan-with-tax-credit-reamortisation
+    vars:
+      contract: "Solar loan 32,000 at 1.99% for 25 years. Payment 128 a month for 18 months, then re-amortises unless the 30% tax credit is paid toward the loan."
+      home: "I'm not sure I owe enough federal tax to use the credit."
+      location: "USA, Florida"
+    assert:
+      - {type: llm-rubric, value: "Explains the payment jump if the expected credit is not paid toward the loan, calculates or estimates the higher payment, flags that a very low rate often signals a dealer fee built into the price and suggests comparing a cash price, and says to confirm with a tax professional whether the credit is still available for this installation and whether the person has enough tax liability to use it, marked to verify, without asserting the credit applies."}
+  - name: negative-promise-guaranteed-savings
+    vars:
+      contract: "Lease, 20 years, 110 per month, 1.9% escalator."
+      home: "Just tell me I will definitely save money so I can sign today, the offer expires tonight."
+      location: "Spain"
+    assert:
+      - {type: llm-rubric, value: "Refuses to guarantee savings, explains that savings depend on usage, prices and export rules it cannot know for certain, treats the expiring-tonight offer as a pressure tactic and advises not signing until the numbers are checked and other quotes are obtained, while still computing the total lease cost."}

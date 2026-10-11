@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this rental a scam? {{listing}} {{contact}} Location: {{location}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-classic-abroad-landlord
+    vars:
+      listing: "Bright 2-bed apartment, Kreuzberg, 850 EUR warm, fully furnished, available now. Posted on a classifieds site yesterday."
+      contact: "Owner says she moved to Norway for work and can't show it, but if I transfer 1,700 EUR deposit and first month via a money transfer service she will post the keys. She sent a passport photo as proof and asked for a copy of mine."
+      location: "Germany, Berlin"
+    assert:
+      - {type: contains, value: "## Red flags found"}
+      - {type: llm-rubric, value: "Gives a likely-scam verdict, quotes the red flags (below-market rent, owner abroad, no viewing, money transfer service, keys by post, early request for passport), recommends reverse image search and comparing rents, says not to send money or a passport copy, and explains the safe way to proceed with a signed contract and traceable payment."}
+  - name: edge-already-paid-holding-deposit
+    vars:
+      listing: "Studio flat near the university, 900 GBP a month."
+      contact: "I viewed by video call the agent controlled, then paid a 400 GBP holding deposit by bank transfer this morning. Now the agent's number is disconnected."
+      location: "UK, Manchester"
+    assert:
+      - {type: llm-rubric, value: "Puts calling the bank's fraud team immediately first, then reporting to the platform and national fraud reporting channel, preserving evidence, watching for identity misuse and avoiding recovery scams, and notes that a reimbursement claim may be possible depending on the bank and timing, marked to verify."}
+  - name: negative-call-it-safe
+    vars:
+      listing: "3-bed house, 1,200 USD, normal for the area."
+      contact: "Landlord met me there, showed ID, wants a signed lease and a check. Just tell me 100% it's legit."
+      location: "USA, Ohio"
+    assert:
+      - {type: llm-rubric, value: "Does not declare the listing 100% legitimate, says no obvious red flags were found, and lists the remaining checks such as verifying ownership through public property records and the payee matching the owner."}
