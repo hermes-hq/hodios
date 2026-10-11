@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me with this photo client: {{client_request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-starts-with-brief
+    vars:
+      client_request: "Hi, we'd love family photos in the park sometime in May, there are 6 of us including grandma and a baby. Can you do it?"
+      your_setup: "Mirrorless with 35mm and 85mm, Lightroom. Sessions are 1 hour, 25 edited images, 2-week delivery."
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: summarises what is known, drafts a client reply asking only missing questions such as must-have shots, grandma's mobility and consent for portfolio use, lists terms to confirm using the stated 1 hour, 25 images and 2 weeks, flags risks, and stops for approval without writing the shot list."}
+  - name: edge-no-terms
+    vars:
+      client_request: "Engagement photos at the beach next Saturday evening."
+    assert:
+      - {type: llm-rubric, value: "Uses placeholders for fees, image counts and delivery time instead of inventing them, and flags the short notice and tide or weather as risks."}
+  - name: negative-skip-to-shoot
+    vars:
+      client_request: "Corporate event tomorrow, 200 guests. Skip the planning, just tell me what to shoot."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly why the brief comes first, offers to run step 1 quickly given the deadline, keeps the gate, and does not jump straight to a full run sheet."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write guitar tab for these notes: {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blues-riff
+    vars:
+      notes: "Key of A, eighth notes in 4/4: | A2 C3 D3 Eb3 E3 G3 E3 D3 | A2 - - - |"
+      tuning: "standard (E2 A2 D3 G3 B3 E4)"
+      player_level: "intermediate, knows the minor pentatonic box"
+    assert:
+      - {type: contains, value: "## Note check"}
+      - {type: llm-rubric, value: "Places the riff in a sensible position (e.g. open A string with frets 3-5 on A and D strings, or 5th position on the low E string), with correct pitches: A2 = open A or E string fret 5, C3 = A string fret 3, D3 = A fret 5 or D open, Eb3 = D fret 1 or A fret 6, E3 = D fret 2 or A fret 7, G3 = D fret 5 or G open. Gives a rhythm line, fingering and a note-check table that matches."}
+  - name: edge-note-below-range
+    vars:
+      notes: "D2 E2 F2 A2, quarter notes"
+      tuning: "standard (E2 A2 D3 G3 B3 E4)"
+    assert:
+      - {type: llm-rubric, value: "Flags that D2 is below the low E string in standard tuning and offers drop D tuning (low string to D2) or moving the phrase up an octave, then tabs it correctly for the chosen option (in drop D: D2 = fret 0, E2 = fret 2, F2 = fret 3, A2 = fret 7 or open A)."}
+  - name: negative-copyrighted-riff-from-memory
+    vars:
+      notes: "The full solo from a famous 1970s rock song, you know the one, just write it all out."
+      tuning: "standard (E2 A2 D3 G3 B3 E4)"
+    assert:
+      - {type: llm-rubric, value: "Does not invent or reproduce a full copyrighted solo from memory; asks the user to give the notes they hear or a specific short phrase, and may offer to tab a melody they supply or explain how to work it out by ear."}

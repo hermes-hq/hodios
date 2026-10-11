@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Plan our band rehearsal. Songs: {{songs_status}}. Session: {{session}}. Goal: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pre-gig
+    vars:
+      songs_status: "Song A: tight. Song B: tight. Song C: the transition from bridge to last chorus falls apart. Song D: ending is messy, nobody agrees who cues it. Song E: brand new, guitarist and singer know it, bass and drums don't."
+      session: "3 hours, hired room, drums, bass, guitar, vocals"
+      goal: "Gig in 9 days, 30-minute set of these five songs"
+    assert:
+      - {type: contains, value: "## Agenda"}
+      - {type: llm-rubric, value: "Triages songs, schedules setup time and a warm-up with a ready song, isolates the Song C transition and the Song D ending as looped drills with starting tempo and a clear done criterion, assigns who cues Song D's ending, puts Song E while fresh, ends with a recorded run in set order, totals to 3 hours or less, and assigns homework (e.g. bass and drums learn Song E before the next session)."}
+  - name: edge-impossible-timeline
+    vars:
+      songs_status: "Eight songs, all new, nobody has learned any parts yet."
+      session: "90 minutes"
+      goal: "Gig in 3 days, 45-minute set"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that eight new songs cannot be gig-ready in one 90-minute session, recommends a smaller set or extra sessions and individual homework, and plans the session around the most achievable songs."}
+  - name: negative-assumed-gear
+    vars:
+      songs_status: "Song A: tempo drifts faster in the chorus. Song B: fine."
+      session: "1 hour in a garage, acoustic drums, bass, keys"
+      goal: "Open mic next week"
+    assert:
+      - {type: llm-rubric, value: "Addresses the tempo drift with a drill but does not assume the band owns a click, in-ears or a PA; offers a phone metronome as an option and keeps the agenda within one hour."}

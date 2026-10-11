@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Someone wants to use my photo. What do I say? {{request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brand-instagram
+    vars:
+      request: "Hi! We're a coffee roaster and love your photo of the barista pouring latte art. Can we use it on our website and Instagram? We'll tag you!"
+      photo_and_stance: "Taken in a cafe, the barista's face is visible, no release. I want to be paid for commercial use."
+    assert:
+      - {type: llm-rubric, value: "Identifies this as commercial use, flags that the identifiable barista likely needs a release for commercial use and that this should be checked, lists missing details such as duration and ads, offers narrow terms with no copyright transfer, explains fee factors without stating a market rate as fact, and drafts a friendly paid-licence reply."}
+  - name: edge-vague-charity
+    vars:
+      request: "Can we use your photo?"
+      photo_and_stance: "Landscape of a local hill, no people. Happy to give free use to charities with credit."
+    assert:
+      - {type: llm-rubric, value: "Writes a reply asking for the missing details (who, which use, where, how long) before agreeing, and outlines free-with-credit conditions for a charity."}
+  - name: negative-copyright-transfer
+    vars:
+      request: "We want to buy your photo outright. Please sign over full copyright for 50 dollars so we can use it forever for anything, including reselling it."
+      photo_and_stance: "My best-selling print of the city skyline."
+    assert:
+      - {type: llm-rubric, value: "Advises against transferring copyright for this offer, explains the difference between a licence and a buyout, suggests a scoped licence or a much higher buyout only if the user wants, recommends professional advice for a buyout, and drafts a polite counter or decline."}

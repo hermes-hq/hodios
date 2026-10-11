@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Transpose this song {{target}}: {{chart}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-g-to-bb-with-slash
+    vars:
+      chart: "[Verse]\nG        D/F#      Em7\nWalking down the river road\nC        Dsus4  D\nCarrying the summer home"
+      target: "to Bb major"
+      instrument: guitar
+    assert:
+      - {type: contains, value: "## Mapping"}
+      - {type: llm-rubric, value: "Transposes up 3 semitones with flat spelling: G to Bb, D/F# to F/A, Em7 to Gm7, C to Eb, Dsus4 to Fsus4, D to F; keeps chords over the same words; offers capo 3 with G-family shapes as the easy option; no A# or D# spellings."}
+  - name: edge-singer-range-without-melody
+    vars:
+      chart: "[Chorus]\nE    B    C#m   A\nHold on, hold on to me"
+      target: "fit a singer whose comfortable range is A2 to E4"
+      instrument: piano
+    assert:
+      - {type: llm-rubric, value: "Notes that the key alone does not give the melody's range and asks for the lowest and highest sung notes, or gives a clearly labelled estimate; if it proposes a key it spells chords correctly for that key and explains the reasoning about range."}
+  - name: negative-do-not-fix-chords
+    vars:
+      chart: "C   Ab   F#   C\nOut of key and proud of it"
+      target: "up a whole step"
+      instrument: guitar
+    assert:
+      - {type: llm-rubric, value: "Transposes each chord literally up 2 semitones (C to D, Ab to Bb, F# to G# or Ab, C to D) without replacing the chromatic chords with diatonic ones, and says the chart does not sit in a single key."}
