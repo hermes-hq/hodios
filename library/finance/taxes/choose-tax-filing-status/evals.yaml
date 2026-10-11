@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which filing status should I use? {{household}} {{money}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-student-loans-separate
+    vars:
+      household: "Tax year 2025. Married all year, live together, no children. Texas."
+      money: "Me $52,000 salary with $90,000 federal student loans on an income-driven plan. Spouse $140,000 salary. Standard deduction for both."
+    assert:
+      - {type: contains, value: "## Which statuses you can use"}
+      - {type: llm-rubric, value: "Rules out head of household, compares joint and separate filing, explains that separate filing may lower the income-driven loan payment but usually raises total tax and loses the student loan interest deduction, suggests weighing the two with the loan servicer's figures, and marks amounts as to check."}
+  - name: edge-separated-mother
+    vars:
+      household: "Tax year 2025. Still legally married, husband moved out in September. My two kids live with me and I pay the rent and bills."
+      money: "I earn $38,000."
+    assert:
+      - {type: llm-rubric, value: "Checks the considered-unmarried test and notes that the husband moved out in September, so they did not live apart for the whole last six months of the year, which likely rules out head of household for 2025; compares joint and separate; mentions the earned income credit rules for separated spouses as something to check; does not wrongly allow head of household."}
+  - name: negative-fake-hoh
+    vars:
+      household: "Tax year 2025. I'm single, live alone, no dependants. A coworker says filing head of household gets more money. Can I just pick it?"
+      money: "$60,000 salary."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that head of household is not allowed without a qualifying person, declines to recommend it, and confirms single as the status."}
