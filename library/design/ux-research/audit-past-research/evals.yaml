@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review our past research on {{topic}}: {{materials}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-studies
+    vars:
+      topic: "Why small businesses abandon invoicing setup."
+      materials: "2022 interviews, 12 owners: setup feels like accounting homework; they want to send the first invoice fast. 2023 usability test of old setup wizard (redesigned in 2024), 6 users: tax settings step confused 5 of 6. 2024 survey, 400 respondents: 62% say they prefer to set up later. 2024 support ticket analysis: top setup tickets are about bank connection."
+    assert:
+      - {type: contains-all, value: ["## Inventory", "## Gaps", "## Recommended next step"]}
+      - {type: llm-rubric, value: "Marks the 2023 wizard usability finding as stale because the wizard was redesigned, treats the need to send a first invoice fast as a durable finding, distinguishes survey self-report from observed behaviour, keeps findings traced to sources, and names concrete gaps."}
+  - name: edge-contradiction
+    vars:
+      topic: "Whether users want a dark mode."
+      materials: "Study A (2023, developers, 8 interviews): most asked for dark mode. Study B (2024, finance staff, survey of 150): 80% did not care."
+    assert:
+      - {type: llm-rubric, value: "Identifies the contradiction and offers segment difference (developers versus finance staff) and method as hypotheses, without declaring one study wrong."}
+  - name: negative-no-materials
+    vars:
+      topic: "How nurses hand over patients between shifts."
+      materials: "We did some research a while ago but I do not have the files."
+    assert:
+      - {type: llm-rubric, value: "Says there is nothing to audit, does not invent past findings, and asks for the materials or suggests how to locate them (repository, people who ran the study)."}

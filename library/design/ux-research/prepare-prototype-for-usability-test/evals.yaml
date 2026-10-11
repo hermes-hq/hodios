@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is my prototype ready for usability testing? Tasks: {{tasks}}. Prototype: {{prototype}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-booking-prototype
+    vars:
+      tasks: "1. Book a haircut for Saturday morning with any stylist. 2. Move the booking to Sunday. 3. Find the cancellation policy."
+      prototype: "Clickable mobile prototype: home, service list, stylist list, calendar (only Saturday is clickable), confirmation, my bookings. Placeholder names like User Name. No policy page yet."
+      format: "Unmoderated remote on participants' own phones."
+    assert:
+      - {type: contains-all, value: ["## Task path coverage", "## Fix list"]}
+      - {type: llm-rubric, value: "Flags that Sunday is not clickable so task 2 fails, the missing policy page breaks task 3, placeholder names need realistic data, unmoderated sessions need dead-end screens and disabled click hints, and orders fixes by task impact with a pilot."}
+  - name: edge-moderated-partial
+    vars:
+      tasks: "Set up a new team workspace and invite two colleagues."
+      prototype: "Figma prototype, happy path linked, invite form fields are static images."
+      format: "Moderated in person on a laptop."
+    assert:
+      - {type: llm-rubric, value: "Notes typing cannot happen on static fields and suggests a way to simulate it or a moderator script, and lists likely alternative paths to handle."}
+  - name: negative-no-tasks
+    vars:
+      tasks: "Not written yet; just tell me if the prototype is good."
+      prototype: "A 40-screen prototype of our whole app."
+      format: ""
+    assert:
+      - {type: llm-rubric, value: "Explains readiness can only be judged against specific tasks and asks for them (or suggests writing them first), rather than giving a general design critique."}
