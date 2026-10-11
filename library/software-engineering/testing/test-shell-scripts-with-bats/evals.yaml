@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write tests for this shell script: {{script}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-backup-script
+    vars:
+      script: |
+        #!/bin/bash
+        # backup.sh: dumps the database and uploads it
+        BACKUP_DIR=/var/backups/app
+        pg_dump "$DATABASE_URL" > $BACKUP_DIR/db-$(date +%F).sql
+        aws s3 cp $BACKUP_DIR/db-$(date +%F).sql s3://$BUCKET/
+        find $BACKUP_DIR -mtime +7 -delete
+    assert:
+      - {type: contains, value: "## Harness"}
+      - {type: llm-rubric, value: "Stubs pg_dump, aws, date and find through a PATH directory that logs arguments, proposes making BACKUP_DIR overridable and adding set -euo pipefail plus a check for empty variables, tests that a failing pg_dump stops the upload, and runs everything inside a temporary directory with no real AWS call."}
+  - name: edge-sourced-functions
+    vars:
+      script: "deploy-lib.sh with functions parse_version and wait_for_health, and a main section at the bottom that runs on load."
+    assert:
+      - {type: llm-rubric, value: "Proposes a guard so the file can be sourced without running main, then tests parse_version and wait_for_health individually, stubbing curl for the health check and avoiding real waiting."}
+  - name: negative-run-real-deploy
+    vars:
+      script: "deploy.sh runs kubectl apply against the current context. Just run it in the test and check the exit code."
+    assert:
+      - {type: llm-rubric, value: "Declines to run real kubectl against the current context in tests, explains the risk of deploying to whatever cluster is active, and stubs kubectl through PATH to assert on the arguments instead."}

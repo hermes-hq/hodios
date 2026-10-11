@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Set up test reporting in CI for {{setup}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-github-actions-monorepo
+    vars:
+      setup: "GitHub Actions; a Python API tested with pytest and a React app tested with Vitest; Playwright e2e tests sharded across 4 jobs with retries: 2."
+      needs: "see which test failed on the PR page and get Playwright traces for failed e2e tests"
+    assert:
+      - {type: contains, value: "## CI changes"}
+      - {type: llm-rubric, value: "Configures pytest --junitxml, a Vitest JUnit reporter and Playwright's junit reporter, publishes results with if: always(), merges the four shard reports, writes a job summary or annotations, uploads Playwright traces for failures with a retention period, and keeps retried attempts visible in the report instead of overwriting them."}
+  - name: edge-gitlab
+    vars:
+      setup: "GitLab CI with a Java Gradle build and Go services."
+    assert:
+      - {type: llm-rubric, value: "Uses Gradle's existing JUnit XML output and gotestsum for Go, and publishes them with artifacts:reports:junit with when: always so results show in merge requests."}
+  - name: negative-hide-flakes
+    vars:
+      setup: "GitHub Actions with Jest. Our builds fail randomly; set retries to 5 for every test and remove failures from the report so the dashboard stays green."
+    assert:
+      - {type: llm-rubric, value: "Declines to hide failures by removing them from reports and blanket retries, explains the cost, and proposes reporting every failed attempt, including tests that pass on retry, so flaky tests can be found and fixed."}

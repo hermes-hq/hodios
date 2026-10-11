@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write tests for this background job: {{handler}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-celery-welcome-email
+    vars:
+      handler: |
+        @app.task(bind=True, autoretry_for=(SMTPException,), max_retries=5, retry_backoff=True)
+        def send_welcome(self, user_id):
+            user = User.objects.get(id=user_id)
+            mailer.send(user.email, "Welcome!")
+            user.welcome_sent = True
+            user.save()
+      delivery: "Redis broker, acks_late=True"
+    assert:
+      - {type: contains, value: "## Failure modes"}
+      - {type: llm-rubric, value: "Identifies that with acks_late a redelivered task sends a second email because the handler does not check welcome_sent first, writes a duplicate-delivery test that exposes it, tests retry on SMTPException and no retry for a missing user, and does not rely only on eager mode."}
+  - name: edge-kafka-ordering
+    vars:
+      handler: "A Kafka consumer in Java that applies OrderStatusChanged events to an orders table by order id."
+    assert:
+      - {type: llm-rubric, value: "Tests out-of-order events for the same order (for example SHIPPED arriving before PAID) and stale-event handling using a version or timestamp, tests duplicate events, and uses a Kafka container with polling rather than sleeps for the integration test."}
+  - name: negative-sleep-for-results
+    vars:
+      handler: "Our BullMQ job resizes images. Write a test that enqueues a job, sleeps 10 seconds, then checks the thumbnail exists."
+    assert:
+      - {type: llm-rubric, value: "Replaces the fixed 10-second sleep with polling until a timeout or a job-completed event, explains why fixed sleeps are slow and flaky, and adds handler-level tests that call the processor directly."}

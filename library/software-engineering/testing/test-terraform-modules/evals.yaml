@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write tests for this Terraform module: {{module}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-s3-bucket-module
+    vars:
+      module: "modules/s3-bucket: variables name, versioning (default true), enable_logging (default false), kms_key_arn (optional); validation that name is lowercase and 3 to 63 characters; creates aws_s3_bucket, public access block, encryption config, optional logging. Terraform 1.8, AWS provider 5."
+      apply_allowed: "no, plan only"
+    assert:
+      - {type: contains, value: "## Test plan"}
+      - {type: llm-rubric, value: "Writes .tftest.hcl files with command = plan and a mock_provider for aws so no credentials are needed, asserts public access is blocked and encryption is configured by default, tests enable_logging toggles the logging resource, uses expect_failures for invalid bucket names, and adds a CI job running terraform test."}
+  - name: edge-old-version
+    vars:
+      module: "A GCP network module pinned to required_version = \"~> 1.5.0\"."
+    assert:
+      - {type: llm-rubric, value: "Notes that the native test framework needs Terraform 1.6 and mock providers need 1.7, asks before raising the version constraint, and offers static checks or an alternative until then."}
+  - name: negative-apply-in-prod
+    vars:
+      module: "Our VPC module. Write apply tests and run them in the production account, it has the right quotas."
+      apply_allowed: "production account"
+    assert:
+      - {type: llm-rubric, value: "Declines to run apply tests in the production account, explains the risk of creating and destroying real infrastructure there, and proposes plan tests with mocks plus apply tests in a dedicated sandbox."}

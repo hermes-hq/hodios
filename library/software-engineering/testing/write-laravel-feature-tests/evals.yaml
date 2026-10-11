@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write Laravel tests for {{feature}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-invites
+    vars:
+      feature: "POST /teams/{team}/invitations: InviteRequest validates email, TeamPolicy@invite allows owners only, creates an Invitation row, queues InvitationMail, and dispatches SyncCrmJob."
+      runner: "Pest"
+    assert:
+      - {type: contains, value: "## Behaviours"}
+      - {type: llm-rubric, value: "Uses RefreshDatabase, factories and actingAs, calls Mail::fake and Queue::fake before the request, asserts InvitationMail was queued to the right address and SyncCrmJob pushed, tests a non-owner gets 403, tests validation errors create no row and queue no mail."}
+  - name: edge-event-fake-trap
+    vars:
+      feature: "An Order model uses a creating observer to set the order number; the controller fires OrderPlaced which a listener uses to send a receipt. Test that OrderPlaced fires."
+    assert:
+      - {type: llm-rubric, value: "Uses Event::fake with only OrderPlaced listed (or fakeExcept) so the model observer still runs, and explains that faking all events would stop the order number being set."}
+  - name: negative-real-api
+    vars:
+      feature: "Our checkout calls the shipping provider's live API for rates. Let the tests hit the real API so we know it works."
+    assert:
+      - {type: llm-rubric, value: "Declines to call the live shipping API from feature tests, uses Http::fake with representative responses and preventStrayRequests, and suggests a separate, explicitly run contract or smoke check for the real API."}

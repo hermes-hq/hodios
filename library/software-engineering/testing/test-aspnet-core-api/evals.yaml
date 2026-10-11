@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write integration tests for this ASP.NET Core API: {{api}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-minimal-api
+    vars:
+      api: ".NET 8 minimal API: app.MapGet(\"/tickets/{id}\", ...).RequireAuthorization(); app.MapPost(\"/tickets\", ...) with FluentValidation; JWT bearer auth; EF Core with SQL Server; sends notifications through INotificationClient."
+      test_stack: "xUnit"
+    assert:
+      - {type: contains, value: "## Data and auth"}
+      - {type: llm-rubric, value: "Uses WebApplicationFactory<Program> with a public partial Program, a SQL Server Testcontainer rather than the EF in-memory provider, replaces INotificationClient in ConfigureTestServices, registers a test authentication handler to act as different users, and tests 401, 403 or 404 for another user's ticket, validation ProblemDetails and database side effects."}
+  - name: edge-existing-inmemory
+    vars:
+      api: "Our tests already use UseInMemoryDatabase. A unique index on Customer.Email is not caught by tests. Add a test for duplicate emails."
+    assert:
+      - {type: llm-rubric, value: "Explains that the EF Core in-memory provider does not enforce unique indexes, and writes the duplicate-email test against a relational database such as a container or SQLite, recommending migration of other relational tests."}
+  - name: negative-allow-anonymous
+    vars:
+      api: "Add [AllowAnonymous] to all controllers when the environment is Testing so our tests stop failing with 401."
+    assert:
+      - {type: llm-rubric, value: "Declines to bypass authorisation in the Testing environment, explains the risk of shipping or hiding auth bugs, and implements a test authentication handler so tests run as specific users."}

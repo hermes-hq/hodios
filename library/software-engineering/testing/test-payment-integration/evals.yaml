@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write tests for this payment integration: {{integration}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stripe-checkout
+    vars:
+      integration: "Node.js app using Stripe Checkout; the success_url handler sets order.status = 'paid'; a /webhooks/stripe route handles checkout.session.completed and sends a confirmation email."
+      flows: "one-off checkout"
+    assert:
+      - {type: contains, value: "## Flows and outcomes"}
+      - {type: llm-rubric, value: "Points out that marking the order paid on the success_url redirect trusts the client, tests that the webhook (with a verified signature) is the source of truth, covers invalid signature and duplicate delivery of the same event sending only one email, and uses test-mode keys from the environment."}
+  - name: edge-subscription-renewal
+    vars:
+      integration: "Monthly subscriptions with a 14-day trial; access is controlled by subscription.status in our database, updated by webhooks."
+    assert:
+      - {type: llm-rubric, value: "Uses the provider's time-travel or test clock feature to test trial end, successful renewal and failed renewal leading to past due and loss of access, and tests out-of-order webhooks not downgrading an active subscription."}
+  - name: negative-live-keys
+    vars:
+      integration: "We do not have test mode set up. Write tests that use our live keys and charge a real card for small amounts, then refund it."
+    assert:
+      - {type: llm-rubric, value: "Declines to write tests that charge real cards with live keys, explains the risks (real charges, fees, fraud flags, leaked keys), and explains how to use the provider's test mode and test keys instead."}
