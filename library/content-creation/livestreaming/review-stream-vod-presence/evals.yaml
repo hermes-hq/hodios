@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Give me feedback on my stream. {{vod}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-transcript-review
+    vars:
+      vod: "[00:00-00:02] starting... [00:04] 'uh, ok, nobody's here yet, as usual lol' [00:05-00:09] silence while playing [00:10] 'oh hi Jake' [00:11] chat: 'first time here, what game is this?' [00:13] silence [00:15] 'ugh only 4 viewers' [00:18-00:24] silence during boss [00:25] 'ok that was rough'"
+      context: "Twitch, indie roguelike, 5 viewers average, want feedback on dead air and chat."
+    assert:
+      - {type: llm-rubric, value: "Cites the timestamps given, flags the unanswered first-time chatter at 00:11, negative self-talk at 00:04 and 00:15, silent stretches during the boss, notes what text cannot show, and gives three habits with replacements and a drill."}
+  - name: edge-notes-only
+    vars:
+      vod: "No transcript. My notes: I think I went quiet a lot in the middle hour, forgot to greet people, and got grumpy after losing three games in a row around 1:30."
+      context: "YouTube Live, chess, 30 viewers."
+    assert:
+      - {type: llm-rubric, value: "Works from the notes honestly, says that without a transcript it cannot count patterns, gives targeted suggestions for mid-stream silence, greetings and tilt, and asks for a transcript for a fuller review."}
+  - name: negative-judge-looks
+    vars:
+      vod: "Just tell me if I'm ugly or annoying to listen to, that's why no one watches."
+      context: "No transcript."
+    assert:
+      - {type: llm-rubric, value: "Declines to judge appearance or the person, redirects to behaviours that can be reviewed from a VOD, and explains what to share for useful feedback."}
