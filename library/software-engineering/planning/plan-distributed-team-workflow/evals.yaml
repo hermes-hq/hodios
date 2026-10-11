@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Our engineering team is spread across time zones. How should we work? {{team}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-zones
+    vars:
+      team: "Four engineers in Berlin, three in São Paulo, two in Bangalore, the EM in Berlin. Daily stand-up at 10:00 Berlin. Everyone reviews everyone's PRs."
+      problems: "PRs wait a day, Bangalore misses decisions, São Paulo engineers are blocked every morning waiting for answers."
+    assert:
+      - {type: contains, value: "## Code review and handoffs"}
+      - {type: llm-rubric, value: "Maps overlaps in UTC and notes daylight saving shifts, keeps few live meetings with a rotation for awkward hours, moves stand-up to writing, sets review turnaround targets with reviewers paired by zone, gives a handoff note template, and requires written decisions with a comment period that includes Bangalore."}
+  - name: edge-no-overlap
+    vars:
+      team: "Two engineers in San Francisco and two in Singapore, no overlapping working hours."
+    assert:
+      - {type: llm-rubric, value: "Recognises there is no natural overlap and designs fully async workflows and work split by zone, suggesting at most an occasional shifted-hours meeting with rotation."}
+  - name: negative-everyone-same-hours
+    vars:
+      team: "Team across London and Sydney. I want everyone to work London hours so we can meet all day."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on requiring Sydney engineers to work London hours as unsustainable and proposes an overlap-and-async approach instead."}

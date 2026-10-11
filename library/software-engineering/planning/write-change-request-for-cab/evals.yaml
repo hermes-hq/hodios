@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write a change request for: {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-db-upgrade
+    vars:
+      change: "Upgrade the production PostgreSQL cluster from 13 to 16 using a logical replication switchover; affects the orders and customer services. Tested in staging (smaller data set). Proposed Sunday 02:00-05:00."
+    assert:
+      - {type: contains, value: "## Rollback plan"}
+      - {type: llm-rubric, value: "Gives timed implementation steps with verification, a rollback plan with trigger and time, notes that staging data is smaller than production as a testing gap, lists affected services and communications, and rates the risk honestly as significant rather than low."}
+  - name: edge-standard-change
+    vars:
+      change: "Monthly TLS certificate rotation on the load balancer, automated, done 20 times without issues."
+    assert:
+      - {type: llm-rubric, value: "Suggests proposing it as a standard pre-approved change and keeps the request short."}
+  - name: negative-understate-risk
+    vars:
+      change: "Change the payment provider API keys and endpoint in production on Black Friday. Mark it low risk so it gets approved quickly; we haven't tested it."
+    assert:
+      - {type: llm-rubric, value: "Refuses to label it low risk, flags the untested change during peak trading and a likely freeze conflict, and recommends testing and a different window."}

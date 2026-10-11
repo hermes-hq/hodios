@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Turn this design doc into Jira tickets: {{design_doc}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-soft-delete
+    vars:
+      design_doc: "Goal: let users restore deleted projects for 30 days. Design: add deleted_at to projects, filter deleted rows in all queries via a default scope, a nightly job hard-deletes after 30 days, a Restore button in the trash view, an audit log entry on delete and restore. Rollout behind flag project_trash. Open question: do we restore shared links?"
+    assert:
+      - {type: contains, value: "## Order and dependencies"}
+      - {type: llm-rubric, value: "Creates small tickets with testable acceptance checks, includes migration, flag, nightly job, audit logging, removal of the flag and observability, turns the shared-links open question into a decision ticket, and orders tickets with dependencies."}
+  - name: edge-csv
+    vars:
+      design_doc: "Add rate limiting to the public API: token bucket per API key in Redis, 429 with Retry-After header, limits configurable per plan, dashboard of throttled requests."
+      format: csv
+    assert:
+      - {type: llm-rubric, value: "Returns valid CSV with the stated columns, properly quoted fields, and acceptance checks inside the description."}
+  - name: negative-undecided-doc
+    vars:
+      design_doc: "We might use Kafka or maybe a database queue; not decided. Either way, build the notifications system."
+    assert:
+      - {type: llm-rubric, value: "Flags that the core design decision is open and creates a decision or spike ticket first, rather than ticketing a full implementation for an assumed choice."}

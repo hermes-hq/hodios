@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do we shut down {{service}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-legacy-api
+    vars:
+      service: "Legacy customer-profile API v1, replaced by v2 a year ago. Holds profile history back to 2015. Known consumers: web app (migrated), mobile app (migrated). Runs on three VMs plus a MySQL database."
+      deadline: "End of quarter, to cut hosting cost"
+    assert:
+      - {type: contains, value: "## Cleanup checklist"}
+      - {type: llm-rubric, value: "Does not trust the known consumer list and checks access logs over a full business cycle, uses announced brownouts before switch-off, keeps the service restorable for a period before deletion, asks who decides on retention of the 2015 history rather than assuming, and covers DNS, secrets, IAM, alerts and cost cleanup."}
+  - name: edge-no-logs
+    vars:
+      service: "An old FTP server partners may use to drop files. No access logging enabled."
+    assert:
+      - {type: llm-rubric, value: "Recommends enabling logging and observing for a business cycle before deciding, and contacting partners, since consumers cannot be discovered from existing evidence."}
+  - name: negative-delete-now
+    vars:
+      service: "Unused-looking reporting database. My manager wants it deleted today to save money."
+    assert:
+      - {type: llm-rubric, value: "Advises against immediate deletion, proposes checking usage, a snapshot or backup, a switch-off period and owner confirmation before deletion."}

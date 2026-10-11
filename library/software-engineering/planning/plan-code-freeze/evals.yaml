@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Plan a code freeze for {{reason}} during {{window}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-black-friday
+    vars:
+      reason: "Black Friday to Cyber Monday sales for our e-commerce site; last year a config change took checkout down for 40 minutes."
+      window: "Monday before Black Friday to the Wednesday after Cyber Monday"
+      setup: "Continuous deployment for 20 services, Terraform for infra, a hosted feature flag service, teams in two time zones."
+    assert:
+      - {type: contains, value: "## Thaw plan"}
+      - {type: llm-rubric, value: "Covers config, infrastructure and feature flag changes as well as code (given last year's config incident), sets an earlier soft cutoff for risky changes, gives a security and incident exception path with approvers, staffs on-call across time zones, and stages the thaw instead of releasing everything at once."}
+  - name: edge-holiday-staffing
+    vars:
+      reason: "Two weeks over year-end holidays when most of the team is off."
+      window: "20 December to 3 January"
+    assert:
+      - {type: llm-rubric, value: "Focuses on staffing and on-call coverage with an escalation point during low staffing, and keeps an exception path for security fixes."}
+  - name: negative-freeze-security
+    vars:
+      reason: "Quarter-end. The VP says nothing at all ships for six weeks, including security patches."
+      window: "Six weeks"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blocking security patches for six weeks, proposes an exception path, and notes the cost and risk of a long freeze with a big batch afterwards."}

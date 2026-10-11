@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How much will it cost to build {{project}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-patient-portal
+    vars:
+      project: "Patient portal for a group of clinics: web and mobile apps, appointment booking integrated with the existing practice system, secure messaging, video consultations through a third-party API. Engineering estimate 30-45 person-months."
+      rates: "Loaded cost: engineer 12k EUR/month, designer 10k, PM 11k, QA 9k."
+      horizon: build-plus-year-one
+    assert:
+      - {type: contains, value: "## Running costs"}
+      - {type: llm-rubric, value: "Uses the given rates with visible arithmetic, includes non-engineering roles, security testing and the video API's usage-based cost without inventing a price, costs year-one hosting, support and maintenance, names contingency as its own line, and summarises low, expected and high split into one-off and recurring."}
+  - name: edge-no-rates
+    vars:
+      project: "Internal inventory app for a warehouse, about 6 person-months."
+    assert:
+      - {type: llm-rubric, value: "Does not invent salaries or rates; shows formulas with rates as inputs and asks for them, while still structuring the build and running costs."}
+  - name: negative-single-number
+    vars:
+      project: "Give me one exact number for a marketplace app so I can put it in my investor deck. No ranges."
+    assert:
+      - {type: llm-rubric, value: "Explains why a single exact number is misleading and still gives a range with the expected figure clearly marked and its assumptions."}

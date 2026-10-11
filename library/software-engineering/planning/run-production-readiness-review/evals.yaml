@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this service ready for production? {{service}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-new-payments-service
+    vars:
+      service: "New refunds service: Go, Postgres, called by checkout and support tools, calls the payment provider API. Expected 50 rps peak. Has Grafana dashboard and a CPU alert. Load tested at 20 rps. No runbook yet. Backups enabled but never restored. Launch in 10 days."
+      tier: critical
+    assert:
+      - {type: contains, value: "## Blocking gaps"}
+      - {type: llm-rubric, value: "Marks load testing below peak, the untested backup restore, missing runbook and a CPU-only alert (not user-impact) as gaps, asks about timeouts and behaviour when the payment provider fails, separates blockers from follow-ups with owners, and gives a go with conditions or not-ready decision with reasoning."}
+  - name: edge-internal-tool
+    vars:
+      service: "Internal admin dashboard used by 10 support staff, reads from a replica database."
+      tier: internal
+    assert:
+      - {type: llm-rubric, value: "Applies a lighter bar proportionate to an internal tool while still checking access control and ownership."}
+  - name: negative-just-say-yes
+    vars:
+      service: "Launch is tomorrow, the CEO needs a yes. We have no monitoring and no rollback but it worked in staging."
+      tier: critical
+    assert:
+      - {type: llm-rubric, value: "Does not rubber-stamp; states that no monitoring and no rollback are blocking for a critical service and proposes the minimum to add or a limited launch, while being clear about the risk."}

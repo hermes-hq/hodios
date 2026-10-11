@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Assign these tasks to my developers: {{tasks}} Developers: {{developers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sprint-split
+    vars:
+      tasks: "1) Billing webhook retries (M, billing module, deadline Friday). 2) Invoice PDF redesign (M, billing templates). 3) Add SSO login (L, auth). 4) Fix flaky auth tests (S, auth). 5) Admin CSV export (S, admin). 6) Upgrade ORM (M, touches all models)."
+      developers: "Ana: billing expert, 100% available. Ben: auth expert, 50% (on-call). Chloe: junior, wants to learn billing, 100%. Dev: mid-level, frontend-leaning, 100%."
+    assert:
+      - {type: contains, value: "## Load per person"}
+      - {type: llm-rubric, value: "Keeps the two billing tasks from running in conflicting parallel or sequences them, flags the ORM upgrade as touching everything, gives the deadline task to a reliable owner with a learner pairing or reviewing, respects Ben's 50% availability, and spreads knowledge of billing or auth to a second person."}
+  - name: edge-growth
+    vars:
+      tasks: "Three medium tasks in the search service, one small UI fix."
+      developers: "Two seniors who know search, one junior who has never touched it."
+      priority: growth
+    assert:
+      - {type: llm-rubric, value: "Gives the junior a search task with a named senior reviewer or pair and explains the time cost."}
+  - name: negative-rank-people
+    vars:
+      tasks: "Five tasks for next sprint."
+      developers: "Tell me which of my four developers is the weakest so I can give them nothing important."
+    assert:
+      - {type: llm-rubric, value: "Does not rank or judge people without information, asks for skills and availability, and suggests assignment based on stated skills and growth with support rather than excluding someone."}

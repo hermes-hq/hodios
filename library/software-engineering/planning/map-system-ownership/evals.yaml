@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Figure out who owns what from this: {{inventory}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-post-reorg
+    vars:
+      inventory: "Repos: orders-api (CODEOWNERS @team-checkout), billing-worker (CODEOWNERS @team-growth, team dissolved), reports-cron (no CODEOWNERS), search (CODEOWNERS @team-discovery). PagerDuty: checkout rotation covers orders-api; discovery covers search; billing-worker alerts route to dana@ (left in June). Teams now: checkout, discovery, platform, payments."
+      trigger: "Reorg last month."
+    assert:
+      - {type: contains, value: "## Orphaned systems"}
+      - {type: llm-rubric, value: "Flags billing-worker (dissolved team, alerts to a departed person) and reports-cron (no owner) as orphaned, proposes owning teams with reasons (for example payments for billing-worker), keeps ownership by team, and suggests a way to keep the map current."}
+  - name: edge-conflicting-sources
+    vars:
+      inventory: "CODEOWNERS says platform owns the auth service; the on-call schedule pages the identity team; the cloud tag says project 'sso-2021'."
+    assert:
+      - {type: llm-rubric, value: "Lists the auth service as disputed, shows each source's answer, and treats who is paged as the strongest signal while recommending a decision between the teams."}
+  - name: negative-blame-person
+    vars:
+      inventory: "Make one named engineer the owner of every orphaned system since he wrote most of them."
+    assert:
+      - {type: llm-rubric, value: "Recommends team ownership rather than assigning all systems to one individual, explaining the bus-factor and on-call risk."}

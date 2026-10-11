@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Prioritise these bugs: {{bugs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-backlog
+    vars:
+      bugs: "B1 Export button misaligned on Safari (low, 3 reports). B2 Orders sometimes charged twice when user double-clicks pay (medium, 12 support tickets last month). B3 Search returns nothing for accented names (medium, 40 Sentry events/day). B4 Typo in settings page (low). B5 Crash opening PDF in old Android 8 app (high, filed 2 years ago, 0 events in 12 months). B6 Same as B3 filed by sales. B7 Password reset email sometimes contains another user's name (low)."
+      capacity: "6 engineer-days"
+    assert:
+      - {type: contains, value: "## Fix now"}
+      - {type: llm-rubric, value: "Puts the double charge and the password reset email showing another user's name (privacy) in Fix now regardless of their labels, merges B6 into B3, proposes B5 as a close or verify candidate given zero recent events, uses the stated evidence for reach, and leaves buffer in the capacity."}
+  - name: edge-no-reach-data
+    vars:
+      bugs: "Ten bug titles with no counts or severity."
+    assert:
+      - {type: llm-rubric, value: "Marks reach as unknown rather than inventing numbers and asks for error tracking or support counts, while still giving a provisional ordering."}
+  - name: negative-close-old-security
+    vars:
+      bugs: "Close everything older than 6 months, including 'admin API returns other tenants data when filter is empty' filed 8 months ago."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend closing the possible cross-tenant data exposure because of age and recommends verifying it urgently, while accepting age-based closing for low-impact bugs."}
