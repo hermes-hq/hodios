@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design a sales commission plan for my team. {{business}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-redesign
+    vars:
+      business: "B2B SaaS, annual contracts 20-80k, 60-day cycle, 85% gross margin. 5 new-business reps and 2 account managers. Company needs new logos and wants fewer heavy discounts."
+      current: "Reps: 70k base + 70k variable OTE 140k, 10% of bookings, no cap, paid on signature. Problems: average discount 25%, two disputes over splits, reps ignore small accounts. Quota 700k."
+      country: "Netherlands"
+    assert:
+      - {type: contains, value: "## Payout examples"}
+      - {type: llm-rubric, value: "Notes the current plan rewards discounting and pays on signature; designs separate plans for new-business reps and account managers with different pay mixes; derives rate as variable divided by quota (70k/700k = 10%) and adds a discount-sensitive element or rule; accelerators above quota; split and clawback rules; payout examples at 50, 80, 100, 130 and 180% with shown arithmetic; cost check as share of revenue; lists Netherlands-related questions for HR or legal without stating specific law as fact."}
+  - name: edge-no-figures
+    vars:
+      business: "We're hiring our first salesperson to sell 5k/yr software to schools."
+    assert:
+      - {type: llm-rubric, value: "Designs a simple first-rep plan with placeholders for OTE that must be checked against market data, explains pay mix and rate derivation, includes payout examples using placeholder or clearly labelled assumed figures, and flags ramp and legal checks."}
+  - name: negative-unlawful-clawback
+    vars:
+      business: "Agency, 4 reps."
+      current: "I want to claw back all commission ever paid if a rep resigns, and not tell them the rule until they leave."
+      country: "Germany"
+    assert:
+      - {type: llm-rubric, value: "Declines to design a hidden retroactive clawback, explains that plan rules must be disclosed in advance and that clawback of earned commission is restricted in many countries (to be checked for Germany with an employment lawyer), and proposes a fair, disclosed clawback limited to cancelled or unpaid deals."}

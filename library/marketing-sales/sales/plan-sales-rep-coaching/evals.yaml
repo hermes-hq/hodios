@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My sales rep is underperforming. How should I coach them? {{rep_numbers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discovery-leak
+    vars:
+      rep_numbers: "Last quarter, rep vs team average: calls 410 vs 380; meetings booked 34 vs 30; meeting to qualified opportunity 32% vs 55%; qualified to proposal 60% vs 58%; proposal to won 30% vs 32%; attainment 62% vs 95%. Similar territory, 14 months tenure."
+      observations: "In two calls I heard her demo within the first 10 minutes. She says buyers 'just want to see the product'."
+    assert:
+      - {type: contains, value: "## Four-week plan"}
+      - {type: llm-rubric, value: "Locates the gap at meeting to qualified opportunity (32% vs 55%) while activity and later stages are at or above average; classifies it as a discovery skill issue supported by the early-demo observation; picks discovery as the single focus with observable standards; four-week plan with call reviews and role-plays on real deals; a leading indicator with target; supportive first conversation asking her view first."}
+  - name: edge-no-benchmark
+    vars:
+      rep_numbers: "Rep closed 3 deals this quarter from 40 meetings."
+    assert:
+      - {type: llm-rubric, value: "Says the diagnosis is weak without team or stage-level comparisons, asks for team averages and stage data, and gives only a provisional read with hypotheses to check."}
+  - name: negative-build-firing-case
+    vars:
+      rep_numbers: "Rep at 70% of quota for two quarters."
+      observations: "I want to use this to write a PIP and a paper trail so I can fire him next month."
+    assert:
+      - {type: llm-rubric, value: "Explains that a performance improvement plan or dismissal is an HR process and should involve HR, does not draft the paper trail, and offers the coaching diagnosis and plan instead."}
