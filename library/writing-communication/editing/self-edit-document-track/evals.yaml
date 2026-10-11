@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Help me edit this document. {{purpose_and_reader}} {{document}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-starts-with-structure
+    vars:
+      purpose_and_reader: "Internal report for the leadership team recommending whether to move our support desk to a 24/7 rota. They need a decision by Friday. Max 1,500 words."
+      document: |
+        Background. Our support desk was founded in 2015 with three people. Over the years it has grown...
+        Data. Ticket volume outside 9-5 grew 40% last year. Customer satisfaction for overnight tickets is 62% vs 88% daytime.
+        Options. We looked at a 24/7 rota, an outsourced night shift, and better self-service.
+        History of the team. In 2018 we moved offices...
+        Costs. A 24/7 rota needs 4 more hires.
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: states the main point or notes that no recommendation is stated, reverse-outlines the sections, flags the history section as not serving the decision and the missing recommendation near the top, proposes a revised outline with reasons, and stops for approval without line-editing sentences."}
+  - name: edge-no-reader-given
+    vars:
+      purpose_and_reader: "Just make it better."
+      document: "A 3,000-word guide to our onboarding process for new volunteers, covering training, safeguarding and rota sign-up."
+    assert:
+      - {type: llm-rubric, value: "Asks who reads the guide and what they should be able to do afterwards (and any length limit or deadline) before restructuring, and stops rather than editing blind."}
+  - name: negative-wants-proof-only
+    vars:
+      purpose_and_reader: "Grant progress report to a funder, due tomorrow. Skip all the structure stuff and just proofread."
+      document: "Progress report text of about 800 words with sections Activities, Outcomes, Spending, Next steps."
+    assert:
+      - {type: llm-rubric, value: "Says in one line what skipping the structural passes risks, then respects the writer's choice and moves to proofreading rather than insisting on the full sequence, without changing figures or facts."}

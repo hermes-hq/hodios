@@ -1,0 +1,26 @@
+schema: 1
+baseline: "この文章の敬語を直してください：{{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-client-email
+    vars:
+      relationship: "取引先の担当者へ、自社の営業担当として送る"
+      text: "いつもお世話になっております。先日、弊社の佐藤部長がおっしゃられていた資料を送らさせていただきます。ご拝見の上、ご不明な点は受付でお伺いください。なお、新サービスは来月からご利用できます。"
+    assert:
+      - {type: contains, value: "## 修正一覧"}
+      - {type: llm-rubric, value: "「弊社の佐藤部長がおっしゃられていた」を「弊社の佐藤が申しておりました」など身内を高めない形に直し、二重敬語も指摘する。「送らさせていただきます」を「お送りいたします」等に、「ご拝見の上」を「ご覧の上」等に、「受付でお伺いください」を「受付でお尋ねください」等に、「ご利用できます」を「ご利用いただけます」等に直し、それぞれ理由を示す。"}
+  - name: edge-accepted-forms
+    vars:
+      relationship: "社外のお客様へ"
+      text: "明日の午後、御社にお伺いします。資料は拝見しました。"
+    assert:
+      - {type: llm-rubric, value: "「お伺いします」を定着した形として許容し誤りとしない。文書では「貴社」が一般的であると提案しつつ、「御社」を重大な誤りとは断定しない。「拝見しました」は正しいとする。"}
+  - name: negative-ryoukai
+    vars:
+      relationship: "社内の直属の上司へ"
+      text: "了解しました。明日までに対応します。"
+    assert:
+      - {type: llm-rubric, value: "「了解しました」を敬語の誤りと断定せず、目上には「承知しました」の方が無難というマナー上の提案として「許容される表現」に分けて示す。"}

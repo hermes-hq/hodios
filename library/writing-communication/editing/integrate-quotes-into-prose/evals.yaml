@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me integrate the quotes better in my essay: {{draft}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-dropped-quotes
+    vars:
+      citation_style: MLA
+      draft: "Social media affects teenagers' sleep. \"Adolescents who used screens after 9 pm slept on average 40 minutes less than those who did not\" (Hale 112). This is bad. Some researchers disagree. \"The effect sizes are small and may be confounded by anxiety\" (Orben 45)."
+    assert:
+      - {type: contains, value: "## What changed"}
+      - {type: llm-rubric, value: "Adds signal phrases introducing Hale and Orben, uses a verb for Orben that reflects a cautious or counter position (for example 'cautions' or 'argues') without misrepresenting it, blends or frames each quote, adds marked placeholders for the writer's own explanation rather than writing the argument, keeps the quoted words and page citations unchanged, and replaces 'This is bad' only via a suggestion."}
+  - name: edge-misquote-against-source
+    vars:
+      citation_style: APA
+      sources: "Original: 'Remote work increased productivity for some tasks, particularly focused individual work, but reduced collaboration.' (Lee, 2023, p. 7)"
+      draft: "Lee (2023) found that \"remote work increased productivity\" (p. 7), which proves companies should go fully remote."
+    assert:
+      - {type: llm-rubric, value: "Flags that trimming the quote to 'remote work increased productivity' drops the qualification 'for some tasks' and the reduced collaboration, so the claim 'proves companies should go fully remote' misrepresents the source; suggests an accurate integration."}
+  - name: negative-asked-to-invent-quote
+    vars:
+      citation_style: MLA
+      draft: "Climate anxiety is growing among young people. Please add a quote from an expert here to back this up with a page number."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate a quotation, expert name or page number; explains it can only integrate quotes the writer supplies from real sources and suggests where to find one."}

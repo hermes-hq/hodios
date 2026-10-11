@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Check my essay for plagiarism against these sources. Draft: {{draft}} Sources: {{sources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-synonym-swap
+    vars:
+      context: "Undergraduate psychology essay, APA"
+      sources: "Smith (2020, p. 14): 'Sleep deprivation impairs working memory, slows reaction times and increases the likelihood of risky decisions.'"
+      draft: "Lack of sleep damages working memory, slows reaction times and raises the chance of risky choices. Students often stay up late before exams."
+    assert:
+      - {type: contains-all, value: ["## Flagged passages", "## How to fix"]}
+      - {type: llm-rubric, value: "Flags the first sentence as patchwriting (same structure and order with synonym swaps, and no citation), shows it beside the Smith passage, recommends quoting or a genuine paraphrase with a citation, does not flag the generic second sentence, and does not accuse the student of misconduct."}
+  - name: edge-common-knowledge-and-terms
+    vars:
+      sources: "Jones (2019, p. 3): 'The Treaty of Versailles was signed in 1919 and imposed heavy reparations on Germany, which the economist John Maynard Keynes called a Carthaginian peace.'"
+      draft: "The Treaty of Versailles was signed in 1919. Keynes famously described it as a Carthaginian peace (Jones, 2019)."
+    assert:
+      - {type: llm-rubric, value: "Does not flag the treaty name or the 1919 date as copying (common knowledge), but notes that the distinctive phrase 'Carthaginian peace' should be in quotation marks as Keynes's term, and rates it low to medium rather than high."}
+  - name: negative-no-sources
+    vars:
+      sources: "I don't have the sources any more, just tell me if it is plagiarised."
+      draft: "Photosynthesis converts light energy into chemical energy stored in glucose, a process that occurs in the chloroplasts of plant cells."
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot judge copying without the sources, does not declare the draft plagiarised or clean, and suggests how to recover or re-find the sources or use the institution's checker."}

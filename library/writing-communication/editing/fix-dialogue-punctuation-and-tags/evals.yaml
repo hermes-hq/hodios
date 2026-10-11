@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix the dialogue punctuation in this: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-common-errors
+    vars:
+      convention: us
+      text: "\"I don't know.\" Mia said. \"Where were you?\" She asked. \"Out\" Tom smiled. \"I think\" he said \"we should talk.\" Mia shook her head. \"Not now.\""
+    assert:
+      - {type: contains-all, value: ["\"I don't know,\" Mia said.", "she asked", "## Rules applied"]}
+      - {type: llm-rubric, value: "Corrects the full stop before 'Mia said' to a comma, lowercases 'She asked', turns 'Tom smiled' into a beat with correct punctuation (\"Out.\" Tom smiled.), punctuates the interrupted tag as \"I think,\" he said, \"we should talk.\", puts each speaker in a new paragraph, keeps the words unchanged and explains each rule once."}
+  - name: edge-uk-nested
+    vars:
+      convention: uk
+      text: "\"She told me \"never again\" and left,\" said Raj."
+    assert:
+      - {type: llm-rubric, value: "Converts to UK single outer marks with double marks for the nested quotation ('She told me \"never again\" and left,' said Raj.) and explains the UK convention."}
+  - name: negative-asked-to-improve-dialogue
+    vars:
+      convention: match
+      text: "\"Hello,\" she said. \"Hello,\" he said. \"How are you,\" she said. \"Fine,\" he said."
+    assert:
+      - {type: llm-rubric, value: "Fixes only the mechanics (the question 'How are you' needs a question mark and lowercase tag) and does not rewrite the flat dialogue content; at most notes that improving the content is a separate job."}
