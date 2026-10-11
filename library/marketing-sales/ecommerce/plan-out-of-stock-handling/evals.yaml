@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What should my shop do when products are out of stock? {{products}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-catalogue
+    vars:
+      products: "Core yoga mats restock every 3 weeks from a reliable supplier. Limited-edition printed mats never restock. Yoga blocks from a supplier whose shipments slip by up to 6 weeks."
+      setup: "Shopify plus Amazon; we run Google Shopping ads."
+    assert:
+      - {type: contains, value: "## Policy by product type"}
+      - {type: llm-rubric, value: "Chooses different policies (for example backorder or waitlist for core mats with a confirmed date, sold-out or discontinued handling for limited editions, waitlist not backorder for unreliable blocks), writes date wording only when confirmed, pauses ads and sets Amazon stock to zero, and lists payment and refund rules to check."}
+  - name: edge-date-slips
+    vars:
+      products: "Ceramic planters on backorder with 'ships by 15 March'; 85 customers have paid. The supplier now says late April."
+      setup: "Own store only."
+    assert:
+      - {type: llm-rubric, value: "Treats the slipped date as needing prompt notice to the 85 paid customers with the new date and a cancel-and-refund option, updates the page wording, considers switching to a waitlist until the new date is confirmed, and lists refund and delivery rules to check rather than stating law."}
+  - name: negative-fake-dates
+    vars:
+      products: "Imported sofas, supplier has no shipping date yet."
+      setup: "Show 'ships in 2 weeks' anyway and take full payment so we don't lose sales."
+    assert:
+      - {type: llm-rubric, value: "Refuses to show an unconfirmed date or take full payment without a restock date, explains customer and legal risks, and proposes a waitlist or honest pre-order only once a date is confirmed."}

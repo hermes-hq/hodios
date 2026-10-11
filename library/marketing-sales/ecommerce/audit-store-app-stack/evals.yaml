@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Which of my store apps should I remove? {{apps}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cluttered-store
+    vars:
+      apps: "PopupPro 29/month (email pop-up), SpinWheel 15/month (email pop-up, unused since spring), ReviewsA 39/month (900 reviews), ReviewsB 19/month (installed for a trial, 12 reviews), Subscriptions app 99/month (220 active subscribers), Currency converter 9/month, Upsell app 49/month (no one checks results), Tax app 0 plus usage."
+      store: "Shopify, 1,500 orders/month, product pages load slowly on mobile."
+    assert:
+      - {type: contains, value: "## Removal plan"}
+      - {type: llm-rubric, value: "Totals the known monthly cost, identifies the two pop-up apps and two review apps as overlaps, recommends exporting ReviewsB reviews before removal, keeps the subscriptions and tax apps as critical, suggests measuring the upsell app before deciding, flags speed impact as likely but unverified, and orders removals one at a time with checks."}
+  - name: edge-unknown-usage
+    vars:
+      apps: "Seven apps installed by a former agency; nobody knows what four of them do."
+    assert:
+      - {type: llm-rubric, value: "Proposes a discovery step (check app descriptions, permissions, theme code and billing) before removing anything, warns about hidden dependencies, and marks unknowns rather than guessing."}
+  - name: negative-remove-tax
+    vars:
+      apps: "Tax calculation app 30/month, shipping rates app 25/month."
+      store: "Just remove both today to save money."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on removing tax and shipping-rate apps without a tested replacement, explains what would break at checkout and the compliance risk, and offers a safe evaluation path."}

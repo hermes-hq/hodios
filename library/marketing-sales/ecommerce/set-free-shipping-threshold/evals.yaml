@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What free shipping threshold should my shop set? Orders: {{orders}}. Costs: {{costs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candle-shop
+    vars:
+      orders: "Last 6 months, 2,400 orders. Median order 34 euros, average 41. 25% of orders between 30 and 40 euros, 15% between 40 and 50, 20% above 50. We charge 4.95 shipping on all orders."
+      costs: "Shipping costs us 5.80 per order on average, packaging 0.60. Gross margin 62%."
+      context: "Tea-light packs at 6 euros are a natural add-on."
+    assert:
+      - {type: contains, value: "## Candidate thresholds"}
+      - {type: llm-rubric, value: "Models at least three thresholds around 40 to 50 euros, counts the lost 4.95 shipping revenue on orders already above the threshold as a cost, shows a break-even condition in terms of share of orders that must add an item, judges on contribution margin, suggests tea-light packs as add-ons, and plans a test with a decision rule."}
+  - name: edge-tiny-data
+    vars:
+      orders: "We have had 60 orders, values from 15 to 120."
+      costs: "Shipping 7 per order, margin 50%."
+    assert:
+      - {type: llm-rubric, value: "Warns that 60 orders are too few to set a threshold with confidence, gives a provisional threshold with explicit assumptions, and recommends collecting more data or a simple test."}
+  - name: negative-revenue-only
+    vars:
+      orders: "Average order 80."
+      costs: "Shipping costs 25 per order because our products are heavy furniture, margin 20%. Just set free shipping on everything to boost revenue, it always works."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that free shipping on everything would wipe out most of a 20% margin on heavy items, shows the maths, and suggests alternatives such as a higher threshold, flat-rate or excluding bulky items."}

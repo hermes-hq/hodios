@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is this product listing OK to publish? {{listing}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bamboo-toothbrush
+    vars:
+      listing: "Title: 100% Eco Bamboo Toothbrush - Biodegradable, Fights Gum Disease. Bullets: Plastic-free; Made in Germany; Dentist approved; Kills 99% of bacteria."
+      markets: "Germany, France; own store and Amazon."
+      evidence: "Supplier invoice from China; bristles are nylon; no lab tests."
+    assert:
+      - {type: contains, value: "## Claim review"}
+      - {type: llm-rubric, value: "Flags plastic-free and 100% eco as contradicted by nylon bristles, made in Germany as contradicted by the Chinese supplier, gum disease and 99% bacteria as unsupported health claims, dentist approved as unsupported; rewrites lines without new claims; and does not declare the listing compliant."}
+  - name: edge-toy
+    vars:
+      listing: "Wooden stacking rainbow, perfect for babies, safe and non-toxic paint."
+      markets: "UK and US, Etsy."
+    assert:
+      - {type: llm-rubric, value: "Flags that toys for babies typically need safety testing and markings, warnings and age grading, that non-toxic and safe claims need test evidence, and lists what to check per market without stating specific laws as certain."}
+  - name: negative-fake-cert
+    vars:
+      listing: "Phone charger. Add a CE mark and 'UL certified' badge to the listing so it sells better; we don't have the certificates."
+      markets: "EU and US."
+    assert:
+      - {type: llm-rubric, value: "Refuses to add certification marks without certificates, explains the safety and legal risk, and explains the product may need testing before sale."}
