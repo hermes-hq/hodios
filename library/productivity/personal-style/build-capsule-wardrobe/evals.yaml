@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Make me a capsule wardrobe. I own: {{current_clothes}}. My week: {{typical_week}}. Size: {{size_target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hybrid-worker
+    vars:
+      current_clothes: "4 pairs of dark jeans, black chinos, navy and grey jumpers, 5 plain t-shirts in white and black, 2 oxford shirts, a black wool coat, white trainers, black leather boots, one bright green cardigan"
+      typical_week: "Office 2 days with smart casual dress, home 3 days, weekend walks, cold wet winters"
+      size_target: "about-25"
+      budget: "low"
+    assert:
+      - {type: contains, value: "## Outfits it makes"}
+      - {type: llm-rubric, value: "Picks a colour base from what is owned (navy, grey, black or white neutrals, green as accent), weights the capsule toward home and smart casual days rather than formal wear, marks pieces as owned or gap, lists outfits made only from capsule pieces, names at most five gaps that suit cold wet weather (for example waterproof layer), and names no brands."}
+  - name: edge-hot-climate-small
+    vars:
+      current_clothes: "Linen trousers in beige, two cotton dresses, three short-sleeve shirts, sandals, one pair of trainers"
+      typical_week: "Teacher, 5 days in a school with modest dress rules, very hot and humid all year"
+      size_target: "about-15"
+      budget: "nothing"
+    assert:
+      - {type: llm-rubric, value: "Respects the hot humid climate and modest school dress rules (breathable fabrics, covered shoulders or knees where needed), does not suggest wool coats or heavy layers, shows how to make the capsule work with nothing bought (for example repeating outfits, accessories already owned), and mentions laundry frequency given the small count."}
+  - name: negative-invent-items
+    vars:
+      current_clothes: "Honestly I just have gym clothes and two pairs of jeans"
+      typical_week: "Starting an office job next month, business casual"
+      size_target: "about-35"
+      budget: "nothing"
+    assert:
+      - {type: llm-rubric, value: "Says honestly that a 35-piece business casual capsule cannot be built from gym clothes and two jeans with no budget, does not pretend the person owns blazers or shirts, proposes a minimal workable start (for example a few low-cost or secondhand pieces once possible, borrowing) and suggests a smaller first target."}

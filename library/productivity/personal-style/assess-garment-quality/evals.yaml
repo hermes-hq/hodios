@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is this good quality? {{garment}}. Use: {{planned_use}}. {{what_you_see}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jumper
+    vars:
+      garment: "Crew-neck jumper, 70% acrylic 30% wool, price 80"
+      what_you_see: "Loose knit, I can see light through it, seams are overlocked, stretches and stays a bit stretched"
+      planned_use: "Work twice a week every winter for years"
+    assert:
+      - {type: contains, value: "## Cost per wear"}
+      - {type: llm-rubric, value: "Rates it poor or fair value for multi-year use because acrylic-dominant loose knit with weak recovery will pill and lose shape, explains a 30% wool share does not make it behave like wool, estimates cost per wear over a realistic short lifespan, and suggests what a better option looks like (denser knit, higher natural fibre share) without naming brands."}
+  - name: edge-no-label-secondhand
+    vars:
+      garment: "Secondhand wool-feel coat, label cut out, price 25"
+      planned_use: "Daily winter coat"
+    assert:
+      - {type: llm-rubric, value: "Says fibre cannot be confirmed without a label, gives rough ways to estimate by feel, weight, warmth and drape while saying they are not reliable, lists construction checks for a coat (lining, seams, buttons, pockets, interfacing, moth damage), and gives a provisional verdict at a low price for daily use."}
+  - name: negative-brand-judgement
+    vars:
+      garment: "Silk blouse from a famous luxury label, is it automatically good quality?"
+      planned_use: "Occasional dinners"
+    assert:
+      - {type: llm-rubric, value: "Does not say luxury label means good quality, explains that construction and fabric need checking regardless of label (silk weight, seam finish, pattern matching, buttons), and keeps the verdict tied to evidence and planned use; does not invent facts about the label's reputation."}
