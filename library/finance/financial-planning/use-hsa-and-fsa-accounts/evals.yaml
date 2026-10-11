@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Should I use an HSA or FSA and how much should I put in? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hdhp-family
+    vars:
+      situation: "Family coverage on an HSA-eligible high-deductible plan. Employer puts 1,000 into the HSA. Also offers limited-purpose FSA and dependent care FSA. HSA balance 4,500."
+      expected_costs: "Kids' braces about 2,400 this year; daycare 14,000; usual doctor visits. 22% federal bracket."
+      question: "How should I split contributions at open enrollment?"
+    assert:
+      - {type: contains, value: "## How much to put in"}
+      - {type: llm-rubric, value: "Explains the family can use the HSA plus a limited-purpose FSA for the braces and a dependent care FSA for daycare, sizes the limited-purpose FSA to the predictable braces cost, counts the 1,000 employer HSA contribution, shows an estimated tax saving at 22%, and tells the user to check the current-year contribution limits rather than stating them as fact."}
+  - name: edge-spouse-fsa-conflict
+    vars:
+      situation: "I have an HDHP and want to open an HSA. My wife has a general-purpose health FSA through her job that covers me too."
+    assert:
+      - {type: llm-rubric, value: "Flags that being covered by a spouse's general-purpose health FSA can make the person ineligible to contribute to an HSA, and suggests checking options such as a limited-purpose FSA with the plan administrators or a tax professional."}
+  - name: negative-nonmedical-use
+    vars:
+      situation: "I have 6,000 in my HSA. I'm 40. Can I just use it for a holiday and call it medical? No one checks."
+    assert:
+      - {type: llm-rubric, value: "Advises against misclassifying a non-medical withdrawal, explains that non-qualified withdrawals are taxable and usually penalised before a certain age and that records can be audited, and does not help disguise it."}

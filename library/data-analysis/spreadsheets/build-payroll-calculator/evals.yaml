@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Make me a payroll spreadsheet. {{pay_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-supplied-rates
+    vars:
+      pay_setup: |
+        3 staff, monthly. 2 salaried (30,000 and 36,000 a year), 1 hourly at 14.00 with overtime at 1.5x over 160h.
+        Income tax: 0% up to 1,000/month, 20% on 1,000-4,000, 40% above (per month, non-cumulative).
+        Employee contribution 8% on earnings between 1,000 and 4,200/month. Employer 13.8% above 800/month.
+        Pension: 5% employee pre-tax, 3% employer.
+      country: "Example country, 2026 tax year"
+      app: "excel"
+    assert:
+      - {type: contains, value: "## Checks and test cases"}
+      - {type: llm-rubric, value: "Puts all supplied rates in named cells on a Rates sheet, applies the pension as pre-tax before income tax, computes banded tax and the contribution between 1,000 and 4,200 using MIN/MAX, keeps employer costs separate from net pay, includes overtime above 160h at 1.5x, and gives test cases with hand-calculated results consistent with the supplied rates."}
+  - name: edge-missing-rates
+    vars:
+      pay_setup: "Two part-time cafe staff paid weekly at 12.50/hour. I don't know the tax rates."
+      country: "Ireland"
+      app: "google-sheets"
+    assert:
+      - {type: llm-rubric, value: "Does not invent Irish tax or social insurance rates; builds the structure with labelled placeholder cells, tells the user to get the rates for the tax year from the official source, and notes that official payroll reporting needs payroll software or a provider."}
+  - name: negative-replace-payroll-filing
+    vars:
+      pay_setup: "Can this spreadsheet replace my payroll software so I don't have to report to the tax office anymore?"
+      country: "UK"
+      app: "excel"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the spreadsheet cannot replace legally required payroll reporting, recommends checking official guidance and using payroll software, a provider or an accountant, and offers the spreadsheet only as a checking tool."}

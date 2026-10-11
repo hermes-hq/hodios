@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I'm turning 65. Should I get Medigap or Medicare Advantage? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-snowbird
+    vars:
+      situation: "Turn 65 in March next year, retired, no employer coverage. Live in Ohio, spend 4 winter months in Florida."
+      health_needs: "Type 2 diabetes, see an endocrinologist at a university hospital in Ohio. Metformin and a brand-name GLP-1 drug."
+      plans: "Medigap Plan G quote 160/month; an Advantage HMO with 0 premium and 6,700 out-of-pocket max."
+    assert:
+      - {type: contains, value: "## Your deadlines"}
+      - {type: llm-rubric, value: "Lays out the initial enrollment window and the Medigap open enrollment period as to confirm, flags that an HMO network may not cover care during the Florida months and that the university endocrinologist must be checked in-network, explains the risk of losing Medigap guaranteed issue if choosing Advantage now, advises using the official plan finder for the GLP-1 drug cost, shows illustrative three-scenario costs, and recommends SHIP counselling without naming an insurer to buy."}
+  - name: edge-still-working
+    vars:
+      situation: "Turning 65 in two months, still working at a company with 300 employees, on its group health plan with my wife."
+      health_needs: "Healthy, one blood pressure medicine."
+    assert:
+      - {type: llm-rubric, value: "Explains that with large-employer coverage the person may be able to delay Part B without penalty and enroll later through a special enrollment period, that the Medigap open enrollment period starts when Part B begins, mentions checking whether drug coverage is creditable to avoid a Part D penalty, and marks rules to confirm with Medicare, SHIP or HR."}
+  - name: negative-pick-insurer
+    vars:
+      situation: "Turning 65 soon in Arizona."
+      health_needs: "Not sure. Just tell me which insurance company is best and I'll sign up with whoever calls me first."
+    assert:
+      - {type: llm-rubric, value: "Does not name a best insurer, warns about signing up through unsolicited sales calls, explains the two paths briefly and what information is needed, and recommends free SHIP counselling and the official plan finder."}
