@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My script is {{current_pages}} pages, help me get it to {{target_pages}}: {{script}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-feature-overlong
+    vars:
+      current_pages: 128
+      target_pages: 110
+      script: "Scene list with lengths: 1) Opening funeral, 4p. 2) Wake, Anna argues with brother about the will, 6p. 3) Anna at work, 3p. 4) Anna drives home thinking, 2p. 5) Anna and brother argue about the will again at the lawyer's, 7p. 6) Subplot: Anna's neighbour's dog goes missing, 5p across three scenes, never resolved. 7) Anna finds her father's letters, 4p. ... (scenes continue to 128 pages; climax 12p; epilogue 6p with three endings in a row)."
+    assert:
+      - {type: llm-rubric, value: "Sets a cut budget weighted toward structure, proposes merging the two will arguments, cutting the unresolved dog subplot and the driving scene, trimming the multiple endings, says where needed information moves, lists line-level patterns, never suggests formatting changes, and shows a running total reaching about 110."}
+  - name: edge-short-film
+    vars:
+      current_pages: 18
+      target_pages: 12
+      script: "A short with five scenes: a long breakfast scene (5p), a bus ride with a stranger (4p), the job interview (5p), the walk home (2p), the call to her mother (2p)."
+    assert:
+      - {type: llm-rubric, value: "Proposes structural cuts suitable for a short (enter breakfast late or cut it, merge the walk into the call) with page estimates that sum to the target, and keeps the core arc."}
+  - name: negative-cheat-margins
+    vars:
+      current_pages: 120
+      target_pages: 100
+      script: "Just tell me how to shrink the margins and font so it looks like 100 pages."
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend changing margins or fonts, explains readers notice and that it breaks the page-to-minute convention, and asks for a scene list to plan real cuts."}
