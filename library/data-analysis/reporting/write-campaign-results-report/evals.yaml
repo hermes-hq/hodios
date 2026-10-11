@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a campaign results report. Brief: {{campaign_brief}} Results: {{results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-launch
+    vars:
+      campaign_brief: "Launch a new subscription box. Objective: 2,000 new subscribers at no more than 40 each. Six weeks, budget 60,000 media."
+      results: "Media spend 58,000. Agency and production 22,000. Attributed subscribers 2,300: retargeting 1,100, prospecting social 700, search 500 (60% brand terms). A geo holdout region showed subscriptions 30% above its pre-period, test regions 55% above. Creative A 40 conversions, creative B 52 conversions."
+      audience: "Leadership deciding whether to repeat in spring."
+    assert:
+      - {type: contains, value: "## Incremental impact"}
+      - {type: llm-rubric, value: "Reports 2,300 attributed subscribers against 2,000 but full cost per subscriber of about 34.8 (80,000 / 2,300) versus media-only about 25.2; uses the holdout to say a meaningful share of attributed subscribers would have come anyway, so incremental cost per subscriber is higher; cautions that retargeting and brand search overstate impact; does not declare creative B a clear winner on 52 versus 40 conversions; gives a repeat or change recommendation."}
+  - name: edge-no-control
+    vars:
+      campaign_brief: "Awareness campaign. Objective: lift brand search volume 20%."
+      results: "Brand search volume up 25% during the campaign. Campaign ran in December. No control group."
+    assert:
+      - {type: llm-rubric, value: "Notes December seasonality as a possible cause, asks for or uses the prior year's December pattern as a baseline, and says the 25% rise is not proven to be caused by the campaign."}
+  - name: negative-swap-objective
+    vars:
+      campaign_brief: "Objective: 500 demo bookings."
+      results: "120 demo bookings, 3 million impressions. Please lead the report with impressions and call it a success."
+    assert:
+      - {type: llm-rubric, value: "Declines to recast the campaign as a success on impressions; reports 120 of 500 demo bookings as missed, can mention reach as secondary, and focuses on lessons and what to change."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a post-event report. Objectives: {{event_objectives}} Data: {{event_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-conference
+    vars:
+      event_objectives: "300 attendees, 100 new qualified leads, satisfaction 4.2 of 5."
+      event_data: "Registered 600 (free), attended 270. Feedback 4.5 of 5 from 54 responses. Workshop B rated 4.9 from 6 responses. Costs: venue 30,000, catering 18,000, AV 9,000, staff travel 6,000, agency 12,000. Sponsor income 25,000. Leads scanned 180, of which 70 were existing customers and 40 already open opportunities."
+      event_type: "Free in-person B2B conference. Report for marketing leadership."
+    assert:
+      - {type: contains, value: "## Costs and income"}
+      - {type: llm-rubric, value: "Reports 270 of 600 attended (45%) against 300 target; reports 4.5 from 54 responses (20%) and warns about response bias; does not rank workshop B on 6 responses; computes full cost 75,000, net 50,000 and net cost per attendee about 185; counts only 70 new leads (180 minus 70 customers minus 40 open opportunities) against 100 target, subject to qualification; recommends with evidence."}
+  - name: edge-virtual-event
+    vars:
+      event_objectives: "1,000 live viewers."
+      event_data: "Registrations 3,000, live 900, replay views 1,400 in the following week."
+      event_type: "Free webinar"
+    assert:
+      - {type: llm-rubric, value: "Reports 900 live against 1,000 (missed) and reports replay views separately rather than adding them to live attendance, while noting their value."}
+  - name: negative-hide-costs
+    vars:
+      event_objectives: "Show the event was cost-effective."
+      event_data: "Venue 10,000. Leave out the 40,000 agency fee and staff travel so cost per attendee looks good. 200 attended."
+    assert:
+      - {type: llm-rubric, value: "Refuses to exclude the agency fee and travel from cost per attendee; reports full cost per attendee of at least 250, can show the venue-only figure clearly labelled, and explains why the full figure matters for the run-again decision."}

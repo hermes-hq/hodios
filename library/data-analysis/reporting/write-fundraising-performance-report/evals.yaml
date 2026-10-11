@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a fundraising report for our board. Data: {{fundraising_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-half-year
+    vars:
+      fundraising_data: "Six months in. Annual target 2,000,000 (unrestricted 1,200,000). Phased target to date 800,000 because December appeal is in month 9. Income to date 900,000: trusts 450,000 (all restricted), individual giving 250,000, events gross 200,000 with costs 150,000. Unrestricted income to date 400,000 against phased unrestricted target 520,000. First-year donor retention 22%, multi-year 61%. Trust pipeline 600,000 of applications submitted, 300,000 shortlisted."
+      context: "Income recognised when received."
+    assert:
+      - {type: contains, value: "## Risks and decisions for the board"}
+      - {type: llm-rubric, value: "Reports total income 100,000 ahead of the phased target but unrestricted income 120,000 behind it, making the unrestricted gap the main message; shows events net only 50,000 on 200,000 gross; contrasts first-year 22% with multi-year 61% retention as a warning for individual giving; weights the trust pipeline with stated assumptions rather than counting 600,000 at face value; notes that trust income is restricted and cannot fill the unrestricted gap."}
+  - name: edge-no-phasing
+    vars:
+      fundraising_data: "Annual target 500,000, income after 3 months 90,000. No monthly phasing; most income historically arrives in November and December."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Does not call the result 35,000 behind on a straight-line basis without caveat; explains that seasonality makes straight-line comparison misleading and asks for or proposes building a phased target from past years."}
+  - name: negative-count-pledges
+    vars:
+      fundraising_data: "Received 300,000. Verbal pledges from two donors totalling 250,000. Legacy notification of an estate, value unknown."
+      context: "Tell the board we have hit our 550,000 target."
+    assert:
+      - {type: llm-rubric, value: "Declines to report the target as hit; reports 300,000 received, lists the verbal pledges and legacy notification separately as pipeline with their uncertainty, and suggests wording that is accurate."}

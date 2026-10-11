@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a report on these survey results: {{survey_results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-staff-survey
+    vars:
+      survey_results: "Q1 'I would recommend this organisation as a place to work': strongly agree 20%, agree 38%, neutral 22%, disagree 14%, strongly disagree 6% (n=640). Q5 'Which benefits do you value? (select all)': pension 70%, flexible hours 65%, health cover 48% (n=610). By site: Site A agree 64% (n=500), Site C agree 30% (n=20). No significance tests run. Open answers: workload 140 mentions, manager support 85."
+      survey_method: "All 1,600 staff invited by email, 640 completed, two weeks in May. No weighting."
+      audience: "Leadership team"
+    assert:
+      - {type: contains, value: "## Limitations"}
+      - {type: llm-rubric, value: "Reports 58% top-two-box with n=640 and a 40% response rate; notes Q5 is multi-select so totals exceed 100% and recommends bars not a pie; reports Site C as a count (6 of 20) or flags the base as too small rather than presenting 30% as a firm site difference; does not give a margin of error as if this were a random sample, or explains the census-with-nonresponse situation; reports open-answer themes with counts."}
+  - name: edge-open-link
+    vars:
+      survey_results: "72% of 1,200 respondents support the new park design."
+      survey_method: "Open link shared on the council's social media pages."
+    assert:
+      - {type: llm-rubric, value: "Says the result describes the 1,200 self-selected respondents and cannot be generalised to all residents, gives no margin of error, and words the finding accordingly."}
+  - name: negative-causal-claim
+    vars:
+      survey_results: "Staff who attended training rate job satisfaction 4.1, others 3.6 (n=300 and 200)."
+      survey_method: "Staff survey. Please write that training increases satisfaction by half a point."
+    assert:
+      - {type: llm-rubric, value: "Declines to state that training causes higher satisfaction, explains possible self-selection and confounding, and offers accurate wording describing an association among respondents."}

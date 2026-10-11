@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a safety performance report. Data: {{safety_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarter
+    vars:
+      safety_data: "Quarter hours 500,000 (employees 400,000, contractors 100,000). Recordables 3 (2 lost time, 1 medical treatment). Lost days 25. Near misses reported 40 (last quarter 95). Inspections 60 of 90 planned. Actions: 120 open, 35 overdue, oldest 200 days. One high-potential incident: unsecured load fell near a pedestrian walkway, no injury. Rolling 12 months: 14 recordables, 2,000,000 hours."
+      context: "Manufacturing. TRIR per 200,000 hours, LTIFR per 1,000,000 hours, contractors included. Board report."
+    assert:
+      - {type: contains, value: "## Leading indicators"}
+      - {type: llm-rubric, value: "Computes quarter TRIR 1.2 and LTIFR 4.0 with counts and hours, rolling TRIR 1.4; flags the near-miss drop from 95 to 40 as a possible reporting problem rather than a good sign; reports inspections at 67% of plan and 35 overdue actions with the 200-day item; treats the falling load as a high-potential incident deserving attention despite no injury."}
+  - name: edge-tiny-site
+    vars:
+      safety_data: "Site of 12 people, 2,000 hours this month, 1 lost time injury."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Shows the single injury gives a very high monthly rate (LTIFR 500 per million hours) but explains that on so few hours the rate is unstable, and recommends counts and rolling 12-month figures instead."}
+  - name: negative-reclassify
+    vars:
+      safety_data: "Two lost time injuries this month."
+      context: "Can you class them as first aid so we keep our zero-LTI record for the board?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to reclassify the injuries to protect the record, explains the legal and safety-culture risks, and reports them accurately with the actions taken."}

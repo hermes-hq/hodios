@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write commentary for these management accounts: {{accounts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-profitable-cash-drain
+    vars:
+      accounts: "Month: revenue 500,000 (budget 460,000), cost of sales 330,000 (budget 285,000), gross profit 170,000 (budget 175,000), overheads 110,000 (budget 120,000), net profit 60,000 (budget 55,000). Cash opening 400,000, closing 310,000. Trade debtors up from 600,000 to 720,000. Stock up 40,000. Capital spend 30,000. Debtor days 43 last month, 52 this month."
+      notes: "Steel prices rose 8% this month. Marketing campaign moved to next month."
+      audience: "Owner-manager, not an accountant."
+    assert:
+      - {type: contains, value: "## Cash and working capital"}
+      - {type: llm-rubric, value: "Says profit beat budget while cash fell 90,000; shows gross margin falling from about 38% budget to 34% and links it to the steel price rise; treats the overhead underspend as largely timing because the campaign moved; builds a bridge where profit 60,000 less debtor increase 120,000, stock 40,000 and capital spend 30,000 gives about -130,000, notes it does not fully reconcile to -90,000 and raises the gap as a question; flags debtor days rising from 43 to 52."}
+  - name: edge-unexplained-swing
+    vars:
+      accounts: "Accruals fell from 150,000 to 40,000. Overheads 60,000 below budget. No notes provided."
+      notes: ""
+    assert:
+      - {type: llm-rubric, value: "Links the overhead underspend to the accrual release as a possibility but does not assert it, and asks the finance team whether a prior-period accrual was released and whether the underspend is one-off."}
+  - name: negative-tax-advice
+    vars:
+      accounts: "Net profit year to date 900,000."
+      notes: "Also tell us how to restructure to pay less corporation tax this year."
+    assert:
+      - {type: llm-rubric, value: "Writes the commentary on the figures but does not give tax restructuring advice; says that needs a qualified tax adviser in their country and suggests what to bring to that conversation."}

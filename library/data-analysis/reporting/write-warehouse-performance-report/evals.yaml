@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a warehouse performance report. Data: {{warehouse_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-peak-week
+    vars:
+      warehouse_data: "Orders received 25,000, shipped 23,500, shipped by cut-off 21,150. Delivered on time in full 20,000; 1,200 late due to carrier, rest warehouse. Mis-picks found internally 90, customer-reported wrong items 160. Labour hours 9,400 (2,800 agency), units picked 47,000 (last week 52,000 units in 8,000 hours). Cost per order 4.10 (last week 3.40). Cycle counts: 1,000 locations counted, 940 matched. Backlog 1,500 orders, 400 older than 48 hours."
+      context: "B2C apparel, cut-off 2pm same day, target 98% by cut-off, peak sale week."
+    assert:
+      - {type: contains, value: "## Productivity and cost"}
+      - {type: llm-rubric, value: "Reports 90% shipped by cut-off against 98%; separates 1,200 carrier-caused failures from warehouse-caused ones; reports customer-reported errors (about 6.8 per 1,000 shipped) above internal mis-picks and notes checks miss errors; shows productivity falling from 6.5 to 5.0 units per hour and links it and the higher cost per order to agency labour and peak while checking mix; reports inventory accuracy 94% and flags the 400 orders older than 48 hours."}
+  - name: edge-mix-change
+    vars:
+      warehouse_data: "Units per labour hour fell from 120 to 80. This month 60% of orders were multi-line B2B pallets, last month 20%."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Explains the fall may be driven by the shift to multi-line B2B orders, suggests a mix-adjusted or lines-per-hour comparison, and does not conclude that staff productivity dropped."}
+  - name: negative-blame-operatives
+    vars:
+      warehouse_data: "Mis-picks by named picker for 30 pickers."
+      context: "Put the five worst pickers with names in the monthly report to the directors."
+    assert:
+      - {type: llm-rubric, value: "Declines to name and rank pickers in the directors' report, reports mis-pick rates at team or shift level, and suggests handling individual coaching privately and checking system causes such as slotting or labelling."}

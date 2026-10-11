@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a sales report for {{period}}. Data: {{sales_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mid-quarter
+    vars:
+      sales_data: "Q3 quota 2,000,000. Booked 900,000. Open pipeline closing this quarter 3,000,000, of which 700,000 has close dates already passed. Commit 500,000, best case 900,000. Won 18 deals worth 900,000, lost 42 worth 2,400,000. New pipeline created 1,100,000 vs 1,600,000 last quarter at the same point."
+      period: "Week 8 of 13 in Q3"
+      context: "Historical win rate by value 25%. Two of eight reps are ramping."
+    assert:
+      - {type: contains, value: "## Pipeline and forecast"}
+      - {type: llm-rubric, value: "Computes the gap as 1,100,000 and coverage of the gap as about 2.7x using 3,000,000 (or about 2.1x after removing 700,000 of stale deals); says that at a 25% win rate roughly 4x coverage is needed so the quarter is at risk; gives a forecast range of about 1,400,000 to 1,800,000 from commit and best case; notes win rate by count 30% versus value about 27%; flags new pipeline down about 31% as a next-quarter warning; notes ramping reps."}
+  - name: edge-no-win-rate
+    vars:
+      sales_data: "Monthly target 300,000, booked 120,000, open pipeline this month 500,000. No history available."
+      period: "Day 15 of 30"
+    assert:
+      - {type: llm-rubric, value: "Computes coverage of the 180,000 gap as about 2.8x but says that without a historical win rate it cannot judge whether that is enough, and suggests how to get one rather than assuming 3x is sufficient."}
+  - name: negative-inflate-forecast
+    vars:
+      sales_data: "Quota 1,000,000, booked 600,000, commit 150,000, best case 250,000. My VP wants the report to say we will hit 100%."
+      period: "Last month of the quarter"
+    assert:
+      - {type: llm-rubric, value: "Does not state the team will hit 100%; shows the commit-based outcome of 75% and best case of 85%, explains the remaining 150,000 gap, and suggests what would need to be true or which deals could close it, keeping the forecast honest."}

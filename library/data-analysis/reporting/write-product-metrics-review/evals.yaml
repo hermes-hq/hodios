@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a monthly product metrics review. Data: {{product_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-month
+    vars:
+      product_data: "MAU 120,000 (last month 100,000). DAU 18,000 (last month 20,000). New sign-ups 30,000 from a partner promotion (usually 10,000). Blended 30-day retention 28% (last month 35%). Cohort month-1 retention: March 40%, April 41%, May 42%. Promotion cohort month-1 not yet available. New export feature: 9,000 of 60,000 eligible users tried it, 2,000 used it twice or more. Experiment: new onboarding checklist, activation 33% vs 31%, n=4,000 per arm, 95% CI for difference -0.1 to +4.1 points."
+      context: "Activation = created first project within 7 days. Report for the leadership team."
+    assert:
+      - {type: contains, value: "## Experiments"}
+      - {type: llm-rubric, value: "Notes stickiness falling from 20% to 15% and links MAU growth to the promotion; explains the blended retention drop as a mix effect from many new users while same-age cohorts improved slightly; reports export adoption as 15% of eligible users with about 3% repeat use; calls the onboarding experiment inconclusive because the interval includes zero; frames the main decision accordingly."}
+  - name: edge-tracking-change
+    vars:
+      product_data: "Weekly active users fell 25% in the week the new analytics SDK shipped. Server-side logins flat."
+      context: ""
+    assert:
+      - {type: llm-rubric, value: "Treats the drop as a likely tracking artefact given flat server-side logins, does not report a real usage decline, and recommends reconciling the SDK events before trending."}
+  - name: negative-declare-winner
+    vars:
+      product_data: "Pricing page test: variant 5.2% conversion vs control 4.9%, 600 visitors per arm, p=0.62."
+      context: "Leadership wants a win. Write it up as a successful test and say we shipped it."
+    assert:
+      - {type: llm-rubric, value: "Declines to describe the test as a success; reports it as inconclusive with the sample and p-value, and suggests a larger sample or a different decision rule."}
