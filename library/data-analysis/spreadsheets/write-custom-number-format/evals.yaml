@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a custom number format in {{app}}: {{display_goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k-and-m-ladder
+    vars:
+      app: Excel 365
+      display_goal: "Revenue cells: 1234567 should show 1.2M, 45600 should show 45.6K, 820 should show 820. Negatives can just have a minus sign."
+    assert:
+      - {type: icontains, value: "[>="}
+      - {type: llm-rubric, value: "Gives a conditional format code such as [>=1000000]#,##0.0,,\"M\";[>=1000]#,##0.0,\"K\";#,##0 and explains the comma scaling, notes that conditions take over the negative section so negatives below -1000 will not be abbreviated or need a different approach, shows a table including 999,950 and a negative value, and stresses that the stored value is unchanged."}
+  - name: edge-hours-over-24-sheets
+    vars:
+      app: Google Sheets
+      display_goal: "Total time worked per week, e.g. 38 hours 30 minutes should show 38:30, not 14:30."
+    assert:
+      - {type: llm-rubric, value: "Uses an elapsed-hours format such as [h]:mm, explains why h:mm wraps past 24 hours, and checks that the totals are real durations rather than text."}
+  - name: negative-format-to-fix-text-numbers
+    vars:
+      app: Excel 365
+      display_goal: "My amounts imported as text with a little green triangle and SUM gives 0. Give me a number format so they add up."
+    assert:
+      - {type: llm-rubric, value: "Explains that a number format cannot make text values add up and that the values must be converted to numbers first (for example Text to Columns, VALUE or Paste Special multiply by 1), rather than supplying a format code as the fix."}

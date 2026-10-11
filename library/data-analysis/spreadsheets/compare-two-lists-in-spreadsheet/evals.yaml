@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Compare these two lists in {{app}} and show what is missing: {{lists}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-emails-with-spaces-case
+    vars:
+      app: Excel 365
+      lists: "Sheet 'CRM' column B: 4,200 emails. Sheet 'Newsletter' column A: 3,900 emails pasted from a website. 'Ana.Silva@example.com' in CRM does not match 'ana.silva@example.com ' in Newsletter."
+      output_wanted: "Lists of only-in-CRM and only-in-Newsletter."
+    assert:
+      - {type: icontains, value: "FILTER"}
+      - {type: llm-rubric, value: "Normalises with TRIM, SUBSTITUTE of CHAR(160) and LOWER, compares with XMATCH or MATCH on the normalised keys, produces only-in-each lists with FILTER and UNIQUE, explains the sample mismatch (trailing space or non-breaking space, and that the original case difference alone would not stop most lookups), and includes count checks and a duplicates check."}
+  - name: edge-numbers-as-text-and-long-ids
+    vars:
+      app: Google Sheets
+      lists: "Column A: order numbers as numbers (10442). Column D: order numbers imported as text ('10442'). Column F: 16-digit card tokens stored as text, compared with column H."
+    assert:
+      - {type: llm-rubric, value: "Explains that MATCH or XLOOKUP treat 10442 and '10442' as different and fixes types with TO_TEXT or VALUE, and warns that COUNTIF compares 16-digit text values as numbers to 15 digits so it can report false matches, recommending MATCH or EXACT-based comparison for the tokens."}
+  - name: negative-fuzzy-names
+    vars:
+      app: Excel 2016
+      lists: "Two lists of company names: 'Smith & Sons Ltd' vs 'Smith and Sons Limited', 'ACME Corp.' vs 'Acme Corporation'. Give me a formula that matches these exactly."
+    assert:
+      - {type: llm-rubric, value: "States that exact-match formulas cannot reliably match these spelling variants, offers normalisation steps (replace & with and, strip Ltd/Limited/Corp) that catch some cases and a fuzzy matching option for the rest, and does not claim the formulas will match all of them; uses functions available in Excel 2016."}

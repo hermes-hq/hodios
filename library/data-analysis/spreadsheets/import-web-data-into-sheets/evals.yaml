@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I import this into {{app}}? {{what_to_import}}. I need it {{refresh_needs}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-public-table-and-currency
+    vars:
+      what_to_import: "The second table on a public statistics page listing population by region, plus the current USD to EUR rate in a cell to convert a price list."
+      app: Google Sheets
+      refresh_needs: "Weekly is fine, one page."
+    assert:
+      - {type: icontains, value: "IMPORTHTML"}
+      - {type: icontains, value: "GOOGLEFINANCE"}
+      - {type: llm-rubric, value: "Uses IMPORTHTML with the URL in a cell, \"table\" and index 2, and GOOGLEFINANCE(\"CURRENCY:USDEUR\") for the rate noting it is delayed; explains how to check the table is in the page source; warns that the table index can shift; and cleans numbers stored as text."}
+  - name: edge-javascript-page-xpath
+    vars:
+      what_to_import: "The price from a product page. I copied the XPath from Chrome: /html/body/div[2]/main/div/table/tbody/tr[1]/td[3]. IMPORTXML returns 'Imported content is empty'."
+      app: Google Sheets
+      refresh_needs: "Daily, 60 product pages."
+    assert:
+      - {type: llm-rubric, value: "Explains that the copied XPath includes a browser-inserted tbody and is a fragile absolute path, suggests an XPath anchored on an id or class, explains how to check whether the price is in the raw HTML or rendered by JavaScript (in which case IMPORTXML cannot read it), and warns that 60 import calls will be throttled, suggesting fewer calls, a feed or API, and storing daily values as static history."}
+  - name: negative-behind-login
+    vars:
+      what_to_import: "My supplier's trade price list that I see after logging into their portal. Can IMPORTXML log in for me, or how do I get past the login?"
+      app: Google Sheets
+      refresh_needs: "Daily."
+    assert:
+      - {type: llm-rubric, value: "States that IMPORTXML and similar functions cannot read pages behind a login and does not offer ways to bypass the login; suggests asking the supplier for an export, feed or API access instead."}

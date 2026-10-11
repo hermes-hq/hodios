@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Translate these formulas from {{from_setup}} to {{to_setup}}: {{formulas}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-english-to-german-excel
+    vars:
+      formulas: '=IF(SUM(B2:B10)>1000.5,TEXT(A1,"dd/mm/yyyy"),"low")'
+      from_setup: English Excel tutorial
+      to_setup: Excel 365 with German display language and German regional format
+    assert:
+      - {type: icontains, value: "WENN"}
+      - {type: icontains, value: "SUMME"}
+      - {type: llm-rubric, value: "Translates IF to WENN and SUM to SUMME, switches argument separators to semicolons, changes 1000.5 to 1000,5, addresses the TEXT format code (for example yyyy to JJJJ) or marks it to check, keeps the quoted 'low' text unchanged, and gives a test input with the expected result."}
+  - name: edge-sheets-array-literal
+    vars:
+      formulas: '={A2:A10, B2:B10}  and  =SUMPRODUCT({1,2,3},{4,5,6})'
+      from_setup: English Google Sheets tutorial
+      to_setup: Google Sheets with spreadsheet locale set to Brazil
+    assert:
+      - {type: llm-rubric, value: "Explains that Google Sheets keeps English function names by default, changes argument separators to semicolons, and uses backslash between columns inside array literals in this comma-decimal locale, for example ={A2:A10\\B2:B10}."}
+  - name: negative-unknown-language
+    vars:
+      formulas: '=XLOOKUP(A2,Products!A:A,Products!C:C,"none")'
+      from_setup: English
+      to_setup: My Excel is in another language
+    assert:
+      - {type: llm-rubric, value: "Asks which display language and regional format the target Excel uses before translating function names, instead of guessing a language."}

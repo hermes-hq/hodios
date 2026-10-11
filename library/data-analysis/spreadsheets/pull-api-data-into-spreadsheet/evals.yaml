@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write code to pull this API into {{app}}: {{api_details}}. I want: {{output_wanted}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sheets-paged-api
+    vars:
+      api_details: "GET /v1/orders?page=N&per_page=100 on the shop's API host. Header 'Authorization: Bearer <key>'. Response: {\"orders\":[{\"id\":1,\"created_at\":\"...\",\"total\":\"19.90\",\"customer\":{\"email\":\"...\",\"country\":\"PT\"}}], \"next_page\": 2} and next_page is null on the last page. Limit 2 requests per second."
+      output_wanted: "Sheet 'Orders': id, created_at, total as a number, customer country. Replace all rows daily."
+      app: "Google Sheets, shared with 6 colleagues who can edit"
+    assert:
+      - {type: icontains, value: "PropertiesService"}
+      - {type: icontains, value: "UrlFetchApp"}
+      - {type: llm-rubric, value: "Stores the key in script or user properties with a placeholder, notes that editors of the spreadsheet can read script properties and suggests a mitigation, loops until next_page is null, respects the rate limit with a pause, flattens customer.country, converts total to a number, writes all rows with one setValues call, and sets up a daily time-driven trigger with a status log."}
+  - name: edge-excel-query-string-key
+    vars:
+      api_details: "GET /api/stock?apikey=KEY&offset=0&limit=500 on the supplier API host; returns {\"items\":[...], \"total\": 4210}."
+      output_wanted: "Table of sku, qty, warehouse in Excel, refreshed when the file opens."
+      app: "Excel 365 on Windows, file emailed to managers"
+    assert:
+      - {type: llm-rubric, value: "Writes Power Query using Web.Contents with RelativePath and Query, pages with offset and limit until total is reached (for example List.Generate), uses ApiKeyName so the key is held in Data Source Settings credentials instead of the M code, warns that emailed workbooks expose any key written in the query, and sets refresh on open in Connection Properties."}
+  - name: negative-key-in-cell
+    vars:
+      api_details: "Here is my real key: REAL-KEY-PASTED-HERE-0042. Endpoint /v2/customers, bearer auth."
+      output_wanted: "Put the key in cell A1 so my team can change it, and pull customers."
+      app: "Google Sheets shared with the whole company"
+    assert:
+      - {type: llm-rubric, value: "Does not repeat the pasted key, advises the user to treat it as exposed and rotate it, explains why a key in a shared cell is visible to everyone, and proposes storing it in properties with a placeholder instead."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write {{app}} formulas for {{measures}}. Data: {{data_layout}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fiscal-ytd-and-rolling
+    vars:
+      app: Excel 365
+      data_layout: "Sheet 'Sales': A = Invoice date, B = Product, C = Amount. One row per invoice, about 20,000 rows, not always sorted."
+      measures: "Running total per product, fiscal YTD per product, and rolling 12 months per product, on each row."
+      fiscal_year_start: April
+    assert:
+      - {type: contains, value: "## Test rows"}
+      - {type: llm-rubric, value: "Uses SUMIFS on product and date windows rather than an expanding-range SUM, derives the April fiscal year start from the row's date (so a March 2026 date gives 1 April 2025), defines rolling 12 months with EDATE(date,-12) as an exclusive lower bound, explains that results stay correct when sorted, and works through test rows by hand."}
+  - name: edge-monthly-table-missing-month
+    vars:
+      app: Google Sheets
+      data_layout: "Sheet 'Monthly': A = Month (first of month dates), B = Revenue. One row per month from Jan 2024, but Aug 2025 is missing because the shop was closed."
+      measures: "Rolling 12-month revenue and same month last year."
+    assert:
+      - {type: llm-rubric, value: "Uses date-based windows such as SUMIFS with > EDATE(A2,-12) and <= A2 rather than summing the previous 12 rows, explains why the missing August would make row-based windows cover 13 months, and returns blank or a flag for same month last year when that month is missing."}
+  - name: negative-wants-row-based-sum
+    vars:
+      app: Excel 2016
+      data_layout: "A = Date, B = Amount, I sort this sheet by amount every week."
+      measures: "Just give me =SUM($B$2:B2) for a running total by date."
+    assert:
+      - {type: llm-rubric, value: "Warns that SUM($B$2:B2) will give a running total by amount order, not by date, after the weekly sort, and offers a date-based SUMIFS version that works in Excel 2016, while still answering the user."}

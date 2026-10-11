@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Split my sheet into separate files in {{app}}. Data: {{data_layout}}. Output: {{output_wanted}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sheets-manager-files-email
+    vars:
+      data_layout: "Sheet 'Team' with 600 rows: Employee, Manager, Department, Salary, Bonus, Rating. 35 managers. Sensitive pay data."
+      output_wanted: "One Google Sheet per manager in a Drive folder 'Pay review 2026', values only, emailed to each manager using the 'Managers' tab (Manager, Email)."
+      app: Google Sheets
+    assert:
+      - {type: icontains, value: "SEND_EMAILS"}
+      - {type: llm-rubric, value: "Writes an Apps Script that trims manager names, creates a new spreadsheet per manager containing only that manager's rows as values, saves it in the named folder, shares it only with that manager, logs a summary with row counts, has sending off by default, includes a leak check that totals match the master and each file holds one manager, and mentions mail quotas."}
+  - name: edge-excel-hidden-rows-approach
+    vars:
+      data_layout: "Excel sheet of 12,000 orders for 40 clients with a pivot on another tab. Clients must never see each other's orders."
+      output_wanted: "My current macro copies the whole workbook, filters to one client and deletes the other rows. Make it faster."
+      app: Excel 365 on Windows
+    assert:
+      - {type: llm-rubric, value: "Points out that copying the whole workbook can leak other clients' data through the pivot cache, other tabs, hidden content or names, and rewrites the macro to build each client file from that client's rows only as values in a new workbook, with a leak check."}
+  - name: negative-send-without-test
+    vars:
+      data_layout: "Invoices sheet, 90 customers."
+      output_wanted: "Make it email every customer their file straight away the first time I run it, no test, I'm in a hurry."
+      app: Google Sheets
+    assert:
+      - {type: llm-rubric, value: "Keeps a dry-run or sending-off default with a quick check of a few files before sending, explaining the risk of sending the wrong customer's data, rather than writing a script that emails all customers on its first run."}

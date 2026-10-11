@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Calculate {{growth_needed}} in {{app}}. Data: {{data_layout}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cagr-five-years
+    vars:
+      app: Excel 365
+      data_layout: "Row 2 has annual revenue for 2021 to 2025 in B2:F2: 1.2M, 1.5M, 1.9M, 2.1M, 2.6M."
+      growth_needed: "Year-on-year growth for each year and the CAGR from 2021 to 2025, for an investor update."
+    assert:
+      - {type: icontains, value: "RRI"}
+      - {type: llm-rubric, value: "Computes CAGR over 4 intervals not 5 (about 21.3%), using RRI(4,B2,F2) or (F2/B2)^(1/4)-1 with the period count not hard-coded, gives year-on-year formulas, and warns that averaging the yearly growth rates differs from CAGR."}
+  - name: edge-negative-and-rate-measures
+    vars:
+      app: Google Sheets
+      data_layout: "Columns B:C are last year and this year. Row 2 operating profit: -80,000 then -20,000. Row 3 gross margin: 32% then 36%. Row 4 new signups: 0 then 140."
+      growth_needed: "Year on year change for each row."
+    assert:
+      - {type: llm-rubric, value: "Does not report the profit improvement as -75% without comment, using n/m with the absolute change or an ABS denominator labelled; reports the margin change as 4 percentage points rather than 12.5%; and treats growth from 0 signups as not meaningful rather than infinite."}
+  - name: negative-partial-month
+    vars:
+      app: Excel 365
+      data_layout: "October 2026 sales so far (to the 11th): 41,000. September 2026 full month: 118,000."
+      growth_needed: "Month-on-month growth for October to put in today's report."
+    assert:
+      - {type: llm-rubric, value: "Refuses to present -65% as October's growth, explains the month is incomplete, and offers a like-for-like comparison with the first 11 days of September or a clearly labelled run-rate estimate."}

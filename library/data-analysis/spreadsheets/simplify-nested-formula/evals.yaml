@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Simplify this {{app}} formula: {{formula}}. Context: {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-grade-thresholds
+    vars:
+      app: Excel 365
+      formula: '=IF(B2>=90,"A",IF(B2>=80,"B",IF(B2>=70,"C",IF(B2>=60,"D","F"))))  in C2, filled down'
+      context: "B is a test score 0 to 100. Some cells are blank for absent students. Example: 90 gives A, 79.5 gives C, blank gives F."
+    assert:
+      - {type: contains, value: "## Equivalence test"}
+      - {type: llm-rubric, value: "Notes that a blank score returns F with the current formula and keeps that behaviour in the equivalent rewrite while flagging it as a likely bug, proposes a lookup table with XLOOKUP approximate match or IFS ending in TRUE, tests boundaries such as 90, 89.99, 60, 59.99, blank and text, and gives a mismatch-count check."}
+  - name: edge-overlapping-conditions
+    vars:
+      app: Google Sheets
+      formula: '=IF(AND(A2="UK",C2>100),0,IF(A2="UK",4.99,IF(OR(A2="FR",A2="DE"),9.99,IF(C2>100,0,14.99))))'
+      context: "Shipping charge. A = country code, C = order value. Rows: UK 50 -> 4.99; UK 150 -> 0; FR 150 -> 9.99; US 150 -> 0; US 20 -> 14.99."
+    assert:
+      - {type: llm-rubric, value: "Points out that FR and DE orders over 100 still pay 9.99 while other countries over 100 ship free, treats it as a possible bug reported separately, keeps the equivalent rewrite returning 9.99 for FR 150, and proves equivalence on the listed rows."}
+  - name: negative-asks-for-different-results
+    vars:
+      app: Excel 2016
+      formula: '=IF(D2<1000,D2*0.02,IF(D2<5000,D2*0.03,D2*0.05))'
+      context: "Simplify it, and also make it so the rate only applies to the amount above each threshold. Use LET."
+    assert:
+      - {type: llm-rubric, value: "Explains that LET is not available in Excel 2016 and gives an alternative, and treats the progressive-rate request as a change in results, delivered as a separate labelled version rather than presented as a simplification of the same formula."}

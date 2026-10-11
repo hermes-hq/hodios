@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a Google Sheets QUERY formula for this: {{goal}}. My data: {{sheet_layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cell-driven-date-filter
+    vars:
+      goal: "Total amount per region for orders on or after the date in H1, biggest first, with a header called Revenue."
+      sheet_layout: "Sheet 'Orders', headers in row 1, data A2 down and growing. A = Order date (real dates), B = Region (text), C = Status, D = Amount (numbers). H1 holds a start date."
+    assert:
+      - {type: contains, value: "## Formula"}
+      - {type: icontains, value: "yyyy-mm-dd"}
+      - {type: llm-rubric, value: "Builds a QUERY on an open-ended range like Orders!A1:D with header 1, filters with a date literal built from TEXT(H1,\"yyyy-mm-dd\"), groups by B with sum(D), orders by sum(D) desc, labels sum(D) as 'Revenue', excludes blank rows, and walks at least one sample through."}
+  - name: edge-mixed-type-ids-and-month
+    vars:
+      goal: "Count orders per customer ID per month of 2026."
+      sheet_layout: "Sheet 'Data', A = Customer ID (mostly numbers like 10422 but some like 'C-881'), B = Order date, C = Amount. Header row 1."
+      broken_formula: "=QUERY(Data!A:C, \"select A, month(B), count(C) where year(B)=2026 group by A, month(B)\", 1) shows blank customer IDs for some rows and month numbers that look one too low."
+    assert:
+      - {type: llm-rubric, value: "Explains that the mixed numeric and text IDs make QUERY drop the minority type as blanks and fixes it by converting column A to text (for example a TO_TEXT array with Col references or cleaning the column), and explains that month() is zero-based and adjusts it with month(B)+1 or a label note."}
+  - name: negative-excel-user
+    vars:
+      goal: "I use Excel 2019 on Windows. Give me a QUERY formula to sum sales by product."
+      sheet_layout: "Sheet1, A = Product, B = Sales, header row 1."
+    assert:
+      - {type: llm-rubric, value: "States clearly that QUERY does not exist in Excel and does not present a QUERY formula as working in Excel 2019; offers an Excel alternative such as a pivot table or SUMIFS against a list of products, noting that UNIQUE and GROUPBY need newer Excel."}

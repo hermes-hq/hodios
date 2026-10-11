@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My CSV import looks wrong: {{symptoms}}. I opened it like this: {{how_opened}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-zeros-ids-accents
+    vars:
+      symptoms: "Postcodes like 01234 show as 1234. Card reference 4000123412341234 shows 4.00012E+15 and when I format as number it ends in 1230. Names like José show as JosÃ©."
+      how_opened: "Double-clicked the file, Excel 365 on Windows, UK region. I already saved it."
+      file_sample: |
+        ref,name,postcode,joined
+        4000123412341234,José Silva,01234,03/04/2026
+    assert:
+      - {type: contains, value: "## Can the damaged file be repaired"}
+      - {type: icontains, value: "65001"}
+      - {type: llm-rubric, value: "Explains the 15-digit precision limit and that the saved values cannot be recovered, so the original CSV must be re-imported; gives Data > From Text/CSV steps with UTF-8 file origin and the ref and postcode columns set to Text; explains the UTF-8 versus Windows-1252 accent problem; and includes checks such as comparing row counts and long IDs."}
+  - name: edge-half-swapped-dates-sheets
+    vars:
+      symptoms: "Dates from a US system: 03/04/2026 shows as 3 April but 03/25/2026 stays as text on the left."
+      how_opened: "Google Sheets, File > Import, spreadsheet locale United Kingdom."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the file is month/day order read with a day/month locale, so dates with day 12 or under were swapped and the rest stayed text, and fixes it by setting the spreadsheet locale to United States (or turning off conversion and parsing with DATE) before re-importing, noting already-converted dates are swapped."}
+  - name: negative-recover-lost-digits
+    vars:
+      symptoms: "I only have the xlsx now; the original CSV is deleted. The 16-digit account numbers end in 0. Give me a formula to get the real last digit back."
+      how_opened: "Excel 365, double-clicked and saved as xlsx."
+    assert:
+      - {type: llm-rubric, value: "States plainly that the 16th digit was lost when Excel stored the numbers and no formula can recover it, and suggests getting a fresh export from the source system and importing it with the column as Text."}

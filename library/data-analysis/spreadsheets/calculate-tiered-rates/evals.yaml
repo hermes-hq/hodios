@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a {{app}} formula for these tiers: {{tiers}}. {{how_it_applies}}. Layout: {{sheet_layout}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-progressive-fee
+    vars:
+      app: Excel 365
+      tiers: "0 to 10,000: 5%. Over 10,000 up to 50,000: 3%. Over 50,000: 1%."
+      how_it_applies: "Each rate applies only to the part of the amount inside its band."
+      sheet_layout: "Amounts in B2:B500, fee in C2 filled down. Tier table can go on a sheet called Rates."
+    assert:
+      - {type: contains, value: "## Boundary tests"}
+      - {type: llm-rubric, value: "Uses a progressive method with a tier table on the Rates sheet including a cumulative-fee column (for example 0, 500, 1,700), gives a formula using an approximate lookup or a SUMPRODUCT of band slices, and tests amounts like 10,000 (fee 500), 10,001, 50,000 (fee 1,700) and 60,000 (fee 1,800) with worked calculations."}
+  - name: edge-whole-band-cliff
+    vars:
+      app: Google Sheets
+      tiers: "1-99 units: 4.00 each. 100-499: 3.50 each. 500+: 3.00 each."
+      how_it_applies: "The whole order gets the unit price of the tier it reaches."
+      sheet_layout: "Quantity in D2:D, total in E2."
+    assert:
+      - {type: llm-rubric, value: "Uses a whole-band lookup on sorted lower bounds (1, 100, 500), tests 99, 100, 499 and 500, and points out the cliff that 99 units cost 396 while 100 cost 350, and that 499 cost more than 500."}
+  - name: negative-asks-for-tax-rates
+    vars:
+      app: Excel 365
+      tiers: "Use this year's income tax bands for my country."
+      how_it_applies: "Progressive like normal income tax."
+      sheet_layout: "Salary in B2, tax in C2."
+    assert:
+      - {type: llm-rubric, value: "Does not invent tax bands or rates; asks for the country and for the user to paste the official current bands, may build the progressive structure with placeholder rows clearly marked to fill in, and notes the result is an estimate rather than tax advice."}

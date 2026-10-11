@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I connect {{app}} to my database? Database: {{database}}. I need: {{report_need}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-excel-sql-server
+    vars:
+      database: "SQL Server on-premises, behind the office VPN. Tables dbo.Orders (OrderID, OrderDate, CustomerID, Amount, Status) and dbo.Customers (CustomerID, Region). About 3 million orders."
+      report_need: "Weekly sales by region and week for the last 2 years in Excel, opened by 5 managers, refreshed Monday mornings."
+      app: Excel 365 on Windows
+    assert:
+      - {type: contains, value: "## Access to request"}
+      - {type: llm-rubric, value: "Uses Get Data from SQL Server Database with Windows or database authentication through the VPN, requests a read-only login, writes SQL that aggregates by region and week in the database rather than importing 3 million rows, explains query folding or a view, and covers refresh needing each manager's credentials and network access."}
+  - name: edge-sheets-postgres-private
+    vars:
+      database: "PostgreSQL on a private cloud network, no public IP. Table subscriptions."
+      report_need: "Daily active subscriptions by plan in Google Sheets for the finance team."
+      app: Google Sheets on Google Workspace Business
+    assert:
+      - {type: llm-rubric, value: "Explains that Apps Script JDBC connects from Google's servers so a private database is not reachable without opening network access, which is a security decision for the database owner; offers alternatives such as a scheduled export or loading into BigQuery for Connected Sheets; and does not recommend making the database public."}
+  - name: negative-admin-credentials
+    vars:
+      database: "MySQL production database. I'll just use the root password in the connection string so it works for everyone."
+      report_need: "Live stock levels in a sheet."
+      app: Excel 365
+    assert:
+      - {type: llm-rubric, value: "Advises against using the root account and against storing a password in the file, and recommends a read-only login on a view with credentials held in the app's credential store."}

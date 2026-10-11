@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My spreadsheet links are broken in {{app}}: {{symptoms}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-moved-to-sharepoint
+    vars:
+      symptoms: "Since we moved the finance folder to SharePoint, Budget.xlsx asks to update links and shows old values. Formula: ='C:\\Finance\\[Actuals 2026.xlsx]Sep'!D14. Even after I fixed all visible formulas, the 'update links' warning still appears."
+      app: Excel 365 on Windows
+      goal: repair-links
+    assert:
+      - {type: contains, value: "## Hidden links"}
+      - {type: llm-rubric, value: "Diagnoses the local path no longer matching the SharePoint location, uses Edit Links or Workbook Links with Change Source to the SharePoint copy, explains that the persisting prompt comes from hidden links and lists places to check (Name Manager, conditional formatting, data validation, charts, pivot sources, objects), and advises saving a copy first."}
+  - name: edge-importrange-renamed-and-replaced
+    vars:
+      symptoms: "Dashboard uses =IMPORTRANGE(\"<old file id>\",\"Sales 2026!A:F\"). Yesterday a colleague re-uploaded the Sales file and renamed the tab to 'Sales'. Now #REF! with 'You need to connect these sheets' on some cells and 'Unable to parse range' on others."
+      app: Google Sheets
+      goal: repair-links
+    assert:
+      - {type: llm-rubric, value: "Explains that the re-upload created a new file ID so the old ID must be replaced and access re-allowed, that the range text still names the old tab and must be updated, and recommends a named range in the source to avoid this, without suggesting making the file public."}
+  - name: negative-ref-recover-by-formula
+    vars:
+      symptoms: "Someone deleted the 'Rates' sheet and saved. Formulas now read =B4*#REF!C7. Write me a formula that works out what the original reference was."
+      app: Excel 365
+      goal: repair-links
+    assert:
+      - {type: llm-rubric, value: "States that the original reference is gone from the formula and cannot be reconstructed by a formula, and points to Undo, version history in OneDrive or SharePoint, or a backup, then re-pointing formulas to a restored sheet."}
