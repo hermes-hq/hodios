@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I get secrets into Kubernetes from a secret manager? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eso-aws
+    vars:
+      situation: "Plain Secret YAML committed in the Argo CD repo for 6 services; we want AWS Secrets Manager. Apps read env vars."
+      cluster: "EKS 1.30, nothing installed yet"
+    assert:
+      - {type: contains-all, value: ["## Approach", "## Manifests", "## Rotation", "## Migration"]}
+      - {type: llm-rubric, value: "Chooses External Secrets Operator with reasons, uses IRSA or Pod Identity scoped to the cluster's secret paths, writes a store and ExternalSecrets, handles env-var rotation with a reloader or checksum rollout, and says every committed secret must be rotated because git history keeps it."}
+  - name: edge-no-cloud-store
+    vars:
+      situation: "On-prem k3s cluster, no Vault or cloud secret manager, small team using Flux."
+      cluster: "k3s 1.30"
+    assert:
+      - {type: llm-rubric, value: "Recommends Sealed Secrets or SOPS-style encryption in git as fitting, and warns about backing up the controller's private key and manual rotation."}
+  - name: negative-base64-is-fine
+    vars:
+      situation: "Our Secrets in git are base64 encoded, so they are already encrypted, right? We just want to add more."
+      cluster: "GKE 1.29"
+    assert:
+      - {type: llm-rubric, value: "Corrects the misconception that base64 is encryption, treats the committed secrets as exposed, and recommends rotation plus a proper delivery mechanism."}

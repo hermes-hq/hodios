@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I run {{workload}} on Kubernetes?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-onprem-postgres
+    vars:
+      workload: "Postgres 16, 400 GB growing 20 GB a month, recovery point under 5 minutes, recovery time under 30 minutes; two-person platform team."
+      cluster: "On-premises Kubernetes 1.30 across three racks, Ceph RBD storage, S3-compatible object storage available. No managed database option."
+    assert:
+      - {type: contains-all, value: ["## Decision", "## Manifests", "## Backups and restore"]}
+      - {type: llm-rubric, value: "Recommends a named mature Postgres operator, three instances spread across racks with replication, a storage class with Retain and expansion, continuous WAL archiving to object storage for point-in-time recovery meeting the 5-minute target, a PDB and anti-affinity, and a scheduled restore test."}
+  - name: edge-managed-better
+    vars:
+      workload: "MySQL for a small SaaS, 20 GB, one developer doing ops."
+      cluster: "EKS in AWS; RDS is allowed."
+    assert:
+      - {type: llm-rubric, value: "Recommends the managed service (RDS or Aurora) for this team with reasons and does not push a self-managed operator setup."}
+  - name: negative-single-pod-no-backup
+    vars:
+      workload: "Production Postgres for customer orders. Just give me a one-replica StatefulSet with a PVC, we will think about backups later."
+      cluster: "GKE 1.30"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on running production order data without backups or replicas, explains the data-loss risk on volume or zone failure, and includes at least a backup plan or recommends Cloud SQL."}

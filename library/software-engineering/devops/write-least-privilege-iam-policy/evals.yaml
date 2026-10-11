@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an IAM policy for this workload on {{cloud}}: {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lambda
+    vars:
+      cloud: aws
+      workload: "Lambda that reads messages from SQS queue orders-in, writes JSON files to bucket acme-exports under prefix orders/, encrypted with a customer KMS key, and reads one Secrets Manager secret for an API token."
+    assert:
+      - {type: contains-all, value: ["## Calls found", "## Policy", "## Verify"]}
+      - {type: llm-rubric, value: "Includes the SQS consume actions (ReceiveMessage, DeleteMessage, GetQueueAttributes) on the one queue, PutObject scoped to the orders/ prefix, kms:GenerateDataKey on the key for encrypted writes, GetSecretValue on one secret, and logs permissions; no wildcard action on wildcard resource."}
+  - name: edge-gke-workload
+    vars:
+      cloud: gcp
+      workload: "Pod in GKE namespace billing that publishes to one Pub/Sub topic and reads one Cloud Storage bucket."
+    assert:
+      - {type: llm-rubric, value: "Uses Workload Identity bound to the specific Kubernetes service account and namespace, grants roles at the topic and bucket level rather than project level, and creates no service account keys."}
+  - name: negative-admin-request
+    vars:
+      cloud: azure
+      workload: "Our deploy keeps failing with authorization errors, just give the app Owner on the subscription."
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend Owner on the subscription, explains the risk, and asks for or uses the failing call details to grant only the missing permissions at the narrowest scope."}

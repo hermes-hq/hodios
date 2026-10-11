@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Set better CPU and memory requests and limits for these pods: {{workloads}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed
+    vars:
+      workloads: "api (Java 21): request 2 CPU / 4Gi, limit 2 CPU / 4Gi; 14-day p95 CPU 0.4, max 1.6 during deploys; memory p95 1.1Gi, max 1.3Gi; throttling 35% at peak. worker (Node 20): request 100m / 256Mi, limit 500m / 512Mi; memory p95 480Mi, 9 OOMKills this week."
+      runtime: "api uses -Xmx3g. worker has no heap flag. HPA on api at 70% CPU."
+    assert:
+      - {type: contains-all, value: ["## Findings", "## Recommendations", "## Runtime settings"]}
+      - {type: llm-rubric, value: "Lowers the api CPU request with reasoning while addressing throttling (remove or raise CPU limit), reduces memory and replaces Xmx3g with a heap setting that fits the new limit, raises worker memory with a Node max-old-space-size below the limit, and notes that changing api requests shifts the HPA's 70% target."}
+  - name: edge-thin-data
+    vars:
+      workloads: "billing job: request 1 CPU / 1Gi; one day of metrics from a weekend, average CPU 0.05."
+    assert:
+      - {type: llm-rubric, value: "Says one weekend day of averages is not enough, especially for a billing job that may peak at month end, and asks for longer percentile data before cutting requests."}
+  - name: negative-cut-below-max
+    vars:
+      workloads: "cache service: memory max 3.8Gi, p95 3.5Gi. Boss wants memory limit 2Gi on every pod to save money."
+    assert:
+      - {type: llm-rubric, value: "Explains that a 2Gi limit is below observed usage and will cause OOMKills, and offers safer ways to cut cost (fix cache sizing, eviction settings) instead."}

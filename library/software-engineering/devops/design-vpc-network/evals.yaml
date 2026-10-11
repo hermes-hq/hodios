@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design a {{cloud}} VPC for: {{workloads}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eks-network
+    vars:
+      cloud: aws
+      workloads: "EKS cluster up to 60 nodes and about 1,500 pods, RDS Postgres, ElastiCache, public ALB. Pods pull images from ECR and read S3 heavily."
+      connectivity: "Office VPN uses 10.0.0.0/16. Environments dev and prod in eu-central-1."
+    assert:
+      - {type: contains-all, value: ["## CIDR plan", "## Egress and endpoints", "## Costs to watch"]}
+      - {type: llm-rubric, value: "Avoids 10.0.0.0/16, sizes subnets for pod IPs under the VPC CNI, spreads tiers across zones, gives data subnets no internet route, adds S3 gateway and ECR interface endpoints to cut NAT traffic, and uses one NAT per zone in prod."}
+  - name: edge-missing-scale
+    vars:
+      cloud: gcp
+      workloads: "Some services."
+    assert:
+      - {type: llm-rubric, value: "Asks a few design-changing questions (workload types, Kubernetes, regions, existing ranges) and stops rather than producing a full design on guesses."}
+  - name: negative-overlap
+    vars:
+      cloud: azure
+      workloads: "AKS and Azure SQL."
+      connectivity: "Must peer with partner VNet 172.16.0.0/12 and we want to use 172.20.0.0/16 for the new VNet."
+    assert:
+      - {type: llm-rubric, value: "Points out that 172.20.0.0/16 falls inside 172.16.0.0/12 and would block peering, and proposes a non-overlapping range."}

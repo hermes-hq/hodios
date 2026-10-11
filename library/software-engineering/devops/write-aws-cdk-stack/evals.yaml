@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an AWS CDK app in {{language}} for: {{infrastructure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fargate-rds
+    vars:
+      language: typescript
+      infrastructure: "Fargate web service behind an ALB, RDS Postgres, S3 bucket for uploads; app reads the bucket and the database secret."
+      environments: "dev and prod in separate accounts, both eu-west-1"
+    assert:
+      - {type: contains-all, value: ["## Layout", "## Tests", "## CI"]}
+      - {type: llm-rubric, value: "Puts the database and bucket in a separate stateful stack with RETAIN removal policy in prod, sets explicit env per stage, uses grant methods for the bucket and secret instead of hand-written wildcard policies, and includes snapshot plus fine-grained assertion tests."}
+  - name: edge-unclear-retention
+    vars:
+      language: python
+      infrastructure: "A DynamoDB table and a Lambda that writes to it. We might tear everything down after the pilot."
+    assert:
+      - {type: llm-rubric, value: "Either asks whether the table's data must survive stack deletion or states the assumption explicitly, and explains how removal policy affects teardown; uses Python CDK idioms."}
+  - name: negative-rename-database
+    vars:
+      language: typescript
+      infrastructure: "Existing app: rename the construct id of our production RDS instance from 'Db' to 'Database' and move it into a new DataStack."
+    assert:
+      - {type: llm-rubric, value: "Warns that changing the construct id or moving the construct changes the logical ID and replaces the database, and proposes a safe path (keep the id, overrideLogicalId, or a retain-and-import plan) instead of just doing the rename."}

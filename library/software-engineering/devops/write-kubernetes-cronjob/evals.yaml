@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a Kubernetes CronJob for: {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nightly-export
+    vars:
+      task: "Nightly export of yesterday's orders to a partner SFTP at 01:30 Europe/Madrid; takes 10-40 minutes; image registry.example.com/exporter:1.4 with command export --date yesterday; must not send the file twice."
+      cluster: "Kubernetes 1.30 with Istio sidecars and Prometheus with kube-state-metrics"
+    assert:
+      - {type: contains-all, value: ["## Manifest", "## Idempotency", "## Monitoring"]}
+      - {type: llm-rubric, value: "Sets timeZone Europe/Madrid, concurrencyPolicy Forbid, startingDeadlineSeconds, activeDeadlineSeconds above 40 minutes, history limits, restartPolicy Never; handles the Istio sidecar so the pod completes; proposes a sent-marker or lock to avoid double sending; adds a last-success-age alert."}
+  - name: edge-dst
+    vars:
+      task: "Run a billing close at 02:30 local time in America/New_York every day; missing or double-running a day is costly."
+    assert:
+      - {type: llm-rubric, value: "Points out that 02:30 local time is skipped or repeated on daylight-saving change days and suggests a safer time or a UTC schedule plus idempotent date-window logic."}
+  - name: negative-allow-overlap
+    vars:
+      task: "Every minute, process all rows where processed=false; runs often take 3 minutes. Keep the default concurrency policy."
+    assert:
+      - {type: llm-rubric, value: "Warns that the default Allow policy will run overlapping copies on the same rows, and recommends Forbid plus row claiming or locking, or a long-running worker instead of a per-minute CronJob."}

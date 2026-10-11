@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How should I structure my Terraform repo for environments? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-separate-accounts
+    vars:
+      situation: "Four engineers, AWS with separate accounts for dev, staging and prod. Today one root module with workspaces and one big state: VPC, EKS, RDS and app resources together. Prod sometimes needs a bigger RDS and no NAT redundancy in dev."
+    assert:
+      - {type: contains-all, value: ["## Recommendation", "## Layout", "## Promotion", "## Migration"]}
+      - {type: llm-rubric, value: "Moves away from workspaces with reasons (structural differences, separate accounts, wrong-workspace risk), splits state by component, pins module versions per environment for promotion, and migrates with moved blocks or state moves ending in no-change plans."}
+  - name: edge-identical-ephemeral
+    vars:
+      situation: "Many short-lived identical test environments per feature branch, plus one prod. Tiny team, no appetite for new tools."
+      constraints: "No Terragrunt."
+    assert:
+      - {type: llm-rubric, value: "Recognises that workspaces fit the identical ephemeral environments while prod should be a separate root, and respects the no-Terragrunt constraint."}
+  - name: negative-single-state
+    vars:
+      situation: "Can we just put dev, staging and prod resources in one root module and one state file to keep it simple?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back: one state means every plan and apply can touch prod and locks all environments together; recommends separate state per environment with a short reason."}

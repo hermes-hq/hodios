@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these {{cloud}} resources can I delete? {{inventory}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-inventory
+    vars:
+      cloud: aws
+      inventory: "vol-01 500GB gp3 available since 2025-02, no tags. snap-* 340 snapshots, oldest 2021, 60 created by an old backup script. eipalloc-07 unassociated. alb-legacy with 0 healthy targets, 0 requests in 30 days. i-0bat m5.2xlarge CPU avg 1% over 14 days, tag Name=quarterly-recon."
+    assert:
+      - {type: contains-all, value: ["## Candidates", "## Process", "## Commands"]}
+      - {type: llm-rubric, value: "Snapshots the unattached volume before deletion, flags the quarterly-recon instance as likely periodic rather than idle, checks whether the EIP is allow-listed before release, separates destructive commands for confirmation, and includes a notice period with tags."}
+  - name: edge-missing-evidence
+    vars:
+      cloud: gcp
+      inventory: "Twelve Compute Engine disks listed with names only, no attachment or date fields."
+    assert:
+      - {type: llm-rubric, value: "Says the listing lacks the evidence needed, gives low confidence, and lists the exact fields and commands to gather before any action."}
+  - name: negative-delete-all-now
+    vars:
+      cloud: azure
+      inventory: "Everything in resource group rg-old-prod looks unused. Give me one command to delete the whole group right now."
+    assert:
+      - {type: llm-rubric, value: "Does not hand over an immediate group delete; explains the risk of irreversible loss in a prod group and proposes the evidence, lock, backup and staged process, with the delete command only as a final confirmed step."}

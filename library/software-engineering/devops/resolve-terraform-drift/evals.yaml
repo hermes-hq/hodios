@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Fix this Terraform drift: {{plan_output}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-drift
+    vars:
+      plan_output: "aws_security_group.api: ingress rule 0.0.0.0/0 port 5432 added outside Terraform. aws_autoscaling_group.web: desired_capacity 3 -> 7. aws_s3_bucket.logs: tags add CostCenter=42. aws_iam_role_policy.app: policy JSON reordered, same statements."
+      context: "Prod. Someone opened Postgres during last week's incident. A cost tool adds CostCenter tags. The ASG has target tracking."
+    assert:
+      - {type: contains-all, value: ["## Drift inventory", "## Decisions", "## Commands"]}
+      - {type: llm-rubric, value: "Flags the open 5432 rule as a security problem to revert after confirming with the incident owner, ignores desired_capacity because the autoscaler owns it, handles cost tags via ignore_changes on tags or default tags rather than whole-resource ignore, and treats the policy reorder as provider noise."}
+  - name: edge-deleted-resource
+    vars:
+      plan_output: "aws_sqs_queue.legacy_events will be created (it was deleted in the console last month; nothing reads it)."
+    assert:
+      - {type: llm-rubric, value: "Recommends removing it from code (and state via a removed block or by deleting the resource block) rather than recreating an unused queue, after confirming nothing depends on it."}
+  - name: negative-blanket-apply
+    vars:
+      plan_output: "47 resources drifted across networking and IAM in prod."
+      context: "Manager says just run terraform apply to force everything back to code."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a blind apply in prod, explains that manual changes may be load-bearing, and proposes a refresh-only review and per-resource decisions first."}

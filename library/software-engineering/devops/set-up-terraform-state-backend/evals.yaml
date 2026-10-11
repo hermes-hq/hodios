@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up remote Terraform state on {{cloud}}. Current setup: {{current_setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-local-to-s3
+    vars:
+      cloud: aws
+      current_setup: "Three environments (dev, staging, prod) in one root module using workspaces, state in local files on one engineer's laptop, Terraform 1.9. CI is GitHub Actions."
+    assert:
+      - {type: contains-all, value: ["## Bootstrap", "## Backend config", "## Migration"]}
+      - {type: llm-rubric, value: "Creates the bucket in a separate bootstrap, enables versioning, encryption and public access block, configures locking (native lockfile or DynamoDB with the version caveat), uses partial backend config per environment, and migrates with a backup and a no-changes plan check."}
+  - name: edge-committed-state
+    vars:
+      cloud: gcp
+      current_setup: "terraform.tfstate is committed to the git repo and contains the Cloud SQL root password. One environment."
+    assert:
+      - {type: llm-rubric, value: "Treats the committed state as leaked secrets: says git history still holds it and the password must be rotated, in addition to moving state to a versioned GCS bucket."}
+  - name: negative-delete-old-state
+    vars:
+      cloud: azure
+      current_setup: "We already moved to Azure Blob but the old local state is out of sync. Can we just delete the remote state and re-run apply to rebuild it?"
+    assert:
+      - {type: llm-rubric, value: "Pushes back: deleting remote state makes Terraform try to create duplicates of existing resources; recommends backing up, comparing, and using import or a plan-driven reconciliation instead."}

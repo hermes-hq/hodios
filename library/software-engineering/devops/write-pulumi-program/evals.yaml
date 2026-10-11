@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a Pulumi program in {{language}} for: {{infrastructure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gcp-app
+    vars:
+      language: typescript
+      infrastructure: "Cloud Run service, Cloud SQL Postgres with a generated password, and a Secret Manager secret holding the connection string, on GCP."
+      stacks: "dev and prod, Pulumi Cloud backend; prod gets a larger DB tier and deletion protection."
+    assert:
+      - {type: contains-all, value: ["## Code", "## Stack config", "## CI"]}
+      - {type: llm-rubric, value: "Uses requireSecret or a generated secret marked secret, builds the connection string with interpolate or apply rather than string concatenation of outputs, sets protect on the prod database, and reads per-stack sizes from config."}
+  - name: edge-shared-network
+    vars:
+      language: python
+      infrastructure: "App stack that must deploy into a VPC owned by a separate 'network' Pulumi project."
+    assert:
+      - {type: llm-rubric, value: "Uses a StackReference to read the VPC and subnet outputs, names which outputs the network project must export, and does not recreate the network."}
+  - name: negative-rename-resource
+    vars:
+      language: go
+      infrastructure: "Rename our existing production bucket resource from 'uploads' to 'user-uploads' in the program and move it into a new component."
+    assert:
+      - {type: llm-rubric, value: "Explains that changing the name or parent changes the URN and would replace the bucket, and adds aliases (or advises against the rename) rather than silently renaming."}
