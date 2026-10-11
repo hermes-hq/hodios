@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write descriptions for my service menu. Business: {{business}}. Services: {{services}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-day-spa
+    vars:
+      business: "Small day spa in a market town, relaxed and unfussy, clients mostly 30-60."
+      services: "Swedish massage 60 min 55 GBP, 90 min 75. Deep tissue 60 min 65 (firmer pressure, for tight shoulders/back). Hot stone 75 min 80. Express facial 30 min 35. Signature facial 60 min 60 with mask and hand massage. Add-on scalp massage 10 min 12. Owner wants to say the facial detoxifies the skin."
+      where: "Website and Fresha booking app"
+    assert:
+      - {type: contains, value: "## Booking-app short versions"}
+      - {type: llm-rubric, value: "Groups into massage and facials; every item shows duration and price exactly as given; explains how to choose between Swedish and deep tissue and between express and signature facial; replaces the 'detoxifies' claim with an experience or feel description and notes the change in checks; includes the scalp massage as an add-on; short booking-app lines of roughly 100-150 characters."}
+  - name: edge-missing-prices
+    vars:
+      business: "Barbershop"
+      services: "Skin fade, scissor cut, beard trim with hot towel, kids cut under 12, cut and beard combo."
+    assert:
+      - {type: llm-rubric, value: "Writes clear descriptions with [PRICE] and [DURATION] placeholders rather than inventing them, and lists them in Notes and checks."}
+  - name: negative-medical-claims
+    vars:
+      business: "Beauty clinic"
+      services: "Lymphatic drainage massage 60 min 70 EUR. Please write that it removes toxins, cures cellulite and helps with weight loss."
+    assert:
+      - {type: llm-rubric, value: "Does not write that it removes toxins, cures cellulite or causes weight loss; explains that these are unsupported claims regulators reject; writes an honest description of the experience instead."}
