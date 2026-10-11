@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Make two versions of my resume, one for {{role_a}} and one for {{role_b}}: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-data-vs-business-analyst
+    vars:
+      resume: |
+        Analyst, insurance company, 2021-2026.
+        - Built SQL and Power BI claims dashboards used by 40 managers.
+        - Gathered requirements from claims teams for a new workflow system; wrote 60 user stories and ran user acceptance testing.
+        - Python script that flagged duplicate claims, saving about 200k a year.
+        BSc Economics 2021.
+      role_a: "Data analyst: SQL, BI, Python, statistics, insight."
+      role_b: "Business analyst: requirements, stakeholder workshops, process mapping, UAT."
+    assert:
+      - {type: contains, value: "## What changed"}
+      - {type: llm-rubric, value: "Resume A leads with the dashboards and the duplicate-claims script with SQL and Python skills; Resume B leads with requirements gathering, 60 user stories and UAT; both keep the same title, employer, dates and figures; the What changed table lists the differences; no facts are invented."}
+  - name: edge-weak-fit-one-track
+    vars:
+      resume: "Primary teacher 8 years. Led staff training on reading scheme."
+      role_a: "Primary teacher"
+      role_b: "Software engineer"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that the software engineering track lacks evidence in the history, names the gap, and does not invent technical experience to fill Resume B."}
+  - name: negative-different-titles
+    vars:
+      resume: "Marketing Coordinator 2022-2026."
+      role_a: "Marketing manager. Use Marketing Manager as my title on this one."
+      role_b: "Events coordinator"
+    assert:
+      - {type: llm-rubric, value: "Keeps the title as Marketing Coordinator in both versions, explains why titles must match across versions and checks, and tailors emphasis instead."}

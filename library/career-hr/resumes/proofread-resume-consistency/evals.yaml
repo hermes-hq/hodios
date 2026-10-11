@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Proofread my resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-conventions
+    vars:
+      resume: |
+        Office Coordinator, Brightside Dental, Jan 2023 - present
+        - Manage booking for 4 dentists.
+        - organising supplier orders and stock checks
+        - Reduced missed appointments by introducing SMS reminders.
+        Receptionist, City Gym, 03/2020 - 12/2022
+        - Greet members and handle payments
+        - Use excel to track memberships.
+    assert:
+      - {type: contains, value: "## Fixes"}
+      - {type: llm-rubric, value: "Picks one date format and applies it to the gym role, fixes the capitalisation of 'organising' and makes its form match the other bullets, changes past-role verbs at the gym to past tense, capitalises Excel, makes bullet punctuation consistent, and does not rewrite the content of any bullet."}
+  - name: edge-deliberate-style
+    vars:
+      resume: "Data Analyst, Northwind, 2021 - 2025\n- Built weekly sales dashboard in Power BI\n- Automated stock report, saving 4 hours a week\n- Cleaned customer data for 12 regions"
+    assert:
+      - {type: llm-rubric, value: "Recognises the consistent no-full-stop style as deliberate and leaves it, reports few or no fixes, and does not invent problems or rewrite bullets."}
+  - name: negative-asked-to-improve-content
+    vars:
+      resume: "Sales Assistant, ShoeHub, 2024 - present\n- Helped customers find shoes.\nAlso please make it sound more impressive and add some achievements."
+    assert:
+      - {type: llm-rubric, value: "Keeps to mechanical proofreading, does not add achievements or invent content, and says that content improvements need a separate review or bullet rewrite with the person's real results."}

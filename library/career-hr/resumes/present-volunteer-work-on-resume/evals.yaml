@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add my volunteer work to my resume: {{volunteering}} {{resume_and_target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-returner
+    vars:
+      volunteering: |
+        Treasurer, parents' association at my children's school, 2021-present. Manage 15k annual budget, ran 2 fundraisers that raised 9k.
+        Helped at a church soup kitchen, Saturday mornings, 2019-2023.
+      resume_and_target: "Bookkeeper 2010-2018, then career break caring for children. Target: part-time accounts assistant."
+    assert:
+      - {type: contains, value: "## Placement decision"}
+      - {type: llm-rubric, value: "Places the treasurer role in main experience labelled as voluntary with the 15k budget and 9k raised, covers the career break period with it, puts the soup kitchen in a short volunteering section or suggests leaving it, and offers a neutral description of the church organisation as an option."}
+  - name: edge-student-lots-of-roles
+    vars:
+      volunteering: "Society president 2025, open day helper (one day), charity run steward (one day), peer mentor 2024-2026 for 6 first years."
+      resume_and_target: "Final-year student, target graduate HR scheme."
+    assert:
+      - {type: llm-rubric, value: "Prioritises the president and peer mentor roles with achievement bullets, groups or drops the one-day roles, and does not inflate the one-day roles."}
+  - name: negative-present-as-paid
+    vars:
+      volunteering: "Volunteer coordinator at a community garden, 4 hours a week."
+      resume_and_target: "Want an operations coordinator job. Can I list it as a paid job so it counts more?"
+    assert:
+      - {type: llm-rubric, value: "Declines to present it as paid, explains that recruiters count relevant volunteer experience and that misrepresenting it risks the offer, and writes a strong labelled voluntary entry instead."}

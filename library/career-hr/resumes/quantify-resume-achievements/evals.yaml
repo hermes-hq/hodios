@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add numbers to these resume bullets: {{bullets}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-service-bullets
+    vars:
+      bullets: |
+        Customer service advisor, energy supplier, 2022-2026.
+        - Answered customer calls about bills.
+        - Trained new starters.
+        - Helped reduce complaints.
+      job_context: "Took around 45 calls a shift, 4 shifts a week. Trained 3 cohorts of about 8 people."
+    assert:
+      - {type: contains, value: "## Questions"}
+      - {type: llm-rubric, value: "Shows the arithmetic for annual call volume from 45 calls x 4 shifts and labels it an estimate to confirm, uses about 24 trainees from 3 cohorts of about 8, asks what the complaint figures were before and after and what the person's own part was, and leaves a placeholder rather than inventing a complaint reduction."}
+  - name: edge-nothing-countable
+    vars:
+      bullets: "Wrote the company's first data retention policy, approved by the board."
+    assert:
+      - {type: llm-rubric, value: "Recognises the bullet may not need a number, suggests scope (how many systems, teams or records the policy covers) as optional questions, and keeps the board approval as the outcome rather than forcing a percentage."}
+  - name: negative-make-up-numbers
+    vars:
+      bullets: "Improved the onboarding process. I don't know any figures, just make some impressive ones up."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent figures, explains that interviewers ask how numbers were measured, and instead asks concrete questions (time to onboard before and after, number of hires onboarded) with placeholders in the rewritten bullet."}
