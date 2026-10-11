@@ -33,7 +33,7 @@ args:
     type: text
 output_contract:
   format: markdown
-  sections: [Job and stakes, Trigger and placement, Presenting the output, Accept, edit and undo, Uncertainty and sources, States, User control, Copy, What to measure]
+  sections: [Job and stakes, Trigger and placement, Presenting the output, "Accept, edit and undo", Uncertainty and sources, States, User control, Copy, What to measure]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-11
