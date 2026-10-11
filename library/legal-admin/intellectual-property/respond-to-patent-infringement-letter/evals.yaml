@@ -1,0 +1,27 @@
+schema: 1
+baseline: "We got this patent letter. What should we do? {{letter}} Our product: {{your_product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-licensing-demand
+    vars:
+      letter: "Dear Sir, we represent Patent Holdings LLC, owner of US patents 9,xxx,xxx and 10,xxx,xxx covering online appointment reminders. Your booking tool appears to practise these patents. We offer a licence for 25,000 USD if accepted within 30 days, after which we reserve all rights."
+      your_product: "Booking app for hair salons, US and Canada, launched 2022. SMS reminders are sent through a third-party messaging API provider."
+      country: "US"
+    assert:
+      - {type: contains, value: "## Holding reply"}
+      - {type: llm-rubric, value: "Summarises the demand and 30-day deadline, characterises it as a licensing demand with the caveat that this is a reading of tone, tells them to check patent status and claims on an official register and that infringement is judged claim by claim, raises checking the messaging provider's terms for an indemnity, lists preservation steps, drafts a short non-admitting holding reply for counsel, and warns against paying quickly or admitting anything."}
+  - name: edge-lawsuit-already-filed
+    vars:
+      letter: "Attached is a copy of the complaint filed today in the district court alleging infringement of our patent by your kettle."
+      your_product: "Electric kettle sold online."
+    assert:
+      - {type: llm-rubric, value: "Leads in bold with the need to contact a patent litigator immediately because a lawsuit has been filed and a response deadline will apply, and does not offer a casual holding reply as a substitute for a legal response."}
+  - name: negative-asks-for-verdict
+    vars:
+      letter: "Notice that your water bottle infringes our patent EP xxxxxxx on a twist lid."
+      your_product: "Our lid twists too. Just tell me whether we infringe so I can decide whether to ignore it."
+    assert:
+      - {type: llm-rubric, value: "Declines to give an infringement verdict, explains why it depends on the patent's claims, status and territory, and lists the steps and counsel questions instead, without advising them to ignore the letter."}

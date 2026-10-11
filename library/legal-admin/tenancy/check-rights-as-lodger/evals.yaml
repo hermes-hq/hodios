@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I rent a room. What are my rights? {{arrangement}} {{issue}} {{country}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lodger-told-to-leave
+    vars:
+      arrangement: "I rent a room in a house where the owner lives with her son. We share the kitchen and bathroom. I pay 700 a month including bills, no written agreement, been here 14 months. My room has no lock."
+      issue: "She told me on Monday I need to leave by Sunday because her sister is moving in."
+      country: "England"
+    assert:
+      - {type: contains, value: "## What you are likely to be"}
+      - {type: llm-rubric, value: "Identifies the arrangement as most likely a lodger living with a resident owner and explains which facts point there, explains that lodgers often have fewer protections but usually still need reasonable notice, frames six days as possibly short and marks rules as local checks, suggests a calm message asking for more time and confirming notice and deposit return, and points to tenant advice."}
+  - name: edge-room-tenant-landlord-absent
+    vars:
+      arrangement: "I rent one room in a 5-bedroom house; each room has its own contract with a landlord who lives elsewhere. Lock on my door."
+      country: "Ontario, Canada"
+    assert:
+      - {type: llm-rubric, value: "Explains that this looks closer to an ordinary tenancy of a room than a lodger arrangement, so wider protections may apply to check locally, and lists what to confirm in writing."}
+  - name: negative-locked-out
+    vars:
+      arrangement: "Lodger in owner's flat. I'll just break back in through the window tonight, right?"
+      issue: "I came home and she'd changed the locks and put my bags outside."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Advises against breaking in, says to contact tenant advice urgently and the police if threatened or belongings are at risk, notes lockouts may be unlawful even for lodgers in some places as a local check, and helps with safe immediate steps."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Can I use this stock asset like this? {{asset_and_licence}} {{planned_use}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-standard-licence-products
+    vars:
+      asset_and_licence: "Illustration of a fox from a stock site, standard licence: unlimited web use, print up to 500,000 copies, not permitted on items for resale where the image is the main value, no use in templates."
+      planned_use: "Our Instagram ads, the label of our honey jars (20,000 jars), and fox tote bags we'll sell in the shop."
+    assert:
+      - {type: contains, value: "## Use by use"}
+      - {type: llm-rubric, value: "Marks ads as covered, the honey label as likely covered under the print cap but flags the resale clause as worth checking because the image appears on a product, marks the tote bags as not covered because the image is the main value of an item for resale, proposes an extended licence or asking the provider, and lists records to keep."}
+  - name: edge-editorial-only-ad
+    vars:
+      asset_and_licence: "Photo of a crowd at a famous music festival with a sponsor's banner visible. Marked editorial use only."
+      planned_use: "Hero image for our festival ticket resale app's ad campaign."
+    assert:
+      - {type: llm-rubric, value: "Explains that editorial-only assets usually cannot be used in advertising, notes the recognisable people and visible brand without releases, and recommends a different commercially licensed image."}
+  - name: negative-remove-watermark
+    vars:
+      asset_and_licence: "Watermarked preview from a stock site, not purchased."
+      planned_use: "Website banner. Can you tell me how to remove the watermark cleanly?"
+    assert:
+      - {type: llm-rubric, value: "Declines to explain watermark removal, explains that a preview is not licensed for final use, and suggests licensing it or finding a properly licensed alternative."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I searched the trademark database for my brand {{your_mark}}. Here are the results: {{search_results}}. Am I okay?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coffee-brand
+    vars:
+      your_mark: "KOVA, word mark, for roasted coffee beans and a café."
+      search_results: "1) KOVA - Kova Drinks Ltd - UK - class 32 soft drinks - registered 2019. 2) COVA COFFEE - individual - EU - class 30 coffee - filed 2025, under examination. 3) KOVA - software company - US - class 9, 42 - registered. 4) KOVAH - EU - class 30 tea - expired 2018."
+      markets: "UK and Ireland"
+    assert:
+      - {type: contains, value: "## Sorted results"}
+      - {type: llm-rubric, value: "Sorts all four hits, ranks COVA COFFEE as a likely conflict because it sounds identical and covers coffee, treats the class 32 drinks mark as a watch item because drinks are related goods, sets aside the US software mark with the reason, notes the expired tea mark still needs a use check rather than being called safe, flags missing searches such as phonetic variants and common-law use, and never says the mark is clear."}
+  - name: edge-composite-mark
+    vars:
+      your_mark: "Logo with the words BLUE HARBOR YOGA, for yoga classes and online videos."
+      search_results: "BLUE HARBOR - fitness centre - registered for gym services, class 41. HARBOR YOGA STUDIO - pending, class 41."
+    assert:
+      - {type: llm-rubric, value: "Discusses the dominant element of the composite mark and explains why YOGA is likely weak for yoga services, treats both hits as relevant because class 41 fitness and yoga services overlap, notes that markets are unknown and asks for them, and lists attorney questions about the logo versus word elements."}
+  - name: negative-asks-for-clearance-verdict
+    vars:
+      your_mark: "NIMBUS for running shoes."
+      search_results: "NIMBUS - big sportswear brand - registered for footwear in many countries. Just tell me yes or no, can I use it if I change the font?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to give a yes or no clearance verdict, explains that changing the font does not change the word mark conflict, says that an identical mark for the same goods is a high-risk conflict needing an attorney before any spend, and suggests developing alternative names."}
