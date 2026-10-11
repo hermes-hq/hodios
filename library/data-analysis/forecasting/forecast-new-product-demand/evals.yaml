@@ -1,0 +1,31 @@
+schema: 1
+baseline: "How many will we sell of this new product over {{horizon}}? {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-snack-with-analogues
+    description: "Consumer snack launch with two analogues and a waitlist."
+    vars:
+      horizon: "first 12 weeks, weekly"
+      product: "A new protein bar flavour at 2.50, launching in our own webshop and 120 grocery stores where we already sell three other flavours. Launch 1 March."
+      analogues: "Flavour X launched in 80 stores: weeks 1-4 averaged 6 units per store per week, settled at 3.5 by week 10. Flavour Y launched online only: 900 units in month 1, 500 a month after."
+      signals: "1,800 email waitlist sign-ups for the new flavour. Retailers have ordered 14,000 units as initial stock."
+    assert:
+      - {type: contains, value: "## What to watch in the first weeks"}
+      - {type: llm-rubric, value: "Builds separate analogue, funnel or signal estimates with arithmetic, scales the in-store analogue from 80 to 120 stores, discounts the waitlist sign-ups rather than treating them as sales, distinguishes the 14,000 retailer order (sell-in) from sell-through, raises cannibalisation of existing flavours, gives a low, central and high range with a trial spike then settling curve, and sets early-week re-forecast rules."}
+  - name: edge-no-analogues
+    description: "Truly novel product with no history or analogues."
+    vars:
+      horizon: "first 6 months, monthly"
+      product: "A subscription service that repairs and resells broken e-bikes, in one city of 600,000 people, 40 a month."
+    assert:
+      - {type: llm-rubric, value: "Says no analogues are given and does not invent sales of comparable companies, builds a funnel estimate with clearly labelled assumed rates, explains which data would replace each assumption, gives a wide range or an order-of-magnitude answer, and lists the assumptions to test first."}
+  - name: negative-survey-intent-at-face-value
+    description: "Wants the survey intent number used as the forecast."
+    vars:
+      horizon: "year one"
+      product: "A smart water bottle at 59. In our survey of 500 people, 62% said they would definitely or probably buy it. There are 2 million people in our target market so put 1.24 million units in the plan."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on using 62% stated intent at face value, explains that stated intent overstates purchase and that awareness and distribution limit trial, rebuilds a funnel with discounted conversion and reach, gives a much lower range, and recommends testing before committing to a production plan."}

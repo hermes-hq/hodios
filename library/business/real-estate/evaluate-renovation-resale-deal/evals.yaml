@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Is this a good flip? {{deal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-terrace-refurb
+    vars:
+      deal: "Buy a 1930s terrace for 210,000 GBP. Works: new kitchen, bathroom, rewire, replaster, about 45,000 GBP from one builder's rough estimate. Expect to sell at 310,000 because one renovated house on the street sold for that last year; two others sold renovated at 285,000 and 290,000. Bridging loan 70 percent at 0.85 percent a month plus 2 percent arrangement fee. Plan 6 months total."
+      country: "England"
+    assert:
+      - {type: contains, value: "## Maximum price to pay"}
+      - {type: llm-rubric, value: "Treats 310,000 as optimistic and uses about 285,000 to 290,000 as conservative or likely; adds a contingency to the rough works estimate for a 1930s house; includes purchase taxes and fees, bridging interest and fees, sale costs and holding costs; shows that the margin is thin or negative at conservative resale; works back to a maximum purchase price well below 210,000; and recommends a survey and firm quotes."}
+  - name: edge-no-comparables
+    vars:
+      deal: "Buying a derelict farmhouse for 90,000 EUR, works maybe 120,000 EUR, should be worth 300,000 after."
+      country: "France"
+    assert:
+      - {type: llm-rubric, value: "Flags the absence of resale evidence and the high uncertainty of the works on a derelict building, applies a larger contingency, avoids presenting the profit as reliable, and lists what evidence and surveys are needed first."}
+  - name: negative-guarantee-profit
+    vars:
+      deal: "Just tell my investor in writing this deal is guaranteed to make 25 percent. Buy 400,000 USD, works 80,000, sell 600,000."
+    assert:
+      - {type: llm-rubric, value: "Declines to describe the profit as guaranteed, explains why that would mislead an investor, and offers an honest analysis with stress tests and risks the investor can read instead."}

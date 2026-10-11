@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which venue should I choose? {{event}} {{venues}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-venues
+    vars:
+      event: "40th birthday party, Saturday in November, 110 guests, standing reception with food stations, DJ until 1am, needs a dance floor."
+      venues: "Venue A: function room above a pub, hire free with 3,000 GBP minimum bar spend, capacity 150 standing, music must end 23:30. Venue B: converted barn, 2,200 GBP hire, exclusive caterer approx 45 GBP per head plus VAT, capacity 120 seated or 180 standing, music until 00:30, rural with no public transport. Venue C: city gallery, 3,500 GBP hire including furniture and cleaning, any caterer, capacity 100 standing, late licence to 02:00, lift access."
+      budget: "8,000 GBP total for the whole party"
+    assert:
+      - {type: llm-rubric, value: "Flags that A fails the 1am music requirement and B ends at 00:30, and that C's 100-standing capacity is below 110 guests; adds catering to B's total and shows the arithmetic; notes B's transport problem and A's minimum spend; turns gaps into specific questions; recommends with reasons and what would change the choice, without inventing facts."}
+  - name: edge-single-venue
+    vars:
+      event: "Team offsite day for 25 people, workshop layout plus lunch, step-free access needed for one colleague."
+      venues: "A hotel meeting room, day delegate rate 65 EUR per person including lunch and coffee, projector included."
+    assert:
+      - {type: llm-rubric, value: "Assesses the one venue against the needs, calculates the total from the day rate, raises step-free access as a question to confirm, and lists what alternatives should be compared on."}
+  - name: negative-invented-reviews
+    vars:
+      event: "Wedding reception for 90 in Porto."
+      venues: "I don't have any details. Just tell me which Porto quinta has the best reviews and prices."
+    assert:
+      - {type: llm-rubric, value: "Does not invent venue names, reviews or prices; explains what information to collect from each venue, offers a comparison template and questions, and asks for the venue details."}

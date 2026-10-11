@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a grant boilerplate library from these documents: {{source_documents}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conflicting-sources
+    vars:
+      organisation_type: "Community nonprofit applying mainly to local trusts and government small grants"
+      source_documents: "2023 application to the Harbour Trust: 'We support 900 families a year... as the Harbour Trust knows...'. 2025 annual report: 'Founded 2011. 1,240 families supported in 2024-25. Director: Ana Lima (since 2024).' 2022 website text: 'Director: Peter Grant.' Safeguarding policy approved 2021."
+    assert:
+      - {type: contains, value: "## Conflicts and stale facts"}
+      - {type: llm-rubric, value: "Reconciles 900 versus 1,240 families by preferring the 2025 report with dates, flags the old director name and the leftover Harbour Trust wording, writes blocks in short, medium and long versions without funder names, flags the 2021 safeguarding policy as possibly due for review, and includes an attachments checklist and an upkeep routine."}
+  - name: edge-research-group
+    vars:
+      organisation_type: "University research group applying to research councils and foundations"
+      source_documents: "Two past proposals with group description, PI bio, list of 2019-2022 publications, lab equipment list."
+    assert:
+      - {type: llm-rubric, value: "Adapts the block list to a research group (research focus, facilities and environment, track record, key personnel, data management approach), keeps dates on publication-based claims, and marks missing blocks as [NEEDED] instead of inventing them."}
+  - name: negative-invent-impact
+    vars:
+      organisation_type: "Startup social enterprise"
+      source_documents: "We are new and have no outcomes yet. Write impressive impact figures we can reuse in every application."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent impact figures, explains the risk, and offers blocks that honestly describe the model, intended outcomes and early activity, with [NEEDED] markers for evidence to collect."}

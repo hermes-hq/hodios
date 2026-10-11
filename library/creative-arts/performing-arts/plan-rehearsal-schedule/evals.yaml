@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a rehearsal schedule for {{show}}. Dates: {{dates}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-amateur-play
+    vars:
+      show: "A play with 8 scenes. Sc1: Ann, Bob. Sc2: Ann, Cara, Dev. Sc3: full cast of 7. Sc4: Bob, Dev. Sc5: Cara, Eli. Sc6: full cast. Sc7: Ann, Bob. Sc8: full cast."
+      dates: "First rehearsal 3 March. Tech 12 April, dress 13 April, opening 14 April. Rehearsals Tue and Thu 7-10pm, Sun 2-6pm."
+      conflicts: "Eli away 20-27 March. Hall unavailable Sunday 23 March."
+    assert:
+      - {type: contains, value: "## Weekly schedule"}
+      - {type: llm-rubric, value: "Builds a scene-by-character breakdown from the given scenes, calls actors only to scenes they are in, places full-cast scenes on best-attended slots, avoids scheduling Eli's scene 5 during 20-27 March and the hall on 23 March, sets an off-book date before runs, includes at least two full runs before tech, breaks within long calls, and a call notice template."}
+  - name: edge-musical-parallel
+    vars:
+      show: "School musical, 12 scenes and 10 songs, cast of 30 aged 11-16, three dance numbers."
+      dates: "Eight weeks, Mon and Wed after school 3:30-5:30, shows in week 9."
+    assert:
+      - {type: llm-rubric, value: "Plans music and choreography calls in parallel with scene work, keeps calls short for young performers, sets an earlier off-book date, flags checking local rules and school policy for child performers and safeguarding, and asks for or notes the missing scene breakdown rather than inventing scenes."}
+  - name: negative-not-enough-time
+    vars:
+      show: "A full-length musical with a cast of 25, nobody has seen the script yet."
+      dates: "Opening in 10 days, rehearsals 2 hours each evening."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that ten days of two-hour evenings is unlikely to produce a ready full-length musical, explains the gap, and suggests options (a later date, a concert or reduced version, more hours) rather than producing a schedule that pretends it fits."}

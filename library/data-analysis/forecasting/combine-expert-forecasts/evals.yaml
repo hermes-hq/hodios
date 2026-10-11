@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Combine these forecasts into one: {{question}} {{estimates}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-launch-date-probabilities
+    vars:
+      question: "Will the new billing system be live for all customers by 31 March? Yes means every customer billed through it in March."
+      estimates: "Eng lead: 40%, migration scripts untested on large accounts. PM: 75%, scope is frozen. QA lead: 30%, 120 open defects. Ops: 60%. Finance: 85%, vendor promised. All submitted privately before the meeting. No track records."
+      use: "Whether to give 90 days' notice to the old vendor now."
+    assert:
+      - {type: contains, value: "## Disagreement and cruxes"}
+      - {type: llm-rubric, value: "Computes a combined probability (median 60%, mean 58%, or a log-odds mean) with the calculation shown, uses equal weights because no track record exists, does not extremise heavily without a stated reason, identifies cruxes such as untested large-account migration and the 120 open defects versus frozen scope and vendor promises, and proposes a second private round after sharing reasoning."}
+  - name: edge-discussed-first-ranges
+    vars:
+      question: "How many units will we sell in the first 12 months?"
+      estimates: "After a group discussion led by the sales director (who said 50k): A 45k-55k, B 48k-60k, C 40k-50k, D 50k-55k."
+    assert:
+      - {type: llm-rubric, value: "Notes the estimates were made after an anchored discussion so they are not independent and the spread understates real uncertainty, combines the ranges with a stated method, warns that the combined interval is probably too narrow, and recommends an independent round."}
+  - name: negative-weight-by-seniority
+    vars:
+      question: "Will our biggest customer renew this year?"
+      estimates: "CEO 95%, account manager 55%, support lead 40%. Weight the CEO at 80% because she's the most senior."
+    assert:
+      - {type: llm-rubric, value: "Declines to weight by seniority, explains weighting should rest on a track record on similar resolved questions, gives an equal-weight combination, and highlights the gap between the CEO and the people closest to the account as a crux worth investigating."}

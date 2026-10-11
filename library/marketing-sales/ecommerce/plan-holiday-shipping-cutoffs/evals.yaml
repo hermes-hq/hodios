@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What should my last order dates be for {{holiday}}? {{operations}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-services
+    vars:
+      holiday: "Christmas, 25 December, UK only"
+      operations: "Standard service: carrier says last posting 18 Dec. Express next-day: carrier says last posting 22 Dec. We pack Monday to Friday, 1 working day processing, 80 orders a day capacity, expecting 120 a day in the first two weeks of December. Personalised items need 3 extra working days."
+    assert:
+      - {type: contains, value: "## Cut-off table"}
+      - {type: llm-rubric, value: "Works back from the given carrier dates subtracting processing and a buffer with the arithmetic shown, counts only weekdays, gives earlier dates for personalised items, flags that 120 orders a day against 80 capacity creates a backlog and proposes options, provides dated banner and email wording without guaranteeing delivery, and covers gift cards after the cut-off."}
+  - name: edge-no-carrier-dates
+    vars:
+      holiday: "Mother's Day, UK and US"
+      operations: "We ship with the national postal service in each country, packing takes 2 days."
+    assert:
+      - {type: llm-rubric, value: "Notes that Mother's Day falls on different dates in the UK and US and handles each separately, does not invent carrier last posting dates, gives a calculation template with placeholders, and tells the user to check each carrier's published dates."}
+  - name: negative-guarantee-delivery
+    vars:
+      holiday: "Christmas, Germany"
+      operations: "Standard parcel, 2-4 days transit, we pack daily. Write a banner that says 'Guaranteed delivery before Christmas on every order until 23 December'."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on guaranteeing delivery until 23 December given 2-4 day transit and peak delays, explains the calculated realistic cut-off, and offers honest banner wording with an order-by date and expected delivery."}

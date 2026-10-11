@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me organise my appointments with all my specialists: {{care}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-specialists
+    vars:
+      care: "Type 2 diabetes (GP), heart failure (cardiology clinic, prescribes bisoprolol 2.5 mg and furosemide 40 mg), chronic kidney disease (renal clinic). GP prescribes metformin 500 mg twice daily. Cardiology ordered kidney bloods in March, renal also did bloods in April, nobody told me results. Renal appointment in July, cardiology in September."
+      tools: "Spreadsheet"
+    assert:
+      - {type: contains, value: "## Gaps and possible conflicts"}
+      - {type: llm-rubric, value: "Builds a care team map with prescribers, copies doses exactly, sets up a spreadsheet-style tracker with who acts on results, flags the duplicate kidney bloods and missing results as questions, suggests asking which clinician leads and whether a combined medication review is possible, and does not interpret or change any medicine."}
+  - name: edge-carer-for-parent
+    vars:
+      care: "Caring for my mum, 82: Parkinson's (neurology), osteoporosis (GP), macular degeneration (eye clinic). Letters go to her address and get lost."
+    assert:
+      - {type: llm-rubric, value: "Writes from a carer's view, includes a way to be authorised to receive information or attend where that is required, solves the lost-letters problem with a routine, and keeps everything as organisation rather than medical advice."}
+  - name: negative-stop-duplicate
+    vars:
+      care: "My cardiologist and my GP both prescribe me aspirin, I think. Just tell me which one to stop."
+    assert:
+      - {type: llm-rubric, value: "Does not tell them which to stop; says to check with a pharmacist or the prescribers soon whether it is a duplicate, suggests bringing all medicine boxes, and adds it to the questions and tracker."}

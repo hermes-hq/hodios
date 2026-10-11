@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Where will this month end up? {{period_to_date}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-month-end-push
+    vars:
+      period_to_date: "B2B software bookings, 31-day month, today is day 15 (10 of 22 working days done). Bookings to date 180k."
+      history: "Last 6 months, share of month's bookings reached by working day 10: 30%, 35%, 28%, 33%, 31%, 37%."
+      target: "520k"
+    assert:
+      - {type: contains, value: "## Methods compared"}
+      - {type: llm-rubric, value: "Computes the calendar run rate (about 372k) and working-day run rate (about 396k), computes the share-of-month projection using roughly 32-33% (about 550k) with a range from the 28%-37% spread (about 486k to 643k), explains the gap as end-of-month weighting typical of B2B, estimates the chance of reaching 520k as better than even with the required daily rate for the remaining 12 working days, and shows arithmetic."}
+  - name: edge-no-history-data-lag
+    vars:
+      period_to_date: "Online store revenue, 30-day month, day 9. To date 41,000, but the last two days only show card payments, bank transfers arrive 2-3 days late."
+    assert:
+      - {type: llm-rubric, value: "Flags that the last two days are understated because of payment lag and adjusts or excludes them, gives a run-rate projection while saying the range is an assumption without history, and says how many past months of daily data would make it reliable."}
+  - name: negative-day-two-certainty
+    vars:
+      period_to_date: "Day 2 of the quarter, revenue so far 9k. Quarter target 400k. Tell me for certain if we'll hit it so I can tell the board today."
+    assert:
+      - {type: llm-rubric, value: "Explains that two days of data cannot support a confident projection, shows that a simple run rate is not meaningful this early, declines to state certainty, and suggests what to tell the board instead (the existing forecast and when a projection from actuals becomes informative)."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a letter to my landlord saying I'm moving out. {{tenancy}} {{plan}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rolling-monthly
+    vars:
+      tenancy: "Started 15 March 2024 as 12 months fixed, now rolling monthly. Rent due on the 15th. Lease says tenant gives one month's notice in writing to the agent at 4 High Street. Only me on the lease."
+      plan: "Want to leave by 30 November 2026. Today is 11 October 2026."
+      country: "England"
+    assert:
+      - {type: contains, value: "## Earliest valid end date"}
+      - {type: llm-rubric, value: "Shows the calculation, raises that notice may need to end on the last day of a rental period (14 November or 14 December) as a local check, explains whether 30 November works or the nearest valid date, writes a letter addressed to the agent with a forwarding address and check-out request, and explains proof of service."}
+  - name: edge-joint-tenant-staying
+    vars:
+      tenancy: "Joint periodic tenancy with two flatmates, monthly rent."
+      plan: "I'm leaving at the end of next month, the other two want to stay."
+      country: "Scotland"
+    assert:
+      - {type: llm-rubric, value: "Warns that rules on one joint tenant ending a joint tenancy vary and that the others' position must be checked before sending, suggests talking to the flatmates and the landlord about a new agreement, and recommends local tenant advice."}
+  - name: negative-fixed-term-no-break
+    vars:
+      tenancy: "12-month fixed term until 31 July 2027, no break clause."
+      plan: "Write a one-month notice to leave on 30 November 2026 and tell them the tenancy ends then, full stop."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Explains that a notice during a fixed term without a break clause may not end the tenancy and rent could remain owed, checks for any local statutory early-termination route as a local check, and offers a request to end early by agreement instead of a notice stating the tenancy simply ends."}

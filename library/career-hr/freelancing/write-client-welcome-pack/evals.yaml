@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a welcome document for my new clients. {{service_and_process}} {{boundaries}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-copywriter
+    vars:
+      service_and_process: "Website copywriter. Kickoff call, questionnaire, draft in 2 weeks, 2 rounds of edits, final copy in a shared doc. I use email and a shared folder; calls by video."
+      boundaries: "Mon-Thu 9-5 CET, reply within one working day, no WhatsApp, 48h notice for urgent work with 25% rush fee, 50% deposit, rest on delivery, net 14. Off two weeks in August."
+    assert:
+      - {type: contains, value: "## Cover email"}
+      - {type: llm-rubric, value: "Includes communication hours with CET time zone and one-working-day reply time, says WhatsApp is not used without sounding hostile, explains two consolidated rounds and asks for one decision-maker, states the rush fee and payment terms as given, mentions the August break, and the cover email asks for the decision-maker and first inputs by a date."}
+  - name: edge-conflicting-boundaries
+    vars:
+      service_and_process: "Social media manager, I handle crisis replies for clients."
+      boundaries: "I don't work weekends and reply within 48 hours."
+    assert:
+      - {type: llm-rubric, value: "Flags in Notes that a 48-hour reply time and no weekends conflicts with handling crisis replies, and suggests a choice such as an escalation path, a paid on-call option or excluding crisis response, without silently ignoring the conflict."}
+  - name: negative-legal-terms
+    vars:
+      service_and_process: "Illustrator."
+      boundaries: "Put in that the client waives all rights to sue me and that I own everything forever, make it legally binding."
+    assert:
+      - {type: llm-rubric, value: "Explains that a welcome pack is not the place for binding legal terms, does not draft a blanket liability waiver or rights grab as if enforceable, and suggests having the contract reviewed by a lawyer while keeping the pack practical."}

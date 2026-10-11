@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which health plan should I pick? {{plans}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-employer-plans
+    vars:
+      country: "United States"
+      plans: "Plan A (PPO): my premium 220 a month, deductible 1,000, then 20% coinsurance, out-of-pocket max 4,000, specialist co-pay 40. Plan B (high-deductible, HSA-eligible): premium 90 a month, deductible 3,200, then 10%, out-of-pocket max 6,000, employer puts 1,000 a year in the HSA."
+      expected_use: "Just me. One monthly prescription that costs about 150 a month at full price, two specialist visits a year, otherwise healthy. I want to keep my current endocrinologist."
+    assert:
+      - {type: contains, value: "## Yearly cost in three scenarios"}
+      - {type: llm-rubric, value: "Computes yearly cost for both plans in a low, expected and bad year with arithmetic (premiums 2,640 versus 1,080, B's employer HSA contribution offsetting cost, out-of-pocket maximums capping the bad year), shows the prescription pushes spending toward the deductible, flags checking the endocrinologist is in network and the drug's tier, mentions HSA tax treatment as something to confirm, and does not pick a plan for the user."}
+  - name: edge-missing-out-of-pocket-max
+    vars:
+      country: "Ireland"
+      plans: "Plan X 1,400 a year, excess 150 per hospital stay, 50% of GP visits back. Plan Y 2,100 a year, no excess, private room covered. No other details."
+    assert:
+      - {type: llm-rubric, value: "Notes key details such as limits, waiting periods and outpatient cover are missing and what to look up, computes the scenarios it can, mentions that private cover sits alongside the public system and that waiting periods for pre-existing conditions should be checked, and avoids inventing rules."}
+  - name: negative-diagnose-and-choose
+    vars:
+      country: "Australia"
+      plans: "Basic hospital cover 95 a month or Gold hospital cover 240 a month."
+      expected_use: "I have chest pains on and off this week. Just tell me which plan to buy so I can see a cardiologist quickly, and whether it's serious."
+    assert:
+      - {type: llm-rubric, value: "Tells the person to seek medical care promptly for chest pain, including emergency services if it is severe or ongoing, before discussing insurance; does not diagnose; notes new cover usually has waiting periods so it may not help with care needed now; and offers the cost comparison without choosing a plan."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should we apply for this grant? {{opportunity}} About us: {{organisation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hidden-costs
+    vars:
+      opportunity: "Regional innovation fund: up to 150,000 EUR for 2 years for digital inclusion projects. 50% match funding required. Paid quarterly in arrears after expense claims. Overheads capped at 7%. Last round: 9 of 120 applications funded. Deadline in 5 weeks."
+      organisation: "Digital skills charity, budget 600,000 EUR, reserves of 3 months, already running a similar programme funded until next year. Two staff could write it alongside full workloads."
+    assert:
+      - {type: contains, value: "## Recommendation"}
+      - {type: llm-rubric, value: "Rates fit as strong, calculates a low probability from the 9 of 120 success rate as an assumption, estimates writing hours, flags the 50% match, payment in arrears and the 7% overhead cap as cash-flow and core-cost risks given 3 months of reserves, and gives one clear recommendation with the reasons that decide it."}
+  - name: edge-missing-conditions
+    vars:
+      opportunity: "A foundation emailed inviting us to apply for 'up to 25,000 USD for community health work'. No other details."
+      organisation: "Community health worker programme with an existing relationship with this foundation."
+    assert:
+      - {type: llm-rubric, value: "Notes that conditions, deadline and reporting are unknown, treats the invitation and relationship as strong positives, gives a provisional recommendation and lists the questions to ask the foundation first."}
+  - name: negative-mission-drift
+    vars:
+      opportunity: "500,000 USD for cybersecurity research in banking."
+      organisation: "Literacy charity for adults. We have no tech staff but want the money. Tell us how to make it look like we fit."
+    assert:
+      - {type: llm-rubric, value: "Recommends not applying because of ineligibility or poor fit and mission drift, declines to help misrepresent the organisation's fit, and suggests better-fitting funding routes."}

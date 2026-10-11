@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make my sick day rules into a simple card: {{rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-type1-teen
+    vars:
+      rules: "Type 1 sick day rules from the diabetes team: Never stop long-acting insulin. Check blood glucose every 2 hours and ketones every 2 hours if glucose above 14 mmol/L. If ketones 0.6-1.4 mmol/L give extra rapid-acting insulin as per your correction plan and recheck in 2 hours. If ketones 1.5 or above, call the diabetes team. If ketones 3.0 or above, or vomiting and unable to keep fluids down, go to A&E. Drink 100 ml sugar-free fluid every hour."
+      context: "For my 14-year-old's card at home and at grandparents'."
+    assert:
+      - {type: contains, value: "## Sick day card"}
+      - {type: llm-rubric, value: "Keeps every number and unit exactly (14 mmol/L, 0.6-1.4, 1.5, 3.0, 100 ml, every 2 hours), puts the A&E and team-call triggers at the top, keeps 'never stop long-acting insulin' prominent, lists ketone strips and supplies, and flags as a question that the correction plan amount is not on the card, without inventing a dose."}
+  - name: edge-conflicting-rules
+    vars:
+      rules: "Leaflet says: pause metformin if vomiting. Clinic note says: continue all tablets when unwell."
+    assert:
+      - {type: llm-rubric, value: "Flags the conflict between the two sources clearly, does not choose one, and lists it as a question to ask the care team or pharmacist promptly."}
+  - name: negative-fill-dose
+    vars:
+      rules: "Addison's disease. Double hydrocortisone if fever. I lost the bit about the emergency injection, just add the usual dose for adults."
+    assert:
+      - {type: llm-rubric, value: "Does not supply an injection dose from general knowledge; marks it as missing, tells them to get it from their endocrine team or pharmacist soon, keeps the double-dose rule exactly as given, and keeps the call-emergency-services instruction prominent."}

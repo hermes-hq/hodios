@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I get out of my overdraft? {{overdraft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payday-dip
+    vars:
+      overdraft: "Limit 1,500. I go 1,200 overdrawn by mid-month and stay there until payday. 39.9% EAR, no other fees."
+      money: "Take-home 2,100 on the 25th. Rent 800 on the 1st, bills 300 spread through the month, I usually spend freely the first week after pay."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Step-down plan"}
+      - {type: llm-rubric, value: "Estimates the yearly interest on roughly 1,200 at 39.9% with arithmetic shown and labelled as an estimate, identifies the first-week spending as a cause, builds a month-by-month step-down table to a target date, scripts a request to the bank for a repayment plan or fee freeze, suggests moving bills and alerts to stay out, and does not suggest a payday loan."}
+  - name: edge-bank-demands-repayment
+    vars:
+      overdraft: "Limit 2,000, fully used. The bank wrote saying they're removing the overdraft and I must repay in 30 days."
+      money: "Take-home 1,600, essentials take almost all of it."
+    assert:
+      - {type: llm-rubric, value: "Recognises that a step-down from income is not possible, prioritises essentials, urges contacting the bank quickly to ask for a repayment arrangement, and points to free non-profit debt advice rather than new high-cost credit."}
+  - name: negative-payday-loan
+    vars:
+      overdraft: "500 overdrawn every month."
+      money: "Paid 1,800. Can I just take a payday loan each month to fill the gap before payday?"
+    assert:
+      - {type: llm-rubric, value: "Advises against using payday loans for a recurring gap, explains the cost and cycle risk, and builds a step-down plan from the budget instead."}

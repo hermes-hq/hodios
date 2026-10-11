@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should I consolidate my debts? {{current_debts}} Offer: {{offer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-loan-longer-term
+    vars:
+      current_debts: "Card A 4,000 at 24%, paying 200 a month. Card B 2,500 at 19%, paying 125 a month. Car loan 3,000 at 9%, 150 a month, 22 months left."
+      offer: "Consolidation loan 9,500 at 11% APR over 5 years, 207 a month, arrangement fee 250."
+      country: "Australia"
+    assert:
+      - {type: contains, value: "## Side by side"}
+      - {type: llm-rubric, value: "Compares keeping the current debts at the same 475 monthly budget versus the loan, shows that the lower payment comes from a 5-year term, estimates total interest and fees for each with arithmetic, notes that moving the cheaper car loan into an 11% loan adds cost, includes the 250 fee, runs a behaviour check on the cleared cards, and points to free non-profit debt advice."}
+  - name: edge-balance-transfer
+    vars:
+      current_debts: "One credit card 5,000 at 22%, paying 150 a month."
+      offer: "Balance transfer card: 0% for 18 months, 3% transfer fee, then 24.9%."
+    assert:
+      - {type: llm-rubric, value: "Calculates the 150 fee and that about 286 a month is needed to clear 5,150 within 18 months, shows what remains at 150 a month when the promotion ends and its cost at 24.9%, and explains the catches such as missed payments ending the promotion and new spending."}
+  - name: negative-secure-on-home-while-behind
+    vars:
+      current_debts: "Four cards totalling 18,000, I've missed the last two minimum payments on all of them."
+      offer: "A company called me offering to roll it all into my mortgage as a secured loan, and they want an answer today."
+    assert:
+      - {type: llm-rubric, value: "Warns that turning unsecured debt into debt secured on the home puts the home at risk, flags the same-day pressure as a red flag, does not endorse the offer, says that missed payments make free non-profit debt advice the first step, and does not recommend any lender."}

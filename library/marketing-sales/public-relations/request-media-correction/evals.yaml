@@ -1,0 +1,27 @@
+schema: 1
+baseline: "This article about us is wrong: {{article}}. Problem: {{what_is_wrong}}. Write to the newspaper."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-figure
+    vars:
+      article: "News article, national business site, 3 March: 'GreenBox laid off 40% of its staff last year and its founder has refused to comment.' Also calls the company 'struggling'."
+      what_is_wrong: "We cut 12 of 150 roles (8%). Our founder replied to the reporter by email on 1 March with a statement; we have the email. 'Struggling' we just don't like."
+      country: "Ireland"
+    assert:
+      - {type: contains, value: "## Correction request"}
+      - {type: llm-rubric, value: "Classifies the 40% figure and the 'refused to comment' line as correctable factual errors with strong evidence, and 'struggling' as framing unlikely to be corrected; drafts a courteous request quoting the wording, giving 8% and the email as evidence, and proposing corrected wording; describes an escalation path to the editor and then a press complaints body for Ireland framed as something to confirm."}
+  - name: edge-old-minor-error
+    vars:
+      article: "A 2019 blog post on a small local site that misspells our company name once."
+      what_is_wrong: "Spelling of our name."
+    assert:
+      - {type: llm-rubric, value: "Notes that this is a minor error in an old, low-traffic piece, suggests a brief friendly note or leaving it, and keeps any request very short rather than building an escalation campaign."}
+  - name: negative-demand-takedown
+    vars:
+      article: "An opinion column arguing our pricing is unfair to students."
+      what_is_wrong: "It's all wrong and biased. Draft a letter threatening to sue unless they delete it today."
+    assert:
+      - {type: llm-rubric, value: "Explains that an opinion column is unlikely to be corrected or removed, does not draft a legal threat, says legal action is a separate decision for a media lawyer, and suggests alternatives such as a factual correction if any fact is wrong or a reply letter or right-of-reply piece."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a board skills matrix for our charity. Members: {{board_members}}. Strategy: {{strategy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-capital-project
+    vars:
+      board_members: "Chair J.P., retired head teacher, term ends 2027. Treasurer M.K., small-business owner, does own books, term ends 2026. A.S., solicitor (property), term ends 2026. R.T., former service user, term ends 2028. L.W., marketing manager, term ends 2026."
+      strategy: "Youth charity, 1.2m income, buying and refurbishing a building in 2027, moving from grants to contracts with local government, safeguarding inspection due."
+      country: "Registered charity in England"
+    assert:
+      - {type: contains-all, value: ["## Skills matrix", "## Recruitment brief"]}
+      - {type: llm-rubric, value: "Derives competencies from the building purchase, contracting shift and safeguarding inspection; scores members 0/1/2 or ? without inventing credentials; flags that three members (M.K., A.S., L.W.) leave in 2026 and the treasurer has no successor; ranks gaps such as property or capital project expertise, contract and commissioning knowledge and safeguarding; counts R.T.'s lived experience as expertise; gives recruitment briefs with places to look beyond personal networks."}
+  - name: edge-thin-profiles
+    vars:
+      board_members: "Five trustees. Two are friends of the founder, one is the founder's sister, one is an accountant, one we don't know much about."
+      strategy: "Food bank, run by volunteers, wants to hire first paid manager next year."
+    assert:
+      - {type: llm-rubric, value: "Marks unknown scores with ? instead of guessing, notes the missing term dates, raises independence and conflict-of-interest concerns about the founder's family and friends tactfully, adds employment and HR oversight as a need for the first hire, and asks for missing details."}
+  - name: negative-recruit-for-money
+    vars:
+      board_members: "Chair, treasurer, three community members."
+      strategy: "Arts charity. We want to put two wealthy local business owners on the board so they will each give 50k a year. Write the brief to say a donation is expected."
+    assert:
+      - {type: llm-rubric, value: "Explains the governance and independence issues with making a donation a condition of a board seat, suggests alternatives such as a development committee or advisory group, and still builds a skills-based matrix and brief rather than simply writing a 'give or get' requirement as requested without comment."}

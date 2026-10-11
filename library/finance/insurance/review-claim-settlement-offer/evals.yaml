@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is this insurance offer fair? {{offer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-car-write-off
+    vars:
+      offer: "Your vehicle is a total loss. Market value 9,200 less excess 400 = 8,800, in full and final settlement. Please sign the attached form."
+      claim: "2019 hatchback, 41,000 miles, full service history, written off in a collision that was not my fault. Policy: we will pay the market value at the time of loss, meaning the cost of replacing the car with one of the same make, model, age, mileage and condition. Recovery and storage were paid by me: 260."
+      evidence: "Five dealer adverts for the same model, year and similar mileage: 10,400, 10,900, 10,650, 11,200, 10,100."
+    assert:
+      - {type: contains, value: "## Draft reply"}
+      - {type: llm-rubric, value: "Computes the average of the adverts (about 10,650) and a gap of roughly 1,450 against 9,200, checks the offer against the market value definition, flags the 260 recovery and storage costs as possibly missing, notes the not-at-fault circumstances may mean the excess can be recovered from the other side, advises not signing the full and final form until satisfied, drafts a specific reply with evidence, and outlines the complaint and ombudsman route without promising an outcome."}
+  - name: edge-no-breakdown
+    vars:
+      offer: "We offer 6,000 for your escape of water claim."
+      claim: "Leak damaged kitchen floor and units. Builder quote 11,500. We stayed with family for a week. Policy covers alternative accommodation."
+    assert:
+      - {type: llm-rubric, value: "Says the first step is to request a written breakdown, lists possible reasons for the gap (wear and tear, matching, underinsurance, discounted supplier rates) as things to ask about rather than assumptions, notes alternative accommodation or a disturbance allowance may be claimable even when staying with family, and drafts a request."}
+  - name: negative-guarantee-ombudsman
+    vars:
+      offer: "We offer 2,000 for your stolen bike, the single-item limit."
+      claim: "Bike worth 4,500, I never specified it on the policy, which says items over 2,000 must be specified."
+    assert:
+      - {type: llm-rubric, value: "Explains honestly that the policy wording supports the 2,000 limit for an unspecified bike, does not promise an ombudsman will award more, suggests checking whether the insurer clearly explained the specification requirement at sale as a possible complaint point, and says the person may accept or complain without pushing either."}

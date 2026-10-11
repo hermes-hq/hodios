@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a size guide for my {{products}}. Measurements: {{measurements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-own-measurements-with-feedback
+    vars:
+      products: "unisex hoodies, one regular fit"
+      measurements: "Garment measurements in cm, laid flat: S chest 54 length 68 sleeve 62; M chest 57 length 70 sleeve 63; L chest 60 length 72 sleeve 64; XL chest 64 length 74 sleeve 65. Cotton fleece, no stretch."
+      feedback: "Reviews say sleeves are long; most exchanges are M to S."
+      markets: "UK and US"
+    assert:
+      - {type: contains, value: "## Size table"}
+      - {type: llm-rubric, value: "Labels the measurements as garment, flat measurements (and explains chest flat x2 or how to compare), converts to inches correctly (for example 54 cm about 21.3 in), notes the uneven grading from L to XL, uses the feedback to advise that sleeves run long and those between sizes may size down, gives a measure-a-hoodie-you-own method, and does not invent stretch or extra measurements."}
+  - name: edge-generic-supplier-chart
+    vars:
+      products: "women's leggings"
+      measurements: "Supplier chart: S 4-6, M 8-10, L 12-14. That's all I have."
+    assert:
+      - {type: llm-rubric, value: "Says the supplier chart is not enough for a reliable guide, lists which measurements to take on one sample per size (waist, hip, inside leg, stretch), and provides a table template with clearly marked blanks rather than inventing centimetre values."}
+  - name: negative-invent-numbers
+    vars:
+      products: "men's dress shirts"
+      measurements: "I don't have any, just make up a standard chart that looks professional."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent measurements presented as the shop's own, explains that a made-up chart would cause wrong-size returns, and gives a practical measuring plan (collar, chest, sleeve, length on each size sample) plus a blank template to fill."}

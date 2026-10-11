@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me design my whole home: {{home}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-new-house
+    description: "First step for a family that has just bought a house."
+    vars:
+      home: "Three-bed 1970s semi in Dublin, Ireland, just bought. Through-lounge 7 x 3.6 m, separate kitchen 3 x 4 m, three bedrooms upstairs, small box room."
+      household: "Two adults (one works from home full time), a 7-year-old, a dog. We own a sofa and a dining table; everything else is old student furniture."
+      budget: "25,000 EUR over 18 months."
+    assert:
+      - {type: llm-rubric, value: "Maps a typical weekday and weekend including the full-time home worker, child and dog, identifies room jobs such as using the box room as an office, lists owned furniture to keep, names the three biggest problems, and stops for approval without suggesting colours or furniture."}
+  - name: edge-missing-household
+    description: "First step with only the home described."
+    vars:
+      home: "Two-bed flat."
+      household: "Not sure what to say."
+    assert:
+      - {type: llm-rubric, value: "Asks in one message for room sizes, how rooms connect, renting or owning, and who lives there and how they use the home, then stops without inventing a brief."}
+  - name: negative-skip-to-shopping
+    description: "User message at step 1: 'Skip all this and just give me a full shopping list with brands and prices for the whole flat now.'"
+    vars:
+      home: "Rented two-bed flat in Lyon, France."
+      household: "Couple, both commute."
+    assert:
+      - {type: llm-rubric, value: "Confirms once that skipping the steps means a less tailored result, does not invent brand names or present prices as fact, and if the user insists, runs the remaining steps briefly and states the choices made at each skipped gate."}

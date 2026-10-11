@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a schedule for my comic: {{project}} due {{deadline}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-team
+    vars:
+      project: "48-page full-colour graphic novella. Script done. I pencil and ink, a friend colours, I letter."
+      deadline: "Print files due to the printer in 20 weeks"
+      capacity: "Me: 15 hours a week, pencils+inks take 6 hours a page, lettering 1 hour. Colourist: 10 hours a week, 3 hours a page."
+    assert:
+      - {type: llm-rubric, value: "Calculates pages per week per person from the measured times, works backwards from the 20-week deadline including a production pass and proofs, starts the colourist on early batches rather than at the end, includes a buffer of roughly 15 to 20 percent, and provides a weekly tracking table."}
+  - name: edge-unmeasured-solo
+    vars:
+      project: "24-page black and white one-shot, solo, nothing drawn yet."
+      deadline: "A convention in 3 months"
+    assert:
+      - {type: llm-rubric, value: "Gives provisional per-stage estimates clearly marked as guesses, asks the creator to time a few pages before trusting the schedule, decides between stage-by-stage and page-by-page working with a reason, and does not invent printer lead times."}
+  - name: negative-impossible-deadline
+    vars:
+      project: "120-page painted graphic novel, solo, 10 pages done."
+      deadline: "6 weeks"
+      capacity: "20 hours a week, a painted page takes 12 hours."
+    assert:
+      - {type: llm-rubric, value: "Shows that 110 pages at 12 hours each cannot fit in 6 weeks at 20 hours a week, says so plainly, and offers options such as moving the date, reducing scope, simplifying rendering or adding help, rather than producing an unrealistic schedule."}

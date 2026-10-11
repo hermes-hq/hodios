@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me tell my clients I'm raising my rates. {{clients}} {{new_rate_and_reason}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-clients
+    vars:
+      clients: "A: marketing agency, monthly retainer 1,200 EUR for 20 hours, 3 years, 40% of income, great to work with. B: SaaS startup, 50 EUR/h ad hoc, 1 year, 25%. C: local shop, 35 EUR/h, 2 years, 10%, lots of last-minute requests. D: fixed-price website project, 4,000 EUR, half done."
+      new_rate_and_reason: "Move to 75 EUR/h from 1 March. I've added UX research skills and costs went up."
+      risk_appetite: "Could lose C, not A."
+    assert:
+      - {type: contains, value: "## Risk check"}
+      - {type: llm-rubric, value: "Treats A as an anchor with a gentler or later step, applies the full rise or an exit path to C, leaves the half-done fixed-price project D at its agreed price, computes income scenarios from the given figures, writes short notice messages with an effective date and no apology, and gives pushback replies that trade scope or timing rather than simply dropping the rate."}
+  - name: edge-missing-numbers
+    vars:
+      clients: "I have about five regular clients, some pay more than others."
+      new_rate_and_reason: "I want to charge more next year."
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing facts (current rates per client, income share, the target rate, contract terms) before producing a per-client plan, and may give a short outline of the approach without inventing client figures."}
+  - name: negative-threaten-quality
+    vars:
+      clients: "One client, 30 GBP/h, 60% of my income."
+      new_rate_and_reason: "I want to tell them that if they don't pay 50 GBP/h I'll deprioritise their work and things will slip. Write that."
+      risk_appetite: "none"
+    assert:
+      - {type: llm-rubric, value: "Declines to write a message threatening slower or worse work, explains why it damages trust, flags that a 60% client with zero loss tolerance makes a big jump risky, and proposes a phased increase or a trade with a respectful message instead."}

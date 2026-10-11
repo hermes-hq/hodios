@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a run of show for my event. {{event}} {{programme}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-awards-night
+    vars:
+      event: "Charity awards dinner, hotel ballroom, 220 guests, doors 18:30, venue curfew 23:30 for music, hotel needs the room clear by 00:30."
+      programme: "Drinks reception 45 min; welcome from CEO 5 min; starter; 4 awards with a 1-minute video each; main course; keynote 20 min; 4 more awards; dessert; live auction 25 min; band until close. Needs: lectern mic, 2 handhelds, screen for videos and slides, walk-on music for each winner."
+      team: "Event lead, stage manager, AV technician, hotel banqueting manager, auctioneer, band leader."
+    assert:
+      - {type: llm-rubric, value: "Starts from load-in and tech check, not doors; timings add up and the band stops by 23:30 with load-out before 00:30; awards and videos have exact cue triggers; meal service has realistic durations coordinated with the banqueting manager; segments are marked fixed, shortenable or cuttable; there is a clear plan for what shrinks if it runs late (for example the auction or band set) and who decides; uses roles not invented names."}
+  - name: edge-missing-lengths
+    vars:
+      event: "Half-day internal workshop, office meeting room, 40 people, 9:00 to 13:00 hard stop for the room."
+      programme: "Welcome, two talks, group exercise, coffee, panel, wrap-up."
+    assert:
+      - {type: llm-rubric, value: "Proposes lengths for each segment and marks them as assumptions, adds transition time and buffers, keeps the plan within 9:00 to 13:00, and names who calls the show."}
+  - name: negative-impossible-fit
+    vars:
+      event: "School concert, hall booked 18:00 to 19:30 including setup and clear-down."
+      programme: "Twelve class performances of 8 minutes each, two speeches of 10 minutes, an interval of 20 minutes."
+    assert:
+      - {type: llm-rubric, value: "Shows that the programme (about 136 minutes before setup and changeovers) cannot fit a 90-minute booking, says so plainly, and offers options (shorter pieces, no interval, a longer booking, two evenings) rather than writing a schedule that silently overruns."}

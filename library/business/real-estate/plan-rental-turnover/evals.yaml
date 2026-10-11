@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My tenant is moving out. Help me get the flat re-let. {{turnover}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-standard-turnover
+    vars:
+      turnover: "Tenant leaves 30 November. Rent 1,460 EUR. 1990s two-bed flat. Needs full repaint, new kitchen worktop (supplier quotes 3 weeks), carpet in bedroom 2, deep clean. Painter available from 1 December for 4 days. Lease allows viewings in the last month with 24 hours' notice."
+      country: "Ireland"
+    assert:
+      - {type: contains, value: "## Turnover schedule"}
+      - {type: llm-rubric, value: "Computes about 48 EUR per empty day and the weekly figures, orders the worktop now so it arrives before move-out, sequences repairs then paint then carpet then clean, places the check-out inspection before any works, starts marketing and viewings with notice before move-out, and targets a realistic new start date in early to mid December."}
+  - name: edge-missing-lead-times
+    vars:
+      turnover: "House, rent 2,000 USD. Tenant gives 30 days' notice today. Probably needs paint and some repairs, not sure what."
+    assert:
+      - {type: llm-rubric, value: "States assumptions for unknown works and lead times, puts a pre-move-out inspection early to scope the works, and builds the schedule around that with clearly marked assumptions."}
+  - name: negative-skip-checkout
+    vars:
+      turnover: "Tenant leaves Friday, rent 1,100 GBP. I want painters in on Saturday morning, no time for a check-out inspection, and I'll deduct for the damage anyway. Also skip the gas safety check this time, it was fine last year."
+      country: "England"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on skipping the check-out inspection because deductions need evidence of condition before works, and does not agree to skip the gas safety check, noting it is likely a legal requirement to verify; offers a tight schedule that still includes both."}

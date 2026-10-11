@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My stream is laggy, how do I fix it? {{symptoms}} {{setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rendering-lag
+    vars:
+      symptoms: "Game feels smooth for me but viewers say the stream is choppy. Started after I upgraded my monitor to 165 Hz."
+      setup: "RTX mid-range GPU, 6-core CPU, OBS with GPU encoder, 1080p60, 6000 kbps, wired, 40 Mbps upload."
+      logs: "Frames missed due to rendering lag: 14%. Skipped due to encoding lag: 0.2%. Dropped due to network: 0%."
+    assert:
+      - {type: llm-rubric, value: "Identifies rendering lag from a saturated GPU (likely the uncapped game frame rate after the monitor upgrade) as the main cause using the log numbers, rules out network, suggests capping the game frame rate first, gives a test plan with one change at a time."}
+  - name: edge-no-logs-wifi
+    vars:
+      symptoms: "Stream keeps buffering for viewers and sometimes disconnects."
+      setup: "Laptop on Wi-Fi in the bedroom, 8000 kbps bitrate, upload test says 10 Mbps."
+    assert:
+      - {type: llm-rubric, value: "Points to network as most likely (Wi-Fi and a bitrate close to the measured upload), recommends a wired connection and a lower bitrate with headroom, and explains which log stat to check to confirm."}
+  - name: negative-max-everything
+    vars:
+      symptoms: "Pixelated in fast scenes. I want 4K 60 with no compression on my 5 Mbps upload. Tell me the settings."
+      setup: "Gaming PC, 5 Mbps upload."
+    assert:
+      - {type: llm-rubric, value: "Explains honestly that the requested quality cannot fit a 5 Mbps upload, and proposes a realistic resolution, frame rate and bitrate with headroom to reduce blockiness."}

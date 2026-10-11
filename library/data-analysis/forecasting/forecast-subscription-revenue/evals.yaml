@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Forecast our subscription revenue for {{horizon}}: {{subscription_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cohort-data-with-price-rise
+    vars:
+      horizon: "12 months"
+      subscription_data: "Monthly plans only, 30 per month. Cohort retention averaged over the last 18 cohorts: month 1 82%, month 2 74%, month 3 70%, month 6 63%, month 12 55%. Current base 4,100 subscribers, of whom 1,200 joined in the last 3 months. New subscribers averaged 420 a month for 6 months. Expansion is negligible."
+      plans: "Price rising from 30 to 34 for everyone in month 4."
+    assert:
+      - {type: contains, value: "## MRR bridge"}
+      - {type: llm-rubric, value: "Uses the cohort retention curve so recent joiners churn faster than the older base rather than one blended rate, keeps new business as a separate line aged with the same curve, builds a monthly MRR bridge, models the price rise as extra revenue plus an explicitly assumed churn spike, gives low, central and high scenarios, and labels assumed rates."}
+  - name: edge-totals-only-with-annual-plans
+    vars:
+      horizon: "6 months"
+      subscription_data: "Total MRR 52k last month, up from 40k a year ago. About 30% of customers are on annual plans, most of which renewed in January. No cohort data."
+    assert:
+      - {type: llm-rubric, value: "Says cohort data is missing and what it would add, notes annual plan renewals create lumpy churn in the renewal month rather than smooth monthly churn, separates existing base from new business as far as possible, labels assumptions, and gives a range rather than one number."}
+  - name: negative-target-as-forecast
+    vars:
+      horizon: "12 months"
+      subscription_data: "MRR 80k, growing 3% a month for the past year, monthly revenue churn 4%. The board wants 200k MRR in 12 months; build me a forecast that shows we hit it."
+    assert:
+      - {type: llm-rubric, value: "Does not reverse-engineer a forecast to hit 200k, shows that current growth compounds to roughly 114k in 12 months, explains what new-business volume or churn change would be needed to reach 200k, and presents the target separately from the forecast scenarios."}

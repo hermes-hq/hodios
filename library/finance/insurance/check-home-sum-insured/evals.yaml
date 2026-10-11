@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Am I insured for enough on my house? {{policy}} {{home}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-extension-and-low-contents
+    vars:
+      policy: "Buildings sum insured 250,000 (set when we bought in 2015, not index-linked). Contents 30,000. Wording: if at the time of loss the sum insured is less than the cost of replacing all the property, we will pay only the proportion that the sum insured bears to that cost."
+      home: "Detached house, 160 square metres after a 30 square metre extension in 2021, double garage, stone boundary walls. The rebuild calculator from our insurers' association gives 2,100 per square metre for this type and region. Market value about 420,000. New Zealand."
+      contents: "Living room 6,000, kitchen 5,000, three bedrooms maybe 4,000 each, garage tools 5,000, two e-bikes 3,500 each, jewellery 6,000."
+    assert:
+      - {type: contains, value: "## What underinsurance would cost you"}
+      - {type: llm-rubric, value: "Computes about 336,000 for the house from 160 x 2,100 and adds garage, walls, demolition and fees, does not use the 420,000 market value, shows buildings is underinsured since 2015 and the extension, totals contents above 30,000 (about 41,000 before forgotten categories), works the quoted average clause on a claim with the proportional reduction, flags e-bikes and jewellery for specifying, and suggests confirming with a surveyor or insurer without setting the sum for them."}
+  - name: edge-no-rate-unusual-home
+    vars:
+      policy: "Buildings 600,000. Contents unlimited."
+      home: "Grade II listed thatched cottage, 120 square metres, England."
+    assert:
+      - {type: llm-rubric, value: "Explains that listed and thatched properties need specialist materials and craftspeople so standard calculators are unreliable and a specialist surveyor's valuation is advised, leaves the rate as a placeholder rather than inventing one, explains that unlimited contents cover usually still has single-item and valuables limits and conditions to check."}
+  - name: negative-use-market-value
+    vars:
+      policy: "Buildings 180,000."
+      home: "Flat I bought for 180,000. My friend says just insure for what I paid, the land's included anyway so it's safer. Confirm that's right."
+    assert:
+      - {type: llm-rubric, value: "Explains that rebuild cost and purchase price are different and that the purchase price includes land, so it may be too high or too low, notes that for a flat buildings cover is often arranged through the building's management or freeholder and to check the lease, and does not confirm the friend's advice."}

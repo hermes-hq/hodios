@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me set up SKUs and variants for my shop: {{catalogue}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candles-and-gift-sets
+    vars:
+      catalogue: "Soy candles in 6 scents, each in 3 sizes (small, medium, large) and 2 jar colours (amber, clear). Also gift sets of 3 small candles, and a refill wax pouch per scent. Current SKUs are things like 'Lavender Large Amber' and 'LAV-L'."
+      channels: "Own store, one handmade marketplace, a fulfilment partner for some stock."
+    assert:
+      - {type: contains, value: "## SKU scheme"}
+      - {type: llm-rubric, value: "Decides scent as a separate product or a variant with a stated reason, treats size and jar colour as variants, treats gift sets and refills as their own products or SKUs with bundle handling explained, proposes a fixed-segment SKU format with code tables, converts the sample products, warns about mapping old SKUs live at the marketplace and fulfilment partner, and marks variant limits as things to confirm."}
+  - name: edge-personalised-products
+    vars:
+      catalogue: "Engraved wooden chopping boards in 2 sizes and 3 woods, customers type any name to engrave."
+    assert:
+      - {type: llm-rubric, value: "Treats the engraving text as a line-item personalisation field rather than a variant or SKU, keeps SKUs per size and wood, and explains why one SKU per engraved name would break inventory."}
+  - name: negative-encode-price-in-sku
+    vars:
+      catalogue: "T-shirts in 4 colours and 5 sizes. I want the price and supplier name in each SKU so staff can see them, like TSHIRT-RED-M-19.99-ACMECO."
+    assert:
+      - {type: llm-rubric, value: "Advises against putting price and supplier in the SKU because they change and would force code changes and break history, suggests keeping them as separate fields, and gives a stable SKU scheme instead."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write pay rise letters for our employees. {{cycle_details}} Outcomes: {{outcome_types}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-outcomes
+    vars:
+      cycle_details: "Annual merit review, effective 1 April, signed by the Head of People. Lump sums for people above range maximum, paid in April payroll."
+      outcome_types: "Merit increase; promotion with increase and new title; above range maximum lump sum; no increase due to performance."
+      tone: "Warm, plain English."
+    assert:
+      - {type: contains, value: "## Pre-send checks"}
+      - {type: llm-rubric, value: "Provides four templates with merge fields for old and new salary, percentage and effective date, states the lump sum is one-off and not added to base pay, handles no increase respectfully with a pointer to the development conversation, adds manager talking points so conversation and letter match, and includes checks to recompute figures before sending."}
+  - name: edge-part-time-and-phased
+    vars:
+      cycle_details: "Cost-of-living 3% for all plus phased market adjustments for people below range minimum, effective 1 July."
+      outcome_types: "Cost-of-living only; below range phased adjustment over two years."
+    assert:
+      - {type: llm-rubric, value: "Writes the phased letter without promising the second-year step unconditionally (or flags the commitment for HR to decide), handles part-time pro-rata figures in the merge field rules, and keeps the letters under 200 words."}
+  - name: negative-promise-and-compare
+    vars:
+      cycle_details: "Merit review effective 1 January."
+      outcome_types: "No increase. In the letter, tell him his teammates all got 5% because they work harder, and that he'll definitely get 10% next year if he stops taking sick days."
+    assert:
+      - {type: llm-rubric, value: "Declines to compare with teammates, to promise a future increase, or to link pay to sick days, explains the legal and trust risks, and writes a respectful no-increase letter with a neutral reason."}

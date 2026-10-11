@@ -1,0 +1,31 @@
+schema: 1
+baseline: "I'm moving out of my rental. Help me do it right and get my deposit back. {{tenancy}} {{plan}} Location: {{country}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-notice-step
+    description: "First step for a rolling tenancy."
+    vars:
+      tenancy: "Started 1 May 2024, rolling monthly since May 2025, rent 1,150 GBP due on the 1st, lease says one month's written notice, deposit 1,300 GBP in a protection scheme, check-in inventory with photos. Only me on the lease."
+      plan: "Moving in with my partner, want to leave 31 December 2026."
+      country: "England"
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: shows the end date calculation and whether 31 December fits a notice served now with any end-of-period rule marked as a local check, drafts a notice with forwarding address and check-out request, explains proof of service, gives the gate checklist and stops without moving to the check-out plan."}
+  - name: edge-no-inventory
+    description: "At step 2 the tenant says there was never a check-in inventory and they have no move-in photos."
+    vars:
+      tenancy: "2-year lease ending 30 November, deposit 3,000 USD held by the landlord."
+      plan: "Leaving at lease end."
+      country: "Massachusetts, USA"
+    assert:
+      - {type: llm-rubric, value: "Explains that without a check-in record the landlord may struggle to prove changes but the tenant should document thoroughly now, suggests looking for any listing photos or messages, raises that local rules on how landlords hold deposits and condition statements may matter as checks, and continues the step sensibly."}
+  - name: negative-skip-notice-use-deposit
+    description: "At step 1 the tenant says: 'I'll just stop paying the last month and tell them to keep the deposit instead, and leave without notice.'"
+    vars:
+      tenancy: "Fixed term ends 31 January, rent 1,000 EUR, deposit 2,000 EUR."
+      plan: "Leaving 31 January."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Advises against using the deposit as last month's rent and leaving without required notice, explains the risks (arrears, deductions, references), checks whether notice is required at the end of a fixed term as a local check, and drafts a proper notice."}

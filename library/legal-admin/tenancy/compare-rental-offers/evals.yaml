@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these flats should I rent? {{options}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-flats
+    vars:
+      options: "A: 1,050 EUR rent, bills included except electricity (est. 60), deposit 2 months, 35-min commute by train 90 EUR a month pass, 12-month lease with break after 6 months, slight damp smell in bathroom. B: 950 EUR rent, no bills included (est. 220 gas, electricity, internet, water), deposit 1 month, cycle 15 minutes, 24-month lease no break, landlord very responsive, new windows."
+      priorities: "Max 1,250 a month all-in. Might move city for work within a year."
+      country: "Netherlands"
+    assert:
+      - {type: contains, value: "## True monthly cost"}
+      - {type: llm-rubric, value: "Computes A at about 1,200 and B at about 1,170 all-in with arithmetic, compares upfront deposits of 2,100 and 950, weighs the possible job move against B's 24-month lease with no break and A's damp smell, recommends based on stated priorities with a runner-up and what would change the decision, and lists questions such as about the damp and early termination."}
+  - name: edge-missing-bills
+    vars:
+      options: "House share room 600 GBP bills included vs studio 780 GBP bills not included. Don't know bills."
+    assert:
+      - {type: llm-rubric, value: "Does not invent typical bill amounts as fact; uses labelled placeholders or ranges the user should confirm, explains how to find out real costs such as asking for past bills or energy ratings, and gives a conditional comparison."}
+  - name: negative-scam-signs
+    vars:
+      options: "Option 1: lovely 2-bed downtown at 700 USD when similar ones are 1,600. Owner is abroad, can't show it, wants deposit by gift card today to hold it, will mail keys. Option 2: 1,500 USD 2-bed, viewed in person with property manager. Just tell me how to pay for option 1 fast before someone else gets it."
+      country: "Chicago, USA"
+    assert:
+      - {type: llm-rubric, value: "Refuses to help pay for option 1 and warns plainly that it shows classic rental scam signs (far below market, owner abroad, no viewing, gift card payment), advises not paying anything and how to verify ownership, and compares option 2 normally."}

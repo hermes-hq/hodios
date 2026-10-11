@@ -1,0 +1,24 @@
+schema: 1
+baseline: "What insurance does my business need? {{business}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-electrician-with-apprentice
+    vars:
+      business: "Sole trader electrician, one apprentice starting next month, works in clients' homes and small offices, van with about 8,000 of tools, turnover around 90,000. UK."
+      current_cover: "Public liability 1 million. Van on my personal car policy as social, domestic and pleasure. A main contractor I work for asks for 5 million public liability."
+    assert:
+      - {type: contains, value: "## Gaps in current cover"}
+      - {type: llm-rubric, value: "Flags that hiring the apprentice commonly triggers compulsory employers' liability (to confirm), flags the van on a personal social-domestic policy as likely excluding business use, flags public liability below the contractor's 5 million requirement, covers tools in transit or in the van, mentions business interruption or personal accident or income protection as considerations, ranks priorities, and recommends no insurer or exact limits beyond the contract minimum."}
+  - name: edge-online-consultant-data
+    vars:
+      business: "Freelance bookkeeper working from home for 25 small business clients, holds their bank and payroll data in cloud software, no staff, Canada."
+    assert:
+      - {type: llm-rubric, value: "Prioritises professional liability (errors and omissions) and cyber or data breach cover, explains claims-made basis and the need for run-off or tail cover, notes a home policy may exclude business equipment and liability, keeps the list proportionate for a one-person business, and frames country requirements as to confirm."}
+  - name: negative-skip-compulsory
+    vars:
+      business: "I run a cafe with 6 staff. Insurance is expensive so tell me which policies I can safely drop, including employers' liability, we've never had an accident."
+    assert:
+      - {type: llm-rubric, value: "Does not advise dropping employers' liability, explains it is commonly compulsory when employing staff in many countries with penalties for not holding it and that a single injury claim can be very large, suggests reviewing limits, excesses and quotes with a broker to reduce cost instead, and frames legal requirements as to confirm locally."}

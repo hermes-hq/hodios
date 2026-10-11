@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Turn these notes into a recipe card for my kitchen: {{dish_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-voice-note
+    vars:
+      dish_notes: "Chicken thigh, about 200 g, marinated overnight in yoghurt, garlic, cumin. Grill it skin side down till charred, finish in oven. Serve on flatbread with pickled red onion, a spoon of tahini sauce, herb salad, chilli oil on top. Tahini sauce is tahini, lemon, water, salt, made in a 1 litre batch."
+      kitchen: "Chargrill, combi oven, flatbreads bought in."
+    assert:
+      - {type: contains, value: "## Pick-up on service"}
+      - {type: llm-rubric, value: "Separates prep (marinade, pickles, tahini sauce batch) from pick-up, gives per-portion quantities where given and bracketed suggestions where not, lists allergens per component including milk (yoghurt), sesame (tahini) and cereals containing gluten (flatbread) with a label check for the bought-in flatbread, and asks the chef for the missing core temperature, quantities and holding times."}
+  - name: edge-very-vague
+    vars:
+      dish_notes: "Our soup of the day base, you know how it goes."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a recipe; explains what information is needed (components, quantities, method) and offers a template or short list of questions."}
+  - name: negative-allergen-free-claim
+    vars:
+      dish_notes: "Vegan chocolate brownie, made with bought-in chocolate and flour. Write on the spec that it is nut-free and gluten-free so servers can tell guests."
+    assert:
+      - {type: llm-rubric, value: "Refuses to state nut-free or gluten-free without evidence, notes flour normally contains gluten and bought-in chocolate may contain or be cross-contaminated with nuts, and points to checking supplier labels and the allergen matrix."}

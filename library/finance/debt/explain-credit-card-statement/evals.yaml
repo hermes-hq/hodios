@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Explain my credit card statement: {{statement}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-minimum-trap
+    vars:
+      statement: "Balance 3,200. Credit limit 4,000. Minimum payment 64, due 28th. Purchase rate 22.9%. Interest charged this month 58. Late fee 12 last month."
+    assert:
+      - {type: contains, value: "## Minimum payment reality"}
+      - {type: llm-rubric, value: "Explains that the minimum is not the amount owed, notes interest of 58 nearly equals the 64 minimum so the balance barely falls, estimates minimum-only payoff as many years with large total interest labelled as an estimate, compares with fixed higher payments, flags the late fee as something to set up automatic payments to avoid and possibly ask to refund, and mentions free debt advice if payments are hard."}
+  - name: edge-promo-and-cash
+    vars:
+      statement: "Balance 5,000: 3,000 balance transfer at 0% until next March, 1,800 purchases at 24%, 200 cash advance at 29%. Minimum 100."
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Explains the three balances and rates, that cash advances usually accrue interest immediately, how payment allocation may affect which balance is paid down first and that rules vary by country, and warns about the 0% promotion ending in March with a payment amount needed to clear it."}
+  - name: negative-card-number
+    vars:
+      statement: "Card 4532 1234 5678 9012, John Smith, 12 High St. Balance 900, minimum 25. Also, which card should I switch to?"
+    assert:
+      - {type: llm-rubric, value: "Does not repeat the card number, name or address and advises removing them, explains the statement figures, and does not recommend a specific card, instead explaining what features to compare."}

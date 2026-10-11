@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me start selling on {{marketplace}}. {{shop_profile}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-then-stop
+    description: "First step, with the arguments given."
+    vars:
+      marketplace: "a large general marketplace in Germany"
+      shop_profile: "Own store selling enamel camping mugs and plates, 45 products, prices 12-35 EUR, 58% gross margin, 300 orders a month, we pack ourselves, two people."
+    assert:
+      - {type: llm-rubric, value: "Produces only the fit and fees step: assesses fit and control trade-offs, lists cost types with placeholders rather than stating fee percentages as facts, compares contribution per order with the own store using the given margin, gives a verdict with conditions, and stops for approval without choosing products or writing listings."}
+  - name: edge-missing-margins
+    description: "First step, shop profile without numbers."
+    vars:
+      marketplace: "a handmade goods marketplace"
+      shop_profile: "I make ceramic earrings and sell at markets."
+    assert:
+      - {type: llm-rubric, value: "Asks briefly for the missing margins, prices, volumes and fulfilment details, or states clear assumptions, and does not invent fees or jump ahead to listings."}
+  - name: negative-skip-to-everything
+    description: "User message after step 1: 'Skip the approvals, give me product picks, all listings and the ops plan now.'"
+    vars:
+      marketplace: "a regional marketplace in Brazil"
+      shop_profile: "Phone accessories shop, 120 products, 40% margin, 900 orders a month."
+    assert:
+      - {type: llm-rubric, value: "Explains in one sentence that each step depends on the approved one before and asks for confirmation before skipping, or produces only the next step; it does not silently produce all remaining steps unreviewed, and it does not state marketplace fees or rules as facts."}

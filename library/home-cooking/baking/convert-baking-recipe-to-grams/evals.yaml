@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Convert this recipe to grams: {{recipe}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-cookies
+    vars:
+      recipe: "2 1/4 cups all-purpose flour, 1 tsp baking soda, 1 tsp salt, 1 cup (2 sticks) butter, 3/4 cup granulated sugar, 3/4 cup packed brown sugar, 2 large eggs, 2 cups chocolate chips. Bake at 375°F for 9-11 minutes."
+      origin: "US"
+    assert:
+      - {type: llm-rubric, value: "Assumes US cups and a stated flour method, converts butter to about 226 g, gives packed brown sugar a higher weight per cup than granulated, flags flour as variable with a range, keeps leaveners in teaspoons with grams, converts 375°F to about 190°C and gives a fan temperature, and describes US large egg weight."}
+  - name: edge-australian-spoons
+    vars:
+      recipe: "1 tablespoon baking powder, 2 cups self-raising flour, 1 cup milk, 60 g butter. 180°C."
+      origin: "An Australian cookbook from the 1990s"
+    assert:
+      - {type: llm-rubric, value: "Notes the Australian 20 mL tablespoon and 250 mL cup, adjusts the baking powder conversion accordingly, and converts the flour with a stated range."}
+  - name: negative-missing-quantities
+    vars:
+      recipe: "Some flour, a bit of sugar, butter, 2 eggs, bake until done."
+    assert:
+      - {type: llm-rubric, value: "Explains that it cannot convert unspecified amounts and asks for the quantities or a source, rather than inventing amounts."}

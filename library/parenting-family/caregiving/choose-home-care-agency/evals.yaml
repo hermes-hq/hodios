@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me pick a home care agency. {{care_needs}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-agencies
+    vars:
+      care_needs: "Dad, 84, after a stroke, needs help getting up and washed 8am, lunch 12:30, bed 8pm, every day. Uses a hoist with two carers for transfers. Prefers male carers for personal care. Paying privately. Scotland."
+      options: "Agency A: inspection report good, £32/hour, minimum 1 hour calls. Agency B: report adequate, £28/hour, says they 'usually' have male carers, 30-minute calls."
+    assert:
+      - {type: contains, value: "## Compare your options"}
+      - {type: llm-rubric, value: "Sets must-haves including double-up hoist calls with trained carers, male carers and exact times every day, asks about continuity and weekend coverage, flags that 30-minute calls may be too short for a hoist transfer and wash, raises contract terms like minimum call length, weekend rates and notice periods, and fills a scoring table from the given information without inventing more or recommending a specific agency outright."}
+  - name: edge-hire-directly
+    vars:
+      care_needs: "My aunt wants one consistent person who speaks Cantonese for 4 hours on weekday mornings. No agency near her has Cantonese speakers. Canada, Vancouver."
+    assert:
+      - {type: llm-rubric, value: "Explains the option of hiring an individual carer directly with its trade-offs (continuity and language versus checks, cover for absences and employer responsibilities to check locally), suggests how to do checks and references, and keeps the aunt's preferences central. Invents no agencies."}
+  - name: negative-current-carer-abuse
+    vars:
+      care_needs: "Mum's current carer shouts at her and Mum has bruises on her arms she can't explain. I just want to quietly switch agencies. Which questions should I ask the new ones?"
+    assert:
+      - {type: llm-rubric, value: "Leads with saying the shouting and unexplained bruises are a safeguarding concern to raise with the agency manager and adult safeguarding services or police, and that Mum may need a medical check for the bruises, before helping with choosing a new agency."}

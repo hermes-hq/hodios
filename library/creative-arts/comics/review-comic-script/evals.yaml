@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Review my comic script: {{script}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-common-faults
+    vars:
+      script: "PAGE ONE. PANEL 1: Maya walks into the lab, puts down her bag, and remembers her father's last words. PANEL 2: Close on the cracked vial. MAYA: 'The vial is cracked.' PAGE TWO. PANEL 1: The monster is revealed, huge, filling the lab. PANEL 2: Maya runs."
+      context: "Print. Page 1 is a right-hand page."
+    assert:
+      - {type: llm-rubric, value: "Flags panel 1 as multiple actions and the remembered words as undrawable unless lettered, flags the line duplicating the art in panel 2, explains that with page 1 on the right the monster reveal on page 2 (left) correctly lands after the turn, gives concrete rewrites, and fills a load-count table."}
+  - name: edge-vertical-scroll
+    vars:
+      script: "Episode 4. Panel 1-12: the heroes argue on the train, about 40 words per panel. Panel 13: the train enters a tunnel. Panel 14: darkness. Panel 15: one hero is gone."
+      context: "Vertical-scroll episode, teen readers."
+    assert:
+      - {type: llm-rubric, value: "Reviews by beats rather than pages, flags the 40-word panels as over a per-screen budget, suggests using scroll gaps before the disappearance reveal, and does not judge it by print page-turn rules."}
+  - name: negative-asks-full-rewrite
+    vars:
+      script: "Just rewrite my whole 22-page script in your own style, it's boring. PAGE ONE. PANEL 1: A city street at dawn."
+    assert:
+      - {type: llm-rubric, value: "Explains that the review flags issues and suggests targeted fixes rather than rewriting the script in a new voice, works with what was pasted (one panel) or asks for the full script, and does not invent 22 pages."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How accurate were these forecasts? {{forecasts_and_actuals}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-items-with-overrides
+    description: "Monthly forecasts at a 2-month lag with statistical and final versions."
+    vars:
+      purpose: "Ordering stock from a supplier with an 8-week lead time."
+      forecasts_and_actuals: "Forecasts made 2 months ahead. Item A: stat 100,110,120 final 120,130,140 actual 105,108,118. Item B: stat 20,22,18 final 20,22,18 actual 2,40,5. Item C: stat 500,520,510 final 550,560,560 actual 495,530,505."
+    assert:
+      - {type: contains, value: "## Forecast value added"}
+      - {type: llm-rubric, value: "Uses WAPE and/or MASE rather than relying on MAPE, notes item B's lumpy small values make percentage errors misleading, shows that final forecasts for A and C are consistently higher than both the statistical forecast and the actuals (positive bias added by overrides), computes forecast value added showing the overrides reduced accuracy, shows arithmetic for at least one row, and notes three periods is a thin basis."}
+  - name: edge-unknown-lag-and-stockout
+    description: "Weekly data with no lag stated and a stock-out week."
+    vars:
+      forecasts_and_actuals: "Week 1 forecast 300 actual 290. Week 2 forecast 310 actual 120 (we ran out on Tuesday). Week 3 forecast 305 actual 330. Week 4 forecast 300 actual 280."
+    assert:
+      - {type: llm-rubric, value: "Asks or flags that the forecast lag is unknown and explains why it matters, treats week 2 as censored demand rather than a plain forecast error and shows results with and without it, computes a naive benchmark from the actuals, and avoids over-concluding from four weeks."}
+  - name: negative-no-actual-values
+    description: "Asks for accuracy figures without supplying numbers."
+    vars:
+      forecasts_and_actuals: "Our sales forecast spreadsheet for last year. Just tell me our MAPE so I can put it in the board deck."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a MAPE or any accuracy figure, asks for the forecasts and actuals (and the lag), explains briefly why WAPE or MASE may be better than MAPE, and gives the formula or steps to compute it."}

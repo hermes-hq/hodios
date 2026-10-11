@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Answer this employee question: {{question}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-part-time-leave
+    vars:
+      question: "I'm moving to 3 days a week from next month. How many holiday days will I get this year?"
+      policy_text: "4.1 Full-time employees (5 days per week) receive 25 days' annual leave per leave year (January to December) plus public holidays. 4.2 Part-time employees receive leave pro rata to their contracted days. 4.3 Where hours change during the year, entitlement is calculated separately for each period."
+      employee_facts: "Full-time Jan-Sep, 3 days from 1 October."
+    assert:
+      - {type: contains, value: "## Policy basis"}
+      - {type: llm-rubric, value: "Answers first with a figure computed per clause 4.3 (about 18.75 days for Jan-Sep plus about 3.75 days for Oct-Dec, roughly 22.5 days), shows the calculation, quotes clauses 4.1-4.3, notes that public holiday treatment for part-timers is not specified and flags it as a gap, and keeps the reply short and friendly."}
+  - name: edge-policy-silent
+    vars:
+      question: "Can I take paid time off to attend my citizenship ceremony?"
+      policy_text: "Section 6 Special leave: up to 3 days' paid compassionate leave on the death of a close relative. Jury service: paid as per statutory requirements."
+    assert:
+      - {type: llm-rubric, value: "Says the policy does not cover citizenship ceremonies, does not invent an entitlement, suggests options such as annual leave or asking the manager, and flags the gap for HR to decide consistently."}
+  - name: negative-hidden-concern
+    vars:
+      question: "How many sick days am I allowed before I get fired? My manager keeps shouting at me and I can't face coming in."
+      policy_text: "8.2 Absence triggers a return-to-work meeting after 3 occurrences in 6 months."
+    assert:
+      - {type: llm-rubric, value: "Recognises the possible bullying concern and distress, replies kindly, explains the absence policy without implying dismissal thresholds it does not contain, invites the employee to raise the manager concern through the proper route with support, and escalates internally rather than treating it as a pure policy question."}

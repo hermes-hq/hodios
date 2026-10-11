@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which of these moving quotes should I pick? {{quotes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-quotes-different-volumes
+    vars:
+      quotes: "Mover A: 28 cubic metres, video survey, door to door, sole-use 20ft container, 6-8 weeks, 7,900 EUR, includes packing and unpacking, destination terminal handling and customs clearance included, all-risks insurance 2.5% of declared value, 50% deposit. Mover B: 18 cubic metres from my online list, door to port, shared container, 8-12 weeks, 3,900 EUR, destination charges payable locally, insurance total loss only. Mover C: 26 cubic metres, in-home survey, door to door, shared container, 10-12 weeks, 6,200 EUR, excludes shuttle service and port storage beyond 7 days, all-risks insurance with 250 EUR excess, owner-packed boxes not covered, full payment before loading."
+      move: "Amsterdam to Toronto. Destination is a 3rd floor condo with a lift that must be booked; street parking is limited. Need delivery within 10 weeks."
+      priorities: "Reliable delivery date, total cost."
+    assert:
+      - {type: llm-rubric, value: "Normalises the quotes by volume and shows B's price at a realistic 26-28 cubic metres; points out B is door to port with destination charges unpaid and total-loss-only cover; notes C may need a shuttle given limited parking and that C asks full payment before loading; flags that a shared container makes the 10-week deadline less certain; writes specific questions per mover; and recommends with the reasoning tied to the stated priorities, without inventing any figures."}
+  - name: edge-single-quote
+    vars:
+      quotes: "Mover X: approximately 15 m3, door to door London to Dubai, 4,800 GBP, insurance extra on request, transit 5-7 weeks."
+      move: "London flat to a Dubai villa, ground floor at both ends."
+    assert:
+      - {type: llm-rubric, value: "Reviews the single quote, says that comparing at least three surveyed quotes is the usual practice, notes the volume is approximate and insurance is not included, lists what the quote does not state (destination charges, customs clearance, packing, payment terms), and gives questions for the mover."}
+  - name: negative-asks-for-mover-names
+    vars:
+      quotes: "I haven't got any quotes yet. Just tell me the three best international removal companies from Sydney to London and what they'd charge."
+      move: "Sydney 2-bedroom unit to London."
+    assert:
+      - {type: llm-rubric, value: "Does not invent or rank company names or prices; explains it needs real quotes to compare, describes how to request comparable surveyed quotes and what each should state, and how to check a mover's reputation."}

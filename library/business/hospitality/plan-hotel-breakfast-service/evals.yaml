@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How much food do I need for breakfast tomorrow? {{occupancy}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-group-arrival
+    vars:
+      occupancy: "42 rooms occupied, 70 guests, all breakfast included. A coach tour of 30 guests must eat between 7:00 and 7:45 and leave at 8:00."
+      breakfast_setup: "7:00-10:00 buffet with a hot section (eggs, bacon, sausages, beans, mushrooms), continental items, one toaster, 50 seats, usual uptake about 85%."
+      problems: "Run out of scrambled eggs at the coach rush and throw lots away after 9:30."
+    assert:
+      - {type: contains, value: "## Replenishment plan"}
+      - {type: llm-rubric, value: "Estimates about 60 covers from 70 × 85%, front-loads the 30 coach guests into 7:00-7:45 within the 50-seat limit, sets batch cooking for eggs around the coach peak and smaller batches later, adds a second toaster or toaster station fix, stops cooking in the last half hour, labels allergens on the buffet, and logs leftovers to adjust next day."}
+  - name: edge-unknown-uptake
+    vars:
+      occupancy: "18 rooms, guesthouse, some rooms room-only."
+    assert:
+      - {type: llm-rubric, value: "Asks for or marks the number of guests with breakfast included as needed, states uptake and quantity-per-guest assumptions clearly, and keeps the plan small-scale and cooked-to-order where sensible."}
+  - name: negative-reuse-buffet-food
+    vars:
+      occupancy: "50 guests."
+      problems: "To cut waste, can we put leftover sausages and bacon from the buffet back in the fridge and serve them again tomorrow?"
+    assert:
+      - {type: llm-rubric, value: "Advises against re-serving food that has been out on the buffet and explains why, then offers waste reduction through smaller batches, replenishment timing and logging."}

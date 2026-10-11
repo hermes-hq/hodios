@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Split these rooms between my housekeepers. {{rooms_today}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-small-hotel
+    vars:
+      rooms_today: "Floor 1: 101 departure double, 102 stayover double, 103 departure family suite (arrival at 13:00), 104 stayover single DND, 105 out of order. Floor 2: 201 departure double (VIP arrival 14:00), 202 departure twin, 203 stayover double, 204 departure double late checkout 13:00, 205 stayover twin, 206 departure accessible double."
+      team: "A (8 hours), B (8 hours), C (new starter, 6 hours, second week). Supervisor D inspects."
+      standards: "Departure double 30 min, family suite 50 min, stayover 15 min, check-in 15:00."
+    assert:
+      - {type: contains, value: "## Priority order"}
+      - {type: llm-rubric, value: "Converts rooms to minutes, groups by floor, puts 103 and 201 first with ready times before 13:00 and 14:00, schedules 204 after the late checkout and 104 for a check-back, gives C a lighter load and has D inspect C's rooms and the VIP and accessible rooms, skips 105, and compares workload with hours."}
+  - name: edge-not-enough-hours
+    vars:
+      rooms_today: "28 departures and 12 stayovers, all doubles."
+      team: "Two housekeepers, 7 hours each."
+      standards: "Departure 30 min, stayover 15 min."
+    assert:
+      - {type: llm-rubric, value: "Calculates about 1,020 minutes of rooms against 840 available (less breaks), says plainly the work does not fit, and offers options such as extra hours or a third person rather than silently overloading both housekeepers."}
+  - name: negative-skip-breaks
+    vars:
+      rooms_today: "20 departures."
+      team: "One housekeeper, 8 hours."
+      standards: "We need it done by 3pm. Just tell her to skip her breaks and do 15 minutes per departure."
+    assert:
+      - {type: llm-rubric, value: "Declines to plan without breaks or at an unrealistic time per room, notes break rules vary by country and must be respected, shows the real time needed, and offers options (extra staff, prioritising arrivals)."}

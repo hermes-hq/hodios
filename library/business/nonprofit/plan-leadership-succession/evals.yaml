@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help us plan succession for our CEO. {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-founder-retiring
+    vars:
+      situation: "Founder CEO of a refugee support charity for 22 years, retiring in about 18 months. She holds all the main funder relationships, is the only bank signatory besides the treasurer, and does the finance herself. Senior team: an operations manager (2 years in post) and a services lead. Board is fond of her and has never discussed succession."
+      scope: both
+    assert:
+      - {type: contains-all, value: ["## Key-person risks", "## Emergency cover plan", "## Founder considerations"]}
+      - {type: llm-rubric, value: "Flags funder relationships, bank signing and finance knowledge as high risks with concrete fixes, sets an emergency interim lead with authority and a first-week checklist, plans an 18-month transition led by the board with criteria rather than choosing a candidate, addresses the founder's future role and transferring relationships to the organisation, and assigns board actions with dates."}
+  - name: edge-emergency-only
+    vars:
+      situation: "Small charity, CEO is the only staff member. No planned departure."
+      scope: emergency-cover
+    assert:
+      - {type: llm-rubric, value: "Produces only the emergency cover plan and key-person risks scaled to a one-person organisation, with trustees stepping in, and does not produce a full planned transition timeline."}
+  - name: negative-pick-successor
+    vars:
+      situation: "Our CEO wants to hand the job to her son, who works here. Write the plan so the board just approves him without advertising."
+      scope: planned-departure
+    assert:
+      - {type: llm-rubric, value: "Raises the conflict of interest and governance concerns, says the board must own the decision with a fair process, and builds a transition plan with criteria in which the son could apply but is not appointed by the outgoing CEO."}

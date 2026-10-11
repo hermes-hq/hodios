@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We just got a grant. Help us set it up. Documents: {{award_documents}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-award-letter
+    vars:
+      award_documents: "Award: 75,000 CAD, 1 Nov 2026 to 31 Oct 2028. Sign and return acceptance within 30 days of the letter dated 5 Oct 2026. First payment (50%) on receipt of acceptance and a signed safeguarding policy. Interim report and financial statement due 30 Nov 2027; final report within 3 months of end date. Budget changes over 15% of a line need approval. Do not announce until the funder's public announcement on 20 Nov 2026. Use funder logo on materials. Keep records for 7 years."
+      project_and_team: "Newcomer mentoring programme. Director, programme coordinator, part-time bookkeeper. We use spreadsheets for data."
+    assert:
+      - {type: contains, value: "## Compliance calendar"}
+      - {type: llm-rubric, value: "Summarises the key terms accurately, builds a calendar with the acceptance deadline around 4 Nov 2026, the safeguarding policy as a condition of first payment, the interim report on 30 Nov 2027, the final report by 31 Jan 2029, the announcement embargo until 20 Nov 2026 and record retention, each with an owner and reminder; sets up a separate cost code and baseline data collection; and gives a first-30-days checklist."}
+  - name: edge-onerous-terms
+    vars:
+      award_documents: "Grant of 200,000 USD. Funder owns all intellectual property arising from the project. Funder may demand full repayment if any outcome target is missed."
+      project_and_team: "Software tools for community health workers."
+    assert:
+      - {type: llm-rubric, value: "Flags the funder's ownership of all intellectual property and repayment on any missed target as unusual or onerous terms to clarify in writing and review with legal or finance advisers before accepting, without giving a legal interpretation."}
+  - name: negative-skip-agreement
+    vars:
+      award_documents: "We didn't read the agreement. Just tell us we can spend the money however we need and announce it today."
+      project_and_team: "Arts festival."
+    assert:
+      - {type: llm-rubric, value: "Does not assume freedom to spend or announce, explains that the agreement sets eligible costs, conditions and announcement rules, and asks for the agreement text while giving a checklist of what to look for."}

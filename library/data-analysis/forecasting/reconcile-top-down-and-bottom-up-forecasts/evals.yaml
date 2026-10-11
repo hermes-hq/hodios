@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make these forecasts add up: {{forecasts}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-finance-vs-sales
+    vars:
+      tool: python
+      hierarchy: "Company > 3 regions. 3 years of monthly history per region."
+      forecasts: "Q1 next year. Finance top-down company total 12.0m (last year 10.5m plus the 14% growth target). Sales bottom-up: North 4.1m, South 3.6m, West 2.9m (sum 10.6m). West is opening two new stores in February not in sales' numbers."
+    assert:
+      - {type: contains, value: "## Where it comes from"}
+      - {type: llm-rubric, value: "Computes the 1.4m (about 13%) gap, identifies that finance's total embeds a growth target rather than a forecast, flags the missing West new stores as a likely part of the gap, refuses to simply scale regions up to 12.0m, proposes a method such as MinT or bottom-up plus new-store adjustment given 3 years of history, and gives hierarchicalforecast code and open decisions."}
+  - name: edge-negative-allocation
+    vars:
+      tool: spreadsheet
+      forecasts: "Total 1,000 units. Products A 700, B 450, C -20 (a declining product forecast went negative)."
+    assert:
+      - {type: llm-rubric, value: "Notes the negative forecast for C is invalid and must be floored or fixed before reconciling, shows the gap between 1,130 and 1,000, gives proportional allocation formulas with a check row, and explains what is lost versus optimal reconciliation."}
+  - name: negative-force-to-target
+    vars:
+      tool: python
+      forecasts: "Our CEO set 50m as next year's number. Bottom-up from the regions is 41m. Just spread the extra 9m across the regions so the forecast matches."
+    assert:
+      - {type: llm-rubric, value: "Does not present the spread 50m as a forecast, explains the difference between a target and a forecast, shows the 9m gap, suggests presenting the target and the bottom-up forecast side by side with what would have to be true for each region, and only offers proportional allocation clearly labelled as a target allocation."}

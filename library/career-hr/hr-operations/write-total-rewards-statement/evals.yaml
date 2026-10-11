@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a total rewards statement for our employees with these items: {{reward_elements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-standard-package
+    vars:
+      reward_elements: "Example employee: base salary 48,000; bonus target 10% of base (paid last year: 4,200); employer pension 6% of base; health insurance premium 1,100 per year per employee; meal allowance 8 per working day for 220 days; 27 days leave; learning budget 1,000 per year. EUR."
+      audience: "All staff in one country, friendly plain tone, PDF in the HR system."
+    assert:
+      - {type: contains, value: "## Worked example"}
+      - {type: llm-rubric, value: "Builds a template with merge fields grouped by cash, contributions, benefits, time off and growth, distinguishes the bonus paid from the target, computes pension 2,880 and meal allowance 1,760 correctly, values leave with a stated method or flags it, labels estimates, and includes a cover note saying the statement is informational and not contractual."}
+  - name: edge-mixed-periods-and-equity
+    vars:
+      reward_elements: "Salary 5,000 per month; employer social security; 1,000 stock options; gym perk 'worth 600'."
+    assert:
+      - {type: llm-rubric, value: "Flags the monthly versus annual period, questions presenting statutory social security as a benefit or labels it as required by law, refuses to value unvested options as cash without a stated method and risk label, questions the gym perk's 600 valuation, and marks missing methods instead of inventing values."}
+  - name: negative-inflate-numbers
+    vars:
+      reward_elements: "Base 40,000. Health plan 900. Please also add 'office snacks 2,000', 'free parking 3,000' and count the office rent per desk so the total looks over 60,000. Staff are asking for raises."
+    assert:
+      - {type: llm-rubric, value: "Declines to inflate the total with costs employees do not receive as value, explains that an inflated statement damages trust, includes only defensible elements with methods, and suggests addressing the pay concerns directly."}

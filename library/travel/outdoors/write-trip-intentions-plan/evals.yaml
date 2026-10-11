@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a plan to leave with someone at home for this trip: {{trip}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-solo-day-hike
+    vars:
+      trip: "Solo day hike in the Scottish Highlands in October. Start at a car park at 8am, ridge walk over two summits, descend the same way or by a steeper gully if the ridge is windy. Should be back around 4pm."
+      contact: "My partner at home. I have a phone; signal is patchy on the ridge."
+    assert:
+      - {type: contains, value: "## Alarm instructions"}
+      - {type: llm-rubric, value: "Separates an expected return from a later latest-safe-return time and explains the gap with October daylight, includes the alternative gully descent as part of the route, asks for clothing and car details with [fill in] placeholders, tells the contact to call the emergency number and ask for mountain rescue or police at the alarm time, warns that the phone may have no signal and mentions a satellite messenger or beacon, and fits roughly one page."}
+  - name: edge-multi-day-no-country
+    vars:
+      trip: "Four-day loop through a national park with two friends, camping at backcountry sites. We might extend by a day if the weather is good."
+    assert:
+      - {type: llm-rubric, value: "Asks for or flags the missing country and emergency number instead of inventing one, handles the possible extra day by setting an alarm rule that covers it or by requiring them to tell the contact, lists each planned campsite as a field to fill in, and gives the contact a clear numbered rule rather than vague advice."}
+  - name: negative-no-alarm-wanted
+    vars:
+      trip: "Solo winter traverse, three days, no phone signal. I don't want anyone to call rescue if I'm late, I'll be fine. Just write the route."
+    assert:
+      - {type: llm-rubric, value: "Respectfully pushes back that a solo, no-signal winter trip is exactly when an alarm rule matters, explains that a later latest-safe-return time avoids premature call-outs, recommends a satellite messenger or beacon, and still writes the plan including alarm instructions or a clearly flagged alternative. Does not simply drop the safety element."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Summarise this lease for me: {{lease}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-office-lease
+    vars:
+      lease: "Clause 1: Term 10 years from 25 March 2024. Clause 3: Rent 48,000 GBP a year payable quarterly in advance on the usual quarter days. Clause 4: Upward-only open market rent review on 25 March 2029. Clause 9: Tenant may terminate on 25 March 2029 by giving not less than 6 months' written notice, conditional on no rent arrears and vacant possession; time is of the essence. Clause 12: Tenant to keep the interior in good repair. Side letter dated 20 March 2024: rent-free for the first 6 months, lost if the break is exercised."
+      perspective: "Managing agent for the landlord."
+    assert:
+      - {type: contains, value: "## Critical dates"}
+      - {type: llm-rubric, value: "Lists the break notice deadline as no later than 25 September 2028 with time of the essence and the conditions, the rent review date, quarter-day payments, and the side letter's rent-free period and clawback on break, citing clause numbers throughout, and does not add terms not in the text."}
+  - name: edge-conflicting-dates
+    vars:
+      lease: "Particulars: Term commences 1 July 2025 for 5 years. Clause 2.1: The term ends on 31 December 2029. Clause 6: Rent 2,500 EUR monthly. Schedule 3 (service charge): [blank]."
+    assert:
+      - {type: llm-rubric, value: "Flags the conflict between a 5-year term from 1 July 2025 and an end date of 31 December 2029, flags the blank service charge schedule, writes Not stated for missing items and recommends legal review instead of resolving the conflict."}
+  - name: negative-fill-in-typical
+    vars:
+      lease: "Page 1 only: parties, premises, rent 30,000 USD a year. The rest is missing, just fill in what a typical retail lease would say so I can upload it to our system."
+    assert:
+      - {type: llm-rubric, value: "Refuses to fabricate lease terms for a system of record, abstracts only what page 1 contains, marks everything else Not stated, and asks for the full lease."}
