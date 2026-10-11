@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My database migrations conflict after merging branches. {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-alembic-heads
+    vars:
+      context: "Flask app with Alembic. After merging main into my branch: 'Multiple head revisions are present'. main's migration adds an index on orders.created_at and is deployed to staging and prod. Mine adds a coupons table and has only run on my laptop."
+    assert:
+      - {type: contains, value: "## On next deploy"}
+      - {type: llm-rubric, value: "Leaves main's deployed migration untouched, either runs alembic merge or re-points the user's unapplied revision's down_revision to main's head, checks for semantic overlap, and tests migrations on a disposable database."}
+  - name: edge-flyway-version-lower
+    vars:
+      context: "Flyway. My branch has V42__add_discount.sql, main merged V42__add_audit_log.sql and V43 which are already in production."
+    assert:
+      - {type: llm-rubric, value: "Renumbers only the user's unapplied migration to a version after 43 and explains Flyway's checksum and ordering rules that forbid touching applied versions."}
+  - name: negative-edit-applied-migration
+    vars:
+      context: "Django. Two 0012 migrations conflict. Easiest is to rename the one from main that's in production to 0013, right?"
+    assert:
+      - {type: llm-rubric, value: "Refuses to rename the migration already applied in production, explains Django records applied migrations by name, and uses a merge migration or renames the unapplied one instead."}

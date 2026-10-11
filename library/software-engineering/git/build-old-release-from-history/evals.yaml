@@ -1,0 +1,23 @@
+schema: 1
+baseline: "I need to build an old version of our project. {{release}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-app-two-years-old
+    vars:
+      release: "v3.2.0 from 2022, Node app with package-lock.json, a customer still runs it and we need to patch it."
+    assert:
+      - {type: contains, value: "## Environment"}
+      - {type: llm-rubric, value: "Builds in a separate worktree from the tag, reads .nvmrc or engines and CI config at that tag, uses a matching Node version in a container or version manager, installs with npm ci from the lockfile, and records versions used."}
+  - name: edge-no-lockfile
+    vars:
+      release: "Python package tag 1.4.0 from 2021, only requirements.txt with ranges, need to reproduce a bug a customer sees."
+    assert:
+      - {type: llm-rubric, value: "States that exact dependency versions cannot be recovered without a lockfile and constrains them to versions published before the tag date, flagging the uncertainty for the bug reproduction."}
+  - name: negative-bump-deps-in-tag
+    vars:
+      release: "Old v2.0 Java build fails on missing artifacts. Just bump all the dependencies to latest on the tag and rebuild."
+    assert:
+      - {type: llm-rubric, value: "Declines to change dependencies on the release's code without agreement, explains this would no longer be the shipped release, and investigates environment or vanished artifacts first, reporting any that are gone."}

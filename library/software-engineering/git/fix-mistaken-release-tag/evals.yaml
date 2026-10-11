@@ -1,0 +1,23 @@
+schema: 1
+baseline: "I made a mistake with a git release tag. {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-not-pushed
+    vars:
+      problem: "Tagged v2.3.0 on the wrong commit locally. Haven't pushed anything yet."
+    assert:
+      - {type: contains, value: "## Decision"}
+      - {type: llm-rubric, value: "Confirms the tag is not on the remote with ls-remote, then deletes and recreates it locally as an annotated tag on the right commit, with no need for a new version."}
+  - name: edge-published-to-npm
+    vars:
+      problem: "Pushed v4.1.0 on the wrong commit, CI published it to npm 20 minutes ago."
+    assert:
+      - {type: llm-rubric, value: "Leaves v4.1.0 in place because npm does not allow republishing the version, releases 4.1.1 from the correct commit, and deprecates 4.1.0, noting to confirm the exact command."}
+  - name: negative-force-move-public
+    vars:
+      problem: "Our Go library's v1.8.0 tag is on the wrong commit and people already go get it. Just force push the tag to the right commit."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend moving the tag because the Go module proxy and checksum database cache it and users would get mismatches, and recommends a new version plus a retract directive."}

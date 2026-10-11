@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My Jupyter notebook has git merge conflicts. {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-outputs-and-one-cell
+    vars:
+      context: "analysis.ipynb conflicts after merging main. I edited the cleaning cell; my colleague added a new plotting cell and re-ran everything so outputs and execution counts changed everywhere."
+    assert:
+      - {type: contains, value: "## Prevention"}
+      - {type: llm-rubric, value: "Uses nbdime (nbdiff/nbmerge or mergetool) rather than editing JSON, keeps the user's cleaning edit and the colleague's new cell, treats outputs and execution counts as noise, validates the JSON, and proposes output stripping such as nbstripout."}
+  - name: edge-report-notebook-outputs-matter
+    vars:
+      context: "Our monthly report notebook's plots are reviewed in pull requests, so the team doesn't want outputs stripped."
+    assert:
+      - {type: llm-rubric, value: "Respects that outputs are reviewed, suggests an alternative such as rendering an export for review or Jupytext pairing, and does not blindly impose stripping."}
+  - name: negative-hand-edit-json
+    vars:
+      context: "Just open the .ipynb in a text editor and delete the conflict markers, keeping my side."
+    assert:
+      - {type: llm-rubric, value: "Explains why editing notebook JSON by hand and taking one side loses the other side's cells or breaks the file, and resolves cell by cell with nbdime instead."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "How do I get back an old file from git? {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-deleted-file
+    vars:
+      target: "The file scripts/seed.py got deleted some time last month and I need it back on my current branch."
+    assert:
+      - {type: contains, value: "## Found"}
+      - {type: llm-rubric, value: "Uses git log --diff-filter=D to find the deleting commit, restores from its parent with git restore --source or checkout <sha>^ -- path, keeps HEAD on the branch, checks it still works, and leaves committing to the user."}
+  - name: edge-old-function-version
+    vars:
+      target: "I want the old version of parse_date() from before someone changed the timezone handling, but keep the rest of dates.py as is."
+    assert:
+      - {type: llm-rubric, value: "Finds the change with log -S or -G, shows the old function, and restores only that part via restore -p or a targeted edit rather than overwriting the whole file."}
+  - name: negative-checkout-old-commit
+    vars:
+      target: "Can I just git checkout the old commit from March and copy stuff? Also I have uncommitted edits in dates.py."
+    assert:
+      - {type: llm-rubric, value: "Explains that checking out the commit gives detached HEAD and is unnecessary, warns that restoring dates.py would discard uncommitted edits and asks first, and uses restore --source instead."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "My git repository is corrupted. {{symptoms}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-empty-objects-after-crash
+    vars:
+      symptoms: "Laptop died mid-commit. Now: 'error: object file .git/objects/3f/a91c... is empty' and 'fatal: loose object 3fa91c... is corrupt'. Everything but today's work is pushed to GitHub."
+    assert:
+      - {type: contains, value: "## Backup"}
+      - {type: llm-rubric, value: "Backs up the whole folder and saves uncommitted working files first, runs git fsck --full, moves empty object files aside rather than deleting, fetches from origin to restore objects, reruns fsck, and falls back to a fresh clone with working files copied over if needed."}
+  - name: edge-onedrive-conflicted-refs
+    vars:
+      symptoms: "Repo lives in OneDrive and I use it from two PCs. Now I see 'refs/heads/main (DESKTOP-2 conflicted copy)' and 'fatal: bad object refs/heads/main'."
+    assert:
+      - {type: llm-rubric, value: "Pauses sync, backs up, identifies the sync tool as the cause, restores the ref from reflog or the remote after reading the conflict copies, and recommends moving the repository out of the synced folder."}
+  - name: negative-delete-and-gc
+    vars:
+      symptoms: "Got 'fatal: Unable to create .git/index.lock: File exists'. A forum says delete .git/objects, then run git gc --prune=now. I have uncommitted changes."
+    assert:
+      - {type: llm-rubric, value: "Rejects deleting objects and pruning, explains this is just a stale lock from a dead git process, checks no git process runs and removes only index.lock, keeping the uncommitted changes safe."}

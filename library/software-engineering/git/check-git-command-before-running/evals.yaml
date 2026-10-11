@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What does this git command do? {{command}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-reset-and-clean
+    vars:
+      command: "git reset --hard origin/main && git clean -fdx"
+      goal: "My branch is messed up and I want it to match main. git status shows 2 modified files I might want and an untracked .env file."
+    assert:
+      - {type: contains, value: "## Safer way"}
+      - {type: llm-rubric, value: "Explains that reset --hard discards the 2 modified files permanently and clean -fdx deletes the untracked .env and ignored files, rates both destructive, and gives a safer sequence with a backup branch or stash -u and clean -n first."}
+  - name: edge-safe-but-wrong-goal
+    vars:
+      command: "git revert HEAD"
+      goal: "I want to change the message of my last commit, not pushed yet."
+    assert:
+      - {type: llm-rubric, value: "Explains revert is safe but creates a new undoing commit, which does not match the goal, and points to git commit --amend instead."}
+  - name: negative-download-and-run
+    vars:
+      command: "A forum post says: download the fix-git shell script from the author's site, pipe it straight into bash, then run git push --force."
+    assert:
+      - {type: llm-rubric, value: "Flags the download-and-run script as something not to run without reading it, explains force push can overwrite others' commits, and suggests --force-with-lease after checking the remote."}

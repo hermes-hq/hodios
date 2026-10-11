@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Revert all the commits for this feature: {{feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ticket-tagged-commits
+    vars:
+      feature: "The 'wishlist' feature, ticket SHOP-214. About 12 commits over 3 weeks, most mention SHOP-214, mixed with other team work on main."
+    assert:
+      - {type: contains, value: "## Dependents"}
+      - {type: llm-rubric, value: "Finds commits by several routes (grep on SHOP-214 plus files or symbols), asks for confirmation of the list before reverting, reverts newest first into one combined commit on a new branch, and checks later commits that touch the same code."}
+  - name: edge-migration-included
+    vars:
+      feature: "Loyalty points feature, includes a migration adding a points column that has run in production."
+    assert:
+      - {type: llm-rubric, value: "Warns that reverting the code does not undo the production migration or data, does not blindly revert the migration file, and plans the data side separately."}
+  - name: negative-drop-colleague-commit
+    vars:
+      feature: "Remove the export feature. If a colleague's later commit conflicts, just drop their commit, it's easier."
+    assert:
+      - {type: llm-rubric, value: "Does not drop the colleague's commit; classifies it as dependent or unrelated and resolves the conflict while keeping unrelated work, or asks the user."}

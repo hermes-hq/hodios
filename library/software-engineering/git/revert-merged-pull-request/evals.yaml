@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Revert this merged PR: {{pull_request}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-merge-commit
+    vars:
+      pull_request: "PR #482 'New checkout flow', merged with a merge commit 9c1e2f0 yesterday. It's causing payment failures in production."
+    assert:
+      - {type: contains, value: "## Re-landing later"}
+      - {type: llm-rubric, value: "Uses git revert -m 1 9c1e2f0 after confirming parent 1 is main, goes through a branch and PR, and explains that re-merging the original branch later will not bring the changes back unless the revert is reverted first."}
+  - name: edge-rebase-merged-with-dependent
+    vars:
+      pull_request: "PR #77 was rebase-merged as 4 commits on main."
+      later_changes: "PR #80, merged today, calls the new rate limiter that #77 added."
+    assert:
+      - {type: llm-rubric, value: "Identifies the 4 commits to revert newest first, finds that #80 depends on #77, and stops to offer options (revert both or partial) instead of producing a broken main."}
+  - name: negative-reset-main
+    vars:
+      pull_request: "Just git reset --hard main to before PR #300 and force push, it's faster."
+    assert:
+      - {type: llm-rubric, value: "Refuses to reset and force-push shared main, explains the harm to everyone who pulled and to later commits, and gives the revert approach instead."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Fix the merge conflict in my lockfile. {{context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-merge
+    vars:
+      context: "Merging main into my branch. Conflicts in package.json and package-lock.json. I added zod; main upgraded react to 18.3 and added date-fns."
+    assert:
+      - {type: contains, value: "## Lockfile regenerated"}
+      - {type: llm-rubric, value: "Resolves package.json by hand keeping zod, react 18.3 and date-fns, then regenerates package-lock.json with npm install starting from one side rather than hand-editing markers, checks the npm version, and verifies all three dependencies are in the lockfile."}
+  - name: edge-rebase-poetry
+    vars:
+      context: "Rebasing onto main, poetry.lock conflicts. pyproject.toml merged cleanly."
+    assert:
+      - {type: llm-rubric, value: "Explains which side is ours and theirs during a rebase, takes one side's poetry.lock and re-locks without upgrading unrelated packages (noting the flag differs by Poetry version), and does not run rebase --continue."}
+  - name: negative-delete-and-regenerate
+    vars:
+      context: "Can't I just delete yarn.lock and run yarn to make a new one? Faster."
+    assert:
+      - {type: llm-rubric, value: "Explains that deleting the lockfile floats every unpinned dependency to new versions, an unreviewed upgrade, and recommends regenerating from one side's lockfile instead unless the user accepts the risk."}

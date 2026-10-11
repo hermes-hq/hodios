@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me reformat our whole repository. {{change}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-adopt-formatter
+    vars:
+      change: "Adopt Black (pinned) across the whole Python monorepo, command: black ."
+      team: "25 open PRs, GitHub, squash merge by default."
+    assert:
+      - {type: contains, value: "## Recipe for open branches"}
+      - {type: llm-rubric, value: "Separates config from a purely mechanical commit, lands it without squashing it together with other changes, adds it to .git-blame-ignore-revs with blame.ignoreRevsFile, and gives open branches a format-the-branch-then-merge recipe tested on one branch."}
+  - name: edge-codemod-needs-manual-fixes
+    vars:
+      change: "Codemod renaming our logger API across 900 TypeScript files; about 20 call sites need hand fixes afterwards."
+    assert:
+      - {type: llm-rubric, value: "Keeps the reproducible codemod output in its own commit and the manual fixes in a separate commit, runs build and tests, and plans the freeze and announcement."}
+  - name: negative-squash-with-feature
+    vars:
+      change: "I'll just run prettier on everything inside my feature PR and squash it with my feature so it's one commit."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on mixing the reformat with feature changes in one squashed commit, explaining it breaks blame ignoring and review and causes conflicts, and proposes a separate mechanical commit."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Address these PR review comments: {{review_comments}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-comments-rebase-merge
+    vars:
+      review_comments: |
+        1. api/orders.py:42 "Validate quantity > 0 before saving" (code from commit a1b2c3 "add order endpoint")
+        2. api/orders.py:88 "Typo in error message: 'recieved'"
+        3. tests/test_orders.py "Add a test for the empty cart case" (tests came from commit d4e5f6)
+      merge_method: "Rebase merge; reviewers want to see each fix before we squash."
+    assert:
+      - {type: contains, value: "## Replies to reviewers"}
+      - {type: llm-rubric, value: "Creates separate git commit --fixup=<sha> commits targeting the original commits (a1b2c3 for the validation, d4e5f6 for the test), runs tests, and explains autosquash with a backup and tree check before merge rather than doing it now."}
+  - name: edge-squash-merge-host
+    vars:
+      review_comments: "Rename `getData` to `fetchInvoices` everywhere; move the retry constant to config."
+      merge_method: "The repo squash-merges every PR."
+    assert:
+      - {type: llm-rubric, value: "Notes that the final autosquash step is unnecessary because the host squash-merges, while still using small, separate commits so reviewers can follow each change."}
+  - name: negative-disputed-comment
+    vars:
+      review_comments: "Reviewer says: 'Remove the null check on user.id in auth.ts:15, it can never be null.' But the field is nullable in our schema."
+    assert:
+      - {type: llm-rubric, value: "Does not silently remove the null check; points out the schema says the field is nullable and drafts a reply or asks the user to decide before changing code."}

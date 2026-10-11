@@ -1,0 +1,24 @@
+schema: 1
+baseline: "We keep getting the same merge conflicts. How do we stop them? {{symptoms}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-registry-and-changelog
+    vars:
+      symptoms: "8 developers, branches live about a week. Nearly every PR conflicts in src/routes.ts (we add routes at the bottom), CHANGELOG.md and src/di/container.ts."
+    assert:
+      - {type: contains, value: "## Fixes"}
+      - {type: llm-rubric, value: "Uses git history (merge resolutions or change frequency) as evidence, identifies append-at-end registries and the shared changelog as structural causes, and proposes concrete fixes such as sorted or split registration files and changelog fragments, ordered by effort."}
+  - name: edge-formatter-drift
+    vars:
+      symptoms: "Conflicts are huge, whole files light up, even when two people changed different functions. Some of us use the IDE formatter, some run prettier from the CLI."
+      since: "3 months"
+    assert:
+      - {type: llm-rubric, value: "Identifies formatter drift as the likely cause, checks for a pinned formatter config and version, and recommends pinning plus a CI or hook check, possibly with a one-time reformat."}
+  - name: negative-real-concurrent-work
+    vars:
+      symptoms: "Two teams are rewriting the pricing engine at the same time and keep conflicting in pricing/calculate.py. Can git settings fix this?"
+    assert:
+      - {type: llm-rubric, value: "Says honestly that this is concurrent work on the same logic, that git settings or merge=union will not solve it, and recommends coordination such as sequencing, smaller merges or splitting the module."}
