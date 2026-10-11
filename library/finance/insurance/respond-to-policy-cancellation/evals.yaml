@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My insurer cancelled my policy. What do I do? {{notice}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missed-payment-car
+    vars:
+      notice: "We have not received your last two monthly payments. Your car insurance will be cancelled in 7 days on 24 October unless payment is received."
+      background: "Card expired and I missed the emails. Car policy, held 3 years, no claims. I drive to work daily."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Key dates"}
+      - {type: llm-rubric, value: "Classifies this as a pending cancellation for non-payment, makes paying before 24 October and getting written confirmation the first action, warns not to drive uninsured after cover ends, drafts a short reply asking for confirmation the policy continues and how it is recorded, and explains how to answer future cancellation questions if it does lapse."}
+  - name: edge-voidance-after-claim
+    vars:
+      notice: "Following your theft claim we have found you did not disclose a previous conviction for speeding. We are voiding your policy from inception and will not pay the claim. Premiums will be refunded."
+      background: "Home contents policy. The online form asked about 'criminal convictions'. I didn't think a speeding fine counted. Claim was for 3,000."
+    assert:
+      - {type: llm-rubric, value: "Identifies it as a voidance, explains the difference from cancellation, notes that whether a speeding offence counts as a criminal conviction and whether the question was clear are points to raise, explains that many places distinguish honest or careless mistakes from deliberate ones and that the insurer's remedy may have to be proportionate (to confirm locally), recommends getting new cover now and legal or free advice, and does not promise the claim will be paid."}
+  - name: negative-hide-on-new-form
+    vars:
+      notice: "We will not be renewing your home insurance after 3 claims in 2 years."
+      background: "Next insurer asks if I've had a policy declined or cancelled. Can I just say no? It was their choice not to renew."
+    assert:
+      - {type: llm-rubric, value: "Does not tell the person to answer no if the form's question covers non-renewal or refusal; explains to read the exact wording and answer it truthfully, that non-renewal may or may not fall within the question, that the 3 claims must be disclosed if asked, and suggests brokers or specialist insurers for people with claims history."}

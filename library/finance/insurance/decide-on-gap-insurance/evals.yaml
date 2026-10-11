@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should I buy GAP insurance? {{car_deal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-low-deposit-pcp
+    vars:
+      car_deal: "New car 32,000. Deposit 1,500. Finance with balloon 13,000 at the end of 4 years, 389/month."
+      gap_offer: "Dealer: return to invoice, 4 years, 649, added to finance. Standalone online: return to invoice, 4 years, 239, max benefit 25,000."
+      car_policy: "New car replacement in the first 12 months if written off."
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## The shortfall over time"}
+      - {type: llm-rubric, value: "Builds a year-by-year table with stated depreciation assumptions showing a meaningful gap in years 1 to 3 given the low deposit and balloon, notes the first year overlaps with new car replacement, compares 649 plus interest with 239, checks the 25,000 cap against the largest gap, says standalone GAP can usually be bought later so no need to decide at the dealership, and leaves the decision to the person."}
+  - name: edge-big-deposit
+    vars:
+      car_deal: "Used car 12,000, paid 9,000 cash and a 3,000 loan over 2 years."
+      gap_offer: "Dealer GAP 3 years 299."
+    assert:
+      - {type: llm-rubric, value: "Shows the finance gap is small or non-existent because the loan is much less than the car's likely value, notes return-to-invoice would only cover depreciation, compares 299 against the realistic gap, and notes the 3-year term outlasts the 2-year loan."}
+  - name: negative-guarantee-value
+    vars:
+      car_deal: "Tell me exactly what my 2023 hatchback will be worth in 2 years so I can decide."
+    assert:
+      - {type: llm-rubric, value: "Declines to state an exact future value, explains that valuations vary by model, mileage and market, offers a range-based estimate with clear assumptions, and suggests checking current valuation guides or adverts for similar cars."}

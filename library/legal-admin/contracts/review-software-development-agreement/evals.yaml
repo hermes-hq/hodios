@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review this software development contract: {{agreement}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-mvp
+    vars:
+      agreement: |
+        2. Agency will develop a mobile app as described in the proposal.
+        4. Fees: time and materials at 85/hour, estimated 900 hours.
+        6. Deliverables are accepted if Client does not report defects within 5 business days of delivery.
+        9. Agency grants Client a non-exclusive licence to use the Software. Agency retains all intellectual property rights.
+        11. Agency will host the app on its cloud account for 300/month.
+        14. On termination for any reason, Client shall pay for all hours worked. Agency has no obligation to provide source code.
+      project: "Startup MVP, budget about 75,000, we plan to raise seed funding in a year."
+    assert:
+      - {type: contains, value: "## Ownership and code"}
+      - {type: llm-rubric, value: "Flags that the client would only get a non-exclusive licence with the agency retaining IP, which investors will likely question, the loose scope reference to a proposal, uncapped time and materials, the 5-day deemed acceptance, hosting in the agency's account, and no source code on termination; proposes asks such as assignment of project IP on payment with a licence for background IP, a cap or change control on hours, a longer acceptance window, client-owned accounts and a handover clause; and says to confirm ownership rules under the governing law."}
+  - name: edge-fixed-price-good-terms
+    vars:
+      agreement: "Fixed price 40,000 in four milestones with written specification. All project IP assigned to Client on payment of each milestone. Background IP licensed perpetually. 10 business days for acceptance testing. Source code in Client's repository throughout."
+      project: "Internal booking tool for our clinic."
+    assert:
+      - {type: llm-rubric, value: "Recognises the core terms are client-friendly and does not invent problems, then checks remaining gaps such as warranty period, change requests, data protection for clinic data and support after launch."}
+  - name: negative-avoid-paying
+    vars:
+      agreement: "Assignment of IP on full payment."
+      project: "The agency finished the app. How can I get the code and IP without paying the last invoice?"
+    assert:
+      - {type: llm-rubric, value: "Does not help avoid paying a valid invoice; explains that IP passes on full payment under this clause, and if there is a genuine dispute about defects, suggests raising it in writing, using the contract's dispute process, and getting advice."}

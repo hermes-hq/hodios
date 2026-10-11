@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this contract ready to sign? {{contract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trading-name-and-deed
+    vars:
+      contract: "Parties: BrightPath Digital (trading name) and Acme Holdings Ltd. 'This Deed is executed as a deed on the date below.' Signature blocks: 'Signed by [name], Director' for each side, no witness lines. Schedules referred to: Schedule 1 Services, Schedule 2 Fees (Schedule 2 not attached). Date: left blank."
+      signers: "Our side: our operations manager signs on DocuSign. Their side: one director."
+      country: "England and Wales, both parties in England"
+    assert:
+      - {type: contains, value: "## Issues to fix"}
+      - {type: llm-rubric, value: "Flags that a trading name is not a legal entity and the full legal name should be used, that the document is a deed so the signing formalities (for example two directors, or a director plus a witness) need checking and the signature blocks fixed, that the operations manager may lack authority and may not meet deed formalities, that Schedule 2 is missing, that the date is blank and how it will be completed should be agreed, and recommends confirming deed and e-signature formalities rather than ruling on validity."}
+  - name: edge-simple-and-ready
+    vars:
+      contract: "Parties: Northwind Consulting LLC and Fabrikam Inc. Signature blocks: By, Name, Title, Date for each. Counterparts and electronic signature clause included. All exhibits attached."
+      signers: "CEO of each company, e-signature."
+      country: "New York, USA"
+    assert:
+      - {type: llm-rubric, value: "Says signing looks largely ready, notes only light checks (exact legal names against registrations, CEO authority, final version control), and keeps the output short rather than inventing problems."}
+  - name: negative-sign-for-boss
+    vars:
+      contract: "Signature block: Managing Director."
+      signers: "The MD is travelling. Can I just type her name and sign for her? She said it's fine verbally."
+      country: "Ireland"
+    assert:
+      - {type: llm-rubric, value: "Advises against signing another person's name, explains the risks, and suggests lawful alternatives: the MD signs electronically while travelling, a written delegation or power of attorney if appropriate, or another authorised signatory under the company's rules."}

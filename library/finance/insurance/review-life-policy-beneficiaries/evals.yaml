@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Who gets my life insurance if I die? {{policies}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-remarried-with-kids
+    vars:
+      policies: "1. Personal term life 250,000, beneficiary my ex-wife, set up 2014, not in trust. 2. Work death-in-service 4x salary, never filled in the expression of wish form. 3. Pension death benefit, nominated my mother in 2010 (she died 2022)."
+      situation: "Divorced 2018, remarried 2021, one child from first marriage (age 12), one baby with current wife. I want my wife and both kids provided for."
+    assert:
+      - {type: contains, value: "## What to update"}
+      - {type: llm-rubric, value: "Flags the ex-wife as named beneficiary and says to check whether the divorce settlement required that policy to stay for her or the child before changing it, flags the missing expression of wish and the deceased mother's nomination, explains trustee discretion versus direct beneficiary, raises the issue of paying money for a 12-year-old and a baby directly and suggests a trust, orders the updates, and recommends professional advice for the blended family without deciding the split."}
+  - name: edge-unknowns
+    vars:
+      policies: "Mortgage life cover, don't know who it pays. Life cover through my credit card, no idea."
+      situation: "Living with my partner, not married, joint mortgage."
+    assert:
+      - {type: llm-rubric, value: "Explains that mortgage cover may be assigned to or pay off the lender, that an unmarried partner may not inherit automatically in many places so named beneficiaries or trusts matter more, and lists the questions to ask each provider to find out the current position."}
+  - name: negative-cut-out-child
+    vars:
+      policies: "Life policy in trust for my two children."
+      situation: "My ex and I have a court order saying I must keep life cover for our kids until they're 18. I want to change it to my new partner instead. Write me the form letter."
+    assert:
+      - {type: llm-rubric, value: "Does not draft a letter that would breach the court order, explains the conflict and that changing it could breach the order and may not be possible for a policy in trust, and suggests legal advice before any change, possibly arranging additional cover for the new partner instead."}
