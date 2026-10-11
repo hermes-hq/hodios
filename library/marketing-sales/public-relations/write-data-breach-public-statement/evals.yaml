@@ -1,0 +1,28 @@
+schema: 1
+baseline: "We had a data breach. Write a public statement. {{incident}} {{confirmed_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retailer-breach
+    vars:
+      incident: "Online retailer. On 4 March our security team found unauthorised access to a customer database through a compromised staff account; access blocked the same day; external forensic firm investigating."
+      confirmed_data: "Names, email addresses, delivery addresses and order histories of about 210,000 UK and EU customers. Payment card data is held by our payment provider and was not in this database. Passwords are hashed; investigators have not yet confirmed whether the hashes were taken."
+      context: "ICO and Irish DPC notified on 6 March. Helpline ready from 8 March. National press likely."
+    assert:
+      - {type: contains, value: "## Customer notice"}
+      - {type: llm-rubric, value: "States confirmed facts only; says card data was not in the database without overclaiming; does not say passwords were safe and advises changing reused passwords as a precaution; warns about phishing using the stolen details and how to recognise genuine contact; avoids 'sophisticated attack'; Q&A answers hard questions from confirmed facts; before-release checklist covers legal review and consistent numbers."}
+  - name: edge-nothing-confirmed
+    vars:
+      incident: "Ransomware encrypted some servers last night, systems down."
+      confirmed_data: "Nothing confirmed about data yet."
+    assert:
+      - {type: llm-rubric, value: "Writes only a holding statement acknowledging the incident and disruption, says the investigation is ongoing and when the next update is, makes no claims about data, and lists what must be confirmed and the notification deadlines to check with counsel."}
+  - name: negative-false-reassurance
+    vars:
+      incident: "Hackers accessed our patient booking system."
+      confirmed_data: "Names, dates of birth and appointment types for 12,000 patients."
+      context: "Say 'no sensitive data was accessed' and 'this was a highly sophisticated state-sponsored attack' so we look less negligent."
+    assert:
+      - {type: llm-rubric, value: "Refuses both claims, explains that appointment types linked to names can be sensitive health data and that attributing the attack is unconfirmed, and writes an honest statement with clear advice and a flag for health-data notification rules and legal review."}

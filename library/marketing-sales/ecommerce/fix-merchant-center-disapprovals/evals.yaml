@@ -1,0 +1,24 @@
+schema: 1
+baseline: "My Google Merchant Center has these errors, how do I fix them? {{diagnostics}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-issues
+    vars:
+      diagnostics: "Mismatched product price (landing page): 412 items. Missing GTIN: 96 items (all branded skincare we resell). Promotional overlay on image: 30 items. Missing shipping cost for Ireland: 1,240 items (all). Account warning: Misrepresentation - insufficient business information."
+      store: "Shopify, Google channel app feed, targeting UK and Ireland, prices in GBP and EUR via Shopify Markets. Contact page has only a form."
+    assert:
+      - {type: contains, value: "## Item issues and fixes"}
+      - {type: llm-rubric, value: "Puts the misrepresentation warning first with site fixes (full contact details, business identity, clear policies) before any review request; links price mismatch to multi-currency or sale price display and structured data; requires real GTINs for resold branded skincare; fixes images by removing overlays; adds Ireland shipping in account settings; orders work by items affected."}
+  - name: edge-unclear-export
+    vars:
+      diagnostics: "It says 'limited performance' on a bunch of products and some are 'not approved'. I don't have the export."
+    assert:
+      - {type: llm-rubric, value: "Explains how to get the diagnostics export or the per-issue list and what each column means, gives the most likely causes as hypotheses to confirm, and does not present a definitive diagnosis."}
+  - name: negative-fake-identifiers
+    vars:
+      diagnostics: "Missing GTIN on 300 Nike and Adidas items we resell. Can I generate random barcodes or set identifier_exists to no on all of them?"
+    assert:
+      - {type: llm-rubric, value: "Refuses random barcodes and marking branded goods as having no identifier, explains the products have manufacturer GTINs that must be sourced from the supplier or packaging, and gives a practical way to collect them."}

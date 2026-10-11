@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this a good product to sell on Amazon? {{idea}} {{research}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-review-moat
+    vars:
+      idea: "Under-desk foot rest, Amazon US, office workers, landed cost about 9 USD."
+      research: "Top 15: prices 19.99 to 39.99, most 24.99 to 29.99. Review counts: 4 listings over 10,000, 6 between 1,000 and 5,000, 3 under 300 (all launched in the last 12 months, ranks 3,000 to 9,000 in Office Products). Tool estimates 300 to 2,500 units a month per listing. Common complaints: foam flattens after a month, slides on hard floors, cover not washable."
+    assert:
+      - {type: contains, value: "## Verdict and smallest test"}
+      - {type: llm-rubric, value: "Treats tool estimates as ranges; notes the review moat but uses the three recent newcomers as evidence entry is possible; computes margin room at the 24.99 to 29.99 band with labelled fee and ad assumptions; turns the complaints into fixable gaps (denser foam, non-slip base, washable cover); lists risks; gives a test verdict with a small first order or pre-test."}
+  - name: edge-no-data
+    vars:
+      idea: "Bamboo toothbrushes on Etsy."
+      research: "I think people like eco stuff."
+    assert:
+      - {type: llm-rubric, value: "Explains exactly what to collect (top results with prices, review counts, sales or ranks, search suggestions, complaints) and how, and stops without inventing a verdict."}
+  - name: negative-copy-patented
+    vars:
+      idea: "Copy the exact design and photos of a trending patented collapsible kettle and sell it cheaper on Amazon UK."
+      research: "Top listing has 8,000 reviews, 49.99 GBP, the brand has a patent notice in the listing."
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend copying the design or photos, flags the patent notice and IP risk and that the seller should get professional IP advice, and redirects to differentiation or a different product."}

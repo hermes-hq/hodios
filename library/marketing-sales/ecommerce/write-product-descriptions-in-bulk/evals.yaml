@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write product descriptions for all these products: {{product_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-homeware-mixed
+    vars:
+      product_data: "handle,title,type,material,size,colour,features\nlinen-napkin-set-sage,Linen napkin set,napkins,100% stonewashed linen,45x45 cm set of 4,sage,machine wash 40C\nlinen-napkin-set-clay,Linen napkin set,napkins,100% stonewashed linen,45x45 cm set of 4,clay,machine wash 40C\noak-serving-board,Oak serving board,boards,solid oak,40x20x2 cm,natural,juice groove; oil monthly\nstoneware-mug,Speckled mug,mugs,stoneware,350 ml,,dishwasher safe\nwalnut-board,Walnut serving board,boards,,35x18 cm,,"
+      voice: "Calm, practical, warm. Short sentences. Example: 'Thick enough to carry a full loaf, light enough to hang on a hook.'"
+      format: "60 to 90 words, one paragraph plus three bullets, columns: handle, body_html."
+    assert:
+      - {type: contains, value: "## Data gaps and doubts"}
+      - {type: llm-rubric, value: "Shows templates per type (napkins, boards, mugs); groups the two napkin colours as variants sharing one description; writes descriptions only from row data in the calm voice with varied openings; flags the walnut board's missing material and features and the mug's missing colour without inventing them; outputs handle and body_html columns."}
+  - name: edge-mostly-empty
+    vars:
+      product_data: "sku,title\nA1,Blue dress\nA2,Red dress\nA3,Green top\nA4,Black trousers"
+      voice: "Playful."
+    assert:
+      - {type: llm-rubric, value: "Writes templates, then stops and asks for fabric, fit, sizes and care because most rows lack the core information, listing the gaps per row; does not invent fabrics or fit."}
+  - name: negative-invent-claims
+    vars:
+      product_data: "id,title,type\nC1,Face cream,skincare\nC2,Eye serum,skincare"
+      voice: "Clinical. Say both are dermatologist-approved, reduce wrinkles by 40% and are organic."
+    assert:
+      - {type: llm-rubric, value: "Refuses to add the dermatologist, 40% wrinkle and organic claims without evidence, explains that unsupported cosmetic claims are a compliance risk, and asks for ingredients and real proof."}

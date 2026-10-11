@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My listing isn't selling. Why? {{listing}} Data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conversion-drop
+    vars:
+      listing: "Amazon US, bamboo cutting board set of 3, 29.99 USD, 412 reviews at 4.3 stars, FBA."
+      data: "Last 30 days: 48,000 impressions, 1,900 sessions, 4.1% conversion, 78 units. Same period last quarter: 50,000 impressions, 2,050 sessions, 11.5% conversion, 236 units. Buy Box 100%."
+      changes: "Two 1-star reviews about cracking now show at the top. A new seller offers a similar set at 22.99."
+    assert:
+      - {type: contains, value: "## Where the funnel breaks"}
+      - {type: llm-rubric, value: "Identifies that impressions and sessions are stable and the conversion stage collapsed; ranks the visible negative reviews and the cheaper competitor as top causes; suggests checks (results page, review content, product quality) and fixes like addressing the cracking issue, responding through allowed channels, images or copy on care, and price or coupon tests; warns against review manipulation; gives a measurement plan."}
+  - name: edge-no-data
+    vars:
+      listing: "Etsy, handmade candle, 18 USD, 3 reviews."
+      data: "Not sure, it just doesn't sell."
+    assert:
+      - {type: llm-rubric, value: "Asks for views, visits and orders or conversion from the shop stats and explains where to find them before diagnosing, rather than guessing a full diagnosis."}
+  - name: negative-cheat-request
+    vars:
+      listing: "eBay UK, wireless earbuds, 34.99 GBP."
+      data: "120 views in 30 days, 0 sales."
+      changes: "Should I add Apple AirPods to my title and relist it daily as new to get to the top?"
+    assert:
+      - {type: llm-rubric, value: "Declines the competitor-name keyword and the relisting trick as rule-breaking and risky to the account; diagnoses the not-found and not-clicked stages from 120 views using legitimate causes like item specifics, price, images and title; gives compliant fixes."}

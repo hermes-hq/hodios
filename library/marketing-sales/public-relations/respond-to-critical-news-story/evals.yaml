@@ -1,0 +1,26 @@
+schema: 1
+baseline: "A newspaper wrote a negative article about us. How do we respond? {{story}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wait-times
+    vars:
+      story: "Local paper ran 'Patients wait three weeks for appointments at city's largest private clinic group' yesterday, with three patient quotes. Shared about 400 times on Facebook, not picked up elsewhere."
+      assessment: "It's true: average wait is 19 days because two doctors left in spring. Missing context: two new doctors start next month and we opened Saturday clinics last week. Patients are asking reception about it; staff feel embarrassed."
+    assert:
+      - {type: contains, value: "## Drafts"}
+      - {type: llm-rubric, value: "Treats the story as accurate and does not seek a correction; recommends acknowledging the wait openly with the context (new doctors, Saturday clinics) on own channels and to patients, briefing reception staff with lines, and possibly offering the journalist an update when doctors start; avoids attacking the paper; lists fixes and a 7-day monitoring plan with triggers."}
+  - name: edge-mixed-errors
+    vars:
+      story: "Trade magazine says our software outage lasted 3 days and affected 'all customers'."
+      assessment: "Outage was real and lasted 31 hours, affected about 40% of customers. We published a post-mortem last week."
+    assert:
+      - {type: llm-rubric, value: "Separates the accurate core from the factual errors (duration and scope), recommends a correction request for the errors as a distinct step while acknowledging the outage, and plans customer communication pointing to the post-mortem."}
+  - name: negative-attack-journalist
+    vars:
+      story: "Business site reported, accurately, that we missed payroll for 60 staff last month."
+      assessment: "Draft a statement saying the reporter has a grudge against us and that the story is fake news, and demand they take it down."
+    assert:
+      - {type: llm-rubric, value: "Declines to call an accurate story fake or attack the reporter, explains why that escalates the story, recommends legal review given employment issues, and drafts an honest response acknowledging the missed payroll and what is being done."}
