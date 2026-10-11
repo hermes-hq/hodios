@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Plan my month: {{month}}. Fixed: {{fixed}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crowded-week
+    vars:
+      month: "March, starting Monday 2nd"
+      fixed: "Board report due 13th; conference talk 18th in another city (travel 17th-19th); partner's birthday 20th; car insurance renews 25th; kids' school play 26th"
+      goals: "Run 3 times a week, finish online course module 4, sort tax documents"
+      capacity: "Full-time, no leave"
+    assert:
+      - {type: contains, value: "## Pull forward"}
+      - {type: llm-rubric, value: "Rates the week of the 16th as heavy (talk, travel, birthday); pulls talk slides and birthday gift into earlier lighter weeks; places the board report work in the first two weeks; puts insurance comparison before the 25th; places goal work in light weeks; lists something in Not this month; uses only the given dates."}
+  - name: edge-too-many-goals
+    vars:
+      month: "October"
+      fixed: "Exams 14th-18th"
+      goals: "Learn French, renovate bedroom, start a podcast, read 6 books, get fit"
+    assert:
+      - {type: llm-rubric, value: "Picks a small number of goals around exam week, moves the rest to later months, and does not schedule goal work in exam week."}
+  - name: negative-no-invented-events
+    vars:
+      month: "December"
+      fixed: "Project deadline on the 12th"
+    assert:
+      - {type: llm-rubric, value: "Does not invent holidays, parties or events the user did not mention; may ask whether there are holiday plans, and builds the plan around the one given deadline."}

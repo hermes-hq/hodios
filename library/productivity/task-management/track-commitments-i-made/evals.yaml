@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What did I promise people in these notes? I'm {{me}}. {{sources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-meeting-notes
+    vars:
+      sources: "Mon 3 Nov, project sync: Priya: 'I'll send the updated budget by Wednesday.' Tom: 'Can someone check the venue contract?' Priya: 'Leave it with me.' Tom: 'I'll book the caterer.' Thu 6 Nov, email from Priya to client Ana: 'Great question, let me get back to you on the delivery options.' Slack Fri 7 Nov, Priya: 'happy to intro you to our designer'"
+      me: "Priya"
+      today: "Monday 10 November"
+    assert:
+      - {type: contains, value: "## Commitments found"}
+      - {type: llm-rubric, value: "Finds four of Priya's commitments (budget by Wednesday, venue contract, delivery options to Ana, designer intro) including soft phrasings like 'leave it with me'; excludes Tom's caterer booking from Priya's list; marks the budget as overdue given 10 November; labels dates not in the notes as suggested; drafts a short update for the overdue budget with a placeholder date."}
+  - name: edge-unclear-speaker
+    vars:
+      sources: "Notes: 'Someone will follow up with finance - me or Alex?' 'Action: send minutes'"
+      me: "Jordan"
+    assert:
+      - {type: llm-rubric, value: "Places the unattributed actions under unclear promises with the quote and a clarifying question rather than assigning them to Jordan."}
+  - name: negative-no-invented-dates
+    vars:
+      sources: "Call with client: I said I'd look into the refund issue."
+      me: "Sam"
+    assert:
+      - {type: llm-rubric, value: "Does not invent a deadline the client was promised; labels any due date as suggested and drafts updates with a [date] placeholder."}

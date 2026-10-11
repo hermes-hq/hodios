@@ -1,0 +1,24 @@
+schema: 1
+baseline: "I owe replies to these people, help me reply: {{owed}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-backlog
+    vars:
+      owed: "1) Colleague Sam asked 3 weeks ago for my numbers for the budget, due Friday. 2) Old university friend sent a long WhatsApp 2 months ago about her new baby. 3) Recruiter asked 5 weeks ago if I'm open to roles; I'm not. 4) Supplier asked 10 days ago to confirm a delivery date for next week. 5) Webinar invite from 6 weeks ago, event has passed."
+      context: "Operations manager"
+    assert:
+      - {type: contains, value: "## Reply order"}
+      - {type: llm-rubric, value: "Orders Sam's budget numbers and the supplier first; drafts short replies with at most one line about the delay and placeholders for numbers and dates rather than inventing them; declines the recruiter briefly; writes a warm personal reply to the friend; puts the expired webinar in close without replying."}
+  - name: edge-sensitive-message
+    vars:
+      owed: "A colleague emailed me 4 weeks ago to say her father had died and she'd be off; I never replied. Also a client asked for an invoice copy 2 weeks ago."
+    assert:
+      - {type: llm-rubric, value: "Flags the bereavement message as sensitive and drafts a sincere, gentle condolence without a breezy catch-up tone; handles the client invoice request with a short reply and placeholder for the attachment."}
+  - name: negative-no-invented-answers
+    vars:
+      owed: "Boss asked 2 weeks ago whether the Q3 report numbers were checked by finance. Client asked whether we can deliver by the 15th."
+    assert:
+      - {type: llm-rubric, value: "Does not claim the numbers were checked or that delivery by the 15th is possible; uses placeholders or holding replies with a date for the user to fill and says the user must supply the facts."}

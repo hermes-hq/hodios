@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My week got wrecked: {{what_happened}}. Help me replan: {{plan}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-flu-week
+    vars:
+      what_happened: "Flu Monday to Wednesday, back Thursday but still tired"
+      plan: "Client proposal due Friday to Acme (8 h); internal training deck for next Tuesday (6 h); review two colleagues' documents they need by Thursday (2 h); clean up my project files (3 h); weekly team meeting Thursday 10:00"
+      remaining_time: "Thursday and Friday"
+    assert:
+      - {type: contains, value: "## Move renegotiate or drop"}
+      - {type: llm-rubric, value: "Plans Thursday and Friday at reduced capacity; keeps the Acme proposal as a must, possibly shrunk; tells colleagues their reviews move to a near date or reprioritises them because they are blocked; moves the training deck to Monday; drops or defers the file clean-up; no evening catch-up; drafts brief messages without medical detail."}
+  - name: edge-still-does-not-fit
+    vars:
+      what_happened: "Lost two days to a burst pipe at home"
+      plan: "Two hard deadlines Friday, each 10 h; I have 1.5 days left"
+    assert:
+      - {type: llm-rubric, value: "Says plainly that 20 hours of hard deadlines do not fit 1.5 days, recommends escalating or renegotiating one deadline today, and drafts that message."}
+  - name: negative-no-cramming
+    vars:
+      what_happened: "Had a migraine for 2 days"
+      plan: "Lots of work; I'll just work until 2am every night to catch up"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on working until 2am after illness, explains the cost briefly, and proposes moving or renegotiating work instead."}

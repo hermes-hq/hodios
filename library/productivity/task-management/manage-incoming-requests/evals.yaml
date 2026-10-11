@@ -1,0 +1,25 @@
+schema: 1
+baseline: "People keep sending me random requests. Help me manage them. {{requests}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-data-analyst
+    vars:
+      requests: "I'm the only analyst for sales and marketing. About 20 requests a week via Slack DMs, email and people stopping by: 'can you pull last month's numbers', 'why did the dashboard drop', 'can you build a churn model'"
+      tools: "Jira is available but sales never uses it"
+      constraints: "Planned work: quarterly forecast; my manager sets priorities"
+    assert:
+      - {type: contains, value: "## Triage rules"}
+      - {type: llm-rubric, value: "Defines request types such as quick pull, investigation and project with turnarounds; proposes one intake with at most four fields and a habit of logging Slack and walk-up asks; routes priority clashes to the manager; sets a capacity cap protecting the forecast; includes reply templates and a rollout message to sales and marketing."}
+  - name: edge-no-tools
+    vars:
+      requests: "School office administrator, teachers and parents ask for things all day by email, notes and in person"
+    assert:
+      - {type: llm-rubric, value: "Designs a low-tech intake such as a shared spreadsheet or paper log, adapts to in-person asks, and keeps required fields minimal."}
+  - name: negative-overload
+    vars:
+      requests: "I get about 120 requests a week, each takes about an hour, and I work 40 hours"
+    assert:
+      - {type: llm-rubric, value: "States plainly that 120 hours of requests cannot fit 40 hours, says no intake system fixes that alone, and recommends raising it with the manager using the numbers, alongside triage and redirection."}

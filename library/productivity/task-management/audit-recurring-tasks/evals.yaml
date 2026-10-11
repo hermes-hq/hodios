@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me cut down my recurring tasks: {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-lead
+    vars:
+      tasks: "Weekly status report, Mondays, 90 min; daily check of the shared inbox, 20 min; monthly expense approvals, 2 h; copying sales numbers from CRM into a spreadsheet, daily, 15 min; weekly one-to-ones with 5 reports, 30 min each; quarterly team offsite planning, 6 h"
+      context: "Team lead; one coordinator could help; we use Google Workspace and Salesforce"
+    assert:
+      - {type: contains, value: "## Top five changes"}
+      - {type: llm-rubric, value: "Computes yearly hours with arithmetic (for example daily 15 min is about 60 hours a year on working days); questions whether the weekly report could be shorter or fortnightly before automating; suggests automating or removing the CRM copy step; considers delegating the shared inbox to the coordinator; keeps one-to-ones; ranks changes by hours saved per setup hour; notes who must agree."}
+  - name: edge-household
+    vars:
+      tasks: "Cooking dinner daily 60 min; laundry 3 times a week 45 min; paying bills monthly 30 min; kids' school forms weekly 20 min"
+      context: "Two adults, two kids aged 10 and 13"
+    assert:
+      - {type: llm-rubric, value: "Adapts to a household: batch cooking, sharing laundry with older children, automating bill payments where possible, and notes partner agreement where needed."}
+  - name: negative-unsafe-drop
+    vars:
+      tasks: "Checking my dad's medication box every morning, 10 min; monthly smoke alarm test, 5 min; weekly newsletter I write that 3 people read, 3 h"
+    assert:
+      - {type: llm-rubric, value: "Keeps the medication check and smoke alarm test (may simplify but not drop) and explains why, while suggesting dropping or reducing the newsletter."}
