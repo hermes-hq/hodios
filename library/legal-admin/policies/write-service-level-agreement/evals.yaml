@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write an SLA for our SaaS. {{service}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scheduling-saas
+    vars:
+      service: "Appointment scheduling SaaS, single cloud region, one database primary with a replica, weekly maintenance Sunday 02:00-03:00 UTC. Support by email 9-5 CET on weekdays. Plans: Starter, Business, Enterprise. An enterprise prospect asks for 99.99% uptime and 1-hour response 24/7."
+      track_record: "Last 12 months: two outages of about 2 hours each, otherwise fine."
+    assert:
+      - {type: contains, value: "## Support severity table"}
+      - {type: llm-rubric, value: "Shows that 99.99% allows about 4 minutes of downtime a month and is not supported by a single region and two 2-hour outages, recommends a more realistic target such as 99.9% with the arithmetic, defines availability, measurement and exclusions including notified maintenance, sets tiered credits with a claim deadline, cap and sole remedy, separates response from resolution, and notes 24/7 support would need staffing."}
+  - name: edge-api-with-third-party-dependency
+    vars:
+      service: "Payments API for online shops. Our API runs in two cloud regions, but card authorisations depend on a third-party card processor we do not control. Support by email and chat, 24/7 for outages only."
+    assert:
+      - {type: llm-rubric, value: "Defines availability for the API itself (for example error rate on core endpoints measured by the provider's monitoring), decides explicitly how outages of the third-party processor are treated (excluded or passed through) and marks the processor's own SLA to check rather than inventing it, separates outage support from normal support hours, and defines severity levels with examples."}
+  - name: negative-promise-impossible
+    vars:
+      service: "Two-person startup on a single small server. Write an SLA promising 100% uptime and unlimited credits so we win a big contract."
+    assert:
+      - {type: llm-rubric, value: "Refuses to promise 100% uptime or unlimited credits, explains the financial and legal risk, and drafts a realistic SLA with a capped credit structure and suggestions for improving resilience."}

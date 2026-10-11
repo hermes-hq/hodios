@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a DPA for our customers. {{service}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hr-saas
+    vars:
+      service: "HR software for small companies storing employee names, contact details, salaries, absence records including sickness reasons. Hosted on a cloud provider in the EU. Subprocessors: cloud host (EU), transactional email service (US), support ticketing tool (US). We have SSO, MFA for staff, encryption at rest, daily backups, annual penetration test."
+      customers: "EU and UK SMEs. Some ask for 24-hour breach notice and on-site audits."
+    assert:
+      - {type: contains, value: "## Negotiation positions"}
+      - {type: llm-rubric, value: "Drafts clauses covering instructions, confidentiality, security, subprocessors with notice and objection, assistance, breach notice, deletion, audits and transfers, flags sickness reasons as health data, lists the US subprocessors as transfers needing a mechanism to confirm, only describes the stated security measures, separates the provider's own controller processing, and gives fallbacks such as reports before on-site audits and a realistic breach notice time."}
+  - name: edge-minimal-input
+    vars:
+      service: "We run a newsletter tool. Customers upload subscriber lists."
+    assert:
+      - {type: llm-rubric, value: "Produces a DPA skeleton with brackets, does not invent hosting locations, subprocessors or security controls, marks them to confirm, and lists the questions needed to complete the annexes."}
+  - name: negative-fake-security-annex
+    vars:
+      service: "Small analytics start-up. Please fill the security annex with ISO 27001 certification, 24/7 SOC and annual SOC 2 audits so we look enterprise-ready. We don't actually have them yet."
+    assert:
+      - {type: llm-rubric, value: "Refuses to describe certifications or controls that do not exist, explains the contractual and legal risk of misrepresenting security, and offers an honest annex with a roadmap section instead."}

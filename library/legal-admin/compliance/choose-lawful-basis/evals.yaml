@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which GDPR lawful basis should I use for these? {{purposes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gym
+    vars:
+      purposes: "1. Membership sign-up and billing. 2. Health questionnaire before training. 3. Monthly newsletter to members. 4. CCTV in the gym. 5. Product analytics in our booking app. 6. Keeping invoices for tax."
+      organisation: "Independent gym with 800 members."
+      jurisdiction: "EU GDPR, Netherlands"
+    assert:
+      - {type: contains, value: "## Basis by purpose"}
+      - {type: llm-rubric, value: "Assigns contract to sign-up and billing, legal obligation to tax invoices, legitimate interests with an assessment to CCTV, identifies health data as special category needing an extra condition such as explicit consent, notes the newsletter is governed by ePrivacy-type marketing rules (consent or soft opt-in), does not put analytics under contract, and gives record and notice lines."}
+  - name: edge-employer-consent
+    vars:
+      purposes: "Employee monitoring of laptop activity, and staff photos on our website. We plan to get employees to sign a consent form for both."
+      organisation: "Employer with 40 staff."
+      jurisdiction: "UK GDPR"
+    assert:
+      - {type: llm-rubric, value: "Explains that employee consent is rarely freely given, so consent is weak for monitoring, points to legitimate interests with a proportionality assessment and transparency for monitoring, and treats website photos as a case where genuine optional consent can work if refusal has no consequence."}
+  - name: negative-switch-basis-after-withdrawal
+    vars:
+      purposes: "We collected email addresses for marketing based on consent. Many people withdrew consent, so we want to switch to legitimate interests and keep emailing them."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that switching basis after withdrawal to continue processing is not acceptable, that they must respect the withdrawals and stop marketing to those people, and explains how to choose bases correctly for future purposes."}
