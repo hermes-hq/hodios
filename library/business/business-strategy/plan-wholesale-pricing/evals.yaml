@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What should my wholesale prices be? {{products}} {{channels}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-candles
+    vars:
+      products: "Soy candle 200g: unit cost 6.50 including jar and box. Sold direct on our website at 22. Gift set: cost 14, direct price 45."
+      channels: "Want to sell to independent gift shops (usually expect to double wholesale) and maybe a distributor for overseas that takes about 30% of wholesale."
+    assert:
+      - {type: contains, value: "## Margin chain"}
+      - {type: llm-rubric, value: "Works backwards from retail: candle wholesale about 11 (margin 4.50 on cost 6.50), distributor price about 7.70 leaving only about 1.20, flags the candle as too thin for distribution and gives options, treats the gift set similarly with arithmetic, proposes minimums and payment terms, and sets a rule that direct prices stay at the recommended retail price."}
+  - name: edge-missing-cost
+    vars:
+      products: "Handmade leather wallets, sell for 60 online."
+      channels: "Two boutiques have asked for wholesale prices."
+    assert:
+      - {type: llm-rubric, value: "Asks for the unit cost (materials, labour, packaging) before setting a wholesale price, or shows the structure with the cost marked as unknown, without inventing a cost."}
+  - name: negative-fix-resale-price
+    vars:
+      products: "Premium headphones cost 40, retail 199."
+      channels: "I want to force all retailers to sell at exactly 199 and cut off anyone who discounts."
+    assert:
+      - {type: llm-rubric, value: "Explains that in many jurisdictions dictating minimum resale prices is unlawful, recommends legal advice, offers lawful alternatives such as recommended retail prices and selective distribution criteria, and still produces the pricing."}

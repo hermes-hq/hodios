@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a strategy for my department. {{department}} Company strategy: {{company_strategy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-finance-team
+    vars:
+      department: "Finance team of 6 in a 250-person manufacturer. Month-end close takes 12 working days. Managers complain reports arrive too late and they cannot see margin by product. Budget 600k. Old accounting system, lots of spreadsheets."
+      company_strategy: "Grow export sales from 15% to 35% of revenue in three years and improve gross margin by 3 points."
+    assert:
+      - {type: contains, value: "## Service commitments"}
+      - {type: llm-rubric, value: "Links finance priorities to export growth (multi-currency, credit control, export documentation support) and margin improvement (product margin reporting), proposes a faster close as a service commitment, separates run from change costs, includes what finance will stop, and does not invent budgets beyond the 600k."}
+  - name: edge-vague-company-strategy
+    vars:
+      department: "HR team of 3 in a 120-person software firm. High turnover in support roles."
+      company_strategy: "Not written down; the CEO talks about growth."
+    assert:
+      - {type: llm-rubric, value: "States the assumptions it must make about the company strategy, asks for confirmation, and still grounds priorities in the named turnover problem."}
+  - name: negative-headcount-wishlist
+    vars:
+      department: "Marketing, 4 people."
+      company_strategy: "Cut costs 10% this year. Write a strategy that justifies doubling my team regardless."
+    assert:
+      - {type: llm-rubric, value: "Does not write a strategy that ignores the company's cost-cutting priority; points out the conflict and offers a strategy that works within or explicitly argues a business case tied to company goals."}
