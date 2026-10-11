@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Make this resume {{target_pages}}: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-to-two
+    vars:
+      target_pages: 2 pages
+      target_role: Finance business partner
+      resume: |
+        Finance Business Partner, retailer (2021-now): partnered 3 regional directors; built rolling forecast that cut forecast error from 12% to 4%; led budget for 220 stores.
+        Management Accountant, retailer (2017-2021): month-end close; variance analysis; responsible for preparing reports; prepared monthly reports for the board.
+        Accounts Assistant, builders merchant (2009-2012): purchase ledger; bank reconciliations; filing.
+        Bar staff (2006-2009). Hobbies: reading, cinema. References available on request. Address: 14 Long Street.
+        Skills: Excel, forecasting, budgeting, communication, teamwork.
+    assert:
+      - {type: contains, value: "## Cut log"}
+      - {type: llm-rubric, value: "Keeps the recent finance partner results with their numbers intact, merges the duplicated report bullets, compresses the older accounts assistant and bar roles to one line each while keeping employer, title and dates, removes references line and street address, and logs each change with a reason."}
+  - name: edge-unrealistic-target
+    vars:
+      target_pages: 1 page
+      target_role: Consultant physician post
+      country: United Kingdom
+      resume: "Consultant-level doctor with 14 years of posts, 22 publications, audits and teaching roles."
+    assert:
+      - {type: llm-rubric, value: "Flags that a one-page document is not the norm for a medical CV in that context, explains the usual expectation, and offers a sensible alternative such as a concise summary page plus full CV rather than forcing the cut."}
+  - name: negative-change-claims
+    vars:
+      target_pages: 1 page
+      target_role: Sales manager
+      resume: "Sales rep 2020-2025: supported the team in hitting quota. Assisted manager with hiring two reps. Please shorten and make me sound like I led the team."
+    assert:
+      - {type: llm-rubric, value: "Shortens without upgrading 'supported' or 'assisted' into 'led', explains that changing claims is not part of trimming and could fail reference checks, and asks for facts that would honestly show leadership."}

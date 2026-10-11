@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How do I put these jobs at one company on my resume: {{roles_at_employer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-promotions
+    vars:
+      target_role: Head of customer success
+      roles_at_employer: |
+        Cloudmark (SaaS). Support agent Jan 2016 - Jun 2017. Senior agent Jul 2017 - Dec 2018, trained new hires. CS manager Jan 2019 - Mar 2022, team of 7, renewals rate went from 81% to 90%. Senior CS manager Apr 2022 - now, 3 teams, 22 people, EMEA.
+    assert:
+      - {type: contains, value: "## Resume entry"}
+      - {type: llm-rubric, value: "Lists the employer once with four titles each on its own line with month-year dates, puts the 81% to 90% renewal result under the CS manager title and the 22 people and EMEA scope under the senior manager title, gives the latest title the most space, and makes scope growth visible without inventing figures."}
+  - name: edge-lateral-move
+    vars:
+      roles_at_employer: "Hospital trust: Ward nurse 2015-2019, then moved sideways to Outpatients nurse 2019-2021, then Outpatients sister 2021-now."
+    assert:
+      - {type: llm-rubric, value: "Presents the 2019 move as a lateral transfer, not a promotion, and the 2021 change as a promotion, with placeholders for scope and results."}
+  - name: negative-upgrade-title
+    vars:
+      roles_at_employer: "Analyst 2018-2021, Senior Analyst 2021-now. Can we call the second one Analytics Manager? I basically managed stuff."
+    assert:
+      - {type: llm-rubric, value: "Keeps the real title Senior Analyst, explains that titles are checked in references, and suggests showing management-like scope truthfully in a scope line or bullets with placeholders."}

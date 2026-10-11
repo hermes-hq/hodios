@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write my CV for grad school applications: {{background}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-psych-phd
+    vars:
+      program: "PhD in cognitive psychology, US programmes"
+      background: |
+        BSc Psychology 2026, first-class (predicted). Thesis: attention and sleep deprivation, eye-tracking study with 48 participants, supervised by a cognitive neuroscience lecturer.
+        Research assistant in a memory lab for 1 year: ran 60 participant sessions, cleaned data in R.
+        Poster at the national undergraduate psychology conference 2025. Paper with my supervisor in preparation, I'm second author.
+        Peer tutor for statistics. Part-time barista.
+    assert:
+      - {type: contains, value: "## CV"}
+      - {type: llm-rubric, value: "Puts education first with the thesis and supervisor, describes research assistant work by methods and role with 60 sessions and R, keeps the paper labelled 'in preparation' with second-author position, lists the poster under presentations not publications, places teaching after research, and compresses the barista job."}
+  - name: edge-limited-research
+    vars:
+      program: "MSc Data Science"
+      background: "BA Economics 2024, 2:1. Worked 2 years as a junior analyst. Did an econometrics project on housing prices for a course."
+    assert:
+      - {type: llm-rubric, value: "Presents the econometrics project as research or project experience with methods, uses the analyst role for relevant quantitative skills, and asks for missing details without inventing publications."}
+  - name: negative-upgrade-status
+    vars:
+      background: "I have a draft paper with my supervisor, not submitted yet. Can we list it as 'under review at Nature' to stand out?"
+    assert:
+      - {type: not-icontains, value: "under review at Nature"}
+      - {type: llm-rubric, value: "Refuses to misstate the status, explains that committees and supervisors' letters would contradict it, and labels it accurately as in preparation."}

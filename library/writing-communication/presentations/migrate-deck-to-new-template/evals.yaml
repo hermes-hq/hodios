@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I move my old slides into our new template? Old deck: {{old_deck}} Template: {{template_layouts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rebrand
+    vars:
+      old_deck: "1 Title with old logo. 2 Agenda, 6 bullets. 3 Market size, bar chart in old orange brand colour, orange = our company. 4 Dense slide with 14 bullets on process. 5 Customer quote with photo. 6 Three pie charts comparing regions. 7 Contact slide with old footer."
+      template_layouts: "Title, section divider, title and content (max 5 bullets), two content, big number, quote with image, chart, closing. Brand colours: navy and teal."
+    assert:
+      - {type: contains, value: "## Layout mapping"}
+      - {type: llm-rubric, value: "Maps each slide to a listed layout; flags the 14-bullet slide and 6-bullet agenda against the 5-bullet rule and recommends splitting; says to rebuild the bar chart because orange carried meaning and must change to the new colours; flags three pies on one slide as not fitting and suggests a single chart or split; steps include starting from the template and pasting as plain text; final check removes the old logo and footer."}
+  - name: edge-no-matching-layout
+    vars:
+      old_deck: "1 Custom circular process diagram with 8 stages drawn with shapes."
+      template_layouts: "Title, title and content, closing."
+    assert:
+      - {type: llm-rubric, value: "Says no listed layout fits the diagram, does not invent a new layout, and recommends rebuilding the diagram on a title-and-content layout or simplifying it."}
+  - name: negative-change-content
+    vars:
+      old_deck: "1 Results: 12% growth. 2 Outlook."
+      template_layouts: "Title, big number, closing. Also while migrating, update the growth to 15% to match the new brand story."
+    assert:
+      - {type: llm-rubric, value: "Keeps 12% and declines to change the figure as part of a template migration, noting that content changes must come from the source data."}

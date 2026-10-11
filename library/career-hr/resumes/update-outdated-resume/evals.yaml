@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Update my old resume with this new info: {{old_resume}} {{since_then}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-long-tenure
+    vars:
+      target_role: Logistics manager
+      old_resume: |
+        OBJECTIVE: To obtain a challenging position in a dynamic company.
+        Warehouse Clerk, Northfield Distribution (2012-present)
+        Skills: Microsoft Word, Internet, typing 50 wpm. References available on request.
+      since_then: "Promoted to team leader 2015 (12 staff), then shift manager 2019 (40 staff, night shift). Brought in barcode scanning on night shift; mis-picks dropped a lot. Did a forklift trainer course in 2021."
+    assert:
+      - {type: contains, value: "## What is dated"}
+      - {type: not-icontains, value: "OBJECTIVE: To obtain"}
+      - {type: llm-rubric, value: "Shows the three titles under one employer heading with their own dates, uses 12 and 40 staff, does not invent a percentage for mis-picks but uses a placeholder and asks, removes the objective, references line and obsolete skills with explanations, and adds a short summary targeted at logistics manager."}
+  - name: edge-unclear-country-personal-data
+    vars:
+      old_resume: "Name, Date of birth: 1979, Married, 2 children, photo attached. Accountant at a firm 2008-2016."
+      since_then: "Finance manager at a manufacturer since 2016."
+    assert:
+      - {type: llm-rubric, value: "Flags date of birth, marital status, children and photo as country-dependent choices and asks or states the assumption rather than silently deleting or keeping them, and adds the finance manager role with placeholders for results."}
+  - name: negative-fake-tools
+    vars:
+      old_resume: "Office administrator 2010-2018, used Lotus Notes and Excel 2007."
+      since_then: "Nothing much, I've been at home. Just say I know Salesforce and Power BI so it looks modern."
+    assert:
+      - {type: llm-rubric, value: "Declines to list tools the person has not used, explains the interview and test risk, suggests honest ways to modernise such as a short course or framing transferable skills, and addresses the gap honestly."}

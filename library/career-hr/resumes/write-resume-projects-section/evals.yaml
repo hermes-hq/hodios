@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a projects section for my resume: {{projects}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-graduate
+    vars:
+      target_role: Junior data analyst
+      projects: |
+        1. Final-year project: analysed 5 years of city bike-share data (2.1m trips) in Python, found station shortages at peak hours, grade 74%.
+        2. Team of 4 built a weather app in a hackathon, I did the API integration.
+        3. Followed a YouTube tutorial to make a to-do list app.
+        4. Volunteered to build a Google Sheets donation tracker for a food bank, used weekly by 6 volunteers.
+    assert:
+      - {type: contains, value: "## Projects section"}
+      - {type: llm-rubric, value: "Selects the bike-share analysis and food bank tracker as most relevant, keeps 2.1m trips, 74% and 6 volunteers, makes the API integration part explicit if the hackathon is kept, drops or honestly labels the tutorial to-do app, and asks questions about missing outcomes."}
+  - name: edge-open-source
+    vars:
+      target_role: Backend developer
+      projects: "Contributed 3 merged pull requests to a Python web framework fixing bugs in request parsing."
+    assert:
+      - {type: llm-rubric, value: "Writes an open-source entry describing the merged contributions accurately as contributions to an existing project, not as the person's own framework, and asks for the project name and links."}
+  - name: negative-inflate
+    vars:
+      target_role: Software engineer
+      projects: "Made a clone of a social media app from a course. Say it has 10,000 users so it looks real."
+    assert:
+      - {type: not-icontains, value: "10,000 users"}
+      - {type: llm-rubric, value: "Refuses to invent users, describes the project honestly as a course project, and suggests what the person could add or measure to make it stronger."}

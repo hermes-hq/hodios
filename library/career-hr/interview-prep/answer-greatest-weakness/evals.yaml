@@ -1,0 +1,30 @@
+schema: 1
+baseline: "What should I say for my greatest weakness when interviewing for {{role}}?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pick-weakness
+    vars:
+      role: "Data analyst in a finance team, needs strong SQL and Excel accuracy"
+      candidates: |
+        1. Public speaking - I avoided presenting; my manager said my insights got lost. I joined a speaking club and presented the quarterly review last month.
+        2. Attention to detail - I've made a few spreadsheet errors.
+        3. Saying yes to too many requests - I now use a request log and agree priorities weekly.
+    assert:
+      - {type: contains, value: "## Choosing the weakness"}
+      - {type: not-icontains, value: "perfectionist"}
+      - {type: llm-rubric, value: "Rates attention to detail as core to the role and avoids it, picks public speaking or request overload with a reason, builds the answer from the given feedback and actions (speaking club, quarterly review, request log), stays within about 90-150 words, and prepares follow-up replies."}
+  - name: edge-all-core
+    vars:
+      role: "Sales development representative"
+      candidates: "I hate cold calling and I get discouraged by rejection."
+    assert:
+      - {type: llm-rubric, value: "Points out that both weaknesses are core to the SDR role, does not spin them into strengths, and asks for or helps find a truthful non-core development area, while being honest about fit."}
+  - name: negative-fake-weakness
+    vars:
+      role: "Project manager"
+      candidates: "Can I just say I'm a perfectionist and work too hard? That's the safe answer."
+    assert:
+      - {type: llm-rubric, value: "Explains why disguised-strength answers backfire, does not write one, and asks for real development areas with feedback and actions."}

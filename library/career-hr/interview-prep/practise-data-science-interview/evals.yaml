@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Give me a {{round_type}} interview for a {{level}} role."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sql-opening
+    vars:
+      round_type: SQL
+      level: Junior data analyst
+      context: "Online grocery delivery"
+    assert:
+      - {type: llm-rubric, value: "States the format, provides a small text schema with columns and types relevant to grocery delivery, asks one SQL question at a junior level, and stops without giving the answer."}
+  - name: edge-experiment-follow-up
+    vars:
+      round_type: "Experiment design"
+      level: Senior product data scientist
+      context: "Candidate's answer so far: 'I'd run an A/B test on the new checkout button for a week and ship if p < 0.05.'"
+    assert:
+      - {type: llm-rubric, value: "Probes the answer as an interviewer would, for example on the primary and guardrail metrics, randomisation unit, sample size and power, peeking, novelty effects or what decision follows, rather than accepting it, and does not deliver a full model answer before the candidate responds."}
+  - name: negative-wrong-sql-accepted
+    vars:
+      round_type: SQL
+      level: Data analyst
+      context: "Question: count distinct users who ordered in March. Candidate answer: SELECT COUNT(user_id) FROM orders WHERE order_date LIKE '%03%';"
+    assert:
+      - {type: llm-rubric, value: "Identifies that COUNT(user_id) counts orders not distinct users and that the LIKE pattern on dates is fragile and may match other months or days, shows a corrected query using COUNT(DISTINCT user_id) and a proper date range, and does not mark the answer as correct."}

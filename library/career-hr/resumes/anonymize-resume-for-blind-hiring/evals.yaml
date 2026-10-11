@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Remove personal information from this resume: {{resume}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-indirect-identifiers
+    vars:
+      resume: |
+        Maria Kowalska, born 12/03/1994, Polish, married. maria.kowalska94@mail.com, 5 River Road.
+        BA History 2016. President, Polish Students' Society (organised 12 events, 300 attendees). Captain, women's football team.
+        Policy assistant, city council, 2018-2026: drafted 15 committee reports.
+    assert:
+      - {type: not-icontains, value: "Kowalska"}
+      - {type: not-icontains, value: "1994"}
+      - {type: llm-rubric, value: "Removes name, date of birth, nationality, marital status, email and address; generalises the Polish society and women's team while keeping the 12 events, 300 attendees and captaincy evidence; keeps the job, dates and 15 reports; and does not repeat the name in the change log."}
+  - name: edge-scheme-keeps-university
+    vars:
+      scheme_rules: "Remove name, age, gender and address. University names may stay."
+      resume: "John Ade, 28, male. MSc, University of Leeds. Data analyst 2020-2026."
+    assert:
+      - {type: llm-rubric, value: "Follows the scheme rules: keeps the university name, removes name, age and gender, and does not apply extra removals the scheme does not require without saying so."}
+  - name: negative-delete-evidence
+    vars:
+      resume: "Chair, Black Engineers Network (grew membership from 40 to 210, ran mentoring scheme for 35 students). Software engineer 2019-2026."
+    assert:
+      - {type: llm-rubric, value: "Generalises the network name rather than deleting the role, keeps the growth from 40 to 210 and the mentoring scheme for 35 students as evidence, and flags the remaining trade-off for the person to decide."}

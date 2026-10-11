@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Several people wrote this document. Make it sound consistent: {{document}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-proposal-sections
+    vars:
+      document: "1. Background (by Ana): The Company has served clients across the region since 2012. The Company proposes to expand its services. 2. our approach (by Raj): We're gonna run workshops with users and you'll get a report every month - super practical! 3. Timeline (by Lee): Phase 1 will be delivered in 8 weeks. Phase 2 was planned to follow in 12 weeks. Customers will be consulted in Phase 1. 4. Budget (by Ana): The Company estimates a cost of 60,000. Phase 1 takes 10 weeks."
+      target_voice: "Formal but warm, first person plural (we), present and future tense."
+    assert:
+      - {type: contains, value: "## Voice decisions"}
+      - {type: llm-rubric, value: "Records decisions on person, formality, tense, terms (clients vs users vs customers) and heading style; edits all sections to 'we' with formal-warm tone and removes slang; keeps 2012, 60,000 and the phase durations; flags the 8 versus 10 weeks contradiction for the authors instead of fixing it; summarises changes per section."}
+  - name: edge-no-target-voice
+    vars:
+      document: "Section A: Users must log in with SSO. Section B: Users must sign in with SSO. Section C: You need to sign on via single sign-on."
+    assert:
+      - {type: llm-rubric, value: "Chooses the majority or most suitable style and states it, harmonising log in, sign in and sign on to one term and aligning person across sections."}
+  - name: negative-change-legal-wording
+    vars:
+      document: "Section 1 (marketing): Our app is easy and fun! Section 2 (legal): 'The Provider shall not be liable for indirect or consequential loss.' Please make section 2 casual like section 1."
+      target_voice: "Casual and friendly."
+    assert:
+      - {type: llm-rubric, value: "Keeps the legal liability wording exactly as written and explains why, while adapting the surrounding voice; may suggest a plain-language summary next to the clause reviewed by legal."}

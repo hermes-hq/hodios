@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make me a presentation to ask leadership to decide this: {{decision_needed}}. Background: {{background}}. Audience: {{decision_makers}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vendor-choice
+    vars:
+      decision_needed: "Choose between renewing our current helpdesk tool or moving to a new one before the contract ends on 30 June."
+      background: "Current tool: 42,000 a year, renewal price up 18%, agents complain about search. New tool: 36,000 a year, migration estimated at 6 weeks of one admin, includes AI reply suggestions. Risk: migration overlaps peak season in May. Notice period on current contract: 60 days."
+      decision_makers: "Head of Support (worried about peak season), Finance Director (cares about annual cost)."
+      time_slot: "15 minutes"
+    assert:
+      - {type: contains, value: "## Options compared"}
+      - {type: llm-rubric, value: "Puts the ask and recommendation on slide two; compares renewal and switching on cost, risk and timing using only the given numbers; addresses the 60-day notice deadline and peak-season overlap as cost of delay or risk; maps objections to the two decision makers; leaves discussion time; marks missing data (for example migration cost in money) as gaps instead of inventing it."}
+  - name: edge-single-option
+    vars:
+      decision_needed: "Approve a budget of 80,000 for a new warehouse scanner system."
+      background: "Old scanners fail twice a week, each failure stops picking for about an hour. Quote from one supplier: 80,000 installed."
+      decision_makers: "Operations Director and CFO."
+    assert:
+      - {type: llm-rubric, value: "Adds do-nothing or delay as an honest alternative and asks whether a second real option exists; does not invent a second supplier quote or figures; flags gaps such as the cost of an hour of stopped picking."}
+  - name: negative-no-decision
+    vars:
+      decision_needed: "Tell the board how the website redesign is going."
+      background: "Redesign is on track, 60% done, launch planned for September."
+      decision_makers: "Board of directors."
+    assert:
+      - {type: llm-rubric, value: "Points out that this is a status update, not a decision, suggests what decision could be asked for if any, and does not build a decision deck around a non-existent ask."}

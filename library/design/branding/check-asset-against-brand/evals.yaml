@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Is this on brand? {{asset}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-social-post
+    vars:
+      asset: "Instagram post 1080x1080: brand logo top left at about 40 px wide on a busy beach photo; headline 'AMAZING SUMMER DEALS!!!' in all caps in a bold script font; light yellow text on white band at the bottom; no alt text written"
+      guidelines: "Logo minimum 60 px wide on screen, always on a solid area or with the reversed version; clear space equal to the height of the logo's 'o'. Typefaces: Inter for headlines and body; sentence case; no exclamation marks. Colours: navy #1B2A4A, coral #FF6F59, white. Imagery: real customers, natural light, uncluttered backgrounds. Text contrast must meet WCAG AA."
+    assert:
+      - {type: contains, value: "## Must fix"}
+      - {type: llm-rubric, value: "Fails the undersized logo on a busy photo, the script typeface, all caps and exclamation marks against the stated rules, the off-palette light yellow and its contrast failure, and missing alt text; cites each rule; separates must-fix from should-fix; gives exact fixes; and does not invent rules beyond those given."}
+  - name: edge-guidelines-silent
+    vars:
+      asset: "Animated GIF banner for email with the logo spinning"
+      guidelines: "Logo must not be rotated, recoloured or distorted. No rules on animation."
+    assert:
+      - {type: llm-rubric, value: "Fails the spinning logo under the no-rotation rule, and notes that the guidelines are silent on animation as a guideline gap with a suggested rule."}
+  - name: negative-no-guidelines
+    vars:
+      asset: "Poster for our open day"
+      guidelines: "We don't have any written guidelines, just check if it looks on brand"
+    assert:
+      - {type: llm-rubric, value: "Explains it cannot check brand compliance without stated rules, asks for the guidelines or key rules, and at most offers general design observations clearly labelled as suggestions, rather than inventing brand rules."}

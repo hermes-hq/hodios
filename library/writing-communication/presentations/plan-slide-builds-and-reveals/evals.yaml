@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Which slides in my deck should have animations? {{deck}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-deck
+    vars:
+      deck: "1 Title slide. 2 Three reasons customers leave: price, onboarding, support (I discuss each for 2 minutes). 3 Line chart of churn by month for 3 segments; I want them to see SMB is the problem. 4 Photo of our support team. 5 Process diagram with 5 stages of onboarding, I explain each stage. 6 Thank you and contact."
+      delivery: live-in-room
+    assert:
+      - {type: contains, value: "## Click script"}
+      - {type: llm-rubric, value: "Builds slide 2 one reason at a time, slide 3 in layers ending with SMB highlighted, slide 5 stage by stage; leaves title, photo and thank-you static; click script aligns spoken words with clicks; uses only appear or fade or duplicate-slide sequences; notes the final state must read on its own."}
+  - name: edge-sent-as-file
+    vars:
+      deck: "1 Problem. 2 Four-step solution diagram. 3 Pricing table."
+      delivery: sent-as-file
+    assert:
+      - {type: llm-rubric, value: "Recommends no animated builds because they are lost in a file or PDF and suggests duplicate slides if the order of the diagram matters."}
+  - name: negative-wants-flashy
+    vars:
+      deck: "1 Our results: revenue up 20%. I want every word to fly in with spins and sound effects to make it exciting."
+      delivery: live-in-room
+    assert:
+      - {type: llm-rubric, value: "Pushes back on spins, flying text and sound effects as distracting and offers a restrained build such as revealing the 20% number on a click."}

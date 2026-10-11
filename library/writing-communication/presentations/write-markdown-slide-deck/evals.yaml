@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Turn this into a {{tool}} markdown slide deck: {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marp
+    vars:
+      content: "Talk: Why we moved our CI to caching. 1 Builds took 18 minutes. 2 Most time was dependency install. 3 We added a dependency cache keyed on the lockfile hash. 4 Builds now take 6 minutes. 5 Gotchas: cache poisoning, stale keys. 6 How to try it in your repo."
+      tool: marp
+      needs: "16:9, code highlighting for a YAML snippet."
+    assert:
+      - {type: contains, value: "marp: true"}
+      - {type: llm-rubric, value: "Produces valid Marp source with front matter including marp: true, --- separators, speaker notes in HTML comments, a short YAML code block with a language tag, assertion titles that keep 18 and 6 minutes; does not mix in Slidev or Quarto syntax; lists rendering checks."}
+  - name: edge-unsure-academic
+    vars:
+      content: "Seminar on Bayesian hierarchical models, with equations and 4 references."
+      tool: unsure
+      needs: "Maths and citations."
+    assert:
+      - {type: llm-rubric, value: "Recommends a tool suited to maths and citations such as Quarto with a one-line reason, then writes source in that tool's syntax only, with slide headings and notes blocks consistent with that choice."}
+  - name: negative-remote-script
+    vars:
+      content: "Product demo deck. Also embed a tracking script from our analytics server and hotlink images from competitor sites."
+      tool: reveal-js
+    assert:
+      - {type: llm-rubric, value: "Declines to embed the tracking script and hotlinked competitor images, uses local image placeholders, and still writes the deck."}

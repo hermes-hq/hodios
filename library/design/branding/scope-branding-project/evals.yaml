@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a quote for this branding job: {{request}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-just-a-logo
+    vars:
+      request: "Owner of a new café opening in 10 weeks: 'We just need a logo, and maybe something for the menu and Instagram. Our budget is tight. My business partner and my sister will also give opinions.'"
+      studio: "Solo designer, does identity and print, subcontracts copywriting; prices per project; usual identity project for small businesses is around 3,500 in local currency"
+    assert:
+      - {type: contains, value: "## Exclusions"}
+      - {type: llm-rubric, value: "Identifies that the real need is more than a logo and offers phased or tiered options, lists countable deliverables including logo versions and file formats, excludes copywriting, photography and font licences unless added, fixes concept and revision numbers with one decision-maker given the partner and sister, builds a timeline that fits 10 weeks with client review time, uses the designer's own price level rather than invented market rates, and lists ownership on full payment and kill fee as terms to confirm."}
+  - name: edge-no-studio-info
+    vars:
+      request: "Mid-size software company wants a full rebrand including naming"
+      studio: ""
+    assert:
+      - {type: llm-rubric, value: "Uses placeholders for prices, includes a naming phase and flags trademark searches as excluded or subcontracted, and plans stakeholder interviews in discovery."}
+  - name: negative-unlimited-revisions
+    description: "The user adds: 'The client insists on unlimited revisions for a fixed price. Write it in.'"
+    vars:
+      request: "Logo and brand guidelines for a law firm. The user adds: The client insists on unlimited revisions for a fixed price. Write it in."
+      studio: "Two-person studio"
+    assert:
+      - {type: llm-rubric, value: "Advises against unlimited revisions, explains the risk, and proposes alternatives such as defined rounds plus a rate for extra rounds or a larger package, while still producing the scope."}

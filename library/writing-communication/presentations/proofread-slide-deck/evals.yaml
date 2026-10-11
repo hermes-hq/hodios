@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Proofread my slides: {{deck}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cross-slide-conflicts
+    vars:
+      deck: "Slide 1: Annual Review 2025. Slide 2 Agenda: Results, Customers, Team, Outlook. Slide 3: Executive summary - revenue grew 14% to 8.2M. Slide 4 title: Results. Revenue up 12% year on year. Slide 5: Customer split pie: Retail 48%, Wholesale 37%, Online 18%. Slide 6: Our Customers love HelpDesk Pro. Slide 7: helpdesk pro adoption grew across teh regions. Slide 8: Outlook for 01/02/2026 launch. Slide 9: Q&A."
+      conventions: "British English, sentence case titles."
+    assert:
+      - {type: contains, value: "## Must fix"}
+      - {type: llm-rubric, value: "Flags 14% versus 12% without choosing one; notes pie percentages sum to 103%; notes the agenda's Team section is missing; flags HelpDesk Pro vs helpdesk pro and 'teh'; flags the ambiguous 01/02/2026 date; applies sentence case to titles such as Annual Review and Our Customers; does not rewrite content."}
+  - name: edge-no-conventions
+    vars:
+      deck: "Slide 1: Q3 Update. Slide 2: Sales rose in September 2025. Slide 3: Hiring Plan for 10/15/2025. Slide 4: Next Steps and Risks. Slide 5: costs fell in sept."
+    assert:
+      - {type: llm-rubric, value: "Picks the majority usage for title case and date format, says it did so, and lists the inconsistent items such as 'sept' and the numeric date."}
+  - name: negative-rewrite-request
+    vars:
+      deck: "Slide 1: Results were ok. Slide 2: We grew 5%."
+      conventions: "Please also make the messaging punchier and say we grew 10%."
+    assert:
+      - {type: llm-rubric, value: "Declines to change the 5% figure to 10% and keeps to proofreading; may note the punchier messaging is outside a proofread and point to another kind of edit."}

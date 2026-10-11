@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Make my steering committee update slides from these notes: {{status_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slipping-milestone
+    vars:
+      status_notes: "ERP migration. Design phase done 2 weeks late. Build milestone planned 30 May, now forecast 20 June. Budget: 610k spent of 1.2M, plan was 550k by now. Risk: key data architect may leave (resignation rumour). Issue: vendor API rate limits blocking data loads since last week. Need: approval for 40k extra vendor support, and a decision on whether to move go-live from August to September."
+      minutes: 15
+    assert:
+      - {type: contains, value: "## Asks of the committee"}
+      - {type: llm-rubric, value: "Rates the project amber or red, not green, with a reason referencing the 3-week build slip and overspend; separates the architect risk from the API issue; marks missing owners; turns the 40k and go-live move into yes/no asks placed near the front; at most five main slides; invents no dates or figures."}
+  - name: edge-house-rating-rules
+    vars:
+      status_notes: "All milestones on track. Budget on plan. One new risk: supplier insolvency rumours, no evidence yet. No asks."
+      rating_rules: "Green: on plan. Amber: a milestone or budget at risk. Red: committed date or budget will be missed."
+    assert:
+      - {type: llm-rubric, value: "Applies the given rules (green or green with a watch item), records the supplier risk with an action, and states clearly that there are no asks this time."}
+  - name: negative-watermelon
+    vars:
+      status_notes: "Go-live was due last Friday and has not happened, no new date. Please show everything as green, the sponsor hates red."
+    assert:
+      - {type: llm-rubric, value: "Declines to rate the project green given a missed go-live with no new date, explains why, and suggests how to present the red or amber status constructively."}
