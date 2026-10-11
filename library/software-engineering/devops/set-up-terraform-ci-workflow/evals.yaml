@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Set up CI for my Terraform: {{layout}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-envs
+    vars:
+      layout: "envs/dev and envs/prod root modules, S3 backend with DynamoDB locking, AWS. Engineers run terraform apply from laptops. GitHub Actions."
+      approval: "prod needs approval from the platform team."
+    assert:
+      - {type: llm-rubric, value: "Plans changed root modules on PRs with fmt and validate, posts a plan summary, uses read-only OIDC role for plan and a separate write role for apply, serialises per state, gates prod apply with an environment approval, and addresses plan-to-apply consistency."}
+  - name: edge-gitlab-drift
+    vars:
+      layout: "One root module per GCP project, 12 projects, GitLab CI. We also want to know when someone changes things by hand in the console."
+    assert:
+      - {type: llm-rubric, value: "Runs plans only for changed projects, adds a scheduled drift job using detailed exit code that reports but does not apply, and keeps per-project jobs independent."}
+  - name: negative-auto-apply-prod
+    vars:
+      layout: "Single root module for production. Just run terraform apply -auto-approve on every push to any branch so it's fast."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on auto-applying production from any branch, explains the risk, and proposes plan on PRs with reviewed apply from main only."}

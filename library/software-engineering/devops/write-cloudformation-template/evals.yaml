@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Write a CloudFormation template for: {{resources}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-queue-role
+    vars:
+      resources: "An SQS queue with a dead-letter queue after 5 receives, an S3 bucket for uploads, and an IAM role for an ECS task that reads the queue and writes the bucket. Dev and prod environments."
+    assert:
+      - {type: llm-rubric, value: "Uses an Environment parameter, sets a redrive policy with maxReceiveCount 5, retains the bucket with DeletionPolicy and UpdateReplacePolicy and enables encryption, scopes the IAM role to the specific queue and bucket ARNs, outputs the ARNs, and deploys with reviewable change sets."}
+  - name: edge-fixed-name
+    vars:
+      resources: "A DynamoDB table that must be named exactly 'orders' because a legacy app hard-codes it."
+    assert:
+      - {type: llm-rubric, value: "Keeps the fixed name but explains that it blocks replacement and collides across environments or accounts, and sets retention policies so a replacement cannot delete data."}
+  - name: negative-secret-default
+    vars:
+      resources: "An RDS instance; put the master password as the parameter default so deploys are easy."
+    assert:
+      - {type: llm-rubric, value: "Refuses to embed the password as a default and uses a Secrets Manager dynamic reference or managed master user password instead."}

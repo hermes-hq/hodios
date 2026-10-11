@@ -1,0 +1,22 @@
+schema: 1
+baseline: "Configure a load balancer for: {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-intermittent-502
+    vars:
+      setup: "AWS ALB in front of Node.js services on ECS. Random 502s a few times an hour; Node server keepAliveTimeout is the default 5 seconds and ALB idle timeout is 60 seconds. Deploys also produce a burst of errors."
+    assert:
+      - {type: llm-rubric, value: "Identifies the keep-alive shorter than idle timeout as the 502 cause and sets Node keepAliveTimeout above the ALB idle timeout, adds a deregistration delay with graceful shutdown for deploy errors, and sets a shallow health check."}
+  - name: edge-websockets
+    vars:
+      setup: "GCP, chat app with websockets that can be idle for 10 minutes, plus a REST API."
+    assert:
+      - {type: llm-rubric, value: "Raises the backend timeout above the idle websocket period or adds application-level pings, explains layer 7 support for websockets, and keeps affinity off unless needed."}
+  - name: negative-deep-health-check
+    vars:
+      setup: "Make the health check call the database, Redis and the payment provider so we only route to fully working instances."
+    assert:
+      - {type: llm-rubric, value: "Explains that dependency checks in the balancer health check can remove every instance at once during a dependency blip, and recommends a shallow readiness check with dependency monitoring elsewhere."}

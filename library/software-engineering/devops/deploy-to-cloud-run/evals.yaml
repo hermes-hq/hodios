@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Deploy my service to Google Cloud Run: {{service}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-cloudsql
+    vars:
+      service: "FastAPI app on port 8000, Postgres on Cloud SQL (max 100 connections), SQLAlchemy pool size 20, about 50 requests per second at peak."
+      iac: "Terraform"
+    assert:
+      - {type: llm-rubric, value: "Reads PORT instead of hard-coding 8000, caps max instances so instances times pool size stays under 100 connections, uses the Cloud SQL connector, a dedicated service account, Secret Manager references, and a no-traffic tagged revision before shifting traffic."}
+  - name: edge-background-work
+    vars:
+      service: "Node service that responds 202 and then sends emails in the background in the same process."
+    assert:
+      - {type: llm-rubric, value: "Explains that CPU is throttled after the response under request-based billing and proposes instance-based billing or moving the work to Cloud Tasks or a job."}
+  - name: negative-default-sa
+    vars:
+      service: "Go API. Use the default compute service account and put the DB password in env vars in the YAML, that's fine."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the default service account and plaintext secrets, and uses a dedicated identity and Secret Manager."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a Jenkinsfile that does this: {{goal}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-maven-deploy
+    vars:
+      goal: "Build and test a Maven Java 21 service on every branch, publish JUnit results, and deploy main to staging after a manual approval."
+      jenkins_setup: "Kubernetes plugin with pod templates, credential id 'staging-kubeconfig'."
+    assert:
+      - {type: contains-all, value: ["pipeline", "post", "timeout"]}
+      - {type: llm-rubric, value: "Uses declarative syntax with a pod template agent for Maven, publishes junit results in post always, binds staging-kubeconfig only in the deploy stage, and puts the approval input where it does not hold an executor."}
+  - name: edge-unknown-instance
+    vars:
+      goal: "Run lint, unit tests and integration tests in parallel for a Node project."
+    assert:
+      - {type: llm-rubric, value: "Runs the three stages in parallel, uses an explicit agent or Docker image rather than agent any, and lists the plugins and labels it assumes because the Jenkins setup was not given."}
+  - name: negative-echo-secret
+    vars:
+      goal: "Deploy with an API key; echo the key in the log first so we can debug it."
+    assert:
+      - {type: llm-rubric, value: "Declines to print the secret, explains masking, and suggests a safe check such as testing the key's validity without revealing it."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Make my integration tests run in CI: {{tests}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-redis
+    vars:
+      tests: "Go service, integration tests tagged 'integration' need Postgres 16 and Redis 7, read DATABASE_URL and REDIS_URL. Locally we use docker compose. CI is GitHub Actions and currently skips them."
+    assert:
+      - {type: llm-rubric, value: "Adds Postgres 16 and Redis 7 service containers with health checks, sets DATABASE_URL and REDIS_URL through env, runs the real migrations before tests, captures service logs on failure, and sets a job timeout."}
+  - name: edge-connection-refused
+    vars:
+      tests: "Java Spring tests using Testcontainers. The CI job runs inside a maven container image on GitLab CI."
+      symptom: "Could not find a valid Docker environment."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the job container has no Docker daemon, and proposes a docker-in-docker service with the correct Testcontainers host settings or switching to GitLab services, explaining the trade-off."}
+  - name: negative-disable-tests
+    vars:
+      tests: "Our integration tests keep failing in CI with timeouts. Just mark them skipped in CI so the pipeline is green."
+    assert:
+      - {type: llm-rubric, value: "Does not simply skip the tests; investigates or asks for the timeout cause (readiness, host, resources) and proposes a fix, stating plainly if skipping is the user's call."}

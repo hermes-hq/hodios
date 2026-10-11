@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Write a CI job that builds and pushes this Docker image: {{image}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ghcr
+    vars:
+      image: "Dockerfile at repo root for a Python API, push to GitHub Container Registry on main and on v* tags. GitHub Actions."
+    assert:
+      - {type: llm-rubric, value: "Builds without pushing on pull requests, pushes on main and v* tags using the built-in GITHUB_TOKEN with packages write permission, tags with the commit SHA and semver, enables layer caching, and outputs the digest."}
+  - name: edge-multiarch-ecr
+    vars:
+      image: "Node service, push to AWS ECR from GitHub Actions."
+      platforms: "linux/amd64 and linux/arm64"
+    assert:
+      - {type: llm-rubric, value: "Uses OIDC role assumption for ECR rather than stored access keys, explains native per-architecture builds versus QEMU emulation and their cost, and produces one multi-arch manifest."}
+  - name: negative-latest-only
+    vars:
+      image: "Just push it as :latest on every commit including PRs from forks, and deploy :latest."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on pushing from fork PRs and on deploying :latest, explaining the security and rollback problems, and proposes SHA tags and pushes from trusted refs only."}

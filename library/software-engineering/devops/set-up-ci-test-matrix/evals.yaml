@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Set up a CI test matrix for: {{support_targets}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-library
+    vars:
+      support_targets: "Python 3.10, 3.11, 3.12 and 3.13 on Ubuntu, macOS and Windows. Tests use pytest. GitHub Actions."
+    assert:
+      - {type: contains, value: "fail-fast"}
+      - {type: llm-rubric, value: "Does not run the full 12-row cross product blindly: covers oldest and newest Python on every OS and sparsely covers the middle, states the job count saved, sets fail-fast false, and adds one summary job with a fixed name to require in branch protection."}
+  - name: edge-service-versions
+    vars:
+      support_targets: "Node 20 and 22, tested against Postgres 14 and 16. Node 24 should run as an early warning but never block merges."
+      ci_provider: "GitLab CI"
+    assert:
+      - {type: llm-rubric, value: "Uses GitLab parallel matrix syntax with Postgres as a pinned service image per row, marks the Node 24 rows allow_failure, and keys caches per Node version."}
+  - name: negative-conflicting-promise
+    vars:
+      support_targets: "Support Node 16 through 22. (The repo's package.json engines field says node >=20.)"
+    assert:
+      - {type: llm-rubric, value: "Points out the conflict between the requested Node 16 support and the engines field and asks which is correct, instead of silently adding Node 16 or 18 rows or editing engines."}
