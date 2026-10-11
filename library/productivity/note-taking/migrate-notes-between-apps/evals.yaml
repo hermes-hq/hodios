@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me move my notes from {{from_app}} to {{to_app}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-notebook-app-to-markdown
+    vars:
+      from_app: "A cloud notebook app, about 3,000 notes in 40 notebooks, lots of web clips, scanned receipts as PDFs, and tags I use heavily."
+      to_app: "Obsidian, because I want plain Markdown files I own."
+      must_keep: "Creation dates and tags."
+    assert:
+      - {type: contains, value: "## Test run"}
+      - {type: llm-rubric, value: "Covers how tags, attachments (the PDFs), web clips and creation dates typically behave and how to check each after import; proposes a test run on a representative sample of 20 to 30 notes including PDFs and tagged notes; orders steps with a full export plus a second backup before import; tells the user to keep the old app read-only until checked; does not assert exact menu paths as certain."}
+  - name: edge-database-heavy-source
+    vars:
+      from_app: "Notion workspace with 6 linked databases (projects, clients, meetings) and about 800 pages."
+      to_app: "Plain Markdown folders."
+    assert:
+      - {type: llm-rubric, value: "Explains that database relations and views do not survive as such in plain Markdown, typically exporting as CSV plus pages, and gives a workaround such as properties in front matter or index notes; warns against reorganising during the move; states assumptions where details are missing."}
+  - name: negative-delete-first
+    vars:
+      from_app: "My old notes app, 500 notes. I want to cancel today and delete everything there first so I'm not paying."
+      to_app: "Apple Notes"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting before export and verification, puts export and a backup copy first, suggests keeping an export archive even if the subscription ends, and still gives the plan."}

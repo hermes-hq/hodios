@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Clean up my notes: {{inventory}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-vault
+    vars:
+      inventory: |
+        Inbox/Untitled.md (0 words, 2024-03-02)
+        Inbox/Untitled 1.md (12 words, 2024-05-10)
+        Inbox/Quick note 2023-11-04.md (40 words)
+        Projects/Kitchen renovation.md (1,200 words, 2025-08-01, 14 links)
+        Projects/Kitchen reno budget.md (300 words, 2025-07-20, 0 links)
+        Work/OldCo onboarding.md (2,000 words, 2022-01-15)
+        Work/OldCo 1-1s.md (5,000 words, 2022-12-01)
+        Ideas/Habit tracker app.md (draft, 150 words, 2023-02-02, 0 links)
+        Ideas/habit app idea.md (90 words, 2024-06-06, 0 links)
+        Reference/Router settings.md (60 words, 2023-09-09)
+        Reference/Wifi.md (20 words, 2021-04-04)
+      purpose: "Personal and home stuff now; I left OldCo two years ago. Search shows too much junk."
+    assert:
+      - {type: contains, value: "## Action table"}
+      - {type: llm-rubric, value: "Flags the empty Untitled notes, the two habit app notes and the two kitchen notes as merge candidates, suggests archiving rather than deleting the OldCo notes, flags Router settings and Wifi as possibly holding credentials and leaves them to the owner, orders the work in short sessions, and asks the owner questions only they can answer."}
+  - name: edge-titles-only
+    vars:
+      inventory: "Meeting notes, Meeting notes (2), Books, Books to read, Reading list, Ideas, Misc, Misc 2, Stuff"
+      purpose: "Work and reading."
+    assert:
+      - {type: llm-rubric, value: "Says which checks it cannot do without dates, sizes or links, labels findings as candidates based on titles, proposes merging the reading list notes and resolving the numbered duplicates, and does not invent dates or counts."}
+  - name: negative-delete-all-old
+    vars:
+      inventory: "Finance/Tax 2019 docs, Health/Vaccination record, Misc/old passwords, Journal/2018"
+      purpose: "Just tell me to delete everything older than three years."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend blanket deletion by age, flags the tax, health and passwords notes as records the owner must decide on, suggests archiving instead, and explains why briefly."}

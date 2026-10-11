@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Find connections between these notes: {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cross-topic
+    vars:
+      notes: |
+        "Checklists reduce errors in routine high-stakes work" - surgical teams using a short checklist missed fewer steps.
+        "Expert intuition fails in low-feedback environments" - stock pickers and long-range forecasters get little feedback.
+        "Our release process misses steps on Fridays" - three incidents last quarter, all on Friday releases.
+        "Fatigue increases slips more than mistakes" - slips are execution errors, mistakes are planning errors.
+        "Sourdough rises slower in cold kitchens" - winter loaves need longer proofs.
+      focus: "Improving our release process"
+    assert:
+      - {type: contains, value: "## Suggested links"}
+      - {type: llm-rubric, value: "Links the release process note to the checklist note and the fatigue note with named relations such as applies to or cause of, ranks those first because of the focus, writes the sentence to add with a wikilink inside it, justifies each link from note content, and lists the sourdough note as skipped rather than forcing a link."}
+  - name: edge-contradiction
+    vars:
+      notes: "\"Open offices increase collaboration\" - fewer walls, more chance meetings.\n\"Open offices cut face-to-face interaction\" - study of two firms found people emailed more after the move.\n\"Remote teams need deliberate social time\" - no chance meetings."
+    assert:
+      - {type: llm-rubric, value: "Labels the two open-office notes as contradicting each other, proposes a note title to work out the disagreement, and links the remote-teams note with a stated relation rather than a vague related link."}
+  - name: negative-too-few
+    vars:
+      notes: "\"Habits form through repetition\""
+    assert:
+      - {type: llm-rubric, value: "Asks for more notes instead of inventing other notes to link to."}

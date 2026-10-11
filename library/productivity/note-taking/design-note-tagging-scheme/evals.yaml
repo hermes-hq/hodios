@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me organise my note tags: {{current_tags}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sprawling-tags
+    vars:
+      current_tags: "#meeting (120), #meetings (34), #mtg (9), #work (400), #ideas (60), #idea (12), #ProjectAtlas (45), #atlas (20), #book (30), #books-to-read (15), #todo (80), #sarah (6), #recipe (25), #important (90). Example titles: 'Mon sync', 'Atlas kickoff', 'Thinking fast and slow'."
+      uses: "Work projects and meetings, some reading notes and recipes. I can never find old meeting decisions."
+      app: "Obsidian"
+    assert:
+      - {type: contains, value: "## Fixing the old tags"}
+      - {type: llm-rubric, value: "Identifies the meeting/meetings/mtg and idea/ideas and ProjectAtlas/atlas synonym groups by name, flags #work and #important as too broad to filter by, suggests replacing #sarah and the project tag with links or properties, separates type, status and topic tags, proposes dated meeting titles to help find decisions, and maps every listed old tag to an action."}
+  - name: edge-no-nested-tag-support
+    vars:
+      current_tags: "label: Home, label: Kids, label: School, label: Bills, label: Bills-2023, label: Bills 2024. Titles: 'Water bill', 'Parent evening'."
+      uses: "Family admin in a simple notes app."
+    assert:
+      - {type: llm-rubric, value: "Does not assume nested tags or properties are available without saying so, offers a fallback, recommends dropping year-specific bill labels in favour of dates in titles or search, and keeps the list very short."}
+  - name: negative-no-input
+    vars:
+      current_tags: ""
+      uses: "everything"
+    assert:
+      - {type: llm-rubric, value: "Asks for a pasted tag list and a few example note titles and does not invent a diagnosis of tags it has not seen."}
