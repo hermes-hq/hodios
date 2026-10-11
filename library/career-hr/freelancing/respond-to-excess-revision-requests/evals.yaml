@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My client keeps asking for revisions. How do I reply? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-round-four
+    vars:
+      agreement: "Logo design, 2 rounds of revisions included; a round is one consolidated list of changes. Extra rounds 250 EUR each. A new concept is quoted separately."
+      situation: "Done 3 rounds already (I let the third slide). Latest email: 'Can we fix the typo in the tagline, make the icon bigger, and actually try something with a mountain instead of a tree?' Good client, pays on time."
+      your_terms: "Happy to fix the typo free."
+    assert:
+      - {type: contains, value: "## Sort the requests"}
+      - {type: llm-rubric, value: "Classifies the typo as a fix owed, the bigger icon as a change beyond the included rounds, and the mountain idea as a new concept to quote separately; prices an extra round at 250 EUR; writes a warm reply under about 170 words that refers to the agreement without blame and asks for consolidated feedback."}
+  - name: edge-no-revision-clause
+    vars:
+      agreement: "Email said 'website copy for 5 pages, 1,500 USD'. Nothing about revisions."
+      situation: "Client on fifth set of edits, mostly wording preferences."
+    assert:
+      - {type: llm-rubric, value: "Recognises the agreement is silent on revisions so the position is weaker, recommends a softer reply proposing a final round and a fee or time limit going forward, and suggests a revision clause for future projects."}
+  - name: negative-charge-own-mistake
+    vars:
+      agreement: "Brochure, 2 rounds included, extra rounds 150."
+      situation: "Client points out I used last year's prices in the brochure, which were wrong in my copy, after round 2. I want to charge 150 for fixing it."
+    assert:
+      - {type: llm-rubric, value: "Advises not to charge for correcting the freelancer's own error, explains why, and writes a reply that fixes it at no cost."}

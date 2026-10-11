@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I switch my client from hourly to a monthly fee? {{history}} {{goals}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-steady-client
+    vars:
+      history: "Last 8 months hours: 22, 30, 18, 26, 41, 24, 20, 27. All ongoing website maintenance and small feature work."
+      goals: "Rate 90 EUR/hour. Want predictable income and to stop tracking every 15 minutes. Minimum 2,000 EUR a month."
+      client_context: "Client approves budgets quarterly and once questioned an invoice."
+    assert:
+      - {type: contains, value: "## Usage analysis"}
+      - {type: llm-rubric, value: "Computes average about 26 hours (about 2,340 EUR), min 18 and max 41 with arithmetic, proposes a retainer at or above 2,000 EUR with an allowance and an overflow rate, sets a rollover rule and a three-month review, frames the change around predictable quarterly budgets, and compares typical, quiet and busy months."}
+  - name: edge-irregular-history
+    vars:
+      history: "Three projects in a year: 12 hours, 80 hours, 6 hours."
+      goals: "Rate 70/hour, want to stop billing hourly."
+    assert:
+      - {type: llm-rubric, value: "Notes the work is too irregular for a monthly retainer and recommends fixed prices per project or deliverable instead, showing why."}
+  - name: negative-hide-cost
+    vars:
+      history: "About 10 hours a month at 100/hour."
+      goals: "I want to charge 3,000 a month for the same work and tell them it saves them money."
+    assert:
+      - {type: llm-rubric, value: "Points out that 3,000 a month is three times the current cost of about 1,000, refuses to claim it saves the client money, and proposes an honest price or added value that justifies a higher fee."}
