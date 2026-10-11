@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My background jobs are not processing: {{symptom}}. Setup: {{setup}}. What's wrong?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-celery-queue-routing
+    vars:
+      symptom: "send_invoice tasks are enqueued (I can see them in Redis) but never run. Other tasks work."
+      setup: "Celery 5, Redis broker. settings: task_routes = {'billing.tasks.*': {'queue': 'billing'}}. Worker started with: celery -A app worker -l info"
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Identifies that billing tasks are routed to the 'billing' queue while the worker only consumes the default queue because no -Q option is given; fixes by adding -Q celery,billing or a dedicated billing worker, and suggests checking the worker startup banner for queues."}
+  - name: edge-duplicate-long-jobs
+    vars:
+      symptom: "Video export jobs sometimes run twice, both copies finish. Exports take up to 2 hours."
+      setup: "Celery with Redis broker, acks_late=True, default broker_transport_options."
+    assert:
+      - {type: llm-rubric, value: "Explains the Redis visibility_timeout (default one hour) re-delivering unacknowledged long jobs to another worker, fixes by raising visibility_timeout above the longest job or splitting the job, and recommends making the export idempotent."}
+  - name: negative-flush-redis
+    vars:
+      symptom: "Sidekiq jobs are stuck and the retry set has 40,000 entries. Should I just run FLUSHALL on Redis to start clean?"
+      setup: "Rails with Sidekiq 7, the same Redis also stores sessions and cache."
+    assert:
+      - {type: llm-rubric, value: "Warns against FLUSHALL because it deletes sessions, cache and every queued and scheduled job; asks to inspect the retry set errors first to find the failing cause, and suggests targeted clearing of specific retries only after confirming."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Terraform error: {{error}}. Context: {{context}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-moved-into-module
+    vars:
+      error: "Plan: 3 to add, 0 to change, 3 to destroy. aws_db_instance.main will be destroyed; module.db.aws_db_instance.main will be created."
+      context: "I moved the RDS instance, its subnet group and parameter group into a new module 'db'. No settings changed. Terraform 1.8."
+    assert:
+      - {type: contains, value: "## Safety notes"}
+      - {type: llm-rubric, value: "Explains the address change makes Terraform plan destroy and create, gives moved blocks from the old to new addresses for all three resources, and stresses not to apply until the plan shows no destroy of the database."}
+  - name: edge-already-exists
+    vars:
+      error: "Error: creating S3 Bucket (acme-logs): BucketAlreadyOwnedByYou"
+      context: "Someone created the bucket by hand last month; now we added it to Terraform."
+    assert:
+      - {type: llm-rubric, value: "Recommends importing the existing bucket into state with an import block or terraform import, then aligning the configuration until plan shows no changes, rather than deleting the bucket."}
+  - name: negative-force-unlock
+    vars:
+      error: "Error acquiring the state lock. Lock Info: Who: ci-runner@build-4512, Created: 2 minutes ago. I'll just force-unlock and apply from my laptop."
+      context: "S3 backend with DynamoDB locking; CI pipeline runs on every merge."
+    assert:
+      - {type: llm-rubric, value: "Warns that the lock is two minutes old and held by a CI runner that is likely still running, so force-unlock could corrupt state; advises checking the CI job first and only unlocking with the lock id after confirming it is dead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "PyTorch error: {{error}}. Code: {{code}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-linear-after-resize
+    vars:
+      error: "RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x46208 and 23328x10)"
+      code: "conv1 = Conv2d(3, 16, 3, padding=1); pool = MaxPool2d(2); conv2 = Conv2d(16, 32, 3, padding=1); pool; fc = Linear(32*27*27, 10). Images were 108x108, I changed the transform from Resize((108, 108)) to Resize((152, 152))."
+    assert:
+      - {type: contains, value: "## Shape trace"}
+      - {type: llm-rubric, value: "Traces shapes through the two conv and pool layers for a 152x152 input to 32x38x38 = 46208 features versus the 32x27x27 = 23328 the Linear layer was built for, and fixes by computing in_features from the real input size, using LazyLinear or adaptive pooling, rather than a blind reshape."}
+  - name: edge-silent-broadcast-loss
+    vars:
+      error: "No error, but the regression loss plateaus at a high value and predictions are all near the mean."
+      code: "pred = model(x)  # shape (N, 1)\nloss = ((pred - y) ** 2).mean()  # y shape (N,)"
+    assert:
+      - {type: llm-rubric, value: "Spots that (N,1) minus (N,) broadcasts to (N,N), so the loss compares every prediction with every target; fixes with pred.squeeze(1) or y.unsqueeze(1), or nn.MSELoss which warns on mismatched shapes."}
+  - name: negative-blind-view
+    vars:
+      error: "RuntimeError: shape '[64, 512]' is invalid for input of size 16384. Can I just change it to x.view(-1, 512) so it runs?"
+      code: "x = encoder(images)  # images batch 64; x.view(64, 512) before the classifier"
+    assert:
+      - {type: llm-rubric, value: "Warns that view(-1, 512) would change the batch dimension (16384/512 = 32 rows for 64 samples), mixing samples, and asks for or traces the encoder output shape to fix in_features or the flatten (flatten(1)) at the source."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "This breaks on one OS: {{symptom}}. Code: {{code}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-case-sensitive-import
+    vars:
+      symptom: "Build works on my Mac, fails in Linux CI: Module not found: Can't resolve './components/Header'"
+      code: "import Header from './components/Header'; the file on disk is src/components/header.tsx"
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Explains macOS is case-insensitive and Linux is case-sensitive, fixes by matching the import case or renaming the file with git mv (noting a case-only rename needs git mv or a two-step rename), and suggests a lint rule or CI check."}
+  - name: edge-npm-script-windows
+    vars:
+      symptom: "On Windows, npm run build fails with: 'NODE_ENV' is not recognized as an internal or external command"
+      code: "\"build\": \"NODE_ENV=production rm -rf dist && webpack\""
+    assert:
+      - {type: llm-rubric, value: "Explains npm scripts run under cmd.exe on Windows, so VAR=value and rm -rf fail; fixes with portable alternatives (setting the mode in config, a cross-platform package already in the project, or a node script using fs.rmSync), covering both problems."}
+  - name: negative-os-branching
+    vars:
+      symptom: "Paths break on Windows. I'll add if (process.platform === 'win32') { p = p.replace(/\\//g, '\\\\') } everywhere we build a path."
+      code: "const p = baseDir + '/' + 'data' + '/' + file;"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on scattering platform checks and string replacement, and replaces string concatenation with path.join or path.resolve, applying it to every path built this way."}

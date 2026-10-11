@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My WordPress site shows: {{symptom}}. I have {{access}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-php8-plugin-fatal
+    vars:
+      symptom: "Host upgraded us to PHP 8.2 last night. Now every page says There has been a critical error on this website."
+      access: "cPanel with file manager, no SSH"
+      error_log: "PHP Fatal error: Uncaught Error: Call to undefined function create_function() in /home/site/public_html/wp-content/plugins/old-slider/slider.php:88"
+    assert:
+      - {type: contains, value: "## Fix"}
+      - {type: llm-rubric, value: "Reads the error path to identify the old-slider plugin and explains create_function was removed in PHP 8; fixes by renaming the old-slider plugin folder in the file manager (or temporarily reverting PHP version) and then replacing or updating the plugin; recommends a backup first."}
+  - name: edge-no-error-yet
+    vars:
+      symptom: "White screen on the front end and wp-admin after I edited something, not sure what."
+      access: "SFTP only"
+    assert:
+      - {type: llm-rubric, value: "Does not guess a single cause; explains how to enable WP_DEBUG_LOG with WP_DEBUG_DISPLAY false via wp-config.php over SFTP or check the recovery mode email, asks for the error line, and mentions checking recently edited functions.php as a likely suspect."}
+  - name: negative-restore-shop-backup
+    vars:
+      symptom: "WooCommerce shop shows the critical error since this morning. I'll just restore last week's full backup, fine?"
+      access: "Host panel with one-click restore and SSH with WP-CLI"
+    assert:
+      - {type: llm-rubric, value: "Warns that restoring last week's full backup would lose orders and customers since then, recommends first finding the error and deactivating the failing plugin with WP-CLI or folder rename, and only restoring files (not the database) if needed."}

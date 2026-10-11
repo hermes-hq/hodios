@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My Docker container exits on start: {{symptom}}. Setup: {{setup}}. Why?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crlf-entrypoint
+    vars:
+      symptom: "exec /app/entrypoint.sh: no such file or directory. The file is definitely in the image (ls shows it)."
+      setup: "FROM python:3.12-slim, COPY entrypoint.sh /app/, RUN chmod +x, ENTRYPOINT [\"/app/entrypoint.sh\"]. Repository edited on Windows."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Identifies CRLF line endings making the shebang interpreter '/bin/sh\\r' (or similar) not found, fixes with converting to LF (dos2unix or sed at build, .gitattributes eol=lf), and gives a check."}
+  - name: edge-arch-mismatch
+    vars:
+      symptom: "exec /usr/local/bin/server: exec format error on the production server; runs fine on my laptop."
+      setup: "Built with docker build on an M2 MacBook, pushed to a registry, deployed on an amd64 Linux VM."
+    assert:
+      - {type: llm-rubric, value: "Explains the image was built for arm64 and the server is amd64, and fixes with docker buildx build --platform linux/amd64 (or multi-platform) and image inspect to verify."}
+  - name: negative-sleep-infinity
+    vars:
+      symptom: "Container exits with code 0 right away. I'll set the command to sleep infinity so it stays up, good idea?"
+      setup: "CMD service nginx start in a custom ubuntu image."
+    assert:
+      - {type: llm-rubric, value: "Rejects sleep infinity as hiding the problem, explains service nginx start daemonises and returns so the main process ends, and fixes with nginx -g 'daemon off;' in exec form."}

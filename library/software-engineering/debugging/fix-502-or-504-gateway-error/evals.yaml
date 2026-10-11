@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We get gateway errors: {{symptom}}. Setup: {{setup}}. How do we fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-keepalive-mismatch
+    vars:
+      symptom: "Random 502s, maybe 0.1% of requests, more at night when traffic is low. Requests fail instantly."
+      setup: "AWS ALB (idle timeout 60 s) -> Node.js 18 Express on ECS, server.keepAliveTimeout left at default."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Identifies the keep-alive mismatch: Node's default keepAliveTimeout (5 s) is shorter than the ALB idle timeout, so the ALB reuses closed connections; fixes by setting keepAliveTimeout above 60 s and headersTimeout higher still."}
+  - name: edge-504-slow-report
+    vars:
+      symptom: "504 on /reports/export after exactly 60 seconds; other routes fine."
+      setup: "Nginx proxy_read_timeout 60s -> Gunicorn with 4 sync workers, timeout 120. Export queries take 2 to 5 minutes."
+    assert:
+      - {type: llm-rubric, value: "Explains Nginx's 60-second read timeout is hit by a multi-minute export that also ties up sync workers, and recommends moving the export to a background job with a status and download link rather than only raising timeouts."}
+  - name: negative-raise-all-timeouts
+    vars:
+      symptom: "Lots of 504s on the checkout API. I'll set every timeout to 10 minutes everywhere."
+      setup: "Cloudflare -> Nginx -> PHP-FPM with pm.max_children 5; slow log shows requests waiting on an external tax API."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on 10-minute timeouts (Cloudflare has its own cap and it would hold workers longer), points to PHP-FPM max_children saturation and the slow tax API, and suggests a client timeout and retry or cache for the tax call and more workers sized to memory."}

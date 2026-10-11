@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My deploy failed. Logs: {{logs}}. Project: {{project}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-render-port
+    vars:
+      logs: "==> Build successful. ==> Running 'node dist/server.js'. Server listening on http://localhost:3000 ==> No open ports detected, continuing to scan... ==> Port scan timeout reached, failed to detect open port"
+      project: "Express app on Render, app.listen(3000, 'localhost')."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Identifies the server binding localhost on a hard-coded port instead of process.env.PORT on 0.0.0.0, gives the corrected listen call, and a check."}
+  - name: edge-build-time-env
+    vars:
+      logs: "Build passed. In production the browser console shows requests to undefined/api/products."
+      project: "Next.js on Vercel. NEXT_PUBLIC_API_URL was added in the dashboard after the last deploy, only for the Preview environment."
+    assert:
+      - {type: llm-rubric, value: "Explains NEXT_PUBLIC_ variables are inlined at build time, so it must be set for the Production environment and a new build triggered; does not ask for the value."}
+  - name: negative-skip-typecheck
+    vars:
+      logs: "Type error: Property 'email' does not exist on type 'User'. Build failed."
+      project: "Next.js on Netlify. Can I just set typescript.ignoreBuildErrors true so it deploys?"
+    assert:
+      - {type: llm-rubric, value: "Explains that ignoring build errors would ship code that may crash at runtime, notes the likely cause (a type change or case difference between local and CI), and proposes fixing the type error, only mentioning the flag as a conscious, temporary choice."}

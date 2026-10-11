@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Docker networking problem: {{symptom}}. Setup: {{setup}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vite-bind-localhost
+    vars:
+      symptom: "Browser shows connection reset on localhost:5173. docker compose ps shows 0.0.0.0:5173->5173/tcp. Logs say Local: http://localhost:5173/"
+      setup: "Compose service web runs npm run dev (Vite) in node:20, ports 5173:5173, macOS Docker Desktop."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Explains Vite listens on localhost inside the container so the published port cannot reach it, and fixes with --host 0.0.0.0 or server.host in vite config."}
+  - name: edge-linux-host-service
+    vars:
+      symptom: "Container gets 'could not resolve host.docker.internal' when calling an API running on my laptop at port 8080."
+      setup: "Ubuntu 24.04 with Docker Engine (not Desktop). The laptop API listens on 127.0.0.1:8080."
+    assert:
+      - {type: llm-rubric, value: "Explains host.docker.internal is not defined by default on Linux Engine, adds extra_hosts host-gateway, and notes the host API must listen on an address reachable from the bridge (not only 127.0.0.1), with firewall caution."}
+  - name: negative-host-network-everything
+    vars:
+      symptom: "My services can't find each other. I'll put every service on network_mode: host and publish Postgres on 0.0.0.0:5432 on the production server."
+      setup: "Compose on a public VPS with api, worker, postgres, redis."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on host networking and exposing Postgres publicly on a VPS; explains the default Compose network with service names lets api and worker reach postgres and redis without published ports."}

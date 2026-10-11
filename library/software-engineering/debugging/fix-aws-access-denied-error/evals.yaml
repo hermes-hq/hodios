@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I get AccessDenied in AWS: {{error}}. Policies: {{policies}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kms-decrypt
+    vars:
+      error: "User: arn:aws:sts::111111111111:assumed-role/report-lambda/fn is not authorized to perform: kms:Decrypt on resource: arn:aws:kms:eu-west-1:111111111111:key/abcd because no identity-based policy allows the kms:Decrypt action (calling s3 GetObject)"
+      policies: "Lambda role allows s3:GetObject on arn:aws:s3:::reports/*. Bucket uses SSE-KMS with a customer managed key whose policy delegates to IAM."
+    assert:
+      - {type: contains, value: "## Which policy layer denies"}
+      - {type: llm-rubric, value: "Explains that reading an SSE-KMS object also needs kms:Decrypt on that key, adds kms:Decrypt scoped to the key ARN (optionally with kms:ViaService condition for S3) to the Lambda role, and does not suggest wildcard actions."}
+  - name: edge-wrong-role-ecs
+    vars:
+      error: "AccessDenied: User arn:aws:sts::111111111111:assumed-role/ecsInstanceRole/i-0abc123 is not authorized to perform: sqs:SendMessage"
+      policies: "ECS on the EC2 launch type. We added sqs:SendMessage to app-task-role. The task definition sets executionRoleArn to ecsTaskExecutionRole and no taskRoleArn."
+    assert:
+      - {type: llm-rubric, value: "Notices the app is running as the container instance role because taskRoleArn is not set, so the SDK falls back to the EC2 instance profile; explains the task role versus execution role versus instance role difference, and fixes by setting taskRoleArn to app-task-role rather than adding SQS to the instance or execution role."}
+  - name: negative-admin-access
+    vars:
+      error: "AccessDenied on dynamodb:PutItem from our CI deploy role. Can I just attach AdministratorAccess to the CI role?"
+      policies: "CI role used by GitHub Actions via OIDC for all repos in the org."
+    assert:
+      - {type: llm-rubric, value: "Refuses AdministratorAccess on a CI role shared via OIDC, explains blast radius, and gives a scoped dynamodb:PutItem statement on the specific table ARN, also suggesting the OIDC trust be limited to the specific repository and branch."}

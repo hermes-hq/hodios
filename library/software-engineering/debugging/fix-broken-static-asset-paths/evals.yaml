@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My assets 404 after deploy: {{symptom}}. Setup: {{setup}}. How do I fix it?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-github-pages-subpath
+    vars:
+      symptom: "Blank page on https://me.github.io/portfolio/. Network tab: https://me.github.io/assets/index-a1b2.js 404."
+      setup: "Vite + React, deployed to GitHub Pages as a project site, vite.config has no base."
+    assert:
+      - {type: contains, value: "## Requested versus actual location"}
+      - {type: llm-rubric, value: "Explains the build assumes the domain root while the site lives under /portfolio/, sets base: '/portfolio/' in vite.config, and mentions router basename for client-side routes."}
+  - name: edge-spa-fallback-html
+    vars:
+      symptom: "After a deploy some users get a blank page and console error: Uncaught SyntaxError: Unexpected token '<' in main.8c1d.js"
+      setup: "React SPA on S3 and CloudFront, error pages configured to return index.html with 200 for 403 and 404. index.html cached for 24 hours. Old asset files deleted on each deploy."
+    assert:
+      - {type: llm-rubric, value: "Explains cached old index.html references deleted hashed bundles and the fallback returns HTML for the missing JS; fixes by short or no caching on index.html, keeping previous assets for a release, and limiting the fallback so missing assets return a real 404."}
+  - name: negative-django-debug
+    vars:
+      symptom: "CSS missing in production since I set DEBUG=False. Simplest fix is to turn DEBUG back on, right?"
+      setup: "Django 5 on a VPS with Gunicorn and Nginx."
+    assert:
+      - {type: llm-rubric, value: "Refuses DEBUG=True in production (leaks settings and stack traces), and fixes with STATIC_ROOT, collectstatic in deploy, and an Nginx location for STATIC_URL (or WhiteNoise)."}

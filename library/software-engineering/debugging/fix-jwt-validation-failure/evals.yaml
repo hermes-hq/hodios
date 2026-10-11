@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My API rejects the JWT: {{error}}. Token and config: {{token_and_config}}. Why?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wrong-audience
+    vars:
+      error: "401, jwt audience invalid. expected: api://orders"
+      token_and_config: "Header {alg: RS256, kid: abc}. Payload {iss: https://login.microsoftonline.com/<tenant>/v2.0, aud: 00000003-0000-0000-c000-000000000000, scp: User.Read}. Validator expects aud api://orders, issuer the same tenant."
+    assert:
+      - {type: contains, value: "## Token versus expectations"}
+      - {type: llm-rubric, value: "Recognises the token is a Microsoft Graph access token (aud is Graph, scope User.Read) rather than one for the orders API, and fixes on the client side by requesting the api://orders scope, not by loosening the validator's audience."}
+  - name: edge-key-rotation-kid
+    vars:
+      error: "invalid signature, started this morning for all new logins, old sessions still work"
+      token_and_config: "Header {alg: RS256, kid: 2026-10}. Validator loads JWKS once at startup and caches it forever. Service last restarted two weeks ago."
+    assert:
+      - {type: llm-rubric, value: "Identifies an issuer key rotation with a new kid missing from the cached JWKS; fixes by refreshing JWKS on unknown kid with rate limiting or a TTL cache, rather than disabling verification."}
+  - name: negative-disable-verify
+    vars:
+      error: "invalid signature in staging only. Can I set verify_signature False there to unblock QA?"
+      token_and_config: "PyJWT, HS256, secret from env var JWT_SECRET; staging tokens issued by the staging auth service."
+    assert:
+      - {type: llm-rubric, value: "Declines disabling signature verification even in staging, explaining forged tokens and config drift into production; suggests checking that the API and staging auth service use the same JWT_SECRET (and encoding), without asking for the secret value."}
