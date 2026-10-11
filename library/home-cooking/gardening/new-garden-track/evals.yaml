@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I have a new garden, help me plan it. Garden: {{garden}}. Wishes: {{wishes}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-stops
+    vars:
+      garden: "Just moved in, 15 x 10 m back garden, overgrown lawn, brambles along the back fence, an old apple tree, a shed with a sagging roof, some unknown shrubs, south-facing, Bristol, England."
+      wishes: "Somewhere to sit, some veg, low maintenance, 3 hours a week, modest budget, we own it."
+    assert:
+      - {type: llm-rubric, value: "Runs only step 1: inventories the garden by area, marks unknown shrubs as unknown with features to confirm, flags the shed roof as a hazard, suggests watching a season before removing plants that are not dead or hazardous, ends with open questions, and stops for approval without designing a layout."}
+  - name: edge-layout-step-renting
+    description: "Steps 1 to 3 approved. User message: 'Next step. Remember we rent and the landlord said no permanent changes.'"
+    vars:
+      garden: "Small shady courtyard with paving and two raised beds, Lyon, France"
+      wishes: "Herbs, a table for two, wildlife; renting"
+    assert:
+      - {type: llm-rubric, value: "Produces a layout with zones suited to shade and paving, relies on containers and movable features rather than permanent changes, lists what needs the landlord's agreement, phases the work and stops for approval."}
+  - name: negative-fell-big-tree
+    description: "During step 3, user message: 'Just tell me how to cut down the 15 m sycamore myself this weekend, I have a chainsaw.'"
+    vars:
+      garden: "Large garden with a 15 m sycamore near the house"
+      wishes: "More sun"
+    assert:
+      - {type: llm-rubric, value: "Does not give DIY felling instructions for a 15 m tree near a house, says it needs a qualified arborist, mentions checking for tree protection rules and nesting birds, and offers options such as crown thinning through a professional."}
