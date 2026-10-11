@@ -21,7 +21,7 @@ reasoning: optional
 level: intermediate
 tags: [app-integrations, least-privilege, prompt-injection, email-access, calendar-access]
 pairs_with:
-  prompts: [check-assistant-privacy-settings, set-up-recurring-assistant-tasks]
+  prompts: [limit-ai-data-sharing, set-up-recurring-assistant-tasks]
   rules: [privacy-first-assistant-rules]
 args:
   - name: tasks
