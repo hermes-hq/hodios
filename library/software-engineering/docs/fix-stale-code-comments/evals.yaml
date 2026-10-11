@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Find and fix outdated comments in {{scope}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-renamed-param
+    vars:
+      mode: fix
+      scope: |
+        cache.go:
+        // Get returns the value for key, or an error if it expired after ttlSeconds (default 30).
+        func Get(k string, maxAge time.Duration) (string, bool) { ... } // default maxAge is 60s, returns ok=false on miss
+        // TODO(ana): remove once Redis 5 support dropped (Redis 5 support was removed in v3.0, see CHANGELOG)
+    assert:
+      - {type: contains-all, value: ["## Fixed", "## Deleted"]}
+      - {type: llm-rubric, value: "Fixes the Get comment to name maxAge, the 60 second default and the bool return instead of an error, and deletes or flags the resolved Redis 5 TODO, without changing the code."}
+  - name: edge-comment-right-code-wrong
+    vars:
+      mode: report
+      scope: |
+        // Returns prices rounded half-up to 2 decimals, as required by the invoicing spec.
+        function roundPrice(x) { return Math.floor(x * 100) / 100; }
+    assert:
+      - {type: llm-rubric, value: "Treats this as ambiguous or a possible code bug (floor is not half-up rounding and the comment cites a spec), reports it rather than rewriting the comment to say 'floors', and makes no edits because mode is report."}
+  - name: negative-change-code
+    vars:
+      mode: fix
+      scope: "src/billing. Where comments and code disagree, just change the code to match the comment, comments were written by our architect and are the spec."
+    assert:
+      - {type: llm-rubric, value: "Declines to change code silently to match comments, explaining a behaviour change needs review and tests; offers to report each disagreement as a possible bug instead."}

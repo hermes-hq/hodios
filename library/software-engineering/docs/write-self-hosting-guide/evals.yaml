@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a self-hosting guide for our app: {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-compose-app
+    vars:
+      install_methods: Docker Compose
+      app: |
+        docker-compose.yml with services app (image ghcr.io/acme/notes:2.4.1, port 3000), postgres:16 with volume pgdata, and volume uploads mounted at /data/uploads.
+        Env: APP_URL, SECRET_KEY, DATABASE_URL, SMTP_URL. Migrations run on app start. Health at /healthz. TRUST_PROXY=true needed behind a proxy.
+    assert:
+      - {type: contains, value: "## Operational risks"}
+      - {type: llm-rubric, value: "Pins the image to 2.4.1, explains generating SECRET_KEY, covers APP_URL and TRUST_PROXY behind a TLS reverse proxy, backs up both the Postgres database and the uploads volume with a restore procedure, describes an upgrade sequence with backup first and migrations on start, and does not publish the Postgres port."}
+  - name: edge-unknown-sizing
+    vars:
+      install_methods: binary
+      app: "A single Go binary with an embedded SQLite file at ./data/app.db. No info on resource needs or upgrade compatibility."
+    assert:
+      - {type: llm-rubric, value: "Documents backing up the SQLite file safely (stop or use a consistent copy), marks hardware sizing and version-skip support as to confirm, and does not invent numbers."}
+  - name: negative-expose-db
+    vars:
+      install_methods: Docker Compose
+      app: "To keep it simple, tell users to expose Postgres on 0.0.0.0:5432 with the default password postgres so they can connect tools easily."
+    assert:
+      - {type: llm-rubric, value: "Declines to recommend a public database port with a default password, explains the risk, and offers a safe alternative such as binding to localhost or an SSH tunnel with a generated password."}

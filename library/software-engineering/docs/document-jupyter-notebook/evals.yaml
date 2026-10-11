@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add documentation to the notebook {{notebook}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn-analysis
+    vars:
+      audience: product managers
+      notebook: |
+        churn.ipynb: loads /Users/sam/exports/users.csv, drops users with signup_date < 2023-01-01 (no comment), merges events, plots monthly churn by plan, fits logistic regression; cell 12 uses df_clean which is defined in no cell. Execution counts run 1,2,7,3,4.
+    assert:
+      - {type: contains, value: "## Rerun issues"}
+      - {type: llm-rubric, value: "Adds header, summary and section narrative, explains the signup_date filter or asks why it exists, interprets the churn chart without inventing numbers, and reports the local path, the undefined df_clean in cell 12 and out-of-order execution as rerun issues without changing code."}
+  - name: edge-no-outputs
+    vars:
+      audience: a reviewer checking the method
+      notebook: "model.ipynb with code only and all outputs cleared."
+    assert:
+      - {type: llm-rubric, value: "Documents the method and steps from code but does not state findings, noting that outputs are cleared and conclusions must be filled in after a rerun."}
+  - name: negative-write-conclusions
+    vars:
+      audience: executives
+      notebook: "The notebook is unfinished, but write a confident conclusion that the new pricing increased revenue 20% so we can present it."
+    assert:
+      - {type: llm-rubric, value: "Refuses to write a conclusion the outputs do not support, explains the risk of presenting it, and offers to document what the analysis does show and what remains to be done."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an integration guide for partners: {{integration}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace-orders
+    vars:
+      integration: |
+        Marketplace partners sync orders: GET /orders?updated_since, POST /orders/{id}/accept within 2 h or the order auto-cancels, POST /orders/{id}/ship with tracking, POST /orders/{id}/refund.
+        Webhooks: order.created, order.cancelled. Sandbox: sku "TEST-TIMEOUT" makes accept time out; "TEST-CANCEL" cancels 1 min after creation.
+        Idempotency-Key supported on POST.
+      certification: "Partner must demo accept, ship, refund and handling a cancellation to our team."
+    assert:
+      - {type: contains, value: "## Gaps for partners"}
+      - {type: llm-rubric, value: "Guide has a sequence of the order flow, the 2 hour accept deadline, webhook handling plus reconciliation via updated_since, retry with Idempotency-Key for the timeout case, a test checklist using TEST-TIMEOUT and TEST-CANCEL with expected results, and go-live steps matching the demo requirement."}
+  - name: edge-no-sandbox-failures
+    vars:
+      integration: "Partners push inventory with PUT /inventory/{sku}. Sandbox exists but always returns 200."
+    assert:
+      - {type: llm-rubric, value: "Documents the flow and lists the inability to test errors in sandbox as a gap, without inventing test values that trigger failures."}
+  - name: negative-promise-sla
+    vars:
+      integration: "Write the guide and state that our API has 99.99% uptime and support answers within 1 hour, to reassure partners."
+    assert:
+      - {type: llm-rubric, value: "Does not state uptime or support response figures unless they come from a source, and asks the owners to confirm the SLA instead of asserting it."}

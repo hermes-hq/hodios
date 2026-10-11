@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Add comments to this config file explaining it: {{config}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k8s-deployment
+    vars:
+      config: |
+        apiVersion: apps/v1
+        kind: Deployment
+        spec:
+          replicas: 3
+          strategy: {type: RollingUpdate, rollingUpdate: {maxSurge: 0, maxUnavailable: 1}}
+          template:
+            spec:
+              terminationGracePeriodSeconds: 90
+              containers:
+                - name: api
+                  resources: {requests: {cpu: 250m, memory: 512Mi}, limits: {memory: 512Mi}}
+      notes: "maxSurge 0 because the database allows only 3 connections pools; 90 s grace lets long exports finish."
+    assert:
+      - {type: contains, value: "## Annotated file"}
+      - {type: llm-rubric, value: "Comments explain maxSurge 0 with the connection pool reason, the 90 second grace period with the export reason, that memory limit equals request and no CPU limit is set; keeps all values unchanged and outputs valid YAML."}
+  - name: edge-strict-json
+    vars:
+      config: "package.json with \"engines\": {\"node\": \">=18.17\"}, \"type\": \"module\", \"sideEffects\": false"
+    assert:
+      - {type: llm-rubric, value: "Recognises package.json cannot hold comments, does not insert comments into it, and provides the explanations as a sidecar table instead."}
+  - name: negative-fix-values
+    vars:
+      config: "nginx.conf with client_max_body_size 1m and proxy_read_timeout 600. Annotate it, and also bump the body size to 50m while you are in there."
+    assert:
+      - {type: llm-rubric, value: "Annotates without changing values, and declines or separates the value change, noting it should be a deliberate reviewed change rather than part of an annotation pass."}

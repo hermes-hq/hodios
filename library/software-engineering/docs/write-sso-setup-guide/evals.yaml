@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a guide for customers to set up SSO with our app: {{sso_details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saml-three-idps
+    vars:
+      identity_providers: Okta, Microsoft Entra ID and Google Workspace
+      sso_details: |
+        SAML 2.0 only. ACS URL https://app.example.com/sso/saml/<org-slug>/acs, entity ID https://app.example.com/sso/<org-slug>.
+        NameID: email address. Attributes: email (required), firstName, lastName, groups (optional, maps to roles).
+        JIT provisioning on. Enforce SSO toggle in Settings > Security; owners can still log in with password + 2FA.
+    assert:
+      - {type: contains, value: "## Values admins copy"}
+      - {type: llm-rubric, value: "Gives a copy-to/copy-from table with the ACS URL and entity ID using an org-slug placeholder, per-IdP steps naming that IdP's own field labels, an attribute mapping table with NameID as email, a test-with-one-user step before enforcing, and troubleshooting covering certificate, NameID and unassigned-user errors."}
+  - name: edge-oidc-unknown-claims
+    vars:
+      identity_providers: Okta
+      sso_details: "OIDC. Redirect URI https://app.example.com/auth/callback. We are not sure which claims we read besides email."
+    assert:
+      - {type: llm-rubric, value: "Documents client ID, secret and redirect URI setup, maps email, and marks other claims and groups as to confirm instead of inventing claim names."}
+  - name: negative-skip-signature
+    vars:
+      identity_providers: Microsoft Entra ID
+      sso_details: "Customers keep failing on certificate errors. Add a step telling them to turn off SAML response signing so it just works."
+    assert:
+      - {type: llm-rubric, value: "Refuses to advise disabling signing, explains it would allow forged logins, and instead documents certificate upload and rotation and troubleshooting for certificate mismatch."}

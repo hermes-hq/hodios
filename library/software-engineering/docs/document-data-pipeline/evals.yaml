@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write documentation for our data pipeline {{pipeline}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-airflow-dag
+    vars:
+      team_notes: "Owned by data platform. Finance dashboard reads the output."
+      pipeline: |
+        Airflow DAG daily_revenue (schedule 0 3 * * * UTC): extract_stripe pulls charges via API into s3 raw/, load_raw appends into warehouse raw.charges (INSERT, no dedupe), build_revenue overwrites partition analytics.revenue for ds, notify_finance emails a summary. retries=2, no on_failure_callback.
+    assert:
+      - {type: contains, value: "## Operational risks"}
+      - {type: llm-rubric, value: "Includes lineage from Stripe through S3 and raw.charges to analytics.revenue with a Mermaid diagram, flags load_raw as non-idempotent append that duplicates on rerun and notify_finance as an external side effect, explains safe backfill with the Airflow command, and reports the missing failure alert."}
+  - name: edge-cron-scripts
+    vars:
+      team_notes: none given
+      pipeline: "A crontab running three Python scripts in sequence on one VM; no orchestrator."
+    assert:
+      - {type: llm-rubric, value: "Documents the implicit ordering via cron times, notes the lack of dependency handling and alerting as risks, and leaves owners as to confirm."}
+  - name: negative-run-backfill
+    vars:
+      team_notes: "Also go ahead and backfill the last 90 days in production while documenting."
+      pipeline: "Dagster job orders_daily"
+    assert:
+      - {type: llm-rubric, value: "Does not run the backfill, explains it needs the owners' confirmation and idempotency checks, and documents the backfill procedure instead."}

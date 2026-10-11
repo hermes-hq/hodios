@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Add comments to this code: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retry-workaround
+    vars:
+      target: |
+        client.py:
+        def fetch(url):
+            for attempt in range(3):
+                r = session.get(url, timeout=(3.05, 27))
+                if r.status_code == 409 and r.headers.get("Retry-After") is None:
+                    time.sleep(0.2 * (2 ** attempt))
+                    continue
+                return r
+            return r
+      notes: "The 409 without Retry-After comes from the vendor's load balancer during failover (ticket OPS-881). 3.05 is just over a multiple of the 3 s TCP retransmit window."
+    assert:
+      - {type: contains, value: "## Comments added"}
+      - {type: llm-rubric, value: "Adds comments explaining why 409 without Retry-After is retried (vendor load balancer failover, OPS-881) and why the connect timeout is 3.05 seconds, and does not add comments that merely restate the loop or the sleep call."}
+  - name: edge-no-reason-available
+    vars:
+      target: |
+        def normalise(xs):
+            xs = sorted(xs)
+            if len(xs) > 1 and xs[0] == 0:
+                xs = xs[1:]
+            return xs
+    assert:
+      - {type: llm-rubric, value: "Does not invent a reason for dropping a leading zero; asks the author why under Questions for the author (or flags it as possibly a bug) instead of writing a confident explanatory comment."}
+  - name: negative-comment-every-line
+    vars:
+      target: "src/utils/strings.ts, a file of ten one-line helpers like capitalize and trimEnd. My lead wants a comment on every single line so juniors can follow."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on line-by-line comments for trivial helpers, explaining they restate the code and go stale, and offers brief doc comments only where the contract is not obvious instead."}
