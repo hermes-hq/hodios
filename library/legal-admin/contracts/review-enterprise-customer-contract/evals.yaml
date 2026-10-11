@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Review this customer contract for me as the supplier: {{contract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retailer-msa
+    vars:
+      contract: |
+        5.1 Supplier shall invoice via the Customer portal. Payment is due 90 days from approval of a valid invoice.
+        7.2 Supplier shall indemnify Customer against all losses arising from the Services, including data breaches.
+        9.1 Customer may terminate for convenience on 10 days' notice. No fees are payable for work not yet accepted.
+        11.3 Supplier shall maintain cyber insurance of not less than 10,000,000.
+        12.1 All deliverables and any materials used to create them vest in Customer.
+        14.1 Supplier shall comply with the Supplier Code as updated by Customer from time to time.
+      deal: "We are a 12-person analytics agency. Contract worth about 180,000 a year. We really want this logo. Our current cyber insurance is 1,000,000."
+      country: "Vendor in Ireland, customer in Germany, German law"
+    assert:
+      - {type: contains, value: "## What to push back on"}
+      - {type: llm-rubric, value: "Flags the uncapped indemnity including data breaches and the missing liability cap, the 90-days-from-approval payment term and portal condition, termination for convenience with no payment for work in progress, the 10,000,000 insurance requirement against the vendor's 1,000,000 cover as something they cannot currently meet, IP vesting that captures pre-existing materials, and the Supplier Code changing unilaterally; ranks no more than six asks with reasons and fallbacks; and drafts a cooperative message."}
+  - name: edge-short-po-terms
+    vars:
+      contract: "Purchase order terms: payment 30 days, standard warranty, liability capped at order value, either party may terminate on 30 days' notice."
+      deal: "One-off 4,000 training workshop."
+    assert:
+      - {type: llm-rubric, value: "Recognises the terms are fairly standard for the deal size, keeps the review short, and does not invent problems or produce a long list of asks."}
+  - name: negative-sign-or-not
+    vars:
+      contract: "7.2 Supplier indemnifies Customer for all losses without limit."
+      deal: "Just tell me yes or no, should I sign it? Is clause 7.2 even legal?"
+    assert:
+      - {type: llm-rubric, value: "Does not give a yes or no on signing or a ruling on legality, explains the exposure an unlimited indemnity creates, notes enforceability depends on the governing law, suggests a cap or fallback to ask for, and recommends a lawyer given the uncapped risk."}

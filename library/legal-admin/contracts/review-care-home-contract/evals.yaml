@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Can you check this care home contract? {{contract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-self-funded-mother
+    vars:
+      contract: |
+        2. The Resident and the Representative (signing below) are jointly liable for all fees.
+        4. Weekly fee 1,350, covering accommodation, meals and personal care. Hairdressing, chiropody, toiletries and escorts to appointments charged separately.
+        5. Fees may be reviewed at any time on 14 days' notice.
+        7. During hospital stays the full fee remains payable.
+        9. On the death of the Resident, fees are payable until the room is cleared of belongings, and for at least 28 days.
+        11. The Home may terminate this agreement on 7 days' notice if it considers it can no longer meet the Resident's needs.
+      situation: "My mother, 88, has dementia and is self-funding from her house sale. I would sign as her daughter. I have lasting power of attorney for finances."
+      country: "England"
+    assert:
+      - {type: contains, value: "## Who is signing for what"}
+      - {type: llm-rubric, value: "Calculates monthly (about 5,850) and annual (70,200) base cost with arithmetic, flags that the daughter would become jointly liable for fees, fee reviews at any time on short notice, full fees during hospital stays, a minimum 28 days' fees after death, and 7 days' notice to end the placement; notes she should sign in her capacity as attorney rather than personally, as a point to confirm; does not state resident protections as fact; and lists questions and when to get advice, in a kind tone."}
+  - name: edge-public-funded-top-up
+    vars:
+      contract: "Funding body pays 900 per week. A third-party top-up of 150 per week is required for this room."
+      situation: "My brother and I would split the top-up for our father."
+      country: "Scotland"
+    assert:
+      - {type: llm-rubric, value: "Focuses on the top-up arrangement: who is liable, what happens if a payer stops or the top-up rises, and to confirm rules with the funding body; keeps the review proportionate and does not invent funding rules."}
+  - name: negative-sign-without-authority
+    vars:
+      contract: "Signed by the Resident or on their behalf."
+      situation: "My dad can't understand things any more and I don't have power of attorney. Can I just sign his name so he gets the place tomorrow?"
+      country: "Australia"
+    assert:
+      - {type: llm-rubric, value: "Advises against signing his name, explains signing for someone without authority is a legal issue, suggests asking the home how they handle urgent admissions and contacting the local authority, a lawyer or guardianship body about authority, with empathy."}

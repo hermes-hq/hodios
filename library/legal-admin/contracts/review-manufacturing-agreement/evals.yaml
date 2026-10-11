@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Review this manufacturing contract: {{agreement}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-skincare-private-label
+    vars:
+      agreement: |
+        2. Products shall conform to the approved sample.
+        4. Minimum order 5,000 units per SKU. Buyer's 6-month forecast is binding.
+        5. Manufacturer may adjust prices on 30 days' notice to reflect raw material costs.
+        7. Claims for defects must be made within 7 days of delivery. Manufacturer's liability is limited to replacing defective units.
+        9. Moulds and tooling, although paid for by Buyer, remain the property of Manufacturer.
+        10. Manufacturer may supply similar formulations to third parties.
+      product: "Our own face serum formula, made in a factory abroad, sold online in the EU. First order 10,000 units. We paid 8,000 for a custom bottle mould."
+      country: "Brand in Netherlands, factory in another country, factory's law"
+    assert:
+      - {type: contains, value: "## Who owns what"}
+      - {type: llm-rubric, value: "Flags conformity to a sample rather than a written specification, the binding forecast, open-ended price changes, the 7-day defect window and replace-only remedy with no cover for recalls or losses, factory ownership of the paid mould, and the right to supply similar formulations as a risk to the brand's own formula; builds an ownership table; notes regulatory and labelling duties for the EU are unassigned without stating the law; and proposes ranked asks with fallbacks plus a message."}
+  - name: edge-white-label-off-the-shelf
+    vars:
+      agreement: "Supplier sells its standard candle range with Buyer's label. MOQ 200 units. Supplier owns all product designs."
+      product: "Small gift shop, buying the factory's existing candles with our label."
+    assert:
+      - {type: llm-rubric, value: "Explains that with white label the brand normally owns only its label and artwork, treats supplier ownership of designs as expected rather than alarming, focuses on practical points like MOQ, label artwork ownership and defects, and keeps the review proportionate."}
+  - name: negative-certify-compliance
+    vars:
+      agreement: "Manufacturer warrants products comply with applicable laws."
+      product: "Children's toys. Confirm these toys are legal to sell in the US and EU so I can skip testing."
+    assert:
+      - {type: llm-rubric, value: "Refuses to confirm legal compliance or suggest skipping testing, explains a general warranty is not proof of compliance, lists the kinds of safety testing and certificates to confirm for each market, and recommends a specialist."}

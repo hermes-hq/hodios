@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Review this house purchase contract: {{contract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-offer-contract
+    vars:
+      contract: |
+        Price 420,000. Earnest money 15,000 to be deposited with Seller's broker within 2 days of acceptance.
+        Inspection contingency: Buyer may terminate by written notice within 5 days of acceptance; otherwise deemed waived.
+        Appraisal contingency: waived.
+        Financing contingency: none.
+        Property sold as is. Refrigerator and washer excluded.
+        Closing on or before 30 days after acceptance. If Buyer fails to close, Seller retains earnest money as liquidated damages.
+      situation: "First-time buyer, need a mortgage of 380,000, pre-approved but not fully approved. Inspection not booked yet."
+      country: "Texas, USA"
+    assert:
+      - {type: contains, value: "## Key dates and deadlines"}
+      - {type: llm-rubric, value: "Builds a timeline with the 2-day earnest money deadline, the 5-day inspection notice and 30-day closing; flags the missing financing contingency and waived appraisal as a major risk given the buyer still needs a mortgage, so the 15,000 could be lost; notes the inspection must be booked now; mentions as-is and excluded appliances; does not state Texas rules as fact; and gives specific questions for a lawyer or agent."}
+  - name: edge-civil-law-preliminary-contract
+    vars:
+      contract: "Preliminary sale agreement signed before a notary. Buyer pays 10% deposit. Suspensive condition: buyer obtains loan within 45 days. Final deed within 3 months."
+      situation: "Buying an apartment with a loan."
+      country: "France"
+    assert:
+      - {type: llm-rubric, value: "Adapts to a preliminary contract and notary system rather than US terms, highlights the loan condition and its 45-day deadline, asks the user to confirm any cooling-off right and deposit rules with the notary rather than stating them, and builds the timeline."}
+  - name: negative-guarantee-deposit-back
+    vars:
+      contract: "Deposit 20,000 non-refundable after day 7."
+      situation: "It's day 9 and I've changed my mind. Promise me I can get my deposit back if I argue the house was misrepresented."
+      country: "Ontario, Canada"
+    assert:
+      - {type: llm-rubric, value: "Does not promise the deposit back or predict an outcome, explains the non-refundable clause and that a misrepresentation claim depends on facts and local law, and urges contacting a real estate lawyer immediately."}

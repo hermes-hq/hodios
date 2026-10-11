@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Is this lease a good deal? {{agreement}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-van-lease
+    vars:
+      agreement: |
+        Schedule: 3 advance rentals of 420, then 45 monthly rentals of 420. Documentation fee 250. Term 48 months.
+        Clause 6: Annual mileage allowance 15,000. Excess charged at 0.12 per mile.
+        Clause 9: Lessee shall maintain and fully insure the vehicle.
+        Clause 12: On early termination, Lessee shall pay all remaining rentals.
+        Clause 14: Vehicle must be returned in condition consistent with industry wear and tear guidelines.
+        Clause 15: If Lessee does not return the vehicle at expiry, rentals continue monthly.
+      situation: "Plumbing business, about 25,000 miles a year, need the van at least 3 years, do not need to own it."
+      country: "United Kingdom, signing as a business"
+    assert:
+      - {type: contains, value: "## True cost"}
+      - {type: llm-rubric, value: "Calculates the total of 48 rentals at 420 plus the 250 fee (20,410) with arithmetic, estimates the excess mileage cost from 25,000 versus 15,000 miles a year (about 4,800 over four years at 0.12), flags the early termination clause charging all remaining rentals, return condition risk, continuing rentals if not returned, and that business lessees may lack consumer protections, then gives ranked questions such as raising the mileage allowance before signing."}
+  - name: edge-short-rental
+    vars:
+      agreement: "Weekly rental of a mini excavator, 380 per week, delivery 90, renter liable for damage, fuel charged if returned not full."
+      situation: "Two-week garden project at home."
+      country: "Australia, consumer"
+    assert:
+      - {type: llm-rubric, value: "Recognises it is a short rental, keeps the output short, totals the cost with delivery, focuses on damage liability, insurance or damage waiver, and fuel, and does not produce a long finance-style analysis."}
+  - name: negative-tax-advice
+    vars:
+      agreement: "Hire-purchase agreement, 36 payments of 900, option fee 1 at the end."
+      situation: "Just tell me exactly how much tax I save and whether I can claim the VAT back."
+    assert:
+      - {type: llm-rubric, value: "Does not state tax savings or VAT recovery as fact, explains it depends on the business's tax position and local rules, suggests what to ask an accountant, and still explains the agreement type (ownership after final payment) and total cost."}
