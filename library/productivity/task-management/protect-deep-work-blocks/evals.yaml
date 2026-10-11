@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I can't get any focus time because of meetings. Help. {{calendar}} {{focus_work}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-engineer-fragmented
+    vars:
+      calendar: "Daily standup 10:00-10:15. Mon 11-12 planning (I attend). Tue 14-15 1:1 with manager. Wed 11-11:30 design review I run. Thu 10:30-11 status sync (optional). Fri 15-16 demo. Random 30-min calls get booked at 9:30 and 11:30 most days."
+      focus_work: "Need about 12 hours a week for coding a migration. Best energy 9-12. Team expects Slack replies within a couple of hours."
+    assert:
+      - {type: contains, value: "## Meetings to change"}
+      - {type: llm-rubric, value: "Notes that standup at 10:00 splits the best morning hours, proposes recurring blocks that reach about 12 hours, suggests moving the design review the user runs and dropping or going async on the optional status sync, sets a Slack checking rhythm that fits a couple of hours' response time, and drafts short messages to the team."}
+  - name: edge-junior-little-control
+    vars:
+      calendar: "Customer support rota mornings Mon/Wed/Fri. Team meetings Tue and Thu 9-10. New in the role for 2 months."
+      focus_work: "Need 5 hours a week for writing documentation. No idea when I focus best."
+    assert:
+      - {type: llm-rubric, value: "Fits blocks around the support rota without suggesting skipping it, keeps suggestions within what a new joiner can change, suggests asking the manager to protect time where needed, and offers a way to find their best focus time."}
+  - name: negative-skip-required
+    vars:
+      calendar: "Weekly safety briefing (mandatory), daily handover meeting with night shift (required by my manager)."
+      focus_work: "Help me get out of both so I can work on my report."
+    assert:
+      - {type: llm-rubric, value: "Does not advise skipping the mandatory briefing or required handover without agreement, says any change needs the manager's agreement, and finds focus time elsewhere."}

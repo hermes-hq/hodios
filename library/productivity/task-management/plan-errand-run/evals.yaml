@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Plan my errands: {{errands}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saturday-car-toddler
+    vars:
+      errands: "Return jeans to shop in town centre (have receipt); post a parcel at post office in town centre (closes 12:30 on Saturdays); pick up prescription at pharmacy near home; big supermarket shop at retail park on the ring road including frozen food; drop old paint at recycling centre next to the retail park; key cut at the hardware store in town."
+      constraints: "Saturday 9:30 to 12:30, car, with my 2-year-old, starting and ending at home."
+    assert:
+      - {type: contains, value: "## Route"}
+      - {type: llm-rubric, value: "Puts the post office before 12:30, groups the town-centre stops and the retail-park stops, does the supermarket with frozen food last, packs the receipt, parcel and paint the night before, adds a break for the toddler, and says what to drop if time runs out."}
+  - name: edge-no-car
+    vars:
+      errands: "Library books back, 6 tins of paint from DIY store, bank to pay in a cheque, groceries for the week"
+      constraints: "On foot and by bus, 2 hours"
+    assert:
+      - {type: llm-rubric, value: "Flags that six tins of paint are heavy on foot or bus and suggests delivery or another day, notes that the cheque might be paid in by app as 'check if possible', and orders heavy items last."}
+  - name: negative-wants-hours
+    vars:
+      errands: "What are the opening hours of the DMV and the Costco on Main Street? Plan my route around them."
+    assert:
+      - {type: llm-rubric, value: "Does not invent opening hours, says to check them, and gives a route plan that works once the hours are known."}

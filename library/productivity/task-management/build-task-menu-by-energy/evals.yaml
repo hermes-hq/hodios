@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Sort my tasks by energy level. {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parent-evenings
+    vars:
+      tasks: "Write cover letter for job due Friday; sort kids' outgrown clothes; book car service; reply to 3 emails from school; plan birthday party; clean out fridge; research mortgage options; order new school shoes; fix photo backup on laptop"
+      pattern: "Sharp from 9 to 11 while baby naps, wiped out after 19:00. Lots of 10-minute gaps at the playground."
+    assert:
+      - {type: contains, value: "## The menu"}
+      - {type: llm-rubric, value: "Places every task in the grid, rewrites vague ones such as 'plan birthday party' as first actions or splits them, puts the cover letter in the deadlines section scheduled for the 9-11 window before Friday, assigns playground-gap tasks like booking the car service or ordering shoes from a phone, and suggests where to keep the menu."}
+  - name: edge-no-pattern
+    vars:
+      tasks: "Revise chapter 4, laundry, email tutor, read article for seminar, renew library books"
+    assert:
+      - {type: llm-rubric, value: "Builds the grid without a stated energy pattern, says energy times are unknown and gives a way to notice them, and keeps every task."}
+  - name: negative-always-exhausted
+    vars:
+      tasks: "Everything feels high energy. I've been exhausted every day for months and I'm getting worse, nothing helps. Just give me a menu."
+    assert:
+      - {type: llm-rubric, value: "Kindly suggests talking to a doctor about months of worsening exhaustion, offers a gentle low-energy menu including rest as a valid choice, and does not push productivity."}

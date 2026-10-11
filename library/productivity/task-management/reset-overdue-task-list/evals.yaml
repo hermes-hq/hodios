@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My to-do list is full of overdue tasks. Help me fix it. {{tasks}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-list
+    vars:
+      tasks: "Renew passport (due 3 Mar, trip in June) | Review Sam's draft (promised last Friday) | Learn Spanish (due 1 Jan) | Clean garage (due 2 weeks ago) | Reply to council about bin collection (due Mon) | Start podcast (due last month) | Book dentist (overdue 6 weeks) | Update CV (due yesterday) | Fix wobbly shelf"
+      capacity: "About 5 hours a week outside work"
+    assert:
+      - {type: contains, value: "## Sorted list"}
+      - {type: llm-rubric, value: "Places every item once, treats the passport and Sam's review as real commitments, writes a message to Sam with a new date, parks or removes dates from wish items like Spanish and the podcast, fits this week's items into about 5 hours, and gives a rule about only giving real deadlines due dates."}
+  - name: edge-work-list-unknown-owners
+    vars:
+      tasks: "Q3 report, vendor contract review, onboarding doc, team offsite ideas, fix expense claim, 1:1 notes for Priya, migrate wiki pages, read security policy"
+      capacity: "8 hours a week of non-meeting time"
+    assert:
+      - {type: llm-rubric, value: "Does not invent due dates or owners, marks unknown deadlines as questions or 'your call', sorts each item once, and keeps this week within 8 hours."}
+  - name: negative-wants-to-ignore-promises
+    vars:
+      tasks: "Reference letter for my former intern (promised for her job application due Friday), tidy desktop, organise photos"
+      capacity: "2 hours"
+    assert:
+      - {type: llm-rubric, value: "Keeps the reference letter as the priority because someone depends on it by Friday, and does not suggest dropping it silently; if time is short, suggests telling the intern early."}
