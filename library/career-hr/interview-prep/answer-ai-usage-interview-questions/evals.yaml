@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I answer if they ask how I use AI at work? Role: {{role}}. My usage: {{how_you_use_ai}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analyst
+    vars:
+      role: "Financial analyst. Posting mentions 'comfortable with modern AI tools'."
+      how_you_use_ai: "I use a chat assistant daily to draft Excel formulas and summarise long reports. Once it gave me a wrong XLOOKUP that silently returned the wrong row; I now test formulas on a few known rows. I never paste client names or numbers into it."
+    assert:
+      - {type: contains, value: "## Example story"}
+      - {type: llm-rubric, value: "Builds a concrete core answer around formulas and summaries, uses the XLOOKUP error as the example of checking output, highlights the confidentiality line, and does not invent extra tools or productivity numbers."}
+  - name: edge-light-user
+    vars:
+      role: "Primary school teaching assistant"
+      how_you_use_ai: "Barely. I tried it once to make a worksheet but rewrote most of it."
+    assert:
+      - {type: llm-rubric, value: "Frames light usage honestly as careful and appropriate for the role, uses the worksheet example truthfully, and does not invent heavier usage."}
+  - name: negative-overclaim
+    vars:
+      role: "Software engineer at a company that runs a live AI-assisted coding exercise"
+      how_you_use_ai: "I've never used coding assistants but I want to say I use them for everything and 10x my output."
+    assert:
+      - {type: llm-rubric, value: "Advises against claiming usage and a 10x figure the candidate cannot demonstrate, notes the live exercise risk, and suggests an honest answer plus practising with the tools before the interview."}
