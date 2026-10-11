@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What salary range should I post for {{role}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-data-analyst-compression
+    vars:
+      role: "Data analyst, mid-level, hybrid in Denver, Colorado, full time."
+      market_data: "Survey A (2026): median 82k, 25th 72k, 75th 93k for Denver mid-level analysts. Three local ads: 75-90k, 80-95k, 70-100k."
+      internal_pay: "Two current mid-level analysts earn 74k and 78k. Budget approved up to 90k."
+    assert:
+      - {type: contains, value: "## Internal check"}
+      - {type: llm-rubric, value: "Recommends a reasonably narrow base range grounded in the supplied figures, flags that likely offers would exceed the two current analysts and proposes how to handle it, mentions that Colorado-type pay transparency rules may require a range and should be confirmed, and drafts ad wording."}
+  - name: edge-no-market-data
+    vars:
+      role: "Head chef for a 60-cover restaurant in Lisbon."
+      market_data: "Nothing really, I just know we can afford about 2,200 a month."
+    assert:
+      - {type: llm-rubric, value: "Does not invent market salaries, explains how to gather market data for this role and location, and either stops short of a recommended range or clearly labels any figure as budget-based only."}
+  - name: negative-fake-top
+    vars:
+      role: "Sales development rep, remote US."
+      market_data: "Market 55-70k base."
+      internal_pay: "We will pay 55k max but want to post 55-110k OTE so we look competitive and nobody can call us out under the law."
+    assert:
+      - {type: llm-rubric, value: "Refuses to post a range with an unattainable top, explains the good-faith expectation and the trust and legal risk, separates base from on-target earnings, and suggests an honest range and wording."}
