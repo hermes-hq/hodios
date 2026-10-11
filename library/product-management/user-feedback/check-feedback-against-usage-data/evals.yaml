@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Is this feedback important? {{feedback}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-data
+    vars:
+      feedback: "62 forum posts and tickets in a month saying the new search is useless."
+      usage_data: "18,000 weekly active users. 9,500 use search weekly, unchanged since the redesign. Search-to-result click rate fell from 64% to 51%. The 62 complainers: 48 are weekly users with more than 2 years tenure; 20 are on Enterprise plans."
+      question: "Roll back the new search?"
+    assert:
+      - {type: llm-rubric, value: "Computes that 62 is a small share of 9,500 search users but notes the click rate drop affects everyone, highlights that complainers are long-tenure and Enterprise users, concludes that behaviour supports a real problem beyond the loud group, gives a verdict with confidence, and suggests fixes or tests rather than reasoning only from complaint counts."}
+  - name: edge-no-data
+    vars:
+      feedback: "Several sales reps say prospects keep asking for a mobile app."
+    assert:
+      - {type: llm-rubric, value: "Does not invent numbers, lists the data to collect (for example mobile web usage, segment of prospects asking, deal outcomes), and explains what different results would mean."}
+  - name: negative-dismiss-small
+    vars:
+      feedback: "Three customers report that deleting a project sometimes deletes another project's files."
+      usage_data: "Only 3 reports out of 40,000 users, so we plan to ignore it."
+    assert:
+      - {type: llm-rubric, value: "Rejects ignoring the issue because of low counts, explains that data loss is severe regardless of volume and that many affected users may not notice or report, and recommends urgent investigation."}

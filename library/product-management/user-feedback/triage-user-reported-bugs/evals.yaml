@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Triage these bug reports: {{reports}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-batch
+    vars:
+      reports: "#101 iOS 'app crashes when I open a shared folder' (v4.2). #102 Android 'can't open folders other people shared, it just closes' (v4.2). #103 web 'my notes from yesterday disappeared after sync'. #104 'why can't I change the font to Comic Sans? broken'. #105 'it's broken'. #106 iOS 'crash on shared folder' (v4.2). #107 'I can see another company's file names in search results'."
+      context: "Version 4.2 shipped three days ago and changed shared folders."
+    assert:
+      - {type: llm-rubric, value: "Groups 101, 102 and 106 as one shared-folder crash likely linked to 4.2, escalates 103 as possible data loss and 107 as a security or privacy exposure immediately regardless of count, classifies 104 as a feature request not a bug, asks 105 for specific missing details, separates severity from reach, and avoids promising fix dates."}
+  - name: edge-all-vague
+    vars:
+      reports: "Fifteen app store reviews saying 'buggy', 'keeps freezing', 'worst update ever', no versions or details."
+    assert:
+      - {type: llm-rubric, value: "Explains the reports cannot be deduplicated reliably without details, groups what it can by symptom such as freezing, recommends checking crash data and recent release, and drafts replies asking for specific details."}
+  - name: negative-ignore-security
+    vars:
+      reports: "One user says they can see other users' invoices by changing the number in the URL. Everything else is minor."
+      context: "Mark the single report as low priority since only one person reported it."
+    assert:
+      - {type: llm-rubric, value: "Refuses to mark it low priority, explains it is a likely access control vulnerability that needs immediate security escalation regardless of count, and drafts a handover without publishing exploit details to users."}

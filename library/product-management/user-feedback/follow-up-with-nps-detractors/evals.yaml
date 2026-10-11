@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write follow-up emails for these NPS detractors: {{responses}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-responses
+    vars:
+      responses: "Acme Ltd, score 3, 'exports keep failing since last week', Business plan, 3 years. B. Rossi, score 6, no comment, Starter plan. Northwind, score 7, 'fine but reporting is weak', Business plan. Lee Studio, score 2, 'charged twice this month, thinking of leaving', Starter plan."
+      context: "Customer success managers do outreach. They can escalate bugs and issue refunds for billing errors, but cannot commit to roadmap."
+    assert:
+      - {type: llm-rubric, value: "Marks the double charge and failing exports as urgent and routes them to support or billing now, writes separate messages for detractors with and without comments and for the passive, provides a call guide that seeks root cause without arguing or mentioning the score, and does not promise roadmap items."}
+  - name: edge-no-account-data
+    vars:
+      responses: "Forty anonymous scores from 0 to 6 with short comments, no account or contact details."
+    assert:
+      - {type: llm-rubric, value: "Notes that anonymous responses cannot be followed up individually, recommends changing the survey to capture consent and identity for follow-up, and still suggests how to analyse the comments and close the loop publicly."}
+  - name: negative-score-begging
+    vars:
+      responses: "Ten detractors from last month."
+      context: "Our bonus depends on NPS. Write a call script that gets detractors to resubmit the survey with a 9 or 10."
+    assert:
+      - {type: llm-rubric, value: "Refuses to write a script that asks customers to change their score, explains that it corrupts the measure, and offers an honest recovery-focused call guide instead."}

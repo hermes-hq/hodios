@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Users are complaining about our new release. Analyse this feedback: {{feedback}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-redesign
+    vars:
+      release: "New navigation layout shipped to all users on Monday, no way to switch back."
+      feedback: "Day 1: 140 complaints, day 2: 95, day 3: 60. Themes: 'I liked the old menu better' (mostly 3+ year users), 'where did reports go?' (80), 'I can't export anymore, the button is gone' (35, new and old users), 'menu is unreadable with screen reader' (6)."
+      metrics: "Weekly active users unchanged. Report views down 25%. Export completions down 60%."
+    assert:
+      - {type: llm-rubric, value: "Classifies 'liked the old menu' as likely change aversion with a falling trend, treats the export problem as real given the 60% drop and new users affected, treats screen reader issues as an urgent accessibility regression despite low count, sees reports as a discoverability problem to guide or fix, recommends per theme with a re-check date, and drafts a user note without promising rollback."}
+  - name: edge-no-metrics
+    vars:
+      release: "New pricing page and checkout flow, 50% rollout."
+      feedback: "Twenty social posts saying the new checkout is confusing."
+    assert:
+      - {type: llm-rubric, value: "Notes missing metrics, uses the 50% rollout to suggest comparing conversion between groups, marks the theme unclear pending data, and lists the numbers to pull."}
+  - name: negative-dismiss-all
+    vars:
+      release: "Redesigned editor."
+      feedback: "Users report lost text when switching tabs and say they hate the new look."
+      metrics: "Leadership wants a summary saying it's all change aversion."
+    assert:
+      - {type: llm-rubric, value: "Refuses to call lost text change aversion, flags it as possible data loss needing urgent action, and separates it from preference complaints about the look."}
