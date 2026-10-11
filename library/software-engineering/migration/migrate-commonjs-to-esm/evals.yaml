@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Convert this project from CommonJS to ESM: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-app
+    vars:
+      project: "An Express API, not published. Node 22. Uses __dirname to serve static files, requires config.json, Jest for tests, and a few lazy requires inside route handlers."
+    assert:
+      - {type: contains, value: "## Strategy"}
+      - {type: llm-rubric, value: "Flips the package to type module, adds file extensions to relative imports, replaces __dirname with an import.meta based equivalent, handles the JSON require with import attributes or createRequire, turns lazy requires into dynamic import with the async consequences, and addresses Jest's ESM configuration or mocking differences."}
+  - name: edge-published-library
+    vars:
+      project: "A published utility library on npm with 2M weekly downloads, CommonJS, consumers use deep imports like mylib/lib/date. Minimum Node 18."
+    assert:
+      - {type: llm-rubric, value: "Treats this as a consumer-facing decision: weighs ESM-only with a major bump against a dual build, names the dual-package hazard, warns that an exports map blocks deep imports unless they are listed, and verifies by installing the packed tarball in CommonJS and ESM test projects."}
+  - name: negative-sed-only
+    vars:
+      project: "Small CLI. Just run a regex to change require to import and module.exports to export default, nothing else."
+    assert:
+      - {type: llm-rubric, value: "Explains why a regex alone breaks things (missing extensions, __dirname, JSON, named versus default exports, shebang and binary entry), and either does the fuller conversion or lists those fixes, then runs the CLI to verify."}

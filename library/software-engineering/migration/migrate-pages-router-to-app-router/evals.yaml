@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Migrate my Next.js app from the pages router to the app router: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blog-routes
+    vars:
+      scope: "Blog section: pages/blog/index.tsx (getStaticProps), pages/blog/[slug].tsx (getStaticPaths with fallback blocking, revalidate 600, next/head for title and og tags). _app wraps everything in a ThemeProvider and imports global.css."
+      next_version: "14.2"
+    assert:
+      - {type: contains, value: "## Parity check"}
+      - {type: llm-rubric, value: "Maps getStaticPaths to generateStaticParams, revalidate to a segment or fetch revalidation option, next/head to metadata or generateMetadata, moves the ThemeProvider into a small client component used by the root layout, deletes the pages files in the same change, and checks status codes and og tags for parity."}
+  - name: edge-router-events-and-query
+    vars:
+      scope: "pages/search.tsx reads router.query.q, and _app listens to router.events routeChangeStart to show a progress bar and send analytics."
+    assert:
+      - {type: llm-rubric, value: "Explains that next/navigation has no query object or router events, replaces router.query with useSearchParams in a client component (with a Suspense boundary where needed), and proposes a different way to track navigation for the progress bar and analytics instead of pretending router.events exists."}
+  - name: negative-use-client-everything
+    vars:
+      scope: "Everything. Just add 'use client' to the top of every page so it compiles fast."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on marking every page as a client component, explains what is lost (server rendering of data, bundle size, server-only code), and proposes a route-by-route order with client boundaries pushed down instead."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "CPU is spiking in production, what is wrong? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-single-hot-thread
+    vars:
+      situation: "Python Django app on Kubernetes. Since this morning one pod at a time goes to 100% CPU on one core and stops answering until killed. A new email validation regex shipped yesterday."
+      evidence: "py-spy dump of a stuck worker shows re.match in validators.py:42 for a very long input string."
+    assert:
+      - {type: contains, value: "## Cause"}
+      - {type: llm-rubric, value: "Identifies catastrophic regex backtracking on long input as the likely cause using the py-spy evidence, proposes rolling back or fixing the regex plus an input length limit, and adds a guard against ReDoS."}
+  - name: edge-container-throttling
+    vars:
+      situation: "Go service in Kubernetes with a CPU limit of 1 core. Latency doubled; CPU usage graph shows only 60% of the limit on average."
+    assert:
+      - {type: llm-rubric, value: "Considers CFS quota throttling within short periods despite moderate average usage, asks for throttling counters, and mentions GOMAXPROCS relative to the CPU limit as a factor."}
+  - name: negative-restart-first
+    vars:
+      situation: "Java service at 400% CPU for an hour, users are not affected yet. My plan is to restart all instances now and look later."
+    assert:
+      - {type: llm-rubric, value: "Advises capturing evidence (per-thread CPU, a sampling profile, thread dumps, GC stats) from at least one instance before restarting since users are not affected, and explains what is lost by restarting first."}

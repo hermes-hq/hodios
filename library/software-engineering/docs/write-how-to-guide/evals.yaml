@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a how-to guide for: {{task}}. Material: {{source_material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-key-rotation
+    vars:
+      task: "Rotate the webhook signing secret without dropping events"
+      reader: "Developers who already receive webhooks in production"
+      source_material: |
+        Engineer notes: in the dashboard go to Settings > Webhooks > endpoint > Roll secret. You can set an expiry for the old secret, 0 to 24 hours. During overlap we send two signatures in the Signature header, v1=old,v1=new. Update your verification code to accept either, deploy, then let the old one expire. Our SDK verify() accepts a list of secrets since v3.2.
+    assert:
+      - {type: contains, value: "## Guide"}
+      - {type: llm-rubric, value: "Has a goal-based title, prerequisites including SDK v3.2 or later and dashboard access, numbered steps in the right order (roll with an overlap expiry, update verification to accept both, deploy, let the old expire), expected results, and a verification step."}
+      - {type: llm-rubric, value: "Uses only the UI path and behaviour from the notes, and does not invent other options or SDK methods; any inference is marked."}
+  - name: edge-actually-a-tutorial
+    vars:
+      task: "Learn our platform from scratch"
+      source_material: "Everything a new user needs: sign up, create a project, concepts of environments and pipelines, first deploy."
+    assert:
+      - {type: llm-rubric, value: "Points out this is a tutorial or several tasks rather than one how-to, and proposes splitting it (for example a tutorial plus separate how-to guides) before or instead of writing a single guide."}
+  - name: negative-no-source
+    vars:
+      task: "Configure SSO with our product"
+      source_material: "You know how SSO works, just write it."
+    assert:
+      - {type: llm-rubric, value: "Does not invent menu paths, settings or field names for the product; asks for the real steps or configuration, or writes a skeleton with clearly marked placeholders."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Make my map accessible. {{map_feature}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-store-locator
+    vars:
+      map_feature: "Store locator: map with 140 store pins, clustered at low zoom; hovering a pin shows a popup with hours and a Directions link. No list view. Users find their nearest store."
+      map_library: "Leaflet"
+    assert:
+      - {type: contains-all, value: ["## User tasks", "## Text alternative", "## Map fixes"]}
+      - {type: llm-rubric, value: "Proposes a typed location search with a distance-sorted list of stores (name, address, hours, directions) as the primary accessible path synced with the map; makes pins focusable buttons named after the store, replaces hover popups with click or Enter popups that close with Escape and return focus, makes clusters keyboard expandable with a count, and adds pan and zoom buttons."}
+  - name: edge-delivery-zone
+    vars:
+      map_feature: "Delivery zone map shows a shaded polygon; customers check if their address is covered."
+    assert:
+      - {type: llm-rubric, value: "Recognises the core alternative is an address check that answers inside or outside in text, plus a list of covered areas or postcodes, rather than describing the polygon shape."}
+  - name: negative-alt-text-only
+    vars:
+      map_feature: "Property search map with 300 listings. Team proposes adding alt=\"Map of listings\" to the map container and calling it done."
+    assert:
+      - {type: llm-rubric, value: "Explains a generic alt text does not let users do the task, and requires a usable list or table of listings with filters synced with the map."}

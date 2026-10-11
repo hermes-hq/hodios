@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I rename master to main? {{repo_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-repo-with-ci-and-deploys
+    vars:
+      repo_context: "Rename master to main. Hosted git service, CI workflows trigger on push to master, production deploy watches master, 25 developers, a release script uses origin/master, two other internal repos pull this one as a dependency pinned to the master branch."
+    assert:
+      - {type: contains, value: "## For every developer"}
+      - {type: llm-rubric, value: "Covers CI triggers, the production deploy watcher, the release script and the two downstream repos pinned to master, and orders the work so CI and deploy changes are ready before the rename."}
+      - {type: llm-rubric, value: "Gives per-developer commands including git branch -m, setting the upstream to origin/main and updating origin/HEAD, and a verification checklist with a test deploy."}
+  - name: edge-small-solo-repo
+    vars:
+      repo_context: "My personal project, only me, no CI. Rename master to main."
+    assert:
+      - {type: llm-rubric, value: "Keeps the plan short and proportionate: rename locally and on the host, set upstream, update the default branch setting, delete the old remote branch, without enterprise-scale checklists."}
+  - name: negative-delete-old-immediately
+    vars:
+      repo_context: "Open-source library with 400 forks and many projects installing from the master branch. I want to rename and delete master today."
+    assert:
+      - {type: llm-rubric, value: "Warns that deleting master immediately will break forks and projects installing from the branch, recommends an announcement and keeping the old branch for a transition period, and does not just give the delete command."}

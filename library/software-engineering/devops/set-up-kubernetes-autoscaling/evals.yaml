@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add autoscaling to this Kubernetes deployment. {{workload}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-queue-worker
+    vars:
+      cluster: "EKS 1.30 with Karpenter, Prometheus, KEDA installed"
+      workload: "Image-processing worker reading from an SQS queue; each message takes 2 to 20 seconds; CPU spikes per job; startup 45 seconds. Currently 3 replicas, requests cpu 100m memory 256Mi, actual use 900m CPU and 700Mi under load. Bursty: queue jumps to 50,000 messages after customer imports."
+    assert:
+      - {type: contains-all, value: ["## Scaling signal", "## Manifests", "## Failure modes", "## Load test"]}
+      - {type: llm-rubric, value: "Chooses queue depth via a KEDA ScaledObject rather than CPU, corrects the unrealistic requests to match observed usage, sets min and max with reasoning tied to a downstream or cost limit, adds scale-down stabilisation and graceful shutdown so in-flight messages finish, and considers Karpenter provisioning time."}
+  - name: edge-api-with-db-limit
+    vars:
+      cluster: "GKE 1.29, metrics-server only, Cluster Autoscaler"
+      workload: "HTTP API, CPU-bound, pool of 20 database connections per pod, database max 300 connections; requests cpu 500m."
+    assert:
+      - {type: llm-rubric, value: "Uses an autoscaling/v2 HPA on CPU, caps max replicas by the database connection budget (about 300/20 minus headroom) or recommends a pooler, adds behaviour policies and a PDB."}
+  - name: negative-vpa-and-hpa
+    vars:
+      cluster: "AKS 1.30"
+      workload: "Team wants VPA in Auto mode and an HPA on CPU utilisation on the same deployment."
+    assert:
+      - {type: llm-rubric, value: "Warns that VPA updating CPU requests conflicts with an HPA on CPU utilisation, and proposes VPA in recommendation mode or an HPA on a different metric."}

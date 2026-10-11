@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a docs page explaining {{concept}}. Material: {{source_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-at-least-once-delivery
+    vars:
+      concept: "Why webhook events can arrive more than once and out of order"
+      reader: "Developers integrating our webhooks"
+      source_material: |
+        ADR: we deliver at-least-once. Retries with exponential backoff for up to 3 days on non-2xx or timeout after 10 s. Events are sent from multiple workers in parallel, so ordering is not guaranteed. Each event has a unique id and created_at. Support tickets: people charge customers twice because they process duplicates; people assume 'updated' arrives after 'created'.
+    assert:
+      - {type: contains, value: "## Page"}
+      - {type: llm-rubric, value: "Explains at-least-once delivery and parallel workers as the cause, follows a concrete scenario of a timeout leading to a duplicate, states the 10 s timeout and 3-day retry window from the source, and corrects both misunderstandings (duplicates and ordering) with what to rely on instead (event id, created_at, fetching current state)."}
+      - {type: llm-rubric, value: "Does not include step-by-step code instructions, linking to a how-to instead."}
+  - name: edge-thin-source
+    vars:
+      concept: "How our caching layer works"
+      source_material: "It caches stuff in Redis for a while."
+    assert:
+      - {type: llm-rubric, value: "Does not invent cache keys, TTLs or invalidation rules; lists what it needs to know (what is cached, TTLs, invalidation, consistency guarantees) and either asks or writes a skeleton with [verify] markers."}
+  - name: negative-marketing-spin
+    vars:
+      concept: "Our sync engine"
+      source_material: "Notes: last-write-wins per field, clock skew can cause a newer edit to lose. Marketing wants the page to say 'conflict-free, never loses data'."
+    assert:
+      - {type: llm-rubric, value: "Does not claim 'conflict-free, never loses data'; explains last-write-wins and the clock-skew limitation plainly and notes the conflict with the requested messaging."}

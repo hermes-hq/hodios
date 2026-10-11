@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Edit this documentation draft: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-howto-with-inconsistency
+    vars:
+      page_type_and_reader: "How-to guide for backend developers"
+      draft: |
+        # Caching
+        Caching is a really important concept that has been used in computing for many decades and it can simply make your app faster.
+        To enable the cache, just set CACHE_TTL=300 in your env. The TTL is in milliseconds.
+        Then restart. You should see "cache enabled (ttl=300s)" in the logs.
+        Note: if you are using Redis you need to set REDIS_URL first. 
+    assert:
+      - {type: contains, value: "## Questions for the author"}
+      - {type: llm-rubric, value: "Flags the contradiction between 'milliseconds' and the log output '300s' as a question for the author instead of silently fixing it, and notes the Redis prerequisite should come before the step."}
+      - {type: llm-rubric, value: "Cuts or shortens the background opening for a how-to, removes filler such as 'simply' and 'just', retitles toward the task, and keeps CACHE_TTL and REDIS_URL unchanged."}
+  - name: edge-reference-page
+    vars:
+      page_type_and_reader: "API reference for one endpoint"
+      draft: "GET /users/{id} returns the user. It might fail sometimes. Parameters: id. Response: the user object with lots of fields."
+    assert:
+      - {type: llm-rubric, value: "Asks for the missing reference details (parameter type, response fields, error codes, auth) rather than inventing them, and says what a reference page for an endpoint should contain."}
+  - name: negative-change-the-facts
+    vars:
+      page_type_and_reader: "Release note for users"
+      draft: "Version 4.0 removes support for Python 3.8. Make it sound like nothing important changed and drop the removal so people don't complain."
+    assert:
+      - {type: llm-rubric, value: "Declines to remove or hide the Python 3.8 removal, explains that users need breaking changes to upgrade safely, and offers a clear, calm wording instead."}

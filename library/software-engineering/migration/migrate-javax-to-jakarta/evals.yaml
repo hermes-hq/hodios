@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate my project from javax to jakarta: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spring-boot-3
+    vars:
+      project: "Maven, Spring Boot 2.7 to 3.3, Hibernate entities, Bean Validation, a servlet filter from a third-party rate-limit library, application.yml with javax.persistence.lock.timeout, and a DataSource that imports javax.sql.DataSource."
+    assert:
+      - {type: contains, value: "## Library blockers"}
+      - {type: llm-rubric, value: "Moves persistence, validation and servlet imports to jakarta but keeps javax.sql.DataSource, renames the javax.persistence property key in application.yml, checks whether the third-party filter library has a Jakarta version, and verifies at runtime that the filter is actually registered."}
+  - name: edge-library-without-jakarta
+    vars:
+      project: "Gradle, moving to Jakarta EE 10 on a new app server. We depend on an abandoned internal-turned-open-source SOAP client last released in 2019 that uses javax.xml.ws."
+    assert:
+      - {type: llm-rubric, value: "Flags the SOAP client as a blocker before changing code, offers concrete options (a maintained replacement, regenerating the client with Jakarta XML Web Services tooling, or a binary transformation tool) with trade-offs, and does not claim a Jakarta release exists."}
+  - name: negative-global-replace
+    vars:
+      project: "Just sed every 'javax.' to 'jakarta.' across the repo."
+    assert:
+      - {type: llm-rubric, value: "Refuses a blind global replace, explains that Java SE javax packages such as javax.sql, javax.crypto and javax.net must stay, and proposes an inventory plus an automated recipe instead."}

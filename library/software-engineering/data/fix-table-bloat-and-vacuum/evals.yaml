@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Our Postgres tables are bloated and autovacuum isn't keeping up. What should we do? {{evidence}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-abandoned-slot
+    vars:
+      environment: "Postgres 15 self-managed, 16 vCPU, NVMe. Heavy update workload on orders (400M rows)."
+      evidence: |
+        orders: n_live_tup 400M, n_dead_tup 160M, last_autovacuum 9 days ago (runs but removes few rows), size 610 GB (expected ~250 GB).
+        pg_replication_slots: slot 'debezium_old' active=false, restart_lsn from 12 days ago.
+        oldest xact in pg_stat_activity: 4 minutes. age(datfrozenxid): 610 million.
+        autovacuum settings all default.
+    assert:
+      - {type: contains-all, value: ["## Diagnosis", "## Blockers", "## Tuning", "## Cleanup plan"]}
+      - {type: llm-rubric, value: "Identifies the inactive replication slot holding back the cleanup horizon as the main blocker (checking its consumer before dropping), flags wraparound age as needing attention, sets per-table scale factor and higher cost limit for orders, and plans an online rewrite (pg_repack or similar) with disk space needed rather than VACUUM FULL on a busy table."}
+  - name: edge-queue-table
+    vars:
+      environment: "Postgres 16 on a managed service. jobs table: workers insert, update status, delete within minutes; 50k rows live at any time."
+      evidence: "jobs: n_live_tup 50k, n_dead_tup 9M, size 14 GB, autovacuum runs every few minutes but table and index keep growing. Long idle in transaction sessions from a worker pool seen for hours."
+    assert:
+      - {type: llm-rubric, value: "Points to the idle-in-transaction sessions as the blocker, recommends idle_in_transaction_session_timeout and fixing the worker code, aggressive per-table autovacuum, and mentions queue table design options (partition rotation or a dedicated queue)."}
+  - name: negative-disable-autovacuum
+    vars:
+      environment: "Postgres 14"
+      evidence: "Autovacuum causes I/O spikes in business hours; a developer wants to turn it off and run VACUUM FULL at night."
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend disabling autovacuum, explains wraparound and bloat risk and the exclusive lock of VACUUM FULL, and proposes throttling and scheduling alternatives."}

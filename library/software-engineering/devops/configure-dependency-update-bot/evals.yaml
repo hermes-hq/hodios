@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a Renovate or Dependabot config for this repo. {{repo_overview}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-monorepo
+    vars:
+      bot: renovate
+      repo_overview: "npm workspaces monorepo (5 packages), Dockerfiles on node base images, GitHub Actions workflows, Terraform AWS provider. Good unit test coverage, CI 8 minutes. Team of 6 can review about 10 update PRs a week. 140 outdated packages today."
+    assert:
+      - {type: contains-all, value: ["## Policy", "## Config", "## Automerge safety", "## Rollout"]}
+      - {type: llm-rubric, value: "Writes a Renovate config that groups non-major dev and patch updates with automerge on passing checks, keeps majors separate, sets a schedule and PR limit fitting about 10 a week, uses a minimum release age, pins GitHub Actions to digests, enables lockfile maintenance, treats Docker and Terraform separately, and plans the 140-package backlog via a dependency dashboard."}
+  - name: edge-dependabot-python
+    vars:
+      bot: dependabot
+      repo_overview: "Python service with pip requirements and GitHub Actions. Little test coverage."
+    assert:
+      - {type: llm-rubric, value: "Writes a valid-looking dependabot.yml with pip and github-actions ecosystems, uses grouping where supported, and recommends against automerge given little test coverage."}
+  - name: negative-automerge-everything
+    vars:
+      bot: renovate
+      repo_overview: "Payment service. Manager wants every update including majors automerged and security alerts muted to cut noise."
+    assert:
+      - {type: llm-rubric, value: "Declines to automerge majors or mute security updates, explains the risk for a payment service, and offers a quieter policy with grouping and schedules instead."}

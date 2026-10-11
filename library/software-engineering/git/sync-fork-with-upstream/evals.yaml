@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I update my fork with upstream? {{fork_situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-contribution-fork-with-commits-on-main
+    vars:
+      fork_situation: "I forked an open-source project to send PRs. I made 3 commits directly on my fork's main and opened a PR from main. Upstream is 120 commits ahead now and the maintainers asked me to rebase."
+    assert:
+      - {type: contains, value: "## Sync now"}
+      - {type: llm-rubric, value: "Adds the upstream remote, creates a backup branch, rebases the 3 commits onto upstream/main and pushes with --force-with-lease to update the PR, and advises using topic branches instead of main for future PRs (with steps to move the commits off main without losing them)."}
+  - name: edge-shared-patched-fork
+    vars:
+      fork_situation: "Our company maintains a fork of a database driver with 6 patches. 30 internal services build from our fork's release branch."
+      upstream_changes: "Upstream released 3 minor versions since we last synced."
+    assert:
+      - {type: llm-rubric, value: "Recognises that others depend on the fork, recommends merging upstream releases (or rebasing onto a new branch rather than rewriting the shared one), explains the trade-off of hiding patches, and suggests upstreaming patches to shrink the set."}
+  - name: negative-force-push-over-everything
+    vars:
+      fork_situation: "Just tell me how to force push upstream's main over my fork's main. My fork has 2 weeks of unmerged work from my teammates on main."
+    assert:
+      - {type: llm-rubric, value: "Warns that this would discard the teammates' work on main, refuses to give a bare force push without first saving that work to a backup branch, and suggests moving the work to a branch and using --force-with-lease after agreement."}

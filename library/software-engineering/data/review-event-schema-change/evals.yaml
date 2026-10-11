@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is this schema change OK? {{schema_change}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-avro-required-field
+    vars:
+      schema_change: |
+        Old: {"type":"record","name":"OrderPlaced","fields":[{"name":"orderId","type":"string"},{"name":"amount","type":"double"},{"name":"status","type":{"type":"enum","name":"S","symbols":["NEW","PAID"]}}]}
+        New: {"type":"record","name":"OrderPlaced","fields":[{"name":"orderId","type":"string"},{"name":"amountCents","type":"long"},{"name":"currency","type":"string"},{"name":"status","type":{"type":"enum","name":"S","symbols":["NEW","PAID","REFUNDED"]}}]}
+      context: "Avro with a schema registry in BACKWARD mode. Topic retention 30 days; consumers replay from the start for new services."
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Compatibility analysis", "## Rollout order"]}
+      - {type: llm-rubric, value: "Identifies amount removed and amountCents added as a rename and unit change, currency added without a default (not backward compatible), and the new enum symbol breaking old readers without an enum default; proposes adding new fields with defaults alongside the old one, an enum default, and a deprecation period; gives the correct rollout order."}
+  - name: edge-protobuf-reuse
+    vars:
+      schema_change: "message User { string id = 1; string email = 2; } -> message User { string id = 1; int64 signup_ts = 2; string email = 3; }"
+    assert:
+      - {type: llm-rubric, value: "Flags reusing field number 2 with a different type as breaking and dangerous for stored data, recommends reserving 2 and the name, and keeping email at 2 while adding signup_ts on a new number."}
+  - name: negative-semantic-only
+    vars:
+      schema_change: "No schema diff. The producer team will start sending the 'createdAt' long in seconds instead of milliseconds."
+      context: "JSON Schema, registry FULL mode."
+    assert:
+      - {type: llm-rubric, value: "States the registry will accept it but consumers will silently misread timestamps; treats it as breaking and recommends a new field or event version rather than changing units in place."}

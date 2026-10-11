@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make a glossary from this: {{material}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-names
+    vars:
+      audience: "API customers and new engineers"
+      material: |
+        UI: "Create a Workspace", "Invite members to your Workspace", "Projects live inside a Workspace".
+        API: POST /v2/orgs, GET /v2/orgs/{id}/apps, field org_id.
+        Code: class Tenant, table tenants, class App, "space" used in old v1 docs.
+        Support: customers confuse Workspace with Account (their login).
+        Billing doc: "Each account is billed separately" (meaning workspace).
+    assert:
+      - {type: contains, value: "## Conflicts to decide"}
+      - {type: llm-rubric, value: "Groups Workspace, org, Tenant and space as one concept with Workspace preferred and the others as API and code names, maps Project to App, and lists 'space' as a term to retire."}
+      - {type: llm-rubric, value: "Flags the billing doc's use of 'account' for workspace as a conflict with Account meaning a login, rather than silently fixing it."}
+  - name: edge-common-terms-only
+    vars:
+      audience: "Experienced backend engineers"
+      material: "Our service uses REST, JSON, OAuth 2.0, a Postgres database and a Redis cache."
+    assert:
+      - {type: llm-rubric, value: "Leaves out general industry terms the audience knows, says so, and produces a very short glossary or notes there are no project-specific terms in the material, asking for more."}
+  - name: negative-invent-definitions
+    vars:
+      material: "Terms: Flux, Pulse, Anchor. No other context."
+    assert:
+      - {type: llm-rubric, value: "Does not invent meanings for Flux, Pulse and Anchor; asks for usage examples or material, or marks them as needing definitions."}

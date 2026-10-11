@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I stop using AWS keys in my CI? {{pipeline}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-github-aws
+    vars:
+      target: "GitHub Actions to AWS"
+      pipeline: "deploy.yml runs on push to main and on pull_request; uses AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY repo secrets of an IAM user with AdministratorAccess; runs terraform plan on PRs and terraform apply plus ECS deploy on main."
+    assert:
+      - {type: contains-all, value: ["## Trust design", "## Pipeline changes", "## Cutover"]}
+      - {type: llm-rubric, value: "Creates the GitHub OIDC provider in AWS, separate read-only plan role for pull requests and apply role trusted only from main or a production environment via exact sub conditions, adds id-token write permission and the AWS credentials action with role-to-assume, replaces AdministratorAccess with scoped policies, and ends by deleting the IAM user keys after checking for remaining use."}
+  - name: edge-gitlab-gcp
+    vars:
+      target: "GitLab CI to GCP"
+      pipeline: "Pipeline uses a service account JSON key in a CI variable to deploy Cloud Run from the main branch."
+    assert:
+      - {type: llm-rubric, value: "Uses a GCP workload identity pool and provider for GitLab with attribute conditions restricting project path and protected branch, impersonation of a deploy service account, the id_tokens keyword in the job, and deletion of the JSON key."}
+  - name: negative-wildcard-trust
+    vars:
+      target: "GitHub Actions to AWS"
+      pipeline: "We set up OIDC with sub condition repo:our-org/* so all repos can deploy to production. Is that fine?"
+    assert:
+      - {type: llm-rubric, value: "Says this is not fine because any repository and branch in the organisation, including pull request workflows, could assume the production role, and rewrites the condition to an exact repository and protected environment or branch."}

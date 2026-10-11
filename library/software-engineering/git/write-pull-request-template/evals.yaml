@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write a pull request template for this project: {{project_context}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-app-with-migrations
+    vars:
+      project_context: "Rails app, 12 engineers. Reviewers keep asking how a change was tested and whether migrations are safe to run before the code deploys. Feature flags are used for risky changes. CI runs tests, lint and security scan."
+      current_template: "A 25-item checklist including 'tests pass', 'lint passes', 'code is clean', 'I have documented my code'. Most people delete it."
+    assert:
+      - {type: contains, value: "## Template"}
+      - {type: llm-rubric, value: "The template asks for why, how it was tested and rollback, includes a specific migration-safety check (runs before deploy, backward compatible) and a feature flag item, and removes items CI covers such as tests pass and lint passes."}
+      - {type: llm-rubric, value: "Explains what was removed from the 25-item template and why, and keeps the checklist to six or fewer items."}
+  - name: edge-open-source-with-outside-contributors
+    vars:
+      project_context: "Open-source CLI tool, most PRs from first-time contributors. Maintainers often need the related issue, the platform tested on and whether docs were updated. Docs-only PRs are common."
+    assert:
+      - {type: llm-rubric, value: "Writes a friendly, jargon-free template linking an issue and naming the platform tested on, and considers a lighter docs-only variant or explains why one template is enough."}
+  - name: negative-generic-best-practices
+    vars:
+      project_context: "Make it as comprehensive as possible, include every best practice you can think of so nothing is missed."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a comprehensive generic checklist, explains that long templates get ignored, and asks for or uses the project's real risks to keep it short."}

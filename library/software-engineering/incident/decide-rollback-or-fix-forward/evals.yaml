@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Should we roll back or fix forward? {{incident_summary}} Changes: {{recent_changes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-deploy-with-forward-migration
+    vars:
+      incident_summary: "Order creation fails for about 30% of requests since 10:20 UTC with 'null value in column delivery_window'."
+      recent_changes: "10:12 deploy orders-api v3.8: adds delivery_window column NOT NULL with default, backfill job ran at 10:15, new code writes delivery_window on every order. 09:50 flag fast_checkout enabled at 10%."
+      rollback_options: "Previous image redeploy takes 5 minutes. No down migrations. Flags flip instantly."
+    assert:
+      - {type: contains, value: "## Rollback safety checks"}
+      - {type: llm-rubric, value: "Checks whether the v3.7 code can work with the new NOT NULL delivery_window column (old code inserting orders without it may fail or rely on the default) and names that as a check to confirm before rolling back, rather than recommending a blind rollback."}
+      - {type: llm-rubric, value: "Considers the fast_checkout flag as a separate, cheaper reversible option and judges how well its 10% scope matches the 30% error rate, and gives one first action with a fallback and a verification signal."}
+  - name: edge-only-timing-evidence
+    vars:
+      incident_summary: "API latency p99 up from 300 ms to 2 s since 16:00, all endpoints."
+      recent_changes: "15:55 deploy of the marketing site (separate service, no shared database). Nothing else we know of."
+    assert:
+      - {type: llm-rubric, value: "Says the link to the marketing site deploy is only timing and weak given no shared dependency, does not recommend rolling it back as the main action, and suggests checking for other changes or dependencies, while noting a rollback of an unrelated low-risk service is cheap if the team wants to rule it out."}
+  - name: negative-no-changes
+    vars:
+      incident_summary: "Database CPU at 100%, timeouts everywhere."
+      recent_changes: "No deploys or config changes in the last 3 days."
+    assert:
+      - {type: llm-rubric, value: "States that there is no change to roll back and does not invent one; points to other mitigations such as shedding load, killing runaway queries or scaling, and asks what changed in traffic or data."}

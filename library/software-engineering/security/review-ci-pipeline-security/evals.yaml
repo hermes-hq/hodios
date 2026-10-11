@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Is this CI pipeline secure? {{pipeline}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-prt-injection
+    vars:
+      pipeline: |
+        Public repository, anyone can open PRs. Workflow preview.yml (EXPR(x) below stands for a GitHub Actions expression that evaluates x):
+        on: pull_request_target
+        permissions: write-all
+        jobs:
+          build:
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/checkout@v4
+                with: { ref: "EXPR(github.event.pull_request.head.sha)" }
+              - run: echo "Building EXPR(github.event.pull_request.title)"
+              - run: npm ci && npm run build
+              - uses: some-org/deploy-preview@main
+                with: { token: "EXPR(secrets.DEPLOY_TOKEN)" }
+    assert:
+      - {type: contains, value: "## Fixed configuration"}
+      - {type: llm-rubric, value: "Flags running the fork's code (npm ci and build of the PR head) under pull_request_target with secrets and write-all, the PR title script injection, write-all permissions and the unpinned @main action; gives attack paths; and fixes by splitting into an unprivileged pull_request build and a privileged step that does not run untrusted code, passing the title through an env variable, least-privilege permissions and pinning to a commit SHA."}
+  - name: edge-oidc-trust
+    vars:
+      pipeline: "GitLab CI deploys to a cloud account through OIDC. The cloud role trust policy accepts any token whose subject starts with project_path:acme/app: (any ref). Merge requests from developers run the same pipeline."
+    assert:
+      - {type: llm-rubric, value: "Identifies that any branch or merge request pipeline can assume the deploy role, and recommends restricting the trust condition to protected refs or environments, with an attack path from a developer branch."}
+  - name: negative-style-only
+    vars:
+      pipeline: "Private repo, a single workflow on push to main that runs tests with permissions: contents: read, actions pinned by SHA, no secrets."
+    assert:
+      - {type: llm-rubric, value: "Does not invent serious vulnerabilities; reports that no findings with an attack path were found, perhaps noting settings to check outside the file."}

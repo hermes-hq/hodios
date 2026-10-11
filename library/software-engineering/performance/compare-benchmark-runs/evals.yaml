@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Did my change make it faster? Before: {{baseline_results}} After: {{candidate_results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clear-improvement
+    vars:
+      baseline_results: "10 runs, ms per op: 41.2, 40.8, 41.5, 42.0, 40.9, 41.1, 41.7, 41.3, 40.6, 41.4. Same CI runner type, Go 1.22."
+      candidate_results: "10 runs, ms per op: 36.1, 35.8, 36.4, 36.0, 35.7, 36.3, 35.9, 36.2, 36.6, 35.5. Same runner type, Go 1.22."
+      threshold: "5%"
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Computes medians near 41.25 and 36.05 and a change of roughly 12-13%, notes that the spreads do not overlap and the noise is small relative to the change, and concludes a real improvement above the 5% threshold with the method stated."}
+  - name: edge-bimodal-noise
+    vars:
+      baseline_results: "8 runs p50 latency ms: 12, 12, 19, 12, 20, 12, 19, 12"
+      candidate_results: "8 runs p50 latency ms: 12, 19, 19, 12, 20, 19, 12, 19"
+    assert:
+      - {type: llm-rubric, value: "Notices the two clusters around 12 and 19-20 ms, explains that comparing means is misleading with a bimodal distribution, suspects an environmental or path-dependent cause, and calls the result inconclusive with a plan to explain the modes first."}
+  - name: negative-single-numbers
+    vars:
+      baseline_results: "One run: 230 req/s"
+      candidate_results: "One run: 241 req/s on my laptop, baseline was on the CI server"
+    assert:
+      - {type: llm-rubric, value: "Says the comparison cannot be judged: single runs with no spread and different machines; does not declare an improvement; specifies repeated interleaved runs on the same machine."}

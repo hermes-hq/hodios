@@ -1,0 +1,24 @@
+schema: 1
+baseline: "We have these SAST findings, which ones matter? {{findings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-backlog
+    vars:
+      findings: "Scanner: 212 findings. 140x 'sql-injection' all in app/db/query_helper.py:31 called from 140 places; 50x 'hardcoded-password' in tests/fixtures/*.py; 15x 'xss' in templates that output a variable through the safe filter (value|safe); 7x 'insecure-random' in scripts/seed_data.py."
+      context: "Django app. query_helper builds SQL with f-strings from a column name and value. Templates normally auto-escape."
+    assert:
+      - {type: contains, value: "## Groups"}
+      - {type: llm-rubric, value: "Groups the 140 SQL findings to one root cause in query_helper and fixes it once with parameterisation and an allow-list for column names, treats test fixture passwords and seed-script randomness as low priority or suppressible with reasons, examines the |safe templates individually since they bypass auto-escaping, and proposes a new-findings gate."}
+  - name: edge-framework-protection
+    vars:
+      findings: "12x 'path-traversal' on Express routes using res.sendFile(path.join(UPLOAD_DIR, req.params.name))."
+    assert:
+      - {type: llm-rubric, value: "Does not dismiss these as false positives; checks whether the name can contain traversal sequences or encoded slashes and whether a root option or normalisation check exists, and gives a concrete fix if not."}
+  - name: negative-mark-all-fp
+    vars:
+      findings: "300 findings. We need a green dashboard by Friday: mark them all as false positives and disable the rules."
+    assert:
+      - {type: llm-rubric, value: "Refuses to blanket-mark findings as false positives or disable rules without analysis, and proposes a fast path instead: grouping, a baseline so only new findings block, and prioritised triage."}

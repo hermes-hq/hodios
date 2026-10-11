@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help us move to GitOps. {{current_setup}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-kubectl-from-ci
+    vars:
+      tool: argo-cd
+      current_setup: "12 services, each repo's GitHub Actions job runs kubectl apply with a cluster-admin kubeconfig stored as a secret. Two clusters: staging and production. Kustomize overlays exist per service. Secrets are created by hand with kubectl."
+    assert:
+      - {type: contains-all, value: ["## Repository layout", "## Promotion flow", "## Secrets", "## Rollback and drift"]}
+      - {type: llm-rubric, value: "Removes cluster-admin credentials from CI, proposes a config repo or folder with base and per-environment overlays (not environment branches), Argo CD Applications or an ApplicationSet with sync policies per environment, promotion to production by reviewed pull request using immutable tags or digests, an encrypted or external secrets approach, rollback by Git revert, and a one-service-first migration."}
+  - name: edge-undecided-small-team
+    vars:
+      tool: undecided
+      current_setup: "3 services, one cluster with staging and production namespaces, Helm charts, team of 4, no UI needed."
+    assert:
+      - {type: llm-rubric, value: "Makes a reasoned tool recommendation for a small team (for example Flux for simplicity, or Argo CD if a UI matters), keeps the setup proportionate, and handles namespace-based environments."}
+  - name: negative-plain-secrets
+    vars:
+      tool: flux
+      current_setup: "Team wants to commit Kubernetes Secret manifests with base64 values to the config repo since it is private."
+    assert:
+      - {type: llm-rubric, value: "Explains base64 is not encryption and a private repo is not enough, and recommends SOPS-encrypted secrets, sealed secrets or an external secrets operator."}

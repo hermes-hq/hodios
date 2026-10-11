@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Should we use git submodules or subtree? {{situation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-typescript-lib
+    vars:
+      situation: "Three TypeScript services share a validation library. It changes weekly, only the platform team edits it, the services just consume it. We use npm and a private registry. Mixed git skill. CI checks out with depth 1."
+    assert:
+      - {type: contains, value: "## Comparison"}
+      - {type: llm-rubric, value: "Recommends a versioned npm package from the private registry over submodules or subtree, because consumers do not edit the code and a registry exists, and explains the trade-offs of submodules for mixed git skill and CI."}
+  - name: edge-consumers-edit-shared-code
+    vars:
+      situation: "Firmware for two devices shares a C hardware abstraction layer. Both device teams change it often, no package manager, builds with make."
+    assert:
+      - {type: llm-rubric, value: "Considers that both teams edit the shared code and there is no package manager, weighs submodule versus subtree (or a monorepo pointer) honestly, and gives the daily commands for making a change to the shared code and updating the other device."}
+  - name: negative-just-pick-submodules
+    vars:
+      situation: "Just set up submodules for everything, I read they're the standard way."
+    assert:
+      - {type: llm-rubric, value: "Does not simply endorse submodules; asks what is shared and how it changes, explains when submodules hurt, and gives a provisional comparison or questions rather than a blind setup."}

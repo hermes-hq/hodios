@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should we structure our {{provider}} accounts? {{company}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-startup-single-account
+    vars:
+      provider: aws
+      company: "25 engineers, one SaaS product, staging and production both in a single AWS account, developers use IAM users with access keys, GitHub Actions deploys with a stored access key, preparing for a SOC 2 audit next year."
+    assert:
+      - {type: contains-all, value: ["## Hierarchy", "## Guardrails", "## Identity and access", "## Migration steps"]}
+      - {type: llm-rubric, value: "Proposes an AWS Organization with separate log archive and security accounts, production and non-production workload accounts, and SCP examples (protect CloudTrail, restrict regions); replaces IAM users with SSO through IAM Identity Center or an identity provider and GitHub OIDC for CI; sizes it for 25 engineers; and orders the migration starting with logging and identity without breaking production."}
+  - name: edge-gcp-multi-team
+    vars:
+      provider: gcp
+      company: "120 engineers in 6 product teams, existing projects created ad hoc by teams, one shared VPC already, data team with sensitive customer data."
+    assert:
+      - {type: llm-rubric, value: "Uses GCP folders and projects with organisation policies, keeps shared VPC in a host project, isolates the sensitive data projects with stricter policies, and describes a project vending process."}
+  - name: negative-overbuild
+    vars:
+      provider: azure
+      company: "Solo developer with one hobby web app. Wants an enterprise landing zone with 40 subscriptions like big companies have."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on 40 subscriptions for a solo hobby project and recommends a minimal structure (for example separate production and non-production subscriptions, budget alerts, MFA), stating what to add later."}

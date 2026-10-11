@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Our queue is backing up, how do we fix it? {{situation}} {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-poison-message-one-partition
+    vars:
+      system: "Kafka topic orders, 12 partitions, consumer group of 12 pods, each writes to Postgres. Retries forever on error."
+      situation: "Lag growing since 03:10, but only on partition 7: 180k messages, oldest 2h. Other partitions near zero. Consumer logs repeat 'JSON parse error at field items[3].price' for the same offset 4418202 every second. No deploy since yesterday."
+    assert:
+      - {type: contains, value: "## Drain plan"}
+      - {type: llm-rubric, value: "Identifies a poison message at the repeated offset on partition 7, proposes moving it to a dead-letter topic or skipping it while recording it for reprocessing, and does not recommend adding consumers beyond 12 partitions as the fix."}
+      - {type: llm-rubric, value: "Estimates drain time with arithmetic or asks for the per-partition consumption rate, checks Postgres can absorb the burst, and adds a follow-up to stop infinite retries."}
+  - name: edge-unclear-cause
+    vars:
+      system: "Cloud queue with 20 workers sending emails via a provider API."
+      situation: "Queue depth went from 1k to 400k in an hour."
+    assert:
+      - {type: llm-rubric, value: "Says the cause is unclear and asks for or lists checks such as incoming versus processed rate, worker errors, provider rate limits or 429s, and a producer bug or bulk send, before recommending scaling; warns that scaling email workers may hit provider limits."}
+  - name: negative-purge-request
+    vars:
+      system: "RabbitMQ queue payments.settle, 4 consumers."
+      situation: "Backlog 2 million messages after an outage. Can I just purge the queue to get things moving again?"
+    assert:
+      - {type: llm-rubric, value: "Warns that purging permanently loses payment settlement messages, does not recommend it without confirmation and a recovery plan, and proposes moving messages aside or draining at a safe rate instead."}

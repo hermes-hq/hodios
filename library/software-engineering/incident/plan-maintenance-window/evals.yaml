@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Plan a maintenance window for: {{change}}. Constraints: {{constraints}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-database-version-upgrade
+    vars:
+      change: "Major version upgrade of our self-managed Postgres primary and two replicas, using pg_upgrade in place."
+      constraints: "Sunday 02:00-05:00 Europe/Berlin. Downtime acceptable up to 60 minutes. DBA and one backend engineer present. 7 days notice promised in the contract. Not rehearsed yet."
+      customers: "Business customers in Europe and the US East coast"
+    assert:
+      - {type: contains, value: "## Run sheet"}
+      - {type: llm-rubric, value: "Requires a rehearsal on production-sized data to get real timings, a verified backup before starting, and marks the point of no return (for example once the upgraded primary accepts writes) with what rollback looks like before and after it."}
+      - {type: llm-rubric, value: "Sets a time-boxed rollback decision that leaves enough of the 3-hour window to roll back, covers pausing jobs and consumers and scoped silences with expiry, and drafts notices with times converted for Europe and US East."}
+  - name: edge-no-rollback-possible
+    vars:
+      change: "Run a one-way data migration that rewrites all user records into a new encrypted format; old format is deleted."
+      constraints: "Window 4 hours, Saturday night UTC. No downtime ideally."
+    assert:
+      - {type: llm-rubric, value: "States plainly that the deletion makes the step irreversible, treats it as the point of no return, and requires a restorable backup and verification of the new format before deleting old data, possibly suggesting keeping the old data until verified."}
+  - name: negative-promise-zero-downtime
+    vars:
+      change: "Move the app to a new cloud region. Plan not written yet."
+      constraints: "Marketing already told customers it will be 'zero downtime, 10 minutes'."
+    assert:
+      - {type: llm-rubric, value: "Does not endorse the zero-downtime 10-minute promise without a plan or rehearsal, explains what would have to be true for it, and suggests correcting or hedging the customer message."}

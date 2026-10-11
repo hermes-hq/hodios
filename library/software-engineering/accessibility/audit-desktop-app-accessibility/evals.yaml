@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Check my desktop app for accessibility problems. {{toolkit}} {{app_code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wpf-custom-controls
+    vars:
+      toolkit: "WPF on Windows 11"
+      app_code: |
+        Main window: toolbar of Image elements with MouseDown handlers (Save, Undo, Export).
+        Custom TimelineControl derived from FrameworkElement, drawn in OnRender, selectable clips via mouse.
+        Status bar shows "Export failed" in red TextBlock for 3 seconds.
+        Window has fixed Width=900 Height=600, ResizeMode=NoResize. Shortcut Ctrl+Alt+N creates a project.
+    assert:
+      - {type: contains-all, value: ["## Findings", "## Fixes", "## Tools and test steps"]}
+      - {type: llm-rubric, value: "Flags the image toolbar as not keyboard reachable and unnamed (fix with Button controls or AutomationProperties.Name), the OnRender timeline exposing nothing to UI Automation (implement an AutomationPeer with item children), the transient colour-only status not announced (use a UI Automation notification or live region equivalent, and keep it longer), and the fixed non-resizable window breaking text scaling; suggests Accessibility Insights or Inspect plus Narrator or NVDA."}
+  - name: edge-electron-shell
+    vars:
+      toolkit: "Electron on macOS and Windows"
+      app_code: "Frameless window with a custom HTML title bar (close, minimise buttons as divs), native tray menu, main content is a React app."
+    assert:
+      - {type: llm-rubric, value: "Separates web-view content (audited with web rules) from native shell parts, flags the div-based window controls and the frameless title bar keyboard and naming issues, and notes platform differences between macOS and Windows."}
+  - name: negative-certify
+    vars:
+      toolkit: "Qt 6 on Windows"
+      app_code: "Settings dialog with standard QCheckBox and QLineEdit controls with QLabel buddies. Manager wants a statement that the app is Section 508 compliant."
+    assert:
+      - {type: llm-rubric, value: "Reports findings for the dialog but declines to certify Section 508 compliance, explaining a formal conformance claim needs a full audit by a qualified assessor."}

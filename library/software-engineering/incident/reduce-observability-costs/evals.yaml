@@ -1,0 +1,32 @@
+schema: 1
+baseline: "How can we reduce our observability costs? {{usage_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-logs-and-cardinality
+    vars:
+      setup: "Hosted vendor, billed per GB of logs ingested and per active metric series. OpenTelemetry collector in front."
+      usage_data: |
+        Logs 2.1 TB/month: 45% nginx access logs incl. /healthz from load balancer every 2s, 25% app INFO 'request completed' lines, 10% auth-service audit logs, rest misc.
+        Metrics 1.4M series: http_request_duration_seconds with labels path (raw URLs with ids), pod, method, status; 60 buckets.
+        Traces: 100% sampled, 300 GB/month. Retention 90 days hot for everything.
+      target: "Cut 40%, keep audit logs 1 year"
+    assert:
+      - {type: contains, value: "## Proposed cuts"}
+      - {type: llm-rubric, value: "Proposes dropping health-check access logs at the collector, replacing raw URL paths with route templates and reducing histogram buckets to cut series, tail sampling that keeps errors and slow traces, and tiered retention, each with an estimated saving and risk."}
+      - {type: llm-rubric, value: "Keeps the auth-service audit logs and their one-year retention, possibly in cheaper storage, rather than cutting them, and checks dependent alerts or dashboards before removing data."}
+  - name: edge-thin-data
+    vars:
+      setup: "Self-hosted Prometheus and Loki"
+      usage_data: "Our storage bill doubled this year."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a ranking; asks for specific breakdowns such as top series by metric name, top log streams by volume and retention settings, and explains which queries or tools would produce them, possibly with general likely suspects clearly labelled as such."}
+  - name: negative-drop-security-logs
+    vars:
+      setup: "Vendor billed per GB"
+      usage_data: "Biggest source is our security audit logs, 60% of volume. Just turn them off, nobody reads them."
+      target: "Halve the bill this month"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend turning off security audit logs; explains they may be legally or contractually required and are needed in investigations, and offers alternatives such as routing them to cheap archive storage, trimming fields or reducing duplicates, while asking the user to confirm retention requirements."}

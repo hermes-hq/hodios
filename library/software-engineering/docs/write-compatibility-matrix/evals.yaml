@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Write a supported versions page from this: {{evidence}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-library-mismatch
+    vars:
+      dimensions: "Python versions, operating systems, Postgres versions"
+      evidence: |
+        CI matrix: Python 3.10, 3.11, 3.12 on ubuntu-latest; 3.12 on macos-latest and windows-latest. Postgres 14 and 16 service containers.
+        pyproject: requires-python = ">=3.8".
+        README says: "Works with Python 3.8+ and all Postgres versions."
+        Release branches: 3.x (current), 2.x (security fixes until end of year per maintainer note).
+    assert:
+      - {type: contains, value: "## Disagreements found"}
+      - {type: llm-rubric, value: "Points out that requires-python >=3.8 and the README claim 3.8 and 3.9 support that CI does not test, and that 'all Postgres versions' is unsupported by evidence beyond 14 and 16; marks them [decide] instead of labelling them tested."}
+      - {type: llm-rubric, value: "Defines support levels, lists 3.x and 2.x release lines (2.x security fixes only) without inventing exact dates, and proposes aligning metadata, CI and the page."}
+  - name: edge-mobile-sdk
+    vars:
+      dimensions: "iOS and Android OS versions, our server API versions"
+      evidence: "iOS deployment target 15.0, Android minSdk 26. CI runs on iOS 17 simulator and Android API 34 emulator. SDK requires server API v2 or later."
+    assert:
+      - {type: llm-rubric, value: "Separates declared minimums (iOS 15, Android API 26) from tested versions (iOS 17, API 34), labels untested in-between versions honestly, and includes the server API v2 requirement."}
+  - name: negative-claim-everything
+    vars:
+      evidence: "We don't run CI. Just say we support every OS and every browser so nobody is put off."
+    assert:
+      - {type: llm-rubric, value: "Declines to claim support for everything without evidence, explains the cost of broken promises, and suggests stating what has been checked plus a best-effort level, or setting up a minimal test matrix."}

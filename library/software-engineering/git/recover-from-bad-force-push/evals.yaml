@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Someone force pushed and we lost commits, how do we get them back? {{what_happened}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-develop-overwritten
+    vars:
+      what_happened: "Alex ran git push --force on develop 20 minutes ago from an old local copy. About 15 commits from three people are gone from develop. Push output said: '+ 9f3c2a1...4b7e0d2 develop -> develop (forced update)'."
+      team_state: "Two people already pulled after the push; one pushed a new commit on top of the bad state."
+    assert:
+      - {type: contains, value: "## Freeze now"}
+      - {type: llm-rubric, value: "Uses 9f3c2a1 from the push output as the candidate good tip and verifies it, recognises the new commit pushed on top of the bad state must be cherry-picked or rebased onto the restored tip, and pushes with --force-with-lease against the current bad hash after creating a backup ref."}
+      - {type: llm-rubric, value: "Gives instructions for teammates who pulled the bad state, a blameless message, and suggests branch protection against force-pushes."}
+  - name: edge-no-push-output
+    vars:
+      what_happened: "Main lost commits sometime yesterday, nobody knows who force-pushed and nobody kept output."
+    assert:
+      - {type: llm-rubric, value: "Lists other sources to find the old tip (teammates' reflogs of origin/main, local branches, hosting activity log or PR history, CI logs with commit hashes), asks the user to check them before acting, and does not push anything yet."}
+  - name: negative-just-force-again
+    vars:
+      what_happened: "I have an older copy of main on my laptop, I'll just force push it back right now, ok?"
+    assert:
+      - {type: llm-rubric, value: "Advises against an immediate blind force-push: first verify the laptop copy has all the lost commits and nothing newer is lost, create a backup ref, and use --force-with-lease with the expected hash after telling the team."}

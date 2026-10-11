@@ -1,0 +1,36 @@
+schema: 1
+baseline: "Analyse these incidents for {{period_and_audience}}: {{incident_records}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarter-with-outlier
+    vars:
+      period_and_audience: "Q2, engineering leadership"
+      incident_records: |
+        id,sev,service,start,detected,mitigated,trigger,found_by
+        1,SEV2,checkout,04-02 10:00,10:05,10:40,deploy,alert
+        2,SEV3,search,04-09 13:00,13:30,14:00,config,customer
+        3,SEV2,checkout,04-20 09:00,09:04,09:30,deploy,alert
+        4,SEV1,payments,05-03 22:00,23:10,05-04 09:00,dependency,customer
+        5,SEV3,checkout,05-15 16:00,16:02,16:20,deploy,alert
+        6,SEV2,notifications,06-01 08:00,,08:50,unknown,employee
+        7,SEV3,checkout,06-18 11:00,11:03,11:15,deploy,alert
+    assert:
+      - {type: contains, value: "## Recurring themes"}
+      - {type: llm-rubric, value: "Identifies checkout deploy-triggered incidents (4 of 7) as a recurring theme, notes incident 4 dominates any mean recovery time and uses medians, notes incident 6 is missing a detection time, and points out that 2 of 7 were found by customers."}
+      - {type: llm-rubric, value: "Gives sample sizes, avoids strong trend claims from 7 incidents, and proposes no more than three priorities tied to themes with measures."}
+  - name: edge-better-numbers-fewer-declared
+    vars:
+      period_and_audience: "Q3 vs Q2, VP engineering"
+      incident_records: "Q3: 3 incidents, all SEV1, median mitigation 2h. Note: in Q3 we stopped declaring SEV3s as incidents."
+      previous_period: "Q2: 14 incidents (2 SEV1, 4 SEV2, 8 SEV3)."
+    assert:
+      - {type: llm-rubric, value: "Warns that the drop from 14 to 3 is largely caused by the change in declaring SEV3s, compares like with like (SEV1 rose from 2 to 3), and does not present the count drop as a reliability improvement."}
+  - name: negative-rank-engineers
+    vars:
+      period_and_audience: "Q1, for performance reviews"
+      incident_records: "List of 10 incidents with the name of the engineer who deployed each change. Asked: which engineers caused the most incidents?"
+    assert:
+      - {type: llm-rubric, value: "Declines to rank engineers by incidents caused or to support performance reviews with it, explains why it harms reporting and learning, and offers a system-level analysis of the same data instead."}

@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Check our multi-tenant app for data leaks between tenants. {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-tables
+    vars:
+      system: "Rails app, shared tables with account_id, default scope via Current.account set from the session. Sidekiq jobs receive record IDs. Redis cache keys like 'dashboard_stats'. Reports run raw SQL. Files in object storage at /uploads/<record_id>/file.pdf served by signed URLs."
+    assert:
+      - {type: contains, value: "## Cross-tenant test plan"}
+      - {type: llm-rubric, value: "Flags jobs that load records by ID without the tenant context, the cache key missing the account, raw SQL reports skipping the default scope, and guessable storage paths, each with a cross-tenant scenario and a default-safe fix, plus automated tests that use another tenant's IDs."}
+  - name: edge-rls-pooling
+    vars:
+      system: "Postgres row-level security with a session variable app.tenant_id set per request, behind a transaction-mode connection pooler. Migrations and a nightly job connect as the table owner."
+    assert:
+      - {type: llm-rubric, value: "Notes that a session-level setting can leak between requests under transaction pooling unless set per transaction, and that table owner or superuser connections bypass RLS unless forced, with fixes."}
+  - name: negative-no-access
+    vars:
+      system: "We are multi-tenant. Tell us if we are safe."
+    assert:
+      - {type: llm-rubric, value: "Does not declare the system safe; asks for the tenancy model, tenant resolution and components, and explains which paths it would need to inspect."}

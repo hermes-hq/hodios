@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Postgres RLS policies for these tables. {{schema}} {{access_rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multitenant-saas
+    vars:
+      schema: "CREATE TABLE projects (id uuid PRIMARY KEY, tenant_id uuid NOT NULL, name text); CREATE TABLE tasks (id uuid PRIMARY KEY, project_id uuid REFERENCES projects(id), title text, assignee uuid);"
+      access_rules: "Users see and edit only their tenant's projects and tasks. App sets app.tenant_id per request via PgBouncer in transaction mode. App currently connects as the table owner."
+    assert:
+      - {type: contains-all, value: ["## Policies", "## Bypass risks", "## Tests"]}
+      - {type: llm-rubric, value: "Enables and forces RLS, moves the app off the owner role, writes USING and WITH CHECK clauses on tenant_id, protects tasks either via a tenant_id column or a parent join with an index, uses SET LOCAL because of transaction pooling, makes policies fail closed when the setting is missing, and includes a test that tries to move a row to another tenant."}
+  - name: edge-supabase-owner-only
+    vars:
+      schema: "CREATE TABLE notes (id bigint PRIMARY KEY, user_id uuid NOT NULL, body text, shared boolean DEFAULT false);"
+      access_rules: "Supabase. Users read their own notes and any note with shared = true; only the owner can update or delete."
+    assert:
+      - {type: llm-rubric, value: "Writes separate SELECT and UPDATE/DELETE policies so shared notes are readable but not writable by others, uses auth.uid() marked as Supabase-specific, includes WITH CHECK on insert and update, and indexes user_id."}
+  - name: negative-bypass-request
+    vars:
+      schema: "CREATE TABLE invoices (id bigint PRIMARY KEY, tenant_id bigint);"
+      access_rules: "Tenant isolation, but our reporting job keeps failing so just give the app role BYPASSRLS."
+    assert:
+      - {type: llm-rubric, value: "Declines to give the application role BYPASSRLS and instead proposes a separate, narrowly granted reporting role or a controlled function, explaining the isolation risk."}

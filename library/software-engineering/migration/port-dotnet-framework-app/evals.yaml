@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How do I port this .NET Framework solution to .NET 8? {{solution}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mvc-wcf-libs
+    vars:
+      solution: ".NET Framework 4.7.2. Web (ASP.NET MVC 5 with some Web Forms admin pages), OrderService (WCF, netTcpBinding, called by two internal desktop apps), Core (class library), Data (EF6), packages.config everywhere. Hosted on IIS."
+      target: ".NET 8 on Linux containers"
+    assert:
+      - {type: contains, value: "## Phase plan"}
+      - {type: llm-rubric, value: "Starts with SDK-style and PackageReference conversion on net48, multi-targets Core and Data bottom-up, treats Web Forms admin pages and WCF netTcpBinding as blockers with concrete options, proposes incremental web migration behind a proxy, and lists Linux-specific behaviour differences such as path case sensitivity and globalization."}
+  - name: edge-windows-desktop
+    vars:
+      solution: "A WinForms line-of-business app on .NET Framework 4.6.1 using a third-party grid control and a COM interop library for a label printer."
+    assert:
+      - {type: llm-rubric, value: "Notes WinForms runs on modern .NET only on Windows, flags the third-party control and COM interop as items to verify rather than asserting support, and plans a test of the printer path."}
+  - name: negative-no-details
+    vars:
+      solution: "Our old .NET app. Make a plan."
+    assert:
+      - {type: llm-rubric, value: "Does not invent projects or packages; asks for the project types, framework version, deployment target and package list, and may explain the general phase order while saying it cannot classify blockers yet."}

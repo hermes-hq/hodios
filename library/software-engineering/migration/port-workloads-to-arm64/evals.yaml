@@ -1,0 +1,23 @@
+schema: 1
+baseline: "We want to move these services to ARM servers to save money. {{workloads}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k8s-mixed-services
+    vars:
+      workloads: "Kubernetes. api (Go 1.22, distroless), worker (Python 3.11 with numpy, a PDF library using a C extension, and a vendored x86 wkhtmltopdf binary), and a Java 8 legacy service. Images built in CI with docker build on x86 runners. Goal: cost."
+    assert:
+      - {type: contains, value: "## Rollout plan"}
+      - {type: llm-rubric, value: "Flags the vendored x86 binary and the C extension as items to check, flags Java 8 as a runtime-version risk, proposes multi-arch builds with native Arm runners or notes emulation cost, uses node scheduling by architecture for a canary, and defines a cost-per-request comparison instead of promising savings."}
+  - name: edge-lock-free-cpp
+    vars:
+      workloads: "A C++ market-data service with a hand-written lock-free ring buffer using relaxed atomics and some SSE4.2 intrinsics for parsing."
+    assert:
+      - {type: llm-rubric, value: "Explains the weaker memory ordering risk for the lock-free buffer and recommends reviewing memory orders and running thread sanitizers on Arm, and proposes replacing or porting the SSE intrinsics (for example to portable code or NEON equivalents)."}
+  - name: negative-guaranteed-savings
+    vars:
+      workloads: "Tell me exactly how much we will save moving our Node.js APIs to ARM, I need a number for the board."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a savings figure; explains that price-performance depends on the workload and gives a measurement plan that would produce a defensible number."}

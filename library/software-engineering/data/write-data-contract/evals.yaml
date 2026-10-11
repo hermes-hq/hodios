@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a data contract for this table. {{dataset}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-table
+    vars:
+      dataset: "warehouse table raw.orders loaded hourly from the checkout service database: order_id bigint, customer_id bigint, status varchar, total numeric, created_at timestamp, updated_at timestamp, email varchar."
+      consumers: "Finance daily revenue report needs all of yesterday's orders by 06:00 UTC; marketing joins on customer_id; ML churn model reads status history."
+    assert:
+      - {type: contains-all, value: ["## Contract", "## Enforcement", "## Open questions"]}
+      - {type: llm-rubric, value: "Produces valid YAML with grain and key (order_id), field meanings with currency and time zone flagged as assumptions or open questions, email classified as personal data, allowed status values marked to confirm, a freshness SLA tied to 06:00 UTC, a change policy defining breaking changes and notice, and enforcement points; does not invent an owner name."}
+  - name: edge-kafka-topic
+    vars:
+      dataset: "Kafka topic payments.events (JSON), events PaymentAuthorized, PaymentCaptured, PaymentRefunded, keyed by payment_id."
+      consumers: "Ledger service consumes all events in order per payment; analytics loads to warehouse daily."
+    assert:
+      - {type: llm-rubric, value: "Adapts the contract to an event stream: per-key ordering guarantee, event types and versioning, delivery semantics (at least once and idempotency key), retention and replay, and schema compatibility rules."}
+  - name: negative-invent-sla
+    vars:
+      dataset: "table sales.daily_summary"
+      consumers: "Some dashboards use it."
+    assert:
+      - {type: llm-rubric, value: "Does not invent column meanings, owners or SLAs; uses placeholders and a substantial list of open questions, and asks for the schema."}

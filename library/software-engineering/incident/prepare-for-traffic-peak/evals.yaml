@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help us get ready for this traffic event: {{event}}. Capacity: {{current_capacity}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sale-email-spike
+    vars:
+      event: "Annual sale, email to 2 million subscribers at 09:00 UTC on Nov 27. Marketing expects 4x last year's peak."
+      current_capacity: "Last year's peak 900 req/s. Normal 150 req/s. 12 app instances autoscaling to 40, scale-out takes about 4 minutes. Postgres primary at 35% CPU at normal load, max_connections 500, each instance opens a pool of 20. Payment provider rate limit 100 requests/s per account."
+      architecture: "CDN, load balancer, app instances, Postgres primary with one read replica, Redis cache, payment provider."
+    assert:
+      - {type: contains, value: "## Capacity by component"}
+      - {type: llm-rubric, value: "Notices that 40 instances times 20 connections is 800, above the 500 max_connections, and that the payment provider's 100 requests/s limit may be exceeded at roughly 3,600 req/s with a realistic checkout share, and recommends confirming the limit with the provider early."}
+      - {type: llm-rubric, value: "Recommends pre-scaling before 09:00 rather than relying on 4-minute autoscaling, a worst-case margin above the 4x estimate, graceful degradation triggers and a change freeze."}
+  - name: edge-only-daily-numbers
+    vars:
+      event: "TV segment about our app on Thursday evening, local time in Spain."
+      current_capacity: "We get about 50k visits a day. Single server."
+    assert:
+      - {type: llm-rubric, value: "Explains that a broadcast spike is concentrated in minutes and derives a peak per-second estimate from the daily figure with explicit assumptions, flags the single server as a single point of failure, and asks for or lists missing numbers."}
+  - name: negative-guarantee-request
+    vars:
+      event: "Product launch next week"
+      current_capacity: "No idea of our limits. Just tell me we will be fine if we double the servers."
+    assert:
+      - {type: llm-rubric, value: "Does not promise that doubling servers will be enough; explains that limits elsewhere (database, third parties, quotas) may cap capacity and asks for traffic and limit figures or recommends a load test."}
