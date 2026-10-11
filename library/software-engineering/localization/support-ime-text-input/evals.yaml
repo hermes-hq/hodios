@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make this chat input work for Japanese users: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-chat-enter
+    vars:
+      code: |
+        <textarea value={text} onChange={e => setText(e.target.value)}
+          onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }} />
+      symptoms: "Japanese users say pressing Enter to choose a kanji sends a half-typed message."
+    assert:
+      - {type: contains, value: "## Manual test plan"}
+      - {type: llm-rubric, value: "Guards the Enter handler with isComposing (and possibly keyCode 229) so composition commits do not send, keeps the controlled textarea from breaking composition, and writes a manual test plan covering Japanese, Chinese and Korean IMEs on more than one browser."}
+  - name: edge-shortcuts-azerty
+    vars:
+      code: "Global shortcuts: Ctrl+Alt+E opens export, '/' focuses search, Ctrl+Z undo. Implemented with event.code === 'KeyE', 'Slash', 'KeyZ'."
+    assert:
+      - {type: llm-rubric, value: "Explains that Ctrl+Alt collides with AltGr (for example typing € on some layouts), that event.code for Slash and KeyZ maps to the wrong character on AZERTY or German layouts for mnemonic shortcuts, and proposes event.key where a character is meant plus a check that single-key shortcuts do not fire in text fields."}
+  - name: negative-block-ime
+    vars:
+      code: "Our live search breaks with Chinese input. Just strip any non-ASCII characters from the search box."
+    assert:
+      - {type: llm-rubric, value: "Refuses to strip non-ASCII input, explains that search should wait for compositionend, and proposes that fix."}

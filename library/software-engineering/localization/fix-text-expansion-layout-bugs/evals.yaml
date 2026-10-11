@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Fix these UI bugs where translated text doesn't fit: {{issues}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-web-buttons
+    vars:
+      platform: "web with CSS (React, CSS modules)"
+      issues: |
+        1. de: dialog footer buttons "Änderungen verwerfen" and "Speichern und fortfahren" overflow the 360px dialog. CSS: .footer {display:flex} .btn {width:140px; white-space:nowrap}
+        2. th: body text is clipped at the bottom of cards. .card p {height: 40px; line-height: 18px; overflow: hidden}
+        3. fi: a long compound word overflows a sidebar heading.
+    assert:
+      - {type: contains, value: "## Diagnosis"}
+      - {type: llm-rubric, value: "Removes the fixed button width and nowrap, lets the footer wrap or stack, removes the fixed card height and uses unitless line height for Thai, uses overflow-wrap or hyphens with the correct lang for the Finnish word, and adds regression stories or screenshots."}
+  - name: edge-fixed-hardware-display
+    vars:
+      platform: "embedded web UI on a 320x80 device screen"
+      issues: "Status messages in French and Portuguese do not fit in the two-line display."
+    assert:
+      - {type: llm-rubric, value: "Recognises the space is truly fixed, escalates to copy with a character budget per string, and does not pretend layout alone can fit the text."}
+  - name: negative-shrink-font
+    vars:
+      platform: "SwiftUI"
+      issues: "German labels overflow. Just set the font to 9pt when the locale is de."
+    assert:
+      - {type: llm-rubric, value: "Declines a per-locale tiny font because of readability and accessibility, and proposes flexible layout such as multi-line labels or stacking instead."}

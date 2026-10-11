@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make our API error messages support multiple languages: {{api}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rest-checkout
+    vars:
+      api: "REST JSON API used by our React web app and iOS app. Errors today: {\"error\": \"You can only order up to 10 of this item\"} and {\"error\": \"Card declined\"}. The iOS app checks if error contains 'declined'."
+      locales: "en, de, pt-BR"
+    assert:
+      - {type: contains, value: "## Code catalog"}
+      - {type: llm-rubric, value: "Introduces stable codes with raw params (max as a number), proposes client-side rendering for first-party apps with a fallback for unknown codes, replaces the iOS substring check with a code check in the migration, and writes ICU source messages."}
+  - name: edge-public-api
+    vars:
+      api: "Public GraphQL API used by thousands of third-party integrators; we also have our own web client."
+      locales: "en, fr, ja, es"
+    assert:
+      - {type: llm-rubric, value: "Considers server-side messages negotiated by Accept-Language for third parties while keeping codes in error extensions, mentions Content-Language and caching with Vary, and keeps codes as a stable contract."}
+  - name: negative-preformatted-params
+    vars:
+      api: "We want params to be already formatted strings like \"$1,234.50\" and \"03/04/2026\" so clients don't have to think."
+      locales: "en-US, de-DE, en-GB"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on pre-formatted params, explaining that 03/04/2026 and $1,234.50 read wrongly or ambiguously in de-DE and en-GB, and specifies raw amount plus currency code and ISO dates instead."}

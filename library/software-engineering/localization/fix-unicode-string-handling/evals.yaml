@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make this code work with Unicode: {{code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-js-truncate-initials
+    vars:
+      language: "TypeScript in browsers"
+      code: |
+        const preview = (s: string) => s.length > 40 ? s.slice(0, 39) + "…" : s;
+        const initials = (first: string, last: string) => (first[0] + last[0]).toUpperCase();
+        const valid = (name: string) => /^[A-Za-z' -]+$/.test(name);
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Shows emoji or combining-mark inputs that the slice splits, fixes truncation with Intl.Segmenter on grapheme boundaries, fixes initials so they take the first grapheme and handle locale-aware case (Turkish i), replaces the ASCII name regex with Unicode property classes, and adds tests with those inputs."}
+  - name: edge-byte-limit
+    vars:
+      language: "Python 3.12 with MySQL"
+      code: "bio is truncated with bio[:500] before insert into VARCHAR(500); frontend textarea has maxlength=500."
+    assert:
+      - {type: llm-rubric, value: "Explains what the column limit counts for the stated charset, notes that HTML maxlength counts UTF-16 code units while Python counts code points, and aligns client and server with grapheme-safe truncation."}
+  - name: negative-mojibake
+    vars:
+      language: "PHP"
+      code: "Names show up as 'JosÃ©' after our CSV import. Fix the string handling."
+    assert:
+      - {type: llm-rubric, value: "Recognises this as an encoding (mojibake) problem outside this prompt's scope rather than a grapheme or case issue, and says so instead of applying segmentation fixes."}

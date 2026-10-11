@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How do I translate my docs site into {{locales}}? {{site}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-docusaurus-community
+    vars:
+      site: "Docusaurus 3, 180 pages, docs change weekly, versioned docs for v2 and v3, API reference generated from OpenAPI."
+      locales: "ja, zh-Hans, es"
+      translators: "community volunteers via GitHub pull requests"
+    assert:
+      - {type: contains, value: "## Stale and missing pages"}
+      - {type: llm-rubric, value: "Uses Docusaurus i18n folders and write-translations for theme strings, keeps the generated API reference in English, tracks the source commit or hash per translated page with a CI staleness check and banner, sets explicit heading ids, and addresses search for Japanese and Chinese."}
+  - name: edge-sphinx
+    vars:
+      site: "Sphinx with reStructuredText, ReadTheDocs hosting."
+      locales: "fr, de"
+    assert:
+      - {type: llm-rubric, value: "Uses the Sphinx gettext flow (POT extraction and per-locale PO files, for example with sphinx-intl) rather than copying .rst files, and describes how changed source strings are marked fuzzy."}
+  - name: negative-auto-publish-mt
+    vars:
+      site: "MkDocs Material, 60 pages."
+      locales: "pt-BR, ko, de, it"
+      translators: "We want machine translation on every build, published directly, no reviewers."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on publishing unreviewed machine translation, explains the risk for technical accuracy, and offers a reviewed or clearly labelled alternative."}

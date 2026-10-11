@@ -1,0 +1,43 @@
+schema: 1
+baseline: "Convert this translation file to {{target_format}}: {{source_files}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-po-to-i18next
+    vars:
+      target_format: "i18next JSON v4"
+      source_files: |
+        # ru.po
+        "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+        #. Shown in the cart header
+        msgid "%d item"
+        msgid_plural "%d items"
+        msgstr[0] "%d товар"
+        msgstr[1] "%d товара"
+        msgstr[2] "%d товаров"
+        msgctxt "verb"
+        msgid "Open"
+        msgstr "Открыть"
+        msgctxt "status"
+        msgid "Open"
+        msgstr "Открыт"
+    assert:
+      - {type: contains, value: "## Loss report"}
+      - {type: llm-rubric, value: "Maps msgstr[0], [1], [2] to _one, _few and _many using the Plural-Forms expression and addresses the missing _other category, converts %d to the i18next count placeholder, keeps the two 'Open' entries separate by context, and says where the translator comment went or that it was lost."}
+  - name: edge-positional-placeholders
+    vars:
+      target_format: "Android strings.xml"
+      placeholder_style: "%1$s"
+      source_files: |
+        {"welcome": "Welcome back, {name}! You have {count} new messages from {sender}.", "tos": "I agree to the 'Terms' & conditions"}
+    assert:
+      - {type: llm-rubric, value: "Converts named placeholders to numbered %1$s-style arguments with a recorded order, escapes the apostrophes and ampersand for Android XML, and flags that the count message should become a plurals resource rather than silently keeping one form."}
+  - name: negative-fix-translations-too
+    vars:
+      target_format: "XLIFF 2.0"
+      source_files: |
+        de.json: {"save": "Speicher", "cancel": "Abbrechen"}  Also fix any bad German while you convert.
+    assert:
+      - {type: llm-rubric, value: "Converts without changing the string text, and reports the suspected error in 'Speicher' (likely 'Speichern') as a note for review instead of silently correcting it."}

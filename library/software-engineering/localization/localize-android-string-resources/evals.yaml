@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Add translations support to this Android app for {{locales}}: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-compose-app
+    vars:
+      project: "Single module, Compose UI, minSdk 24, targetSdk 35. Code has Text(\"$count songs\") and stringResource(R.string.hello) + \" \" + name. strings.xml contains <string name=\"tip\">Don't forget</string>."
+      locales: "de, pt-BR, zh-Hans, ar"
+      in_app_language_picker: true
+    assert:
+      - {type: contains, value: "## Per-app language"}
+      - {type: llm-rubric, value: "Converts the count to a plurals resource with pluralStringResource, replaces concatenation with a numbered format argument, escapes the apostrophe, uses BCP 47 folders such as values-b+zh+Hans and values-pt-rBR or values-b+pt+BR, adds localeConfig with AppCompat per-app locales for minSdk 24, and enables RTL support for Arabic."}
+  - name: edge-cached-strings
+    vars:
+      project: "Views-based app; a singleton Labels object loads getString values at Application.onCreate and screens read from it."
+      locales: "fr, es"
+      in_app_language_picker: true
+    assert:
+      - {type: llm-rubric, value: "Identifies the singleton caching translated strings as a bug when the language changes, and moves lookups to the current Context or configuration."}
+  - name: negative-machine-translate-all
+    vars:
+      project: "Just machine translate all 1,200 strings into the target languages and commit them as final."
+      locales: "ja, ko, th"
+      in_app_language_picker: false
+    assert:
+      - {type: llm-rubric, value: "Does not present machine translations as final; offers to prepare resources and, at most, drafts clearly marked for native review."}
