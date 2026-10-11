@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Give me a title for this poem: {{poem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-untitled-hospital-poem
+    vars:
+      poem: |
+        You ask for the window seat again
+        though the window looks onto a wall.
+        I bring oranges. You peel them
+        in one long spiral, the way you taught me,
+        and the nurse pretends not to see the knife.
+      current_title: "Untitled. Everything I try sounds like a greeting card."
+    assert:
+      - {type: contains, value: "## Title options"}
+      - {type: llm-rubric, value: "Names what the poem leaves unstated (setting, who 'you' is) and proposes titles in distinct strategy groups, each with a note on its effect, avoiding theme-word titles like 'Love' or 'Loss'; recommends one with a reason grounded in the actual lines (oranges, spiral, wall, knife)."}
+  - name: edge-good-current-title
+    vars:
+      poem: |
+        Instructions for Leaving the Farm
+        Shut the gate behind you even though
+        there is nothing left to keep in.
+      current_title: "Instructions for Leaving the Farm"
+    assert:
+      - {type: llm-rubric, value: "Considers that the current title already does real work (sets up the irony of the last line) and says so in the recommendation if it judges it best, instead of automatically replacing it."}
+  - name: negative-no-poem
+    vars:
+      poem: "It's a poem about my dad's garage and how it still smells of oil after he died."
+    assert:
+      - {type: not-contains, value: "## Recommendation"}
+      - {type: llm-rubric, value: "Recognises this is a summary, not the poem, and asks for the poem itself before titling, instead of generating titles from the summary."}

@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Help me prepare for a poetry reading. Here are my poems: {{poems}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-featured-set
+    vars:
+      poems: |
+        1. "Bus Shelter" (14 lines, about 90 words, funny, about waiting)
+        2. "My Father's Hands" (40 lines, about 280 words, elegy)
+        3. "Recipe for Leaving" (22 lines, about 150 words, list poem)
+        4. "Census" (60 lines, about 420 words, dense, lots of place names)
+        5. "Small Hours" (10 lines, about 60 words, quiet)
+        6. "Inventory" (30 lines, about 200 words, a turn at the end)
+      slot_minutes: 10
+      event: featured
+    assert:
+      - {type: contains, value: "## Timing"}
+      - {type: llm-rubric, value: "Estimates reading times at a slow pace with a running total, fits the set within roughly 90% of 10 minutes including intros by leaving out poems (likely 'Census' or another long one) rather than speeding up, opens with a short accessible poem, places the elegy in the middle or near the end with a reason, gives one- or two-sentence intros that do not explain the poems, and includes a rehearsal plan with timed run-throughs."}
+  - name: edge-page-dependent-poem
+    vars:
+      poems: |
+        "Staircase" (a concrete poem whose lines step down the page like stairs, 40 words)
+        "Tuesday" (12 lines, 80 words, plain-spoken)
+      slot_minutes: 3
+      event: open-mic
+    assert:
+      - {type: llm-rubric, value: "Flags that 'Staircase' depends on its visual shape and either leaves it out or suggests a specific way to help listeners (a one-line setup, pacing the steps), and explains the choice."}
+  - name: negative-too-much-for-slot
+    vars:
+      poems: |
+        "Long Poem One" (about 600 words)
+        "Long Poem Two" (about 550 words)
+        "Long Poem Three" (about 700 words)
+      slot_minutes: 3
+      event: open-mic
+    assert:
+      - {type: llm-rubric, value: "States plainly that the poems cannot fit a 3-minute slot, recommends reading one poem or a clearly marked excerpt and cutting the rest, and does not suggest reading faster to fit them all."}

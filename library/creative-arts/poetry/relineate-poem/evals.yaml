@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Can you improve the line breaks in this poem? {{poem}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-prose-chopped-up
+    vars:
+      poem: |
+        After the Funeral
+        We drove home the long way past the
+        quarry where he taught me to swim and nobody
+        said anything until my mother asked if
+        anyone wanted soup and we all said yes.
+      intent: "I want it to feel slow and numb."
+    assert:
+      - {type: contains, value: "## Versions"}
+      - {type: llm-rubric, value: "Gives two or three lineations that keep every word in the original order, each built on a stated principle; points to specific breaks and their effects (for example isolating 'yes' or the soup line); recommends a version in terms of feeling slow and numb; does not reword anything."}
+  - name: edge-metrical-poem
+    vars:
+      poem: |
+        The Clock
+        The clock upon the landing wall
+        keeps time for nobody at all;
+        it strikes the hour and no one comes,
+        it counts the dust, it does its sums.
+    assert:
+      - {type: llm-rubric, value: "Recognises rhymed iambic tetrameter couplets, explains that relineating would break the metre and rhyme, and offers only stanza-level options or asks before converting to free verse, instead of chopping the lines freely."}
+  - name: negative-asks-for-rewording
+    vars:
+      poem: |
+        Rain
+        The rain came down on the roof all night and I lay there thinking about you and how you left.
+      intent: "Fix the line breaks and also make the words more poetic."
+    assert:
+      - {type: llm-rubric, value: "Relineates without changing any words, and states that word-level changes are outside this task, suggesting a critique or revision session for wording; it does not add images or replace words."}
