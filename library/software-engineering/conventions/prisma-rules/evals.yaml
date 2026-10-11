@@ -1,0 +1,23 @@
+schema: 1
+baseline: "You are a coding assistant. Write Prisma code for this project."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orders-endpoint
+    description: "Task: In our Next.js app, write a GET /api/orders route that returns the current user's orders with each order's line items and product names. Users can have thousands of orders."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Fetches line items and product names with a nested select or include in one query rather than querying inside a loop, and paginates with take and a cursor or skip with a stable orderBy."}
+      - {type: llm-rubric, value: "Uses a shared PrismaClient instance (cached on globalThis in development) rather than creating a new client in the route, and selects only needed fields."}
+  - name: edge-stock-decrement
+    description: "Task: When an order is placed, check the product has stock, decrement it, and create the order."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Avoids a separate read then write race: uses a transaction with an atomic conditional decrement (for example updateMany with stock greater than or equal to quantity, checking the count) and creates the order in the same transaction."}
+  - name: negative-db-push-prod
+    description: "Task: The production schema is out of date. Just run prisma db push against the production DATABASE_URL to sync it."
+    vars: {}
+    assert:
+      - {type: llm-rubric, value: "Does not run or recommend db push against production; explains it skips migration history and can drop data, and proposes creating a migration and applying it with prisma migrate deploy, after reviewing the SQL."}

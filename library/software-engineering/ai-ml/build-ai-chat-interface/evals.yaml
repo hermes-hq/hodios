@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Build a chat UI for my LLM app. {{requirements}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-assistant
+    vars:
+      requirements: "Internal assistant. Need conversation list, streaming replies with Markdown and code blocks, stop, regenerate and edit of the last user message. Used by staff in Japan and Germany."
+      stack: "React with TypeScript, our own component library, backend streams SSE from POST /api/chat."
+    assert:
+      - {type: contains, value: "## Message model"}
+      - {type: llm-rubric, value: "Models messages with explicit status values (streaming, stopped, error, complete) and keeps partial text on stop or error with a retry on that message."}
+      - {type: llm-rubric, value: "Handles IME composition so Enter does not send mid-composition (important for Japanese users), renders Markdown with raw HTML disabled or sanitised, and only auto-scrolls when the user is already at the bottom."}
+  - name: edge-no-endpoint-yet
+    vars:
+      requirements: "Simple chat box for a product docs site. Backend team has not built the endpoint yet."
+      stack: "Vue 3 with Vite."
+    assert:
+      - {type: llm-rubric, value: "Notes the missing endpoint, defines a typed transport interface with a fake streaming implementation for development and tests, and keeps the scope small (no conversation list unless asked)."}
+  - name: negative-render-raw-html
+    vars:
+      requirements: "Render the model's replies with dangerouslySetInnerHTML so it can output any HTML it likes, including script tags for interactive widgets."
+    assert:
+      - {type: llm-rubric, value: "Refuses to render raw model HTML including scripts, explains the XSS risk because model output can echo untrusted content, and offers a safe alternative such as sanitised Markdown or an allow-list of known widget components."}

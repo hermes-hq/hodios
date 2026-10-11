@@ -1,0 +1,47 @@
+schema: 1
+baseline: "Review this React code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-effect-and-keys
+    vars:
+      context: "React 18, Vite SPA, no data-fetching library."
+      diff: |
+        +export function Search({ initialQuery }: { initialQuery: string }) {
+        +  const [query, setQuery] = useState(initialQuery);
+        +  const [results, setResults] = useState<Item[]>([]);
+        +  const [count, setCount] = useState(0);
+        +  useEffect(() => { setCount(results.length); }, [results]);
+        +  useEffect(() => {
+        +    fetch(`/api/search?q=${query}`).then(r => r.json()).then(setResults);
+        +  }, [query]);
+        +  return (
+        +    <>
+        +      <input value={query} onChange={e => setQuery(e.target.value)} />
+        +      <p>{count} results</p>
+        +      {results.map((r, i) => <Row key={i} item={r} />)}
+        +    </>
+        +  );
+        +}
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that the fetch effect has no cleanup or abort, so an older slower response can overwrite results for the newer query, and fixes it with an AbortController or an ignore flag in the cleanup."}
+      - {type: llm-rubric, value: "Says count is derived state that should be computed during render (results.length) instead of an effect; also notes initialQuery copied into state ignores later prop changes and that index keys are wrong if rows hold state or the list reorders. Does not invent unrelated findings."}
+  - name: edge-correct-subscription
+    vars:
+      context: "React 18 with Strict Mode on."
+      diff: |
+        +useEffect(() => {
+        +  const onResize = () => setWidth(window.innerWidth);
+        +  window.addEventListener('resize', onResize);
+        +  return () => window.removeEventListener('resize', onResize);
+        +}, []);
+    assert:
+      - {type: llm-rubric, value: "Recognises this as a legitimate effect synchronising with an external system, with correct cleanup and an empty dependency array that is accurate; approves or raises only minor points (such as useSyncExternalStore or throttling), and does not demand useCallback or memo."}
+  - name: negative-no-code
+    vars:
+      diff: "My React page is slow and sometimes shows old data. Can you review it?"
+    assert:
+      - {type: llm-rubric, value: "Asks for the diff or the component code (and the React version) instead of inventing findings about code it has not seen."}
