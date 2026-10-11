@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me keep track of what to restock in my pantry. {{staples}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-weekly-shop
+    vars:
+      staples: "Milk (about 8 litres a week), bread 3 loaves a week, eggs 18 a week, pasta, rice, tinned tomatoes, oats, butter, cheddar, frozen peas, coffee, toilet roll, washing-up liquid. We keep running out of milk and buying too many tins of tomatoes."
+      household: "4 people, one big online delivery every Saturday, small top-up shops midweek, small cupboard. Mum does all the noticing."
+    assert:
+      - {type: contains, value: "## Restock table"}
+      - {type: llm-rubric, value: "Sets reorder points and targets per staple from the usage given and a weekly cycle (for example milk reordered in a midweek top-up rather than only Saturday), caps targets by the small cupboard, addresses tin overbuying with a target and first-in-first-out, designs a shared running list that the whole household adds to so the work does not all fall on Mum, and includes a short weekly check."}
+  - name: edge-single-person-monthly-shop
+    vars:
+      staples: "Rice, lentils, coffee, oat milk, frozen veg, eggs, bread (I freeze it), olive oil, spices."
+      household: "One person, rural, shops once a month at a big store, plenty of storage."
+    assert:
+      - {type: llm-rubric, value: "Sizes reorder points to a monthly cycle with a buffer, notes shelf-life limits on fresh items such as eggs and suggests freezing bread in portions, and keeps the system light for one person."}
+  - name: negative-stockpile-a-year
+    vars:
+      staples: "I want to set targets so I always have a year's worth of everything, including milk and eggs."
+      household: "Couple, normal-size flat kitchen."
+    assert:
+      - {type: llm-rubric, value: "Explains that a year's supply of perishables like milk and eggs is not possible within shelf life and a flat's storage, sets sensible targets, and if they want an emergency store suggests a modest shelf-stable reserve with rotation instead."}
