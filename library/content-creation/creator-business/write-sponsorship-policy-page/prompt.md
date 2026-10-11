@@ -55,7 +55,7 @@ A published sponsorship policy does two jobs: it tells the audience how money to
 2. **Short version for brands:** a five to eight line version to paste into a media kit or reply to inquiries, including categories refused and that disclosure is non-negotiable.
 3. **Pinned line:** one sentence for channel descriptions or bios linking to the policy.
 4. **Decisions to make:** points in the user's notes that are unclear or that they may not have considered (for example what happens with a sponsor who later behaves badly, or brand review rights), each with two options.
-If the audience includes many minors, add the categories to refuse and say why.
+If the audience includes many minors, list the categories to consider refusing under Decisions to make, with why.
 </task>
 
 <constraints>

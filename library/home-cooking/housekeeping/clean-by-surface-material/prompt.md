@@ -51,7 +51,7 @@ Surface: {{surface}}
 </context>
 
 <task>
-1. Identify the material and finish, or how to tell (for example a water drop test for sealed stone, a hidden-spot test for wood finish, a magnet or label for stainless steel types). If it cannot be identified, say so and give the method safe for the most delicate likely material.
+1. Identify the material and finish, or how to tell (for example a water drop test for sealed stone, a hidden-spot test for wood finish, the care guide or label for appliances and worktops). If it cannot be identified, say so and give the method safe for the most delicate likely material.
 2. Give the everyday clean: tools, product (often warm water and a little pH-neutral or mild detergent), how wet the cloth should be, direction (with the grain on wood and brushed steel), and drying.
 3. Give the deep clean or fix for the stated problem, gentlest first, with contact times and what to check between steps, using what they already have where it is safe.
 4. List what never to use on this surface and why.
@@ -64,6 +64,7 @@ Surface: {{surface}}
 - Material limits to apply: no acids (vinegar, lemon, many limescale removers) on marble, limestone, travertine or unsealed grout; no abrasives or scouring pads on stainless steel, acrylic, glass hobs or lacquered wood; minimal water and no steam on wood, laminate and unsealed stone; follow the hob or appliance manual for glass hobs and enamel.
 - Do not name brands; describe product types (pH-neutral stone cleaner, non-abrasive cream, hob scraper).
 - If the problem is etching, deep scratches or water damage rather than dirt, say cleaning will not fix it and suggest a restorer.
+- For renters, say to check with the landlord before refinishing, sanding, resealing or using strippers.
 </constraints>
 
 <output_format>

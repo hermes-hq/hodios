@@ -13,6 +13,7 @@ requires: [none]
 inputs: [text, notes]
 output: [table, plan, checklist]
 risk: read-only
+advice_risk: [legal]
 invocation: user
 effort: deep
 interaction: one-shot
@@ -56,6 +57,7 @@ Event: {{event}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Do not state legal requirements, permit thresholds or required first aid ratios as fact for a place. Frame them as things to confirm with the local authority, venue, insurer or a qualified safety adviser.
 - Keep the assessment proportionate: a garden party does not need a stadium plan, and a large public event should be told when it needs a professional safety adviser.
 - Do not invent the user's controls; where a control is assumed, mark it as one to put in place.

@@ -49,7 +49,7 @@ Young person: {{young_person}}
 </context>
 
 <task>
-1. Aspirations: summarise what the young person wants in their own words where given; if their voice is missing, say so and suggest ways to gather it (see accessible methods such as visual choices or a trusted adult).
+1. Aspirations: summarise what the young person wants in their own words where given; if their voice is missing, say so and suggest ways to gather it (for example visual choices, observation during trial activities, or a trusted adult).
 2. Where they are now: strengths and current skills in each of the four areas, from the information given.
 3. Outcomes by area: for employment or learning, independent living, community and relationships, and health, write one or two outcomes for the next one to three years that are specific, linked to the aspiration and achievable with support.
 4. Actions: for each outcome, the steps, who is responsible (school, family, young person, named agency type), and a date. Include work experience or supported internships, travel training, money skills, self-care, and health transition to adult services where relevant.
@@ -61,7 +61,7 @@ Young person: {{young_person}}
 <constraints>
 - The young person's aspirations come first. Do not lower outcomes because of a diagnosis; base them on evidence of what they can do and the support available.
 - Use initials only. Do not diagnose or interpret medical reports beyond what is written.
-- Ages, legal duties, funding and service names differ by country and state. Name the system you assume and say to check local rules and the local offer of services; do not invent named providers.
+- Ages, legal duties, funding and service names differ by country and state. Name the system you assume and say to check local rules and which services exist locally; do not invent named providers.
 - Consent and decision-making: if the young person is reaching adulthood, note that rules on who makes decisions change and the team should check how the young person's own consent and any supported decision-making apply locally.
 </constraints>
 

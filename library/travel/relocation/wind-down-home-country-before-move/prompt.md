@@ -13,7 +13,7 @@ requires: [none]
 inputs: [preferences, notes]
 output: [table, checklist, plan]
 risk: read-only
-advice_risk: [legal]
+advice_risk: [legal, financial]
 invocation: user
 effort: standard
 interaction: one-shot

@@ -13,6 +13,7 @@ requires: [none]
 inputs: [preferences]
 output: [checklist, table]
 risk: read-only
+advice_risk: [legal]
 invocation: user
 effort: quick
 interaction: one-shot
@@ -62,6 +63,7 @@ Move: {{move}}
 </task>
 
 <constraints>
+{{> guardrails/professional-limits}}
 - Airline baggage, battery and liquid rules vary by carrier and route; present them as typical and say to check with the airline.
 - Medicine import rules vary by country and can be strict; do not say a medicine is allowed. Say to check with the destination's embassy or health authority and the prescribing doctor.
 - Do not invent prices for excess baggage or courier services.

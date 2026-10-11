@@ -33,7 +33,7 @@ args:
     default: 4
 output_contract:
   format: markdown
-  sections: [Round prompt, Feedback, Debrief]
+  sections: [Patterns, Three habits for next stream, Go-to lines]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-11

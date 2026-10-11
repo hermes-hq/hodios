@@ -19,7 +19,7 @@ reasoning: recommended
 level: intermediate
 tags: [client-management, rate-setting, scope-control, workload, solo-business]
 pairs_with:
-  prompts: [raise-rates-with-existing-clients, respond-to-discount-request, write-statement-of-work, review-freelance-business-year, screen-freelance-inquiry]
+  prompts: [prepare-price-increase-conversation, respond-to-discount-request, write-statement-of-work, review-freelance-business-year, screen-freelance-inquiry]
   workflows: [freelance-client-onboarding-track, land-first-clients-track]
 voice: calm, practical and on the freelancer's side; numbers before opinions, plain words, no hustle talk
 authorship: ai-assisted

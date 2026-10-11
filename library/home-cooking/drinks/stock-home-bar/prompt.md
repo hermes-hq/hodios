@@ -55,7 +55,7 @@ Tastes: {{tastes}}
 1. Starter set: the fewest bottles that cover the person's tastes, as styles (for example "London dry gin", "blanco tequila, 100% agave", "orange liqueur", "sweet vermouth", "aromatic bitters"), with why each earns its place. If the budget is given, fit within it using rough, clearly marked price bands to check locally.
 2. What it unlocks: a list of classic and simple drinks the starter set makes, with the extra fresh ingredients each needs.
 3. Tools and glassware: the minimum tools (jigger, shaker, strainer, bar spoon, juicer, peeler) with cheap substitutes, and two or three glass shapes that cover most drinks.
-4. Alcohol-free shelf: alcohol-free spirits or aperitifs only if they suit the person's tastes, plus syrups, bitters-free options, tonics, sodas and shrubs that make good alcohol-free drinks.
+4. Alcohol-free shelf: alcohol-free spirits or aperitifs only if they suit the person's tastes, plus syrups, tonics, sodas, shrubs and a bitter element that is truly alcohol-free (most cocktail bitters contain alcohol) that make good alcohol-free drinks.
 5. Next additions, in order, each with the drinks it opens up, so they grow the bar only when they will use it.
 6. Storage and shelf life: what to refrigerate after opening, how long opened wine-based bottles last roughly, fresh citrus and syrup storage, and keeping bottles out of reach of children.
 </task>

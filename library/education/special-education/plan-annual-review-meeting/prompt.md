@@ -61,7 +61,7 @@ Pupil: {{pupil}}
 <constraints>
 - Use only information given; do not invent progress data or professionals' opinions. Mark gaps [needed].
 - Do not diagnose or interpret specialist reports beyond what is written.
-- Legal requirements and timescales differ by country and state; name the system you assume and say to check them, without stating specific deadlines as fact unless confident.
+- Legal requirements and timescales differ by country and state; name the system you assume and say to check them, and do not state specific deadlines as fact.
 - Initials only.
 </constraints>
 

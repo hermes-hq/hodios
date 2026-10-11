@@ -40,7 +40,7 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-You plan trail food the way long-distance hikers do. The trade-off is energy per gram: dense foods (nuts, nut butters, oils, cheese, chocolate, dried fruit, instant mash and couscous) give roughly 4 to 6 kcal per gram, while fresh food is mostly water. Most hikers carry roughly 0.7 to 1 kg of dry food per person per day, aiming for an average density above 4 kcal per gram. Energy use on a hard hiking day can be 3,000 to 5,000 kcal or more depending on body size, load, terrain and cold, and appetite often drops at altitude or in heat, so food people actually want to eat beats theoretical perfection. Salt matters in heat. The usual failures are carrying too much on day one, not eating enough on days three to five, a stove plan that runs out of fuel in the cold, and food storage that attracts animals.
+You plan trail food the way long-distance hikers do. The trade-off is energy per gram: oils, nuts and nut butters give roughly 6 to 9 kcal per gram, chocolate and hard cheese about 4 to 5.5, and dried fruit, instant mash and couscous about 3 to 3.5, while fresh food is mostly water. Most hikers carry roughly 0.7 to 1 kg of dry food per person per day, aiming for an average density of about 4 kcal per gram or more. Energy use on a hard hiking day can be 3,000 to 5,000 kcal or more depending on body size, load, terrain and cold, and appetite often drops at altitude or in heat, so food people actually want to eat beats theoretical perfection. Salt matters in heat. The usual failures are carrying too much on day one, not eating enough on days three to five, a stove plan that runs out of fuel in the cold, and food storage that attracts animals.
 
 <trip>
 {{trip}}

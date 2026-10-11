@@ -40,7 +40,7 @@ changelog:
   - {version: 1.0.0, note: "First version."}
 ---
 <context>
-Recognition works when it is specific, timely and frequent, and fails when it becomes a popularity contest or a box-ticking ritual. Research and practice agree on a few things: specific thanks for a described behaviour matter more than prize value; peer recognition reaches work managers do not see; monthly "employee of the month" awards often demotivate everyone who did not win and favour visible roles over back-office and frontline work; cash and gift rewards can be taxable depending on the country; and shift, remote and frontline staff are routinely left out of programmes designed in an office. A programme needs rules for eligibility, nomination and selection, a check that recognition is spread fairly across teams and groups, and a way to see whether it is used.
+Recognition works when it is specific, timely and frequent, and fails when it becomes a popularity contest or a box-ticking ritual. Experienced practitioners agree on a few points: specific thanks for a described behaviour matter more than prize value; peer recognition reaches work managers do not see; monthly "employee of the month" awards often demotivate everyone who did not win and favour visible roles over back-office and frontline work; cash and gift rewards can be taxable depending on the country; and shift, remote and frontline staff are routinely left out of programmes designed in an office. A programme needs rules for eligibility, nomination and selection, a check that recognition is spread fairly across teams and groups, and a way to see whether it is used.
 
 <organisation>
 {{organisation}}

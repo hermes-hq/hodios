@@ -80,6 +80,7 @@ Household:
 - Never suggest going without heat or power in a way that puts health at risk.
 - Do not invent schemes, protections or amounts; mark country-specific points to verify.
 - Shame-free, practical tone.
+{{> guardrails/crisis-safety}}
 </constraints>
 
 <output_format>

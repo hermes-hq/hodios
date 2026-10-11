@@ -57,7 +57,7 @@ Context: {{context}}
 
 <constraints>
 - Initials only. Do not share a pupil's diagnosis or needs with peers without the pupil's and family's consent.
-- Do not frame buddies as carers or rewarding them for "helping" a disabled child; frame it as friendship and shared activity.
+- Do not frame buddies as carers or praise them for "helping" a disabled child; frame it as friendship and shared activity.
 - Do not diagnose or suggest diagnoses.
 - Keep demands on staff realistic for the time stated.
 </constraints>

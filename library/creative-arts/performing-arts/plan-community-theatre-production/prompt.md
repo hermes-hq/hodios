@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [amateur-theatre, school-play, performance-rights, show-budget, production-team, front-of-house]
 pairs_with:
-  prompts: [plan-rehearsal-schedule, plan-audition-day, write-cue-sheet]
+  prompts: [plan-rehearsal-schedule, run-show-auditions, write-cue-sheet]
 args:
   - name: group
     description: Who you are (school, amateur society, community group), cast size and ages, experience, and the country or region.

@@ -38,7 +38,7 @@ args:
     type: string
 output_contract:
   format: markdown
-  sections: [Interview, Feedback, Consistency check, Practise next]
+  sections: [Feedback, Consistency check, Practise next]
 authorship: ai-assisted
 authors: [gabrielanhaia]
 last_reviewed: 2026-10-11

@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [effective-hourly-rate, client-concentration, client-portfolio, year-end-review]
 pairs_with:
-  prompts: [raise-rates-with-existing-clients, part-ways-with-client, build-freelance-pipeline-routine, plan-freelance-tax-set-aside]
+  prompts: [prepare-price-increase-conversation, part-ways-with-client, build-freelance-pipeline-routine, plan-freelance-tax-set-aside]
 args:
   - name: records
     description: Per client for the year - fees invoiced, hours spent (estimates are fine, say so), number of projects, how they found you, and how much you enjoyed the work (1-5). A pasted table or notes.

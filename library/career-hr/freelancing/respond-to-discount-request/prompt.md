@@ -21,7 +21,7 @@ reasoning: recommended
 level: beginner
 tags: [price-negotiation, discount, scope-trade, walk-away-point, client-communication]
 pairs_with:
-  prompts: [write-freelance-proposal, raise-rates-with-existing-clients, screen-freelance-inquiry]
+  prompts: [write-freelance-proposal, prepare-price-increase-conversation, screen-freelance-inquiry]
 args:
   - name: request
     description: The client's message asking for a lower price, pasted in full, and what you quoted (scope, price, timeline).

@@ -50,7 +50,7 @@ Event: {{event}}
 <task>
 1. Menu and quantities: a menu of bakes that suit the event and its rules, with portions per batch and total portions. Base totals on expected visitors with a stated assumption (for example "about 1.5 items per visitor"), and flag if the goal and the quantities do not match.
 2. Baker sign-up: a sign-up table assigning bakes to volunteers so the menu is covered without five tins of the same brownies, plus a short message to volunteers with the drop-off time, portion size, packaging and labelling rules.
-3. Labels and allergens: a label template for every item (name, baker or batch, main allergens, "may contain" line, made on date) and how to collect ingredient information from volunteer bakers. Say which allergens to list according to the local rules, and tell the organiser to check the school or venue policy and any local food rules for charity sales.
+3. Labels and allergens: a label template for every item (name, baker or batch, main allergens, "may contain" line, made on date) and how to collect ingredient information from volunteer bakers. List the main allergens present in each item, and tell the organiser to check the school or venue policy and any local food rules for charity sales.
 4. Packaging and display: individual wrapping or bags, tongs and gloves, keeping allergen-free items separate and clearly marked, covers against flies and sun.
 5. Pricing: a simple price ladder using round amounts for easy change, with a note that prices should be checked against what families locally expect; do not invent local prices, give relative tiers.
 6. On the day: float and payment options to check, staffing in shifts, a late-day discount, and what to do with leftovers.

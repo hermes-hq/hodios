@@ -1,8 +1,8 @@
 ---
 schema: 1
-id: plan-audition-day
+id: run-show-auditions
 kind: prompt
-title: Plan auditions for a show
+title: Run auditions for a show
 description: "Plans how a director runs auditions: notice, timed format, sides, a scoring sheet per role, callbacks and kind results. Use when casting a school, amateur or fringe show."
 category: performing-arts
 version: 1.0.0
@@ -21,7 +21,7 @@ reasoning: recommended
 level: intermediate
 tags: [auditions, casting-process, callbacks, scoring-rubric, inclusive-casting]
 pairs_with:
-  prompts: [plan-community-theatre-production, plan-rehearsal-schedule]
+  prompts: [write-casting-breakdown, plan-community-theatre-production, plan-rehearsal-schedule]
 args:
   - name: production
     description: The show, the roles with what each needs (singing, dance, age range, size of part), how many people you expect, and who is auditioning (students, adults, open call).
@@ -47,7 +47,7 @@ Production: {{production}}
 </context>
 
 <task>
-1. Audition notice: who can audition, roles with honest descriptions (no physical requirements that are not essential to the story), what to prepare, dates and times, rehearsal and show commitments, costs if any, and an access note inviting people to ask for adjustments.
+1. Audition notice: who can audition, roles with honest descriptions (reuse a casting breakdown if one exists) (no physical requirements that are not essential to the story), what to prepare, dates and times, rehearsal and show commitments, costs if any, and an access note inviting people to ask for adjustments.
 2. Format and timings: a timed schedule for the day (sign-in, group warm-up or workshop, individual slots, dance call, song slots), with group sizes and buffers.
 3. Material: which sides from the show for each role and why, and whether to ask for a prepared piece. If the script is not provided, describe the kind of moment to choose.
 4. Scoring sheet: criteria per role drawn from the role's needs (for example listening and reacting, vocal range, comic timing, movement, availability), a simple 1–4 scale with descriptors, and a notes column.

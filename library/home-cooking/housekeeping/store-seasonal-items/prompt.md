@@ -48,7 +48,7 @@ Items: {{items}}
 1. Before packing: edit (let go of what was not used this season or no longer fits, with outgrown children's clothes sorted by size to keep or pass on), then wash or clean everything following care labels, mend what needs it, and make sure it is completely dry.
 2. How to pack each type: wool and cashmere folded in breathable cotton bags or lidded boxes; down and synthetic duvets and jackets loosely in breathable bags, not compressed long term; structured coats hung on shaped hangers in breathable covers; leather breathable and away from heat; children's clothes by size in labelled boxes; decorations wrapped by fragility. Say where vacuum bags are fine and where they damage items.
 3. Where to store it: rank the available spaces by suitability for each item (cool, dry, dark and stable is best), with what to do about a damp cellar, a hot loft or a garage with pests (raised off the floor, sealed hard boxes, kept away from walls).
-4. Moth and damp prevention: clean storage, cedar or lavender as mild deterrents (with their limits), sealed containers for wool, a check every few months, and moisture absorbers or a dehumidifier for damp spaces.
+4. Moth and damp prevention: clean storage, cedar or lavender as mild deterrents (with their limits), sealed containers for wool only where moths are a known problem and the items are clean and fully dry, a check every few months, and moisture absorbers or a dehumidifier for damp spaces.
 5. Labels and inventory: label each box by contents and size or season, and keep a simple list or photo record of what is where.
 6. When you unpack: air items, check for moths and damp before mixing with current clothes, and wash or freeze anything suspect per its care label.
 </task>
