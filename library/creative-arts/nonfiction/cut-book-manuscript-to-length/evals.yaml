@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My book is too long. Help me cut it. {{manuscript_map}} Target: {{target_words}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-25-percent-over
+    vars:
+      manuscript_map: "Intro 6k. Ch1 history of sleep science 14k (three examples of early labs). Ch2 why we need sleep 10k. Ch3 shift work 12k. Ch4 teenagers 11k. Ch5 sleep and memory 12k (repeats ch2's main point). Ch6 practical fixes 10k. Conclusion 5k with chapter recaps."
+      target_words: "Target 64,000; current 80,000"
+      must_keep: "Chapter 3 is the heart of the book."
+    assert:
+      - {type: contains, value: "## Cut list by chapter"}
+      - {type: llm-rubric, value: "Computes a 16,000-word gap (20 percent), proposes structural cuts first such as merging chapters 2 and 5 and trimming chapter 1's examples and conclusion recaps, protects chapter 3, notes knock-on fixes, and gives a cut list whose arithmetic reaches 64,000 or less."}
+  - name: edge-small-gap
+    vars:
+      manuscript_map: "Ten chapters of about 7k each."
+      target_words: "Target 67,000; current 70,000"
+    assert:
+      - {type: llm-rubric, value: "Recognises a small 3,000-word gap that line-level tightening and recap trimming can close, without proposing chapter cuts."}
+  - name: negative-no-counts
+    vars:
+      manuscript_map: "It's long, no idea how long, no chapter list."
+      target_words: "shorter"
+    assert:
+      - {type: llm-rubric, value: "Asks for the chapter list with word counts and the target before planning, rather than inventing numbers."}

@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How long would these journeys take in my fantasy world? {{journeys}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messenger-and-army
+    vars:
+      journeys: "1) A royal messenger rides from the capital to Fort Ash: 480 km, first 300 km on a good road through farmland, then 180 km of hill tracks. Relay stations every 40 km on the road only. 2) An army of 8,000 with wagons marches the same route. Late autumn."
+      timeline: "Messenger leaves day 1. Army must reach Fort Ash before the siege begins on day 14."
+    assert:
+      - {type: contains, value: "## Timeline check"}
+      - {type: llm-rubric, value: "Uses relay stations to speed the messenger on the road but slows them on hill tracks, gives the army a much slower daily rate with baggage and late-autumn weather, breaks journeys into legs with arithmetic that sums, gives fast, typical and slow totals, and judges the army's arrival by day 14 (likely impossible if it only starts after the message arrives) with a minimal fix."}
+  - name: edge-sci-fi-transit
+    vars:
+      journeys: "A cargo ship travels from Earth to Mars using a constant 0.01 g burn with flip at midpoint. Setting has no faster-than-light travel."
+    assert:
+      - {type: llm-rubric, value: "Shifts from daily walking rates to acceleration-based transit, shows the reasoning and assumptions such as a distance range that depends on planetary positions, gives a time range, and keeps within no-faster-than-light rules."}
+  - name: negative-no-distance
+    vars:
+      journeys: "How long to get from the village to the dark tower?"
+    assert:
+      - {type: llm-rubric, value: "Asks for the distance, map scale or route and terrain, and the travellers, then stops instead of inventing a number."}

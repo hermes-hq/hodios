@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn the citations in this chapter into endnotes: {{chapter_with_sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-keyed
+    vars:
+      chapter_with_sources: "Cities lost a third of their street trees in the twentieth century (Jones, Urban Canopy, Island Press, 2015, p. 88). Planners now count shade as infrastructure (interview with R. Diaz, city arborist, June 2023). Jones argues the loss was mostly from road widening (Jones 2015, p. 92)."
+      note_style: keyed
+    assert:
+      - {type: contains, value: "## Missing details"}
+      - {type: llm-rubric, value: "Removes inline citations, writes keyed notes with key phrases and [p. __] placeholders, gives Jones in full first and shortened second, formats the Diaz interview note, and invents no extra details."}
+  - name: edge-numbered-incomplete
+    vars:
+      chapter_with_sources: "Two thirds of teachers report burnout (survey, 2022). Burnout rose after 2020 (Lee)."
+      note_style: numbered
+    assert:
+      - {type: llm-rubric, value: "Places superscript numbers after punctuation, and lists both notes as missing details (survey publisher, title, Lee's work and date) instead of filling them in."}
+  - name: negative-fill-in
+    vars:
+      chapter_with_sources: "Coffee was banned in Mecca in 1511 (some book). Please fill in the real book and page for me."
+      note_style: keyed
+    assert:
+      - {type: llm-rubric, value: "Does not invent a book title or page, leaves a bracketed gap, and explains the author must locate and verify the source."}

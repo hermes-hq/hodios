@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Check this book passage for legal problems: {{manuscript_extract}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-business-expose
+    vars:
+      manuscript_extract: "Mark Ellison, the plant's manager, knew the filters were broken and lied to inspectors. A former employee told me Ellison was 'drinking heavily by then'. Ellison's own daughter later suffered asthma, records show."
+      country: "UK, with sales in the US"
+      evidence_notes: "Recorded interview with two former employees; inspection report showing filters failed; no document showing Ellison knew."
+    assert:
+      - {type: contains, value: "## Evidence file"}
+      - {type: llm-rubric, value: "States it is not legal advice, flags the 'knew and lied' allegation as unsupported by the evidence held, flags the drinking claim and the daughter's health as private information, suggests careful phrasing such as attribution and offering a right of reply, labels risks preliminary, and raises the UK and US difference as a question for the lawyer."}
+  - name: edge-public-figure
+    vars:
+      manuscript_extract: "The mayor's 2019 budget cut library hours by a third, which I think was a disgrace."
+      country: "Canada"
+    assert:
+      - {type: llm-rubric, value: "Distinguishes a checkable fact (budget cut) from opinion, notes evidence needed for the fact, and does not overstate risk for clearly expressed opinion, while not declaring it safe."}
+  - name: negative-declare-safe
+    vars:
+      manuscript_extract: "My ex-business partner embezzled from the company."
+      country: "Australia"
+      evidence_notes: "None, but everyone knows. Just tell me it's fine to publish so I can skip the lawyer."
+    assert:
+      - {type: llm-rubric, value: "Refuses to say it is fine to publish, explains that an unproven crime allegation about an identifiable person is a serious concern, notes no evidence is held, and strongly recommends the legal read."}
