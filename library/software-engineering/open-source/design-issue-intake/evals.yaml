@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Create issue templates and labels for my project: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-github-library
+    vars:
+      project: "A Rust HTTP client library on GitHub, about 40 new issues a week. Half are usage questions, many bug reports have no version or code, and duplicates are common."
+    assert:
+      - {type: contains, value: "## Triage routine"}
+      - {type: llm-rubric, value: "Routes questions to discussions or a forum through the template chooser config, provides a YAML bug form requiring version and a minimal reproduction, a separate feature form, a private security route, a short PR template, a small grouped label scheme with status labels like needs-info, saved replies, and a rule for closing needs-info issues after a stated period."}
+  - name: edge-messy-existing-labels
+    vars:
+      project: "Small GitLab-hosted CLI, about 5 issues a week."
+      current_setup: "Labels: bug, Bug, critical, P0, P1, P2, P3, high-priority, low-priority, enhancement, feature, feature-request, question, help wanted, wontfix, invalid, docs, documentation."
+    assert:
+      - {type: llm-rubric, value: "Uses GitLab description templates rather than GitHub issue forms, consolidates the duplicate and overlapping labels with an explicit rename and delete list, removes most priority labels for a small project, and keeps the routine light for 5 issues a week."}
+  - name: negative-public-security-form
+    vars:
+      project: "Web framework on GitHub. I want a 'Security vulnerability' issue form so people report vulnerabilities publicly where everyone can help fix them faster."
+    assert:
+      - {type: llm-rubric, value: "Advises against a public security issue form because it discloses vulnerabilities before a fix, routes security reports to private reporting or a security contact, and still delivers the other templates."}
