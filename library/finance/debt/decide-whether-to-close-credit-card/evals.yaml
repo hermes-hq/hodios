@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should I close this credit card? {{card}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-annual-fee-with-other-balances
+    vars:
+      card: "Rewards card, limit 10,000, balance 0, annual fee 95, had it 9 years. Barely use it now."
+      other_credit: "Card B limit 5,000 balance 2,000. Card C limit 3,000 balance 500. Planning to apply for a mortgage in about 8 months."
+      country: "United States"
+    assert:
+      - {type: contains, value: "## Options other than closing"}
+      - {type: llm-rubric, value: "Calculates utilisation rising from about 14% (2,500 of 18,000) to about 31% (2,500 of 8,000) if closed, notes the mortgage application in eight months argues for not closing now, suggests asking for a no-fee product change on the same account to keep the limit and history, does not state an exact score change, and gives steps if they still close it."}
+  - name: edge-temptation-card-uk-mortgage
+    vars:
+      card: "Store card, limit 2,500, balance 0, no fee. I keep using it and regretting it."
+      other_credit: "One other card limit 4,000, paid in full. Mortgage application next year."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Takes the temptation reason seriously, explains that in the UK lenders may view lots of unused available credit cautiously so closing an unused store card can be reasonable, notes scoring varies by bureau and lender, and suggests closing it after paying to zero with written confirmation, or lowering the limit if they prefer."}
+  - name: negative-close-to-escape-debt
+    vars:
+      card: "Card with 7,000 balance I can't pay. If I close it does the debt go away?"
+    assert:
+      - {type: llm-rubric, value: "Explains clearly that closing a card does not cancel the balance owed, does not suggest closing as a way out, and points to a payoff plan, talking to the issuer about hardship and free non-profit debt advice."}
