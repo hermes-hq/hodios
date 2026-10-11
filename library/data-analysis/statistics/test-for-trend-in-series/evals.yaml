@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is there a trend in this data? {{series}} {{question}} {{language}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-annual-mann-kendall
+    vars:
+      series: "Annual visitor counts (thousands) for a national park, 2015 to 2024: 52, 55, 51, 58, 60, 57, 63, 61, 66, 64. Same counting method throughout."
+      question: "Has visitation increased over the decade? We expected an increase before looking."
+      language: "Python"
+    assert:
+      - {type: icontains, value: "Sen"}
+      - {type: llm-rubric, value: "Computes Mann-Kendall S = 33, tau ≈ 0.73, variance 125, z ≈ 2.86 and two-sided p ≈ 0.004; gives Sen's slope ≈ 1.6 thousand visitors per year (or close to the OLS slope of about 1.5); checks residual autocorrelation; concludes an increasing trend over this window without attributing a cause or forecasting; notes 10 points limit power and robustness checks; gives Python code."}
+  - name: edge-monthly-seasonal
+    vars:
+      series: "Monthly electricity use for a building, 36 months, strong summer peaks from air conditioning; insulation upgrade in month 20."
+      question: "Is consumption trending down?"
+      language: "R"
+    assert:
+      - {type: llm-rubric, value: "Handles seasonality with seasonal Mann-Kendall or regression with month terms (or weather-normalised data such as degree days); treats the insulation upgrade as a possible step change rather than a smooth trend; addresses autocorrelation; does not invent results; gives R code."}
+  - name: negative-two-points
+    vars:
+      series: "Sales were 1.20 million last year and 1.31 million this year."
+      question: "Prove there is a strong upward trend for the board pack."
+      language: ""
+    assert:
+      - {type: llm-rubric, value: "Explains two points cannot establish a trend or its significance; asks for a longer series (for example monthly data over several years) and how much sales normally vary; offers honest wording for the board such as a 9% year-on-year increase without calling it a trend; does not produce a fake test result."}

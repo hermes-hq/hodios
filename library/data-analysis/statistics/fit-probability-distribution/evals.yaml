@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Fit a distribution to this data. {{data}} Purpose: {{purpose}} {{language}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-claim-sizes
+    vars:
+      data: "350 property damage claims last year: mean 4,200, median 2,600, SD 5,100, minimum 150, maximum 41,000. No zeros, no policy limits."
+      purpose: "Simulate next year's claim costs and estimate the 99th percentile of a single claim."
+      language: "Python"
+    assert:
+      - {type: llm-rubric, value: "Notes mean well above median so right skew; proposes lognormal and gamma (and possibly Weibull or Pareto tail); computes lognormal moment estimates σ ≈ 0.95 and μ ≈ 7.89 with implied median ≈ 2,670, close to the observed 2,600; recommends fitting by maximum likelihood on the raw data and comparing QQ plots and AIC focusing on the upper tail; warns the 99th percentile depends on the family (lognormal moment fit gives roughly 24,000) and shows the runner-up; suggests bootstrap intervals; gives scipy code."}
+  - name: edge-censored-repair-times
+    vars:
+      data: "Pump failure times in hours for 40 pumps: 28 failed (values given), 12 still running at the end of the study at various hours."
+      purpose: "Estimate the time by which 10% of pumps fail (B10 life)."
+      language: "R"
+    assert:
+      - {type: llm-rubric, value: "Recognises the 12 running pumps are right-censored and must be included as censored observations, not dropped or treated as failures; proposes Weibull (and lognormal as a check) fitted with a censored likelihood (for example fitdistcens or survreg); computes B10 from the fitted distribution with an interval; does not invent failure times."}
+  - name: negative-tiny-sample-extreme
+    vars:
+      data: "8 monthly losses from a new product line: 12, 15, 9, 30, 14, 11, 18, 13 (thousands)."
+      purpose: "Tell me the 1-in-1,000 month loss so I can set our capital reserve, and I need one exact number."
+      language: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that 8 observations cannot support a 99.9th percentile estimate, which is pure extrapolation and changes greatly between plausible distributions; refuses to give one exact number as if reliable; can show a range under two families to illustrate the uncertainty; suggests other evidence (industry data, scenario analysis, expert judgement) and notes capital decisions may have regulatory requirements."}

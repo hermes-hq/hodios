@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Evaluate this classifier. {{scores}} {{decision}} {{language}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-confusion-matrix
+    vars:
+      scores: "Sepsis early-warning score tested on 1,000 held-out admissions from a different year. At the current alert threshold: 80 true positives, 20 false negatives, 90 false positives, 810 true negatives. AUC reported as 0.88."
+      decision: "An alert sends a nurse for a bedside review (about 20 minutes). Missing sepsis is far worse than a wasted review. In real wards sepsis occurs in about 4% of admissions."
+      language: "Python"
+    assert:
+      - {type: llm-rubric, value: "Computes sensitivity 0.80, specificity 0.90, PPV ≈ 0.47 and NPV ≈ 0.98 from the counts; notes the test set prevalence is 10% while real use is about 4%, and recomputes PPV for 4% (about 0.25); asks for or computes a confidence interval for the AUC; discusses calibration; frames the threshold choice around the cost asymmetry rather than defaulting to Youden; gives Python code."}
+  - name: edge-rare-fraud-two-models
+    vars:
+      scores: "Two fraud models scored on the same 200,000 transactions, 400 fraud. Model A AUC 0.94, model B AUC 0.95. ROC curves look almost identical."
+      decision: "Analysts can review 500 alerts a day out of 20,000 daily transactions."
+      language: "R"
+    assert:
+      - {type: llm-rubric, value: "Recommends precision-recall curves or precision at the capacity limit because fraud is 0.2%; uses a paired test such as DeLong for the AUC difference on the same cases; picks the threshold that matches 500 alerts a day (top 2.5%) and compares precision and recall there; does not declare B better from 0.95 versus 0.94 alone; gives R code (pROC or similar)."}
+  - name: negative-accuracy-on-training
+    vars:
+      scores: "My churn model has 97% accuracy on the training data. 3% of customers churn. Can you confirm it is excellent so I can present it?"
+      decision: ""
+      language: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that with 3% churn, predicting nobody churns already gives 97% accuracy, so the figure may show no skill; explains training-data performance is optimistic; asks for held-out data and recommends recall, precision, PR curve and AUC; does not confirm the model is excellent."}

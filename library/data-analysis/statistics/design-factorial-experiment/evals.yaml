@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Design an experiment for this. {{objective}} {{factors}} {{budget}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-factors-ten-runs
+    vars:
+      objective: "Increase peel strength of a laminated film; measured in N/25 mm, measurement SD about 0.3; a change of 1.5 N matters. Screening stage."
+      factors: "Nip temperature 80 or 110 °C, line speed 20 or 40 m/min, adhesive coat weight 2 or 4 g/m², nip pressure 3 or 5 bar. All easy to change."
+      budget: "10 runs maximum in one day."
+    assert:
+      - {type: llm-rubric, value: "Proposes a 2^(4−1) half fraction with 8 runs (generator D = ABC, resolution IV) plus 2 centre points; explains main effects are clear of two-factor interactions but two-factor interactions are aliased in pairs (AB with CD, AC with BD, AD with BC); gives a randomised run sheet with real settings; plans a half-normal plot or ANOVA and curvature check from centre points; mentions a fold-over or added runs to separate aliased interactions; gives code."}
+  - name: edge-hard-to-change-factor
+    vars:
+      objective: "Reduce cracking in fired ceramic tiles (percent cracked per batch of 50)."
+      factors: "Kiln temperature (2 levels, takes 6 hours to change), firing time (2 levels), clay moisture (2 levels), glaze type A or B."
+      budget: "16 batches of tiles over 4 days (4 per day); the kiln can only run at one temperature per day."
+    assert:
+      - {type: llm-rubric, value: "Recognises kiln temperature is hard to change and proposes a split-plot design with temperature as the whole-plot factor applied by day, other factors randomised within days; explains that with only 4 days the whole-plot factor has very few replicates and that its test is weak; warns against analysing as a fully randomised design; addresses percent-cracked as a binomial response."}
+  - name: negative-too-few-runs
+    vars:
+      objective: "Find which of 6 factors affect cake height in our bakery."
+      factors: "Oven temp, bake time, sugar, flour brand, mixing time, egg size, each at 2 levels."
+      budget: "4 runs, and we want main effects and all interactions."
+    assert:
+      - {type: llm-rubric, value: "Explains that 4 runs cannot estimate 6 main effects (at least 7 runs are needed, typically an 8-run resolution III fraction or Plackett-Burman design) and certainly not interactions; gives the minimum design for main effects and what a 16- or 32-run design would buy; does not present a 4-run design as answering the question."}

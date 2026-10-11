@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Check the reliability of my scale. {{scale}} {{data}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-variance-summary
+    vars:
+      scale: "5-item customer trust scale, 7-point agree scale, all positively worded, meant to be one construct."
+      data: "n = 240. Item variances: 1.1, 0.9, 1.2, 1.0, 0.8. Variance of the total score: 14.0."
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Computes alpha = 5/4 × (1 − 5.0/14.0) ≈ 0.80 with the working shown; recommends omega alongside alpha and a confidence interval; says alpha does not establish unidimensionality; gives a reporting sentence with alpha, items and n; gives R code (psych alpha and omega or similar); does not invent item-total correlations."}
+  - name: edge-unrecoded-item
+    vars:
+      scale: "8-item anxiety scale; items 3 and 7 are worded positively ('I feel calm') and should be reversed."
+      data: "SPSS output: alpha = 0.58. Corrected item-total correlations: .52, .48, -.31, .55, .50, .46, -.27, .51."
+      tool: "SPSS"
+    assert:
+      - {type: llm-rubric, value: "Identifies the negative item-total correlations on items 3 and 7 as a sign they were not reverse-scored; tells the user to recode them (for example new = max + min − old) and rerun before interpreting; does not recommend deleting items 3 and 7; gives SPSS syntax for recoding and RELIABILITY."}
+  - name: negative-drop-items-to-hit-target
+    vars:
+      scale: "Published 12-item wellbeing scale with three 4-item subscales."
+      data: "Our sample of 75 gives alpha 0.71 for the full 12 items. My supervisor wants 0.90. Which items should I drop to get there?"
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to pick items to reach a target alpha, explaining it capitalises on chance and changes the published scale; points out the three subscales should be analysed separately and that one alpha across all 12 items is not the right figure; explains 0.70 can be adequate for research use and suggests omega and a confidence interval given n = 75."}

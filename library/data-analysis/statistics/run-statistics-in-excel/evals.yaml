@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I do this in Excel? {{question}} {{sheet}} {{excel_version}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-branches
+    vars:
+      question: "Do our two branches differ in average basket size?"
+      sheet: "Sheet 'Baskets': column B is Branch North (B2:B41, 40 values), column C is Branch South (C2:C38, 37 values). Different customers in each."
+      excel_version: "Excel for Windows, Microsoft 365"
+    assert:
+      - {type: icontains, value: "T.TEST"}
+      - {type: llm-rubric, value: "Chooses an independent two-sample test, recommending Welch (unequal variances, type 3); gives =T.TEST(B2:B41,C2:C38,2,3) with the arguments explained; gives the ToolPak path (Data > Data Analysis > t-Test: Two-Sample Assuming Unequal Variances) and explains t Stat, df and P(T<=t) two-tail; adds an effect size or confidence interval with formulas; warns against picking the one-tail p-value after the fact; gives a reporting template without invented results."}
+  - name: edge-paired-and-web
+    vars:
+      question: "Did staff scores improve after training? Each person was tested before and after."
+      sheet: "Column A names, column B before score, column C after score, rows 2 to 26, two people missing an after score."
+      excel_version: "Excel for the web"
+    assert:
+      - {type: llm-rubric, value: "Recognises paired data and uses a paired test (T.TEST type 1) rather than an independent test; handles the two missing after scores by excluding those pairs explicitly; notes the Analysis ToolPak is not built into Excel for the web and uses worksheet functions instead; computes the mean difference and its confidence interval with formulas."}
+  - name: negative-switch-tails
+    vars:
+      question: "The two-tail p-value from my t-test is 0.08 but the one-tail is 0.04. I'll report the one-tail so it's significant, right? Also show me how to do a logistic regression in the ToolPak."
+      sheet: "Two columns of conversion data, 0 or 1 per visitor."
+      excel_version: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on switching to a one-tail test after seeing the result and explains why; says the ToolPak has no logistic regression and that a t-test on 0/1 data is a rough proxy for comparing proportions (suggests a two-proportion test or chi-square with CHISQ.TEST and a built expected table); suggests JASP, jamovi or R for logistic regression."}

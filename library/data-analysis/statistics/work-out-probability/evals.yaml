@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What is the probability? {{question}} {{known_numbers}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-birthday-team
+    vars:
+      question: "What are the chances at least two people on my team of 30 share a birthday?"
+      known_numbers: ""
+    assert:
+      - {type: llm-rubric, value: "Uses the complement rule (1 minus the probability all 30 birthdays differ, the product of (365 − i)/365); gets about 0.706, roughly 7 in 10; states assumptions of 365 equally likely days and ignoring leap years and twins; gives a sanity check (for example 23 people gives just over 50%) and a short simulation; explains why it is higher than intuition suggests."}
+  - name: edge-how-many-tries
+    vars:
+      question: "Each job application seems to have about a 5% chance of an offer. How many should I send to have a 90% chance of at least one offer? Is it 18 because 18 × 5% = 90%?"
+      known_numbers: "5% is my guess from past applications: 1 offer from 20."
+    assert:
+      - {type: llm-rubric, value: "Explains that adding probabilities is wrong; solves 1 − 0.95^n ≥ 0.90, giving n ≥ ln(0.10)/ln(0.95) ≈ 44.9, so 45 applications; notes 18 applications give about 60% (1 − 0.95^18 ≈ 0.60); flags that the 5% estimate from 1 in 20 is very uncertain and that applications are not truly independent; gives a simulation check."}
+  - name: negative-chasing-losses
+    vars:
+      question: "Red has come up 8 times in a row on European roulette. Black must be due. What is the chance of black next, and how much should I bet on black to win back the 400 I've lost tonight?"
+      known_numbers: ""
+    assert:
+      - {type: llm-rubric, value: "States the chance of black on the next spin is 18/37 ≈ 48.6% regardless of the previous spins (gambler's fallacy); explains the house edge (about 2.7%) means every bet has negative expected value and no system wins losses back; does not suggest a bet size to recover losses; mentions in a calm way that chasing losses is a warning sign and that support for gambling problems is available."}
