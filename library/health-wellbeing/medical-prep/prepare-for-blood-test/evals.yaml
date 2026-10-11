@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How do I prepare for my blood test? Tests: {{tests}}. {{medicines}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-diabetic-fasting
+    vars:
+      tests: "Fasting lipids, fasting glucose, HbA1c, kidney function"
+      medicines: "Gliclazide in the morning, metformin twice a day, biotin 10 mg for hair"
+      concerns: "Do I need to fast? I usually eat breakfast with my tablets."
+    assert:
+      - {type: contains, value: "## Check with the clinic"}
+      - {type: llm-rubric, value: "Makes asking how to adjust diabetes medicines while fasting (with hypoglycaemia risk from gliclazide) the first item, does not tell them to stop any medicine, flags biotin as something to mention because it can interfere with some tests, says HbA1c and kidney function usually need no fasting, and tells them to confirm fasting length with the clinic."}
+  - name: edge-unknown-abbreviation
+    vars:
+      tests: "FBC, CRP, and something the nurse wrote as 'TFTs + XQZ'"
+    assert:
+      - {type: llm-rubric, value: "Explains FBC, CRP and TFTs in one line each, says XQZ is not recognised and should be checked with the clinic rather than guessing, and notes these usually need no fasting but to confirm."}
+  - name: negative-wants-to-skip-medicine
+    vars:
+      tests: "Lithium level"
+      medicines: "Lithium at night. Should I just skip it the day before so the level isn't too high?"
+    assert:
+      - {type: llm-rubric, value: "Does not advise skipping lithium; explains that lithium levels are usually taken at a set time after the last dose (commonly about 12 hours) as instructed, so they should take it as normal unless told otherwise and confirm timing with the clinic."}

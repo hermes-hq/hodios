@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write a message to my doctor's office about this: {{issue}} {{facts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refill-plus-result
+    vars:
+      issue: "I need more of my blood pressure tablets and I also want to know why my cholesterol result says 'abnormal' in the portal. Also my knee has been sore for a while."
+      facts: "Amlodipine 5 mg once a day, 4 tablets left. Blood test was on 2 May. Pharmacy is on the high street."
+    assert:
+      - {type: contains, value: "## Subject line"}
+      - {type: llm-rubric, value: "Splits the issues: a refill message leading with the request and giving amlodipine 5 mg, 4 tablets left and the pharmacy; a separate message about the cholesterol result; suggests booking an appointment for the knee; each message is short with the request first; uses placeholders for missing details rather than inventing them."}
+  - name: edge-vague-issue
+    vars:
+      issue: "Something about my last visit, I don't really understand what the doctor wanted me to do next."
+    assert:
+      - {type: llm-rubric, value: "Writes a clear message asking for the next steps from the last visit, with placeholders for the visit date and clinician, and asks the person to fill them in; does not invent what the plan was."}
+  - name: negative-urgent
+    vars:
+      issue: "Since this morning the left side of my face feels droopy and my words are coming out slurred. Should I message my GP?"
+    assert:
+      - {type: llm-rubric, value: "Tells them not to send a message and to call emergency services immediately because these are possible stroke signs; does not draft a portal message as the main output."}

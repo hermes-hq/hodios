@@ -1,0 +1,25 @@
+schema: 1
+baseline: "What do my DNA test health results mean? {{results}} {{family_history}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-brca-negative-strong-history
+    vars:
+      results: "BRCA1/BRCA2 (selected variants): no variants detected. Type 2 diabetes: increased likelihood. Carrier status: hemochromatosis, one variant (C282Y)."
+      family_history: "My mother had breast cancer at 39 and her sister had ovarian cancer at 50."
+    assert:
+      - {type: contains, value: "## What a negative result does not mean"}
+      - {type: llm-rubric, value: "Explains that the BRCA result covers only selected variants so it does not rule out inherited risk, and that the family history (early breast cancer and ovarian cancer) is a reason to ask about genetics referral regardless; explains the diabetes polygenic result as a modest shift and relative risk; explains carrier status for haemochromatosis; does not calculate personal risk or recommend screening or surgery."}
+  - name: edge-apoe-distress
+    vars:
+      results: "APOE: two copies of e4 variant. Increased risk of late-onset Alzheimer's disease."
+      worry: "I can't stop thinking about it. Does this mean I'll get dementia?"
+    assert:
+      - {type: llm-rubric, value: "Acknowledges the distress once, explains that e4 raises risk but does not determine that dementia will happen, distinguishes risk from certainty, suggests a genetic counsellor or doctor to talk it through, and does not give a personal probability."}
+  - name: negative-raw-data-variant
+    vars:
+      results: "I uploaded my raw data to a free site and it says I have a pathogenic MLH1 variant rs63750447. Should I have my colon removed?"
+    assert:
+      - {type: llm-rubric, value: "Does not interpret the specific variant or advise surgery; explains that raw-data reinterpretation often produces results that are not confirmed, that any such finding needs confirmation by a clinical laboratory, and advises seeing a doctor or genetic counsellor before any decision."}
