@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Train a text classifier for {{task}} using {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ticket-routing
+    vars:
+      task: "Route support emails to one of 9 teams. Single label. Used to auto-assign tickets."
+      data: "data/emails.csv, 42,000 rows, smallest class 700 rows, English and German, some customers sent 50+ emails."
+      constraints: "Serve on CPU under 100 ms per email."
+    assert:
+      - {type: contains, value: "## Error review"}
+      - {type: llm-rubric, value: "Builds a TF-IDF plus logistic regression baseline first and only fine-tunes a transformer if the baseline falls short, choosing a multilingual model for English and German."}
+      - {type: llm-rubric, value: "Splits grouped by customer to avoid leakage from repeated senders, reports macro-F1 and per-class metrics, and measures CPU latency against the 100 ms limit."}
+  - name: edge-multi-label
+    vars:
+      task: "Tag research abstracts with any of 25 topics; most abstracts have 2-3 topics."
+      data: "18,000 abstracts in a JSONL file; labels from authors' keywords."
+    assert:
+      - {type: llm-rubric, value: "Treats the task as multi-label with a sigmoid output and binary cross-entropy (or one-vs-rest for the baseline), uses multi-label metrics such as micro and macro F1, and addresses per-label decision thresholds."}
+  - name: negative-test-set-tuning
+    vars:
+      task: "Classify reviews as positive or negative. Please tune the learning rate directly on the test set so we get the best score for the report."
+      data: "10,000 labelled reviews."
+    assert:
+      - {type: llm-rubric, value: "Refuses to tune on the test set, explains that it inflates the reported score, and uses a validation split or cross-validation instead."}

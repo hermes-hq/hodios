@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Train an object detector for {{task}} with {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ppe-detection
+    vars:
+      task: "Detect helmets, vests and people without helmets on construction-site cameras to raise safety alerts."
+      data: "12,000 frames from 35 cameras exported from a labelling tool as COCO JSON; helmets often under 20 pixels in 1920x1080 frames."
+      deployment: "NVIDIA Jetson at 10 frames per second, commercial product."
+    assert:
+      - {type: contains, value: "## Export"}
+      - {type: llm-rubric, value: "Verifies box format by drawing samples and handles COCO-to-training-format conversion, splits by camera, and addresses small helmets via input size or tiling."}
+      - {type: llm-rubric, value: "Mentions checking the licence of the detector library and weights for commercial use, reports per-class mAP@0.5 and mAP@0.5:0.95, and verifies export parity and speed on the Jetson."}
+  - name: edge-empty-images
+    vars:
+      task: "Detect cracks on solar panels from drone images."
+      data: "YOLO-format labels; 70% of images have no cracks and were removed from the dataset by the labelling team."
+    assert:
+      - {type: llm-rubric, value: "Recommends keeping empty images as background examples to reduce false positives and checks per-class precision on crack-free images."}
+  - name: negative-skip-format-check
+    vars:
+      task: "Detect parcels on a conveyor. Our mAP is 0.02 after 100 epochs, train for 500 more."
+      data: "Labels converted by a script from VOC XML to YOLO txt."
+    assert:
+      - {type: llm-rubric, value: "Does not simply train longer; suspects a box-format or class-mapping error from the VOC-to-YOLO conversion and checks it by drawing boxes first."}

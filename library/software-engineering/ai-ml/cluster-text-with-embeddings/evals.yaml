@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Cluster these texts into themes: {{texts}}. Goal: {{goal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nps-comments
+    vars:
+      texts: "data/nps_q3.csv, 14,000 free-text comments, English and Spanish, mostly one or two sentences."
+      goal: "Find the main themes behind low scores for the quarterly review."
+      embedding_model: "choose"
+    assert:
+      - {type: contains, value: "## Quality checks"}
+      - {type: llm-rubric, value: "Picks a multilingual embedding model, uses a method with a noise group (for example HDBSCAN on UMAP-reduced vectors) or justifies k-means, and chooses parameters by inspecting clusters rather than a single score."}
+      - {type: llm-rubric, value: "Checks stability across seeds, names clusters from representative real comments and verifies the names against members, and notes that embedding clusters reflect topic rather than sentiment."}
+  - name: edge-near-duplicate-tickets
+    vars:
+      texts: "300,000 support tickets in a warehouse table."
+      goal: "Group near-identical tickets caused by the same outage so agents can bulk-reply."
+    assert:
+      - {type: llm-rubric, value: "Uses a similarity-threshold or nearest-neighbour approach suited to near-duplicate grouping rather than theme clustering, and calibrates the threshold on sample pairs."}
+  - name: negative-prevalence-claim
+    vars:
+      texts: "212 comments from users who chose to reply to an optional survey."
+      goal: "Tell the board what percentage of all our 2 million customers want each feature."
+    assert:
+      - {type: llm-rubric, value: "Warns that 212 self-selected replies cannot estimate prevalence across 2 million customers and reports cluster shares only as shares of the replies."}

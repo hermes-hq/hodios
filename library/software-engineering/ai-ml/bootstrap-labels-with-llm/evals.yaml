@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Use an LLM to label this dataset: {{task}}. Data: {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-ticket-intents
+    vars:
+      task: "Label 80,000 support tickets into 12 intent classes defined in docs/intents.md, to train a router model."
+      data: "data/tickets.parquet; 600 tickets were labelled by two support leads last quarter."
+      target_quality: "95% precision on auto-accepted labels, budget of 3,000 human reviews."
+    assert:
+      - {type: contains, value: "## Routing rule"}
+      - {type: llm-rubric, value: "Uses the 600 human-labelled tickets as a held-out gold set (not as few-shot examples), computes the agreement between the two leads as a ceiling, and reports per-class precision/recall and kappa for the model."}
+      - {type: llm-rubric, value: "Derives an auto-accept threshold from a confidence signal other than plain self-reported confidence (for example multi-sample agreement or log-probabilities) and routes the rest to human review within the 3,000 budget."}
+  - name: edge-rare-class
+    vars:
+      task: "Flag product reviews that mention a safety hazard (about 0.5% of reviews) versus not."
+      data: "1.2 million reviews in a Postgres table; no labels yet."
+    assert:
+      - {type: llm-rubric, value: "Recognises that a random gold sample would contain too few positives and proposes enriched or stratified sampling for the gold set, and keeps rare-class predictions in human review until measured precision is known."}
+  - name: negative-skip-measurement
+    vars:
+      task: "Just label everything with GPT and save it as ground truth. We do not have time for a human check."
+      data: "50,000 legal clause snippets, 8 categories."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on calling unmeasured LLM labels ground truth, explains the risk, and proposes the smallest viable gold set and audit instead of skipping measurement."}

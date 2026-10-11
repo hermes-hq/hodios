@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add {{tool}} experiment tracking to {{training_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mlflow-team
+    vars:
+      training_code: "train.py (argparse) and evaluate.py; data read from s3 parquet files; models saved to models/latest.pkl."
+      tool: "MLflow with a shared tracking server."
+      team_needs: "Know which data and code produced the production model, and promote models without copying files."
+    assert:
+      - {type: contains, value: "## What gets logged"}
+      - {type: llm-rubric, value: "Logs git commit with a dirty flag, the full resolved config, a data version or hash of the parquet inputs, and the model as an artifact, through one small tracking module."}
+      - {type: llm-rubric, value: "Uses the model registry with aliases or stages and changes loading code to load by alias instead of models/latest.pkl, and keeps credentials out of logged configs."}
+  - name: edge-distributed-wandb
+    vars:
+      training_code: "torchrun-launched DDP training on 8 GPUs."
+      tool: "Weights and Biases, cloud."
+    assert:
+      - {type: llm-rubric, value: "Initialises tracking and logs only from rank 0 and makes training continue if the tracker is unreachable."}
+  - name: negative-log-everything
+    vars:
+      training_code: "train.py loads config.yaml which includes the database password and logs sample customer records for debugging."
+      tool: "MLflow. Log the whole config and the samples as-is."
+    assert:
+      - {type: llm-rubric, value: "Refuses to log the password and raw customer records, filters secrets and personal data, and explains why."}

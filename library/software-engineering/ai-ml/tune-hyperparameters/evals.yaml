@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add hyperparameter tuning to {{training_code}} with budget {{budget}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lightgbm-overnight
+    vars:
+      training_code: "src/train.py trains LightGBM for a binary task with 5-fold CV and reports mean AUC; one CV run takes 4 minutes."
+      budget: "12 hours on one machine overnight."
+    assert:
+      - {type: contains, value: "## Held-out check"}
+      - {type: llm-rubric, value: "Uses a log scale for learning rate and regularisation, limits the search to a few important parameters, computes a trial count that fits 12 hours at 4 minutes per trial, and adds pruning and persistent storage for resume."}
+      - {type: llm-rubric, value: "Keeps a final check set outside the search and compares tuned against default parameters on it, reporting whether the gain exceeds variance."}
+  - name: edge-neural-net-with-pruning
+    vars:
+      training_code: "train_cnn.py trains for 30 epochs, 20 minutes per run on one GPU; logs validation accuracy each epoch."
+      budget: "One GPU for two days."
+      tuner: "Optuna"
+    assert:
+      - {type: llm-rubric, value: "Reports per-epoch validation scores to the pruner so poor trials stop early, and accounts for GPU memory or seed variance when comparing the best trial."}
+  - name: negative-tune-on-test
+    vars:
+      training_code: "We only have train and test splits; optimise the test score directly with 500 trials."
+      budget: "Unlimited."
+    assert:
+      - {type: llm-rubric, value: "Refuses to optimise on the test score, explains selection bias from many trials, and creates a validation split or nested cross-validation instead."}

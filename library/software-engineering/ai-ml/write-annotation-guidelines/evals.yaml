@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write annotation guidelines for this labelling task: {{task}}. Examples: {{samples}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-review-sentiment-with-overlap
+    vars:
+      task: "Label app store reviews as bug report, feature request, praise, complaint about price, or other. One label per review. Used to route reviews to teams."
+      samples: "1. 'Love it but please add dark mode' 2. 'Crashes every time I open the camera, 1 star' 3. 'Too expensive for what it does' 4. 'meh' 5. 'Was great until the update broke sync, now I want a refund' 6. 'Can you make it cheaper for students?'"
+      annotators: "Six crowd workers, non-native English speakers."
+    assert:
+      - {type: contains, value: "## Decision rules"}
+      - {type: llm-rubric, value: "Gives a priority rule for reviews that fit several labels (for example item 5 with a bug and a refund wish, item 1 with praise and a request) and rules on item 6 (price versus feature request) with a reason."}
+      - {type: llm-rubric, value: "Includes a pilot round with an agreement measure (kappa or Krippendorff's alpha), a target, and adjudication that turns disagreements into new rulings."}
+  - name: edge-ner-spans
+    vars:
+      task: "Mark medication names and doses as spans in clinical notes for an extraction model."
+      samples: "'Started metformin 500 mg BID', 'pt on ASA', 'Tylenol (acetaminophen) 1g prn', 'no longer taking the blood thinner'"
+      annotators: "Two pharmacists."
+    assert:
+      - {type: llm-rubric, value: "Specifies span boundary rules (whether units and frequency belong to the dose span, brand plus generic in parentheses, abbreviations like ASA, and whether a vague mention like 'the blood thinner' is labelled)."}
+  - name: negative-no-label-set
+    vars:
+      task: "We want our data labelled for AI. Make guidelines."
+      samples: "A few customer emails."
+    assert:
+      - {type: llm-rubric, value: "Asks what the labels are for and what the label set is before writing guidelines, rather than inventing a taxonomy and presenting it as final."}

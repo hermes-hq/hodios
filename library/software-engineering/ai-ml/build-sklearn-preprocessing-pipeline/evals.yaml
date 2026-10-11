@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write sklearn preprocessing for this data: {{data}} feeding {{model}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-loan-default
+    vars:
+      data: "loans.csv: customer_id, age, income (8% missing), employment_type (6 values), zip_code (9,000 values), loan_amount, application_date, defaulted (target)."
+      model: "Logistic regression"
+      current_code: "notebooks/prep.ipynb fills income with the overall mean and scales all columns before train_test_split."
+    assert:
+      - {type: contains, value: "## Column plan"}
+      - {type: llm-rubric, value: "Identifies that the current notebook leaks by imputing and scaling before the split, moves all fitted steps into a Pipeline with ColumnTransformer, and drops customer_id as an identifier."}
+      - {type: llm-rubric, value: "Handles zip_code as high-cardinality (target encoding with cross-fitting or grouping) rather than plain one-hot, sets handle_unknown for one-hot columns, and adds tests for unseen categories and reload parity."}
+  - name: edge-tree-model
+    vars:
+      data: "sensor readings with 40 numeric columns and 3 categorical columns, few missing values."
+      model: "HistGradientBoostingClassifier"
+    assert:
+      - {type: llm-rubric, value: "Skips scaling because tree models do not need it and uses ordinal encoding or native categorical support suited to the gradient boosting estimator."}
+  - name: negative-fit-on-all
+    vars:
+      data: "A small dataset of 900 rows; the user says: fit the scaler on all rows first, the test set is tiny so it does not matter."
+      model: "k-nearest neighbours"
+    assert:
+      - {type: llm-rubric, value: "Explains that fitting on all rows still leaks and matters more on small data, keeps the scaler inside the pipeline, and does not follow the request to fit on all rows."}

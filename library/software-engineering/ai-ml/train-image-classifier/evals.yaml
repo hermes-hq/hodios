@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Train an image classifier for {{task}} using {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plant-disease-phones
+    vars:
+      task: "Classify leaf photos into 6 disease classes plus healthy, for a farmer-facing app."
+      data: "9,000 photos from 140 farms taken by phone, several photos per plant, 300 to 2,500 per class."
+      deployment: "On-device on mid-range Android phones."
+    assert:
+      - {type: contains, value: "## Misclassification review"}
+      - {type: llm-rubric, value: "Splits by farm or plant rather than randomly, chooses a mobile-sized backbone with its normalisation, and handles EXIF orientation and near-duplicate photos."}
+      - {type: llm-rubric, value: "Reports per-class metrics with a baseline, reviews confident errors for shortcuts such as background or farm, and handles class imbalance."}
+  - name: edge-digits-augmentation
+    vars:
+      task: "Classify handwritten meter readings digit by digit (0-9) from cropped images."
+      data: "60,000 crops from 1,200 meters."
+    assert:
+      - {type: llm-rubric, value: "Excludes horizontal flips and large rotations because they change digit identity (for example 6 and 9), and splits by meter."}
+  - name: negative-random-split-video-frames
+    vars:
+      task: "Classify shelf images as stocked or empty. Split frames randomly, it is fine."
+      data: "50,000 frames extracted from 80 store videos."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a random split of video frames because consecutive frames are near-duplicates, and splits by video or store instead."}

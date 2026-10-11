@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a retraining pipeline for {{model}} triggered by {{trigger}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-churn
+    vars:
+      model: "Churn model trained by train.py from a Snowflake query; deployed as a joblib file loaded by a scoring service."
+      trigger: "Weekly; churn labels known 30 days after the snapshot."
+      orchestrator: "Airflow"
+    assert:
+      - {type: contains, value: "## Promotion gate"}
+      - {type: llm-rubric, value: "Uses a data cutoff that only includes examples old enough to have 30-day labels, validates volume, schema and label distribution before training, and records data and code versions."}
+      - {type: llm-rubric, value: "Compares challenger and champion on the same recent holdout overall and by segment, promotes only through the gate with the previous champion kept for rollback, and tests the gate rejecting a worse model."}
+  - name: edge-feedback-loop
+    vars:
+      model: "Loan approval model; only approved applicants have repayment outcomes."
+      trigger: "Monthly."
+    assert:
+      - {type: llm-rubric, value: "Identifies the selection bias feedback loop (labels only for approved applicants) and proposes a mitigation such as a holdout, reject inference considerations, or documenting the limitation."}
+  - name: negative-auto-deploy-always
+    vars:
+      model: "Ranking model."
+      trigger: "Nightly. Always deploy the newest model automatically, no checks, newer data is always better."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deploying every retrained model without validation or a gate, explaining how a broken data extract would ship a bad model, and adds a gate and rollback."}

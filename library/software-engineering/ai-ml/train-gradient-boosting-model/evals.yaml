@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Train an XGBoost model for {{task}} on {{data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-demand-by-store
+    vars:
+      task: "Predict next-week units sold per store and product (regression), predicted every Sunday."
+      data: "sales.parquet, 6 million rows, 400 stores, 3 years weekly, columns: store_id, product_id, category, price, promo_flag, week, units."
+      library: "LightGBM"
+    assert:
+      - {type: contains, value: "## Results"}
+      - {type: llm-rubric, value: "Uses a time-based split with the latest weeks as test, early-stops on a validation window rather than the test set, and ensures features only use data available on the Sunday of prediction."}
+      - {type: llm-rubric, value: "Uses native categorical handling for store and product ids with the mapping saved, compares against a trivial baseline such as last week's or seasonal-naive units, and reports metric spread."}
+  - name: edge-rare-fraud
+    vars:
+      task: "Flag card transactions as fraud at authorisation time; 0.2% positives."
+      data: "Transactions table with 30 columns including merchant, amount, device id and customer id; 18 months."
+    assert:
+      - {type: llm-rubric, value: "Handles imbalance with class weights or scale_pos_weight rather than naive oversampling, uses PR-AUC or recall at fixed precision rather than accuracy, and splits by time and/or customer."}
+  - name: negative-early-stop-on-test
+    vars:
+      task: "Churn prediction. Use the test set as the eval_set for early stopping, it is simpler."
+      data: "50,000 customers, one row each."
+    assert:
+      - {type: llm-rubric, value: "Declines to early-stop on the test set, explains that it leaks test information into model selection, and carves out a validation set or uses cross-validation."}

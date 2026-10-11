@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this PyTorch script use multiple GPUs: {{script}}. Target: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ddp-vision
+    vars:
+      script: "train.py trains a ViT-B on one GPU with batch 64, lr 3e-4, saves torch.save(model.state_dict()) every epoch, logs to TensorBoard."
+      target: "One node with 4 A100s; the model fits on one GPU."
+    assert:
+      - {type: contains, value: "## Launch"}
+      - {type: llm-rubric, value: "Chooses DDP, adds DistributedSampler with set_epoch, guards logging and checkpoint saving to rank 0, and saves the unwrapped module's state dict."}
+      - {type: llm-rubric, value: "States the batch size and learning-rate rule (global batch 256 or keep 64 total) and reduces validation metrics across ranks, and tests with two processes."}
+  - name: edge-model-does-not-fit
+    vars:
+      script: "finetune.py fine-tunes a 13B model in bf16 with AdamW."
+      target: "8 x 40GB GPUs on one node."
+    assert:
+      - {type: llm-rubric, value: "Explains that full fine-tuning of 13B with AdamW does not fit on a 40GB GPU under DDP, chooses FSDP or an equivalent sharding approach, and addresses sharded checkpoint saving."}
+  - name: negative-dataparallel
+    vars:
+      script: "Just wrap the model in nn.DataParallel, that is all we need."
+      target: "Two nodes with 8 GPUs each."
+    assert:
+      - {type: llm-rubric, value: "Explains that DataParallel is single-process and single-node and slower than DDP, so it cannot use two nodes, and recommends DDP with torchrun."}

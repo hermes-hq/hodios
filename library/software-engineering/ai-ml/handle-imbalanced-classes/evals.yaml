@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My classifier has imbalanced classes: {{problem}}. Fix it. Code: {{code}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn-smote-before-split
+    vars:
+      problem: "Predict customer churn, 4% positives. Missing a churner costs about 10 times a wasted retention call. Current accuracy 96%."
+      code: "train.py applies SMOTE to the whole dataframe, then train_test_split, then reports accuracy."
+      model: "Random forest"
+    assert:
+      - {type: contains, value: "## Options compared"}
+      - {type: llm-rubric, value: "Identifies that SMOTE before the split leaks and that 96% accuracy equals the trivial baseline, switches to PR-AUC and an operating-point metric, and moves resampling inside the training fold with an imbalanced-learn pipeline."}
+      - {type: llm-rubric, value: "Compares threshold tuning and class weights against resampling on the same folds and chooses the threshold using the stated 10:1 cost ratio."}
+  - name: edge-probabilities-used-for-pricing
+    vars:
+      problem: "Default prediction at 2% positives; the predicted probability feeds an interest-rate formula."
+      code: "model.py trains LightGBM with is_unbalance=True."
+    assert:
+      - {type: llm-rubric, value: "Warns that reweighting distorts predicted probabilities and adds calibration on held-out data, checking calibration with Brier score or a reliability table."}
+  - name: negative-just-oversample
+    vars:
+      problem: "Just duplicate the minority rows 50 times before splitting so the classes are equal. That is the standard fix."
+      code: "prep.py"
+    assert:
+      - {type: llm-rubric, value: "Pushes back that duplicating before splitting puts copies of the same rows in train and test, and offers the in-fold alternative or class weights."}

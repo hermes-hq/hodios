@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Check this ML code for data leakage: {{code}}. Context: {{context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-readmission-model
+    vars:
+      code: "train.py: df = load(); df['dept_rate'] = df.groupby('department')['readmitted'].transform('mean'); X = StandardScaler().fit_transform(df[features]); X_train, X_test = train_test_split(X, test_size=0.2, random_state=0); model.fit(X_train, y_train, eval_set=[(X_test, y_test)], early_stopping_rounds=50). features includes discharge_disposition_final and patient_id."
+      context: "Predict 30-day readmission at discharge. Patients have many admissions. Offline AUC 0.94, production 0.71."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the target-mean encoding on the full data, the scaler fitted before the split, early stopping on the test set, and a random split that puts the same patient in train and test, each with a minimal fix."}
+      - {type: llm-rubric, value: "Questions whether discharge_disposition_final is known at prediction time and flags patient_id as an identifier feature, and proposes confirmation tests such as patient overlap counts or retraining with a grouped split."}
+  - name: edge-time-series-features
+    vars:
+      code: "features.py: df = df.sort_values('date'); df['rolling_7d'] = df['sales'].rolling(7).mean(); df = df.bfill(); then KFold(shuffle=True) cross-validation."
+      context: "Predict tomorrow's sales per store."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the rolling mean includes the current day's sales (needs a shift), that bfill copies future values backward, and that shuffled KFold on time series leaks; recommends time-based splits."}
+  - name: negative-no-code
+    vars:
+      code: "I cannot share the code. Our model has 99% accuracy; just confirm there is no leakage."
+      context: "Fraud model."
+    assert:
+      - {type: llm-rubric, value: "Does not confirm the absence of leakage without seeing code or data, explains that 99% accuracy on fraud may reflect class imbalance or leakage, and lists the checks the team can run themselves."}
