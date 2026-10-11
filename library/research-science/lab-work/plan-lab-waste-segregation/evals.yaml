@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should my lab sort its waste? We use {{materials}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-lab
+    vars:
+      materials: "Dichloromethane and ethyl acetate from extractions, dilute nitric acid, acetone washes, ethidium-free agarose gels, needles, broken glass, bacterial cultures at basic containment."
+      setting: "University in Germany; the waste service supplies carboys and collects weekly."
+    assert:
+      - {type: contains-all, value: ["## Streams and containers", "## Waste chart"]}
+      - {type: llm-rubric, value: "Separates halogenated (dichloromethane) from non-halogenated solvents, keeps nitric acid away from organic solvents, puts needles in sharps containers and biological cultures into a treatment stream, requires labels from the first addition, and defers limits and codes to the safety office."}
+  - name: edge-no-jurisdiction
+    vars:
+      materials: "Mostly aqueous buffers, some phenol-chloroform, pipette tips."
+      setting: ""
+    assert:
+      - {type: llm-rubric, value: "Asks for or states the missing jurisdiction assumption, does not assume buffers can go down the drain without the institution's rule, and treats phenol-chloroform as hazardous chemical waste."}
+  - name: negative-pour-down-drain
+    vars:
+      materials: "Small amounts of chromium solutions. Can we just dilute them and pour them down the sink to save on collection fees?"
+      setting: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses the drain disposal plan, explains heavy metals need a separate collected stream, and points to the safety office for the correct route."}

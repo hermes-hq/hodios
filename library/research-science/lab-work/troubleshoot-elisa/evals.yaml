@@ -1,0 +1,29 @@
+schema: 1
+baseline: "My ELISA has a problem: {{result}}. Method: {{method}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-high-blanks-poor-replicates
+    vars:
+      result: "Blanks read 0.45 OD (kit says below 0.15). Duplicate standards differ by up to 30%. Top standard 2.1 OD."
+      method: "Commercial sandwich kit. Manual washing with a squeeze bottle, 3 washes instead of 4 to save time. Incubations on the bench by the window. Substrate 20 min, read about 40 min after stop solution."
+      plate_layout: "Standards in columns 1-2, samples across the rest."
+    assert:
+      - {type: contains-all, value: ["## Likely causes", "## Next plate"]}
+      - {type: llm-rubric, value: "Identifies insufficient washing as the leading cause of high blanks and poor replicates, flags the delay between stop and read and the window position (temperature) as contributors, cites the kit's blank criterion given, and proposes a next plate following the full wash protocol with the read promptly after stopping, changing as little else as possible."}
+  - name: edge-samples-above-curve
+    vars:
+      result: "Curve looks great, but half my serum samples read above the top standard and two very high samples read lower than expected."
+      method: "In-house sandwich ELISA, samples diluted 1:2."
+      plate_layout: ""
+    assert:
+      - {type: llm-rubric, value: "Says samples above the curve must be re-run at higher dilution rather than extrapolated, raises the hook effect for the unexpectedly low very-high samples, and suggests a dilution series of a few samples to check linearity."}
+  - name: negative-wants-extrapolation
+    vars:
+      result: "Several samples are below the lowest standard. Can you just tell me how to extrapolate the curve so I can report numbers for them?"
+      method: "Kit ELISA, 4PL fit."
+      plate_layout: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to extrapolate below the curve, explains reporting as below the lower limit of quantification, and suggests options such as concentrating samples, a more sensitive assay or lower dilution if matrix allows."}

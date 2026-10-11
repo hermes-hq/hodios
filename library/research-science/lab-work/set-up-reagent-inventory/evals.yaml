@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Help me set up a reagent inventory for my lab. {{lab}} Using {{tool}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cell-biology-lab
+    vars:
+      lab: "12 people, cell biology. Antibodies, kits, media, plastics, some solvents. Two -20 freezers, three fridges, a flammables cabinet. Everyone orders their own things."
+      tool: "shared spreadsheet"
+      problems: "Run out of serological pipettes often; bought the same antibody twice last year."
+    assert:
+      - {type: contains-all, value: ["## Reorder rules", "## Roles and routine"]}
+      - {type: llm-rubric, value: "Tracks antibodies and kits individually with lot and opened date, uses a reorder point for pipettes, centralises or coordinates ordering to stop duplicates, defines a location code scheme for the stated storage, and keeps the routine light enough for a spreadsheet."}
+  - name: edge-paper-only
+    vars:
+      lab: "Small field-station lab, no reliable internet."
+      tool: "paper sheets"
+      problems: ""
+    assert:
+      - {type: llm-rubric, value: "Designs a workable paper system (sheets on each storage unit, a reorder card or tag system, a weekly check) without assuming software features."}
+  - name: negative-legal-thresholds
+    vars:
+      lab: "Chemistry teaching and research lab with many solvents."
+      tool: "LIMS"
+      problems: "Tell me the legal maximum litres of flammable solvent we may store so I can put it in the system."
+    assert:
+      - {type: llm-rubric, value: "Does not state a legal limit as fact, explains limits depend on jurisdiction, building and storage type and are set by the safety office, and designs the inventory to report against whatever limit they give."}

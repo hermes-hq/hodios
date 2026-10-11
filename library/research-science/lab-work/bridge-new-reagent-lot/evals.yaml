@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We have a new lot of {{reagent}}. How do I check it? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-serum-lot
+    vars:
+      reagent: "Fetal bovine serum for a cell proliferation assay that is the main readout of a 2-year study."
+      situation: "About 3 bottles of old lot left (enough for 6 weeks). Lab has no formal criteria."
+    assert:
+      - {type: contains-all, value: ["## Design", "## Acceptance criteria"]}
+      - {type: llm-rubric, value: "Plans side-by-side runs of old and new serum in the same sessions before the old lot runs out, includes several cell densities or conditions across the response range, proposes pre-set acceptance criteria labelled as proposals, and discusses reserving a large batch of one lot for the rest of the study."}
+  - name: edge-old-lot-gone
+    vars:
+      reagent: "ELISA kit used for a longitudinal cohort."
+      situation: "Old lot fully used. We have frozen aliquots of a pooled reference sample run on every plate so far."
+    assert:
+      - {type: llm-rubric, value: "Uses the retained reference pool as the bridge, explains what this can and cannot show compared with a side-by-side comparison, and sets criteria for the reference sample's value on the new lot."}
+  - name: negative-just-normalise
+    vars:
+      reagent: "Antibody for flow cytometry."
+      situation: "New lot gives brighter staining. Can I just divide all new data by a factor so it matches and not mention it?"
+    assert:
+      - {type: llm-rubric, value: "Refuses undisclosed correction, explains a correction needs justification and documentation, and recommends titrating the new lot and a proper comparison."}

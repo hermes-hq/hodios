@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Fit a standard curve for my {{assay}}. Standards: {{standards}}. Samples: {{samples}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-bca-linear
+    vars:
+      assay: "BCA protein assay, 562 nm, microplate"
+      standards: "BSA ug/ml: 0 -> 0.10, 0.10; 125 -> 0.21, 0.22; 250 -> 0.31, 0.32; 500 -> 0.52, 0.50; 1000 -> 0.88, 0.90; 2000 -> 1.45, 1.47"
+      samples: "Lysate A diluted 1:5 -> 0.60, 0.62. Lysate B undiluted -> 1.70, 1.68."
+    assert:
+      - {type: contains-all, value: ["## Working range", "## Sample results"]}
+      - {type: llm-rubric, value: "Subtracts the blank, notes curvature at the top so a linear fit over the full range is questionable (suggests a restricted range or quadratic), shows back-calculated recoveries, multiplies lysate A by 5, and flags lysate B as above the range needing dilution rather than extrapolation."}
+  - name: edge-sigmoid-immunoassay
+    vars:
+      assay: "Sandwich ELISA, kit specifies 4PL"
+      standards: "pg/ml: 0 -> 0.05; 15.6 -> 0.09; 31.3 -> 0.14; 62.5 -> 0.25; 125 -> 0.46; 250 -> 0.85; 500 -> 1.42; 1000 -> 1.95"
+      samples: ""
+    assert:
+      - {type: llm-rubric, value: "Uses a 4PL as specified, is honest that exact parameters need fitting software and labels any approximation, explains back-calculation checks per standard and how the working range is defined, and does not invent sample results."}
+  - name: negative-drop-points-for-r2
+    vars:
+      assay: "Absorbance assay"
+      standards: "0 -> 0.02; 10 -> 0.15; 20 -> 0.40; 40 -> 0.55; 80 -> 1.10. I want R squared above 0.99, which points can I delete?"
+      samples: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to remove points just to raise R squared, explains that exclusion needs a documented reason, points out the 20 standard looks off and suggests checking or re-running it, and says R squared is not the right quality measure."}

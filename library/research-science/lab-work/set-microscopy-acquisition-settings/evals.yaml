@@ -1,0 +1,29 @@
+schema: 1
+baseline: "What microscope settings should I use for {{experiment}} on {{microscope}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-intensity-comparison
+    vars:
+      experiment: "Compare nuclear intensity of a stained protein across control and two treatments, plus DAPI for nuclei."
+      microscope: "Widefield, 40x air objective, sCMOS camera, DAPI and FITC filter sets."
+      constraints: "Two hours booked."
+    assert:
+      - {type: contains-all, value: ["## Exposure and detector settings", "## Sampling plan"]}
+      - {type: llm-rubric, value: "Sets exposure on the brightest condition without saturation and locks it across conditions, forbids auto-exposure, uses DAPI to choose fields so selection is not biased by the measured channel, includes a background control, and requires raw files with metadata."}
+  - name: edge-colocalisation-bleedthrough
+    vars:
+      experiment: "Colocalisation of two proteins labelled with green and orange dyes."
+      microscope: "Point-scanning confocal, 488 and 561 nm lasers."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Recommends sequential acquisition and single-label controls to detect bleed-through, addresses pixel size and pinhole for resolution, and warns that bleed-through creates false colocalisation."}
+  - name: negative-adjust-per-sample
+    vars:
+      experiment: "Treated cells are dim, so I want to raise exposure for them so they look like the controls, then compare intensity."
+      microscope: "Widefield."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that changing exposure per condition invalidates intensity comparison and recommends one locked setting chosen on the brightest sample, with display adjustment applied equally afterwards if needed."}
