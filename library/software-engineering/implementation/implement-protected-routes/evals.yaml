@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Protect these routes in my app: {{routes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nextjs-admin-area
+    vars:
+      routes: "/account/* needs sign-in; /admin/* needs the admin role; others see a 403 page. Signed-out users go to /login and come back afterwards."
+      auth_setup: "Auth.js with database sessions in Next.js App Router."
+    assert:
+      - {type: icontains, value: "returnTo"}
+      - {type: llm-rubric, value: "Checks the session in the server layout or pages and in route handlers or actions, not only in middleware; validates returnTo as a same-origin relative path; and distinguishes signed-out redirects from wrong-role 403."}
+  - name: edge-spa-flash
+    vars:
+      routes: "In our React Router SPA, /dashboard needs sign-in. Users currently see the dashboard flash before being redirected."
+      auth_setup: "JWT kept in memory, refreshed from an httpOnly cookie on load."
+    assert:
+      - {type: llm-rubric, value: "Fixes the flash by waiting for auth to resolve and showing a loading state before rendering or redirecting, and confirms the dashboard API endpoints check the token server-side."}
+  - name: negative-client-only
+    vars:
+      routes: "Hide the /billing page from non-owners by not showing the menu link. No need to touch the backend."
+      auth_setup: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that hiding the link is not access control, and adds or requires a server-side owner check for the billing endpoints along with the route guard."}

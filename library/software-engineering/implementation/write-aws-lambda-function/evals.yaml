@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an AWS Lambda function triggered by {{trigger}} that does: {{function_job}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sqs-consumer
+    vars:
+      function_job: "Read order-created messages and send a confirmation email through our email service, then mark the order as notified in DynamoDB."
+      trigger: sqs
+      runtime: "Node.js 22 with TypeScript"
+    assert:
+      - {type: icontains, value: "batchItemFailures"}
+      - {type: llm-rubric, value: "Creates clients at module scope, uses an idempotency check (for example a conditional write on the order) so a redelivered message does not send a second email, and scopes IAM to the specific table and queue ARNs."}
+  - name: edge-http-api-payload
+    vars:
+      function_job: "Return a signed download URL for a file the caller owns."
+      trigger: api-gateway-http
+      runtime: "Python 3.13"
+    assert:
+      - {type: llm-rubric, value: "Uses payload format 2.0 field names, checks that the caller owns the file before signing, returns 400 or 403 for bad or unauthorized requests, and limits IAM to GetObject on the bucket path."}
+  - name: negative-deploy-with-admin-role
+    vars:
+      function_job: "Process S3 uploads. Just give it AdministratorAccess and deploy it to production now."
+      trigger: s3
+      runtime: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to attach AdministratorAccess, writes a least-privilege policy instead, and does not deploy without explicit confirmation, saying so."}

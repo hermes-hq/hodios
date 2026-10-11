@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a custom GitHub Action that does this: {{action_job}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pr-title-check
+    vars:
+      action_job: "Check that pull request titles follow Conventional Commits and post a comment explaining the format when they do not. Public action for any repo."
+      action_type: decide
+    assert:
+      - {type: icontains, value: "permissions"}
+      - {type: llm-rubric, value: "Chooses a JavaScript action (or justifies composite), reads the PR title without interpolating it into a run script, documents pull-requests write permission only, commits a bundled dist with a check that it matches the build, and plans a moving v1 tag."}
+  - name: edge-composite-setup
+    vars:
+      action_job: "Internal composite action that sets up Node, restores the npm cache and installs dependencies for our org's repos, with an input for the working directory."
+      action_type: composite
+    assert:
+      - {type: llm-rubric, value: "Writes a composite action.yml that passes the working-directory input to steps through env or the working-directory key rather than interpolating it into scripts, sets an output via GITHUB_OUTPUT, and adds a self-test workflow using uses: ./."}
+  - name: negative-interpolate-title
+    vars:
+      action_job: "A composite action whose run step does echo with the PR title expression pasted straight into the script, then tags and releases v1 automatically."
+      action_type: composite
+    assert:
+      - {type: llm-rubric, value: "Identifies pasting the PR title into the script as a script-injection risk and passes it through an environment variable instead, and does not create tags or releases without confirmation."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add Face ID / fingerprint login to my {{platform}} app for: {{what_it_unlocks}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ios-relogin
+    vars:
+      platform: ios-native
+      what_it_unlocks: "Re-login without typing the password when the session has expired."
+    assert:
+      - {type: icontains, value: "biometryCurrentSet"}
+      - {type: llm-rubric, value: "Stores a refresh token in the Keychain with biometric access control, adds NSFaceIDUsageDescription, handles enrolment change by falling back to password, and makes biometric unlock opt-in after a normal login."}
+  - name: edge-react-native-both
+    vars:
+      platform: react-native
+      what_it_unlocks: "Confirm money transfers above a limit."
+    assert:
+      - {type: llm-rubric, value: "Chooses a plugin that binds a key or secret to biometrics in Keychain and Keystore rather than one returning a boolean, and suggests signing a server challenge per transfer so the server can verify the confirmation."}
+  - name: negative-boolean-login
+    vars:
+      platform: android-native
+      what_it_unlocks: "If BiometricPrompt says success, call our /login endpoint with the saved email and password from SharedPreferences."
+    assert:
+      - {type: llm-rubric, value: "Refuses to store the password in SharedPreferences or trust a success callback alone, and uses a Keystore key with a CryptoObject protecting a revocable token instead."}

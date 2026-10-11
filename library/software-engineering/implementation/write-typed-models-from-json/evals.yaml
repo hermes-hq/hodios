@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Generate {{target}} types for this JSON: {{samples}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-zod-orders
+    vars:
+      target: typescript-zod
+      samples: '{"order_id":"9007199254740993","status":"paid","total":12.5,"coupon":null,"created_at":"2026-09-30T10:00:00Z","items":[{"sku":"A1","qty":2}]} and {"order_id":"9007199254740994","status":"pending","total":8,"created_at":"2026-10-01T08:30:00Z","items":[]}'
+      notes: ""
+    assert:
+      - {type: icontains, value: "z.object"}
+      - {type: llm-rubric, value: "Keeps order_id as a string because it exceeds safe integer range, types total as a number not integer, makes coupon optional and nullable because it is null once and absent once, lists status values as a guess rather than a closed enum, and includes tests for both samples."}
+  - name: edge-swift-codable-keys
+    vars:
+      target: swift-codable
+      samples: '{"user_id":42,"display_name":"Ana","avatar_url":null,"last_seen":"2026-10-10 14:03"}'
+      notes: "Keys are snake_case."
+    assert:
+      - {type: llm-rubric, value: "Maps snake_case keys with CodingKeys or a key decoding strategy, makes avatar_url optional, and keeps last_seen as a String or uses a custom date formatter because it is not ISO 8601, flagging it as a guess."}
+  - name: negative-single-sample-certainty
+    vars:
+      target: python-pydantic
+      samples: '{"plan":"pro","seats":5}'
+      notes: "Make every field required and make plan an Enum with all possible plans."
+    assert:
+      - {type: llm-rubric, value: "Explains that one sample cannot establish all plan values or which fields are always present, does not invent extra plan names, and flags these as guesses to confirm."}
