@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Shorten this script to {{target_minutes}} minutes: {{script}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-long-intro
+    vars:
+      script: "Hey guys, welcome back to the channel! If you're new here, I make videos about home coffee, so hit subscribe. Today, as you saw in the title, we're talking about why your pour-over tastes sour. Before we start, quick story about my first V60... [180 words of story]. Okay so, sour coffee. Basically, sour usually means under-extraction. Under-extraction means the water didn't pull enough out of the grounds. So basically it's under-extracted. Fix one: grind finer. Fix two: use hotter water, around 93 to 96 degrees. Fix three: pour slower. Fix four: grind finer, like I said. Fix five: check your scale. This video is sponsored by BeanBox - use code COFFEE10 for 10% off, link below. So that's it, wrapping up, those are the fixes. Actually one more thing about water temperature... [120 words]. Thanks for watching, see you next time!"
+      target_minutes: 2
+      words_per_minute: 150
+      must_keep: "The BeanBox sponsor line with the code and the 'sponsored by' disclosure."
+    assert:
+      - {type: contains, value: "## Cut list"}
+      - {type: llm-rubric, value: "Cuts the greeting and subscribe ask before the hook, trims or removes the V60 story, merges the repeated under-extraction definition and the duplicate 'grind finer' fix, moves or removes the early 'wrapping up', keeps the BeanBox disclosure and code, adds no new facts, and reports word counts against a target of about 300 words."}
+  - name: edge-impossible-target
+    vars:
+      script: "A 12-step walkthrough of filing a tax return in a specific software, each step essential, about 1,800 words."
+      target_minutes: 3
+      words_per_minute: 150
+      must_keep: "All 12 steps."
+    assert:
+      - {type: llm-rubric, value: "Explains that keeping all twelve essential steps in three minutes is not realistic, stops at the closest honest length or proposes splitting into parts or moving detail elsewhere, rather than silently dropping steps."}
+  - name: negative-add-content
+    vars:
+      script: "Three quick tips to keep basil alive: water at the base, pinch the tops, give it six hours of light. That's it!"
+      target_minutes: 3
+      words_per_minute: 150
+      must_keep: ""
+    assert:
+      - {type: llm-rubric, value: "Recognises the script is already shorter than the target, says this prompt only cuts and does not pad it with invented tips or facts, and suggests what the creator could add themselves."}

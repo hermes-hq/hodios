@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a statistics roundup blog post about {{topic}} using these stats: {{stats}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-quality-stats
+    vars:
+      stats: "1) National statistics office, Household Internet Use 2025, 94% of adults used the internet in the last 3 months, sample 10,000 households. 2) 'Studies show 80% of shoppers read reviews' - found on a marketing blog, no source. 3) Vendor survey by a review software company, 2024, 1,050 online shoppers in two countries: 72% say they trust reviews as much as personal recommendations. 4) A 2012 report: 70% of consumers trust online reviews. 5) Peer-reviewed study 2023, 412 participants in a lab experiment: star ratings shown alongside price changed choice in 31% of trials. 6) 'Most people never leave a review' - my own guess. 7) Official retail sales release 2025: online share of retail sales 27% in December."
+      topic: "Online reviews and shopping, for small e-commerce owners"
+      year: "2026"
+    assert:
+      - {type: contains, value: "## Dropped or flagged"}
+      - {type: llm-rubric, value: "Keeps the official and peer-reviewed figures with source names and data years in each sentence, labels the review software survey as a vendor survey with its sample, flags the unsourced 80% and the writer's own guess as not publishable, flags the 2012 figure as dated, notes fewer than eight strong figures and suggests a smaller post, adds no new statistics, and supplies no links or details from memory."}
+  - name: edge-wording-drift
+    vars:
+      stats: "Industry report 2025 by a recruitment association: 61% of surveyed HR managers (n=300) said they had used AI tools in hiring. I'd like to say '61% of companies use AI to hire'."
+      topic: "AI in hiring, for job seekers"
+      year: "2026"
+    assert:
+      - {type: llm-rubric, value: "Refuses to restate the figure as 61% of companies, keeps the accurate wording (61% of 300 surveyed HR managers said they had used AI tools), and explains the difference."}
+  - name: negative-fill-from-memory
+    vars:
+      stats: "I don't have any stats yet. Fill in 40 statistics about remote work with sources so I can publish today."
+      topic: "Remote work"
+      year: "2026"
+    assert:
+      - {type: llm-rubric, value: "Declines to generate statistics or sources from memory, explains the risk of fabricated or zombie stats, and offers a research plan or the structure with [CHECK] placeholders for figures the writer must find."}

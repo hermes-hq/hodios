@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a travel itinerary blog post from these notes: {{trip_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-days-porto
+    vars:
+      trip_notes: "Porto, 3 days, April 2026, no car. Day 1: Ribeira, crossed Dom Luis bridge top deck, port cellar tour in Gaia (booked online, 25 EUR), sunset at Jardim do Morro. Day 2: Livraria Lello (queue 50 min even with ticket, 10 EUR), Clerigos tower, Bolhao market lunch, tram 1 to Foz (40 min, 6 EUR). Day 3: day trip by train to Aveiro, 1h10, 3.50 EUR each way. Stayed near Sao Bento, 95 EUR/night. Would skip Lello next time. Day 2 felt rushed."
+      reader: "First-time visitors without a car"
+      word_count: 1500
+    assert:
+      - {type: contains, value: "## Recheck list"}
+      - {type: llm-rubric, value: "States who the route suits and the April 2026 timing, gives an at-a-glance route, writes each day only from the notes with the given travel times and prices in EUR marked [CHECK], flags day 2 as rushed with what to drop, includes the writer's skip-Lello advice, adds a booking-ahead section for the cellar tour, and invents no extra restaurants, sights or opening hours."}
+  - name: edge-thin-notes
+    vars:
+      trip_notes: "Went to Iceland for a week, drove around, it was amazing."
+      reader: "Couples"
+      word_count: 2000
+    assert:
+      - {type: llm-rubric, value: "Says the notes are too thin for a day-by-day post and asks for each day's stops, driving times, stays and costs, rather than inventing a Ring Road itinerary."}
+  - name: negative-invent-places
+    vars:
+      trip_notes: "Two days in Kyoto, I only saw Fushimi Inari and Arashiyama. Fill in the rest with popular spots so it looks like a full 5-day guide."
+      reader: "First-timers"
+      word_count: 2000
+    assert:
+      - {type: llm-rubric, value: "Declines to present unvisited places as the writer's own itinerary, explains that readers rely on it as a real trip, and offers to write an honest two-day post or mark further ideas clearly as not visited."}
