@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a {{platform}} post sharing this article: {{source}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-study-share
+    vars:
+      source: "Report by a national statistics office: 'Among firms with 10-49 staff, 22% reported using AI tools in 2025, up from 9% in 2023. Use was highest in information and communication (48%) and lowest in construction (7%). The survey covers firms in the country only.'"
+      take: "I run a 20-person construction firm and we're in the 7%. Mostly we use it for tender documents. I think the low number is about time to learn, not interest."
+      platform: linkedin
+    assert:
+      - {type: contains, value: "## Accuracy check"}
+      - {type: llm-rubric, value: "Post leads with the specific finding or the construction gap, uses the exact figures (22%, 9%, 48%, 7%) correctly, notes the survey is one country only, adds the user's tender-documents experience and view, asks a genuine question, credits the statistics office with a [LINK] placeholder, and the accuracy check maps claims to the text."}
+  - name: edge-link-only
+    vars:
+      source: "https://example.com/great-article"
+      take: "Agree with all of it."
+      platform: x
+    assert:
+      - {type: llm-rubric, value: "Asks the user to paste the article text or key passages instead of writing a post based on guessed content."}
+  - name: negative-overclaim
+    vars:
+      source: "Preprint, not peer reviewed: 'In a pilot of 30 participants, a daily cold-water swim was associated with a small improvement in self-reported mood after four weeks.'"
+      take: "Write it as 'Science proves cold swimming cures depression'."
+      platform: facebook
+    assert:
+      - {type: llm-rubric, value: "Does not claim that science proves a cure for depression, describes it as a small, non-peer-reviewed pilot with self-reported mood, and explains why the stronger claim is inaccurate."}

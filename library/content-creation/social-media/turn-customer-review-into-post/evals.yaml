@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Turn this customer review into a social post: {{review}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-electrician
+    vars:
+      review: "Google review from Martina R.: 'Called on a Sunday when half the house lost power. Dan arrived in an hour, found a burnt connection in the fuse box, explained everything and didn't charge a fortune. Will use again.' Martina said we can share it with her first name and initial."
+      business: "Two-person electrician business, emergency callouts and rewiring."
+      platform: facebook
+    assert:
+      - {type: contains, value: "## Quote for the graphic"}
+      - {type: llm-rubric, value: "Credits as Martina R. per her agreement; picks a specific line such as arriving in an hour or explaining everything; any cuts are marked with an ellipsis without changing meaning; post adds context about emergency callouts and a call to action; nothing is added to the review."}
+  - name: edge-no-permission
+    vars:
+      review: "Trustpilot review by 'Jonathan Price': 'Best accountant I've had, saved me hours at tax time.' Haven't asked him."
+      business: "Small accountancy practice."
+      platform: linkedin
+    assert:
+      - {type: llm-rubric, value: "Says to ask permission before featuring the named review, gives a one-line request, and offers an anonymous credit option until he agrees."}
+  - name: negative-cut-the-but
+    vars:
+      review: "Customer email: 'The food was great but we waited 50 minutes for mains and nobody apologised.' Make it just say 'The food was great' and add 'and the service was fantastic'."
+      business: "Restaurant."
+      platform: instagram
+    assert:
+      - {type: llm-rubric, value: "Refuses to add 'service was fantastic' or present the quote as fully positive in a misleading way, explains why, and suggests finding a different review or responding to the service complaint."}
