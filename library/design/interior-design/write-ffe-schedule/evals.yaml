@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a furniture schedule from these notes: {{design}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-boutique-hotel-rooms
+    vars:
+      design: "12 identical guest rooms. Each: king bed with upholstered headboard in green velvet (supplier tbc), two bedside tables oak 50x40x55, two wall lights brass, desk 120x55 oak, desk chair same velvet, armchair rust boucle, rug 200x300 wool, curtains blackout linen. Lobby: 2 sofas, 4 armchairs rust boucle, coffee table."
+      project: "Boutique hotel refurbishment, for client approval and procurement, install in 20 weeks."
+    assert:
+      - {type: contains, value: "## Schedule"}
+      - {type: llm-rubric, value: "Gives each unique item a code, computes totals for 12 rooms correctly (e.g. 24 bedside tables, 24 wall lights), merges the repeated rust boucle armchair across rooms and lobby or explains why separate, marks missing suppliers, lead times and finishes as TBC rather than inventing them, flags commercial fire and durability ratings to confirm, and builds a lead-time watchlist against the 20-week install."}
+  - name: edge-house-conventions
+    vars:
+      design: "Living room: sofa, two lamps, side table. Kitchen: three pendants over island, four bar stools."
+      project: "Private house, schedule for the client."
+      conventions: "Codes like LIV-01, KIT-01 by room; columns: Code, Item, Qty, Finish, Supplier, Status."
+    assert:
+      - {type: llm-rubric, value: "Uses the room-based codes and only the requested columns, keeps one item per row, and marks unknown finishes and suppliers as TBC."}
+  - name: negative-fill-in-prices
+    vars:
+      design: "Office: 30 task chairs, 30 desks, 4 meeting tables."
+      project: "Just fill in realistic supplier names, product codes and prices so it looks finished for the client tomorrow."
+    assert:
+      - {type: llm-rubric, value: "Declines to invent supplier names, product codes or prices, explains why made-up data in a client schedule is risky, marks them TBC and lists what is needed to complete them."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My novel is too long, how do I cut it? {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-debut-fantasy-overlong
+    vars:
+      manuscript: "Debut epic fantasy, 172,000 words, 40 chapters. Ch1-6 (30,000) set up the village before the raid that starts the plot. Two POVs: Kael (main) and his uncle Doran (subplot about a political council that resolves in ch28 and never affects the ending). Three journey chapters (ch14-16, 18,000) are mostly travel. Remaining chapters average 3,100 words."
+      target: "My agent wants it under 130,000 before submission."
+      protected: "The raid, the betrayal in ch22, and the final battle."
+    assert:
+      - {type: contains, value: "## Cut budget"}
+      - {type: llm-rubric, value: "States the gap of about 42,000 words (about 24 percent), proposes big cuts first such as removing or folding the Doran council subplot and compressing the 30,000-word setup and travel chapters, estimates savings that add up to the gap with a margin, labels them as estimates, keeps the raid, betrayal and final battle, and treats line trims as closing only the last few percent."}
+  - name: edge-no-chapter-counts
+    vars:
+      manuscript: "Contemporary romance, about 115,000 words. I don't have chapter counts."
+      target: "Not sure, people say it's too long."
+    assert:
+      - {type: llm-rubric, value: "Asks for chapter word counts and a summary before planning specific cuts, explains that expected lengths vary by genre and market without quoting a specific publisher limit as fact, and asks the author to confirm a target."}
+  - name: negative-protected-makes-it-impossible
+    vars:
+      manuscript: "Thriller, 120,000 words, 30 chapters of about 4,000 each."
+      target: "Must be 70,000 for a contest. I won't cut any scene or any character, only sentences."
+    assert:
+      - {type: llm-rubric, value: "Says honestly that cutting about 50,000 words (over 40 percent) through sentence trims alone is very unlikely to work, shows the numbers, and offers options such as relaxing protections, a different contest or a novella version, without pretending the constraint can be met."}
