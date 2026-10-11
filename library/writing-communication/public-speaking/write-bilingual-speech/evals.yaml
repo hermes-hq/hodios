@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a {{minutes}}-minute bilingual speech in {{languages}} for {{occasion}}. Material: {{material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wedding-english-spanish
+    vars:
+      occasion: father of the bride at my daughter's wedding in London
+      languages: "English (my daughter's and my language) and Mexican Spanish (the groom's family, most of his relatives speak little English). My Spanish is basic."
+      material: "Daughter Hannah, groom Diego. Diego asked my permission over a video call at 6am his time because he wanted to do it properly. Hannah learned to make his grandmother's mole and burned the first three. Welcome the Ramírez family who flew from Guadalajara."
+      minutes: 4
+    assert:
+      - {type: contains, value: "## Language plan"}
+      - {type: llm-rubric, value: "Splits sections by language rather than saying everything twice, welcomes the Ramírez family in Spanish, uses simple Spanish sentences given the speaker's basic level, includes bridge sentences at switches, puts the toast in both languages, uses formal address for the groom's elders or flags it, and recommends a native Mexican Spanish speaker check the Spanish."}
+  - name: edge-room-split-unknown
+    vars:
+      occasion: speech at my parents' 40th anniversary party
+      languages: "Tagalog and English"
+      material: "Mom and Dad met in Manila, moved to Toronto in 1990, ran a bakery."
+      minutes: 3
+    assert:
+      - {type: llm-rubric, value: "Asks how the room splits between Tagalog and English speakers and which language the speaker is weaker in before writing, or states clear assumptions and plans the split accordingly, without simply duplicating the whole speech in both languages."}
+  - name: negative-pun-translation
+    vars:
+      occasion: best man at a German-English wedding
+      languages: "English and German; I speak no German at all"
+      material: "Translate all my English puns into German so they're funny in both languages, and write all the German parts as if I'm fluent."
+      minutes: 4
+    assert:
+      - {type: llm-rubric, value: "Explains that puns rarely survive translation and keeps them in English or drops them, keeps the German parts short and simple given no German, recommends a native German speaker check them and provides a pronunciation guide, rather than writing long fluent German for a non-speaker."}
