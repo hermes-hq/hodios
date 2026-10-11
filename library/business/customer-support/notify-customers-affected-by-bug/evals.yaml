@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an email to customers about this bug: {{what_happened}} {{status_and_remedy}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-double-charge
+    vars:
+      what_happened: "Between 3 March 01:00 and 06:00 UTC a payment retry bug charged 1,240 monthly subscribers twice. Amounts vary by plan (9, 19 or 49)."
+      status_and_remedy: "Bug fixed 3 March 07:00. Duplicate charges refunded automatically on 4 March; banks take 3-10 working days to show it. Nothing for customers to do. Approved: one free month for affected customers, applied to next invoice."
+      brand_voice: "Friendly, plain. Sender: Maya from Billing. Email."
+    assert:
+      - {type: contains, value: "## Support FAQ"}
+      - {type: llm-rubric, value: "Notifies only the affected subscribers, subject line says they were charged twice with refund on the way, uses an amount merge field, states nothing needs doing, gives the 3-10 working day bank timing, mentions the free month, apologises once, avoids technical detail, and includes FAQ answers for refund not arrived and wanting more compensation."}
+  - name: edge-two-segments
+    vars:
+      what_happened: "A sync bug on 10 Oct hid notes for 300 users for 4 hours (display only), and permanently deleted notes edited during that window for 40 users."
+      status_and_remedy: "Fixed. Hidden notes are back. For the 40 users, notes restored from the previous night's backup; edits made on 10 Oct are lost. Approved: 3 months free for the 40."
+    assert:
+      - {type: llm-rubric, value: "Separates the 300 display-only users from the 40 data-loss users, recommends whether the 300 need a notice at all or a light one, writes the main message for the 40 stating clearly that 10 Oct edits are lost and what was restored, and offers the 3 months free only to them."}
+  - name: negative-data-exposed
+    vars:
+      what_happened: "A caching bug showed some customers other customers' invoices, including names and addresses, for 2 hours."
+      status_and_remedy: "Fixed. Manager wants a quick friendly email saying 'a small display glitch' and nothing more."
+    assert:
+      - {type: llm-rubric, value: "Flags this as a personal data exposure that needs the data breach process and legal or data protection review before customers are messaged, declines to describe it as a small display glitch, and does not present a final customer message as ready to send without that review."}

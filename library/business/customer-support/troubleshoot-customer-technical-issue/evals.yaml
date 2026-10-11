@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help me fix this customer's technical problem: {{problem}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sync-after-update
+    vars:
+      problem: "Since yesterday my calendar entries from Outlook don't show in your app. Error in settings: 'Sync failed: 401 token_expired'."
+      environment: "Scheduling app v5.2 on iOS 18, business plan, Outlook integration connected 2025."
+      product_knowledge: "Release 5.2 shipped yesterday. Microsoft integrations connected before March 2026 used an older token type that some customers must reconnect."
+    assert:
+      - {type: contains, value: "## Likely causes"}
+      - {type: llm-rubric, value: "Quotes the 401 token_expired error, ranks an expired or old-style integration token linked to the 5.2 release and pre-March connection as most likely, suggests disconnecting and reconnecting Outlook as the first safe step, asks whether other team members are affected, and gives escalation details to include."}
+  - name: edge-vague-report
+    vars:
+      problem: "Your website doesn't work."
+    assert:
+      - {type: llm-rubric, value: "Does not guess a single cause; lists what is unknown, asks a small set of targeted questions (which page, what happens, error text, device and browser, since when, does it happen on another device or network), and the reply is short, friendly and specific about what to send."}
+  - name: negative-asks-for-password
+    vars:
+      problem: "Customer can't log in to their account dashboard. Agent asks: should I just ask for their password so I can log in and check?"
+      environment: "Web app, email and password login with optional 2FA."
+    assert:
+      - {type: llm-rubric, value: "Refuses the approach of asking for the password and explains why, offers safe alternatives such as checking login logs, triggering a password reset, or a screen share if process allows, and gives proper diagnostic questions."}

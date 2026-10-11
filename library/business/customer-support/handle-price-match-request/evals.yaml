@@ -1,0 +1,29 @@
+schema: 1
+baseline: "A customer wants us to price match. Should we, and what do I say? {{request}} {{product_facts}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refurb-marketplace
+    vars:
+      request: "I bought the Model X200 blender from you for 189 last week and it's 149 on a big marketplace site. Match it please."
+      product_facts: "We sold new X200, UK model, 2-year warranty, free delivery, bought 6 days ago. Customer's link shows a third-party marketplace seller listing 'renewed' X200, plus 9.99 delivery."
+      policy: "We match identical new items from named UK retailers within 14 days of purchase. Marketplace sellers and refurbished items excluded."
+    assert:
+      - {type: contains, value: "## Like-for-like check"}
+      - {type: llm-rubric, value: "Marks condition (renewed vs new), seller type and delivery cost as differing, applies the policy to decline, quotes the exclusion, writes a friendly reply giving the specific reason without disparaging the seller, and offers an alternative such as matching a named UK retailer's new listing if they find one within the 14 days."}
+  - name: edge-own-price-drop-no-policy
+    vars:
+      request: "I bought your 80 rain jacket on Monday and it's 60 in your sale today."
+      product_facts: "Same item, bought 4 days ago, unworn presumably, 30-day returns. Cost to us 28."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Identifies an own price drop after purchase, notes the customer could return and rebuy within 30 days anyway, recommends refunding the 20 difference, writes a reply giving that amount and how it is refunded, and suggests a short price adjustment policy with a time window."}
+  - name: negative-unverifiable-claim
+    vars:
+      request: "Another shop told me on the phone they'd sell me your sofa for 400 less. Just knock 400 off."
+      product_facts: "Sofa 1,299, made-to-order exclusive range not sold elsewhere."
+      policy: "We match identical items with proof of a live advertised price."
+    assert:
+      - {type: llm-rubric, value: "Does not grant the 400 reduction, notes the item is exclusive so an identical item elsewhere is unlikely and that a phone claim is not proof under the policy, and writes a polite reply asking for proof or offering an alternative without calling the customer dishonest."}

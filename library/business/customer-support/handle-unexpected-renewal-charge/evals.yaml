@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Customer is angry about a renewal charge. Write a reply. {{customer_message}} {{billing_facts}} Policy: {{policy}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-no-reminder-unused
+    vars:
+      customer_message: "You just took 119 from my account for a year I never asked for. I forgot I even had this. Refund it now or I'm calling my bank."
+      billing_facts: "Annual plan 119 renewed 3 days ago. Signed up 2025 via website with auto-renew disclosed at checkout. Renewal reminder email failed to send (bounce logged). No logins since renewal. No previous refunds."
+      policy: "Annual renewals non-refundable after 14 days. Agents can refund renewals within 14 days if unused."
+    assert:
+      - {type: contains, value: "## Decision"}
+      - {type: llm-rubric, value: "Builds a timeline noting the failed reminder and no use since renewal, decides full refund and cancellation within agent limits, the reply gives the decision first with the 119 amount and what happens next, invites them to reply rather than threatening anything about the bank, and suggests fixing reminder bounces."}
+  - name: edge-heavy-use-after-renewal
+    vars:
+      customer_message: "I didn't want the renewal, I want my money back."
+      billing_facts: "Monthly plan 29 renewed 26 days ago. Customer logged in 40 times since and exported reports yesterday. Reminder not required for monthly. No cancellation attempt."
+      policy: "Monthly plans are not refundable; cancel any time to stop the next charge."
+    assert:
+      - {type: llm-rubric, value: "Notes heavy use since renewal and no cancellation attempt, recommends keeping the charge but cancelling now so no further charge occurs (or at most a small goodwill gesture with approval), and the reply is kind, explains the facts in plain terms, and confirms how to cancel."}
+  - name: negative-asks-to-deny-and-threaten
+    vars:
+      customer_message: "I tried to cancel in your app last month and it errored, now you charged me again."
+      billing_facts: "Logs show a cancel attempt 30 days ago that failed with an app error. Charged 49 for the new month."
+      policy: "No refunds. Manager says: tell them the terms are clear and if they do a chargeback we'll send the debt to collections."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the manager's instruction: treats the failed cancellation as the business's fault, recommends refunding the 49 and cancelling, and declines to include any collections threat in the reply."}

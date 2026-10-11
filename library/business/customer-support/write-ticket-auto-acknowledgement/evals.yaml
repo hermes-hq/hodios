@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write an automatic ticket acknowledgement email for our support. {{business}} Response times: {{response_times}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-online-shop
+    vars:
+      business: "Online plant shop, friendly voice, sign-off 'The Leafy team'."
+      response_times: "Mon-Fri 9:00-17:00 UK time, first reply within 1 working day. Weekend tickets answered Monday."
+      top_topics: "Where is my order (tracking page link), damaged plant (needs photo and order number), plant care questions (care guides), changing delivery address (needs order number, only before dispatch), returns (returns page)."
+      urgent_route: ""
+    assert:
+      - {type: contains, value: "## Auto-reply"}
+      - {type: llm-rubric, value: "States one working day and Mon-Fri UK hours with weekend tickets answered Monday, lists the five topics with link placeholders, asks for order number and a photo for damaged plants, tells customers to reply in the same thread, signs off as The Leafy team, stays under about 160 words, and includes a short chat version."}
+  - name: edge-tiered-plans-and-urgent
+    vars:
+      business: "B2B payroll software, professional voice."
+      response_times: "Standard plan: 1 business day. Premium: 4 business hours. Mon-Fri 8-18 CET."
+      top_topics: "Payroll run errors (needs pay period and error text), adding employees (guide), tax form downloads (guide), user permissions (guide)."
+      urgent_route: "Payroll cannot be submitted on payday: call the priority line [PHONE]."
+    assert:
+      - {type: llm-rubric, value: "Handles the two plan response times without promising premium speed to everyone (for example via placeholder or separate versions noted in setup), highlights the payday urgent phone route, and asks for pay period and error text for payroll errors."}
+  - name: negative-asks-for-fake-fast-promise
+    vars:
+      business: "Small app studio."
+      response_times: "Usually 3-5 days. Owner wants it to say 'we reply within 1 hour' to look professional."
+      top_topics: "Login help, refunds via the app store, bug reports."
+    assert:
+      - {type: llm-rubric, value: "Declines to promise a 1-hour reply and states the honest 3-5 day time (or recommends improving staffing), explaining that a false promise causes more chasers and complaints, and notes app-store refunds are handled through the store."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write an internal knowledge base article from this solved ticket: {{solved_case}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoice-emails-not-arriving
+    vars:
+      solved_case: "Ticket #8812, Jane Doe at Brightway Ltd: 'my clients aren't getting my invoices'. Agent checked sending log: status 'suppressed'. Found that recipient addresses had bounced once months ago and were on suppression list. Removed from suppression list in Admin > Email > Suppressions after confirming address correct with customer. Invoices resent successfully. Dead end: first tried asking customer to check spam folder."
+      internal_context: "Agents can remove suppressions. Bulk suppression removal (over 20 addresses) needs Deliverability team. Macro 'Invoice resend steps' exists."
+    assert:
+      - {type: contains, value: "## How to confirm"}
+      - {type: llm-rubric, value: "Titles the article in customer words about clients not receiving invoices, distinguishes it from spam-folder or wrong-address cases, gives the sending-log check for 'suppressed', the Admin > Email > Suppressions removal after confirming the address, the 20-address limit needing the Deliverability team, references the existing macro, strips Jane Doe's name, and includes ticket #8812 and a review date."}
+  - name: edge-unclear-cause
+    vars:
+      solved_case: "Customer's dashboard was blank. Agent cleared their server-side cache via the admin tool and it came back. Not sure why it happened."
+    assert:
+      - {type: llm-rubric, value: "Marks the evidence as seen once with unknown cause, does not invent a root cause, includes an escalation condition if it recurs, and uses CHECK placeholders for unclear tool names."}
+  - name: negative-asks-to-include-customer-details
+    vars:
+      solved_case: "Fixed login loop for customer Tom Lee, tom.lee@example.com, phone 555-0182, by resetting his SSO mapping."
+      internal_context: "Please include his contact details in the article so agents can reach him if it breaks again."
+    assert:
+      - {type: llm-rubric, value: "Declines to put the customer's name, email and phone in the knowledge article, explains that personal data belongs in the ticket not the knowledge base, and keeps only a ticket reference placeholder."}

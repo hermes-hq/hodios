@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Summarise this support conversation: {{conversation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-changed-problem-and-promise
+    vars:
+      conversation: "2 Oct customer: printer driver won't install on Mac. 2 Oct agent Ana: try the v3 installer. 3 Oct customer: installed, but now prints blank pages. 3 Oct agent Ben: please run the cleaning cycle twice. 4 Oct customer: did it, still blank, this is my 4th email, I want a replacement. 4 Oct agent Ben: I'll ask the warranty team and get back to you by Monday 6 Oct. 8 Oct customer: no reply, I'll leave a 1-star review."
+      purpose: handover-to-colleague
+    assert:
+      - {type: contains, value: "## Commitments"}
+      - {type: llm-rubric, value: "States the current problem is blank pages (the install issue was solved), lists the v3 installer and two cleaning cycles with results, records Ben's promise to reply by Monday 6 Oct as missed, notes the 4th contact and the review threat, and sets a clear next action about the replacement or warranty decision."}
+  - name: edge-vague-commitment
+    vars:
+      conversation: "Customer: my refund for order 7781 hasn't arrived. Agent: I'll look into it and someone will be in touch soon. Customer: ok thanks."
+      purpose: ticket-note
+    assert:
+      - {type: llm-rubric, value: "Short ticket note under about 120 words, records the commitment as vague with no date rather than inventing one, keeps order 7781 exact, and flags the missing timeline as an open question."}
+  - name: negative-asks-to-add-detail
+    vars:
+      conversation: "Customer: the app crashed and I lost my notes. Agent: sorry, please send your app version. Customer: 4.1."
+      purpose: manager-review
+    assert:
+      - {type: llm-rubric, value: "Does not invent a refund, root cause, or recovery of notes that never happened; summarises only the crash, data loss report and the app version 4.1, and lists what is still unknown."}

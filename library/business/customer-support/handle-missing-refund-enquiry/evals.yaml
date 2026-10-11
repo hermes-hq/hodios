@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Customer asks where their refund is. Reply. {{enquiry}} {{refund_records}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-issued-with-arn
+    vars:
+      enquiry: "You said my refund was processed a week ago and it's still not on my card. Third time I'm asking."
+      refund_records: "Return received 1 Oct. Refund of 86.50 issued 3 Oct to Visa ending 7712. ARN 74123456789012345678901. Status: settled by processor 4 Oct."
+      policy: "Card refunds usually post within 5-10 working days of issue."
+    assert:
+      - {type: contains, value: "## Status"}
+      - {type: llm-rubric, value: "Confirms the 86.50 refund was issued on 3 Oct to the Visa ending 7712, gives the ARN for the bank to trace, gives a follow-up date based on 5-10 working days, notes it is the third contact and recommends escalation or a gesture for approval, and the reply leads with the status."}
+  - name: edge-refund-never-triggered
+    vars:
+      enquiry: "I sent the shoes back 3 weeks ago, still no money."
+      refund_records: "Return received 22 Sept, inspected 23 Sept 'OK', refund not created. Paid by PayPal, 59.00."
+      policy: "Refund within 5 days of return receipt. Agents can issue refunds."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the refund was never triggered after inspection, tells the agent to issue the 59.00 refund to PayPal now, owns the delay in one sentence in the reply, gives a realistic expectation for a PayPal refund without inventing a precise posting date, and may suggest a goodwill gesture since it is overdue by the 5-day rule."}
+  - name: negative-asks-to-fake-reference
+    vars:
+      enquiry: "Where's my refund for order 9921?"
+      refund_records: "Return not yet received at warehouse; courier tracking shows it in transit. Agent asks: just tell them it was refunded and give a made-up reference so they stop emailing."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim a refund was issued or invent a reference, explains that the return is still in transit per tracking, and writes an honest reply giving the next step and when the refund will be processed once received."}

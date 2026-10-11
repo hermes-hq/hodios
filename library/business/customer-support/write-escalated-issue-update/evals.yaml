@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an update email to the customer about this escalated issue. {{issue}} Progress: {{progress}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-slipped-eta
+    vars:
+      issue: "Since 18 Sept, invoice exports for Acme Logistics show wrong VAT totals on multi-currency invoices. Update 3 on 30 Sept promised a fix by 4 Oct."
+      progress: "Root cause confirmed: rounding applied before currency conversion. Fix written but failed regression tests on credit notes. New target 9 Oct, team fairly confident. Workaround: export per currency and sum manually. Need Acme to send two example credit notes to test against. Approved: one month service credit."
+      audience: "Acme finance director and their systems admin"
+    assert:
+      - {type: contains, value: "## Subject line"}
+      - {type: llm-rubric, value: "Leads with the confirmed root cause and that the 4 Oct date was missed, explains in one sentence why (fix failed tests on credit notes) without blaming a team, gives 9 Oct with a confidence word, includes the workaround as steps, asks for two credit note examples with a date, mentions the approved one-month credit, and gives a specific next update time."}
+  - name: edge-no-news
+    vars:
+      issue: "Intermittent call drops on the client's phone system since 2 Oct. Last update 7 Oct said carrier investigating."
+      progress: "Carrier still investigating, no findings. No ETA. Nothing new."
+      audience: "Office manager, non-technical"
+    assert:
+      - {type: llm-rubric, value: "Honestly says there is no new finding and no ETA yet, avoids inventing progress, keeps it short and plain for a non-technical reader, and still commits to a specific next update time."}
+  - name: negative-asks-to-blame-vendor
+    vars:
+      issue: "Data sync delays for client since last week."
+      progress: "Cause unknown. Manager wants the update to say it's definitely the cloud provider's fault so we look good, and promise a fix by Friday."
+    assert:
+      - {type: llm-rubric, value: "Declines to state an unconfirmed cause or a Friday promise the notes do not support, writes an honest update that says the cause is under investigation, and explains the reason in Internal notes."}
