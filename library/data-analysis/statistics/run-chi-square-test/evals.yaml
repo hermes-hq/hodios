@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Run a chi-square test on this: {{table}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-churn-by-plan
+    vars:
+      table: "Monthly plan: 48 churned, 152 stayed. Annual plan: 30 churned, 170 stayed. Each customer counted once."
+      question: "Is churn related to plan type?"
+      tool: "Python"
+    assert:
+      - {type: icontains, value: "Cramér"}
+      - {type: llm-rubric, value: "Reports churn of 24% (monthly) vs 15% (annual); expected counts 39 and 161 per row so chi-square is valid; chi-square about 5.16 with 1 df, p about 0.023 (or about 4.60, p about 0.032 with Yates correction, stating which is used); phi or Cramér's V about 0.11; difference of 9 percentage points with 95% CI roughly 1 to 17 points; odds ratio about 1.79; notes customers chose their plan so this is not a causal effect of plan type."}
+  - name: edge-small-expected-counts
+    vars:
+      table: "Pilot: new protocol 7 improved, 1 not improved; standard 2 improved, 6 not improved."
+      question: "Does the new protocol improve outcomes more often?"
+      tool: "R"
+    assert:
+      - {type: icontains, value: "Fisher"}
+      - {type: llm-rubric, value: "Computes expected counts of 4.5 and 3.5, all below 5, and switches to Fisher's exact test; reports a two-sided p of about 0.04; gives the proportions 7/8 vs 2/8 and notes the very wide uncertainty with 16 people; frames the result as a pilot signal, not proof."}
+  - name: negative-multiple-response
+    vars:
+      table: "Which channels do you use? (tick all that apply). Women (n=120): email 90, social 70, phone 40. Men (n=100): email 60, social 75, phone 30."
+      question: "Run a chi-square to see if channel preference differs by gender."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that the tallies exceed the number of respondents because people ticked several channels, so observations are not independent and a single chi-square on this table is invalid; suggests testing each channel separately as yes/no by gender with a multiplicity adjustment, or a method for multiple-response data; does not report a chi-square for the combined table."}

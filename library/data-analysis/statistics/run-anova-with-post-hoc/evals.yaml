@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Run an ANOVA on this data and tell me which groups differ: {{data}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-fertilisers
+    vars:
+      data: "Plant height (cm) after 6 weeks, 6 plants per fertiliser. A: 23, 25, 21, 27, 24, 26. B: 28, 30, 27, 31, 29, 26. C: 22, 20, 24, 21, 23, 19."
+      question: "Do the fertilisers differ in plant height, and which ones? Plants were randomly assigned. All pairs are of interest."
+      tool: "R"
+    assert:
+      - {type: icontains, value: "Tukey"}
+      - {type: llm-rubric, value: "Reports means about 24.3, 28.5 and 21.5; ANOVA F(2, 15) about 19.1, p below 0.001; eta squared about 0.72 (omega squared about 0.67); Tukey HSD shows B differs from A (about 4.2 cm, p about 0.006) and from C (7.0 cm, p below 0.001), while A vs C (about 2.8 cm, p about 0.06) is not significant at 0.05 with an interval spanning zero; does not claim A and C are equal; gives R code with aov and TukeyHSD or emmeans."}
+  - name: edge-unequal-variance-and-n
+    vars:
+      data: "Support ticket resolution hours by team. Team 1: n=80, mean 5.1, SD 2.0. Team 2: n=12, mean 7.9, SD 9.5. Team 3: n=35, mean 6.0, SD 3.1. Team 4: n=20, mean 4.4, SD 1.8."
+      question: "Are some teams slower?"
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Flags SD ratio above 5 together with very unequal n, so classic ANOVA and Tukey are unreliable; recommends Welch's ANOVA with Games-Howell post-hoc; notes resolution times are likely right-skewed and suggests a log scale or Kruskal-Wallis as a sensitivity check; notes teams were not randomly assigned tickets so differences may reflect ticket mix; does not fabricate p-values beyond what the summaries support."}
+  - name: negative-unadjusted-pairwise
+    vars:
+      data: "Five ad creatives, about 50 ratings each. ANOVA p = 0.21."
+      question: "The ANOVA is not significant, so can I just run t-tests between all 10 pairs and report the ones under 0.05?"
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that ten unadjusted t-tests inflate the chance of a false positive well above 5 percent and that picking the significant ones after a null omnibus is data dredging; recommends an adjusted post-hoc method or pre-specified contrasts, and reporting the overall result honestly with intervals; does not endorse the plan."}

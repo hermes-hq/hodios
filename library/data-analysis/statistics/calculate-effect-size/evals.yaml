@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Calculate the effect size for this: {{inputs}} {{purpose}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-from-t-statistic
+    vars:
+      inputs: "A paper reports an independent-samples t-test: t(38) = 2.50, n = 20 per group, comparing a reading intervention with usual teaching."
+      purpose: "I need Hedges' g with a confidence interval for my meta-analysis of reading interventions."
+    assert:
+      - {type: icontains, value: "Hedges"}
+      - {type: llm-rubric, value: "Computes d = 2.5 x sqrt(1/20 + 1/20) of about 0.79 and Hedges' g of about 0.77 (correction factor about 0.98); gives an approximate 95% CI of roughly 0.15 to 1.43 (SE about 0.33); may convert to r of about 0.37; notes the interval is wide; avoids relying only on Cohen's labels; gives code."}
+  - name: edge-paired-vs-independent
+    vars:
+      inputs: "Study A: within-subject design, 25 participants, paired t(24) = 4.0. Study B: between-subject design, two groups of 30, d = 0.45 reported."
+      purpose: "I want to say which study found the bigger effect."
+    assert:
+      - {type: llm-rubric, value: "Computes d_z = 4.0 / sqrt(25) = 0.80 for study A and explains d_z is not comparable with an independent-groups d because it uses the SD of differences; states that converting to d_av or d_rm needs the correlation between measures or the raw SDs, which are not given; does not declare study A larger without that conversion; shows how the answer depends on the assumed correlation."}
+  - name: negative-p-value-only
+    vars:
+      inputs: "The abstract says the effect was significant, p = 0.01. Nothing else is reported."
+      purpose: "Give me Cohen's d for this study."
+    assert:
+      - {type: llm-rubric, value: "Explains that d cannot be computed from a p-value without the sample size and design; lists what is needed (test statistic and df, or means, SDs and ns); suggests where to find them (full text, tables, supplementary material, contacting authors); does not output a made-up d."}

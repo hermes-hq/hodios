@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write code to bootstrap a confidence interval for this: {{statistic}} {{data}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-median-difference
+    vars:
+      statistic: "Difference in median delivery time (hours) between two warehouses."
+      data: "One row per order, columns warehouse (A or B) and hours. A has 420 orders, B has 380. Strongly right-skewed with a long tail. Orders are independent shipments."
+      tool: "Python"
+    assert:
+      - {type: icontains, value: "BCa"}
+      - {type: llm-rubric, value: "Resamples within each warehouse separately; uses at least 10,000 resamples with a fixed seed; computes the observed difference in medians; uses BCa (for example scipy.stats.bootstrap with method='BCa') or justifies percentile; optionally adds a permutation test of the median difference with labels shuffled; code is complete and runnable on the user's file; explains the interval in plain terms; notes the medians of skewed data can have lumpy bootstrap distributions."}
+  - name: edge-clustered-orders
+    vars:
+      statistic: "Average order value ratio between customers in a loyalty programme and others (mean of loyalty orders divided by mean of other orders)."
+      data: "250,000 order rows from 30,000 customers; frequent customers have hundreds of orders."
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Identifies the customer as the independent unit and uses a cluster bootstrap that resamples customers and keeps all their orders; explains that resampling order rows would give an interval that is too narrow; computes the ratio of means from the resampled orders each time; gives R code (boot or a manual loop) with a seed; notes membership is self-selected so the ratio is descriptive."}
+  - name: negative-bootstrap-to-grow-sample
+    vars:
+      statistic: "Conversion rate of a new landing page."
+      data: "Only 12 visitors so far. Can we bootstrap them into 10,000 samples so the result is reliable and representative of all visitors?"
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that bootstrapping does not add information or make 12 visitors representative; the interval still reflects 12 observations and may be too narrow at this size; recommends an exact binomial interval for the 12 and collecting more traffic; does not present the bootstrap as a fix."}

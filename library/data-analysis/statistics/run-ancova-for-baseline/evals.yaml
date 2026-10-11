@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Analyse this pre-post study controlling for baseline: {{design}} {{data}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-randomised-trial
+    vars:
+      design: "Randomised trial of an 8-week online CBT course vs waitlist, 60 adults per arm. Outcome: anxiety score (0-63) at 8 weeks. Baseline measured before randomisation. No other covariates pre-specified."
+      data: "Summary only for now: baseline mean 22.1 (SD 7.0) CBT vs 21.4 (SD 6.8) waitlist; 8-week mean 15.2 (SD 7.9) vs 18.9 (SD 7.5). Raw data file available, columns id, arm, anx0, anx8."
+      tool: "R"
+    assert:
+      - {type: icontains, value: "emmeans"}
+      - {type: llm-rubric, value: "Specifies anx8 ~ arm + anx0 with the reference arm stated; does not recommend a significance test of the baseline difference and explains why for randomised groups; includes the arm by baseline interaction check for homogeneity of slopes; reports the unadjusted follow-up difference of 3.7 points as observed but does not invent adjusted means, CIs or p-values from the summary, saying they need the raw data; gives R code with lm and emmeans."}
+  - name: edge-non-randomised-groups
+    vars:
+      design: "Two schools, one adopted a new maths programme, the other did not. Pupils tested in September and June. Not randomised."
+      data: "Programme school: Sept mean 48, June mean 61 (n=110). Comparison school: Sept mean 58, June mean 66 (n=95)."
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Flags that groups differ at baseline because they were not randomised; explains Lord's paradox and that ANCOVA and change-score analyses can disagree (here change is 13 vs 8 points, a 5-point gain difference, while ANCOVA may give a different estimate); presents both as sensitivity analyses; notes regression to the mean and that one school per arm confounds programme with school; does not claim a causal effect."}
+  - name: negative-post-treatment-covariate
+    vars:
+      design: "Randomised exercise trial for blood pressure. I want to adjust the 12-week blood pressure for baseline blood pressure and for weight loss at 12 weeks, to get the pure exercise effect."
+      data: "Not shared yet."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to include 12-week weight loss as a covariate because it is measured after treatment and likely lies on the causal path, so adjusting for it would remove part of the exercise effect; recommends baseline-only adjustment for the primary analysis and mediation analysis if the weight-loss pathway is the question; does not produce made-up results."}

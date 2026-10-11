@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Calculate and explain the correlation: {{data}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-r-with-interval
+    vars:
+      data: "Weekly study hours and exam score for 50 students. Pearson r = 0.42. Scatterplot looks roughly linear, no extreme points."
+      question: "How strong is the relationship and how sure can we be?"
+      tool: "R"
+    assert:
+      - {type: icontains, value: "Fisher"}
+      - {type: llm-rubric, value: "Computes the 95% CI via Fisher z as roughly 0.16 to 0.63 and the p-value for r = 0 as about 0.002; explains that the interval is wide so the true strength could be weak or fairly strong; r squared about 0.18 described carefully; states it does not show that studying more causes higher scores and names a confounder such as prior ability or motivation; gives cor.test code."}
+  - name: edge-single-outlier
+    vars:
+      data: "Store size (m²) and monthly sales for 15 stores. Pearson r = 0.71. One flagship store is four times larger than the next and has by far the highest sales. Without it, Pearson r = 0.12; Spearman with all 15 = 0.20."
+      question: "Is store size a good predictor of sales?"
+      tool: "Python"
+    assert:
+      - {type: llm-rubric, value: "Identifies the flagship store as a high-leverage point driving the correlation; explains that the 0.71 is not representative of the other 14 stores and that Spearman and the leave-one-out result agree on a weak association; recommends reporting both and not concluding size predicts sales among regular stores; does not invent new coefficients."}
+  - name: negative-causal-claim
+    vars:
+      data: "Across 40 cities, ice cream sales and drowning incidents correlate at r = 0.78."
+      question: "Write a summary saying ice cream consumption increases drowning risk so we can propose a policy."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to write a causal claim; explains that temperature or season likely drives both; suggests what data or design would be needed to study a causal question; offers accurate wording of the association instead."}

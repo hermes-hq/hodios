@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is there a significant change between before and after? {{data}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blood-pressure
+    vars:
+      data: "Systolic BP (mmHg), 10 participants, before and after 8 weeks of a low-salt diet. Before: 142, 150, 138, 160, 155, 147, 151, 139, 163, 149. After (same order, same IDs): 136, 144, 137, 150, 149, 145, 143, 140, 152, 141."
+      question: "Did blood pressure go down? All participants were recruited because their last reading was high. No control group."
+      tool: "Python"
+    assert:
+      - {type: icontains, value: "regression to the mean"}
+      - {type: llm-rubric, value: "Computes after minus before differences with mean -5.7 mmHg and SD about 3.9; paired t about -4.6 on 9 df, p about 0.001; 95% CI roughly -8.5 to -2.9 mmHg; d_z about -1.46; notes 9 of 10 decreased; explains that recruiting people with high readings plus no control group means regression to the mean could explain part of the drop, so this is a change, not proof of a diet effect; gives ttest_rel code."}
+  - name: edge-missing-and-likert
+    vars:
+      data: "Confidence rating 1-5 before and after a training session, 30 staff. 6 people did not complete the after survey. Most moved up by 1 point, several stayed the same, two moved down."
+      question: "Did confidence improve after training?"
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Excludes the 6 incomplete pairs from the paired analysis and raises that non-responders may differ; recommends Wilcoxon signed-rank or a sign test for the ordinal 1-5 ratings rather than a paired t-test as the primary analysis, and notes ties and zero differences; reports counts up, down and same; does not invent a p-value from the verbal description."}
+  - name: negative-not-paired
+    vars:
+      data: "Before campaign: survey of 200 random customers, mean satisfaction 6.8. After campaign: a new survey of 210 random customers, mean 7.3."
+      question: "Run a paired t-test to see if the campaign improved satisfaction."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Explains the two surveys contain different people so the data are not paired and a paired t-test is wrong; recommends an independent-groups comparison (Welch) and asks for SDs; notes that a before-after difference in different samples cannot by itself attribute the change to the campaign."}

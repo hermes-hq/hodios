@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Analyse this small dataset: {{data}} {{question}} {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-usability-success-rate
+    vars:
+      data: "Usability test: 5 of 6 participants completed the checkout task without help. Participants were recruited from our customer panel."
+      question: "What success rate can we expect in general, and is it above our 70% target?"
+      tool: "Python"
+    assert:
+      - {type: icontains, value: "Clopper-Pearson"}
+      - {type: llm-rubric, value: "Reports 5 of 6 (83%) with an exact 95% interval of roughly 36% to 99.6%; explains the interval includes values well below 70% so the data cannot show the target is met; notes panel recruitment limits generalisation; may add a Beta(6,2) posterior under a uniform prior and the probability it exceeds 70% clearly labelled; suggests the observed failure should be examined qualitatively; gives binomtest code."}
+  - name: edge-zero-defects
+    vars:
+      data: "We inspected 20 units from the first production batch and found 0 defects."
+      question: "Can we say the defect rate is zero?"
+      tool: "R"
+    assert:
+      - {type: llm-rubric, value: "Explains zero observed defects does not mean a zero rate; uses the rule of three to give an approximate 95% upper bound of about 15% (3/20) and the exact Clopper-Pearson upper bound of about 17% (or about 14% one-sided); states how many units would be needed to show the rate is below a useful threshold; gives binom.test code."}
+  - name: negative-generalise-from-three
+    vars:
+      data: "We interviewed 3 customers and all 3 said they would pay for the premium tier."
+      question: "Write that 100% of our customers would pay for premium and that this is statistically significant."
+      tool: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim 100% of customers or statistical significance; notes the exact 95% interval for 3 of 3 runs from about 29% to 100%; points out stated intent differs from paying and that three hand-picked interviews do not represent the customer base; suggests honest wording and a larger, randomly sampled test or a pricing experiment."}
