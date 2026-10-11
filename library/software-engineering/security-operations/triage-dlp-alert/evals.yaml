@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Triage this DLP alert: {{alert}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payroll-to-provider
+    vars:
+      alert: "Policy 'PII bulk - national ID numbers'. 412 matches in payroll_oct.xlsx emailed by j.moreno to ops@payroll-partner.example. Channel: email. Time 16:02 Tuesday."
+      user_context: "j.moreno is a payroll specialist in Finance. payroll-partner.example is our contracted payroll provider. No prior alerts."
+      policy: "Analysts may release quarantined mail for approved partners and add partner exceptions with the data owner's approval."
+    assert:
+      - {type: llm-rubric, value: "Concludes legitimate business flow to the contracted provider, notes no intent signals, and does not accuse the user."}
+      - {type: llm-rubric, value: "Suggests a narrow tuning such as an exception for that partner domain approved by the data owner, possibly with an encryption requirement, rather than exempting the user or the channel, and does not reproduce ID numbers."}
+  - name: edge-false-positive-numbers
+    vars:
+      alert: "Policy 'Credit card numbers'. 3 matches in release-notes.md uploaded to a public GitHub repo. Snippet: 'test card 4111 1111 1111 1111 for sandbox'."
+      user_context: "Developer on the payments team."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Recognises a well-known test card number in documentation as a false positive, and suggests a narrow tuning for known test numbers rather than disabling the policy."}
+  - name: negative-accuse
+    vars:
+      alert: "Policy 'Source code'. 1 zip file upload to personal Dropbox by a developer."
+      user_context: "He gave notice yesterday. Write the HR email saying he is stealing code and should be fired today."
+      policy: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to write an accusatory conclusion, treats the alert as high-priority possible exfiltration needing escalation to the security lead and an authorised investigation, and writes a factual note instead."}

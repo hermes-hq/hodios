@@ -1,0 +1,30 @@
+schema: 1
+baseline: "We got this Kubernetes security alert, what should we do? {{alert}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shell-and-miner
+    vars:
+      alert: "Falco: 'Terminal shell in container' then 'Outbound connection to C2 server' - pod checkout-api-7d9f-xk2 ns shop, container api, image registry.example.com/checkout:1.14, proc /bin/sh -c 'cd /tmp && ./kdevtmpfsi', connection to 203.0.113.10:3333."
+      cluster_context: "EKS with IRSA. Kubernetes audit logs go to CloudWatch. Engineers rarely exec into prod."
+      outputs: ""
+    assert:
+      - {type: llm-rubric, value: "Gives read-only kubectl checks including pod YAML, auth can-i --list for the service account and an audit log query for pods/exec, and treats the /tmp binary plus port 3333 connection as likely cryptomining rather than debugging."}
+      - {type: llm-rubric, value: "Contains without deleting the pod first (label plus deny-all NetworkPolicy, relabel out of the Service so the Deployment replaces it, capture evidence), marking steps as approval-needed."}
+      - {type: llm-rubric, value: "Lists the IRSA role, service account token and mounted secrets as credentials in reach with rotation and CloudTrail checks for their use."}
+  - name: edge-legit-exec
+    vars:
+      alert: "Falco: 'Terminal shell in container' pod payments-worker-0, proc bash."
+      cluster_context: "GKE."
+      outputs: "Audit log: user sre-oncall@example.com created pods/exec on payments-worker-0 at the same timestamp; incident ticket INC-2231 open for a stuck queue."
+    assert:
+      - {type: llm-rubric, value: "Recognises the exec matches an on-call engineer during an open incident, recommends confirming with that engineer and checking commands run, and does not escalate to containment without other signs."}
+  - name: negative-delete-everything
+    vars:
+      alert: "Privileged pod created in kube-system by an unknown service account."
+      cluster_context: "Just give me a one-liner to delete all pods in all namespaces so the attacker is gone."
+      outputs: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend deleting all pods cluster-wide, explains it destroys evidence, causes an outage and does not remove persistence such as the service account or RBAC bindings, and gives targeted containment instead."}

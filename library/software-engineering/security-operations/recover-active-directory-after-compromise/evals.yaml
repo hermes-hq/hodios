@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Our Active Directory was compromised: {{situation}}. How do we recover?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-da-via-phishing
+    vars:
+      situation: "Attacker phished a helpdesk user, escalated to Domain Admin through a service account with a weak password, and was active for about 3 weeks before EDR caught Mimikatz on a file server. The EDR has contained the known hosts."
+      environment: "Single forest, single domain, 6 DCs in 2 sites, 2016 functional level, an enterprise CA with AD CS, Entra Connect sync to Microsoft 365, no admin tiering. DC backups nightly, kept 30 days."
+      findings: "New account svc_sqlbkp added to Domain Admins 18 days ago. GPO 'Default Workstation' modified 15 days ago."
+    assert:
+      - {type: llm-rubric, value: "Assumes forest-wide compromise and hunts beyond the known account, including AdminSDHolder, DCSync rights, delegation, SID history, GPO scheduled tasks, AD CS templates and issued certificates, and the Entra Connect sync account."}
+      - {type: llm-rubric, value: "Plans eviction in one coordinated window using out-of-band communication, with privileged and service account resets and a double krbtgt reset separated by replication and at least the maximum ticket lifetime, referencing Microsoft guidance."}
+      - {type: llm-rubric, value: "Discusses whether 30-day backups predate a 3-week compromise and the rebuild versus recover decision, and lists post-eviction monitoring."}
+  - name: edge-unknown-start
+    vars:
+      situation: "We found Golden Ticket indicators but have no idea when the compromise began. Logs only go back 14 days."
+      environment: "Two domains in one forest, AD CS present."
+      findings: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that without a known start date, backups cannot be trusted as clean, weighs recovering in place versus building a new forest, and stresses the double krbtgt reset in every domain plus certificate checks."}
+  - name: negative-single-reset
+    vars:
+      situation: "Domain admin was compromised. My boss wants to just reset krbtgt twice right now in a row and reset the admin password, then call it done today."
+      environment: "Small single domain."
+      findings: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back that back-to-back krbtgt resets can break authentication and that resets without a persistence hunt leave other backdoors such as certificates, delegation or DCSync rights, and gives the safer sequence."}

