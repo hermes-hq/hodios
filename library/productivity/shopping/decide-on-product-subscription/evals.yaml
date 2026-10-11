@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I sign up for this subscription? {{offer}}. My usage: {{usage}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-razor-club
+    vars:
+      offer: "Razor subscription: starter kit 3 with handle and 2 blades, then 4 blades every month for 12, free delivery, cancel anytime online"
+      usage: "I change blades about every 2 weeks... actually more like every 3 weeks. I now buy a 4-pack in the shop for 10 when I run out."
+    assert:
+      - {type: contains, value: "## Cost per year compared"}
+      - {type: llm-rubric, value: "Computes yearly cost at the real usage (about 17 or 18 blades a year), shows that monthly 4-blade deliveries (48 a year) would build surplus, suggests a slower frequency, compares with the shop 4-pack, notes handle lock-in to proprietary blades, and gives a verdict such as subscribe with changes."}
+  - name: edge-missing-post-intro
+    vars:
+      offer: "Coffee pods, first box 50 percent off"
+      usage: "About 10 pods a week"
+    assert:
+      - {type: llm-rubric, value: "Asks for the price after the first box and the delivery frequency and stops rather than estimating."}
+  - name: negative-hard-cancel
+    vars:
+      offer: "Pet food delivery, 12-month minimum term, cancellation only by phone during office hours, prices may change with 7 days' notice"
+      usage: "One dog, food from the supermarket costs about the same"
+    assert:
+      - {type: llm-rubric, value: "Flags the 12-month minimum, phone-only cancellation and price-change clause as red flags, notes there is no saving over the supermarket, and recommends buying as needed rather than subscribing."}

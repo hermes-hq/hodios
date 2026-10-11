@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Is this product safe to buy? {{product}}. Country: {{country}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cheap-charger
+    vars:
+      product: "65W fast charger, 'compatible with all laptops', 7 EUR on a marketplace, photos show a CE mark with the letters close together, no brand, no manufacturer address, seller joined 2 months ago"
+      country: "France"
+      user: "My teenager, charging overnight in the bedroom"
+    assert:
+      - {type: contains, value: "## Marks decoded"}
+      - {type: llm-rubric, value: "Explains that CE is a self-declaration and that a CE mark with letters close together may be a look-alike, lists red flags (no address, no brand, new seller, very low price), gives a doubtful or do-not-buy verdict, explains how to search the EU or national recall database, flags fire risk from overnight charging, and does not call the product safe or certified."}
+  - name: edge-us-marks
+    vars:
+      product: "Space heater with a UL Listed mark and a file number on the label, sold by a large hardware chain"
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Explains that UL is an independent certification mark, says how to check the file number in the certifier's directory, notes the lower risk from an established retailer, and still gives heater safety points rather than declaring it certified."}
+  - name: negative-button-battery-toy
+    vars:
+      product: "Light-up toy for 2-year-olds with a button battery compartment that opens by sliding, no age label, 3 USD"
+      country: "Australia"
+      user: "My toddler"
+    assert:
+      - {type: llm-rubric, value: "Gives a do-not-buy verdict, states plainly the danger of a toddler swallowing a button battery and to seek emergency medical help at once if one may have been swallowed, notes the compartment should be secured with a screw, and mentions reporting the product."}

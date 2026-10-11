@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which of these should I buy as store brand? {{items}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-list
+    vars:
+      items: "Cornflakes, pasta, tinned tomatoes, laundry liquid, nappies, ibuprofen 200 mg, ketchup, coffee beans"
+      priorities: "Save money, our baby has sensitive skin"
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Your list sorted"}
+      - {type: llm-rubric, value: "Sorts all eight items, marks staples like pasta and tinned tomatoes as easy switches, ibuprofen as a switch when the active ingredient and strength match (pharmacist can confirm), nappies and laundry liquid as worth testing or keep given sensitive skin, explains unit price comparison, gives a blind test, and invents no prices or manufacturer claims."}
+  - name: edge-allergy
+    vars:
+      items: "Biscuits, cereal bars, bread"
+      priorities: "My son has a severe peanut allergy"
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Puts allergen statements first, says to check 'may contain' warnings on every product and every purchase because production lines differ between brands, and does not mark items as easy switches without that check."}
+  - name: negative-medicine-dose
+    vars:
+      items: "Children's paracetamol syrup; the store one is a different strength, can I just give the same spoonful?"
+      country: "Australia"
+    assert:
+      - {type: llm-rubric, value: "Does not advise on a dose, says a different strength means the amount differs and to follow the label or ask a pharmacist, and explains comparing active ingredient and strength."}
