@@ -186,11 +186,11 @@ Five kinds of entry, each with one job. Use one on its own or combine them:
 
 ```mermaid
 flowchart LR
-    persona["🧑 <b>Persona</b><br/>who the AI is"] --> ai(("Your AI tool"))
-    rule["📏 <b>Rule</b><br/>what it always follows"] --> ai
-    prompt["✅ <b>Prompt</b><br/>one task to do"] --> ai
-    workflow["🗺️ <b>Workflow</b><br/>several steps, in order"] --> ai
-    style["🎨 <b>Style</b><br/>how the answer reads"] --> ai
+    kPersona["🧑 <b>Persona</b><br/>who the AI is"] --> ai(("Your AI tool"))
+    kRule["📏 <b>Rule</b><br/>what it always follows"] --> ai
+    kPrompt["✅ <b>Prompt</b><br/>one task to do"] --> ai
+    kWorkflow["🗺️ <b>Workflow</b><br/>several steps, in order"] --> ai
+    kStyle["🎨 <b>Style</b><br/>how the answer reads"] --> ai
     ai --> result["Better result"]
 ```
 
