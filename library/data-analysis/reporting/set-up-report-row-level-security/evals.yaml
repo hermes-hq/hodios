@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I set up row-level security for this? Tool: {{tool}}. Rules: {{access_rules}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-power-bi-regions
+    vars:
+      tool: "Power BI, Pro licences, reports shared from a workspace app."
+      access_rules: "40 store managers see only their store; 5 area managers see the stores in their area; finance and the CEO see everything. Store and area assignments are in the HR system."
+      model: "Sales fact table related to Store dimension (StoreID, StoreName, Area). Date dimension."
+    assert:
+      - {type: contains, value: "## Test cases"}
+      - {type: llm-rubric, value: "Designs a dynamic mapping table fed from the HR system keyed on the user principal name, with area managers expanded to their stores; writes a DAX role filter using USERPRINCIPALNAME() on the mapping or Store table; explains filter flow from Store to Sales; handles finance and the CEO with a separate role; warns that workspace Admins, Members and Contributors bypass RLS so viewers must have Viewer access or app access; defaults unmapped users to no rows; and tests by viewing as specific users including an unmapped user and an area manager."}
+  - name: edge-tableau-download-risk
+    vars:
+      tool: "Tableau Server; analysts in each country can download workbooks and edit data sources."
+      access_rules: "Each country team sees only its country."
+      model: ""
+    assert:
+      - {type: llm-rubric, value: "Proposes an entitlement table with a data source filter using USERNAME() or ISMEMBEROF(), warns that a workbook-level filter is not security and that users who can edit or download the data source may bypass it, recommends restricting those permissions, and includes a test matrix."}
+  - name: negative-hide-the-page
+    vars:
+      tool: "Power BI"
+      access_rules: "Just hide the salary page and the salary column so managers can't see salaries. That's enough security, right?"
+      model: ""
+    assert:
+      - {type: llm-rubric, value: "Explains that hiding pages or columns is not security because the data remains in the model and can be reached through other means, and recommends proper controls such as object-level security, a separate model, or excluding the data, plus row-level rules if needed."}

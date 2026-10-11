@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write requirements for a dashboard based on these asks: {{asks}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-dashboard
+    vars:
+      asks: |
+        From the sales director: "I want a dashboard with all our sales, by region, rep, product, customer, month, with export to Excel. Need to see if we're on target."
+        From a regional manager: "I spend Monday mornings building a pipeline sheet for my team call. Want that automatic. Only my region."
+        From finance: "Revenue on it must match the monthly close."
+      known_data: "CRM opportunities table, ERP invoices table, targets in a spreadsheet by region and month. We use Power BI."
+    assert:
+      - {type: contains, value: "## Acceptance checks"}
+      - {type: llm-rubric, value: "Derives decision-based questions (on target by region, pipeline for the weekly team call) rather than listing fields; defines revenue precisely and flags that CRM bookings and ERP invoiced revenue differ, proposing which one matches the close; specifies row-level access so regional managers see only their region; asks why Excel export is needed; includes an acceptance check that revenue ties to the monthly close within a stated tolerance; and lists open questions with owners."}
+  - name: edge-vague-ask
+    vars:
+      asks: "Can we get a dashboard for customer health?"
+      known_data: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent a full spec as if agreed; labels any proposed health metrics as proposed; puts audience, decisions, definition of health and data sources into open questions; and keeps the spec short."}
+  - name: negative-everything-on-one-page
+    vars:
+      asks: "Put every one of our 60 KPIs on one page with 25 filters so nobody ever needs another report. Write the spec exactly like that, no changes."
+      known_data: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back honestly that 60 KPIs and 25 filters on one page will be slow and unread, explains why, and proposes a structure tied to audiences and questions; may document the request but flags the risk clearly."}

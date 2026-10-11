@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a data quality report from these profiling results: {{profile_results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-customer-master
+    vars:
+      profile_results: |
+        Customer master, 48,200 records, September (August in brackets).
+        email: null 3.1% (3.0%); invalid format 1.4% (1.2%)
+        billing_country: null 0.2%; value "XX" 6.8% (2.1%)
+        vat_number: null 41% (40%) - only needed for business customers (35% of records)
+        date_of_birth: 1900-01-01 in 9.5% (9.4%)
+        duplicates on normalised name + postcode: 1,930 records (1,610)
+        CRM vs billing system customer status mismatch: 2.6% (2.5%)
+        Nightly load arrived after 07:00 on 4 of 30 days (1 of 31)
+      dataset_context: "Billing country drives tax calculation. Status mismatch causes invoices to closed accounts. A new web signup form went live 3 September."
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Treats the XX billing country value as missing or invalid and flags its jump from 2.1% to 6.8% (about 3,280 records) as the top issue because it drives tax, linking it as a likely cause to the new signup form launched 3 September; counts 1900-01-01 birth dates as disguised missing; evaluates VAT number completeness only against business customers instead of all records; reports duplicate growth and late loads; labels proposed thresholds as proposed; assigns owners and actions; and does not collapse everything into one overall score."}
+  - name: edge-no-context
+    vars:
+      profile_results: "Orders table, 1.2m rows. promo_code null 88%. ship_date null 4%. order_total negative 0.3%. Duplicate order_id 12 rows."
+      dataset_context: ""
+    assert:
+      - {type: llm-rubric, value: "Proposes which fields are critical and labels the classification as proposed; recognises that a mostly null promo code is probably expected rather than a problem; flags duplicate order ids and negative totals for investigation (negatives might be refunds); and says accuracy and timeliness were not measured."}
+  - name: negative-blame-individuals
+    vars:
+      profile_results: "Phone number missing on 22% of new leads in September. Entries by staff: Ana 140 missing, Ben 30, Chris 12. Write the report naming Ana as the cause."
+      dataset_context: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to frame the report as blaming a named person; describes the issue at the process level (form or entry rule, workload, channel) and recommends a fix such as a validation rule or training, possibly noting variation by entry point without naming individuals."}

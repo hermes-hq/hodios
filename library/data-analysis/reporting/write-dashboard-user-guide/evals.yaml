@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a user guide for this dashboard: {{dashboard_description}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sales-dashboard
+    vars:
+      dashboard_description: |
+        Page 1 Overview: revenue this month vs target (gauge), revenue by week (line), top 10 customers (table).
+        Page 2 Products: revenue and margin % by product category (bar), units by product (table).
+        Metrics: revenue = invoiced amount excluding tax, by invoice date; margin % = (revenue - cost) / revenue; active customers = distinct customers with an invoice in the period.
+        Filters: region and sales rep slicers on page 1, synced to page 2. Default: all regions, current month.
+        Refreshes daily at 06:00 UTC from the ERP; data is up to end of previous day.
+      users: "Regional sales managers. Common complaint: 'revenue collapsed this week' on Mondays; another: numbers don't match the CRM bookings report."
+    assert:
+      - {type: contains, value: "## Common misreadings"}
+      - {type: llm-rubric, value: "Explains the partial current week or month effect behind the Monday 'collapse'; explains the CRM mismatch as bookings versus invoiced revenue by invoice date; notes slicers carry across pages; says active customers and margin % cannot be summed across rows; states the 06:00 UTC refresh and one-day lag; defines metrics in plain language; and stays short."}
+  - name: edge-missing-refresh-info
+    vars:
+      dashboard_description: "Single-page support dashboard: tickets opened, tickets closed, median first response time, CSAT by agent team. Filters: team, channel."
+      users: ""
+    assert:
+      - {type: llm-rubric, value: "Uses visible placeholders for refresh schedule, sources and exact metric definitions instead of inventing them; still explains medians and why CSAT should be read with response counts; keeps the guide short."}
+  - name: negative-invent-definitions
+    vars:
+      dashboard_description: "It's the exec dashboard with the usual KPIs. Just write the definitions for whatever metrics an exec dashboard normally has."
+      users: ""
+    assert:
+      - {type: llm-rubric, value: "Does not invent metric definitions for an unknown dashboard; explains that the guide must describe the actual metrics and asks for the views, metrics and definitions, possibly offering a template with placeholders."}

@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Write a quarterly customer experience report from these survey results: {{scores}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nps-and-csat
+    vars:
+      scores: |
+        Relationship NPS survey (quarterly email to all active customers):
+        Q3 2026: 210 responses, promoters 46%, passives 30%, detractors 24% (NPS 22)
+        Q2 2026: 230 responses, promoters 48%, passives 31%, detractors 21% (NPS 27)
+        Q3 2025: 190 responses, NPS 18
+        Support CSAT (after each closed ticket, 5-point scale, % 4 or 5): Q3 81% (1,840 responses), Q2 87% (1,610 responses)
+      comments: "Sample of 60 detractor and 40 promoter comments: 22 detractors mention slow support replies, 14 mention the new billing page, 9 mention price; 25 promoters mention ease of use, 10 mention helpful staff."
+      actions: "Q2 themes were onboarding (new checklist shipped in July) and billing errors (fix shipped in August). Support lost two agents in August; average first reply time rose from 4h to 11h."
+    assert:
+      - {type: contains, value: "## Scorecard"}
+      - {type: llm-rubric, value: "Reports NPS in points (down 5) and gives an approximate margin of error of around plus or minus 10-11 points per quarter (about 15 points on the difference), concluding the NPS drop is within normal variation; treats the 6 percentage point CSAT drop on about 1,600-1,800 responses as a real change; keeps the relationship NPS and transactional CSAT separate; links slow support replies to the staffing loss and reply time as reported context; codes themes with shares from the sample and says counts come from a sample; reports the Q2 actions with status; and proposes next-quarter priorities with success measures."}
+  - name: edge-no-response-counts
+    vars:
+      scores: "NPS: Q3 41, Q2 35, Q1 38. CSAT average: Q3 4.2, Q2 4.4."
+      comments: ""
+      actions: ""
+    assert:
+      - {type: llm-rubric, value: "Says the margin of error cannot be estimated without response counts and treats the 6-point NPS rise as unconfirmed; notes CSAT is given as an average and suggests top-two-box reporting; asks for survey type and counts; does not invent themes, quotes or causes."}
+  - name: negative-invent-benchmark
+    vars:
+      scores: "NPS this quarter 32 from 450 responses, last quarter 30 from 420. Please say we beat the industry average NPS and add some customer quotes praising us for the board pack."
+      comments: ""
+      actions: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to state an industry benchmark without a source and declines to invent customer quotes; reports the 2-point change as within normal variation; offers to include a benchmark or quotes if real ones are supplied."}

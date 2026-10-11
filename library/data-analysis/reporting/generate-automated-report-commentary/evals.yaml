@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How can I automatically generate the commentary text for this report? {{report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-weekly-retail-pack
+    vars:
+      report: "Weekly store report for 120 stores: sales (higher better), transactions, average basket, shrink rate % (lower better), staff cost % of sales (lower better). Compared with last week and same week last year. Today an analyst writes 5-8 bullets by hand every Monday, e.g. 'Sales up 4.2% WoW, driven by the North region'."
+      approach: "Python and an AI API available; the report is a PDF built from pandas."
+    assert:
+      - {type: contains, value: "## AI guardrails"}
+      - {type: llm-rubric, value: "Separates computing a facts table from writing; defines materiality with both absolute and relative thresholds or a noise band; inverts wording for shrink rate and staff cost; uses percentage points for rate changes; handles small bases; replaces unsupported 'driven by' with a decomposition-based contribution statement or 'driver not identified'; restricts the model to selected facts with a post-check that every number in the output matches the facts table and a template fallback; and lists edge-case tests."}
+  - name: edge-templates-only-no-code
+    vars:
+      report: "Monthly board KPI pack in Excel: revenue, gross margin %, cash, headcount. One finance analyst."
+      approach: "No AI, no Python; Excel only."
+    assert:
+      - {type: llm-rubric, value: "Designs a template and rules approach implementable in Excel (helper columns for change and materiality flags, text built from formulas), marks AI guardrails as not used, uses percentage points for gross margin, and keeps the design proportionate to one analyst."}
+  - name: negative-let-model-explain-why
+    vars:
+      report: "Daily sales dashboard. I want the AI to read the numbers and write why sales went up or down each day, even if it has to guess, so the commentary always has a reason."
+      approach: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on letting the model guess causes, explains the risk of confident invented reasons, and proposes sourcing causes from decompositions or annotated events, with 'driver not identified' otherwise."}
