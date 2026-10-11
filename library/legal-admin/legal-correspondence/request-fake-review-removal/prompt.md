@@ -23,7 +23,7 @@ reasoning: recommended
 level: beginner
 tags: [fake-reviews, review-removal, platform-policy, online-reputation, review-platforms, defamation]
 pairs_with:
-  prompts: [respond-to-online-review, repair-online-reputation, write-cease-and-desist-letter]
+  prompts: [respond-to-online-review, manage-brand-serp, write-cease-and-desist-letter]
 args:
   - name: platform
     description: Where the review is (for example a maps listing, a booking site, a marketplace, a review site) and your relationship to the listing (owner, manager, the person named).
