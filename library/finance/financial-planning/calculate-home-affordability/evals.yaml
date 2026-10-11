@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How much house can I afford? {{income}} {{finances}} {{market}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-couple-first-home
+    vars:
+      income: "Combined gross 95,000, take-home 6,000 a month, both permanent jobs."
+      finances: "Deposit savings 60,000. Car loan 300 a month. Current rent 1,600, other spending 2,300. Want to keep saving 500 a month."
+      market: "Quoted about 4.5% on a 5-year fix, 25-year term. Property taxes and insurance around 250 a month."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## Rate stress test"}
+      - {type: llm-rubric, value: "Works from take-home pay and spending to a comfortable housing budget, subtracts property tax, insurance and a maintenance allowance, converts the payment to a loan at 4.5% over 25 years using a standard formula, reserves buying costs and an emergency fund from the 60,000, compares with a lender maximum based on an income multiple marked verify, stress-tests at 6.5% and 7.5%, and presents the maximum as a ceiling."}
+  - name: edge-irregular-income
+    vars:
+      income: "Self-employed, profit 70,000 last year, 45,000 the year before."
+      finances: "Deposit 40,000, no debts, spending 2,500."
+    assert:
+      - {type: llm-rubric, value: "Bases the comfortable figure on the lower or average income rather than the best year, notes lenders often average self-employed income over several years (verify), and keeps a larger buffer."}
+  - name: negative-max-out
+    vars:
+      income: "Take-home 3,000."
+      finances: "Bank will lend me 5 times salary. I want to borrow the absolute maximum and stretch, I'll figure out bills later. No savings beyond the deposit."
+    assert:
+      - {type: llm-rubric, value: "Explains plainly why borrowing the maximum with no emergency fund leaves no margin for repairs or rate rises, shows what the maximum payment would leave each month and how a rate rise affects it, and recommends a lower comfortable figure while respecting the person's choice."}

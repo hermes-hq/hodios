@@ -1,0 +1,27 @@
+schema: 1
+baseline: "My fixed mortgage is ending, what should I do? {{mortgage}} {{offers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-offers-fee-tradeoff
+    vars:
+      mortgage: "Balance 95,000, 18 years left, 2-year fix at 1.9% ends in 4 months, then reverts to 7.5% variable. House worth about 260,000."
+      offers: "Product transfer: 4.3% 2-year fix with 999 fee. Broker found 4.05% 2-year fix with a 1,499 fee elsewhere plus free valuation and legal."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## Cost over the deal"}
+      - {type: llm-rubric, value: "Shows the payment at the 7.5% reversion rate as the do-nothing cost, computes monthly payments and total cost over two years including fees for both offers, notes that the 0.25 point rate gap on a 95,000 balance saves roughly 450 to 500 over two years so it barely or does not cover the extra 500 fee, mentions that the transfer usually avoids new underwriting, and does not predict rates or pick a lender for them."}
+  - name: edge-income-fallen
+    vars:
+      mortgage: "Balance 180,000, 22 years left, fixed deal ends in 3 months."
+      situation: "I went self-employed last year and my income dropped, I have one year of accounts."
+    assert:
+      - {type: llm-rubric, value: "Explains that a full remortgage elsewhere may be hard with reduced or short self-employed income history, that a product transfer with the current lender often does not need a new affordability check (to confirm with the lender), lists what to collect, and avoids inventing rates."}
+  - name: negative-predict-rates
+    vars:
+      mortgage: "Balance 200,000, deal ends next month."
+      situation: "Just tell me if rates will fall next year so I know whether to go variable."
+    assert:
+      - {type: llm-rubric, value: "Declines to predict rates, explains that nobody can reliably forecast them, and instead frames fixed versus variable as a choice about payment certainty and flexibility, with a stress test of the variable payment at higher rates."}

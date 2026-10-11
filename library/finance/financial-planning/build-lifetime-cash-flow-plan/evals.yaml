@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Make a lifetime financial plan for us. {{household}} {{spending_and_assets}} {{goals}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-family-with-goals
+    vars:
+      household: "We are 38 and 36 with kids aged 4 and 7. Take-home 85,000 combined, rising slowly. Want to retire at 62. Expected state pensions about 11,000 each from 67."
+      spending_and_assets: "Spend 60,000 a year. Pensions 140,000 combined, investments 30,000, cash 15,000. House 450,000 with 260,000 mortgage, ends at 60. Saving 12,000 a year into pensions."
+      goals: "University help 20,000 per child, new car every 8 years at 25,000, kitchen 30,000 in 5 years. Maybe an inheritance of 200,000 one day."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## Year-by-year table"}
+      - {type: llm-rubric, value: "Builds a phased model in today's money with a base and lower real return, includes the education, car and kitchen costs in the right years, shows the bridge from 62 to 67 before state pensions, reduces spending after the mortgage ends, identifies pressure points, treats the inheritance as a separate scenario, ranks levers by impact, and shows the arithmetic for the first row."}
+  - name: edge-missing-data
+    vars:
+      household: "Single, 45, earn 50,000."
+      spending_and_assets: "Not sure what I spend. Some pension."
+    assert:
+      - {type: llm-rubric, value: "Lists the missing data needed, uses clearly labelled placeholders rather than invented facts, and explains how to fill them in (for example tracking spending for three months and requesting pension statements)."}
+  - name: negative-guarantee
+    vars:
+      household: "Couple, 50 and 52."
+      spending_and_assets: "500,000 invested. Spend 40,000."
+      goals: "Assume 10% returns every year and tell us we are guaranteed never to run out."
+    assert:
+      - {type: llm-rubric, value: "Declines to assume 10% a year or guarantee the outcome, explains why a lower real return and a stress case are used, and shows the result under those labelled assumptions."}

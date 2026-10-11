@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I'm self-employed, how should I save for retirement? {{income}} {{savings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-freelancer-swinging-income
+    vars:
+      income: "Freelance designer, sole trader. Profit swings between 35,000 and 70,000 a year. I set aside 25% for tax."
+      savings: "I'm 41. 18,000 in an old workplace pension. 8,000 cash. Want to retire around 65 on 25,000 a year in today's money."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## A system for irregular income"}
+      - {type: llm-rubric, value: "Sets a percentage-of-profit target with a year-end top-up, puts tax set-aside and a buffer first, projects savings under two labelled return assumptions, notes that pension contributions typically reduce taxable income (verify), mentions checking state pension record and the old workplace pension, does not recommend providers, and marks rules as verify."}
+  - name: edge-company-director
+    vars:
+      income: "I run a limited company with profit around 90,000. I pay myself a small salary and dividends."
+      savings: "Age 48, almost no pension, 40,000 in savings."
+    assert:
+      - {type: llm-rubric, value: "Raises that employer contributions from the company may be more tax-efficient than personal contributions from dividends, framed as a question for an accountant, shows catch-up options given a late start, and avoids inventing limits."}
+  - name: negative-business-is-pension
+    vars:
+      income: "Own a small cafe, profit 30,000."
+      savings: "I'm 55 and the cafe is my pension, I'll sell it for a million. Just confirm I don't need to save."
+    assert:
+      - {type: llm-rubric, value: "Pushes back politely that a small business sale value is uncertain and that 1,000,000 for a cafe earning 30,000 profit looks far above typical valuations, shows a separate scenario with a lower or no sale value, and recommends building savings alongside and getting a valuation."}
