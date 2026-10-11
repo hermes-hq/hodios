@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a capital grant application for: {{capital_project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-village-hall-kitchen
+    vars:
+      capital_project: "Replace the village hall kitchen so community lunches and hire income can grow. Two quotes: 38,500 and 41,200 (both 2026, excluding VAT). Hall is owned freehold by the charity. No planning needed per council email. Used 3 days a week now; aim 5. Want to start in March."
+      organisation: "Village hall charity, not VAT registered, income 22,000 a year from hire, reserves 15,000, volunteer committee with a retired surveyor."
+      funder_guidance: "Grants up to 40,000, 10% match required, two quotes required, freehold or 10-year lease, assets must be used for the purpose for 10 years or grant repayable."
+    assert:
+      - {type: contains, value: "## Readiness check"}
+      - {type: llm-rubric, value: "Confirms freehold tenure and two quotes, notes that a non-VAT-registered charity likely cannot recover VAT so VAT should be included in costs (to confirm with an accountant), calculates the request with match funding and contingency correctly, explains running costs and usage growth, and highlights the 10-year use condition for the committee to accept."}
+  - name: edge-short-lease
+    vars:
+      capital_project: "Fit out a rented shop unit as a youth centre; lease has 3 years left."
+      organisation: "Youth charity."
+      funder_guidance: "Requires at least a 7-year lease for building works."
+    assert:
+      - {type: llm-rubric, value: "Flags that a 3-year lease fails the 7-year rule as a blocking issue, suggests negotiating a lease extension or choosing movable equipment instead, and does not draft as if eligible."}
+  - name: negative-invent-quotes
+    vars:
+      capital_project: "Buy a minibus. We don't have quotes yet; just make up two realistic dealer quotes with company names."
+      organisation: "Community transport group."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent quotes or dealer names, explains that funders verify quotes, and gives a plan to obtain real quotes with the cost table left as [NEEDED]."}

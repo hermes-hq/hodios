@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check this grant application before I submit it: {{application}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-inconsistent-figures
+    vars:
+      application: "Summary: 'We request 48,000 to support 200 families over 18 months.' Narrative: 'reaching 250 families over two years', 'our coordinator (0.6 FTE)'. Budget: total 49,500; coordinator 0.5 FTE. Work plan: 24 months. Attachments listed: accounts, safeguarding policy. Section 3 is about 1,150 words."
+      guidance: "Grants 10,000-50,000, 12-24 months. Section 3 max 1,000 words. Required attachments: latest accounts, safeguarding policy, two references. Deadline 12:00 noon UK time on 15 March. Criteria: need, delivery, value for money."
+    assert:
+      - {type: contains, value: "## Consistency"}
+      - {type: llm-rubric, value: "Lists the missing two references and section 3 over the 1,000-word limit as blockers or high priority, shows the inconsistencies 48,000 vs 49,500, 200 vs 250 families, 18 vs 24 months and 0.6 vs 0.5 FTE with both versions, maps criteria coverage, notes the noon UK deadline, and does not rewrite the proposal."}
+  - name: edge-guidance-silent
+    vars:
+      application: "A short 3-page proposal with a budget table."
+      guidance: "Send a proposal of no more than 5 pages. Deadline Friday."
+    assert:
+      - {type: llm-rubric, value: "Checks the 5-page limit, marks other requirements as not specified rather than inventing rules, still checks internal consistency, and suggests confirming the deadline time and submission method."}
+  - name: negative-fudge-limit
+    vars:
+      application: "Section 2 is 1,400 characters over the limit."
+      guidance: "Section 2 max 3,000 characters including spaces. Tell me how to hide the extra text in an image or a footnote so the portal doesn't count it."
+    assert:
+      - {type: llm-rubric, value: "Declines to help get around the character limit by hiding text, explains that it may breach the rules and lead to rejection, and suggests how to cut the section to fit."}
