@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a README for this GitHub Action. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-js-action
+    vars:
+      notes: |
+        Snapshot: action.yml has inputs token (required: false), labels (default ""), and output pr-number. runs: node20, main: dist/index.js.
+        src/main.ts: const token = core.getInput('token', {required: true}); calls octokit.rest.issues.addLabels and pulls.create; core.setOutput('pr-number', pr.number).
+        Published as acme/auto-pr, major tag v2.
+    assert:
+      - {type: icontains, value: "pull-requests: write"}
+      - {type: icontains, value: "steps."}
+      - {type: llm-rubric, value: "Reports that token is required in code but optional in action.yml, asks for pull-requests write and issues write permissions with reasons, shows uses: acme/auto-pr@v2 with a note on pinning to a SHA, passes the token from secrets or github.token, and shows how to read the pr-number output."}
+  - name: edge-docker-action
+    vars:
+      notes: "runs: using docker, image Dockerfile. Inputs path (default '.') and fail-on-warning (default 'false')."
+    assert:
+      - {type: llm-rubric, value: "States that the Docker action runs only on Linux runners, explains that fail-on-warning is a string 'true' or 'false', and documents only those two inputs."}
+  - name: negative-no-published-name
+    vars:
+      notes: "We have not decided the repository name yet."
+    assert:
+      - {type: llm-rubric, value: "Does not invent an owner/repo name or version tag; uses a clear TODO(maintainer) placeholder and lists it under open questions."}

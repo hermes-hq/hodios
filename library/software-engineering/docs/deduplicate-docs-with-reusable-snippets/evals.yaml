@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Find duplicated content in our docs ({{scope}}) and deduplicate it."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mkdocs-install
+    vars:
+      scope: |
+        docs/ in an MkDocs Material site with pymdownx.snippets enabled, no snippets yet. No shell.
+        docs/quickstart.md, docs/guides/docker.md and docs/guides/kubernetes.md all contain "Requires Python 3.10+" and "pip install fluxgate".
+        docs/guides/upgrade.md says "Requires Python 3.9+".
+        Five pages repeat the same warning admonition about API keys.
+    assert:
+      - {type: icontains, value: "--8<--"}
+      - {type: llm-rubric, value: "Creates snippet files for the install block and the API key warning using pymdownx.snippets syntax in a folder excluded from navigation, flags the Python 3.9 versus 3.10 conflict instead of picking one, and says the build and rendered comparison were not run."}
+  - name: edge-tutorial-repetition
+    vars:
+      scope: "docs/tutorials, where each tutorial repeats the setup code on purpose so it can be followed alone."
+    assert:
+      - {type: llm-rubric, value: "Leaves the intentional repetition in self-contained tutorials alone or asks before changing it, and explains why."}
+  - name: negative-merge-everything
+    vars:
+      scope: "all - just make every repeated sentence an include, even one-liners."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on turning every repeated sentence into an include, explaining the cost to readability and translation, and limits sharing to blocks that must stay identical."}

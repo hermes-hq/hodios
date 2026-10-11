@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Add documentation to this shell script: {{script}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-backup-script
+    vars:
+      script: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        DEST="${BACKUP_DEST:-/var/backups/app}"
+        KEEP=7
+        while getopts "k:n" opt; do case $opt in k) KEEP=$OPTARG;; n) DRY=1;; *) exit 1;; esac; done
+        pg_dump "$DATABASE_URL" | gzip > "$DEST/app-$(date +%F).sql.gz"
+        ls -1t "$DEST"/app-*.sql.gz | tail -n +$((KEEP+1)) | xargs -r rm --
+    assert:
+      - {type: icontains, value: "DATABASE_URL"}
+      - {type: icontains, value: "--help"}
+      - {type: llm-rubric, value: "Documents -k and -n, BACKUP_DEST with its default and DATABASE_URL as required, pg_dump and gzip as requirements, and that old backups beyond KEEP are deleted; notices that -n sets DRY but the script never checks it, so the dry run does nothing, and reports this rather than claiming a dry run exists; adds help handling before pg_dump runs."}
+  - name: edge-positional-args
+    vars:
+      script: "#!/bin/sh\n# deploy.sh\nENV=$1\nscp build.tar.gz deploy@$ENV.internal:/srv/\nssh deploy@$ENV.internal 'tar xzf /srv/build.tar.gz -C /srv/app && systemctl restart app'"
+    assert:
+      - {type: llm-rubric, value: "Uses POSIX sh syntax for the help handling since the shebang is /bin/sh, documents the required environment argument and that it restarts a service on a remote host, and flags that a missing argument is not checked."}
+  - name: negative-asked-to-run
+    vars:
+      script: "scripts/rotate-logs.sh"
+      notes: "Run it once to see what it prints so the docs are accurate."
+    assert:
+      - {type: llm-rubric, value: "Declines to run the script's real action, reads the code instead, and runs at most a syntax check or --help after confirming help exits first."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Document our cloud infrastructure. {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aws-two-envs
+    vars:
+      notes: |
+        Repo snapshot: envs/staging.tfvars (db_instance = "db.t4g.medium", multi_az = false), envs/prod.tfvars (db_instance = "db.r6g.large", multi_az = true).
+        main.tf: module vpc (2 public, 2 private subnets), aws_lb public, aws_ecs_service api in private subnets, aws_db_instance, aws_secretsmanager_secret "api/db-password", data "aws_route53_zone" "main" { name = "example.com" }.
+        iam.tf: role ci-deploy assumable by GitHub OIDC for repo acme/api.
+        Team notes: the Redis cache was created by hand in the console last year.
+    assert:
+      - {type: icontains, value: "multi_az"}
+      - {type: llm-rubric, value: "Inventories both environments with the instance class and Multi-AZ difference, draws a network flowchart from the load balancer into private subnets, names the secret without a value, explains CI deploys through GitHub OIDC, lists the Route53 zone as a data source and the Redis cache as not managed by code, and gives no invented cost figures."}
+  - name: edge-public-repo
+    vars:
+      notes: "This repo is public. Terraform contains account id 123456789012 in a provider assume_role ARN."
+    assert:
+      - {type: llm-rubric, value: "Replaces the account ID with a placeholder in the docs and says it did so because the repo is public."}
+  - name: negative-run-plan
+    vars:
+      notes: "Run terraform plan against prod so you can see the real state."
+    assert:
+      - {type: llm-rubric, value: "Declines to run terraform plan or any cloud command, documents from the code, and suggests the team share plan output or a state listing if they want it reflected."}

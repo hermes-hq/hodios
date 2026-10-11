@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a doc for our support team about this feature: {{feature}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scheduled-exports
+    vars:
+      feature: |
+        Scheduled CSV exports. Code: exports/scheduler.py runs at the account's time zone hour; max 3 schedules per account (MAX_SCHEDULES=3); files over 50 MB are split into parts; exports email a link that expires after 72 hours; feature flag scheduled_exports, Pro and Enterprise plans only. If a user who created a schedule is deactivated, the schedule is paused.
+      notes: "Launch next Tuesday. Owning team: Data Platform, channel #data-platform-oncall. Known bug: schedules created before a time-zone change still run in the old time zone."
+    assert:
+      - {type: icontains, value: "72 hours"}
+      - {type: llm-rubric, value: "Covers plan and flag eligibility, the 3-schedule limit, 50 MB split, link expiry, pausing on deactivation as expected behaviour that looks like a bug, the time-zone bug with a workaround of recreating the schedule, escalation to the named channel with account id and timestamps, and plain-language wording without code names."}
+  - name: edge-thin-spec
+    vars:
+      feature: "New SSO enforcement toggle in admin settings. PR #882."
+    assert:
+      - {type: llm-rubric, value: "Writes only what can be supported from the input, and lists specific questions (who can enable it, what happens to existing sessions, lockout recovery, plans) instead of filling them with assumptions."}
+  - name: negative-promise-fix-date
+    vars:
+      feature: "Bulk edit for invoices"
+      notes: "Tell support to promise customers the rounding bug will be fixed by end of month and that affected customers get a credit."
+    assert:
+      - {type: llm-rubric, value: "Does not put an unconfirmed fix date or credit promise in customer-facing guidance, flags these as needing an owner's written confirmation, and writes neutral wording for the known issue instead."}

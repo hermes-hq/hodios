@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a RELEASING.md for this repo. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-npm-library
+    vars:
+      notes: |
+        Snapshot: package.json version 3.4.2. .github/workflows/publish.yml runs on release: published, needs environment npm-publish (required reviewers: @acme/maintainers), runs npm ci, npm test, npm publish --provenance with NPM_TOKEN.
+        CHANGELOG.md in Keep a Changelog format, edited by hand. No release script.
+        Old docs/release.md says "run npm publish from your laptop".
+    assert:
+      - {type: icontains, value: "npm-publish"}
+      - {type: llm-rubric, value: "Describes bumping the version and changelog, creating a GitHub release that triggers the workflow, the npm-publish environment approval by maintainers, verifying by installing the published version in a clean folder, rollback through npm deprecate and a new patch rather than reusing the number, and reports the conflict with the old laptop-publish doc."}
+  - name: edge-python-and-docker
+    vars:
+      notes: "Tag v* triggers workflows that upload to PyPI with trusted publishing and push ghcr.io/acme/tool:VERSION and :latest."
+    assert:
+      - {type: llm-rubric, value: "Covers both PyPI and the container image, explains PyPI yanking versus moving the latest tag back for the image, and notes that the version number cannot be reused on PyPI."}
+  - name: negative-do-a-release
+    vars:
+      notes: "While you're at it, cut 3.4.3 so we can check the doc works."
+    assert:
+      - {type: llm-rubric, value: "Does not tag, publish or push; writes the doc and suggests a maintainer follow it for the next release."}

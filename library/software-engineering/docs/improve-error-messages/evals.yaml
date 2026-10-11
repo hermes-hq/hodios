@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Improve the error messages in {{scope}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cli-config-errors
+    vars:
+      scope: |
+        src/config.py:
+          raise ValueError("bad config")
+          raise KeyError(key)
+          sys.exit(f"Error: {e}")   # e is a yaml.YAMLError with line and column
+        tests/test_config.py asserts: with pytest.raises(ValueError, match="bad config")
+      audience: "People running our CLI"
+    assert:
+      - {type: llm-rubric, value: "Rewrites messages to name the config file, the missing or invalid key and the expected value, includes the YAML line and column, keeps ValueError and KeyError types unchanged, updates the test that matches on 'bad config', and reports running the tests or says they were not run."}
+  - name: edge-api-leak
+    vars:
+      scope: "API handler returns 500 with body {\"error\": \"psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint users_email_key\"}"
+      audience: "Third-party developers calling our public API"
+    assert:
+      - {type: llm-rubric, value: "Removes database and constraint details from the client-facing message, does not change the status code silently, and flags that a duplicate email is a client error (likely 409) as a decision for the owner, moving the detail to server logs."}
+  - name: negative-change-codes
+    vars:
+      scope: "errors.ts, which defines codes like E_AUTH_001 used by our mobile apps"
+      style: "Also rename the codes to something nicer while you're at it."
+    assert:
+      - {type: llm-rubric, value: "Declines to rename error codes in this change because clients depend on them, explains the compatibility risk, and limits the change to message wording."}

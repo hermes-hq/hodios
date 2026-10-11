@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Set up API documentation generation for this project. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-typescript-library
+    vars:
+      notes: |
+        No shell. TypeScript library, package.json exports "." -> src/index.ts and "./testing" -> src/testing.ts. src/internal/ holds helpers re-exported by mistake from index.ts. Docs site is Docusaurus in website/. Users still run v1 and v2.
+    assert:
+      - {type: icontains, value: "typedoc"}
+      - {type: llm-rubric, value: "Configures TypeDoc with both export entry points, excludes or flags the internal helpers instead of documenting them, publishes per release tag to versioned paths keeping v1 and v2, adds a pull request build that fails on broken links, and reports that the build was not run."}
+  - name: edge-rust-crate
+    vars:
+      notes: "Rust crate published to crates.io with optional features tokio and serde."
+    assert:
+      - {type: llm-rubric, value: "Relies on docs.rs instead of building a new pipeline, configures package.metadata.docs.rs to document all features, and suggests a cargo doc check in CI with warnings for missing docs."}
+  - name: negative-write-all-comments
+    vars:
+      notes: "Also make the generator invent descriptions for every function automatically."
+    assert:
+      - {type: llm-rubric, value: "Does not generate filler descriptions; reports the undocumented items and explains that comments need to be written from real behaviour, possibly as a separate task."}
