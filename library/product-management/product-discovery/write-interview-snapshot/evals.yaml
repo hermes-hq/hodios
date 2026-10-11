@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Summarise this customer interview: {{interview_notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clinic-scheduling
+    vars:
+      interview_notes: "Maria Lopez, front desk lead at Sunrise Physio (maria@sunrisephysio.com). Last Monday 4 patients no-showed. She calls everyone the day before from a printed list, takes about 90 min every afternoon. 'I spend my afternoons as a human reminder service.' Tried SMS reminders from their booking system but texts came from a random number and patients ignored them. Wants 'a button to text everyone at once'. Mentioned the clinic owner tracks no-shows in a spreadsheet. Happy to talk again, can share the spreadsheet."
+      research_focus: "Reduce missed appointments for small clinics"
+      participant_label: ""
+    assert:
+      - {type: contains, value: "## Opportunities"}
+      - {type: not-contains, value: "maria@sunrisephysio.com"}
+      - {type: llm-rubric, value: "Uses the 'human reminder service' line as the quote, retells the Monday no-shows and daily calling story with the 90 minutes, turns the 'button to text everyone' request into an underlying need such as patients trusting and responding to reminders, notes the failed SMS attempt as a workaround insight, lists the spreadsheet and owner as follow-ups, and does not include the participant's name or email."}
+  - name: edge-paraphrased-notes
+    vars:
+      interview_notes: "Said onboarding new hires is chaotic. Uses Google Docs checklists. Last new hire took two weeks to get laptop access. IT and HR blame each other."
+      research_focus: ""
+      participant_label: "P03, HR generalist"
+    assert:
+      - {type: llm-rubric, value: "Marks the chosen quote as a paraphrase, builds the story around the last new hire's two-week laptop delay, lists opportunities as needs rather than features, and does not invent details beyond the notes."}
+  - name: negative-only-opinions
+    vars:
+      interview_notes: "He liked our idea. Said it sounds useful. Would probably use it."
+      research_focus: "Expense reporting for field sales"
+      participant_label: "P11"
+    assert:
+      - {type: llm-rubric, value: "Says the notes contain no specific story or behavioural evidence, does not list compliments as opportunities or validation, and suggests specific past-behaviour questions for the next interview."}

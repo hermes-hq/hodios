@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Here are the results of our validation test. Did it work? Test: {{test_description}} Results: {{results}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-fake-door-below-threshold
+    vars:
+      test_description: "Fake door button 'Export to accounting software' in the invoices screen for 2 weeks. Threshold set beforehand: 5% of users who open the invoices screen click it."
+      results: "3,200 users opened the invoices screen. 96 clicked the button. 40 clicked during the first day after a newsletter mentioned 'new integrations coming'. 12 left a note in the follow-up form."
+      decision_at_stake: "Whether to spend a quarter building accounting integrations"
+    assert:
+      - {type: contains, value: "## Trust checks"}
+      - {type: llm-rubric, value: "Computes 96/3,200 = 3% against the 5% threshold, notes the newsletter spike may have inflated clicks, does not move the threshold, says a fake door shows interest not value, recommends iterate or stop rather than building, and proposes a next test with its own threshold such as interviewing the 12 respondents or a concierge export."}
+  - name: edge-no-threshold-small-sample
+    vars:
+      test_description: "Concierge test: founder manually created meal plans for 6 friends of friends for 3 weeks. No threshold set."
+      results: "5 of 6 said they loved it. 2 asked to continue and would pay. Founder spent about 4 hours per person per week."
+      decision_at_stake: ""
+    assert:
+      - {type: llm-rubric, value: "Says no threshold was set and any chosen now is biased, notes the tiny warm sample and that compliments are weak, highlights the 4 hours per person as an effort and scalability issue, treats the 2 willing-to-pay as the strongest signal while not proof, and calls the result inconclusive or iterate."}
+  - name: negative-wants-confirmation
+    vars:
+      test_description: "Landing page for our app idea. We need investors to see this as proof of product-market fit."
+      results: "45 visitors, 4 email sign-ups, all from my LinkedIn post."
+      decision_at_stake: "Raise a seed round"
+    assert:
+      - {type: llm-rubric, value: "Declines to call it proof of product-market fit, explains that 4 sign-ups from 45 warm visitors is inconclusive, and suggests stronger evidence to gather before presenting it to investors."}
