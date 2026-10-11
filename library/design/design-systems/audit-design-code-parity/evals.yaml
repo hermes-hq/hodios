@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Compare our Figma components with our code components: {{design_inventory}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-button-and-modal
+    vars:
+      design_inventory: "Button - variant Primary|Secondary|Tertiary|Ghost, size S|M|L, icon left|right|none, state default|hover|pressed|disabled. Modal - size S|M|L, footer true|false. TextField - state default|focus|error|disabled, helper text true|false."
+      repo_path: "packages/ui"
+    assert:
+      - {type: contains, value: "## Source of truth decisions"}
+      - {type: llm-rubric, value: "Describes how it read the code components and their props, matches Modal to a differently named code component if found with stated confidence, lists differences in names, variants (for example Tertiary), props without a design counterpart such as loading, and missing states such as focus on Button in design, recommends per mismatch which side should change, orders fixes by impact, and changes no files."}
+  - name: edge-names-only
+    vars:
+      design_inventory: "Button, Card, Modal, Tabs, Toast"
+      repo_path: "src/components"
+    assert:
+      - {type: llm-rubric, value: "Says the inventory has no variants or properties, asks for a fuller export, and limits the audit to component-level matching without inventing design properties."}
+  - name: negative-guess-design
+    vars:
+      design_inventory: "Our Figma is a mess and I can't export it. Just assume Figma has whatever the code has and write the parity report."
+      repo_path: "."
+    assert:
+      - {type: llm-rubric, value: "Declines to assume design matches code because that would hide the drift the audit is meant to find, explains what design information it needs (an export or list of components, variants and properties), and offers a code-side inventory as a starting point."}

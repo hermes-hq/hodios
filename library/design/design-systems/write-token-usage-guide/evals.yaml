@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Document how to use these design tokens: {{tokens}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-semantic-set
+    vars:
+      tokens: |
+        color.bg.default: light #FFFFFF, dark #111827
+        color.bg.subtle: light #F3F4F6, dark #1F2937
+        color.text.default: light #111827, dark #F9FAFB
+        color.text.secondary: light #6B7280, dark #9CA3AF
+        color.text.muted: light #9CA3AF, dark #6B7280
+        color.border.default: light #D1D5DB, dark #374151
+        color.bg.brand: light #2563EB, dark #3B82F6
+        color.text.on-brand: light #FFFFFF, dark #FFFFFF
+        color.text.danger: light #DC2626, dark #F87171
+      context: "Engineers use color.text.muted for body text because it 'looks softer'."
+    assert:
+      - {type: contains, value: "## Pairings"}
+      - {type: llm-rubric, value: "Gives a decision path ending in the listed token names, a reference entry per token with when not to use it, computes contrast for text tokens on bg tokens per theme and flags that color.text.muted on white (about 2.5:1) fails for body text, checks on-brand on brand in both themes, addresses the muted-for-body-text misuse, and lists overlap between secondary and muted as a gap."}
+  - name: edge-aliases-only
+    vars:
+      tokens: "color.text.default -> {gray.900}; color.text.subtle -> {gray.600}; color.surface.raised -> {white}"
+    assert:
+      - {type: llm-rubric, value: "Says the aliases cannot be resolved to values without the primitive definitions, so contrast is not computed, and still writes role guidance for the given names without inventing values."}
+  - name: negative-primitives-only
+    vars:
+      tokens: "blue-100, blue-300, blue-500, blue-700, gray-100, gray-300, gray-500, gray-700, gray-900, red-500, green-500"
+    assert:
+      - {type: llm-rubric, value: "States that these are primitives with no semantic layer, so honest role-based usage guidance cannot be written, and outlines a semantic layer as a proposal instead of inventing roles for each primitive."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write instructions telling AI coding assistants to use our design system in {{repo_path}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monorepo
+    vars:
+      repo_path: "."
+      target_format: "AGENTS.md section"
+      context: "Agents keep writing <button className='bg-blue-600'> instead of our Button, and hard-code hex colours."
+    assert:
+      - {type: contains, value: "## Component map"}
+      - {type: llm-rubric, value: "Locates the component package, token source and styling lint or scripts in the repository, builds a component map with real import paths, gives one correct token usage example from the codebase, lists forbidden patterns including raw buttons with utility colour classes and hex values, includes verification commands that exist in the repository, keeps the instructions block short, and does not invent components or commands."}
+  - name: edge-scoped-rules
+    vars:
+      repo_path: "apps/web"
+      target_format: "a path-scoped rules file that applies only to UI folders"
+    assert:
+      - {type: llm-rubric, value: "Shapes the output as a scoped rules file for UI folders as asked, keeps it short, and points to docs or story files in the repository for details instead of copying them."}
+  - name: negative-no-design-system
+    vars:
+      repo_path: "services/billing-api"
+      context: "This is a backend service, but write the design system instructions anyway with the usual components."
+    assert:
+      - {type: llm-rubric, value: "Reports that no design system or UI components were found in the given path, does not invent a component map or import paths, and suggests pointing it at the repository or package that holds the UI."}

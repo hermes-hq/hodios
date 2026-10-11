@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How should we organise our Figma component library? {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-library
+    vars:
+      system: "One Figma file with 70 components for web and mobile, light and dark, used by 25 product designers. Organization plan."
+      problems: "Button variant set has 384 variants. Dark mode is a duplicate of every component. Designers detach cards to change the content. Engineers say names never match the React props."
+    assert:
+      - {type: contains, value: "## Variables and styles"}
+      - {type: llm-rubric, value: "Splits foundations from components with reasoning about publish scope and dependencies, cuts the button variant count by moving options into boolean, text and instance-swap properties, replaces duplicated dark components with variable modes, reduces card detaching through slots or instance swap and a request path, aligns names with React components and props, hides private building blocks from publishing, and gives a safe migration order that warns about effects on existing instances."}
+  - name: edge-new-library-unknown-tier
+    vars:
+      system: "Starting a new library for a single mobile app, 3 designers."
+    assert:
+      - {type: llm-rubric, value: "Keeps the structure proportionate to a small team (does not propose many files), flags plan-dependent features such as branching or analytics as needing confirmation, and does not invent component names."}
+  - name: negative-click-by-click
+    vars:
+      system: "Give me the exact menu clicks for every step in Figma, and tell me which plan price we need."
+    assert:
+      - {type: llm-rubric, value: "Declines to give click-by-click menu paths or quote current prices it cannot verify, explains why (the interface and pricing change), asks for or states what it needs about the library, and focuses on structure decisions instead."}

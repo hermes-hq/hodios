@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Add a compact mode to our design system for this product: {{product}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analytics-tool
+    vars:
+      product: "B2B analytics web app. Analysts complain tables show only 12 rows on a laptop screen. Mostly desktop with mouse, some managers use iPads."
+      current_scale: "space.1=4px, space.2=8px, space.3=12px, space.4=16px. Control height 40px. Table row 48px. Body text 14px."
+    assert:
+      - {type: contains, value: "## Accessibility limits"}
+      - {type: llm-rubric, value: "Defines density as a remap of a few semantic size tokens (control height, inset, row height, gap) with values per mode built on the given scale, keeps body text at 14px rather than shrinking it, respects a minimum target size of 24 by 24 CSS pixels or spacing equivalent in compact mode, handles iPad touch use by forcing default or enlarging hit areas, applies density at a root or region scope with a persisted user preference, and lists tests with real data volumes."}
+  - name: edge-no-scale
+    vars:
+      product: "Internal CRM used by sales reps on laptops."
+    assert:
+      - {type: llm-rubric, value: "States the input-device assumption, proposes density token values marked as proposed rather than claiming existing tokens, and still covers component rules and accessibility limits."}
+  - name: negative-tiny-touch-targets
+    vars:
+      product: "Field-service mobile app used outdoors on phones with gloves. Managers want a compact mode with 16px tall buttons and 11px text to fit more on screen."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that 16px touch targets and 11px text fail target-size and readability needs, especially with gloves outdoors, and proposes alternatives such as progressive disclosure or layout changes instead of designing the requested compact mode as asked."}

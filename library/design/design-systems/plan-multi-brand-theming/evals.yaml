@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should we theme our component library for these brands: {{brands}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-white-label-saas
+    vars:
+      brands: "White-label booking platform. 40 clients today, 150 planned. Each client uploads a logo, a primary colour and optionally a font. Our own brand is the default."
+      platforms: "React web app with CSS custom properties; no native apps."
+      context: "Light theme only today; dark mode requested. Components currently reference primitives like blue-600 directly."
+    assert:
+      - {type: contains, value: "## Accessibility per brand"}
+      - {type: llm-rubric, value: "Limits brand variation to a small set such as primary colour, font and logo, introduces a semantic layer that components read before brand mapping (noting the current primitive references must migrate), derives tones and an accessible foreground from the client colour or validates and rejects failing colours, handles brand times light and dark combination without hand-writing each, covers runtime theme selection per tenant without a flash of the wrong brand, raises custom font licensing and metrics, and keeps the visual test matrix manageable."}
+  - name: edge-native-brands
+    vars:
+      brands: "Two consumer brands owned by one company, sold as separate apps with distinct typefaces and colour palettes, sharing one component library."
+      platforms: "iOS and Android native apps."
+    assert:
+      - {type: llm-rubric, value: "Recommends build-time theme selection per app flavour or target, covers typeface metric differences affecting layout and per-platform font licensing, and uses placeholders rather than inventing brand values."}
+  - name: negative-behaviour-differences
+    vars:
+      brands: "Brand A and brand B. Brand B wants a different checkout flow with fewer steps, a bottom sheet instead of a dialog, and a different navigation structure."
+      platforms: "React web"
+    assert:
+      - {type: llm-rubric, value: "Says that different flows, components and navigation are not theming, explains that tokens cannot express behaviour differences, and discusses composition or product-level variation instead of promising a theme will cover it or proposing brand conditionals inside components."}
