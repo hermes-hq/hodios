@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Turn this material into a training course for {{audience}}: {{content}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-helpdesk-manual
+    vars:
+      content: "IT service desk manual, 140 pages. Chapters: 1 history of our IT department; 2 network architecture diagrams; 3 ticketing system fields reference; 4 priority matrix P1-P4; 5 password reset procedure; 6 escalation contacts and rota; 7 VPN troubleshooting decision tree; 8 software licensing policy; 9 hardware procurement process; 10 security incident first response; 11 customer communication templates; 12 appendix of error codes."
+      audience: "New first-line service desk agents with basic IT knowledge who will handle calls and tickets from week two."
+      time: "two days"
+    assert:
+      - {type: contains, value: "## Content audit"}
+      - {type: llm-rubric, value: "Labels each chapter, keeps priority matrix, password reset, VPN troubleshooting practice and security incident first response as taught content, moves error codes, field reference and escalation contacts to job aids, cuts or deprioritises IT history and procurement, organises modules by agent tasks with practice, and marks security incident response as not to be cut."}
+  - name: edge-conflicting-content
+    vars:
+      content: "Lab safety slides from two sites. Site A says chemical spills under 100 ml can be cleaned by staff; Site B says all spills must be reported to the safety officer before cleaning. Also covers PPE, fume hoods, waste disposal, emergency showers."
+      audience: "New lab technicians across both sites."
+    assert:
+      - {type: llm-rubric, value: "Flags the spill procedure conflict as a question for the expert rather than choosing one, keeps safety content, and does not invent a spill threshold."}
+  - name: negative-no-audience
+    vars:
+      content: "Our 300-slide product deck covering every feature, pricing history, architecture and roadmap."
+      audience: "everyone"
+    assert:
+      - {type: llm-rubric, value: "Explains that triage depends on who the learners are and what they must do, asks which roles will take the training, and does not produce a single course claiming to suit everyone."}
