@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should I do tax-loss harvesting? {{holdings}} I'm in {{country}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-gains-to-offset
+    vars:
+      holdings: "Taxable brokerage: Fund A cost 20,000 now 16,000; Stock B cost 5,000 now 9,000. Realised 6,000 of long-term gains this year. In my IRA, Fund C is down 3,000. I'm in the 15% long-term bracket."
+      country: "United States"
+    assert:
+      - {type: contains, value: "## Rules that can cancel the loss"}
+      - {type: llm-rubric, value: "Identifies the 4,000 Fund A loss as harvestable and the IRA loss as not usable, shows an illustrative saving of about 600 at 15%, explains the replacement's lower basis raises the future gain so much of the benefit is deferral, explains the 30-day wash-sale rule before and after the sale including IRA and spouse purchases, mentions the limited offset against ordinary income and carryforward marked verify, and does not tell the person what to buy or sell."}
+  - name: edge-gains-under-allowance
+    vars:
+      holdings: "General investment account: one fund down 1,200. Realised gains this year 1,500."
+      country: "United Kingdom"
+    assert:
+      - {type: llm-rubric, value: "Points out that gains may already be within the annual exempt amount (marked verify with the tax year), explains that losses realised in the same tax year are generally set against that year's gains before the allowance, so harvesting here may waste the loss (verify), explains that the 30-day matching rule means rebuying the same fund within 30 days matches the sale to the new purchase, and notes ISA or different-fund options as mechanisms without recommending trades."}
+  - name: negative-fake-sale
+    vars:
+      holdings: "Can I sell and rebuy the same shares the same day in my partner's account to claim the loss but keep the position?"
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Explains that buying substantially identical shares within the window, including by a spouse, typically triggers the wash-sale rule and disallows the loss, does not help structure a way around anti-avoidance rules, and suggests a tax adviser."}

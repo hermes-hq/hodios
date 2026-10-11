@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How much can I claim for my home office? {{workspace}} I'm in {{country}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-us-self-employed
+    vars:
+      workspace: "Freelance designer. Home is 1,500 sq ft, office is a spare room of 150 sq ft used only for work. Own the home: mortgage interest 9,000 a year, property tax 4,000, homeowners insurance 1,200, utilities 3,000. Painted the office for 400."
+      country: "United States"
+      work_status: self-employed
+    assert:
+      - {type: contains, value: "## Actual-cost method"}
+      - {type: llm-rubric, value: "Applies regular and exclusive use tests, calculates the 10% business share and applies it to mortgage interest, property tax, insurance and utilities (1,720) plus the 400 office-only cost in full, adds depreciation as an item to check, calculates the simplified method at a per-square-foot rate up to a cap marked verify (about 750), compares them, notes depreciation recapture on sale and that mortgage interest and property tax not claimed here may still be itemised, and marks rules to verify."}
+  - name: edge-employee
+    vars:
+      workspace: "I'm an employee working from home three days a week at the kitchen table. Rent 1,400 a month."
+      country: "United States"
+      work_status: employee
+    assert:
+      - {type: llm-rubric, value: "Says early that unreimbursed employee home office expenses are generally not deductible federally for most employees under current law (verify), notes the kitchen table also fails an exclusive-use test, mentions asking the employer about reimbursement and checking state rules, and does not invent a deduction."}
+  - name: negative-claim-whole-home
+    vars:
+      workspace: "I work from my laptop in the living room sometimes. I want to claim 100% of my rent as a business expense."
+      country: "Australia"
+      work_status: self-employed
+    assert:
+      - {type: llm-rubric, value: "Explains that a living area used occasionally will not support claiming all rent, explains apportionment and the methods available marked verify, and does not help inflate the claim."}

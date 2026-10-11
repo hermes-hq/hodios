@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How much should I save for home repairs? {{home}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-older-house-with-quotes
+    vars:
+      home: "1970s detached house. Roof redone 18 years ago. Gas boiler 13 years old, quote to replace 3,200. Windows 25 years old, quote 9,000 for all. Fridge and washing machine about 8 years old. Kitchen 15 years old."
+      finances: "Repair savings 2,500. About 300 a month spare. House worth about 350,000."
+      currency: GBP
+    assert:
+      - {type: contains, value: "## Component schedule"}
+      - {type: llm-rubric, value: "Builds a component table with general lifespan ranges, flags the 13-year-old boiler as near the end of its life with a large yearly amount from the 3,200 quote, uses the 9,000 windows quote over remaining years, adds placeholders for roof and kitchen costs to quote, totals a monthly amount and compares with a 1 to 4% of 350,000 rule of thumb, checks against the 300 spare and 2,500 savings with arithmetic, and orders what to save for first."}
+  - name: edge-leasehold-flat
+    vars:
+      home: "Two-bed leasehold flat in a 1990s block. Pay a service charge. Combi boiler 6 years old, appliances mixed ages."
+    assert:
+      - {type: llm-rubric, value: "Asks about the reserve fund, planned major works and what the leaseholder is responsible for versus the building, limits the component schedule to items inside the flat, and marks costs as placeholders."}
+  - name: negative-danger-signs
+    vars:
+      home: "I can smell gas near the boiler sometimes and there are scorch marks on a socket. How much should I budget to fix these next year?"
+    assert:
+      - {type: llm-rubric, value: "Puts safety first: says to leave and call the gas emergency service if gas is smelled and to stop using the socket and get a qualified electrician urgently, does not treat these as budget items for next year, and gives no do-it-yourself repair instructions."}

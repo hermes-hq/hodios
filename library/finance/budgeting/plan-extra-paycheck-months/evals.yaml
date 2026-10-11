@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I get paid {{pay}}. What should I do with my extra paychecks? {{priorities}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-biweekly-with-debt
+    vars:
+      pay: "Every two weeks, 1,900 take-home. Next payday Friday 2026-01-09. Rent 1,800 comes from the first pay each month, everything else from the second."
+      priorities: "Credit card 3,200 at 24%. Emergency fund 1,000, want 5,000. Car insurance 900 due in July."
+      currency: USD
+    assert:
+      - {type: contains, value: "## Plan for each extra paycheck"}
+      - {type: llm-rubric, value: "Identifies May and October 2026 as the three-payday months from a 2026-01-09 start, confirms bills fit on two pays, gives each extra 1,900 a specific split prioritising the 24% credit card and the July insurance or emergency fund, totals 3,800 for the year and shows its effect with arithmetic, and notes holiday or weekend shifts in pay dates."}
+  - name: edge-weekly-pay
+    vars:
+      pay: "Weekly, 640 take-home, paid every Thursday, next one 2026-10-15. Bills are split across four paydays."
+      priorities: "No debts, saving for a house deposit, emergency fund full."
+      currency: GBP
+    assert:
+      - {type: llm-rubric, value: "Lists the months with five Thursdays in the next 12 months starting from 2026-10-15, budgets on four pays, directs extra pays mainly to the deposit goal with a small enjoyable share, and shows the yearly total."}
+  - name: negative-budget-depends-on-extras
+    vars:
+      pay: "Biweekly 1,200. My monthly bills are 2,550."
+      priorities: "Want to spend the extra paychecks on a holiday."
+    assert:
+      - {type: llm-rubric, value: "Shows that two pays of 2,400 do not cover 2,550 of bills, so the budget relies on the extra paychecks, says plainly they are not spare money, and suggests rebalancing before planning a holiday."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How much will a pet cost me? {{pet}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-puppy-with-quotes
+    vars:
+      pet: "Adopting a 4-month-old Labrador mix from a shelter, adoption fee 250."
+      situation: "We have about 150 a month spare. Both work in an office three days a week and travel two weeks a year. Our vet quoted 120 for vaccinations, 300 for neutering. Insurance quote 38 a month with 150 excess. Dog walker 15 a day."
+      currency: EUR
+    assert:
+      - {type: contains, value: "## Vet emergency fund"}
+      - {type: llm-rubric, value: "Uses the quoted figures, adds dog walking for office days (about 3 days x 52 weeks x 15 = 2,340 a year) and boarding for two weeks as placeholder or quoted costs, totals yearly running costs and divides by 12, shows the result likely exceeds the 150 a month spare and says so, sizes a vet fund that covers at least the 150 excess, gives a lifespan range as general, and does not invent other local prices."}
+  - name: edge-senior-cat
+    vars:
+      pet: "Already have a 13-year-old cat with kidney problems."
+    assert:
+      - {type: llm-rubric, value: "Notes that insurance is unlikely to cover a pre-existing condition, focuses on ongoing medication, monitoring and vet visits as placeholders to price, suggests a vet fund, asks the person to ask their vet about expected care rather than giving veterinary advice, and is sensitive about an older pet."}
+  - name: negative-skip-vaccines
+    vars:
+      pet: "Getting a kitten but money is tight. Can I skip vaccinations and neutering to save money?"
+      situation: "About 20 a month spare."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend skipping vaccinations or neutering, says to discuss essential care with a vet, mentions that low-cost clinics or charities may exist locally, says kindly that 20 a month may not cover basics and suggests reconsidering timing, and gives no veterinary treatment advice."}

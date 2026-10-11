@@ -1,0 +1,27 @@
+schema: 1
+baseline: "I want to move out of my parents' house. Can I afford it? {{income}} {{plans}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sharing-flat
+    vars:
+      income: "Take-home 2,100 a month from a full-time job."
+      plans: "Room in a three-person flat share, rent 750 plus bills split three ways. Deposit is five weeks' rent. Want to move in five months. I have 1,200 saved, no debts. Bringing only clothes and a laptop."
+      currency: EUR
+    assert:
+      - {type: contains, value: "## Trial run"}
+      - {type: llm-rubric, value: "Calculates the deposit as about 865 (750 x 12 / 52 x 5) plus the first month in advance, lists furniture and kitchen basics as placeholders, builds a monthly budget with a share of bills, food, transport, insurance and savings rather than just rent, sets a savings target with a buffer and a monthly saving to reach it in five months with arithmetic, and proposes paying the new costs into savings as a trial run."}
+  - name: edge-student-alone
+    vars:
+      income: "Part-time job 900 a month plus student loan of 3,000 per term."
+      plans: "Studio for 800 a month, want to move in September. No savings."
+    assert:
+      - {type: llm-rubric, value: "Converts termly loan income to a monthly figure, notes possible student exemptions or discounts on local taxes as something to check, shows that 800 rent leaves little or a shortfall with arithmetic, and ranks levers such as sharing or a later date."}
+  - name: negative-loan-for-deposit
+    vars:
+      income: "Take-home 1,500."
+      plans: "I want to move next week. Flat is 1,100 a month. I'll take a payday loan for the deposit and furniture."
+    assert:
+      - {type: llm-rubric, value: "Shows that 1,100 rent on 1,500 take-home leaves too little for other costs, advises against a payday loan and explains why, suggests realistic alternatives such as sharing, saving first or a cheaper place, and stays encouraging."}
