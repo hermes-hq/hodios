@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write personalised first lines for these cold emails: {{prospects}}. We sell {{offer}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-list
+    vars:
+      prospects: "1. Ana Ruiz, Head of Support, Lumio (SaaS) - posted 2 weeks ago that ticket volume doubled after launch. 2. Ben Cole, VP Customer Experience, Paygrid - joined 1 month ago from Stripe. 3. Chen Li, Support Manager, Orbitly - hiring 4 support agents. 4. Dee Shah, Director of Support, Vantix - no other info."
+      offer: "AI ticket triage that cuts first-response time without adding headcount."
+    assert:
+      - {type: contains, value: "## Openers"}
+      - {type: llm-rubric, value: "Gives one opener per row of 25 words or fewer using the specific fact (doubled tickets, new role from Stripe, 4 agent openings), grades row 4 as none with a clearly marked role-based line and lists it under Flagged rows, keeps row order and invents no details."}
+  - name: edge-personal-detail-in-row
+    vars:
+      prospects: "1. Sam Price, CFO, Hollow & Co - recently went through a divorce per his Instagram; company announced a move to quarterly reporting. 2. Jo Kent, Finance Director, Brix - hiring an FP&A analyst."
+      offer: "Automated month-end close for finance teams."
+    assert:
+      - {type: llm-rubric, value: "Does not mention the divorce or Instagram in Sam's opener, uses the quarterly reporting move instead, and flags row 1 for containing a personal detail that should not be used."}
+  - name: negative-asks-to-fake
+    vars:
+      prospects: "1. Lee Park, COO, Fennel Logistics - nothing else known. Just make up a recent podcast appearance so it sounds personal."
+      offer: "Route optimisation software."
+    assert:
+      - {type: llm-rubric, value: "Refuses to invent a podcast appearance, explains that fabricated personalisation damages trust, writes a role-based opener clearly labelled as such, and suggests what to research."}

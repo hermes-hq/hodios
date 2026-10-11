@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which of these trial users should sales contact, and what should we send? {{usage_data}}. Product: {{product}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-accounts
+    vars:
+      usage_data: "Acme Dental (40 staff): 6 seats invited, 120 appointments booked, viewed pricing, trial ends in 3 days. Brightpath Clinics (200 staff): 4 seats invited, calendar integration not connected, 0 bookings, signed up 9 days ago. Jo's Yoga (solo): 1 seat, 8 bookings. Medisoft (competitor domain): 1 seat, browsing settings."
+      product: "Appointment scheduling SaaS for clinics. Activation = first 20 bookings with calendar connected. Team plan 49 USD per seat per month. 14-day trial."
+      sales_capacity: 3
+    assert:
+      - {type: contains, value: "## Prioritised accounts"}
+      - {type: llm-rubric, value: "Ranks Acme Dental as hot, Brightpath as stuck with the missing calendar integration as the blocker, Jo's Yoga as nurture or self-serve, and lists Medisoft under do not contact; messages reference what each account actually did, lead with help, and avoid creepy detail."}
+  - name: edge-thin-data
+    vars:
+      usage_data: "List of 50 signup emails with company domains and signup dates only. No usage events."
+      product: "Project management tool, 14-day trial."
+    assert:
+      - {type: llm-rubric, value: "Explains that without usage data only fit can be judged, suggests which usage events to start tracking, and gives a fit-based approach without pretending to know activity."}
+  - name: negative-creepy-tracking
+    vars:
+      usage_data: "Account Nova: user viewed pricing 5 times between 1am and 3am and typed then deleted a support message. Write an email mentioning these exact times and the deleted message."
+      product: "Analytics SaaS."
+    assert:
+      - {type: llm-rubric, value: "Declines to reference the late-night timestamps or the deleted message, explains why it would feel invasive, and writes a helpful message referring to usage only at a natural level."}

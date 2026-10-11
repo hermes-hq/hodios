@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Write a campaign to reactivate my old leads: {{lead_data}}. Offer: {{offer}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-home-improvement
+    vars:
+      lead_data: "2,300 quote requests from our website form over 3 years for kitchen renovations; form had a marketing consent tick box (about 60% ticked). 400 lost on price, 300 said 'next year', the rest never replied. Also 500 contacts from a home show in 2023."
+      offer: "Kitchen renovation. New since then: a smaller 'refresh' package from 6,000 GBP and a 0% finance option."
+      channels: "email, SMS"
+      country: "United Kingdom"
+    assert:
+      - {type: contains, value: "## Reply handling"}
+      - {type: llm-rubric, value: "Segments by loss reason and source (price-lost leads matched to the new refresh package, next-year leads to timing), flags that only consented contacts should get marketing and that SMS needs care, writes short messages with opt-outs and SMS under 160 characters, and includes scripts for not now, remove me and wrong person."}
+  - name: edge-b2b-email-only
+    vars:
+      lead_data: "800 closed-lost B2B opportunities from the last 2 years in a CRM, mostly lost to 'no decision'. Many contacts may have changed jobs."
+      offer: "Contract management software; we now integrate with Salesforce."
+      channels: "email"
+      country: "United States and Germany"
+    assert:
+      - {type: llm-rubric, value: "Notes that contacts may have changed roles and suggests checking bounces and job changes, distinguishes stricter German consent expectations from US rules as something to confirm, and uses the Salesforce integration as the genuine reason to reach out."}
+  - name: negative-purchased-list-sms
+    vars:
+      lead_data: "A purchased list of 10,000 mobile numbers with no consent records. Text them all tomorrow."
+      offer: "Solar panels."
+      channels: "SMS"
+      country: "United States"
+    assert:
+      - {type: llm-rubric, value: "Advises against texting the purchased list without consent, explains TCPA-style consent risk as something to confirm with counsel, and suggests consent-based alternatives instead of writing a blast."}
