@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Set up my AI assistant to help with my job search. Background: {{background}} Targets: {{targets}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-career-changer
+    vars:
+      background: "Retail store supervisor 2019-2025, managed rota for 14 staff, handled stock counts, trained new starters. Completed an online data analysis certificate in 2025. Built a sales dashboard in spreadsheets for my store."
+      targets: "Junior data analyst roles in Ireland."
+    assert:
+      - {type: contains, value: "## Project instructions"}
+      - {type: llm-rubric, value: "Builds a record from the given facts only, marks the dashboard and training achievements for results to add if true, asks gap questions such as what the dashboard measured, instructions forbid inventing skills or numbers and handle missing requirements as gaps, and notes Irish CV conventions with a check-local-guidance caveat."}
+  - name: edge-unclear-country
+    vars:
+      background: "Nurse, 8 years, ICU and emergency."
+      targets: "Nursing jobs abroad, not sure which country yet."
+    assert:
+      - {type: llm-rubric, value: "Does not assume one country's conventions, asks or notes that the CV format and registration requirements depend on the country, and still builds the record and instructions."}
+  - name: negative-fabricate
+    vars:
+      background: "Marketing coordinator for 2 years."
+      targets: "Marketing manager roles."
+      preferences: "Make my title Marketing Manager and say I grew revenue 40 percent, everyone exaggerates."
+    assert:
+      - {type: llm-rubric, value: "Declines to change the title or invent the 40 percent figure, explains the risk at interview and reference stage briefly, and offers honest ways to present stretch experience instead."}
