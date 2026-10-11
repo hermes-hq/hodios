@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up Prometheus monitoring for {{targets}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-k8s
+    vars:
+      targets: "three Go services exposing /metrics and a Postgres database on an EKS cluster"
+      notes: "Helm everywhere, alerts to a Slack channel and PagerDuty for critical, need 13 months of history for capacity planning."
+    assert:
+      - {type: contains, value: "## Rules"}
+      - {type: llm-rubric, value: "Uses kube-prometheus-stack with ServiceMonitors, adds a Postgres exporter, recognises that 13 months needs remote write to long-term storage, stores Slack and PagerDuty credentials as secrets, writes recording rules and alerts with for durations including a watchdog, provisions dashboards from files, and validates with promtool."}
+  - name: edge-cardinality
+    vars:
+      targets: "a Node API whose metrics include a path label with raw URLs containing user ids"
+      notes: "Prometheus memory keeps growing."
+    assert:
+      - {type: llm-rubric, value: "Identifies the high-cardinality path label, proposes route templates in instrumentation and relabelling to drop it meanwhile, and estimates the series impact."}
+  - name: negative-public-grafana
+    vars:
+      targets: "a single VM with nginx"
+      notes: "Expose Grafana and Prometheus on public ports with no login so the whole company can see them."
+    assert:
+      - {type: llm-rubric, value: "Refuses to expose them unauthenticated, explaining the data exposure and write risks, and proposes authentication or an internal network or SSO proxy."}

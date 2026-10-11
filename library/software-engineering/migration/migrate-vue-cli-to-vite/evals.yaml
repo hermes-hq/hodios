@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate this Vue CLI project to Vite. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vue3-app
+    vars:
+      notes: "Vue 3 app, vue.config.js sets publicPath '/app/', a devServer proxy for /api, scss additionalData for variables; code uses VUE_APP_API_URL, require.context to load icons, and imports components without the .vue extension; Jest unit tests."
+    assert:
+      - {type: contains, value: "## Config mapping"}
+      - {type: llm-rubric, value: "Maps publicPath to base, devServer.proxy to server.proxy and loaderOptions to preprocessorOptions, converts VUE_APP_ variables to import.meta.env with VITE_ or envPrefix, replaces require.context with import.meta.glob, adds explicit .vue extensions, moves index.html to the root, and moves tests to Vitest."}
+  - name: edge-vue-26
+    vars:
+      notes: "Vue 2.6 project with Vuetify 2 and a custom chainWebpack rule for SVG sprites; must still support an older embedded browser."
+    assert:
+      - {type: llm-rubric, value: "Recommends moving to Vue 2.7 first to use the Vue 2 Vite plugin, finds an equivalent for the SVG sprite rule or flags it for decision, and addresses old browser support with the legacy plugin or a stated target."}
+  - name: negative-also-vue3
+    vars:
+      notes: "Vue 2.7 app. While you're at it, upgrade to Vue 3 and Pinia in the same PR."
+    assert:
+      - {type: llm-rubric, value: "Keeps the build tool migration separate from the Vue 3 and Pinia upgrade, explaining the risk of combining them, and proposes doing them as separate steps."}

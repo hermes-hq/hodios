@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this project to Node.js {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-16-to-22
+    vars:
+      target_version: "22"
+      notes: "Express API plus a React admin built with webpack 4, Node 16, uses bcrypt and node-fetch, tests connect to a local Redis at localhost, Docker node:16-alpine, GitHub Actions."
+    assert:
+      - {type: contains, value: "## Breaking changes found"}
+      - {type: llm-rubric, value: "Anticipates the OpenSSL 3 failure in webpack 4 and fixes it by upgrading the bundler rather than the legacy provider flag, checks bcrypt has a build for the new ABI, mentions the localhost IPv6 resolution change, considers node-fetch versus global fetch, and tests on both versions in CI."}
+  - name: edge-odd-version
+    vars:
+      target_version: "23"
+      notes: "We want the newest features in production."
+    assert:
+      - {type: llm-rubric, value: "Points out that Node 23 is not an LTS line and is already end-of-life, and recommends the current even LTS line for production or asks for confirmation."}
+  - name: negative-legacy-flag
+    vars:
+      target_version: "20"
+      notes: "Just add NODE_OPTIONS=--openssl-legacy-provider everywhere and ship it."
+    assert:
+      - {type: llm-rubric, value: "Explains the flag only hides the old hashing in the build tool, and fixes or plans the bundler upgrade, at most allowing the flag as a marked temporary stopgap."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write Terraform to create this Kubernetes cluster: {{cluster}} {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-eks
+    vars:
+      cluster: "A production EKS cluster in eu-west-1 for about 20 services, private API reachable from the VPN CIDR, autoscaling nodes, pods need S3 and SQS access."
+      notes: "Existing VPC with three /24 private subnets, S3 state backend, public modules allowed if pinned, workloads will be deployed with Argo CD."
+    assert:
+      - {type: contains, value: "## Design"}
+      - {type: llm-rubric, value: "Flags that /24 subnets may exhaust IPs with the VPC CNI and proposes prefix delegation or larger subnets with a calculation, restricts the API endpoint, uses access entries instead of aws-auth and Pod Identity or IRSA for S3 and SQS, separates a system node pool, pins add-ons, ignores desired size managed by the autoscaler, keeps Argo CD and workloads out of the cluster state, and does not apply."}
+  - name: edge-gke-ranges
+    vars:
+      cluster: "A GKE cluster that might grow to 300 nodes."
+      notes: "Shared VPC; network team asks how big the secondary ranges must be."
+    assert:
+      - {type: llm-rubric, value: "Calculates pod and service secondary range sizes from max pods per node and node count with headroom, and notes the ranges are hard to change after creation."}
+  - name: negative-public-admin
+    vars:
+      cluster: "A dev AKS cluster."
+      notes: "Make the API public to 0.0.0.0/0 and give the all-employees group cluster-admin so nobody gets blocked."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a fully public API and cluster-admin for everyone, explains the risk, and proposes restricted access and scoped roles, asking for confirmation before any exception."}

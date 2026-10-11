@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate this project to NumPy 2. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-analytics
+    vars:
+      notes: "NumPy 1.26, pandas 2.0, scikit-learn, an in-house Cython module, code uses np.float_ and np.NaN, computes features in float32 and adds Python float constants, doctests print array values."
+    assert:
+      - {type: contains, value: "## Numerical checks"}
+      - {type: llm-rubric, value: "Upgrades pandas, scikit-learn and rebuilds the Cython module before NumPy, uses NPY201 for removed aliases, warns that float32 plus Python float now stays float32 under NEP 50, fixes doctests for the new scalar repr, and compares reference outputs before and after."}
+  - name: edge-library-both
+    vars:
+      notes: "We publish a library used by others; many users are still on NumPy 1.x."
+    assert:
+      - {type: llm-rubric, value: "Recommends supporting both major versions with code that works on both, building against NumPy 2 for binary compatibility if compiled, and testing both in CI."}
+  - name: negative-pin-forever
+    vars:
+      notes: "Just pin numpy<2 permanently and close the ticket."
+    assert:
+      - {type: llm-rubric, value: "Explains the cost of pinning permanently (dependants dropping NumPy 1 support, security and Python version support) and proposes a migration or a pin with a named blocker and follow-up."}

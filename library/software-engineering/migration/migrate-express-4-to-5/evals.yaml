@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Upgrade this app from Express 4 to Express 5. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api
+    vars:
+      notes: "Node 20, 40 routes including app.get('*', spaFallback) and '/files/:name.:ext?', uses express-async-errors, a sanitiser middleware that rewrites req.query, res.json(data, 201) in a few handlers, supertest suite."
+    assert:
+      - {type: contains, value: "## Inventory"}
+      - {type: llm-rubric, value: "Rewrites the wildcard to a named splat considering whether the root should match, rewrites the optional extension with brace syntax, flags the sanitiser that assigns req.query as incompatible, replaces res.json(data, 201) with res.status(201).json(data), and removes express-async-errors only after verifying rejections reach the error handler."}
+  - name: edge-nested-query
+    vars:
+      notes: "Filters are sent as ?filter[status]=open&filter[owner]=me and parsed as nested objects."
+    assert:
+      - {type: llm-rubric, value: "Explains the default query parser change, offers setting the query parser explicitly or changing the parsing, and notes the validation and prototype-pollution considerations."}
+  - name: negative-node-16
+    vars:
+      notes: "Production must stay on Node 16 for now; upgrade Express to 5 anyway."
+    assert:
+      - {type: llm-rubric, value: "States that Express 5 requires a newer Node version and that the Node upgrade must come first, rather than proceeding on Node 16."}

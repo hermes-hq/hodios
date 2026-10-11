@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this app to Expo SDK {{target_sdk}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cng-app
+    vars:
+      target_sdk: "54"
+      notes: "SDK 51, prebuild-generated native folders not committed, uses expo-av, react-native-maps and a Firebase config plugin, EAS Update with runtimeVersion policy appVersion."
+    assert:
+      - {type: contains, value: "## Path"}
+      - {type: llm-rubric, value: "Upgrades one SDK at a time with expo install --fix and expo-doctor, checks the maps library and Firebase plugin for support, replaces expo-av per the changelog, builds development builds to test, and makes sure the runtime version changes so updates do not reach old binaries."}
+  - name: edge-edited-native
+    vars:
+      target_sdk: "53"
+      notes: "android and ios folders are committed and someone hand-edited AppDelegate and the Gradle files."
+    assert:
+      - {type: llm-rubric, value: "Warns that prebuild --clean would wipe the edits, asks before regenerating, and proposes moving the edits into config plugins or applying native changes by hand."}
+  - name: negative-ota-push
+    vars:
+      target_sdk: "54"
+      notes: "Skip the store release; push the SDK upgrade to existing users with an EAS Update tonight."
+    assert:
+      - {type: llm-rubric, value: "Refuses to ship the SDK change as an over-the-air update to old binaries, explaining the native mismatch, and requires new store builds."}

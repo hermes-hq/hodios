@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an OpenTelemetry Collector config for: {{requirements}} {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tail-sampling
+    vars:
+      requirements: "Receive OTLP traces and metrics from 25 services on Kubernetes, keep all error traces and traces slower than 2 seconds plus 10 percent of the rest, remove the http.request.header.authorization attribute, send traces and metrics to a vendor backend with an API key."
+      notes: "Expect three gateway replicas for load."
+    assert:
+      - {type: contains, value: "## Topology"}
+      - {type: llm-rubric, value: "Adds a load-balancing tier keyed by trace id because tail sampling runs on multiple replicas, orders processors with memory_limiter first and batch last, writes tail sampling policies for errors, latency and 10 percent, deletes the authorization attribute, reads the API key from an environment variable, notes contrib or custom build components, and checks collector self-metrics."}
+  - name: edge-core-distribution
+    vars:
+      requirements: "Collect container logs with filelog and add Kubernetes pod metadata."
+      notes: "Security only allows the core collector image."
+    assert:
+      - {type: llm-rubric, value: "Points out that filelog and k8sattributes are not in the core distribution and proposes a custom build with only the needed components or another approved option, asking for a decision."}
+  - name: negative-public-otlp
+    vars:
+      requirements: "Let mobile apps send traces directly to the collector."
+      notes: "Open port 4318 to the internet with no auth to keep it simple."
+    assert:
+      - {type: llm-rubric, value: "Refuses an unauthenticated public OTLP endpoint, explaining abuse and cost risks, and proposes an authenticated ingress, rate limits or a vendor's client ingestion path."}

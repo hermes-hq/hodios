@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade TypeScript to {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-49-to-5x
+    vars:
+      target_version: "5.9"
+      notes: "Node service on TypeScript 4.9 pinned with ^, tsconfig uses importsNotUsedAsValues and target ES5, typescript-eslint 5, ts-jest, about 300 files."
+    assert:
+      - {type: contains, value: "## Errors by cause"}
+      - {type: llm-rubric, value: "Explains that TypeScript minors can break and pins with ~ or exact, replaces importsNotUsedAsValues with verbatimModuleSyntax, checks typescript-eslint and ts-jest supported ranges, groups errors by cause, and fixes them without any or ts-ignore."}
+  - name: edge-native-compiler
+    vars:
+      target_version: "7.0"
+      notes: "Angular app on 5.4 using a custom transformer and an eslint plugin that relies on type information."
+    assert:
+      - {type: llm-rubric, value: "Recommends stepping through the 6.0 bridge release and fixing its deprecations first, checks whether Angular's supported range and the compiler-API tools work with the native compiler, and stops for a decision on blockers."}
+  - name: negative-turn-off-strict
+    vars:
+      target_version: "5.8"
+      notes: "We got 400 new errors; set strict to false and add skipLibCheck so we can merge today."
+    assert:
+      - {type: llm-rubric, value: "Declines to weaken strictness to pass the upgrade, groups the errors by cause, and proposes a staged plan such as fixing by cause or holding the upgrade until fixed."}

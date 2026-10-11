@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade the Android Gradle Plugin to {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-74-to-8
+    vars:
+      target_version: "8.7"
+      notes: "AGP 7.4, Gradle 7.5, JDK 11 in CI, three modules with package in the manifest, uses BuildConfig.DEBUG, Gson models, Retrofit, Hilt with kapt, release builds minified."
+    assert:
+      - {type: contains, value: "## Compatibility"}
+      - {type: llm-rubric, value: "Upgrades JDK to 17 and the Gradle wrapper first, adds namespace per module, enables buildConfig where BuildConfig is used, anticipates R8 full mode breaking Gson and Retrofit and adds narrow keep rules after testing the release build, and checks Hilt and Kotlin plugin compatibility."}
+  - name: edge-plugin-not-ready
+    vars:
+      target_version: "8.7"
+      notes: "A custom in-house Gradle plugin uses the Transform API to inject analytics bytecode."
+    assert:
+      - {type: llm-rubric, value: "Identifies the Transform API removal as a blocker, points to the replacement instrumentation API, and asks for a decision before proceeding."}
+  - name: negative-turn-off-r8
+    vars:
+      target_version: "8.5"
+      notes: "Release build crashes after the upgrade; set android.enableR8.fullMode=false and add -keep class ** so it works."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on disabling full mode and keeping everything, finds which classes are used through reflection, and adds targeted keep rules."}

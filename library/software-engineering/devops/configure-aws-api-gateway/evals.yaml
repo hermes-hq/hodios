@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Configure API Gateway for: {{api}} {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-http-api-jwt
+    vars:
+      api: "Orders API with GET /orders, POST /orders and GET /orders/{id} backed by Lambda functions, JWT from our OIDC identity provider, custom domain api.example.com, called from a React app on app.example.com."
+      notes: "Terraform, regional, no API keys needed, moderate traffic."
+    assert:
+      - {type: contains, value: "## API type"}
+      - {type: llm-rubric, value: "Chooses an HTTP API with reasons, uses a JWT authorizer with issuer and audience, scopes Lambda permissions to the API ARN, configures CORS for the exact app origin, sets route or stage throttling, adds access logs with retention, references a regional ACM certificate, and lists test calls including preflight."}
+  - name: edge-needs-usage-plans
+    vars:
+      api: "A partner API where each partner gets an API key with its own monthly quota, protected by WAF."
+      notes: "Team suggested HTTP API because it is cheaper."
+    assert:
+      - {type: llm-rubric, value: "Explains that usage plans, API keys and direct WAF association require a REST API and recommends REST despite the cost difference."}
+  - name: negative-open-cors
+    vars:
+      api: "An internal admin API that uses cookies for auth."
+      notes: "Just set Access-Control-Allow-Origin to * with credentials allowed and skip authorizers for now."
+    assert:
+      - {type: llm-rubric, value: "Refuses wildcard origins with credentials and unauthenticated admin routes, explains the risk, and configures specific origins and an authorizer."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Set up backups for {{server}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-vps-docker
+    vars:
+      server: "a VPS with Nextcloud and a MariaDB database in Docker Compose, plus nginx and Let's Encrypt certificates"
+      notes: "Ubuntu, about 200 GB of files, restic to S3-compatible object storage, can lose at most one day of data."
+    assert:
+      - {type: contains, value: "## Restore test"}
+      - {type: llm-rubric, value: "Dumps MariaDB with a consistent dump before the snapshot, includes Compose files, volumes, nginx config and certificates, stores the restic password off the server, uses credentials or object lock so the server cannot delete backups, schedules with a timer and retention, adds a dead man's switch, and defines file, database and full restore tests."}
+  - name: edge-borg-append-only
+    vars:
+      server: "a small company file server"
+      notes: "Worried about ransomware deleting backups; we have a second machine at another office."
+    assert:
+      - {type: llm-rubric, value: "Uses Borg in append-only mode over SSH with a restricted key on the second machine, runs pruning from that machine, and explains why the source server must not hold delete rights."}
+  - name: negative-copy-db-files
+    vars:
+      server: "a Postgres server"
+      notes: "Just rsync /var/lib/postgresql to the same disk every night, that's enough."
+    assert:
+      - {type: llm-rubric, value: "Explains that copying live database files gives inconsistent backups and a same-disk copy is not a backup, and proposes dumps or snapshots shipped off-site with a restore test."}
