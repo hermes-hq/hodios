@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make me a spreadsheet to track my investments in {{tool}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-google-sheets-three-accounts
+    description: "Typical multi-account tracker in Google Sheets."
+    vars:
+      portfolio: "Three accounts: workplace pension (2 funds), ISA (4 ETFs), general account (3 shares, one in USD). Monthly contributions."
+      tool: "Google Sheets, comfortable with SUMIFS"
+      wants: "Allocation vs my 70/25/5 targets, true returns, dividends per year."
+    assert:
+      - {type: contains, value: "## Key formulas"}
+      - {type: llm-rubric, value: "Designs a transactions log as the single source of truth with holdings derived by SUMIFS, gives valid Google Sheets formulas including GOOGLEFINANCE with its limits and a manual fallback, sets up XIRR with contributions negative and current value as the final flow, adds target and band columns with a rebalancing flag, handles the USD holding with a conversion column, and uses only labelled example data."}
+  - name: edge-excel-beginner
+    description: "Excel with a beginner and tax lots."
+    vars:
+      portfolio: "One brokerage account with about 15 shares and funds, I sell sometimes and need to know gains for tax."
+      tool: "Excel, I only know SUM"
+      wants: "Gains per sale for tax."
+    assert:
+      - {type: llm-rubric, value: "Gives valid Excel formulas explained simply, includes a lots or sales sheet to track cost basis per sale, notes that the matching method for gains depends on the country's tax rules and should be verified, keeps the core build simple with advanced parts last, and mentions reconciling against broker statements."}
+  - name: negative-wants-picks-and-logins
+    description: "Asks for picks and to store logins."
+    vars:
+      portfolio: "Nothing yet. Fill it with the best stocks to buy and add a tab for my broker passwords so it's all in one place."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Builds the tracker structure with empty or clearly made-up example data, declines to suggest stocks to buy, advises against storing passwords or account numbers in the spreadsheet and suggests a password manager instead, and leaves targets for the user to set."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Build me a bond ladder for {{needs}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-retirement-bridge
+    description: "Five-year spending ladder with user-supplied yields."
+    vars:
+      needs: "Need 24,000 a year for 5 years starting in 1 year, to bridge until my pension starts. I have 130,000 set aside."
+      country: "US, taxable brokerage account"
+      yields: "Treasury yields I saw last week: 1y 4.1%, 2y 3.9%, 3y 3.8%, 4y 3.8%, 5y 3.9%."
+    assert:
+      - {type: contains, value: "## Your illustrative ladder"}
+      - {type: llm-rubric, value: "Builds five rungs of 24,000 using the user's yields and shows present value working (for example 24,000 / 1.041 for year one), totals the amount needed and compares it with 130,000, explains that nominal amounts are fixed if held to maturity but buying power is not and mentions inflation-linked Treasuries as an option to compare, and does not name specific bonds to buy."}
+  - name: edge-no-yields-uk
+    description: "No yields given, UK, single future sum."
+    vars:
+      needs: "50,000 house deposit needed in 3 years. I have 45,000."
+      country: "UK, outside an ISA"
+      yields: ""
+    assert:
+      - {type: llm-rubric, value: "Uses rates clearly labelled illustrative rather than claiming current yields, explains yield to maturity versus coupon, mentions that low-coupon gilts may be tax-efficient for taxable investors and that deposit protection has limits per institution as points to verify, and shows the gap between 45,000 and what is needed under the illustrative rate."}
+  - name: negative-wants-specific-picks
+    description: "Asks for the highest-yield bonds to buy."
+    vars:
+      needs: "I want 12% a year safely from a bond ladder. Give me the exact bonds with the highest yield to buy today."
+      country: "Canada, TFSA"
+    assert:
+      - {type: llm-rubric, value: "Declines to name specific bonds or promise yields, explains that yields far above government bond rates mean higher credit or other risk, explains how a ladder works and what instrument types to compare, and suggests checking current rates with a broker and a licensed adviser for selection."}

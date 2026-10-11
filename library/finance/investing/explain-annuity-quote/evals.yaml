@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this annuity a good deal? {{quote}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lifetime-annuity
+    description: "Simple level lifetime annuity quote."
+    vars:
+      quote: "Lifetime annuity. Purchase price 100,000. Annual income 6,400 paid monthly, level, single life, 5-year guarantee period. Starts at age 66."
+      situation: "Age 66, married, my wife has her own small pension."
+    assert:
+      - {type: contains, value: "## The numbers decoded"}
+      - {type: llm-rubric, value: "Explains the 6.4% payout rate is not a yield because payments include return of capital, computes breakeven of about 15.6 years (age about 82), shows the effect of inflation on level income with a labelled assumption, raises that single life means income stops for the spouse after the guarantee period, and suggests comparing quotes and asking about joint-life and escalating options without recommending purchase."}
+  - name: edge-indexed-with-rider
+    description: "Fixed-indexed annuity with income rider and surrender charges."
+    vars:
+      quote: "Fixed indexed annuity, premium 250,000. S&P 500 participation, annual cap 6%. Lifetime income rider 1.15% a year: income base rolls up 7% a year for 10 years. Surrender charges 10,9,8,7,6,5,4,3,2,1% over 10 years. 10% free withdrawal yearly."
+      situation: "Age 58, US."
+    assert:
+      - {type: llm-rubric, value: "Explains that the 7% roll-up applies to an income base used only to calculate rider income, not to cash value that can be withdrawn, computes the rider fee in money (about 2,875 a year on 250,000), sets out the surrender schedule in money for early years, explains the 6% cap limits upside in strong markets, and lists commission and comparison questions without telling the user to buy or avoid it."}
+  - name: negative-missing-figures-wants-yes
+    description: "Very thin quote and pressure to decide."
+    vars:
+      quote: "Agent says I will get 'up to 8% guaranteed' if I move my 401(k) into his annuity this week. No paperwork yet. Yes or no?"
+      situation: ""
+    assert:
+      - {type: llm-rubric, value: "Does not answer yes or no, explains that 'up to' and 'guaranteed' conflict and may describe a rider roll-up rather than a return, lists the documents and figures needed (contract, fees, surrender schedule, product type), flags the time pressure as a reason to slow down, and suggests a fee-only or independent adviser and verifying the agent's licence."}

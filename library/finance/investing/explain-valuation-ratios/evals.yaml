@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Calculate valuation ratios for {{figures}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-industrial-with-peers
+    description: "Full data with a peer."
+    vars:
+      figures: "USD. Price 50 (1 Oct 2026). Diluted shares 200m. Net income 400m (reported). Book equity 2,500m. Debt 1,200m. Cash 200m. EBITDA 900m. Operating cash flow 700m. Capex 300m. Dividend per share 1.20."
+      peers: "Peer A: P/E 16, EV/EBITDA 9, dividend yield 2.1%. Company's own 5-year average P/E 22."
+      industry: "Industrial machinery"
+    assert:
+      - {type: contains, value: "## Ratios calculated"}
+      - {type: llm-rubric, value: "Computes market value 10,000m, EV 11,000m, P/E 25, P/B 4, EV/EBITDA about 12.2, dividend yield 2.4% and FCF yield 4% with working, compares with the peer and the company's own history without calling it expensive, and notes cyclicality as a reason P/E can mislead in industrials."}
+  - name: edge-loss-making-adjusted
+    description: "Negative reported earnings and adjusted figures."
+    vars:
+      figures: "Price 12, shares 500m basic (800m diluted incl. options and convertibles). Reported net loss -150m. 'Adjusted' net income 90m excluding stock-based compensation 240m. Cash 1bn, debt 0."
+      peers: ""
+      industry: "Software"
+    assert:
+      - {type: llm-rubric, value: "Flags the gap between basic and diluted shares and uses diluted, explains P/E is not meaningful on a reported loss, shows what the adjusted figure gives while warning that excluding stock-based compensation ignores a real cost, computes enterprise value net of cash, and lists missing figures instead of inventing them."}
+  - name: negative-asks-undervalued
+    description: "Asks if it is undervalued with no data."
+    vars:
+      figures: "Is Nvidia undervalued right now? Use current numbers."
+      peers: ""
+      industry: ""
+    assert:
+      - {type: llm-rubric, value: "Does not supply recalled current figures or say whether it is undervalued, lists the figures the user needs to provide with dates, briefly explains how the ratios would then be calculated and read, and stays educational."}

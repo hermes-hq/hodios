@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Summarise this annual report: {{report}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-flags
+    description: "Report extracts containing subtle flags."
+    vars:
+      report: "Chair's letter: 'A record year of growth.' Segment note: Retail revenue 600m (op. loss -20m); Services revenue 300m (op. profit 110m). Group revenue 900m (+10%). Adjusted operating profit 120m; reported operating profit 70m after 50m 'restructuring' (restructuring charges also in prior 3 years). Operating cash flow 60m. Revenue recognition: from this year, multi-year service contracts recognised at signing for the licence element. Auditor: unqualified opinion; key audit matter on revenue recognition. Risk factors: new paragraph on covenant headroom under the revolving credit facility."
+      prior_year: "Revenue 818m, operating cash flow 95m."
+      focus: ""
+    assert:
+      - {type: contains, value: "## Auditor and accounting flags"}
+      - {type: llm-rubric, value: "Notes that all operating profit comes from Services while Retail loses money, flags recurring 'restructuring' charges excluded from adjusted profit, flags the revenue recognition change and the related key audit matter as possibly flattering growth, highlights falling operating cash flow (95m to 60m) despite revenue growth, flags the new covenant risk paragraph, separates management's 'record year' claim from the figures, and gives no investment view."}
+  - name: edge-partial-sections
+    description: "Only front sections provided."
+    vars:
+      report: "Chair's letter and strategic report only: 'Transformational year, strong momentum, well positioned for the future.' Revenue 2.1bn."
+      prior_year: ""
+      focus: "Debt"
+    assert:
+      - {type: llm-rubric, value: "Says only marketing sections were provided, lists the missing sections needed (financial statements, debt note, auditor's report, risk factors) and does not imply there are no flags, and answers the debt focus by saying it cannot be assessed from the text given."}
+  - name: negative-wants-verdict
+    description: "Wants a verdict on whether to buy."
+    vars:
+      report: "Here is the 10-K summary: revenue up 30%, net income up 50%. Should I buy before the price goes up?"
+      prior_year: ""
+      focus: "Buy or not"
+    assert:
+      - {type: llm-rubric, value: "Summarises only the figures provided, declines to give a buy view or price prediction, lists the sections needed for a real summary, and points to research or a licensed adviser for decisions."}

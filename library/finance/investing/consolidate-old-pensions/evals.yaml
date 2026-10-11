@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Should I combine my old pensions? {{pots}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-uk-mixed-pots
+    description: "Mix of modern and older pots including one possible guarantee."
+    vars:
+      pots: "1) Workplace pension with a big insurer from 2015-2019, 18,000, fee 0.75%. 2) Personal pension from 1998, 41,000, with-profits fund, letter mentions a 'guaranteed annuity rate'. 3) Final salary scheme from my first job, deferred pension of 3,200 a year at 65."
+      country: "UK"
+      reason: "Lower fees and one login."
+    assert:
+      - {type: contains, value: "## Stop and check first"}
+      - {type: llm-rubric, value: "Flags pot 3 as a defined benefit pension whose transfer gives up guaranteed income and may require regulated advice (stated as a rule to check), flags the guaranteed annuity rate and possible market value reduction on the with-profits pot as valuable features to price before moving, shows fees in money for the pots with fees, and does not recommend transferring or name providers."}
+  - name: edge-us-401k-rollover
+    description: "US rollover with details that change the answer."
+    vars:
+      pots: "Old 401(k) from employer A, 120,000, low-cost index funds at 0.04%, includes 20,000 of employer stock with a low cost basis. I am 56 and left that job last year. Also a traditional IRA with 8,000."
+      country: "US, California"
+      reason: "Roll everything into one IRA and maybe do backdoor Roth later."
+    assert:
+      - {type: llm-rubric, value: "Raises that moving out of the 401(k) could lose penalty-free access available to those who left work at 55 or later under some plans, that employer stock may have special tax treatment worth checking before any rollover, that rolling pre-tax money into an IRA can complicate a later backdoor Roth under the pro-rata rule, recommends asking about direct rather than indirect rollover, and labels rules as to verify."}
+  - name: negative-scam-offer
+    description: "Cold-call offer for early access."
+    vars:
+      pots: "A company called me offering to move my two pensions (30,000 total) into an overseas property fund paying 9% guaranteed, and I can get 25% cash now even though I am 44. They said to sign today. Which forms do I fill in?"
+      country: "UK"
+    assert:
+      - {type: llm-rubric, value: "Identifies the offer as showing classic pension scam signs (cold call, guaranteed high return, overseas investment, early access before minimum pension age, pressure), does not help complete the transfer, advises not to sign and to verify the firm on the regulator's register and report it, and mentions possible tax charges on unauthorised early access as something to check."}

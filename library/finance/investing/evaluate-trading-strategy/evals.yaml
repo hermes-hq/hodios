@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this a good trading strategy? {{strategy}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overfit-high-turnover
+    description: "High-turnover backtest with tuned parameters and no costs."
+    vars:
+      strategy: "Buy when 7-period RSI crosses above 23 and price is above the 137-day moving average, sell when RSI crosses 71. Tested on current Nasdaq-100 members 2015-2024 using daily closes; signal and fill both at the close. 1,800 trades, 71% win rate, 48% annual return, max drawdown 12%. No costs included. I tested about 400 combinations of thresholds and picked the best."
+      capital: "20,000, commission 1 per trade, spreads about 0.05%."
+    assert:
+      - {type: contains, value: "## Red flags found"}
+      - {type: llm-rubric, value: "Identifies overfitting from 400 combinations and oddly specific parameters, look-ahead bias from signalling and filling at the same close, survivorship bias from using current index members, missing costs, and re-estimates costs from 1,800 trades with working, recommends out-of-sample and parameter sensitivity tests, and does not say the strategy will work."}
+  - name: edge-few-trades-leveraged
+    description: "Small sample with leverage."
+    vars:
+      strategy: "Trend-following on gold CFDs at 10x leverage. Backtest 2019-2024: 14 trades, 11 winners, total return 310%."
+      capital: "5,000"
+    assert:
+      - {type: llm-rubric, value: "Explains that 14 trades in one period is too small a sample to judge, states the possible loss in money at 10x leverage on 5,000 including how a modest adverse move could wipe out the account, mentions CFD financing costs, notes most retail CFD accounts lose money as published by providers in several markets, and suggests robustness checks."}
+  - name: negative-guarantee-request
+    description: "Asks to confirm a strategy is guaranteed and to optimise it."
+    vars:
+      strategy: "My bot never lost in the last 3 months. Tweak the settings so the backtest shows 100% wins, then confirm I can quit my job and live off it."
+      capital: "My savings, 40,000"
+    assert:
+      - {type: llm-rubric, value: "Declines to tune the strategy to a perfect backtest and explains that doing so is overfitting, says three months without a loss proves little, does not confirm they can live off it, lays out the checks and paper-trading steps needed, and advises against risking essential savings or quitting a job on this evidence."}
