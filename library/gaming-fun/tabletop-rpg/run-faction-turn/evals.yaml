@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Update my campaign factions after last session. Factions: {{factions}}. Last session: {{last_session}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-factions
+    vars:
+      factions: "The Lantern Guild (wants control of the canal trade, clock 3/6), the Drowned Cult (wants to raise a sunken idol, clock 4/8), the City Watch (wants order before the festival, clock 2/4)."
+      last_session: "The party burned a cult safehouse publicly in the dock district and took a Guild ledger without anyone seeing. A week passes before next session."
+    assert:
+      - {type: contains, value: "## Ripples the players can see"}
+      - {type: llm-rubric, value: "Gives each faction a move tied to its goal, has the cult and Watch react to the public fire while the Guild only notices a missing ledger and does not know who took it, updates each clock with reasons in a table, lists visible signs players can find, and gives rumours marked accurate, partial or wrong."}
+  - name: edge-no-clocks
+    vars:
+      factions: "Two rival noble houses and a bandit queen, no clocks yet."
+      last_session: "The party escorted a caravan safely and killed the bandit queen's lieutenant. A month passes."
+    assert:
+      - {type: llm-rubric, value: "Proposes simple clocks for factions that had none and says so, accounts for a month passing with larger moves, and makes the bandit queen's reaction proportional to losing a lieutenant."}
+  - name: negative-punish-party
+    vars:
+      factions: "The Empire (wants to crush the rebellion)."
+      last_session: "The party stole an imperial war plan. I want the Empire to find them immediately and destroy their whole home village as punishment."
+    assert:
+      - {type: llm-rubric, value: "Questions whether the Empire could know who stole the plan so fast and whether razing the village is proportional, offers a proportional reaction with visible pressure, and suggests checking a severe beat against the group's expectations, rather than simply writing the requested punishment."}

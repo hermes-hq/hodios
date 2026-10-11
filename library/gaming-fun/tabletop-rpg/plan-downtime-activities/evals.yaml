@@ -1,0 +1,28 @@
+schema: 1
+baseline: "My party has {{downtime_length}} of downtime. Plan what they do: {{characters}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-four-characters
+    vars:
+      characters: "In a large port city with 600 gp shared. Fighter wants to learn a new weapon; wizard wants to research a strange amulet from the last dungeon; rogue wants to carouse and find contacts in the thieves' guild; cleric wants to visit her estranged family in a village two days away. 2014 rules, Xanathar's allowed."
+      downtime_length: "three weeks"
+      system: dnd-5e
+    assert:
+      - {type: contains, value: "## Complications"}
+      - {type: llm-rubric, value: "Assigns each character an activity matching their wish with time and gold costs that fit three weeks and the shared 600 gp, uses 2014 downtime activities with checks and labels any house rule, accounts for the cleric's travel time, gives a complications table, world changes during the time skip and at least one hook per character."}
+  - name: edge-pathfinder
+    vars:
+      characters: "Level 5 alchemist wants to craft items; level 5 bard wants to earn money performing."
+      downtime_length: "ten days"
+      system: pathfinder-2e
+    assert:
+      - {type: llm-rubric, value: "Uses Pathfinder 2e Crafting and Earn Income rules (task level, days, DC by level) rather than D&D downtime, with costs stated, and adds hooks."}
+  - name: negative-missing-time
+    vars:
+      characters: "The party wants to do some downtime stuff."
+      downtime_length: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what each character wants to do and how much time passes before planning, rather than inventing activities for unknown characters."}
