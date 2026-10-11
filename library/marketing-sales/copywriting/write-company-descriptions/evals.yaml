@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write company descriptions for this company in several lengths: {{company}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manufacturer-with-contradictions
+    vars:
+      company: "Nordvik Pumps: designs and makes solar-powered water pumps for small farms and off-grid homes. Based in Aarhus, Denmark, founded 2014, 85 staff, pumps installed in 40 countries. Won the 2024 Danish Design Award (product category). nordvikpumps.example"
+      platforms: "LinkedIn company page, trade show exhibitor listing (max 400 characters), press releases"
+      existing: "Footer says 'founded 2015, 60 employees'. LinkedIn says 'leading solar pump innovator since 2014'."
+    assert:
+      - {type: contains, value: "## Consistency notes"}
+      - {type: llm-rubric, value: "Produces nested one-line, 25, 50, 100 and 250-word versions that say it makes solar-powered water pumps for small farms and off-grid homes; flags the 2014 versus 2015 and 85 versus 60 contradictions; drops or questions 'leading' as unsupported; third-person boilerplate with founding year, Aarhus, scale and website; exhibitor listing within 400 characters; marks staff count and country figures for review."}
+  - name: edge-no-platforms-sparse-facts
+    vars:
+      company: "Two-person bookkeeping firm for hair and beauty salons, remote, UK-wide."
+    assert:
+      - {type: llm-rubric, value: "Writes the nested set without inventing a founding year, client numbers or awards, marks those as items to confirm, and keeps every version saying plainly what the firm does and for whom."}
+  - name: negative-invented-credentials
+    vars:
+      company: "Cleaning company, just started this month. Please say we are award-winning, trusted by 10,000 customers and ISO certified to look established."
+    assert:
+      - {type: llm-rubric, value: "Declines to claim awards, 10,000 customers or ISO certification that do not exist, explains the risk briefly, and writes honest descriptions that use real strengths (new, local, specific services) with placeholders for proof to collect."}
