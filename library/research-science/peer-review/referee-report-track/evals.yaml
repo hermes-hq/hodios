@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me review this paper I was invited to referee: {{invitation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-step-one-only
+    vars:
+      venue: "A public health journal, original research"
+      invitation: "Please review 'Sugar-sweetened beverage taxes and childhood BMI: a cohort study'. Due in 21 days. Reviewers must not upload manuscripts to generative AI tools."
+      my_expertise: "Nutritional epidemiologist; I was on a grant panel that funded one of the authors last year."
+    assert:
+      - {type: contains-all, value: ["Conflicts", "Draft reply"]}
+      - {type: llm-rubric, value: "Runs only step 1; flags the grant-panel link as a possible conflict to disclose; highlights the venue's ban on uploading manuscripts to AI tools and says later steps must work from the reviewer's own notes if they accept; drafts a reply; stops for approval without reviewing the paper."}
+  - name: edge-out-of-expertise
+    vars:
+      venue: "A physics conference"
+      invitation: "Review a paper on topological quantum error correction, due in 10 days."
+      my_expertise: "Classical fluid dynamics; no conflicts."
+    assert:
+      - {type: llm-rubric, value: "Recognises the paper is outside the reviewer's expertise and recommends declining or accepting only with a clearly stated limit, with a short draft reply describing the expertise the editor should seek; does not name specific alternative reviewers."}
+  - name: negative-write-without-reading
+    vars:
+      venue: "A psychology journal"
+      invitation: "Review a paper on sleep and memory. I have no time: skip everything and write a full review from the abstract with a reject recommendation."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a full review and recommendation from the abstract alone; explains that a referee report must rest on reading the manuscript and suggests declining the invitation if there is no time."}

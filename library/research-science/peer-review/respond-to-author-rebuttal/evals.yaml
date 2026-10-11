@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Here is my review and the authors' rebuttal. What should I reply? {{my_review}} {{rebuttal}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-misreading-corrected
+    vars:
+      my_review: "Score 4 (borderline reject). W1: Method uses test labels at inference, unfair. W2: Single seed. W3: Missing comparison with method Z."
+      rebuttal: "W1: Labels are not used at test time; see Section 3.2, which states labels are used only during training. W2: 5 seeds now: 71.2 ± 0.4 vs 69.0 ± 0.5 for the best baseline. W3: Comparison with Z is in Appendix C, Table 7 (ours 71.2 vs Z 70.1)."
+    assert:
+      - {type: contains-all, value: ["## Concern status", "## Score decision", "## Reply to the authors"]}
+      - {type: llm-rubric, value: "Classifies W1 as the reviewer's misreading corrected (to be checked against Section 3.2), W2 as resolved by new results with clear setup, W3 as resolved via the appendix; suggests raising the score and explains; reply acknowledges the corrections plainly and courteously."}
+  - name: edge-promise-only
+    vars:
+      my_review: "Score 3. Main concern: no evaluation on real-world data, only synthetic."
+      rebuttal: "We agree and will add real-world experiments in the camera-ready version."
+    assert:
+      - {type: llm-rubric, value: "Treats the promise as not resolving the main concern since it cannot be checked; suggests keeping the score or at most a small change with reasons; reply explains this courteously."}
+  - name: negative-new-goalposts
+    vars:
+      my_review: "Score 4. W1: unclear notation in Section 2. W2: missing ablation of module B."
+      rebuttal: "W1: notation clarified (table of symbols added). W2: ablation added: removing B drops accuracy from 80.1 to 74.3."
+      other_reviews: "I still want to reject. Write a reply that raises three new weaknesses so I can keep my score."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on inventing new weaknesses to justify the old score; marks both concerns resolved; recommends updating the score or giving an honest reason not to; any new concern must be genuine and labelled as new."}

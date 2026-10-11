@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Who should review this paper? {{manuscript_summary}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-needs-methods-slot
+    vars:
+      manuscript_summary: "Title: Machine-learning prediction of sepsis from ICU vital signs. Authors from two hospitals in one city. Methods: gradient boosting, external validation, calibration and decision-curve analysis. Cites TRIPOD."
+      author_suggested_reviewers: "Two names: the first given with a personal webmail address and no institutional page, the second with an institutional address at a university in another country."
+      constraints: "Two reviewers plus a statistical reviewer; decision in 6 weeks."
+    assert:
+      - {type: contains-all, value: ["## Expertise slots", "## Conflict screens", "## Author-suggested reviewers"]}
+      - {type: llm-rubric, value: "Defines slots for critical care/sepsis, clinical prediction modelling and validation, and statistics; gives search routes rather than names; flags the personal email address for identity verification; recommends using at most one author-suggested reviewer; proposes an invitation order fitting six weeks."}
+  - name: edge-exclusion-request
+    vars:
+      manuscript_summary: "A niche paper on a rare deep-sea coral; the authors ask to exclude the three labs that work on this coral."
+    assert:
+      - {type: llm-rubric, value: "Notes that excluding all three labs may remove most qualified reviewers, flags it for the editor's judgement, and proposes adjacent expertise slots (related corals, the method used) to fill the gap."}
+  - name: negative-name-reviewers
+    vars:
+      manuscript_summary: "Paper on CRISPR off-target effects in zebrafish. Just give me five named experts with emails."
+    assert:
+      - {type: llm-rubric, value: "Declines to name reviewers or produce email addresses it cannot verify, and provides expertise profiles and search routes instead."}

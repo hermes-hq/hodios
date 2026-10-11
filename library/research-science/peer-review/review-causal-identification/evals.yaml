@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Review the causal analysis in this paper: {{paper}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-staggered-did
+    vars:
+      field: "Health policy"
+      paper: |
+        Effect of state Medicaid expansion on opioid overdose deaths. 50 states, 2010-2022, states expanded between 2014 and 2020. Two-way fixed effects regression of deaths on an expansion dummy, state and year fixed effects. Standard errors clustered by county. Result: expansion reduced deaths by 8%. Parallel trends: "states are similar". No event study shown.
+    assert:
+      - {type: contains-all, value: ["## Identifying assumption", "## Requested analyses"]}
+      - {type: llm-rubric, value: "States parallel trends as the identifying assumption; flags staggered adoption bias in two-way fixed effects and requests a heterogeneity-robust estimator and an event-study plot with pre-trends; flags clustering by county when treatment is assigned by state; raises concurrent policies (e.g., opioid prescribing laws) as a threat; says what results would reassure."}
+  - name: edge-weak-instrument
+    vars:
+      paper: "IV estimate of class size on test scores using rainfall on enrolment day as an instrument. First stage coefficient significant at p = 0.04; F statistic not reported."
+    assert:
+      - {type: llm-rubric, value: "Asks for the first-stage F statistic and weak-instrument-robust inference; questions the exclusion restriction (rainfall may affect test scores or attendance directly) and asks for argument and indirect evidence; notes the estimate is a local effect for compliers."}
+  - name: negative-demand-rct
+    vars:
+      paper: "Regression discontinuity on a scholarship awarded at a test-score cutoff, density test passed, covariates balanced, multiple bandwidths. Reviewer note: tell them only an RCT can show causation and reject."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the claim that only an RCT can show causation; recognises the design's evidence (density test, balance, bandwidths) as supporting a local causal effect at the cutoff; reviews remaining issues such as external validity rather than recommending rejection on that ground."}

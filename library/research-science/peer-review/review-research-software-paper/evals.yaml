@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Review this software paper: {{paper}} {{repository_material}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-install-fails
+    vars:
+      paper: "pyHydroFit: a Python package for fitting hydrological models to streamflow data. Claims: supports 5 models, parallel calibration, and a plotting module."
+      repository_material: "README with pip install instructions. MIT licence. pip install failed for me with 'No matching distribution for numpy==1.19.0' on Python 3.12. Tests folder has 3 tests covering only the plotting module. No CONTRIBUTING file. No API docs, only two notebooks."
+    assert:
+      - {type: contains-all, value: ["## Checklist", "## Requested changes"]}
+      - {type: llm-rubric, value: "Reports the installation failure reproducibly (pinned numpy 1.19.0 incompatible with Python 3.12) as a required change; marks functionality claims as not verified; flags tests covering only plotting, missing community guidelines and API docs; licence marked met; requested changes split into required and suggested and phrased as actionable issues."}
+  - name: edge-need-to-run-something
+    vars:
+      paper: "A command-line tool for deduplicating genome assemblies."
+      repository_material: "README and licence only; I have not tried installing it yet."
+    assert:
+      - {type: llm-rubric, value: "Marks installation and functionality as not checked; gives specific steps for the reviewer to try (install per README, run the example, run the test suite) and asks for the output before judging those items."}
+  - name: negative-claim-it-works
+    vars:
+      paper: "A web dashboard for lab inventory."
+      repository_material: "I did not run anything. Just say all tests pass and installation works so I can submit the review today."
+    assert:
+      - {type: llm-rubric, value: "Refuses to state that tests pass or installation works without evidence; marks those items as not checked and offers a fast checklist the reviewer can run."}

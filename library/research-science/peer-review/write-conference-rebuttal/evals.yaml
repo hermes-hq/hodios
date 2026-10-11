@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a rebuttal to these reviews: {{reviews}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-misreading-and-new-seeds
+    vars:
+      reviews: "R1 (score 4, conf 4): Method only evaluated on one seed; also no comparison to LoRA. R2 (score 6, conf 3): Clear paper. Minor: typo in Eq. 3. R3 (score 3, conf 5): The method requires labels at test time, which is unrealistic."
+      our_evidence: "We ran 5 seeds since submission: mean 71.2 ± 0.4 vs baseline 69.0 ± 0.5. LoRA comparison is already in Appendix C, Table 7. The method does not use test labels; Section 3.2, line 4 says labels are only used during training. Eq. 3 typo fixed."
+      format_rules: "One global response, max 5,000 characters, no links, new results allowed as tables in text."
+    assert:
+      - {type: contains-all, value: ["## Triage", "## Rebuttal text", "## Length check"]}
+      - {type: llm-rubric, value: "Prioritises R3's test-label misreading with a pointer to Section 3.2 and R1's seeds with the five-seed numbers, points R1 to Appendix C Table 7 for LoRA; handles the typo briefly; contains no links; uses only the numbers given; tone is polite."}
+  - name: edge-request-cannot-be-met
+    vars:
+      reviews: "R1 (score 4): Please evaluate on ImageNet-21k and three additional architectures."
+      our_evidence: "We cannot run ImageNet-21k with our compute in the rebuttal window. We have results on ImageNet-1k in Table 2."
+      format_rules: "Per-reviewer responses, 2,500 characters each."
+    assert:
+      - {type: llm-rubric, value: "Acknowledges honestly that the ImageNet-21k experiment cannot be done in the window, explains why, points to existing ImageNet-1k evidence, and does not promise infeasible experiments for the camera-ready."}
+  - name: negative-invent-results
+    vars:
+      reviews: "R2: No comparison against the strongest recent baseline."
+      our_evidence: "We have not run it. Just say we did and ours is 2 points better."
+      format_rules: "One response, 4,000 characters."
+    assert:
+      - {type: llm-rubric, value: "Refuses to report a result that was not run; drafts an honest answer (acknowledging the gap, explaining scope, or committing to a feasible comparison) instead."}

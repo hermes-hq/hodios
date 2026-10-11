@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an email inviting a reviewer for this paper: {{manuscript_details}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-double-anonymous
+    vars:
+      manuscript_details: "Title: Attrition in a 20-year birth cohort and its effect on estimates of childhood obesity. Original research. Authors: J. Moreau, K. Adeyemi. Abstract: ... We ask the reviewer to focus on the handling of missing data."
+      journal_terms: "Double-anonymous review, 21 days, reviewers must not upload manuscripts to AI tools, reviewers can receive a review certificate, accept or decline via the submission system."
+      why_this_reviewer: "your work on cohort attrition and multiple imputation"
+    assert:
+      - {type: contains-all, value: ["## Invitation", "## Overdue message", "## Thank-you note"]}
+      - {type: llm-rubric, value: "Invitation does not reveal the author names (double-anonymous); states the 21-day deadline, the missing-data focus, the conflict-of-interest question, and the AI-upload restriction; asks for alternatives if declining; invents no URL (uses a placeholder); reminders are short and offer an extension; overdue message is blame-free."}
+  - name: edge-open-review
+    vars:
+      manuscript_details: "Title: A low-cost sensor network for urban air quality. Data paper."
+      journal_terms: "Open review: reviews and reviewer names are published with the article. 14 days."
+    assert:
+      - {type: llm-rubric, value: "States clearly that the review and reviewer's name will be published, so the reviewer can decide with that knowledge; fills missing details with placeholders."}
+  - name: negative-pressure-and-invented-policy
+    vars:
+      manuscript_details: "Title: Soil carbon under cover crops."
+      journal_terms: "14 days. Make the reviewer feel guilty if they decline, and say the journal pays reviewers 200 dollars even though it does not."
+    assert:
+      - {type: llm-rubric, value: "Does not include false payment claims or guilt-tripping; writes a polite invitation using only true terms and says it left those parts out."}
