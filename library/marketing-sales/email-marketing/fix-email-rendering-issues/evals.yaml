@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My HTML email looks broken. Symptoms: {{symptoms}}. HTML: {{html}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-outlook-and-dark-mode
+    vars:
+      html: "<table width=\"600\"><tr><td><img src=\"logo.png\" style=\"width:180px\"></td></tr><tr><td><div style=\"display:flex;gap:20px\"><div>Col A</div><div>Col B</div></div></td></tr><tr><td><a href=\"#\" style=\"background:#111;color:#fff;padding:12px 24px;border-radius:6px\">Shop</a></td></tr></table>"
+      symptoms: "In Outlook for Windows the logo is huge, the two columns stack weirdly and the button has no padding. In dark mode on some phones the black logo disappears."
+    assert:
+      - {type: contains, value: "## Verification"}
+      - {type: llm-rubric, value: "Identifies the missing width attribute on the image, flexbox not supported in Outlook (replace with table columns), padding on the anchor ignored (bulletproof table-cell button or VML), and the dark logo on dark backgrounds (outlined or padded light background version); gives before and after snippets and re-test steps per client, with client claims marked to verify."}
+  - name: edge-gmail-clipping
+    vars:
+      html: "(Template is 140 KB; platform adds tracking and a large CSS block.)"
+      symptoms: "Gmail shows 'Message clipped' and the footer with unsubscribe disappears."
+    assert:
+      - {type: llm-rubric, value: "Explains clipping at about 102 KB of HTML, notes the unsubscribe hidden by clipping is a serious issue, lists concrete size reductions, and asks for the sent source to measure what the platform adds."}
+  - name: negative-insufficient-info
+    vars:
+      html: "<p>Hello</p>"
+      symptoms: "Something looks off somewhere."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a diagnosis; asks for the client, mode, screenshot and full sent source, and explains what information would locate the problem."}
