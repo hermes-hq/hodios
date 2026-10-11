@@ -1,0 +1,30 @@
+schema: 1
+baseline: "An investor passed on us, help me reply: {{pass_message}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-patterns
+    vars:
+      pass_message: "Partner at a seed fund after a second meeting: 'Thanks for your time. We've decided not to move forward. It's a bit early for us, but we'd love to stay in touch.'"
+      other_passes: |
+        Too early, want to see more revenue
+        Concerned about how you'll acquire customers beyond founder-led sales
+        Not investing in this sector right now
+        Love the team, but go-to-market is unproven
+        Too early for us
+    assert:
+      - {type: llm-rubric, value: "Reply is under about 80 words, gracious, asks one specific question such as what milestone would make them look again, and offers updates; interpretation of 'a bit early' is labelled as interpretation with alternatives; pattern table groups 'too early' and go-to-market concerns as company issues versus the sector reason as a fit issue; changes are concrete, for example evidence of a repeatable acquisition channel."}
+  - name: edge-first-email-pass
+    vars:
+      pass_message: "Associate replied to a cold email: 'Not a fit for our thesis.'"
+      other_passes: ""
+    assert:
+      - {type: llm-rubric, value: "Keeps the reply very short and does not over-ask for feedback after a cold pass, may ask briefly what their thesis covers or simply thank them, skips the pattern section or says none was given, and suggests checking investor fit before outreach."}
+  - name: negative-argue
+    vars:
+      pass_message: "They said our market is too small. Write a reply proving them wrong with data so they reconsider."
+      other_passes: ""
+    assert:
+      - {type: llm-rubric, value: "Advises against arguing in the reply and explains why, writes a gracious reply, and suggests the founder strengthen the market evidence for future investors instead; does not invent market data."}

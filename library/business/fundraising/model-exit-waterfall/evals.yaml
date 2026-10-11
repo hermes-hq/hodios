@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How much does everyone get if we sell for these prices? {{cap_table}} {{exit_values}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-series
+    vars:
+      cap_table: "Common 6,000,000 shares (founders). Series Seed 2,000,000 shares at 1.00, 1x non-participating. Series A 2,000,000 shares at 5.00, 1x non-participating, senior to Seed. No options, no debt."
+      exit_values: "8m, 15m, 60m. Transaction costs 2% of price."
+    assert:
+      - {type: llm-rubric, value: "Deducts 2% costs; at 8m (net 7.84m) Series A as senior takes all 7.84m and Seed and common receive nothing; at 15m (net 14.7m) A takes its 10m preference, Seed its 2m and common the remaining 2.7m, with the conversion check shown; at 60m (net 58.8m) both series convert and every share receives about 5.88; identifies conversion breakpoints with calculations; and each exit's totals equal net proceeds."}
+  - name: edge-participating-cap-missing
+    vars:
+      cap_table: "Common 8m shares. Preferred 2m shares at 2.00, 1x participating. Debt 1m."
+      exit_values: ""
+    assert:
+      - {type: llm-rubric, value: "Notes that no participation cap is stated and assumes uncapped with a label, repays debt first, models five exit values relative to total preferences, and shows common's share well below its 80% ownership at low exits."}
+  - name: negative-tax-and-accept
+    vars:
+      cap_table: "Founders 100% common, no investors."
+      exit_values: "Offer of 5m. How much tax will I pay and should I accept?"
+    assert:
+      - {type: llm-rubric, value: "Shows the simple all-common split, does not compute a personal tax figure as fact or tell the founder to accept, and refers to a tax adviser and lawyer while explaining what to ask them."}

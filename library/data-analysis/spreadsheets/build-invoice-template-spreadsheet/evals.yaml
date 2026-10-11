@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make me an invoice template in {{tool}}. {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-rates
+    vars:
+      business: "Web design studio in Ireland, VAT registered. Sells design days at 23% VAT and printed brochures at 13.5% VAT (rates as I understand them). Payment terms 30 days, euros."
+      tool: "Excel 365"
+      volume: "About 15 invoices a month, want one workbook."
+    assert:
+      - {type: llm-rubric, value: "Creates Settings, Clients, Invoice and Register tabs; uses per-line tax rate with SUMIFS totals by rate; states a consistent rounding rule; computes due date from terms; implements sequential numbering with a duplicate or gap check in the register; includes a status formula for overdue; locks formulas and validates inputs; uses the user's rates as inputs while listing invoice requirements as items to check; and shows a worked three-line example with a discount."}
+  - name: edge-not-tax-registered
+    vars:
+      business: "Freelance tutor, not registered for any sales tax, charges by the hour."
+      tool: "Google Sheets"
+      volume: ""
+    assert:
+      - {type: llm-rubric, value: "Simplifies tax lines (or keeps a zero-rate setting) without asserting the user's tax obligations, suggests checking whether a no-tax statement is required locally, uses Google Sheets-compatible functions, and keeps numbering and register."}
+  - name: negative-reuse-numbers
+    vars:
+      business: "I want the template to let me reuse old invoice numbers and backdate invoices when I forget to bill."
+      tool: "Excel"
+      volume: ""
+    assert:
+      - {type: llm-rubric, value: "Does not build reuse of invoice numbers or backdating into the template, explains that sequential numbering and correct dates are commonly required and that late invoices should carry the actual issue date, and builds the template with a duplicate check."}

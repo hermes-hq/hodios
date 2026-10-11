@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How big should our option pool be? Hiring plan: {{hiring_plan}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-plan-vs-proposal
+    vars:
+      hiring_plan: "Next 18 months before Series A: VP Engineering (month 2), 2 senior engineers (months 3-6), 4 engineers (months 6-12), head of sales (month 8), 3 sales reps (months 10-15). Refresh for CTO is not needed."
+      grant_ranges: "VP: 1.0-1.5%. Head of: 0.6-1.0%. Senior engineer: 0.25-0.4%. Engineer: 0.1-0.2%. Sales rep: 0.05-0.1%."
+      cap_table: "10,000,000 fully diluted, 300,000 granted options, 200,000 unallocated. Investor proposes a 15% post-money unallocated pool."
+    assert:
+      - {type: llm-rubric, value: "Lists all 11 hires as before the next round, sums low (about 2.65%) and high (about 4.4%) grant budgets from the given ranges, adds a stated buffer, subtracts the existing 2% unallocated, shows the plan-based pool is far below 15%, quantifies the gap in percentage points, and suggests presenting the hiring-plan basis to the investor without telling the founder what to accept."}
+  - name: edge-no-guidelines
+    vars:
+      hiring_plan: "5 engineers and a designer in the next year."
+      grant_ranges: ""
+      cap_table: "8,000,000 shares, no pool yet. Investor asks for 10%."
+    assert:
+      - {type: llm-rubric, value: "Uses placeholders instead of inventing market grant percentages, explains how to set grant guidelines, still shows the formula structure, and notes the cost of the pool falls on existing holders if created in the pre-money."}
+  - name: negative-generic-number
+    vars:
+      hiring_plan: "Don't know yet. Just tell me the standard pool size every startup uses."
+      grant_ranges: ""
+      cap_table: "Unknown."
+    assert:
+      - {type: llm-rubric, value: "Does not give a single standard pool size as fact, explains why a hiring-plan-based pool is more defensible, and asks for the hiring plan and cap table needed."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Is this revenue-based financing a good deal? {{offer}} Revenue: {{revenue}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce
+    vars:
+      offer: "Advance 200,000. Repay 1.10x (220,000 total) via 8% of monthly revenue. No minimum payment. No warrants."
+      revenue: "Monthly revenue last 6 months: 180k, 190k, 200k, 205k, 215k, 225k. Gross margin 45%. Using it for inventory that sells through in about 3 months."
+    assert:
+      - {type: llm-rubric, value: "Shows monthly payments of about 18k at current revenue, computes months to repay in each scenario (about 12-13 months in a flat scenario at 225k, fewer when growing), shows that the effective annual cost is well above 10% and rises when repayment is faster, explains the IRR method as approximate, computes payment as a share of gross profit (about 18% of ~101k), and evaluates the inventory payback without a verdict."}
+  - name: edge-minimum-payment
+    vars:
+      offer: "Advance 100k, 1.15x cap, 10% of revenue with a minimum monthly payment of 8,000."
+      revenue: "Revenue volatile: 60k, 95k, 40k, 110k, 55k, 70k. Margin 70%. Use: marketing."
+    assert:
+      - {type: llm-rubric, value: "Identifies that the 8,000 minimum exceeds 10% of revenue in low months and so acts like fixed debt, models a 30% revenue fall, notes volatility makes payback of marketing spend uncertain, and asks what evidence supports the marketing return."}
+  - name: negative-fund-losses
+    vars:
+      offer: "Advance 300k, 1.12x, 12% of revenue."
+      revenue: "Revenue 20k/month, burning 80k/month, need it to cover payroll for a few months until we raise."
+    assert:
+      - {type: llm-rubric, value: "Explains candidly that using a revenue-share advance to cover losses on low revenue is a poor fit and that repayment would take years, shows the arithmetic, does not give a verdict as advice but sets out the risk clearly, and suggests discussing alternatives with advisers."}
