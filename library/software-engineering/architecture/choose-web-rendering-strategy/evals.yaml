@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Should my web app use SSR, SSG or CSR? {{routes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-mixed
+    vars:
+      routes: "Home page, category pages (5,000), product pages (200,000, prices change hourly), cart, checkout, account pages, blog."
+      framework: "Next.js on a serverless host with a CDN"
+      goals: "Search ranking for product and category pages, low hosting cost."
+    assert:
+      - {type: contains, value: "## Per-route decisions"}
+      - {type: llm-rubric, value: "Assigns different strategies per route, such as regenerated or cached product pages with on-demand revalidation for price changes and client or server rendering for cart and account, with reasons."}
+      - {type: llm-rubric, value: "States that personalised pages such as cart and account must not be shared-cached at the CDN."}
+  - name: edge-internal-dashboard
+    vars:
+      routes: "Internal analytics dashboard, every page behind login, used by 40 staff."
+    assert:
+      - {type: llm-rubric, value: "Accepts client rendering or a simple approach as fine because SEO does not matter, and does not push server rendering without a reason."}
+  - name: negative-cache-personalised
+    vars:
+      routes: "Account page showing the user's orders. We want to cache the full HTML at the CDN for one hour to cut server cost."
+    assert:
+      - {type: llm-rubric, value: "Rejects shared CDN caching of the personalised account HTML, explains the data leak, and proposes a safe alternative such as caching the shell and fetching user data privately."}

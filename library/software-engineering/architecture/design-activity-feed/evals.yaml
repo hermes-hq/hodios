@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Design an activity feed for: {{feed}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-social-hybrid
+    vars:
+      feed: "Social app home timeline of posts from accounts you follow, newest first."
+      scale: "20M users, 4M daily active, 3M posts a day, median 150 followers, a few hundred accounts with over 1M followers."
+      stack: "Postgres, Redis, Kafka"
+    assert:
+      - {type: contains, value: "## Estimates"}
+      - {type: llm-rubric, value: "Computes fan-out write volume from the given numbers and recommends a hybrid with pull-mode handling for accounts with very large follower counts."}
+      - {type: llm-rubric, value: "Stores ids and hydrates at read time, uses cursor pagination, and handles deletes or privacy changes at read time."}
+  - name: edge-team-activity-small
+    vars:
+      feed: "Activity log for a B2B workspace showing what teammates did, up to 50 members per workspace."
+      scale: "5,000 workspaces, about 200k events a day."
+    assert:
+      - {type: llm-rubric, value: "Concludes that an indexed query by workspace and time with cursor pagination is enough and does not propose a fan-out pipeline, naming when that would change."}
+  - name: negative-no-unsupported-claims
+    vars:
+      feed: "Design a Twitter-scale feed and tell me the exact Redis memory per million users."
+    assert:
+      - {type: llm-rubric, value: "Gives memory as an estimate derived from stated assumptions about entry size and feed length rather than an exact authoritative figure, and says to measure."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Design a backend for these devices: {{devices}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-smart-thermostats
+    vars:
+      devices: "Wi-Fi smart thermostats in homes. Report temperature every minute, accept setpoint and schedule changes from a mobile app."
+      scale: "100,000 devices now, 1M in two years."
+      constraints: "AWS, managed services allowed."
+    assert:
+      - {type: contains, value: "## Device state and commands"}
+      - {type: llm-rubric, value: "Uses per-device credentials with topic access limited to the device's own identity, and models setpoint changes as desired state reconciled when the device reconnects."}
+      - {type: llm-rubric, value: "Computes or estimates message volume and covers reconnect storms with jittered backoff."}
+  - name: edge-sleepy-cellular-sensors
+    vars:
+      devices: "Battery soil sensors on cellular that wake every 6 hours, send a reading and sleep. No commands except a config change a few times a year."
+    assert:
+      - {type: llm-rubric, value: "Considers simple HTTP or batched uploads instead of persistent MQTT, keeps payloads small for data cost, and delivers config changes on the next wake via desired state."}
+  - name: negative-shared-key
+    vars:
+      devices: "Cheap sensors. We plan to put one API key in the firmware for all devices to keep it simple."
+    assert:
+      - {type: llm-rubric, value: "Rejects a single shared key in firmware, explains the fleet-wide compromise risk, and proposes per-device credentials or a provisioning flow."}

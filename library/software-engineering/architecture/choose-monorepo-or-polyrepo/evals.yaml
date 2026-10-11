@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Should we use a monorepo or separate repos? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shared-ts-code
+    vars:
+      situation: "Web app, mobile app (React Native) and Node API in three repos. They share TypeScript types and validation code by copy-paste; every API change needs three coordinated PRs. One team of 10."
+      constraints: "GitHub Actions."
+    assert:
+      - {type: contains, value: "## Required setup"}
+      - {type: llm-rubric, value: "Recommends a monorepo because of the shared types and coordinated changes, and requires affected-only builds, caching and code owners."}
+  - name: edge-independent-products
+    vars:
+      situation: "Three unrelated products in Java, Python and Go, owned by separate teams with no shared code, plus one open-source SDK."
+    assert:
+      - {type: llm-rubric, value: "Keeps separate repositories or a hybrid, noting low coupling and the open-source SDK's access needs."}
+  - name: negative-no-tooling
+    vars:
+      situation: "Merge our 60 service repos into one repo next week; we do not want to change our CI that builds and tests everything on each push."
+    assert:
+      - {type: llm-rubric, value: "Warns that building and testing everything on each push will not scale in a monorepo, and requires affected-only builds before or as part of the move."}

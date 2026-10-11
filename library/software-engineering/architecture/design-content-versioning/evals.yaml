@@ -1,0 +1,26 @@
+schema: 1
+baseline: "How should I add version history to {{content}}?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cms-pages
+    vars:
+      content: "Marketing pages made of ordered blocks (text, image, CTA) edited by a content team and published to the website."
+      requirements: "Drafts while live page stays up, preview, scheduled publish, history of every publish, restore."
+      stack: "Postgres with Django"
+    assert:
+      - {type: contains, value: "## Related data"}
+      - {type: llm-rubric, value: "Uses revisions with separate draft and published pointers so the live page is unaffected by draft edits, and makes restore create a new revision."}
+      - {type: llm-rubric, value: "Versions the blocks together with the page or pins them, and addresses images referenced by old revisions."}
+  - name: edge-config-small
+    vars:
+      content: "Feature configuration JSON per customer, edited a few times a month by support staff."
+    assert:
+      - {type: llm-rubric, value: "Proposes a simple history table or revision rows with a field-level diff and restore, without a heavy publishing workflow."}
+  - name: negative-overwrite-history
+    vars:
+      content: "Documents. On restore we want to delete all newer revisions so history looks clean."
+    assert:
+      - {type: llm-rubric, value: "Advises against deleting newer revisions on restore and explains restoring as a new revision, while acknowledging any legitimate need for purging under a separate, controlled process."}

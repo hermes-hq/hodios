@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should we rewrite this system? {{system}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-php-monolith
+    vars:
+      system: "8-year-old PHP 7 monolith, 400k lines, runs order processing and invoicing for 2,000 business customers. Few tests, slow releases, frequent regressions."
+      proposal: "Rewrite everything in Go microservices over 9 months with a feature freeze."
+      constraints: "Team of 8. Sales roadmap has 3 major features due this year."
+    assert:
+      - {type: contains, value: "## Claims tested"}
+      - {type: llm-rubric, value: "Recommends against a big-bang rewrite with a feature freeze and proposes incremental replacement with characterisation tests and a strangler approach, while addressing the outdated runtime."}
+      - {type: llm-rubric, value: "Names hidden costs such as undocumented behaviour, invoicing edge cases and data migration."}
+  - name: edge-small-dead-platform
+    vars:
+      system: "Internal tool of about 4,000 lines on a discontinued low-code platform that loses vendor support in 6 months. Used by 15 staff."
+    assert:
+      - {type: llm-rubric, value: "Accepts that a rewrite or replacement is justified given the small size and dead platform, rather than defaulting to refactoring."}
+  - name: negative-aesthetics-only
+    vars:
+      system: "Stable Rails app, good test coverage, ships weekly, no major incidents."
+      proposal: "Rewrite in a newer framework because the code feels old and boring."
+    assert:
+      - {type: llm-rubric, value: "Pushes back because there is no business case, and suggests targeted improvements instead."}
