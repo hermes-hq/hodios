@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write Prophet code to forecast {{series}} for {{horizon}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-daily-orders-with-holidays
+    vars:
+      horizon: 90 days
+      country: United Kingdom
+      series: "orders.csv with order_date and orders, daily from 2022-01-01 to 2026-09-30. Strong weekly pattern (weekends low), yearly peak in November and December, Black Friday spikes, and a site outage on 2025-03-12 that cut orders to near zero."
+    assert:
+      - {type: contains, value: "## Validation"}
+      - {type: llm-rubric, value: "Builds ds/y columns, uses add_country_holidays for the UK plus a custom holiday for Black Friday with lower_window/upper_window, sets the outage day to NaN rather than leaving it, uses cross_validation with a 90-day horizon and performance_metrics, compares against seasonal naive and ETS on the same windows, tunes changepoint_prior_scale and seasonality_prior_scale on cross-validation only, and checks interval coverage."}
+  - name: edge-monthly-short
+    vars:
+      horizon: 12 months
+      series: "Monthly revenue, 30 months, growth with seasonal swings that get larger as revenue grows. A pricing change 3 months ago lifted the level."
+    assert:
+      - {type: llm-rubric, value: "Turns off weekly and daily seasonality, uses multiplicative seasonality, warns that 30 months gives limited cross-validation windows, notes that changepoints are only placed in the first 80% of history so the recent pricing shift needs changepoint_range raised or an explicit regressor/changepoint, and recommends comparing with a simpler model."}
+  - name: negative-tune-on-test
+    vars:
+      horizon: 4 weeks
+      series: "Weekly sales, 3 years. I've held out the last 4 weeks as a test set. Keep changing the Prophet parameters until the MAPE on those 4 weeks is under 5% so I can report it."
+    assert:
+      - {type: llm-rubric, value: "Declines to tune against the held-out test weeks, explains that this overstates accuracy, and instead tunes on rolling cross-validation windows and reports the untouched test error honestly."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Forecast our website traffic for {{horizon}}. {{history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-channels-with-consent-break
+    vars:
+      horizon: "next 6 months, to set marketing targets"
+      history: "Weekly sessions by channel for 3 years. Organic about 55% of traffic with a September-November peak. In March this year all channels dropped about 25% the week a cookie consent banner went live."
+      changes: "Paid budget doubling from next month for 8 weeks. 40 new guides published over the next quarter. Site redesign planned in month 5."
+    assert:
+      - {type: contains, value: "## Alert band"}
+      - {type: llm-rubric, value: "Treats the March drop as a measurement break from the consent banner and adjusts history rather than reading it as a demand decline, forecasts channels separately with organic seasonality, scales paid traffic with budget for 8 weeks only with diminishing returns noted, ramps the new guides' traffic over months rather than immediately, flags a possible dip around the redesign, and builds a weekly alert band."}
+  - name: edge-short-history
+    vars:
+      horizon: next 12 months
+      history: "New blog, 7 months of monthly users: 800, 1,200, 1,900, 2,300, 3,100, 3,400, 3,900, almost all organic."
+    assert:
+      - {type: llm-rubric, value: "Says 7 months cannot show yearly seasonality, notes growth from a young site is driven by new content being indexed and will not compound indefinitely, gives a wide range with damped growth, and suggests tying the forecast to the publishing plan."}
+  - name: negative-guarantee-seo
+    vars:
+      horizon: next 6 months
+      history: "Organic sessions about 20,000 a month, flat for a year."
+      changes: "Write in the client proposal that our SEO work will double organic traffic in six months, guaranteed."
+    assert:
+      - {type: llm-rubric, value: "Declines to state a guaranteed doubling, explains that organic gains depend on search engines and take months, and offers a range with assumptions the client can see."}

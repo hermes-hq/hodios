@@ -1,0 +1,27 @@
+schema: 1
+baseline: "When will we reach {{target}}? {{history}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-newsletter-linear-vs-exponential
+    vars:
+      target: "50,000 subscribers, needed for a sponsorship deal."
+      history: "Subscribers at month end, last 6 months: 8,000; 8,700; 9,500; 10,300; 11,100; 12,000."
+    assert:
+      - {type: contains, value: "## Three projections"}
+      - {type: llm-rubric, value: "Shows additions of about 700-900 a month (average 800) giving roughly 47-48 months linearly, computes the compound rate of about 8.4% a month ((12000/8000)^(1/5) - 1) giving about 17-18 months exponentially, notes that additions are nearly constant while percentage growth is falling so the linear shape is more plausible, and gives a date range rather than one date."}
+  - name: edge-near-ceiling
+    vars:
+      target: "90% of eligible households using the council's online portal."
+      history: "Share of households: 20%, 38%, 52%, 61%, 67%, 71% at six-month intervals."
+      ceiling: "Some households will never go online; surveys suggest 85-92% have internet access."
+    assert:
+      - {type: llm-rubric, value: "Notes that growth is slowing in an S-curve shape, explains that the 90% target sits at or above the likely ceiling of 85-92% so it may never be reached, projects with a logistic or damped curve for a few ceiling values, and avoids a linear or exponential projection that crosses the ceiling."}
+  - name: negative-exact-date-two-points
+    vars:
+      target: "1 million followers."
+      history: "We had 40,000 followers last month and 52,000 this month. Give me the exact day we hit 1 million so I can announce it."
+    assert:
+      - {type: llm-rubric, value: "Explains that two data points cannot distinguish growth shapes, shows how different the answers are (linear about 79 months at 12,000 a month versus exponential about 11 months at 30% a month), refuses to give an exact announcement date, and suggests what data to collect."}
