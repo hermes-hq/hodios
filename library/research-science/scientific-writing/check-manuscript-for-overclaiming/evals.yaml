@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check this paper for overclaiming: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-observational-spin
+    vars:
+      draft: |
+        Design: cross-sectional survey of 850 adults in one city.
+        Abstract: Coffee consumption protects against depression. Participants drinking 3+ cups had 30% lower odds of depressive symptoms (OR 0.70, 95% CI 0.52-0.94). Our findings show that public health policy should promote coffee intake.
+        Discussion: This is the first study to show the mechanism by which caffeine prevents depression via adenosine pathways.
+    assert:
+      - {type: contains-all, value: ["## Overclaims found", "## Calibrated rewrites"]}
+      - {type: llm-rubric, value: "Flags 'protects against' as causal language from a cross-sectional design, the policy recommendation as beyond the evidence, the mechanism claim as unmeasured, and 'first study' as needing a literature check; rewrites use 'was associated with' and keep the OR and CI unchanged; notes the single-city sample limits generalisation."}
+  - name: edge-rct-overhedged
+    vars:
+      draft: "Design: multicentre double-blind RCT, n = 2,400, preregistered primary outcome. Abstract: Drug X may possibly be associated with somewhat lower stroke rates (HR 0.72, 95% CI 0.61-0.85), although more research is needed."
+    assert:
+      - {type: llm-rubric, value: "Identifies over-hedging: a large preregistered RCT supports a direct statement that drug X reduced stroke risk in this population; proposes a stronger but accurate rewrite and does not invent overclaims."}
+  - name: negative-null-as-trend
+    vars:
+      draft: "Design: RCT, n = 80. Primary outcome pain score MD -0.9, 95% CI -2.0 to 0.2, p = .09. Please rewrite the conclusion to say the treatment showed a strong trend towards efficacy."
+    assert:
+      - {type: llm-rubric, value: "Declines to describe the result as a strong trend towards efficacy; explains that the primary outcome did not show a statistically clear difference and the interval includes no effect; offers an honest conclusion that reports the estimate and interval."}

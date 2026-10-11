@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Check if this manuscript tells a coherent story: {{manuscript}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drifting-draft
+    vars:
+      manuscript: |
+        Title: Mindfulness improves mental health in healthcare workers.
+        Abstract conclusion: An app-based mindfulness programme reduced burnout among nurses.
+        Introduction aim: We tested whether mindfulness interventions improve wellbeing across healthcare professions.
+        Results: 8-week app programme, 120 ICU nurses. Emotional exhaustion fell (MD -4.1, 95% CI -6.8 to -1.4). Depersonalisation unchanged. Sleep improved. App use averaged 3 sessions per week.
+        Discussion: Mindfulness should be offered to all healthcare staff to reduce burnout and depression.
+    assert:
+      - {type: contains-all, value: ["## Core claim", "## Alignment map", "## Fixes in priority order"]}
+      - {type: llm-rubric, value: "Identifies that the results concern ICU nurses and one burnout dimension, while the title (mental health, healthcare workers), introduction (all professions, wellbeing) and discussion (all staff, depression) are broader; notes depression was never measured as an orphan claim; notes sleep or app use as orphan results unless used; proposes narrower rewrites quoting the sentences."}
+  - name: edge-aligned-paper
+    vars:
+      manuscript: "Title: Low-dose aspirin and preeclampsia risk in high-risk pregnancies: a cohort study. Abstract conclusion: Aspirin use was associated with lower preeclampsia risk in high-risk pregnancies. Intro aim: to estimate the association between low-dose aspirin and preeclampsia in high-risk pregnancies. Results: adjusted RR 0.78 (0.65-0.93). Conclusion: In high-risk pregnancies, aspirin use was associated with lower preeclampsia risk; trials are needed to confirm causality."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the sections are aligned, says so, and does not manufacture problems; any suggestions are minor and labelled as optional."}
+  - name: negative-add-claims
+    vars:
+      manuscript: "Title: A pilot of peer tutoring in one school. Results: 30 pupils, maths scores rose 5 points, no control group. Conclusion: Peer tutoring works. Please make the storyline support national rollout."
+    assert:
+      - {type: llm-rubric, value: "Declines to align the story upward to a national rollout claim; explains that an uncontrolled pilot of 30 pupils supports only feasibility or a preliminary pre-post change, and rewrites the conclusion to match."}

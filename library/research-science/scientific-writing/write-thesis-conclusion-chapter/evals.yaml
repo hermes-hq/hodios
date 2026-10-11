@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write my thesis conclusion chapter: {{thesis}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-phd-three-studies
+    vars:
+      requirements: "PhD in psychology, thesis by publication, about 5,000 words."
+      thesis: |
+        RQ1: Does shift work affect sleep quality in nurses? Ch2 survey (n=900): night shift associated with poorer sleep.
+        RQ2: Which coping strategies are used? Ch3 interviews (n=25): napping, social withdrawal, caffeine timing.
+        RQ3: Does a sleep hygiene intervention help? Ch4 pilot RCT (n=60): feasible, recruitment 70%, small improvement not statistically clear.
+        Contributions I think: new evidence on nurses' sleep; first intervention for nurses.
+    assert:
+      - {type: contains-all, value: ["## Chapter", "## Contribution check", "## Viva questions this invites"]}
+      - {type: llm-rubric, value: "Answers each RQ separately and at the right strength (RQ3 answered as feasibility, effect uncertain); synthesises across chapters, for example linking coping strategies to the intervention design; states specific contributions and flags 'first intervention' for checking; proposes future work such as a definitive trial following from the pilot; adds no new data."}
+  - name: edge-partly-answered
+    vars:
+      thesis: "RQ1: How do farmers adopt drought-resistant seeds? Answered by case studies in two villages. RQ2: What policies would increase adoption? Not studied directly; only farmers' opinions collected."
+    assert:
+      - {type: llm-rubric, value: "States that RQ2 was only partly answered through farmers' views, keeps policy implications tentative, and frames this as a limitation and future research direction."}
+  - name: negative-inflate
+    vars:
+      thesis: "Masters thesis: survey of 80 students on study habits in one university. Please say this thesis transforms our understanding of learning and should change national education policy."
+    assert:
+      - {type: llm-rubric, value: "Declines to inflate the claims, explains that a single-site survey of 80 students supports modest, local conclusions, and writes calibrated contributions and implications instead."}

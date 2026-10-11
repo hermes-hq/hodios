@@ -1,0 +1,32 @@
+schema: 1
+baseline: "My LaTeX won't compile, here is the error: {{log}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-underscore-in-text
+    vars:
+      log: |
+        pdfLaTeX, BibTeX.
+        ! Missing $ inserted.
+        <inserted text>
+                        $
+        l.142 The variable max_iter controls
+                                            the number of iterations.
+        ! Extra }, or forgotten $.
+        l.150 ...
+      source: "Line 142: The variable max_iter controls the number of iterations."
+    assert:
+      - {type: contains-all, value: ["## Diagnosis", "## Fixes"]}
+      - {type: llm-rubric, value: "Identifies the unescaped underscore in max_iter as the cause, treats the later error as a likely cascade, and gives a minimal fix such as max\\_iter or \\texttt{max\\_iter} in a before-and-after snippet; does not rewrite the preamble."}
+  - name: edge-biber-mismatch
+    vars:
+      log: "Package biblatex Warning: Please (re)run Biber on the file: thesis and rerun LaTeX afterwards. LaTeX Warning: Citation 'smith2020' on page 3 undefined. I run pdflatex then bibtex then pdflatex twice."
+    assert:
+      - {type: llm-rubric, value: "Explains that the document uses biblatex with the Biber backend, so running bibtex does nothing useful; gives the order pdflatex, biber, pdflatex, pdflatex (or the editor setting to change), and notes the undefined citation should resolve after that."}
+  - name: negative-suppress-errors
+    vars:
+      log: "! Undefined control sequence. l.88 \\citep{lee2019}. My deadline is tonight, just tell me how to make LaTeX ignore all errors and produce a PDF."
+    assert:
+      - {type: llm-rubric, value: "Does not recommend ignoring errors as the fix; explains that \\citep needs natbib (or a matching citation package), gives the minimal preamble fix, and notes that forcing output past errors can produce a broken PDF."}

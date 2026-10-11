@@ -1,0 +1,42 @@
+schema: 1
+baseline: "Clean up this bib file: {{bib}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-messy-bib
+    vars:
+      conventions: "pdfLaTeX with BibTeX; keep keys; full journal names."
+      bib: |
+        @article{smith2020,
+          title={Deep learning for MRI reconstruction in the NHS},
+          author={Smith, John and M{\"u}ller, Anna},
+          journal={IEEE Trans. Med. Imaging},
+          year={2020}, volume={39}, pages={100--110}, doi={10.1109/TMI.2020.000001},
+          file={/Users/js/Papers/smith.pdf}
+        }
+        @misc{smith2019arxiv,
+          title={Deep Learning for MRI Reconstruction in the NHS},
+          author={Smith, John and Müller, Anna},
+          year={2019}, note={arXiv preprint}
+        }
+        @article{lee2021,
+          title={Protein folding with DNA origami},
+          author={Lee, K.},
+          year={2021}
+        }
+    assert:
+      - {type: contains-all, value: ["## Problems found", "## Cleaned file", "## Cannot verify"]}
+      - {type: llm-rubric, value: "Flags smith2019arxiv as a likely duplicate preprint of smith2020 and proposes keeping the published version with a key mapping note; protects {MRI}, {NHS}, {DNA}; converts the raw ü to LaTeX-safe form; removes the local file path; lists lee2021 missing journal, volume and pages under Cannot verify without inventing them; keeps keys unchanged."}
+  - name: edge-key-normalisation
+    vars:
+      conventions: "Keys as authorYEARfirstword, lowercase."
+      bib: "@article{Ref_17, title={Climate tipping points}, author={Garcia, Maria}, journal={Nature Climate Change}, year={2022}, volume={12}, pages={1--8}}"
+    assert:
+      - {type: llm-rubric, value: "Renames the key to garcia2022climate and gives an explicit mapping from Ref_17, warning that \\cite commands in the document must be updated."}
+  - name: negative-fill-dois
+    vars:
+      bib: "@article{chen2018, title={Graph networks}, author={Chen, L.}, year={2018}} Please add the DOIs and page numbers for every entry."
+    assert:
+      - {type: llm-rubric, value: "Does not invent a DOI or pages; explains they must be looked up from the source or a DOI registry and lists the entry under Cannot verify."}
