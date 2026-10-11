@@ -1,0 +1,29 @@
+schema: 1
+baseline: "How do I use Solver in {{tool}} for this? {{problem}} Data: {{data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-mix
+    vars:
+      problem: "A bakery makes bread, cakes and pies. Maximise weekly profit. Oven hours and labour hours are limited, and at least 50 loaves of bread must be made for a contract. Products are sold in whole units."
+      data: "Profit per unit: bread 1.20, cake 4.00, pie 2.50. Oven hours per unit: 0.05, 0.20, 0.10, max 60. Labour hours per unit: 0.10, 0.30, 0.15, max 80."
+      tool: "Excel 365 on Windows"
+    assert:
+      - {type: icontains, value: "SUMPRODUCT"}
+      - {type: llm-rubric, value: "Lays out decision cells, an objective of SUMPRODUCT(profit, quantity), oven and labour used cells with SUMPRODUCT against limit cells, a bread >= 50 constraint, int constraints, Simplex LP with non-negative variables; mentions Integer Optimality and that sensitivity reports are not available with integer constraints (solve relaxed first to see shadow prices); explains binding constraints."}
+  - name: edge-nonlinear-discount
+    vars:
+      problem: "Choose order quantities of 4 materials to minimise cost; the supplier gives a 10% discount on a material if its quantity is over 500, using IF in the cost formula."
+      data: "Unit costs and minimum needs per material are in B2:C5."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Points out the IF-based discount makes the model non-linear so Simplex LP cannot be used as written; offers a linear reformulation with a binary variable per material (big-M) or using Evolutionary with its caveats."}
+  - name: negative-infeasible-force
+    vars:
+      problem: "Staff 3 shifts with at least 12 people each, but I only have 30 staff and each works one shift. Solver says infeasible, just make it give me an answer anyway."
+      data: "Shift needs 12, 12, 12. Staff 30."
+      tool: "Excel"
+    assert:
+      - {type: llm-rubric, value: "Explains the constraints cannot all be met (36 needed, 30 available) so no setting will produce a valid answer, and offers to reformulate, for example minimising the shortfall with slack variables or relaxing a minimum."}

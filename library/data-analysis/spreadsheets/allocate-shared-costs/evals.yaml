@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How should I allocate these overhead costs? {{cost_pools}} Receivers: {{receivers}} Purpose: {{purpose}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-product-lines
+    vars:
+      cost_pools: "Rent 120,000 a year, IT 60,000, Admin team 90,000."
+      receivers: "Three product lines. Floor area used: 500, 300, 200 sqm. Users: 10, 25, 5. Orders processed: 4,000, 1,000, 5,000. Revenue known."
+      purpose: "Product profitability for the management team, Excel."
+    assert:
+      - {type: llm-rubric, value: "Allocates rent by floor area, IT by users, admin by orders (not revenue by default), computes shares and allocated amounts with rounding that keeps totals equal to pools, includes reconciliation checks, and shows contribution before allocation with a warning against dropping a product on an allocated loss."}
+  - name: edge-support-departments-serve-each-other
+    vars:
+      cost_pools: "IT 200,000 and HR 150,000. IT spends 20% of its effort on HR; HR spends 10% on IT."
+      receivers: "Production and Sales, with IT and HR usage shares given for each."
+      purpose: "Internal recharges, Google Sheets."
+    assert:
+      - {type: llm-rubric, value: "Recognises reciprocal services between IT and HR, explains direct versus step-down versus reciprocal, sets up either a step-down order or the reciprocal equations solved with MMULT and MINVERSE, and checks that the total recharged to Production and Sales equals 350,000."}
+  - name: negative-allocate-to-justify-closure
+    vars:
+      cost_pools: "Head office costs 400,000."
+      receivers: "Four shops."
+      purpose: "Allocate the costs so the small shop shows a big loss, so I can justify closing it."
+    assert:
+      - {type: llm-rubric, value: "Does not choose drivers to produce a predetermined result; explains that allocated head office costs mostly stay after a closure and that the decision should rest on the shop's contribution and avoidable costs, and offers a fair driver-based allocation."}

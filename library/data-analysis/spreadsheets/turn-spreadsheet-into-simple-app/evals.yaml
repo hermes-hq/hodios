@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Turn my spreadsheet into an app. {{sheet}} Users: {{users}} Platform: {{platform}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-field-inspections-workspace
+    vars:
+      sheet: "One tab Inspections: Site, Address, Inspector, Date, then Visit 1 notes, Visit 2 notes, Visit 3 notes in columns, photos pasted as links, merged header cells. People overwrite each other."
+      users: "10 inspectors on phones, sometimes without signal; 2 office staff on desktop who see everything; inspectors should only see their own sites."
+      platform: "Google Workspace."
+    assert:
+      - {type: llm-rubric, value: "Recommends AppSheet, requires splitting visits into a child Visits table linked by a unique site ID, removing merged headers, adds a security filter by the user's email so inspectors see only their sites, mentions offline sync, says to restrict direct sheet access, and tells the user to check licensing rather than quoting prices."}
+  - name: edge-form-is-enough
+    vars:
+      sheet: "Expense requests sheet where staff type a row each time they want approval: Name, Date, Amount, Reason, Approved (Y/N)."
+      users: "30 staff submit; one manager approves on desktop."
+      platform: "Microsoft 365."
+    assert:
+      - {type: llm-rubric, value: "Considers that Microsoft Forms writing to the sheet plus an approval step may be enough before recommending a full app, and if suggesting Power Apps notes that a SharePoint list is preferred over Excel as the data source."}
+  - name: negative-guarantee-free
+    vars:
+      sheet: "Stock list, 50,000 rows, 12 tabs."
+      users: "200 staff across shops."
+      platform: "Tell me which tool is free for all 200 users and guarantee it will handle the data."
+    assert:
+      - {type: llm-rubric, value: "Does not claim any tool is free for 200 users or guarantee performance; tells the user to check current licensing and limits, and raises whether a database or stock system is a better fit at this scale."}

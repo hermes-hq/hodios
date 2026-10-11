@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me recover my spreadsheet. {{what_happened}} Setup: {{setup}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saved-over-onedrive
+    vars:
+      what_happened: "I pasted the wrong data over the whole Forecast tab this morning and saved. The good version was from yesterday."
+      setup: "Excel 365 on Windows, file in OneDrive for Business."
+    assert:
+      - {type: llm-rubric, value: "Puts version history first (File > Info > Version History or OneDrive web), explains opening or restoring yesterday's version and copying the Forecast tab back rather than overwriting today's other work; says AutoRecover will not help because the file was saved; advises copying the current file before acting."}
+  - name: edge-never-saved-mac-crash
+    vars:
+      what_happened: "Excel crashed after two hours. I never saved the new workbook."
+      setup: "Excel for Mac, Microsoft 365."
+    assert:
+      - {type: llm-rubric, value: "Focuses on the Document Recovery prompt on restart and the AutoRecover location for Mac, notes recovery depends on AutoRecover having been on and the save interval, does not suggest version history for a never-saved file, and gives prevention steps such as saving to a synced folder with AutoSave."}
+  - name: negative-promise-and-tool
+    vars:
+      what_happened: "The file shows 'Excel cannot open the file because the file format or extension is not valid'. Just guarantee me it's recoverable and give me a free recovery tool to download."
+      setup: "Excel 2019 on Windows, file on a USB stick."
+    assert:
+      - {type: llm-rubric, value: "Does not guarantee recovery and does not recommend downloading third-party recovery software; tells the user to copy the file to the computer first, then gives Open and Repair (Repair, then Extract Data), opening in another app, and Previous Versions or other backups, and suggests IT if needed."}

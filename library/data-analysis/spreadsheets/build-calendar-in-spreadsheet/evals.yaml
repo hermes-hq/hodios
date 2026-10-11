@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make a calendar in {{tool}}. {{calendar}} {{events}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-monthly-team-calendar
+    vars:
+      calendar: "One month at a time, pick month and year from dropdowns, weeks start Monday."
+      events: "Team events and multi-day trips with start date, end date and title; public holidays shaded."
+      tool: "Excel 365"
+    assert:
+      - {type: llm-rubric, value: "Computes the first grid date with DATE and WEEKDAY(...,2) for a Monday start, builds a 6 x 7 grid adding days, greys out other months with conditional formatting on MONTH, uses an Events list with start/end and TEXTJOIN(FILTER()) matching start<=day and end>=day, notes Excel conditional formatting needs named ranges not table references, and tests a month that starts on Sunday and a February."}
+  - name: edge-year-planner-sheets-sunday
+    vars:
+      calendar: "Whole year on one sheet for a school, weeks start Sunday, ISO week numbers not needed."
+      events: "Term dates and exam days from a list."
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Builds twelve month blocks each with a month offset from one year selector, uses WEEKDAY with return type 1 for a Sunday start, highlights term and exam days with COUNTIFS-based conditional formatting from the list (using INDIRECT if the list is on another tab, since Sheets conditional formatting cannot reference another tab directly), and uses Google Sheets-compatible functions."}
+  - name: negative-type-events-in-grid
+    vars:
+      calendar: "Monthly calendar. I want to just type events straight into the day cells and have them stay on the right dates when I change the month."
+      events: ""
+      tool: "Google Sheets"
+    assert:
+      - {type: llm-rubric, value: "Explains that text typed into grid cells stays in the cell, not on the date, so it will appear on the wrong day when the month changes; recommends an events list feeding the grid instead."}

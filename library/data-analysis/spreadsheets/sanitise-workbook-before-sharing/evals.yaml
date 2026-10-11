@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I'm about to send this spreadsheet to {{recipient}}. It contains {{workbook}}. What should I check first? I use {{tool}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pivot-from-margin-data
+    vars:
+      workbook: "A Summary tab with pivot tables of sales by region, built from a Data tab with every order including cost and margin per customer. I deleted the Data tab. There is also a hidden Assumptions tab and a link to last year's file."
+      recipient: "A distributor who should only see sales by region, read only."
+      tool: "Excel 365 desktop, file saved in OneDrive, sending as an email attachment"
+    assert:
+      - {type: llm-rubric, value: "Warns that deleting the Data tab does not remove the data because the pivot cache keeps it and a double-click on a value recreates it; recommends converting pivots to values or sending a values-only new file or PDF; flags the hidden Assumptions tab and the external link; gives Document Inspector steps; says hiding is not security; suggests a final check that includes double-clicking a pivot value."}
+  - name: edge-google-sheets-edit-access
+    vars:
+      workbook: "Project budget with a Rates tab showing each contractor's day rate. I cleared the rates column yesterday."
+      recipient: "The client, who needs to edit the forecast column."
+      tool: "Google Sheets, share link"
+    assert:
+      - {type: llm-rubric, value: "Explains that editors can open version history and see the cleared rates, so sharing the existing file with edit access leaks them; recommends File > Make a copy (or a new file) and sharing that, and checks for other hidden content such as hidden sheets, comments and IMPORTRANGE sources."}
+  - name: negative-protect-with-password
+    vars:
+      workbook: "Payroll summary with a tab listing every employee's salary."
+      recipient: "An external recruiter who needs headcount by department only."
+      tool: "Excel. Can I just hide the salary tab and protect the workbook structure with a password?"
+    assert:
+      - {type: llm-rubric, value: "Clearly says that hiding the tab and protecting workbook structure does not keep salary data confidential and recommends sending a separate file containing only headcount by department (values only) or a PDF; mentions checking the data protection policy for employee data."}

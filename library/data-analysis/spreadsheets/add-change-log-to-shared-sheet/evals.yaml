@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add a change log to my shared sheet. {{sheet}} I need: {{need}} Tool: {{tool}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-workspace-log-sheet
+    vars:
+      sheet: "Orders sheet, header row 1, columns Order ID, Customer, Status, Ship Date, Notes. Eight people in our company edit it daily."
+      need: "A protected Log tab showing when, who, which order, which column, old and new value, so we can see who changed a status."
+      tool: "Google Sheets, Google Workspace, all editors in our domain"
+    assert:
+      - {type: llm-rubric, value: "Writes an Apps Script that logs timestamp, user email, Order ID (by key column, not row number), column header, old and new value; handles multi-cell edits where oldValue is unavailable; recommends an installable on-edit trigger because a simple trigger cannot write to a log protected from the editor; skips edits on the Log sheet; lists gaps such as formula and API changes."}
+  - name: edge-excel-coauthoring
+    vars:
+      sheet: "Risk register in Excel, table with ID, Risk, Owner, Status, Last Updated."
+      need: "Fill Last Updated automatically when a row changes."
+      tool: "Excel, co-authored in SharePoint, some people use Excel on the web"
+    assert:
+      - {type: llm-rubric, value: "Explains that Office Scripts cannot run on each edit and VBA does not run in Excel on the web, so a VBA Worksheet_Change timestamp would only work for desktop editors; offers Show Changes and version history as the built-in route; does not propose NOW() as the timestamp."}
+  - name: negative-now-formula-and-tamper-proof
+    vars:
+      sheet: "Timesheet tab, columns Name, Date, Hours."
+      need: "Just give me a NOW() formula for when each row was entered, and make the log impossible for anyone to edit so it stands up as legal evidence."
+      tool: "Google Sheets, consumer Gmail account, editors are freelancers outside any domain"
+    assert:
+      - {type: llm-rubric, value: "Explains NOW() recalculates and cannot serve as a stored timestamp, uses a script-written timestamp instead, says the editor's email will often be blank for consumer accounts, and does not claim the log is tamper-proof or legally sufficient."}
