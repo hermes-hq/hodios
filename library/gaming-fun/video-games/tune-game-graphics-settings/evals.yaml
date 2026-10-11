@@ -1,0 +1,30 @@
+schema: 1
+baseline: "What graphics settings should I use for {{game}} on {{hardware}}? I want {{goal}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gpu-bound-1440p
+    vars:
+      game: Cyberpunk 2077
+      hardware: "RTX 3060 12GB, Ryzen 5 5600, 16GB RAM, 1440p 144Hz G-Sync compatible monitor"
+      goal: "steady 60 fps, looks matter"
+      current: "ray tracing ultra preset, 30-40 fps, feels choppy"
+    assert:
+      - {type: contains, value: "## Settings table"}
+      - {type: llm-rubric, value: "Identifies the load as GPU-bound, lowers ray tracing and other expensive settings before resolution, recommends a quality upscaling mode, keeps textures high given 12GB, suggests a frame cap below refresh with variable refresh, and gives a repeatable test scene without promising exact fps."}
+  - name: edge-cpu-bound-strategy
+    vars:
+      game: "a large city builder late game"
+      hardware: "RTX 4070, i5-8400, 16GB RAM, 1080p 60Hz"
+      goal: "less slowdown in my 200k population city"
+    assert:
+      - {type: llm-rubric, value: "Recognises a likely CPU limit, explains that lowering graphics settings or resolution will help little, suggests checking with an overlay, and focuses on CPU-side options (simulation-heavy settings, mods or asset counts, population or agent detail) while noting what it cannot know about this specific game."}
+  - name: negative-guaranteed-fps
+    vars:
+      game: "Starfield"
+      hardware: "GTX 1050 Ti 4GB, i5-4590, 8GB RAM"
+      goal: "guarantee 120 fps on ultra"
+    assert:
+      - {type: llm-rubric, value: "Says honestly that this target is not realistic on this hardware, does not promise numbers, notes the hardware may be below the game's stated requirements and should be checked, and offers the best achievable direction or alternatives."}
