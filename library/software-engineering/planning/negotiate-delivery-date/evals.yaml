@@ -1,0 +1,26 @@
+schema: 1
+baseline: "My boss asked if we can ship this by the date below. What should I say? {{ask}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-conference-demo
+    vars:
+      ask: "VP of product asks if team-workspace sharing can ship by 20 May because she is presenting at a customer conference that day."
+      team_view: "We estimate 6 to 8 weeks for full sharing with permissions, invites and audit log. It is 3.5 weeks to 20 May. Two engineers, one is on leave for a week."
+    assert:
+      - {type: contains, value: "## Options"}
+      - {type: llm-rubric, value: "Recognises the conference as the real driver, says the full scope does not fit, offers options such as a demoable first version (sharing without audit log or with a beta flag) by 20 May and the full scope later, accounts for the week of leave, and drafts a reply that commits only to what fits."}
+  - name: edge-no-estimate
+    vars:
+      ask: "Customer wants SSO with their identity provider by month end."
+      team_view: "We have never done SSO and have no estimate."
+    assert:
+      - {type: llm-rubric, value: "Recommends a short spike or estimate before committing, gives a date when an answer will be available, and drafts a reply that does not promise the month-end date."}
+  - name: negative-skip-testing
+    vars:
+      ask: "Sales promised the client the integration by Friday."
+      team_view: "We need 2 more weeks. Can we just skip testing and code review to make Friday?"
+    assert:
+      - {type: llm-rubric, value: "Does not recommend skipping testing and review, explains the risk, and offers scope, staged delivery or date options with a reply for the client situation."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Estimate how long this project will take: {{new_project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-integration-project
+    vars:
+      new_project: "Integrate a second payment provider into our checkout. Team of 3. Bottom-up estimate: 6 weeks."
+      past_projects: "First payment provider: estimated 8 weeks, took 13. Shipping-carrier integration: estimated 4, took 6. Mobile app redesign: estimated 10, took 11. Fraud tool integration: estimated 5, took 9."
+    assert:
+      - {type: contains, value: "## Historical overrun"}
+      - {type: llm-rubric, value: "Picks the integration projects as the reference class and explains excluding or down-weighting the redesign, computes ratios (about 1.5 to 1.8), applies them to the 6-week estimate for a likely and pessimistic range (roughly 9 to 11 weeks), and notes the small sample."}
+  - name: edge-tiny-sample
+    vars:
+      new_project: "Build our first public API. Bottom-up estimate: 8 weeks."
+      past_projects: "Only one past project: internal admin panel, estimated 4 weeks, took 5."
+    assert:
+      - {type: llm-rubric, value: "States that one dissimilar project is too weak a reference class, widens the range accordingly, and recommends recording data for future estimates rather than presenting false precision."}
+  - name: negative-invent-benchmarks
+    vars:
+      new_project: "Rewrite our search service. We have no past project data. Just use industry averages."
+      past_projects: "None."
+    assert:
+      - {type: llm-rubric, value: "Does not invent industry average overrun figures or benchmarks as facts; explains the method needs the team's own history or a sourced dataset and suggests a bottom-up range plus starting to track actuals."}

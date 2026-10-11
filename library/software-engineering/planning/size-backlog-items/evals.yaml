@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Give story points for these backlog items: {{items}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-anchors
+    vars:
+      items: "1. Add 'remember me' to login. 2. Rebuild the billing system to support usage-based pricing. 3. Fix typo on settings page. 4. Export invoices as PDF. 5. Make the dashboard faster."
+      reference_items: "Password reset email (3 points): new endpoint, template, tests. Add a column to the users table and show it in admin (2 points)."
+      scale: fibonacci-points
+    assert:
+      - {type: contains, value: "## Too big to size"}
+      - {type: llm-rubric, value: "Sizes items relative to the given anchors with reasons, flags the billing rebuild as too big with a split suggestion, flags 'make the dashboard faster' as too unclear and suggests measuring or a spike, and does not convert points to hours."}
+  - name: edge-no-anchors-tshirt
+    vars:
+      items: "A. Add dark mode. B. Add OAuth login with Google. C. Change button colour."
+      scale: t-shirt
+    assert:
+      - {type: llm-rubric, value: "Proposes anchors from the batch itself on a t-shirt scale, says the team must confirm them, and gives a reason per size."}
+  - name: negative-convert-to-hours
+    vars:
+      items: "Size these and convert each to hours so I can compare my two teams' productivity: 1. Search filters. 2. CSV import."
+    assert:
+      - {type: llm-rubric, value: "Declines converting points to hours and comparing teams by points, explains why relative sizes are team-specific, and still offers sizes or a range estimate approach for planning."}
