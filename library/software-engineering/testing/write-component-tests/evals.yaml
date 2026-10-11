@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Write tests for this component: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-login-form
+    vars:
+      component: |
+        // LoginForm.tsx (React, Vitest + Testing Library already set up, MSW in src/test/server.ts)
+        export function LoginForm({ onSuccess }) {
+          const [error, setError] = useState(null); const [busy, setBusy] = useState(false);
+          async function submit(e) { e.preventDefault(); setBusy(true);
+            const res = await fetch('/api/login', { method: 'POST', body: new FormData(e.target) });
+            setBusy(false); if (res.ok) onSuccess(await res.json()); else setError('Wrong email or password'); }
+          return (<form onSubmit={submit}><label>Email<input name="email" type="email" required /></label>
+            <label>Password<input name="password" type="password" required /></label>
+            <button disabled={busy}>Log in</button>{error && <p role="alert">{error}</p>}</form>);
+        }
+    assert:
+      - {type: contains, value: "## Behaviours to cover"}
+      - {type: llm-rubric, value: "Uses getByLabelText or getByRole queries and user-event, mocks /api/login with the existing MSW server for both success and 401, asserts onSuccess is called with the response and that the alert text appears on failure, checks the button is disabled while the request is pending, and uses no snapshots, class selectors or fixed sleeps."}
+  - name: edge-no-accessible-name
+    vars:
+      component: "An IconButton component that renders <button @click=\"onDelete\"><TrashIcon /></button> with no label, in a Vue 3 project using Vitest and @testing-library/vue."
+    assert:
+      - {type: llm-rubric, value: "Flags that the icon-only button has no accessible name, recommends adding an aria-label, and queries it by role and that name in the test instead of quietly adding a test id."}
+  - name: negative-test-internals
+    vars:
+      component: "A Counter component. Please write tests that check its internal useState value and that setCount was called, by mocking React.useState."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on mocking useState and asserting internal state, explains it couples tests to implementation, and writes tests that click the buttons and assert the displayed count instead."}

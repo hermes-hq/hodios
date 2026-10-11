@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Refactor {{target}} to avoid mutable state."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-module-dict-leak
+    vars:
+      target: |
+        # pricing.py
+        DEFAULTS = {"currency": "EUR", "discounts": []}
+        def build_quote(customer):
+            opts = DEFAULTS
+            if customer.vip: opts["discounts"].append("vip10")
+            return compute(opts)
+        Symptom: non-VIP customers sometimes get the VIP discount after a VIP request on the same worker.
+    assert:
+      - {type: contains, value: "## Who mutates what"}
+      - {type: llm-rubric, value: "Identifies that opts aliases the module-level DEFAULTS and the append mutates it for all later requests, writes a test with a VIP then a non-VIP quote in sequence, and fixes by building a new options value per call (and making DEFAULTS immutable, for example a frozen mapping and tuple), reporting the leak fix separately."}
+  - name: edge-react-state-mutation
+    vars:
+      target: "A React reducer that does state.items.push(action.item); return state; and the list does not re-render."
+    assert:
+      - {type: llm-rubric, value: "Explains that returning the same mutated state object prevents React from detecting the change, and rewrites the reducer to return a new state with a new items array, with a test asserting the previous state is unchanged."}
+  - name: negative-rewrite-paradigm
+    vars:
+      target: "Our Java order service has some shared mutable caches. Rewrite the whole service in a purely functional style with a new effects library."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a paradigm rewrite and new library, and scopes the work to finding the shared mutable caches, giving them single owners or immutable values in small tested steps."}

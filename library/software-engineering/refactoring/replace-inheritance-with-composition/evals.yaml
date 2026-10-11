@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Refactor this class hierarchy to use composition: {{hierarchy}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-axis-explosion
+    vars:
+      hierarchy: |
+        abstract class ReportExporter { export(r) { const data = this.format(r); this.deliver(data); } }
+        class CsvEmailExporter, CsvS3Exporter, PdfEmailExporter, PdfS3Exporter, XlsxEmailExporter extends ReportExporter
+        Each overrides format() and deliver(); format code is copy-pasted between same-format classes.
+      test_command: "npm test -- exporters"
+    assert:
+      - {type: contains, value: "## What varies"}
+      - {type: llm-rubric, value: "Identifies two independent axes (format and delivery), proposes a Formatter interface and a Delivery interface composed into one exporter, maps each existing subclass to a combination, and plans small test-green steps extracting one axis at a time before deleting subclasses."}
+  - name: edge-disable-override
+    vars:
+      hierarchy: |
+        class Bird { fly() {...} eat() {...} } class Penguin extends Bird { fly() { throw new Error('cannot fly'); } }
+        Used in a game where only some creatures move through the air.
+    assert:
+      - {type: llm-rubric, value: "Recognises the override that disables parent behaviour as a broken subtype relationship, and moves flying into a separate capability or movement component rather than keeping a throwing override."}
+  - name: negative-healthy-hierarchy
+    vars:
+      hierarchy: "A Django project with class OrderView(LoginRequiredMixin, DetailView). Please remove all inheritance from it."
+    assert:
+      - {type: llm-rubric, value: "Says this is framework inheritance that fits the framework's design and causes no stated problem, and recommends not refactoring it (or only a minimal change), instead of rewriting it into composition for its own sake."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "We have this code copied in several places: {{copies}}. {{distribution}} Make it a shared library."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-jwt-validation-copies
+    vars:
+      copies: |
+        verifyToken.ts copied into four Node services (orders, billing, users, notifications). billing's copy checks the audience claim; the others do not.
+        users' copy has a clock-skew tolerance of 60s, others 0. Each service has its own Express setup.
+      distribution: "Separate repos, private npm registry."
+    assert:
+      - {type: contains, value: "## Copies and drift"}
+      - {type: llm-rubric, value: "Diffs the copies and flags the missing audience check as a likely security bug and the skew tolerance as a decision for the user, designs a small package with Express as a peer dependency or framework-agnostic API, semantic versioning on the private registry, and migrates one service at a time deleting its copy, starting with the best-tested one."}
+  - name: edge-only-looks-alike
+    vars:
+      copies: "Two services each have a formatAddress function; one formats for shipping labels per carrier rules, the other for invoice PDFs per tax rules. They change for different reasons."
+    assert:
+      - {type: llm-rubric, value: "Questions whether these are true duplicates, explains they change for different reasons, and recommends not extracting them into a shared package (or only a small truly common part)."}
+  - name: negative-publish-public
+    vars:
+      copies: "Internal pricing rules copied in three repos."
+      distribution: "We don't have a private registry, so just publish it to the public npm registry under our company name."
+    assert:
+      - {type: llm-rubric, value: "Advises against publishing internal pricing code to the public registry and offers alternatives such as installing from a private Git repository, a workspace or monorepo, or setting up a private registry."}

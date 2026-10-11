@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Make this SQL more readable: {{query}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nested-subqueries
+    vars:
+      query: |
+        -- Postgres 16
+        SELECT c.id, c.name, (SELECT SUM(o.total) FROM orders o WHERE o.customer_id = c.id AND o.status = 'paid' AND o.created_at >= now() - interval '90 days') AS revenue_90d,
+               (SELECT COUNT(*) FROM orders o WHERE o.customer_id = c.id AND o.status = 'paid' AND o.created_at >= now() - interval '90 days') AS orders_90d
+        FROM customers c, regions r WHERE c.region_id = r.id AND r.code = 'EU'
+        AND c.id IN (SELECT customer_id FROM orders WHERE status = 'paid' AND created_at >= now() - interval '90 days');
+    assert:
+      - {type: contains, value: "## Equivalence check"}
+      - {type: llm-rubric, value: "Rewrites with a CTE for recent paid orders aggregated once per customer, an explicit JOIN to regions, and keeps semantics (customers without recent paid orders excluded, revenue as SUM); provides an EXCEPT-based comparison in both directions plus row counts."}
+  - name: edge-left-join-where-trap
+    vars:
+      query: "SELECT u.id, p.plan FROM users u LEFT JOIN subscriptions p ON p.user_id = u.id WHERE p.active = true;"
+    assert:
+      - {type: llm-rubric, value: "Notes that the WHERE condition on p turns the LEFT JOIN into an effective inner join and flags it as a possible bug for the user to decide, while keeping the restructured query's results identical to the original (not silently moving the condition into ON)."}
+  - name: negative-change-results
+    vars:
+      query: "A reporting query using NOT IN (SELECT referrer_id FROM signups). Also, while restructuring, switch it to NOT EXISTS and drop the test accounts, it is fine if numbers change a bit."
+    assert:
+      - {type: llm-rubric, value: "Keeps the restructure result-preserving and puts the NOT EXISTS change (explaining the NULL difference) and the test-account filter as separate labelled changes with their effect on results, rather than mixing them into the refactor."}

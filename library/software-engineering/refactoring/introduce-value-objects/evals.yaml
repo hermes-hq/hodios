@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Refactor {{target}} to use value objects."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-money-and-ids
+    vars:
+      target: |
+        Kotlin order service. fun applyDiscount(orderId: String, customerId: String, amount: Double, currency: String, pct: Double): Double
+        Called with (customerId, orderId, ...) by mistake in one place last month. Currency checks repeated in 6 files.
+    assert:
+      - {type: contains, value: "## Rollout steps"}
+      - {type: llm-rubric, value: "Proposes a Money value object (amount as a decimal or minor units plus a validated currency, same-currency arithmetic) and distinct OrderId and CustomerId types (for example value classes) so swapped ids no longer compile, keeps storage and API formats the same, and rolls out in test-green steps."}
+  - name: edge-existing-invalid-data
+    vars:
+      target: "Python user module where email is a str. The new EmailAddress type would validate format on construction. Some legacy users have emails like 'bob@localhost'."
+    assert:
+      - {type: llm-rubric, value: "Flags that strict validation would reject existing stored values such as bob@localhost, and asks how to handle them (a lenient constructor for loading stored data, a data cleanup, or a looser rule) instead of letting loading those users fail."}
+  - name: negative-wrap-everything
+    vars:
+      target: "Please wrap every string and int field in our 40 DTO classes in its own value object class."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on wrapping every field, explains the cost in noise and mapping, and asks for or looks for evidence of which values actually cause bugs or duplication, recommending a few targeted value objects."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Refactor this code to be more object-oriented: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-refund-rule-in-helpers
+    vars:
+      target: |
+        # refunds.py
+        def can_refund(order, now): return order.status == "paid" and (now - order.paid_at).days < 14
+        # admin/views.py
+        if order.status == "paid" and (timezone.now() - order.paid_at).days < 14: show_refund_button()
+        # models.py: class Order: status, paid_at, total (no methods)
+    assert:
+      - {type: contains, value: "## Where each piece belongs"}
+      - {type: llm-rubric, value: "Moves the rule to an Order.is_refundable(now) method with the current time passed in, switches both callers to it in small steps with tests, and keeps the behaviour identical including the 14-day boundary."}
+  - name: edge-copies-differ
+    vars:
+      target: |
+        billing.py: def is_overdue(inv, today): return inv.due_date < today and not inv.paid
+        reminders.py: if inv.due_date <= today and inv.paid_amount < inv.total: send_reminder(inv)
+    assert:
+      - {type: llm-rubric, value: "Points out the two versions differ (strict versus inclusive date comparison, paid flag versus partial payment) and asks which rule is correct before merging them into one method, rather than silently choosing one."}
+  - name: negative-entity-does-io
+    vars:
+      target: "Move the send_invoice_email(invoice) helper, which renders a template and calls our SMTP client, into the Invoice model as invoice.send_email()."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on putting SMTP and template rendering inside the entity, explains that I/O should stay in a service, and at most moves the pure parts (for example deciding whether an invoice is ready to send) onto Invoice."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "{{failure}} The input is {{input_description}}. Help me make a smaller example."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-csv-importer-crash
+    vars:
+      failure: "Our importer crashes with KeyError: 'currency' in normalize_row() on a 200,000-row CSV from a client. Small test files work."
+      input_description: "CSV with a header row and 42 columns. The header must stay or nothing parses. Rows are independent."
+    assert:
+      - {type: contains, value: "## Failure check"}
+      - {type: llm-rubric, value: "Writes a failure check that matches KeyError 'currency' in normalize_row specifically (not any crash), keeps the header row fixed, reduces by rows first with a halving strategy, then by columns or values, and turns the result into a regression test. Mentions replacing client data with synthetic values."}
+  - name: edge-wrong-output-not-crash
+    vars:
+      failure: "Our Markdown renderer produces a nested list in the wrong order for one 900-line README. No exception, just wrong HTML."
+      input_description: "Markdown text; we have a reference renderer whose output is correct."
+    assert:
+      - {type: llm-rubric, value: "Builds the interesting check by comparing output to the reference renderer (differential check) rather than relying on an exit code, reduces by blocks or lines while keeping the list structure, and warns about shrinking into a different discrepancy."}
+  - name: negative-any-failure-check
+    vars:
+      failure: "A compiler crash on a big source file. I just want a script that deletes random lines until the compiler returns a non-zero exit code."
+      input_description: "C source file, 5,000 lines."
+    assert:
+      - {type: llm-rubric, value: "Pushes back that a plain non-zero exit check will shrink into syntax errors and other failures, and requires the check to match the original crash signature; suggests C-Reduce or C-Vise for C source."}

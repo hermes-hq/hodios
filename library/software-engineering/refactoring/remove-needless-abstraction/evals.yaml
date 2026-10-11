@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Simplify the architecture of {{target}}."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pass-through-layers
+    vars:
+      target: |
+        src/users (TypeScript): UserController -> IUserService/UserService -> IUserManager/UserManager -> IUserRepository/PrismaUserRepository.
+        UserService and UserManager methods each just call the next layer with the same arguments. Tests mock IUserRepository only.
+    assert:
+      - {type: contains, value: "## Keep or remove"}
+      - {type: llm-rubric, value: "Recommends removing the pass-through service and manager layers (or collapsing to one), keeps the repository interface because tests use it as a seam at the database boundary, checks for hidden logic such as transactions or logging before inlining, and proceeds in test-green steps."}
+  - name: edge-hidden-transaction
+    vars:
+      target: "A PaymentService wrapper in Java whose methods forward to PaymentGateway but are annotated @Transactional and @Retryable."
+    assert:
+      - {type: llm-rubric, value: "Notices the annotations mean the wrapper is not a pure pass-through (it adds transactions and retries), and keeps it or moves that behaviour explicitly rather than inlining it away."}
+  - name: negative-public-sdk-interface
+    vars:
+      target: "Our published SDK exposes interface StorageAdapter with one built-in implementation; customers can implement their own. Remove it since there is only one implementation."
+    assert:
+      - {type: llm-rubric, value: "Refuses to remove it as needless, explaining that it is a public extension point that external customers may implement even though the repository has one implementation."}

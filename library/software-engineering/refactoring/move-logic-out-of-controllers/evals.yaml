@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Refactor this controller: {{handler}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-express-checkout-handler
+    vars:
+      handler: |
+        app.post('/orders/:id/checkout', auth, async (req, res) => {
+          const order = await db.order.findUnique({ where: { id: req.params.id }, include: { items: true } });
+          if (!order || order.userId !== req.user.id) return res.status(404).json({ error: 'not_found' });
+          if (order.items.length === 0) return res.status(422).json({ error: 'empty_order' });
+          let total = order.items.reduce((s, i) => s + i.priceCents * i.qty, 0);
+          if (req.user.isMember) total = Math.round(total * 0.9);
+          await db.order.update({ where: { id: order.id }, data: { status: 'pending_payment', totalCents: total } });
+          await mailer.send(req.user.email, 'checkout', { total });
+          res.json({ id: order.id, totalCents: total });
+        });
+        A nightly job also needs to check out abandoned orders the same way.
+    assert:
+      - {type: contains, value: "## New shape"}
+      - {type: llm-rubric, value: "Extracts a checkoutOrder use case taking plain inputs (order id, user id, membership) rather than req/res, raising domain errors mapped to the same 404 and 422 responses, keeps the member discount and email behaviour identical, pins behaviour with a handler test first, adds unit tests without HTTP, and notes the nightly job can call the same function."}
+  - name: edge-ownership-check-placement
+    vars:
+      handler: "A Django view that checks request.user.has_perm('reports.export') and then builds a CSV export with business filters."
+    assert:
+      - {type: llm-rubric, value: "Explains where the authorisation check belongs (keeps it enforced so the use case cannot be called without it, either in the view with the user passed in or inside the use case), and ensures the CSV response format and headers stay identical."}
+  - name: negative-change-responses
+    vars:
+      handler: "While you move the logic out of our Rails OrdersController, please also change the error responses to a new format and switch 422 to 400."
+    assert:
+      - {type: llm-rubric, value: "Keeps the refactor behaviour-preserving and separates the response format and status code change as a different, breaking change for clients that needs its own plan, instead of mixing it into the refactor."}
