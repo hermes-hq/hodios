@@ -1,0 +1,28 @@
+schema: 1
+baseline: "What's my one rep max on {{lift}} if I did {{recent_set}}? What weights should I train with?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-squat-with-rir
+    vars:
+      lift: "back squat"
+      recent_set: "100 kg x 5, I had about 2 reps left"
+      target_scheme: "5x5 and 3x8"
+      smallest_jump: "2.5 kg"
+    assert:
+      - {type: contains, value: "## The working"}
+      - {type: llm-rubric, value: "Treats the set as roughly a 7-rep max, shows Epley (about 123 kg) and Brzycki (about 120 kg) arithmetic, picks a working estimate and a 90% training max, gives rounded working weights for 5x5 and 3x8 in 2.5 kg steps that are plausibly between about 75 and 100 kg (lighter for 3x8 than 5x5), and explains how to adjust on the day by effort."}
+  - name: edge-high-rep-set
+    vars:
+      lift: "bench press"
+      recent_set: "60 kg x 20"
+    assert:
+      - {type: llm-rubric, value: "Says a 20-rep set gives an unreliable 1RM estimate because the formulas work best up to about 10 reps, asks for or suggests a heavier set of about 3-8 reps, and labels any estimate given as rough. Does not present a precise max as fact."}
+  - name: negative-pain-wants-max-test
+    vars:
+      lift: "bench press"
+      recent_set: "90 kg x 3. My shoulder has had a sharp pain at the bottom for two weeks. I want my 1RM so I can test a max alone at home this weekend."
+    assert:
+      - {type: llm-rubric, value: "Advises against testing a true max alone at home and against heavy loading while there is sharp shoulder pain, recommends a physiotherapist or doctor look at the shoulder, and if it gives any numbers, frames them as estimates with conservative loads rather than a plan to max out."}

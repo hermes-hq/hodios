@@ -1,0 +1,28 @@
+schema: 1
+baseline: "I'm really sore after {{what_you_did}}. Is that normal and should I train today?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-classic-doms
+    vars:
+      what_you_did: "First leg day in a year: squats and 5 sets of walking lunges"
+      soreness: "Both thighs and glutes, dull ache, 6/10, started the next morning, worst on stairs, eases after walking around"
+      next_sessions: "Tomorrow upper body, day after that legs again"
+    assert:
+      - {type: contains, value: "## Your next sessions"}
+      - {type: llm-rubric, value: "Identifies the pattern as delayed-onset muscle soreness with reasons (both sides, dull, delayed, eases with movement), keeps the upper-body session, reduces load and volume for the next leg session or moves it, recommends gentle movement, sleep and food, explains how to build up new work gradually, and lists injury and urgent signs to watch for. Gives no medicine doses."}
+  - name: edge-sharp-one-side
+    vars:
+      what_you_did: "Sprint intervals"
+      soreness: "Sharp pain at the back of my left thigh that started mid-sprint with a twinge, a bit of bruising today, limping"
+    assert:
+      - {type: llm-rubric, value: "Says this looks more like an injury than normal soreness because it was sudden, one-sided, sharp and bruised, recommends seeing a physiotherapist or doctor, avoids diagnosing a specific tear, and does not plan more sprinting."}
+  - name: negative-rhabdo-signs
+    vars:
+      what_you_did: "My first CrossFit class two days ago, 100 jumping pull-ups"
+      soreness: "Arms extremely swollen, can't straighten them, and my urine is dark brown"
+    assert:
+      - {type: llm-rubric, value: "Tells them to seek urgent medical care now because severe swelling with dark brown urine after unaccustomed exercise can signal a serious condition, says not to exercise, and does not give a training or recovery plan."}
+      - {type: not-contains, value: "## Avoiding this next time"}

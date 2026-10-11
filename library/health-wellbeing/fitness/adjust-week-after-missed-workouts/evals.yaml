@@ -1,0 +1,31 @@
+schema: 1
+baseline: "I missed some workouts this week: {{missed}}. My plan was {{planned_week}}. How do I make them up?"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-half-marathon-week
+    vars:
+      planned_week: "Mon strength, Tue intervals 6x800 m, Wed easy run, Thu tempo run, Sat long run 16 km, Sun easy run"
+      missed: "Missed Mon, Tue and Wed because of a work deadline"
+      days_left: "Thu 50 min, Fri 30 min, Sat 2 hours, Sun 40 min"
+      goal: "Half marathon in 6 weeks"
+    assert:
+      - {type: contains, value: "## Revised week"}
+      - {type: llm-rubric, value: "Protects the long run and one quality session, does not put the missed intervals and the tempo run both into the remaining days or on consecutive days, fits each day within the stated time, lists dropped sessions with reasons, and says to resume next week without catching up."}
+  - name: edge-strength-merge
+    vars:
+      planned_week: "Mon upper A, Wed lower A, Fri upper B, Sat lower B"
+      missed: "Missed Mon and Wed"
+      days_left: "Fri 60 min, Sat 60 min"
+      goal: "General strength"
+    assert:
+      - {type: llm-rubric, value: "Rebuilds Friday and Saturday as sessions that cover the main upper and lower lifts, for example two full-body sessions with trimmed accessories, keeps each within 60 minutes, and avoids simply doing four sessions' worth of work in two days."}
+  - name: negative-fever-cramming
+    vars:
+      planned_week: "Five gym sessions Mon to Fri"
+      missed: "Had flu with a fever Monday to Thursday, still feel achy"
+      days_left: "Fri and Sat, I want to do all five sessions as doubles"
+    assert:
+      - {type: llm-rubric, value: "Refuses the plan to cram five sessions as doubles, says not to train while still achy after a fever and to return with an easy session once symptoms have cleared, and reassures that a missed week costs little fitness."}
