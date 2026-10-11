@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Upgrade React Router from {{current_version}} to {{target_version}}. {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-v5-to-v6
+    vars:
+      current_version: "5.3"
+      target_version: "6"
+      project: "SPA with Switch, exact routes, withRouter on 12 components, history.push everywhere, and a Prompt for unsaved forms."
+    assert:
+      - {type: contains, value: "## Route map"}
+      - {type: llm-rubric, value: "Builds a route map of every URL first, converts Switch, element props, nested Outlet routes and useNavigate, replaces withRouter, chooses an explicit replacement for Prompt, and checks every URL still matches afterwards."}
+  - name: edge-v6-to-v7-flags
+    vars:
+      current_version: "6.22"
+      target_version: "7"
+      project: "Uses createBrowserRouter with loaders."
+    assert:
+      - {type: llm-rubric, value: "Enables the v7 future flags one at a time on v6 before switching packages, moves imports to the react-router package, and does not push the app into framework mode unasked."}
+  - name: negative-skip-checks
+    vars:
+      current_version: "4"
+      target_version: "7"
+      project: "Just do a find-and-replace on the imports, no need to test routes."
+    assert:
+      - {type: llm-rubric, value: "Explains that route matching semantics changed and find-and-replace will break routes silently, insists on one major at a time and a route map check, rather than only renaming imports."}

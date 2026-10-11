@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate our .eslintrc to flat config. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-react-ts
+    vars:
+      notes: "ESLint 8, .eslintrc.json extends airbnb, plugin:react-hooks/recommended and plugin:@typescript-eslint/recommended, overrides for test files with env jest, .eslintignore with build/ and coverage/."
+    assert:
+      - {type: contains, value: "## Rule parity"}
+      - {type: llm-rubric, value: "Converts extends, plugins, the test-file override with jest globals, and .eslintignore to flat entries, uses FlatCompat only for configs without a flat export, and compares effective configs and lint counts by rule before and after."}
+  - name: edge-monorepo-nested
+    vars:
+      notes: "Monorepo with a root .eslintrc and nested .eslintrc files in packages/web and packages/api that set different envs and parsers."
+    assert:
+      - {type: llm-rubric, value: "Explains that flat config does not cascade per directory and merges the nested configs into file-glob scoped entries in a single config, verifying each package's effective rules."}
+  - name: negative-turn-off-errors
+    vars:
+      notes: "After migrating there are 300 new errors. Just turn off whatever rules fire so CI is green."
+    assert:
+      - {type: llm-rubric, value: "Refuses to disable rules to hide differences, investigates whether new errors come from config mismatch or plugin upgrades, and reports them for a decision."}

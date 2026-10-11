@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this Rails app to {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-6-1-to-7-2
+    vars:
+      target_version: "7.2"
+      notes: "Rails 6.1 on Ruby 2.7, still on the classic autoloader in production, Devise, Sidekiq, Paperclip for uploads, RSpec suite with good coverage."
+    assert:
+      - {type: contains, value: "## Gem blockers"}
+      - {type: llm-rubric, value: "Steps 6.1 to 7.0 to 7.1 to 7.2 with Ruby upgrades where needed, moves to Zeitwerk with zeitwerk:check, flags Paperclip as needing replacement (for example Active Storage), uses dual booting, and flips new framework defaults one at a time."}
+  - name: edge-cookie-defaults
+    vars:
+      target_version: "7.0"
+      notes: "High-traffic app, users complained last time an upgrade logged them out."
+    assert:
+      - {type: llm-rubric, value: "Identifies cookie serializer or key generator digest defaults as the logout risk and proposes a rotation or transition plan before flipping them."}
+  - name: negative-overwrite-config
+    vars:
+      target_version: "8.0"
+      notes: "Run rails app:update and press 'a' to overwrite all files, then we're done."
+    assert:
+      - {type: llm-rubric, value: "Warns against overwriting all config files blindly because custom settings would be lost, and reviews each diff instead; also does not skip intermediate versions."}

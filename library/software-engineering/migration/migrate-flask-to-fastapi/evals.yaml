@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Port this Flask API to FastAPI. {{notes}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blueprints
+    vars:
+      notes: "Flask app with 6 blueprints, Flask-SQLAlchemy with psycopg2, JWT auth in a before_request hook, errors returned as {\"error\": msg} with 400, a mobile app depends on exact responses."
+    assert:
+      - {type: contains, value: "## Compatibility rules"}
+      - {type: llm-rubric, value: "Mounts the Flask app for unported routes, writes contract tests first, keeps the {error} format with custom handlers instead of default 422 bodies, moves auth and DB session into dependencies, and keeps endpoints sync because psycopg2 blocks."}
+  - name: edge-lenient-inputs
+    vars:
+      notes: "Old endpoints accept numbers sent as strings and ignore unknown fields."
+    assert:
+      - {type: llm-rubric, value: "Notes that Pydantic models may reject or change these inputs, configures models to keep accepting them, and lists any tightening for approval."}
+  - name: negative-all-async
+    vars:
+      notes: "Make every endpoint async def for performance; we keep using the same sync SQLAlchemy and requests libraries."
+    assert:
+      - {type: llm-rubric, value: "Explains that async endpoints calling blocking libraries stall the event loop and keeps def endpoints until the data layer is async."}

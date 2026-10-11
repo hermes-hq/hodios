@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Upgrade this Django project to {{target_version}}. {{notes}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-lts-to-lts
+    vars:
+      target_version: "5.2"
+      notes: "Django 3.2 on Python 3.8, PostgreSQL 12, DRF, Celery, django-allauth, uses pytz in a few places and url() in old urls.py files."
+    assert:
+      - {type: contains, value: "## Upgrade path"}
+      - {type: llm-rubric, value: "Steps through feature releases with deprecation warnings fixed at each, notes the Python and PostgreSQL minimums requiring upgrades, checks DRF, Celery and allauth versions, handles pytz and url() removals, and runs makemigrations --check."}
+  - name: edge-timezone-default
+    vars:
+      target_version: "5.0"
+      notes: "Django 4.2 project that never set USE_TZ; datetimes are stored naive."
+    assert:
+      - {type: llm-rubric, value: "Flags the USE_TZ default change in 5.0 and recommends setting it explicitly to keep current behaviour until a planned timezone migration."}
+  - name: negative-silence-warnings
+    vars:
+      target_version: "5.2"
+      notes: "Just filter out all deprecation warnings and bump straight to 5.2."
+    assert:
+      - {type: llm-rubric, value: "Declines to silence deprecation warnings and jump, explaining that warnings show exactly what breaks in the next release, and proposes stepping through releases."}
