@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Is this job offer real? {{offer}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-task-scam
+    vars:
+      offer: "WhatsApp message from 'Emma, HR at a digital marketing agency': part-time remote job, rate apps 30 minutes a day, earn 200-500 dollars daily, no experience needed. Paid via crypto. Reply to start."
+    assert:
+      - {type: contains, value: "## Signs found"}
+      - {type: llm-rubric, value: "Gives a 'very likely a scam' verdict, quotes the unsolicited WhatsApp contact, unrealistic pay, no interview and crypto payment, explains the task scam pattern of later deposits, and says to block and report."}
+  - name: edge-cheque-deposited
+    vars:
+      offer: "Got hired after a text-chat interview as a data entry clerk. They mailed me a 2,800 dollar cheque to buy a laptop from their approved vendor."
+      what_you_did: "Deposited the cheque yesterday, haven't paid the vendor yet."
+    assert:
+      - {type: llm-rubric, value: "Puts 'If you already acted' first: do not send any money to the vendor, contact the bank now about the likely fake cheque, and stop contact; explains the fake cheque scam and the text-only interview red flag."}
+  - name: negative-normal-offer
+    vars:
+      offer: "Email from a recruiter at a company's own domain after two video interviews with named managers, offer letter with salary, start date and a request to complete background check through the company's HR portal after I accept."
+    assert:
+      - {type: llm-rubric, value: "Says there are no clear scam signs without declaring it definitely genuine, notes the verifiable signs, suggests confirming through the company's official site, and does not invent red flags."}

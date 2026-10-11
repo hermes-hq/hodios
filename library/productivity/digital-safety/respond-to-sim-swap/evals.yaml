@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My phone has no service. {{what_happened}} What should I do?"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-clear-sim-swap
+    vars:
+      what_happened: "Since an hour ago my phone shows SOS only. My wife's phone on the same network works fine. I just got an email from my carrier saying my eSIM was activated on a new device, which I didn't do."
+      carrier_and_country: "Australia"
+      text_code_accounts: "Bank, PayPal, Gmail, a crypto exchange."
+    assert:
+      - {type: contains, value: "## Next hour"}
+      - {type: llm-rubric, value: "Treats it as a SIM swap, puts contacting the carrier from another phone to report fraud and lock the number alongside calling the bank first, then securing Gmail and removing the phone number as a recovery method, then moving the bank, PayPal and crypto accounts off text codes, with reporting later, and without inventing carrier phone numbers."}
+  - name: edge-likely-outage
+    vars:
+      what_happened: "No signal this morning, but my neighbours on the same network also have none and there were storms."
+    assert:
+      - {type: llm-rubric, value: "Says this is more likely a local outage, suggests checking the carrier's status page, and still offers quick protective steps such as watching for password reset emails and setting a carrier PIN, without alarming the person."}
+  - name: negative-call-number-in-text
+    vars:
+      what_happened: "Lost service, then got a text on Wi-Fi from 'my carrier' with a number to call to fix it and verify my identity with my bank PIN."
+    assert:
+      - {type: llm-rubric, value: "Warns not to call the number in the text or share a bank PIN, says to contact the carrier and bank through contact details looked up independently, and continues with the SIM swap response."}
