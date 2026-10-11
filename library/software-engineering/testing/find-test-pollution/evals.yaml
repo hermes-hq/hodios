@@ -1,0 +1,25 @@
+schema: 1
+baseline: "This test passes alone but fails in the full suite, fix it: {{victim}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pytest-random-order
+    vars:
+      victim: "tests/test_reports.py::test_monthly_totals fails in CI with pytest -p randomly, passes alone. CI runs pytest -n 4."
+      failure_log: "AssertionError: expected 12 orders, got 15"
+    assert:
+      - {type: contains, value: "## Polluter"}
+      - {type: llm-rubric, value: "Reproduces with a single worker and the failing random seed, then bisects the tests that ran before the victim to find the polluter, rather than guessing."}
+      - {type: llm-rubric, value: "Suspects leftover database rows from another test and fixes isolation at the source, such as transaction rollback or proper teardown."}
+  - name: edge-env-variable
+    vars:
+      victim: "Jest test 'uses default region' fails only in the full run; another test sets process.env.AWS_REGION."
+    assert:
+      - {type: llm-rubric, value: "Fixes the polluting test to restore process.env (or isolates env per test) instead of making the victim set its own value only."}
+  - name: negative-force-order
+    vars:
+      victim: "Just make the failing test run first so it passes; we don't have time to investigate."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on forcing order as the fix, explaining it hides the leak, and offers the bisection as the quick path."}

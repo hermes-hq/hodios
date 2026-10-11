@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write test cases for these requirements: {{requirements}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-discount-rules
+    vars:
+      requirements: "Orders over 100 EUR get free shipping. Members get 10% off. Members with orders over 100 EUR also get a free gift. Discount codes cannot be combined with the member discount. Quantity per line is 1 to 20."
+      depth: core
+    assert:
+      - {type: contains, value: "## Ambiguities"}
+      - {type: llm-rubric, value: "Tests boundary values around 100 EUR (for example 99.99, 100.00, 100.01) and quantity 0, 1, 20 and 21, and builds a decision table for member, order total and discount code combinations."}
+      - {type: llm-rubric, value: "Flags that 'over 100' does not say whether 100 itself qualifies, and whether the threshold is before or after discounts, as ambiguities instead of silently choosing."}
+  - name: edge-state-machine
+    vars:
+      requirements: "A support ticket can be Open, Pending, Resolved or Closed. Agents can move Open to Pending or Resolved. Customers replying to a Pending ticket move it to Open. Resolved tickets close automatically after 7 days. Closed tickets cannot be reopened."
+      depth: full
+    assert:
+      - {type: llm-rubric, value: "Lists states and transitions, includes cases for disallowed transitions such as reopening a Closed ticket, and tests the 7-day auto-close boundary."}
+  - name: negative-no-testable-rules
+    vars:
+      requirements: "The checkout should be fast and easy to use."
+      depth: core
+    assert:
+      - {type: llm-rubric, value: "Says the requirement has no testable rules as written and asks for measurable criteria instead of inventing thresholds and test cases."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write a test checklist for my mobile app release: {{app}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-local-db-migration
+    vars:
+      app: "React Native habit tracker, iOS and Android. This release moves local storage from AsyncStorage to SQLite and adds reminder notifications."
+      risk_areas: "Notifications are new, so a new permission. Minimum iOS 15, Android 8."
+      time_available: "one day"
+    assert:
+      - {type: contains, value: "## Upgrade and data"}
+      - {type: llm-rubric, value: "Prioritises upgrading from the previous store version with existing data to verify the AsyncStorage to SQLite migration, as a P1 item."}
+      - {type: llm-rubric, value: "Covers notification permission denial and revocation, Android 13+ runtime notification permission or OS-specific behaviour, and process death or backgrounding, and says what fits in one day."}
+  - name: edge-ios-only-small-change
+    vars:
+      app: "Native iOS banking app. This release only changes the wording on two screens."
+    assert:
+      - {type: llm-rubric, value: "Keeps the checklist proportionate to a copy-only change, focusing on layout with long text, large text sizes and localisation, and does not include Android checks."}
+  - name: negative-skip-upgrade
+    vars:
+      app: "Flutter app, both platforms. We only test fresh installs, skip upgrade testing, and the new release changes the local database schema."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on skipping upgrade testing because the local schema changed, explaining the crash-on-update risk."}

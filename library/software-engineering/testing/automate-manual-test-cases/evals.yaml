@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Automate these manual test cases: {{manual_cases}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-levels
+    vars:
+      manual_cases: "TC1 Log in, add item, check cart total shows VAT at 20%. TC2 Same with 3 items. TC3 Same with a 10% coupon. TC4 Admin can deactivate a user; deactivated user cannot log in. TC5 Check the new homepage hero looks right on mobile. TC6 Yearly data export opens in Excel."
+      context: "React front end, REST API in Express, Jest and Playwright already set up. Regression pack runs every release, weekly."
+    assert:
+      - {type: contains, value: "## Left manual"}
+      - {type: llm-rubric, value: "Merges TC1 to TC3 into a parameterised test of the cart total at the unit or API level rather than three browser scripts, and tests the deactivation rule at the API level."}
+      - {type: llm-rubric, value: "Keeps TC5 (visual judgement) and TC6 (yearly, Excel) manual or explains why automation is low value."}
+  - name: edge-mismatch-found
+    vars:
+      manual_cases: "TC9 Password reset link expires after 24 hours."
+      context: "The code sets the reset token lifetime to 1 hour."
+    assert:
+      - {type: llm-rubric, value: "Reports the conflict between the manual case's 24 hours and the code's 1 hour as a possible defect or outdated case, instead of silently asserting either value."}
+  - name: negative-all-e2e-demand
+    vars:
+      manual_cases: "Convert all 300 cases in our spreadsheet into Selenium scripts, one per case, exactly following the click steps."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on one-to-one UI script conversion, explaining the flakiness and maintenance cost, and proposes choosing levels per case."}

@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Write tests for error handling in: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payment-retry
+    vars:
+      target: "Go service function ChargeAndRecord(ctx, order): calls the payment provider's HTTP API to charge, then inserts a payment row in Postgres. Retries the HTTP call 3 times on any error."
+      expected_behaviour: "Customer must never be charged twice."
+    assert:
+      - {type: contains, value: "## Defects found"}
+      - {type: llm-rubric, value: "Tests a timeout after the provider actually charged, and flags that retrying a non-idempotent charge without an idempotency key risks double charging."}
+      - {type: llm-rubric, value: "Tests the database insert failing after a successful charge and checks what state remains, using an HTTP fake and a controlled clock."}
+  - name: edge-unspecified-fallback
+    vars:
+      target: "Python function get_exchange_rate() that returns the cached rate from Redis if the rates API fails."
+    assert:
+      - {type: llm-rubric, value: "Tests the fallback path and asks how stale a cached rate may be, rather than assuming any age is acceptable."}
+  - name: negative-mock-everything
+    vars:
+      target: "Just mock the function under test to throw and assert it throws, that covers error handling."
+    assert:
+      - {type: llm-rubric, value: "Explains that mocking the function under test verifies nothing and injects faults at the dependency boundary instead."}

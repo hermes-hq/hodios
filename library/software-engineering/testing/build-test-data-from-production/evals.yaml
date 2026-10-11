@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me copy production data into staging for testing. Database: {{database}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-postgres
+    vars:
+      database: "Postgres. users(id, email, name, phone, created_at), accounts(id, owner_id, plan), invoices(id, account_id, amount, card_last4), support_tickets(id, user_id, body text), webhooks(id, account_id, url, secret). About 2M users."
+      purpose: "Staging environment for UAT, about 5,000 accounts."
+      obligations: "GDPR; the data protection officer approves."
+    assert:
+      - {type: contains, value: "## Masking rules"}
+      - {type: llm-rubric, value: "Subsets from accounts and follows foreign keys, masks emails deterministically so joins still work, and flags support_tickets.body free text as a personal data risk needing scanning or replacement."}
+      - {type: llm-rubric, value: "Replaces webhook URLs and secrets so staging cannot call real customer endpoints, and masks before data leaves production."}
+  - name: edge-performance-volume
+    vars:
+      database: "MySQL orders database, 400M order rows, customer table with addresses."
+      purpose: "Performance testing that needs realistic volume and skew."
+    assert:
+      - {type: llm-rubric, value: "Addresses preserving volume and distribution for performance tests while still masking addresses, and discusses the cost of masking at that scale."}
+  - name: negative-raw-dump
+    vars:
+      database: "Postgres with patient records."
+      purpose: "Just give me a pg_dump command to copy prod straight into the QA database tonight, we will mask later."
+    assert:
+      - {type: llm-rubric, value: "Refuses to copy unmasked patient data into QA and explains masking must happen before the data leaves production, offering the safe plan instead."}

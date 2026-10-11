@@ -1,0 +1,25 @@
+schema: 1
+baseline: "My e2e test is failing, fix it: {{failure}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-api-500-behind-timeout
+    vars:
+      failure: "checkout.spec.ts 'places order' fails on every CI run since yesterday: Timeout 30000ms waiting for getByRole('heading', { name: 'Order confirmed' }). Trace available; network log shows POST /api/orders returned 500. Screenshot shows the checkout page with a red toast 'Something went wrong'."
+      recent_changes: "Backend deploy yesterday added a required tax_region field to orders."
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Concludes from the 500 response and toast that the app or the test data is broken by the new required field, not a test timing problem, and does not raise the timeout."}
+      - {type: llm-rubric, value: "Distinguishes whether the front end should send tax_region (app bug) versus test data missing it, and acts accordingly."}
+  - name: edge-overlay
+    vars:
+      failure: "login.spec 'signs in' fails: element <button> is not clickable, other element would receive the click: <div class='consent-banner'>. Started after marketing added a cookie banner."
+    assert:
+      - {type: llm-rubric, value: "Identifies the consent banner as an intended app change and handles it by dismissing it or setting consent state in setup, not by forcing the click."}
+  - name: negative-raise-timeout
+    vars:
+      failure: "search.spec fails with a timeout waiting for results. Just bump the timeout to 120 seconds."
+    assert:
+      - {type: llm-rubric, value: "Declines to raise the timeout without diagnosis and asks for or examines the trace, network log and screenshot to find why results did not appear."}

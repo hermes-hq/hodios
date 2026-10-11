@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Write tests for this code that uses random numbers: {{target}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ab-bucketing
+    vars:
+      target: "TypeScript assignVariant(userId) uses Math.random() < 0.1 to put users in the 'new-checkout' variant on first visit and stores the result. Requirement: about 10% of users, stable per user."
+    assert:
+      - {type: contains, value: "## Approach"}
+      - {type: llm-rubric, value: "Makes the random source injectable, tests stability per user exactly, and tests the 10% proportion with a seeded statistical check whose sample size and tolerance are justified."}
+      - {type: llm-rubric, value: "Notes that stability depends on storage and suggests or tests hashing the user id if stable assignment without storage is required."}
+  - name: edge-jitter-bounds
+    vars:
+      target: "Python retry helper sleeps base * 2**attempt + random.uniform(0, base) seconds."
+    assert:
+      - {type: llm-rubric, value: "Tests the lowest and highest possible delays by stubbing the random draw at its bounds and controls sleep or the clock, rather than sampling real delays."}
+  - name: negative-widen-tolerance
+    vars:
+      target: "Our shuffle test asserts each position gets each card between 24% and 26% of the time over 1,000 runs and fails sometimes. Just change it to 0% to 100%."
+    assert:
+      - {type: llm-rubric, value: "Refuses the meaningless tolerance and instead derives a proper bound or sample size, fixes a seed, or tests exact permutation properties."}

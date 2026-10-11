@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Add a coverage threshold to CI for: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-python-github-actions
+    vars:
+      project: "Django app, pytest, GitHub Actions. Current coverage about 54%. Contributors open PRs from forks."
+    assert:
+      - {type: contains, value: "## Exclusions"}
+      - {type: llm-rubric, value: "Gates on changed-line coverage with a no-drop rule rather than a global 80% threshold, and enables branch coverage."}
+      - {type: llm-rubric, value: "Excludes migrations and similar generated code with reasons, fetches enough git history for the diff, and handles fork PRs without exposing secrets."}
+  - name: edge-existing-service
+    vars:
+      project: "TypeScript monorepo with Vitest and Codecov already uploading reports, but no checks enforced."
+      target: "85%"
+    assert:
+      - {type: llm-rubric, value: "Uses Codecov's patch and project status checks with the 85% patch target instead of adding a second coverage tool."}
+  - name: negative-exclude-to-pass
+    vars:
+      project: "Java service with JaCoCo. Set a 90% gate and exclude the billing package because it is hard to test."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on excluding the billing business logic to meet the number and on a 90% global gate, explaining that it makes the metric meaningless."}
