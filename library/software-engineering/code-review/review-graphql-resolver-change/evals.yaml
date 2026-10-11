@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Review this GraphQL change: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-auth-path-and-loader
+    vars:
+      context: "Apollo Server 4, public API. Query.me is protected; posts are public."
+      diff: |
+        +type User { id: ID!  name: String!  email: String!  orders: [Order!]! }
+        +type Post { id: ID!  title: String!  author: User! }
+        +const userLoader = new DataLoader(ids => db.users.findMany({ where: { id: { in: ids } } }))
+        +const resolvers = {
+        +  Post: { author: (post) => userLoader.load(post.authorId) },
+        +  User: { orders: (user) => db.orders.findMany({ where: { userId: user.id } }) },
+        +}
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that User.email and User.orders are reachable by anyone through public posts (for example { posts { author { email orders { id } } } }), bypassing the check on Query.me, and proposes field-level authorisation."}
+      - {type: llm-rubric, value: "Flags that the DataLoader is module-level (shared across requests, caching across users) and that its batch function does not return results in key order or nulls for missing ids; also notes User.orders is an N+1 and an unbounded list."}
+  - name: edge-nullability-propagation
+    vars:
+      context: "The recommendation service times out about 1% of the time."
+      diff: |
+        -  recommendations: [Product]
+        +  recommendations: [Product!]!
+    assert:
+      - {type: llm-rubric, value: "Explains that when the recommendation resolver fails the null propagates to the nearest nullable parent, so 1% of responses lose the parent object (possibly the whole page query), and recommends keeping the field nullable."}
+  - name: negative-reasonable-change
+    vars:
+      context: "Internal admin API with persisted queries only."
+      diff: |
+        +  orders(first: Int = 20 @constraint(max: 100), after: String): OrderConnection!
+    assert:
+      - {type: llm-rubric, value: "Recognises a bounded, paginated connection on an internal API with persisted queries as a reasonable change; approves or raises only minor points, without inventing cost or auth findings."}

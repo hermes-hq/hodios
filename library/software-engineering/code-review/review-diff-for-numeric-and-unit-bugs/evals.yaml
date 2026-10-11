@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Check this code for math bugs: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-units-and-overflow
+    vars:
+      context: "Java 17 service. Uploads can be up to 10 GB. The HTTP client's setTimeout takes milliseconds."
+      diff: |
+        +int uploadBytes = (int) file.length();
+        +int progressPct = uploaded * 100 / uploadBytes;
+        +client.setTimeout(config.timeoutSeconds);
+        +double avgMbps = totalBytes / elapsedSeconds / 1_000_000;
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that casting a file length up to 10 GB to int overflows (anything above about 2.1 GB wraps), and that uploaded * 100 can overflow int before dividing; proposes long arithmetic."}
+      - {type: llm-rubric, value: "Flags that a timeout in seconds is passed to a parameter in milliseconds (30 seconds becomes 30 ms), and that avgMbps divides bytes, not bits, so the result is megabytes per second (off by a factor of 8) and may also suffer integer division depending on the types."}
+  - name: edge-js-big-id
+    vars:
+      context: "Browser app; the API returns 64-bit snowflake ids as JSON numbers."
+      diff: |
+        +const { id } = await res.json()
+        +await fetch('/api/items/' + id)
+    assert:
+      - {type: llm-rubric, value: "Explains that ids above 2^53 lose precision when parsed as JavaScript numbers, so the request targets a different id, and proposes returning ids as strings from the API."}
+  - name: negative-money-out-of-scope
+    vars:
+      diff: |
+        +const total = items.reduce((s, i) => s + i.price * i.qty, 0)   // prices in euros as floats
+    assert:
+      - {type: llm-rubric, value: "Notes the float accumulation issue but recognises that currency handling is the money review's scope and points to it, rather than producing a full money-handling review here."}

@@ -1,0 +1,45 @@
+schema: 1
+baseline: "Review this shell script: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-empty-var-rm
+    vars:
+      context: "Runs in CI on ubuntu-latest via 'sh scripts/clean.sh'. BUILD_DIR comes from the CI environment."
+      diff: |
+        +#!/bin/sh
+        +set -e
+        +rm -rf $BUILD_DIR/*
+        +for f in $(ls artifacts); do
+        +  [[ -f artifacts/$f ]] && gzip artifacts/$f
+        +done
+        +curl -s https://example.com/upload -T artifacts.tar | tee upload.log
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that if BUILD_DIR is empty or unset, the command becomes rm -rf /*, and fixes with quoting plus ${BUILD_DIR:?} (and set -u); rates it high."}
+      - {type: llm-rubric, value: "Flags that the script runs under sh (dash on Ubuntu) where [[ is not available, that iterating over ls output breaks on spaces, and that curl without -f piped to tee hides upload failures: the pipeline's status is tee's and pipefail is not set, so set -e does not stop the script."}
+  - name: edge-local-masks-status
+    vars:
+      context: "Bash 5, set -euo pipefail at the top."
+      diff: |
+        +deploy() {
+        +  local version=$(git describe --tags)
+        +  echo "deploying $version"
+        +}
+    assert:
+      - {type: llm-rubric, value: "Explains that local version=$(...) returns local's status, so a failing git describe does not stop the script despite set -e, and splits declaration from assignment."}
+  - name: negative-clean-script
+    vars:
+      diff: |
+        +#!/usr/bin/env bash
+        +set -euo pipefail
+        +tmp=$(mktemp -d)
+        +trap 'rm -rf -- "$tmp"' EXIT
+        +for f in ./*.csv; do
+        +  [[ -e "$f" ]] || continue
+        +  cp -- "$f" "$tmp/"
+        +done
+    assert:
+      - {type: llm-rubric, value: "Recognises correct quoting, strict mode, mktemp with trap cleanup and unmatched-glob handling; approves or raises only minor points, without inventing quoting findings."}

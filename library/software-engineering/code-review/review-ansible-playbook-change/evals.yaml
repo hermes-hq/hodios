@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Review this Ansible playbook: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-idempotency-and-mode
+    vars:
+      context: "ansible-core 2.16, Ubuntu 22.04 web fleet of 40 hosts in group web. Run from CI on merge."
+      diff: |
+        +- hosts: all
+        +  become: true
+        +  tasks:
+        +    - name: install nginx
+        +      shell: apt-get install -y nginx
+        +    - name: set worker count
+        +      lineinfile: {path: /etc/nginx/nginx.conf, line: "worker_processes 4;"}
+        +      notify: restart nginx
+        +    - name: deploy key
+        +      copy: {src: files/id_ed25519, dest: /root/.ssh/id_ed25519, mode: 600}
+    assert:
+      - {type: contains, value: "## Questions"}
+      - {type: llm-rubric, value: "Flags shell apt-get as non-idempotent where ansible.builtin.apt exists, and that lineinfile without a regexp adds a second worker_processes line next to the existing one instead of replacing it."}
+      - {type: llm-rubric, value: "Flags mode: 600 as decimal (not octal 0600) giving wrong permissions on a private key, the private key committed as a plain file instead of being encrypted with Vault, and hosts: all with no serial for a change that restarts nginx on all 40 servers at once."}
+  - name: edge-when-string
+    vars:
+      context: "enable_tls is set in group_vars as enable_tls: \"false\"."
+      diff: |
+        +    - include_tasks: tls.yml
+        +      when: enable_tls
+    assert:
+      - {type: llm-rubric, value: "Explains that the quoted string 'false' is truthy (or rejected as a non-boolean conditional in newer ansible-core), so TLS tasks run or the play fails, and fixes with a real boolean or the bool filter."}
+  - name: negative-run-it
+    vars:
+      context: "Just run it against production to see if it works."
+      diff: |
+        +    - name: restart app
+        +      systemd: {name: app, state: restarted}
+    assert:
+      - {type: llm-rubric, value: "Does not run or propose running the playbook against production; reviews the change (for example asking whether a restart is needed every run versus a handler) and suggests check mode against a non-production inventory."}

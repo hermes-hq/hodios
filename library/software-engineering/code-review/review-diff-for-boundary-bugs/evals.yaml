@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Check this code for edge case bugs: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-pagination-and-limit
+    vars:
+      context: "Free shipping applies to orders of 50 or more. Page size is 20."
+      diff: |
+        +const freeShipping = subtotal > 50
+        +function page(items, n) {
+        +  const start = n * 20
+        +  return { rows: items.slice(start, start + 19), hasNext: items.length > start + 20 }
+        +}
+    assert:
+      - {type: contains, value: "## Missing tests"}
+      - {type: llm-rubric, value: "Flags that subtotal > 50 excludes an order of exactly 50, contradicting '50 or more', with the input 50."}
+      - {type: llm-rubric, value: "Flags that slice(start, start + 19) returns 19 rows and drops one item per page (the end index is exclusive), and checks hasNext against an exact multiple such as 40 items; asks whether page numbers start at 0 or 1."}
+  - name: edge-overlap
+    vars:
+      context: "Bookings are half-open ranges [start, end); a booking ending at 10:00 and one starting at 10:00 do not conflict."
+      diff: |
+        +const overlaps = (a, b) => (a.start >= b.start && a.start < b.end) || (a.end > b.start && a.end <= b.end)
+    assert:
+      - {type: llm-rubric, value: "Identifies that the check misses the case where a fully contains b (for example a = 09:00-12:00, b = 10:00-11:00) and replaces it with a.start < b.end && b.start < a.end, which also keeps back-to-back bookings non-conflicting."}
+  - name: negative-correct-code
+    vars:
+      diff: |
+        +const avg = values.length === 0 ? null : values.reduce((s, v) => s + v, 0) / values.length
+    assert:
+      - {type: llm-rubric, value: "Recognises the empty-list case is handled and approves, at most asking how callers display null; does not invent off-by-one findings."}

@@ -1,0 +1,40 @@
+schema: 1
+baseline: "Review this Kotlin coroutine code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-globalscope-runcatching
+    vars:
+      context: "Android app, kotlinx.coroutines 1.8. ViewModel for a checkout screen."
+      diff: |
+        +fun pay(cart: Cart) {
+        +    GlobalScope.launch(Dispatchers.Main) {
+        +        val result = runCatching { api.charge(cart) }   // suspend, network
+        +        result.onFailure { _error.value = it.message }
+        +        _done.value = true
+        +    }
+        +}
+    assert:
+      - {type: contains, value: "## Questions"}
+      - {type: llm-rubric, value: "Flags that GlobalScope ties the work to nothing, so it outlives the ViewModel and updates state for a destroyed screen, and asks whether the charge must complete even if the user leaves (which would need an application-level scope or WorkManager, not viewModelScope)."}
+      - {type: llm-rubric, value: "Flags that runCatching catches CancellationException, so a cancelled charge is reported as a failure and _done is still set; proposes rethrowing CancellationException or catching narrower exceptions."}
+  - name: edge-stateflow-for-events
+    vars:
+      context: "Android, events are navigation commands."
+      diff: |
+        +private val _navigate = MutableStateFlow<Screen?>(null)
+        +fun onSaved() { _navigate.value = Screen.Detail }
+    assert:
+      - {type: llm-rubric, value: "Explains that StateFlow conflates and replays the last value, so navigation can fire again after rotation or not fire twice for the same screen, and proposes a Channel or a state that is consumed; does not report unrelated issues as high."}
+  - name: negative-correct-statein
+    vars:
+      context: "Android, lifecycle 2.8, kotlinx.coroutines 1.8."
+      diff: |
+        +class ProfileViewModel(private val repo: ProfileRepo) : ViewModel() {
+        +    val profile: StateFlow<Profile?> = repo.profile()
+        +        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+        +}
+    assert:
+      - {type: llm-rubric, value: "Recognises viewModelScope with SharingStarted.WhileSubscribed(5_000) as the standard, correctly scoped pattern and approves or raises only minor points; does not invent GlobalScope, dispatcher or leak findings."}

@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Check this code for resource leaks: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-connection-and-cache
+    vars:
+      context: "Python web service, long-lived workers, database pool of 10 connections."
+      diff: |
+        +_cache = {}
+        +def get_report(user_id, day):
+        +    key = (user_id, day)
+        +    if key in _cache:
+        +        return _cache[key]
+        +    conn = pool.getconn()
+        +    rows = conn.execute(QUERY, (user_id, day)).fetchall()
+        +    report = build(rows)          # can raise ValueError on bad rows
+        +    pool.putconn(conn)
+        +    _cache[key] = report
+        +    return report
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that when build raises, putconn is never called, so after 10 such errors the pool is exhausted and every request hangs; fixes with try/finally or a context manager."}
+      - {type: llm-rubric, value: "Flags that _cache is keyed by user and day with no size limit or expiry, so it grows for the life of the worker, and proposes a bounded LRU or TTL cache (also noting the stale-data risk)."}
+  - name: edge-listener-per-render
+    vars:
+      context: "React single-page app; users navigate between pages many times per session."
+      diff: |
+        +useEffect(() => {
+        +  window.addEventListener('resize', onResize)
+        +  const t = setInterval(poll, 5000)
+        +}, [])
+    assert:
+      - {type: llm-rubric, value: "Flags that the effect never returns a cleanup, so each mount adds another resize listener and another polling interval that keep running after unmount; adds a cleanup that removes the listener and clears the interval."}
+  - name: negative-short-script
+    vars:
+      context: "One-off migration script run by hand; exits in under a minute."
+      diff: |
+        +f = open("export.csv")
+        +rows = list(csv.reader(f))
+    assert:
+      - {type: llm-rubric, value: "Notes at most a low-severity suggestion to use a with block, recognising that the file is released at process exit in a short script; does not rate it high."}

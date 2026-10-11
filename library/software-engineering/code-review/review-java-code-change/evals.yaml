@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Review this Java code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hash-key-and-tomap
+    vars:
+      context: "Java 21 service."
+      diff: |
+        +public class Sku {
+        +    private String code; private int version;
+        +    public void bump() { version++; }
+        +    @Override public boolean equals(Object o) { return o instanceof Sku s && s.code.equals(code) && s.version == version; }
+        +    @Override public int hashCode() { return Objects.hash(code, version); }
+        +}
+        +Map<Sku, Integer> stock = new HashMap<>();
+        +stock.put(sku, 5); sku.bump(); stock.get(sku); // returns null
+        +Map<String, Order> byEmail = orders.stream().collect(Collectors.toMap(Order::email, o -> o));
+    assert:
+      - {type: contains, value: "## Missing tests"}
+      - {type: llm-rubric, value: "Explains that bump() mutates a field used in hashCode while the Sku is a HashMap key, so the entry becomes unreachable, and proposes identity based only on immutable fields or re-inserting after mutation."}
+      - {type: llm-rubric, value: "Flags that Collectors.toMap throws IllegalStateException when two orders share an email (and NPE on null values) and asks which order should win, proposing a merge function or groupingBy."}
+  - name: edge-integer-cache
+    vars:
+      diff: |
+        +Integer expected = limits.get(plan);
+        +Integer actual = usage.get(user);
+        +if (expected == actual) { allow(); }
+    assert:
+      - {type: llm-rubric, value: "Identifies that == compares Integer references, which happens to work for values from -128 to 127 and fails above, and that either value may be null; proposes Objects.equals or intValue comparison with a null check."}
+  - name: negative-correct-value-class-java11
+    vars:
+      context: "Java 11."
+      diff: |
+        +public final class Sku {
+        +    private final String code;
+        +    public Sku(String code) { this.code = Objects.requireNonNull(code); }
+        +    @Override public boolean equals(Object o) { return o instanceof Sku && ((Sku) o).code.equals(code); }
+        +    @Override public int hashCode() { return code.hashCode(); }
+        +}
+    assert:
+      - {type: llm-rubric, value: "Recognises an immutable value class with consistent equals and hashCode over a final non-null field and approves or raises only minor points (such as a missing toString); does not suggest converting it to a record, which needs Java 16."}

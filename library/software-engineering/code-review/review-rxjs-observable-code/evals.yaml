@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Review this RxJS code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-effect-and-switchmap
+    vars:
+      context: "Angular 17, NgRx 17. saveDraft$ fires on each autosave keystroke debounce and on the Save button."
+      diff: |
+        +saveDraft$ = createEffect(() => this.actions$.pipe(
+        +  ofType(saveDraft),
+        +  switchMap(({ draft }) => this.api.save(draft)),
+        +  map(saved => draftSaved({ saved })),
+        +  catchError(err => of(draftSaveFailed({ err })))
+        +))
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Flags that catchError on the outer effect pipe completes the effect after the first failed save, so no later saves are processed for the rest of the session, and moves catchError inside the inner observable."}
+      - {type: llm-rubric, value: "Questions switchMap for saves: an in-flight save is cancelled client-side when a new one starts, which can lose or reorder writes; proposes concatMap (or exhaustMap for the button) with reasoning tied to the autosave rule."}
+  - name: edge-http-subscribe-is-fine
+    vars:
+      context: "Angular 17."
+      diff: |
+        +ngOnInit() {
+        +  this.http.get<Country[]>('/api/countries').subscribe(c => this.countries = c)
+        +}
+    assert:
+      - {type: llm-rubric, value: "Recognises that a single HTTP request completes, so this is not a lasting subscription leak; at most suggests the async pipe or takeUntilDestroyed for requests still in flight on destroy, rated low."}
+  - name: negative-async-pipe-stream
+    vars:
+      context: "Angular 17."
+      diff: |
+        +product$ = this.route.paramMap.pipe(
+        +  map(p => p.get('id')!),
+        +  switchMap(id => this.api.product(id).pipe(catchError(() => of(null)))),
+        +)
+        +// template: @if (product$ | async; as p) { <app-product [product]="p" /> }
+    assert:
+      - {type: llm-rubric, value: "Recognises that the async pipe manages the subscription, switchMap correctly cancels a stale load on navigation, and catchError inside the inner observable keeps the outer stream alive; approves or raises only minor points (such as showing an error state instead of null) without inventing leak or operator findings."}

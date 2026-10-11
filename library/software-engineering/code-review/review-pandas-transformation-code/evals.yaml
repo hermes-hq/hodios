@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Review this pandas code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-merge-fanout
+    vars:
+      context: "pandas 2.2. Output should be one row per order with the customer's region; revenue is summed per region afterwards."
+      diff: |
+        +orders = pd.read_csv("orders.csv")            # order_id, customer_id, amount
+        +customers = pd.read_csv("customers.csv")      # customer_id, region, valid_from
+        +df = orders.merge(customers, on="customer_id")
+        +df[df.amount < 0]["amount"] = 0
+        +by_region = df.groupby("region").amount.sum()
+    assert:
+      - {type: contains, value: "## Missing tests"}
+      - {type: llm-rubric, value: "Flags that customers has a valid_from column and is likely one row per customer version, so the merge duplicates orders and inflates revenue; proposes filtering to the current version and validate='many_to_one', plus noting the inner join drops orders whose customer is missing."}
+      - {type: llm-rubric, value: "Flags that the chained assignment does not modify df (and never does under copy-on-write) and fixes it with df.loc[df.amount < 0, 'amount'] = 0; notes that groupby drops rows whose region is NaN."}
+  - name: edge-leading-zeros
+    vars:
+      context: "Postcodes like 01234 are the join key between two CSV files."
+      diff: |
+        +a = pd.read_csv("stores.csv")
+        +b = pd.read_csv("postcode_regions.csv", dtype={"postcode": str})
+        +m = a.merge(b, on="postcode", how="left")
+    assert:
+      - {type: llm-rubric, value: "Identifies that stores.csv postcode is read as an integer (01234 becomes 1234) while the other side is a string, so the merge fails or matches nothing; fixes by reading both as str."}
+  - name: negative-safe-code
+    vars:
+      diff: |
+        +out = orders.merge(fx, on="currency", how="left", validate="many_to_one", indicator=True)
+        +assert (out["_merge"] == "both").all(), "missing fx rate"
+        +out["amount_eur"] = out["amount"] * out["rate"]
+    assert:
+      - {type: llm-rubric, value: "Recognises that validate and the indicator assertion already guard against fan-out and missing matches; approves or raises only minor points (such as an assert being stripped under python -O) and does not invent join findings."}

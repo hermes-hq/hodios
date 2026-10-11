@@ -1,0 +1,48 @@
+schema: 1
+baseline: "Review this Laravel code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orwhere-and-job
+    vars:
+      context: "Laravel 11, MySQL, Redis queue, config cached in production. Projects belong to teams."
+      diff: |
+        +public function index(Request $request) {
+        +    return Project::where('team_id', $request->user()->team_id)
+        +        ->orWhere('visibility', 'public')
+        +        ->orWhere('name', 'like', '%'.$request->q.'%')
+        +        ->get();
+        +}
+        +public function store(Request $request) {
+        +    DB::transaction(function () use ($request) {
+        +        $project = Project::create($request->all());
+        +        SendProjectCreatedEmail::dispatch($project);
+        +    });
+        +}
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags that the chained orWhere for name escapes the team filter so any matching project from any team is returned, and fixes it by grouping the OR conditions in a closure inside the team where."}
+      - {type: llm-rubric, value: "Flags Project::create($request->all()) as mass assignment risk (team_id can be set by the client) and that the job is dispatched inside the transaction without afterCommit, so it can run before the project is committed."}
+  - name: edge-env-outside-config
+    vars:
+      context: "Production runs php artisan config:cache on deploy."
+      diff: |
+        +class PaymentClient {
+        +    public function __construct() {
+        +        $this->key = env('STRIPE_SECRET');
+        +    }
+        +}
+    assert:
+      - {type: llm-rubric, value: "Explains that env() returns null outside config files once config is cached, so the key is null in production while working locally, and moves it to a config file read with config()."}
+  - name: negative-safe-code
+    vars:
+      diff: |
+        +public function update(UpdatePostRequest $request, Post $post) {
+        +    $this->authorize('update', $post);
+        +    $post->update($request->validated());
+        +    return redirect()->route('posts.show', $post);
+        +}
+    assert:
+      - {type: llm-rubric, value: "Approves or asks only to confirm the form request rules and policy; does not invent mass-assignment or authorisation findings on code that uses validated() and authorize()."}

@@ -1,0 +1,44 @@
+schema: 1
+baseline: "Review this Django code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-stock-and-task
+    vars:
+      context: "Django 5, Postgres, Celery. Orders reduce stock; a task emails the receipt."
+      diff: |
+        +def place_order(request, product_id):
+        +    product = Product.objects.get(id=product_id)
+        +    if product.stock < 1:
+        +        return HttpResponseBadRequest("sold out")
+        +    product.stock -= 1
+        +    product.save()
+        +    order = Order.objects.create(user=request.user, product=product)
+        +    send_receipt.delay(order.id)
+        +    return redirect("orders")
+    assert:
+      - {type: contains, value: "## Missing tests"}
+      - {type: llm-rubric, value: "Explains the oversell race (two requests both read stock 1 and both save 0) and fixes it with select_for_update inside transaction.atomic or a conditional update with F('stock') filtered on stock >= 1, not just 'add a lock'."}
+      - {type: llm-rubric, value: "Notes that the stock change and order creation are not atomic, and that send_receipt.delay should run via transaction.on_commit so the worker does not run before the order row is committed."}
+  - name: edge-bulk-update-skips-signal
+    vars:
+      context: "A post_save signal on Invoice writes an audit log entry, which compliance relies on."
+      diff: |
+        -    for inv in overdue:
+        -        inv.status = "overdue"
+        -        inv.save()
+        +    Invoice.objects.filter(id__in=[i.id for i in overdue]).update(status="overdue")
+    assert:
+      - {type: llm-rubric, value: "Flags that QuerySet.update() does not call save() or send post_save, so the audit log entries the context says compliance relies on will stop being written, and proposes writing the audit rows explicitly or keeping per-object saves; rates it high rather than praising the performance gain alone."}
+  - name: negative-no-issue-invented
+    vars:
+      diff: |
+        +class Tag(models.Model):
+        +    name = models.CharField(max_length=50, unique=True)
+        +
+        +    def __str__(self):
+        +        return self.name
+    assert:
+      - {type: llm-rubric, value: "Notes at most that a migration must accompany the new model and otherwise approves; does not invent transaction, signal or security findings for a trivial model."}

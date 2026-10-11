@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Check this code for null handling problems: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-silent-skip
+    vars:
+      context: "TypeScript strict. Orders are paid and must always get a receipt email."
+      diff: |
+        +async function completeOrder(orderId: string) {
+        +  const order = await orders.get(orderId)
+        +  const customer = await customers.find(order.customerId)   // returns Customer | undefined
+        +  const total = order.lines.reduce((s, l) => s + (l.price || 0) * l.qty, 0)
+        +  customer?.sendReceipt(order.id, total)
+        +  await orders.markComplete(order.id, total)
+        +}
+    assert:
+      - {type: contains, value: "## Questions"}
+      - {type: llm-rubric, value: "Flags that customer?.sendReceipt silently skips the required receipt when the customer is not found while the order is still marked complete, and proposes failing or alerting instead."}
+      - {type: llm-rubric, value: "Flags that l.price || 0 turns a missing (failed to load) price into a free line, charging less without any error, and asks whether a missing price should block completion."}
+  - name: edge-patch-absent-vs-null
+    vars:
+      context: "PATCH /profile accepts partial JSON. Sending {\"phone\": null} must clear the phone; omitting phone must keep it."
+      diff: |
+        +const update = { phone: body.phone ?? null, bio: body.bio ?? null }
+        +await db.profile.update({ where: { id }, data: update })
+    assert:
+      - {type: llm-rubric, value: "Identifies that omitted fields become null, so any PATCH that does not include phone or bio clears them; proposes distinguishing absent keys (for example with 'phone' in body) from explicit null."}
+  - name: negative-no-blanket-checks
+    vars:
+      context: "Kotlin, config loaded at startup; startup must fail if the URL is missing."
+      diff: |
+        +val dbUrl: String = System.getenv("DB_URL") ?: error("DB_URL is required")
+    assert:
+      - {type: llm-rubric, value: "Recognises that failing fast at startup with a clear message is the correct handling for a required setting and approves; does not suggest a default URL or additional null checks."}

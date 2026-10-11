@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Review this Entity Framework Core code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-parallel-and-materialise
+    vars:
+      context: "EF Core 8, SQL Server, DbContext registered as scoped. Orders table has 4 million rows."
+      diff: |
+        +public async Task<DashboardDto> Get(int customerId) {
+        +    var ordersTask = _db.Orders.Where(o => o.CustomerId == customerId).ToListAsync();
+        +    var invoicesTask = _db.Invoices.Where(i => i.CustomerId == customerId).ToListAsync();
+        +    await Task.WhenAll(ordersTask, invoicesTask);
+        +    var recent = _db.Orders.ToList().Where(o => o.CreatedAt > DateTime.UtcNow.AddDays(-7)).Count();
+        +    return new DashboardDto(ordersTask.Result, invoicesTask.Result, recent);
+        +}
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Flags that the two queries run concurrently on the same DbContext, which is not thread-safe and throws a second-operation exception, and proposes awaiting them sequentially or using separate contexts from a factory."}
+      - {type: llm-rubric, value: "Flags that _db.Orders.ToList() loads all 4 million orders into memory before filtering and counting, and rewrites it as a server-side CountAsync with the filter (also noting the missing customer filter on that line)."}
+  - name: edge-detached-update
+    vars:
+      context: "EF Core 8. Two staff members can edit the same product; the edit form only shows name and price."
+      diff: |
+        +public async Task Save(ProductDto dto) {
+        +    var p = new Product { Id = dto.Id, Name = dto.Name, Price = dto.Price };
+        +    _db.Products.Update(p);
+        +    await _db.SaveChangesAsync();
+        +}
+    assert:
+      - {type: llm-rubric, value: "Explains that Update on a new detached instance marks every column modified, so columns not in the DTO (such as stock or description) are overwritten with defaults, and that there is no concurrency token; proposes loading the entity and setting only the edited fields, plus a rowversion token."}
+  - name: negative-safe-raw-sql
+    vars:
+      diff: |
+        +var users = await _db.Users.FromSql($"SELECT * FROM Users WHERE Email = {email}").AsNoTracking().ToListAsync();
+    assert:
+      - {type: llm-rubric, value: "Recognises that FromSql with an interpolated string parameterises the value, so this is not SQL injection, and does not report it as one; approves or raises only minor points."}

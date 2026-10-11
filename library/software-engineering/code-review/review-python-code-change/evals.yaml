@@ -1,0 +1,41 @@
+schema: 1
+baseline: "Review this Python code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-defaults-and-truthiness
+    vars:
+      context: "Python 3.12 web service; functions are called per request."
+      diff: |
+        +def add_line(order_id, sku, qty, lines=[]):
+        +    if not qty:
+        +        raise ValueError("qty required")
+        +    lines.append((sku, qty))
+        +    return lines
+        +
+        +def apply_discount(price, discount=None):
+        +    discount = discount or 0.1
+        +    return price * (1 - discount)
+    assert:
+      - {type: contains, value: "## Missing tests"}
+      - {type: llm-rubric, value: "Flags that lines=[] is shared across calls, so lines from one request accumulate into the next, and fixes with None as the default; also notes that 'if not qty' rejects qty=0, asking whether zero is valid."}
+      - {type: llm-rubric, value: "Flags that 'discount or 0.1' turns an explicit discount of 0 into a 10% discount, and fixes it with an explicit 'is None' check."}
+  - name: edge-late-binding
+    vars:
+      diff: |
+        +handlers = [lambda event: notify(channel, event) for channel in ("email", "sms", "push")]
+    assert:
+      - {type: llm-rubric, value: "Explains that every lambda sees channel as 'push' when called, because closures bind late, and fixes with a default argument (channel=channel) or functools.partial."}
+  - name: negative-correct-none-default
+    vars:
+      context: "Python 3.12."
+      diff: |
+        +def add_tag(tag: str, tags: list[str] | None = None) -> list[str]:
+        +    tags = list(tags) if tags is not None else []
+        +    if tag not in tags:
+        +        tags.append(tag)
+        +    return tags
+    assert:
+      - {type: llm-rubric, value: "Recognises the None default with a fresh list (and a copy of the input) as the correct alternative to a mutable default, and the explicit `is not None` check as correct for an empty list; approves without inventing mutable-default or truthiness findings."}

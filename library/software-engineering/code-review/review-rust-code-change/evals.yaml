@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Review this Rust code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-unsafe-and-panic
+    vars:
+      context: "Library crate used by a web server. No panics allowed on user input."
+      diff: |
+        +pub fn header_value(buf: &[u8], start: usize, len: usize) -> &str {
+        +    unsafe { std::str::from_utf8_unchecked(&buf[start..start + len]) }
+        +}
+        +pub fn parse_port(s: &str) -> u16 {
+        +    s.parse::<u32>().unwrap() as u16
+        +}
+    assert:
+      - {type: contains, value: "## Verdict"}
+      - {type: llm-rubric, value: "Flags that from_utf8_unchecked on bytes from the request is undefined behaviour when they are not valid UTF-8, that there is no SAFETY comment, and that the slice indexing (and start + len overflow) can panic; proposes std::str::from_utf8 returning a Result and checked bounds."}
+      - {type: llm-rubric, value: "Flags that parse_port panics on non-numeric input and that 'as u16' silently truncates values above 65535 (70000 becomes 4464); proposes parsing as u16 directly and returning a Result."}
+  - name: edge-mutex-across-await
+    vars:
+      context: "Tokio multi-threaded runtime."
+      diff: |
+        +let mut cache = self.cache.lock().unwrap(); // std::sync::Mutex
+        +let v = fetch(key).await?;
+        +cache.insert(key, v);
+    assert:
+      - {type: llm-rubric, value: "Identifies that a std::sync::MutexGuard held across .await makes the future non-Send (so it fails to spawn) or blocks other tasks, and fixes by dropping the guard before awaiting or using tokio::sync::Mutex; does not raise unrelated style points first."}
+  - name: negative-justified-unwrap
+    vars:
+      context: "Build script (build.rs); failing the build loudly is intended."
+      diff: |
+        +let out = std::env::var("OUT_DIR").unwrap();
+    assert:
+      - {type: llm-rubric, value: "Accepts the unwrap in a build script where OUT_DIR is always set by Cargo and failing loudly is intended; approves rather than demanding error handling."}

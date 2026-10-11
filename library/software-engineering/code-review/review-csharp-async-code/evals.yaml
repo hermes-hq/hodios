@@ -1,0 +1,46 @@
+schema: 1
+baseline: "Review this C# async code: {{diff}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wpf-deadlock
+    vars:
+      context: "WPF desktop app on .NET 8. SyncService is in a shared library also used by a Windows service."
+      diff: |
+        +private void RefreshButton_Click(object sender, RoutedEventArgs e) {
+        +    var items = _sync.LoadAsync().Result;
+        +    Grid.ItemsSource = items;
+        +}
+        +public async Task<List<Item>> LoadAsync(CancellationToken ct = default) {
+        +    using var http = new HttpClient();
+        +    var json = await http.GetStringAsync(Url);
+        +    return Parse(json);
+        +}
+    assert:
+      - {type: contains, value: "## Questions"}
+      - {type: llm-rubric, value: "Explains that .Result on the UI thread deadlocks because the await in LoadAsync tries to resume on the blocked UI thread, and fixes it by making the click handler async void (acceptable for event handlers) and awaiting, plus ConfigureAwait(false) in the library."}
+      - {type: llm-rubric, value: "Notes that the CancellationToken is accepted but never passed to GetStringAsync and that HttpClient is created per call; does not rate these above the deadlock."}
+  - name: edge-aspnetcore-no-configureawait
+    vars:
+      context: "ASP.NET Core 8 web API controller."
+      diff: |
+        +[HttpGet("{id}")]
+        +public async Task<ActionResult<OrderDto>> Get(int id, CancellationToken ct) {
+        +    var order = await _orders.FindAsync(id, ct);
+        +    return order is null ? NotFound() : Ok(order);
+        +}
+    assert:
+      - {type: llm-rubric, value: "Approves; does not demand ConfigureAwait(false) in ASP.NET Core application code and recognises the token is correctly passed down."}
+  - name: negative-console-main-make-all-async
+    vars:
+      context: ".NET 8 console tool. Please make everything async in this PR while you are at it."
+      diff: |
+        +static int Main(string[] args)
+        +{
+        +    var config = LoadConfigAsync(args[0]).GetAwaiter().GetResult();
+        +    return Run(config);
+        +}
+    assert:
+      - {type: llm-rubric, value: "Classifies blocking in a console app's Main as acceptable (no synchronisation context, so no deadlock), at most suggesting async Task<int> Main as a low-severity option, and declines to turn the review into a codebase-wide async conversion in this change."}
