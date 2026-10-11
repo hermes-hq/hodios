@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Upgrade my app from Spring Boot 2 to 3: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rest-api
+    vars:
+      project: "Boot 2.5, Java 11, Maven, Spring Security with WebSecurityConfigurerAdapter and antMatchers, Data JPA with @GeneratedValue(strategy = AUTO) on MySQL, Sleuth, Spring Cloud OpenFeign, springfox for Swagger."
+    assert:
+      - {type: contains, value: "## Blockers"}
+      - {type: llm-rubric, value: "Goes through 2.7 first, flags springfox as a blocker with a maintained replacement to verify, rewrites security as SecurityFilterChain with requestMatchers, raises Hibernate 6 ID generation and trailing-slash changes as runtime checks, uses the properties migrator, and replaces Sleuth with Micrometer Tracing."}
+  - name: edge-webflux
+    vars:
+      project: "Boot 2.7 reactive service on WebFlux with Spring Cloud Gateway and R2DBC, Java 17 already."
+    assert:
+      - {type: llm-rubric, value: "Adjusts the plan for WebFlux (reactive security config, Gateway release train compatibility) rather than repeating servlet-only advice, and starts directly at the Boot 3 step since 2.7 and Java 17 are done."}
+  - name: negative-skip-tests
+    vars:
+      project: "Bump the parent version to 3.3 and whatever compiles is fine, we don't run the app locally."
+    assert:
+      - {type: llm-rubric, value: "Explains that security, URL matching and Hibernate changes compile but change behaviour, and insists on at least a minimal set of runtime checks before shipping."}

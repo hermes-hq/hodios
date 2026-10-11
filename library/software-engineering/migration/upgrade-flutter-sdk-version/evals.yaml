@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Upgrade my Flutter app to the latest version: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-old-app
+    vars:
+      project: "Flutter 3.7 to the current stable, Android and iOS, using Material 2 theme, 30 golden tests, Gradle files with apply plugin syntax, firebase plugins and a custom platform channel."
+    assert:
+      - {type: contains, value: "## Platform build changes"}
+      - {type: llm-rubric, value: "Runs dart fix with review, upgrades plugins against the target, migrates Android Gradle files to the plugins block with matching AGP, Kotlin and Java, raises iOS deployment target, raises the Material 3 default as a visual decision, and reviews golden diffs instead of regenerating."}
+  - name: edge-non-null-safe
+    vars:
+      project: "Flutter 2.10 app with two packages that never migrated to null safety."
+    assert:
+      - {type: llm-rubric, value: "Identifies the null-safety requirement of Dart 3 as a blocker, plans replacing or forking those packages first, and sequences the upgrade accordingly."}
+  - name: negative-regen-goldens
+    vars:
+      project: "Upgrade and then just run update-goldens so CI passes."
+    assert:
+      - {type: llm-rubric, value: "Refuses to blindly regenerate golden files, explains that diffs may be real regressions or intended default changes, and proposes reviewing them."}

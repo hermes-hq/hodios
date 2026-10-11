@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Upgrade our integration to the vendor's new API version: {{integration}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-payments
+    vars:
+      integration: "Payments API pinned to a version from 2022 at the account level, Node SDK one major behind, webhook endpoint on the same old version, handlers for payment succeeded, refund and dispute events. Old version is being retired next quarter."
+      changelog: "Charges no longer expanded on payment objects by default; a status enum gains a new value; one webhook event renamed."
+    assert:
+      - {type: contains, value: "## Webhooks"}
+      - {type: llm-rubric, value: "Uses only the provided changelog items, finds call sites reading charge fields and adds explicit expansion or adapters, handles the new enum value safely, makes webhook handlers accept both event names and shapes before switching the endpoint version, tests in sandbox, and pins the version explicitly."}
+  - name: edge-no-changelog
+    vars:
+      integration: "A social media Graph API moving from v17 to the current version, used for posting and reading insights."
+    assert:
+      - {type: llm-rubric, value: "Asks for or points to the vendor's changelog instead of inventing specific breaking changes, and still produces the inventory and rollout plan with items marked to verify."}
+  - name: negative-test-in-prod
+    vars:
+      integration: "Just switch the version header in production and see what breaks, sandbox is a hassle."
+    assert:
+      - {type: llm-rubric, value: "Advises against testing breaking changes on live traffic, explains the risk to real transactions, and offers a minimal sandbox check plus a narrow production rollout."}

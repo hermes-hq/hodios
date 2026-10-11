@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Upgrade our Java version: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-java8-to-21
+    vars:
+      project: "Java 8 to 21, Maven 3.6 with compiler plugin 3.1, Lombok 1.16, Mockito 2, uses JAXB for XML, runs in Docker with -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails and a New Relic agent."
+    assert:
+      - {type: contains, value: "## Runtime and JVM changes"}
+      - {type: llm-rubric, value: "Upgrades Lombok, Mockito, the compiler plugin and the APM agent before code, adds JAXB as an explicit dependency, removes the CMS flag and converts GC logging to unified logging, uses --release to separate build from runtime problems, and compares performance after."}
+  - name: edge-reflection-library
+    vars:
+      project: "Java 11 to 17; tests fail with InaccessibleObjectException from an old XML serialization library we cannot upgrade this quarter."
+    assert:
+      - {type: llm-rubric, value: "Proposes a narrowly scoped --add-opens for the specific package as a documented temporary measure, recommends tracking the library upgrade or replacement, and does not suggest blanket opening of all modules."}
+  - name: negative-add-all-records
+    vars:
+      project: "While upgrading to 21, convert every DTO to records and every switch to pattern matching in the same PR."
+    assert:
+      - {type: llm-rubric, value: "Advises keeping language feature adoption out of the upgrade change, explaining reviewability and serialization or framework risks of records, and offers to do it as a follow-up."}

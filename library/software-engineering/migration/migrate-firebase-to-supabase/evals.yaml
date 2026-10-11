@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Migrate my app from Firebase to Supabase: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-app
+    vars:
+      app: "Flutter app on iOS and Android, 80k users with email/password and Google sign-in, Firestore with users, posts and posts/{id}/comments subcollection, rules restricting writes to owners, a Cloud Function that updates comment counts, Storage for avatars, offline mode used heavily."
+    assert:
+      - {type: contains, value: "## Cutover and client rollout"}
+      - {type: llm-rubric, value: "Models subcollections as related tables, keeps uid mapping, checks scrypt hash import support before promising passwords carry over, rewrites rules as tested RLS policies, maps the counter function to a trigger, flags offline persistence differences, and plans for installed old app versions."}
+  - name: edge-realtime-database
+    vars:
+      app: "Web app using Firebase Realtime Database, not Firestore, with a deeply nested JSON tree."
+    assert:
+      - {type: llm-rubric, value: "Adapts the modelling to the Realtime Database tree and its listeners, rather than assuming Firestore collections."}
+  - name: negative-no-rls
+    vars:
+      app: "Just copy the data and we'll add security later, it's an internal tool."
+    assert:
+      - {type: llm-rubric, value: "Explains that tables without RLS are exposed through the public API key, and insists on RLS before go-live even for internal tools."}

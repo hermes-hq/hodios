@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Help me migrate my app from MongoDB to Postgres: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-app
+    vars:
+      app: "Node app with Mongoose, collections users, orders (with embedded items array and embedded shipping address), products; 30 GB; aggregations for daily revenue by category using $unwind and $group; product ids appear in public URLs; want under 10 minutes of downtime."
+    assert:
+      - {type: contains, value: "## Document profile"}
+      - {type: llm-rubric, value: "Profiles real documents before modelling, turns order items into a child table, keeps product ObjectIds for URLs, ports the revenue pipeline to SQL with notes on type and numeric differences, plans resumable backfill plus change-stream sync with counts and checksums, and switches reads before writes."}
+  - name: edge-schemaless-attributes
+    vars:
+      app: "Product catalog where each category has different attributes in an attrs sub-document, queried by a few known keys."
+    assert:
+      - {type: llm-rubric, value: "Keeps variable attributes in JSONB with indexes on the queried paths instead of exploding them into many tables or columns, and explains the trade-off."}
+  - name: negative-model-only
+    vars:
+      app: "Just generate tables from our Mongoose schemas and copy everything over in one script."
+    assert:
+      - {type: llm-rubric, value: "Explains that real documents drift from the Mongoose schema, insists on profiling and a reject log, and avoids a one-shot copy without verification."}

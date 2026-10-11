@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Upgrade my .NET app to the latest LTS: {{project}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-aspnet-api
+    vars:
+      project: ".NET 6 ASP.NET Core API to .NET 10, EF Core 6 on SQL Server, Docker image based on aspnet:6.0 listening on port 80, Kubernetes probes on port 80, TreatWarningsAsErrors on."
+    assert:
+      - {type: contains, value: "## Container and hosting"}
+      - {type: llm-rubric, value: "Checks global.json, aligns Microsoft and EF Core packages to the target major, reviews breaking changes for each skipped major, flags the image port and non-root user change against the Kubernetes probes, handles new analyzer warnings without blanket suppression, and tests EF Core queries against a real database."}
+  - name: edge-binaryformatter
+    vars:
+      project: ".NET 8 worker service to .NET 10 that caches objects in Redis using BinaryFormatter."
+    assert:
+      - {type: llm-rubric, value: "Identifies that BinaryFormatter was removed and throws, treats it as a blocker, and plans a serializer change including what happens to cache entries already written in the old format."}
+  - name: negative-blanket-suppress
+    vars:
+      project: "Just change net6.0 to net10.0 everywhere and add NoWarn for every new warning so it builds."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket NoWarn and on a target-framework-only change, explaining package alignment and behaviour changes, and offers the minimum safe path."}

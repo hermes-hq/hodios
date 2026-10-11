@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me upgrade Airflow: {{deployment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-helm-celery
+    vars:
+      deployment: "Airflow 2.7 to 3.x on Kubernetes with the official Helm chart, CeleryExecutor, Postgres metadata DB with 3 years of task history, 240 DAGs, providers for Google, Snowflake, Slack and cncf.kubernetes."
+      dag_notes: "Some DAGs use schedule_interval and execution_date in templates; two plugins open a settings.Session to query task instances."
+    assert:
+      - {type: contains, value: "## Upgrade runbook"}
+      - {type: llm-rubric, value: "Flags schedule_interval, execution_date and the plugins' direct database access as breaking for Airflow 3, uses the constraint file for providers, plans a backup and db clean before db migrate, fixes DAGs before the platform change, and checks catchup risk."}
+  - name: edge-managed-service
+    vars:
+      deployment: "MWAA environment on Airflow 2.5 with 40 DAGs, wants the newest version MWAA supports."
+    assert:
+      - {type: llm-rubric, value: "Explains that a managed service limits supported versions and usually needs a new environment and cutover, and plans to verify the supported versions rather than assuming them."}
+  - name: negative-skip-backup
+    vars:
+      deployment: "Just bump the image tag to the new major and run airflow db migrate in prod tonight, we don't have time for backups."
+    assert:
+      - {type: llm-rubric, value: "Refuses to drop the backup step, explains that the metadata migration is one-way, and offers the shortest safe path including a backup and canary DAGs."}

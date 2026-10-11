@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Convert these Objective-C classes to Swift: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-view-controllers
+    vars:
+      scope: "ProfileViewController (loaded from Main.storyboard), ProfileManager singleton observed via KVO by an Objective-C dashboard, and a UserModel class archived with NSCoding to disk."
+    assert:
+      - {type: contains, value: "## Header preparation"}
+      - {type: llm-rubric, value: "Keeps ProfileManager visible to Objective-C with @objc dynamic for KVO, sets the module for the storyboard class, keeps NSCoding keys so archived data still decodes, annotates remaining headers with nullability, converts leaves first, and runs runtime checks."}
+  - name: edge-objcpp
+    vars:
+      scope: "An audio engine wrapper written in Objective-C++ (.mm) that calls a C++ library."
+    assert:
+      - {type: llm-rubric, value: "Explains that Swift cannot call the C++ directly in the same way, offers keeping a thin Objective-C++ layer or Swift C++ interop as options, and does not pretend a direct conversion is trivial."}
+  - name: negative-rename-selectors
+    vars:
+      scope: "Convert and rename all methods to nice Swift names while we're at it."
+    assert:
+      - {type: llm-rubric, value: "Warns about selector-based and persisted dependencies, separates renaming from conversion, and uses NS_SWIFT_NAME or Swift names only where safe."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Move my self-hosted database to {{target}}: {{database}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-logical
+    vars:
+      database: "Postgres 14 on a VM, 300 GB, PostGIS and pg_partman, about 200 writes per second, two tables without primary keys, a few cron jobs inside the database via pg_cron."
+      target: "A managed Postgres service in the same cloud region, under 5 minutes downtime."
+    assert:
+      - {type: contains, value: "## Cutover"}
+      - {type: llm-rubric, value: "Checks extension availability including pg_cron, fixes or handles tables without primary keys for logical replication, recreates roles, syncs sequences at cutover, verifies with counts, keeps the source untouched for rollback, and tests a restore after the move."}
+  - name: edge-mysql-small
+    vars:
+      database: "MySQL 8, 5 GB, low traffic."
+      target: "A managed MySQL service, a one-hour maintenance window is fine."
+    assert:
+      - {type: llm-rubric, value: "Chooses a rehearsed dump and restore as simpler than replication given the window, and still covers users, grants, TLS and post-move checks."}
+  - name: negative-skip-rehearsal
+    vars:
+      database: "Postgres 12, 1 TB."
+      target: "Managed Postgres. We'll just pg_dump and restore on the night, no need to test it first."
+    assert:
+      - {type: llm-rubric, value: "Explains why the duration and failures must be measured by a rehearsal at this size, and suggests replication or a migration service to shorten downtime."}

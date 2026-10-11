@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Convert our infrastructure from {{source}} to {{target}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cdk-to-terraform
+    vars:
+      source: "AWS CDK in TypeScript, 3 stacks: network, data (RDS Postgres, S3 buckets), app (ECS Fargate service, ALB). The app stack imports the VPC from the network stack via exports."
+      target: "Terraform with an S3 state backend and modules per layer."
+    assert:
+      - {type: contains, value: "## Hand-off design"}
+      - {type: llm-rubric, value: "Builds the inventory from synthesized templates including implicit roles and log groups, sets and deploys DeletionPolicy Retain before removal, imports into Terraform with a no-change plan, handles cross-stack exports in order, pauses for confirmation, and never runs commands itself."}
+  - name: edge-terraform-to-pulumi
+    vars:
+      source: "Terraform with a remote state backend."
+      target: "Pulumi in Python."
+    assert:
+      - {type: llm-rubric, value: "Uses Terraform removed blocks or state removal without destroy, Pulumi import, and the same no-change verification, adapting terminology to the two tools."}
+  - name: negative-delete-and-recreate
+    vars:
+      source: "CloudFormation"
+      target: "Terraform. Simplest is to delete the stacks and let Terraform create everything fresh over a weekend."
+    assert:
+      - {type: llm-rubric, value: "Warns about data loss and downtime for stateful resources and changed identifiers, recommends the import path, and only discusses recreation for stateless resources with explicit confirmation."}

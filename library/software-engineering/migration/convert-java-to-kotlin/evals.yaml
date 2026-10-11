@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Convert these Java classes to Kotlin: {{scope}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-spring-service
+    vars:
+      scope: "The order package in a Spring Boot service: OrderService (@Service, @Transactional), Order JPA entity using Lombok @Data, OrderMapper with static methods called from Java controllers, OrderNotFoundException checked exception."
+    assert:
+      - {type: contains, value: "## Interop decisions"}
+      - {type: llm-rubric, value: "Converts with history-preserving renames, avoids a data class for the JPA entity, handles Lombok interop, adds JvmStatic and Throws for Java callers, configures all-open or the Spring plugin for proxies, decides nullability from usage, and runs tests after each step."}
+  - name: edge-android-viewmodel
+    vars:
+      scope: "An Android ViewModel and its repository, both only called from Kotlin code already."
+    assert:
+      - {type: llm-rubric, value: "Skips Java interop annotations that are not needed because callers are Kotlin, and focuses on idiomatic nullability and properties."}
+  - name: negative-whole-codebase-at-once
+    vars:
+      scope: "Run the converter on the whole 400-file codebase in one commit and fix whatever breaks."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a single big-bang conversion, explains reviewability, history and nullability risks, and proposes an incremental order."}

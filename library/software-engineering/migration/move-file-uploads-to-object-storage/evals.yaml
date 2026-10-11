@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Move our file uploads to S3: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-django-disk
+    vars:
+      app: "Django app storing invoices and avatars on the server disk under /media via FileField, served by nginx directly, 400k files, 120 GB, invoices must be private, moving to an S3-compatible provider so we can run two app servers."
+    assert:
+      - {type: contains, value: "## Copy and switch"}
+      - {type: llm-rubric, value: "Keeps invoices private with signed URLs while avatars may go behind a CDN, stores keys not URLs, uses a resumable verified copy job with read fallback during transition, sets content type, handles the nginx-served paths, and leaves deletion of local files to the user."}
+  - name: edge-db-blobs
+    vars:
+      app: "Files stored in a Postgres bytea column, 50 GB table."
+    assert:
+      - {type: llm-rubric, value: "Plans moving blobs out to keys with verification, and notes that the table needs vacuuming or rebuilding to reclaim space, as a separate confirmed step."}
+  - name: negative-public-bucket
+    vars:
+      app: "Just make the bucket public so links keep working, it's simpler."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on making private files public, explains the exposure risk, and offers signed URLs or a redirect endpoint that preserves link behaviour."}
