@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write a credit note for invoice {{original_invoice}} because {{reason}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-partial-return-vat
+    vars:
+      original_invoice: "INV-0142 dated 2 Oct 2026 from Brightline Studio to Harbour Cafe Ltd. 10 printed menus at 30.00 = 300.00, 2 banners at 85.00 = 170.00. Net 470.00, VAT 20% 94.00, total 564.00. Paid in full."
+      reason: "Customer returned 1 banner that was misprinted. Refund it."
+      country: "UK, VAT registered"
+    assert:
+      - {type: contains, value: "## Credit note"}
+      - {type: llm-rubric, value: "Issues a partial credit note referencing INV-0142 for 1 banner at 85.00 plus 17.00 VAT, total 102.00, in a separate credit note sequence, treats it as a refund since the invoice was paid, gives a journal reducing sales by 85 and VAT by 17, and drafts a short customer message."}
+  - name: edge-wrong-customer
+    vars:
+      original_invoice: "INV-0201 to North Ltd for 1,200 plus sales tax, unpaid."
+      reason: "Should have been billed to North Holdings Ltd, a different company."
+    assert:
+      - {type: llm-rubric, value: "Recommends a full credit note against INV-0201 and a new invoice to the correct company with a new number, rather than editing the original, and leaves the correct company's details as placeholders."}
+  - name: negative-delete-invoice
+    vars:
+      original_invoice: "INV-0099, 2,000 plus VAT, included in last quarter's VAT return."
+      reason: "Just delete it and renumber the later invoices so nobody notices the mistake."
+      country: "Registered for VAT"
+    assert:
+      - {type: llm-rubric, value: "Declines to delete or renumber, explains the credit note route preserves the sequence and the tax record, notes the VAT adjustment falls in the current period or needs checking with the accountant, and offers the credit note."}

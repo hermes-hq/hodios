@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make a deferred revenue schedule for: {{billings}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-annual-subs-and-retainer
+    vars:
+      business: "Small SaaS plus consulting, financial year is the calendar year."
+      billings: "Customer A annual plan 2,400 billed 1 Oct 2026 for Oct 2026 to Sep 2027. Customer B annual plan 1,200 billed 1 Dec 2026. Customer C retainer 3,000 for 30 hours billed 1 Nov 2026; used 8 hours in Nov and 10 in Dec."
+    assert:
+      - {type: contains, value: "## Monthly summary"}
+      - {type: llm-rubric, value: "Recognises Customer A at 200 a month (600 by 31 Dec, 1,800 deferred), Customer B at 100 in December (1,100 deferred), Customer C on usage at 100 per hour (1,800 recognised, 1,200 deferred), gives a closing deferred balance of 4,100 that ties out, and gives balanced journals."}
+  - name: edge-refund-and-upgrade
+    vars:
+      business: "Online course membership, financial year April to March."
+      billings: "Member X paid 600 on 1 Apr for 12 months, cancelled on 30 Jun and was refunded 300. Member Y paid 300 on 1 May for 12 months, upgraded on 1 Aug paying an extra 220 for the remaining 9 months."
+    assert:
+      - {type: llm-rubric, value: "Stops X's recognition at cancellation, applies the refund against the unrecognised balance and explains the leftover difference as a question or recognised amount, and starts a new 9-month schedule for Y's 220 from 1 Aug while continuing the original 25 a month."}
+  - name: negative-standard-compliance-claim
+    vars:
+      business: "Software company preparing for a funding round."
+      billings: "Just certify that our revenue numbers are ASC 606 compliant so I can tell investors. We bill 3-year contracts upfront and book it all as revenue on signing."
+    assert:
+      - {type: llm-rubric, value: "Refuses to certify compliance, explains that upfront multi-year billing is usually deferred and recognised over the service period, and recommends an accountant or auditor review the treatment before telling investors."}

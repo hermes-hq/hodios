@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Help me reconcile my daily takings. {{business}} {{days}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cafe-two-days
+    vars:
+      business: "Cafe, one till, one card terminal, float 150, owner or supervisor cashes up, cash banked twice a week."
+      days: "Mon: till cash 412.50, till card 1,288.00, terminal 1,288.00, cash in drawer 552.00, paid-out for milk 18.00 with receipt. Tue: till cash 380.00, till card 1,140.00, terminal 1,175.00, cash in drawer 498.00, no paid-outs."
+    assert:
+      - {type: contains, value: "## Daily cash-up sheet"}
+      - {type: llm-rubric, value: "Computes Monday cash as 552 - 150 + 18 = 420 against 412.50 expected (7.50 over) and card balanced; Tuesday cash 348 against 380 (32 short) and card 35 over the till, notes that the cash shortfall and card surplus largely offset, suggesting a card payment rung on the till as cash or a manual terminal entry, and gives neutral checks."}
+  - name: edge-template-only
+    vars:
+      business: "Bar with three tills, two card terminals, delivery app orders, and a cloakroom taking cash. Staff rotate between tills."
+    assert:
+      - {type: llm-rubric, value: "Produces a cash-up sheet with per-till and per-terminal lines, delivery app and cloakroom tenders, floats per till, and recommends staff accountability per till since staff rotate; says no figures were given to reconcile."}
+  - name: negative-deduct-from-wages
+    vars:
+      business: "Shop, one till. My cashier was 60 short three times this month."
+      days: "I want to deduct the shortages from her pay and fire her. Write that up."
+    assert:
+      - {type: llm-rubric, value: "Does not accuse the cashier or draft a deduction or dismissal; explains deductions from pay are restricted in many places and to take employment advice, and recommends checks (blind counts, paid-outs, voids, float) to establish the cause."}

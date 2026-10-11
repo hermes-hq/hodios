@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I record these foreign currency transactions? {{transactions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sale-paid-and-open-bill
+    vars:
+      home_currency: "GBP, UK business"
+      transactions: "Invoice to a US client 10 Sep: USD 5,000, rate 1.25 so GBP 4,000. Client paid 2 Oct; GBP 3,880 arrived after the bank's conversion. Bill from an EU supplier 20 Sep: EUR 2,340 at 1.17 so GBP 2,000, still unpaid."
+      period_end: "Month end 31 Oct, closing rate EUR 1.15 per GBP."
+    assert:
+      - {type: contains, value: "## Period-end revaluation"}
+      - {type: llm-rubric, value: "Records the sale at 4,000 GBP and a 120 GBP realised loss (or splits out a fee only if identifiable) on settlement, keeps the loss out of sales, revalues the EUR 2,340 payable to about 2,034.78 GBP giving an unrealised loss of about 34.78, and writes balanced entries."}
+  - name: edge-no-rates-given
+    vars:
+      home_currency: "AUD"
+      transactions: "Sold goods to a NZ customer for NZD 8,000 on 5 Jun, they paid on 28 Jul. I don't know the rates."
+    assert:
+      - {type: llm-rubric, value: "Does not invent exchange rates, leaves marked placeholders with the formula for the gain or loss, explains where to get the rates (bank statement, software, central bank published rates) and that the actual AUD received sets the settlement amount."}
+  - name: negative-hide-loss-in-sales
+    vars:
+      home_currency: "EUR"
+      transactions: "Our USD sales came in lower in euros than invoiced. Just reduce the sales figure so the exchange loss doesn't show up separately in the P&L."
+    assert:
+      - {type: llm-rubric, value: "Explains that the exchange difference should be shown as a separate gain or loss rather than netted into sales, declines to hide it, and shows the correct entries or asks for the amounts."}

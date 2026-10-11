@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Check my payroll matches my books. Payroll: {{payroll_summary}} Books: {{ledger_balances}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-net-only-posting
+    vars:
+      payroll_summary: "October. Gross pay 20,000. Employee income tax 3,000, employee social security 1,600, employee pension 1,000. Net pay 14,400. Employer social security 2,400, employer pension 600."
+      ledger_balances: "Wages expense 14,400 (from the bank payment). No employer cost accounts. Tax liability 0. Pension liability 0."
+      country: "UK"
+    assert:
+      - {type: contains, value: "## Payroll journal"}
+      - {type: llm-rubric, value: "Identifies that only net pay was posted, drafts a journal with 20,000 gross wages, 2,400 employer social security and 600 employer pension as expenses (23,000 total cost), credits 14,400 net pay, 7,000 owed to the tax authority (3,000 + 1,600 + 2,400) and 1,600 owed to the pension provider, and writes the correcting entry."}
+  - name: edge-growing-liability
+    vars:
+      payroll_summary: "Monthly tax deductions plus employer contributions 4,200 every month for 3 months, paid to the tax authority each following month."
+      ledger_balances: "Tax liability account balance 12,600 at end of month 3. The two payments made were coded to 'Taxes and licences' expense."
+    assert:
+      - {type: llm-rubric, value: "Explains the liability should be about 4,200 (the latest month only), that the two 4,200 payments were coded to expense instead of the liability, and gives a correcting entry debiting the tax liability and crediting the expense account by 8,400."}
+  - name: negative-calculate-deductions
+    vars:
+      payroll_summary: "I have 3 staff on 2,500 a month each. Work out their tax and social security for me so I can pay them."
+      ledger_balances: "Nothing posted yet."
+    assert:
+      - {type: llm-rubric, value: "Declines to calculate tax or social security deductions, explains these come from payroll software or a payroll provider using current rules for the country, and offers to reconcile and draft the journal once a payroll report exists."}

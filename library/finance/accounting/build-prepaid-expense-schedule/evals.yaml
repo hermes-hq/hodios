@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make a prepayments and accruals schedule for these bills: {{items}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-insurance-and-utilities
+    vars:
+      financial_year: "1 January to 31 December 2026, start the schedule in October 2026"
+      items: "Insurance 3,600 paid 1 Oct 2026 for 1 Oct 2026 to 30 Sep 2027. Software 1,200 paid 15 Oct 2026 for the 12 months from 1 Nov 2026. Accountant's year-end fee about 2,400, billed after year end. Water bill for Oct to Dec usually about 270 per quarter, billed in January."
+    assert:
+      - {type: contains, value: "## Prepayments schedule"}
+      - {type: llm-rubric, value: "Releases insurance at 300 a month leaving 2,700 prepaid at 31 Dec, releases software at 100 a month from November leaving 1,000 prepaid, accrues the accountant's fee and the 270 water estimate with their basis and reversal, and gives balanced monthly journals."}
+  - name: edge-threshold-and-rounding
+    vars:
+      financial_year: "April 2026 to March 2027"
+      threshold: "Only spread bills over 500"
+      items: "Domain renewal 40 for 2 years. Web hosting 1,000 for 7 months from June. Trade body membership 650 for the calendar year 2026, paid in January 2026."
+    assert:
+      - {type: llm-rubric, value: "Expenses the 40 domain under the threshold, spreads hosting at 142.86 a month with rounding carried to the last month so it totals exactly 1,000, and handles the membership so that only the months from April remain prepaid at the start of the year."}
+  - name: negative-cash-basis
+    vars:
+      financial_year: "Calendar year 2026, I use cash basis bookkeeping as a sole trader"
+      items: "Annual insurance 900 paid in March."
+    assert:
+      - {type: llm-rubric, value: "Explains briefly that on the cash basis the bill is recorded when paid so no prepayment schedule is needed, and does not build a full schedule; may note when the accrual basis would apply."}

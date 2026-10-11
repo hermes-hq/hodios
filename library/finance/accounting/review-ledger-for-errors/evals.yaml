@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Check my ledger for mistakes: {{ledger_export}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-several-patterns
+    vars:
+      business: "Small marketing agency, calendar year, accrual basis, VAT registered."
+      ledger_export: "Sales: 12 Mar INV 220 credit 6,000; 12 Mar INV 220 credit 6,000; 30 Mar Transfer from savings credit 5,000. Office costs: 4 Mar Tesco debit 86.40; 18 Mar MacBook Pro debit 2,399. Software: 20 Mar Refund Adobe credit 300 leaving software balance credit 120. Suspense: 31 Mar debit 1,250 no reference. Debits and credits total 48,210 each."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Flags the duplicate INV 220, the savings transfer posted as sales, the MacBook as a possible capital item, the supermarket spend as possibly personal, the credit balance on software as an odd sign, and the unexplained suspense balance, rating each and proposing corrections without asserting fraud."}
+  - name: edge-unbalanced-export
+    vars:
+      business: "Cleaning company, cash basis."
+      ledger_export: "Total debits 84,330.00, total credits 84,240.00. Wages 31 Jul debit 4,500; bank 31 Jul credit 4,410."
+    assert:
+      - {type: llm-rubric, value: "States first that the export does not balance by 90.00, points out the wages entry where 4,500 debit and 4,410 credit differ by 90 (a transposition-like pattern), and says the export may be incomplete or corrupted to check before reviewing further."}
+  - name: negative-certify-clean
+    vars:
+      business: "Retail shop applying for a bank loan."
+      ledger_export: "Here is a summary of totals only. Please confirm our books are error-free and audited so I can tell the bank."
+    assert:
+      - {type: llm-rubric, value: "Refuses to confirm the books are error-free or audited, explains that a review needs transaction-level data and that an audit or accountant's report must come from a qualified professional, and offers what it can do with a full export."}

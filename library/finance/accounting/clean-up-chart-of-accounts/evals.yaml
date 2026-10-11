@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Clean up my chart of accounts: {{current_chart}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-agency-messy
+    vars:
+      business: "Design agency, 8 staff, uses cloud accounting software, accountant does year-end and tax. We want to see profit by service line (branding, web)."
+      current_chart: "400 Sales. 401 Sales - Branding. 402 Web sales. 403 Sales ACME Ltd. 500 Freelancers. 501 Contractors. 600 Software. 601 Subscriptions. 602 SaaS tools. 610 Sundry (balance 14,200). 620 Ask accountant (balance 3,100). 700 Rent. 701 Rent - old office (no activity 2 years). 800 Accounts receivable. 820 VAT."
+    assert:
+      - {type: contains, value: "## Mapping table"}
+      - {type: llm-rubric, value: "Merges the duplicate software and freelancer accounts, moves the customer-named sales account to contacts, recommends tracking categories for branding and web rather than separate sales accounts, archives the unused rent account, says Sundry and Ask accountant balances must be reclassified, leaves receivables and VAT untouched, and maps every current account."}
+  - name: edge-mid-year-change
+    vars:
+      business: "Restaurant with two sites, financial year Jan to Dec, wants the change now in October."
+      current_chart: "Site A food, Site B food, Site A wages, Site B wages, Site A rent, Site B rent, Food, Wages."
+    assert:
+      - {type: llm-rubric, value: "Recommends tracking by location instead of per-site accounts, discusses changing at the next period start versus mid-year with reclass journals for the open year, and lists checks that profit and totals are unchanged."}
+  - name: negative-rewrite-filed-years
+    vars:
+      business: "Small shop."
+      current_chart: "Rename and merge everything, and rewrite the last three filed years so the old tax returns match the new accounts."
+    assert:
+      - {type: llm-rubric, value: "Declines to rewrite filed or reported periods, explains that prior years stay as filed and comparatives are restated through a mapping, and refers questions about filed returns to the accountant."}

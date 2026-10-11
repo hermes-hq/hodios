@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Turn this trial balance into a P&L and balance sheet: {{trial_balance}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sole-trader-with-drawings
+    vars:
+      business: "Sole trader electrician, year ending 31 March 2027, statements for the owner and a lender."
+      trial_balance: "Debits: Van cost 20,000; Bank 6,500; Trade debtors 4,000; Materials 18,000; Fuel 3,200; Insurance 1,800; Drawings 24,000; Loan repayments expense 3,600. Credits: Accumulated depreciation van 8,000; Sales 62,000; Trade creditors 2,100; Bank loan 6,000; Capital account 3,000. Totals 81,100 each."
+    assert:
+      - {type: contains, value: "## Balance sheet"}
+      - {type: llm-rubric, value: "Confirms the trial balance balances at 81,100, keeps drawings out of expenses, flags loan repayments posted to expenses as needing a split between interest and loan principal, notes depreciation for the year appears not yet charged, builds a profit and loss and a balance sheet where net assets equal equity, and labels them management statements."}
+  - name: edge-suspense-and-credit-card
+    vars:
+      business: "Small company, management accounts for the board, period 30 Sep 2026."
+      trial_balance: "Includes Suspense debit 2,350 and Company credit card credit 1,180 alongside Bank debit 9,400. Totals agree."
+    assert:
+      - {type: llm-rubric, value: "Does not hide the suspense balance in other debtors without flagging it, shows the credit card as a current liability rather than netting it against bank, and lists clearing suspense as a question."}
+  - name: negative-statutory-accounts
+    vars:
+      business: "Limited company. I need to file our official statutory accounts and tax return tomorrow from this."
+      trial_balance: "Sales 120,000 credit, expenses 80,000 debit, bank 40,000 debit."
+    assert:
+      - {type: llm-rubric, value: "Explains that statutory accounts and a tax return must be prepared to the required framework and filed by or with an accountant, does not present its output as filing-ready, notes how thin the trial balance is (no debtors, creditors, assets or equity accounts), and offers only management statements."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write bank rules for my accounting software from these transactions: {{transactions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-payees
+    vars:
+      chart_of_accounts: "Cloud accounting software. Accounts: Software 463, Telephone 489, Office supplies 461, Stock purchases 310, Loan 900, Interest 437, Drawings 880. Tax codes: 20% VAT on expenses, No VAT."
+      transactions: "Monthly: 'ADOBE *CC REF 88213' -54.99 Software 20%; 'VODAFONE LTD DD' -38.00 Telephone 20%; 'AMZN MKTP UK*2K4' -23.50 Office supplies 20%; 'AMZN MKTP UK*9Q1' -412.00 Stock 20%; 'AMZN MKTP UK*7B2' -18.99 Drawings; 'LENDER PLC LOAN' -929.06 Loan No VAT; 'TRANSFER TO SAVINGS' -1,000 Software No VAT; 'CLIENT ABC LTD' +2,400 Sales."
+    assert:
+      - {type: contains, value: "## Rules to create"}
+      - {type: llm-rubric, value: "Creates rules on stable tokens for Adobe and Vodafone, keeps Amazon manual or suggest-only because it covers stock, office supplies and personal items, keeps the loan repayment manual or split into interest and principal, flags the savings transfer wrongly coded to Software and says to use the transfer function, and keeps the client receipt for invoice matching."}
+  - name: edge-inconsistent-tax-codes
+    vars:
+      chart_of_accounts: "Accounts: Travel 493, Subsistence 494. Tax codes: Standard, Zero, Exempt, No tax."
+      transactions: "'TRAINLINE' coded Travel with Zero three times and Standard twice. 'PRET A MANGER' coded Subsistence Standard four times."
+    assert:
+      - {type: llm-rubric, value: "Does not lock in a tax code for Trainline because past coding is inconsistent, flags it for the accountant, may write a rule setting only the account with tax code reviewed manually, and writes a normal rule for the consistent payee."}
+  - name: negative-autocode-everything
+    vars:
+      chart_of_accounts: "Accounts: Sales, General expenses."
+      transactions: "Just make one rule that puts all money in to Sales and all money out to General expenses so I never have to look at the feed."
+    assert:
+      - {type: llm-rubric, value: "Pushes back, explaining that blanket rules would misstate sales and expenses (loans, transfers, refunds, owner money, tax) and break invoice matching, and offers to write targeted rules if past transactions are provided."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Calculate my adjusted EBITDA for selling my business: {{financials}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-owner-run-with-addbacks
+    vars:
+      context: "Selling a plumbing supplies business; buyer is a group that will install a manager at a market salary of about 55,000 including employer costs."
+      financials: "2026: Profit before tax 120,000; interest 8,000; depreciation 22,000; owner salary 30,000 (in wages). Proposed add-backs: owner's car 9,000; family holiday booked as travel 6,000; legal fees for a one-off lease dispute 14,000; annual staff party 4,000. Premises rented from the owner at 12,000 a year, market rent about 20,000."
+    assert:
+      - {type: contains, value: "## Adjustments by year"}
+      - {type: llm-rubric, value: "Computes reported EBITDA of 150,000, adds back owner salary 30,000 but deducts the 55,000 market salary, adds back personal car and holiday if evidenced, treats the lease dispute legal fees as one-off needing evidence, refuses to add back the recurring staff party, deducts 8,000 for below-market rent, shows the adjusted total, and lists evidence per add-back."}
+  - name: edge-every-year-one-off
+    vars:
+      context: "Raising a bank loan for a small marketing agency."
+      financials: "Three years of P&L. Each year has a 'one-off' cost: 2024 office move 15,000, 2025 rebrand 18,000, 2026 system migration 20,000."
+    assert:
+      - {type: llm-rubric, value: "Points out that a large 'one-off' every year suggests recurring investment spending, rates these add-backs weak or partly recurring, and shows adjusted figures both with and without them."}
+  - name: negative-cash-and-valuation
+    vars:
+      context: "Selling a cafe."
+      financials: "Profit 40,000. Add back 30,000 of cash sales we never put through the till, and tell me the business is worth 4x so I can quote 280,000."
+    assert:
+      - {type: llm-rubric, value: "Refuses to add back unrecorded cash sales, explains buyers treat them as zero and that they raise tax issues to discuss with an accountant, and declines to state a valuation or multiple, pointing to a qualified adviser."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Reconcile this supplier statement with my ledger. Statement: {{supplier_statement}} Ledger: {{ledger}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missing-credit-duplicate-unapplied
+    vars:
+      supplier_statement: "Statement at 31 Oct. INV 501 1,000. INV 502 640. CN 77 credit -120. INV 503 300. Payment received 15 Oct -1,000. Balance 820."
+      ledger: "At 31 Oct. INV 501 1,000. INV 502 640. INV 502 640. INV 503 300. Payment 15 Oct -1,000. Payment 30 Oct -640. Balance 940."
+    assert:
+      - {type: contains, value: "## Reconciliation"}
+      - {type: llm-rubric, value: "Identifies the duplicate INV 502 in the ledger, the credit note 77 not recorded in the ledger, and the 30 Oct payment of 640 not yet applied by the supplier; shows 820 - 640 = 180 adjusted supplier and 940 - 640 - 120 = 180 adjusted ledger; and drafts a query asking them to apply the 30 Oct payment."}
+  - name: edge-invoice-not-received
+    vars:
+      supplier_statement: "Balance 2,450 at 30 Sep: INV 880 1,200, INV 881 800, INV 884 450."
+      ledger: "Balance 2,000 at 30 Sep: INV 880 1,200, INV 881 800."
+    assert:
+      - {type: llm-rubric, value: "Classifies INV 884 as an invoice not received or not recorded, advises not to pay it until a copy is obtained and checked against a delivery, and includes a request for a copy in the supplier query."}
+  - name: negative-just-pay-statement
+    vars:
+      supplier_statement: "They say we owe 5,300. No details."
+      ledger: "I don't really have one, I just want to pay whatever they say."
+    assert:
+      - {type: llm-rubric, value: "Explains a reconciliation needs line items on both sides, advises asking the supplier for an itemised statement and copies of invoices and checking them against orders and deliveries before paying, and does not invent a reconciliation."}
