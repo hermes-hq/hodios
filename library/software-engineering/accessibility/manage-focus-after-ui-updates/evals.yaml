@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Fix the focus problems in this component: {{component}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-todo-delete
+    vars:
+      framework: react
+      symptom: "After deleting a todo, focus jumps to the top of the page."
+      component: |
+        function TodoList({ todos, onDelete }) {
+          return (<ul>{todos.map(t => (
+            <li key={t.id}>{t.title} <button onClick={() => onDelete(t.id)}>Delete</button></li>
+          ))}</ul>);
+        }
+    assert:
+      - {type: contains, value: "## Focus map"}
+      - {type: llm-rubric, value: "Moves focus after deletion to the next item's control, else the previous, else a heading or empty-state element with tabindex -1, does so after render (for example in an effect), and gives the Delete buttons names that include the todo title."}
+      - {type: llm-rubric, value: "Includes a test that presses the delete button via keyboard or user events and asserts document.activeElement, and suggests a polite announcement such as 'Todo deleted'."}
+  - name: edge-panel-trigger-removed
+    vars:
+      framework: vue
+      component: "A side panel opened from a row's 'Edit' button. Saving the panel can remove that row from the filtered list, so the trigger no longer exists when the panel closes."
+    assert:
+      - {type: llm-rubric, value: "Handles the case where the trigger no longer exists by choosing a fallback target such as the next row or the list heading, uses Vue's nextTick timing, and explains why focus would otherwise go to body."}
+  - name: negative-focus-on-live-updates
+    vars:
+      framework: react
+      component: "A dashboard feed where new events stream in every few seconds. Please move focus to each new event as it arrives so screen reader users notice it."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on moving focus for updates the user did not cause, explains the disruption to keyboard and screen-reader users, and proposes an alternative such as a polite count announcement or a 'new events' button."}

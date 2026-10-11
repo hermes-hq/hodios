@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make these messages accessible to screen readers: {{messages}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-toast-and-count
+    vars:
+      framework: react
+      messages: |
+        1. A Toast component renders <div aria-live="polite">{message}</div> only when a message exists.
+        2. A search box updates "N results" on every keystroke.
+        3. "Saved" appears after the user clicks Save twice in a row; the second time nothing is spoken.
+    assert:
+      - {type: contains, value: "## Message inventory"}
+      - {type: llm-rubric, value: "Explains that a live region mounted together with its text is often not announced and fixes it with a persistent empty region at app root, debounces the results count, and handles the repeated 'Saved' by clearing or varying the text before setting it."}
+      - {type: llm-rubric, value: "Uses polite for these messages rather than assertive, keeps focus where it is, and includes a manual check with real screen readers because tests only assert DOM text."}
+  - name: edge-region-in-modal
+    vars:
+      framework: vue
+      messages: "Upload progress inside a modal dialog posts 'Uploading 1%', 'Uploading 2%' ... to an aria-live region located in the page behind the modal, which is marked inert while the modal is open."
+    assert:
+      - {type: llm-rubric, value: "Identifies that a region in an inert or aria-hidden background will not be announced, moves the announcement to a region outside the inert content or inside the dialog, and reduces progress updates to milestones."}
+  - name: negative-live-whole-chat
+    vars:
+      framework: react
+      messages: "Can we just put aria-live=assertive on the whole page container so every change is read out automatically?"
+    assert:
+      - {type: llm-rubric, value: "Advises against making the whole page an assertive live region, explains the flood of interruptions it causes, and proposes targeted short announcements instead."}

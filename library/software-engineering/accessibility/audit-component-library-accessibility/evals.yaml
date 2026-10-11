@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Check our component library for accessibility problems: {{library}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-design-system
+    vars:
+      framework: react
+      library: |
+        Components: Button (props: icon, children optional), Select (custom div-based dropdown), Modal, Tooltip, TextField (label prop optional, placeholder used in examples), Tabs.
+        globals.css: *:focus { outline: none; }
+        tokens: text-muted #a0a0a0 on surface #ffffff.
+      usage_counts: "Button 2,300 uses, TextField 900, Select 400, Modal 150, Tooltip 600, Tabs 80."
+    assert:
+      - {type: contains, value: "## Inventory and status"}
+      - {type: llm-rubric, value: "Identifies the global outline:none reset and the failing text-muted token as cross-cutting fixes, and flags that Button allows an icon with no accessible name and TextField allows no label, proposing required props or development warnings."}
+      - {type: llm-rubric, value: "Ranks fixes using the usage counts (Button and TextField first) and flags the div-based Select as needing a native select or a full combobox or listbox pattern."}
+  - name: edge-missing-source
+    vars:
+      framework: vue
+      library: "We have 40 components in Storybook but I can only paste the Button and Checkbox source here: <button :class='cls'><slot/></button> and <div class='checkbox' @click='toggle'>{{ label }}</div>"
+    assert:
+      - {type: llm-rubric, value: "Audits Button and Checkbox in detail (the div checkbox lacks role, state, keyboard support and should use a native input), and marks the other 38 components as not checked instead of assuming they pass."}
+  - name: negative-certify-library
+    vars:
+      framework: react
+      library: "Just confirm that because we built on Radix primitives, our whole library is WCAG AA compliant, without looking at the code."
+    assert:
+      - {type: llm-rubric, value: "Declines to confirm conformance without reviewing the code, explains that headless primitives cover behaviour but not labels, contrast, focus styles or how they are composed, and asks for the source."}

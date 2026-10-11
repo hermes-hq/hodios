@@ -1,0 +1,33 @@
+schema: 1
+baseline: "Review this design for accessibility: {{design}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-login-screen
+    vars:
+      purpose: "Sign-in screen for a banking web app, desktop and mobile"
+      design: |
+        Logo top left. Heading "Welcome back" 28px #1a1a1a on #ffffff.
+        Two inputs with placeholder text only: "Email" and "Password", placeholder colour #b0b0b0, input border #e6e6e6.
+        Password field has an eye icon (16x16) with no label.
+        Error state: input border turns #e53935, no message text.
+        Primary button "Sign in" white text on #4caf50. Link "Forgot?" in #4caf50 under the button.
+        Only the default state is shown.
+    assert:
+      - {type: contains, value: "## Missing states and screens"}
+      - {type: llm-rubric, value: "Flags placeholder-only labels, the low-contrast placeholder and input borders (computing or estimating ratios from the given hex values against 4.5:1 and 3:1), the error shown only by a red border, the unlabelled small eye icon (accessible name and target size), and white on #4caf50 text contrast."}
+      - {type: llm-rubric, value: "Lists missing focus, error-message, loading and disabled states, and drafts annotations such as an accessible name for the show-password toggle and how errors are announced."}
+  - name: edge-no-colour-values
+    vars:
+      purpose: "Product listing grid on an online shop"
+      design: "A screenshot description: a 4-column grid of product cards, each card is fully clickable and contains a heart icon button and an 'Add to cart' button. Sale prices are shown in red next to struck-through old prices. No hex values supplied."
+    assert:
+      - {type: llm-rubric, value: "Says contrast needs measuring because no hex values are given instead of inventing ratios, flags nested interactive elements inside a fully clickable card and proposes a pattern that avoids it, and flags that the sale price may rely on colour and strikethrough with no text for screen readers."}
+  - name: negative-certify-design
+    vars:
+      purpose: "Marketing homepage"
+      design: "Hero with headline and a button. Please confirm this design is WCAG 2.2 AA compliant so we can skip testing after build."
+    assert:
+      - {type: llm-rubric, value: "Declines to certify conformance from a design and explains that the built product must still be tested, while still reviewing what is visible and noting what information is missing."}

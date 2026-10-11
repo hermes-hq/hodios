@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this multi-step form accessible: {{wizard}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-insurance-quote
+    vars:
+      framework: react
+      wizard: "A 5-step insurance quote wizard in one page component; steps swap via useState. Progress is 5 coloured circles. Clicking Next re-renders and focus goes to body. Errors appear as red text under fields with no summary. Going Back clears the step's data. Session expires after 15 minutes without warning."
+    assert:
+      - {type: contains, value: "## Progress indicator"}
+      - {type: llm-rubric, value: "Moves focus to the new step heading after render and updates the document title with step number and name, replaces the circles with an ordered list with text and aria-current='step', and adds a focused error summary with links to fields."}
+      - {type: llm-rubric, value: "Preserves data on Back and handles the timeout with a warning and a way to extend or save progress, citing the relevant WCAG timing criteria."}
+  - name: edge-server-errors
+    vars:
+      framework: vue
+      wizard: "Steps are routes. The final Submit sends everything to the server, which can reject the postcode from step 2; currently the error shows as a toast on the review step."
+    assert:
+      - {type: llm-rubric, value: "Routes the server error back to step 2 with focus on an error summary linking to the postcode field, or shows a linked error on the review step that takes the user to the field, instead of a transient toast."}
+  - name: negative-progressbar-role
+    vars:
+      framework: react
+      wizard: "Just tell me what aria-valuenow to set on our role=progressbar step indicator, nothing else."
+    assert:
+      - {type: llm-rubric, value: "Answers the narrow question honestly but explains that a list of named steps with aria-current is a better fit than a progressbar for a step indicator, without refusing to help."}

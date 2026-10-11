@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make this search and filters page accessible: {{search_ui}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-instant-filters
+    vars:
+      framework: react
+      search_ui: |
+        <input placeholder="Search"/><button><SearchIcon/></button>
+        Filters: <h4>Colour</h4> then <div onClick={toggle} className="checkbox">Blue (24)</div> for each value.
+        Results re-render instantly; the filter list is rebuilt with key={Math.random()}.
+        Applied filters show as chips with an <span>x</span> to remove.
+    assert:
+      - {type: contains, value: "## Applied filters and sort"}
+      - {type: llm-rubric, value: "Replaces div checkboxes with native checkboxes grouped in fieldset and legend, fixes the random keys that destroy focus, labels the search input and icon button, and announces the updated result count politely without moving focus."}
+      - {type: llm-rubric, value: "Makes chip removal buttons named with the filter (for example 'Remove filter: Colour Blue') and defines where focus goes after a chip is removed."}
+  - name: edge-mobile-drawer
+    vars:
+      framework: vue
+      search_ui: "On mobile, filters open in a full-screen drawer with an 'Apply (132 results)' button. The drawer is a div that slides in; the page behind stays tabbable."
+    assert:
+      - {type: llm-rubric, value: "Turns the drawer into a modal dialog with a name, focus moved inside, background inert, Escape to close and focus returned to the trigger, and makes the result count in the Apply button update in a way that is announced or readable."}
+  - name: negative-autofocus-results
+    vars:
+      framework: react
+      search_ui: "Product wants focus to jump to the first result every time any filter checkbox is ticked so users see results immediately."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on moving focus on every filter change because it breaks selecting several filters and is an unexpected change of context, and proposes announcing the count while keeping focus, with a skip link or results heading to jump to."}

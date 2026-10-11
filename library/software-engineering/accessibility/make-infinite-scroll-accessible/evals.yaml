@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this infinite scroll accessible: {{feed}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-blog-feed
+    vars:
+      framework: react
+      feed: "An IntersectionObserver on a sentinel div at the bottom loads 10 more posts whenever it becomes visible. Below the feed are footer links: Contact, Privacy, Accessibility. Nothing is announced when posts load."
+    assert:
+      - {type: contains, value: "## Recommended loading pattern"}
+      - {type: llm-rubric, value: "Identifies that the footer becomes unreachable, adds a load-more button or a skip-to-footer route, defines focus after loading, and adds a polite announcement with the number loaded."}
+      - {type: llm-rubric, value: "Includes a test that loads more using the keyboard and asserts focus and the announcement text."}
+  - name: edge-virtualised-list
+    vars:
+      framework: react
+      feed: "A virtualised list of 5,000 transactions with react-window; rows are focusable and unmount when scrolled out of view, so tabbing past the visible window loses focus."
+    assert:
+      - {type: llm-rubric, value: "Keeps the focused row mounted or uses a roving focus model, exposes position and total via aria-setsize and aria-posinset or a count, and keeps DOM order consistent with visual order."}
+  - name: negative-hide-footer
+    vars:
+      framework: vue
+      feed: "Keyboard users can't reach our footer. Simplest fix is to delete the footer links on the feed page, right?"
+    assert:
+      - {type: llm-rubric, value: "Advises against removing footer content and instead gives a way to reach it, such as a load-more button or skip link."}

@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make this navigation menu accessible: {{navigation}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hover-dropdowns
+    vars:
+      framework: html
+      navigation: |
+        <div class="nav"><ul role="menubar">
+          <li role="menuitem"><a href="/products">Products</a><ul class="dropdown">...links...</ul></li>
+        </ul></div>
+        CSS: .nav li:hover .dropdown { display:block }. Mobile: <div class="burger" onclick="toggle()">≡</div>.
+    assert:
+      - {type: contains, value: "## Keyboard and pointer behaviour"}
+      - {type: llm-rubric, value: "Removes the menubar and menuitem roles, wraps navigation in a named nav, adds a separate disclosure button with aria-expanded for the Products submenu while keeping the Products link, and makes the dropdown open with keyboard and close with Escape returning focus."}
+      - {type: llm-rubric, value: "Turns the burger div into a named button with aria-expanded and handles focus and Escape for the mobile menu, plus aria-current on the current page."}
+  - name: edge-mega-menu
+    vars:
+      framework: react
+      navigation: "A mega menu with 4 columns of 12 links each, opening on hover; the panel is positioned absolutely and is cut off at 200% zoom."
+    assert:
+      - {type: llm-rubric, value: "Adds headings for link groups, makes the panel open by a button, keeps DOM order matching visual order, and fixes the zoom clipping so all links are reachable."}
+  - name: negative-want-menubar
+    vars:
+      framework: react
+      navigation: "Our auditor says use role=menubar with arrow keys for our marketing site header because that's the ARIA pattern for menus. Please implement that."
+    assert:
+      - {type: llm-rubric, value: "Explains respectfully that the menubar pattern is meant for application menus, not site navigation links, and recommends the disclosure navigation pattern, while noting arrow key support can be added without menu roles."}

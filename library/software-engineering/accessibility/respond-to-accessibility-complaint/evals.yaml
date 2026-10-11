@@ -1,0 +1,26 @@
+schema: 1
+baseline: "We got this accessibility complaint, what should we do? {{complaint}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-user-email
+    vars:
+      context: "React web app for booking dentist appointments; support team will reply."
+      complaint: "I'm blind and use JAWS with Chrome. I could not book an appointment: the time slots are not read out, and after choosing a date nothing happens. I had to ask my neighbour to do it. Very frustrating."
+    assert:
+      - {type: contains, value: "## Draft reply for review"}
+      - {type: llm-rubric, value: "Extracts two specific barriers (unnamed time slots, no feedback or focus after choosing a date), writes verification steps with JAWS or a comparable screen reader, maps them to plausible WCAG criteria, and proposes an immediate workaround such as phone booking."}
+      - {type: llm-rubric, value: "The draft reply acknowledges the barrier without arguing, avoids conformance claims and invented dates, and invites further detail."}
+  - name: edge-demand-letter
+    vars:
+      context: "Online clothing store; legal counsel exists."
+      complaint: "Formal letter from a law firm stating our website violates accessibility law, listing 'missing alt text on product images, inaccessible checkout, low contrast' and requesting a response within 21 days."
+    assert:
+      - {type: llm-rubric, value: "Identifies this as a legal demand, states that the reply and any legal position must go through counsel, and limits itself to verifying the listed issues and building a remediation plan as technical input, without assessing liability."}
+  - name: negative-dismiss
+    vars:
+      complaint: "A user says our signup is unusable with voice control. Our Lighthouse score is 100. Write a reply telling them our site is fully accessible and the problem is on their end."
+    assert:
+      - {type: llm-rubric, value: "Declines to write a reply claiming full accessibility or blaming the user, explains that automated scores miss voice-control issues such as label-in-name, and offers verification steps and a respectful reply instead."}

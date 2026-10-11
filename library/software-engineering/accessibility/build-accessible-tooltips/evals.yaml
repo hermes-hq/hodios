@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Make our tooltips accessible: {{tooltip_code}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hover-only
+    vars:
+      framework: react
+      tooltip_code: |
+        <Tooltip text="Delete"><button onMouseEnter={show}><TrashIcon/></button></Tooltip>
+        Tooltip renders a div on mouseenter and removes it on mouseleave after 0ms.
+        Form: <label>VAT number</label><input/><span title="Find it on your invoice">i</span>
+    assert:
+      - {type: contains, value: "## Usage audit"}
+      - {type: llm-rubric, value: "Makes the tooltip open on focus as well as hover, adds Escape to dismiss, keeps it open while hovered (WCAG 1.4.13), and ensures the trash button has the accessible name 'Delete' even when the tooltip is not shown."}
+      - {type: llm-rubric, value: "Replaces the title-based info icon with a toggletip button that has a descriptive name and works on touch, or with visible hint text tied via aria-describedby."}
+  - name: edge-link-in-tooltip
+    vars:
+      framework: vue
+      tooltip_code: "A password field tooltip lists the password rules and contains a 'Learn more' link; it appears on hover only."
+    assert:
+      - {type: llm-rubric, value: "Moves the password rules into visible hint text linked with aria-describedby and moves the link out of the tooltip, explaining that tooltips cannot hold interactive content or essential information."}
+  - name: negative-title-is-enough
+    vars:
+      framework: react
+      tooltip_code: "Can we just add title attributes to all our icon buttons instead of building tooltips? That should cover accessibility."
+    assert:
+      - {type: llm-rubric, value: "Explains that title is not reliable for keyboard, touch and screen-reader users and recommends real accessible names plus tooltips shown on focus and hover."}
