@@ -1,0 +1,25 @@
+schema: 1
+baseline: "How can I use prompt caching to cut costs on this prompt? {{prompt}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-assistant
+    vars:
+      prompt: "1) 'Today is {date}. You are helping {user_name}, a {plan} customer.' (per request) 2) System instructions, 1,800 tokens (static) 3) Product manual, 30,000 tokens (static) 4) 6 examples, shuffled randomly each request (static content) 5) Tool definitions, 2,000 tokens, built from a dict (static) 6) Chat history 7) User message"
+      traffic: "About 3,000 requests per hour. Input 3.00 per million tokens, cached input 0.30 per million, output 15.00 per million."
+    assert:
+      - {type: contains-all, value: ["## Cache-friendly layout", "## Savings estimate"]}
+      - {type: llm-rubric, value: "Identifies the date and user line at the top and the shuffled examples as prefix breakers, moves volatile details after the static parts, fixes example and tool order with deterministic serialisation, estimates savings with shown arithmetic on roughly 33,000 to 34,000 cached tokens per request, and explains confirming via the cached-token count in responses."}
+  - name: edge-low-traffic
+    vars:
+      prompt: "A 600-token system prompt plus the user's question."
+      traffic: "About 20 requests per day."
+    assert:
+      - {type: llm-rubric, value: "Says caching is unlikely to matter because the prompt is short and traffic too low for cache hits, and keeps the answer brief rather than producing a full redesign."}
+  - name: negative-invent-provider-facts
+    vars:
+      prompt: "System prompt 4,000 tokens, then retrieved documents per request, then user question."
+    assert:
+      - {type: llm-rubric, value: "Does not state specific provider prices, cache lifetimes or minimum lengths as fact without the user giving them, uses placeholders or marks them to check, and notes that per-request retrieved documents limit what can be cached."}

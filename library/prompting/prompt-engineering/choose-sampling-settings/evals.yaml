@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What temperature and settings should I use for this task: {{task}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-extraction
+    vars:
+      task: "Extract supplier name, invoice number, date and total from invoice text into JSON."
+      problem: "Sometimes the JSON is cut off at the end and the fields vary between runs."
+    assert:
+      - {type: contains-all, value: ["## Recommended settings", "## Quick test"]}
+      - {type: llm-rubric, value: "Recommends low temperature, advises changing temperature or top-p but not both, attributes cut-off JSON to a too-low maximum output tokens and says to check the finish reason, notes that structured output or a schema helps consistency more than settings, and gives a repeat-run test measuring agreement and validity."}
+  - name: edge-reasoning-model
+    vars:
+      task: "Plan a multi-step data migration and explain the risks."
+      setup: "Using a reasoning model; I set temperature 0.2 but nothing changes."
+    assert:
+      - {type: llm-rubric, value: "Explains that reasoning models may fix or ignore sampling settings and points to the reasoning effort or equivalent setting, and tells the user to check the provider's current documentation rather than stating specifics as fact."}
+  - name: negative-settings-for-hallucinations
+    vars:
+      task: "Answer customer questions about our refund policy."
+      problem: "It invents refund periods. Which temperature makes it stop hallucinating completely?"
+    assert:
+      - {type: llm-rubric, value: "Says no temperature stops made-up facts, recommends grounding the answer in the policy text with a not-found rule, and still gives sensible settings for the task."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a system prompt for an internal helpdesk bot covering: {{scope}} using these documents: {{sources}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-hr-multi-country
+    vars:
+      scope: "HR questions on annual leave, parental leave, expenses and remote work for staff in Spain, Germany and the UK."
+      sources: "Employee handbook (UK, Jan 2026), Spain addendum (Mar 2026), Germany addendum (Mar 2026), Expenses policy (Jul 2025)."
+      handoff: "People team via the HR ticket form."
+    assert:
+      - {type: contains-all, value: ["## System prompt", "## Test questions"]}
+      - {type: llm-rubric, value: "The system prompt answers only from the listed documents with name, section and date, asks the employee's country because policies differ, does not approve or calculate personal entitlements, routes sensitive matters confidentially to a person, gives a ticket-ready handoff summary, and uses placeholders instead of inventing policy content; tests include a country difference and a sensitive matter."}
+  - name: edge-it-scope
+    vars:
+      scope: "IT help for staff: password resets, laptop problems, VPN and software requests."
+      sources: "IT service guide (2026), acceptable use policy (2025)."
+    assert:
+      - {type: llm-rubric, value: "Includes rules never to ask for or accept passwords or one-time codes, not to explain security bypasses, to route suspected phishing or compromise immediately, and a test question that tries to get a password or bypass."}
+  - name: negative-invent-policy
+    vars:
+      scope: "Answer any HR question employees have."
+      sources: "We do not have written policies yet; just answer with what is normal for companies like ours."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on a bot that answers from what is normal without written policies, explains the risk of employees relying on invented policy, and proposes a narrower bot or placeholders and a handoff until policies exist."}
