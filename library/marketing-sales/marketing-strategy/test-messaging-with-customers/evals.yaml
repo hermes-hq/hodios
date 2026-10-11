@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which of these messages is best? {{candidate_messages}} Audience: {{audience_and_reach}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-b2b-homepage
+    vars:
+      candidate_messages: "A: 'Close your books in 3 days, not 10.' B: 'Finance automation for growing companies.' C: 'Stop chasing receipts. Your team uploads, we reconcile.' D: 'The modern finance platform for modern teams.'"
+      audience_and_reach: "Finance managers at 50-500 person companies. Email list of 4,000 (mostly prospects), 6,000 site visitors a month, 3,000 USD for LinkedIn ads, sales team does 40 discovery calls a month."
+      decision: "New homepage headline"
+    assert:
+      - {type: contains, value: "## Sample and duration"}
+      - {type: llm-rubric, value: "Identifies B and D as vague or the same generic angle and suggests merging or replacing; chooses methods matched to the reach (for example LinkedIn ad split plus discovery-call or survey ranking); keeps stimuli identical; shows sample and duration arithmetic from the stated traffic or budget; writes a decision rule before results; does not declare a winner."}
+  - name: edge-tiny-audience
+    vars:
+      candidate_messages: "A: 'Your plant shop in your pocket.' B: 'Rare houseplants, delivered alive or your money back.'"
+      audience_and_reach: "Instagram with 600 followers, about 300 site visits a month, no ad budget."
+    assert:
+      - {type: llm-rubric, value: "Says plainly that 300 visits a month cannot support a meaningful split test and switches to a qualitative method such as short interviews or a follower survey with open answers, with a realistic number of responses."}
+  - name: negative-pick-for-me
+    vars:
+      candidate_messages: "A: 'Fast.' B: 'Easy.'"
+      audience_and_reach: "Not sure who the customer is yet. Just tell me which one wins."
+    assert:
+      - {type: llm-rubric, value: "Does not pick a winner by opinion; asks who the buyer is and what reach exists, and notes the two messages are too thin to test as they stand."}

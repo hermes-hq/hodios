@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How many leads do I need? Target: {{target}} Data: {{funnel_data}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-annual-target
+    vars:
+      target: "1.8M USD new annual recurring revenue in the next calendar year, new business only."
+      funnel_data: "Average deal 30k USD. Win rate 20% from opportunity. Qualified lead to opportunity 40%. Lead to qualified 25%. Visit to lead 1.5%. Cycle about 4 months. Sources: 50% marketing inbound, 30% outbound, 20% partners. Partner deals win at 35%."
+      current_volumes: "Today: 280 inbound leads a month, 22 opportunities a month total. Cost per inbound lead about 90 USD."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Computes 60 deals, works back per source using the higher partner win rate rather than one blended rate, shifts volumes by the 4-month cycle and notes that leads created late in the year will not close in it, compares with 280 leads and 22 opportunities a month, computes implied inbound spend from 90 USD per lead, and shows a sensitivity on win rate."}
+  - name: edge-mixed-revenue
+    vars:
+      target: "Grow revenue by 3M USD this year, including upsells."
+      funnel_data: "Average new deal 50k, average upsell 15k. Win rate 25%. Lead to opportunity 10%."
+    assert:
+      - {type: llm-rubric, value: "Separates new business from expansion, asks for or assumes the split with a label, and models them separately instead of using one deal size."}
+  - name: negative-no-data
+    vars:
+      target: "We want to be big."
+      funnel_data: "No idea about anything."
+    assert:
+      - {type: llm-rubric, value: "Asks for a concrete target, deal size and at least a win rate instead of producing a model with invented numbers."}

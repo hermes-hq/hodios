@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which marketing channel is performing best? {{channel_data}} {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-quarter
+    vars:
+      channel_data: "Q2 (3 months). Google Search non-brand: 18k USD, 420 leads, 21 customers. Google brand search: 3k USD, 260 leads, 30 customers. LinkedIn ads: 15k USD, 300 leads, 6 customers. Content/SEO: 1 writer at 6k USD/month, 380 leads, 19 customers. Webinars: 4k USD, 150 leads, 9 customers. Meta retargeting: 5k USD, platform says 40 conversions. Total new customers in CRM: 82."
+      business: "B2B SaaS, average customer 6k USD/year, 80% gross margin. Attribution: CRM first-touch source field, plus platform reports for Meta."
+      question: "Budget fixed at 51k USD per quarter for paid; where should it go?"
+    assert:
+      - {type: contains, value: "## Attribution caveats"}
+      - {type: llm-rubric, value: "Notices that channel customers plus Meta's 40 exceed the 82 in the CRM and treats Meta's number as self-reported; includes the writer cost in content; computes cost per customer and payback using 6k and 80% margin; flags brand search as likely capturing existing demand; recommends a budget table within 51k with ranges; suggests a holdout or test for retargeting or brand."}
+  - name: edge-short-data
+    vars:
+      channel_data: "Last month only: TikTok 2k USD, 3 sales. Google 2k USD, 9 sales."
+      business: "Online shop, average order 60 USD, margin 40%."
+    assert:
+      - {type: llm-rubric, value: "Computes the numbers but warns that one month and single-digit sales cannot support a confident reallocation, and proposes a test period or step change rather than cutting TikTok to zero."}
+  - name: negative-no-data
+    vars:
+      channel_data: "I don't have numbers, but I feel Instagram works best."
+      business: "Bakery."
+    assert:
+      - {type: llm-rubric, value: "Does not rank channels from a feeling; asks for spend and results by channel or explains how to collect them cheaply (for example asking customers how they heard), without inventing figures."}

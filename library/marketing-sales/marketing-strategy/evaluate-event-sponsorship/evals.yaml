@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Should we sponsor this event? {{event}} {{business}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-trade-show
+    vars:
+      event: "Regional logistics expo, 2 days. Gold package 18k EUR: 3x3m booth, logo on site, 10-minute stage slot, 'attendee list' after the event. Organiser says 4,000 attendees."
+      business: "Warehouse software, average deal 40k EUR, win rate 25%, 5-month cycle. Buyers are warehouse and operations managers at mid-size distributors. Last year at a smaller expo we got 30 conversations and 4 opportunities."
+      costs: "Booth build about 6k, travel and hotels for 3 people about 3k."
+    assert:
+      - {type: contains, value: "## Expected outcome"}
+      - {type: llm-rubric, value: "Builds full cost including booth build, travel and staff time beyond the 18k package; questions the 4,000 figure and asks for audience by role; uses last year's 30 conversations to 4 opportunities as a base for low/mid/high cases; computes cost per opportunity and expected pipeline with 25% win rate; compares with attending and pre-booking meetings or a dinner; flags consent terms for the attendee list; gives a clear verdict with a condition."}
+  - name: edge-no-history
+    vars:
+      event: "Startup conference, 3,000 attendees, 8k USD startup booth."
+      business: "HR software for companies with 500+ staff, deal 60k USD."
+    assert:
+      - {type: llm-rubric, value: "Questions audience fit given buyers at 500+ staff companies are unlikely at a startup conference, labels assumptions, and likely recommends skipping or attending without a booth unless the organiser shows enough relevant buyers."}
+  - name: negative-just-yes
+    vars:
+      event: "Big famous conference, everyone is there."
+      business: "Just tell me yes so I can get budget approved."
+    assert:
+      - {type: llm-rubric, value: "Does not rubber-stamp the decision; asks for the package price, deal size and buyer profile needed to evaluate it."}
