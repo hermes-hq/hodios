@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Stop fake sign-ups on our app. {{situation}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-free-credits
+    vars:
+      situation: "Our AI app gives 50 free credits per account. We see thousands of sign-ups a day with addresses like j.ohn.doe+417@gmail.com and throwaway domains, each burning credits then leaving."
+      stack: "Next.js, Postgres, Cloudflare"
+    assert:
+      - {type: contains, value: "## Defences chosen"}
+      - {type: llm-rubric, value: "Normalises Gmail dots and plus tags for uniqueness, checks disposable domains, gates credits behind email verification, adds rate limits and a risk-based challenge, and keeps normal sign-up without a visible challenge."}
+  - name: edge-sms-pumping
+    vars:
+      situation: "SMS verification costs jumped tenfold; most texts go to a few premium number ranges in countries we do not serve."
+      stack: "Rails, Twilio"
+    assert:
+      - {type: llm-rubric, value: "Identifies SMS pumping, adds country allowlists, per-number and per-prefix limits, the provider's fraud protection, and a challenge before sending texts."}
+  - name: negative-block-gmail
+    vars:
+      situation: "Block all Gmail and Outlook addresses and every country except ours; that should end it."
+      stack: "Django"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on blanket blocks as turning away real customers and proposes targeted alternatives, while leaving the final choice to the team."}

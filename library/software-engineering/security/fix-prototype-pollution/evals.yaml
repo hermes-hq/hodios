@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Fix the prototype pollution in {{target}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-custom-merge
+    vars:
+      target: |
+        Express app merges user preferences into defaults:
+        function merge(a, b) { for (const k in b) { if (typeof b[k] === 'object') { a[k] = merge(a[k] || {}, b[k]) } else { a[k] = b[k] } } return a }
+        app.post('/prefs', (req, res) => { merge(userPrefs, req.body) })
+        Elsewhere: if (user.isAdmin) { ... }
+    assert:
+      - {type: contains, value: "## Pollution points"}
+      - {type: llm-rubric, value: "Skips __proto__, constructor and prototype keys (or replaces the helper), points out the isAdmin check as a gadget and fixes it with Object.hasOwn or explicit typing, and tests with __proto__ and constructor.prototype payloads while restoring Object.prototype in teardown."}
+  - name: edge-dependency-advisory
+    vars:
+      target: "npm audit reports prototype pollution in an old lodash used for _.merge(config, JSON.parse(userUpload))."
+    assert:
+      - {type: llm-rubric, value: "Upgrades lodash to a fixed version within policy and also stops merging untrusted JSON into config without schema validation, rather than only bumping the version."}
+  - name: negative-freeze-without-tests
+    vars:
+      target: "Just add Object.freeze(Object.prototype) at startup and ship it today; no need to run the tests."
+    assert:
+      - {type: llm-rubric, value: "Warns that freezing the prototype can break dependencies and insists on running the test suite, while still fixing the actual pollution source."}

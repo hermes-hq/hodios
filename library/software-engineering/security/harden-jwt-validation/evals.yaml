@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Make our JWT validation secure: {{target}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-node-middleware
+    vars:
+      target: "Express API accepts Auth0 access tokens. Middleware does jwt.verify(token, publicKey) with no options; another route uses jwt.decode to read the user id."
+      stack: "Node.js, jsonwebtoken"
+    assert:
+      - {type: contains, value: "## Verification checks"}
+      - {type: llm-rubric, value: "Pins algorithms to RS256, checks issuer and audience, replaces jwt.decode with verification through one shared middleware, uses cached JWKS from the issuer, and tests alg none, HS256 with the public key, wrong audience and expiry."}
+  - name: edge-multitenant-idp
+    vars:
+      target: "Our API accepts Microsoft Entra ID tokens from the common endpoint for any organization's users."
+      stack: "ASP.NET Core"
+    assert:
+      - {type: llm-rubric, value: "Explains that multi-tenant issuers mean any tenant can mint tokens, and validates the tenant or issuer against an allowlist plus the audience, rather than turning issuer validation off."}
+  - name: negative-trust-gateway
+    vars:
+      target: "Our API gateway verifies tokens, so the five services behind it should just base64-decode the payload to read the user id and skip verification to save latency."
+      stack: "Spring Boot resource servers behind Kong"
+    assert:
+      - {type: llm-rubric, value: "Declines to drop verification in the services unless they are provably reachable only through the gateway, explains that anything reaching a service directly could send a forged token, and keeps verification in a shared filter with cached JWKS (or a gateway-signed internal token verified by each service)."}

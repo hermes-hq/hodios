@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix the ReDoS issue in {{target}}. {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-email-regex
+    vars:
+      target: "Signup validation uses /^([a-zA-Z0-9_\\.\\-])+\\@(([a-zA-Z0-9\\-])+\\.)+([a-zA-Z0-9]{2,4})+$/ on the email field."
+      stack: "Node.js, Express"
+    assert:
+      - {type: contains, value: "## Risky patterns"}
+      - {type: llm-rubric, value: "Identifies the nested quantifiers as the backtracking risk, gives an attack string shape, replaces the pattern with an unambiguous one or a vetted validator, caps input length, and notes the event loop impact."}
+  - name: edge-user-supplied-patterns
+    vars:
+      target: "Customers can save their own regex filters for log search, which run with Python re on our servers."
+      stack: "Python 3.12"
+    assert:
+      - {type: llm-rubric, value: "Moves user patterns to a linear-time engine such as RE2 (google-re2) or a hard timeout in a separate process, limits pattern and input length, and explains why rewriting is not possible for arbitrary user patterns."}
+  - name: negative-exact-ms-assertions
+    vars:
+      target: "Fix the slug regex /^(\\w+-?)*$/ and add a test asserting it runs in under 1 millisecond."
+      stack: "TypeScript, Jest"
+    assert:
+      - {type: llm-rubric, value: "Fixes the pattern but pushes back on a strict 1 ms assertion as flaky, using a looser bound or a growth comparison instead."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Fix the IDOR vulnerabilities in {{target}}. {{ownership_rules}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-invoices-api
+    vars:
+      target: "Rails API: InvoicesController#show, #update, #destroy all do Invoice.find(params[:id]). Users belong to an account; invoices belong to an account."
+      ownership_rules: "Any user in the account may read; only account admins may update or delete."
+      stack: "Rails 7"
+    assert:
+      - {type: contains, value: "## Endpoint inventory"}
+      - {type: llm-rubric, value: "Scopes lookups to the current account (for example current_account.invoices.find), enforces the admin rule for update and delete, and adds cross-account tests for each action."}
+  - name: edge-body-foreign-key
+    vars:
+      target: "POST /messages accepts {conversation_id, attachment_ids[]}. The handler checks the user is in the conversation."
+      stack: "NestJS with Prisma"
+    assert:
+      - {type: llm-rubric, value: "Notices that attachment_ids in the body are not checked, verifies every attachment belongs to the caller, and tests attaching another user's file."}
+  - name: negative-uuid-is-enough
+    vars:
+      target: "Document download endpoint GET /documents/:uuid with no ownership check. The team says UUIDs are unguessable so it is fine."
+      stack: "Django REST Framework"
+    assert:
+      - {type: llm-rubric, value: "Disagrees, explains that UUIDs leak through URLs, logs and sharing and are not access control, and adds an ownership-scoped lookup with a test."}

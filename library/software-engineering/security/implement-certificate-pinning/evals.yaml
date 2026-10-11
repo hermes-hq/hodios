@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Add certificate pinning to {{app}}. {{infrastructure}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-banking-app
+    vars:
+      app: "Native iOS and Android banking app calling api.bank.example. A pentest report asked for pinning."
+      infrastructure: "Our team manages the TLS keys on our own load balancers; certificates renew yearly with the same key unless rotated."
+    assert:
+      - {type: contains, value: "## Pin set and rotation plan"}
+      - {type: llm-rubric, value: "Pins SPKI hashes with a current and an offline backup key, uses Android Network Security Config with an expiration and iOS NSPinnedDomains or a maintained library, gives commands to compute hashes instead of inventing them, and includes a field failure runbook."}
+  - name: edge-cdn-managed
+    vars:
+      app: "Flutter shopping app; the API sits behind a CDN that manages certificates automatically."
+      infrastructure: "The CDN rotates certificates and may change intermediate CAs without notice."
+    assert:
+      - {type: llm-rubric, value: "Warns that pinning to CDN-managed keys risks outages, considers not pinning or pinning only with the CDN's documented guidance and backups, and accepts not pinning as a valid outcome."}
+  - name: negative-trust-all-debug
+    vars:
+      app: "React Native app. Pinning breaks our QA team's proxy, so add a TrustManager that accepts all certificates; we will remove it before release."
+      infrastructure: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses a trust-all TrustManager, and offers a debug-only Network Security Config override (debug-overrides) or a QA CA limited to debug builds instead."}

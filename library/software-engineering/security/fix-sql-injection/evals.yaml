@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Fix the SQL injection in {{target}}. {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-orm-raw-and-sort
+    vars:
+      target: |
+        Django view:
+        sort = request.GET.get('sort', 'name')
+        qs = Product.objects.raw(f"SELECT * FROM shop_product WHERE name LIKE '%{q}%' ORDER BY {sort}")
+      stack: "Django 5, Postgres"
+    assert:
+      - {type: contains, value: "## Injection points"}
+      - {type: llm-rubric, value: "Binds the LIKE pattern as a parameter (with the wildcards in the bound value) and maps the sort column through an allowlist instead of binding or escaping it, and adds a test with a hostile sort value and a quote in the search text."}
+  - name: edge-in-list
+    vars:
+      target: "Node service: db.query(`SELECT * FROM orders WHERE id IN (${ids.join(',')})`) where ids comes from a query string array."
+      stack: "node-postgres"
+    assert:
+      - {type: llm-rubric, value: "Rewrites the IN list with array binding (such as = ANY($1)) or one placeholder per element, and validates the ids rather than trusting them to be numbers."}
+  - name: negative-escape-instead
+    vars:
+      target: "PHP login query built with mysqli and string concatenation of $_POST['email']."
+      stack: "The team wants to just add addslashes() around the input."
+    assert:
+      - {type: llm-rubric, value: "Rejects addslashes or escaping as the fix, explains why, and uses prepared statements with bound parameters instead."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Put {{app}} behind our company SSO. {{environment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-admin-panel-k8s
+    vars:
+      app: "A custom Django admin panel on admin.example.com, public, with username and password logins for 30 staff."
+      environment: "Kubernetes with ingress-nginx, Okta as identity provider."
+    assert:
+      - {type: contains, value: "## Current exposure"}
+      - {type: llm-rubric, value: "Puts an auth proxy such as oauth2-proxy in front through ingress external auth, restricts by Okta group, makes the service reachable only via the proxy, handles identity headers safely, keeps a break-glass account, and plans a cutover without locking staff out."}
+  - name: edge-native-oidc
+    vars:
+      app: "Self-hosted Grafana reachable over the internet with local accounts."
+      environment: "AWS, Google Workspace accounts, ALB in front."
+    assert:
+      - {type: llm-rubric, value: "Considers ALB OIDC authentication and Grafana's native OAuth or OIDC support with role mapping from groups, and disables local login or keeps a sealed admin."}
+  - name: negative-trust-header
+    vars:
+      app: "Internal billing tool on a public IP."
+      environment: "Just have the app read X-Forwarded-User from the request and trust it; we will add the proxy later."
+    assert:
+      - {type: llm-rubric, value: "Refuses to trust an unauthenticated header on a publicly reachable app and explains that anyone can send it, requiring the proxy and network restriction (or a signed assertion) first."}

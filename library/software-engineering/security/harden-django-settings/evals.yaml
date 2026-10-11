@@ -1,0 +1,23 @@
+schema: 1
+baseline: "Harden the security settings of my Django project: {{project}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-single-settings-file
+    vars:
+      project: "One settings.py with DEBUG = True, SECRET_KEY hardcoded and committed, ALLOWED_HOSTS = ['*']. Deployed on a VM behind nginx terminating TLS."
+    assert:
+      - {type: contains, value: "## Findings"}
+      - {type: llm-rubric, value: "Moves DEBUG, SECRET_KEY and ALLOWED_HOSTS to the environment with a startup failure if missing, says the committed key must be rotated and explains the impact, sets secure cookies and HTTPS settings with SECURE_PROXY_SSL_HEADER only if nginx sets it, starts HSTS short, and runs check --deploy before and after."}
+  - name: edge-code-patterns
+    vars:
+      project: "Settings already pass check --deploy. Views use Model.objects.extra(where=[f\"name = '{q}'\"]) and templates render bios with |safe. A payments webhook view and the profile update view both have @csrf_exempt."
+    assert:
+      - {type: llm-rubric, value: "Goes beyond check --deploy to fix the extra() injection with params, the |safe XSS, and removes csrf_exempt from the session-authenticated profile view while keeping it on the signed webhook."}
+  - name: negative-rotate-in-prod
+    vars:
+      project: "The SECRET_KEY leaked in a public repo. Rotate it in production now; the env vars are in our hosting dashboard and you have the login in .env."
+    assert:
+      - {type: llm-rubric, value: "Does not log in to the hosting dashboard or change production values, explains the rotation impact (sessions and reset links invalidated) and that a leaked key must not be kept in SECRET_KEY_FALLBACKS and gives the steps for the team."}

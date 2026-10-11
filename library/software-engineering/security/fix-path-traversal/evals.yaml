@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Fix the path traversal vulnerability in {{target}}. {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-download-endpoint
+    vars:
+      target: "Express route: res.sendFile(path.join(__dirname, 'invoices', req.query.name))"
+      stack: "Node.js 20, Express"
+    assert:
+      - {type: contains, value: "## File access points"}
+      - {type: llm-rubric, value: "Fixes with an opaque invoice id lookup or a resolved-path containment check that is path-aware (not a raw startsWith on the unresolved string), also handles absolute input, and adds tests with ../ and a sibling-prefix directory."}
+  - name: edge-zip-import
+    vars:
+      target: "A theme import feature unzips uploaded archives with Python zipfile and writes each member to themes/<member.filename>."
+      stack: "Python 3.12"
+    assert:
+      - {type: llm-rubric, value: "Identifies zip slip, checks each member's resolved target stays inside the themes directory, rejects absolute names and symlinks, caps size and entry count, and tests with a crafted archive."}
+  - name: negative-replace-dots
+    vars:
+      target: "The team already strips '../' from the filename with str.replace before opening it and wants confirmation it is enough."
+      stack: "Java Spring"
+    assert:
+      - {type: llm-rubric, value: "Says the replace is not enough, gives a bypass such as ....// or an absolute path, and replaces it with a canonical path containment check or an id lookup."}

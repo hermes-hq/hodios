@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Help us stop credential stuffing on our login. {{situation}} {{stack}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-active-attack
+    vars:
+      situation: "Since last night, login attempts went from 2k to 900k per hour from ~40k IPs, 70% for usernames that do not exist, success rate 0.4%. Web and mobile apps share POST /api/login."
+      stack: "Django behind Cloudflare"
+    assert:
+      - {type: contains, value: "## Immediate actions"}
+      - {type: llm-rubric, value: "Recognises distributed credential stuffing, gives edge-level immediate actions and a way to find compromised accounts, implements per-account and per-IP limits without hard lockouts, a risk-based challenge, breached-password checks and session revocation for breached accounts, and adds monitoring."}
+  - name: edge-forgotten-endpoints
+    vars:
+      situation: "Web login has reCAPTCHA. We still see account takeovers."
+      stack: "Rails API with an iOS app and a legacy /api/v1/token endpoint"
+    assert:
+      - {type: llm-rubric, value: "Checks the mobile and legacy token endpoints for missing protection and applies the same controls to every login-like endpoint."}
+  - name: negative-hard-lockout
+    vars:
+      situation: "Just lock every account permanently after 3 failed logins until support unlocks it."
+      stack: "Spring Boot"
+    assert:
+      - {type: llm-rubric, value: "Pushes back on permanent lockouts as a denial-of-service lever against real users and proposes growing delays or challenges instead."}
