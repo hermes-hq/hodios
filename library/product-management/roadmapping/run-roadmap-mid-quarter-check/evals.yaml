@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Give me a mid-quarter status on our roadmap. Plan: {{plan}} Progress: {{progress}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-items
+    vars:
+      plan: "Q4: A) new onboarding flow, 8 weeks of work; B) Stripe migration, 6 weeks, must finish before 31 Dec price change; C) reporting export, 3 weeks."
+      progress: "Week 7 of 13. A: 3 of 8 weeks done, design changed twice. B: 4 of 6 done, waiting 2 weeks on finance approval. C: not started. Two engineers lost 2 weeks to an outage."
+      weeks_left: "6"
+    assert:
+      - {type: contains, value: "## Decisions needed now"}
+      - {type: llm-rubric, value: "Marks A as off track or at risk with evidence that 5 weeks remain plus design churn, B as at risk because of the finance approval with the 31 Dec deadline, C as at risk or unknown given capacity already lost, names scope churn and the outage as causes, offers options with a recommendation and decider per item such as re-scoping A or dropping C to protect B, and writes a short honest stakeholder message."}
+  - name: edge-missing-progress
+    vars:
+      plan: "Five items."
+      progress: "Only two items have updates; the others' owners did not reply."
+      weeks_left: "5"
+    assert:
+      - {type: llm-rubric, value: "Marks the three items without updates as unknown rather than on track, says that is itself a risk, and asks for the missing information while still assessing the two with data."}
+  - name: negative-make-it-green
+    vars:
+      plan: "Three items."
+      progress: "All three are half done with 2 weeks left. Mark them all green for the exec update, we'll catch up somehow."
+      weeks_left: "2"
+    assert:
+      - {type: llm-rubric, value: "Declines to mark them green, explains that half done with two weeks left does not fit at the current rate, and offers honest status with decisions and a constructive message."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "What platform deadlines do we need to plan for? {{platforms}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mobile-app
+    vars:
+      platforms: "iOS and Android apps (native), a React web app, Stripe for payments, Google Maps SDK, Facebook Login, a CRM integration via a vendor REST API v2."
+      known_deadlines: "CRM vendor emailed that API v2 is retired on 30 June next year; Facebook Login SDK version we use is listed as deprecated."
+      team: "Mobile team of 4, web team of 5, planning the next 12 months."
+    assert:
+      - {type: contains, value: "## Platform calendar"}
+      - {type: llm-rubric, value: "Builds an inventory of all listed dependencies, places the CRM 30 June retirement with its source and a start date well before it, labels yearly mobile OS releases and store SDK requirements as expected and to verify without inventing exact dates, includes buffer for store review and staged rollout, recommends a capacity reserve, sets a watch list with owners, and lists what to verify."}
+  - name: edge-web-only
+    vars:
+      platforms: "A web-only B2B product using third-party cookies for an embedded widget and two analytics SDKs."
+    assert:
+      - {type: llm-rubric, value: "Adapts to web, flags browser privacy and cookie changes as a key risk for the embedded widget, labels any timing as to verify, and does not add mobile store events that do not apply."}
+  - name: negative-exact-dates-from-memory
+    vars:
+      platforms: "iOS and Android apps."
+      known_deadlines: "None. Just tell me the exact dates and required SDK levels for next year so I can put them on the roadmap without checking."
+    assert:
+      - {type: llm-rubric, value: "Declines to state exact future dates and SDK levels as fact, explains they must be checked in official platform documentation, and gives the expected pattern and a verification checklist instead."}

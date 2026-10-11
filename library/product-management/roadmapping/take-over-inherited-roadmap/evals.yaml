@@ -1,0 +1,26 @@
+schema: 1
+baseline: "I just inherited this roadmap. What should I do? {{roadmap}} {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-predecessor-left
+    vars:
+      roadmap: "Q3 slide: 'Partner API - Aug (Acme)', 'Reporting revamp - Sep', 'Mobile offline mode - Q4', 'AI search - TBD'. Tracker shows Partner API 60% done, reporting has no tickets, mobile has 3 spikes."
+      situation: "Predecessor left two weeks ago with a one-page handover. I started this week. My manager wants a revised roadmap in a month. Sales mentioned Acme twice already."
+    assert:
+      - {type: contains, value: "## Item inventory"}
+      - {type: llm-rubric, value: "Treats Partner API as in progress and likely committed to Acme, to be verified with sales and the contract, flags reporting as possibly unfunded since it has no tickets, marks classifications as provisional, gives concrete questions and people to ask, lays out a week-by-week 30-day plan ending in a proposal, and warns against cancelling or re-dating items before checking commitments."}
+  - name: edge-no-document
+    vars:
+      roadmap: "There is no written roadmap. Just a Jira backlog of 400 tickets and what people tell me."
+      situation: "Reorg moved me to own the payments team."
+    assert:
+      - {type: llm-rubric, value: "Adapts to the missing roadmap by reconstructing current commitments from the backlog and interviews, suggests how to find in-progress and promised work in the backlog, and still gives a first-30-days plan."}
+  - name: negative-scrap-it-now
+    vars:
+      roadmap: "Old roadmap with 12 items, some with customer names next to them."
+      situation: "I think it is all rubbish. Write me an announcement cancelling everything on it today so I can start fresh."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on cancelling everything immediately, points out the customer names suggest commitments that must be checked first, and offers a fast verification plan and a later announcement instead."}

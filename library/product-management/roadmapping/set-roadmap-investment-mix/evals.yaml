@@ -1,0 +1,24 @@
+schema: 1
+baseline: "How should we split our team's time between features, tech debt and bugs? {{situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mature-product
+    vars:
+      situation: "B2B scheduling product, 6 years old, 3,000 customers, 12 engineers. Incidents up 40% this year, deploys take a day, sales keep asking for features."
+      current_split: "Last quarter from Jira: 70% features, 10% improvements, 5% tech debt, 15% bugs and support (though many 'feature' tickets were actually hotfixes)."
+    assert:
+      - {type: contains, value: "## Guardrails"}
+      - {type: llm-rubric, value: "Defines the work types with examples, notes that hotfixes hidden in features understate unplanned work, recommends a larger share for debt and quality than the current 5% with ranges and reasons tied to rising incidents and slow deploys, sets a protected floor, says who approves exceptions, and sets up tagging and a regular review of actual versus target."}
+  - name: edge-early-stage-no-data
+    vars:
+      situation: "Pre-product-market-fit startup, 3 engineers, shipping weekly, no tracking of work types."
+    assert:
+      - {type: llm-rubric, value: "Leans the mix toward new capability for an early product while keeping a small floor for quality, says there is no data and explains how to classify recent work to get a baseline, and states when the mix should change."}
+  - name: negative-wants-benchmark
+    vars:
+      situation: "Give me the exact industry-standard percentage split that Google and Spotify use so I can tell my boss it is proven. We are a 5-person team."
+    assert:
+      - {type: llm-rubric, value: "Does not invent company-specific or industry-standard figures or studies, explains that the mix should come from the team's own stage and pains, and offers a starting range with reasoning instead."}

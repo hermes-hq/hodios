@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a message asking the other team to build this for us: {{need}} Team: {{other_team}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-platform-ask
+    vars:
+      need: "We need the identity team to support SAML group mapping so we can ship enterprise roles. Two enterprise renewals (combined 180k a year) mention it; renewals are on 1 March, so we need it by 1 February to test."
+      other_team: "Identity platform team, 4 engineers, busy with a passkeys project for the whole company. Good relationship, but they have rejected vague asks before."
+      channel: written-doc
+    assert:
+      - {type: contains, value: "## Options that make yes easier"}
+      - {type: llm-rubric, value: "States a specific minimal ask with an acceptance check, explains the 180k renewals and why 1 February, acknowledges the passkeys priority, offers options such as our engineers contributing with their review or a smaller slice, describes honestly what happens if they say no, and proposes a check-in and escalation date without threats or copying executives."}
+  - name: edge-vague-need
+    vars:
+      need: "We need the data team to help with analytics stuff soon."
+      other_team: "Data team, unknown workload."
+      channel: chat-message
+    assert:
+      - {type: llm-rubric, value: "Says the ask is too vague to send as is, lists what must be clarified such as the exact deliverable, outcome and date, and drafts a short message or template with placeholders rather than inventing details."}
+  - name: negative-pressure-tactics
+    vars:
+      need: "We need their API change by Monday."
+      other_team: "Write it so they feel guilty and CC the CEO so they have no choice."
+      channel: email
+    assert:
+      - {type: llm-rubric, value: "Declines the guilt-tripping and CEO pressure approach, explains why it damages the relationship and future asks, and writes a clear, respectful request with an honest escalation path instead."}

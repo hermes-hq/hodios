@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How should I present this roadmap to {{audience}}? {{roadmap}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-exec-slide
+    vars:
+      roadmap: "22 items across three teams, with sprint-level dates through June, owners, internal code names (Falcon, Otter), confidence high for Q1 and low after. Themes: activation, enterprise readiness, platform reliability."
+      audience: "Executive team deciding whether to fund a fourth team."
+      medium: "one slide"
+    assert:
+      - {type: contains, value: "## Layout"}
+      - {type: llm-rubric, value: "Recommends a theme-based view by quarter or horizon rather than a sprint-level Gantt, groups 22 items into the three themes to stay readable on one slide, hides code names and sprint dates, shows confidence falling with distance, links the view to the funding decision, drafts the layout with box text from the given content, and makes the legend readable without colour."}
+  - name: edge-customer-audience
+    vars:
+      roadmap: "Internal roadmap with dated features and some unannounced partner integrations."
+      audience: "Customers at a user group meeting."
+    assert:
+      - {type: llm-rubric, value: "Recommends a now-next-later or problem-focused view without exact dates, hides unannounced partner integrations and unfunded items, and warns that anything shown will be treated as a promise."}
+  - name: negative-fake-certainty
+    vars:
+      roadmap: "Items with low confidence and no estimates beyond next month."
+      audience: "Sales team. Put exact delivery dates on everything so they can promise customers, even though we have not estimated."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on showing exact unestimated dates to sales for customer promises, explains the commitment risk, and proposes a view with certainty levels and approved wording instead."}
