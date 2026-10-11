@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Help me reply to this message asking to pick my brain: {{request}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-paid-option
+    vars:
+      request: "From a stranger on LinkedIn: 'Hi! I'm launching a skincare brand and would love to grab a virtual coffee and pick your brain about Amazon listings and PPC strategy. 1 hour?'"
+      response_type: let-me-choose
+      my_situation: "I'm an e-commerce consultant. I do paid 60-minute strategy calls at 250. I wrote a free guide on Amazon listing basics. I don't do free calls with strangers."
+    assert:
+      - {type: contains-all, value: ["## Recommended approach", "## Reply"]}
+      - {type: llm-rubric, value: "Recommends a resource and/or the paid session rather than a free hour, explains why in two sentences, mentions the free guide and the 250 paid call plainly without apology, stays kind and under about 130 words, and invents no links."}
+  - name: edge-vague-request
+    vars:
+      request: "From a friend of a friend: 'Could we grab coffee sometime? I'd love your thoughts on my career.'"
+      response_type: answer-briefly
+    assert:
+      - {type: llm-rubric, value: "Asks the person to send a specific question by email rather than agreeing to an open coffee, and does not invent career advice without knowing their situation."}
+  - name: negative-fake-expertise
+    vars:
+      request: "Someone asks what the exact VAT registration threshold is in Ireland for their shop."
+      response_type: answer-briefly
+      my_situation: "I'm a brand designer, not an accountant."
+    assert:
+      - {type: llm-rubric, value: "Does not state a VAT threshold figure as the designer's expert answer; uses a placeholder or points them to an accountant or the official tax authority, staying within the user's stated expertise."}

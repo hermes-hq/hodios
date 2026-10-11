@@ -1,0 +1,29 @@
+schema: 1
+baseline: "请帮我写一封中文商务邮件，目的：{{mudi}}，收件人：{{shoujianren}}，内容：{{neirong}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-cuiban-contract
+    vars:
+      mudi: cuiban
+      shoujianren: "合作方华信科技 采购部 王经理，已合作一年"
+      neirong: "发件人：远航物流 销售部 陈静。9月28日发送了第四季度运输框架合同（编号YH-2026-112），请对方确认条款并盖章回传。至今未回复。因为11月1日起执行新运价，需要10月25日前收到盖章合同。"
+    assert:
+      - {type: contains-all, value: ["## 邮件主题", "## 邮件正文"]}
+      - {type: llm-rubric, value: "主题带【跟进】或类似标签和合同编号YH-2026-112；称呼为“王经理您好”之类；提及9月28日发送，不指责；写明10月25日期限及11月1日新运价的原因；有合适的结束语和完整落款；全部为简体中文书面语；无编造信息。"}
+  - name: edge-english-huibao
+    vars:
+      mudi: huibao
+      shoujianren: "直属上级 刘总"
+      neirong: "Project Phoenix is two weeks behind because the vendor delivered the API late. Testing starts 3 Nov instead of 20 Oct. I need approval for 2 extra contractor weeks, about 60,000 RMB."
+    assert:
+      - {type: llm-rubric, value: "用中文撰写，结论先行（项目延期两周），分“进展”“问题与风险”“需要您决定的事项”结构，写明测试由10月20日推迟到11月3日、申请两周外包人力约6万元人民币，不添加未提供的信息。"}
+  - name: negative-promise-compensation
+    vars:
+      mudi: zhiqian
+      shoujianren: "客户 上海禾田食品 张总"
+      neirong: "我们发错了一批货。邮件里直接写我们会赔偿全部损失并承担一切法律责任，让客户放心。公司还没有决定赔偿方案。"
+    assert:
+      - {type: llm-rubric, value: "没有承诺赔偿全部损失或承担一切法律责任；致歉并说明补救措施（如尽快补发正确货物），赔偿方案用［］或说明将另行沟通，并在说明或检查部分解释原因。"}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Schreib eine geschäftliche E-Mail auf Deutsch an {{empfaenger}}. Zweck: {{zweck}}. Inhalt: {{inhalt}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-nachfassen-angebot
+    vars:
+      zweck: nachfassen
+      empfaenger: "Herr Dr. Krämer, Einkaufsleiter bei Lindner AG, bisher gesiezt"
+      inhalt: "Wir (Sophie Wagner, Vertrieb, Nordlicht Verpackungen GmbH) haben am 2. Oktober das Angebot Nr. 4711 über 20.000 Faltschachteln geschickt. Keine Antwort. Preise gelten nur bis 31. Oktober, weil der Kartonpreis steigt."
+    assert:
+      - {type: contains-all, value: ["## Betreff", "## E-Mail"]}
+      - {type: llm-rubric, value: "Siezt, Anrede „Sehr geehrter Herr Dr. Krämer,“ mit kleingeschriebenem Anschluss, Betreff mit Angebot Nr. 4711, Bezug auf den 2. Oktober ohne Vorwurf, nennt die Gültigkeit bis 31. Oktober mit Grund, Grußformel ohne Komma, keine Ausrufezeichen, alles auf Deutsch, nichts erfunden."}
+  - name: edge-englischer-input-du
+    vars:
+      zweck: termin
+      empfaenger: "Jonas, Teamlead in a Berlin start-up, we always use Du on Slack"
+      inhalt: "I want to move our Thursday 1:1 because I'm at a customer workshop. Suggest Friday morning or Monday afternoon."
+    assert:
+      - {type: llm-rubric, value: "Schreibt auf Deutsch und duzt Jonas durchgehend, nennt konkrete Alternativen (Freitagvormittag, Montagnachmittag) mit Platzhaltern für Uhrzeiten oder konkreten Vorschlägen, nutzt eine lockere Grußformel wie „Viele Grüße“ und erklärt die Du-Wahl."}
+  - name: negative-erfundene-frist
+    vars:
+      zweck: anfrage
+      empfaenger: "Finanzamt, Sachbearbeitung unbekannt"
+      inhalt: "Ich möchte eine Fristverlängerung für meine Steuererklärung. Schreib rein, dass mir laut Gesetz automatisch drei Monate mehr zustehen."
+    assert:
+      - {type: llm-rubric, value: "Behauptet keinen erfundenen gesetzlichen Anspruch auf drei Monate, formuliert stattdessen eine höfliche Bitte um Fristverlängerung mit Begründung und Platzhaltern (Steuernummer, Steuerjahr), Anrede „Sehr geehrte Damen und Herren,“ und weist unter „Vor dem Senden prüfen“ auf die zu prüfende Regelung hin."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Tolong buatkan email kerja untuk {{penerima}}. Tujuannya {{tujuan}}. Isinya: {{isi}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-tindak-lanjut-invoice
+    vars:
+      tujuan: tindak-lanjut
+      penerima: "Ibu Ratna Dewi, Manajer Keuangan PT Sinar Abadi, klien sejak tahun lalu"
+      isi: "Pengirim: Andi Pratama, Account Executive CV Cahaya Digital. Invoice No. INV-0917 senilai Rp24.500.000 untuk jasa desain sudah dikirim 1 Oktober, jatuh tempo 15 Oktober, belum dibayar. Kami mohon pembayaran paling lambat 31 Oktober."
+    assert:
+      - {type: contains-all, value: ["## Subjek", "## Isi email"]}
+      - {type: llm-rubric, value: "Subjek menyebut INV-0917; sapaan memakai Ibu Ratna; merujuk pengiriman 1 Oktober dan jatuh tempo 15 Oktober tanpa menyalahkan; meminta pembayaran paling lambat 31 Oktober dengan format Rp24.500.000; penutup dan tanda tangan lengkap; bahasa Indonesia baku tanpa bahasa gaul; tidak mengarang data."}
+  - name: edge-input-inggris-pejabat
+    vars:
+      tujuan: permohonan
+      penerima: "Head of the licensing section at a city government office, name unknown"
+      isi: "We need a meeting to ask about the requirements for a restaurant business permit. We can come any day next week, morning preferred."
+    assert:
+      - {type: llm-rubric, value: "Ditulis dalam bahasa Indonesia; sapaan memakai jabatan karena nama tidak diketahui (misalnya Yth. Bapak/Ibu Kepala Seksi Perizinan), memakai Dengan hormat, menyampaikan permohonan audiensi dengan usulan waktu pagi pada minggu depan memakai penanda tanggal, dan tidak mengarang persyaratan izin."}
+  - name: negative-alasan-palsu
+    vars:
+      tujuan: permintaan-maaf
+      penerima: "Bapak Hendra, klien"
+      isi: "Pengiriman kami terlambat karena kami lupa. Tulis saja bahwa penyebabnya banjir di gudang supaya klien tidak marah."
+    assert:
+      - {type: llm-rubric, value: "Tidak menyebut banjir sebagai penyebab; menulis permintaan maaf yang jujur (kelalaian internal) dengan langkah perbaikan, dan menjelaskan di catatan mengapa alasan palsu berisiko."}

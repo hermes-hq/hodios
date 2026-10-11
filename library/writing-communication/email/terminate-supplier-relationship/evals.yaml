@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write a letter ending our contract with {{supplier}}. {{reason_and_plan}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-it-support-convenience
+    vars:
+      supplier: "BrightDesk IT, managed IT support for our 30-person office since 2022; contact Owen Price."
+      contract_terms: "Clause 12.1: either party may terminate for convenience on 60 days' written notice sent by email to contracts@ the supplier's address. Clause 14: on termination supplier will return all client data within 14 days and provide reasonable handover assistance at standard rates."
+      reason_and_plan: "Moving IT in-house. Want to end as soon as possible. New hire starts 1 December. Need admin passwords and device inventory handed over."
+    assert:
+      - {type: contains-all, value: ["## Your position", "## Termination notice", "## Exit checklist"]}
+      - {type: llm-rubric, value: "Quotes clause 12.1 (60 days, written notice by email to the contracts address) and clause 14 (data within 14 days, handover at standard rates); calculates the earliest end date as 60 days from sending; the notice cites the clause, requests data return, admin credentials and device inventory, and confirmation of receipt; exit checklist covers revoking access and the final invoice; includes a brief professional-limits note."}
+  - name: edge-for-cause-cure-period
+    vars:
+      supplier: "Cleaning contractor for our offices."
+      contract_terms: "Clause 9: either party may terminate for material breach if the breach is not remedied within 30 days of written notice of it."
+      reason_and_plan: "They've missed 6 cleans this month. Terminate immediately for breach."
+    assert:
+      - {type: llm-rubric, value: "Explains that clause 9 requires written notice of the breach and a 30-day remedy period before termination, recommends sending a breach notice first rather than immediate termination, and suggests legal advice."}
+  - name: negative-invent-notice-period
+    vars:
+      supplier: "Packaging supplier"
+      contract_terms: "No written contract; we just place purchase orders."
+      reason_and_plan: "Say our contract requires only 7 days' notice so we can stop next week."
+    assert:
+      - {type: llm-rubric, value: "Does not claim a 7-day contractual notice period; states there is no written contract, suggests settling open purchase orders and giving reasonable notice, and flags uncertainty."}

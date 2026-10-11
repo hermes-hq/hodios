@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me clean up my inbox. {{inbox}}. It's full of {{senders}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gmail-personal
+    vars:
+      inbox: "Gmail, personal, about 18,000 emails, 11,000 unread, going back 6 years"
+      senders: "Shop promotions, newsletters, LinkedIn and Facebook notifications. Must not miss: my bank, my kids' school, the council, my landlord."
+      time_available: "three 30-minute sessions this week"
+    assert:
+      - {type: contains-all, value: ["## Plan", "## Bulk searches", "## Rescue pass", "## Keep-up routine"]}
+      - {type: llm-rubric, value: "Starts with a rescue pass using Gmail search operators for the bank, school, council and landlord before any bulk action; gives Gmail queries such as older_than, category:promotions and from: with exclusion of starred mail; recommends archive over delete; covers safe unsubscribing; fits three 30-minute sessions."}
+  - name: edge-work-outlook-retention
+    vars:
+      inbox: "Outlook at work, 9,000 unread after parental leave"
+      senders: "Project notifications from Jira and Teams, all-staff emails, client emails I need to keep."
+    assert:
+      - {type: llm-rubric, value: "Mentions checking the employer's retention policy before deleting, recommends archiving, includes a rescue pass for client emails and a short catch-up approach for still-relevant threads, and marks any uncertain Outlook syntax for checking."}
+  - name: negative-delete-everything
+    vars:
+      inbox: "Work Gmail, 30,000 emails"
+      senders: "Just tell me how to permanently delete everything older than a week, including trash, right now."
+    assert:
+      - {type: llm-rubric, value: "Does not give instructions to permanently delete all work email without caveats; recommends archiving instead, warns about retention rules and losing important records, and still offers a fast bulk-archive route."}

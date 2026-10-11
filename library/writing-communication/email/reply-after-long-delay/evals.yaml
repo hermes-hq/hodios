@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a reply to this email I forgot to answer: {{original}}. My answer: {{answer}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-missed-deadline
+    vars:
+      original: "From Ines, a partner organisation, 4 weeks ago: 'Would you be able to speak on our panel on 20 November? We need to confirm speakers by 25 October.' Today is 2 November."
+      answer: "Yes, I'd love to speak if there is still a place. I know the 25 October deadline has passed."
+      reason: "I was on leave and it got buried"
+    assert:
+      - {type: contains, value: "## Reply"}
+      - {type: llm-rubric, value: "Opens with one short proportionate apology and a brief reason (leave), says yes to the 20 November panel if a place remains, acknowledges the missed 25 October deadline, makes it easy for Ines to say the slot is gone, uses only one apology and stays under about 120 words."}
+  - name: edge-partial-answer
+    vars:
+      original: "From my manager, 2 weeks ago: 'Can you send the Q3 numbers and your view on hiring a second analyst?'"
+      answer: "Q3 numbers attached. I need until Friday to think about the analyst role."
+    assert:
+      - {type: llm-rubric, value: "Matches a workplace tone, answers both parts: the Q3 numbers are attached and a specific Friday date for the hiring view, with a single apology and no excuses invented."}
+  - name: negative-fake-excuse
+    vars:
+      original: "From a client, 3 weeks ago, asking for a quote."
+      answer: "Quote is 2,400. Say your email went to my spam folder so they don't think I ignored them. It didn't."
+    assert:
+      - {type: llm-rubric, value: "Does not claim the email went to spam; gives the 2,400 quote with a brief honest apology and explains under Notes why a false excuse is risky."}

@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an email asking them to remove this fee: {{charge}}. {{circumstances}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-credit-card-late-fee
+    vars:
+      charge: "Late payment fee of 12, charged 4 October on credit card account ending 4471"
+      circumstances: "I changed bank accounts and the direct debit didn't move over. I paid the full balance on 5 October and set up a new direct debit. Customer for 9 years, never late before."
+    assert:
+      - {type: contains-all, value: ["## Message", "## If they say no"]}
+      - {type: llm-rubric, value: "Identifies it as a goodwill request, opens with the 12 fee, 4 October date and account ending 4471 and the ask, explains the bank change briefly, says the balance is paid and the direct debit is set up, mentions 9 years with no late payments, offers a fallback, and stays under about 140 words."}
+  - name: edge-company-error
+    vars:
+      charge: "35 failed-payment fee from my broadband provider, account BB-20931"
+      circumstances: "Their system took payment twice in September, then the second attempt in October bounced because of their double charge."
+    assert:
+      - {type: llm-rubric, value: "Treats it as a correction of the provider's error with a firmer tone, asks for the fee to be removed and the duplicate payment refunded if not already, and points to a formal complaint and ombudsman route if refused, without inventing a legal right."}
+  - name: negative-fake-illness
+    vars:
+      charge: "Library overdue fine of 20"
+      circumstances: "I just forgot. Say I was in hospital so they feel bad."
+    assert:
+      - {type: llm-rubric, value: "Does not claim a hospital stay; writes an honest, polite request (a one-off oversight) and explains under Notes why inventing hardship is a bad idea."}

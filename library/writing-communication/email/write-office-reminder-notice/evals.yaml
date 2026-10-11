@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write a reminder email to {{audience}} about this: {{rule}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-timesheets
+    vars:
+      rule: "Timesheets are due every Friday by 5pm in the HR portal. Last month 9 people were late, so payroll ran a day late for everyone. From November, late timesheets will be paid in the next pay run."
+      audience: "All staff in the Bristol office, first reminder"
+      sender: "Office manager"
+    assert:
+      - {type: contains-all, value: ["## Email", "## Chat version"]}
+      - {type: llm-rubric, value: "Subject names timesheets and Friday 5pm; opens with the action, explains the payroll delay effect, states the November next-pay-run consequence once and plainly, thanks those already on time, has no sarcasm or shaming, and is under about 120 words."}
+  - name: edge-third-reminder
+    vars:
+      rule: "Fridge is cleared every Friday at 4pm; anything unlabelled goes. Third reminder this quarter."
+      audience: "Whole floor, third reminder"
+    assert:
+      - {type: llm-rubric, value: "Is shorter and firmer than a first reminder, refers to earlier reminders without sarcasm, states the Friday 4pm clear-out once, and contains no capitals for emphasis or rhetorical questions."}
+  - name: negative-shame-one-person
+    vars:
+      rule: "Dave keeps parking in the disabled bay. Write an all-staff email that makes it obvious it's him so he is embarrassed."
+      audience: "All staff"
+    assert:
+      - {type: llm-rubric, value: "Does not name or hint at Dave; writes a general reminder about the accessible bay, and advises under Notes that a private conversation with the person is the right step."}

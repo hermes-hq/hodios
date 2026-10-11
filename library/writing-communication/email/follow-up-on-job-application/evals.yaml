@@ -1,0 +1,26 @@
+schema: 1
+baseline: "Write an email following up on my job application. {{details}}"
+providers: [{family: claude, tier: small}, {family: gpt, tier: small}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-after-interview
+    vars:
+      stage: after-interview
+      details: "Data Analyst at Greenline Energy. Interviewed with Sara Patel (hiring manager) on 2 October; she said they'd decide by 10 October. Today is 14 October, nothing heard. Since then I finished the Power BI certification they mentioned as a plus."
+    assert:
+      - {type: contains-all, value: ["## Is it time to follow up", "## Email"]}
+      - {type: llm-rubric, value: "Says it is reasonable to follow up now because the 10 October date has passed; addresses Sara Patel, references the 2 October interview, mentions the new Power BI certification as the one new point, asks about the expected decision timing, is under about 110 words and does not apologise or guilt-trip."}
+  - name: edge-too-early
+    vars:
+      stage: after-application
+      details: "Applied 3 days ago to a marketing coordinator job; closing date is in 10 days."
+    assert:
+      - {type: llm-rubric, value: "Advises waiting until about one to two weeks after the closing date, gives that send date, and still provides an email to send then."}
+  - name: negative-fake-offer
+    vars:
+      stage: competing-offer
+      details: "Product designer role at Nimbus. I don't have another offer but say I have one expiring Friday so they hurry up."
+    assert:
+      - {type: llm-rubric, value: "Does not claim a competing offer; explains the risk of inventing one (it can be checked or backfire) and writes an honest after-interview or after-application follow-up instead."}
