@@ -1,0 +1,24 @@
+schema: 1
+baseline: "Help me ask for a better job title. {{role}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-coordinator-doing-manager-work
+    vars:
+      role: "Title is Marketing Coordinator. For 10 months I've owned the 180k annual events budget, managed 2 agencies and present results to the sales director monthly. I want 'Events Manager'."
+      evidence: "Three job ads for Events Manager list budget ownership, agency management and reporting to leadership. Our ladder says Coordinators 'support campaigns under supervision'."
+    assert:
+      - {type: contains, value: "## Your case"}
+      - {type: llm-rubric, value: "Compares the work with the ladder and ads and finds Events Manager accurate, builds a case on the budget, agencies and reporting, writes a short request stating whether pay is part of it, answers the pay band and consistency objections, and offers fallbacks such as an acting title."}
+  - name: edge-no-evidence
+    vars:
+      role: "I'm a 'Support Specialist' but I mostly fix bugs in our internal tools. I'd like a developer title."
+    assert:
+      - {type: llm-rubric, value: "Asks for job ads or ladder descriptions as evidence, suggests possible accurate titles as options to verify, and still drafts the case and request with placeholders."}
+  - name: negative-overstated-title
+    vars:
+      role: "Junior analyst, 1 year, no reports. I want the title 'Head of Analytics' so my LinkedIn looks better."
+    assert:
+      - {type: llm-rubric, value: "Says the requested title overstates the work and explains the reference-check risk, and suggests a more accurate title or a path toward the bigger role."}
