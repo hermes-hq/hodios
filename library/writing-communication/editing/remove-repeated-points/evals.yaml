@@ -1,0 +1,49 @@
+schema: 1
+baseline: "Remove the repetition in this document: {{document}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-proposal-repeats
+    vars:
+      output_mode: map
+      document: |
+        # Proposal: move team meetings to Tuesdays
+        ## Summary
+        We propose moving the weekly team meeting from Monday to Tuesday.
+        ## Background
+        Our Monday meeting has low attendance because many people are catching up on weekend emails, and Monday is also the day most public holidays fall on, so we cancel the meeting about six times a year.
+        ## Problem
+        Attendance on Mondays averages 60%. People are busy clearing their inboxes on Monday mornings. Monday bank holidays mean we lose roughly six meetings a year.
+        ## Options
+        Option A: Tuesday 10:00. Option B: Wednesday 14:00, which clashes with the client call for two people.
+        ## Recommendation
+        Tuesday 10:00, because Mondays are lost to inbox catch-up and holidays, and Wednesday clashes for two people. Since about six Monday meetings a year are cancelled for holidays, Tuesday also gives us more meetings.
+    assert:
+      - {type: contains-all, value: ["## Repetition map", "## Consolidation plan"]}
+      - {type: llm-rubric, value: "Identifies that the inbox catch-up reason and the six-holidays-a-year point each appear in Background, Problem and Recommendation; chooses a home (likely Problem, merging the 60% figure); proposes cutting or shortening the others; keeps the Summary and a brief reason in the Recommendation as deliberate; does not lose the 60% figure or the Wednesday clash detail."}
+  - name: edge-similar-but-different
+    vars:
+      output_mode: map
+      document: |
+        ## Section 2: Eligibility
+        Applicants must have lived in the area for at least 12 months.
+        ## Section 5: Renewals
+        To renew, applicants must have lived in the area for at least 12 months since their last award.
+        ## Section 7: Appeals
+        Appeals must be lodged within 28 days.
+    assert:
+      - {type: llm-rubric, value: "Recognises that the two 12-month rules differ in scope (initial residence versus 12 months since the last award) and does not merge them; reports little or no true repetition; may suggest clarifying the difference."}
+  - name: negative-procedure-warnings
+    vars:
+      output_mode: edit
+      document: |
+        ## Step 1: Isolate the power
+        Switch off the circuit at the consumer unit. Warning: always test the wires with a voltage tester before touching them.
+        ## Step 4: Replace the light fitting
+        Disconnect the old fitting. Warning: always test the wires with a voltage tester before touching them.
+        ## Step 6: Reconnect
+        Connect the new fitting and restore power.
+    assert:
+      - {type: llm-rubric, value: "Keeps the repeated safety warning in both steps and lists it under Repeats kept on purpose, explaining that readers of a procedure may jump to a step; does not cut the safety warning to save words."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Is this text easy to read? {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-council-letter
+    vars:
+      reader: "Residents receiving a letter from the council, many reading on a phone"
+      text: |
+        Further to the review of the waste collection arrangements which was undertaken by the Environmental Services Directorate in the period following the consultation exercise conducted in the spring, it has been determined that, with effect from the commencement of the next financial year, the frequency of collection of residual waste will be altered to a fortnightly basis.
+
+        Residents are advised that the provision of additional receptacles will not be facilitated except in circumstances where exceptional need has been demonstrated through the completion of the relevant application.
+    assert:
+      - {type: contains-all, value: ["## Measures", "## Paragraph diagnosis", "## Top fixes"]}
+      - {type: llm-rubric, value: "Identifies the very long first sentence with the main point (bins every two weeks from next April or next financial year) buried at the end; names nominalisations ('the provision of', 'the completion of', 'commencement') and passives hiding the actor; rates both paragraphs as hard for this reader; gives ranked fixes with one example each and does not rewrite the entire letter."}
+  - name: edge-specialist-reader
+    vars:
+      reader: "Cardiologists reading a journal abstract"
+      text: "In patients with HFrEF and an LVEF of 35% or less, SGLT2 inhibition reduced the composite of CV death or HF hospitalisation by 26% versus placebo over a median of 18 months."
+    assert:
+      - {type: llm-rubric, value: "Recognises that for cardiologists the abbreviations (HFrEF, LVEF, SGLT2, CV, HF) are shared vocabulary and not a readability problem; judges the sentence as clear or close to it for this reader; does not recommend spelling everything out."}
+  - name: negative-already-clear
+    vars:
+      reader: ""
+      text: "Our app helps you save money. Link your bank. Set a goal. We round up each purchase and save the change."
+    assert:
+      - {type: llm-rubric, value: "States its assumption about the reader; reports that the text is already easy to read; does not invent problems; presents any measures as approximate rather than an exact formula score."}

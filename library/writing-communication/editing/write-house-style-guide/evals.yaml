@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Write a house style guide for {{organisation}}."
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-charity-with-disputes
+    vars:
+      organisation: "UK environmental charity of 30 staff writing funder reports, grant bids, social posts and a monthly newsletter"
+      base_guide: "Guardian and Observer style guide"
+      samples_and_disputes: |
+        Our name appears as "Green Futures Trust", "GreenFutures", "the Trust" and "GFT" in different documents.
+        People argue about: percent vs %, Oxford comma, whether job titles are capitalised, "1st March" vs "1 March", and whether to say "volunteers" or "community champions".
+    assert:
+      - {type: contains-all, value: ["## Our names and terms", "## Decisions on disputes", "## Open questions"]}
+      - {type: llm-rubric, value: "Decides how to write the organisation's name on first and later mentions; settles each dispute (percent or %, Oxford comma, job title capitals, date format such as '1 March') with a clear decision and reason; puts 'volunteers' versus 'community champions' as an open question or decides with a reason; uses UK conventions; defers to the named base guide without reproducing it; stays short."}
+  - name: edge-no-base-guide
+    vars:
+      organisation: "US software startup writing help-centre articles and release notes"
+      base_guide: "none stated"
+      samples_and_disputes: ""
+    assert:
+      - {type: llm-rubric, value: "States the assumption of US spelling and conventions; recommends or names a base guide to defer to, or states that one should be chosen; covers UI element names, product names as placeholders, numbers and dates; does not invent the product's name."}
+  - name: negative-too-thin
+    vars:
+      organisation: "my company"
+      base_guide: "none stated"
+      samples_and_disputes: ""
+    assert:
+      - {type: llm-rubric, value: "Asks what the organisation writes, for whom and where (country, document types) before producing a full guide; does not invent a full guide for an unknown organisation, or at most gives a clearly generic skeleton with the questions."}

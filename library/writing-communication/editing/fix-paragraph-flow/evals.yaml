@@ -1,0 +1,37 @@
+schema: 1
+baseline: "Improve the flow of this text: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-student-essay
+    vars:
+      text: |
+        Many cities are introducing low-traffic neighbourhoods. These use planters and cameras to stop through traffic on residential streets.
+
+        Furthermore, air pollution is linked to asthma in children. Studies in several cities have found higher asthma rates near busy roads.
+
+        Moreover, shopkeepers often worry that fewer cars means fewer customers. In practice, people who walk and cycle visit local shops more often, even if they spend less per visit. Some residents also complain about longer drives.
+
+        In conclusion, low-traffic neighbourhoods are a good idea.
+    assert:
+      - {type: contains-all, value: ["## Skim test", "## Problems by paragraph", "## Edited text"]}
+      - {type: llm-rubric, value: "Shows the skim test and notes the breaks: paragraph 2 starts with an empty 'Furthermore' and never links pollution to the neighbourhoods; paragraph 3 mixes the shopkeepers' concern with the residents' driving complaint; the conclusion does not follow from what came before; repairs with topic sentences and transitions that state real logic; does not add new evidence or statistics; keeps the middle of paragraphs largely unchanged."}
+  - name: edge-misplaced-paragraph
+    vars:
+      text: |
+        To set up the shared calendar, first create a new calendar in the admin panel.
+
+        Our team was founded in 2015 and has grown to thirty people across three offices.
+
+        Next, add each team member with edit or view permissions.
+
+        Finally, share the calendar link in the team channel.
+    assert:
+      - {type: llm-rubric, value: "Identifies the founding-history paragraph as out of place in the procedure and recommends moving or removing it rather than inventing a transition that forces it in; leaves the procedural steps in order."}
+  - name: negative-too-short
+    vars:
+      text: "Thanks for the update. I will review the numbers tomorrow and get back to you by Friday."
+    assert:
+      - {type: llm-rubric, value: "Says paragraph flow needs at least three paragraphs and does not produce a full skim test or invent paragraphs; gives at most brief notes."}

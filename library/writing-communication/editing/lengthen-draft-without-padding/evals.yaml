@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Make this longer, about {{target_length}}: {{draft}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-thin-essay
+    vars:
+      target_length: "about 400 words"
+      purpose_and_reader: "High school essay: should schools ban phones in class? Marked on reasoning and use of examples."
+      draft: |
+        Schools should ban phones in class. Phones are distracting and students cannot focus when notifications keep coming. Some people say phones are useful for research, but students can use school computers. Also, bans reduce cyberbullying during the day. In conclusion, phones should be banned in class.
+    assert:
+      - {type: contains-all, value: ["## Where the draft is thin", "## Facts I need from you"]}
+      - {type: llm-rubric, value: "Diagnoses specific gaps (why distraction harms learning, a concrete example, a real response to the research objection, explanation of the cyberbullying link, emergencies or counter-arguments); expands by deepening these points rather than repeating the thesis; does not invent statistics or named studies, using [ADD] markers or asking where evidence is needed; gives word counts near the target or explains why it stopped short."}
+  - name: edge-uses-extra-material
+    vars:
+      target_length: "double"
+      purpose_and_reader: "Internal update to the leadership team"
+      draft: "The pilot of the four-day week in the support team went well. Customers did not notice a difference and staff were happier. We recommend extending it."
+      extra_material: "Pilot ran March to May, 14 staff. First-response time 2h10 before vs 2h05 during. CSAT 91% before, 92% during. Sick days down from 22 to 9 over the period. Two staff said Friday cover was stressful."
+    assert:
+      - {type: llm-rubric, value: "Uses the supplied figures accurately (dates, 14 staff, response times, CSAT, sick days) to support the claims; includes the Friday-cover concern rather than hiding it; does not add figures that were not supplied; reaches roughly double the length with substance, not padding."}
+  - name: negative-needs-personal-facts
+    vars:
+      target_length: "650 words"
+      purpose_and_reader: "Personal statement for a nursing degree; admissions tutors want genuine experience"
+      draft: "I want to be a nurse because I care about people. I have some experience in care. I am hardworking and kind."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate personal experiences, placements, patients or achievements to reach 650 words; uses [ADD] markers and asks specific questions (what care experience, where, how long, a moment that showed what nursing involves); may give a structure or partial expansion but clearly stops short of the target and explains why."}

@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Shorten this to {{limit}}: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-scholarship-answer
+    vars:
+      limit: "100 words"
+      purpose: "Scholarship application, question: why do you want to study nursing?"
+      text: |
+        Ever since I was a young child I have always been interested in helping people and caring for others. When I was fifteen my grandfather became seriously ill and spent three months in hospital, and I visited him almost every day after school. During that time I watched the nurses on his ward and I was really struck by how they managed to combine technical skill with kindness, even when they were clearly exhausted. One nurse, Joanne, took the time to explain his medication to me in words I could understand. Since then I have volunteered for two years at a local care home on Saturdays, where I help residents at mealtimes and run a weekly reading group. I have also completed a first aid certificate. I believe nursing is the career where I can make the biggest difference, and I am excited to learn and to grow as a person.
+    assert:
+      - {type: contains-all, value: ["## Count", "## What was cut"]}
+      - {type: llm-rubric, value: "The cut text is 100 words or fewer and close to the limit; keeps the grandfather's hospital stay and the nurses' mix of skill and kindness, and the two years of care-home volunteering; drops whole lower-value material (the generic opening line, the closing cliché, possibly the first-aid certificate or the Joanne detail) rather than compressing every sentence; reports before and after counts that are plausible."}
+  - name: edge-character-limit
+    vars:
+      limit: "160 characters including spaces"
+      purpose: "Profile bio on a freelance marketplace"
+      text: "Freelance illustrator based in Lisbon with eight years of experience creating children's book illustrations, editorial art for magazines, and brand mascots for small businesses. Fast, friendly, fluent in English and Portuguese."
+    assert:
+      - {type: llm-rubric, value: "Treats the limit as characters, not words; the final bio is 160 characters or fewer counting spaces; keeps the core identity (illustrator, children's books or editorial, languages or location as space allows); states the count in characters and does not exceed it."}
+  - name: negative-core-exceeds-limit
+    vars:
+      limit: "15 words"
+      purpose: "Medication instruction label for a patient"
+      text: "Take one tablet twice a day with food. Do not take with alcohol. Stop taking and call your doctor immediately if you develop a rash, swelling of the face or difficulty breathing."
+    assert:
+      - {type: llm-rubric, value: "Recognises that cutting to 15 words would drop safety-critical content (the stop-and-call warning and its symptoms); does not silently delete the warning; says the core exceeds the limit and either shows the smallest safe version over the limit or flags clearly which safety content would be lost, recommending the limit be raised or a separate leaflet be used."}

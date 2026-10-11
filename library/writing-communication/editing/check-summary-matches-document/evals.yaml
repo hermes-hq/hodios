@@ -1,0 +1,39 @@
+schema: 1
+baseline: "Does this summary match the document? Summary: {{summary}} Document: {{document}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-drifted-summary
+    vars:
+      summary: "The pilot cut average wait times by 40% across all five clinics and will save £300,000 a year. We recommend rolling it out to all 20 clinics immediately."
+      document: |
+        ## Results
+        Average wait times fell by 28% across the five pilot clinics. The largest fall, 40%, was at the Eastgate clinic; at Riverside, wait times did not change.
+        ## Costs
+        Estimated annual saving at full rollout: £180,000 to £300,000, depending on staffing.
+        ## Limitations
+        The pilot ran for eight weeks during summer, when demand is usually lower.
+        ## Recommendation
+        Extend the pilot to five more clinics over winter before deciding on full rollout.
+    assert:
+      - {type: contains-all, value: ["## Mismatches", "## Corrected summary"]}
+      - {type: llm-rubric, value: "Flags that 40% was only Eastgate (average 28%), that the saving is a range of £180,000 to £300,000 stated as a certainty, that the recommendation changed from full immediate rollout to extending the pilot to five more clinics over winter, and that the summer and eight-week limitation is missing; corrected summary uses the body's figures and recommendation, quoted with locations."}
+  - name: edge-body-inconsistent
+    vars:
+      summary: "Membership grew to 1,240 in 2025."
+      document: |
+        ## Membership
+        By December 2025 we had 1,240 members.
+        ## Finance
+        Subscription income rose in line with membership, which reached 1,420 by year end.
+    assert:
+      - {type: llm-rubric, value: "Notices the body contains two different figures (1,240 and 1,420) and flags the inconsistency for the author rather than choosing one or declaring the summary correct without comment."}
+  - name: negative-summary-accurate
+    vars:
+      summary: "Survey of 312 tenants: 64% rated repairs as slow. We recommend a 10-day repair target."
+      document: |
+        We surveyed 312 tenants in March. 64% rated repairs as slow or very slow. Recommendation: introduce a 10-working-day target for non-urgent repairs.
+    assert:
+      - {type: llm-rubric, value: "Judges the summary broadly accurate; does not manufacture mismatches; at most notes small precision points (slow or very slow; 10 working days for non-urgent repairs) as minor."}

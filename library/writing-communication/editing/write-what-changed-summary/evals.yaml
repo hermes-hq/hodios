@@ -1,0 +1,34 @@
+schema: 1
+baseline: "Summarise what changed between these two versions for {{readers}}. Old: {{old_version}} New: {{new_version}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-expenses-policy
+    vars:
+      readers: "All staff who travel for work"
+      effective_date: "1 September"
+      old_version: |
+        Hotel limit: £120 per night in London, £90 elsewhere. Meals: up to £35 per day with receipts. Claims within 60 days of the expense. Mileage: 45p per mile.
+      new_version: |
+        Hotel limit: £150 per night in London, £90 elsewhere. Meals: up to £30 per day with itemised receipts. Claims must be submitted within 30 days of the expense; late claims will not be paid. Mileage: 45p per mile.
+    assert:
+      - {type: contains-all, value: ["## Reader summary", "## Changes table"]}
+      - {type: llm-rubric, value: "Leads with the changes needing action: claim deadline cut from 60 to 30 days with late claims unpaid, and meals cut from £35 to £30 with itemised receipts now required; states the London hotel limit rising to £120 to £150 as better; lists mileage and non-London hotel limits as unchanged; mentions 1 September; does not describe the meal cut as an improvement."}
+  - name: edge-only-cosmetic
+    vars:
+      readers: "Gym members"
+      effective_date: ""
+      old_version: "Members must wipe down equipment after use. Lockers are emptied every night at closing."
+      new_version: "Please wipe down equipment after you use it. We empty all lockers every night at closing time."
+    assert:
+      - {type: llm-rubric, value: "Recognises the changes are wording only with no change to the rules; says so plainly in a short notice or recommends no notice is needed; does not invent substantive changes; notes the missing effective date only if relevant."}
+  - name: negative-hidden-fee
+    vars:
+      readers: "Customers on the monthly plan"
+      effective_date: "1 March"
+      old_version: "Monthly plan: £9.99 per month. Cancel any time."
+      new_version: "Monthly plan: £12.99 per month. Cancel any time with 30 days' notice. We have improved our service with new features."
+    assert:
+      - {type: llm-rubric, value: "States the price rise from £9.99 to £12.99 and the new 30-day notice for cancelling plainly and near the top, rather than leading with 'new features'; does not invent what the features are; flags that notice wording for consumer price changes may need legal review."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Fix any tense problems in this: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-story-tense-slip
+    vars:
+      intended_forms: ""
+      text: |
+        We reached the summit just after noon. The wind was brutal and Priya's hands were shaking. Then the cloud lifts, and suddenly we can see the whole valley. I grab my camera and start shooting. We stayed for ten minutes before the cloud closed in again.
+    assert:
+      - {type: contains-all, value: ["## Forms to keep", "## Shifts found", "## Edited text"]}
+      - {type: llm-rubric, value: "Identifies past tense as dominant and the slide into present ('lifts', 'can see', 'grab', 'start') as accidental; converts those to past ('lifted', 'could see', 'grabbed', 'started'); makes no other edits."}
+  - name: edge-academic-convention
+    vars:
+      intended_forms: ""
+      text: |
+        Smith (2019) argues that remote work increases productivity. We surveyed 240 employees in 2023. Respondents reported fewer interruptions at home. These findings suggest that managers should measure output rather than hours.
+    assert:
+      - {type: llm-rubric, value: "Recognises the tense changes as justified academic convention (present for the cited argument and implications, past for methods and results) and does not force one tense; reports few or no errors."}
+  - name: negative-already-consistent
+    vars:
+      intended_forms: "First person, past tense"
+      text: |
+        I moved to Glasgow in 2019 for a job at the university library. The first winter was hard, and I knew almost nobody. I joined a running club in my second month, and by spring I had a group of friends. Glasgow still feels like home, even though I left in 2022.
+    assert:
+      - {type: llm-rubric, value: "Reports that there are no accidental shifts; treats 'Glasgow still feels like home' as a justified present-tense statement about now and lists it under Shifts kept on purpose; returns the text unchanged and does not invent errors or make other edits."}

@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Which words do I overuse in this text? {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crutch-heavy-post
+    vars:
+      known_crutches: ""
+      text: |
+        I just wanted to share some thoughts on remote work. I really think it has changed how we work. I actually find that I am more productive at home. I just feel less distracted. I really enjoy not commuting, and I actually use that time to exercise. However, it is not perfect. However, I do miss the office chat. I really think a hybrid model is the key. The key thing is flexibility. I just think companies that ignore this will really struggle.
+    assert:
+      - {type: contains-all, value: ["## Top offenders", "## Sentence openings", "## Fixes in context"]}
+      - {type: llm-rubric, value: "Counts 'just', 'really', 'actually' and 'key' with plausible numbers; notes the run of sentences opening with 'I' and the doubled 'However,'; fixes mostly by cutting the crutch words rather than swapping synonyms; does not rewrite the whole post."}
+  - name: edge-technical-terms
+    vars:
+      known_crutches: "ensure"
+      text: |
+        To reset the router, press the reset button on the router for ten seconds. The router lights will flash. Ensure the router is connected to power. When the router restarts, ensure you reconnect to the router's default network. Ensure you change the router password.
+    assert:
+      - {type: llm-rubric, value: "Flags 'ensure' (the named suspect) with its count and offers fixes such as plain imperatives; lists 'router' under Leave alone or explains that repeating the device name is acceptable in instructions, rather than replacing it with varied synonyms."}
+  - name: negative-varied-text
+    vars:
+      known_crutches: ""
+      text: "Rain came in sideways off the estuary. We pulled the boat higher, lashed the oars, and ran for the hut. Inside, Grandad had the kettle on already, as if he had known."
+    assert:
+      - {type: llm-rubric, value: "Reports honestly that there are no meaningful overused words or repeated openings in this short passage; does not manufacture problems or suggest unnecessary changes."}

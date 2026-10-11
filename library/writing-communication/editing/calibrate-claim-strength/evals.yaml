@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Check whether the claims in this text are too strong or too weak: {{text}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-overclaiming-pilot
+    vars:
+      evidence_notes: "Pilot in 2 of our 30 stores for 6 weeks in December. No comparison stores."
+      text: |
+        The self-checkout pilot proves that self-checkouts increase sales. Sales in the pilot stores rose 15% during the trial, which shows customers always prefer faster checkout. Rolling out to all stores will increase revenue by 15% company-wide.
+    assert:
+      - {type: contains-all, value: ["## Changes", "## Edited text"]}
+      - {type: llm-rubric, value: "Flags 'proves', the causal claim and 'always prefer' as overclaims given two stores, six weeks, December seasonality and no comparison stores; rewrites with scope (in two pilot stores over six weeks in December, sales rose 15%) and moderate wording; flags the company-wide 15% forecast as unsupported; does not use outside data."}
+  - name: edge-underclaiming
+    vars:
+      evidence_notes: "Full year of sales data from our own system."
+      text: "It could perhaps be argued that our online sales may have potentially grown somewhat in 2025, possibly by around 22%, according to our sales system."
+    assert:
+      - {type: llm-rubric, value: "Identifies stacked hedges on a well-supported fact and firms the claim (for example 'Online sales grew 22% in 2025, according to our sales system'); explains that the evidence is complete data, not an estimate."}
+  - name: negative-no-evidence-at-all
+    vars:
+      evidence_notes: ""
+      text: "Remote workers are 40% more productive than office workers, which is why we should close the office."
+    assert:
+      - {type: llm-rubric, value: "Notes the 40% figure has no source in the text and the conclusion depends on it; does not confirm or refute the figure from outside knowledge as fact; lists it under Claims needing evidence and says the recommendation cannot stand at full strength without it."}

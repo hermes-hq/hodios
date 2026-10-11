@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Make this message sound more confident: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-raise-request
+    vars:
+      context: "My manager, good relationship"
+      text: |
+        Hi Sam, sorry to bother you, I know you're super busy! I just wanted to quickly ask, and no worries at all if not, whether it might maybe be possible to chat about my salary at some point? I think I've possibly taken on a bit more since the team lead left, like running the weekly reports and training the two new starters, but I could be wrong. Does that make sense? Sorry again!
+    assert:
+      - {type: contains-all, value: ["## Edited text", "## What was removed"]}
+      - {type: llm-rubric, value: "Removes 'sorry to bother you', 'just', 'quickly', 'no worries at all if not', 'might maybe be possible', 'I think I've possibly', 'I could be wrong', 'Does that make sense?' and 'Sorry again'; states the ask directly (a conversation about salary, ideally proposing a time); keeps the facts (team lead left, weekly reports, training two new starters); stays warm and polite, not demanding."}
+  - name: edge-real-apology
+    vars:
+      context: "A client; I sent them the wrong invoice yesterday"
+      text: "Hi Ana, I'm so sorry, I just realised I sent you the wrong invoice yesterday, sorry! I've attached the correct one, I think, if that's ok. Sorry for the hassle, hope this is fine!"
+    assert:
+      - {type: llm-rubric, value: "Keeps one clear apology for the real mistake and lists it under Kept on purpose; removes the repeated sorrys, 'just', the 'I think' about attaching the correct invoice, and 'if that's ok'; result is short, polite and clear."}
+  - name: negative-genuine-uncertainty
+    vars:
+      context: "A colleague asked when the server migration will finish"
+      text: "I'm honestly not sure yet. The vendor hasn't confirmed the date, and I think it could slip to next week. I'll update you on Thursday once they reply."
+    assert:
+      - {type: llm-rubric, value: "Recognises that this uncertainty is genuine and appropriate; does not turn it into false certainty or a confident date; makes at most minimal changes and says the message is already clear and honest."}

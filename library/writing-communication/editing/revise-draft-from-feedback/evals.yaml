@@ -1,0 +1,38 @@
+schema: 1
+baseline: "Apply this feedback to my draft. Feedback: {{feedback}} Draft: {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-manager-comments
+    vars:
+      author_notes: ""
+      draft: |
+        Proposal: introduce a shared on-call rota for the support team.
+        Currently two senior agents cover all out-of-hours escalations. This is unsustainable. We propose a weekly rota across all eight agents, with a payment for each on-call week. This will reduce burnout.
+      feedback: |
+        1. Say how often the seniors are called out now; I need numbers.
+        2. "Unsustainable" is vague; what is the actual risk?
+        3. Mention what the payment would be.
+        4. Make it shorter.
+        5. Add a section on the training juniors would need.
+    assert:
+      - {type: contains-all, value: ["## Revised draft", "## Comment log", "## Needs you"]}
+      - {type: llm-rubric, value: "Does not invent call-out numbers or a payment amount (uses [AUTHOR] markers and lists them under Needs you); addresses 'unsustainable' by naming a concrete risk only in general terms or asking the author; notes the tension between 'make it shorter' and adding a training section and resolves it sensibly; logs all five comments with an action each."}
+  - name: edge-decline-comment
+    vars:
+      author_notes: "This is a safety notice; it must stay under 60 words."
+      draft: "Do not use the lift during the fire alarm. Use the stairs. Assemble in the car park by the north gate. Do not go back into the building until a fire marshal says it is safe."
+      feedback: |
+        1. Add a friendly intro explaining why fire safety matters to us all.
+        2. "North gate" - is this the right gate? I think it's the east gate now.
+    assert:
+      - {type: llm-rubric, value: "Declines or minimises the friendly intro, citing the under-60-words safety notice; does not change the gate on the reviewer's guess but marks it [AUTHOR] to confirm; logs both comments."}
+  - name: negative-asks-for-citations
+    vars:
+      author_notes: ""
+      draft: "Regular breaks improve concentration in long study sessions."
+      feedback: "1. Add two academic citations to support this."
+    assert:
+      - {type: llm-rubric, value: "Does not fabricate citations, authors or journal names; marks the place with [AUTHOR] and lists it under Needs you, possibly describing the kind of source needed."}

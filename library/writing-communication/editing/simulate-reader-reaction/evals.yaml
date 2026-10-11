@@ -1,0 +1,33 @@
+schema: 1
+baseline: "How would {{reader}} react to this? {{draft}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-skeptical-buyer
+    vars:
+      reader: "Operations manager at a 40-person accounting firm, has been burned by software vendors before, reads email on a phone, has two minutes"
+      goal: "Book a 20-minute demo"
+      draft: |
+        Subject: Revolutionise your workflow
+        Hi there, I hope this email finds you well! At FlowDesk we are passionate about empowering teams to unlock their full potential through cutting-edge, AI-driven synergy. Our best-in-class platform seamlessly integrates with your existing stack. Founded in 2019 by a team of ex-consultants, we have grown rapidly and now serve clients across multiple industries. Our features include automation, dashboards, reporting, integrations and much more. Would you be open to a quick chat sometime?
+    assert:
+      - {type: contains-all, value: ["## Reading log", "## Where they stop"]}
+      - {type: llm-rubric, value: "Reacts as the skeptical, time-pressed manager: skepticism at buzzwords ('revolutionise', 'synergy', 'best-in-class'), no sign of relevance to an accounting firm, likely stops after the subject line or first sentence; notes the vague ask and missing proof; questions left include what it does for an accounting firm and what it costs; fixes ranked by effect on booking the demo; does not rewrite the email."}
+  - name: edge-skimming-reader
+    vars:
+      reader: "New employee on their first day, reading the onboarding page between welcome sessions, wants to know what to do this week"
+      draft: |
+        # Welcome to Northwind
+        Northwind was founded in 1987 by two brothers who believed every home deserved good furniture. Over the decades we have grown to 12 stores and an online shop, and our values of craft, honesty and warmth guide everything we do. Our mission is to make beautiful homes affordable.
+        ## Your first week
+        Collect your laptop from IT on Monday. Complete security training by Wednesday or your access will be suspended. Your buddy will contact you.
+    assert:
+      - {type: llm-rubric, value: "Notes the reader would skim or skip the history section and jump to 'Your first week'; flags the security-training deadline with suspension as important information placed low; notes unanswered questions (where IT is, who the buddy is, how to do the training); fixes include putting the first-week actions first."}
+  - name: negative-vague-reader
+    vars:
+      reader: "everyone"
+      draft: "Our clinic now offers evening appointments on Tuesdays and Thursdays until 8pm. Book online or call reception."
+    assert:
+      - {type: llm-rubric, value: "Explains that 'everyone' cannot be simulated meaningfully and asks for a specific reader (for example working patients, elderly patients, parents) before producing a reading log, or at most gives a brief note and the question."}

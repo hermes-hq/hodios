@@ -1,0 +1,31 @@
+schema: 1
+baseline: "Which version is better for {{purpose_and_reader}}? {{versions}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-two-cover-letter-openings
+    vars:
+      purpose_and_reader: "Opening paragraph of a cover letter for a junior data analyst role at a hospital trust; read by a hiring manager in under a minute"
+      versions: |
+        A: I am writing to apply for the Junior Data Analyst position advertised on your website. I am a highly motivated and passionate individual with a strong interest in data and a desire to make a difference in healthcare.
+
+        B: Last year I cut the time our clinic's weekly attendance report took from a day to 20 minutes by rebuilding it in SQL and Power BI. I'd like to do that kind of work at scale as your Junior Data Analyst, where better data can mean shorter waits for patients.
+    assert:
+      - {type: contains-all, value: ["## Verdict", "## Part-by-part comparison", "## Merged version"]}
+      - {type: llm-rubric, value: "Picks B as stronger because it opens with a concrete, relevant achievement for a hospital reader, while A is generic; notes A's only useful element is naming the role clearly; merged version keeps B's specifics and may add the role name; adds no new facts."}
+  - name: edge-conflicting-facts
+    vars:
+      purpose_and_reader: "Event announcement email to members"
+      versions: |
+        A: Join us for the summer social on Friday 12 July from 6pm at the Riverside Hall. Tickets are £10 and include a drink.
+        B: Our summer social is on Friday 12 July, 7pm, at Riverside Hall! Tickets £12 including food and a drink. Book by 5 July.
+    assert:
+      - {type: llm-rubric, value: "Identifies the conflicting start time (6pm vs 7pm) and price (£10 vs £12, and whether food is included) and lists them under What to decide yourself instead of picking one; notes the booking deadline is only in B; merged version uses placeholders or flags for the conflicting facts."}
+  - name: negative-single-version
+    vars:
+      purpose_and_reader: "LinkedIn post announcing a new job"
+      versions: "A: Excited to share that I've started a new role as Operations Manager at Brightline Logistics!"
+    assert:
+      - {type: llm-rubric, value: "Says a comparison needs at least two versions and asks for the other version; does not invent a second version to compare against."}

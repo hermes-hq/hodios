@@ -1,0 +1,30 @@
+schema: 1
+baseline: "Explain the jargon in this text for {{reader}}: {{text}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-it-update-for-staff
+    vars:
+      reader: "Office staff at a law firm, not technical"
+      known_definitions: ""
+      text: |
+        From Monday, MFA will be enforced on all M365 accounts. If you use the legacy VPN, you must migrate to the ZTNA client before the cutover. Phishing simulations will continue monthly; anyone who clicks will be enrolled in remedial training. Raise any issues via the service desk.
+    assert:
+      - {type: contains-all, value: ["## Terms found", "## Edited text", "## Glossary"]}
+      - {type: llm-rubric, value: "Spells out or explains MFA (multi-factor authentication), M365 (Microsoft 365), VPN and ZTNA (zero trust network access) at first use in plain terms, and explains 'cutover' and 'phishing simulations'; keeps the instructions (enforced from Monday, migrate before cutover, monthly simulations, training if you click); does not define 'service desk' at length for office staff."}
+  - name: edge-in-house-acronym
+    vars:
+      reader: "New project manager joining the company"
+      known_definitions: "RAID log: our register of risks, assumptions, issues and dependencies"
+      text: "Update the RAID log weekly and escalate red items to the PSG. All changes over 10k need a CR approved by the TDA."
+    assert:
+      - {type: llm-rubric, value: "Uses the supplied RAID log definition; does not guess what PSG and TDA stand for (marks them [DEFINE] and lists them); may explain CR as change request only if flagging it as the usual meaning to confirm, or also lists it; keeps the 10k threshold and weekly cadence."}
+  - name: negative-specialist-reader
+    vars:
+      reader: "Experienced intensive care nurses"
+      known_definitions: ""
+      text: "Titrate noradrenaline to MAP over 65. Check ABG 30 minutes after any FiO2 change."
+    assert:
+      - {type: llm-rubric, value: "Recognises that MAP, ABG, FiO2 and titrate are standard for ICU nurses and leaves the text essentially unchanged; does not add definitions the reader does not need; says so plainly."}
