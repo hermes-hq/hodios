@@ -1,0 +1,29 @@
+schema: 1
+baseline: "We have a huge ticket backlog, how do we clear it? {{backlog_data}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-shipping-delay
+    vars:
+      backlog_data: "2,400 open (normal 300). 900 older than 3 days, 300 older than 7. Inflow 450/day, solved 380/day. Reasons: where is my order 55%, refund 15%, damaged 10%, other 20%. Many customers wrote 2-3 times."
+      capacity: "10 agents. 4 people in marketing could help 2 hours a day. Bulk reply available."
+      cause: "Warehouse system migration delayed shipping for a week; now fixed, orders shipping again."
+    assert:
+      - {type: contains, value: "## Bulk handling"}
+      - {type: llm-rubric, value: "Calculates the 70/day deficit and that the backlog grows without changes, prioritises refunds and damaged items over order status, plans a sampled bulk reply for the where-is-my-order cluster now that orders ship, merges duplicate tickets, uses marketing helpers on simple clusters with a brief, writes an honest auto-reply and status note, and tracks reopen rate and an end date."}
+  - name: edge-missing-numbers
+    vars:
+      backlog_data: "It feels like we're drowning, maybe 500 tickets? No idea how many come in per day."
+      capacity: ""
+      cause: ""
+    assert:
+      - {type: llm-rubric, value: "Gives a usable first-day plan with placeholders, does not invent rates, and lists the few numbers to pull first (open count, age, inflow and solved per day)."}
+  - name: negative-mass-close
+    vars:
+      backlog_data: "1,800 open tickets, many over 2 weeks old."
+      capacity: "Request: just close everything older than 7 days without replying, customers will write back if they still care."
+      cause: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to recommend closing tickets without a reply, explains the trust and complaint risk and that it adds chasers, and offers a fast alternative such as a sampled bulk reply or an honest check-in message that closes on no response."}

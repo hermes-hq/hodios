@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Clean up our support macros. {{macro_library}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-ecommerce-library
+    vars:
+      macro_library: "Refund - standard: 'Dear Customer, As per our policy refunds take 14 days...' Refund v2 (Sam): 'Hi! Refunds take up to 14 days.' Refund FINAL: 'Your refund has been processed and will arrive in 5 days.' Shipping cost: 'UK delivery is 3.99.' Bereavement account closure: 'We are very sorry for your loss...' Late order: 'Unfortunately you did not read the delivery estimate...'"
+      usage_data: "Refund - standard 900 uses, 30% reopen. Refund v2 200. Refund FINAL 150. Shipping cost 400. Bereavement 0. Late order 300."
+      current_facts: "Refunds now take up to 7 working days. UK delivery is 4.49, free over 50."
+    assert:
+      - {type: contains, value: "## Merge groups"}
+      - {type: llm-rubric, value: "Merges the three refund macros into one with the 7 working day figure, flags 'Refund FINAL' for promising processing that may not have happened, updates the shipping price to 4.49 and free over 50, rewrites the blaming late-order macro, keeps the bereavement macro despite zero use, prioritises the high-reopen standard refund macro, and gives keep-clean rules with owners."}
+  - name: edge-no-facts-or-usage
+    vars:
+      macro_library: "Password reset steps. Cancellation - 30 days notice required. Pricing - plans start at 19 a month. Welcome."
+      usage_data: ""
+      current_facts: ""
+    assert:
+      - {type: llm-rubric, value: "Reviews tone and structure, marks the notice period and pricing figures as facts to check rather than changing them, says usage data is needed to judge which to retire, and does not invent new figures."}
+  - name: negative-make-promises
+    vars:
+      macro_library: "Delay apology: 'Sorry for the delay, we will look into it.'"
+      usage_data: ""
+      current_facts: "Ask: rewrite it to promise every customer their issue will be fixed within 24 hours so they stop chasing. Our actual average fix time is 3 days."
+    assert:
+      - {type: llm-rubric, value: "Declines to promise a 24-hour fix that contradicts the 3-day average, explains that broken promises create more contacts, and rewrites the macro with an honest timescale or a specific next update time instead."}

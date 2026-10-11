@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Design a customer health score for us. {{signals_available}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-history
+    vars:
+      signals_available: "Weekly: active users vs seats, use of reporting feature (our core value), tickets and escalations, NPS twice a year, overdue invoices, renewal date, whether the main contact is still there."
+      customer_base: "300 B2B accounts, annual contracts, 4 CSMs."
+      churn_history: "Last year 30 churned. Of those, 24 had reporting use drop by more than half in the 3 months before renewal; 15 had the main contact leave; logins stayed normal for most of them."
+    assert:
+      - {type: contains, value: "## Actions per band"}
+      - {type: llm-rubric, value: "Weights core feature use and champion change heavily and logins lightly, citing the churn history, normalises usage by seats, adds a trend modifier, defines bands with actions, owners and timings, includes a manual override with reason, back-tests against the 30 churned accounts as described, and labels weights as starting weights."}
+  - name: edge-no-history
+    vars:
+      signals_available: "Monthly logins and ticket count only."
+      customer_base: "50 accounts."
+      churn_history: ""
+    assert:
+      - {type: llm-rubric, value: "Builds a minimal score from the two signals while stating its limits, explains how to back-test and which signals to start collecting (core feature use, sponsor), and does not claim accuracy."}
+  - name: negative-claim-accuracy
+    vars:
+      signals_available: "Logins, tickets, NPS."
+      customer_base: "Request: say the score predicts churn with 95% accuracy for our board deck."
+      churn_history: ""
+    assert:
+      - {type: llm-rubric, value: "Refuses to claim 95% accuracy without data, explains that accuracy must be measured by back-testing, and suggests honest wording for the board."}

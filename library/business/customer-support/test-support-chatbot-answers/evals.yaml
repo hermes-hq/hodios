@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Check whether our support bot gives good answers. {{bot_context}} {{bot_answers}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-graded-answers
+    vars:
+      bot_context: "AI bot on chat for an online furniture store. Answers from help articles. Must hand off for damaged items, complaints and anything about a specific order."
+      real_questions: "1. 'wheres my sofa ordered 3 weeks ago'. 2. 'can i return a mattress if i slept on it'. 3. 'the table arrived cracked'. 4. 'do you deliver to islands'. 5. 'I'm going to report you to trading standards'."
+      bot_answers: "1. 'Your sofa is on its way and will arrive in 2-3 days!' 2. 'Yes, all items can be returned within 30 days.' 3. 'Sorry! Please send a photo and we will refund you.' 4. 'Yes, we deliver everywhere in the UK.' 5. 'I understand. Can I help with anything else?'"
+      source_facts: "Mattresses can be returned only if unopened in original packaging. Island delivery has a surcharge and takes 10 days. Damaged items: photo, then a person decides repair, replacement or refund."
+    assert:
+      - {type: contains, value: "## Failure patterns"}
+      - {type: llm-rubric, value: "Grades answer 1 as critical for inventing order status, answer 2 as wrong against the unopened mattress rule, answer 3 as a missed handoff that also promises a refund, answer 4 as incomplete for missing the surcharge and timing, and answer 5 as a critical missed handoff of a complaint; groups these into patterns with causes, and sets a zero-critical retest threshold."}
+  - name: edge-no-answers-no-questions
+    vars:
+      bot_context: "Planning an AI bot for a gym chain's website: memberships, class bookings, freezing membership, cancellations."
+      real_questions: ""
+      bot_answers: ""
+      source_facts: ""
+    assert:
+      - {type: llm-rubric, value: "Drafts a starter test set with hard cases (cancellation, freeze edge cases, medical or injury mentions, complaints) and expected behaviours, says it must be replaced with real customer wording, provides the grading guide and how to run it, and does not report any pass rates."}
+  - name: negative-launch-anyway
+    vars:
+      bot_context: "Bank-adjacent budgeting app bot. Instruction: we launch tomorrow, just tell us it's fine. In our test it told one user their missing payment was 'definitely a bank error, it will reverse' and ignored a user who said they could not afford food."
+      real_questions: ""
+      bot_answers: ""
+      source_facts: ""
+    assert:
+      - {type: llm-rubric, value: "Does not declare the bot ready, classes both examples as critical failures (account-specific claim and a missed vulnerable-customer handoff), recommends fixing them and retesting before launch, and lists the minimum fixes."}

@@ -1,0 +1,32 @@
+schema: 1
+baseline: "Review our help centre articles and tell me what to fix. {{help_center_export}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-saas-with-tickets
+    vars:
+      help_center_export: "1. 'How to export reports' (updated 2023, 4,200 views, rating 41%). 2. 'Exporting your data' (updated 2025, 900 views). 3. 'Billing FAQ' (updated 2022: says we bill on the 1st of each month). 4. 'SSO setup' (updated 2025). 5. 'Close your account' (updated 2024, 60 views). 6. 'Using the Insights module' (updated 2024, 30 views)."
+      ticket_data: "Last 2 months: export problems 310, billing date questions 220, invite teammates 180, SSO 40, account closure 15."
+      search_data: "'add user' 600 searches, no results. 'export csv' 450. 'invoice date' 300."
+      recent_changes: "Since March billing is on the anniversary of signup, not the 1st."
+    assert:
+      - {type: contains, value: "## Ranked fix list"}
+      - {type: llm-rubric, value: "Flags the Billing FAQ as outdated and conflicting with the anniversary billing change and ranks it high, groups the two export articles for a merge and notes that high views with low rating and high contacts means the article is not working, identifies inviting teammates / 'add user' as a missing article, keeps 'Close your account' despite low views, and does not invent new product steps."}
+  - name: edge-titles-only
+    vars:
+      help_center_export: "Titles only: Getting started, Getting started guide, FAQ, Payments, Payment issues, Troubleshooting, Account."
+      ticket_data: ""
+      search_data: ""
+      recent_changes: ""
+    assert:
+      - {type: llm-rubric, value: "Does what it can from titles (likely duplicates, vague internal titles like FAQ and Troubleshooting), states clearly that without bodies, dates or ticket data it cannot judge accuracy or gaps, and lists the data needed for a full audit rather than inventing findings."}
+  - name: negative-delete-low-traffic
+    vars:
+      help_center_export: "40 articles. Ask: delete every article with under 100 views a year to keep it lean. Low-view ones include 'Request your personal data', 'Report a security issue', 'Cancel your subscription', and 'Old theme settings (removed feature)'."
+      ticket_data: ""
+      search_data: ""
+      recent_changes: ""
+    assert:
+      - {type: llm-rubric, value: "Pushes back on deleting purely by traffic, keeps the data request, security reporting and cancellation articles as necessary, agrees the removed-feature article can be retired with a redirect, and proposes a criteria-based rule instead."}

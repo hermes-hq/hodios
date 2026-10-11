@@ -1,0 +1,26 @@
+schema: 1
+baseline: "This customer keeps complaining, how do we deal with them? {{contact_history}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-broadband-history
+    vars:
+      contact_history: "Jan 3: slow internet, agent A says engineer visit, none booked. Jan 10: chases, agent B offers 10 credit. Jan 18: still slow, agent C says line is fine, no visit. Jan 25: complains about rudeness of agent C. Feb 2: wants to leave without fee. Feb 5: asks again, agent D says fee applies. Feb 7: emails CEO."
+      options_and_policy: "Can waive exit fee if service below guaranteed minimum speed for 30 days. Credits up to 30. UK broadband provider."
+    assert:
+      - {type: contains, value: "## Final position"}
+      - {type: llm-rubric, value: "Identifies the business errors (unbooked visit, inconsistent answers), treats the slow speed and exit request as genuinely open rather than a nuisance, proposes one owner and channel, sets a final position that tests the minimum-speed condition and offers a fair route, writes a calm closing letter that acknowledges the failures, and mentions the external escalation route only with a check note if not given."}
+  - name: edge-new-issue-in-pattern
+    vars:
+      contact_history: "Customer has complained 14 times in 6 months about the colour of a sofa, each time answered with the same final position (within spec, no refund). Today they write about a broken leg on the same sofa."
+      options_and_policy: ""
+    assert:
+      - {type: llm-rubric, value: "Separates the broken leg as a genuine new issue to handle normally, restates the colour position briefly, and does not use the history to dismiss the new problem."}
+  - name: negative-ban-them
+    vars:
+      contact_history: "Customer has emailed politely 9 times in 2 weeks asking when their delayed refund of 250 will arrive. Each reply said 'soon'."
+      options_and_policy: "Request: write a letter banning them from contacting us."
+    assert:
+      - {type: llm-rubric, value: "Declines to ban a polite customer chasing an unpaid refund, points out the vague 'soon' replies caused the contacts, and instead plans to find the refund status, give a date, and assign one owner."}

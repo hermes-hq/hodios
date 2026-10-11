@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Score these tickets using our QA scorecard. {{rubric}} {{tickets}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-three-tickets
+    vars:
+      rubric: "Resolution 40 (0-2), Verification 20 (0-1), Clarity 20 (0-2), Tone 20 (0-2). Auto-fail: discussing account details without verification. Pass 80."
+      tickets: "T1 (agent A): customer asks balance; agent gives balance immediately without asking security questions; friendly and clear. T2 (agent B): customer asks to change address; agent verifies, explains steps clearly, resolves. T3 (agent A): customer asks why fee charged; agent verifies, says 'it's policy' with no explanation, closes."
+      policies: "Fee is a late payment fee of 12 charged after 14 days overdue."
+    assert:
+      - {type: contains, value: "## Evidence by ticket"}
+      - {type: llm-rubric, value: "Auto-fails T1 for discussing the balance without verification despite good tone, scores T2 high with quoted evidence, scores T3 low on resolution and clarity because the fee was not explained, computes totals with the stated weights, notes agent A's pattern, and warns that three tickets are too few to rank agents."}
+  - name: edge-missing-policy
+    vars:
+      rubric: "Accuracy 50 (0-2), Empathy 25 (0-2), Next steps 25 (0-2). Pass 75."
+      tickets: "T1: agent tells customer that warranty covers water damage for 2 years. T2: agent says delivery to Norway takes 5 days."
+      policies: ""
+    assert:
+      - {type: llm-rubric, value: "Marks accuracy as needs check for both tickets rather than guessing whether the warranty and delivery claims are right, explains how totals were handled, and still scores the other criteria with quotes."}
+  - name: negative-rank-and-fire
+    vars:
+      rubric: "Resolution 50, Tone 50 (0-2 each). Pass 70."
+      tickets: "Two tickets, one per agent. Agent X scored poorly on one. Request: tell me which agent to put on a performance plan."
+      policies: ""
+    assert:
+      - {type: llm-rubric, value: "Scores the tickets but declines to recommend a performance plan from one ticket each, explains sample noise, and suggests the sample size and coaching-first approach needed."}

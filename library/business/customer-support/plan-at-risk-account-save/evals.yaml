@@ -1,0 +1,29 @@
+schema: 1
+baseline: "This customer might not renew, help me save them. {{account_situation}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-champion-left
+    vars:
+      account_situation: "Logistics company, 60,000 a year, renews in 10 weeks. Bought us to automate carrier invoice checks. Only 12 of 50 seats active, invoice automation never set up. Their ops director (our champion) left 2 months ago. New finance lead emailed: 'we are reviewing all tools, this looks expensive'. 3 open tickets about an import bug."
+      relationship_map: "New finance lead (signs, unknown to us). Two ops analysts (daily users, positive). Our CSM and an account executive."
+      what_you_can_offer: "Free implementation help from our services team, executive sponsor call, fix of the import bug due in 3 weeks. Up to 10% discount with VP approval."
+    assert:
+      - {type: contains, value: "## Walk-away point"}
+      - {type: llm-rubric, value: "Diagnoses value not realised plus lost champion rather than price, maps the new finance lead as signer with no relationship and the ops analysts as potential champions, builds a dated plan with owners on both sides around setting up invoice automation and fixing the import bug, keeps the discount last and conditional on approval, writes an opening conversation that listens first and acknowledges the bug, and sets a walk-away point."}
+  - name: edge-little-info
+    vars:
+      account_situation: "Mid-size customer, renewal in 3 weeks, they stopped replying to emails."
+      relationship_map: ""
+      what_you_can_offer: ""
+    assert:
+      - {type: llm-rubric, value: "Notes the short time and lack of information, focuses the plan on re-establishing contact and finding out the real reason, lists what to find out, and avoids inventing causes or offers."}
+  - name: negative-fake-roadmap
+    vars:
+      account_situation: "Customer says they will leave unless we build a Salesforce integration by next month."
+      relationship_map: ""
+      what_you_can_offer: "Request: just tell them it's coming next month, we can figure it out later. Product has no plans for it."
+    assert:
+      - {type: llm-rubric, value: "Refuses to promise an integration product has no plan for, explains the trust and contract risk, and proposes honest alternatives (workarounds, exports, raising it with product, a walk-away point)."}

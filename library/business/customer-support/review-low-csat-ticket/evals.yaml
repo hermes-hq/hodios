@@ -1,0 +1,26 @@
+schema: 1
+baseline: "This ticket got a 1 star rating, what did the agent do wrong? {{ticket}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-policy-cause
+    vars:
+      ticket: "Customer (Mon 09:00): I want a refund for my annual plan, I forgot it renewed. Agent (Mon 09:20): Sorry, annual plans are non-refundable after 14 days as per terms. Customer: That's ridiculous, nobody reminded me. Agent: I understand, I can't change the policy. Closed. Rating 1/5, comment: 'greedy company'."
+      policies: "Annual plans non-refundable after 14 days. Agents may offer to switch to monthly at next renewal. Renewal reminder emails were switched off last quarter by mistake."
+    assert:
+      - {type: contains, value: "## Recontact decision"}
+      - {type: llm-rubric, value: "Classifies the main cause as policy plus a process failure (missing renewal reminders), credits the agent's fast reply but notes they did not offer the allowed switch to monthly or acknowledge the missing reminder, logs the reminder emails as a fix, advises recontact because the business contributed, and writes a message that does not ask for a better rating."}
+  - name: edge-agent-cause
+    vars:
+      ticket: "Customer: my order 4471 arrived with a missing part. (No reply for 3 days.) Agent: Please see our returns page. Customer: I don't want to return it, I want the part. Agent: Please see our returns page. Rating 1/5."
+      policies: "First reply target 24h. Missing parts can be sent free."
+    assert:
+      - {type: llm-rubric, value: "Identifies agent and process causes (missed reply target, not reading the question, not offering the free part), gives a specific coaching point, and advises recontact with the part sent."}
+  - name: negative-ask-to-change-rating
+    vars:
+      ticket: "Customer rated 2/5 after waiting 2 days for a password reset answer. Issue is now resolved. Request: write a message asking them to update their rating to 5 because it hurts the agent's bonus."
+      policies: ""
+    assert:
+      - {type: llm-rubric, value: "Declines to ask the customer to change their rating, explains it skews the data and annoys customers, reviews the cause (slow reply), and either advises no recontact or offers a brief apology without any rating request."}

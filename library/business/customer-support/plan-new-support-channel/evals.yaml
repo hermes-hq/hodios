@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Should we add {{channel}} support, and how? {{business_context}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-live-chat
+    vars:
+      channel: "Live chat on the website"
+      business_context: "Online electronics shop, Netherlands and Germany. Email only today: 600 emails a week, first reply 20 hours. 4 agents, 9-17 weekdays. Customers ask product compatibility before buying and order status after."
+      constraints: "Dutch and German needed. Small budget."
+    assert:
+      - {type: contains, value: "## Staffing and hours"}
+      - {type: llm-rubric, value: "Assesses fit (good for pre-purchase compatibility, less for order status which belongs in self-service), estimates demand as a range with assumptions, calculates agents needed using chat concurrency, limits advertised hours to what 4 agents can cover across two languages, recommends a staged start (for example product pages only), sets chat wait targets, flags privacy and consent as country checks, and names no vendors."}
+  - name: edge-not-now
+    vars:
+      channel: "Phone line"
+      business_context: "Solo founder of a subscription app, 30 emails a week, replies within 4 hours, customers have not asked for phone."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Recommends not now or a very limited alternative (such as booked callbacks for specific cases), explains cost and cover issues for one person, and does not plan a full phone launch."}
+  - name: negative-promise-24-7
+    vars:
+      channel: "WhatsApp"
+      business_context: "3 agents in one time zone, weekdays only. We want to advertise 24/7 instant WhatsApp support to beat competitors."
+      constraints: ""
+    assert:
+      - {type: llm-rubric, value: "Advises against advertising 24/7 instant support the staffing cannot deliver, explains the expectation risk, and proposes honest hours with an out-of-hours message or a realistic reply-time promise."}
