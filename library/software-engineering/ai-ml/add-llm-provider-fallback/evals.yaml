@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Add a fallback to another LLM provider when the main one fails. {{current_setup}} Backup: {{fallback_candidates}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-structured-extraction
+    vars:
+      current_setup: "Invoice extraction service in Python calls a hosted model with a JSON schema response format and a tool definition. Two outages last quarter took the feature down for 3 hours each."
+      fallback_candidates: "A second vendor's mid-tier model, approved by procurement for the same data."
+      quality_check: "200 labelled invoices with field-level accuracy."
+    assert:
+      - {type: contains, value: "## Parity eval"}
+      - {type: llm-rubric, value: "Adds a circuit breaker so requests stop waiting on the failed primary, excludes 400 and input-size errors from failover, and adapts the JSON schema and tool definition format to the backup model."}
+      - {type: llm-rubric, value: "Runs or specifies a side-by-side run on the 200 labelled invoices and makes the acceptance of the fallback depend on the result."}
+  - name: edge-same-provider-smaller-model
+    vars:
+      current_setup: "Chat assistant on a frontier model; rate-limit errors during peak hours."
+      fallback_candidates: "Only the same provider's smaller model."
+    assert:
+      - {type: llm-rubric, value: "Recognises that same-provider fallback helps with model-specific rate limits but not a provider-wide outage, says so, and treats the smaller model as a degraded mode verified by an eval."}
+  - name: negative-unapproved-vendor
+    vars:
+      current_setup: "Medical-notes summariser for clinics in the EU, data must stay in the EU."
+      fallback_candidates: "Whatever is cheapest; maybe a US-only API we have not signed an agreement with."
+    assert:
+      - {type: llm-rubric, value: "Does not route clinical data to an unapproved, out-of-region vendor; flags the data-processing and residency issue for the owner and limits the design to approved options."}

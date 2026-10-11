@@ -1,0 +1,35 @@
+schema: 1
+baseline: "Here are failing outputs from my LLM feature. What is going wrong and how do I fix it? {{feature}} {{failures}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rag-support-failures
+    vars:
+      feature: "RAG support bot over help-center articles; answers must cite articles."
+      failures: |
+        1. Q: How do I reset 2FA? Retrieved: billing FAQ. Output: generic steps, no citation. Label: wrong.
+        2. Q: Is SSO on Starter? Retrieved: pricing page (correct). Output: "Yes" (page says Business only). Label: wrong.
+        3. Q: Export audit logs? Retrieved: nothing relevant. Output: invented menu path. Label: hallucination.
+        4. Q: Reset 2FA on mobile? Retrieved: billing FAQ. Output: "I don't know". Label: unhelpful.
+        5. Q: Webhook retries? Retrieved: webhook doc. Output: correct answer, citation to wrong article id. Label: bad citation.
+        6. Q: Cancel plan? Retrieved: cancellation doc. Output: correct, but 600 words. Label: too long.
+        7. Q: SSO with Okta? Retrieved: nothing. Output: invented steps. Label: hallucination.
+        8. Q: 2FA lost phone? Retrieved: billing FAQ. Output: generic advice. Label: wrong.
+    assert:
+      - {type: contains, value: "## Failure taxonomy"}
+      - {type: llm-rubric, value: "Separates retrieval failures (2FA questions retrieving the billing FAQ, nothing retrieved for SSO and audit logs) from generation failures (misreading the pricing page, wrong citation id, length), with counts per category."}
+      - {type: llm-rubric, value: "Ranks fixing retrieval for the most frequent category and adding a not-found rule for empty retrieval ahead of prompt wording tweaks, and proposes an eval check per category."}
+  - name: edge-grader-errors
+    vars:
+      feature: "Classifier assigning ticket priority, graded by an LLM judge."
+      failures: "Five examples where the output priority matches the documented policy but the judge marked them wrong, and three where the model ignored the 'outage' keyword."
+    assert:
+      - {type: llm-rubric, value: "Flags that several failures look like grader errors rather than model errors and recommends checking the judge before changing the prompt."}
+  - name: negative-one-example
+    vars:
+      feature: "Contract summariser."
+      failures: "Only one: it got the termination date wrong once. Give me the full failure taxonomy."
+    assert:
+      - {type: llm-rubric, value: "Says a single example cannot support a taxonomy or counts, analyses that one case honestly, and asks for a larger sample of 30 or more failures."}

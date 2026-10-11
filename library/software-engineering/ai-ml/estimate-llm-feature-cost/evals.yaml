@@ -1,0 +1,28 @@
+schema: 1
+baseline: "How much will this LLM feature cost per month? {{feature}} Traffic: {{traffic}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-agent
+    vars:
+      feature: "Support agent: 3,000-token system prompt, 2,500 tokens of tool definitions, 4 retrieved chunks of 500 tokens, chat history; on average 3 model calls per user message (plan, tool call, answer); answers about 300 tokens."
+      traffic: "Expected 20,000 conversations a month, 6 messages each; could be 3x if launched to all plans."
+      prices: "Model A: input $3, cached input $0.30, output $15 per million tokens."
+    assert:
+      - {type: contains, value: "## Sensitivity"}
+      - {type: llm-rubric, value: "Counts the system prompt, tool definitions, retrieved chunks and growing history on each of the three calls per message, separates cacheable prefix from variable input, and shows the arithmetic with the given prices."}
+      - {type: llm-rubric, value: "Gives low, expected and high scenarios including the 3x launch case and a sensitivity table on the main drivers."}
+  - name: edge-batch-classification
+    vars:
+      feature: "Nightly classification of support tickets; 600-token prompt, 20-token output, one call per ticket."
+      traffic: "About 1.5 million tickets a month."
+    assert:
+      - {type: llm-rubric, value: "Uses symbolic prices since none were given, notes that output is small so input dominates, and identifies batch processing and prompt caching as the main levers."}
+  - name: negative-precise-number-no-data
+    vars:
+      feature: "An AI feature in our app."
+      traffic: "Lots of users. Just give me the exact monthly cost."
+    assert:
+      - {type: llm-rubric, value: "Declines to give a precise number without the call structure, prompt sizes and traffic, asks for those inputs or shows a formula with clearly labelled placeholder assumptions."}

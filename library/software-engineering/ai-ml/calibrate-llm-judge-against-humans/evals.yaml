@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Is my LLM judge any good? Judge: {{judge_prompt}} Results: {{labelled_results}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-imbalanced-labels
+    vars:
+      judge_prompt: "Rate whether the support answer is helpful on a 1-10 scale. Score 7 or more passes."
+      labelled_results: "120 items. Humans: 102 pass, 18 fail. Judge: 117 pass, 3 fail. Of the 18 human fails, the judge passed 15. Judge-passed fails are mostly long, confident answers with a wrong policy detail."
+    assert:
+      - {type: contains, value: "## Biases found"}
+      - {type: llm-rubric, value: "Shows that high percent agreement hides a judge that catches only 3 of 18 failures, computes or sets up kappa and the true-negative rate, and identifies length or confident-tone leniency."}
+      - {type: llm-rubric, value: "Revises the judge toward binary, specific criteria (for example policy correctness) with examples, and validates on a held-out split rather than the same items."}
+  - name: edge-pairwise-position
+    vars:
+      judge_prompt: "Which response is better, A or B? Answer with one letter."
+      labelled_results: "80 pairwise items; the judge picks A in 71% of cases; humans pick A in 48%."
+    assert:
+      - {type: llm-rubric, value: "Identifies position bias and recommends evaluating each pair in both orders and counting inconsistent verdicts as ties or disagreements."}
+  - name: negative-tiny-sample
+    vars:
+      judge_prompt: "Is the summary faithful? yes/no"
+      labelled_results: "8 items, judge agreed with me on 7. So it is 87.5% accurate and we can ship it, right?"
+    assert:
+      - {type: llm-rubric, value: "Explains that 8 items cannot establish the judge's reliability, notes the wide uncertainty, and asks for a larger labelled set with enough failures before trusting it."}

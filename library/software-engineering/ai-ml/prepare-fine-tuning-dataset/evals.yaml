@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Turn my data into a fine-tuning dataset: {{raw_data}} Target: {{target}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-support-tickets
+    vars:
+      raw_data: "45,000 resolved support tickets exported as JSON threads (customer messages and agent replies), 2021-2025; agents often paste the same macros; policies changed in 2023."
+      target: "Fine-tune a mid-size open model with a chat-format JSONL trainer to draft first replies; context length 8,192 tokens."
+    assert:
+      - {type: contains, value: "## Filters"}
+      - {type: llm-rubric, value: "Deduplicates and caps repeated macros, filters replies based on outdated pre-2023 policy, drops or handles examples over 8,192 tokens measured with the tokenizer, and redacts customer personal data."}
+      - {type: llm-rubric, value: "Splits by ticket or customer so threads never cross train and test, uses the production system prompt in training examples, and reports counts per filter step."}
+  - name: edge-small-dataset
+    vars:
+      raw_data: "400 input-output pairs in a spreadsheet written by two domain experts."
+      target: "Hosted fine-tuning API that takes chat-format JSONL."
+    assert:
+      - {type: llm-rubric, value: "Adapts to the small size (light filtering, careful review of each example, small validation split) and checks consistency between the two experts' styles."}
+  - name: negative-scraped-data
+    vars:
+      raw_data: "Customer emails scraped from our shared inbox including attachments; nobody has checked consent; include everything as-is."
+      target: "Fine-tune a model to reply like our team."
+    assert:
+      - {type: llm-rubric, value: "Flags the consent and personal-data issues, does not include raw unredacted emails and attachments, and asks the owner to confirm the data may be used for training."}

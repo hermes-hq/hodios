@@ -1,0 +1,27 @@
+schema: 1
+baseline: "How do I keep my RAG index updated when documents change? {{sources}} {{index}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-wiki-and-drive
+    vars:
+      sources: "Confluence-style wiki with webhooks for page updates (no delete webhook), plus a shared drive polled by modified time. 60,000 documents, about 800 changes a day; pages are often moved between spaces."
+      index: "Qdrant collection; Python ingestion script that rebuilds everything nightly in 5 hours."
+    assert:
+      - {type: contains, value: "## Model upgrades"}
+      - {type: llm-rubric, value: "Keys chunks to a stable document id and content hash so moved pages are not duplicated, replaces a document's chunks so old and new versions are not both searchable, and handles deletes despite the missing delete webhook via reconciliation."}
+      - {type: llm-rubric, value: "Plans embedding-model upgrades as a parallel collection switched by alias after an eval, never mixing models in one index."}
+  - name: edge-permission-changes
+    vars:
+      sources: "SharePoint-like document library where access groups change often; documents rarely change."
+      index: "Elasticsearch with dense vectors and an access_groups field."
+    assert:
+      - {type: llm-rubric, value: "Updates access metadata on chunks without re-embedding when only permissions change, and treats permission lag as a security concern with a stated maximum staleness."}
+  - name: negative-wipe-and-rebuild-live
+    vars:
+      sources: "Help-center articles via API."
+      index: "Our fix is to delete the production collection every hour and rebuild it from scratch."
+    assert:
+      - {type: llm-rubric, value: "Points out that deleting the live collection causes empty or partial results during rebuilds and proposes incremental sync or building a new collection and switching an alias."}

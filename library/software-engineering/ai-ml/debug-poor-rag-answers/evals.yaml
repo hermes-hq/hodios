@@ -1,0 +1,30 @@
+schema: 1
+baseline: "My RAG chatbot gives bad answers. Why? {{bad_answers}} Pipeline: {{pipeline}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-causes
+    vars:
+      bad_answers: |
+        1. "What is the API rate limit on the Pro plan?" Answer: 100/min. Correct: 600/min, in the pricing table on page 3 of plans.pdf. Retrieved chunks contain no table text.
+        2. "How do I rotate keys in v3?" Answer gives v2 steps. Both v2 and v3 docs are indexed; top chunk is from v2.
+        3. "What does error QX-118 mean?" Answer: "not found". The error is documented in errors.md; it is not in the top 5 but is rank 22 in vector search.
+      pipeline: "PDF and Markdown docs, fixed 800-character chunks, one embedding model, vector top-5, no reranker, prompt says answer only from context."
+    assert:
+      - {type: contains, value: "## Stage-by-stage findings"}
+      - {type: llm-rubric, value: "Attributes case 1 to parsing of the PDF table, case 2 to version conflict in the corpus or missing version metadata and filtering, and case 3 to retrieval or ranking of an exact identifier, rather than to the prompt."}
+      - {type: llm-rubric, value: "Proposes stage-specific fixes (table-aware parsing or OCR, version metadata filters, hybrid search or reranking) with the cases each fix should resolve."}
+  - name: edge-generation-failure
+    vars:
+      bad_answers: "Q: Can I cancel within 30 days for a refund? The correct chunk (rank 1) says yes for annual plans only; the answer says yes for all plans."
+      pipeline: "Hybrid search, reranker, top-4 chunks, prompt asks for concise answers."
+    assert:
+      - {type: llm-rubric, value: "Identifies a generation failure since the right chunk was ranked first, and proposes prompt or format changes (preserve conditions, cite chunk ids) plus a faithfulness check."}
+  - name: negative-no-evidence
+    vars:
+      bad_answers: "Answers are just bad sometimes. No logs."
+      pipeline: "LangChain RAG, defaults."
+    assert:
+      - {type: llm-rubric, value: "Does not guess a root cause; asks for specific failing questions and explains how to capture retrieved chunks and the final prompt to locate the failing stage."}

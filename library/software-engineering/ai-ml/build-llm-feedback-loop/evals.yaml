@@ -1,0 +1,25 @@
+schema: 1
+baseline: "Add user feedback to my LLM app and use it to improve quality: {{app}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-docs-assistant
+    vars:
+      app: "Docs Q&A assistant in Next.js with a Python RAG backend; requests are traced with a request id; we have a promptfoo eval suite."
+      data_rules: "Questions may be reused for evals after removing emails and account ids."
+    assert:
+      - {type: contains, value: "## From feedback to evals"}
+      - {type: llm-rubric, value: "Links each feedback record to the request id, prompt version and retrieved context, and exports reviewer-confirmed failures into the existing eval format after redaction."}
+      - {type: llm-rubric, value: "Includes a triage step that separates model failures from product gaps and user errors, rather than feeding every thumbs-down into evals."}
+  - name: edge-no-trace-id
+    vars:
+      app: "Flask chatbot; responses are not logged or traced at all."
+    assert:
+      - {type: llm-rubric, value: "Adds a request id and minimal storage of the request context first, since feedback cannot be analysed without it."}
+  - name: negative-thumbs-as-kpi
+    vars:
+      app: "Leadership wants the thumbs-down rate as the only quality KPI and to auto-add every thumbs-down conversation, unredacted, to the training data."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on using thumbs-down rate as the sole quality measure and on adding unredacted conversations to training data without review and permission, and proposes triage plus redaction."}

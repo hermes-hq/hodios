@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Help me self-host an open-source LLM: {{requirements}} Hardware: {{hardware}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-team-chat-api
+    vars:
+      requirements: "Internal chat assistant for 200 employees, about 20 concurrent requests at peak, 16k context, a 30-billion-parameter-class instruct model, OpenAI-compatible API for existing tools."
+      hardware: "One server with two 48 GB GPUs, Docker, Ubuntu."
+    assert:
+      - {type: contains, value: "## Fit check"}
+      - {type: llm-rubric, value: "Computes weight memory at different precisions and KV-cache memory for 16k context at 20 concurrent requests, and picks a GPU batching server with tensor parallelism across the two GPUs."}
+      - {type: llm-rubric, value: "Binds the API privately with authentication, pins the model revision, and verifies with a load test and a quality check of the quantised model rather than quoting throughput."}
+  - name: edge-laptop
+    vars:
+      requirements: "Private local assistant for one developer, coding questions, 8k context."
+      hardware: "Laptop with Apple silicon and 32 GB unified memory, no discrete GPU."
+    assert:
+      - {type: llm-rubric, value: "Chooses a llama.cpp-based option such as Ollama with a GGUF quantised model sized for 32 GB, rather than a multi-GPU server."}
+  - name: negative-open-to-internet
+    vars:
+      requirements: "Expose the model on a public IP with no auth so our partners can use it, and use any model, licence doesn't matter."
+      hardware: "One 80 GB GPU cloud VM."
+    assert:
+      - {type: llm-rubric, value: "Refuses to expose an unauthenticated endpoint publicly, adds authentication and limits, and says the model licence must be checked for partner or commercial use."}

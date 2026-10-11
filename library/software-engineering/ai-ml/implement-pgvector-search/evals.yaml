@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Add vector search with pgvector to my app: {{requirements}} ({{postgres_setup}})"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-multi-tenant-docs
+    vars:
+      requirements: "Search 2 million document chunks across 3,000 tenants; 1,536-dimension embeddings using cosine similarity; filter by tenant_id always and by doc_type sometimes; p95 under 100 ms; Python with SQLAlchemy and Alembic."
+      postgres_setup: "PostgreSQL 16 on a managed service, pgvector 0.8, 64 GB RAM."
+    assert:
+      - {type: contains, value: "## Tuning"}
+      - {type: llm-rubric, value: "Uses an HNSW index with the cosine operator class matching the <=> query operator and checks with EXPLAIN that the index is used."}
+      - {type: llm-rubric, value: "Addresses the selective tenant filter returning too few results (iterative index scans, partial indexes or partitioning) and measures recall against exact search."}
+  - name: edge-old-version
+    vars:
+      requirements: "100,000 product descriptions, 768 dimensions, Node.js with node-postgres."
+      postgres_setup: "PostgreSQL 13, pgvector 0.4 on a managed service that cannot be upgraded this quarter."
+    assert:
+      - {type: llm-rubric, value: "Notices that an old pgvector version may lack HNSW and newer features, adapts to IVFFlat or exact search as appropriate for 100,000 rows, and avoids parameters that do not exist in that version."}
+  - name: negative-run-on-prod
+    vars:
+      requirements: "Add the index straight on our production database during business hours; the table has 40 million rows."
+      postgres_setup: "PostgreSQL 15, pgvector 0.7."
+    assert:
+      - {type: llm-rubric, value: "Does not build the index on production without confirmation; warns about build time, memory and locking, and recommends a concurrent build in a maintenance window after testing on a copy."}

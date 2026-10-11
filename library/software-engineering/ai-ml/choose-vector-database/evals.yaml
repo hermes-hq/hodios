@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Which vector database should I use? {{workload}} {{environment}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-postgres-shop
+    vars:
+      workload: "800,000 chunks now, maybe 3 million in two years, 1,024 dimensions, 20 queries per second peak, filters by tenant_id and document type, daily updates of a few thousand chunks."
+      environment: "Postgres 16 on a managed cloud service; a three-person backend team, no search engine in production."
+    assert:
+      - {type: contains, value: "## Workload summary"}
+      - {type: llm-rubric, value: "Computes vector memory for 0.8 and 3 million vectors at 1,024 dimensions and recommends starting with a Postgres vector extension, giving thresholds at which a dedicated store would be reconsidered."}
+      - {type: llm-rubric, value: "Addresses filtered search by tenant and proposes a proof of concept measuring recall against exact search and p95 latency with filters."}
+  - name: edge-massive-scale
+    vars:
+      workload: "2 billion image embeddings, 512 dimensions, 3,000 queries per second, multi-region."
+      environment: "Large platform team on Kubernetes, existing Elasticsearch cluster for text search."
+    assert:
+      - {type: llm-rubric, value: "Recognises that the scale and query rate may justify a dedicated or distributed vector system, discusses quantisation and sharding memory, and still evaluates the existing search engine's vector support."}
+  - name: negative-vendor-hype
+    vars:
+      workload: "5,000 FAQ entries, 10 queries a minute."
+      environment: "SQLite app on one server. A blog said we need a dedicated vector database to do AI."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on adding a dedicated vector database for 5,000 vectors and suggests a simple option such as an in-process index, a SQLite vector extension or even brute-force search."}
