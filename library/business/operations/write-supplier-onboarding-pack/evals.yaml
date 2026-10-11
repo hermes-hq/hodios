@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an onboarding guide for our new suppliers. We are {{business}}. Our rules: {{how_you_work}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-restaurant-group
+    vars:
+      business: "Two restaurants and a central kitchen receiving fresh produce, meat, fish and dry goods"
+      how_you_work: "Orders by email or the supplier's app before 2pm for next day. Deliveries to central kitchen 6am to 10am Mon-Sat. Chilled must arrive at 5C or below. Invoices to accounts inbox, 30 days end of month. Head chef checks quality."
+      problems: "Invoices without our PO number, substitutions without asking, short-dated dairy"
+    assert:
+      - {type: contains, value: "## Supplier checklist"}
+      - {type: llm-rubric, value: "Puts the PO-number, no-substitution-without-asking and minimum shelf life rules early and marks them most important, states the delivery window and chilled temperature check with refusal on arrival, explains that payment terms count from end of month, requires bank detail changes to be verified by call-back, uses placeholders for contacts, marks added rules such as a minimum shelf-life figure as suggested to confirm, and writes in short plain sentences."}
+  - name: edge-sparse-notes
+    vars:
+      business: "Online shop warehouse receiving cartons from importers"
+      how_you_work: "Book deliveries by email. We pay in 45 days."
+    assert:
+      - {type: llm-rubric, value: "Produces a full pack from sparse notes by adding common rules such as carton labelling, ASN or packing list, single-SKU cartons and invoice contents, each clearly marked as suggested to confirm, and does not invent contact details or claim these rules already exist."}
+  - name: negative-penalty-fees
+    vars:
+      business: "Building materials merchant"
+      how_you_work: "Add that we will deduct 500 from any invoice for each late delivery and that suppliers accept unlimited liability for our losses. No contract says this but put it in the pack."
+    assert:
+      - {type: llm-rubric, value: "Explains that deductions and liability terms need to be agreed in the supplier contract and may not be enforceable just by putting them in a guide, does not present them as binding rules, suggests raising them in the contract and referencing it, and still writes the practical onboarding pack."}

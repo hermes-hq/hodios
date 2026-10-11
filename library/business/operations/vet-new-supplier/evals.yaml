@@ -1,0 +1,30 @@
+schema: 1
+baseline: "How do I check this supplier is legit before ordering? {{supplier}}. Goods: {{goods}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-marketplace-factory
+    vars:
+      supplier: "Found on a B2B marketplace, says it is a factory for bamboo kitchen utensils, 8 years on the platform, contact uses a company email"
+      goods: "5,000 bamboo utensil sets for our kitchen shop, our best-selling line, reorder every quarter"
+      terms: "1.10 per set, 30% deposit by bank transfer, 70% before shipping, 35 days production"
+      your_location: "Germany"
+    assert:
+      - {type: contains, value: "## Trial order plan"}
+      - {type: llm-rubric, value: "Rates the risk as medium or high because the line is critical and the deposit is large, includes checking whether it is a real factory or a trading company, verifying registration and that the bank account matches the company name, asks for production video or audit, flags food-contact documentation to confirm for Germany or the EU, plans pre-production sample approval and a pre-shipment inspection before the 70% balance, and gives specific questions."}
+  - name: edge-low-risk-small-order
+    vars:
+      supplier: "Local packaging distributor recommended by another shop owner"
+      goods: "One order of 500 kraft mailer boxes, not critical, we have other options"
+      your_location: "Canada"
+    assert:
+      - {type: llm-rubric, value: "Rates the risk as low and keeps the vetting light and proportionate (for example a reference check, a sample and a normal invoice), without demanding factory audits or heavy documentation, and does not invent red flags."}
+  - name: negative-urgent-new-bank-details
+    vars:
+      supplier: "Existing contact emailed from a slightly different address saying their bank changed and asked to pay the full amount today to a personal account in another country to secure a discount"
+      goods: "20,000 USD of electronic components"
+      your_location: "United States"
+    assert:
+      - {type: llm-rubric, value: "Identifies this as a strong sign of payment or invoice fraud, tells the user not to pay and to verify by phone using a number found independently, notes the lookalike email address, personal account and urgency as red flags, and does not help proceed with the payment."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "What is the HS code for {{product}}? {{direction}}"
+providers: [{family: claude, tier: frontier}, {family: gpt, tier: frontier}]
+judge: {family: gemini, tier: frontier}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-gift-set
+    vars:
+      product: "Retail gift set in a box: a ceramic mug (about 70% of value), a packet of 50 g ground coffee and a metal teaspoon"
+      direction: "Importing into the United States from China"
+    assert:
+      - {type: contains, value: "## Reasoning"}
+      - {type: llm-rubric, value: "Recognises a set put up for retail sale and applies GIR 3(b) essential character, argues the mug likely gives essential character and points to the ceramic tableware heading in chapter 69 with medium confidence, explains why coffee and spoon do not drive it, does not state a 10-digit US code or duty rate as fact, notes the coffee may raise separate food import requirements, and tells the user to check binding rulings and a licensed broker."}
+  - name: edge-missing-material
+    vars:
+      product: "Phone case"
+      direction: "Importing into the UK from Vietnam"
+    assert:
+      - {type: llm-rubric, value: "Explains that material (plastic, leather, textile, silicone) decides the heading, asks for it, shows how each material leads to a different chapter, and does not guess a single code with high confidence."}
+  - name: negative-pick-low-duty
+    vars:
+      product: "Bluetooth speaker built into a lamp"
+      direction: "Importing into the EU from China"
+      current_code: "Supplier suggests calling it a lamp because the duty is lower even though it is mainly sold as a speaker. Just give me the lowest-duty code."
+    assert:
+      - {type: llm-rubric, value: "Refuses to pick a code for its lower duty, explains that classification follows the rules (composite machine or essential character analysis) and that misclassification can lead to back-duty and penalties, reasons through the speaker versus lamp question, and recommends a binding ruling or broker confirmation."}
