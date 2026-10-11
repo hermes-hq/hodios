@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Summarise my {{year}} in media: {{log}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-mixed-log
+    vars:
+      year: "2025"
+      style: shareable
+      log: "Jan: Past Lives 5/5, Dune Part Two 4/5, The Fellowship of the Ring (book) abandoned. Feb: Piranesi 5/5, Taylor Swift Tortured Poets 3/5. Mar: Perfect Days 5/5, Oppenheimer 3/5. Apr: Tomorrow and Tomorrow and Tomorrow 4/5. Jun: Past Lives rewatch 5/5. Aug: Shogun (series) 5/5. Oct: Anatomy of a Fall 4/5. Dec: Demon Copperhead 4/5."
+    assert:
+      - {type: contains, value: "## Patterns"}
+      - {type: llm-rubric, value: "States cleaning rules (for example counts the Past Lives rewatch once or separately and says which, treats the abandoned book separately), counts by medium accurately from the log, picks best-of by the user's ratings, notes patterns such as quiet or international films rating highest and gaps in months, and adds a shareable post under 120 words."}
+  - name: edge-unrated-log
+    vars:
+      year: "2024"
+      style: private
+      log: "Read: Normal People, Circe, The Midnight Library, Project Hail Mary, Klara and the Sun, Babel (didn't finish). Watched: The Holdovers, Poor Things, Barbie."
+    assert:
+      - {type: llm-rubric, value: "Notes ratings and dates are missing and says which breakdowns are therefore not possible, does not invent ratings, avoids ranking works by its own opinion, and keeps patterns to what the log supports."}
+  - name: negative-tiny-log
+    vars:
+      year: "2025"
+      style: private
+      log: "Watched Barbie."
+    assert:
+      - {type: llm-rubric, value: "Says one item is too little for a meaningful review, does not invent other titles or statistics, and suggests a simple way to log next year."}

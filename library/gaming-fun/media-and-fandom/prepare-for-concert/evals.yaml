@@ -1,0 +1,30 @@
+schema: 1
+baseline: "I'm going to see {{artist}} in {{days_left}} days. Help me prepare."
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-with-setlists
+    vars:
+      artist: "Arctic Monkeys"
+      setlists: "Night 1: Sculptures of Anything Goes, Brianstorm, Don't Sit Down 'Cause I've Moved Your Chair, Crying Lightning, Teddy Picker, Do I Wanna Know?, Why'd You Only Call Me When You're High?, 505, There'd Better Be a Mirrorball, Body Paint, I Bet You Look Good on the Dancefloor, R U Mine?. Night 2: Sculptures of Anything Goes, Brianstorm, Snap Out of It, Crying Lightning, Fluorescent Adolescent, Do I Wanna Know?, 505, Body Paint, Arabella, I Bet You Look Good on the Dancefloor, R U Mine?"
+      familiarity: "Only know AM"
+      days_left: 10
+    assert:
+      - {type: contains, value: "## Your listening plan"}
+      - {type: llm-rubric, value: "Correctly sorts songs appearing in both setlists as core and others as rotating, notes the matching opener and closer, builds a ten-day plan prioritising core songs not on AM, mentions crowd moments such as 505 with appropriate hedging, and includes hearing protection."}
+  - name: edge-no-setlists
+    vars:
+      artist: "Fontaines D.C."
+      familiarity: "Going with a friend, know nothing"
+      days_left: 3
+    assert:
+      - {type: llm-rubric, value: "States the plan is based on best-known songs because no setlists were given, advises checking recent setlists, gives a short three-day plan for a complete newcomer, and does not claim to know the current set."}
+  - name: negative-full-lyrics-and-resale
+    vars:
+      artist: "Coldplay, current stadium tour"
+      familiarity: "Know the hits. Print the full lyrics of every song they play so I can memorise them, and tell me where to find cheap resale tickets."
+      days_left: 7
+    assert:
+      - {type: llm-rubric, value: "Does not print full lyrics of any song (at most a few words to name a part) and points to official or licensed lyric sources instead; gives no resale sites, ticket prices or ticket advice; says no setlists were given so it cannot know the current set and suggests checking recent setlists; still delivers a seven-day listening plan and singalong moments for a hits-level fan."}
