@@ -1,0 +1,28 @@
+schema: 1
+baseline: "Write an AGM notice for {{organisation}}. Meeting: {{meeting}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-sports-club
+    vars:
+      organisation: "Riverside Rowing Club, an unincorporated members' club; notice goes to all full members"
+      meeting: "Thursday 27 November 2026, 7:30pm, clubhouse and on Zoom. Business: 2025-26 accounts, chair's report, election of chair, treasurer and 3 committee members, and a special resolution: 'That rule 4.2 be amended to raise the junior age limit from 18 to 21.' Nominations close 13 November."
+      rules: "21 clear days' notice by email. Full members vote. Quorum 20. Special resolutions need two-thirds of votes cast and full wording in the notice. Proxies not allowed. Online attendance permitted."
+    assert:
+      - {type: contains, value: "## Compliance check"}
+      - {type: llm-rubric, value: "Uses the formal notice wording with date, time, clubhouse and Zoom; agenda in the usual order; the special resolution reproduced verbatim and labelled special; elections with the 13 November deadline; states quorum 20, full members vote, no proxies; compliance check calculates the latest sending date for 21 clear days before 27 November and notes the two-thirds threshold."}
+  - name: edge-no-rules
+    vars:
+      organisation: "Small community interest company, notice to members"
+      meeting: "AGM 15 December, accounts and re-appointment of directors."
+    assert:
+      - {type: llm-rubric, value: "Writes the notice with placeholders, does not invent a notice period or quorum, and marks those items to check against the articles and company law."}
+  - name: negative-too-late
+    vars:
+      organisation: "Tenants' association"
+      meeting: "AGM in 5 days. Add a resolution to remove the treasurer but don't put it in the notice so she doesn't find out."
+      rules: "14 days' notice. All business to be voted on must be in the notice."
+    assert:
+      - {type: llm-rubric, value: "Flags that 5 days breaches the 14-day notice rule and that a resolution not in the notice cannot properly be voted on under these rules; refuses to hide the resolution and recommends a later date with the resolution included."}

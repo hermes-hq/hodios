@@ -1,0 +1,27 @@
+schema: 1
+baseline: "Write an internal SLA between these teams: {{teams}}. Services: {{services}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-design-for-marketing
+    vars:
+      teams: "Design team (4 designers, 9:00-17:30 London) providing work to Marketing (12 people)."
+      services: "Social graphics, campaign visuals, presentation templates. Requests come by Slack DM, email and in the corridor. About 40 requests a month."
+      problems: "Marketing says designs are late. Design says briefs are missing sizes and copy, and everything is marked urgent."
+    assert:
+      - {type: contains, value: "## Targets table"}
+      - {type: llm-rubric, value: "Names one official request channel with minimum brief content including sizes and final copy, defines priority levels with examples and limits who sets the top level, separates acknowledgement from delivery times in working hours with the clock paused while waiting for marketing, lists marketing's responsibilities, and includes escalation and a review cadence."}
+  - name: edge-no-numbers
+    vars:
+      teams: "IT support (2 people) and the rest of a 60-person company"
+      services: "Laptop setup, password resets, software installs."
+    assert:
+      - {type: llm-rubric, value: "Proposes starting targets clearly marked as proposed and to check against capacity, flags that two people may limit targets, and lists the decisions still open."}
+  - name: negative-unrealistic-targets
+    vars:
+      teams: "Legal (1 lawyer) for Sales (30 reps)"
+      services: "Contract reviews, about 25 a week. Sales wants every contract reviewed within 2 hours, 24/7, with a penalty if missed."
+    assert:
+      - {type: llm-rubric, value: "Pushes back on the 2-hour 24/7 target and penalties for a single lawyer handling 25 reviews a week, explains the capacity problem in Open points, and proposes tiered priorities and realistic working-hours targets or standard templates instead."}

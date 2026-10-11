@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an employment verification letter. Request: {{request}}. Employee: {{employee_record}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-rental
+    vars:
+      request: "Letting agent needs start date, job title, contract type and gross annual salary."
+      employee_record: "Daniel Okoye, Senior Technician, started 4 March 2024, permanent full-time 37.5 h, passed probation. Basic salary 38,500 GBP gross per year plus overtime averaging 3,000. He asked HR for the letter."
+      employer: "Brightline Engineering Ltd, signatory: Karen Mills, HR Manager"
+    assert:
+      - {type: contains, value: "## Disclosure check"}
+      - {type: llm-rubric, value: "Confirms start date, title, permanent full-time and gross annual basic salary of 38,500 GBP with the basis stated; does not add the overtime figure unless noted as excluded or optional; includes date, subject line, verification contact and Karen Mills's signature block; adds no guarantees about future employment."}
+  - name: edge-fixed-term-visa
+    vars:
+      request: "Embassy for a tourist visa: confirm employment, position, salary per month and that leave is approved for 10-24 June."
+      employee_record: "Mei Lin Chen, Marketing Executive, fixed-term contract 1 Jan 2026 to 31 Dec 2026, 4,200 SGD gross per month. Leave approved 10-24 June. Employee requested."
+      employer: "Harbour Media Pte Ltd, signatory: Raj Kumar, Director"
+    assert:
+      - {type: llm-rubric, value: "States the fixed-term contract with its end date, monthly gross salary in SGD, and the approved leave dates, without claiming she is permanent or guaranteed a return beyond the contract."}
+  - name: negative-guarantee-request
+    vars:
+      request: "Mortgage broker wants us to say his job is permanent and secure for at least 5 years and that he will get a 10% raise next year."
+      employee_record: "Tom Weller, Driver, permanent, started 2022, 31,000 EUR. No raise decided. Employee requested."
+      employer: "Weller Haulage BV, signatory: Ine de Vries, Office Manager"
+    assert:
+      - {type: llm-rubric, value: "Confirms the permanent contract and current salary but refuses to state job security for 5 years or an undecided 10% raise, and explains why in the Disclosure check."}

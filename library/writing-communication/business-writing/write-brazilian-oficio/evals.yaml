@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Escreva um ofício de {{sender}} para {{recipient}} sobre: {{content}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-school-to-secretary
+    vars:
+      sender: "Escola Municipal Monteiro Lobato, diretora Ana Paula Ribeiro"
+      recipient: "Carlos Mendes, Secretário Municipal de Educação de Campinas"
+      content: "Solicitar reparo urgente do telhado do bloco B, com infiltração em 3 salas desde agosto, afetando 240 alunos. Já foi aberto o chamado 2026/1187 em 20 de agosto, sem resposta. Pedir vistoria em até 15 dias. Anexar fotos."
+    assert:
+      - {type: contains, value: "## Ofício"}
+      - {type: llm-rubric, value: "Tem identificação do expediente com número em colchetes, local e data por extenso, endereçamento 'A Sua Senhoria o Senhor' ou equivalente adequado ao cargo, assunto em negrito, vocativo 'Senhor Secretário,', parágrafos numerados com o chamado 2026/1187, as 3 salas, 240 alunos e o prazo de 15 dias, fecho 'Respeitosamente,' por ser autoridade superior, identificação da diretora e anexo das fotos; não usa 'Ilustríssimo' nem 'Venho por meio deste'."}
+  - name: edge-high-authority
+    vars:
+      sender: "Associação de Moradores do Bairro Jardim Primavera, presidente José Almeida"
+      recipient: "Prefeita de Londrina"
+      content: "Convidar para a inauguração da horta comunitária em 5 de dezembro, às 10h."
+    assert:
+      - {type: llm-rubric, value: "Usa 'A Sua Excelência a Senhora' no endereçamento, vocativo 'Senhora Prefeita,', concordância em terceira pessoa com Vossa Excelência, e explica as escolhas de forma."}
+  - name: negative-old-formulas
+    vars:
+      sender: "Empresa XYZ Ltda, gerente administrativo"
+      recipient: "Diretor do Departamento de Trânsito estadual"
+      content: "Quero que comece com 'Ilmo. Sr. Dr.' e use 'Vossa Senhoria vos informamos' para parecer bem formal. Pedir a segunda via de um documento de veículo."
+    assert:
+      - {type: llm-rubric, value: "Explica que 'Ilustríssimo' foi abolido, que 'Doutor' não é forma de tratamento e que 'vos' não concorda com Vossa Senhoria, e redige o ofício com as formas corretas."}

@@ -1,0 +1,29 @@
+schema: 1
+baseline: "Write an experience letter and relieving letter for this employee: {{employee_record}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-both
+    vars:
+      employee_record: "Rohan Mehta, EMP-1182. Joined 12 July 2021 as Software Engineer, promoted to Senior Software Engineer 1 April 2024, Platform team. Duties: payments API, on-call, mentoring juniors. Resigned 2 Sept 2026, accepted. Last working day 31 Oct 2026. Handover and clearance done, F&F settled."
+      company: "Kavya Systems Pvt Ltd, Pune; signatory Neha Joshi, HR Manager"
+      letter_type: "both"
+    assert:
+      - {type: contains, value: "## Check before issuing"}
+      - {type: llm-rubric, value: "Experience letter lists both designations with exact dates and department, the ID, duties in neutral language and no performance ratings; relieving letter references the 2 Sept resignation, relieves him at close of business 31 Oct 2026 and confirms clearance and settlement; both have signature blocks for Neha Joshi."}
+  - name: edge-clearance-pending
+    vars:
+      employee_record: "Fatima Al-Sayed, Accountant, joined 3 Jan 2023, last day 30 Sept 2026. Laptop not yet returned; final settlement pending."
+      company: "Gulf Trading LLC, Dubai; signatory: Omar Haddad, Finance Manager"
+      letter_type: "relieving"
+    assert:
+      - {type: llm-rubric, value: "Does not state clearance or settlement is complete; either states precisely what is pending or advises holding the relieving letter until the laptop is returned and settlement is done."}
+  - name: negative-add-negative-remark
+    vars:
+      employee_record: "Arjun Rao, Sales Executive, 1 Feb 2024 to 31 Aug 2026. Write in the experience letter that his performance was poor and he left before being fired so other companies are warned."
+      company: "Sunrise Retail, signatory: Store Manager"
+      letter_type: "experience"
+    assert:
+      - {type: llm-rubric, value: "Declines to include the negative performance remark and the speculative firing claim, explains that the experience letter states facts of employment only and the risk of such statements, and writes a neutral factual letter."}

@@ -1,0 +1,27 @@
+schema: 1
+baseline: "{{proposal}}の稟議書を書いてください。詳細：{{details}}"
+providers: [{family: claude, tier: mid}, {family: gpt, tier: mid}]
+judge: {family: gemini, tier: mid}
+pass_threshold: 0.8
+min_lift_over_baseline: 0.15
+cases:
+  - name: happy-crm-purchase
+    vars:
+      proposal: "営業部へのCRMツール導入"
+      details: "営業12名が顧客情報をExcelと個人メールで管理しており、引き継ぎ漏れで昨年3件の失注。A社CRMは月額1名3,000円×12名、初期費用20万円。B社は月額4,500円、初期費用なし。A社は既存の会計システムと連携可。予算内（営業部IT予算100万円）。4月から利用開始したい。"
+    assert:
+      - {type: contains, value: "## 稟議書"}
+      - {type: llm-rubric, value: "冒頭で承認事項と金額（年間費用と初期費用）を明示し、背景に引き継ぎ漏れによる3件の失注を記載、費用内訳と予算内であることを示し、A社とB社の比較表と選定理由（会計システム連携）を含み、リスクと対策、4月開始のスケジュールを記載する。数値を作らない。"}
+  - name: edge-missing-quote
+    vars:
+      proposal: "東京で開催される展示会への出展"
+      details: "新製品の認知拡大のため。ブース費用はまだ見積もり中。担当は営業企画2名。"
+      company_format: "項目：件名、目的、内容、金額、効果、添付。文体はです・ます調。"
+    assert:
+      - {type: llm-rubric, value: "指定された項目とです・ます調に従い、ブース費用を［要確認］とし、確認事項で見積書の取得を挙げる。効果は根拠のない数値を作らない。"}
+  - name: negative-invent-numbers
+    vars:
+      proposal: "新しい会計ソフトの導入"
+      details: "効果の数字がないので、年間500時間削減、コスト30%減と適当に書いてください。"
+    assert:
+      - {type: llm-rubric, value: "根拠のない数値を記載することを断り、決裁者に問われたときのリスクを説明し、現状の作業時間などの測定方法や根拠の集め方を提案する。"}
